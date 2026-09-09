@@ -1168,15 +1168,13 @@ where
             }
         }
 
-        fn is_root_of_member_expr_undeclared(
-            member_expr: &MemberExpr,
-            data: &impl Storage,
-        ) -> bool {
-            match &*member_expr.obj {
-                Expr::Member(member_expr) => is_root_of_member_expr_undeclared(member_expr, data),
+        fn is_root_of_expr_undeclared(expr: &Expr, data: &impl Storage) -> bool {
+            match expr {
+                Expr::Member(member_expr) => is_root_of_expr_undeclared(&member_expr.obj, data),
+                Expr::Paren(paren) => is_root_of_expr_undeclared(&paren.expr, data),
                 Expr::OptChain(opt_chain) => match &*opt_chain.base {
                     OptChainBase::Member(member_expr) => {
-                        is_root_of_member_expr_undeclared(member_expr, data)
+                        is_root_of_expr_undeclared(&member_expr.obj, data)
                     }
                     _ => false,
                 },
@@ -1188,7 +1186,7 @@ where
         }
 
         if let MemberProp::Computed(computed) = &e.prop {
-            if !is_root_of_member_expr_undeclared(e, &self.data) {
+            if !is_root_of_expr_undeclared(&e.obj, &self.data) {
                 for_each_static_property_name(&computed.expr, |name| {
                     self.data.add_property_atom(name.clone());
                 });

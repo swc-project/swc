@@ -312,6 +312,7 @@ impl UndeclaredPropertyCollector<'_> {
     fn is_root_undeclared(&self, expr: &Expr) -> bool {
         match expr {
             Expr::Member(member) => self.is_root_undeclared(&member.obj),
+            Expr::Paren(paren) => self.is_root_undeclared(&paren.expr),
             Expr::OptChain(opt_chain) => match &*opt_chain.base {
                 OptChainBase::Member(member) => self.is_root_undeclared(&member.obj),
                 OptChainBase::Call(..) => false,
