@@ -4,7 +4,6 @@ use std::thread;
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
-use rustc_hash::FxHashSet;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMutWith;
@@ -73,7 +72,7 @@ struct Compressor<'a> {
     ///
     /// Resolver IDs are stable for the lifetime of a compression unit, so this
     /// analysis can be reused by every repeated pure-optimizer pass.
-    writable_bindings: FxHashSet<Id>,
+    writable_bindings: pure::WritableBindings,
 }
 
 impl CompilerPass for Compressor<'_> {

@@ -50,3 +50,10 @@ report("class", ()=>{
     }
     console.log(Value.get());
 });
+report("class inner", ()=>{
+    class Value {
+        static{
+            Value = Value;
+        }
+    }
+});

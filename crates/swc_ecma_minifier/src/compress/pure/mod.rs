@@ -1,7 +1,7 @@
 #![allow(clippy::needless_update)]
 
 use rustc_hash::FxHashSet;
-use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
+use swc_common::{pass::Repeated, util::take::Take, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
 use swc_ecma_utils::{
@@ -47,18 +47,31 @@ pub(crate) struct PureOptimizerConfig {
 /// Self-assignment is only removable for bindings known to be writable. In
 /// particular, this deliberately excludes `const` bindings and unresolved
 /// identifiers.
-pub(crate) fn collect_writable_bindings<N>(n: &N) -> FxHashSet<Id>
+pub(crate) fn collect_writable_bindings<N>(n: &N) -> WritableBindings
 where
     N: VisitWith<WritableBindingCollector>,
 {
     let mut collector = WritableBindingCollector::default();
     n.visit_with(&mut collector);
-    collector.bindings
+    WritableBindings {
+        bindings: collector.bindings,
+        immutable_class_self_assignments: collector.immutable_class_self_assignments,
+    }
 }
 
 #[derive(Default)]
 pub(crate) struct WritableBindingCollector {
     bindings: FxHashSet<Id>,
+    class_bindings: Vec<Id>,
+    immutable_class_self_assignments: FxHashSet<Span>,
+}
+
+/// Bindings whose self-assignments can be removed, together with the class-body
+/// assignments that use an immutable inner class-name binding.
+#[derive(Default)]
+pub(crate) struct WritableBindings {
+    bindings: FxHashSet<Id>,
+    immutable_class_self_assignments: FxHashSet<Span>,
 }
 
 impl Visit for WritableBindingCollector {
@@ -121,8 +134,42 @@ impl Visit for WritableBindingCollector {
         n.visit_children_with(self);
     }
 
+    fn visit_default_decl(&mut self, n: &DefaultDecl) {
+        if let DefaultDecl::Fn(f) = n {
+            if let Some(ident) = &f.ident {
+                // The resolver treats named default-export functions as declarations,
+                // even though the AST stores them as function expressions.
+                self.bindings.insert(ident.to_id());
+            }
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_class_decl(&mut self, n: &ClassDecl) {
+        // The class declaration binding is writable outside the class. Inside the
+        // body, however, the same resolver ID denotes the immutable inner class
+        // name, so remember its self-assignments by span instead of excluding the
+        // ID globally.
+        n.class.decorators.visit_with(self);
+        n.class.super_class.visit_with(self);
+
+        self.class_bindings.push(n.ident.to_id());
+        n.class.body.visit_with(self);
+        self.class_bindings.pop();
+
         self.bindings.insert(n.ident.to_id());
+    }
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if let Some(left) = n.left.as_ident() {
+            if matches!(&*n.right, Expr::Ident(right) if left.to_id() == right.to_id())
+                && self.class_bindings.iter().any(|id| id == &left.to_id())
+            {
+                self.immutable_class_self_assignments.insert(left.span);
+            }
+        }
+
         n.visit_children_with(self);
     }
 }
@@ -132,7 +179,7 @@ pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
     marks: Marks,
     config: PureOptimizerConfig,
-    writable_bindings: &'a FxHashSet<Id>,
+    writable_bindings: &'a WritableBindings,
 ) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
@@ -156,7 +203,7 @@ struct Pure<'a> {
     marks: Marks,
     expr_ctx: ExprCtx,
 
-    writable_bindings: &'a FxHashSet<Id>,
+    writable_bindings: &'a WritableBindings,
 
     ctx: Ctx,
     changed: bool,
@@ -188,12 +235,18 @@ impl Repeated for Pure<'_> {
 impl Pure<'_> {
     #[inline]
     fn is_writable_binding(&self, ident: &Ident) -> bool {
-        self.writable_bindings.contains(&ident.to_id())
+        self.writable_bindings.bindings.contains(&ident.to_id())
     }
 
     #[inline]
     fn can_drop_self_assignment(&self, left: &Ident, right: &Ident) -> bool {
-        left.sym == right.sym && left.ctxt == right.ctxt && self.is_writable_binding(left)
+        left.sym == right.sym
+            && left.ctxt == right.ctxt
+            && self.is_writable_binding(left)
+            && !self
+                .writable_bindings
+                .immutable_class_self_assignments
+                .contains(&left.span)
     }
 
     #[inline(always)]
@@ -1720,7 +1773,11 @@ mod tests {
         .expect("failed to parse TypeScript constructor parameter properties");
         let bindings = collect_writable_bindings(&module);
 
-        assert!(bindings.contains(&("value".into(), SyntaxContext::empty())));
-        assert!(bindings.contains(&("other".into(), SyntaxContext::empty())));
+        assert!(bindings
+            .bindings
+            .contains(&("value".into(), SyntaxContext::empty())));
+        assert!(bindings
+            .bindings
+            .contains(&("other".into(), SyntaxContext::empty())));
     }
 }
