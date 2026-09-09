@@ -287,6 +287,18 @@ function global_alias_coercion_order() {
     delete globalThis.window;
 }
 global_alias_coercion_order();
+function process_coercion() {
+    const processToString = process.toString;
+    const processValueOf = process.valueOf;
+    process.toString = ()=>"string-hint";
+    process.valueOf = ()=>7;
+    console.log([
+        process
+    ].join(""));
+    process.toString = processToString;
+    process.valueOf = processValueOf;
+}
+process_coercion();
 function intrinsic_constructor_coercion_order() {
     const arrayToString = Array.toString;
     try {

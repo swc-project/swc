@@ -1,9 +1,10 @@
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 
-/// Returns whether `sym` names a standard intrinsic whose value is an object
-/// or function. These values can have observable `toString` mutations between
-/// array-element evaluation and coercion by `join` or addition.
+/// Returns whether `sym` names a standard intrinsic or recognized host global
+/// whose value is an object or function. These values can have observable
+/// `toString` mutations between array-element evaluation and coercion by
+/// `join` or addition.
 pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
     matches!(
         sym,
@@ -61,6 +62,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "Object"
             | "parseFloat"
             | "parseInt"
+            | "process"
             | "Promise"
             | "prompt"
             | "Proxy"
