@@ -99,6 +99,8 @@ impl Visit for InitializerCaptures {
                     param.decorators.visit_with(self);
                     self.visit_closure(&param.param);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
         self.visit_closure(&node.body);
