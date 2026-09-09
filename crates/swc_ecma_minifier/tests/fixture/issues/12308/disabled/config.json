@@ -1,0 +1,5 @@
+{
+    "defaults": false,
+    "module": false,
+    "unsafe_hoist_static_method_alias": false
+}
