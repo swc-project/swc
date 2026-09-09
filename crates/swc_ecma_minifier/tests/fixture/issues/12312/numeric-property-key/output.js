@@ -1,8 +1,5 @@
-const seed = {};
-Object.defineProperty(seed, "e", {
-    value: 0
+const obj = {};
+Object.defineProperty(obj, "42", {
+    value: "PASS"
 });
-const obj = {
-    42: "PASS"
-};
 console.log(obj["42"], "42" in obj);

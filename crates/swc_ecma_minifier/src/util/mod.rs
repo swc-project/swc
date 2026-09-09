@@ -37,10 +37,14 @@ pub(crate) fn static_property_name(expr: &Expr) -> Option<&Wtf8Atom> {
         _ => return None,
     };
 
+    is_non_numeric_property_name(value).then_some(value)
+}
+
+/// Returns whether a string property name is not equivalent to a numeric key.
+pub(crate) fn is_non_numeric_property_name(value: &Wtf8Atom) -> bool {
     value
         .as_str()
         .map_or(true, |value| value.parse::<f64>().is_err())
-        .then_some(value)
 }
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {

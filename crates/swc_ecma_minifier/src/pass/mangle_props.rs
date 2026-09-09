@@ -12,7 +12,7 @@ use crate::{
     option::{KeepQuotedOption, ManglePropertiesOptions},
     program_data::analyze,
     usage_analyzer::util::get_mut_object_define_property_name_arg,
-    util::{base54::Base54Chars, static_property_name},
+    util::{base54::Base54Chars, is_non_numeric_property_name, static_property_name},
 };
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
@@ -228,6 +228,10 @@ impl Mangler<'_, '_> {
     }
 
     fn mangle_str(&mut self, string: &mut Str) {
+        if !is_non_numeric_property_name(&string.value) {
+            return;
+        }
+
         if let Some(mangled) = self.state.gen_name(&string.value) {
             string.value = mangled.into();
             string.raw = None;
@@ -237,16 +241,6 @@ impl Mangler<'_, '_> {
     /// Mangle a static property-name expression while preserving ordinary
     /// string and template expression values.
     fn mangle_property_name_expr(&mut self, expr: &mut Expr) {
-        if self
-            .state
-            .options
-            .keep_quoted
-            .as_ref()
-            .is_some_and(KeepQuotedOption::is_strict)
-        {
-            return;
-        }
-
         if let Expr::Paren(paren) = expr {
             self.mangle_property_name_expr(&mut paren.expr);
             return;
@@ -274,6 +268,22 @@ impl Mangler<'_, '_> {
             _ => unreachable!("static property names have literal or template expressions"),
         }
     }
+
+    /// Mangle a quoted property-name expression unless strict quoted-name
+    /// preservation is enabled.
+    fn mangle_quoted_property_name_expr(&mut self, expr: &mut Expr) {
+        if self
+            .state
+            .options
+            .keep_quoted
+            .as_ref()
+            .is_some_and(KeepQuotedOption::is_strict)
+        {
+            return;
+        }
+
+        self.mangle_property_name_expr(expr);
+    }
 }
 
 impl VisitMut for Mangler<'_, '_> {
@@ -292,7 +302,9 @@ impl VisitMut for Mangler<'_, '_> {
 
         match &mut member_expr.prop {
             MemberProp::Ident(ident) => self.mangle_ident(ident),
-            MemberProp::Computed(computed) => self.mangle_property_name_expr(&mut computed.expr),
+            MemberProp::Computed(computed) => {
+                self.mangle_quoted_property_name_expr(&mut computed.expr)
+            }
             _ => {}
         }
     }
@@ -337,7 +349,9 @@ impl VisitMut for Mangler<'_, '_> {
             {
                 self.mangle_str(string);
             }
-            PropName::Computed(computed) => self.mangle_property_name_expr(&mut computed.expr),
+            PropName::Computed(computed) => {
+                self.mangle_quoted_property_name_expr(&mut computed.expr)
+            }
             _ => {}
         }
     }
@@ -347,7 +361,9 @@ impl VisitMut for Mangler<'_, '_> {
 
         match &mut super_expr.prop {
             SuperProp::Ident(ident) => self.mangle_ident(ident),
-            SuperProp::Computed(computed) => self.mangle_property_name_expr(&mut computed.expr),
+            SuperProp::Computed(computed) => {
+                self.mangle_quoted_property_name_expr(&mut computed.expr)
+            }
         }
     }
 }
