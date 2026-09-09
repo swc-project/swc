@@ -8,4 +8,4 @@ const object = {
     undefined: "undefined",
     e: "mangled"
 };
-console.log(object[0 / 0], object[1 / 0], object[-1 / 0], object[true], object[false], object[null], object[void 0], object.e);
+console.log(object[0 / 0], object[1 / 0], object[-1 / 0], object[true], object[false], object[null], object[void 0], object[0 / 0], object.e);

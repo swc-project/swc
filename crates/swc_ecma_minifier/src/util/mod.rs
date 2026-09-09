@@ -99,6 +99,12 @@ pub(crate) fn for_each_primitive_property_name(expr: &Expr, mut visit: impl FnMu
             },
             Expr::Unary(unary) => match unary.op {
                 UnaryOp::Void => visit("undefined"),
+                // Unary plus converts `undefined` to `NaN`; preserving the
+                // operand spelling here would reserve the wrong property key.
+                UnaryOp::Plus if matches!(&*unary.arg, Expr::Unary(arg) if arg.op == UnaryOp::Void) =>
+                {
+                    visit("NaN");
+                }
                 UnaryOp::Plus => visit_primitive_property_name(&unary.arg, visit),
                 UnaryOp::Minus => match &*unary.arg {
                     Expr::Ident(ident) if &*ident.sym == "Infinity" => visit("-Infinity"),
