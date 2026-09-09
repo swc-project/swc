@@ -54,3 +54,18 @@ report("class inner", ()=>{
         }
     }
 });
+report("class inner normalized RHS", ()=>{
+    class Value {
+        static{
+            Value = Value;
+        }
+    }
+});
+report("class heritage closure", ()=>{
+    let callback;
+    class Value extends (callback = ()=>{
+        Value = Value;
+    }, Object) {
+    }
+    callback();
+});

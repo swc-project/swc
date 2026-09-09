@@ -66,8 +66,8 @@ pub(crate) struct WritableBindingCollector {
     immutable_class_self_assignments: FxHashSet<Span>,
 }
 
-/// Bindings whose self-assignments can be removed, together with the class-body
-/// assignments that use an immutable inner class-name binding.
+/// Bindings whose self-assignments can be removed, together with assignments
+/// that use an immutable inner class-name binding.
 #[derive(Default)]
 pub(crate) struct WritableBindings {
     bindings: FxHashSet<Id>,
@@ -148,9 +148,8 @@ impl Visit for WritableBindingCollector {
                     // Like a class declaration, a named default-export class has a
                     // writable outer binding but an immutable binding in its body.
                     c.class.decorators.visit_with(self);
-                    c.class.super_class.visit_with(self);
-
                     self.class_bindings.push(ident.to_id());
+                    c.class.super_class.visit_with(self);
                     c.class.body.visit_with(self);
                     self.class_bindings.pop();
 
@@ -170,9 +169,8 @@ impl Visit for WritableBindingCollector {
         // name, so remember its self-assignments by span instead of excluding the
         // ID globally.
         n.class.decorators.visit_with(self);
-        n.class.super_class.visit_with(self);
-
         self.class_bindings.push(n.ident.to_id());
+        n.class.super_class.visit_with(self);
         n.class.body.visit_with(self);
         self.class_bindings.pop();
 
@@ -181,9 +179,7 @@ impl Visit for WritableBindingCollector {
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         if let Some(left) = n.left.as_ident() {
-            if matches!(&*n.right, Expr::Ident(right) if left.to_id() == right.to_id())
-                && self.class_bindings.iter().any(|id| id == &left.to_id())
-            {
+            if self.class_bindings.iter().any(|id| id == &left.to_id()) {
                 self.immutable_class_self_assignments.insert(left.span);
             }
         }
