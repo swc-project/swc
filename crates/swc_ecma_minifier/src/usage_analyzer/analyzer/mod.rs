@@ -15,7 +15,7 @@ use crate::{
         marks::Marks,
         util::{can_end_conditionally, get_object_define_property_name_arg},
     },
-    util::static_property_name,
+    util::{for_each_static_property_name, static_property_name},
 };
 
 mod ctx;
@@ -463,20 +463,21 @@ where
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
             if e.op == op!("in") {
-                if let Some(prop) = static_property_name(&e.left) {
+                for_each_static_property_name(&e.left, |prop| {
                     self.data.add_property_atom(prop.clone());
-                }
+                });
 
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
                     let var = self.data.var_or_default(obj.to_id());
                     var.mark_used_as_ref();
 
-                    match static_property_name(&e.left) {
-                        Some(prop) => var.add_accessed_property(prop.clone()),
-                        None if matches!(&*e.left, Expr::Lit(Lit::Num(_))) => {}
-                        _ => {
-                            var.mark_indexed_with_dynamic_key();
-                        }
+                    let mut found_static_name = false;
+                    for_each_static_property_name(&e.left, |prop| {
+                        found_static_name = true;
+                        var.add_accessed_property(prop.clone());
+                    });
+                    if !found_static_name && !matches!(&*e.left, Expr::Lit(Lit::Num(_))) {
+                        var.mark_indexed_with_dynamic_key();
                     }
                 })
             }
@@ -510,7 +511,9 @@ where
     )]
     fn visit_call_expr(&mut self, n: &CallExpr) {
         if let Some(prop_name) = get_object_define_property_name_arg(n) {
-            self.data.add_property_atom(prop_name.value.clone());
+            for_each_static_property_name(prop_name, |name| {
+                self.data.add_property_atom(name.clone());
+            });
         }
 
         let inline_prevented = self.ctx.bit_ctx.contains(BitContext::InlinePrevented)
@@ -1135,9 +1138,12 @@ where
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
-                if let Some(name) = static_property_name(&prop.expr) {
+                let mut found_static_name = false;
+                for_each_static_property_name(&prop.expr, |name| {
+                    found_static_name = true;
                     v.add_accessed_property(name.clone());
-                } else {
+                });
+                if !found_static_name {
                     match &*prop.expr {
                         // Numeric keys were historically ignored by this analysis. They
                         // are not dynamic indexes and retaining that distinction permits
@@ -1176,9 +1182,9 @@ where
                     self.data.add_property_atom(ident.sym.clone().into());
                 }
                 MemberProp::Computed(computed) => {
-                    if let Some(name) = static_property_name(&computed.expr) {
+                    for_each_static_property_name(&computed.expr, |name| {
                         self.data.add_property_atom(name.clone());
-                    }
+                    });
                 }
                 _ => {}
             }

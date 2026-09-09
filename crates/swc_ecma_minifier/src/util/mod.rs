@@ -40,6 +40,35 @@ pub(crate) fn static_property_name(expr: &Expr) -> Option<&Wtf8Atom> {
     is_non_numeric_property_name(value).then_some(value)
 }
 
+/// Visits every nonnumeric string that can be selected as a static property
+/// name by an expression.
+///
+/// Conditional expressions can select either branch, while only the final
+/// expression in a sequence is its value. Parentheses do not affect the value.
+pub(crate) fn for_each_static_property_name(expr: &Expr, mut visit: impl FnMut(&Wtf8Atom)) {
+    fn visit_static_property_name(expr: &Expr, visit: &mut impl FnMut(&Wtf8Atom)) {
+        match expr {
+            Expr::Paren(paren) => visit_static_property_name(&paren.expr, visit),
+            Expr::Cond(cond) => {
+                visit_static_property_name(&cond.cons, visit);
+                visit_static_property_name(&cond.alt, visit);
+            }
+            Expr::Seq(seq) => {
+                if let Some(last) = seq.exprs.last() {
+                    visit_static_property_name(last, visit);
+                }
+            }
+            _ => {
+                if let Some(name) = static_property_name(expr) {
+                    visit(name);
+                }
+            }
+        }
+    }
+
+    visit_static_property_name(expr, &mut visit);
+}
+
 /// Returns whether a string property name is not equivalent to a numeric key.
 pub(crate) fn is_non_numeric_property_name(value: &Wtf8Atom) -> bool {
     value

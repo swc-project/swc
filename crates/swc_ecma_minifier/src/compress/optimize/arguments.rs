@@ -20,7 +20,13 @@ impl Optimizer<'_> {
     ///
     /// - `arguments['foo']` => `arguments.foo`
     pub(super) fn optimize_str_access_to_arguments(&mut self, e: &mut Expr) {
-        if !self.options.arguments {
+        if !self.options.arguments
+            || self
+                .mangle_options
+                .and_then(|options| options.props.as_ref())
+                .and_then(|props| props.keep_quoted.as_ref())
+                .is_some_and(|option| option.is_strict())
+        {
             return;
         }
 

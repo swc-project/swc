@@ -12,7 +12,10 @@ use crate::{
     option::{KeepQuotedOption, ManglePropertiesOptions},
     program_data::analyze,
     usage_analyzer::util::get_mut_object_define_property_name_arg,
-    util::{base54::Base54Chars, is_non_numeric_property_name, static_property_name},
+    util::{
+        base54::Base54Chars, for_each_static_property_name, is_non_numeric_property_name,
+        static_property_name,
+    },
 };
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
@@ -174,18 +177,18 @@ impl Visit for QuotedPropertyCollector {
 
     fn visit_member_expr(&mut self, member: &MemberExpr) {
         if let MemberProp::Computed(computed) = &member.prop {
-            if let Some(name) = static_property_name(&computed.expr) {
+            for_each_static_property_name(&computed.expr, |name| {
                 self.names.insert(name.clone());
-            }
+            });
         }
         member.visit_children_with(self);
     }
 
     fn visit_super_prop_expr(&mut self, super_prop: &SuperPropExpr) {
         if let SuperProp::Computed(computed) = &super_prop.prop {
-            if let Some(name) = static_property_name(&computed.expr) {
+            for_each_static_property_name(&computed.expr, |name| {
                 self.names.insert(name.clone());
-            }
+            });
         }
         super_prop.visit_children_with(self);
     }
@@ -196,9 +199,9 @@ impl Visit for QuotedPropertyCollector {
                 self.names.insert(string.value.clone());
             }
             PropName::Computed(computed) => {
-                if let Some(name) = static_property_name(&computed.expr) {
+                for_each_static_property_name(&computed.expr, |name| {
                     self.names.insert(name.clone());
-                }
+                });
             }
             _ => {}
         }
@@ -229,12 +232,26 @@ impl Mangler<'_, '_> {
         }
     }
 
-    /// Mangle a static property-name expression while preserving ordinary
+    /// Mangle static property-name alternatives while preserving ordinary
     /// string and template expression values.
     fn mangle_property_name_expr(&mut self, expr: &mut Expr) {
-        if let Expr::Paren(paren) = expr {
-            self.mangle_property_name_expr(&mut paren.expr);
-            return;
+        match expr {
+            Expr::Paren(paren) => {
+                self.mangle_property_name_expr(&mut paren.expr);
+                return;
+            }
+            Expr::Cond(cond) => {
+                self.mangle_property_name_expr(&mut cond.cons);
+                self.mangle_property_name_expr(&mut cond.alt);
+                return;
+            }
+            Expr::Seq(seq) => {
+                if let Some(last) = seq.exprs.last_mut() {
+                    self.mangle_property_name_expr(last);
+                }
+                return;
+            }
+            _ => {}
         }
 
         let Some(name) = static_property_name(expr) else {
@@ -283,8 +300,8 @@ impl VisitMut for Mangler<'_, '_> {
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
 
-        if let Some(prop_name_str) = get_mut_object_define_property_name_arg(call) {
-            self.mangle_str(prop_name_str);
+        if let Some(prop_name) = get_mut_object_define_property_name_arg(call) {
+            self.mangle_property_name_expr(prop_name);
         }
     }
 
