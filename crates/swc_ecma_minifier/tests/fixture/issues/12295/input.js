@@ -1,5 +1,6 @@
 console.log(({ x: 42, m() { return eval("this.x"); } }).m());
 console.log(({ x: 42, m() { return (eval)("this.x"); } }).m());
+console.log(({ x: 42, m(a = (eval)("this.x")) { return a; } }).m());
 console.log(({ m() { return eval("arguments[0]"); } }).m(42));
 console.log(({ m() { return function () { return eval("arguments[0]"); }; } }).m()(42));
 console.log(({ m() { return class { static x = eval("1"); }; } }).m().x);

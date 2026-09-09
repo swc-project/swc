@@ -9,6 +9,11 @@ console.log(({
         return eval("this.x");
     }
 }).m()), console.log(({
+    x: 42,
+    m (a = eval("this.x")) {
+        return a;
+    }
+}).m()), console.log(({
     m () {
         return eval("arguments[0]");
     }

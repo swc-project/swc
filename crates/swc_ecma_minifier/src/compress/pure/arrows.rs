@@ -1,6 +1,5 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_arguments, contains_this_expr};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
@@ -86,7 +85,7 @@ impl Pure<'_> {
                     contains_this_expr(param)
                         || contains_arguments(param)
                         || contains_super(param)
-                        || contains_eval(param, false)
+                        || contains_eval_in_method_environment(param)
                 })
             {
                 return;
