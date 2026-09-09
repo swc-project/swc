@@ -241,6 +241,30 @@ function document_coercion() {
 
 document_coercion();
 
+function history_coercion() {
+    const historyDescriptor = Object.getOwnPropertyDescriptor(globalThis, "history");
+    Object.defineProperty(globalThis, "history", {
+        configurable: true,
+        value: {
+            toString() {
+                return "string-hint";
+            },
+            valueOf() {
+                return 7;
+            },
+        },
+        writable: true,
+    });
+    console.log([history].join(""));
+    if (historyDescriptor) {
+        Object.defineProperty(globalThis, "history", historyDescriptor);
+    } else {
+        delete globalThis.history;
+    }
+}
+
+history_coercion();
+
 function fetch_constructor_coercion() {
     if (typeof Headers !== "undefined") {
         const headersToString = Headers.toString;

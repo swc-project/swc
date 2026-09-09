@@ -54,6 +54,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "globalThis"
             | "global"
             | "Headers"
+            | "history"
             | "Intl"
             | "Int8Array"
             | "Int16Array"
