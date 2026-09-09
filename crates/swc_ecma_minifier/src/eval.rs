@@ -230,6 +230,7 @@ impl Evaluator {
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: true,
+                        preserve_quoted_props: false,
                     },
                 ));
                 return Some(Box::new(e));
@@ -254,6 +255,7 @@ impl Evaluator {
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: false,
+                        preserve_quoted_props: false,
                     },
                 ));
                 return Some(Box::new(e));
@@ -290,6 +292,7 @@ impl Evaluator {
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
+                    preserve_quoted_props: false,
                 },
             ));
         }

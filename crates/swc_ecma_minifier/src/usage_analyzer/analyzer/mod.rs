@@ -463,6 +463,16 @@ where
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
             if e.op == op!("in") {
+                if let Expr::Lit(Lit::Str(prop)) = &*e.left {
+                    if prop
+                        .value
+                        .as_str()
+                        .map_or(true, |value| value.parse::<f64>().is_err())
+                    {
+                        self.data.add_property_atom(prop.value.clone());
+                    }
+                }
+
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
                     let var = self.data.var_or_default(obj.to_id());
                     var.mark_used_as_ref();

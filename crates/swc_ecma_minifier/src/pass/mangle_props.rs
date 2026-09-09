@@ -9,7 +9,7 @@ use swc_ecma_visit::{
 };
 
 use crate::{
-    option::ManglePropertiesOptions,
+    option::{KeepQuotedOption, ManglePropertiesOptions},
     program_data::analyze,
     usage_analyzer::util::get_mut_object_define_property_name_arg,
     util::{base54::Base54Chars, static_property_name},
@@ -130,6 +130,7 @@ pub(crate) fn mangle_properties(
     m: &mut Program,
     options: &ManglePropertiesOptions,
     chars: Base54Chars,
+    quoted_property_names: Option<FxHashSet<Wtf8Atom>>,
 ) {
     let mut state = ManglePropertiesState {
         options,
@@ -140,10 +141,8 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
-    if options.keep_quoted.is_enabled() {
-        let mut quoted = QuotedPropertyCollector::default();
-        m.visit_with(&mut quoted);
-        state.unmangleable.extend(quoted.names);
+    if let Some(quoted_property_names) = quoted_property_names {
+        state.unmangleable.extend(quoted_property_names);
     }
 
     let mut data = analyze(&*m, None, true);
@@ -153,6 +152,16 @@ pub(crate) fn mangle_properties(
     }
 
     m.visit_mut_with(&mut Mangler { state: &mut state });
+}
+
+/// Collects statically known property names used in quoted property positions.
+///
+/// This must run before compression, which may convert quoted keys and computed
+/// member accesses into identifier property names.
+pub(crate) fn collect_quoted_property_names(m: &Program) -> FxHashSet<Wtf8Atom> {
+    let mut quoted = QuotedPropertyCollector::default();
+    m.visit_with(&mut quoted);
+    quoted.names
 }
 
 #[derive(Default)]
@@ -172,9 +181,35 @@ impl Visit for QuotedPropertyCollector {
         member.visit_children_with(self);
     }
 
+    fn visit_super_prop_expr(&mut self, super_prop: &SuperPropExpr) {
+        if let SuperProp::Computed(computed) = &super_prop.prop {
+            if let Some(name) = static_property_name(&computed.expr) {
+                self.names.insert(name.clone());
+            }
+        }
+        super_prop.visit_children_with(self);
+    }
+
+    fn visit_bin_expr(&mut self, bin_expr: &BinExpr) {
+        if bin_expr.op == BinaryOp::In {
+            if let Some(name) = static_property_name(&bin_expr.left) {
+                self.names.insert(name.clone());
+            }
+        }
+        bin_expr.visit_children_with(self);
+    }
+
     fn visit_prop_name(&mut self, name: &PropName) {
-        if let PropName::Str(string) = name {
-            self.names.insert(string.value.clone());
+        match name {
+            PropName::Str(string) => {
+                self.names.insert(string.value.clone());
+            }
+            PropName::Computed(computed) => {
+                if let Some(name) = static_property_name(&computed.expr) {
+                    self.names.insert(name.clone());
+                }
+            }
+            _ => {}
         }
         name.visit_children_with(self);
     }
@@ -202,6 +237,16 @@ impl Mangler<'_, '_> {
     /// Mangle a static property-name expression while preserving ordinary
     /// string and template expression values.
     fn mangle_property_name_expr(&mut self, expr: &mut Expr) {
+        if self
+            .state
+            .options
+            .keep_quoted
+            .as_ref()
+            .is_some_and(KeepQuotedOption::is_strict)
+        {
+            return;
+        }
+
         if let Expr::Paren(paren) = expr {
             self.mangle_property_name_expr(&mut paren.expr);
             return;
@@ -282,7 +327,14 @@ impl VisitMut for Mangler<'_, '_> {
             PropName::Ident(ident) => {
                 self.mangle_ident(ident);
             }
-            PropName::Str(string) => {
+            PropName::Str(string)
+                if !self
+                    .state
+                    .options
+                    .keep_quoted
+                    .as_ref()
+                    .is_some_and(KeepQuotedOption::is_strict) =>
+            {
                 self.mangle_str(string);
             }
             PropName::Computed(computed) => self.mangle_property_name_expr(&mut computed.expr),
