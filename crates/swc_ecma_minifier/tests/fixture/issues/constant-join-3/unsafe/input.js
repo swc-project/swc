@@ -33,6 +33,14 @@ function effect_free_trailing_string_reassociation(value) {
     return "prefix" + (value + "suffix");
 }
 
+function effect_free_leading_string_reassociation(value) {
+    return value + ("prefix" + 1);
+}
+
+function effectful_leading_string_reassociation(value, side_effect) {
+    return value + ("prefix" + side_effect());
+}
+
 function nullish(value) {
     return [
         [null].join(),
