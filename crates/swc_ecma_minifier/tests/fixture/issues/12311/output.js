@@ -71,4 +71,39 @@ function computedKeyDependency() {
         [key]() {}
     }).prototype)[1], value);
 }
-staticField(), computedKey(), staticBlock(), instanceMethod(), heritage(), instanceFields(), computedKeyDependency();
+function staticPrototypeMethod() {
+    let value = foo("static prototype method");
+    return [
+        class {
+            static ["prototype"]() {}
+        },
+        value
+    ];
+}
+function staticPrototypeField() {
+    let value = foo("static prototype field");
+    return [
+        class {
+            static ["prototype"] = 0;
+        },
+        value
+    ];
+}
+function staticComputedMethod() {
+    let value = foo("static computed method");
+    return [
+        class {
+            static ["safe"]() {}
+        },
+        value
+    ];
+}
+for (const test of (staticField(), computedKey(), staticBlock(), instanceMethod(), heritage(), instanceFields(), computedKeyDependency(), [
+    staticPrototypeMethod,
+    staticPrototypeField,
+    staticComputedMethod
+]))try {
+    test();
+} catch (err) {
+    console.log("prototype throws");
+}

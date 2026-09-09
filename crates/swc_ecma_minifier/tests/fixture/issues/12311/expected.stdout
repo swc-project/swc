@@ -9,3 +9,8 @@ foo heritage
 heritage
 foo instance fields
 after after
+foo static prototype method
+prototype throws
+foo static prototype field
+prototype throws
+foo static computed method

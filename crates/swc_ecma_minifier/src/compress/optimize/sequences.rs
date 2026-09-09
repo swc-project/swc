@@ -1438,6 +1438,13 @@ impl Optimizer<'_> {
                     }
                 }
                 ClassMember::Method(method) => {
+                    // A computed static key can resolve to `prototype`, which throws
+                    // while the class is evaluated. Preserve expressions before the
+                    // class unless static-key evaluation is modeled completely.
+                    if method.is_static && method.key.is_computed() {
+                        return false;
+                    }
+
                     if !method.function.decorators.is_empty()
                         || method
                             .function
@@ -1468,6 +1475,10 @@ impl Optimizer<'_> {
                     }
                 }
                 ClassMember::ClassProp(prop) => {
+                    if prop.is_static && prop.key.is_computed() {
+                        return false;
+                    }
+
                     if !prop.decorators.is_empty() {
                         return false;
                     }
@@ -1501,6 +1512,12 @@ impl Optimizer<'_> {
                     }
                 }
                 ClassMember::AutoAccessor(accessor) => {
+                    if accessor.is_static
+                        && matches!(&accessor.key, Key::Public(key) if key.is_computed())
+                    {
+                        return false;
+                    }
+
                     if !accessor.decorators.is_empty() {
                         return false;
                     }
