@@ -934,6 +934,18 @@ function iterator_coercion_order() {
     }
 }
 
+function async_iterator_coercion_order() {
+    if (typeof AsyncIterator !== "undefined") {
+        const asyncIteratorToString = AsyncIterator.toString;
+        try {
+            [AsyncIterator, AsyncIterator.toString = 0].join("");
+        } catch {
+            console.log(true);
+        }
+        AsyncIterator.toString = asyncIteratorToString;
+    }
+}
+
 function alert_nullish() {
     const originalAlert = globalThis.alert;
     globalThis.alert = () => undefined;
@@ -1112,6 +1124,7 @@ timer_handle_coercion_order();
 fetch_coercion_order();
 fetch_function_coercion_order();
 iterator_coercion_order();
+async_iterator_coercion_order();
 console.log("alert:" + alert_nullish());
 console.log("clone:" + structured_clone_nullish());
 structured_clone_object_coercion_order();
