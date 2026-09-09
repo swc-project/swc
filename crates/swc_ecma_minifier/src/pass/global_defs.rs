@@ -80,6 +80,10 @@ impl VisitMut for GlobalDefs {
                 // TODO: Check for `obj`
             }
 
+            Expr::Member(..) => {
+                self.visit_mut_computed_props(&mut e.arg);
+            }
+
             _ => {
                 e.arg.visit_mut_with(self);
             }
