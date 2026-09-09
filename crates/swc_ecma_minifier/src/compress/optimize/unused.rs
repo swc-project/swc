@@ -1004,7 +1004,10 @@ impl Optimizer<'_> {
                 return;
             };
 
-            if contains_ident_ref(&f.function.body, f_ident) {
+            // Default parameter initializers run in the function's scope and can reference
+            // the function expression's internal name, so inspect the whole
+            // function rather than only its body.
+            if self.options.keep_fnames || contains_ident_ref(&f.function, f_ident) {
                 return;
             }
 
