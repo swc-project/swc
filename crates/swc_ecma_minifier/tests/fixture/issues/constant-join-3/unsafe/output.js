@@ -965,6 +965,23 @@ function webassembly_coercion_order() {
     }
     WebAssembly.toString = toString;
 }
+function console_coercion_order() {
+    const toString = console.toString;
+    try {
+        [
+            console,
+            console.toString = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    }
+    console.toString = toString;
+}
+function queue_microtask_nullish() {
+    return [
+        queueMicrotask(()=>{})
+    ].join("");
+}
 function direct_eval_object_coercion() {
     return [
         eval("({toString(){return 's'},valueOf(){return 1}})")
@@ -1058,6 +1075,8 @@ console.log(object_call_coercion({
     }
 }));
 webassembly_coercion_order();
+console_coercion_order();
+console.log("queue:" + queue_microtask_nullish());
 console.log(direct_eval_object_coercion());
 console.log(direct_eval_symbol_order());
 console.log(direct_eval_nullish());

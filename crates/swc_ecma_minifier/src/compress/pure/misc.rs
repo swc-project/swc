@@ -143,7 +143,13 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         Expr::Call(CallExpr {
             callee: Callee::Expr(callee),
             ..
-        }) if callee.is_global_ref_to(expr_ctx, "eval") => true,
+        }) if callee.is_global_ref_to(expr_ctx, "eval")
+            // `queueMicrotask` always returns undefined, which join renders
+            // as an empty string instead of the "undefined" from concatenation.
+            || callee.is_global_ref_to(expr_ctx, "queueMicrotask") =>
+        {
+            true
+        }
         // An optional chain can short-circuit to undefined, which join renders
         // as an empty string instead of the "undefined" from concatenation.
         Expr::OptChain(..) => true,

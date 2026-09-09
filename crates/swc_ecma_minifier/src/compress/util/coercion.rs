@@ -15,6 +15,7 @@ pub(crate) fn is_intrinsic_object_or_function(sym: &str) -> bool {
             | "BigInt64Array"
             | "BigUint64Array"
             | "Boolean"
+            | "console"
             | "DataView"
             | "Date"
             | "decodeURI"
