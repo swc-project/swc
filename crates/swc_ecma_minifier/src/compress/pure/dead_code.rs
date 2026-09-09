@@ -78,7 +78,14 @@ impl Pure<'_> {
                 ..
             }) if match &*l {
                 SimpleAssignTarget::Ident(l) => match &**r {
-                    Expr::Ident(r) => l.sym == r.sym && l.ctxt == r.ctxt,
+                    Expr::Ident(r) => {
+                        self.can_drop_self_assignment(l, r)
+                            // Preserve the established unresolved-reference rewrite. The RHS
+                            // reference is still evaluated, so its ReferenceError is retained.
+                            || (l.sym == r.sym
+                                && l.ctxt == r.ctxt
+                                && l.ctxt.outer() == self.marks.unresolved_mark)
+                    }
                     _ => false,
                 },
                 _ => false,

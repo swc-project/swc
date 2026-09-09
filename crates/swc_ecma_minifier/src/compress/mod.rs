@@ -12,7 +12,7 @@ use swc_ecma_visit::VisitWith;
 #[cfg(debug_assertions)]
 use tracing::debug;
 
-pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
+pub(crate) use self::pure::{collect_writable_bindings, pure_optimizer, PureOptimizerConfig};
 use self::{
     hoist_decls::DeclHoisterConfig,
     optimize::{optimizer, StaticAliasState},
@@ -151,12 +151,14 @@ impl Compressor<'_> {
         };
 
         {
+            let writable_bindings = collect_writable_bindings(&*n);
             let mut visitor = pure_optimizer(
                 self.options,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
                 },
+                &writable_bindings,
             );
             n.visit_mut_with(&mut visitor);
 

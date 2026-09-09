@@ -1,13 +1,15 @@
 #![allow(clippy::needless_update)]
 
+use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
 use swc_ecma_utils::{
+    find_pat_ids,
     parallel::{cpu_count, Parallel, ParallelExt},
     ExprCtx,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, Visit, VisitMut, VisitMutWith, VisitWith};
 #[cfg(all(debug_assertions, feature = "debug"))]
 use tracing::Level;
 
@@ -40,11 +42,43 @@ pub(crate) struct PureOptimizerConfig {
     pub enable_join_vars: bool,
 }
 
+/// Collects bindings that are known to be writable.
+///
+/// Self-assignment is only removable for bindings known to be writable. In
+/// particular, this deliberately excludes `const` bindings and unresolved
+/// identifiers.
+pub(crate) fn collect_writable_bindings<N>(n: &N) -> FxHashSet<Id>
+where
+    N: VisitWith<WritableBindingCollector>,
+{
+    let mut collector = WritableBindingCollector::default();
+    n.visit_with(&mut collector);
+    collector.bindings
+}
+
+#[derive(Default)]
+pub(crate) struct WritableBindingCollector {
+    bindings: FxHashSet<Id>,
+}
+
+impl Visit for WritableBindingCollector {
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        if matches!(n.kind, VarDeclKind::Var | VarDeclKind::Let) {
+            for decl in &n.decls {
+                self.bindings.extend(find_pat_ids::<_, Id>(&decl.name));
+            }
+        }
+
+        n.visit_children_with(self);
+    }
+}
+
 #[allow(clippy::needless_lifetimes)]
 pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
     marks: Marks,
     config: PureOptimizerConfig,
+    writable_bindings: &'a FxHashSet<Id>,
 ) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
@@ -58,6 +92,7 @@ pub(crate) fn pure_optimizer<'a>(
         },
         ctx: Default::default(),
         changed: Default::default(),
+        writable_bindings,
     }
 }
 
@@ -66,6 +101,8 @@ struct Pure<'a> {
     config: PureOptimizerConfig,
     marks: Marks,
     expr_ctx: ExprCtx,
+
+    writable_bindings: &'a FxHashSet<Id>,
 
     ctx: Ctx,
     changed: bool,
@@ -95,6 +132,16 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    #[inline]
+    fn is_writable_binding(&self, ident: &Ident) -> bool {
+        self.writable_bindings.contains(&ident.to_id())
+    }
+
+    #[inline]
+    fn can_drop_self_assignment(&self, left: &Ident, right: &Ident) -> bool {
+        left.sym == right.sym && left.ctxt == right.ctxt && self.is_writable_binding(left)
+    }
+
     #[inline(always)]
     fn is_expr_leaf(e: &Expr) -> bool {
         matches!(

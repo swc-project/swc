@@ -2123,13 +2123,10 @@ impl Pure<'_> {
             }
 
             Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) => {
-                // Convert `a = a` to `a`.
+                // Convert `a = a` to `a` only for a proven writable binding.
                 if let Some(l) = assign.left.as_ident() {
                     if let Expr::Ident(r) = &*assign.right {
-                        if l.ctxt == r.ctxt
-                            && l.ctxt != self.expr_ctx.unresolved_ctxt
-                            && l.sym == r.sym
-                        {
+                        if self.can_drop_self_assignment(l, r) {
                             self.changed = true;
                             *e = *assign.right.take();
                         }
