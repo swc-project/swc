@@ -339,6 +339,22 @@ function blob_coercion() {
 
 blob_coercion();
 
+function form_data_coercion() {
+    if (typeof FormData === "undefined") {
+        return;
+    }
+
+    const formDataToString = FormData.toString;
+    const formDataValueOf = FormData.valueOf;
+    FormData.toString = () => "string-hint";
+    FormData.valueOf = () => 7;
+    console.log([FormData].join(""));
+    FormData.toString = formDataToString;
+    FormData.valueOf = formDataValueOf;
+}
+
+form_data_coercion();
+
 function opener_nullish() {
     return [opener].join("-");
 }
