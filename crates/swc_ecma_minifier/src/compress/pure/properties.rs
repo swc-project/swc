@@ -46,13 +46,17 @@ impl Pure<'_> {
     /// If a key of is `'str'` (like `{ 'str': 1 }`) change it to [Ident] like
     /// (`{ str: 1, }`)
     pub(super) fn optimize_computed_prop_name_as_normal(&mut self, p: &mut PropName) {
-        if !self.options.computed_props || self.config.preserve_quoted_props {
+        if !self.options.computed_props {
             return;
         }
 
         if let PropName::Computed(c) = p {
             match &mut *c.expr {
                 Expr::Lit(Lit::Str(s)) => {
+                    if self.config.preserve_quoted_props {
+                        return;
+                    }
+
                     let Some(value) = s.value.as_str() else {
                         return;
                     };

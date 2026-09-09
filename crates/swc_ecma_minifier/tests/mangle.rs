@@ -752,6 +752,34 @@ fn keep_quoted_strict_preserves_only_quoted_occurrences() {
 }
 
 #[test]
+fn keep_quoted_strict_serializes_as_a_string() {
+    let serialized = serde_json::to_string(&KeepQuotedOption::Strict).unwrap();
+    assert_eq!(serialized, r#""strict""#);
+
+    let deserialized: KeepQuotedOption = serde_json::from_str(&serialized).unwrap();
+    assert_eq!(deserialized, KeepQuotedOption::Strict);
+}
+
+#[test]
+fn keep_quoted_strict_normalizes_numeric_computed_keys() {
+    let output = mangle_with_compression(
+        "const obj = { [1]: 2, [\"quotedprop\"]: 3 };\nconsole.log(obj[1], obj[\"quotedprop\"]);",
+        MangleOptions {
+            disable_char_freq: true,
+            props: Some(ManglePropertiesOptions {
+                keep_quoted: Some(KeepQuotedOption::Strict),
+                regex: Some("^quotedprop$".into()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    );
+
+    assert!(output.contains("1: 2"), "{output}");
+    assert!(output.contains("[\"quotedprop\"]"), "{output}");
+}
+
+#[test]
 fn keep_quoted_preserves_names_collected_before_compression() {
     let output = mangle_with_compression(
         "globalThis.obj = { \"publicApi\": 1 };\nconsole.log(globalThis.obj.publicApi);",

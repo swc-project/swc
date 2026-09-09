@@ -116,12 +116,22 @@ pub struct ManglePropertiesOptions {
     pub regex: Option<CachedRegex>,
 }
 
-#[derive(Debug, Clone, Serialize, PartialEq, Eq, Hash)]
-#[serde(untagged)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum KeepQuotedOption {
     Bool(bool),
-    #[serde(rename = "strict")]
     Strict,
+}
+
+impl Serialize for KeepQuotedOption {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match self {
+            Self::Bool(value) => serializer.serialize_bool(*value),
+            Self::Strict => serializer.serialize_str("strict"),
+        }
+    }
 }
 
 impl<'de> Deserialize<'de> for KeepQuotedOption {
