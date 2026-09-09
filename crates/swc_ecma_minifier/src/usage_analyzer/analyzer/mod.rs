@@ -1391,6 +1391,10 @@ where
         if let SuperProp::Computed(c) = &e.prop {
             let ctx = self.ctx.with(BitContext::IsIdRef, false);
             c.visit_with(&mut *self.with_ctx(ctx));
+
+            for_each_static_property_name(&c.expr, |name| {
+                self.data.add_property_atom(name.clone());
+            });
         }
     }
 

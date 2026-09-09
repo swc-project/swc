@@ -10,8 +10,11 @@ use swc_ecma_visit::{
 
 use crate::{
     option::{KeepQuotedOption, ManglePropertiesOptions},
-    program_data::analyze,
-    usage_analyzer::util::get_mut_object_define_property_name_arg,
+    program_data::{analyze, ProgramData},
+    usage_analyzer::{
+        analyzer::storage::{Storage, VarDataLike},
+        util::get_mut_object_define_property_name_arg,
+    },
     util::{
         base54::Base54Chars, for_each_static_property_name, is_non_numeric_property_name,
         static_property_name,
@@ -154,7 +157,55 @@ pub(crate) fn mangle_properties(
         state.add(prop);
     }
 
+    if options.undeclared == Some(true) {
+        let mut collector = UndeclaredPropertyCollector {
+            data: &data,
+            names: Default::default(),
+        };
+        m.visit_with(&mut collector);
+
+        for name in collector.names {
+            state.add(name);
+        }
+    }
+
     m.visit_mut_with(&mut Mangler { state: &mut state });
+}
+
+/// Collects computed property names accessed through undeclared roots when
+/// `props.undeclared` opts into mangling those external properties.
+struct UndeclaredPropertyCollector<'a> {
+    data: &'a ProgramData,
+    names: Vec<Wtf8Atom>,
+}
+
+impl UndeclaredPropertyCollector<'_> {
+    fn is_root_undeclared(&self, expr: &Expr) -> bool {
+        match expr {
+            Expr::Member(member) => self.is_root_undeclared(&member.obj),
+            Expr::Ident(ident) => self
+                .data
+                .get_var_data(ident.to_id())
+                .map_or(true, |var| !var.is_declared()),
+            _ => false,
+        }
+    }
+}
+
+impl Visit for UndeclaredPropertyCollector<'_> {
+    noop_visit_type!(fail);
+
+    fn visit_member_expr(&mut self, member: &MemberExpr) {
+        if self.is_root_undeclared(&member.obj) {
+            if let MemberProp::Computed(computed) = &member.prop {
+                for_each_static_property_name(&computed.expr, |name| {
+                    self.names.push(name.clone());
+                });
+            }
+        }
+
+        member.visit_children_with(self);
+    }
 }
 
 /// Collects statically known property names used in quoted property positions.
