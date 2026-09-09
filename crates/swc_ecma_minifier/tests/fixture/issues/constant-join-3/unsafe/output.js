@@ -300,6 +300,55 @@ function document_coercion() {
     document.valueOf = documentValueOf;
 }
 document_coercion();
+function fetch_constructor_coercion() {
+    if ("u" > typeof Headers) {
+        const headersToString = Headers.toString;
+        const headersValueOf = Headers.valueOf;
+        Headers.toString = ()=>"string-hint";
+        Headers.valueOf = ()=>7;
+        console.log([
+            Headers
+        ].join(""));
+        Headers.toString = headersToString;
+        Headers.valueOf = headersValueOf;
+    }
+    if ("u" > typeof Request) {
+        const requestToString = Request.toString;
+        const requestValueOf = Request.valueOf;
+        Request.toString = ()=>"string-hint";
+        Request.valueOf = ()=>7;
+        console.log([
+            Request
+        ].join(""));
+        Request.toString = requestToString;
+        Request.valueOf = requestValueOf;
+    }
+    if ("u" > typeof Response) {
+        const responseToString = Response.toString;
+        const responseValueOf = Response.valueOf;
+        Response.toString = ()=>"string-hint";
+        Response.valueOf = ()=>7;
+        console.log([
+            Response
+        ].join(""));
+        Response.toString = responseToString;
+        Response.valueOf = responseValueOf;
+    }
+}
+fetch_constructor_coercion();
+function navigator_coercion() {
+    if ("u" < typeof navigator) return;
+    const navigatorToString = navigator.toString;
+    const navigatorValueOf = navigator.valueOf;
+    navigator.toString = ()=>"string-hint";
+    navigator.valueOf = ()=>7;
+    console.log([
+        navigator
+    ].join(""));
+    navigator.toString = navigatorToString;
+    navigator.valueOf = navigatorValueOf;
+}
+navigator_coercion();
 function process_coercion() {
     const processToString = process.toString;
     const processValueOf = process.valueOf;
