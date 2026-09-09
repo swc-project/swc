@@ -86,6 +86,34 @@ where
     used_recursively: FxHashMap<Id, RecursiveUsage>,
 }
 
+/// Returns whether an expression ultimately derives from an undeclared root.
+fn is_root_of_expr_undeclared(expr: &Expr, data: &impl Storage) -> bool {
+    match expr {
+        Expr::Member(member_expr) => is_root_of_expr_undeclared(&member_expr.obj, data),
+        Expr::Paren(paren) => is_root_of_expr_undeclared(&paren.expr, data),
+        Expr::Seq(seq) => {
+            if let Some(last) = seq.exprs.last() {
+                is_root_of_expr_undeclared(last, data)
+            } else {
+                false
+            }
+        }
+        Expr::Call(call) => match &call.callee {
+            Callee::Expr(callee) => is_root_of_expr_undeclared(callee, data),
+            Callee::Super(..) | Callee::Import(..) => false,
+        },
+        Expr::New(new_expr) => is_root_of_expr_undeclared(&new_expr.callee, data),
+        Expr::OptChain(opt_chain) => match &*opt_chain.base {
+            OptChainBase::Member(member_expr) => is_root_of_expr_undeclared(&member_expr.obj, data),
+            OptChainBase::Call(call) => is_root_of_expr_undeclared(&call.callee, data),
+        },
+        Expr::Ident(ident) => data
+            .get_var_data(ident.to_id())
+            .map_or(true, |var| !var.is_declared()),
+        _ => false,
+    }
+}
+
 impl<S> UsageAnalyzer<S>
 where
     S: Storage,
@@ -465,9 +493,11 @@ where
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
             if e.op == op!("in") {
-                for_each_static_property_name(&e.left, |prop| {
-                    self.data.add_property_atom(prop.clone());
-                });
+                if !is_root_of_expr_undeclared(&e.right, &self.data) {
+                    for_each_static_property_name(&e.left, |prop| {
+                        self.data.add_property_atom(prop.clone());
+                    });
+                }
 
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
                     let var = self.data.var_or_default(obj.to_id());
@@ -1164,28 +1194,6 @@ where
                     .map(|var| var.is_declared())
                     .unwrap_or(false),
 
-                _ => false,
-            }
-        }
-
-        fn is_root_of_expr_undeclared(expr: &Expr, data: &impl Storage) -> bool {
-            match expr {
-                Expr::Member(member_expr) => is_root_of_expr_undeclared(&member_expr.obj, data),
-                Expr::Paren(paren) => is_root_of_expr_undeclared(&paren.expr, data),
-                Expr::Call(call) => match &call.callee {
-                    Callee::Expr(callee) => is_root_of_expr_undeclared(callee, data),
-                    Callee::Super(..) | Callee::Import(..) => false,
-                },
-                Expr::New(new_expr) => is_root_of_expr_undeclared(&new_expr.callee, data),
-                Expr::OptChain(opt_chain) => match &*opt_chain.base {
-                    OptChainBase::Member(member_expr) => {
-                        is_root_of_expr_undeclared(&member_expr.obj, data)
-                    }
-                    OptChainBase::Call(call) => is_root_of_expr_undeclared(&call.callee, data),
-                },
-                Expr::Ident(ident) => data
-                    .get_var_data(ident.to_id())
-                    .map_or(true, |var| !var.is_declared()),
                 _ => false,
             }
         }

@@ -1,0 +1,6 @@
+{
+    "disableCharFreq": true,
+    "props": {
+        "regex": "^(inprop|memberprop)$"
+    }
+}

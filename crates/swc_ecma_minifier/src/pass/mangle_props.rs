@@ -264,6 +264,13 @@ impl UndeclaredPropertyCollector<'_> {
         match expr {
             Expr::Member(member) => self.is_root_undeclared(&member.obj),
             Expr::Paren(paren) => self.is_root_undeclared(&paren.expr),
+            Expr::Seq(seq) => {
+                if let Some(last) = seq.exprs.last() {
+                    self.is_root_undeclared(last)
+                } else {
+                    false
+                }
+            }
             Expr::Call(call) => match &call.callee {
                 Callee::Expr(callee) => self.is_root_undeclared(callee),
                 Callee::Super(..) | Callee::Import(..) => false,
@@ -284,6 +291,16 @@ impl UndeclaredPropertyCollector<'_> {
 
 impl Visit for UndeclaredPropertyCollector<'_> {
     noop_visit_type!(fail);
+
+    fn visit_bin_expr(&mut self, bin_expr: &BinExpr) {
+        if bin_expr.op == BinaryOp::In && self.is_root_undeclared(&bin_expr.right) {
+            for_each_static_property_name(&bin_expr.left, |name| {
+                self.names.push(name.clone());
+            });
+        }
+
+        bin_expr.visit_children_with(self);
+    }
 
     fn visit_member_expr(&mut self, member: &MemberExpr) {
         if self.is_root_undeclared(&member.obj) {
