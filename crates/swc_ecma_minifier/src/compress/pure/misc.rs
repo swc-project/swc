@@ -148,6 +148,7 @@ fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
         // undefined, which join renders as an empty string instead of the
         // "undefined" from concatenation.
             || callee.is_global_ref_to(expr_ctx, "queueMicrotask")
+            || callee.is_global_ref_to(expr_ctx, "clearImmediate")
             || callee.is_global_ref_to(expr_ctx, "clearInterval")
             || callee.is_global_ref_to(expr_ctx, "clearTimeout") =>
         {
@@ -335,6 +336,11 @@ fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
                         | "SyntaxError"
                         | "TypeError"
                         | "URIError"
+                        // Node timer creation APIs return handles whose string
+                        // coercion can be observed after later join elements run.
+                        | "setImmediate"
+                        | "setInterval"
+                        | "setTimeout"
                 )
         }
         Expr::Member(..)

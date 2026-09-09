@@ -989,8 +989,46 @@ function timer_cancellation_nullish() {
         ].join(""),
         [
             clearInterval(0)
+        ].join(""),
+        [
+            clearImmediate(0)
         ].join("")
     ].join("|");
+}
+function timer_handle_coercion_order() {
+    let timeout;
+    try {
+        [
+            timeout = setTimeout(()=>{}),
+            timeout[Symbol.toPrimitive] = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    } finally{
+        clearTimeout(timeout);
+    }
+    let interval;
+    try {
+        [
+            interval = setInterval(()=>{}),
+            interval[Symbol.toPrimitive] = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    } finally{
+        clearInterval(interval);
+    }
+    let immediate;
+    try {
+        [
+            immediate = setImmediate(()=>{}),
+            immediate[Symbol.toPrimitive] = 0
+        ].join("");
+    } catch  {
+        console.log(true);
+    } finally{
+        clearImmediate(immediate);
+    }
 }
 function structured_clone_nullish() {
     return [
@@ -1165,6 +1203,7 @@ webassembly_coercion_order();
 console_coercion_order();
 console.log("queue:" + queue_microtask_nullish());
 console.log("timers:" + timer_cancellation_nullish());
+timer_handle_coercion_order();
 console.log("clone:" + structured_clone_nullish());
 timer_and_encoding_coercion_order();
 console.log(direct_eval_object_coercion());
