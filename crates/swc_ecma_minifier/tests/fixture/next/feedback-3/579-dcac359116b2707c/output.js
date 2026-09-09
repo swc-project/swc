@@ -645,7 +645,7 @@
                             if ("string" == typeof e) return function t(e, r) {
                                 if (e.length > r.maxStringLength) {
                                     var o = e.length - r.maxStringLength;
-                                    return t(e.slice(0, r.maxStringLength), r) + "... " + o + " more character" + (o > 1 ? "s" : "");
+                                    return t(e.slice(0, r.maxStringLength), r) + ("... " + o + " more character" + (o > 1 ? "s" : ""));
                                 }
                                 return E(e.replace(/(['\\])/g, "\\$1").replace(/[\x00-\x1f]/g, M), "single", r);
                             }(e, p);
