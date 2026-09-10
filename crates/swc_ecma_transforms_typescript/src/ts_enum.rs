@@ -277,15 +277,20 @@ impl EnumValueComputer<'_> {
             Expr::Bin(e) => self.compute_bin(e, ctx),
             Expr::Member(e) => self.compute_member(e, ctx),
             Expr::OptChain(e) => {
-                let opaque_expr = TsEnumRecordValue::Opaque(e.clone().into());
+                let opaque_expr: Box<Expr> = e.clone().into();
                 let OptChainBase::Member(member) = *e.base else {
-                    return opaque_expr;
+                    return TsEnumRecordValue::Opaque(opaque_expr);
                 };
                 // `compute_member` builds its own fallback from the
                 // `MemberExpr` alone, which would drop the `?.` and turn a
-                // guarded read into an unguarded one.
+                // guarded read into an unguarded one. Preserve the original
+                // chain for opaque strings too, without losing their string
+                // classification for enum reverse mappings.
                 match self.compute_member(member, ctx) {
-                    TsEnumRecordValue::Opaque(..) => opaque_expr,
+                    TsEnumRecordValue::Opaque(..) => TsEnumRecordValue::Opaque(opaque_expr),
+                    TsEnumRecordValue::OpaqueString(..) => {
+                        TsEnumRecordValue::OpaqueString(opaque_expr)
+                    }
                     value => value,
                 }
             }
