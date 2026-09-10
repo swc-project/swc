@@ -94,8 +94,14 @@ impl Pure<'_> {
         let mut removed_case = false;
         let mut exact = None;
         let mut may_match_other_than_exact = false;
+        // Case tests are only evaluated while searching for a match, but their
+        // consequents can be entered by falling through from an earlier case.
+        let mut may_fall_through = false;
+        let mut has_reachable_default = false;
 
         for (idx, case) in stmt.cases.iter_mut().enumerate() {
+            let case_terminates = case.cons.iter().rev().any(|s| s.terminates());
+
             if let Some(test) = case.test.as_ref() {
                 if let Some(e) = is_primitive(self.expr_ctx, tail_expr(test)) {
                     if match (e, tail) {
@@ -111,7 +117,15 @@ impl Pure<'_> {
                     } else {
                         let test = case.test.take().unwrap();
 
-                        if case.cons.is_empty() && test.may_have_side_effects(self.expr_ctx) {
+                        if may_fall_through {
+                            // A preceding unknown case may have matched and entered this
+                            // consequent without evaluating this case test. Keep both the
+                            // body and any abrupt completion reachable by that path.
+                            case.test = Some(test);
+                            cases.push(case.take());
+                            may_fall_through = !case_terminates;
+                        } else if case.cons.is_empty() && test.may_have_side_effects(self.expr_ctx)
+                        {
                             // This case is already a search-only case from an earlier pass.
                             // Retain it unchanged so that compression reaches a fixed point.
                             case.test = Some(test);
@@ -138,10 +152,13 @@ impl Pure<'_> {
                         may_match_other_than_exact = true;
                     }
 
-                    cases.push(case.take())
+                    cases.push(case.take());
+                    may_fall_through = !case_terminates;
                 }
             } else {
-                cases.push(case.take())
+                has_reachable_default |= may_fall_through;
+                cases.push(case.take());
+                may_fall_through &= !case_terminates;
             }
         }
 
@@ -157,7 +174,7 @@ impl Pure<'_> {
                 }
             }
 
-            if !may_match_other_than_exact {
+            if !may_match_other_than_exact && !has_reachable_default {
                 // remove default if there's an exact match
                 cases.retain(|case| {
                     if case.test.is_some() {
