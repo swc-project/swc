@@ -2330,6 +2330,10 @@ impl Pure<'_> {
                 Expr::New(NewExpr {
                     span, callee, args, ..
                 }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"])
+                    // Spreading consumes an iterator. Extracting only `arg.expr` would create
+                    // the iterator but skip its observable iteration, including errors thrown
+                    // by the iterator.
+                    && !args.iter().flatten().any(|arg| arg.spread.is_some())
                     && args
                         .as_deref()
                         .and_then(|arg| arg.first())
@@ -2357,7 +2361,7 @@ impl Pure<'_> {
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
                     &["Array", "Object", "Boolean", "Number", "String"],
-                ) =>
+                ) && !args.iter().flatten().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure new expression");
 
@@ -2379,7 +2383,7 @@ impl Pure<'_> {
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
                     &["Array", "Object", "Boolean", "Number"],
-                ) =>
+                ) && !args.iter().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure call expression");
 
