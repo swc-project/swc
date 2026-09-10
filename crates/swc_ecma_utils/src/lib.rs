@@ -3346,9 +3346,11 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             ..
         }) if &**length == "length" => match &**obj {
             Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
-            Expr::Ident(Ident { sym: arguments, .. }) if &**arguments == "arguments" => {
-                Known(Type::Num)
-            }
+            Expr::Ident(Ident {
+                sym: arguments,
+                ctxt,
+                ..
+            }) if &**arguments == "arguments" && *ctxt == ctx.unresolved_ctxt => Known(Type::Num),
             _ => Unknown,
         },
 
@@ -3421,9 +3423,9 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             Unknown
         }
 
-        Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
-            "undefined" => UndefinedType,
-            "NaN" | "Infinity" => NumberType,
+        Expr::Ident(Ident { sym, ctxt, .. }) => Known(match &**sym {
+            "undefined" if *ctxt == ctx.unresolved_ctxt => UndefinedType,
+            "NaN" | "Infinity" if *ctxt == ctx.unresolved_ctxt => NumberType,
             _ => return Unknown,
         }),
 

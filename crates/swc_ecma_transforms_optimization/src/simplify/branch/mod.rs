@@ -9,7 +9,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend_stmt, ExprCtx, ExprExt, ExprFactory, Hoister, IsEmpty,
-    StmtExt, StmtLike, Value::Known,
+    StmtExt, StmtLike, Type,
+    Value::{self, Known},
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -60,58 +61,6 @@ struct Remover {
     normal_block: bool,
 
     expr_ctx: ExprCtx,
-}
-
-/// Returns true if completing `expr` always produces a value accepted by
-/// RequireObjectCoercible.
-///
-/// Empty object destructuring still throws for nullish values, so this must
-/// remain conservative when removing the destructuring assignment.
-fn is_definitely_non_nullish(expr: &Expr) -> bool {
-    match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => is_definitely_non_nullish(expr),
-
-        Expr::Lit(Lit::Null(..))
-        | Expr::Unary(UnaryExpr {
-            op: op!("void"), ..
-        }) => false,
-
-        Expr::Lit(..)
-        | Expr::Array(..)
-        | Expr::Arrow(..)
-        | Expr::Class(..)
-        | Expr::Fn(..)
-        | Expr::New(..)
-        | Expr::Object(..)
-        | Expr::Tpl(..)
-        | Expr::Unary(..)
-        | Expr::Update(..) => true,
-
-        Expr::Assign(AssignExpr {
-            op: op!("="),
-            right,
-            ..
-        }) => is_definitely_non_nullish(right),
-
-        Expr::Bin(BinExpr {
-            op: op!("&&") | op!("||") | op!("??"),
-            left,
-            right,
-            ..
-        }) => is_definitely_non_nullish(left) && is_definitely_non_nullish(right),
-
-        Expr::Bin(..) => true,
-
-        Expr::Cond(CondExpr { cons, alt, .. }) => {
-            is_definitely_non_nullish(cons) && is_definitely_non_nullish(alt)
-        }
-
-        Expr::Seq(SeqExpr { exprs, .. }) => exprs
-            .last()
-            .is_some_and(|expr| is_definitely_non_nullish(expr)),
-
-        _ => false,
-    }
 }
 
 impl Parallel for Remover {
@@ -189,7 +138,11 @@ impl VisitMut for Remover {
                 ..
             }) if match &*left {
                 AssignTargetPat::Object(obj) => {
-                    obj.props.is_empty() && is_definitely_non_nullish(right)
+                    obj.props.is_empty()
+                        && !matches!(
+                            right.get_type(self.expr_ctx),
+                            Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                        )
                 }
                 _ => false,
             } =>

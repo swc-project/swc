@@ -1,7 +1,7 @@
 use par_iter::prelude::*;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Value};
+use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
@@ -10,62 +10,6 @@ use crate::{
     maybe_par,
     util::{make_bool, ModuleItemExt},
 };
-
-/// Returns true if completing `expr` always produces a value accepted by
-/// RequireObjectCoercible.
-///
-/// This deliberately recognizes only expression forms whose result is known
-/// from syntax. Calls and identifier references are excluded because their
-/// values can be nullish even when evaluating them has no observable effects.
-fn is_definitely_non_nullish(expr: &Expr) -> bool {
-    match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => is_definitely_non_nullish(expr),
-
-        Expr::Lit(Lit::Null(..))
-        | Expr::Unary(UnaryExpr {
-            op: op!("void"), ..
-        }) => false,
-
-        Expr::Lit(..)
-        | Expr::Array(..)
-        | Expr::Arrow(..)
-        | Expr::Class(..)
-        | Expr::Fn(..)
-        | Expr::New(..)
-        | Expr::Object(..)
-        | Expr::Tpl(..)
-        | Expr::Unary(..)
-        | Expr::Update(..) => true,
-
-        Expr::Assign(AssignExpr {
-            op: op!("="),
-            right,
-            ..
-        }) => is_definitely_non_nullish(right),
-
-        Expr::Bin(BinExpr {
-            op: op!("&&") | op!("||") | op!("??"),
-            left,
-            right,
-            ..
-        }) => is_definitely_non_nullish(left) && is_definitely_non_nullish(right),
-
-        // All other binary operators produce a primitive value if their
-        // operands complete evaluation. Replacing the outer assignment retains
-        // that operand evaluation and any exception it may produce.
-        Expr::Bin(..) => true,
-
-        Expr::Cond(CondExpr { cons, alt, .. }) => {
-            is_definitely_non_nullish(cons) && is_definitely_non_nullish(alt)
-        }
-
-        Expr::Seq(SeqExpr { exprs, .. }) => exprs
-            .last()
-            .is_some_and(|expr| is_definitely_non_nullish(expr)),
-
-        _ => false,
-    }
-}
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
@@ -96,7 +40,11 @@ impl Pure<'_> {
                 ..
             }) if match &*left {
                 AssignTargetPat::Object(obj) => {
-                    obj.props.is_empty() && is_definitely_non_nullish(right)
+                    obj.props.is_empty()
+                        && !matches!(
+                            right.get_type(self.expr_ctx),
+                            Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                        )
                 }
                 _ => false,
             } =>
