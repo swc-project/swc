@@ -5875,7 +5875,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "76.0.0"
+version = "76.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6155,7 +6155,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "78.0.0"
+version = "78.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6412,7 +6412,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "32.0.0"
+version = "32.0.1"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -6708,7 +6708,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "61.0.5"
+version = "61.0.6"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6751,7 +6751,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "45.1.1"
+version = "45.1.2"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -7053,7 +7053,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "52.0.0"
+version = "52.0.1"
 dependencies = [
  "bytes-str",
  "dashmap 6.1.0",
@@ -7155,7 +7155,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "55.0.2"
+version = "55.0.3"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
@@ -7179,7 +7179,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "35.0.1"
+version = "35.0.2"
 dependencies = [
  "dragonbox_ecma",
  "indexmap 2.12.0",
