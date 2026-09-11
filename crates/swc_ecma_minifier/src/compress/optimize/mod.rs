@@ -3388,9 +3388,13 @@ impl VisitMut for Optimizer<'_> {
                     continue;
                 }
 
-                // If initializer is none, we can check next item without thinking about side
-                // effects.
                 if v.init.is_none() {
+                    // Even without an initializer, `let` ends the binding's TDZ here.
+                    // Later initializers may assign to it, so their side effects must
+                    // not be moved before the declaration. `var` is already initialized.
+                    if self.ctx.bit_ctx.contains(BitCtx::IsLet) {
+                        can_prepend = false;
+                    }
                     continue;
                 }
 
