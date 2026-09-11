@@ -13,11 +13,11 @@ use swc_ecma_utils::{
     number::ToJsString, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value,
 };
 
-use super::Pure;
+use super::{array_join::join_to_concat, Pure};
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-        util::{eval_to_undefined, is_pure_undefined},
+        util::{eval_to_undefined, is_intrinsic_object_or_function, is_pure_undefined},
     },
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
@@ -87,16 +87,382 @@ fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
 /// Unlike [`is_pure_undefined`], this accepts expressions with effects because
 /// callers can preserve those effects separately.
 fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    let expr = unwrap_value_preserving_expr(expr);
+
     match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => eval_to_nullish(expr_ctx, expr),
         Expr::Seq(SeqExpr { exprs, .. }) => exprs
             .last()
             .is_some_and(|last| eval_to_nullish(expr_ctx, last)),
         Expr::Cond(CondExpr { cons, alt, .. }) => {
             eval_to_nullish(expr_ctx, cons) && eval_to_nullish(expr_ctx, alt)
         }
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => eval_to_nullish(expr_ctx, right),
+        Expr::Await(AwaitExpr { arg, .. }) => eval_to_nullish(expr_ctx, arg),
         Expr::Lit(Lit::Null(..)) => true,
         _ => eval_to_undefined(expr_ctx, expr),
+    }
+}
+
+/// Returns true if an expression has an explicit path that produces a nullish
+/// value. Unknown values remain eligible for unsafe join folding.
+fn may_explicitly_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    let expr = unwrap_value_preserving_expr(expr);
+
+    match expr {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_explicitly_evaluate_to_nullish(expr_ctx, last)),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_explicitly_evaluate_to_nullish(expr_ctx, cons)
+                || may_explicitly_evaluate_to_nullish(expr_ctx, alt)
+        }
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_explicitly_evaluate_to_nullish(expr_ctx, right),
+        // Logical assignments can return either the previous target value or
+        // the right-hand side. Keep join when either path could be nullish.
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
+        Expr::Await(AwaitExpr { arg, .. }) => may_explicitly_evaluate_to_nullish(expr_ctx, arg),
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => {
+            may_explicitly_evaluate_to_nullish(expr_ctx, left)
+                || may_explicitly_evaluate_to_nullish(expr_ctx, right)
+        }
+        // A direct eval can produce nullish, which join renders as an empty
+        // string instead of the "null" or "undefined" from concatenation.
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) if callee.is_global_ref_to(expr_ctx, "eval")
+        // `alert`, `queueMicrotask`, and timer cancellation calls always return
+        // undefined, which join renders as an empty string instead of the
+        // "undefined" from concatenation.
+            || callee.is_global_ref_to(expr_ctx, "alert")
+            || callee.is_global_ref_to(expr_ctx, "queueMicrotask")
+            || callee.is_global_ref_to(expr_ctx, "clearImmediate")
+            || callee.is_global_ref_to(expr_ctx, "clearInterval")
+            || callee.is_global_ref_to(expr_ctx, "clearTimeout") =>
+        {
+            true
+        }
+        // `structuredClone` preserves null and undefined, which join renders
+        // as an empty string instead of the "null" or "undefined" from
+        // concatenation.
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) if callee.is_global_ref_to(expr_ctx, "structuredClone") => true,
+        // `prompt` can return null when the user cancels, which join renders
+        // as an empty string instead of the "null" from concatenation.
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) if callee.is_global_ref_to(expr_ctx, "prompt") => true,
+        // An optional chain can short-circuit to undefined, which join renders
+        // as an empty string instead of the "undefined" from concatenation.
+        Expr::OptChain(..) => true,
+        // `new.target` is undefined when a function is not called as a
+        // constructor, which join renders as an empty string.
+        Expr::MetaProp(MetaPropExpr {
+            kind: MetaPropKind::NewTarget,
+            ..
+        }) => true,
+        // The browser `opener` global is null when the window has no opener.
+        Expr::Ident(ident) if ident.ctxt == expr_ctx.unresolved_ctxt && ident.sym == "opener" => {
+            true
+        }
+        Expr::Lit(Lit::Null(..)) => true,
+        _ => eval_to_undefined(expr_ctx, expr),
+    }
+}
+
+/// Removes syntax-only wrappers that do not affect an expression's runtime
+/// value.
+fn unwrap_value_preserving_expr(mut expr: &Expr) -> &Expr {
+    loop {
+        expr = match expr {
+            Expr::Paren(ParenExpr { expr: inner, .. })
+            | Expr::TsAs(TsAsExpr { expr: inner, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr: inner, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr: inner, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr: inner, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr: inner, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr: inner, .. }) => inner,
+            _ => return expr,
+        };
+    }
+}
+
+/// Whether addition could coerce this expression with a different primitive
+/// hint than `join`. Value-selecting expressions can retain an object-valued
+/// branch, so retain the join when a later element can observe the coercion
+/// order.
+fn may_evaluate_to_object(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    let expr = unwrap_value_preserving_expr(expr);
+
+    match expr {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_evaluate_to_object(expr_ctx, last)),
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_evaluate_to_object(expr_ctx, right),
+        // Logical assignments can return either the previous target value or
+        // the right-hand side, either of which can retain object coercion.
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
+        Expr::Await(AwaitExpr { arg, .. })
+            if matches!(
+                &**arg,
+                Expr::Call(CallExpr {
+                    callee: Callee::Import(..),
+                    ..
+                })
+            ) =>
+        {
+            true
+        }
+        Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_object(expr_ctx, arg),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_evaluate_to_object(expr_ctx, cons) || may_evaluate_to_object(expr_ctx, alt)
+        }
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => may_evaluate_to_object(expr_ctx, left) || may_evaluate_to_object(expr_ctx, right),
+        Expr::Call(CallExpr {
+            callee: Callee::Super(..),
+            ..
+        }) => true,
+        Expr::Call(CallExpr {
+            callee: Callee::Import(..),
+            ..
+        }) => true,
+        Expr::MetaProp(MetaPropExpr {
+            kind: MetaPropKind::ImportMeta,
+            ..
+        }) => true,
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) => may_call_evaluate_to_object(expr_ctx, callee),
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Member(..) => true,
+            OptChainBase::Call(OptCall { callee, .. }) => {
+                may_call_evaluate_to_object(expr_ctx, callee)
+            }
+        },
+        Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_object(expr_ctx, tag),
+        // A yielded value can be an object whose string-hint coercion differs
+        // from addition's default-hint coercion.
+        Expr::Yield(..) => true,
+        // JSX is lowered after minification. A custom JSX factory can return
+        // an object whose string-hint coercion differs from addition's
+        // default-hint coercion.
+        Expr::Arrow(..)
+        | Expr::Class(..)
+        | Expr::This(..)
+        | Expr::JSXElement(..)
+        | Expr::JSXFragment(..) => true,
+        // A member read can expose an object whose string-hint coercion differs
+        // from addition's default-hint coercion.
+        Expr::Member(..) | Expr::SuperProp(..) => true,
+        Expr::Ident(ident)
+            if ident.ctxt == expr_ctx.unresolved_ctxt
+                && (is_intrinsic_object_or_function(&ident.sym) || ident.sym == "arguments") =>
+        {
+            true
+        }
+        // A locally bound value can be an object whose string-hint coercion
+        // differs from addition's default-hint coercion. Unresolved globals
+        // retain the existing unsafe folding behavior.
+        Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt => true,
+        _ => expr.get_type(expr_ctx) == Value::Known(Type::Obj),
+    }
+}
+
+/// Whether a call's callee can produce an object result whose coercion hint is
+/// observable. Only unresolved global identifiers retain the existing unsafe
+/// folding behavior; every dynamically computed callee is unknown at compile
+/// time and may produce an object.
+fn may_call_evaluate_to_object(expr_ctx: ExprCtx, callee: &Expr) -> bool {
+    let callee = unwrap_value_preserving_expr(callee);
+
+    match callee {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_call_evaluate_to_object(expr_ctx, last)),
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_call_evaluate_to_object(expr_ctx, right),
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
+        Expr::Await(AwaitExpr { arg, .. }) => may_call_evaluate_to_object(expr_ctx, arg),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_call_evaluate_to_object(expr_ctx, cons)
+                || may_call_evaluate_to_object(expr_ctx, alt)
+        }
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => {
+            may_call_evaluate_to_object(expr_ctx, left)
+                || may_call_evaluate_to_object(expr_ctx, right)
+        }
+        // Pristine direct-call globals that always produce objects can retain
+        // observable string coercion. Direct eval can dynamically produce an
+        // object. Other unresolved globals preserve the existing unsafe-folding
+        // behavior.
+        Expr::Ident(ident) => {
+            ident.ctxt != expr_ctx.unresolved_ctxt
+                || matches!(
+                    &*ident.sym,
+                    "eval"
+                        | "Object"
+                        | "Array"
+                        | "RegExp"
+                        | "Function"
+                        | "Error"
+                        | "AggregateError"
+                        | "SuppressedError"
+                        | "EvalError"
+                        | "RangeError"
+                        | "ReferenceError"
+                        | "SyntaxError"
+                        | "TypeError"
+                        | "URIError"
+                        // `fetch` returns a Promise object whose string coercion
+                        // can be observed after later join elements run.
+                        | "fetch"
+                        // Node timer creation APIs return handles whose string
+                        // coercion can be observed after later join elements run.
+                        | "setImmediate"
+                        | "setInterval"
+                        | "setTimeout"
+                        // `structuredClone` can return an object whose string
+                        // coercion can be observed after later join elements run.
+                        | "structuredClone"
+                )
+        }
+        Expr::Member(..)
+        | Expr::SuperProp(..)
+        | Expr::OptChain(..)
+        | Expr::Arrow(..)
+        | Expr::Fn(..) => true,
+        _ => true,
+    }
+}
+
+/// Whether coercing this expression to a string can throw because it is a
+/// Symbol. Locally bound and member calls have an unknown result type, but a
+/// returned Symbol must still defer its throw until every join element has
+/// been evaluated. Unresolved calls retain the existing unsafe-pass behavior.
+fn may_evaluate_to_symbol(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    let expr = unwrap_value_preserving_expr(expr);
+
+    match expr {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_evaluate_to_symbol(expr_ctx, last)),
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_evaluate_to_symbol(expr_ctx, right),
+        // Logical assignments can evaluate to either the existing target value
+        // or the right-hand side. The target may be a Symbol even when the
+        // right-hand side is not, so retain join's deferred coercion.
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
+        Expr::Await(AwaitExpr { arg, .. }) => may_evaluate_to_symbol(expr_ctx, arg),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_evaluate_to_symbol(expr_ctx, cons) || may_evaluate_to_symbol(expr_ctx, alt)
+        }
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => may_evaluate_to_symbol(expr_ctx, left) || may_evaluate_to_symbol(expr_ctx, right),
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) => may_call_evaluate_to_symbol(expr_ctx, callee),
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Member(..) => true,
+            OptChainBase::Call(OptCall { callee, .. }) => {
+                may_call_evaluate_to_symbol(expr_ctx, callee)
+            }
+        },
+        Expr::TaggedTpl(TaggedTpl { tag, .. }) => may_call_evaluate_to_symbol(expr_ctx, tag),
+        // A yielded value can be a Symbol, whose concatenation throw must
+        // remain deferred until every join element has been evaluated.
+        Expr::Yield(..) => true,
+        Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt => true,
+        // A member read can produce a Symbol, whose concatenation throw must
+        // remain deferred until after join has evaluated later elements.
+        Expr::Member(..) => true,
+        _ => matches!(expr.get_type(expr_ctx), Value::Known(Type::Symbol)),
+    }
+}
+
+/// Whether a call's callee can produce a Symbol result. Locally bound, member,
+/// and function-expression callees are unknown at compile time, while
+/// unresolved calls retain the existing unsafe-pass behavior.
+fn may_call_evaluate_to_symbol(expr_ctx: ExprCtx, callee: &Expr) -> bool {
+    let callee = unwrap_value_preserving_expr(callee);
+
+    match callee {
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .last()
+            .is_some_and(|last| may_call_evaluate_to_symbol(expr_ctx, last)),
+        Expr::Assign(AssignExpr {
+            op: op!("="),
+            right,
+            ..
+        }) => may_call_evaluate_to_symbol(expr_ctx, right),
+        Expr::Assign(AssignExpr { op, .. }) if op.may_short_circuit() => true,
+        Expr::Await(AwaitExpr { arg, .. }) => may_call_evaluate_to_symbol(expr_ctx, arg),
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            may_call_evaluate_to_symbol(expr_ctx, cons)
+                || may_call_evaluate_to_symbol(expr_ctx, alt)
+        }
+        Expr::Bin(BinExpr {
+            op: op!("&&") | op!("||") | op!("??"),
+            left,
+            right,
+            ..
+        }) => {
+            may_call_evaluate_to_symbol(expr_ctx, left)
+                || may_call_evaluate_to_symbol(expr_ctx, right)
+        }
+        _ => {
+            callee.is_global_ref_to(expr_ctx, "eval")
+                || callee.is_global_ref_to(expr_ctx, "Symbol")
+                || matches!(
+                    callee,
+                    Expr::Ident(ident) if ident.ctxt != expr_ctx.unresolved_ctxt
+                )
+                || matches!(
+                    callee,
+                    Expr::Member(..) | Expr::OptChain(..) | Expr::Arrow(..) | Expr::Fn(..)
+                )
+        }
     }
 }
 
@@ -797,10 +1163,22 @@ impl Pure<'_> {
             return None; // Pure literal case will be handled elsewhere
         }
 
+        // A singleton never uses the separator, but its element is evaluated
+        // before the `join` method lookup. Do not replace an effectful element
+        // with concatenation because it can change or remove that method.
+        // Identifier reads retain the minifier's documented side-effect-free
+        // top-level identifier assumption.
+        let is_string_concat = separator.is_empty()
+            || (self.options.unsafe_passes
+                && elems.len() == 1
+                && elems[0].as_ref().is_some_and(|elem| {
+                    elem.expr.is_ident() || !elem.expr.may_have_side_effects(self.expr_ctx)
+                }));
+
         // For non-empty separators, only optimize if we have at least 2 consecutive
         // literals This prevents infinite loop and ensures meaningful
         // optimization
-        if !separator.is_empty() {
+        if !is_string_concat {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
 
@@ -836,10 +1214,6 @@ impl Pure<'_> {
             if separator == "," && max_consecutive < 6 {
                 return None;
             }
-        } else {
-            // For empty string joins, optimize more aggressively since we're
-            // doing string concatenation We can always optimize
-            // these as long as there are mixed expressions and literals
         }
 
         // Group consecutive literals and create a string concatenation expression
@@ -873,66 +1247,87 @@ impl Pure<'_> {
             groups.push(GroupType::Literals(current_group));
         }
 
-        // If we don't have any grouped literals, no optimization possible
-        if groups.iter().all(|g| matches!(g, GroupType::Expression(_))) {
+        if !(is_string_concat && self.options.unsafe_passes)
+            && groups.iter().all(|g| matches!(g, GroupType::Expression(_)))
+        {
             return None;
         }
 
-        // Handle different separators
-        let is_string_concat = separator.is_empty();
+        // The unsafe all-expression folding path can replace the `join` call
+        // entirely. Array elements are evaluated before that method lookup,
+        // so keep the call if an element can change or remove the method.
+        if self.options.unsafe_passes
+            && is_string_concat
+            && groups.iter().all(|g| matches!(g, GroupType::Expression(_)))
+            && elems
+                .iter()
+                .flatten()
+                .any(|elem| self.may_affect_array_join_lookup(&elem.expr))
+        {
+            return None;
+        }
 
         if is_string_concat {
-            if !self.options.unsafe_passes
-                && groups.iter().any(|group| match group {
-                    GroupType::Literals(_) => false,
-                    GroupType::Expression(expr) => {
+            // Unsafe join folding assumes unknown dynamic values are non-nullish
+            // and suitable for ordinary string concatenation. Explicit nullish
+            // expressions with effects must still keep join's empty-string
+            // behavior; only pure nullish values belong in literal groups.
+            if groups.iter().any(|group| match group {
+                GroupType::Literals(_) => false,
+                GroupType::Expression(expr) => {
+                    if self.options.unsafe_passes {
+                        may_explicitly_evaluate_to_nullish(self.expr_ctx, &expr.expr)
+                    } else {
                         may_evaluate_to_nullish(self.expr_ctx, &expr.expr)
                     }
+                }
+            }) {
+                return None;
+            }
+
+            // A sequence can evaluate a later join element after an earlier
+            // value has been captured. Concatenation can coerce that earlier
+            // value before the sequence runs, so preserve join's evaluation
+            // order for this shape.
+            if self.options.unsafe_passes && groups.iter().any(|group| {
+                matches!(group, GroupType::Expression(expr) if matches!(&*expr.expr, Expr::Seq(..)))
+            }) {
+                return None;
+            }
+
+            // Join evaluates every element before coercing any of them. A
+            // Symbol result throws during concatenation, which would otherwise
+            // skip evaluation of later dynamic elements.
+            if self.options.unsafe_passes
+                && groups.iter().enumerate().any(|(index, group)| {
+                    matches!(
+                        group,
+                        GroupType::Expression(expr)
+                            if may_evaluate_to_symbol(self.expr_ctx, &expr.expr)
+                    ) && groups[index + 1..]
+                        .iter()
+                        .any(|group| matches!(group, GroupType::Expression(..)))
+                })
+            {
+                return None;
+            }
+
+            // Addition uses the default primitive hint for objects, while join
+            // uses the string hint.
+            if self.options.unsafe_passes
+                && groups.iter().any(|group| {
+                    matches!(
+                        group,
+                        GroupType::Expression(expr)
+                            if may_evaluate_to_object(self.expr_ctx, &expr.expr)
+                    )
                 })
             {
                 return None;
             }
 
             // Convert to string concatenation
-            let mut result_parts = Vec::new();
-
-            // Only add empty string prefix when the first element is a non-string
-            // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion.
-            let needs_empty_string_prefix = match groups.first() {
-                Some(GroupType::Expression(first_expr)) => {
-                    let first_needs_coercion = match &*first_expr.expr {
-                        Expr::Bin(BinExpr {
-                            op: op!(bin, "+"), ..
-                        }) => {
-                            // `+` is only already a string concatenation when its
-                            // result is proven to be a string. Otherwise adjacent
-                            // join elements could be added numerically first.
-                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
-                        }
-                        Expr::Lit(Lit::Str(..)) => false,
-                        Expr::Call(..) => true,
-                        _ => true,
-                    };
-
-                    // A following literal provides the string coercion for the
-                    // first element before the next dynamic element is evaluated.
-                    if first_needs_coercion {
-                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
-                    } else {
-                        false
-                    }
-                }
-                _ => false,
-            };
-
-            if needs_empty_string_prefix {
-                result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
-                    span: DUMMY_SP,
-                    raw: None,
-                    value: atom!("").into(),
-                }))));
-            }
+            let mut result_parts = Vec::with_capacity(groups.len() + 1);
 
             for group in groups {
                 match group {
@@ -970,22 +1365,7 @@ impl Pure<'_> {
                 }
             }
 
-            // Create string concatenation expression
-            if result_parts.len() == 1 {
-                return Some(*result_parts.into_iter().next().unwrap());
-            }
-
-            let mut result = *result_parts.remove(0);
-            for part in result_parts {
-                result = Expr::Bin(BinExpr {
-                    span: DUMMY_SP,
-                    left: Box::new(result),
-                    op: op!(bin, "+"),
-                    right: part,
-                });
-            }
-
-            Some(result)
+            join_to_concat(result_parts, self.expr_ctx, self.options.unsafe_passes)
         } else {
             // For non-empty separator, create a more compact array
             let mut new_elems = Vec::new();
@@ -1065,6 +1445,50 @@ impl Pure<'_> {
                 args,
                 ..Default::default()
             }))
+        }
+    }
+
+    /// Whether evaluating an array element can affect the later `join` lookup.
+    fn may_affect_array_join_lookup(&self, expr: &Expr) -> bool {
+        match expr {
+            // Reading an unresolved global can run an accessor before `join`
+            // looks up Array.prototype.join. Declared identifiers are covered
+            // by the minifier's side-effect-free binding assumption.
+            Expr::Ident(ident) => ident.ctxt == self.expr_ctx.unresolved_ctxt,
+            Expr::Lit(..) => false,
+            Expr::Paren(ParenExpr { expr, .. })
+            | Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::TsInstantiation(TsInstantiation { expr, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
+                self.may_affect_array_join_lookup(expr)
+            }
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            }) => true,
+            Expr::Unary(UnaryExpr { arg, .. }) => self.may_affect_array_join_lookup(arg),
+            // These operators can invoke user-defined hooks before the join
+            // method lookup (`Symbol.hasInstance` and Proxy's `has` trap).
+            Expr::Bin(BinExpr {
+                op: op!("in") | op!("instanceof"),
+                ..
+            }) => true,
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.may_affect_array_join_lookup(left) || self.may_affect_array_join_lookup(right)
+            }
+            Expr::Cond(CondExpr {
+                test, cons, alt, ..
+            }) => {
+                self.may_affect_array_join_lookup(test)
+                    || self.may_affect_array_join_lookup(cons)
+                    || self.may_affect_array_join_lookup(alt)
+            }
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs
+                .iter()
+                .any(|expr| self.may_affect_array_join_lookup(expr)),
+            _ => expr.may_have_side_effects(self.expr_ctx),
         }
     }
 
@@ -2334,6 +2758,10 @@ impl Pure<'_> {
                     // the iterator but skip its observable iteration, including errors thrown
                     // by the iterator.
                     && !args.iter().flatten().any(|arg| arg.spread.is_some())
+                    && args
+                        .as_deref()
+                        .map(|args| args.iter().all(|arg| arg.spread.is_none()))
+                        .unwrap_or(true)
                     && args
                         .as_deref()
                         .and_then(|arg| arg.first())

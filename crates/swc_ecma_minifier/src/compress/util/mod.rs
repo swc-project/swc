@@ -14,6 +14,11 @@ use crate::util::ModuleItemExt;
 #[cfg(test)]
 mod tests;
 
+mod coercion;
+pub(crate) use coercion::{
+    is_intrinsic_object_or_function, may_evaluate_to_object, may_evaluate_to_symbol,
+};
+
 /// Creates `!e` where e is the expression passed as an argument.
 ///
 /// Returns true if this modified ast.
