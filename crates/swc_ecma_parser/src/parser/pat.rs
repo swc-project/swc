@@ -824,7 +824,10 @@ impl<I: Tokens> Parser<I> {
 
             if !self.input().is(Token::RParen) {
                 expect!(self, Token::Comma);
-                if self.input().is(Token::RParen) && is_rest {
+                if self.input().is(Token::RParen)
+                    && is_rest
+                    && (!self.ctx().contains(Context::InDeclare) || self.syntax().flow())
+                {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
                 }
             }
@@ -904,7 +907,11 @@ impl<I: Tokens> Parser<I> {
 
             if !self.input().is(Token::RParen) {
                 expect!(self, Token::Comma);
-                if is_rest && self.input().is(Token::RParen) {
+                // Ambient TypeScript signatures allow a trailing comma after rest.
+                if is_rest
+                    && self.input().is(Token::RParen)
+                    && (!self.ctx().contains(Context::InDeclare) || self.syntax().flow())
+                {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
                 }
             }
