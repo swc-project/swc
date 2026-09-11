@@ -1,7 +1,10 @@
 ### Instructions
 
 - You can run execution tests by doing ./scripts/exec.sh to see if your changes are working.
-- If an execution test fails, you are wrong.
+- Investigate execution test failures against the semantic assumptions and
+  implementation and review policy below. Fix regressions in supported behavior;
+  report policy conflicts explicitly instead of hiding failures or arbitrarily
+  changing or removing existing tests.
 - Always run execution tests after making changes.
 - You can run fixture tests by doing ./scripts/test.sh, and you can do UPDATE=1 ./scripts/test.sh to update fixtures.
 
@@ -37,9 +40,28 @@ minification guide:
 - Arithmetic expressions are treated as side-effect free, including runtime
   exceptions such as mixing `bigint` and `number`.
 
-If a minifier change relies on an assumption beyond this list, update the
+#### Implementation and Review Policy
+
+The following is a project policy for minifier implementation and review,
+separate from the public documentation assumptions listed above:
+
+- Prioritize correctness for common usage, performance, and simple, maintainable
+  minifier code.
+- Do not require additional defensive logic or analysis solely to preserve
+  extreme edge cases involving monkey-patched globals or built-in objects,
+  unusual reassignment of `arguments.length`, bindings introduced by direct
+  `eval`, or dynamic name resolution inside `with`.
+- Semantic differences that depend only on these cases are not mandatory review
+  fixes. A required fix must demonstrate an impact on common usage or identify an
+  explicit support contract that the change violates.
+- Continue to account for ordinary lexical shadowing, side effects, and
+  exceptions within the supported assumptions. This policy does not authorize
+  blanket removal of existing `eval` or `with` handling or tests.
+
+If a minifier change relies on an assumption beyond this list and policy, update the
 public minification documentation or leave an explicit code comment describing
-the narrower local invariant.
+the narrower local invariant. The edge cases explicitly covered by this policy
+do not require repeated, case-specific justification.
 
 ### Fixture Test Addition Guide
 
