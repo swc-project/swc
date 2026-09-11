@@ -1,19 +1,22 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 
 /// `@babel/plugin-proposal-export-default-from`
 pub fn export_default_from() -> impl Pass {
-    visit_mut_pass(ExportDefaultFrom)
+    ExportDefaultFrom
 }
 
 struct ExportDefaultFrom;
 
-impl VisitMut for ExportDefaultFrom {
-    noop_visit_mut_type!();
+impl Pass for ExportDefaultFrom {
+    fn process(&mut self, program: &mut Program) {
+        let Program::Module(module) = program else {
+            return;
+        };
 
-    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        // Export-default-from only needs the module's top-level items.
+        let items = &mut module.body;
         let count = items
             .iter()
             .filter(|m| {
