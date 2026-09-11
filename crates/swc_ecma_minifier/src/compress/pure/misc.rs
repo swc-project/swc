@@ -17,7 +17,7 @@ use super::Pure;
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-        util::{eval_to_undefined, is_pure_undefined},
+        util::is_pure_undefined,
     },
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
@@ -58,45 +58,6 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
         }
     } else {
         true
-    }
-}
-
-fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    if is_pure_undefined(expr_ctx, expr) || matches!(expr, Expr::Lit(Lit::Null(..))) {
-        return true;
-    }
-
-    match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => may_evaluate_to_nullish(expr_ctx, expr),
-        Expr::Seq(SeqExpr { exprs, .. }) => match exprs.last() {
-            Some(last) => may_evaluate_to_nullish(expr_ctx, last),
-            None => false,
-        },
-        Expr::Cond(CondExpr { cons, alt, .. }) => {
-            may_evaluate_to_nullish(expr_ctx, cons) || may_evaluate_to_nullish(expr_ctx, alt)
-        }
-        _ => matches!(
-            expr.get_type(expr_ctx),
-            Value::Known(Type::Undefined | Type::Null) | Value::Unknown
-        ),
-    }
-}
-
-/// Returns true if evaluating `expr` always produces a nullish value.
-///
-/// Unlike [`is_pure_undefined`], this accepts expressions with effects because
-/// callers can preserve those effects separately.
-fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => eval_to_nullish(expr_ctx, expr),
-        Expr::Seq(SeqExpr { exprs, .. }) => exprs
-            .last()
-            .is_some_and(|last| eval_to_nullish(expr_ctx, last)),
-        Expr::Cond(CondExpr { cons, alt, .. }) => {
-            eval_to_nullish(expr_ctx, cons) && eval_to_nullish(expr_ctx, alt)
-        }
-        Expr::Lit(Lit::Null(..)) => true,
-        _ => eval_to_undefined(expr_ctx, expr),
     }
 }
 
@@ -885,9 +846,10 @@ impl Pure<'_> {
             if !self.options.unsafe_passes
                 && groups.iter().any(|group| match group {
                     GroupType::Literals(_) => false,
-                    GroupType::Expression(expr) => {
-                        may_evaluate_to_nullish(self.expr_ctx, &expr.expr)
-                    }
+                    GroupType::Expression(expr) => matches!(
+                        &expr.expr.get_type(self.expr_ctx,),
+                        Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                    ),
                 })
             {
                 return None;
@@ -2339,8 +2301,10 @@ impl Pure<'_> {
                         .and_then(|arg| arg.first())
                         .map(|arg| {
                             arg.spread.is_none()
-                                && (eval_to_nullish(self.expr_ctx, &arg.expr)
-                                    || is_valid_map_set_init(&arg.expr, self.expr_ctx, callee))
+                                && (matches!(
+                                    &arg.expr.get_type(self.expr_ctx,),
+                                    Value::Known(Type::Null | Type::Undefined)
+                                ) || is_valid_map_set_init(&arg.expr, self.expr_ctx, callee))
                         })
                         .unwrap_or(true) =>
                 {
