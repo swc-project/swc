@@ -194,8 +194,6 @@ fn run_with_source(
         let lexer = Lexer::new(
             Syntax::Es(EsSyntax {
                 jsx: true,
-                decorators: true,
-                auto_accessors: true,
                 ..Default::default()
             }),
             Default::default(),

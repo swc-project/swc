@@ -858,14 +858,14 @@ pub fn class_has_side_effect(expr_ctx: ExprCtx, c: &Class) -> bool {
                 }
 
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
             }
             ClassMember::PrivateProp(p) => {
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
