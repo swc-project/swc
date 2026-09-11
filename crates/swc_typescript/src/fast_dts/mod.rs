@@ -408,7 +408,7 @@ impl FastDts {
                                     member_expr
                                         .prop
                                         .static_name()
-                                        .is_some_and(|name| properties.contains(name))
+                                        .is_some_and(|name| properties.contains(name.as_ref()))
                                 })
                         {
                             self.function_with_assigning_properties(member_expr.span);
