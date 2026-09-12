@@ -2630,6 +2630,12 @@ impl<I: Tokens> Parser<I> {
                 Pat::Array(pat) => TsFnParam::Array(pat),
                 Pat::Object(pat) => TsFnParam::Object(pat),
                 Pat::Rest(pat) => TsFnParam::Rest(pat),
+                // Parameter initializers are illegal in type / call signatures
+                // (TS2371). Recover by keeping the binding and reporting once.
+                Pat::Assign(a) => {
+                    p.emit_err(a.span(), SyntaxError::TS2371);
+                    return pat_to_ts_fn_param(p, *a.left);
+                }
                 _ => unexpected!(
                     p,
                     "an identifier, [ for an array pattern, { for an object patter or ... for a \
@@ -2719,6 +2725,9 @@ impl<I: Tokens> Parser<I> {
             }
 
             expect!(self, Token::RParen);
+            for param in &list {
+                self.emit_ts2371_for_ts_fn_param(param);
+            }
             return Ok(list);
         }
 
@@ -2729,7 +2738,49 @@ impl<I: Tokens> Parser<I> {
             list.push(pat_to_ts_fn_param(self, param.pat)?);
         }
         expect!(self, Token::RParen);
+        // Nested object/array defaults in type positions never go through
+        // `parse_fn_args_body`'s post-walk; check them here.
+        for param in &list {
+            self.emit_ts2371_for_ts_fn_param(param);
+        }
         Ok(list)
+    }
+
+    /// Emit TS2371 for initializers nested in a type/call/method signature
+    /// parameter. Top-level `AssignPat` is already reported while converting to
+    /// [`TsFnParam`]; this covers object shorthand / nested defaults.
+    fn emit_ts2371_for_ts_fn_param(&mut self, param: &TsFnParam) {
+        match param {
+            TsFnParam::Ident(_) => {}
+            TsFnParam::Array(arr) => {
+                for elem in arr.elems.iter().flatten() {
+                    self.emit_ts2371_for_param_initializers(elem);
+                }
+            }
+            TsFnParam::Object(obj) => {
+                for prop in &obj.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, .. })
+                        | ObjectPatProp::Rest(RestPat { arg: value, .. }) => {
+                            self.emit_ts2371_for_param_initializers(value);
+                        }
+                        ObjectPatProp::Assign(AssignPatProp {
+                            span,
+                            value: Some(_),
+                            ..
+                        }) => {
+                            self.emit_err(*span, SyntaxError::TS2371);
+                        }
+                        ObjectPatProp::Assign(AssignPatProp { value: None, .. }) => {}
+                        #[cfg(swc_ast_unknown)]
+                        _ => {}
+                    }
+                }
+            }
+            TsFnParam::Rest(r) => self.emit_ts2371_for_param_initializers(&r.arg),
+            #[cfg(swc_ast_unknown)]
+            _ => {}
+        }
     }
 
     /// `tsIsStartOfMappedType`

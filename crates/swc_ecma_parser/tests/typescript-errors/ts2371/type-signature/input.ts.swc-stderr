@@ -1,0 +1,41 @@
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/type-signature/input.ts:1:1]
+ 1 | type T1 = (a = 1) => void;
+   :            ^^^^^
+ 2 | type T2 = ({ a = 1 }: { a?: number }) => void;
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/type-signature/input.ts:2:1]
+ 1 | type T1 = (a = 1) => void;
+ 2 | type T2 = ({ a = 1 }: { a?: number }) => void;
+   :              ^^^^^
+ 3 | type T3 = ({ a: b = 1 }: { a?: number }) => void;
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/type-signature/input.ts:3:1]
+ 2 | type T2 = ({ a = 1 }: { a?: number }) => void;
+ 3 | type T3 = ({ a: b = 1 }: { a?: number }) => void;
+   :                 ^^^^^
+ 4 | interface I {
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/type-signature/input.ts:5:1]
+ 4 | interface I {
+ 5 |   (x = 1): void;
+   :    ^^^^^
+ 6 |   ({ a = 1 }: { a?: number }): void;
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/type-signature/input.ts:6:1]
+ 5 |   (x = 1): void;
+ 6 |   ({ a = 1 }: { a?: number }): void;
+   :      ^^^^^
+ 7 |   method({ a = 1 }: { a?: number }): void;
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/type-signature/input.ts:7:1]
+ 6 |   ({ a = 1 }: { a?: number }): void;
+ 7 |   method({ a = 1 }: { a?: number }): void;
+   :            ^^^^^
+ 8 | }
+   `----

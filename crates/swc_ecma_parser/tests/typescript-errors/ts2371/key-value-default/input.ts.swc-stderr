@@ -1,0 +1,5 @@
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/key-value-default/input.ts:1:1]
+ 1 | declare function foo({ a: b = 1 }: { a?: number }): void;
+   :                           ^^^^^
+   `----

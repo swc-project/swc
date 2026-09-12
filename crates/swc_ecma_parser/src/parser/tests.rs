@@ -52,6 +52,25 @@ fn assert_script_error(src: &'static str) -> Script {
 }
 
 #[test]
+fn ts2371_declare_params_are_not_duplicated() {
+    // Eager parse-time TS2371 plus the post-list walker must not double-report.
+    test_parser(
+        "declare function top(a = 1): void; declare function obj({ a = 1 }): void;",
+        Syntax::Typescript(Default::default()),
+        |p| {
+            let _ = p.parse_typescript_module()?;
+            let errors = p.take_errors();
+            let n = errors
+                .iter()
+                .filter(|e| matches!(e.kind(), crate::error::SyntaxError::TS2371))
+                .count();
+            assert_eq!(n, 2, "{errors:?}");
+            Ok(())
+        },
+    );
+}
+
+#[test]
 fn parse_program_module_01() {
     module("import 'foo';");
     module("export const a = 1;");
