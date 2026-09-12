@@ -95,11 +95,9 @@ impl Context {
     /// Note that we removes comment from the comment map because `.babelify`
     /// takes `self`. (not reference)
     fn base(&self, span: Span) -> BaseNode {
-        let leading_comments = self
-            .comments
-            .take_leading(span.lo)
-            .map(|v| self.convert_comments(v))
-            .unwrap_or_default();
+        let leading_comments = self.convert_comments(
+            self.comments.take_leading(span.lo)
+        );
         let trailing_comments = self
             .comments
             .take_trailing(span.hi)

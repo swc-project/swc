@@ -89,19 +89,17 @@ impl Comments for SwcComments {
     }
 
     fn move_leading(&self, from: BytePos, to: BytePos) {
-        let cmt = self.take_leading(from);
+        let mut cmt = self.take_leading(from);
 
-        if let Some(mut cmt) = cmt {
             if from < to && self.has_leading(to) {
-                cmt.extend(self.take_leading(to).unwrap());
+                cmt.extend(self.take_leading(to));
             }
 
             self.add_leading_comments(to, cmt);
-        }
     }
 
-    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.remove(&pos).map(|v| v.1)
+    fn take_leading(&self, pos: BytePos) -> Vec<Comment> {
+        self.leading.remove(&pos).map(|v| v.1).expect("Comment should exist")
     }
 
     fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
