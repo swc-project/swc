@@ -40,7 +40,3 @@ swc_ecma_parser             = { version = "45.1.2", path = "../swc_ecma_parser" 
 swc_ecma_transforms_compat  = { version = "57.0.1", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_testing = { version = "53.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "27.0.0", path = "../testing" }
-
-[[bench]]
-harness = false
-name    = "export_default_from"
