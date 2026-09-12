@@ -20,7 +20,7 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 rustc-hash = { workspace = true }
 swc_atoms = { version = "10.0.0", path = "../swc_atoms" }
 swc_common = { version = "26.0.0", path = "../swc_common" }
-swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "29.0.1", path = "../swc_ecma_ast" }
 swc_ecma_compat_regexp = { version = "9.0.0", path = "../swc_ecma_compat_regexp" }
 swc_ecma_hooks = { version = "1.0.0", path = "../swc_ecma_hooks" }
 swc_ecma_regexp = { version = "0.15.0", path = "../swc_ecma_regexp" }

@@ -41,7 +41,7 @@ seq-macro      = { workspace = true }
 serde          = { workspace = true, features = ["derive"] }
 swc_atoms      = { version = "10.0.0", path = "../swc_atoms" }
 swc_common     = { version = "26.0.0", path = "../swc_common" }
-swc_ecma_ast   = { version = "29.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast   = { version = "29.0.1", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "29.0.0", path = "../swc_ecma_visit", optional = true }
 tracing        = { workspace = true }
 
@@ -56,7 +56,7 @@ walkdir           = { workspace = true }
 
 cbor4ii = { workspace = true, features = ["use_std"] }
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "29.0.1", path = "../swc_ecma_ast", features = [
   "serde-impl",
   "encoding-impl",
 ] }

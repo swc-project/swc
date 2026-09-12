@@ -33,7 +33,7 @@ swc_common = { version = "26.0.0", path = "../swc_common" }
 swc_config = { version = "6.0.0", path = "../swc_config", features = [
   "file_pattern",
 ] }
-swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "29.0.1", path = "../swc_ecma_ast" }
 swc_ecma_loader = { version = "27.0.0", path = "../swc_ecma_loader", features = [
 ] }
 swc_ecma_parser = { version = "45.1.2", path = "../swc_ecma_parser", default-features = false, features = [
@@ -52,7 +52,7 @@ swc_ecma_loader = { version = "27.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_transforms_compat = { version = "57.0.1", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_compat = { version = "57.0.2", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_testing = { version = "53.0.0", path = "../swc_ecma_transforms_testing" }
 swc_ecma_transforms_typescript = { version = "55.0.3", path = "../swc_ecma_transforms_typescript" }
 testing = { version = "27.0.0", path = "../testing/" }

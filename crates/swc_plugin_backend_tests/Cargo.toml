@@ -34,7 +34,7 @@ swc_common = { version = "26.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_plugin_runner = { version = "34.0.0", path = "../swc_plugin_runner", features = ["encoding-impl", "plugin_transform_schema_v1"] }
-swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "29.0.1", path = "../swc_ecma_ast", features = [
   "encoding-impl",
 ] }
 swc_ecma_parser = { version = "45.1.2", path = "../swc_ecma_parser" }

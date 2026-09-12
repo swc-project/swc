@@ -6155,7 +6155,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "78.0.1"
+version = "78.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6390,7 +6390,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "29.0.0"
+version = "29.0.1"
 dependencies = [
  "arbitrary",
  "bitflags 2.10.0",
@@ -6478,7 +6478,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "55.0.0"
+version = "55.0.1"
 dependencies = [
  "arrayvec",
  "indexmap 2.12.0",
@@ -6708,7 +6708,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "61.0.6"
+version = "61.0.7"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6980,7 +6980,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "57.0.1"
+version = "57.0.2"
 dependencies = [
  "indexmap 2.12.0",
  "par-core",
@@ -7082,7 +7082,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "49.0.1"
+version = "49.0.2"
 dependencies = [
  "codspeed-criterion-compat",
  "either",
@@ -7662,7 +7662,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "34.0.0"
+version = "34.0.1"
 dependencies = [
  "bitflags 2.10.0",
  "petgraph",

@@ -38,7 +38,7 @@ swc_atoms = { version = "10.0.0", path = '../swc_atoms' }
 swc_common = { version = "26.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "29.0.0", path = "../swc_ecma_ast", optional = true }
+swc_ecma_ast = { version = "29.0.1", path = "../swc_ecma_ast", optional = true }
 swc_plugin_proxy = { version = "30.0.0", path = "../swc_plugin_proxy" }
 swc_transform_common = { version = "20.0.0", path = "../swc_transform_common" }
 
