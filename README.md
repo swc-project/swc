@@ -55,6 +55,12 @@ If you are using SWC from JavaScript, please refer to [docs on the website](http
 
 Check out the documentation [in the website](https://swc.rs/docs/installation/).
 
+Native npm packages use self-loading compressed addons on x64 and arm64 macOS,
+Windows MSVC, and Linux GNU/musl. The first load materializes the verified
+original addon; package names and JavaScript APIs stay the same. See
+[native addon carriers](https://github.com/swc-project/swc/blob/main/docs/native-addon-carriers.md)
+for the supported-target boundary and `SWC_NATIVE_BINDING_CACHE`.
+
 # Features
 
 Please see [comparison with babel](https://swc.rs/docs/migrating-from-babel).

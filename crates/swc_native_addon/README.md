@@ -1,8 +1,9 @@
 # Private native addon carriers
 
-This foundation packages an already stripped native addon into a single target
-carrier. It is private implementation support for issue #12273, not an npm
-publishing switch. The existing raw addon build, generated JS/DTS, package names,
+This private implementation packages an already stripped native addon into a
+single target carrier for issue #12273. The npm release workflow finalizes and
+verifies carriers before uploading artifacts, then checks the complete release
+before publishing. The existing raw addon build, generated JS/DTS, package names,
 and sibling `swc` executable are not changed.
 
 ## Build contract
@@ -26,11 +27,23 @@ loading that development carrier throws an error. An enabled build without a
 valid payload fails. No unpublished napi-rs dependency is needed.
 
 The carrier allowlist is x86_64/aarch64 on Apple Darwin, Windows MSVC, and Linux
-GNU/musl. Other npm targets stay raw. Future release integration must stage,
-strip/sign, validate, and size-check the completed carrier before atomically
+GNU/musl. Other npm targets stay raw. Release integration stages,
+strips/signs, validates, and size-checks the completed carrier before atomically
 replacing only the selected `.node` artifact. A carrier that is not smaller than
 the stripped addon must fail that integration step. Never strip or otherwise
 modify the raw bytes after packing them.
+
+The generated build input retains the complete payload in a mapped read-only
+section (`.swc_native` on ELF, `__TEXT,__swc_native` on Mach-O, and `.swcn`
+on PE). This keeps final-artifact inspection independent of optimizer decisions
+about constant header reads. It does not change the version 1 payload format.
+The host `swc-native-addon-verify` binary validates that section, target, exports,
+decoded bytes, and size. `--raw` compares against the final stripped input;
+`--extract` creates a new verified comparison image; `--replace` requires
+`--raw` and atomically replaces only that verified `.node` destination.
+
+See [the release and user guide](../../docs/native-addon-carriers.md) for artifact
+contracts, the shared publishing gate, and CI measurements.
 
 ## Version 1 format
 

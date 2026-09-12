@@ -40,10 +40,21 @@ fn main() {
     // Copy to OUT_DIR so a later input replacement cannot change the validated
     // payload between build-script validation and rustc's include_bytes call.
     let embedded = output.with_file_name("payload.swcn");
-    fs::write(&embedded, bytes).expect("snapshot validated addon payload");
+    fs::write(&embedded, &bytes).expect("snapshot validated addon payload");
+    // Retain a complete, mapped payload for final-artifact verification. LTO
+    // may otherwise fold header reads and eliminate parts of include_bytes.
+    // Section names fit the Mach-O (16-byte) and PE (8-byte) limits.
     fs::write(
         output,
-        format!("static PAYLOAD: &[u8] = include_bytes!({:?});\n", embedded),
+        format!(
+            "#[used]\n#[cfg_attr(target_os = \"linux\", link_section = \
+             \".swc_native\")]\n#[cfg_attr(target_os = \"macos\", link_section = \
+             \"__TEXT,__swc_native\")]\n#[cfg_attr(windows, link_section = \".swcn\")]\nstatic \
+             EMBEDDED_PAYLOAD: [u8; {}] = *include_bytes!({:?});\nstatic PAYLOAD: &[u8] = \
+             &EMBEDDED_PAYLOAD;\n",
+            payload.header.compressed_len + swc_native_addon::format::HEADER_LEN as u64,
+            embedded
+        ),
     )
     .unwrap();
 }
