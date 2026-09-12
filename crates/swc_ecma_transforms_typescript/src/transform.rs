@@ -122,10 +122,11 @@ impl VisitMut for Transform {
     );
 
     fn visit_mut_program(&mut self, node: &mut Program) {
-        if !self.semantic.exported_binding.is_empty() {
+        if !self.semantic.exported_binding.is_empty() || !self.semantic.member_ctxt.is_empty() {
             self.ref_rewriter = Some(RefRewriter {
                 query: ExportQuery {
                     export_name: self.semantic.exported_binding.clone(),
+                    namespace_stack: Vec::new(),
                 },
             });
         }
@@ -328,21 +329,25 @@ impl VisitMut for Transform {
 
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
         let id = node.id.to_id();
+        let pushed = self.enter_current_namespace(&id, node.span);
         let namespace_id = self.namespace_id.replace(id);
 
         node.body.visit_mut_with(self);
 
         self.namespace_id = namespace_id;
+        self.exit_current_namespace(pushed);
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
         let id = node.id.to_id();
 
+        let pushed = self.enter_current_namespace(&id, node.span);
         let namespace_id = self.namespace_id.replace(id);
 
         node.body.visit_mut_with(self);
 
         self.namespace_id = namespace_id;
+        self.exit_current_namespace(pushed);
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
@@ -689,6 +694,49 @@ enum FoldedDecl {
 }
 
 impl Transform {
+    /// Push the namespace body being entered onto the export query's
+    /// namespace stack: the body's alias id, the shared member context the
+    /// analyzer recorded for it, and the body's locally-bound member names
+    /// (keyed by the declaration's span, which is unique per re-open).
+    /// Returns whether a frame was pushed. Nothing is pushed when the body
+    /// has no routed value members, when no rewriter is active, or when the
+    /// recorded context equals the namespace id's own binding context: that
+    /// happens for dotted bodies (`namespace A.B`), whose exported members
+    /// bind with the enclosing scope's mark, so context equality would match
+    /// every body-local binding rather than just members.
+    fn enter_current_namespace(&mut self, id: &Id, span: Span) -> bool {
+        let frame = self
+            .semantic
+            .member_ctxt
+            .get(id)
+            .filter(|ctxt| **ctxt != id.1)
+            .map(|ctxt| NamespaceFrame {
+                alias: id.clone(),
+                member_ctxt: *ctxt,
+                local_members: self
+                    .semantic
+                    .local_member
+                    .get(&span)
+                    .cloned()
+                    .unwrap_or_default(),
+            });
+
+        self.ref_rewriter
+            .as_mut()
+            .zip(frame)
+            .map(|(ref_rewriter, frame)| ref_rewriter.query.namespace_stack.push(frame))
+            .is_some()
+    }
+
+    /// Pop the frame pushed by [`Self::enter_current_namespace`], if any.
+    fn exit_current_namespace(&mut self, pushed: bool) {
+        let _ = self
+            .ref_rewriter
+            .as_mut()
+            .filter(|_| pushed)
+            .and_then(|ref_rewriter| ref_rewriter.query.namespace_stack.pop());
+    }
+
     fn normalize_flow_static_constructor_key(
         &self,
         key: &mut PropName,
@@ -1881,16 +1929,56 @@ impl Transform {
     }
 }
 
+/// One enclosing namespace body during emit: the body's alias id, the
+/// shared member [`SyntaxContext`] of the namespace instance, and the
+/// member names whose declarations stay local bindings in this body's
+/// emit.
+struct NamespaceFrame {
+    alias: Id,
+    member_ctxt: SyntaxContext,
+    local_members: FxHashSet<Atom>,
+}
+
 struct ExportQuery {
     export_name: FxHashMap<Id, Option<Id>>,
+    /// The namespace bodies currently being emitted, innermost last. A ref
+    /// whose context equals a frame's member context is a member of that
+    /// namespace instance, even when its symbol is absent from
+    /// `export_name` (a forward ref to a member declared by a later
+    /// re-open).
+    namespace_stack: Vec<NamespaceFrame>,
+}
+
+impl ExportQuery {
+    /// The alias to qualify `ident` with when it refers to a member of an
+    /// enclosing namespace instance currently being emitted. Detected by
+    /// context equality: every routed member of one namespace instance
+    /// carries one shared context, so refs to members seeded by another
+    /// re-open body match without an `export_name` entry. A member whose
+    /// declaration keeps a local binding in the matched body (an exported
+    /// function or class) stays unqualified: the local binding is in scope
+    /// at the reference site (from nested namespace bodies too), and
+    /// function references rely on hoisting.
+    fn query_current_member(&self, ident: &Ident) -> Option<Id> {
+        self.namespace_stack
+            .iter()
+            .rev()
+            .find(|frame| frame.member_ctxt == ident.ctxt)
+            .filter(|frame| !frame.local_members.contains(&ident.sym))
+            .map(|frame| frame.alias.clone())
+    }
 }
 
 impl QueryRef for ExportQuery {
     fn query_ref(&self, export_name: &Ident) -> Option<Box<Expr>> {
-        self.export_name
-            .get(&export_name.to_id())?
-            .clone()
-            .map(|namespace_id| namespace_id.make_member(export_name.clone().into()).into())
+        self.query_current_member(export_name)
+            .map(|alias| alias.make_member(export_name.clone().into()).into())
+            .or_else(|| {
+                self.export_name
+                    .get(&export_name.to_id())?
+                    .clone()
+                    .map(|namespace_id| namespace_id.make_member(export_name.clone().into()).into())
+            })
     }
 
     fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
@@ -1898,16 +1986,27 @@ impl QueryRef for ExportQuery {
     }
 
     fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
-        self.export_name
-            .get(&ident.to_id())?
-            .clone()
-            .map(|namespace_id| {
+        self.query_current_member(ident)
+            .map(|alias| {
                 JSXMemberExpr {
                     span: DUMMY_SP,
-                    obj: JSXObject::Ident(namespace_id.into()),
+                    obj: JSXObject::Ident(alias.into()),
                     prop: ident.clone().into(),
                 }
                 .into()
+            })
+            .or_else(|| {
+                self.export_name
+                    .get(&ident.to_id())?
+                    .clone()
+                    .map(|namespace_id| {
+                        JSXMemberExpr {
+                            span: DUMMY_SP,
+                            obj: JSXObject::Ident(namespace_id.into()),
+                            prop: ident.clone().into(),
+                        }
+                        .into()
+                    })
             })
     }
 }

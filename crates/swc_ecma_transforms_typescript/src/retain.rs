@@ -1,4 +1,5 @@
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ts_module_is_instantiated;
 
 /// Returns true if a module item should survive TS type-stripping.
 pub(crate) fn should_retain_module_item(module_item: &ModuleItem, in_namespace: bool) -> bool {
@@ -37,25 +38,15 @@ pub(crate) trait IsConcrete {
     fn is_concrete(&self) -> bool;
 }
 
+/// Delegates to the resolver's instantiation predicate so the emitter and
+/// the resolver classify namespaces identically.  A namespace whose only
+/// members are bodyless function declarations (ambient `declare function`
+/// members or overload signatures) is instantiated: TypeScript still
+/// creates the namespace object for it, even though the function
+/// declarations themselves are erased.
 impl IsConcrete for TsModuleDecl {
     fn is_concrete(&self) -> bool {
-        self.body
-            .as_ref()
-            .map(|body| body.is_concrete())
-            .unwrap_or_default()
-    }
-}
-
-impl IsConcrete for TsNamespaceBody {
-    fn is_concrete(&self) -> bool {
-        match self {
-            Self::TsModuleBlock(ts_module_block) => {
-                ts_module_block.body.iter().any(|item| item.is_concrete())
-            }
-            Self::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl.body.is_concrete(),
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
+        ts_module_is_instantiated(self)
     }
 }
 
