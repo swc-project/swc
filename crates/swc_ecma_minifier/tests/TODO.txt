@@ -1,4 +1,3 @@
-arguments/modified/input.js
 arrays/constant_join_3/input.js
 arrays/for_loop/input.js
 arrays/index_length/input.js
