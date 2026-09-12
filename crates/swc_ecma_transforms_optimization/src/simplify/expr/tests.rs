@@ -1238,35 +1238,28 @@ fn test_fold_typeof() {
 
 #[test]
 fn test_fold_instance_of() {
-    // Non object types are never instances of anything.
-    fold("64 instanceof Object", "false");
-    fold("64 instanceof Number", "false");
-    fold("'' instanceof Object", "false");
-    fold("'' instanceof String", "false");
-    fold("true instanceof Object", "false");
-    fold("true instanceof Boolean", "false");
-    fold("!0 instanceof Object", "false");
-    fold("!0 instanceof Boolean", "false");
-    fold("false instanceof Object", "false");
-    fold("null instanceof Object", "false");
-    fold("undefined instanceof Object", "false");
-    fold("NaN instanceof Object", "false");
-    fold("Infinity instanceof Object", "false");
-
-    // Array and object literals are known to be objects.
-    fold("[] instanceof Object", "true");
-    fold("({}) instanceof Object", "true");
-
-    // These cases is foldable, but no handled currently.
-    fold("new Foo() instanceof Object", "new Foo(), true;");
-
-    // These would require type information to fold.
+    // `instanceof` may invoke an own or inherited `Symbol.hasInstance` hook,
+    // and invalid right operands may throw. Keep the operator unless a future
+    // proof establishes the complete operator semantics, not just operand types.
+    fold_same("64 instanceof Object");
+    fold_same("64 instanceof Number");
+    fold_same("'' instanceof Object");
+    fold_same("'' instanceof String");
+    fold_same("true instanceof Object");
+    fold_same("true instanceof Boolean");
+    fold_same("!0 instanceof Object");
+    fold_same("!0 instanceof Boolean");
+    fold_same("false instanceof Object");
+    fold_same("null instanceof Object");
+    fold_same("undefined instanceof Object");
+    fold_same("NaN instanceof Object");
+    fold_same("Infinity instanceof Object");
+    fold_same("[] instanceof Object");
+    fold_same("({}) instanceof Object");
+    fold_same("new Foo() instanceof Object");
     fold_same("[] instanceof Foo");
     fold_same("({}) instanceof Foo");
-
-    fold("(function() {}) instanceof Object", "true");
-
-    // An unknown value should never be folded.
+    fold_same("(function() {}) instanceof Object");
     fold_same("x instanceof Foo");
     fold_same("x instanceof Object");
 }
