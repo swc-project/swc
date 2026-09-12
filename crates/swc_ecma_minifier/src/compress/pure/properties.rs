@@ -10,7 +10,7 @@ impl Pure<'_> {
         obj: Option<&Expr>,
         c: &mut ComputedPropName,
     ) -> Option<IdentName> {
-        if !self.options.props {
+        if !self.options.props || self.config.preserve_quoted_props {
             return None;
         }
         if let Some(Expr::Array(..) | Expr::Await(..) | Expr::Yield(..) | Expr::Lit(..)) = obj {
@@ -53,6 +53,10 @@ impl Pure<'_> {
         if let PropName::Computed(c) = p {
             match &mut *c.expr {
                 Expr::Lit(Lit::Str(s)) => {
+                    if self.config.preserve_quoted_props {
+                        return;
+                    }
+
                     let Some(value) = s.value.as_str() else {
                         return;
                     };
@@ -83,6 +87,10 @@ impl Pure<'_> {
     }
 
     pub(super) fn optimize_prop_name(&mut self, name: &mut PropName) {
+        if self.config.preserve_quoted_props && matches!(name, PropName::Str(..)) {
+            return;
+        }
+
         if let PropName::Str(s) = name {
             let Some(value) = s.value.as_str() else {
                 return;
@@ -119,7 +127,7 @@ impl Pure<'_> {
         &mut self,
         c: &mut ComputedPropName,
     ) -> Option<IdentName> {
-        if !self.options.props || !self.options.evaluate {
+        if !self.options.props || !self.options.evaluate || self.config.preserve_quoted_props {
             return None;
         }
 

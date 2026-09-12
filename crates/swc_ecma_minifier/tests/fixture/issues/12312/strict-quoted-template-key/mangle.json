@@ -1,0 +1,7 @@
+{
+    "disableCharFreq": true,
+    "props": {
+        "keep_quoted": "strict",
+        "regex": "^(a|longproperty)$"
+    }
+}

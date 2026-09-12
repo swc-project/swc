@@ -115,19 +115,17 @@ fn is_object_property_call(call: &CallExpr) -> bool {
     false
 }
 
-pub fn get_mut_object_define_property_name_arg(call: &mut CallExpr) -> Option<&mut Str> {
+pub fn get_mut_object_define_property_name_arg(call: &mut CallExpr) -> Option<&mut Expr> {
     if is_object_property_call(call) {
-        let second_arg: &mut Expr = call.args.get_mut(1).map(|arg| &mut arg.expr)?;
-        second_arg.as_mut_lit().and_then(|lit| lit.as_mut_str())
+        call.args.get_mut(1).map(|arg| &mut *arg.expr)
     } else {
         None
     }
 }
 
-pub fn get_object_define_property_name_arg(call: &CallExpr) -> Option<&Str> {
+pub fn get_object_define_property_name_arg(call: &CallExpr) -> Option<&Expr> {
     if is_object_property_call(call) {
-        let second_arg: &Expr = call.args.get(1).map(|arg| &arg.expr)?;
-        second_arg.as_lit().and_then(|lit| lit.as_str())
+        call.args.get(1).map(|arg| &*arg.expr)
     } else {
         None
     }

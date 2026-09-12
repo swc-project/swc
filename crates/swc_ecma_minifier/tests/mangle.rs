@@ -7,6 +7,7 @@ use std::{
 
 use swc_atoms::atom;
 use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
+use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
@@ -14,7 +15,9 @@ use swc_ecma_codegen::{
 };
 use swc_ecma_minifier::{
     optimize,
-    option::{ExtraOptions, MangleOptions, ManglePropertiesOptions, MinifyOptions},
+    option::{
+        ExtraOptions, KeepQuotedOption, MangleOptions, ManglePropertiesOptions, MinifyOptions,
+    },
 };
 use swc_ecma_parser::parse_file_as_program;
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
@@ -218,6 +221,35 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
         );
 
         Ok(())
+    })
+    .unwrap()
+}
+
+fn mangle_with_compression(src: &str, opts: MangleOptions) -> String {
+    testing::run_test2(false, |cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
+        let p = parse_fm(&handler, fm)?;
+
+        let unresolved_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh(Mark::root());
+        let m = optimize(
+            p,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                compress: Some(Default::default()),
+                mangle: Some(opts),
+                ..Default::default()
+            },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+                mangle_name_cache: None,
+            },
+        );
+
+        Ok(print(cm, &m, false))
     })
     .unwrap()
 }
@@ -623,4 +655,171 @@ console.log(e.F, e.G, e.I, e.K, e.L);";
             ..Default::default()
         },
     )
+}
+
+#[test]
+fn issue_12312_parenthesized_computed_property_name() {
+    let src = "const seed = { longprop: 0 };
+const obj = { [(\"longprop\")]: 1 };
+console.log(obj[\"longprop\"], seed.longprop);";
+    let expected = "const a = {
+    a: 0
+};
+const b = {
+    [(\"a\")]: 1
+};
+console.log(b[\"a\"], a.a);";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            disable_char_freq: true,
+            props: Some(ManglePropertiesOptions {
+                regex: Some("^longprop$".into()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn issue_12312_isolated_in_property_name() {
+    let src = "const obj = {};\nconsole.log(\"longprop\" in obj);";
+    let expected = "const a = {};\nconsole.log(\"a\" in a);";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            disable_char_freq: true,
+            props: Some(ManglePropertiesOptions {
+                regex: Some("^longprop$".into()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn keep_quoted_preserves_computed_definitions_and_super_references() {
+    let src = "class Base { [\"longprop\"]() { return 1; } }\nclass Derived extends Base { \
+               value() { return super[\"longprop\"](); } }\nconst obj = { [\"longprop\"]: 1 \
+               };\nconsole.log(obj.longprop, new Derived().longprop());";
+
+    let expected = "class a {\n    [\"longprop\"]() {\n        return 1;\n    }\n}\nclass b \
+                    extends a {\n    value() {\n        return super[\"longprop\"]();\n    \
+                    }\n}\nconst c = {\n    [\"longprop\"]: 1\n};\nconsole.log(c.longprop, new \
+                    b().longprop());";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            disable_char_freq: true,
+            props: Some(ManglePropertiesOptions {
+                keep_quoted: Some(KeepQuotedOption::Bool(true)),
+                regex: Some("^longprop$".into()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn keep_quoted_strict_preserves_only_quoted_occurrences() {
+    let src = "const obj = { longprop: 1, \"quotedprop\": 2 };\nconsole.log(obj.longprop, \
+               obj[\"quotedprop\"]);";
+    let expected =
+        "const a = {\n    a: 1,\n    \"quotedprop\": 2\n};\nconsole.log(a.a, a[\"quotedprop\"]);";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            disable_char_freq: true,
+            props: Some(ManglePropertiesOptions {
+                keep_quoted: Some(KeepQuotedOption::Strict),
+                regex: Some("^(longprop|quotedprop)$".into()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn keep_quoted_strict_serializes_as_a_string() {
+    let serialized = serde_json::to_string(&KeepQuotedOption::Strict).unwrap();
+    assert_eq!(serialized, r#""strict""#);
+
+    let deserialized: KeepQuotedOption = serde_json::from_str(&serialized).unwrap();
+    assert_eq!(deserialized, KeepQuotedOption::Strict);
+}
+
+#[test]
+fn keep_quoted_strict_normalizes_numeric_computed_keys() {
+    let output = mangle_with_compression(
+        "const obj = { [1]: 2, [\"quotedprop\"]: 3 };\nconsole.log(obj[1], obj[\"quotedprop\"]);",
+        MangleOptions {
+            disable_char_freq: true,
+            props: Some(ManglePropertiesOptions {
+                keep_quoted: Some(KeepQuotedOption::Strict),
+                regex: Some("^quotedprop$".into()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    );
+
+    assert!(output.contains("1: 2"), "{output}");
+    assert!(output.contains("[\"quotedprop\"]"), "{output}");
+}
+
+#[test]
+fn keep_quoted_preserves_names_collected_before_compression() {
+    let output = mangle_with_compression(
+        "globalThis.obj = { \"publicApi\": 1 };\nconsole.log(globalThis.obj.publicApi);",
+        MangleOptions {
+            disable_char_freq: true,
+            props: Some(ManglePropertiesOptions {
+                keep_quoted: Some(KeepQuotedOption::Bool(true)),
+                regex: Some("^publicApi$".into()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        },
+    );
+
+    assert!(output.contains("publicApi"), "{output}");
+}
+
+#[test]
+fn keep_quoted_merge_preserves_receiver_priority() {
+    let mut options = ManglePropertiesOptions {
+        keep_quoted: Some(KeepQuotedOption::Strict),
+        ..Default::default()
+    };
+
+    options.merge(ManglePropertiesOptions {
+        keep_quoted: Some(KeepQuotedOption::Bool(false)),
+        ..Default::default()
+    });
+
+    assert_eq!(options.keep_quoted, Some(KeepQuotedOption::Strict));
+
+    let mut options = ManglePropertiesOptions {
+        keep_quoted: Some(KeepQuotedOption::Bool(false)),
+        ..Default::default()
+    };
+
+    options.merge(ManglePropertiesOptions {
+        keep_quoted: Some(KeepQuotedOption::Bool(true)),
+        ..Default::default()
+    });
+
+    assert_eq!(options.keep_quoted, Some(KeepQuotedOption::Bool(false)));
 }

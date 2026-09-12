@@ -107,10 +107,65 @@ pub struct MangleOptions {
 pub struct ManglePropertiesOptions {
     #[serde(default, alias = "reserved")]
     pub reserved: Vec<Atom>,
+    /// Keep property names that occur in quoted property positions unchanged.
+    #[serde(alias = "keep_quoted")]
+    pub keep_quoted: Option<KeepQuotedOption>,
     #[serde(default, alias = "undeclared")]
     pub undeclared: Option<bool>,
     #[serde(default)]
     pub regex: Option<CachedRegex>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub enum KeepQuotedOption {
+    Bool(bool),
+    Strict,
+}
+
+impl Serialize for KeepQuotedOption {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        match self {
+            Self::Bool(value) => serializer.serialize_bool(*value),
+            Self::Strict => serializer.serialize_str("strict"),
+        }
+    }
+}
+
+impl<'de> Deserialize<'de> for KeepQuotedOption {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        #[serde(untagged)]
+        enum Repr {
+            Bool(bool),
+            Str(String),
+        }
+
+        match Repr::deserialize(deserializer)? {
+            Repr::Bool(value) => Ok(Self::Bool(value)),
+            Repr::Str(value) if value == "strict" => Ok(Self::Strict),
+            Repr::Str(value) => Err(serde::de::Error::custom(format!(
+                "unsupported keep_quoted value: {value}"
+            ))),
+        }
+    }
+}
+
+impl KeepQuotedOption {
+    /// Returns whether quoted property names should be preserved.
+    pub fn is_enabled(&self) -> bool {
+        !matches!(self, Self::Bool(false))
+    }
+
+    /// Returns whether only explicitly quoted occurrences should be preserved.
+    pub fn is_strict(&self) -> bool {
+        matches!(self, Self::Strict)
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Hash)]
