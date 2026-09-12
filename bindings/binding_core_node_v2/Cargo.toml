@@ -1,36 +1,28 @@
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-build   = "build.rs"
-edition = "2021"
-exclude = ["artifacts.json", "index.node"]
-license = "Apache-2.0"
-name    = "binding_core_node"
+build   = "../binding_core_node/build.rs"
+edition = { workspace = true }
+license = { workspace = true }
+name    = "binding_core_node_v2"
 publish = false
-version = "0.2.0"
+version = "0.1.0"
 
 [lib]
 bench      = false
 crate-type = ["cdylib"]
+path       = "../binding_core_node/src/lib.rs"
 
 [features]
 api_v1 = []
 api_v2 = []
-default = ["api_v1", "swc_v1", "plugin"]
+default = ["api_v2", "swc_v2", "plugin"]
 plugin = [
   "swc_core/plugin_backend_wasmer",
   "swc_core/plugin_transform_host_native",
   "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
-swc_v1 = ["swc_core/bundler_node_v1"]
-swc_v2 = ["swc_core/bundler_node_v2"]
-
-# Internal flag for testing purpose only.
-__plugin_transform_vtest = [
-  # We know what we're doing - enable internal features for testing fixture setup.
-  "swc_core/__plugin_transform_host",
-  "swc_core/__plugin_transform_host_schema_vtest",
-  "swc_core/__plugin_transform_env_native",
-]
+swc_v1 = []
+swc_v2 = []
 
 [build-dependencies]
 napi-build = { workspace = true }
@@ -55,8 +47,6 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_codegen",
   "ecma_ast_serde",
   "common_concurrent",
-  "bundler",
-  "ecma_loader",
   "ecma_helpers_inline",
   "ecma_transforms",
   "ecma_visit",
