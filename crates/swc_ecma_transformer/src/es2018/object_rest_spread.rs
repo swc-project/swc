@@ -857,6 +857,11 @@ impl<O: RestOutput> RestLowerer<O> {
 
         // Extract nested pattern and replace with temp
         let nested_pat: Pat = match arr.elems[split_idx].as_mut() {
+            Some(Pat::Rest(rest)) => {
+                let nested = rest.arg.take();
+                *rest.arg = split_ref.clone().into();
+                *nested
+            }
             Some(Pat::Assign(assign)) => {
                 let nested = assign.left.take();
                 *assign.left = split_ref.clone().into();

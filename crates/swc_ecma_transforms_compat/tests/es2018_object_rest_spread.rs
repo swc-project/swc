@@ -2529,6 +2529,25 @@ compare_stdout!(
     "###
 );
 
+compare_stdout!(
+    syntax(),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            tr(Default::default()),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default(),
+            ),
+        )
+    },
+    issue_12339_array_rest,
+    include_str!("object-rest-spread/issue-12339/input.js")
+);
+
 #[testing::fixture("tests/object-rest-spread/**/input.js")]
 fn fixture(input: PathBuf) {
     let parent = input.parent().unwrap();
