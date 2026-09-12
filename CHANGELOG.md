@@ -1,4 +1,240 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es)** Decode template raw values when cooked is missing ([#12347](https://github.com/swc-project/swc/issues/12347)) ([7898152](https://github.com/swc-project/swc/commit/78981525cb1256c3f69a22984b42b5f04b6e51dc))
+
+
+- **(es/codegen)** Minify unicode escapes in template literals ([#12284](https://github.com/swc-project/swc/issues/12284)) ([76ef91c](https://github.com/swc-project/swc/commit/76ef91c5d324e059f3097b08bc35520a64093f24))
+
+
+- **(es/codegen)** Separate generic type assertion openers ([#12340](https://github.com/swc-project/swc/issues/12340)) ([8948dac](https://github.com/swc-project/swc/commit/8948dac4d4b9598a4a77ff61c884358d0d06a9e8))
+
+
+- **(es/minifier)** Check eval and arguments usage in var define scope ([#12174](https://github.com/swc-project/swc/issues/12174)) ([5d1aa16](https://github.com/swc-project/swc/commit/5d1aa161d9532f074c4dc3a70e249162250cec36))
+
+
+- **(es/minifier)** Drop unused object pattern defaults ([#12176](https://github.com/swc-project/swc/issues/12176)) ([76ac4bd](https://github.com/swc-project/swc/commit/76ac4bdd8574aaec63e5e9c8cae54814153f8e48))
+
+
+- **(es/minifier)** Preserve Array spread arity ([#12237](https://github.com/swc-project/swc/issues/12237)) ([cfbef85](https://github.com/swc-project/swc/commit/cfbef857b442d1ab4f1257afaab9a9292346bdf8))
+
+
+- **(es/minifier)** Preserve holes in array joins ([#12242](https://github.com/swc-project/swc/issues/12242)) ([7eca515](https://github.com/swc-project/swc/commit/7eca5154640f60dd63d8073efd3bfae8ad178d0d))
+
+
+- **(es/minifier)** Preserve catch return before finally ([#12232](https://github.com/swc-project/swc/issues/12232)) ([191b951](https://github.com/swc-project/swc/commit/191b95170ce6543af291f9ec7c497243a78bfc64))
+
+
+- **(es/minifier)** Skip prototype setters in Object.keys ([#12249](https://github.com/swc-project/swc/issues/12249)) ([8953ee3](https://github.com/swc-project/swc/commit/8953ee37a6803bf22a11bc54ac51ecfbe85a4dad))
+
+
+- **(es/minifier)** Guard static helper evaluation ([#12247](https://github.com/swc-project/swc/issues/12247)) ([f154b61](https://github.com/swc-project/swc/commit/f154b61208c3767ffd809b86773e2cbad94f2c10))
+
+
+- **(es/minifier)** Preserve string import names ([#12245](https://github.com/swc-project/swc/issues/12245)) ([b23c5ed](https://github.com/swc-project/swc/commit/b23c5ed2fa314f3c605502f453cc2c93482f600e))
+
+
+- **(es/minifier)** Preserve unsigned shift coercion ([#12260](https://github.com/swc-project/swc/issues/12260)) ([e0f3f4e](https://github.com/swc-project/swc/commit/e0f3f4eb6ca111c1246e9e8841b2c994d1c3f333))
+
+
+- **(es/minifier)** Fold missing codePointAt to undefined ([#12230](https://github.com/swc-project/swc/issues/12230)) ([052592a](https://github.com/swc-project/swc/commit/052592a6acff30f6d8102de696915d72c9a1f223))
+
+
+- **(es/minifier)** Fold local deletes to false ([#12231](https://github.com/swc-project/swc/issues/12231)) ([dcbcf93](https://github.com/swc-project/swc/commit/dcbcf93781c95e9c26cb0276e4ce635aa4774a23))
+
+
+- **(es/minifier)** Preserve Function.length arity ([#12251](https://github.com/swc-project/swc/issues/12251)) ([753db8c](https://github.com/swc-project/swc/commit/753db8c34ff2e64bc1d20e474955a38e9f11ca29))
+
+
+- **(es/minifier)** Preserve rest RegExp identity ([#12238](https://github.com/swc-project/swc/issues/12238)) ([4a73df1](https://github.com/swc-project/swc/commit/4a73df199f6205e7c9cd2a217cdd0a95a7b52053))
+
+
+- **(es/minifier)** Preserve lexical method defaults ([#12239](https://github.com/swc-project/swc/issues/12239)) ([7446da9](https://github.com/swc-project/swc/commit/7446da9da2e1d38eb3983124ddfdeb574b58656a))
+
+
+- **(es/minifier)** Preserve arguments after IIFE spreads ([#12243](https://github.com/swc-project/swc/issues/12243)) ([924d225](https://github.com/swc-project/swc/commit/924d2250689a8a4b2ebfdbf82610b1d6377f62d9))
+
+
+- **(es/minifier)** Preserve string method arguments ([#12234](https://github.com/swc-project/swc/issues/12234)) ([0d377f1](https://github.com/swc-project/swc/commit/0d377f1dad47808e99848e3231e38db6bf79feb6))
+
+
+- **(es/minifier)** Preserve optional-chain continuation throws ([#12261](https://github.com/swc-project/swc/issues/12261)) ([c5f381b](https://github.com/swc-project/swc/commit/c5f381b3a66795aec4aebeb98e7f5616f0252f13))
+
+
+- **(es/minifier)** Preserve constant switch test effects ([#12252](https://github.com/swc-project/swc/issues/12252)) ([ca1f943](https://github.com/swc-project/swc/commit/ca1f943495b8e62ed1e94ff937b4ef31b04303c3))
+
+
+- **(es/minifier)** Preserve shadowed undefined yield values ([#12272](https://github.com/swc-project/swc/issues/12272)) ([00da5c1](https://github.com/swc-project/swc/commit/00da5c1d5ec7379213b20e4a82db661a4919fa44))
+
+
+- **(es/minifier)** Retain unsafe Symbol call arguments ([#12248](https://github.com/swc-project/swc/issues/12248)) ([2611085](https://github.com/swc-project/swc/commit/2611085c57d669f0adbe483a3d8ed6a948540282))
+
+
+- **(es/minifier)** Guard similar if merges ([#12262](https://github.com/swc-project/swc/issues/12262)) ([e608832](https://github.com/swc-project/swc/commit/e608832c9d9ec38642e690a820ffc31e9fcdcb85))
+
+
+- **(es/minifier)** Preserve conditional assignment target order ([#12253](https://github.com/swc-project/swc/issues/12253)) ([5d703f0](https://github.com/swc-project/swc/commit/5d703f056a05d06ef906d91ac46ce603b415ec6e))
+
+
+- **(es/minifier)** Preserve Set and Map iteration ([#12254](https://github.com/swc-project/swc/issues/12254)) ([c28b95f](https://github.com/swc-project/swc/commit/c28b95f0fe32ca0a156402e243ee12b007512c6c))
+
+
+- **(es/minifier)** Preserve sequence IIFE argument evaluation ([#12258](https://github.com/swc-project/swc/issues/12258)) ([c8eec79](https://github.com/swc-project/swc/commit/c8eec7920501f37d564df17be77b7130a9846ea0))
+
+
+- **(es/minifier)** Respect global defs root bindings ([#12266](https://github.com/swc-project/swc/issues/12266)) ([107af6a](https://github.com/swc-project/swc/commit/107af6a32f554f4cfdde39c61329fbdfba56d8c9))
+
+
+- **(es/minifier)** Format toExponential compatibly ([#12257](https://github.com/swc-project/swc/issues/12257)) ([62d8b28](https://github.com/swc-project/swc/commit/62d8b28a71f5f32b2638526c306799fa38943c59))
+
+
+- **(es/minifier)** Preserve tiny toPrecision calls ([#12246](https://github.com/swc-project/swc/issues/12246)) ([d64acad](https://github.com/swc-project/swc/commit/d64acad31b4ff1e7ad5a7c96d3223dd7591c69aa))
+
+
+- **(es/minifier)** Preserve async IIFE return values ([#12269](https://github.com/swc-project/swc/issues/12269)) ([3119b07](https://github.com/swc-project/swc/commit/3119b07e536747f728b3afbb50c9f70c1fcd6537))
+
+
+- **(es/minifier)** Retain rest params in dynamic scopes ([#12264](https://github.com/swc-project/swc/issues/12264)) ([e222efd](https://github.com/swc-project/swc/commit/e222efddbc87cfc47edcaa142751ef6aede6476e))
+
+
+- **(es/minifier)** Safely hoist property callees ([#12183](https://github.com/swc-project/swc/issues/12183)) ([df3f7ab](https://github.com/swc-project/swc/commit/df3f7abb9e719bf7b949d442d0a97e63f5163b53))
+
+
+- **(es/minifier)** Preserve catch assignments before finally ([#12259](https://github.com/swc-project/swc/issues/12259)) ([7a2ca6e](https://github.com/swc-project/swc/commit/7a2ca6ef973c2759674256b01b3ed1689ac53af6))
+
+
+- **(es/minifier)** Preserve delete operand effects ([#12244](https://github.com/swc-project/swc/issues/12244)) ([d8631aa](https://github.com/swc-project/swc/commit/d8631aae18f0bab0e01f69daff8407035d5715f1))
+
+
+- **(es/minifier)** Preserve unary comparison evaluation order ([#12275](https://github.com/swc-project/swc/issues/12275)) ([440fd7f](https://github.com/swc-project/swc/commit/440fd7fb065b823c303f6a9ebb697999e17d3527))
+
+
+- **(es/minifier)** Preserve branches when collapsing assignments ([#12280](https://github.com/swc-project/swc/issues/12280)) ([0239111](https://github.com/swc-project/swc/commit/02391118a058128502d2b2fdddbdcedec96bb797))
+
+
+- **(es/minifier)** Preserve empty array assignments ([#12250](https://github.com/swc-project/swc/issues/12250)) ([20e9c5f](https://github.com/swc-project/swc/commit/20e9c5fcf8708e09d4c6abf625d1676f851b22a5))
+
+
+- **(es/minifier)** Preserve empty IIFE parameter effects ([#12268](https://github.com/swc-project/swc/issues/12268)) ([c8a2657](https://github.com/swc-project/swc/commit/c8a2657f9feb65c364bf42f58875a98fb75ebab4))
+
+
+- **(es/minifier)** Preserve empty join coercion ([#12240](https://github.com/swc-project/swc/issues/12240)) ([a5bd592](https://github.com/swc-project/swc/commit/a5bd5924c14e702b995cdbb6581a9ecf4098df5a))
+
+
+- **(es/minifier)** Preserve empty object destructuring errors ([#12276](https://github.com/swc-project/swc/issues/12276)) ([246e615](https://github.com/swc-project/swc/commit/246e6156ca14eaa07243ac8d9aa994c91c95cf3d))
+
+
+- **(es/minifier)** Deduplicate folded Object.keys ([#12263](https://github.com/swc-project/swc/issues/12263)) ([c652537](https://github.com/swc-project/swc/commit/c6525371903780552d4e5ac1d32e36c6143a6b58))
+
+
+- **(es/minifier)** Preserve finalizer breaks in switches ([#12330](https://github.com/swc-project/swc/issues/12330)) ([1156952](https://github.com/swc-project/swc/commit/1156952f67e339de7f9d3954643c71eb63cf76fb))
+
+
+- **(es/minifier)** Preserve strict equality for repeated calls ([#12320](https://github.com/swc-project/swc/issues/12320)) ([2755d73](https://github.com/swc-project/swc/commit/2755d73f966a8bbdd9d0ce5305c2e76f1a9308ca))
+
+
+- **(es/minifier)** Preserve class scope in if-return negation ([#12319](https://github.com/swc-project/swc/issues/12319)) ([f568ff2](https://github.com/swc-project/swc/commit/f568ff2fefe8bb76f2d5bbc19cdd946c045ad11b))
+
+
+- **(es/minifier)** Preserve function expression names ([#12318](https://github.com/swc-project/swc/issues/12318)) ([9ee8686](https://github.com/swc-project/swc/commit/9ee8686d1ccdd73266624fc307e341643a3076cc))
+
+
+- **(es/minifier)** Preserve finalizer completions ([#12325](https://github.com/swc-project/swc/issues/12325)) ([eddbd18](https://github.com/swc-project/swc/commit/eddbd18f95ba20186ed9583e7a3d1226947b5781))
+
+
+- **(es/minifier)** Evaluate String.raw templates with raw quasis ([#12322](https://github.com/swc-project/swc/issues/12322)) ([5f49135](https://github.com/swc-project/swc/commit/5f49135c02699ec3c4b0626bc8f3c10b26e9e3a5))
+
+
+- **(es/minifier)** Preserve returns in finalizers ([#12324](https://github.com/swc-project/swc/issues/12324)) ([f7894f5](https://github.com/swc-project/swc/commit/f7894f55a84dcd90bc9b0b13b3f02d0a8d8ef96c))
+
+
+- **(es/minifier)** Scan all adjacent hoist declaration pairs ([#12335](https://github.com/swc-project/swc/issues/12335)) ([c3e2d35](https://github.com/swc-project/swc/commit/c3e2d3528a3d694b02c404740014144ccbe6e777))
+
+
+- **(es/minifier)** Preserve reassigned arguments access ([#12235](https://github.com/swc-project/swc/issues/12235)) ([5f02d02](https://github.com/swc-project/swc/commit/5f02d02b935626ec03b445116d92e39dd911d8b2))
+
+
+- **(es/minifier)** Preserve switch fallthrough cases ([#12328](https://github.com/swc-project/swc/issues/12328)) ([fe41cd5](https://github.com/swc-project/swc/commit/fe41cd5c4435f9b3f84b772af78cc7eaefa4a51a))
+
+
+- **(es/minifier)** Preserve lone surrogate template values ([#12329](https://github.com/swc-project/swc/issues/12329)) ([ff90d49](https://github.com/swc-project/swc/commit/ff90d49e12947e2c591b8fa882b7bc15328c36b8))
+
+
+- **(es/minifier)** Preserve spread iteration in unused builtins ([#12334](https://github.com/swc-project/swc/issues/12334)) ([90d449d](https://github.com/swc-project/swc/commit/90d449d8e4ed19846fd594403172b6a9b5c87a58))
+
+
+- **(es/minifier)** Preserve computed update targets ([#12326](https://github.com/swc-project/swc/issues/12326)) ([22518fc](https://github.com/swc-project/swc/commit/22518fc8c511400bc0c80a30987ce761df7cd699))
+
+
+- **(es/minifier)** Check class side effect ([#12336](https://github.com/swc-project/swc/issues/12336)) ([397e0b6](https://github.com/swc-project/swc/commit/397e0b6f3e59dbf9f52d3c5656ec317d78528c22))
+
+
+- **(es/minifier)** Preserve let initialization when dropping unused variables ([#12345](https://github.com/swc-project/swc/issues/12345)) ([2ea13bf](https://github.com/swc-project/swc/commit/2ea13bf64310f0739a783806421b0eed7f52f520))
+
+
+- **(es/parser)** Reject unicode escapes in RegExp flags ([#12093](https://github.com/swc-project/swc/issues/12093)) ([4f98673](https://github.com/swc-project/swc/commit/4f98673af6270948d36261f41dd3d1eef0992093))
+
+
+- **(es/parser)** Allow line breaks before enum names ([#12341](https://github.com/swc-project/swc/issues/12341)) ([c594a7c](https://github.com/swc-project/swc/commit/c594a7cd8e99af6f56946b34b86f099d1c8878b3))
+
+
+- **(es/parser)** Allow ambient rest trailing commas ([#12342](https://github.com/swc-project/swc/issues/12342)) ([9362f19](https://github.com/swc-project/swc/commit/9362f192c96a5381256bd2b9e86fe3bafb0407a0))
+
+
+- **(es/typescript)** Fold optional-chained enum member reads ([#12179](https://github.com/swc-project/swc/issues/12179)) ([4519330](https://github.com/swc-project/swc/commit/45193304cdf7e0eca7e536d56f4ffc2a00aaf6f7))
+
+
+- Use Rust changeset package names ([#12283](https://github.com/swc-project/swc/issues/12283)) ([7241d4b](https://github.com/swc-project/swc/commit/7241d4b3cd0f04462101dbd390eee7dd2a916c24))
+
+### Documentation
+
+
+
+- **(agents)** Document terser fixture backlog workflow ([#12274](https://github.com/swc-project/swc/issues/12274)) ([07328de](https://github.com/swc-project/swc/commit/07328de0c1c813cdc79aa5a75cfe2aace10f9b07))
+
+
+- **(es/minifier)** Clarify decorator input and test boundaries ([#12337](https://github.com/swc-project/swc/issues/12337)) ([d8b76cc](https://github.com/swc-project/swc/commit/d8b76cc14ca18a01f9dfcac5cfcce1280a93eff5))
+
+
+- **(es/minifier)** Clarify semantic preservation policy ([#12349](https://github.com/swc-project/swc/issues/12349)) ([ff6a3c3](https://github.com/swc-project/swc/commit/ff6a3c3b198d0d31a5e3a84dc0bf41542be534da))
+
+### Features
+
+
+
+- **(bindings)** Add private compressed native addon foundation ([#12289](https://github.com/swc-project/swc/issues/12289)) ([2855b5a](https://github.com/swc-project/swc/commit/2855b5a8c1f24d09e69cca1ea80b03c3c55180e4))
+
+
+- **(es/module)** Support moduleRoot for AMD module IDs ([#11964](https://github.com/swc-project/swc/issues/11964)) ([4b4c135](https://github.com/swc-project/swc/commit/4b4c135ef479287bfc2c489e0214d04a1f4bfedb))
+
+### Performance
+
+
+
+- **(es/transforms)** Skip script traversal in export-default-from ([#12348](https://github.com/swc-project/swc/issues/12348)) ([f37ce70](https://github.com/swc-project/swc/commit/f37ce705d2dce729fe4448dded8ce9a1f700ad3c))
+
+### Refactor
+
+
+
+- **(es/minifier)** Simplify constant-false loop guards ([#12293](https://github.com/swc-project/swc/issues/12293)) ([a37d439](https://github.com/swc-project/swc/commit/a37d439e4c403bd56d2ee3a7a9eacdbc1f083568))
+
+
+- **(es/minifier)** Remove useless helper ([#12286](https://github.com/swc-project/swc/issues/12286)) ([b83aa6a](https://github.com/swc-project/swc/commit/b83aa6a014d2844036e128a196399884333721a3))
+
+
+- **(es/minifier)** Remove useless helpers ([#12343](https://github.com/swc-project/swc/issues/12343)) ([14bfa36](https://github.com/swc-project/swc/commit/14bfa3676e8ca475fba6e2622c5193fd72eac9a7))
+
+### Mod
+
+
+
+- **(es/minifier)** Check Map/Set param is array ([#12287](https://github.com/swc-project/swc/issues/12287)) ([d602f58](https://github.com/swc-project/swc/commit/d602f58df03e2c12a0a3dd07de76a46b4c4e04aa))
+
 ## [1.16.2] - 2026-09-04
 
 ### Bug Fixes
@@ -1977,60 +2213,5 @@
 
 
 - **(es/minifier)** Reduce clone of atoms ([#11076](https://github.com/swc-project/swc/issues/11076)) ([89dcb36](https://github.com/swc-project/swc/commit/89dcb360115a9b3d0450c8d2ee9a90fa296e4b74))
-
-## [1.13.19] - 2025-09-25
-
-### Bug Fixes
-
-
-
-- **(es/compat)** Preserve comment when transform template with no expr ([#11109](https://github.com/swc-project/swc/issues/11109)) ([80e8408](https://github.com/swc-project/swc/commit/80e84085466e171fddf629417e7e1698a7721dd8))
-
-
-- **(es/minifier)** Inline block stmt into expr ([#11107](https://github.com/swc-project/swc/issues/11107)) ([72a53a0](https://github.com/swc-project/swc/commit/72a53a0de5ddf5d5163369b18d7c90c0baeb4280))
-
-
-- **(es/minifier)** Allow MultiReplacer to inline multiple times ([#11106](https://github.com/swc-project/swc/issues/11106)) ([fe8e981](https://github.com/swc-project/swc/commit/fe8e981a4dc516a236aa24da7d2c430d95876dae))
-
-### Features
-
-
-
-- **(es/minifier)** Optimize (a | 0) ^ b ([#11110](https://github.com/swc-project/swc/issues/11110)) ([7af1474](https://github.com/swc-project/swc/commit/7af1474488d483b2fac9eb86afe7036411f59cb5))
-
-
-- **(hstr)** Introduce `Wtf8Atom` ([#11104](https://github.com/swc-project/swc/issues/11104)) ([8cfd47b](https://github.com/swc-project/swc/commit/8cfd47b95a6bc100598dbec2829850be12d7fda1))
-
-### Testing
-
-
-
-- **(core)** Fix CI ([#11117](https://github.com/swc-project/swc/issues/11117)) ([52dca39](https://github.com/swc-project/swc/commit/52dca391c9b496b7cf3d516d1c7c80a998f39d65))
-
-## [1.13.7] - 2025-09-19
-
-### Bug Fixes
-
-
-
-- **(ci)** Test chanages ([d4396c1](https://github.com/swc-project/swc/commit/d4396c158a6d9ebedc7116f6228035e504a197fe))
-
-
-- **(es/compat)** Preserve `typeof` symbol in loose mode ([#11072](https://github.com/swc-project/swc/issues/11072)) ([d92c3bd](https://github.com/swc-project/swc/commit/d92c3bde2d2a43677cccd981e82f5d3238cc23e7))
-
-
-- **(es/minifier)** Check in param before add ident ([#11091](https://github.com/swc-project/swc/issues/11091)) ([2e61f44](https://github.com/swc-project/swc/commit/2e61f44821c51a7a450f22fbbddf560872143246))
-
-
-- **(es/parser)** Capture more tokens ([#11081](https://github.com/swc-project/swc/issues/11081)) ([6b381c9](https://github.com/swc-project/swc/commit/6b381c9d918c27b60184c4089eac95d345ec9d67))
-
-
-- **(swc_common)** Fix compatibility with serde 1.0.220+ ([#11094](https://github.com/swc-project/swc/issues/11094)) ([45f17ed](https://github.com/swc-project/swc/commit/45f17edccc1c3b83e75d42e3459b16c08fd6d76f))
-
-### Features
-
-
-
-- **(es/transforms)** Support `rewriteRelativeImportExtensions` ([#11036](https://github.com/swc-project/swc/issues/11036)) ([038964a](https://github.com/swc-project/swc/commit/038964a182011fe27d2b5f7a1aa1cbe7c4c4ca7a))
 
 <!-- generated by git-cliff -->
