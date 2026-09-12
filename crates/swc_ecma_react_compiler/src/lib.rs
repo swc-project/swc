@@ -115,9 +115,11 @@ pub fn transform(
         }
     };
 
-    let rename_plan = build_rename_plan(&scope_info, &renames);
+    let mut rename_plan = build_rename_plan(&scope_info, &renames);
     let program = file.map(|file: react_compiler_ast::File| {
-        let mut compiled = convert_program_to_swc(&file, preserved_ast);
+        let conversion = convert_program_to_swc(&file, preserved_ast);
+        let mut compiled = conversion.program;
+        rename_plan.retain(|position, _| !conversion.recovered_ident_spans.contains(position));
         apply_renames(&mut compiled, &rename_plan);
         compiled
     });
