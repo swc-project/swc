@@ -1,15 +1,40 @@
 use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, Mark};
+use swc_ecma_ast::Expr;
 use swc_ecma_codegen::to_code_with_comments;
 use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 use swc_typescript::fast_dts::{FastDts, FastDtsOptions};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/**/*.ts")]
 #[testing::fixture("tests/**/*.tsx")]
 fn fixture(input: PathBuf) {
+    run_fixture(input, false);
+}
+
+#[testing::fixture("tests/fixture/template-raw/*.ts")]
+fn missing_cooked(input: PathBuf) {
+    // The same declarations must be emitted for parsed and synthesized templates.
+    run_fixture(input, true);
+}
+
+struct ClearCooked;
+
+impl VisitMut for ClearCooked {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
+        if let Expr::Tpl(tpl) = expr {
+            for quasi in &mut tpl.quasis {
+                quasi.cooked = None;
+            }
+        }
+    }
+}
+
+fn run_fixture(input: PathBuf, clear_cooked: bool) {
     let mut dts_code = String::new();
     let res = testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load test case");
@@ -31,6 +56,10 @@ fn fixture(input: PathBuf) {
         .map(|program| program.apply(resolver(unresolved_mark, top_level_mark, true)))
         .map(|program| program.apply(paren_remover(None)))
         .unwrap();
+
+        if clear_cooked {
+            program.visit_mut_with(&mut ClearCooked);
+        }
 
         let internal_annotations = FastDts::get_internal_annotations(&comments);
         let mut checker = FastDts::new(

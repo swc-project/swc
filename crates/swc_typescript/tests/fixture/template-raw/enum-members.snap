@@ -1,0 +1,9 @@
+```==================== .D.TS ====================
+
+export declare enum Members {
+    A = 1,
+    Direct = 1,
+    Optional = 1
+}
+
+
