@@ -161,7 +161,11 @@ impl<I: Tokens> Parser<I> {
             || t == Token::Public
         {
             let word = self.input_mut().expect_word_token_and_bump();
-            self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(word.clone()));
+            // parameter names in a type position are not bindings, so the strict mode
+            // reserved word restriction does not apply to them
+            if !self.ctx().contains(Context::InType) {
+                self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(word.clone()));
+            }
             return Ok(Ident::new_no_ctxt(word, self.span(start)));
         };
 
