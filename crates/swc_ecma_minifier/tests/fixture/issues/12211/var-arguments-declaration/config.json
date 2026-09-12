@@ -1,0 +1,7 @@
+{
+    "defaults": false,
+    "arguments": true,
+    "unused": false,
+    "keep_fargs": true,
+    "module": false
+}
