@@ -8,4 +8,5 @@ class D {
         return C;
     }
 }
-sideEffectWith(C);
+class ExtendsC extends sideEffectWith(C) {
+}

@@ -1,3 +1,8 @@
 someFunction(function() {
-    return Unknown, 0;
+    class Dead extends Unknown {
+        m() {
+            Dead.x;
+        }
+    }
+    return 0;
 });

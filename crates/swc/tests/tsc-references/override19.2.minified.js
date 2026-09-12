@@ -4,4 +4,9 @@ class Context {
 class A {
     doSomething() {}
 }
-CreateMixin(Context, A), CreateMixin(Context, A);
+class B extends CreateMixin(Context, A) {
+    foo() {}
+}
+class C extends CreateMixin(Context, A) {
+    doSomethang() {}
+}
