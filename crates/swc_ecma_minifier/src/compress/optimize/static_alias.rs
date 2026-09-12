@@ -177,15 +177,6 @@ const MIN_USAGES_NUMBER_PARSE_INT: usize = min_usages_for_name(15); // "Number.p
 const MIN_USAGES_JSON_PARSE: usize = min_usages_for_name(10); // "JSON.parse" = 2
 const MIN_USAGES_JSON_STRINGIFY: usize = min_usages_for_name(14); // "JSON.stringify" = 2
 
-/// Promise methods (Promise.xxx) - "Promise." is 8 chars
-const MIN_USAGES_PROMISE_ALL: usize = min_usages_for_name(11); // "Promise.all" = 2
-const MIN_USAGES_PROMISE_ALL_SETTLED: usize = min_usages_for_name(18); // "Promise.allSettled" = 2
-const MIN_USAGES_PROMISE_ANY: usize = min_usages_for_name(11); // "Promise.any" = 2
-const MIN_USAGES_PROMISE_RACE: usize = min_usages_for_name(12); // "Promise.race" = 2
-const MIN_USAGES_PROMISE_REJECT: usize = min_usages_for_name(14); // "Promise.reject" = 2
-const MIN_USAGES_PROMISE_RESOLVE: usize = min_usages_for_name(15); // "Promise.resolve" = 2
-const MIN_USAGES_PROMISE_WITH_RESOLVERS: usize = min_usages_for_name(21); // "Promise.withResolvers" = 2
-
 /// Symbol methods (Symbol.xxx) - "Symbol." is 7 chars
 const MIN_USAGES_SYMBOL_FOR: usize = min_usages_for_name(10); // "Symbol.for" = 2
 const MIN_USAGES_SYMBOL_KEY_FOR: usize = min_usages_for_name(13); // "Symbol.keyFor" = 2
@@ -332,16 +323,6 @@ fn get_static_method_min_usages(obj: &str, prop: &str) -> Option<usize> {
         "JSON" => match prop {
             "parse" => Some(MIN_USAGES_JSON_PARSE),
             "stringify" => Some(MIN_USAGES_JSON_STRINGIFY),
-            _ => None,
-        },
-        "Promise" => match prop {
-            "all" => Some(MIN_USAGES_PROMISE_ALL),
-            "allSettled" => Some(MIN_USAGES_PROMISE_ALL_SETTLED),
-            "any" => Some(MIN_USAGES_PROMISE_ANY),
-            "race" => Some(MIN_USAGES_PROMISE_RACE),
-            "reject" => Some(MIN_USAGES_PROMISE_REJECT),
-            "resolve" => Some(MIN_USAGES_PROMISE_RESOLVE),
-            "withResolvers" => Some(MIN_USAGES_PROMISE_WITH_RESOLVERS),
             _ => None,
         },
         "Symbol" => match prop {
