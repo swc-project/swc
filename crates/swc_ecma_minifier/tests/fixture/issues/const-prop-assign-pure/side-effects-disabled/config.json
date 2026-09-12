@@ -1,0 +1,5 @@
+{
+    "defaults": false,
+    "pure_getters": true,
+    "side_effects": false
+}
