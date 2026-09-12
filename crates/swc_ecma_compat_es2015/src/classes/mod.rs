@@ -1,6 +1,6 @@
 use std::iter;
 
-use rustc_hash::FxBuildHasher;
+use rustc_hash::{FxBuildHasher, FxHashSet};
 use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -14,7 +14,7 @@ use swc_ecma_utils::{
     ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use self::{
@@ -23,15 +23,19 @@ use self::{
 };
 
 mod constructor;
+mod name;
 mod prop_name;
 
 pub fn classes(config: Config) -> impl Pass {
-    visit_mut_pass(Classes {
-        in_strict: false,
-        config,
+    fn_pass(move |program| {
+        program.visit_mut_with(&mut Classes {
+            in_strict: false,
+            config,
 
-        params: Default::default(),
-        args: Default::default(),
+            params: Default::default(),
+            args: Default::default(),
+            assignment_names: Default::default(),
+        })
     })
 }
 
@@ -75,6 +79,7 @@ struct Classes {
 
     params: Vec<Param>,
     args: Vec<ExprOrSpread>,
+    assignment_names: FxHashSet<Id>,
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
@@ -310,18 +315,11 @@ impl VisitMut for Classes {
     }
 
     fn visit_mut_assign_expr(&mut self, a: &mut AssignExpr) {
-        if let AssignExpr {
-            op: op!("=") | op!("||=") | op!("??="),
-            left,
-            right,
-            ..
-        } = a
+        if matches!(a.op, op!("=") | op!("||=") | op!("??="))
+            && matches!(a.left, AssignTarget::Simple(SimpleAssignTarget::Ident(_)))
+            && matches!(&*a.right, Expr::Class(ClassExpr { ident: None, .. }))
         {
-            if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
-                if let AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) = left {
-                    c.ident = Some(Ident::from(&*ident).into_private())
-                }
-            }
+            name::prepare(a, &mut self.assignment_names);
         }
 
         a.visit_mut_children_with(self)
@@ -380,6 +378,9 @@ impl Classes {
     /// }()
     /// ```
     fn fold_class(&mut self, class_name: Option<Ident>, class: Box<Class>) -> Expr {
+        let preserve_assignment_name = class_name
+            .as_ref()
+            .is_some_and(|name| self.assignment_names.remove(&name.to_id()));
         let span = class.span;
 
         // Ident of the super class *inside* function.
@@ -470,6 +471,10 @@ impl Classes {
                 }
                 _ => unreachable!(),
             }
+        }
+
+        if !has_super && preserve_assignment_name {
+            name::preserve_assignment_name(&mut stmts);
         }
 
         let body = FunctionBody {
