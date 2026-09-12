@@ -165,33 +165,11 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             return;
         }
 
-        // Has rest - create temp for RHS if needed
-        let (ref_ident, aliased) = alias_if_required(right, "_ref");
-
-        // Build sequence expression
+        // Preserve the RHS value for every extraction and the assignment result.
+        // Even an identifier may be overwritten by the pattern or its side effects.
         let mut out = ExprOutput::new(ctx);
-
-        if aliased {
-            // Declare the temp var
-            out.ctx
-                .var_declarations
-                .insert_var_declarator(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ref_ident.clone().into(),
-                    init: None,
-                    definite: false,
-                });
-            // _ref = source
-            out.exprs.push(
-                AssignExpr {
-                    span: DUMMY_SP,
-                    left: ref_ident.clone().into(),
-                    op: op!("="),
-                    right: right.take(),
-                }
-                .into(),
-            );
-        }
+        let ref_ident = out.declare_temp("_ref");
+        out.assign(ref_ident.clone().into(), right.take());
 
         let mut lowerer = RestLowerer::new(self.config, out);
         lowerer.visit(inner_pat, Box::new(ref_ident.clone().into()));
@@ -857,6 +835,11 @@ impl<O: RestOutput> RestLowerer<O> {
 
         // Extract nested pattern and replace with temp
         let nested_pat: Pat = match arr.elems[split_idx].as_mut() {
+            Some(Pat::Rest(rest)) => {
+                let nested = rest.arg.take();
+                *rest.arg = split_ref.clone().into();
+                *nested
+            }
             Some(Pat::Assign(assign)) => {
                 let nested = assign.left.take();
                 *assign.left = split_ref.clone().into();
