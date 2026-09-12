@@ -48,7 +48,7 @@ use swc_ecma_visit::VisitMutWith;
 pub use crate::pass::global_defs::globals_defs;
 use crate::usage_analyzer::marks::Marks;
 use crate::{
-    compress::{compressor, pure_optimizer, PureOptimizerConfig},
+    compress::{compressor, pure_optimizer, PureOptimizerConfig, UnsafeArrowStage},
     metadata::info_marker,
     mode::Minification,
     option::{CompressOptions, ExtraOptions, MinifyOptions},
@@ -174,6 +174,7 @@ pub fn optimize(
             marks,
             PureOptimizerConfig {
                 enable_join_vars: true,
+                unsafe_arrow_stage: UnsafeArrowStage::Finalize,
             },
         ));
     }

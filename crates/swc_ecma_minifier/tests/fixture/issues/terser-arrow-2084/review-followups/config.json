@@ -1,0 +1,8 @@
+{
+    "defaults": false,
+    "unsafe_arrows": true,
+    "unsafe": false,
+    "comparisons": false,
+    "evaluate": true,
+    "ecma": 2022
+}
