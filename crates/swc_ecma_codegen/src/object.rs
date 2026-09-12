@@ -78,11 +78,11 @@ impl MacroNode for KeyValueProp {
         if !key_span.is_dummy() && value_span.is_dummy() {
             emitter.wr.add_srcmap(key_span.hi)?;
         }
-        punct!(emitter, ":");
-        formatting_space!(emitter);
         if key_span.is_dummy() && !value_span.is_dummy() {
             emitter.wr.add_srcmap(value_span.lo)?;
         }
+        punct!(emitter, ":");
+        formatting_space!(emitter);
         emit!(self.value);
 
         Ok(())
@@ -97,6 +97,7 @@ impl MacroNode for AssignProp {
         srcmap!(emitter, self, true);
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
         punct!(emitter, "=");
         emit!(self.value);
 
@@ -130,6 +131,7 @@ impl MacroNode for GetterProp {
             formatting_space!(emitter);
         }
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
         formatting_space!(emitter);
         emitter.emit_fn_trailing(&self.function)?;
         emitter.end_scope()?;
@@ -175,6 +177,7 @@ impl MacroNode for SetterProp {
         }
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
         formatting_space!(emitter);
 
         if let Some(type_params) = &self.function.type_params {
@@ -233,6 +236,7 @@ impl MacroNode for MethodProp {
         }
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
         formatting_space!(emitter);
         // TODO
         emitter.emit_fn_trailing(&self.function)?;
@@ -294,9 +298,8 @@ impl MacroNode for ComputedPropName {
 
         punct!(emitter, "[");
         emit!(self.expr);
+        srcmap!(emitter, self, false, true);
         punct!(emitter, "]");
-
-        srcmap!(emitter, self, false);
 
         Ok(())
     }

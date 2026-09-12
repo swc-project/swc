@@ -64,6 +64,8 @@ impl MacroNode for EmptyStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap!(emitter, self, true);
+
         emitter.wr.write_punct(None, ";", false)?;
 
         Ok(())
@@ -95,6 +97,7 @@ impl MacroNode for ExprStmt {
 
         emitter.emit_trailing_comments_of_pos_with(self.span.hi, true, |emitter| {
             emit!(self.expr);
+            srcmap_for_separator!(emitter, self, self.expr);
 
             semi!(emitter);
 
@@ -111,6 +114,8 @@ impl MacroNode for DebuggerStmt {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self, true);
 
         keyword!(emitter, self.span, "debugger");
         semi!(emitter);
@@ -131,6 +136,7 @@ impl MacroNode for WithStmt {
 
         punct!(emitter, "(");
         emit!(self.obj);
+        srcmap_for_separator!(emitter, self, self.obj);
         punct!(emitter, ")");
 
         emit!(self.body);
@@ -165,6 +171,7 @@ impl MacroNode for ReturnStmt {
             }
 
             emit!(arg);
+            srcmap_for_separator!(emitter, self, arg);
             if need_paren {
                 punct!(emitter, ")");
             }
@@ -182,6 +189,7 @@ impl MacroNode for LabeledStmt {
         emitter.wr.commit_pending_semi()?;
 
         emit!(self.label);
+        srcmap_for_separator!(emitter, self, self.label);
 
         // TODO: Comment
         punct!(emitter, ":");
@@ -206,6 +214,7 @@ impl MacroNode for SwitchStmt {
 
         punct!(emitter, "(");
         emit!(self.discriminant);
+        srcmap_for_separator!(emitter, self, self.discriminant);
         punct!(emitter, ")");
 
         punct!(emitter, "{");
@@ -241,6 +250,7 @@ impl MacroNode for CatchClause {
 
             punct!(emitter, "(");
             emit!(param);
+            srcmap_for_separator!(emitter, self, param);
             punct!(emitter, ")");
         }
 
@@ -272,6 +282,7 @@ impl MacroNode for SwitchCase {
             }
 
             emit!(test);
+            srcmap_for_separator!(emitter, self, test);
         } else {
             keyword!(emitter, "default");
         }
@@ -319,6 +330,7 @@ impl MacroNode for ThrowStmt {
             }
 
             emit!(self.arg);
+            srcmap_for_separator!(emitter, self, self.arg);
             if need_paren {
                 punct!(emitter, ")");
             }
@@ -349,6 +361,11 @@ impl MacroNode for TryStmt {
         }
 
         if let Some(ref finally) = self.finalizer {
+            if let Some(ref catch) = self.handler {
+                srcmap_for_separator!(emitter, self, catch);
+            } else {
+                srcmap_for_separator!(emitter, self, self.block);
+            }
             formatting_space!(emitter);
             keyword!(emitter, "finally");
             // space!(emitter);
@@ -372,6 +389,7 @@ impl MacroNode for WhileStmt {
 
         punct!(emitter, "(");
         emit!(self.test);
+        srcmap_for_separator!(emitter, self, self.test);
         punct!(emitter, ")");
 
         emit!(self.body);
@@ -397,12 +415,14 @@ impl MacroNode for DoWhileStmt {
         }
         emit!(self.body);
 
+        srcmap_for_separator!(emitter, self, self.body);
         keyword!(emitter, "while");
 
         formatting_space!(emitter);
 
         punct!(emitter, "(");
         emit!(self.test);
+        srcmap_for_separator!(emitter, self, self.test);
         punct!(emitter, ")");
 
         if emitter.cfg.target <= EsVersion::Es5 {
@@ -428,10 +448,19 @@ impl MacroNode for ForStmt {
 
         punct!(emitter, "(");
         opt!(emitter, self.init);
+        if let Some(init) = &self.init {
+            srcmap_for_separator!(emitter, self, init);
+        }
         emitter.wr.write_punct(None, ";", false)?;
         opt_leading_space!(emitter, self.test);
+        if let Some(test) = &self.test {
+            srcmap_for_separator!(emitter, self, test);
+        }
         emitter.wr.write_punct(None, ";", false)?;
         opt_leading_space!(emitter, self.update);
+        if let Some(update) = &self.update {
+            srcmap_for_separator!(emitter, self, update);
+        }
         punct!(emitter, ")");
 
         emit!(self.body);
@@ -453,6 +482,7 @@ impl MacroNode for ForInStmt {
 
         punct!(emitter, "(");
         emit!(self.left);
+        srcmap_for_separator!(emitter, self, self.left);
 
         if self.left.ends_with_alpha_num() {
             space!(emitter);
@@ -471,6 +501,7 @@ impl MacroNode for ForInStmt {
             }
             emit!(self.right);
         }
+        srcmap_for_separator!(emitter, self, self.right);
 
         punct!(emitter, ")");
 
@@ -498,6 +529,7 @@ impl MacroNode for ForOfStmt {
         formatting_space!(emitter);
         punct!(emitter, "(");
         emit!(self.left);
+        srcmap_for_separator!(emitter, self, self.left);
         if self.left.ends_with_alpha_num() {
             space!(emitter);
         } else {
@@ -515,6 +547,7 @@ impl MacroNode for ForOfStmt {
             }
             emit!(self.right);
         }
+        srcmap_for_separator!(emitter, self, self.right);
         punct!(emitter, ")");
         emit!(self.body);
 
@@ -534,6 +567,7 @@ impl MacroNode for BreakStmt {
         if let Some(ref label) = self.label {
             space!(emitter);
             emit!(label);
+            srcmap_for_separator!(emitter, self, label);
         }
 
         semi!(emitter);
@@ -554,6 +588,7 @@ impl MacroNode for ContinueStmt {
         if let Some(ref label) = self.label {
             space!(emitter);
             emit!(label);
+            srcmap_for_separator!(emitter, self, label);
         }
 
         semi!(emitter);
@@ -576,6 +611,7 @@ impl MacroNode for IfStmt {
         formatting_space!(emitter);
         punct!(emitter, "(");
         emit!(self.test);
+        srcmap_for_separator!(emitter, self, self.test);
         punct!(emitter, ")");
         formatting_space!(emitter);
 
@@ -587,6 +623,7 @@ impl MacroNode for IfStmt {
         emit!(self.cons);
 
         if let Some(ref alt) = self.alt {
+            srcmap_for_separator!(emitter, self, self.cons);
             if is_cons_block {
                 formatting_space!(emitter);
             }

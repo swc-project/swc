@@ -1,5 +1,5 @@
 {
-  "mappings": "AAGAA,QAAQC,GAAG,CAAC",
+  "mappings": "AAGAA,QAAQC,GAAG,CAAC,cAAc",
   "names": [
     "console",
     "log"

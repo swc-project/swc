@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use ascii::AsciiChar;
-use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
+use swc_common::{comments::SingleThreadedComments, BytePos, FileName, LineCol, SourceMap};
 use swc_ecma_parser;
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::DebugUsingDisplay;
@@ -191,6 +191,26 @@ fn constructed_binary(op: BinaryOp, left: Box<Expr>, right: Box<Expr>) -> Expr {
     })
 }
 
+fn constructed_block(child_span: Span) -> BlockStmt {
+    BlockStmt {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        stmts: vec![Stmt::Expr(ExprStmt {
+            span: child_span,
+            expr: Box::new(Expr::Call(CallExpr {
+                span: child_span,
+                ctxt: Default::default(),
+                callee: Callee::Expr(Box::new(Expr::Ident(Ident::new_no_ctxt(
+                    "foo".into(),
+                    child_span,
+                )))),
+                args: vec![],
+                type_args: None,
+            })),
+        })],
+    }
+}
+
 fn emit_constructed_node<N>(node: &N, minify: bool) -> String
 where
     N: Node,
@@ -210,6 +230,59 @@ where
         Ok(output)
     })
     .unwrap()
+}
+
+fn emit_constructed_node_with_source_map<N>(
+    node: &N,
+    minify: bool,
+) -> (String, Vec<(BytePos, LineCol)>)
+where
+    N: Node,
+{
+    ::testing::run_test(false, |cm, _| {
+        let comments = SingleThreadedComments::default();
+        let mut output = Vec::new();
+        let mut mappings = Vec::new();
+        {
+            let writer =
+                text_writer::JsWriter::new(cm.clone(), "\n", &mut output, Some(&mut mappings));
+            let writer: Box<dyn WriteJs> = if minify {
+                Box::new(omit_trailing_semi(writer))
+            } else {
+                Box::new(writer)
+            };
+            let mut emitter = Emitter {
+                cfg: Config {
+                    minify,
+                    ..Default::default()
+                },
+                cm,
+                wr: writer,
+                comments: Some(&comments),
+            };
+            node.emit_with(&mut emitter).unwrap();
+        }
+
+        Ok((String::from_utf8(output).unwrap(), mappings))
+    })
+    .unwrap()
+}
+
+#[test]
+fn minified_dummy_block_omits_trailing_semi_without_source_map() {
+    let block = constructed_block(DUMMY_SP);
+    assert_eq!(emit_constructed_node(&block, true), "{foo()}");
+}
+
+#[test]
+fn minified_dummy_block_omits_trailing_semi_with_source_map() {
+    let block = constructed_block(Span::new(BytePos(1), BytePos(6)));
+    let (output, mappings) = emit_constructed_node_with_source_map(&block, true);
+
+    assert_eq!(output, "{foo()}");
+    assert!(mappings
+        .iter()
+        .any(|(pos, loc)| *pos == BytePos::SYNTHESIZED && *loc == LineCol { line: 0, col: 6 }));
 }
 
 fn assert_valid_constructed_expr(code: &str, syntax: Syntax) {

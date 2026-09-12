@@ -6,6 +6,7 @@ pub fn omit_trailing_semi<W: WriteJs>(w: W) -> impl WriteJs {
     OmitTrailingSemi {
         inner: w,
         pending_semi: None,
+        pending_srcmap: None,
     }
 }
 
@@ -13,6 +14,18 @@ pub fn omit_trailing_semi<W: WriteJs>(w: W) -> impl WriteJs {
 struct OmitTrailingSemi<W: WriteJs> {
     inner: W,
     pending_semi: Option<Span>,
+    pending_srcmap: Option<BytePos>,
+}
+
+impl<W: WriteJs> OmitTrailingSemi<W> {
+    #[inline]
+    fn commit_pending_srcmap(&mut self) -> Result {
+        if let Some(pos) = self.pending_srcmap.take() {
+            self.inner.add_srcmap(pos)?;
+        }
+
+        Ok(())
+    }
 }
 
 macro_rules! with_semi {
@@ -76,6 +89,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
             self.commit_pending_semi()?;
         } else {
             self.pending_semi = None;
+            self.commit_pending_srcmap()?;
         }
         self.inner.write_punct(span, s, commit_pending_semi)
     }
@@ -86,8 +100,56 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     }
 
     #[inline]
+    fn will_add_srcmap(&self, pos: BytePos) -> bool {
+        let Some(pending) = self.pending_srcmap else {
+            return self.inner.will_add_srcmap(pos);
+        };
+
+        // A new mapping replaces the deferred transition, so predict from its
+        // effective mapped state instead of the inner writer's stale state.
+        if pos.is_dummy() {
+            false
+        } else if pos == BytePos::SYNTHESIZED {
+            pending != BytePos::SYNTHESIZED
+        } else {
+            true
+        }
+    }
+
+    #[inline]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
+        // Match the inner writer's no-op semantics without discarding a
+        // transition that is already deferred until after a pending semicolon.
+        if pos.is_dummy() {
+            return Ok(());
+        }
+
+        if self.pending_srcmap.is_some()
+            || (self.pending_semi.is_some() && self.inner.will_add_srcmap(pos))
+        {
+            // Keep the transition immediately before the next output token.
+            // A closing delimiter may discard the pending semicolon first,
+            // while any other token commits it before changing mappings.
+            self.pending_srcmap = Some(pos);
+            return Ok(());
+        }
+
         self.inner.add_srcmap(pos)
+    }
+
+    #[inline]
+    fn add_srcmap_for_owner(&mut self, owner_span: Span, child_is_dummy: bool) -> Result {
+        if !self.care_about_srcmap() {
+            return Ok(());
+        }
+
+        if owner_span.is_dummy() {
+            self.add_srcmap(BytePos::SYNTHESIZED)
+        } else if child_is_dummy || !self.will_add_srcmap(BytePos::SYNTHESIZED) {
+            self.add_srcmap(owner_span.lo())
+        } else {
+            Ok(())
+        }
     }
 
     fn commit_pending_semi(&mut self) -> Result {
@@ -95,6 +157,8 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
             self.inner.write_semi(Some(span))?;
             self.pending_semi = None;
         }
+
+        self.commit_pending_srcmap()?;
         Ok(())
     }
 
@@ -141,7 +205,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 mod tests {
     use std::sync::Arc;
 
-    use swc_common::SourceMap;
+    use swc_common::{BytePos, LineCol, SourceMap, Span};
 
     use crate::text_writer::{basic_impl::JsWriter, BindingStorage, ScopeKind, WriteJs};
 
@@ -167,5 +231,137 @@ mod tests {
         assert_eq!(scopes.len(), 1);
         assert_eq!(scopes[0].bindings.len(), 1);
         assert_eq!(scopes[0].bindings[0].name, "x");
+    }
+
+    #[test]
+    fn flushes_pending_semi_before_unmapped_boundary() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut out = vec![];
+        let mut mappings = vec![];
+        {
+            let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+            let mut writer = super::omit_trailing_semi(writer);
+
+            writer.write_str("before()").unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.write_semi(None).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer.write_str("after").unwrap();
+        }
+
+        assert_eq!(out, b"before();after");
+        assert_eq!(
+            mappings,
+            vec![
+                (BytePos(1), LineCol { line: 0, col: 8 }),
+                (BytePos::SYNTHESIZED, LineCol { line: 0, col: 9 }),
+            ]
+        );
+    }
+
+    #[test]
+    fn defers_unmapped_boundary_until_discarding_punct() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut out = vec![];
+        let mut mappings = vec![];
+        {
+            let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+            let mut writer = super::omit_trailing_semi(writer);
+
+            writer.write_punct(None, "{", false).unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.write_str("foo()").unwrap();
+            writer.write_semi(None).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer.write_punct(None, "}", false).unwrap();
+        }
+
+        assert_eq!(out, b"{foo()}");
+        assert_eq!(
+            mappings,
+            vec![
+                (BytePos(1), LineCol { line: 0, col: 1 }),
+                (BytePos::SYNTHESIZED, LineCol { line: 0, col: 6 }),
+            ]
+        );
+    }
+
+    #[test]
+    fn restores_owner_mapping_after_deferred_unmapped_boundary() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut out = vec![];
+        let mut mappings = vec![];
+        {
+            let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+            let mut writer = super::omit_trailing_semi(writer);
+
+            writer.write_punct(None, "{", false).unwrap();
+            writer.add_srcmap(BytePos(1)).unwrap();
+            writer.write_str("foo()").unwrap();
+            writer.write_semi(None).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer
+                .add_srcmap_for_owner(Span::new(BytePos(1), BytePos(7)), false)
+                .unwrap();
+            writer.write_punct(None, "}", false).unwrap();
+        }
+
+        assert_eq!(out, b"{foo()}");
+        assert_eq!(
+            mappings,
+            vec![
+                (BytePos(1), LineCol { line: 0, col: 1 }),
+                (BytePos(1), LineCol { line: 0, col: 6 }),
+            ]
+        );
+    }
+
+    #[test]
+    fn preserves_pending_semi_before_redundant_unmapped_boundary() {
+        let source_map = Arc::new(SourceMap::default());
+        let mut out = vec![];
+        let mut mappings = vec![];
+        {
+            let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+            let mut writer = super::omit_trailing_semi(writer);
+
+            writer.write_punct(None, "{", false).unwrap();
+            writer.write_str("foo()").unwrap();
+            writer.write_semi(None).unwrap();
+            writer.add_srcmap(BytePos::SYNTHESIZED).unwrap();
+            writer.write_punct(None, "}", false).unwrap();
+        }
+
+        assert_eq!(out, b"{foo()}");
+        assert!(mappings.is_empty());
+    }
+
+    #[test]
+    fn preserves_deferred_srcmap_when_dummy_position_is_added() {
+        for deferred in [BytePos(2), BytePos::SYNTHESIZED] {
+            let source_map = Arc::new(SourceMap::default());
+            let mut out = vec![];
+            let mut mappings = vec![];
+            {
+                let writer = JsWriter::new(source_map, "\n", &mut out, Some(&mut mappings));
+                let mut writer = super::omit_trailing_semi(writer);
+
+                writer.write_str("before()").unwrap();
+                writer.add_srcmap(BytePos(1)).unwrap();
+                writer.write_semi(None).unwrap();
+                writer.add_srcmap(deferred).unwrap();
+                writer.add_srcmap(BytePos::DUMMY).unwrap();
+                writer.write_str("after").unwrap();
+            }
+
+            assert_eq!(out, b"before();after");
+            assert_eq!(
+                mappings,
+                vec![
+                    (BytePos(1), LineCol { line: 0, col: 8 }),
+                    (deferred, LineCol { line: 0, col: 9 }),
+                ]
+            );
+        }
     }
 }

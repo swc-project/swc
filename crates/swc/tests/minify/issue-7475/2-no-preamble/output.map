@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA,SAASA,MACLC,QAAQC,GAAG,CAAC,MAChB,CAEAF",
+  "mappings": "AAAA,SAASA,MACLC,QAAQC,GAAG,CAAC,KAAK,CACrB,CAEAF,IAAI",
   "names": [
     "foo",
     "console",
