@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(bindings)** Gate native npm releases on verified carriers ([#12292](https://github.com/swc-project/swc/issues/12292)) ([556044f](https://github.com/swc-project/swc/commit/556044f4af6738005b546163b3384378c5969298))
+
 ## [swc_core@v78.0.2] - 2026-09-12
 
 ### Bug Fixes

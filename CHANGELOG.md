@@ -209,6 +209,9 @@
 - **(bindings)** Add private compressed native addon foundation ([#12289](https://github.com/swc-project/swc/issues/12289)) ([2855b5a](https://github.com/swc-project/swc/commit/2855b5a8c1f24d09e69cca1ea80b03c3c55180e4))
 
 
+- **(bindings)** Gate native npm releases on verified carriers ([#12292](https://github.com/swc-project/swc/issues/12292)) ([556044f](https://github.com/swc-project/swc/commit/556044f4af6738005b546163b3384378c5969298))
+
+
 - **(es/module)** Support moduleRoot for AMD module IDs ([#11964](https://github.com/swc-project/swc/issues/11964)) ([4b4c135](https://github.com/swc-project/swc/commit/4b4c135ef479287bfc2c489e0214d04a1f4bfedb))
 
 ### Performance
