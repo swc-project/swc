@@ -779,6 +779,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_constructor_params(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
+        self.do_inside_of_context(Context::InParameters, Self::parse_constructor_params_inner)
+    }
+
+    fn parse_constructor_params_inner(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 
@@ -837,6 +841,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
+        self.do_inside_of_context(Context::InParameters, Self::parse_formal_params_inner)
+    }
+
+    fn parse_formal_params_inner(&mut self) -> PResult<Vec<Param>> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 

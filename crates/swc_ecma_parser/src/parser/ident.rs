@@ -91,7 +91,16 @@ impl<I: Tokens> Parser<I> {
             let span = self.input().cur_span();
             let word = self.input_mut().expect_word_token_and_bump();
             if atom!("arguments") == word || atom!("eval") == word {
-                self.emit_strict_mode_err(span, SyntaxError::EvalAndArgumentsInStrict);
+                // Ambient function parameters do not create runtime bindings.
+                // Keep strict-mode checks for variables and non-ambient types.
+                let ambient_parameter = self.syntax().typescript()
+                    && !self.syntax().flow()
+                    && self
+                        .ctx()
+                        .contains(Context::InDeclare | Context::InParameters);
+                if !ambient_parameter {
+                    self.emit_strict_mode_err(span, SyntaxError::EvalAndArgumentsInStrict);
+                }
             }
             return Ok(Ident::new_no_ctxt(word, span).into());
         }

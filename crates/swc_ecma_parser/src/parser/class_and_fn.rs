@@ -110,6 +110,22 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    /// Ambient function names, unlike ambient variables, may be `eval` or
+    /// `arguments` even in a strict-mode module.
+    fn parse_maybe_opt_function_ident(&mut self, required: bool) -> PResult<Option<Ident>> {
+        if self.syntax().typescript()
+            && !self.syntax().flow()
+            && self.ctx().contains(Context::InDeclare)
+            && self.input().is(Token::Ident)
+        {
+            let word = self.input().cur().take_word(self.input());
+            if word == atom!("eval") || word == atom!("arguments") {
+                return self.parse_ident(true, true).map(Some);
+            }
+        }
+        self.parse_maybe_opt_binding_ident(required, false)
+    }
+
     fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let type_args = if self.input().syntax().typescript() && self.input().is(Token::Lt) {
             let ret = self.parse_ts_type_args()?;
@@ -525,11 +541,11 @@ impl<I: Tokens> Parser<I> {
             let f_with_generator_context = |p: &mut Self| {
                 if is_generator {
                     p.do_inside_of_context(Context::InGenerator, |p| {
-                        p.parse_maybe_opt_binding_ident(is_ident_required, false)
+                        p.parse_maybe_opt_function_ident(is_ident_required)
                     })
                 } else {
                     p.do_outside_of_context(Context::InGenerator, |p| {
-                        p.parse_maybe_opt_binding_ident(is_ident_required, false)
+                        p.parse_maybe_opt_function_ident(is_ident_required)
                     })
                 }
             };
@@ -548,7 +564,7 @@ impl<I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.do_outside_of_context(
                 Context::AllowDirectSuper.union(Context::InClassField),
-                |p| p.parse_maybe_opt_binding_ident(is_ident_required, false),
+                |p| p.parse_maybe_opt_function_ident(is_ident_required),
             )?
         };
 
