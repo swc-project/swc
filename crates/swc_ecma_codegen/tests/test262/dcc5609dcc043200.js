@@ -1,3 +1,3 @@
 (class {
-    constructor(){}
+    static constructor() {}
 });

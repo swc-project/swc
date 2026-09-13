@@ -1190,6 +1190,12 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        // Static methods named `constructor` are ordinary methods in JavaScript
+        // and Flow. Preserve TypeScript's constructor classification so invalid
+        // constructor modifiers still produce the existing diagnostics.
+        let can_be_constructor =
+            static_token.is_none() || (self.syntax().typescript() && !self.syntax().flow());
+
         if self.input_mut().eat(Token::Asterisk) {
             // generator method
             let key = self.parse_class_prop_name()?;
@@ -1199,7 +1205,7 @@ impl<I: Tokens> Parser<I> {
             if readonly.is_some() {
                 self.emit_err(self.span(start), SyntaxError::ReadOnlyMethod);
             }
-            if is_constructor(&key) && (!self.syntax().flow() || static_token.is_none()) {
+            if can_be_constructor && is_constructor(&key) {
                 self.emit_err(self.span(start), SyntaxError::GeneratorConstructor);
             }
 
@@ -1269,8 +1275,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
                 }
             }
-            let is_constructor =
-                is_constructor(&key) && (!self.syntax().flow() || static_token.is_none());
+            let is_constructor = can_be_constructor && is_constructor(&key);
 
             if is_constructor {
                 if self.syntax().typescript() && is_override {
@@ -1467,7 +1472,7 @@ impl<I: Tokens> Parser<I> {
 
             let is_generator = self.input_mut().eat(Token::Asterisk);
             let key = self.parse_class_prop_name()?;
-            if is_constructor(&key) && (!self.syntax().flow() || static_token.is_none()) {
+            if can_be_constructor && is_constructor(&key) {
                 syntax_error!(self, key.span(), SyntaxError::AsyncConstructor)
             }
             if readonly.is_some() {
@@ -1512,7 +1517,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(key_span, SyntaxError::TS1003);
             }
 
-            if is_constructor(&key) && (!self.syntax().flow() || static_token.is_none()) {
+            if can_be_constructor && is_constructor(&key) {
                 self.emit_err(key_span, SyntaxError::ConstructorAccessor);
             }
 
