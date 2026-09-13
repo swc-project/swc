@@ -60,7 +60,7 @@ fn process_program_input(
             program,
             source_context,
         } => {
-            let (fm, program) = prepare_program_with_context(c, program, source_context)?;
+            let (fm, program) = prepare_program_with_context(&c.cm, program, source_context)?;
 
             c.process_js_with_custom_pass(
                 fm,
