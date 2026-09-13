@@ -1,0 +1,5 @@
+  x 'accessor' modifier cannot be used with 'declare' modifier.
+   ,-[$DIR/tests/errors/declare-readonly-initializers/accessor-no-initializer/input.ts:1:1]
+ 1 | class C { declare accessor x: number; }
+   :                   ^^^^^^^^
+   `----

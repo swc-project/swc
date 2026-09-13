@@ -10,7 +10,7 @@ use crate::{
     lexer::Token,
     parser::{
         state::State,
-        util::{IsInvalidClassName, IsSimpleParameterList},
+        util::{is_ts_ambient_initializer, IsInvalidClassName, IsSimpleParameterList},
     },
     Context, PResult, Parser,
 };
@@ -906,6 +906,21 @@ impl<I: Tokens> Parser<I> {
         if is_constructor(&key) {
             syntax_error!(self, key.span(), SyntaxError::PropertyNamedConstructor);
         }
+        if self.syntax().typescript() {
+            if let Some(span) = accessor_token {
+                if declare {
+                    self.emit_err(
+                        span,
+                        SyntaxError::TS1243(atom!("accessor"), atom!("declare")),
+                    );
+                } else if readonly {
+                    self.emit_err(
+                        span,
+                        SyntaxError::TS1243(atom!("accessor"), atom!("readonly")),
+                    );
+                }
+            }
+        }
         if key.is_private() {
             if declare && !self.syntax().flow() {
                 self.emit_err(
@@ -944,8 +959,19 @@ impl<I: Tokens> Parser<I> {
                 })
             })?;
 
+            // Definite assertions forbid initializers even outside ambient declarations.
+            if definite && value.is_some() {
+                p.emit_err(p.span(start), SyntaxError::TS1263);
+            }
+
             if declare && value.is_some() {
-                p.emit_err(p.span(start), SyntaxError::TS1183);
+                let allowed = p.syntax().typescript()
+                    && readonly
+                    && type_ann.is_none()
+                    && value.as_deref().is_some_and(is_ts_ambient_initializer);
+                if !allowed {
+                    p.emit_err(p.span(start), SyntaxError::TS1183);
+                }
             }
 
             if p.syntax().flow() && p.ctx().contains(Context::InDeclare) && type_ann.is_none() {
@@ -978,6 +1004,12 @@ impl<I: Tokens> Parser<I> {
                 // ambiguous when the separator came from ASI. An explicit `;`
                 // or Flow `,` should keep the next computed field valid.
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
+            }
+
+            // Check both ordinary properties and auto-accessors before constructing the
+            // AST.
+            if is_abstract && value.is_some() {
+                p.emit_err(p.span(start), SyntaxError::TS1267);
             }
 
             if accessor_token.is_some() {
@@ -1020,9 +1052,6 @@ impl<I: Tokens> Parser<I> {
                 }
                 Key::Public(key) => {
                     let span = p.span(start);
-                    if is_abstract && value.is_some() {
-                        p.emit_err(span, SyntaxError::TS1267)
-                    }
                     ClassProp {
                         span,
                         key,
