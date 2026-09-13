@@ -7446,6 +7446,10 @@ dependencies = [
 name = "swc_native_addon_pack"
 version = "0.1.0"
 dependencies = [
+ "memchr",
+ "object 0.36.7",
+ "serde_json",
+ "sha2",
  "swc_native_addon",
  "tempfile",
 ]

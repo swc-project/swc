@@ -28,6 +28,20 @@ concurrency:
   cancel-in-progress: "${{ github.event_name == 'pull_request' }}"
 
 jobs:
+  native-release-scripts:
+    name: Native release contracts
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+          submodules: recursive
+      - uses: ./.github/actions/setup-node
+      - name: Verify artifact and workflow contracts
+        run: node --test scripts/native/*.test.mjs
+
   detect-changes:
     name: Detect changes
     runs-on: ubuntu-latest

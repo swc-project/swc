@@ -114,6 +114,7 @@ fn noexec_mount(path: &Path) -> Result<bool> {
     Ok(noexec_mount_in(&path, &mounts))
 }
 
+#[cfg(target_os = "linux")]
 fn noexec_mount_in(path: &Path, mounts: &str) -> bool {
     let mut selected: Option<(PathBuf, bool)> = None;
     for line in mounts.lines() {
