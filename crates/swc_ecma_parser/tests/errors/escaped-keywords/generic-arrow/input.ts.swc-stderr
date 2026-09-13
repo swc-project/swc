@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: break
+   ,-[$DIR/tests/errors/escaped-keywords/generic-arrow/input.ts:1:1]
+ 1 | const f = <br\u0065ak,>(x: number) => x;
+   :            ^^^^^^^^^^
+   `----

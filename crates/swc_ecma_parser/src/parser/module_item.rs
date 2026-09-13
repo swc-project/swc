@@ -171,6 +171,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self, type_only: bool) -> PResult<ImportSpecifier> {
+        let mut escaped_keyword_error = self.input().escaped_keyword_error();
         let start = self.cur_pos();
         let orig_token = self.input().cur();
         match self.parse_module_export_name()? {
@@ -191,10 +192,14 @@ impl<I: Tokens> Parser<I> {
                         && orig_token == Token::TypeOf
                         && self.input().cur().is_word()
                     {
+                        let escaped_keyword_error = self.input().escaped_keyword_error();
                         let imported = self.parse_module_export_name()?;
                         let local = if self.input_mut().eat(Token::As) {
                             self.parse_binding_ident(false)?.into()
                         } else {
+                            if let Some(error) = escaped_keyword_error {
+                                self.emit_error(error);
+                            }
                             match &imported {
                                 ModuleExportName::Ident(i) => i.clone(),
                                 ModuleExportName::Str(s) => {
@@ -260,6 +265,7 @@ impl<I: Tokens> Parser<I> {
 
                     if self.input().cur().is_word() {
                         let possibly_orig_token = self.input().cur();
+                        escaped_keyword_error = self.input().escaped_keyword_error();
                         let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
                         if possibly_orig_token == Token::As {
                             // `import { type as } from 'mod'`
@@ -344,6 +350,10 @@ impl<I: Tokens> Parser<I> {
                         imported: Some(ModuleExportName::Ident(orig_name)),
                         is_type_only,
                     }));
+                }
+
+                if let Some(error) = escaped_keyword_error {
+                    self.emit_error(error);
                 }
 
                 // Handle difference between

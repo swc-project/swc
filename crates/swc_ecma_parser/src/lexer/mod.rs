@@ -2469,21 +2469,13 @@ impl<'a> Lexer<'a> {
     fn read_keyword_with(&mut self, convert: fn(&str) -> Option<Token>) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
-        let start = self.cur_pos();
         let (s, has_escape) = self.read_keyword_as_str_with()?;
         if let Some(word) = convert(s.as_ref()) {
-            // Note: ctx is store in lexer because of this error.
-            // 'await' and 'yield' may have semantic of reserved word, which means lexer
-            // should know context or parser should handle this error. Our approach to this
-            // problem is former one.
-            if has_escape && word.is_reserved(self.ctx()) {
-                self.error(
-                    start,
-                    SyntaxError::EscapeInReservedWord { word: Atom::new(s) },
-                )
-            } else {
-                Ok(word)
-            }
+            // Keep escaped keyword spellings until the parser knows whether this
+            // is a keyword or an IdentifierName (for example, a property name).
+            let value = has_escape.then(|| TokenValue::Word(self.atom(s)));
+            self.set_token_value(value);
+            Ok(word)
         } else {
             let atom = self.atom(s);
             Ok(Token::unknown_ident(atom, self))

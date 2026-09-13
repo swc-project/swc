@@ -3,7 +3,7 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
-    error::Error,
+    error::{Error, SyntaxError},
     lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
@@ -59,12 +59,13 @@ pub trait Tokens: Clone {
         false
     }
 
-    /// Saves the diagnostic buffer lengths for a whole-program retry.
+    /// Saves the diagnostic buffer lengths for speculative parsing or a
+    /// whole-program retry.
     fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
         (0, 0)
     }
 
-    /// Discards diagnostics emitted after a whole-program checkpoint.
+    /// Discards diagnostics emitted after a parser checkpoint.
     fn diagnostic_checkpoint_load(&mut self, _checkpoint: (usize, usize)) {}
 
     /// If the program was parsed as a script, this contains the module
@@ -333,7 +334,48 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(first_token);
     }
 
+    #[inline(always)]
+    pub(crate) fn has_escaped_keyword(&self) -> bool {
+        // Keyword tokens only carry a word value when their spelling has escapes.
+        (self.cur().is_keyword() || self.cur().is_known_ident())
+            && matches!(self.get_token_value(), Some(TokenValue::Word(_)))
+    }
+
+    #[inline(always)]
+    pub(crate) fn escaped_keyword_error(&self) -> Option<Error> {
+        if !self.has_escaped_keyword() {
+            return None;
+        }
+        let Some(TokenValue::Word(word)) = self.get_token_value() else {
+            return None;
+        };
+        if !self.cur().is_reserved(self.iter.ctx()) {
+            return None;
+        }
+        Some(Error::new(
+            self.cur.span,
+            SyntaxError::EscapeInReservedWord { word: word.clone() },
+        ))
+    }
+
+    #[inline]
     pub fn bump(&mut self) {
+        if self.has_escaped_keyword() {
+            self.report_escaped_keyword();
+        }
+        self.bump_without_escape_check();
+    }
+
+    #[cold]
+    #[inline(never)]
+    fn report_escaped_keyword(&mut self) {
+        if let Some(error) = self.escaped_keyword_error() {
+            self.iter.add_error(error);
+        }
+    }
+
+    /// IdentifierName permits escaped reserved words, unlike keyword syntax.
+    pub(crate) fn bump_without_escape_check(&mut self) {
         let next = if self.next.is_none() {
             self.iter.next_token()
         } else {
