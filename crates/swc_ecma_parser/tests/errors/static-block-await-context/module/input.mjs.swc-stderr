@@ -1,0 +1,5 @@
+  x `await` cannot be used as an identifier in an async context
+   ,-[$DIR/tests/errors/static-block-await-context/module/input.mjs:1:1]
+ 1 | class C { static { function f(await) {} } }
+   :                               ^^^^^
+   `----
