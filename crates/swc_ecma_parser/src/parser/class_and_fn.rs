@@ -461,11 +461,15 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
-        if is_async {
-            self.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
-        } else {
-            self.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
-        }
+        // Ordinary functions and methods establish their own Await grammar
+        // parameter, including their parameter lists, inside static blocks.
+        self.do_outside_of_context(Context::InStaticBlock, |p| {
+            if is_async {
+                p.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
+            } else {
+                p.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
+            }
+        })
     }
 
     pub(crate) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
@@ -535,7 +539,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             self.do_outside_of_context(
-                Context::AllowDirectSuper.union(Context::InClassField),
+                Context::AllowDirectSuper | Context::InClassField | Context::InStaticBlock,
                 |p| {
                     if is_async {
                         p.do_inside_of_context(Context::InAsync, f_with_generator_context)
@@ -905,11 +909,16 @@ impl<I: Tokens> Parser<I> {
 
         let type_ann = self.try_parse_ts_type_ann()?;
 
-        self.do_inside_of_context(Context::IncludeInExpr.union(Context::InClassField), |p| {
-            // Class field initializers have their own Await grammar parameter and must
-            // not inherit the unambiguous Program probe's top-level async context.
+        self.do_inside_of_context(Context::IncludeInExpr | Context::InClassField, |p| {
+            // Instance field initializers do not inherit a static block's Await
+            // restriction. All fields clear the Program probe's async context.
+            let reset_context = if is_static {
+                Context::InAsync
+            } else {
+                Context::InAsync | Context::InStaticBlock
+            };
             let value = p.without_async_arrow_param_await_collection(|p| {
-                p.do_outside_of_context(Context::InAsync, |p| {
+                p.do_outside_of_context(reset_context, |p| {
                     if p.input().is(Token::Eq) {
                         p.assert_and_bump(Token::Eq);
                         p.parse_assignment_expr().map(Some)
@@ -1305,7 +1314,10 @@ impl<I: Tokens> Parser<I> {
                 let ctor_sig_and_body =
                     (|| -> PResult<(Vec<ParamOrTsParamProp>, Option<FunctionBody>)> {
                         expect!(self, Token::LParen);
-                        let params = self.parse_constructor_params()?;
+                        let params = self.do_outside_of_context(
+                            Context::InStaticBlock,
+                            Self::parse_constructor_params,
+                        )?;
                         expect!(self, Token::RParen);
 
                         if self.syntax().flow() {

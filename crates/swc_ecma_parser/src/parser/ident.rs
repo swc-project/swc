@@ -121,10 +121,17 @@ impl<I: Tokens> Parser<I> {
             Ok(Some(
                 Ident::new_no_ctxt(atom!("this"), self.span(start)).into(),
             ))
-        } else if cur.is_word() && !cur.is_reserved(self.ctx()) {
-            self.parse_binding_ident(disallow_let).map(Some)
         } else {
-            Ok(None)
+            // Strict mode alone does not reserve `await` in a function name.
+            let is_await_ident = cur == Token::Await
+                && !self
+                    .ctx()
+                    .intersects(Context::InAsync | Context::InStaticBlock | Context::Module);
+            if is_await_ident || (cur.is_word() && !cur.is_reserved(self.ctx())) {
+                self.parse_binding_ident(disallow_let).map(Some)
+            } else {
+                Ok(None)
+            }
         }
     }
 
