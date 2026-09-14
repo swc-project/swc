@@ -1915,17 +1915,23 @@ impl<I: Tokens> Parser<I> {
         }
 
         if cur == Token::Await && (include_decl || top_level) {
-            let handled_by_explicit_program =
-                top_level && self.program_parse_mode == ProgramParseMode::None;
+            let is_await_using = peek!(self).is_some_and(|peek| peek == Token::Using)
+                && !self.input_mut().has_linebreak_between_cur_and_peeked();
+
+            // In Script grammar, `await` can start an expression or a label.
+            // Only `await using` needs a statement-level context error.
+            let handled_by_explicit_program = top_level
+                && self.program_parse_mode == ProgramParseMode::None
+                && (self
+                    .ctx()
+                    .intersects(Context::Module.union(Context::CanBeModule))
+                    || is_await_using);
             if handled_by_explicit_program {
                 self.mark_found_module_item();
                 if !self.ctx().contains(Context::CanBeModule) {
                     self.emit_err(self.input().cur_span(), SyntaxError::TopLevelAwaitInScript);
                 }
             }
-
-            let is_await_using = peek!(self).is_some_and(|peek| peek == Token::Using)
-                && !self.input_mut().has_linebreak_between_cur_and_peeked();
 
             if is_await_using {
                 let eaten_await = Some(self.input().cur_pos());

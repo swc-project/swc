@@ -1,0 +1,6 @@
+  x Expected ';', '}' or <eof>
+   ,-[$DIR/tests/errors/await-identifier/script/input.cjs:1:1]
+ 1 | await Promise.resolve(1);
+   : ^^|^^ ^^^^^^^
+   :   `-- This is the expression part of an expression statement
+   `----
