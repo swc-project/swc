@@ -2935,8 +2935,7 @@ function(global, factory) {
     // Pop all selection events off the end of a history array. Stop at
     // a change event.
     function clearSelectionEvents(array) {
-        for(; array.length;)if (lst(array).ranges) array.pop();
-        else break;
+        for(; array.length && lst(array).ranges;)array.pop();
     }
     // Register a change in the history. Merges changes that are within
     // a single operation, or are close together with an origin that

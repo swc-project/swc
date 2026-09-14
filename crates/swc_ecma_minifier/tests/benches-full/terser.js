@@ -3709,12 +3709,11 @@
     
      ***********************************************************************/ function() {
         var normalize_directives = function(body) {
-            for(var i = 0; i < body.length; i++)if (body[i] instanceof AST_Statement && body[i].body instanceof AST_String) body[i] = new AST_Directive({
+            for(var i = 0; i < body.length && body[i] instanceof AST_Statement && body[i].body instanceof AST_String; i++)body[i] = new AST_Directive({
                 start: body[i].start,
                 end: body[i].end,
                 value: body[i].body.value
             });
-            else break;
             return body;
         };
         let assert_clause_from_moz = (assertions)=>assertions && assertions.length > 0 ? new AST_Object({
@@ -9782,8 +9781,7 @@
                     !equivalentBranch && last_branch && next.body.push(make_node(AST_Break));
                     // let's find previous siblings with inert fallthrough...
                     let x = j - 1, fallthroughDepth = 0;
-                    for(; x > i;)if (is_inert_body(body[x--])) fallthroughDepth++;
-                    else break;
+                    for(; x > i && is_inert_body(body[x--]);)fallthroughDepth++;
                     let plucked = body.splice(j - fallthroughDepth, 1 + fallthroughDepth);
                     body.splice(i + 1, 0, ...plucked), i += plucked.length;
                 }

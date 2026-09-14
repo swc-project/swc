@@ -253,6 +253,57 @@ impl Pure<'_> {
                 s.body.take();
             }
         }
+
+        // Same as above, but for `if (test) cons; else break;`.
+        //
+        // The `break` is in the alternate, so `test` is already the condition
+        // for *continuing* the loop and must not be negated. `cons` becomes the
+        // loop body instead of being dropped, so jumps inside it keep targeting
+        // this loop.
+        let mut new_body = None;
+
+        if let Stmt::If(IfStmt {
+            span,
+            test,
+            cons,
+            alt: Some(alt),
+            ..
+        }) = &mut *s.body
+        {
+            if let Stmt::Break(BreakStmt { label: None, .. }) = &**alt {
+                // `cons` becomes the bare body of the loop, which only accepts a
+                // `Statement`. A function declaration is valid as an `if` branch
+                // under Annex B, but `for (; t;) function f() {}` never parses.
+                if matches!(&**cons, Stmt::Decl(..)) {
+                    return;
+                }
+
+                self.changed = true;
+                report_change!("loops: Compressing for-if-else-break into a for statement");
+
+                match s.test.as_deref_mut() {
+                    Some(e) => {
+                        let orig_test = e.take();
+                        *e = BinExpr {
+                            span: *span,
+                            op: op!("&&"),
+                            left: Box::new(orig_test),
+                            right: test.take(),
+                        }
+                        .into();
+                    }
+                    None => {
+                        s.test = Some(test.take());
+                    }
+                }
+
+                new_body = Some(cons.take());
+            }
+        }
+
+        if let Some(body) = new_body {
+            s.body = body;
+        }
     }
 
     pub(super) fn optimize_loops_with_constant_condition(&mut self, s: &mut Stmt) {
