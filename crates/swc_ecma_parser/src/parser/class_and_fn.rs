@@ -1938,6 +1938,7 @@ impl<I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
         is_ident_required: bool,
     ) -> PResult<(Option<Ident>, Box<Class>)> {
+        let outer_ctx = self.ctx();
         self.strict_mode(|p| {
             expect!(p, Token::Class);
 
@@ -2040,6 +2041,9 @@ impl<I: Tokens> Parser<I> {
                 p.do_outside_of_context(Context::HasSuperClass, Self::parse_class_body)?
             };
 
+            // Consuming `}` also lexes the next token, which belongs to the enclosing
+            // scope and must not inherit the class's strict mode.
+            p.set_ctx(outer_ctx);
             if p.input().cur() == Token::Eof {
                 let eof_text = p.input_mut().dump_cur();
                 p.emit_err(
