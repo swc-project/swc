@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_codegen"
 repository    = { workspace = true }
-version       = "32.0.1"
+version       = "32.0.2"
 
 [features]
 __testing_tsrx = ["swc_ecma_parser/tsrx"]
@@ -50,7 +50,7 @@ swc_allocator = { version = "5.0.0", path = "../swc_allocator" }
 swc_common = { version = "26.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "45.1.2", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "45.1.3", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "27.0.0", path = "../swc_ecma_testing" }
 swc_malloc = { version = "1.2.5", path = "../swc_malloc" }
 swc_sourcemap = { workspace = true }
