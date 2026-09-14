@@ -1193,6 +1193,9 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::Asterisk) {
             // generator method
             let key = self.parse_class_prop_name()?;
+            // TypeScript permits the same optional marker on generator methods.
+            let is_optional =
+                self.input().syntax().typescript() && self.input_mut().eat(Token::QuestionMark);
             if let Some(variance_span) = flow_variance_span {
                 self.emit_err(variance_span, SyntaxError::TS1184);
             }
@@ -1213,7 +1216,7 @@ impl<I: Tokens> Parser<I> {
                     accessibility,
                     is_abstract,
                     is_override,
-                    is_optional: false,
+                    is_optional,
                     static_token,
                     key,
                     kind: MethodKind::Method,
