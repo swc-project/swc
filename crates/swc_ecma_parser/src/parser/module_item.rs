@@ -68,61 +68,61 @@ impl<I: Tokens> Parser<I> {
                 // `export { type as }`
                 // `export { type as as }`
                 // `export { type as as as }`
+                // These names may also be string ModuleExportNames.
                 if self.syntax().typescript()
                     && orig_token == Token::Type
-                    && self.input().cur().is_word()
+                    && (self.input().cur().is_word() || self.input().cur() == Token::Str)
                 {
                     let possibly_orig_token = self.input().cur();
-                    let possibly_orig = self.parse_ident_name().map(Ident::from)?;
+                    let possibly_orig = self.parse_module_export_name()?;
                     if possibly_orig_token == Token::As {
                         // `export { type as }`
-                        if !self.input().cur().is_word() {
+                        if !(self.input().cur().is_word() || self.input().cur() == Token::Str) {
                             if type_only {
                                 self.emit_err(orig_ident.span, SyntaxError::TS2207);
                             }
 
                             return Ok(ExportNamedSpecifier {
                                 span: self.span(start),
-                                orig: ModuleExportName::Ident(possibly_orig),
+                                orig: possibly_orig,
                                 exported: None,
                                 is_type_only: true,
                             });
                         }
 
                         let maybe_as_token = self.input().cur();
-                        let maybe_as = self.parse_ident_name().map(Ident::from)?;
+                        let maybe_as = self.parse_module_export_name()?;
                         if maybe_as_token == Token::As {
-                            if self.input().cur().is_word() {
+                            if self.input().cur().is_word() || self.input().cur() == Token::Str {
                                 // `export { type as as as }`
                                 // `export { type as as foo }`
-                                let exported = self.parse_ident_name().map(Ident::from)?;
+                                let exported = self.parse_module_export_name()?;
 
                                 if type_only {
                                     self.emit_err(orig_ident.span, SyntaxError::TS2207);
                                 }
 
-                                debug_assert!(start <= orig_ident.span.hi());
                                 return Ok(ExportNamedSpecifier {
-                                    span: Span::new_with_checked(start, orig_ident.span.hi()),
-                                    orig: ModuleExportName::Ident(possibly_orig),
-                                    exported: Some(ModuleExportName::Ident(exported)),
+                                    span: self.span(start),
+                                    orig: possibly_orig,
+                                    exported: Some(exported),
                                     is_type_only: true,
                                 });
                             } else {
                                 // `export { type as as }`
                                 return Ok(ExportNamedSpecifier {
-                                    span: Span::new_with_checked(start, orig_ident.span.hi()),
+                                    span: self.span(start),
                                     orig: ModuleExportName::Ident(orig_ident),
-                                    exported: Some(ModuleExportName::Ident(maybe_as)),
+                                    exported: Some(maybe_as),
                                     is_type_only: false,
                                 });
                             }
                         } else {
                             // `export { type as xxx }`
                             return Ok(ExportNamedSpecifier {
-                                span: Span::new_with_checked(start, orig_ident.span.hi()),
+                                span: self.span(start),
                                 orig: ModuleExportName::Ident(orig_ident),
-                                exported: Some(ModuleExportName::Ident(maybe_as)),
+                                exported: Some(maybe_as),
                                 is_type_only: false,
                             });
                         }
@@ -134,7 +134,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         is_type_only = true;
-                        ModuleExportName::Ident(possibly_orig)
+                        possibly_orig
                     }
                 } else {
                     ModuleExportName::Ident(orig_ident)
