@@ -1288,6 +1288,12 @@ impl Optimizer<'_> {
 
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if elem.spread.is_some() {
+                        log_abort!("array spread");
+                        return false;
+                    }
+
                     if !self.is_skippable_for_seq(a, &elem.expr) {
                         log_abort!("array element");
                         return false;
