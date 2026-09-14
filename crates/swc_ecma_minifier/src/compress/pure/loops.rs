@@ -254,6 +254,12 @@ impl Pure<'_> {
             }
         }
 
+        // The arm above predates the `loops` option guard; it is left as is.
+        // This arm introduces a new transformation, so it stays opt-out.
+        if !self.options.loops {
+            return;
+        }
+
         // Same as above, but for `if (test) cons; else break;`.
         //
         // The `break` is in the alternate, so `test` is already the condition
