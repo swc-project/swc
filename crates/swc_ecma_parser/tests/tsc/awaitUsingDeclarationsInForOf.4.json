@@ -1,0 +1,84 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 141,
+    "end": 177
+  },
+  "body": [
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 141,
+        "end": 177
+      },
+      "ctxt": 0,
+      "stmts": [
+        {
+          "type": "ForOfStatement",
+          "span": {
+            "start": 145,
+            "end": 174
+          },
+          "await": false,
+          "left": {
+            "type": "UsingDeclaration",
+            "span": {
+              "start": 150,
+              "end": 164
+            },
+            "isAwait": true,
+            "decls": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 150,
+                  "end": 164
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 162,
+                    "end": 164
+                  },
+                  "ctxt": 0,
+                  "value": "of",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 168,
+              "end": 170
+            },
+            "ctxt": 0,
+            "value": "of",
+            "optional": false
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 172,
+              "end": 174
+            },
+            "ctxt": 0,
+            "stmts": []
+          }
+        },
+        {
+          "type": "EmptyStatement",
+          "span": {
+            "start": 174,
+            "end": 175
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

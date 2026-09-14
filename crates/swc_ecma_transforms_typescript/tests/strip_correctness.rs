@@ -142,6 +142,7 @@ fn identity(entry: PathBuf) {
                 decorators_before_export: true,
                 export_default_from: true,
                 import_attributes: true,
+                explicit_resource_management: true,
                 allow_super_outside_method: true,
                 auto_accessors: true,
                 ..Default::default()
