@@ -1,4 +1,4 @@
 class a {
-    constructor(){}
-    constructor(){}
+    static constructor() {}
+    static constructor() {}
 }

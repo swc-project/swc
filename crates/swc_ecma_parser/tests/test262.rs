@@ -31,9 +31,6 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "714be6d28082eaa7.js",
     "882910de7dd1aef9.js",
     "dd3c63403db5c06e.js",
-    // Static constructor
-    "dcc5609dcc043200.js",
-    "88d42455ac933ef5.js",
     // Wrong tests (variable name or value is different)
     "0339fa95c78c11bd.js",
     "0426f15dac46e92d.js",
