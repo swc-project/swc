@@ -363,62 +363,28 @@ impl<I: Tokens> Parser<I> {
                 .into())
             }
             Expr::Ident(ident) => Ok(ident.into()),
-            Expr::Array(ArrayLit {
-                elems: mut exprs, ..
-            }) => {
-                if exprs.is_empty() {
-                    return Ok(ArrayPat {
-                        span,
-                        elems: Vec::new(),
-                        optional: false,
-                        type_ann: None,
-                    }
-                    .into());
-                }
-                let count_of_trailing_elisions =
-                    if matches!(pat_ty, PatType::AssignPat | PatType::AssignElement) {
-                        // Array literal parsing does not add an element for a trailing comma, but
-                        // it does add `None` for each elision. Preserve
-                        // trailing elisions in assignment patterns because
-                        // array destructuring advances the iterator for each one.
-                        0
-                    } else {
-                        exprs.iter().rev().take_while(|e| e.is_none()).count()
-                    };
+            Expr::Array(ArrayLit { elems: exprs, .. }) => {
                 let len = exprs.len();
-                let mut params = Vec::with_capacity(len - count_of_trailing_elisions);
-                // Comma or other pattern cannot follow a rest pattern.
-                let idx_of_rest_not_allowed = if count_of_trailing_elisions == 0 {
-                    len - 1
-                } else {
-                    // The last element is an elision, so a rest pattern cannot be used.
-                    len - count_of_trailing_elisions
-                };
-                for expr in exprs.drain(..idx_of_rest_not_allowed) {
-                    match expr {
+                let mut params = Vec::with_capacity(len);
+                // Array literals do not store a trailing comma as an element. Every `None`,
+                // including a trailing one, is an elision that advances the iterator in both
+                // binding and assignment patterns.
+                for (idx, expr) in exprs.into_iter().enumerate() {
+                    let pat = match expr {
                         Some(
                             expr @ ExprOrSpread {
                                 spread: Some(..), ..
                             },
-                        ) => self.emit_err(expr.span(), SyntaxError::NonLastRestParam),
-                        Some(ExprOrSpread { expr, .. }) => {
-                            params.push(self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?)
+                        ) if idx + 1 != len => {
+                            self.emit_err(expr.span(), SyntaxError::NonLastRestParam);
+                            continue;
                         }
-                        None => params.push(None),
-                    }
-                }
-                if count_of_trailing_elisions == 0 {
-                    let expr = exprs.into_iter().next().unwrap();
-                    let outer_expr_span = expr.span();
-                    let last = match expr {
-                        // Rest
                         Some(ExprOrSpread {
                             spread: Some(dot3_token),
                             expr,
                         }) => {
-                            // TODO: is BindingPat correct?
                             if let Expr::Assign(_) = *expr {
-                                self.emit_err(outer_expr_span, SyntaxError::TS1048);
+                                self.emit_err(dot3_token.to(expr.span()), SyntaxError::TS1048);
                             };
                             if let Some(trailing_comma) = self.state().trailing_commas.get(&span.lo)
                             {
@@ -438,13 +404,11 @@ impl<I: Tokens> Parser<I> {
                                 .map(Some)?
                         }
                         Some(ExprOrSpread { expr, .. }) => {
-                            // TODO: is BindingPat correct?
                             self.reparse_expr_as_pat(pat_ty.element(), expr).map(Some)?
                         }
-                        // TODO: syntax error if last element is ellison and ...rest exists.
                         None => None,
                     };
-                    params.push(last);
+                    params.push(pat);
                 }
                 Ok(ArrayPat {
                     span,
