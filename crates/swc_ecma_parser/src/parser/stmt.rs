@@ -135,7 +135,8 @@ impl<I: Tokens> Parser<I> {
         let is_typescript =
             matches!(cur, Token::Bang | Token::Colon) && self.input().syntax().typescript();
 
-        let definite = if is_typescript {
+        // `!` cannot be a definite assignment assertion after a line break.
+        let definite = if is_typescript && !self.input().had_line_break_before_cur() {
             match name {
                 Pat::Ident(..) => self.input_mut().eat(Token::Bang),
                 _ => false,
