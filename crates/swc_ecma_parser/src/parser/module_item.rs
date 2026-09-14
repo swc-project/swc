@@ -19,6 +19,26 @@ impl<I: Tokens> Parser<I> {
         self.parse_block_body(allow_directives, end, handle_import_export)
     }
 
+    /// Parses attributes shared by imports and re-exports. Only the legacy
+    /// `assert` keyword has a no-line-terminator restriction before it.
+    fn parse_import_attributes(&mut self) -> PResult<Option<Box<ObjectLit>>> {
+        if !self.input().syntax().import_attributes() {
+            return Ok(None);
+        }
+
+        match self.input().cur() {
+            Token::With => {}
+            Token::Assert if !self.input().had_line_break_before_cur() => {}
+            _ => return Ok(None),
+        }
+        self.bump();
+
+        match self.parse_object_expr()? {
+            Expr::Object(v) => Ok(Some(Box::new(v))),
+            _ => unreachable!(),
+        }
+    }
+
     /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`
     fn parse_from_clause_and_semi(&mut self) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
         expect!(self, Token::From);
@@ -29,17 +49,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             unexpected!(self, "a string literal")
         };
-        let with = if self.input().syntax().import_attributes()
-            && !self.input().had_line_break_before_cur()
-            && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-        {
-            match self.parse_object_expr()? {
-                Expr::Object(v) => Some(Box::new(v)),
-                _ => unreachable!(),
-            }
-        } else {
-            None
-        };
+        let with = self.parse_import_attributes()?;
         self.expect_general_semi()?;
         Ok((src, with))
     }
@@ -905,17 +915,7 @@ impl<I: Tokens> Parser<I> {
         if self.input().cur() == Token::Str {
             self.enter_import_module_context();
             let src = Box::new(self.parse_str_lit());
-            let with = if self.input().syntax().import_attributes()
-                && !self.input().had_line_break_before_cur()
-                && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-            {
-                match self.parse_object_expr()? {
-                    Expr::Object(v) => Some(Box::new(v)),
-                    _ => unreachable!(),
-                }
-            } else {
-                None
-            };
+            let with = self.parse_import_attributes()?;
             self.eat_general_semi();
             return Ok(ImportDecl {
                 span: self.span(start),
@@ -1073,17 +1073,7 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
-        let with = if self.input().syntax().import_attributes()
-            && !self.input().had_line_break_before_cur()
-            && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-        {
-            match self.parse_object_expr()? {
-                Expr::Object(v) => Some(Box::new(v)),
-                _ => unreachable!(),
-            }
-        } else {
-            None
-        };
+        let with = self.parse_import_attributes()?;
 
         self.expect_general_semi()?;
 
