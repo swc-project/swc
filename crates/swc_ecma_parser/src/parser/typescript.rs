@@ -2609,6 +2609,13 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Eats ')` at the end but does not eat `(` at start.
     fn parse_ts_binding_list_for_signature(&mut self) -> PResult<Vec<TsFnParam>> {
+        self.do_inside_of_context(
+            Context::InParameters,
+            Self::parse_ts_binding_list_for_signature_inner,
+        )
+    }
+
+    fn parse_ts_binding_list_for_signature_inner(&mut self) -> PResult<Vec<TsFnParam>> {
         if !cfg!(feature = "typescript") {
             return Ok(Default::default());
         }
