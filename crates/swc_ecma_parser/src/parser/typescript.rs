@@ -2888,6 +2888,14 @@ impl<I: Tokens> Parser<I> {
 
         let label = self.try_parse_ts_tuple_element_name();
 
+        // Validate the confirmed label outside speculative parsing.
+        if let Some(Pat::Rest(rest)) = &label {
+            let is_optional = matches!(rest.arg.as_ref(), Pat::Ident(ident) if ident.id.optional);
+            if is_optional && !self.input().syntax().flow() {
+                syntax_error!(self, rest.span, SyntaxError::TsOptionalRestElement);
+            }
+        }
+
         if self.input().syntax().flow() {
             if variance_span.is_some() && label.is_none() {
                 self.emit_err(variance_span.unwrap(), SyntaxError::TS1003);
@@ -2967,22 +2975,23 @@ impl<I: Tokens> Parser<I> {
             )?
         };
 
-        // Validate the elementTypes to ensure:
-        //   No mandatory elements may follow optional elements
-        //   If there's a rest element, it must be at the end of the tuple
-
+        // No required elements may follow optional elements. Named elements store
+        // their optional/rest markers on the label instead of the type.
         let mut seen_optional_element = false;
 
         for elem in elems.iter() {
-            match *elem.ty {
-                TsType::TsRestType(..) => {}
-                TsType::TsOptionalType(..) => {
-                    seen_optional_element = true;
-                }
-                _ if seen_optional_element => {
-                    syntax_error!(self, self.span(start), SyntaxError::TsRequiredAfterOptional)
-                }
-                _ => {}
+            if matches!(&elem.label, Some(Pat::Rest(..)))
+                || matches!(*elem.ty, TsType::TsRestType(..))
+            {
+                continue;
+            }
+
+            let is_optional = matches!(&elem.label, Some(Pat::Ident(ident)) if ident.id.optional)
+                || matches!(*elem.ty, TsType::TsOptionalType(..));
+            if is_optional {
+                seen_optional_element = true;
+            } else if seen_optional_element {
+                syntax_error!(self, self.span(start), SyntaxError::TsRequiredAfterOptional)
             }
         }
 

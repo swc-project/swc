@@ -179,6 +179,7 @@ pub enum SyntaxError {
     DecoratorOnExport,
 
     TsRequiredAfterOptional,
+    TsOptionalRestElement,
     TsInvalidParamPropPat,
 
     SpaceBetweenHashAndIdent,
@@ -467,6 +468,9 @@ impl SyntaxError {
                 .into(),
             SyntaxError::TsRequiredAfterOptional => {
                 "A required element cannot follow an optional element.".into()
+            }
+            SyntaxError::TsOptionalRestElement => {
+                "A tuple member cannot be both optional and rest.".into()
             }
             SyntaxError::SuperCallOptional => "Super call cannot be optional".into(),
             SyntaxError::OptChainCannotFollowConstructorCall => {
