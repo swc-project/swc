@@ -4675,6 +4675,12 @@ impl<I: Tokens> Parser<I> {
 
         match &*expr.sym {
             "declare" => {
+                // A line break after `declare` terminates the expression statement, so the
+                // following declaration is not ambient.
+                if !self.syntax().flow() && self.input().had_line_break_before_cur() {
+                    return Ok(None);
+                }
+
                 let decl = self.try_parse_ts_declare(start, decorators)?;
                 if let Some(decl) = decl {
                     Ok(Some(make_decl_declare(decl)))
