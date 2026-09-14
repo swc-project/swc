@@ -470,7 +470,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "76.0.0"
+version = "77.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -5875,7 +5875,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "76.0.2"
+version = "77.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6041,7 +6041,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.123.6"
+version = "0.124.0"
 dependencies = [
  "anyhow",
  "par-core",
@@ -6050,7 +6050,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "78.0.0"
+version = "79.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -6155,7 +6155,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "78.0.3"
+version = "79.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6779,7 +6779,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "63.0.0"
+version = "64.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6923,7 +6923,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "62.0.0"
+version = "63.0.0"
 dependencies = [
  "par-core",
  "swc_common",
@@ -7021,7 +7021,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "55.0.1"
+version = "56.0.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -7212,7 +7212,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "70.1.0"
+version = "71.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -7455,7 +7455,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "77.0.0"
+version = "78.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
