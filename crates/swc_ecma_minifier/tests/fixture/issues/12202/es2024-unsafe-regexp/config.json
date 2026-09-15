@@ -1,0 +1,6 @@
+{
+    "defaults": true,
+    "unsafe": true,
+    "unsafe_regexp": true,
+    "ecma": 2024
+}
