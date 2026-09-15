@@ -1199,7 +1199,10 @@ impl<I: Tokens> Parser<I> {
             }
             return self.parse_static_block(start);
         }
-        if self.input().is(Token::Static) && peek!(self).is_some_and(|cur| cur == Token::LBrace) {
+        if self.input().is(Token::Static)
+            && !self.input().has_escaped_keyword()
+            && peek!(self).is_some_and(|cur| cur == Token::LBrace)
+        {
             // For "readonly", "abstract" and "override"
             if let Some(span) = modifier_span {
                 self.emit_err(span, SyntaxError::TS1184);
@@ -1727,8 +1730,12 @@ impl<I: Tokens> Parser<I> {
 
         let static_token = {
             let start = self.cur_pos();
-            if self.input_mut().eat(Token::Static) {
-                Some(self.span(start))
+            // Escaped keywords are property names, never modifiers. In particular,
+            // an escaped `static` followed by a line break must allow field ASI.
+            if self.input().is(Token::Static) && !self.input().has_escaped_keyword() {
+                self.bump();
+                let span = self.span(start);
+                Some(span)
             } else {
                 None
             }
@@ -1853,8 +1860,6 @@ impl<I: Tokens> Parser<I> {
                         false,
                     );
                 }
-            } else {
-                // TODO: error if static contains escape
             }
         }
 

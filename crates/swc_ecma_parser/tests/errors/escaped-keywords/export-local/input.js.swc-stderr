@@ -1,0 +1,5 @@
+  x `break` cannot be used without `from` clause
+   ,-[$DIR/tests/errors/escaped-keywords/export-local/input.js:1:1]
+ 1 | export { br\u0065ak };
+   :          ^^^^^^^^^^
+   `----
