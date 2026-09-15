@@ -1,0 +1,9 @@
+regex
+regex string key
+function
+class
+function string key
+class string key
+nonempty function
+ReferenceError
+true
