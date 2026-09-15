@@ -1,2 +1,7 @@
 //// [computedPropertyNames21_ES6.ts]
-this.bar();
+class C {
+    bar() {
+        return 0;
+    }
+    [this.bar()]() {}
+}
