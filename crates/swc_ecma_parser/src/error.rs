@@ -262,6 +262,7 @@ pub enum SyntaxError {
     TS1243(Atom, Atom),
     TS1244,
     TS1245,
+    TS1263,
     TS1267,
     TS1273(Atom),
     TS1274(Atom),
@@ -675,6 +676,9 @@ impl SyntaxError {
                 format!("'{left}' modifier cannot be used with '{right}' modifier.").into()
             }
             SyntaxError::TS1245 => "Abstract method cannot have an implementation.".into(),
+            SyntaxError::TS1263 => "Declarations with initializers cannot also have definite \
+                                    assignment assertions."
+                .into(),
             SyntaxError::TS1267 => "Abstract property cannot have an initializer.".into(),
             SyntaxError::TS1273(word) => {
                 format!("'{word}' modifier cannot appear on a type parameter").into()

@@ -28,7 +28,9 @@ use testing::NormalizedOutput;
 #[testing::fixture(
     "../swc_ecma_parser/tests/tsc/**/*.ts",
     exclude(
-        "autoAccessor",
+        // Keep lowering cases excluded while checking valid modifiers at esnext.
+        "autoAccessor[0-9]",
+        "autoAccessorNoUseDefineForClassFields",
         "enumConstantMembers.ts",
         "privateNameAndAny.ts",
         "privateNameAndIndexSignature.ts",
