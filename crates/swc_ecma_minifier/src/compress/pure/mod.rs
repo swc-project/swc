@@ -38,6 +38,8 @@ mod vars;
 pub(crate) struct PureOptimizerConfig {
     /// pass > 1
     pub enable_join_vars: bool,
+    /// Preserve quoted property syntax for `keep_quoted: "strict"`.
+    pub preserve_quoted_props: bool,
 }
 
 #[allow(clippy::needless_lifetimes)]

@@ -1,0 +1,8 @@
+{
+    "defaults": false,
+    "global_defs": {
+        "CONFIG": {
+            "publicApi": 1
+        }
+    }
+}

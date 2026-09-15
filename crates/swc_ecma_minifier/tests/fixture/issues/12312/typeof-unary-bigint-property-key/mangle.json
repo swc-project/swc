@@ -1,0 +1,6 @@
+{
+    "disableCharFreq": true,
+    "props": {
+        "regex": "^(bigint|longproperty)$"
+    }
+}

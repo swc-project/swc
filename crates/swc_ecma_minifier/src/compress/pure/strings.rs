@@ -714,6 +714,7 @@ mod tests {
                 marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
+                    preserve_quoted_props: false,
                 },
             );
 
