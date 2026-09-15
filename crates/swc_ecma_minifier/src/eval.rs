@@ -9,7 +9,7 @@ use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::VisitMutWith;
 
 use crate::{
-    compress::{compressor, pure_optimizer, PureOptimizerConfig},
+    compress::{collect_writable_bindings, compressor, pure_optimizer, PureOptimizerConfig},
     mode::Mode,
     option::{CompressOptions, TopLevelOptions},
     usage_analyzer::marks::Marks,
@@ -226,12 +226,14 @@ impl Evaluator {
                 }
                 .into();
 
+                let writable_bindings = collect_writable_bindings(&e);
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: true,
                     },
+                    &writable_bindings,
                 ));
                 return Some(Box::new(e));
             }
@@ -250,12 +252,14 @@ impl Evaluator {
                 }
                 .into();
 
+                let writable_bindings = collect_writable_bindings(&e);
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: false,
                     },
+                    &writable_bindings,
                 ));
                 return Some(Box::new(e));
             }
@@ -304,12 +308,14 @@ impl Evaluator {
         .into();
 
         {
+            let writable_bindings = collect_writable_bindings(&e);
             e.visit_mut_with(&mut pure_optimizer(
                 &Default::default(),
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
                 },
+                &writable_bindings,
             ));
         }
 

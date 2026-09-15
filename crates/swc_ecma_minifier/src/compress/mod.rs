@@ -12,7 +12,7 @@ use swc_ecma_visit::VisitWith;
 #[cfg(debug_assertions)]
 use tracing::debug;
 
-pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
+pub(crate) use self::pure::{collect_writable_bindings, pure_optimizer, PureOptimizerConfig};
 use self::{
     hoist_decls::DeclHoisterConfig,
     optimize::{optimizer, StaticAliasState},
@@ -52,6 +52,7 @@ where
         pass: 1,
         mode,
         static_alias_state: Default::default(),
+        writable_bindings: Default::default(),
     }
 }
 
@@ -66,6 +67,12 @@ struct Compressor<'a> {
 
     /// State for static alias optimization, shared across passes.
     static_alias_state: StaticAliasState,
+
+    /// Bindings whose self-assignments can be safely removed.
+    ///
+    /// Resolver IDs are stable for the lifetime of a compression unit, so this
+    /// analysis can be reused by every repeated pure-optimizer pass.
+    writable_bindings: pure::WritableBindings,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -101,6 +108,8 @@ impl Compressor<'_> {
             n.visit_mut_with(&mut v);
             self.changed |= v.changed();
         }
+
+        self.writable_bindings = pure::collect_writable_bindings(&*n);
 
         loop {
             self.changed = false;
@@ -157,6 +166,7 @@ impl Compressor<'_> {
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
                 },
+                &self.writable_bindings,
             );
             n.visit_mut_with(&mut visitor);
 
