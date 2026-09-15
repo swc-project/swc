@@ -793,16 +793,19 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
         }
 
         let type_pred_start = p.input().cur_pos();
-        let has_type_pred_asserts = p.input().cur().is_asserts() && {
-            let ctx = p.ctx();
-            peek!(p).is_some_and(|peek| {
-                if peek.is_word() {
-                    !peek.is_reserved(ctx)
-                } else {
-                    false
-                }
-            })
-        };
+        // In TypeScript, `asserts` and its parameter must be on the same line.
+        let has_type_pred_asserts = p.input().cur().is_asserts()
+            && {
+                let ctx = p.ctx();
+                peek!(p).is_some_and(|peek| {
+                    if peek.is_word() {
+                        !peek.is_reserved(ctx)
+                    } else {
+                        false
+                    }
+                })
+            }
+            && !p.input_mut().has_linebreak_between_cur_and_peeked();
 
         if has_type_pred_asserts {
             p.assert_and_bump(&P::Token::ASSERTS);
@@ -2435,7 +2438,10 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
         || cur.is_await()
         || cur.is_break()
     {
-        if p.input().is(&P::Token::ASSERTS) && peek!(p).is_some_and(|peek| peek.is_this()) {
+        if p.input().is(&P::Token::ASSERTS)
+            && peek!(p).is_some_and(|peek| peek.is_this())
+            && !p.input_mut().has_linebreak_between_cur_and_peeked()
+        {
             p.bump();
             let this_keyword = parse_ts_this_type_node(p)?;
             return parse_ts_this_type_predicate(p, start, true, this_keyword)

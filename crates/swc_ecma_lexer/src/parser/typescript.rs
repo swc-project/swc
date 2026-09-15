@@ -1,11 +1,15 @@
 #[cfg(test)]
 mod tests {
+    use std::path::PathBuf;
+
+    use swc_common::SourceMap;
     use swc_ecma_ast::*;
 
     use crate::{
         common::parser::Parser as ParserTrait,
+        lexer,
         token::{BinOpToken, Token, TokenAndSpan},
-        Capturing, Lexer, Parser, Syntax,
+        Capturing, Lexer, Parser, StringInput, Syntax,
     };
 
     #[test]
@@ -61,5 +65,26 @@ mod tests {
             Ok(())
         })
         .unwrap();
+    }
+
+    // Share inputs with the main parser's AST snapshot tests.
+    #[testing::fixture("../swc_ecma_parser/tests/typescript/function/predicate-types/*.ts")]
+    fn type_predicates(file: PathBuf) {
+        let cm = SourceMap::default();
+        let file = cm.load_file(&file).expect("failed to load fixture");
+        let syntax = Syntax::Typescript(Default::default());
+        let input = Lexer::new(syntax, Default::default(), StringInput::from(&*file), None);
+        let mut parser = Parser::new_from(input.clone());
+        let actual = parser.parse_module().expect("type predicates should parse");
+        let errors = parser.take_errors();
+        assert!(errors.is_empty(), "{errors:?}");
+
+        let mut reference = swc_ecma_parser::Parser::new(syntax, StringInput::from(&*file), None);
+        let expected = reference.parse_module().expect("reference should parse");
+        assert!(reference.take_errors().is_empty());
+        assert_eq!(actual, expected);
+
+        let tokens = lexer(input).expect("public lexer should accept type predicates");
+        assert!(!tokens.is_empty());
     }
 }
