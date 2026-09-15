@@ -1,0 +1,26 @@
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/mixed/input.ts:1:1]
+ 1 | declare function top(a = 1): void;
+   :                      ^^^^^
+ 2 | declare function obj({ a = 1 }): void;
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/mixed/input.ts:2:1]
+ 1 | declare function top(a = 1): void;
+ 2 | declare function obj({ a = 1 }): void;
+   :                        ^^^^^
+ 3 | declare function arr([a = 1]): void;
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/mixed/input.ts:3:1]
+ 2 | declare function obj({ a = 1 }): void;
+ 3 | declare function arr([a = 1]): void;
+   :                       ^^^^^
+ 4 | declare function nested({ a: { b = 1 } }): void;
+   `----
+  x A parameter initializer is only allowed in a function or constructor implementation
+   ,-[$DIR/tests/typescript-errors/ts2371/mixed/input.ts:4:1]
+ 3 | declare function arr([a = 1]): void;
+ 4 | declare function nested({ a: { b = 1 } }): void;
+   :                                ^^^^^
+   `----
