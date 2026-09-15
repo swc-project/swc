@@ -251,13 +251,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        // we must inline first to avoid https://github.com/swc-project/swc/issues/11517
-        stmts
-            .iter_mut()
-            .filter_map(|s| s.as_stmt_mut().and_then(|s| s.as_mut_if_stmt()))
-            .for_each(|s| {
-                self.changed |= self.vars.inline_with_multi_replacer(s);
-            });
+        // NOTE: The caller is responsible for applying pending substitutions
+        // to the statement list (see `handle_stmt_likes`, which does it in a
+        // single batch walk for `if`-dense lists) before merging. This is
+        // required to avoid https://github.com/swc-project/swc/issues/11517
 
         let has_work =
             stmts
