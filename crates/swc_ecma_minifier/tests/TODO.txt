@@ -2,7 +2,6 @@ arguments/modified/input.js
 arrays/constant_join_3/input.js
 arrays/for_loop/input.js
 arrays/index_length/input.js
-arrow/issue_2084/input.js
 arrow/issue_2105_1/input.js
 arrow/issue_2105_2/input.js
 ascii/ascii_only_false/input.js

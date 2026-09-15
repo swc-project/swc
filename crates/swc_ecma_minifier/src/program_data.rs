@@ -99,6 +99,12 @@ bitflags::bitflags! {
         const USED_ARGUMENTS = 1 << 2;
         const IS_FN = 1 << 3;
         const IS_ARROW = 1 <<4;
+        /// Direct `eval` calls reachable without crossing an ordinary
+        /// function boundary.
+        const HAS_EVAL_CALL_IN_FN_SCOPE = 1 << 5;
+        /// `with` statements reachable without crossing an ordinary function
+        /// boundary.
+        const HAS_WITH_STMT_IN_FN_SCOPE = 1 << 6;
     }
 }
 
@@ -593,6 +599,11 @@ impl ScopeDataLike for ScopeData {
         *self |= other & Self::HAS_WITH_STMT;
         *self |= other & Self::HAS_EVAL_CALL;
 
+        if !is_child || !other.intersects(ScopeData::IS_FN) || other.intersects(ScopeData::IS_ARROW)
+        {
+            *self |= other & Self::HAS_EVAL_CALL_IN_FN_SCOPE.union(Self::HAS_WITH_STMT_IN_FN_SCOPE);
+        }
+
         if is_child {
             if !other.intersects(ScopeData::IS_FN) || other.intersects(ScopeData::IS_ARROW) {
                 *self |= other & Self::USED_ARGUMENTS;
@@ -607,11 +618,11 @@ impl ScopeDataLike for ScopeData {
     }
 
     fn mark_eval_called(&mut self) {
-        *self |= Self::HAS_EVAL_CALL;
+        *self |= Self::HAS_EVAL_CALL | Self::HAS_EVAL_CALL_IN_FN_SCOPE;
     }
 
     fn mark_with_stmt(&mut self) {
-        *self |= Self::HAS_WITH_STMT;
+        *self |= Self::HAS_WITH_STMT | Self::HAS_WITH_STMT_IN_FN_SCOPE;
     }
 
     fn used_arguments(&self) -> bool {
