@@ -11,14 +11,18 @@ Object.defineProperty(exports, "ServiceError", {
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const CD = ()=>{};
 const PD = ()=>{};
+let _ServiceError;
 class ServiceError extends Error {
-    code = ServiceError.Code.badResponse;
+    static{
+        _ServiceError = this;
+    }
+    code = _ServiceError.Code.badResponse;
     name = "ServiceError.BadResponse";
 }
 _ts_decorate._([
     PD
 ], ServiceError.prototype, "code", void 0);
-ServiceError = _ts_decorate._([
+ServiceError = _ServiceError = _ts_decorate._([
     CD
 ], ServiceError);
 (function(ServiceError) {

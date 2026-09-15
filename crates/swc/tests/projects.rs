@@ -995,7 +995,7 @@ fn issue_2224() {
     .unwrap();
     println!("{output}");
 
-    assert!(output.contains("this.property = TestClass.name"));
+    assert!(output.contains("this.property = _TestClass.name"));
 }
 
 #[test]

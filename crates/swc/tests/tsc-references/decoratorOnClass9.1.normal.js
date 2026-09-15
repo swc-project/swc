@@ -7,6 +7,7 @@ var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
+var _B;
 // https://github.com/Microsoft/TypeScript/issues/16417
 var B = /*#__PURE__*/ function(A) {
     "use strict";
@@ -17,12 +18,13 @@ var B = /*#__PURE__*/ function(A) {
     }
     var _proto = B.prototype;
     _proto.m = function m() {
-        return B.x;
+        return _B.x;
     };
     return B;
 }(A);
+_B = B;
 B.x = 1;
-B.y = B.x;
-B = _ts_decorate([
+B.y = _B.x;
+B = _B = _ts_decorate([
     dec
 ], B);

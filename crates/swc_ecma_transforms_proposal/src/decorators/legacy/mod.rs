@@ -12,6 +12,7 @@ use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use self::metadata::{Metadata, ParamMetadata};
 use super::contains_decorator;
 
+mod class_name;
 mod metadata;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -26,10 +27,12 @@ pub(super) fn new(metadata: bool) -> TscDecorator {
         metadata,
         enums: Default::default(),
         vars: Default::default(),
+        lets: Default::default(),
         appended_exprs: Default::default(),
         appended_private_access_exprs: Default::default(),
         prepended_exprs: Default::default(),
         class_name: Default::default(),
+        is_class_decl: false,
 
         assign_class_expr_to: Default::default(),
     }
@@ -42,21 +45,43 @@ pub(super) struct TscDecorator {
 
     /// Used for computed keys, and this variables are not initialized.
     vars: Vec<VarDeclarator>,
+    lets: Vec<VarDeclarator>,
     appended_exprs: Vec<Box<Expr>>,
     appended_private_access_exprs: Vec<Box<Expr>>,
     prepended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
+    is_class_decl: bool,
 
     assign_class_expr_to: Option<Ident>,
 }
 
 impl TscDecorator {
+    fn visit_class_expr(&mut self, n: &mut ClassExpr, is_class_decl: bool) {
+        if !contains_decorator(n) {
+            return;
+        }
+
+        let ident = n
+            .ident
+            .get_or_insert_with(|| private_ident!("_class"))
+            .clone();
+        let old = self.class_name.replace(ident.clone());
+        let old_is_class_decl = mem::replace(&mut self.is_class_decl, is_class_decl);
+
+        n.visit_mut_children_with(self);
+
+        self.assign_class_expr_to = Some(ident);
+        self.class_name = old;
+        self.is_class_decl = old_is_class_decl;
+    }
+
     fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + VisitMutWith<Self>,
     {
         let old_vars = self.vars.take();
+        let old_lets = self.lets.take();
         let old_appended_exprs = self.appended_exprs.take();
         let old_prepended_exprs = self.prepended_exprs.take();
 
@@ -66,6 +91,15 @@ impl TscDecorator {
             debug_assert!(self.appended_exprs.is_empty());
 
             s.visit_mut_with(self);
+
+            if !self.lets.is_empty() {
+                new.push(T::from(Stmt::from(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    decls: self.lets.take(),
+                    ..Default::default()
+                })));
+            }
 
             if !self.vars.is_empty() {
                 new.push(T::from(
@@ -114,6 +148,7 @@ impl TscDecorator {
         self.prepended_exprs = old_prepended_exprs;
         self.appended_exprs = old_appended_exprs;
         self.vars = old_vars;
+        self.lets = old_lets;
     }
 
     fn key(&mut self, k: &mut PropName) -> Expr {
@@ -273,6 +308,22 @@ impl VisitMut for TscDecorator {
             n.visit_mut_with(&mut Metadata::new(&self.enums, i.as_ref()));
         }
 
+        let alias = if self.is_class_decl && !n.decorators.is_empty() {
+            self.class_name
+                .as_ref()
+                .and_then(|name| class_name::alias_class_references(n, name))
+        } else {
+            None
+        };
+        if let Some(alias) = &alias {
+            self.lets.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: alias.clone().into(),
+                init: None,
+                definite: false,
+            });
+        }
+
         n.visit_mut_children_with(self);
 
         let appended_private =
@@ -319,7 +370,7 @@ impl VisitMut for TscDecorator {
                 }
                 .as_arg();
 
-                let decorated = CallExpr {
+                let mut decorated: Box<Expr> = CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(ts, ts_decorate),
                     args: vec![
@@ -332,6 +383,15 @@ impl VisitMut for TscDecorator {
                     ..Default::default()
                 }
                 .into();
+                if let Some(alias) = alias {
+                    decorated = AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: alias.into(),
+                        right: decorated,
+                    }
+                    .into();
+                }
                 self.appended_exprs.push(
                     AssignExpr {
                         span: DUMMY_SP,
@@ -347,10 +407,12 @@ impl VisitMut for TscDecorator {
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         let old = self.class_name.replace(n.ident.clone());
+        let old_is_class_decl = mem::replace(&mut self.is_class_decl, true);
 
         n.visit_mut_children_with(self);
 
         self.class_name = old;
+        self.is_class_decl = old_is_class_decl;
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -384,26 +446,15 @@ impl VisitMut for TscDecorator {
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-        if !contains_decorator(n) {
-            return;
-        }
-
-        let ident = n
-            .ident
-            .get_or_insert_with(|| private_ident!("_class"))
-            .clone();
-
-        let old = self.class_name.replace(ident.clone());
-
-        n.visit_mut_children_with(self);
-
-        self.assign_class_expr_to = Some(ident);
-
-        self.class_name = old;
+        self.visit_class_expr(n, false);
     }
 
     fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
-        n.visit_mut_children_with(self);
+        if let DefaultDecl::Class(class) = &mut n.decl {
+            self.visit_class_expr(class, true);
+        } else {
+            n.visit_mut_children_with(self);
+        }
         // `export default class` is not expr
         self.assign_class_expr_to = None;
     }

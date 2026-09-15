@@ -1,0 +1,8 @@
+{
+    "jsc": {
+        "keepClassNames": true,
+        "transform": {
+            "legacyDecorator": true
+        }
+    }
+}
