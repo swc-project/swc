@@ -214,22 +214,6 @@ impl MacroNode for Bool {
     }
 }
 
-/// Escape HTML-sensitive sequences after JavaScript string escaping is
-/// complete. Borrow the input when no inline-script protection is needed.
-pub(crate) fn escape_inline_script(raw: &str) -> CowStr<'_> {
-    let value = replace_close_inline_script(raw);
-    if value.contains("<!--") || value.contains("-->") {
-        CowStr::Owned(
-            value
-                .replace("<!--", "\\x3c!--")
-                .replace("-->", "--\\x3e")
-                .into(),
-        )
-    } else {
-        value
-    }
-}
-
 fn replace_close_inline_script(raw: &str) -> CowStr<'_> {
     let chars = raw.as_bytes();
     let pattern_len = 8; // </script>
@@ -260,6 +244,24 @@ fn replace_close_inline_script(raw: &str) -> CowStr<'_> {
     }
 
     CowStr::Owned(result)
+}
+
+/// Escapes sequences that can alter HTML parsing when JavaScript is inlined in
+/// a script element.
+pub(crate) fn escape_inline_script(raw: &str) -> CowStr<'_> {
+    let raw = replace_close_inline_script(raw);
+
+    if raw.contains("\x3c!--") || raw.contains("--\x3e") {
+        CowStr::Owned(
+            // Escaping the `!` avoids combining with a preceding identity escape
+            // in a template element (for example, `\\<!--`).
+            raw.replace("\x3c!--", "<\\x21--")
+                .replace("--\x3e", "--\\x3e")
+                .into(),
+        )
+    } else {
+        raw
+    }
 }
 
 impl<W, S: swc_common::SourceMapper> Emitter<'_, W, S>

@@ -369,15 +369,13 @@ impl Pure<'_> {
                             cur_cooked.push_wtf8(&Cow::Borrowed(&s.value));
                         }
 
-                        if let Some(raw) = &s.raw {
-                            if raw.len() >= 2 {
-                                // Exclude quotes
-                                cur_raw
-                                    .push_str(&convert_str_raw_to_tpl_raw(&raw[1..raw.len() - 1]));
-                            }
-                        } else {
-                            cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
+                        let raw = convert_str_value_to_tpl_raw(&s.value);
+                        if cur_raw.ends_with('$') && raw.starts_with('{') {
+                            // A quasi boundary must not create a template interpolation.
+                            cur_raw.push('\\');
                         }
+                        escape_trailing_null_before_digit(&mut cur_raw, &raw);
+                        cur_raw.push_str(&raw);
                     }
                     _ => {
                         quasis.push(TplElement {
@@ -434,15 +432,16 @@ impl Pure<'_> {
                         *cooked = c.into();
                     }
 
-                    l_last.raw = format!(
-                        "{}{}",
-                        l_last.raw,
-                        rs.raw
-                            .clone()
-                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
-                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into())
-                    )
-                    .into();
+                    let raw = convert_str_value_to_tpl_raw(&rs.value);
+                    let mut new_raw = String::with_capacity(l_last.raw.len() + raw.len() + 1);
+                    new_raw.push_str(&l_last.raw);
+                    if l_last.raw.ends_with('$') && raw.starts_with('{') {
+                        // A quasi boundary must not create a template interpolation.
+                        new_raw.push('\\');
+                    }
+                    escape_trailing_null_before_digit(&mut new_raw, &raw);
+                    new_raw.push_str(&raw);
+                    l_last.raw = new_raw.into();
 
                     r.take();
                 }
@@ -471,15 +470,9 @@ impl Pure<'_> {
                         *cooked = c.into();
                     }
 
-                    let new: Atom = format!(
-                        "{}{}",
-                        ls.raw
-                            .clone()
-                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
-                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into()),
-                        r_first.raw
-                    )
-                    .into();
+                    let new: Atom =
+                        format!("{}{}", convert_str_value_to_tpl_raw(&ls.value), r_first.raw)
+                            .into();
                     r_first.raw = new;
 
                     l.take();
@@ -622,39 +615,61 @@ impl Pure<'_> {
 }
 
 pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<'_, str> {
-    let mut result = String::default();
+    let mut result = String::with_capacity(value.len());
 
-    let iter = value.code_points();
-    for code_point in iter {
+    for code_point in value.code_points() {
         if let Some(ch) = code_point.to_char() {
             match ch {
-                '\\' => {
-                    result.push_str("\\\\");
-                }
-                '`' => {
-                    result.push_str("\\`");
-                }
-                '$' => {
-                    result.push_str("\\$");
-                }
-                '\n' => {
-                    result.push_str("\\n");
-                }
-                '\r' => {
-                    result.push_str("\\r");
+                '\\' => result.push_str("\\\\"),
+                '`' => result.push_str("\\`"),
+                '$' => result.push_str("\\$"),
+                // A following quasi can begin with a digit, so `\\0` could become an invalid
+                // legacy octal escape when template raws are concatenated.
+                '\0' => result.push_str("\\x00"),
+                '\x08' => result.push_str("\\b"),
+                '\t' => result.push('\t'),
+                '\n' => result.push_str("\\n"),
+                '\r' => result.push_str("\\r"),
+                '\x0b' => result.push_str("\\v"),
+                '\x0c' => result.push_str("\\f"),
+                '\x01'..='\x07' | '\x0e'..='\x1f' => {
+                    use std::fmt::Write;
+
+                    write!(result, "\\x{:02X}", ch as u8).unwrap();
                 }
                 _ => result.push(ch),
             }
         } else {
-            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
+            use std::fmt::Write;
+
+            write!(result, "\\u{:04X}", code_point.to_u32()).unwrap();
         }
     }
 
     result.into()
 }
 
-pub(super) fn convert_str_raw_to_tpl_raw(value: &str) -> Atom {
-    value.replace('`', "\\`").replace('$', "\\$").into()
+/// Prevent joining a null escape with a digit into an invalid legacy octal
+/// escape.
+fn escape_trailing_null_before_digit(raw: &mut String, appended_raw: &str) {
+    if !appended_raw
+        .as_bytes()
+        .first()
+        .is_some_and(u8::is_ascii_digit)
+        || !raw.ends_with('0')
+    {
+        return;
+    }
+
+    let slash_count = raw.as_bytes()[..raw.len() - 1]
+        .iter()
+        .rev()
+        .take_while(|&&byte| byte == b'\\')
+        .count();
+    if slash_count % 2 == 1 {
+        raw.pop();
+        raw.push_str("x00");
+    }
 }
 
 #[cfg(test)]
