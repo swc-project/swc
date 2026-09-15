@@ -1,0 +1,4 @@
+  x Expected '}', got '<eof>'
+   ,-[$DIR/tests/typescript-errors/export-namespace-unclosed/input.ts:1:24]
+ 1 | export namespace Foo {
+   `----
