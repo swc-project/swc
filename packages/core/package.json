@@ -85,6 +85,7 @@
         "index.js",
         "types.d.ts",
         "util.js",
+        "load-bindings.js",
         "README.md",
         "binding.js",
         "package.json",
