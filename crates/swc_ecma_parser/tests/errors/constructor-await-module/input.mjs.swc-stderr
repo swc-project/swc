@@ -1,0 +1,5 @@
+  x `await` cannot be used as an identifier in an async context
+   ,-[$DIR/tests/errors/constructor-await-module/input.mjs:1:1]
+ 1 | async function f() { class C { constructor(await) {} } }
+   :                                            ^^^^^
+   `----
