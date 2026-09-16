@@ -441,24 +441,21 @@ impl Optimizer<'_> {
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
         let pure_mark = self.marks.pure;
-        // An annotation on the pattern itself, as in
-        // `const /*#__PURE__*/ { a } = obj`. Unlike an annotation on a
-        // call-shaped initializer, this one is authored *about the
-        // destructuring*: it asserts both that the property reads it performs
-        // have no side effects and that the initializer is not nullish, so
-        // dropping the pattern cannot swallow a `TypeError`.
-        let has_pat_pure_ann = match &*name {
-            Pat::Object(p) => self.pure_annotations.has_pattern(p.span.lo),
-            Pat::Array(p) => self.pure_annotations.has_pattern(p.span.lo),
+        // Respect annotations on the pattern itself.
+        //  e.g. `const /*#__PURE__*/ { a } = obj`.
+        // Asserting that the implicit property accesses are pure, and that the
+        // initializer is not nullish so the `TypeError` cannot be dropped.
+        let pat_span = match &*name {
+            Pat::Object(ObjectPat { span, .. }) | Pat::Array(ArrayPat { span, .. }) => Some(*span),
+            _ => None,
+        };
+        let has_pure_ann = match init {
+            _ if pat_span.is_some_and(|s| self.pure_annotations.contains(s.lo)) => true,
+            Some(Expr::Call(c)) => c.ctxt.has_mark(pure_mark),
+            Some(Expr::New(n)) => n.ctxt.has_mark(pure_mark),
+            Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(pure_mark),
             _ => false,
         };
-        let has_pure_ann = has_pat_pure_ann
-            || match init {
-                Some(Expr::Call(c)) => c.ctxt.has_mark(pure_mark),
-                Some(Expr::New(n)) => n.ctxt.has_mark(pure_mark),
-                Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(pure_mark),
-                _ => false,
-            };
         // Restrict this to structural values known to be non-nullish so removing
         // the whole pattern cannot remove a destructuring error. A pure annotation
         // only describes evaluation effects, not the value produced by the

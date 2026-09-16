@@ -68,9 +68,6 @@ struct Pure<'a> {
     config: PureOptimizerConfig,
     marks: Marks,
 
-    /// Pure annotations on nodes without a `SyntaxContext` to carry them.
-    ///
-    /// A shared reference so that [`Parallel::create`] stays cheap.
     pure_annotations: &'a PureAnnotations,
     expr_ctx: ExprCtx,
 

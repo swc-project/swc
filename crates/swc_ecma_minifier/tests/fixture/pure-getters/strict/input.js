@@ -1,4 +1,3 @@
-// `strict` only relaxes nullish checks in terser, not getter effects,
-// so property reads must be preserved.
+// `strict` relaxes nullish checks in terser, not getter effects.
 a.b;
 x().y;

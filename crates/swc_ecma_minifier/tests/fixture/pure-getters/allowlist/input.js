@@ -1,4 +1,4 @@
-// Only the listed property names may be assumed pure.
+// Only `safe` and `alsoSafe` may be assumed pure.
 a.safe;
 a.alsoSafe;
 a.unsafe;

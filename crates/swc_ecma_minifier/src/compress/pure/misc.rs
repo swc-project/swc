@@ -109,27 +109,16 @@ enum GroupType<'a> {
 
 impl Pure<'_> {
     /// Returns `true` if reading `prop` off an arbitrary object can be assumed
-    /// not to invoke a user-defined getter, according to the `pure_getters`
+    /// not to have observable side effects, according to the `pure_getters`
     /// compress option.
-    ///
-    /// `pure_getters` is an unsound-by-design option: the user promises that
-    /// property reads are free of side effects. We therefore only consult it,
-    /// and never try to prove the claim ourselves.
-    ///
-    /// - [PureGetterOption::Bool(true)] assumes every property read is pure.
-    /// - [PureGetterOption::Str] assumes only the listed property names are.
-    /// - [PureGetterOption::Bool(false)] and [PureGetterOption::Strict] make no
-    ///   such promise. `Strict` only relaxes *nullish* checks in terser, not
-    ///   getter effects, so it must not enable this optimization.
     fn can_assume_pure_getter(&self, prop: &MemberProp) -> bool {
         match &self.options.pure_getters {
             PureGetterOption::Bool(true) => true,
+            // `strict` relaxes nullish checks in terser, not getter effects.
             PureGetterOption::Bool(false) | PureGetterOption::Strict => false,
             PureGetterOption::Str(allowed) => match prop {
                 MemberProp::Ident(i) => allowed.contains(&i.sym),
-                // A private name can only resolve to a member of the
-                // lexically enclosing class, never to a listed public
-                // property name.
+                // Private names are not supported.
                 MemberProp::PrivateName(..) => false,
                 MemberProp::Computed(c) => match &*c.expr {
                     Expr::Lit(Lit::Str(s)) => s
@@ -147,13 +136,8 @@ impl Pure<'_> {
     /// Returns `true` if reading `member` can be assumed free of getter side
     /// effects, either because `pure_getters` says so globally or because this
     /// specific access is annotated with `/*#__PURE__*/`.
-    ///
-    /// The annotation is scoped to the single access it precedes, which lets a
-    /// library opt into the optimization at a known-safe call site without
-    /// enabling the unsound global option for the whole program.
     fn is_pure_member_access(&self, member: &MemberExpr) -> bool {
-        self.can_assume_pure_getter(&member.prop)
-            || self.pure_annotations.has_member(member.span.lo)
+        self.can_assume_pure_getter(&member.prop) || self.pure_annotations.contains(member.span.lo)
     }
 
     /// `a = a + 1` => `a += 1`.
@@ -2044,16 +2028,9 @@ impl Pure<'_> {
                     e.take();
                     return;
                 }
-                // With `pure_getters`, or a `/*#__PURE__*/` annotation on
-                // this access, reading a property is assumed to be free of
-                // side effects, so the access itself can be dropped.
-                // The object and a computed key still have to be evaluated,
-                // because they can run arbitrary code (`x().y` must keep
-                // `x()`).
-                //
-                // `super.foo` is deliberately not handled here: it is a
-                // `SuperPropExpr`, and `super` is not an expression we can
-                // evaluate on its own.
+                // Unused member accesses can be dropped only if they are
+                // pure. The object and a computed key are still evaluated:
+                // `x().y` must keep `x()`.
                 Expr::Member(member) if self.is_pure_member_access(member) => {
                     let MemberExpr {
                         span, obj, prop, ..
@@ -2075,11 +2052,6 @@ impl Pure<'_> {
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
-
-                Expr::Member(MemberExpr {
-                    prop: MemberProp::Ident(..),
-                    ..
-                }) => {}
 
                 _ => {}
             }

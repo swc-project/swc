@@ -1,5 +1,4 @@
-// Writes are not reads: a setter can run arbitrary code, and the
-// assignment is the statement's whole purpose.
+// Writes can run a setter, and are the point of the statement.
 a.b = 1;
 a.b += 1;
 a.b++;

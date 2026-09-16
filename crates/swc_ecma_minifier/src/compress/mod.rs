@@ -63,7 +63,6 @@ struct Compressor<'a> {
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
 
-    /// Pure annotations on nodes without a `SyntaxContext` to carry them.
     pure_annotations: &'a PureAnnotations,
     changed: bool,
     pass: usize,
