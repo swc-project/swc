@@ -1361,16 +1361,23 @@ impl<I: Tokens> Parser<I> {
 
                 let prev_allow_super_call = self.allow_super_call();
                 self.set_allow_super_call(true);
-                let ctor_sig_and_body =
-                    (|| -> PResult<(Vec<ParamOrTsParamProp>, Option<FunctionBody>)> {
-                        expect!(self, Token::LParen);
-                        let params = self.do_outside_of_context(
-                            Context::InStaticBlock,
+                // Ordinary methods, including constructors, use [~Yield, ~Await] for
+                // UniqueFormalParameters and FunctionBody. Also clear enclosing field
+                // and static-block contexts so their await/arguments restrictions do
+                // not leak into constructor parameters or the body.
+                let ctor_sig_and_body = self.do_outside_of_context(
+                    Context::InAsync
+                        | Context::InGenerator
+                        | Context::InClassField
+                        | Context::InStaticBlock,
+                    |p| -> PResult<(Vec<ParamOrTsParamProp>, Option<FunctionBody>)> {
+                        expect!(p, Token::LParen);
+                        let params = p.without_async_arrow_param_await_collection(
                             Self::parse_constructor_params,
                         )?;
-                        expect!(self, Token::RParen);
+                        expect!(p, Token::RParen);
 
-                        if self.syntax().flow() {
+                        if p.syntax().flow() {
                             for param in &params {
                                 if let ParamOrTsParamProp::Param(Param {
                                     pat: Pat::Ident(ident),
@@ -1378,23 +1385,23 @@ impl<I: Tokens> Parser<I> {
                                 }) = param
                                 {
                                     if ident.id.sym == *"this" {
-                                        self.emit_err(ident.id.span, SyntaxError::TS1003);
+                                        p.emit_err(ident.id.span, SyntaxError::TS1003);
                                     }
                                 }
                             }
                         }
 
-                        if self.syntax().typescript() && self.input().is(Token::Colon) {
-                            let start = self.cur_pos();
-                            let type_ann = self.parse_ts_type_ann(true, start)?;
+                        if p.syntax().typescript() && p.input().is(Token::Colon) {
+                            let start = p.cur_pos();
+                            let type_ann = p.parse_ts_type_ann(true, start)?;
 
                             // Flow allows return type annotations on constructors.
-                            if !self.syntax().flow() {
-                                self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                            if !p.syntax().flow() {
+                                p.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
                             }
                         }
 
-                        let body = self.parse_fn_block_body(
+                        let body = p.parse_fn_block_body(
                             false,
                             false,
                             false,
@@ -1402,7 +1409,8 @@ impl<I: Tokens> Parser<I> {
                         )?;
 
                         Ok((params, body))
-                    })();
+                    },
+                );
                 self.set_allow_super_call(prev_allow_super_call);
                 let (params, body) = ctor_sig_and_body?;
 
