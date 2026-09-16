@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
@@ -2528,6 +2528,62 @@ compare_stdout!(
     console.log(JSON.stringify(constClosures.map((f) => f())));
     "###
 );
+
+compare_stdout!(
+    syntax(),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            tr(Default::default()),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default(),
+            ),
+        )
+    },
+    issue_12339_array_rest,
+    include_str!("object-rest-spread/issue-12339/input.js")
+);
+
+// Check both the object-rest pass and its composition with ES2015 lowering.
+#[testing::fixture("tests/object-rest-spread/**/exec.js")]
+fn exec(input: PathBuf) {
+    let input = read_to_string(input).unwrap();
+    compare_stdout(
+        syntax(),
+        |_| {
+            (
+                resolver(Mark::new(), Mark::new(), false),
+                tr(Default::default()),
+            )
+        },
+        &input,
+    );
+}
+
+#[testing::fixture("tests/object-rest-spread/**/exec.js")]
+fn exec_es2015(input: PathBuf) {
+    let input = read_to_string(input).unwrap();
+    compare_stdout(
+        syntax(),
+        |t| {
+            let unresolved_mark = Mark::new();
+            (
+                resolver(unresolved_mark, Mark::new(), false),
+                tr(Default::default()),
+                es2015::es2015(
+                    unresolved_mark,
+                    Some(t.comments.clone()),
+                    Default::default(),
+                ),
+            )
+        },
+        &input,
+    );
+}
 
 #[testing::fixture("tests/object-rest-spread/**/input.js")]
 fn fixture(input: PathBuf) {

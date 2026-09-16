@@ -1,4 +1,5 @@
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+var _ref;
 var aa, rest;
 var src = {
     get aa () {
@@ -9,7 +10,7 @@ var src = {
     yy: 2,
     zz: 3
 };
-aa = src.aa, rest = _object_without_properties(src, [
+_ref = src, aa = _ref.aa, rest = _object_without_properties(_ref, [
     "aa"
-]), src;
+]), _ref;
 console.log('rest keys:', Object.keys(rest));
