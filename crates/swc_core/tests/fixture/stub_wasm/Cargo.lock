@@ -3,6 +3,12 @@
 version = 4
 
 [[package]]
+name = "adler2"
+version = "2.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "320119579fcad9c21884f5c4861d16174d0e06250625266f50fe6898340abefa"
+
+[[package]]
 name = "ahash"
 version = "0.8.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -66,7 +72,7 @@ checksum = "d92bec98840b8f03a5ff5413de5293bfcd8bf96467cf5452609f939ec6f5de16"
 
 [[package]]
 name = "ast_node"
-version = "6.1.0"
+version = "7.0.0"
 dependencies = [
  "quote",
  "swc_macros_common",
@@ -104,7 +110,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "73.0.0"
+version = "77.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -150,19 +156,20 @@ dependencies = [
 
 [[package]]
 name = "browserslist-data"
-version = "0.2.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77d121add86b74ceac9755a74ec3b4abc1f4935711aede468f26a36dc685dc80"
+checksum = "58f90c231428ed81dbb8f39dcc14021335c3cc4f46ffdffde278638ca832b579"
 dependencies = [
  "ahash",
  "chrono",
+ "miniz_oxide",
 ]
 
 [[package]]
 name = "browserslist-rs"
-version = "0.20.0"
+version = "0.21.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec54e3c5c50eae1f8d771c7ffc311c1cc8e5e3c85b9fd87b557633bbe9b7cb01"
+checksum = "8ca3b73a7c87da0bcca071227be2c28527af6ecd927060a1d75beef8bc4868b8"
 dependencies = [
  "ahash",
  "browserslist-data",
@@ -477,6 +484,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "hashbrown"
+version = "0.17.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
+dependencies = [
+ "allocator-api2",
+ "equivalent",
+ "foldhash 0.2.0",
+]
+
+[[package]]
 name = "heck"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -490,7 +508,7 @@ checksum = "d231dfb89cfffdbc30e7fc41579ed6066ad03abda9e567ccafae602b97ec5024"
 
 [[package]]
 name = "hstr"
-version = "4.0.0"
+version = "4.0.1"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -825,11 +843,11 @@ checksum = "13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94"
 
 [[package]]
 name = "lru"
-version = "0.16.2"
+version = "0.18.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96051b46fc183dc9cd4a223960ef37b9af631b55191852a8274bfef064cda20f"
+checksum = "ff9840bcc50b71349309900da0ce7279aa336ae71d73250b07998932c7d97c25"
 dependencies = [
- "hashbrown 0.16.0",
+ "hashbrown 0.17.1",
 ]
 
 [[package]]
@@ -860,6 +878,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "miniz_oxide"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b63fbc4a50860e98e7b2aa7804ded1db5cbc3aff9193adaff57a6931bf7c4b4c"
+dependencies = [
+ "adler2",
 ]
 
 [[package]]
@@ -1078,7 +1105,7 @@ checksum = "84350ffee5cedfabf9bee3e8825721f651da8ff79d50fe7a37cf0ca015c428ee"
 
 [[package]]
 name = "preset_env_base"
-version = "8.0.1"
+version = "9.0.0"
 dependencies = [
  "anyhow",
  "browserslist-rs",
@@ -1388,7 +1415,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "73.0.0"
+version = "77.0.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -1452,7 +1479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "24.0.0"
+version = "26.0.0"
 dependencies = [
  "anyhow",
  "ast_node",
@@ -1477,7 +1504,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "62.0.0"
+version = "64.0.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -1529,7 +1556,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "75.0.0"
+version = "79.0.0"
 dependencies = [
  "binding_macros",
  "swc",
@@ -1544,7 +1571,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "27.0.0"
+version = "29.0.1"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1562,7 +1589,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "30.0.0"
+version = "32.0.2"
 dependencies = [
  "ascii",
  "compact_str",
@@ -1593,7 +1620,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "54.0.0"
+version = "56.0.0"
 dependencies = [
  "rustc-hash",
  "swc_atoms",
@@ -1608,7 +1635,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "43.0.0"
+version = "45.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -1618,7 +1645,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "53.0.0"
+version = "55.0.1"
 dependencies = [
  "arrayvec",
  "indexmap",
@@ -1643,7 +1670,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "48.0.0"
+version = "50.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_transformer",
@@ -1654,7 +1681,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "48.0.0"
+version = "50.0.0"
 dependencies = [
  "serde",
  "swc_common",
@@ -1667,7 +1694,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "49.0.0"
+version = "51.0.0"
 dependencies = [
  "serde",
  "swc_ecma_ast",
@@ -1679,7 +1706,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "48.0.0"
+version = "50.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -1691,7 +1718,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "51.0.0"
+version = "53.0.0"
 dependencies = [
  "serde",
  "swc_common",
@@ -1706,7 +1733,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "48.0.0"
+version = "50.0.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_transformer",
@@ -1717,7 +1744,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "51.0.0"
+version = "53.0.0"
 dependencies = [
  "rustc-hash",
  "swc_atoms",
@@ -1734,7 +1761,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_regexp"
-version = "7.0.0"
+version = "9.0.0"
 dependencies = [
  "icu_properties 2.1.2",
  "swc_ecma_regexp_ast",
@@ -1743,7 +1770,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "33.0.0"
+version = "35.0.0"
 dependencies = [
  "phf",
  "swc_common",
@@ -1754,7 +1781,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_hooks"
-version = "0.11.0"
+version = "1.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -1764,7 +1791,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "25.0.0"
+version = "27.0.0"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -1784,7 +1811,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "59.0.0"
+version = "61.0.7"
 dependencies = [
  "arrayvec",
  "bitflags",
@@ -1817,7 +1844,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "43.0.0"
+version = "45.1.3"
 dependencies = [
  "bitflags",
  "compact_str",
@@ -1835,7 +1862,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "61.0.0"
+version = "64.0.0"
 dependencies = [
  "anyhow",
  "foldhash 0.1.5",
@@ -1858,7 +1885,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_regexp"
-version = "0.13.0"
+version = "0.15.0"
 dependencies = [
  "phf",
  "rustc-hash",
@@ -1872,7 +1899,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_regexp_ast"
-version = "1.0.0"
+version = "3.0.0"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1887,7 +1914,7 @@ version = "0.0.1"
 
 [[package]]
 name = "swc_ecma_regexp_visit"
-version = "0.13.0"
+version = "0.15.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -1898,7 +1925,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "19.0.0"
+version = "21.0.1"
 dependencies = [
  "rustc-hash",
  "swc_atoms",
@@ -1915,7 +1942,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "60.0.0"
+version = "63.0.0"
 dependencies = [
  "par-core",
  "swc_common",
@@ -1931,7 +1958,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "47.0.0"
+version = "49.0.1"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -1951,7 +1978,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "47.0.0"
+version = "49.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -1962,7 +1989,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "55.0.0"
+version = "57.0.2"
 dependencies = [
  "indexmap",
  "par-core",
@@ -1998,7 +2025,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "50.0.0"
+version = "52.0.1"
 dependencies = [
  "bytes-str",
  "dashmap",
@@ -2021,7 +2048,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "47.0.0"
+version = "49.0.3"
 dependencies = [
  "either",
  "rustc-hash",
@@ -2037,7 +2064,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "53.0.0"
+version = "55.0.1"
 dependencies = [
  "base64",
  "bytes-str",
@@ -2060,7 +2087,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "53.0.0"
+version = "55.0.4"
 dependencies = [
  "bytes-str",
  "rustc-hash",
@@ -2076,7 +2103,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "33.0.0"
+version = "35.0.2"
 dependencies = [
  "dragonbox_ecma",
  "indexmap",
@@ -2093,7 +2120,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "27.0.0"
+version = "29.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -2115,7 +2142,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "26.0.0"
+version = "28.0.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -2135,7 +2162,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_comments"
-version = "25.0.0"
+version = "27.0.0"
 dependencies = [
  "dashmap",
  "rustc-hash",
@@ -2162,7 +2189,7 @@ dependencies = [
 
 [[package]]
 name = "swc_transform_common"
-version = "18.0.0"
+version = "20.0.0"
 dependencies = [
  "better_scoped_tls",
  "rustc-hash",
@@ -2172,10 +2199,9 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "2.0.1"
+version = "2.0.2"
 dependencies = [
  "either",
- "new_debug_unreachable",
 ]
 
 [[package]]
