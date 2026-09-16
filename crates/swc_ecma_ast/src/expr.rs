@@ -1634,7 +1634,7 @@ pub enum SimpleAssignTarget {
     #[tag("TsInstantiation")]
     TsInstantiation(TsInstantiation),
 
-    #[tag("Invaliid")]
+    #[tag("Invalid")]
     Invalid(Invalid),
 }
 
