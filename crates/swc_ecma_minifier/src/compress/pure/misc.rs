@@ -144,6 +144,18 @@ impl Pure<'_> {
         }
     }
 
+    /// Returns `true` if reading `member` can be assumed free of getter side
+    /// effects, either because `pure_getters` says so globally or because this
+    /// specific access is annotated with `/*#__PURE__*/`.
+    ///
+    /// The annotation is scoped to the single access it precedes, which lets a
+    /// library opt into the optimization at a known-safe call site without
+    /// enabling the unsound global option for the whole program.
+    fn is_pure_member_access(&self, member: &MemberExpr) -> bool {
+        self.can_assume_pure_getter(&member.prop)
+            || self.pure_annotations.has_member(member.span.lo)
+    }
+
     /// `a = a + 1` => `a += 1`.
     pub(super) fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
         if e.op != op!("=") {
@@ -2032,8 +2044,9 @@ impl Pure<'_> {
                     e.take();
                     return;
                 }
-                // With `pure_getters`, reading a property is assumed to be
-                // free of side effects, so the access itself can be dropped.
+                // With `pure_getters`, or a `/*#__PURE__*/` annotation on
+                // this access, reading a property is assumed to be free of
+                // side effects, so the access itself can be dropped.
                 // The object and a computed key still have to be evaluated,
                 // because they can run arbitrary code (`x().y` must keep
                 // `x()`).
@@ -2041,9 +2054,10 @@ impl Pure<'_> {
                 // `super.foo` is deliberately not handled here: it is a
                 // `SuperPropExpr`, and `super` is not an expression we can
                 // evaluate on its own.
-                Expr::Member(MemberExpr {
-                    span, obj, prop, ..
-                }) if self.can_assume_pure_getter(prop) => {
+                Expr::Member(member) if self.is_pure_member_access(member) => {
+                    let MemberExpr {
+                        span, obj, prop, ..
+                    } = member;
                     let span = *span;
                     let computed_key = match prop {
                         MemberProp::Computed(c) => Some(c.expr.take()),

@@ -13,8 +13,8 @@ use tracing::Level;
 
 use self::{ctx::Ctx, misc::DropOpts};
 use crate::{
-    debug::AssertValid, maybe_par, option::CompressOptions, usage_analyzer::marks::Marks,
-    util::ModuleItemExt,
+    debug::AssertValid, maybe_par, metadata::pure_annotations::PureAnnotations,
+    option::CompressOptions, usage_analyzer::marks::Marks, util::ModuleItemExt,
 };
 
 mod arrows;
@@ -44,12 +44,14 @@ pub(crate) struct PureOptimizerConfig {
 pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
     marks: Marks,
+    pure_annotations: &'a PureAnnotations,
     config: PureOptimizerConfig,
 ) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
         config,
         marks,
+        pure_annotations,
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
             is_unresolved_ref_safe: false,
@@ -65,6 +67,11 @@ struct Pure<'a> {
     options: &'a CompressOptions,
     config: PureOptimizerConfig,
     marks: Marks,
+
+    /// Pure annotations on nodes without a `SyntaxContext` to carry them.
+    ///
+    /// A shared reference so that [`Parallel::create`] stays cheap.
+    pure_annotations: &'a PureAnnotations,
     expr_ctx: ExprCtx,
 
     ctx: Ctx,

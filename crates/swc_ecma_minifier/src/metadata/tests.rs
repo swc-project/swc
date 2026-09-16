@@ -5,7 +5,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{CallExpr, Expr, NewExpr, OptCall, OptChainBase, OptChainExpr, TaggedTpl};
 
-use super::{has_pure_comment_before, InfoMarker, Marks, State};
+use super::{has_pure_comment_before, InfoMarker, Marks, PureAnnotations, State};
 
 /// Delegates storage operations while intentionally inheriting the default
 /// consuming implementation of [`Comments::has_flag`].
@@ -69,6 +69,7 @@ impl Comments for DefaultFlagComments {
 #[test]
 fn synthetic_pure_call_like_callees_do_not_mark_outer_invocations_pure() {
     GLOBALS.set(&Globals::new(), || {
+        let mut annotations = PureAnnotations::default();
         let marker = InfoMarker {
             options: None,
             pure_funcs: None,
@@ -76,6 +77,7 @@ fn synthetic_pure_call_like_callees_do_not_mark_outer_invocations_pure() {
             comments: None,
             marks: Marks::new(),
             state: State::default(),
+            annotations: &mut annotations,
         };
         let callees = [
             Expr::Call(CallExpr {

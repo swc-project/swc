@@ -14,11 +14,19 @@ use crate::{option::CompressOptions, usage_analyzer::marks::Marks};
 #[cfg(test)]
 mod tests;
 
+pub(crate) mod pure_annotations;
+
+use self::pure_annotations::PureAnnotations;
+
 /// This pass analyzes the comment and convert it to a mark.
+///
+/// Annotations that cannot be stored on the AST are collected into
+/// `annotations` instead. See [`PureAnnotations`].
 pub(crate) fn info_marker<'a>(
     options: Option<&'a CompressOptions>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
+    annotations: &'a mut PureAnnotations,
 ) -> impl 'a + VisitMut {
     let pure_funcs = options.map(|options| {
         options
@@ -34,6 +42,7 @@ pub(crate) fn info_marker<'a>(
         pure_funcs,
         state: Default::default(),
         pure_callee: Default::default(),
+        annotations,
     }
 }
 
@@ -51,6 +60,9 @@ struct InfoMarker<'a> {
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     state: State,
+
+    /// Annotations on nodes without a `SyntaxContext` to carry them.
+    annotations: &'a mut PureAnnotations,
 }
 
 impl InfoMarker<'_> {
@@ -159,6 +171,51 @@ impl VisitMut for InfoMarker<'_> {
         });
 
         n.visit_mut_children_with(self);
+    }
+
+    /// Records `/*#__PURE__*/ obj.prop`.
+    ///
+    /// The annotation asserts that reading this property does not invoke a
+    /// getter with side effects. It says nothing about the object expression,
+    /// which is still evaluated.
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.visit_mut_children_with(self);
+
+        // A member expression starts at the same position as its own object,
+        // so a comment before `x()` in `/*#__PURE__*/ x().y` is found by a
+        // lookup on either node. That annotation belongs to the call, which
+        // already consumes it as a pure call, so only claim it here when the
+        // object cannot have taken it: the annotation has to sit between the
+        // start of the expression and the property being read.
+        //
+        // This keeps `/*#__PURE__*/ a.b` (object is a bare identifier)
+        // working while leaving `/*#__PURE__*/ x().y` to the call.
+        if n.obj.span().lo == n.span.lo && !matches!(&*n.obj, Expr::Ident(..) | Expr::This(..)) {
+            return;
+        }
+
+        if has_pure(self.comments, n.span) && !n.span.is_dummy_ignoring_cmt() {
+            self.annotations.insert_member(n.span.lo);
+        }
+    }
+
+    /// Records `const /*#__PURE__*/ { a } = obj`.
+    ///
+    /// On a destructuring pattern the annotation asserts both that the reads
+    /// it performs are free of side effects and that the initializer is not
+    /// nullish, so dropping the pattern cannot swallow a `TypeError`.
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        n.visit_mut_children_with(self);
+
+        let span = match n {
+            Pat::Object(p) => p.span,
+            Pat::Array(p) => p.span,
+            _ => return,
+        };
+
+        if has_pure(self.comments, span) && !span.is_dummy_ignoring_cmt() {
+            self.annotations.insert_pattern(span.lo);
+        }
     }
 
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {

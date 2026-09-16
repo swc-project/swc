@@ -96,6 +96,10 @@ impl Evaluator {
                     ..Default::default()
                 },
                 None,
+                // The evaluator runs on code it synthesizes or on snippets
+                // whose annotations were already consumed, so there is nothing
+                // to look up here.
+                &Default::default(),
                 &data,
             ));
         }
@@ -229,6 +233,9 @@ impl Evaluator {
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
                     self.marks,
+                    // These expressions are synthesized here, so no source
+                    // annotation can apply to them.
+                    &Default::default(),
                     PureOptimizerConfig {
                         enable_join_vars: true,
                     },
@@ -253,6 +260,9 @@ impl Evaluator {
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
                     self.marks,
+                    // These expressions are synthesized here, so no source
+                    // annotation can apply to them.
+                    &Default::default(),
                     PureOptimizerConfig {
                         enable_join_vars: false,
                     },
@@ -307,6 +317,8 @@ impl Evaluator {
             e.visit_mut_with(&mut pure_optimizer(
                 &Default::default(),
                 self.marks,
+                // Synthesized here, so no source annotation can apply.
+                &Default::default(),
                 PureOptimizerConfig {
                     enable_join_vars: false,
                 },
