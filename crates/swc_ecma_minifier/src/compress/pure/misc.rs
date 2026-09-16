@@ -19,6 +19,7 @@ use crate::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
         util::is_pure_undefined,
     },
+    option::PureGetterOption,
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
 
@@ -107,6 +108,42 @@ enum GroupType<'a> {
 }
 
 impl Pure<'_> {
+    /// Returns `true` if reading `prop` off an arbitrary object can be assumed
+    /// not to invoke a user-defined getter, according to the `pure_getters`
+    /// compress option.
+    ///
+    /// `pure_getters` is an unsound-by-design option: the user promises that
+    /// property reads are free of side effects. We therefore only consult it,
+    /// and never try to prove the claim ourselves.
+    ///
+    /// - [PureGetterOption::Bool(true)] assumes every property read is pure.
+    /// - [PureGetterOption::Str] assumes only the listed property names are.
+    /// - [PureGetterOption::Bool(false)] and [PureGetterOption::Strict] make no
+    ///   such promise. `Strict` only relaxes *nullish* checks in terser, not
+    ///   getter effects, so it must not enable this optimization.
+    fn can_assume_pure_getter(&self, prop: &MemberProp) -> bool {
+        match &self.options.pure_getters {
+            PureGetterOption::Bool(true) => true,
+            PureGetterOption::Bool(false) | PureGetterOption::Strict => false,
+            PureGetterOption::Str(allowed) => match prop {
+                MemberProp::Ident(i) => allowed.contains(&i.sym),
+                // A private name can only resolve to a member of the
+                // lexically enclosing class, never to a listed public
+                // property name.
+                MemberProp::PrivateName(..) => false,
+                MemberProp::Computed(c) => match &*c.expr {
+                    Expr::Lit(Lit::Str(s)) => s
+                        .value
+                        .as_str()
+                        .is_some_and(|v| allowed.iter().any(|a| a == v)),
+                    _ => false,
+                },
+                #[cfg(swc_ast_unknown)]
+                _ => false,
+            },
+        }
+    }
+
     /// `a = a + 1` => `a += 1`.
     pub(super) fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
         if e.op != op!("=") {
@@ -1995,6 +2032,36 @@ impl Pure<'_> {
                     e.take();
                     return;
                 }
+                // With `pure_getters`, reading a property is assumed to be
+                // free of side effects, so the access itself can be dropped.
+                // The object and a computed key still have to be evaluated,
+                // because they can run arbitrary code (`x().y` must keep
+                // `x()`).
+                //
+                // `super.foo` is deliberately not handled here: it is a
+                // `SuperPropExpr`, and `super` is not an expression we can
+                // evaluate on its own.
+                Expr::Member(MemberExpr {
+                    span, obj, prop, ..
+                }) if self.can_assume_pure_getter(prop) => {
+                    let span = *span;
+                    let computed_key = match prop {
+                        MemberProp::Computed(c) => Some(c.expr.take()),
+                        _ => None,
+                    };
+
+                    report_change!("ignore_return_value: Dropping a pure property access");
+                    self.changed = true;
+
+                    *e = self
+                        .make_ignored_expr(
+                            span,
+                            [Some(obj.take()), computed_key].into_iter().flatten(),
+                        )
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    return;
+                }
+
                 Expr::Member(MemberExpr {
                     prop: MemberProp::Ident(..),
                     ..
