@@ -267,10 +267,9 @@ pub fn transform_file_sync(
             error_format,
             |handler| {
                 c.run(|| {
-                    let fm = c
-                        .cm
-                        .load_file(Path::new(&s))
-                        .context("failed to load file")?;
+                    let fm =
+                        c.cm.load_file(Path::new(&s))
+                            .context("failed to load file")?;
                     c.process_js_file(fm, handler, &options)
                 })
             },
