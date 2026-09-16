@@ -1288,6 +1288,12 @@ impl Optimizer<'_> {
 
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if elem.spread.is_some() {
+                        log_abort!("array spread");
+                        return false;
+                    }
+
                     if !self.is_skippable_for_seq(a, &elem.expr) {
                         log_abort!("array element");
                         return false;
@@ -1813,6 +1819,11 @@ impl Optimizer<'_> {
                         return Ok(true);
                     }
 
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if elem.spread.is_some() {
+                        break;
+                    }
+
                     if !self.is_skippable_for_seq(Some(a), &elem.expr) {
                         // To preserve side-effects, we need to abort.
                         break;
@@ -1874,6 +1885,11 @@ impl Optimizer<'_> {
                         return Ok(true);
                     }
 
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if arg.spread.is_some() {
+                        return Ok(false);
+                    }
+
                     if !self.is_skippable_for_seq(Some(a), &arg.expr) {
                         return Ok(false);
                     }
@@ -1896,6 +1912,11 @@ impl Optimizer<'_> {
                     trace_op!("seq: Try arg of super");
                     if self.merge_sequential_expr(a, &mut arg.expr)? {
                         return Ok(true);
+                    }
+
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if arg.spread.is_some() {
+                        return Ok(false);
                     }
 
                     if !self.is_skippable_for_seq(Some(a), &arg.expr) {
@@ -1926,6 +1947,12 @@ impl Optimizer<'_> {
 
                         if self.merge_sequential_expr(a, &mut arg.expr)? {
                             return Ok(true);
+                        }
+
+                        // Spreading reads the contents of the iterable, which `a` may have
+                        // modified.
+                        if arg.spread.is_some() {
+                            return Ok(false);
                         }
 
                         if !self.is_skippable_for_seq(Some(a), &arg.expr) {
