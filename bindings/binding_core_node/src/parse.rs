@@ -234,7 +234,7 @@ pub fn parse_file_sync(path: String, opts: Buffer) -> napi::Result<String> {
         try_with(c.cm.clone(), false, ErrorFormat::Normal, |handler| {
             let fm =
                 c.cm.load_file(Path::new(path.as_str()))
-                    .expect("failed to read program file");
+                    .context("failed to read program file")?;
 
             let local_comments = SwcComments::default();
             let comments = if options.comments {
