@@ -9,10 +9,15 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 pub use self::ctx::Ctx;
 use self::storage::*;
-use crate::usage_analyzer::{
-    alias::{collect_infects_from, AliasConfig},
-    marks::Marks,
-    util::{can_end_conditionally, get_object_define_property_name_arg},
+use crate::{
+    usage_analyzer::{
+        alias::{collect_infects_from, AliasConfig},
+        marks::Marks,
+        util::{can_end_conditionally, get_object_define_property_name_arg},
+    },
+    util::{
+        for_each_static_property_name, is_direct_property_key, is_static_or_numeric_property_key,
+    },
 };
 
 mod ctx;
@@ -79,6 +84,48 @@ where
     ctx: Ctx,
     expr_ctx: ExprCtx,
     used_recursively: FxHashMap<Id, RecursiveUsage>,
+}
+
+/// Returns whether an expression ultimately derives from an undeclared root.
+fn is_root_of_expr_undeclared(expr: &Expr, data: &impl Storage) -> bool {
+    match expr {
+        Expr::Member(member_expr) => is_root_of_expr_undeclared(&member_expr.obj, data),
+        Expr::Paren(paren) => is_root_of_expr_undeclared(&paren.expr, data),
+        Expr::Seq(seq) => {
+            if let Some(last) = seq.exprs.last() {
+                is_root_of_expr_undeclared(last, data)
+            } else {
+                false
+            }
+        }
+        Expr::Cond(cond) => {
+            is_root_of_expr_undeclared(&cond.cons, data)
+                || is_root_of_expr_undeclared(&cond.alt, data)
+        }
+        Expr::Bin(bin)
+            if matches!(
+                bin.op,
+                BinaryOp::LogicalAnd | BinaryOp::LogicalOr | BinaryOp::NullishCoalescing
+            ) =>
+        {
+            is_root_of_expr_undeclared(&bin.left, data)
+                || is_root_of_expr_undeclared(&bin.right, data)
+        }
+        Expr::Call(call) => match &call.callee {
+            Callee::Expr(callee) => is_root_of_expr_undeclared(callee, data),
+            Callee::Super(..) | Callee::Import(..) => false,
+        },
+        Expr::New(new_expr) => is_root_of_expr_undeclared(&new_expr.callee, data),
+        Expr::Await(await_expr) => is_root_of_expr_undeclared(&await_expr.arg, data),
+        Expr::OptChain(opt_chain) => match &*opt_chain.base {
+            OptChainBase::Member(member_expr) => is_root_of_expr_undeclared(&member_expr.obj, data),
+            OptChainBase::Call(call) => is_root_of_expr_undeclared(&call.callee, data),
+        },
+        Expr::Ident(ident) => data
+            .get_var_data(ident.to_id())
+            .map_or(true, |var| !var.is_declared()),
+        _ => false,
+    }
 }
 
 impl<S> UsageAnalyzer<S>
@@ -460,25 +507,21 @@ where
             self.with_ctx(ctx).visit_in_cond(&e.right);
         } else {
             if e.op == op!("in") {
+                if !is_root_of_expr_undeclared(&e.right, &self.data) {
+                    for_each_static_property_name(&e.left, |prop| {
+                        self.data.add_property_atom(prop.clone());
+                    });
+                }
+
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
                     let var = self.data.var_or_default(obj.to_id());
                     var.mark_used_as_ref();
 
-                    match &*e.left {
-                        Expr::Lit(Lit::Str(prop)) => {
-                            if prop
-                                .value
-                                .as_str()
-                                .map_or(true, |value| value.parse::<f64>().is_err())
-                            {
-                                var.add_accessed_property(prop.value.clone());
-                            }
-                        }
-
-                        Expr::Lit(Lit::Num(_)) => {}
-                        _ => {
-                            var.mark_indexed_with_dynamic_key();
-                        }
+                    for_each_static_property_name(&e.left, |prop| {
+                        var.add_accessed_property(prop.clone());
+                    });
+                    if !is_static_or_numeric_property_key(&e.left) {
+                        var.mark_indexed_with_dynamic_key();
                     }
                 })
             }
@@ -512,7 +555,9 @@ where
     )]
     fn visit_call_expr(&mut self, n: &CallExpr) {
         if let Some(prop_name) = get_object_define_property_name_arg(n) {
-            self.data.add_property_atom(prop_name.value.clone());
+            for_each_static_property_name(prop_name, |name| {
+                self.data.add_property_atom(name.clone());
+            });
         }
 
         let inline_prevented = self.ctx.bit_ctx.contains(BitContext::InlinePrevented)
@@ -1137,20 +1182,16 @@ where
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
-                match &*prop.expr {
-                    Expr::Lit(Lit::Str(s)) => {
-                        if s.value
-                            .as_str()
-                            .map_or(true, |value| value.parse::<f64>().is_err())
-                        {
-                            v.add_accessed_property(s.value.clone());
-                        }
-                    }
-
-                    Expr::Lit(Lit::Num(_)) => {}
-                    _ => {
-                        v.mark_indexed_with_dynamic_key();
-                    }
+                for_each_static_property_name(&prop.expr, |name| {
+                    v.add_accessed_property(name.clone());
+                });
+                if !matches!(&*e.obj, Expr::Ident(..))
+                    || !is_static_or_numeric_property_key(&prop.expr)
+                    || !is_direct_property_key(&prop.expr)
+                {
+                    // `replace_props` only handles direct string literals on an
+                    // identifier receiver. Keep other static forms non-hoistable.
+                    v.mark_indexed_with_dynamic_key();
                 }
             }
 
@@ -1168,6 +1209,14 @@ where
                     .unwrap_or(false),
 
                 _ => false,
+            }
+        }
+
+        if let MemberProp::Computed(computed) = &e.prop {
+            if !is_root_of_expr_undeclared(&e.obj, &self.data) {
+                for_each_static_property_name(&computed.expr, |name| {
+                    self.data.add_property_atom(name.clone());
+                });
             }
         }
 
@@ -1320,6 +1369,11 @@ where
             PropName::Str(s) => {
                 self.data.add_property_atom(s.value.clone());
             }
+            PropName::Computed(computed) => {
+                for_each_static_property_name(&computed.expr, |name| {
+                    self.data.add_property_atom(name.clone());
+                });
+            }
             _ => {}
         };
     }
@@ -1381,6 +1435,10 @@ where
         if let SuperProp::Computed(c) = &e.prop {
             let ctx = self.ctx.with(BitContext::IsIdRef, false);
             c.visit_with(&mut *self.with_ctx(ctx));
+
+            for_each_static_property_name(&c.expr, |name| {
+                self.data.add_property_atom(name.clone());
+            });
         }
     }
 

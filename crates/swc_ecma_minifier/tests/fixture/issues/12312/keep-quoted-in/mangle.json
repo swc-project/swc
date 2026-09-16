@@ -1,0 +1,6 @@
+{
+    "props": {
+        "keep_quoted": true,
+        "regex": "^longprop$"
+    }
+}

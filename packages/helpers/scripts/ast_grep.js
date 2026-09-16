@@ -111,7 +111,7 @@ export function ast_grep() {
             });
 
         write_tasks.push(
-            fs.writeFile(root("cjs", `${filename}.cjs`), root_node.commitEdits(edits), {
+            fs.outputFile(root("cjs", `${filename}.cjs`), root_node.commitEdits(edits), {
                 encoding: "utf-8",
             }),
         );

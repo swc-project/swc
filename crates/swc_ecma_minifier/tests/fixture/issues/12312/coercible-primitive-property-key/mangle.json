@@ -1,0 +1,5 @@
+{
+    "props": {
+        "regex": "^(NaN|Infinity|-Infinity|true|false|null|undefined|longprop)$"
+    }
+}

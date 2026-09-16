@@ -156,6 +156,11 @@ impl Compressor<'_> {
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
+                    preserve_quoted_props: self
+                        .mangle_options
+                        .and_then(|options| options.props.as_ref())
+                        .and_then(|props| props.keep_quoted.as_ref())
+                        .is_some_and(|option| option.is_strict()),
                 },
             );
             n.visit_mut_with(&mut visitor);

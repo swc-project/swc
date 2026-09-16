@@ -51,10 +51,13 @@ use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     metadata::info_marker,
     mode::Minification,
-    option::{CompressOptions, ExtraOptions, MinifyOptions},
+    option::{CompressOptions, ExtraOptions, KeepQuotedOption, MinifyOptions},
     pass::{
-        global_defs, mangle_names::idents_to_preserve, mangle_props::mangle_properties,
-        merge_exports::merge_exports, postcompress::postcompress_optimizer,
+        global_defs,
+        mangle_names::idents_to_preserve,
+        mangle_props::{collect_quoted_property_names, mangle_properties},
+        merge_exports::merge_exports,
+        postcompress::postcompress_optimizer,
     },
     // program_data::ModuleInfo,
     timing::Timings,
@@ -103,6 +106,13 @@ pub fn optimize(
 
     debug_assert_valid(&n);
 
+    let preserve_quoted_props = options
+        .mangle
+        .as_ref()
+        .and_then(|mangle| mangle.props.as_ref())
+        .and_then(|props| props.keep_quoted.as_ref())
+        .is_some_and(KeepQuotedOption::is_strict);
+
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
         //
@@ -119,6 +129,22 @@ pub fn optimize(
             ));
         }
     }
+
+    let (quoted_property_names, strict_quoted_property_names) = options
+        .mangle
+        .as_ref()
+        .and_then(|mangle| mangle.props.as_ref())
+        .and_then(|props| props.keep_quoted.as_ref())
+        .filter(|option| option.is_enabled())
+        .map(|option| {
+            let names = collect_quoted_property_names(&n);
+            if option.is_strict() {
+                (None, Some(names))
+            } else {
+                (Some(names), None)
+            }
+        })
+        .unwrap_or_default();
 
     if options.compress.is_some() {
         n.visit_mut_with(&mut info_marker(
@@ -174,6 +200,7 @@ pub fn optimize(
             marks,
             PureOptimizerConfig {
                 enable_join_vars: true,
+                preserve_quoted_props,
             },
         ));
     }
@@ -212,7 +239,13 @@ pub fn optimize(
         );
 
         if let Some(property_mangle_options) = &mangle.props {
-            mangle_properties(&mut n, property_mangle_options, chars);
+            mangle_properties(
+                &mut n,
+                property_mangle_options,
+                chars,
+                quoted_property_names,
+                strict_quoted_property_names,
+            );
         }
     }
 
