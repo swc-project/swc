@@ -301,7 +301,7 @@ dependencies = [
  "addr2line 0.24.1",
  "cfg-if",
  "libc",
- "miniz_oxide",
+ "miniz_oxide 0.8.0",
  "object 0.36.7",
  "rustc-demangle",
  "windows-targets 0.52.6",
@@ -649,19 +649,20 @@ dependencies = [
 
 [[package]]
 name = "browserslist-data"
-version = "0.2.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "77d121add86b74ceac9755a74ec3b4abc1f4935711aede468f26a36dc685dc80"
+checksum = "58f90c231428ed81dbb8f39dcc14021335c3cc4f46ffdffde278638ca832b579"
 dependencies = [
  "ahash 0.8.12",
  "chrono",
+ "miniz_oxide 0.9.1",
 ]
 
 [[package]]
 name = "browserslist-rs"
-version = "0.20.0"
+version = "0.21.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec54e3c5c50eae1f8d771c7ffc311c1cc8e5e3c85b9fd87b557633bbe9b7cb01"
+checksum = "8ca3b73a7c87da0bcca071227be2c28527af6ecd927060a1d75beef8bc4868b8"
 dependencies = [
  "ahash 0.8.12",
  "browserslist-data",
@@ -2184,7 +2185,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a1b589b4dc103969ad3cf85c950899926ec64300a1a46d76c03a6072957036f0"
 dependencies = [
  "crc32fast",
- "miniz_oxide",
+ "miniz_oxide 0.8.0",
 ]
 
 [[package]]
@@ -3702,6 +3703,15 @@ name = "miniz_oxide"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2d80299ef12ff69b16a84bb182e3b9df68b5a91574d3d4fa6e41b65deec4df1"
+dependencies = [
+ "adler2",
+]
+
+[[package]]
+name = "miniz_oxide"
+version = "0.9.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b63fbc4a50860e98e7b2aa7804ded1db5cbc3aff9193adaff57a6931bf7c4b4c"
 dependencies = [
  "adler2",
 ]
