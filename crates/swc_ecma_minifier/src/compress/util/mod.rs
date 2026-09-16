@@ -814,6 +814,33 @@ pub struct SuperFinder {
     found: bool,
 }
 
+/// Includes nested arrows, whose `new.target` belongs to the enclosing
+/// function.
+pub(crate) fn contains_new_target<N>(node: &N) -> bool
+where
+    N: VisitWith<NewTargetFinder>,
+{
+    let mut finder = NewTargetFinder { found: false };
+    node.visit_with(&mut finder);
+    finder.found
+}
+
+pub(crate) struct NewTargetFinder {
+    found: bool,
+}
+
+impl Visit for NewTargetFinder {
+    noop_visit_type!();
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_meta_prop_expr(&mut self, expr: &MetaPropExpr) {
+        self.found |= expr.kind == MetaPropKind::NewTarget;
+    }
+}
+
 impl Visit for SuperFinder {
     noop_visit_type!(fail);
 
