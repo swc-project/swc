@@ -670,7 +670,7 @@ mod tests {
     use swc_ecma_visit::VisitMutWith;
 
     use crate::{
-        compress::pure::{pure_optimizer, PureOptimizerConfig},
+        compress::pure::{collect_writable_bindings, pure_optimizer, PureOptimizerConfig},
         option::CompressOptions,
         usage_analyzer::marks::Marks,
     };
@@ -709,12 +709,14 @@ mod tests {
                 ..Default::default()
             };
 
+            let writable_bindings = collect_writable_bindings(&module);
             let mut optimizer = pure_optimizer(
                 &compress_options,
                 marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
                 },
+                &writable_bindings,
             );
 
             module.visit_mut_with(&mut optimizer);

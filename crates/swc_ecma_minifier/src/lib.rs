@@ -48,7 +48,7 @@ use swc_ecma_visit::VisitMutWith;
 pub use crate::pass::global_defs::globals_defs;
 use crate::usage_analyzer::marks::Marks;
 use crate::{
-    compress::{compressor, pure_optimizer, PureOptimizerConfig},
+    compress::{collect_writable_bindings, compressor, pure_optimizer, PureOptimizerConfig},
     metadata::info_marker,
     mode::Minification,
     option::{CompressOptions, ExtraOptions, MinifyOptions},
@@ -169,12 +169,14 @@ pub fn optimize(
 
         postcompress_optimizer(&mut n, c);
 
+        let writable_bindings = collect_writable_bindings(&n);
         n.visit_mut_with(&mut pure_optimizer(
             c,
             marks,
             PureOptimizerConfig {
                 enable_join_vars: true,
             },
+            &writable_bindings,
         ));
     }
 
