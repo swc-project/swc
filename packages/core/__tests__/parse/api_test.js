@@ -43,3 +43,11 @@ it("can be emit code back synchronously for buffer input", async () => {
 
     expect(out.code.trim().replace("\n", "")).toBe(`class Foo {}`);
 });
+
+it("rejects a path that is not there", async () => {
+    await expect(swc.parseFile("./this-file-is-not-there.js")).rejects.toThrow();
+});
+
+it("throws for a path that is not there synchronously", () => {
+    expect(() => swc.parseFileSync("./this-file-is-not-there.js")).toThrow();
+});
