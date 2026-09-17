@@ -1,3 +1,3 @@
 export default function Component() {
-    let { b = 'b' } = /*#__PURE__*/ call();
+    let [state, setState] = /*#__PURE__*/ useState(), { a, b = 'b' } = /*#__PURE__*/ call();
 }
