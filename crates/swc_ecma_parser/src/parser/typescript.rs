@@ -1590,16 +1590,19 @@ impl<I: Tokens> Parser<I> {
             }
 
             let type_pred_start = p.input().cur_pos();
-            let has_type_pred_asserts = p.input().cur() == Token::Asserts && {
-                let ctx = p.ctx();
-                peek!(p).is_some_and(|peek| {
-                    if peek.is_word() {
-                        !peek.is_reserved(ctx)
-                    } else {
-                        false
-                    }
-                })
-            };
+            // In TypeScript, `asserts` and its parameter must be on the same line.
+            let has_type_pred_asserts = p.input().cur() == Token::Asserts
+                && {
+                    let ctx = p.ctx();
+                    peek!(p).is_some_and(|peek| {
+                        if peek.is_word() {
+                            !peek.is_reserved(ctx)
+                        } else {
+                            false
+                        }
+                    })
+                }
+                && (p.syntax().flow() || !p.input_mut().has_linebreak_between_cur_and_peeked());
             let has_flow_implies = p.syntax().flow()
                 && p.input().cur().is_word()
                 && p.input().cur().take_word(&p.input) == atom!("implies")
@@ -4451,6 +4454,8 @@ impl<I: Tokens> Parser<I> {
         {
             if self.input().is(Token::Asserts)
                 && peek!(self).is_some_and(|peek| peek == Token::This)
+                && (self.syntax().flow()
+                    || !self.input_mut().has_linebreak_between_cur_and_peeked())
             {
                 self.bump();
                 let this_keyword = self.parse_ts_this_type_node()?;
