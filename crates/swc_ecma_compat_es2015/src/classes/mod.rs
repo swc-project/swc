@@ -18,10 +18,12 @@ use swc_ecma_visit::{
 };
 
 use self::{
+    class_name_tdz::rewrite_class_name_reads,
     constructor::fold_constructor,
     prop_name::{is_pure_prop_name, should_extract_class_prop_key, HashKey},
 };
 
+mod class_name_tdz;
 mod constructor;
 mod prop_name;
 
@@ -559,7 +561,7 @@ impl Classes {
             .into(),
         );
 
-        // convert class methods
+        // Convert class methods.
         stmts.extend(self.fold_class_methods(&class_name, &super_class_ident, methods));
 
         if stmts.first().map(|v| !v.is_use_strict()).unwrap_or(false) && !self.in_strict {
@@ -613,7 +615,7 @@ impl Classes {
         &mut self,
         class_name: &Ident,
         super_class_ident: &Option<Ident>,
-        methods: Vec<ClassMethod>,
+        mut methods: Vec<ClassMethod>,
     ) -> Vec<Stmt> {
         if methods.is_empty() {
             return Vec::new();
@@ -730,6 +732,12 @@ impl Classes {
         }
 
         let (mut props, mut static_props) = (IndexMap::default(), IndexMap::default());
+
+        for method in &mut methods {
+            if let PropName::Computed(key) = &mut method.key {
+                rewrite_class_name_reads(&mut key.expr, class_name);
+            }
+        }
 
         let should_extract = should_extract_class_prop_key(&methods);
 

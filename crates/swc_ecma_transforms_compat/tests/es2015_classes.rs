@@ -30,6 +30,26 @@ fn spec_tr(_: &Tester) -> impl Pass {
     )
 }
 
+fn resolved_classes_tr(_: &Tester) -> impl Pass {
+    (
+        resolver(Mark::new(), Mark::new(), false),
+        classes(Default::default()),
+    )
+}
+
+fn set_method_spec_tr(_: &Tester) -> impl Pass {
+    let unresolved_mark = Mark::new();
+    (
+        resolver(unresolved_mark, Mark::new(), false),
+        classes(Config {
+            set_class_methods: true,
+            ..Default::default()
+        }),
+        spread(Default::default(), unresolved_mark),
+        block_scoping(unresolved_mark),
+    )
+}
+
 test!(
     syntax(),
     |t| tr(t),
@@ -2250,6 +2270,88 @@ let i = new Bar();
 
 expect(i[sym]()).toBe(3);
 
+"#
+);
+
+test_exec!(
+    syntax(),
+    |t| spec_tr(t),
+    issue_6098_exec,
+    r#"
+function expectReferenceError(fn) {
+  expect(fn).toThrow(ReferenceError);
+}
+
+expectReferenceError(() => {
+  var B = class Foo { [Foo]() {} };
+});
+expectReferenceError(() => {
+  class Foo { [Foo]() {} }
+});
+expectReferenceError(() => {
+  var B = class Foo { static [Foo]() {} };
+});
+
+let hit = 0;
+expectReferenceError(() => {
+  var C = class Foo {
+    static [Foo]() {}
+    [++hit]() {}
+  };
+});
+expect(hit).toBe(0);
+
+const outerFoo = {};
+expectReferenceError(() => {
+  let Foo = outerFoo;
+  var C = class Foo { [Foo]() {} };
+});
+{
+  let Foo = outerFoo;
+  let C = class Bar { [Foo]() {} };
+  expect(Object.getOwnPropertyNames(C.prototype)).toContain("[object Object]");
+}
+
+const receiver = {};
+(function (first) {
+  let seenThis;
+  let seenArguments;
+  expectReferenceError(() => {
+    var C = class Foo {
+      [(seenThis = this, seenArguments = arguments, Foo)]() {}
+    };
+  });
+  expect(seenThis).toBe(receiver);
+  expect(seenArguments).toBe(arguments);
+  expect(seenArguments[0]).toBe(first);
+}).call(receiver, 1);
+"#
+);
+
+test_exec!(
+    syntax(),
+    |t| resolved_classes_tr(t),
+    issue_6098_anonymous_outer_binding_exec,
+    r#"
+var VarClass = class { [VarClass]() {} };
+expect(Object.getOwnPropertyNames(VarClass.prototype)).toContain("undefined");
+expect(() => {
+  let LetClass = class { [LetClass]() {} };
+}).toThrow(ReferenceError);
+"#
+);
+
+test_exec!(
+    syntax(),
+    |t| set_method_spec_tr(t),
+    issue_6098_set_class_methods_exec,
+    r#"
+expect(() => {
+  var C = class Foo {
+    direct() {}
+    get [Foo]() {}
+  };
+}).toThrow(ReferenceError);
 "#
 );
 
