@@ -29,6 +29,7 @@ use crate::{
     compress::{optimize::util::get_ids_of_pat, util::is_pure_undefined},
     debug::AssertValid,
     maybe_par,
+    metadata::pure_annotations::PureAnnotations,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
@@ -63,6 +64,7 @@ pub(super) fn optimizer<'a>(
     marks: Marks,
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
+    pure_annotations: &'a PureAnnotations,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
     static_alias_state: &'a mut StaticAliasState,
@@ -88,6 +90,7 @@ pub(super) fn optimizer<'a>(
         changed: false,
         is_module: false,
         options,
+        pure_annotations,
         mangle_options,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
@@ -256,6 +259,9 @@ struct Optimizer<'a> {
     /// State for static alias optimization (unsafe_hoist_static_method_alias
     /// and unsafe_hoist_global_objects_alias options).
     static_alias_state: &'a mut StaticAliasState,
+
+    /// Pure annotations on nodes without a `SyntaxContext` to carry them.
+    pure_annotations: &'a PureAnnotations,
 }
 
 #[derive(Default)]

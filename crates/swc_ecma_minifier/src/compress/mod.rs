@@ -23,6 +23,7 @@ use crate::debug::dump;
 use crate::debug::AssertValid;
 use crate::{
     compress::hoist_decls::decl_hoister,
+    metadata::pure_annotations::PureAnnotations,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::analyze,
@@ -39,6 +40,7 @@ pub(crate) fn compressor<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
+    pure_annotations: &'a PureAnnotations,
     mode: &'a M,
 ) -> impl 'a + Pass
 where
@@ -48,6 +50,7 @@ where
         marks,
         options,
         mangle_options,
+        pure_annotations,
         changed: false,
         pass: 1,
         mode,
@@ -59,6 +62,8 @@ struct Compressor<'a> {
     marks: Marks,
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
+
+    pure_annotations: &'a PureAnnotations,
     changed: bool,
     pass: usize,
 
@@ -154,6 +159,7 @@ impl Compressor<'_> {
             let mut visitor = pure_optimizer(
                 self.options,
                 self.marks,
+                self.pure_annotations,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
                 },
@@ -189,6 +195,7 @@ impl Compressor<'_> {
                 self.marks,
                 self.options,
                 self.mangle_options,
+                self.pure_annotations,
                 &mut data,
                 self.mode,
                 &mut self.static_alias_state,

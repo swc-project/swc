@@ -96,6 +96,7 @@ impl Evaluator {
                     ..Default::default()
                 },
                 None,
+                &Default::default(),
                 &data,
             ));
         }
@@ -229,6 +230,7 @@ impl Evaluator {
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
                     self.marks,
+                    &Default::default(),
                     PureOptimizerConfig {
                         enable_join_vars: true,
                     },
@@ -253,6 +255,7 @@ impl Evaluator {
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
                     self.marks,
+                    &Default::default(),
                     PureOptimizerConfig {
                         enable_join_vars: false,
                     },
@@ -307,6 +310,7 @@ impl Evaluator {
             e.visit_mut_with(&mut pure_optimizer(
                 &Default::default(),
                 self.marks,
+                &Default::default(),
                 PureOptimizerConfig {
                     enable_join_vars: false,
                 },

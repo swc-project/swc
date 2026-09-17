@@ -19,6 +19,7 @@ use crate::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
         util::is_pure_undefined,
     },
+    option::PureGetterOption,
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
 
@@ -107,6 +108,38 @@ enum GroupType<'a> {
 }
 
 impl Pure<'_> {
+    /// Returns `true` if reading `prop` off an arbitrary object can be assumed
+    /// not to have observable side effects, according to the `pure_getters`
+    /// compress option.
+    fn can_assume_pure_getter(&self, prop: &MemberProp) -> bool {
+        match &self.options.pure_getters {
+            PureGetterOption::Bool(true) => true,
+            // `strict` relaxes nullish checks in terser, not getter effects.
+            PureGetterOption::Bool(false) | PureGetterOption::Strict => false,
+            PureGetterOption::Str(allowed) => match prop {
+                MemberProp::Ident(i) => allowed.contains(&i.sym),
+                // Private names are not supported.
+                MemberProp::PrivateName(..) => false,
+                MemberProp::Computed(c) => match &*c.expr {
+                    Expr::Lit(Lit::Str(s)) => s
+                        .value
+                        .as_str()
+                        .is_some_and(|v| allowed.iter().any(|a| a == v)),
+                    _ => false,
+                },
+                #[cfg(swc_ast_unknown)]
+                _ => false,
+            },
+        }
+    }
+
+    /// Returns `true` if reading `member` can be assumed free of getter side
+    /// effects, either because `pure_getters` says so globally or because this
+    /// specific access is annotated with `/*#__PURE__*/`.
+    fn is_pure_member_access(&self, member: &MemberExpr) -> bool {
+        self.can_assume_pure_getter(&member.prop) || self.pure_annotations.contains(member.span.lo)
+    }
+
     /// `a = a + 1` => `a += 1`.
     pub(super) fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
         if e.op != op!("=") {
@@ -1995,10 +2028,30 @@ impl Pure<'_> {
                     e.take();
                     return;
                 }
-                Expr::Member(MemberExpr {
-                    prop: MemberProp::Ident(..),
-                    ..
-                }) => {}
+                // Unused member accesses can be dropped only if they are
+                // pure. The object and a computed key are still evaluated:
+                // `x().y` must keep `x()`.
+                Expr::Member(member) if self.is_pure_member_access(member) => {
+                    let MemberExpr {
+                        span, obj, prop, ..
+                    } = member;
+                    let span = *span;
+                    let computed_key = match prop {
+                        MemberProp::Computed(c) => Some(c.expr.take()),
+                        _ => None,
+                    };
+
+                    report_change!("ignore_return_value: Dropping a pure property access");
+                    self.changed = true;
+
+                    *e = self
+                        .make_ignored_expr(
+                            span,
+                            [Some(obj.take()), computed_key].into_iter().flatten(),
+                        )
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    return;
+                }
 
                 _ => {}
             }
