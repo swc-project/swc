@@ -20,38 +20,40 @@ define([
         Object.setPrototypeOf(_.prototype, target.prototype);
         return _;
     }
+    let _FileSystemError;
     class FileSystemError extends Error {
         static FileExists(messageOrUri) {
-            return new FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileExists, FileSystemError.FileExists);
+            return new _FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileExists, _FileSystemError.FileExists);
         }
         static FileNotFound(messageOrUri) {
-            return new FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileNotFound, FileSystemError.FileNotFound);
+            return new _FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileNotFound, _FileSystemError.FileNotFound);
         }
         static FileNotADirectory(messageOrUri) {
-            return new FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileNotADirectory, FileSystemError.FileNotADirectory);
+            return new _FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileNotADirectory, _FileSystemError.FileNotADirectory);
         }
         static FileIsADirectory(messageOrUri) {
-            return new FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileIsADirectory, FileSystemError.FileIsADirectory);
+            return new _FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileIsADirectory, _FileSystemError.FileIsADirectory);
         }
         static NoPermissions(messageOrUri) {
-            return new FileSystemError(messageOrUri, FileSystemProviderErrorCode.NoPermissions, FileSystemError.NoPermissions);
+            return new _FileSystemError(messageOrUri, FileSystemProviderErrorCode.NoPermissions, _FileSystemError.NoPermissions);
         }
         static Unavailable(messageOrUri) {
-            return new FileSystemError(messageOrUri, FileSystemProviderErrorCode.Unavailable, FileSystemError.Unavailable);
+            return new _FileSystemError(messageOrUri, FileSystemProviderErrorCode.Unavailable, _FileSystemError.Unavailable);
         }
         constructor(uriOrMessage, code = FileSystemProviderErrorCode.Unknown, terminator){
             super(URI.isUri(uriOrMessage) ? uriOrMessage.toString(true) : uriOrMessage), _define_property._(this, "code", void 0);
             this.code = terminator?.name ?? 'Unknown';
             markAsFileSystemProviderError(this, code);
             if (typeof Object.setPrototypeOf === 'function') {
-                Object.setPrototypeOf(this, FileSystemError.prototype);
+                Object.setPrototypeOf(this, _FileSystemError.prototype);
             }
             if (typeof Error.captureStackTrace === 'function' && typeof terminator === 'function') {
                 Error.captureStackTrace(this, terminator);
             }
         }
     }
-    FileSystemError = _ts_decorate._([
+    _FileSystemError = FileSystemError;
+    FileSystemError = _FileSystemError = _ts_decorate._([
         es5ClassCompat
     ], FileSystemError);
 });

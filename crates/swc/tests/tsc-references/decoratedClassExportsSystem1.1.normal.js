@@ -3,7 +3,7 @@ System.register([
     "@swc/helpers/_/_ts_decorate"
 ], function(_export, _context) {
     "use strict";
-    var Testing123, _ts_decorate;
+    var Testing123, _Testing123, _ts_decorate;
     _export("Testing123", void 0);
     return {
         setters: [
@@ -14,8 +14,9 @@ System.register([
         execute: function() {
             _export("Testing123", Testing123 = class Testing123 {
             });
-            Testing123.prop1 = Testing123.prop0;
-            Testing123 = _ts_decorate([
+            _Testing123 = Testing123;
+            Testing123.prop1 = _Testing123.prop0;
+            Testing123 = _Testing123 = _ts_decorate([
                 Something({
                     v: ()=>Testing123
                 })
