@@ -8,6 +8,9 @@
 - **(binding/node)** Return an error when a file cannot be read instead of panicking ([#12379](https://github.com/swc-project/swc/issues/12379)) ([d342acd](https://github.com/swc-project/swc/commit/d342acdd4d73c69f1f12b4b9963c20b28815045c))
 
 
+- **(bindings)** Detect macOS ACLs with supported APIs ([#12391](https://github.com/swc-project/swc/issues/12391)) ([a73ea68](https://github.com/swc-project/swc/commit/a73ea68fe2e8cc4d06f95b27dc240d848a41b816))
+
+
 - **(es)** Decode template raw values when cooked is missing ([#12347](https://github.com/swc-project/swc/issues/12347)) ([7898152](https://github.com/swc-project/swc/commit/78981525cb1256c3f69a22984b42b5f04b6e51dc))
 
 
@@ -2225,13 +2228,7 @@
 - **(bindings)** Improve ARM64 and Alpine Linux (musl) binary loading and validation ([#11173](https://github.com/swc-project/swc/issues/11173)) ([f9be4d7](https://github.com/swc-project/swc/commit/f9be4d7a37a6b358fe34f0c25fa7391b3a375509))
 
 
-- **(es/compat)** Preserve AutoAccessor to prevent panic ([#11150](https://github.com/swc-project/swc/issues/11150)) ([101c3b7](https://github.com/swc-project/swc/commit/101c3b7ce7851d38f0751913b13fd670088d909f))
-
-
 - **(es/helpers)** Fix SuppressedError argument order in explicit resource management ([#11172](https://github.com/swc-project/swc/issues/11172)) ([7693fb9](https://github.com/swc-project/swc/commit/7693fb909fa2541ca4182a932c6834895f25956e))
-
-
-- **(es/minifier)** Fix inlining of hoisted functions ([#11159](https://github.com/swc-project/swc/issues/11159)) ([bd55d30](https://github.com/swc-project/swc/commit/bd55d30811d5f421b43dc70fd9c05d2f2b56a049))
 
 
 - **(es/minifier)** Fix inlining of hoisted functions in param ([#11161](https://github.com/swc-project/swc/issues/11161)) ([5a4088d](https://github.com/swc-project/swc/commit/5a4088d73ab12c7cb59f577e80fc9e5b0edadd07))
