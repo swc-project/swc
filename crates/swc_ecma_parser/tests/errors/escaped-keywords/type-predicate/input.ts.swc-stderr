@@ -1,0 +1,10 @@
+  x Expected '{', got 'is'
+   ,-[$DIR/tests/errors/escaped-keywords/type-predicate/input.ts:1:1]
+ 1 | declare function f(x: unknown): br\u0065ak is number;
+   :                                            ^^
+   `----
+  x Unexpected escape sequence in reserved word: break
+   ,-[$DIR/tests/errors/escaped-keywords/type-predicate/input.ts:1:1]
+ 1 | declare function f(x: unknown): br\u0065ak is number;
+   :                                 ^^^^^^^^^^
+   `----

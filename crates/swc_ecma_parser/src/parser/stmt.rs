@@ -394,6 +394,7 @@ impl<I: Tokens> Parser<I> {
         if cur == Token::Const
             || cur == Token::Var
             || (self.input().is(Token::Let)
+                && !self.input().has_escaped_keyword()
                 && peek!(self).map_or(false, |v| v.follows_keyword_let()))
         {
             let decl = self.parse_var_stmt(true)?;
@@ -2057,8 +2058,8 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::Var || (cur == Token::Const && include_decl) {
             let v = self.parse_var_stmt(false)?;
             return Ok(v.into());
-        } else if cur == Token::Let && include_decl {
-            // 'let' can start an identifier reference.
+        } else if cur == Token::Let && include_decl && !self.input().has_escaped_keyword() {
+            // Only an unescaped 'let' can introduce a lexical declaration.
             let is_keyword = match peek!(self) {
                 Some(t) => t.follows_keyword_let(),
                 _ => false,

@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: break
+   ,-[$DIR/tests/errors/escaped-keywords/export-type/input.ts:1:1]
+ 1 | export type br\u0065ak = number;
+   :             ^^^^^^^^^^
+   `----

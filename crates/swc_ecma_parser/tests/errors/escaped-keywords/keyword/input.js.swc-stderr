@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: return
+   ,-[$DIR/tests/errors/escaped-keywords/keyword/input.js:1:1]
+ 1 | function f() { ret\u0075rn 42; }
+   :                ^^^^^^^^^^^
+   `----
