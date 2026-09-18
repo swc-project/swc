@@ -72,6 +72,10 @@ impl<I: Tokens> Parser<I> {
         };
 
         let value = if self.input_mut().eat(Token::Eq) {
+            // Do not emit TS2371 here: `Context::InDeclare` also covers ambient
+            // variable bindings such as `declare const { a = 1 }`, which TypeScript
+            // accepts. Declare function/constructor parameters are rejected by
+            // `emit_ts2371_for_param_initializers` after the signature is parsed.
             self.allow_in_expr(Self::parse_assignment_expr).map(Some)?
         } else {
             let ctx = self.ctx();
