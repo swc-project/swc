@@ -1,0 +1,4 @@
+eval SyntaxError
+key ReferenceError
+update TypeError
+new-target undefined
