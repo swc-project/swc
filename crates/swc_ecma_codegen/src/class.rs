@@ -28,7 +28,11 @@ where
             }
 
             self.emit_expr_with_precedence(super_class, ExprPrecedence::POSTFIX)?;
-            emit!(self, node.super_type_params);
+            srcmap_for_separator!(self, node, super_class);
+            if let Some(super_type_params) = &node.super_type_params {
+                emit!(self, super_type_params);
+                srcmap_for_separator!(self, node, super_type_params);
+            }
         }
 
         if !node.implements.is_empty() {
@@ -42,6 +46,7 @@ where
                 Some(&node.implements),
                 ListFormat::ClassHeritageClauses,
             )?;
+            srcmap_for_separator!(self, node, node.implements.last().unwrap());
         }
 
         formatting_space!(self);
@@ -67,6 +72,9 @@ impl MacroNode for ClassExpr {
         for dec in &self.class.decorators {
             emit!(dec);
         }
+        if let Some(dec) = self.class.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
+        }
 
         if self.class.is_abstract {
             keyword!(emitter, "abstract");
@@ -78,7 +86,11 @@ impl MacroNode for ClassExpr {
         if let Some(ref i) = self.ident {
             space!(emitter);
             emit!(i);
-            emit!(self.class.type_params);
+            srcmap_for_separator!(emitter, self, i);
+            if let Some(type_params) = &self.class.type_params {
+                emit!(type_params);
+                srcmap_for_separator!(emitter, self, type_params);
+            }
         }
 
         emitter.emit_class_trailing(&self.class)?;
@@ -103,7 +115,11 @@ impl MacroNode for Class {
             }
 
             emitter.emit_expr_with_precedence(super_class, ExprPrecedence::POSTFIX)?;
-            emit!(self.super_type_params);
+            srcmap_for_separator!(emitter, self, super_class);
+            if let Some(super_type_params) = &self.super_type_params {
+                emit!(super_type_params);
+                srcmap_for_separator!(emitter, self, super_type_params);
+            }
         }
 
         if !self.implements.is_empty() {
@@ -117,6 +133,7 @@ impl MacroNode for Class {
                 Some(&self.implements),
                 ListFormat::ClassHeritageClauses,
             )?;
+            srcmap_for_separator!(emitter, self, self.implements.last().unwrap());
         }
 
         formatting_space!(emitter);
@@ -156,7 +173,12 @@ impl MacroNode for ClassMember {
 #[node_impl]
 impl MacroNode for AutoAccessor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        srcmap!(emitter, self, true);
+
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
+        if let Some(dec) = self.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
+        }
 
         emitter.emit_accessibility(self.accessibility)?;
 
@@ -179,6 +201,7 @@ impl MacroNode for AutoAccessor {
         space!(emitter);
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
 
         if let Some(type_ann) = &self.type_ann {
             if self.definite {
@@ -187,6 +210,7 @@ impl MacroNode for AutoAccessor {
             punct!(emitter, ":");
             space!(emitter);
             emit!(type_ann);
+            srcmap_for_separator!(emitter, self, type_ann);
         }
 
         if let Some(init) = &self.value {
@@ -194,6 +218,7 @@ impl MacroNode for AutoAccessor {
             punct!(emitter, "=");
             formatting_space!(emitter);
             emit!(init);
+            srcmap_for_separator!(emitter, self, init);
         }
 
         semi!(emitter);
@@ -271,6 +296,8 @@ impl MacroNode for PrivateMethod {
             _ => return Err(unknown_error()),
         }
 
+        srcmap_for_separator!(emitter, self, self.key);
+
         emitter.emit_fn_trailing(&self.function)?;
         emitter.end_scope()?;
 
@@ -305,6 +332,9 @@ impl MacroNode for ClassMethod {
 
         for d in &self.function.decorators {
             emit!(d);
+        }
+        if let Some(dec) = self.function.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
         }
 
         emitter.emit_accessibility(self.accessibility)?;
@@ -382,6 +412,7 @@ impl MacroNode for ClassMethod {
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
+        srcmap_for_separator!(emitter, self, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -389,6 +420,7 @@ impl MacroNode for ClassMethod {
 
         if let Some(type_params) = &self.function.type_params {
             emit!(type_params);
+            srcmap_for_separator!(emitter, self, type_params);
         }
 
         emitter.emit_fn_params(&self.function)?;
@@ -397,6 +429,7 @@ impl MacroNode for ClassMethod {
             punct!(emitter, ":");
             formatting_space!(emitter);
             emit!(ty);
+            srcmap_for_separator!(emitter, self, ty);
         }
 
         if let Some(body) = &self.function.body {
@@ -419,6 +452,9 @@ impl MacroNode for PrivateProp {
         srcmap!(emitter, self, true);
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
+        if let Some(dec) = self.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
+        }
 
         emitter.emit_accessibility(self.accessibility)?;
 
@@ -438,6 +474,7 @@ impl MacroNode for PrivateProp {
         }
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -450,6 +487,7 @@ impl MacroNode for PrivateProp {
             punct!(emitter, ":");
             space!(emitter);
             emit!(type_ann);
+            srcmap_for_separator!(emitter, self, type_ann);
         }
 
         if let Some(value) = &self.value {
@@ -460,9 +498,11 @@ impl MacroNode for PrivateProp {
             if value.is_seq() {
                 punct!(emitter, "(");
                 emit!(value);
+                srcmap_for_separator!(emitter, self, value);
                 punct!(emitter, ")");
             } else {
                 emit!(value);
+                srcmap_for_separator!(emitter, self, value);
             }
         }
 
@@ -482,6 +522,9 @@ impl MacroNode for ClassProp {
 
         for dec in &self.decorators {
             emit!(dec)
+        }
+        if let Some(dec) = self.decorators.last() {
+            srcmap_for_separator!(emitter, self, dec);
         }
 
         if self.declare {
@@ -512,6 +555,7 @@ impl MacroNode for ClassProp {
         }
 
         emit!(self.key);
+        srcmap_for_separator!(emitter, self, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -524,6 +568,7 @@ impl MacroNode for ClassProp {
             punct!(emitter, ":");
             space!(emitter);
             emit!(ty);
+            srcmap_for_separator!(emitter, self, ty);
         }
 
         if let Some(v) = &self.value {
@@ -534,9 +579,11 @@ impl MacroNode for ClassProp {
             if v.is_seq() {
                 punct!(emitter, "(");
                 emit!(v);
+                srcmap_for_separator!(emitter, self, v);
                 punct!(emitter, ")");
             } else {
                 emit!(v);
+                srcmap_for_separator!(emitter, self, v);
             }
         }
 
@@ -576,6 +623,9 @@ impl MacroNode for Constructor {
         keyword!(emitter, "constructor");
         punct!(emitter, "(");
         emitter.emit_list(self.span(), Some(&self.params), ListFormat::Parameters)?;
+        if let Some(last_param) = self.params.last() {
+            srcmap_for_separator!(emitter, self, last_param);
+        }
         punct!(emitter, ")");
 
         if let Some(body) = &self.body {

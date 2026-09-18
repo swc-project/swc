@@ -1,5 +1,5 @@
 {
-  "mappings": ";;;;+BAAaA;;;eAAAA;;;AAAN,MAAMA,MAAM;IACfC,KAAK,EAAE;AACX",
+  "mappings": ";;;;+BAAaA,K;;;eAAAA,G;;;AAAN,MAAMA,MAAM;IACfC,KAAK,CAAC;AACV",
   "names": [
     "foo",
     "arr"

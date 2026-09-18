@@ -2,7 +2,7 @@
   "ignoreList": [
     0
   ],
-  "mappings": "AAAAA,QAAQC,GAAG,CAAC",
+  "mappings": "AAAAA,QAAQC,GAAG,CAAC,KAAK",
   "names": [
     "console",
     "log"

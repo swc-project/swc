@@ -33,6 +33,9 @@ where
             for dec in &node.class.decorators {
                 emit!(self, dec);
             }
+            if let Some(dec) = node.class.decorators.last() {
+                srcmap_for_separator!(self, node, dec);
+            }
         }
 
         if node.class.is_abstract {
@@ -43,7 +46,11 @@ where
         keyword!(self, "class");
         space!(self);
         emit!(self, node.ident);
-        emit!(self, node.class.type_params);
+        srcmap_for_separator!(self, node, node.ident);
+        if let Some(type_params) = &node.class.type_params {
+            emit!(self, type_params);
+            srcmap_for_separator!(self, node, type_params);
+        }
 
         self.emit_class_trailing(&node.class)?;
 
@@ -95,6 +102,9 @@ where
             Some(&node.decls),
             ListFormat::VariableDeclarationList,
         )?;
+        if let Some(decl) = node.decls.last() {
+            srcmap_for_separator!(self, node, decl);
+        }
 
         Ok(())
     }
@@ -139,6 +149,8 @@ impl MacroNode for UsingDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        srcmap!(emitter, self, true);
+
         if self.is_await {
             keyword!(emitter, "await");
             space!(emitter);
@@ -152,6 +164,9 @@ impl MacroNode for UsingDecl {
             Some(&self.decls),
             ListFormat::VariableDeclarationList,
         )?;
+        if let Some(decl) = self.decls.last() {
+            srcmap_for_separator!(emitter, self, decl);
+        }
 
         Ok(())
     }
@@ -203,6 +218,7 @@ impl MacroNode for FnDecl {
         }
 
         emit!(self.ident);
+        srcmap_for_separator!(emitter, self, self.ident);
 
         emitter.emit_fn_trailing(&self.function)?;
         emitter.end_scope()?;
@@ -230,6 +246,7 @@ impl MacroNode for VarDeclarator {
 
         if let Some(ref init) = self.init {
             formatting_space!(emitter);
+            srcmap_for_separator!(emitter, self, self.name);
             punct!(emitter, "=");
             formatting_space!(emitter);
             emit!(init);

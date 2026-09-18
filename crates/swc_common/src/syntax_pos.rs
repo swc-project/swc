@@ -1044,7 +1044,8 @@ pub trait SmallPos {
 ///
 ///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
 ///
-/// `u32::MAX` is special value used to generate source map entries.
+/// `u32::MAX` is a special value used to terminate an active source mapping
+/// without associating the generated code with a source location.
 #[derive(
     Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize, Default,
 )]
@@ -1083,7 +1084,7 @@ impl BytePos {
     pub const PLACEHOLDER: Self = BytePos(u32::MAX - 2);
     /// Reserved for PURE comments. e.g. `/* #__PURE__ */`
     pub const PURE: Self = BytePos(u32::MAX - 1);
-    /// Synthesized, but should be stored in a source map.
+    /// Synthesized source-map boundary with no associated source location.
     pub const SYNTHESIZED: Self = BytePos(u32::MAX);
 
     pub const fn is_reserved_for_comments(self) -> bool {
