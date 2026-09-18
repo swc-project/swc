@@ -1,6 +1,6 @@
 //// [objectRestParameter.ts]
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
-function foobar(_0) {
+function foobar(_0 = void 0) {
     let [_ref1 = {}] = [
         _0
     ], { bar = {} } = _ref1;
@@ -13,7 +13,7 @@ suddenly((_0)=>{
     return _object_without_properties(_0, [
         "x"
     ]).y;
-}), suddenly((_0)=>{
+}), suddenly((_0 = void 0)=>{
     let [_ref1 = {
         x: {
             z: 1,
