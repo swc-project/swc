@@ -138,14 +138,6 @@ impl Pure<'_> {
         match e.op {
             op!("&&") | op!("||") => Self::can_simplify_bin_operand(&e.left),
 
-            op!("instanceof") => {
-                Self::is_known_non_object(&e.left)
-                    || Self::is_known_object(&e.left)
-                        && e.right
-                            .as_ident()
-                            .is_some_and(|ident| &*ident.sym == "Object")
-            }
-
             op!("<") | op!(">") | op!("<=") | op!(">=") => {
                 Self::can_simplify_bin_operand(&e.left)
                     || Self::can_simplify_bin_operand(&e.right)
@@ -208,30 +200,6 @@ impl Pure<'_> {
                 matches!(&**sym, "undefined" | "Infinity" | "NaN")
             }
 
-            _ => false,
-        }
-    }
-
-    #[inline(always)]
-    fn is_known_object(e: &Expr) -> bool {
-        matches!(
-            e,
-            Expr::Array(..) | Expr::Object(..) | Expr::Fn(..) | Expr::Class(..) | Expr::New(..)
-        )
-    }
-
-    #[inline(always)]
-    fn is_known_non_object(e: &Expr) -> bool {
-        match e {
-            Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..) | Lit::Bool(..)) => true,
-            Expr::Ident(Ident { sym, .. }) => {
-                matches!(&**sym, "undefined" | "Infinity" | "NaN")
-            }
-            Expr::Unary(UnaryExpr {
-                op: op!("!") | op!(unary, "-") | op!("void"),
-                arg,
-                ..
-            }) => Self::is_known_non_object(arg),
             _ => false,
         }
     }
@@ -519,7 +487,6 @@ impl VisitMut for Pure<'_> {
                     self.ctx.contains(Ctx::IS_CALLEE),
                     &mut changed,
                 );
-
                 if changed {
                     report_change!("expression simplifier simplified a member expression");
                 }
