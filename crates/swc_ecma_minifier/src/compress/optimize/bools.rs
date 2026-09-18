@@ -214,6 +214,14 @@ impl Optimizer<'_> {
         if let (Value::Known(Type::Undefined), Value::Known(Type::Null))
         | (Value::Known(Type::Null), Value::Known(Type::Undefined)) = (lt, rt)
         {
+            // This replacement drops both sentinel operands, so their known
+            // types alone are insufficient when evaluating either has effects.
+            if left.may_have_side_effects(self.ctx.expr_ctx)
+                || right.may_have_side_effects(self.ctx.expr_ctx)
+            {
+                return None;
+            }
+
             if op == op!("===") {
                 report_change!("Reducing `!== null || !== undefined` check to `!= null`");
                 return Some(BinExpr {
