@@ -111,6 +111,29 @@ impl Scope {
         R: Renamer,
         V: RenamedVariable,
     {
+        self.record_preserved_names(renamer, to, previous, reverse, preserved);
+        self.rename_in_normal_mode_inner(
+            renamer,
+            to,
+            previous,
+            reverse,
+            preserved,
+            preserved_symbols,
+        );
+    }
+
+    fn rename_in_normal_mode_inner<R, V>(
+        &mut self,
+        renamer: &R,
+        to: &mut FxHashMap<Id, V>,
+        previous: &FxHashMap<Id, V>,
+        reverse: &mut ReverseMap,
+        preserved: &FxHashSet<Id>,
+        preserved_symbols: &FxHashSet<Atom>,
+    ) where
+        R: Renamer,
+        V: RenamedVariable,
+    {
         let queue = take(&mut self.data.queue);
 
         // let mut cloned_reverse = reverse.clone();
@@ -126,7 +149,7 @@ impl Scope {
         );
 
         for child in &mut self.children {
-            child.rename_in_normal_mode(
+            child.rename_in_normal_mode_inner(
                 renamer,
                 to,
                 &Default::default(),
@@ -154,12 +177,11 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if renamer.preserve_name(&id)
-                || preserved.contains(&id)
-                || to.get(&id).is_some()
-                || previous.get(&id).is_some()
-                || id.0 == "eval"
-            {
+            if to.get(&id).is_some() || previous.get(&id).is_some() || id.0 == "eval" {
+                continue;
+            }
+
+            if renamer.preserve_name(&id) || preserved.contains(&id) {
                 continue;
             }
 
@@ -230,6 +252,42 @@ impl Scope {
         R: Renamer,
         V: RenamedVariable,
     {
+        let mut reverse_with_preserved = reverse.next();
+        self.record_preserved_names(
+            renamer,
+            to,
+            previous,
+            &mut reverse_with_preserved,
+            preserved,
+        );
+        self.rename_in_mangle_mode_inner(
+            renamer,
+            to,
+            previous,
+            &reverse_with_preserved,
+            preserved,
+            preserved_symbols,
+            parallel,
+        );
+    }
+
+    #[cfg_attr(
+        not(feature = "concurrent-renamer"),
+        allow(unused, clippy::only_used_in_recursion)
+    )]
+    fn rename_in_mangle_mode_inner<R, V>(
+        &mut self,
+        renamer: &R,
+        to: &mut FxHashMap<Id, V>,
+        previous: &FxHashMap<Id, V>,
+        reverse: &ReverseMap,
+        preserved: &FxHashSet<Id>,
+        preserved_symbols: &FxHashSet<Atom>,
+        parallel: bool,
+    ) where
+        R: Renamer,
+        V: RenamedVariable,
+    {
         let queue = take(&mut self.data.queue);
 
         let mut cloned_reverse = reverse.next();
@@ -257,7 +315,7 @@ impl Scope {
                         child.rename_cost(),
                         Default::default(),
                     );
-                    child.rename_in_mangle_mode(
+                    child.rename_in_mangle_mode_inner(
                         renamer,
                         &mut new_map,
                         to,
@@ -277,7 +335,7 @@ impl Scope {
         }
 
         for child in &mut self.children {
-            child.rename_in_mangle_mode(
+            child.rename_in_mangle_mode_inner(
                 renamer,
                 to,
                 &Default::default(),
@@ -305,12 +363,11 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if renamer.preserve_name(&id)
-                || preserved.contains(&id)
-                || to.get(&id).is_some()
-                || previous.get(&id).is_some()
-                || id.0 == "eval"
-            {
+            if to.get(&id).is_some() || previous.get(&id).is_some() || id.0 == "eval" {
+                continue;
+            }
+
+            if renamer.preserve_name(&id) || preserved.contains(&id) {
                 continue;
             }
 
@@ -345,5 +402,36 @@ impl Scope {
     pub fn rename_cost(&self) -> usize {
         let children = &self.children;
         self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
+    }
+
+    /// Records the outputs of bindings which intentionally keep their names.
+    ///
+    /// These names must be recorded across the whole subtree before assigning
+    /// any names in the current scope. Otherwise a renamed binding can capture
+    /// references to a preserved binding in a child scope.
+    fn record_preserved_names<R, V>(
+        &self,
+        renamer: &R,
+        to: &FxHashMap<Id, V>,
+        previous: &FxHashMap<Id, V>,
+        reverse: &mut ReverseMap,
+        preserved: &FxHashSet<Id>,
+    ) where
+        R: Renamer,
+        V: RenamedVariable,
+    {
+        for id in &self.data.queue {
+            if to.get(id).is_some() || previous.get(id).is_some() || id.0 == "eval" {
+                continue;
+            }
+
+            if renamer.preserve_name(id) || preserved.contains(id) {
+                reverse.push_entry(id.0.clone(), id.clone());
+            }
+        }
+
+        for child in &self.children {
+            child.record_preserved_names(renamer, to, previous, reverse, preserved);
+        }
     }
 }
