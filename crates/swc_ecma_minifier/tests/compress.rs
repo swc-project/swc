@@ -390,6 +390,61 @@ fn script_repeated_stdout(expected: PathBuf) {
     check_script_fixture(expected, ScriptExpectation::Stdout);
 }
 
+/// Verify script-global `var` bindings remain externally visible after
+/// mangling. Each source is evaluated in its own VM context so global-object
+/// properties do not leak between the original and optimized programs.
+#[testing::fixture("tests/fixture/issues/12314/expected.vm-context")]
+fn issue_12314_script_global_var(expected: PathBuf) {
+    let dir = expected.parent().unwrap();
+    let input = dir.join("input.js");
+    let config = find_config(dir);
+    let mangle = read_mangle_config(dir);
+    let expected = read_to_string(expected).expect("failed to read expected VM context result");
+    let source = read_to_string(&input).expect("failed to read input.js");
+
+    testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+        let output = run(
+            cm.clone(),
+            &handler,
+            &input,
+            &config,
+            Some(&comments),
+            mangle,
+            false,
+        )
+        .expect("failed to optimize issue #12314 fixture");
+        assert!(output.is_script(), "issue #12314 must remain a Script");
+        let output = print(cm, &[output], Some(&comments), true, true);
+
+        let source = serde_json::to_string(&source).expect("failed to serialize input.js");
+        let output = serde_json::to_string(&output).expect("failed to serialize output.js");
+        let actual = exec_node_js(
+            &format!(
+                r#"
+const vm = require('node:vm');
+function evaluate(source) {{
+    const context = {{ console: {{ log() {{}} }} }};
+    vm.runInNewContext(source, context);
+    return context.globallyVisible;
+}}
+console.log(JSON.stringify([evaluate({source}), evaluate({output})]));
+"#
+            ),
+            JsExecOptions {
+                cache: false,
+                ..Default::default()
+            },
+        )
+        .expect("failed to execute issue #12314 fixture");
+
+        assert_eq!(DebugUsingDisplay(&actual), DebugUsingDisplay(&expected));
+
+        Ok(())
+    })
+    .unwrap()
+}
+
 #[derive(Clone, Copy)]
 enum ScriptExpectation {
     Completion,
