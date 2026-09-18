@@ -79,6 +79,16 @@ impl Ctx {
     }
 
     #[inline]
+    pub fn is_global_var_scope(&self) -> bool {
+        self.bit_ctx.contains(BitContext::IsGlobalVarScope)
+    }
+
+    #[inline]
+    pub fn in_strict(&self) -> bool {
+        self.bit_ctx.contains(BitContext::InStrict)
+    }
+
+    #[inline]
     pub fn in_left_of_for_loop(&self) -> bool {
         self.bit_ctx.contains(BitContext::InLeftOfForLoop)
     }
@@ -98,6 +108,12 @@ bitflags! {
         const InCond = 1 << 8;
         const InlinePrevented = 1 << 9;
         const IsTopLevel = 1 << 10;
+        /// This context is within the script's global variable environment.
+        /// Unlike `IsTopLevel`, it is inherited by nested blocks so `var` and
+        /// sloppy Annex B function declarations remain distinguishable from
+        /// block-lexical declarations.
+        const IsGlobalVarScope = 1 << 11;
+        const InStrict = 1 << 12;
     }
 }
 
