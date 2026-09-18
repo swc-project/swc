@@ -261,24 +261,23 @@ pub fn has_extended_acl(file: &File) -> io::Result<bool> {
     extern "C" {
         fn acl_get_fd(fd: libc::c_int) -> *mut libc::c_void;
         fn acl_free(object: *mut libc::c_void) -> libc::c_int;
-        fn acl_equiv_mode_np(acl: *mut libc::c_void, mode: *mut libc::mode_t) -> libc::c_int;
     }
 
     let acl = unsafe { acl_get_fd(file.as_raw_fd()) };
     if acl.is_null() {
+        let error = io::Error::last_os_error();
+        // Darwin reports an ordinary mode-only file as ENOENT rather than
+        // returning an empty ACL object.
+        return if error.raw_os_error() == Some(libc::ENOENT) {
+            Ok(false)
+        } else {
+            Err(error)
+        };
+    }
+    if unsafe { acl_free(acl) } != 0 {
         return Err(io::Error::last_os_error());
     }
-    let mut mode = 0;
-    let result = unsafe { acl_equiv_mode_np(acl, &mut mode) };
-    let free_result = unsafe { acl_free(acl) };
-    if free_result != 0 {
-        return Err(io::Error::last_os_error());
-    }
-    match result {
-        0 => Ok(false),
-        1 => Ok(true),
-        _ => Err(io::Error::last_os_error()),
-    }
+    Ok(true)
 }
 
 pub fn sync_directory(path: &Path) -> io::Result<()> {

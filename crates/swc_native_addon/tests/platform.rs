@@ -51,6 +51,13 @@ fn replacement_metadata_preserves_permissions_and_user_attributes() {
 
 #[cfg(target_os = "macos")]
 #[test]
+fn replacement_accepts_files_without_macos_acls() {
+    let file = tempfile::NamedTempFile::new().unwrap();
+    assert!(!swc_native_addon::platform::has_extended_acl(file.as_file()).unwrap());
+}
+
+#[cfg(target_os = "macos")]
+#[test]
 fn replacement_skips_explicit_macos_acls() {
     let file = tempfile::NamedTempFile::new().unwrap();
     let result = std::process::Command::new("/bin/chmod")
