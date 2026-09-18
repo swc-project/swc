@@ -9726,10 +9726,10 @@
  * @private
  */ function getZindexPartial(element) {
                 for(// upto body traversal
-                var parent = element.parentElement, parentZindex = []; parent;)if ('BODY' !== parent.tagName) {
+                var parent = element.parentElement, parentZindex = []; parent && 'BODY' !== parent.tagName;){
                     var index = document.defaultView.getComputedStyle(parent, null).getPropertyValue('z-index'), position = document.defaultView.getComputedStyle(parent, null).getPropertyValue('position');
                     'auto' !== index && 'static' !== position && parentZindex.push(index), parent = parent.parentElement;
-                } else break;
+                }
                 for(var childrenZindex = [], i = 0; i < document.body.children.length; i++)if (!element.isEqualNode(document.body.children[i])) {
                     var index = document.defaultView.getComputedStyle(document.body.children[i], null).getPropertyValue('z-index'), position = document.defaultView.getComputedStyle(document.body.children[i], null).getPropertyValue('position');
                     'auto' !== index && 'static' !== position && childrenZindex.push(index);

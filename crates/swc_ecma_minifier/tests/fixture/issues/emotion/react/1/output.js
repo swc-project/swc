@@ -747,8 +747,7 @@
                  * @param {number} type
                  * @return {string}
                  */ function(type) {
-                                    for(; character = peek();)if (character < 33) next();
-                                    else break;
+                                    for(; (character = peek()) && character < 33;)next();
                                     return token(type) > 2 || token(character) > 3 ? "" : " ";
                                 }(previous);
                                 break;
