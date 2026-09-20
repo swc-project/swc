@@ -202,6 +202,10 @@ bitflags! {
         /// `true` only while visiting [CallExpr::callee] when the call result is
         /// not itself used as a receiver-aware callee.
         const IsCallCallee = 1 << 29;
+
+        /// The expression can run repeatedly within one statement evaluation,
+        /// so prepended `let` declarations would be shared across evaluations.
+        const RepeatedInSameStmt = 1 << 30;
     }
 }
 
@@ -1514,7 +1518,7 @@ impl Optimizer<'_> {
             .with(BitCtx::InFnLike, false)
             .with(BitCtx::InBlock, false)
             .with(
-                BitCtx::ExecutedMultipleTime,
+                BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
                 !is_static || self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime),
             )
     }
@@ -1525,6 +1529,7 @@ impl Optimizer<'_> {
                 .ctx
                 .bit_ctx
                 .with(BitCtx::InFnLike, true)
+                .with(BitCtx::RepeatedInSameStmt, false)
                 // The outer try/finally cannot observe termination within a nested function.
                 .with(BitCtx::InTryBlock, false)
                 .with(BitCtx::TopLevel, false)
@@ -1961,7 +1966,10 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
-        let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+        let ctx = self.ctx.clone().with(
+            BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+            true,
+        );
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
@@ -2366,12 +2374,18 @@ impl VisitMut for Optimizer<'_> {
                 .clone()
                 .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
                 .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
-                .with(BitCtx::ExecutedMultipleTime, true);
+                .with(
+                    BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                    true,
+                );
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
 
         {
-            let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+            let ctx = self.ctx.clone().with(
+                BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                true,
+            );
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
@@ -2389,12 +2403,18 @@ impl VisitMut for Optimizer<'_> {
                 .clone()
                 .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
                 .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
-                .with(BitCtx::ExecutedMultipleTime, true);
+                .with(
+                    BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                    true,
+                );
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
 
         {
-            let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+            let ctx = self.ctx.clone().with(
+                BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                true,
+            );
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
@@ -2408,7 +2428,10 @@ impl VisitMut for Optimizer<'_> {
 
         debug_assert_valid(&s.init);
 
-        let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+        let ctx = self.ctx.clone().with(
+            BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+            true,
+        );
         let mut child = self.with_ctx(ctx.clone());
 
         s.test.visit_mut_with(&mut *child);
@@ -2805,6 +2828,9 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsLhsOfAssign, false)
             .with(BitCtx::InBangArg, false)
             .with(BitCtx::IsExported, false)
+            // Synthesized lexical declarations are evaluated with this statement,
+            // including when the statement is a loop body without braces.
+            .with(BitCtx::RepeatedInSameStmt, false)
             .with(BitCtx::InObjOfNonComputedMember, false);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
@@ -3515,7 +3541,10 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
-        let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+        let ctx = self.ctx.clone().with(
+            BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+            true,
+        );
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 

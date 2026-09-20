@@ -586,7 +586,13 @@ impl Optimizer<'_> {
                     ArrowFunctionBody::FunctionBody(body) => {
                         self.can_inline_fn_captures(params, body)
                     }
-                    ArrowFunctionBody::Expr(body) => self.can_inline_fn_captures(params, body),
+                    ArrowFunctionBody::Expr(body) => {
+                        // This path extracts parameters into `let` declarations.
+                        // A loop-body statement gets fresh bindings each iteration,
+                        // unlike loop headers and instance field initializers.
+                        !self.ctx.bit_ctx.contains(BitCtx::RepeatedInSameStmt)
+                            || self.can_inline_fn_captures(params, body)
+                    }
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 };
