@@ -69,9 +69,12 @@ impl Visit for AwaitCollector {
         node.visit_children_with(self);
     }
 
-    // Methods contain Function nodes, but their computed keys belong to the
-    // enclosing scope and are visited separately by the default traversal.
-    fn visit_function(&mut self, _: &Function) {}
+    fn visit_function(&mut self, node: &Function) {
+        // Method decorators are evaluated in the enclosing scope, unlike the
+        // function's parameters and body. Computed keys are visited separately
+        // by the default traversal of the containing method.
+        node.decorators.visit_with(self);
+    }
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 

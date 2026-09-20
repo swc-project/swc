@@ -41,9 +41,9 @@ intended for REPL highlighting, not syntax validation or TypeScript tokenization
 expressions, `for await` loops, and `await using` declarations in module scope.
 Lines start at 1 and UTF-16 columns start at 0, matching Acorn. Each location is
 the start of the construct (`for` for a `for await` loop). Function bodies,
-including methods and arrow functions, are excluded; class heritage expressions
-and computed keys are included. JavaScript and TypeScript are supported, and
-invalid or incomplete modules return an empty array.
+including methods and arrow functions, are excluded; class heritage expressions,
+computed keys, and method decorators are included. JavaScript and TypeScript are
+supported, and invalid or incomplete modules return an empty array.
 
 ### REPL imports
 
