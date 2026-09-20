@@ -545,6 +545,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_error_reporters",
  "swc_ts_fast_strip",
+ "testing",
  "tracing",
  "unicode-width 0.2.2",
  "wasm-bindgen",

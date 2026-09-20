@@ -1,0 +1,75 @@
+[
+    {
+        "source": "#!/usr/bin/env node\n// before\nlet x /* middle */ = 1; // after",
+        "expected": [
+            {
+                "kind": "comment",
+                "start": 0,
+                "end": 19
+            },
+            {
+                "kind": "comment",
+                "start": 20,
+                "end": 29
+            },
+            {
+                "kind": "keyword",
+                "start": 30,
+                "end": 33
+            },
+            {
+                "kind": "identifier",
+                "start": 34,
+                "end": 35
+            },
+            {
+                "kind": "comment",
+                "start": 36,
+                "end": 48
+            },
+            {
+                "kind": "punctuator",
+                "start": 49,
+                "end": 50
+            },
+            {
+                "kind": "number",
+                "start": 51,
+                "end": 52
+            },
+            {
+                "kind": "punctuator",
+                "start": 52,
+                "end": 53
+            },
+            {
+                "kind": "comment",
+                "start": 54,
+                "end": 62
+            }
+        ]
+    },
+    {
+        "source": "/* only */ // end",
+        "expected": [
+            {
+                "kind": "comment",
+                "start": 0,
+                "end": 10
+            },
+            {
+                "kind": "comment",
+                "start": 11,
+                "end": 17
+            }
+        ]
+    },
+    {
+        "source": " \r\n\t",
+        "expected": []
+    },
+    {
+        "source": "",
+        "expected": []
+    }
+]
