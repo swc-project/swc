@@ -1580,6 +1580,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn flow_match_parse_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        // Flow allows one optional leading pipe, including in nested patterns.
+        self.input_mut().eat(Token::Pipe);
         let mut pat = self.flow_match_parse_primary_pattern()?;
 
         while self.input_mut().eat(Token::Pipe) {
