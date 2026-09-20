@@ -1504,6 +1504,21 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Field initializers cannot declare bindings in the surrounding block.
+    /// Instance fields also run once per instance, so extracted bindings must
+    /// not be shared across evaluations.
+    fn class_field_ctx(&self, is_static: bool) -> Ctx {
+        self.ctx
+            .clone()
+            .with(BitCtx::InClass, true)
+            .with(BitCtx::InFnLike, false)
+            .with(BitCtx::InBlock, false)
+            .with(
+                BitCtx::ExecutedMultipleTime,
+                !is_static || self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime),
+            )
+    }
+
     fn function_like_ctx(&self, scope: SyntaxContext) -> Ctx {
         Ctx {
             bit_ctx: self
@@ -1840,6 +1855,7 @@ impl VisitMut for Optimizer<'_> {
         match n {
             ClassMember::ClassProp(class_prop) => {
                 class_prop.key.visit_mut_with(self);
+                let ctx = self.class_field_ctx(class_prop.is_static);
                 class_prop.value.visit_mut_with(&mut *self.with_ctx(ctx));
             }
             ClassMember::Method(class_method) => {
@@ -1850,9 +1866,11 @@ impl VisitMut for Optimizer<'_> {
             }
             ClassMember::AutoAccessor(auto_accessor) => {
                 auto_accessor.key.visit_mut_with(self);
+                let ctx = self.class_field_ctx(auto_accessor.is_static);
                 auto_accessor.value.visit_mut_with(&mut *self.with_ctx(ctx));
             }
             ClassMember::PrivateProp(private_prop) => {
+                let ctx = self.class_field_ctx(private_prop.is_static);
                 private_prop.visit_mut_with(&mut *self.with_ctx(ctx));
             }
             ClassMember::PrivateMethod(private_method) => {
