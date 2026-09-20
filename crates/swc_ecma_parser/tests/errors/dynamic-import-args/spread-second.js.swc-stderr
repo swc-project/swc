@@ -1,0 +1,5 @@
+  x Expression expected
+   ,-[$DIR/tests/errors/dynamic-import-args/spread-second.js:1:1]
+ 1 | import(foo, ...options);
+   :             ^^^
+   `----
