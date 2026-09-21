@@ -1,0 +1,14 @@
+[
+    {
+        "source": "const",
+        "expected": true
+    },
+    {
+        "source": "let {",
+        "expected": true
+    },
+    {
+        "source": "new.",
+        "expected": true
+    }
+]
