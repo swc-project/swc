@@ -202,6 +202,10 @@ bitflags! {
         /// `true` only while visiting [CallExpr::callee] when the call result is
         /// not itself used as a receiver-aware callee.
         const IsCallCallee = 1 << 29;
+
+        /// In try or catch block with finally, return may not be the actual last
+        /// statement of function
+        const InTryCatchWithFinally = 1 << 30;
     }
 }
 
@@ -1511,7 +1515,7 @@ impl Optimizer<'_> {
                 .bit_ctx
                 .with(BitCtx::InFnLike, true)
                 // The outer try/finally cannot observe termination within a nested function.
-                .with(BitCtx::InTryBlock, false)
+                .with(BitCtx::InTryCatchWithFinally, false)
                 .with(BitCtx::TopLevel, false)
                 .with(BitCtx::InParam, false),
             scope,
@@ -3110,17 +3114,17 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_try_stmt(&mut self, n: &mut TryStmt) {
-        let ctx = self.ctx.clone().with(BitCtx::InTryBlock, true);
-        n.block.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
+        let ctx = self.ctx.clone().with(
+            BitCtx::InTryCatchWithFinally,
+            n.finalizer.is_some() || self.ctx.bit_ctx.contains(BitCtx::InTryCatchWithFinally),
+        );
 
-        if n.finalizer.is_some() {
-            // A return or throw in the catch runs the finalizer before terminating the
-            // function. Keep assignments intact so the finalizer can observe
-            // them.
-            n.handler.visit_mut_with(&mut *self.with_ctx(ctx));
-        } else {
-            n.handler.visit_mut_with(self);
+        {
+            let ctx = self.ctx.clone().with(BitCtx::InTryBlock, true);
+            n.block.visit_mut_with(&mut *self.with_ctx(ctx.clone()));
         }
+
+        n.handler.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.finalizer.visit_mut_with(self);
     }
