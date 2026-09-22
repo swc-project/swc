@@ -12787,3 +12787,35 @@ fn issue_12397_hoist_props_destructuring_member_targets() {
         "#,
     );
 }
+
+#[test]
+fn issue_12400_fn_decl_self_ref_in_unused_local() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            function handler() {
+                var self = handler;
+                console.log("called");
+            }
+            setTimeout(handler, 0);
+        })();
+        "#,
+    );
+}
+
+#[test]
+fn issue_12400_class_decl_self_ref_in_unused_local() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            class Widget {
+                render() {
+                    var self = Widget;
+                    console.log("rendered");
+                }
+            }
+            setTimeout(function () { new Widget().render(); }, 0);
+        })();
+        "#,
+    );
+}
