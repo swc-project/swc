@@ -156,7 +156,9 @@ test("source verification requires an immutable commit and cannot tag or publish
             if (step.uses?.startsWith("actions/checkout@"))
                 assert.equal(
                     step.with.ref,
-                    "${{ inputs.sourceRef || format('v{0}', inputs.version) }}"
+                    name === "test-carrier-platform"
+                        ? "${{ inputs.onlyCarrierTests && github.sha || inputs.sourceRef || format('v{0}', inputs.version) }}"
+                        : "${{ inputs.sourceRef || format('v{0}', inputs.version) }}"
                 );
         }
     }

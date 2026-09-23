@@ -142,8 +142,9 @@ an image being loaded is deferred until a later materialization.
 
 In mode `0`, each materialization has a unique process-prefixed filename. Unix
 unlinks it after successful `dlopen` while retaining the mapped library. Windows
-closes the writable decoder handle before loading and retains a noninheritable
-delete-on-close handle until process teardown. This avoids relying on Rust
+closes the writable decoder handle and arms a noninheritable read/delete
+handle before loading, retaining it until process teardown. Windows can reject
+arming deletion once the image is mapped. This avoids relying on Rust
 destructors running at exit. Native Windows subprocess tests must verify this
 lifecycle before release activation.
 

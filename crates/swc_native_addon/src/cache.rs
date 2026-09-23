@@ -75,13 +75,6 @@ impl Materialized {
                 .map_err(|e| Error::io(ErrorKind::Cache, "unlink loaded temporary addon", e))?;
             self.temporary = false;
         }
-        #[cfg(windows)]
-        if self.temporary {
-            self._delete_on_close = Some(
-                platform::delete_on_close(&self.path)
-                    .map_err(|e| io_error("arm temporary addon cleanup", &self.path, e))?,
-            );
-        }
         self.lock = None;
         if let Some(directory) = &self.cache_directory {
             match namespace_lock(directory) {
@@ -171,8 +164,14 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
         .map_err(|e| io_error("flush temporary addon", file.path(), e))?;
     // Close the writable file before mapping an image on Windows. Retaining a
     // write handle can conflict with the OS image loader's sharing requirements.
-    let path = file
-        .into_temp_path()
+    let path = file.into_temp_path();
+    // Windows rejects requesting deletion after an image section is mapped.
+    // Arm cleanup after closing the writer but before LoadLibrary, and retain
+    // only a read/delete handle for the image's lifetime (including hard exits).
+    #[cfg(windows)]
+    let delete_on_close = platform::delete_on_close(&path)
+        .map_err(|e| io_error("arm temporary addon cleanup", &path, e))?;
+    let path = path
         .keep()
         .map_err(|e| io_error("retain temporary addon", &dir, e.error))?;
     Ok(Materialized {
@@ -181,7 +180,7 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
         lock: None,
         cache_directory: None,
         #[cfg(windows)]
-        _delete_on_close: None,
+        _delete_on_close: Some(delete_on_close),
     })
 }
 

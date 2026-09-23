@@ -23,6 +23,14 @@ env:
 permissions: {}
 
 on:
+  # Run the private platform checks directly while iterating on loader fixes.
+  # This input is deliberately unavailable to workflow_call/release callers.
+  workflow_dispatch:
+    inputs:
+      onlyCarrierTests:
+        description: "Run private carrier lifecycle checks without building or publishing packages"
+        type: boolean
+        default: true
   workflow_call:
     inputs:
       buildType:
@@ -56,7 +64,7 @@ jobs:
     permissions:
       contents: read
     # Publishing remains on main; verification can exercise an untagged fix.
-    if: github.ref == 'refs/heads/main' || inputs.skipPublishing || inputs.sourceRef != ''
+    if: ${{ !inputs.onlyCarrierTests && (github.ref == 'refs/heads/main' || inputs.skipPublishing || inputs.sourceRef != '') }}
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
@@ -925,6 +933,7 @@ jobs:
 
   test-carrier-platform:
     name: Native carrier lifecycle - ${{ matrix.host }}
+    if: ${{ always() && (inputs.onlyCarrierTests || needs.build.result == 'success') }}
     needs: [build]
     runs-on: ${{ matrix.host }}
     permissions:
@@ -937,7 +946,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
+          ref: ${{ inputs.onlyCarrierTests && github.sha || inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
@@ -1024,7 +1033,7 @@ jobs:
   publish:
     name: Publish verified ${{ matrix.package }}@${{ inputs.version }}
     environment: publish
-    if: ${{ !inputs.skipPublishing }}
+    if: ${{ !inputs.onlyCarrierTests && !inputs.skipPublishing }}
     needs: [verify-native-release]
     runs-on: ubuntu-latest
     permissions:
@@ -1071,7 +1080,7 @@ jobs:
   publish-wasm:
     environment: publish
     name: Build - wasm (${{ matrix.settings.npm }})
-    if: ${{ inputs.publishWasm && !inputs.skipPublishing }}
+    if: ${{ !inputs.onlyCarrierTests && inputs.publishWasm && !inputs.skipPublishing }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
