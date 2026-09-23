@@ -74,7 +74,7 @@ The macOS final-artifact verifier fixture appends 4 MiB after the linked Mach-O
 image, which current codesign refuses. An unapplied proposal instead retains
 4 MiB of nonzero data in the linked fixture and preserves every assertion.
 All three private crates passed their full Rust 1.73 suites in a separate macOS
-workspace with that proposal. The original repository test remains unchanged
+workspace with that proposal. Its existing fixture construction remains unchanged
 pending authorization under the supplied AGENTS.md instruction.
 
 ## Rosetta diagnostics, not release acceptance
