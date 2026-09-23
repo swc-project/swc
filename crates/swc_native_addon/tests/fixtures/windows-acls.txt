@@ -1,0 +1,13 @@
+# Result|Owner and DACL SDDL|SID expected in a rejection
+allow|O:SYD:P(A;;FA;;;SY)|
+allow|O:BAD:P(A;;FA;;;BA)|
+allow|O:S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464D:P(A;;FA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)|
+allow|O:S-1-5-21-1-2-3-1000D:P(A;;FA;;;S-1-5-21-1-2-3-1000)|
+allow|O:SYD:P(A;OICIIO;GA;;;WD)(A;;FA;;;SY)|
+allow|O:SYD:P(A;ID;GR;;;WD)(A;;FA;;;SY)|
+deny|O:S-1-5-21-1-2-3-1001D:P(A;;FA;;;SY)|S-1-5-21-1-2-3-1001
+deny|O:SYD:P(A;;GA;;;WD)|S-1-1-0
+deny|O:SYD:P(A;OICIID;GW;;;BU)|S-1-5-32-545
+deny|O:SYD:P(A;;WD;;;AU)|S-1-5-11
+deny|O:SYD:P(A;;WO;;;WD)|S-1-1-0
+deny|O:SYD:P(A;;DC;;;WD)|S-1-1-0

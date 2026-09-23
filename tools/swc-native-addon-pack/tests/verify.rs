@@ -156,6 +156,25 @@ fn final_carrier_verification_and_atomic_replacement() {
         original,
         "failed verification changed raw"
     );
+    let metadata = swc_native_addon::integrity::RuntimeIntegrity::from_raw(
+        &swc_native_addon::format::Payload::parse(&packed)
+            .unwrap()
+            .header,
+        &mut std::io::Cursor::new(&original),
+    )
+    .unwrap()
+    .encode();
+    let valid = fs::read(&carrier).unwrap();
+    let offset = memchr::memmem::find(&valid, &metadata).unwrap();
+    for byte in [0, 8 + 32, metadata.len() - 1] {
+        let mut bytes = valid.clone();
+        bytes[offset + byte] ^= 1;
+        fs::write(&corrupt, bytes).unwrap();
+        assert!(
+            !verifier(&corrupt).status().unwrap().success(),
+            "integrity byte {byte}"
+        );
+    }
     checked(
         verifier(&carrier)
             .arg("--raw")

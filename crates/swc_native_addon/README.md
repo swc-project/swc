@@ -42,6 +42,15 @@ decoded bytes, and size. `--raw` compares against the final stripped input;
 `--extract` creates a new verified comparison image; `--replace` requires
 `--raw` and atomically replaces only that verified `.node` destination.
 
+The build also retains private runtime integrity metadata in `.swc_integrity`
+(ELF), `__TEXT,__swc_integrity` (Mach-O), or `.swci` (PE). Its 136 bytes contain
+`SWCNB3V1`, the complete 96-byte v1 header, and a 32-byte BLAKE3 digest derived
+from SHA-512-verified raw bytes. Runtime decoding and cache reads bind that
+metadata to the payload header before verifying every byte with BLAKE3 1.5.4.
+The final artifact verifier checks both digests against the decoded image.
+Ordinary payload decoding and `Header::verify` retain their SHA-512 defaults;
+npm artifacts, reports, and cache filenames keep their SHA-512 identities.
+
 See [the release and user guide](../../docs/native-addon-carriers.md) for artifact
 contracts, the shared publishing gate, and CI measurements.
 
@@ -110,13 +119,17 @@ The default user cache avoids hardened system temporary mounts that are `noexec`
 Linux rejects a user cache mounted `noexec` before attempting to load from it.
 Under either persistent root, entries live in `swc-native-<effective UID or user
 SID>/v1/<128 hexadecimal SHA-512 digits>.node`. Unix directories are owner-only;
-Windows directories have protected owner/SYSTEM DACLs. Unsafe cache files,
+Windows directories have protected owner/SYSTEM DACLs. Ancestor directories
+may also belong to Administrators or TrustedInstaller. Effective untrusted
+replacement grants are rejected with their directory and SID; inheritance-only
+ACEs are checked at the descendants to which they apply. Unsafe cache files,
 symlinks/reparse points, and Unix roots with a non-sticky cross-user-writable
 ancestor are rejected. A normal corrupt regular entry is replaced
 with newly decoded, verified bytes. If both custom and default roots fail, the
 loader throws rather than silently loading unverified data.
 
-Every cache hit is checked for native magic, length, and SHA-512. Per-digest OS
+Every cache hit is checked for native magic, length, and BLAKE3 over the entire
+file. The SHA-512 cache key remains unchanged. Per-digest OS
 file locks coordinate checking, repair, publication, and native loading. Writers
 use unique staging files in the destination directory, flush and verify them,
 then rename atomically. Canonical entries are never truncated in place. Closing

@@ -280,7 +280,7 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
     platform::lock_exclusive(&lock).map_err(|e| io_error("lock cache entry", &lock_path, e))?;
     drop(namespace);
     let valid = match platform::open_regular(&path, false, false) {
-        Ok(mut file) => match payload.header.verify(&mut file) {
+        Ok(mut file) => match payload.verify_image(&mut file) {
             Ok(()) => true,
             Err(error) => {
                 tracing::warn!(path = %path.display(), %error, "rejecting corrupt native cache entry; rebuilding from payload");
@@ -308,7 +308,7 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
         if let Err(error) = platform::compress_cache(staged.path()) {
             tracing::debug!(%error, "native cache filesystem compression unavailable");
         }
-        payload.header.verify(staged.as_file_mut())?;
+        payload.verify_image(staged.as_file_mut())?;
         // All cooperating readers hold the digest lock, including during repair.
         // No writer ever truncates the canonical filename in place.
         let staged = staged.into_temp_path();

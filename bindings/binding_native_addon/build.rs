@@ -1,12 +1,19 @@
 use std::{env, fs, path::PathBuf};
 
-use swc_native_addon::format::{NativeTarget, Payload};
+use swc_native_addon::{
+    format::{NativeTarget, Payload},
+    integrity::RuntimeIntegrity,
+};
 
 fn main() {
     println!("cargo:rerun-if-env-changed=SWC_NATIVE_BINDING_PAYLOAD");
     let output = PathBuf::from(env::var_os("OUT_DIR").unwrap()).join("payload.rs");
     if env::var_os("CARGO_FEATURE_EMBEDDED_PAYLOAD").is_none() {
-        fs::write(output, "static PAYLOAD: &[u8] = &[];\n").unwrap();
+        fs::write(
+            output,
+            "static PAYLOAD: &[u8] = &[];\nstatic INTEGRITY: &[u8] = &[];\n",
+        )
+        .unwrap();
         return;
     }
     let target = env::var("TARGET").unwrap();
@@ -37,6 +44,10 @@ fn main() {
     payload
         .verify_target(&mut raw)
         .expect("validate embedded native addon target");
+    let integrity = RuntimeIntegrity::from_raw(&payload.header, &mut raw)
+        .expect("derive runtime integrity from SHA-512 verified raw addon");
+    let integrity_path = output.with_file_name("integrity.swcn");
+    fs::write(&integrity_path, integrity.encode()).expect("snapshot native runtime integrity");
     // Copy to OUT_DIR so a later input replacement cannot change the validated
     // payload between build-script validation and rustc's include_bytes call.
     let embedded = output.with_file_name("payload.swcn");
@@ -47,13 +58,23 @@ fn main() {
     fs::write(
         output,
         format!(
-            "#[used]\n#[cfg_attr(target_os = \"linux\", link_section = \
-             \".swc_native\")]\n#[cfg_attr(target_os = \"macos\", link_section = \
-             \"__TEXT,__swc_native\")]\n#[cfg_attr(windows, link_section = \".swcn\")]\nstatic \
-             EMBEDDED_PAYLOAD: [u8; {}] = *include_bytes!({:?});\nstatic PAYLOAD: &[u8] = \
-             &EMBEDDED_PAYLOAD;\n",
+            r#"#[used]
+#[cfg_attr(target_os = "linux", link_section = ".swc_native")]
+#[cfg_attr(target_os = "macos", link_section = "__TEXT,__swc_native")]
+#[cfg_attr(windows, link_section = ".swcn")]
+static EMBEDDED_PAYLOAD: [u8; {}] = *include_bytes!({:?});
+static PAYLOAD: &[u8] = &EMBEDDED_PAYLOAD;
+#[used]
+#[cfg_attr(target_os = "linux", link_section = ".swc_integrity")]
+#[cfg_attr(target_os = "macos", link_section = "__TEXT,__swc_integrity")]
+#[cfg_attr(windows, link_section = ".swci")]
+static EMBEDDED_INTEGRITY: [u8; {}] = *include_bytes!({:?});
+static INTEGRITY: &[u8] = &EMBEDDED_INTEGRITY;
+"#,
             payload.header.compressed_len + swc_native_addon::format::HEADER_LEN as u64,
-            embedded
+            embedded,
+            swc_native_addon::integrity::INTEGRITY_LEN,
+            integrity_path,
         ),
     )
     .unwrap();

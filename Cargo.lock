@@ -7337,6 +7337,7 @@ dependencies = [
 name = "swc_native_addon"
 version = "0.1.0"
 dependencies = [
+ "blake3",
  "jobserver",
  "libc",
  "libloading",

@@ -176,6 +176,34 @@ fn real_carrier_forwards_registration_and_throws_loader_errors() {
                 .env("SWC_NATIVE_BINDING_CACHE", "0"),
         );
     }
+    let metadata = swc_native_addon::integrity::RuntimeIntegrity::from_raw(
+        &swc_native_addon::format::Payload::parse(&packed)
+            .unwrap()
+            .header,
+        &mut std::io::Cursor::new(&raw_bytes),
+    )
+    .unwrap()
+    .encode();
+    let offset = original_carrier
+        .windows(metadata.len())
+        .position(|bytes| bytes == metadata)
+        .unwrap();
+    for byte in [0, 8 + 32, metadata.len() - 1] {
+        let mut damaged = original_carrier.clone();
+        damaged[offset + byte] ^= 1;
+        let path = directory
+            .path()
+            .join(format!("corrupt-integrity-{byte}.node"));
+        fs::write(&path, damaged).unwrap();
+        sign(&path);
+        checked(
+            Command::new(&node)
+                .arg(fixture_source("smoke.cjs"))
+                .arg(&path)
+                .arg("loader-error")
+                .env("SWC_NATIVE_BINDING_CACHE", "0"),
+        );
+    }
     checked(
         Command::new(&node)
             .arg(fixture_source("smoke.cjs"))

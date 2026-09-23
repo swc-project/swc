@@ -11,6 +11,7 @@ use libloading::Library;
 use swc_native_addon::{
     cache::{self, CacheMode, Materialized},
     format::Payload,
+    integrity::RuntimeIntegrity,
     platform, replacement, Error, ErrorKind, Result,
 };
 
@@ -54,7 +55,7 @@ fn initialize() -> Result<napi::Register> {
     if let Some(loaded) = loaded.as_ref() {
         return Ok(loaded.register);
     }
-    let payload = Payload::parse(PAYLOAD)?;
+    let payload = Payload::parse(PAYLOAD)?.with_integrity(RuntimeIntegrity::parse(INTEGRITY)?)?;
     let mode = CacheMode::from_env()?;
     let replacement = if let Some(carrier) = replacement_carrier(&mode, || unsafe {
         platform::carrier_path((&IMAGE_ANCHOR as *const u8).cast())

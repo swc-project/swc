@@ -16,9 +16,11 @@ Standalone `swc` executables and WASM packages are not compressed by this step.
 ## First load and cache
 
 The native carrier decodes the original stripped addon, verifies its length,
-native image format, and SHA-512 digest, and forwards native registration to
+native image format, and BLAKE3 digest, and forwards native registration to
 that verified image. Materialized bytes are identical to the stripped build
-input. Corrupt payloads and materialization failures produce actionable
+input. Build and final-artifact verification also check the unchanged SHA-512
+payload identity, and private metadata binds the runtime digest to the complete
+payload header. Every cache load reads and verifies the whole file. Corrupt payloads and materialization failures produce actionable
 `ERR_SWC_NATIVE_*` errors.
 
 The default cache is isolated by user and addressed by the raw image's SHA-512.
@@ -76,11 +78,24 @@ The job summary and JSON artifacts report raw size, compressed frame size,
 payload size (including its 96-byte header), carrier size, reduction ratio, npm
 tarball size, and load timings. Timings are medians of 15 fresh Node processes
 per case, measured around package loading. Cold means an empty materialization
-cache; warm means an already populated verified cache. These are not claims
+cache and a freshly copied raw baseline for each sample (`rawColdMs`); warm uses
+an already populated verified cache and a reused raw image (`rawMs`). Raw file
+copying occurs before the loading timer. Cold overhead is `coldMs - rawColdMs`;
+warm overhead is `warmMs - rawMs`. The gate rejects missing baselines or
+inconsistent arithmetic. Measurement caches use canonical paths beneath the
+executing user's home, including Docker, and are removed after the run. These are not claims
 about an empty operating-system page cache. Disposable hardlinked carrier
 copies prevent filesystem self-replacement from disguising warm-cache costs.
 Representative x64 jobs require at most 100 ms cold overhead and 25 ms warm
-overhead over the corresponding raw addon.
+overhead over the corresponding raw addon. x64 macOS continues to run under
+Rosetta on the ARM64 runner.
+
+To test an untagged fix, dispatch `publish.yml` on the fixing branch with
+`verifySourceRef` set to its full commit SHA and `version` matching its checked-in
+manifests. This calls the same complete release gate with `skipPublishing: true`,
+without tag creation or npm publication. The reusable workflow's `sourceRef`
+input accepts only full commit SHAs and is rejected unless publishing is disabled;
+normal publishing continues to check out the release tag.
 
 Node 20/22 checks exercise every selected target through product tests and
 installed tarball resolution. Standalone smoke scripts also exercise Linux GNU
