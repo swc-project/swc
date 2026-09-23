@@ -26,13 +26,31 @@ impl<I: Tokens> Parser<I> {
         let start = token_and_span.span.lo;
         let cur = token_and_span.token;
         let w = if cur.is_word() {
-            self.input_mut().expect_word_token_and_bump()
+            let word = if cur == Token::Ident {
+                self.input_mut().expect_word_token_value()
+            } else {
+                cur.take_word(self.input())
+            };
+            self.input_mut().bump_without_escape_check();
+            word
         } else if cur == Token::JSXName && self.ctx().contains(Context::InType) {
             self.input_mut().expect_jsx_name_token_and_bump()
         } else {
             syntax_error!(self, SyntaxError::ExpectedIdent)
         };
         Ok(IdentName::new(w, self.span(start)))
+    }
+
+    /// Retains keyword escape validation where TypeScript uses an identifier
+    /// rather than an unrestricted property or qualified name.
+    #[cfg(feature = "typescript")]
+    pub(super) fn parse_ident_name_with_escape_check(&mut self) -> PResult<IdentName> {
+        if let Some(error) = self.input().escaped_keyword_error() {
+            // Escape errors must survive successful speculation. Parser checkpoints
+            // discard them if the binding interpretation is rolled back.
+            self.input_mut().iter_mut().add_error(error);
+        }
+        self.parse_ident_name()
     }
 
     pub(crate) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
