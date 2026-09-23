@@ -75,6 +75,13 @@ impl Materialized {
                 .map_err(|e| Error::io(ErrorKind::Cache, "unlink loaded temporary addon", e))?;
             self.temporary = false;
         }
+        #[cfg(windows)]
+        if let Some(handle) = self._delete_on_close.take() {
+            platform::unlink_loaded_temporary(&handle)
+                .map_err(|e| Error::io(ErrorKind::Cache, "unlink loaded temporary addon", e))?;
+            drop(handle);
+            self.temporary = false;
+        }
         self.lock = None;
         if let Some(directory) = &self.cache_directory {
             match namespace_lock(directory) {

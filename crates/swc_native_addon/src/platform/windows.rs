@@ -512,30 +512,31 @@ pub fn replace_file(source: &Path, destination: &Path) -> io::Result<()> {
 }
 
 pub fn delete_on_close(path: &Path) -> io::Result<File> {
-    use std::os::windows::io::AsRawHandle;
-
-    use windows_sys::Win32::Storage::FileSystem::{
-        FileDispositionInfoEx, SetFileInformationByHandle, FILE_DISPOSITION_FLAG_DELETE,
-        FILE_DISPOSITION_FLAG_ON_CLOSE, FILE_DISPOSITION_FLAG_POSIX_SEMANTICS,
-        FILE_DISPOSITION_INFO_EX,
-    };
-
-    // Retain a read/delete handle, not the writable decoder handle, while the
-    // image is mapped. Kernel handle teardown also runs after abrupt process exit.
-    let file = OpenOptions::new()
+    // Acquire DELETE access before mapping the DLL. Acquiring it afterward
+    // fails even though POSIX disposition can unlink through this existing handle.
+    OpenOptions::new()
         .read(true)
         .access_mode(0x8000_0000 | 0x0001_0000) // GENERIC_READ | DELETE
         .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
         .custom_flags(FILE_FLAG_DELETE_ON_CLOSE | FILE_FLAG_OPEN_REPARSE_POINT)
-        .open(path)?;
+        .open(path)
+}
+
+pub fn unlink_loaded_temporary(file: &File) -> io::Result<()> {
+    use std::os::windows::io::AsRawHandle;
+
+    use windows_sys::Win32::Storage::FileSystem::{
+        FileDispositionInfoEx, SetFileInformationByHandle, FILE_DISPOSITION_FLAG_DELETE,
+        FILE_DISPOSITION_FLAG_POSIX_SEMANTICS, FILE_DISPOSITION_INFO_EX,
+    };
+
     // Legacy delete-on-close can leave the name behind when process teardown
     // closes handles before releasing image sections. POSIX disposition removes
     // the name when this handle closes while preserving existing image mappings.
-    // Arm it before LoadLibrary: adding DELETE access after mapping is rejected.
+    // Commit deletion now, while the DLL is mapped, then close this handle.
+    // Deferring the disposition until process teardown loses this ordering.
     let disposition = FILE_DISPOSITION_INFO_EX {
-        Flags: FILE_DISPOSITION_FLAG_DELETE
-            | FILE_DISPOSITION_FLAG_POSIX_SEMANTICS
-            | FILE_DISPOSITION_FLAG_ON_CLOSE,
+        Flags: FILE_DISPOSITION_FLAG_DELETE | FILE_DISPOSITION_FLAG_POSIX_SEMANTICS,
     };
     if unsafe {
         SetFileInformationByHandle(
@@ -548,7 +549,7 @@ pub fn delete_on_close(path: &Path) -> io::Result<File> {
     {
         return Err(io::Error::last_os_error());
     }
-    Ok(file)
+    Ok(())
 }
 
 /// # Safety
