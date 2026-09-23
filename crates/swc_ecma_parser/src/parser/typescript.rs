@@ -325,6 +325,8 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
+        // A renamed component prop can place `?` after its local binding.
+        let optional = optional || (has_as && self.input_mut().eat(Token::QuestionMark));
         if optional {
             self.flow_mark_pat_optional(&mut value);
         }

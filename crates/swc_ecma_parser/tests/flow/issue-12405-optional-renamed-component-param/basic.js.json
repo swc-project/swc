@@ -1,0 +1,312 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 270
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 11,
+          "end": 27
+        },
+        "ctxt": 0,
+        "value": "RenamedParameter",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 1,
+            "end": 251
+          },
+          "decorators": [],
+          "pat": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 1,
+              "end": 251
+            },
+            "properties": [
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 31,
+                    "end": 39
+                  },
+                  "value": "required"
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 43,
+                    "end": 56
+                  },
+                  "ctxt": 0,
+                  "value": "requiredLocal",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 56,
+                      "end": 64
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 58,
+                        "end": 64
+                      },
+                      "kind": "number"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 68,
+                    "end": 76
+                  },
+                  "value": "optional"
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 68,
+                    "end": 76
+                  },
+                  "ctxt": 0,
+                  "value": "optional",
+                  "optional": true,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 77,
+                      "end": 85
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 79,
+                        "end": 85
+                      },
+                      "kind": "number"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 89,
+                    "end": 103
+                  },
+                  "value": "optionalBefore"
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 108,
+                    "end": 119
+                  },
+                  "ctxt": 0,
+                  "value": "beforeLocal",
+                  "optional": true,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 119,
+                      "end": 127
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 121,
+                        "end": 127
+                      },
+                      "kind": "number"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 131,
+                    "end": 144
+                  },
+                  "value": "optionalAfter"
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 148,
+                    "end": 158
+                  },
+                  "ctxt": 0,
+                  "value": "afterLocal",
+                  "optional": true,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 159,
+                      "end": 167
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 161,
+                        "end": 167
+                      },
+                      "kind": "number"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 171,
+                    "end": 184
+                  },
+                  "value": "data-testid",
+                  "raw": "'data-testid'"
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 188,
+                    "end": 198
+                  },
+                  "ctxt": 0,
+                  "value": "dataTestId",
+                  "optional": true,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 199,
+                      "end": 207
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 201,
+                        "end": 207
+                      },
+                      "kind": "string"
+                    }
+                  }
+                }
+              },
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 211,
+                    "end": 222
+                  },
+                  "value": "defaulted",
+                  "raw": "'defaulted'"
+                },
+                "value": {
+                  "type": "AssignmentPattern",
+                  "span": {
+                    "start": 211,
+                    "end": 248
+                  },
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 226,
+                      "end": 235
+                    },
+                    "ctxt": 0,
+                    "value": "defaulted",
+                    "optional": true,
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 236,
+                        "end": 244
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 238,
+                          "end": 244
+                        },
+                        "kind": "number"
+                      }
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 247,
+                      "end": 248
+                    },
+                    "value": 3.0,
+                    "raw": "3"
+                  }
+                }
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 270
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 252,
+          "end": 270
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 256,
+              "end": 268
+            },
+            "argument": {
+              "type": "NullLiteral",
+              "span": {
+                "start": 263,
+                "end": 267
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}
