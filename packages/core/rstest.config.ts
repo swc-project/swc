@@ -1,6 +1,7 @@
 import { defineConfig } from "@rstest/core";
 
 export default defineConfig({
+    setupFiles: ["./native-test-setup.ts"],
     projects: [
         /* Normal unit tests node-swc runs */
         {
