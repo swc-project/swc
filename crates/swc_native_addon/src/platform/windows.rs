@@ -512,44 +512,14 @@ pub fn replace_file(source: &Path, destination: &Path) -> io::Result<()> {
 }
 
 pub fn delete_on_close(path: &Path) -> io::Result<File> {
-    // Acquire DELETE access before mapping the DLL. Acquiring it afterward
-    // fails even though POSIX disposition can unlink through this existing handle.
+    // Acquire DELETE access before mapping the DLL. Windows rejects both new
+    // DELETE handles and immediate deletion after creating an image section.
     OpenOptions::new()
         .read(true)
         .access_mode(0x8000_0000 | 0x0001_0000) // GENERIC_READ | DELETE
         .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
         .custom_flags(FILE_FLAG_DELETE_ON_CLOSE | FILE_FLAG_OPEN_REPARSE_POINT)
         .open(path)
-}
-
-pub fn unlink_loaded_temporary(file: &File) -> io::Result<()> {
-    use std::os::windows::io::AsRawHandle;
-
-    use windows_sys::Win32::Storage::FileSystem::{
-        FileDispositionInfoEx, SetFileInformationByHandle, FILE_DISPOSITION_FLAG_DELETE,
-        FILE_DISPOSITION_FLAG_POSIX_SEMANTICS, FILE_DISPOSITION_INFO_EX,
-    };
-
-    // Legacy delete-on-close can leave the name behind when process teardown
-    // closes handles before releasing image sections. POSIX disposition removes
-    // the name when this handle closes while preserving existing image mappings.
-    // Commit deletion now, while the DLL is mapped, then close this handle.
-    // Deferring the disposition until process teardown loses this ordering.
-    let disposition = FILE_DISPOSITION_INFO_EX {
-        Flags: FILE_DISPOSITION_FLAG_DELETE | FILE_DISPOSITION_FLAG_POSIX_SEMANTICS,
-    };
-    if unsafe {
-        SetFileInformationByHandle(
-            file.as_raw_handle() as HANDLE,
-            FileDispositionInfoEx,
-            (&disposition as *const FILE_DISPOSITION_INFO_EX).cast(),
-            std::mem::size_of_val(&disposition) as u32,
-        )
-    } == 0
-    {
-        return Err(io::Error::last_os_error());
-    }
-    Ok(())
 }
 
 /// # Safety
