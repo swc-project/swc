@@ -49,8 +49,11 @@ jobs:
   verify-native-source:
     name: "Verify native release without publishing"
     if: inputs.verifySourceRef != ''
+    # Reusable-workflow permissions are checked even for skipped publish jobs.
+    # skipPublishing disables those jobs and the source-ref guard enforces it.
     permissions:
-      contents: read
+      contents: write
+      id-token: write
     uses: ./.github/workflows/publish-npm-package.yml
     with:
       buildType: "verification"

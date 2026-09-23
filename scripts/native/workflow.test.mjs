@@ -169,7 +169,10 @@ test("source verification requires an immutable commit and cannot tag or publish
     assert.equal(verify.with.skipBuild, false);
     assert.equal(verify.with.sourceRef, "${{ inputs.verifySourceRef }}");
     assert.equal(verify.environment, undefined);
-    assert.deepEqual(verify.permissions, { contents: "read" });
+    assert.deepEqual(verify.permissions, {
+        contents: "write",
+        "id-token": "write",
+    });
     assert(
         parent.jobs["determine-nightly-version"].if.includes(
             "inputs.verifySourceRef == ''"
