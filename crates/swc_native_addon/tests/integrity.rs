@@ -3,10 +3,43 @@ mod support;
 use std::{fs, io::Cursor};
 
 use swc_native_addon::{
-    cache,
+    cache::{self, CacheMode},
     format::{Payload, HEADER_LEN},
     integrity::{RuntimeIntegrity, INTEGRITY_LEN},
 };
+
+#[test]
+fn runtime_integrity_is_required_after_custom_cache_fallback() {
+    let raw = fs::read(support::fixture()).unwrap();
+    let packed = support::packed();
+    let payload = Payload::parse(&packed).unwrap();
+    let metadata = RuntimeIntegrity::from_raw(&payload.header, &mut Cursor::new(&raw))
+        .unwrap()
+        .encode();
+    let payload = payload
+        .with_integrity(RuntimeIntegrity::parse(&metadata).unwrap())
+        .unwrap();
+    let root = tempfile::tempdir().unwrap();
+    let blocked = root.path().join("not-a-directory");
+    fs::write(&blocked, b"preserve blocked cache root").unwrap();
+    let mode = CacheMode::Custom(blocked.clone());
+    let mut entry = cache::materialize(&payload, &mode).unwrap();
+    assert!(entry
+        .path()
+        .starts_with(swc_native_addon::platform::user_cache_root().unwrap()));
+    assert_eq!(fs::read(entry.path()).unwrap(), raw);
+    entry.loaded().unwrap();
+    drop(entry);
+    // A populated SHA-512 cache key cannot make a bad runtime digest acceptable.
+    let mut damaged = metadata;
+    damaged[INTEGRITY_LEN - 1] ^= 1;
+    let invalid = Payload::parse(&packed)
+        .unwrap()
+        .with_integrity(RuntimeIntegrity::parse(&damaged).unwrap())
+        .unwrap();
+    assert!(cache::materialize(&invalid, &mode).is_err());
+    assert_eq!(fs::read(blocked).unwrap(), b"preserve blocked cache root");
+}
 
 #[test]
 fn runtime_integrity_preserves_sha512_identity_and_verifies_every_byte() {
