@@ -9,6 +9,7 @@ permissions:
   actions: read
 jobs:
   measure:
+    if: false
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -48,3 +49,10 @@ jobs:
         env:
           PRODUCT: ${{ matrix.product }}
         run: node scripts/native/diagnostic.mjs "$PRODUCT" target/diagnostic-input/raw.node target/diagnostic-input/carrier.node "$FILENAME"
+  windows-delete:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      - name: Compare mapped DLL deletion modes
+        shell: pwsh
+        run: ./scripts/native/diagnostic-windows.ps1
