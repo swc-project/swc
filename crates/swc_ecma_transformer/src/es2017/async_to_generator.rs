@@ -31,10 +31,21 @@ pub fn hook(
     }
 }
 
+/// Selects the suspension expression used while lowering a `for await` loop.
+#[derive(Clone, Copy, Debug)]
+enum AwaitForMode {
+    NativeAsync,
+    Generator,
+    AsyncGenerator,
+}
+
 #[derive(Default, Clone, Debug)]
 struct FnState {
     should_transform: bool,
     is_generator: bool,
+    is_arrow: bool,
+    /// The iterator operation form required by this function's output.
+    await_for_mode: Option<AwaitForMode>,
     use_this: bool,
     use_arguments: bool,
     use_super: bool,
@@ -149,20 +160,36 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             self.fn_state_stack.push(prev);
         }
 
+        let should_transform = function.is_async
+            && if function.is_generator {
+                self.transform_async_generator_functions
+            } else {
+                self.transform_async_to_generator
+            };
+        let await_for_mode = if should_transform {
+            Some(if function.is_generator {
+                AwaitForMode::AsyncGenerator
+            } else {
+                AwaitForMode::Generator
+            })
+        } else if function.is_async && self.transform_async_generator_functions {
+            Some(AwaitForMode::NativeAsync)
+        } else {
+            None
+        };
+
         self.fn_state = Some(FnState {
-            should_transform: function.is_async
-                && if function.is_generator {
-                    self.transform_async_generator_functions
-                } else {
-                    self.transform_async_to_generator
-                },
+            should_transform,
             is_generator: function.is_generator,
+            await_for_mode,
             ..Default::default()
         });
     }
 
     fn exit_arrow_expr(&mut self, arrow_expr: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
-        if !arrow_expr.is_async || !self.transform_async_to_generator {
+        if !arrow_expr.is_async
+            || !(self.transform_async_to_generator || self.transform_async_generator_functions)
+        {
             return;
         }
 
@@ -171,18 +198,24 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
         let fn_state = self.fn_state.take().unwrap();
 
-        // Restore the previous fn_state from stack
+        // Restore the previous fn_state from stack. Preserved async arrows still
+        // capture lexical references from a parent that may be transformed.
         let parent_fn_state = self.fn_state_stack.pop();
 
-        // `this`/`arguments`/`super` are inherited from the parent function
-        // If arrow is in a constructor and uses `this`, we need to propagate it
-        // to use the _this variable pattern at the constructor level
-        if let Some(out_fn_state) = &parent_fn_state {
-            let mut updated = out_fn_state.clone();
-            updated.use_this |= fn_state.use_this;
-            updated.use_arguments |= fn_state.use_arguments;
-            updated.use_super |= fn_state.use_super;
-            self.fn_state = Some(updated);
+        if let Some(mut parent_fn_state) = parent_fn_state {
+            if fn_state.should_transform
+                || parent_fn_state.should_transform
+                || parent_fn_state.is_arrow
+            {
+                parent_fn_state.use_this |= fn_state.use_this;
+                parent_fn_state.use_arguments |= fn_state.use_arguments;
+                parent_fn_state.use_super |= fn_state.use_super;
+            }
+            self.fn_state = Some(parent_fn_state);
+        }
+
+        if !fn_state.should_transform {
+            return;
         }
 
         let mut stmts = vec![];
@@ -238,7 +271,9 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn enter_arrow_expr(&mut self, arrow_expr: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
-        if !arrow_expr.is_async || !self.transform_async_to_generator {
+        if !arrow_expr.is_async
+            || !(self.transform_async_to_generator || self.transform_async_generator_functions)
+        {
             return;
         }
 
@@ -254,8 +289,14 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
 
         self.fn_state = Some(FnState {
-            should_transform: true,
+            should_transform: self.transform_async_to_generator,
             is_generator: false,
+            is_arrow: true,
+            await_for_mode: Some(if self.transform_async_to_generator {
+                AwaitForMode::Generator
+            } else {
+                AwaitForMode::NativeAsync
+            }),
             in_constructor,
             ..Default::default()
         });
@@ -322,24 +363,20 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
-        let Some(
-            fn_state @ FnState {
-                should_transform: true,
-                ..
-            },
-        ) = &mut self.fn_state
-        else {
+        let Some(fn_state) = &mut self.fn_state else {
             return;
         };
 
         match expr {
-            Expr::This(..) => {
+            Expr::This(..) if fn_state.should_transform || fn_state.is_arrow => {
                 fn_state.use_this = true;
             }
-            Expr::Ident(Ident { sym, .. }) if sym == "arguments" => {
+            Expr::Ident(Ident { sym, .. })
+                if sym == "arguments" && (fn_state.should_transform || fn_state.is_arrow) =>
+            {
                 fn_state.use_arguments = true;
             }
-            Expr::Await(AwaitExpr { arg, span }) => {
+            Expr::Await(AwaitExpr { arg, span }) if fn_state.should_transform => {
                 *expr = if fn_state.is_generator {
                     let callee = helper!(await_async_generator);
                     let arg = CallExpr {
@@ -367,7 +404,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 span,
                 arg: Some(arg),
                 delegate: true,
-            }) => {
+            }) if fn_state.should_transform => {
                 let async_iter =
                     helper_expr!(async_iterator).as_call(DUMMY_SP, vec![arg.take().as_arg()]);
 
@@ -388,13 +425,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn exit_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        if let Some(FnState {
-            should_transform: true,
-            is_generator,
-            ..
-        }) = self.fn_state
-        {
-            handle_await_for(stmt, is_generator);
+        if let Some(mode) = self.fn_state.as_ref().and_then(|s| s.await_for_mode) {
+            handle_await_for(stmt, mode);
         }
     }
 
@@ -480,7 +512,7 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
 }
 
 #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
-fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
+fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode) {
     let s = match stmt {
         Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),
         _ => return,
@@ -623,28 +655,11 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     ..Default::default()
                 };
 
-                let yield_arg = if is_async_generator {
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(await_async_generator),
-                        args: vec![iter_next.as_arg()],
-                        ..Default::default()
-                    }
-                    .into()
-                } else {
-                    iter_next.into()
-                };
-
                 let assign_to_step: Expr = AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: step.into(),
-                    right: YieldExpr {
-                        span: DUMMY_SP,
-                        arg: Some(yield_arg),
-                        delegate: false,
-                    }
-                    .into(),
+                    right: await_iteration(iter_next.into(), mode).into(),
                 }
                 .into();
 
@@ -753,27 +768,9 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         }
         .into();
 
-        // yield _iterator.return();
-        // or
-        // yield _awaitAsyncGenerator(_iterator.return());
-        let yield_stmt = ExprStmt {
+        let await_stmt = ExprStmt {
             span: DUMMY_SP,
-            expr: YieldExpr {
-                span: DUMMY_SP,
-                delegate: false,
-                arg: Some(if is_async_generator {
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(await_async_generator),
-                        args: vec![iterator_return.as_arg()],
-                        ..Default::default()
-                    }
-                    .into()
-                } else {
-                    iterator_return.into()
-                }),
-            }
-            .into(),
+            expr: await_iteration(iterator_return, mode).into(),
         }
         .into();
 
@@ -798,7 +795,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             }
             .into(),
             cons: Box::new(Stmt::Block(BlockStmt {
-                stmts: vec![yield_stmt],
+                stmts: vec![await_stmt],
                 ..Default::default()
             })),
             alt: None,
@@ -870,6 +867,37 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         ..Default::default()
     }
     .into()
+}
+
+/// Wait for an async iterator operation using the surrounding function's form.
+fn await_iteration(expr: Expr, mode: AwaitForMode) -> Expr {
+    match mode {
+        AwaitForMode::NativeAsync => AwaitExpr {
+            span: DUMMY_SP,
+            arg: expr.into(),
+        }
+        .into(),
+        AwaitForMode::Generator => YieldExpr {
+            span: DUMMY_SP,
+            arg: Some(expr.into()),
+            delegate: false,
+        }
+        .into(),
+        AwaitForMode::AsyncGenerator => {
+            let arg = CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(await_async_generator),
+                args: vec![expr.as_arg()],
+                ..Default::default()
+            };
+            YieldExpr {
+                span: DUMMY_SP,
+                arg: Some(arg.into()),
+                delegate: false,
+            }
+            .into()
+        }
+    }
 }
 
 /// Replace all `this` expressions with the given identifier in a

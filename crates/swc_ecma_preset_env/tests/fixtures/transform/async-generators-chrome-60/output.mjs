@@ -33,6 +33,69 @@ export class C {
         })();
     }
 }
+export class D extends C {
+    method(iterable) {
+        var _this = this, _superprop_get_method = ()=>super.method;
+        return _wrap_async_generator(function*() {
+            const inner = async ()=>{
+                {
+                    var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+                    try {
+                        for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                            let _value = _step.value;
+                            const item = _value;
+                            return _superprop_get_method().call(_this, item);
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally{
+                        try {
+                            if (_iteratorAbruptCompletion && _iterator.return != null) {
+                                await _iterator.return();
+                            }
+                        } finally{
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
+                }
+            };
+            yield yield _await_async_generator(inner());
+        })();
+    }
+}
+export class E extends C {
+    constructor(){
+        super();
+        this.consume = async (iterable)=>{
+            {
+                var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+                try {
+                    for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                        let _value = _step.value;
+                        const item = _value;
+                        this.value = item;
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally{
+                    try {
+                        if (_iteratorAbruptCompletion && _iterator.return != null) {
+                            await _iterator.return();
+                        }
+                    } finally{
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+        };
+    }
+}
 export function values(iterable) {
     return _wrap_async_generator(function*() {
         {
@@ -62,4 +125,146 @@ export function values(iterable) {
 }
 export async function ordinary() {
     return await Promise.resolve(7);
+}
+export async function getAll(iterable) {
+    const results = [];
+    {
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+        try {
+            for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                let _value = _step.value;
+                const item = _value;
+                results.push(await Promise.resolve(item));
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (_iteratorAbruptCompletion && _iterator.return != null) {
+                    await _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+    }
+    return results;
+}
+export const consume = async (iterable)=>{
+    {
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+        try {
+            for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                let _value = _step.value;
+                const item = _value;
+                if (item) break;
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (_iteratorAbruptCompletion && _iterator.return != null) {
+                    await _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+    }
+};
+export const consumer = {
+    async method (iterable) {
+        {
+            var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+            try {
+                for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                    let _value = _step.value;
+                    const item = _value;
+                    return item;
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally{
+                try {
+                    if (_iteratorAbruptCompletion && _iterator.return != null) {
+                        await _iterator.return();
+                    }
+                } finally{
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+        }
+    }
+};
+export function nested(_0) {
+    return _wrap_async_generator(function*(iterable) {
+        const inner = async function() {
+            {
+                var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+                try {
+                    for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                        let _value = _step.value;
+                        const item = _value;
+                        return item;
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally{
+                    try {
+                        if (_iteratorAbruptCompletion && _iterator.return != null) {
+                            await _iterator.return();
+                        }
+                    } finally{
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+        };
+        const innerArrow = async ()=>{
+            const deepest = async ()=>{
+                {
+                    var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+                    try {
+                        for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                            let _value = _step.value;
+                            const item = _value;
+                            return [
+                                this,
+                                arguments[0],
+                                item
+                            ];
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally{
+                        try {
+                            if (_iteratorAbruptCompletion && _iterator.return != null) {
+                                await _iterator.return();
+                            }
+                        } finally{
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
+                }
+            };
+            return deepest();
+        };
+        yield yield _await_async_generator(inner());
+        yield yield _await_async_generator(innerArrow());
+    }).apply(this, arguments);
 }
