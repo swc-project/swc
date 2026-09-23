@@ -166,9 +166,8 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
         .tempfile_in(&dir)
         .map_err(|e| io_error("create temporary addon", &dir, e))?;
     payload.decode_into(file.as_file_mut())?;
-    file.as_file()
-        .sync_all()
-        .map_err(|e| io_error("flush temporary addon", file.path(), e))?;
+    // File writes are already visible to the image loader. This process-local
+    // image does not need to survive power loss, so no durability flush is needed.
     // Close the writable file before mapping an image on Windows. Retaining a
     // write handle can conflict with the OS image loader's sharing requirements.
     let path = file.into_temp_path();
@@ -305,10 +304,6 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
             .tempfile_in(&directory)
             .map_err(|e| io_error("stage cache entry", &directory, e))?;
         payload.decode_into(staged.as_file_mut())?;
-        staged
-            .as_file()
-            .sync_all()
-            .map_err(|e| io_error("flush cache entry", staged.path(), e))?;
         // Compression is an optimization. Its failure must never turn verified
         // bytes into an invalid addon or force a Windows carrier replacement.
         if let Err(error) = platform::compress_cache(staged.path()) {
@@ -320,8 +315,10 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
         let staged = staged.into_temp_path();
         platform::replace_file(&staged, &path)
             .map_err(|e| io_error("atomically publish cache entry", &path, e))?;
-        platform::sync_directory(&directory)
-            .map_err(|e| io_error("flush cache directory", &directory, e))?;
+        // A cache is recoverable, unlike the installed carrier. Atomic rename
+        // protects concurrent readers; full-byte verification repairs missing,
+        // truncated, or corrupt entries after power loss. Avoid forcing either
+        // the file or directory to stable storage on the startup path.
     }
     Ok(Materialized {
         path,

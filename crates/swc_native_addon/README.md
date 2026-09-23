@@ -131,11 +131,14 @@ loader throws rather than silently loading unverified data.
 Every cache hit is checked for native magic, length, and BLAKE3 over the entire
 file. The SHA-512 cache key remains unchanged. Per-digest OS
 file locks coordinate checking, repair, publication, and native loading. Writers
-use unique staging files in the destination directory, flush and verify them,
+use unique staging files in the destination directory, write and verify them,
 then rename atomically. Canonical entries are never truncated in place. Closing
 the lock handle releases coordination after failures or process death, without
 stale PID locks. Staging files abandoned by abrupt termination are never cache
 hits; they may be removed when the owning user cleans the temporary directory.
+Cache publication does not force durable storage: missing or damaged entries
+after power loss are rebuilt after full-byte verification. Installed-carrier
+replacement retains its file and directory durability flushes.
 Each persistent namespace retains at most three inactive-or-current raw addon
 images. A short namespace lock coordinates eviction with per-digest locks, so
 an image being loaded is deferred until a later materialization.
