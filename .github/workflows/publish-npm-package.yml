@@ -943,6 +943,12 @@ jobs:
         with:
           package-manager-cache: false
           node-version: "20"
+      - name: Canonicalize native test temporary directory
+        # macOS exposes /var through a symlink. Fixtures deliberately reject
+        # symlink ancestors, just like the production cache does.
+        shell: bash
+        run: |
+          node -e 'const fs = require("fs"); const root = fs.realpathSync.native(require("os").tmpdir()); fs.appendFileSync(process.env.GITHUB_ENV, ["TMPDIR", "TMP", "TEMP"].map(key => key + "=" + root + "\n").join(""));'
       - uses: ./.github/actions/native-tools
       - name: Verify private crates and native registration
         shell: bash
