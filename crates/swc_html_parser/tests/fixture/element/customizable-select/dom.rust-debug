@@ -1,0 +1,52 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       <button>
+|         <selectedcontent>
+|       <option>
+|         <span>
+|           "Red"
+|         " apple"
+|     "
+"
+|     <select>
+|       <option>
+|         <span>
+|           "one"
+|       <option>
+|         "two"
+|     "
+"
+|     <select>
+|       <option>
+|         <span>
+|           "one"
+|           <option>
+|             "two"
+|     "
+"
+|     <select>
+|       <optgroup>
+|         <option>
+|           <b>
+|             "Bold"
+|           " text"
+|     "
+"
+|     <select>
+|       <option>
+|         "one"
+|         <textarea>
+|           "two"
+|         "three"
+|     "
+"
+|     <select>
+|       <option>
+|         "one"
+|         <keygen>
+|         "two"
+|     "
+"

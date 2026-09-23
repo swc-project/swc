@@ -52,13 +52,27 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 12,
+                    "start": 9,
                     "end": 20
                   },
-                  "tagName": "option",
+                  "tagName": "b",
                   "namespace": "http://www.w3.org/1999/xhtml",
                   "attributes": [],
-                  "children": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 12,
+                        "end": 20
+                      },
+                      "tagName": "option",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null,
+                      "isSelfClosing": false
+                    }
+                  ],
                   "content": null,
                   "isSelfClosing": false
                 }
@@ -69,13 +83,27 @@
             {
               "type": "Element",
               "span": {
-                "start": 28,
-                "end": 49
+                "start": 9,
+                "end": 40
               },
-              "tagName": "option",
+              "tagName": "b",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 28,
+                    "end": 36
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
               "content": null,
               "isSelfClosing": false
             }

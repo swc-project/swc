@@ -8,13 +8,23 @@
     {
       "type": "Element",
       "span": {
-        "start": 11,
+        "start": 1,
         "end": 19
       },
-      "tagName": "option",
+      "tagName": "textarea",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 11,
+            "end": 19
+          },
+          "data": "<option>",
+          "raw": "<option>"
+        }
+      ],
       "content": null,
       "isSelfClosing": false
     }
