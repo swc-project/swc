@@ -9,6 +9,7 @@ permissions:
   actions: read
 jobs:
   measure:
+    if: false
     runs-on: macos-latest
     strategy:
       fail-fast: false
@@ -49,7 +50,6 @@ jobs:
           PRODUCT: ${{ matrix.product }}
         run: node scripts/native/diagnostic.mjs "$PRODUCT" target/diagnostic-input/raw.node target/diagnostic-input/carrier.node "$FILENAME"
   windows-delete:
-    if: false
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd

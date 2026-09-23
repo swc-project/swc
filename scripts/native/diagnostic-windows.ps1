@@ -10,6 +10,17 @@ public class NativeDelete {
  [DllImport("kernel32",SetLastError=true)] static extern bool CloseHandle(IntPtr h);
  [DllImport("kernel32",SetLastError=true)] static extern bool SetFileInformationByHandle(IntPtr h,int c,ref uint f,uint n);
  [DllImport("kernel32",SetLastError=true)] static extern bool SetFileInformationByHandle(IntPtr h,int c,IntPtr f,uint n);
+ [DllImport("ntdll")] static extern int NtSetInformationFile(IntPtr h,IntPtr status,ref uint info,uint len,int c);
+ public static void Native(string path, uint flags) {
+  File.Copy(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),"version.dll"),path);
+  IntPtr file=CreateFileW(path,0x80010000,7,IntPtr.Zero,3,0,IntPtr.Zero);
+  IntPtr module=LoadLibraryW(path);Console.WriteLine("native flags="+flags+" load="+module);
+  IntPtr iosb=Marshal.AllocHGlobal(16);
+  int status=NtSetInformationFile(file,iosb,ref flags,4,64);
+  Console.WriteLine("native status="+status.ToString("X"));Marshal.FreeHGlobal(iosb);
+  CloseHandle(file);Console.WriteLine("after-native exists="+File.Exists(path));
+  FreeLibrary(module);if(File.Exists(path))File.Delete(path);
+ }
  public static void Rename(string path, uint flags) {
   File.Copy(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System),"version.dll"),path);
   IntPtr module=LoadLibraryW(path);Console.WriteLine("rename flags="+flags+" load="+module);
@@ -44,3 +55,5 @@ foreach($legacy in @($false,$true)) { foreach($after in @($false,$true)) { forea
 }}}
 
 foreach($flags in @(1,3,67)) { [NativeDelete]::Rename((Join-Path $env:TEMP ([guid]::NewGuid().ToString()+".dll")),$flags) }
+
+foreach($flags in @(1,3,11)) { [NativeDelete]::Native((Join-Path $env:TEMP ([guid]::NewGuid().ToString()+".dll")),$flags) }
