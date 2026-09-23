@@ -9,3 +9,5 @@ s=s.replace("        // All cooperating readers", '        eprintln!("readback {
 s=s.replace("    Ok(Materialized {\n        path,\n        temporary: false,", '    eprintln!("cache total {:?}", started.elapsed());\n    Ok(Materialized {\n        path,\n        temporary: false,')
 p.write_text(s)
 p=Path("bindings/binding_native_addon/src/lib.rs");s=p.read_text().replace("    #[cfg(unix)]\n    let library", "    let started = std::time::Instant::now();\n    #[cfg(unix)]\n    let library").replace("    let register = *unsafe", '    eprintln!("dlopen {:?}", started.elapsed());\n    let register = *unsafe');p.write_text(s)
+
+p=Path("crates/swc_native_addon/src/integrity.rs");s=p.read_text().replace(".get().min(4)", ".get().min(2)").replace("return 1024 * 1024;", "return 4 * 1024 * 1024;");p.write_text(s)
