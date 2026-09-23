@@ -23,6 +23,12 @@ payload identity, and private metadata binds the runtime digest to the complete
 payload header. Every cache load reads and verifies the whole file. Corrupt payloads and materialization failures produce actionable
 `ERR_SWC_NATIVE_*` errors.
 
+On x64 macOS, large BLAKE3 inputs use bounded 1 MiB batches and at most four
+verification workers to reduce Rosetta startup overhead. The worker pool is
+private to the carrier; it does not change the application's Rayon pool.
+Unavailable workers fall back to sequential hashing. No verification result
+is reused between loads.
+
 The default cache is isolated by user and addressed by the raw image's SHA-512.
 It uses the existing private loader's user-cache root: an absolute
 `XDG_CACHE_HOME` when available on Unix, otherwise the user's cache directory

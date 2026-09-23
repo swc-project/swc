@@ -9,6 +9,60 @@ use swc_native_addon::{
 };
 
 #[test]
+fn runtime_integrity_matches_blake3_across_parallel_batch_boundaries() {
+    for line in include_str!("fixtures/integrity-sizes.txt").lines() {
+        let size: usize = line.parse().unwrap();
+        let mut raw = fs::read(support::fixture()).unwrap();
+        let prefix = raw.len();
+        assert!(prefix < size);
+        raw.resize(size, 0);
+        for (offset, byte) in raw[prefix..].iter_mut().enumerate() {
+            *byte = (offset as u8).wrapping_mul(31);
+        }
+        let packed = swc_native_addon::format::pack(
+            &raw,
+            swc_native_addon::format::NativeTarget::host().unwrap(),
+        )
+        .unwrap();
+        let payload = Payload::parse(&packed).unwrap();
+        let metadata = RuntimeIntegrity::from_raw(&payload.header, &mut Cursor::new(&raw)).unwrap();
+        assert_eq!(
+            &metadata.encode()[8 + HEADER_LEN..],
+            blake3::hash(&raw).as_bytes()
+        );
+        let payload = payload.with_integrity(metadata).unwrap();
+        let mut decoded = Cursor::new(Vec::new());
+        payload.decode_into(&mut decoded).unwrap();
+        assert_eq!(decoded.into_inner(), raw);
+        payload.verify_image(&mut Cursor::new(&raw)).unwrap();
+        payload
+            .verify_image(&mut ShortRead(Cursor::new(&raw)))
+            .unwrap();
+        for offset in [prefix, size / 2, size - 1] {
+            raw[offset] ^= 1;
+            assert!(payload.verify_image(&mut Cursor::new(&raw)).is_err());
+            raw[offset] ^= 1;
+        }
+    }
+}
+
+/// Exercise irregular read boundaries as well as full parallel batches.
+struct ShortRead<'a>(Cursor<&'a [u8]>);
+
+impl std::io::Read for ShortRead<'_> {
+    fn read(&mut self, bytes: &mut [u8]) -> std::io::Result<usize> {
+        let len = bytes.len().min(65535);
+        std::io::Read::read(&mut self.0, &mut bytes[..len])
+    }
+}
+
+impl std::io::Seek for ShortRead<'_> {
+    fn seek(&mut self, position: std::io::SeekFrom) -> std::io::Result<u64> {
+        std::io::Seek::seek(&mut self.0, position)
+    }
+}
+
+#[test]
 fn runtime_integrity_is_required_after_custom_cache_fallback() {
     let raw = fs::read(support::fixture()).unwrap();
     let packed = support::packed();

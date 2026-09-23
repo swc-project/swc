@@ -68,7 +68,7 @@ impl Header {
         input
             .rewind()
             .map_err(|e| Error::io(ErrorKind::Integrity, "rewind raw addon", e))?;
-        let mut buffer = [0; 64 * 1024];
+        let mut buffer = vec![0; hash.buffer_len(self.raw_len)];
         let mut count = 0_u64;
         loop {
             let read = input
@@ -328,7 +328,7 @@ impl<'a> Payload<'a> {
             .window_log_max(window_log)
             .map_err(|e| Error::io(ErrorKind::Compression, "limit zstd window", e))?;
         let mut count = 0_u64;
-        let mut buffer = [0; 64 * 1024];
+        let mut buffer = vec![0; hash.buffer_len(self.header.raw_len)];
         loop {
             let read = decoder
                 .read(&mut buffer)

@@ -89,10 +89,27 @@ impl Verifier {
         Self::Sha512(Box::default(), header.digest)
     }
 
+    pub(crate) fn buffer_len(&self, _raw_len: u64) -> usize {
+        // Larger bounded batches amortize parallel hashing under Rosetta.
+        // Small images and the default SHA-512 API keep the streaming buffer.
+        #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
+        if matches!(self, Self::Blake3(..)) && _raw_len >= 1024 * 1024 {
+            return 1024 * 1024;
+        }
+        64 * 1024
+    }
+
     pub(crate) fn update(&mut self, bytes: &[u8]) {
         match self {
             Self::Sha512(hash, _) => hash.update(bytes),
             Self::Blake3(hash, _) => {
+                #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
+                if bytes.len() >= 128 * 1024 {
+                    if let Some(pool) = verification_pool() {
+                        pool.install(|| hash.update_rayon(bytes));
+                        return;
+                    }
+                }
                 hash.update(bytes);
             }
         }
@@ -118,4 +135,24 @@ impl Verifier {
             format!("raw addon {algorithm} mismatch"),
         ))
     }
+}
+
+/// Bound Rosetta verification work without using the application's global
+/// Rayon pool. Only worker threads are reused: every verification still reads
+/// and hashes every file byte. Resource-constrained hosts hash sequentially.
+#[cfg(all(target_os = "macos", target_arch = "x86_64"))]
+fn verification_pool() -> Option<&'static rayon_core::ThreadPool> {
+    static POOL: std::sync::OnceLock<Option<rayon_core::ThreadPool>> = std::sync::OnceLock::new();
+    POOL.get_or_init(|| {
+        let threads = std::thread::available_parallelism().ok()?.get().min(4);
+        if threads < 2 {
+            return None;
+        }
+        rayon_core::ThreadPoolBuilder::new()
+            .num_threads(threads)
+            .thread_name(|index| format!("swc-native-verify-{index}"))
+            .build()
+            .ok()
+    })
+    .as_ref()
 }
