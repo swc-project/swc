@@ -1,0 +1,209 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 138
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 1,
+        "end": 13
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7
+        },
+        "ctxt": 0,
+        "value": "E",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 10,
+            "end": 11
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 10,
+              "end": 11
+            },
+            "ctxt": 0,
+            "value": "A",
+            "optional": false
+          },
+          "init": null
+        }
+      ]
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 15,
+        "end": 41
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 22,
+          "end": 41
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 27,
+            "end": 35
+          },
+          "ctxt": 0,
+          "value": "Exported",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 38,
+              "end": 39
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 38,
+                "end": 39
+              },
+              "ctxt": 0,
+              "value": "A",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 43,
+        "end": 138
+      },
+      "declare": false,
+      "global": false,
+      "namespace": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 53,
+          "end": 54
+        },
+        "ctxt": 0,
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 55,
+          "end": 138
+        },
+        "body": [
+          {
+            "type": "TsEnumDeclaration",
+            "span": {
+              "start": 61,
+              "end": 88
+            },
+            "declare": false,
+            "isConst": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 76,
+                "end": 82
+              },
+              "ctxt": 0,
+              "value": "Nested",
+              "optional": false
+            },
+            "members": [
+              {
+                "type": "TsEnumMember",
+                "span": {
+                  "start": 85,
+                  "end": 86
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 85,
+                    "end": 86
+                  },
+                  "ctxt": 0,
+                  "value": "B",
+                  "optional": false
+                },
+                "init": null
+              }
+            ]
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 94,
+              "end": 136
+            },
+            "declaration": {
+              "type": "TsEnumDeclaration",
+              "span": {
+                "start": 101,
+                "end": 136
+              },
+              "declare": false,
+              "isConst": false,
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 116,
+                  "end": 130
+                },
+                "ctxt": 0,
+                "value": "ExportedNested",
+                "optional": false
+              },
+              "members": [
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 133,
+                    "end": 134
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 133,
+                      "end": 134
+                    },
+                    "ctxt": 0,
+                    "value": "B",
+                    "optional": false
+                  },
+                  "init": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

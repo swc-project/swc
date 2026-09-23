@@ -1,0 +1,4 @@
+break|after break|continue|after continue|debugger
+break0|first tail0|continue0|second tail0|break1|first tail1|continue1|second tail1
+break|switch tail|continue|case tail
+after empty loops

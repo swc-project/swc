@@ -13,7 +13,7 @@ use super::{
     inferrer::ReturnTypeInferrer,
     type_ann,
     util::{
-        ast_ext::{ExprExit, PatExt, StaticProp},
+        ast_ext::{tpl_element_value, ExprExit, PatExt, StaticProp},
         types::{ts_keyword_type, ts_lit_type},
     },
     FastDts,
@@ -401,25 +401,9 @@ impl FastDts {
                     .into();
                 }
 
-                if let Expr::Tpl(Tpl {
-                    span,
-                    exprs,
-                    quasis,
-                }) = computed.expr.as_ref()
-                {
-                    if exprs.is_empty() {
-                        let str_prop = quasis
-                            .first()
-                            .and_then(|el| el.cooked.as_ref())
-                            .unwrap()
-                            .clone();
-
-                        let str_prop = Str {
-                            span: *span,
-                            value: str_prop,
-                            raw: None,
-                        };
-
+                if let Expr::Tpl(tpl) = computed.expr.as_ref() {
+                    if let Some(mut str_prop) = self.tpl_to_string(tpl) {
+                        str_prop.span = tpl.span;
                         return str_prop.into();
                     }
                 }
@@ -483,10 +467,7 @@ impl FastDts {
 
         tpl.quasis.first().map(|element| Str {
             span: DUMMY_SP,
-            value: element
-                .cooked
-                .clone()
-                .unwrap_or_else(|| element.raw.clone().into()),
+            value: tpl_element_value(element).into_owned(),
             raw: None,
         })
     }

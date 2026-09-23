@@ -14,9 +14,11 @@ function partialControl(x) {
     return [1, 2, x].join("-");
 }
 
-console.log([
-    partialLeading("x"),
-    partialInterior("x"),
-    partialTrailing("x"),
-    partialControl("x"),
-].join("|"));
+console.log(
+    [
+        partialLeading("x"),
+        partialInterior("x"),
+        partialTrailing("x"),
+        partialControl("x"),
+    ].join("|")
+);

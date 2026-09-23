@@ -440,11 +440,22 @@ impl Optimizer<'_> {
 
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
-        let pure_mark = self.marks.pure;
-        let has_pure_ann = match init {
-            Some(Expr::Call(c)) => c.ctxt.has_mark(pure_mark),
-            Some(Expr::New(n)) => n.ctxt.has_mark(pure_mark),
-            Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(pure_mark),
+        // Respect annotations on the pattern itself.
+        //  e.g. `const /*#__PURE__*/ { a } = obj`.
+        // Such an annotation asserts that the implicit property accesses are
+        // pure, and that the initializer is not nullish so the `TypeError`
+        // cannot be dropped.
+        //
+        // A `/*#__PURE__*/` annotation on the initializer only describes the
+        // evaluation of the initializer expression. The pattern itself still
+        // performs property reads, which can invoke getters, and checks the
+        // initializer value for nullishness, which can throw. An initializer
+        // annotation therefore never allows dropping the pattern; only an
+        // annotation written on the pattern does.
+        let has_pure_ann = match &*name {
+            Pat::Object(ObjectPat { span, .. }) | Pat::Array(ArrayPat { span, .. }) => {
+                self.pure_annotations.contains(span.lo)
+            }
             _ => false,
         };
         // Restrict this to structural values known to be non-nullish so removing
@@ -1004,7 +1015,10 @@ impl Optimizer<'_> {
                 return;
             };
 
-            if contains_ident_ref(&f.function.body, f_ident) {
+            // Default parameter initializers run in the function's scope and can reference
+            // the function expression's internal name, so inspect the whole
+            // function rather than only its body.
+            if self.options.keep_fnames || contains_ident_ref(&f.function, f_ident) {
                 return;
             }
 

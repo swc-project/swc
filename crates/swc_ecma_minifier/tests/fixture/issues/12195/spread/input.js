@@ -9,7 +9,4 @@ const iterable = {
     },
 };
 
-console.log(
-    "A".toLowerCase(...iterable),
-    "b".toUpperCase(...iterable),
-);
+console.log("A".toLowerCase(...iterable), "b".toUpperCase(...iterable));

@@ -17,8 +17,9 @@ use super::Pure;
 use crate::{
     compress::{
         pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-        util::{eval_to_undefined, is_pure_undefined},
+        util::is_pure_undefined,
     },
+    option::PureGetterOption,
     usage_analyzer::util::is_global_var_with_pure_property_access,
 };
 
@@ -58,45 +59,6 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
         }
     } else {
         true
-    }
-}
-
-fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    if is_pure_undefined(expr_ctx, expr) || matches!(expr, Expr::Lit(Lit::Null(..))) {
-        return true;
-    }
-
-    match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => may_evaluate_to_nullish(expr_ctx, expr),
-        Expr::Seq(SeqExpr { exprs, .. }) => match exprs.last() {
-            Some(last) => may_evaluate_to_nullish(expr_ctx, last),
-            None => false,
-        },
-        Expr::Cond(CondExpr { cons, alt, .. }) => {
-            may_evaluate_to_nullish(expr_ctx, cons) || may_evaluate_to_nullish(expr_ctx, alt)
-        }
-        _ => matches!(
-            expr.get_type(expr_ctx),
-            Value::Known(Type::Undefined | Type::Null) | Value::Unknown
-        ),
-    }
-}
-
-/// Returns true if evaluating `expr` always produces a nullish value.
-///
-/// Unlike [`is_pure_undefined`], this accepts expressions with effects because
-/// callers can preserve those effects separately.
-fn eval_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => eval_to_nullish(expr_ctx, expr),
-        Expr::Seq(SeqExpr { exprs, .. }) => exprs
-            .last()
-            .is_some_and(|last| eval_to_nullish(expr_ctx, last)),
-        Expr::Cond(CondExpr { cons, alt, .. }) => {
-            eval_to_nullish(expr_ctx, cons) && eval_to_nullish(expr_ctx, alt)
-        }
-        Expr::Lit(Lit::Null(..)) => true,
-        _ => eval_to_undefined(expr_ctx, expr),
     }
 }
 
@@ -146,6 +108,38 @@ enum GroupType<'a> {
 }
 
 impl Pure<'_> {
+    /// Returns `true` if reading `prop` off an arbitrary object can be assumed
+    /// not to have observable side effects, according to the `pure_getters`
+    /// compress option.
+    fn can_assume_pure_getter(&self, prop: &MemberProp) -> bool {
+        match &self.options.pure_getters {
+            PureGetterOption::Bool(true) => true,
+            // `strict` relaxes nullish checks in terser, not getter effects.
+            PureGetterOption::Bool(false) | PureGetterOption::Strict => false,
+            PureGetterOption::Str(allowed) => match prop {
+                MemberProp::Ident(i) => allowed.contains(&i.sym),
+                // Private names are not supported.
+                MemberProp::PrivateName(..) => false,
+                MemberProp::Computed(c) => match &*c.expr {
+                    Expr::Lit(Lit::Str(s)) => s
+                        .value
+                        .as_str()
+                        .is_some_and(|v| allowed.iter().any(|a| a == v)),
+                    _ => false,
+                },
+                #[cfg(swc_ast_unknown)]
+                _ => false,
+            },
+        }
+    }
+
+    /// Returns `true` if reading `member` can be assumed free of getter side
+    /// effects, either because `pure_getters` says so globally or because this
+    /// specific access is annotated with `/*#__PURE__*/`.
+    fn is_pure_member_access(&self, member: &MemberExpr) -> bool {
+        self.can_assume_pure_getter(&member.prop) || self.pure_annotations.contains(member.span.lo)
+    }
+
     /// `a = a + 1` => `a += 1`.
     pub(super) fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
         if e.op != op!("=") {
@@ -885,9 +879,10 @@ impl Pure<'_> {
             if !self.options.unsafe_passes
                 && groups.iter().any(|group| match group {
                     GroupType::Literals(_) => false,
-                    GroupType::Expression(expr) => {
-                        may_evaluate_to_nullish(self.expr_ctx, &expr.expr)
-                    }
+                    GroupType::Expression(expr) => matches!(
+                        &expr.expr.get_type(self.expr_ctx,),
+                        Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                    ),
                 })
             {
                 return None;
@@ -898,30 +893,27 @@ impl Pure<'_> {
 
             // Only add empty string prefix when the first element is a non-string
             // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion
+            // literal early enough to provide coercion.
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
-                    // Check if the first expression is already a string concatenation
                     let first_needs_coercion = match &*first_expr.expr {
                         Expr::Bin(BinExpr {
                             op: op!(bin, "+"), ..
-                        }) => false, // Already string concat
-                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
-                        Expr::Call(_call) => {
-                            // Function calls may return any type and need string coercion
-                            true
+                        }) => {
+                            // `+` is only already a string concatenation when its
+                            // result is proven to be a string. Otherwise adjacent
+                            // join elements could be added numerically first.
+                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
                         }
-                        _ => true, // Other expressions need string coercion
+                        Expr::Lit(Lit::Str(..)) => false,
+                        Expr::Call(..) => true,
+                        _ => true,
                     };
 
-                    // If the first element needs coercion, check if the second element is a string
-                    // literal that can provide the coercion
+                    // A following literal provides the string coercion for the
+                    // first element before the next dynamic element is evaluated.
                     if first_needs_coercion {
-                        match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will */
-                            // provide coercion
-                            _ => true, // No string literal to provide coercion
-                        }
+                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
                     } else {
                         false
                     }
@@ -1635,13 +1627,20 @@ impl Pure<'_> {
                     false
                 };
 
-                let b = s
-                    .finalizer
-                    .as_mut()
-                    .map(|s| self.drop_return_value(&mut s.stmts))
-                    .unwrap_or_default();
+                if let Some(s) = &mut s.finalizer {
+                    // A finalizer return overrides the pending completion, so only its value can
+                    // be removed when the IIFE result is ignored.
+                    for stmt in &mut s.stmts {
+                        self.ignore_return_value_of_return_stmt(
+                            stmt,
+                            DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                .union(DropOpts::DROP_NUMBER)
+                                .union(DropOpts::DROP_STR_LIT),
+                        );
+                    }
+                }
 
-                a || b
+                a
             }
 
             _ => false,
@@ -2029,10 +2028,30 @@ impl Pure<'_> {
                     e.take();
                     return;
                 }
-                Expr::Member(MemberExpr {
-                    prop: MemberProp::Ident(..),
-                    ..
-                }) => {}
+                // Unused member accesses can be dropped only if they are
+                // pure. The object and a computed key are still evaluated:
+                // `x().y` must keep `x()`.
+                Expr::Member(member) if self.is_pure_member_access(member) => {
+                    let MemberExpr {
+                        span, obj, prop, ..
+                    } = member;
+                    let span = *span;
+                    let computed_key = match prop {
+                        MemberProp::Computed(c) => Some(c.expr.take()),
+                        _ => None,
+                    };
+
+                    report_change!("ignore_return_value: Dropping a pure property access");
+                    self.changed = true;
+
+                    *e = self
+                        .make_ignored_expr(
+                            span,
+                            [Some(obj.take()), computed_key].into_iter().flatten(),
+                        )
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    return;
+                }
 
                 _ => {}
             }
@@ -2325,13 +2344,22 @@ impl Pure<'_> {
                 // consume an iterable and is still pure.
                 Expr::New(NewExpr {
                     span, callee, args, ..
-                }) if (matches!(args.as_deref(), None | Some([]))
-                    || args.as_deref().is_some_and(|args| {
-                        args.first().is_some_and(|arg| {
-                            arg.spread.is_none() && eval_to_nullish(self.expr_ctx, &arg.expr)
+                }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"])
+                    // Spreading consumes an iterator. Extracting only `arg.expr` would create
+                    // the iterator but skip its observable iteration, including errors thrown
+                    // by the iterator.
+                    && !args.iter().flatten().any(|arg| arg.spread.is_some())
+                    && args
+                        .as_deref()
+                        .and_then(|arg| arg.first())
+                        .map(|arg| {
+                            arg.spread.is_none()
+                                && (matches!(
+                                    &arg.expr.get_type(self.expr_ctx,),
+                                    Value::Known(Type::Null | Type::Undefined)
+                                ) || is_valid_map_set_init(&arg.expr, self.expr_ctx, callee))
                         })
-                    }))
-                    && callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"]) =>
+                        .unwrap_or(true) =>
                 {
                     report_change!("Dropping a pure new expression");
 
@@ -2350,7 +2378,7 @@ impl Pure<'_> {
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
                     &["Array", "Object", "Boolean", "Number", "String"],
-                ) =>
+                ) && !args.iter().flatten().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure new expression");
 
@@ -2372,7 +2400,7 @@ impl Pure<'_> {
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
                     &["Array", "Object", "Boolean", "Number"],
-                ) =>
+                ) && !args.iter().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure call expression");
 
@@ -2760,5 +2788,68 @@ fn is_block_scoped_stmt(s: &Stmt) -> bool {
         }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
         _ => false,
+    }
+}
+
+fn is_valid_map_set_init(expr: &Expr, ctx: ExprCtx, callee: &Expr) -> bool {
+    let is_map = callee.is_global_ref_to(ctx, "Map");
+
+    fn is_array_like(expr: &Expr, ctx: ExprCtx) -> bool {
+        match expr {
+            Expr::Array(..) => true,
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                ..
+            })
+            | Expr::New(NewExpr { callee: e, .. })
+                if e.is_one_of_global_ref_to(
+                    ctx,
+                    &[
+                        "Array",
+                        "Int16Array",
+                        "Int32Array",
+                        "Int8Array",
+                        "Float32Array",
+                        "Float64Array",
+                        "Uint16Array",
+                        "Uint32Array",
+                        "Uint8Array",
+                    ],
+                ) =>
+            {
+                true
+            }
+            _ => false,
+        }
+    }
+
+    if is_map {
+        match expr {
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().all(|e| {
+                e.as_ref()
+                    .map(|e| e.spread.is_none() && is_array_like(&e.expr, ctx))
+                    .unwrap_or(false)
+            }),
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                args,
+                ..
+            })
+            | Expr::New(NewExpr {
+                callee: e,
+                args: Some(args),
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => args
+                .iter()
+                .all(|a| a.spread.is_none() && is_array_like(&a.expr, ctx)),
+            Expr::New(NewExpr {
+                callee: e,
+                args: None,
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => true,
+            _ => false,
+        }
+    } else {
+        is_array_like(expr, ctx)
     }
 }

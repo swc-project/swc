@@ -60,6 +60,7 @@ impl<I: Tokens> Parser<I> {
             }));
         }
 
+        let escaped_keyword_error = self.input().escaped_keyword_error();
         let key = self.parse_prop_name()?;
         if self.input_mut().eat(Token::Colon) {
             let value = Box::new(self.parse_binding_element()?);
@@ -71,6 +72,10 @@ impl<I: Tokens> Parser<I> {
             _ => unexpected!(self, "an identifier"),
         };
 
+        // A shorthand key is a binding identifier even when it has a default.
+        if let Some(error) = escaped_keyword_error {
+            self.emit_error(error);
+        }
         let value = if self.input_mut().eat(Token::Eq) {
             self.allow_in_expr(Self::parse_assignment_expr).map(Some)?
         } else {
@@ -215,6 +220,7 @@ impl<I: Tokens> Parser<I> {
         let modifiers_span = self.input().prev_span();
 
         let key_token = self.input().cur();
+        let escaped_keyword_error = self.input().escaped_keyword_error();
         let key = self.parse_prop_name()?;
 
         let cur = self.input().cur();
@@ -304,6 +310,9 @@ impl<I: Tokens> Parser<I> {
         // It means we should check for invalid expressions like { for, }
         let cur = self.input().cur();
         if matches!(cur, Token::Eq | Token::Comma | Token::RBrace) {
+            if let Some(error) = escaped_keyword_error {
+                self.emit_error(error);
+            }
             let ctx = self.ctx();
             if self.ctx().is_reserved_word(&ident.sym) {
                 self.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);

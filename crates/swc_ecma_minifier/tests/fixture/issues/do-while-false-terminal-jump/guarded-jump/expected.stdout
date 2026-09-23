@@ -1,0 +1,5 @@
+guard|work:ok|tail
+guard|throw value|caught:null
+guard|work:ok|tail
+guard|throw value|caught:null
+check|caught:condition

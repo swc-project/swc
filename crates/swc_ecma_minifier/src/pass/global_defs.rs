@@ -51,7 +51,7 @@ impl VisitMut for GlobalDefs {
             return;
         }
 
-        let has_local_root = match root_ident(n) {
+        let has_local_root = match n.leftmost() {
             Some(i) => i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt,
             None => false,
         };
@@ -73,23 +73,13 @@ impl VisitMut for GlobalDefs {
     }
 
     fn visit_mut_update_expr(&mut self, e: &mut UpdateExpr) {
-        match &mut *e.arg {
-            Expr::Ident(..) => {}
-
-            Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => {
-                // TODO: Check for `obj`
-            }
-
-            _ => {
-                e.arg.visit_mut_with(self);
-            }
-        }
+        self.visit_mut_computed_props(&mut e.arg);
     }
 }
 
 impl GlobalDefs {
-    /// Visits computed property expressions without visiting a protected member
-    /// chain's locally bound root or its static property accesses.
+    /// Visits computed property expressions without replacing a protected
+    /// member chain or its static property accesses.
     fn visit_mut_computed_props(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Member(MemberExpr { obj, prop, .. }) => {
@@ -105,25 +95,17 @@ impl GlobalDefs {
                         prop.expr.visit_mut_with(self);
                     }
                 }
-                _ => unreachable!("root_ident only accepts member optional chains"),
+                // Optional calls can be the root of a protected update target,
+                // e.g. `(getObject?.())[KEY]++`.
+                OptChainBase::Call(..) => expr.visit_mut_children_with(self),
             },
             Expr::Ident(..) => {}
-            _ => unreachable!("root_ident only accepts identifiers and member chains"),
-        }
-    }
-}
-
-/// Returns the binding at the root of an ordinary or optional member chain.
-///
-/// Global-definition matching ignores syntax contexts, so callers must validate
-/// this binding before matching a configured definition.
-fn root_ident(mut expr: &Expr) -> Option<&Ident> {
-    loop {
-        match expr {
-            Expr::Ident(ident) => return Some(ident),
-            Expr::Member(MemberExpr { obj, .. }) => expr = obj,
-            Expr::OptChain(OptChainExpr { base, .. }) => expr = &base.as_member()?.obj,
-            _ => return None,
+            Expr::Paren(ParenExpr { expr, .. }) => self.visit_mut_computed_props(expr),
+            // The root of an update target can be an arbitrary expression, such
+            // as `this`, a call, or an object literal. Walk its children so
+            // nested expressions can still use global definitions, but do not
+            // visit the root itself and replace the protected update target.
+            _ => expr.visit_mut_children_with(self),
         }
     }
 }

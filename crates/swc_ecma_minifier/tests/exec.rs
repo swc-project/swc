@@ -160,6 +160,34 @@ fn run(
     Some(output)
 }
 
+/// Compress `input_src` and return the generated code without executing it.
+///
+/// Used by tests whose optimized output intentionally produces no stdout, which
+/// [`run_exec_test`] cannot express because it compares runtime output against
+/// the unoptimized program.
+fn compress_only(input_src: &str, config: &str) -> String {
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        HANDLER.set(&handler, || {
+            let _tracing = span!(Level::ERROR, "compress-only").entered();
+
+            let output = run(cm.clone(), &handler, input_src, Some(config), None);
+            let output = output.expect("Parsing in base test should not fail");
+            let output = print(cm, &[output], false, false);
+
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Optimized code"),
+                output
+            );
+
+            Ok(output)
+        })
+    })
+    .unwrap()
+}
+
 fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
@@ -1989,6 +2017,12 @@ console.log(
     run_exec_test(src, config, false);
 }
 
+/// `pure_getters: true` is an unsound-by-design assumption: the user promises
+/// that property reads have no side effects. Here the getter *does* have one
+/// (`console.log(1)`), so honoring the assumption legitimately erases the
+/// output. Terser compresses this to nothing as well, so the optimized program
+/// prints nothing and cannot be compared against the original with
+/// [`run_exec_test`].
 #[test]
 fn terser_pure_getters_impure_getter_2() {
     let src = r###"({
@@ -2008,7 +2042,19 @@ fn terser_pure_getters_impure_getter_2() {
     "side_effects": true
 }"#;
 
-    run_exec_test(src, config, false);
+    // Both property reads are dropped, so the getter is never invoked and the
+    // program prints nothing. The object literals themselves survive here only
+    // because this harness parses the input as a module without `toplevel`.
+    let output = compress_only(src, config);
+    assert!(
+        !output.contains(".a") && !output.contains(".b"),
+        "both property accesses should be dropped under `pure_getters: true`, got:\n{output}"
+    );
+    assert_eq!(
+        stdout_of(&output).expect("failed to execute the optimized code"),
+        "",
+        "the impure getter must no longer be invoked"
+    );
 }
 
 #[test]
@@ -12678,6 +12724,98 @@ fn issue_11078_math_negative_results_in_member_position() {
         console.log(Math.round(-2.5).toFixed(1));
         console.log(Math.round(-1.5) ** 2);
         console.log(typeof Math.round(-1.5).toString());
+        "#,
+    );
+}
+
+#[test]
+fn issue_12213_object_keys_with_modified_globals() {
+    let src = r#"
+        Object.keys = () => ["patched"];
+        console.log(Object.keys({ 1: 0 }));
+    "#;
+    let config = r#"{
+        "defaults": false,
+        "evaluate": true,
+        "pristine_globals": false
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_12397_hoist_props_destructuring_member_targets() {
+    run_default_exec_test(
+        r#"
+        const a = { n: 1 };
+        [a.n] = [2];
+        console.log(a.n);
+
+        var b = { n: 1 };
+        [b.n] = [2];
+        console.log(b.n);
+
+        (function () {
+            const c = { n: 1 };
+            [c.n] = [2];
+            console.log(c.n);
+        })();
+
+        const d = { n: 1 };
+        ({ x: d.n } = { x: 2 });
+        console.log(d.n);
+
+        const e = { a: { x: 0 }, b: { y: 0 } };
+        [e.a.x, e.b.y] = [10, 20];
+        console.log(e.a.x, e.b.y);
+
+        const f = { flag: false };
+        [f.flag] = [true];
+        console.log(f.flag);
+
+        const g = { n: 1 };
+        [g.n = 3] = [];
+        console.log(g.n);
+
+        const h = { n: 1 };
+        [...h.n] = [4, 5];
+        console.log(h.n);
+
+        const i = { n: 1 };
+        for ([i.n] of [[6]]);
+        console.log(i.n);
+        "#,
+    );
+}
+
+#[test]
+fn issue_12400_fn_decl_self_ref_in_unused_local() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            function handler() {
+                var self = handler;
+                console.log("called");
+            }
+            setTimeout(handler, 0);
+        })();
+        "#,
+    );
+}
+
+#[test]
+fn issue_12400_class_decl_self_ref_in_unused_local() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            class Widget {
+                render() {
+                    var self = Widget;
+                    console.log("rendered");
+                }
+            }
+            setTimeout(function () { new Widget().render(); }, 0);
+        })();
         "#,
     );
 }

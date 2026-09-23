@@ -43,6 +43,7 @@ mod object;
 mod pat;
 mod scope_helpers;
 mod stmt;
+mod template;
 #[cfg(test)]
 mod tests;
 pub mod text_writer;
@@ -170,7 +171,9 @@ impl Deref for CowStr<'_> {
     }
 }
 
-static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"\\n|\n").unwrap());
+// Consume other escapes too, so an escaped backslash cannot start a newline.
+static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> =
+    Lazy::new(|| regex::Regex::new(r"(\\(?:n|x0[aA]|u000[aA]|u\{0*[aA]\}|\n)|\n)|\\.").unwrap());
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
@@ -1144,73 +1147,9 @@ fn get_template_element_from_raw(
     ascii_only: bool,
     reduce_escaped_newline: bool,
 ) -> String {
-    fn read_escaped(
-        radix: u32,
-        len: Option<usize>,
-        buf: &mut String,
-        iter: impl Iterator<Item = char>,
-    ) {
-        let mut v = 0;
-        let mut pending = None;
-
-        for (i, c) in iter.enumerate() {
-            if let Some(len) = len {
-                if i == len {
-                    pending = Some(c);
-                    break;
-                }
-            }
-
-            match c.to_digit(radix) {
-                None => {
-                    pending = Some(c);
-                    break;
-                }
-                Some(d) => {
-                    v = v * radix + d;
-                }
-            }
-        }
-
-        match radix {
-            16 => {
-                match v {
-                    0 => match pending {
-                        Some('1'..='9') => write!(buf, "\\x00").unwrap(),
-                        _ => write!(buf, "\\0").unwrap(),
-                    },
-                    1..=15 => write!(buf, "\\x0{v:x}").unwrap(),
-                    // '\x20'..='\x7e'
-                    32..=126 => {
-                        let c = char::from_u32(v);
-
-                        match c {
-                            Some(c) => write!(buf, "{c}").unwrap(),
-                            _ => {
-                                unreachable!()
-                            }
-                        }
-                    }
-                    // '\x10'..='\x1f'
-                    // '\u{7f}'..='\u{ff}'
-                    _ => {
-                        write!(buf, "\\x{v:x}").unwrap();
-                    }
-                }
-            }
-
-            _ => unreachable!(),
-        }
-
-        if let Some(pending) = pending {
-            buf.push(pending);
-        }
-    }
-
     let mut buf = String::with_capacity(s.len());
     let mut iter = s.chars().peekable();
-
-    let mut is_dollar_prev = false;
+    let mut null_escape_end = None;
 
     while let Some(c) = iter.next() {
         let unescape = match c {
@@ -1227,33 +1166,33 @@ fn get_template_element_from_raw(
                         }
                     }
                     't' => Some('\t'),
-                    'x' => {
-                        read_escaped(16, Some(2), &mut buf, &mut iter);
-
-                        None
-                    }
-                    // TODO handle `\u1111` and `\u{1111}` too
+                    'x' | 'u' => match if c == 'x' {
+                        template::decode_hex_escape(&mut iter)
+                    } else {
+                        template::decode_unicode_escape(&mut iter, ascii_only)
+                    } {
+                        Some(c @ ('\\' | '`')) => {
+                            // Decoded delimiters must not become template syntax or escapes.
+                            buf.push('\\');
+                            Some(c)
+                        }
+                        Some('\n') if !reduce_escaped_newline => {
+                            buf.push_str("\\n");
+                            None
+                        }
+                        Some(c) => Some(c),
+                        None => {
+                            buf.push('\\');
+                            buf.push(c);
+                            None
+                        }
+                    },
                     // Source - https://github.com/eslint/eslint/blob/main/lib/rules/no-useless-escape.js
                     '\u{2028}' | '\u{2029}' => None,
-                    // `\t` and `\h` are special cases, because they can be replaced on real
-                    // characters `\xXX` can be replaced on character
-                    '\\' | 'r' | 'v' | 'b' | 'f' | 'u' | '\r' | '\n' | '`' | '0'..='7' => {
+                    '0' => Some('\0'),
+                    '\\' | 'r' | 'v' | 'b' | 'f' | '\r' | '\n' | '`' | '1'..='7' => {
                         buf.push('\\');
                         buf.push(c);
-
-                        None
-                    }
-                    '$' if iter.peek() == Some(&'{') => {
-                        buf.push('\\');
-                        buf.push('$');
-
-                        None
-                    }
-                    '{' if is_dollar_prev => {
-                        buf.push('\\');
-                        buf.push('{');
-
-                        is_dollar_prev = false;
 
                         None
                     }
@@ -1265,27 +1204,33 @@ fn get_template_element_from_raw(
         };
 
         match unescape {
-            Some(c @ '$') => {
-                is_dollar_prev = true;
-
-                buf.push(c);
+            Some('{') if buf.ends_with('$') => {
+                // Adjacent decoded characters must not introduce an interpolation.
+                buf.push_str("\\{");
             }
             Some('\x00') => {
-                let next = iter.peek();
-
-                match next {
-                    Some('1'..='9') => buf.push_str("\\x00"),
-                    _ => buf.push_str("\\0"),
-                }
+                buf.push_str("\\0");
+                null_escape_end = Some(buf.len());
+            }
+            Some(c @ '0'..='9') if null_escape_end == Some(buf.len()) => {
+                // Decide after decoding the next character: an escaped digit or a
+                // removed line continuation can otherwise turn \0 into an octal escape.
+                buf.truncate(buf.len() - 2);
+                buf.push_str("\\x00");
+                buf.push(c);
             }
             // Octal doesn't supported in template literals, except in tagged templates, but
             // we don't use this for tagged templates, they are printing as is
             Some('\u{0008}') => buf.push_str("\\b"),
             Some('\u{000c}') => buf.push_str("\\f"),
             Some('\n') => buf.push('\n'),
-            // `\r` is impossible here, because it was removed on parser stage
+            // A decoded carriage return must not be normalized to a line feed.
+            Some('\r') => buf.push_str("\\r"),
             Some('\u{000b}') => buf.push_str("\\v"),
             Some('\t') => buf.push('\t'),
+            Some(c @ '\x01'..='\x1f') => {
+                let _ = write!(buf, "\\x{:02x}", c as u8);
+            }
             // Print `"` and `'` without quotes
             Some(c @ '\x20'..='\x7e') => {
                 buf.push(c);
@@ -1302,7 +1247,6 @@ fn get_template_element_from_raw(
             Some('\u{FEFF}') => {
                 buf.push_str("\\uFEFF");
             }
-            // TODO(kdy1): Surrogate pairs
             Some(c) => {
                 if !ascii_only || c.is_ascii() {
                     buf.push(c);
@@ -2292,14 +2236,24 @@ impl MacroNode for TplElement {
                 emitter.cfg.ascii_only,
                 emitter.cfg.reduce_escaped_newline,
             );
+            // Decoding escapes can introduce HTML script terminators or comment
+            // markers, so protect the emitted text after the transformation.
+            let v = if emitter.cfg.inline_script {
+                lit::escape_inline_script(&v)
+            } else {
+                CowStr::Borrowed(&v)
+            };
             let span = self.span();
 
             let mut last_offset_gen = 0;
             let mut last_offset_origin = 0;
-            for ((offset_gen, _), mat) in v
-                .match_indices('\n')
-                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
-            {
+            let reduce_escaped_newline = emitter.cfg.reduce_escaped_newline;
+            for ((offset_gen, _), mat) in v.match_indices('\n').zip(
+                NEW_LINE_TPL_REGEX
+                    .captures_iter(&raw)
+                    .filter_map(|c| c.get(1))
+                    .filter(|m| reduce_escaped_newline || m.as_str().ends_with('\n')),
+            ) {
                 // If the string starts with a newline char, then adding a mark is redundant.
                 // This catches both "no newlines" and "newline after several chars".
                 if offset_gen != 0 {

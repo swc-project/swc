@@ -1948,16 +1948,21 @@ impl<'a> Lexer<'a> {
         self.bump(1); // '/'
 
         // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
-        // sequence." TODO: check for escape
-
-        // Need to use `read_word` because '\uXXXX' sequences are allowed
-        // here (don't ask).
-        // let flags_start = self.cur_pos();
+        // sequence."
+        // Need to use `read_word` because '\uXXXX' sequences are accepted by the
+        // scanner — we still reject them as an early error below.
+        // Use `cur_as_char` so non-ASCII IdentifierPart flags (e.g. `/a/π\u0067`)
+        // are scanned; `cur()` only yields the first UTF-8 byte and would miss them.
         let flags = {
-            match self.cur() {
-                Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with()
-                    .map(|(s, _)| Some(self.atom(s))),
+            match self.cur_as_char() {
+                Some(c) if c == '\\' || c.is_ident_part() => {
+                    let (s, has_escape) = self.read_word_as_str_with()?;
+                    if has_escape {
+                        let span = self.span(start);
+                        self.emit_error_span(span, SyntaxError::UnicodeEscapeInRegExpFlags);
+                    }
+                    Ok(Some(self.atom(s)))
+                }
                 _ => Ok(None),
             }
         }?;
@@ -2464,21 +2469,13 @@ impl<'a> Lexer<'a> {
     fn read_keyword_with(&mut self, convert: fn(&str) -> Option<Token>) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
-        let start = self.cur_pos();
         let (s, has_escape) = self.read_keyword_as_str_with()?;
         if let Some(word) = convert(s.as_ref()) {
-            // Note: ctx is store in lexer because of this error.
-            // 'await' and 'yield' may have semantic of reserved word, which means lexer
-            // should know context or parser should handle this error. Our approach to this
-            // problem is former one.
-            if has_escape && word.is_reserved(self.ctx()) {
-                self.error(
-                    start,
-                    SyntaxError::EscapeInReservedWord { word: Atom::new(s) },
-                )
-            } else {
-                Ok(word)
-            }
+            // Keep escaped keyword spellings until the parser knows whether this
+            // is a keyword or an IdentifierName (for example, a property name).
+            let value = has_escape.then(|| TokenValue::Word(self.atom(s)));
+            self.set_token_value(value);
+            Ok(word)
         } else {
             let atom = self.atom(s);
             Ok(Token::unknown_ident(atom, self))

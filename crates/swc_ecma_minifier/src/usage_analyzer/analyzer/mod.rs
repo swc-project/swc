@@ -182,9 +182,7 @@ where
                 .store_param_count(Value::Unknown);
         }
 
-        if let Pat::Expr(e) = p {
-            self.mark_mutation_if_member(e.as_member());
-        }
+        self.mark_mutation_of_members_in_pat(p);
     }
 
     fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
@@ -228,6 +226,16 @@ where
             for_each_id_ref_in_expr(&m.obj, &mut |id| {
                 self.data.mark_property_mutation(id.to_id())
             });
+        }
+    }
+
+    /// `o.n` in `[o.n] = arr` or `({ x: o.n } = obj)` mutates `o` just like
+    /// `o.n = v` does, but `find_pat_ids` does not report member targets.
+    fn mark_mutation_of_members_in_pat<N: VisitWith<MemberTargetsInPat>>(&mut self, n: &N) {
+        let mut v = MemberTargetsInPat::default();
+        n.visit_with(&mut v);
+        for id in v.objs {
+            self.data.mark_property_mutation(id);
         }
     }
 
@@ -362,6 +370,7 @@ where
                         n.right.get_type(self.expr_ctx),
                     )
                 }
+                self.mark_mutation_of_members_in_pat(p);
             }
             AssignTarget::Simple(e) => {
                 self.report_assign_expr_if_ident(
@@ -1633,6 +1642,30 @@ where
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
+    }
+}
+
+#[derive(Default)]
+struct MemberTargetsInPat {
+    objs: Vec<Id>,
+}
+
+impl Visit for MemberTargetsInPat {
+    noop_visit_type!();
+
+    // Default values and computed keys are not targets. The analyzer visits
+    // them itself, including any nested assignment.
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    fn visit_pat(&mut self, p: &Pat) {
+        if let Pat::Expr(e) = p {
+            if let Some(m) = e.as_member() {
+                for_each_id_ref_in_expr(&m.obj, &mut |id| self.objs.push(id.to_id()));
+            }
+            return;
+        }
+
+        p.visit_children_with(self);
     }
 }
 

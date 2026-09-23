@@ -698,33 +698,6 @@ impl<I: Tokens> Parser<I> {
         Ok(buf)
     }
 
-    /// `tsTryParse`
-    pub(super) fn try_parse_ts_bool<F>(&mut self, op: F) -> PResult<bool>
-    where
-        F: FnOnce(&mut Self) -> PResult<Option<bool>>,
-    {
-        if !self.input().syntax().typescript() {
-            return Ok(false);
-        }
-
-        let prev_ignore_error = self.input().get_ctx().contains(Context::IgnoreError);
-        let checkpoint = self.checkpoint_save();
-        self.set_ctx(self.ctx() | Context::IgnoreError);
-        let res = op(self);
-        match res {
-            Ok(Some(res)) if res => {
-                let mut ctx = self.ctx();
-                ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input_mut().set_ctx(ctx);
-                Ok(res)
-            }
-            _ => {
-                self.checkpoint_load(checkpoint);
-                Ok(false)
-            }
-        }
-    }
-
     /// `tsParseDelimitedList`
     fn parse_ts_delimited_list_inner<T, F>(
         &mut self,
@@ -800,15 +773,12 @@ impl<I: Tokens> Parser<I> {
     /// `tsNextTokenCanFollowModifier`
     pub(super) fn ts_next_token_can_follow_modifier(&mut self) -> bool {
         debug_assert!(self.input().syntax().typescript());
-        // Note: TypeScript's implementation is much more complicated because
-        // more things are considered modifiers there.
-        // This implementation only handles modifiers not handled by @babel/parser
-        // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
-        // hasLineBreakUpNext() method...
-        self.bump();
-
-        let cur = self.input().cur();
-        !self.input().had_line_break_before_cur()
+        // Decide without consuming the candidate: a failed modifier probe must
+        // not leave deferred keyword-escape errors in the lexer.
+        let Some(cur) = peek!(self) else {
+            return false;
+        };
+        !self.input_mut().has_linebreak_between_cur_and_peeked()
             && matches!(
                 cur,
                 Token::LBracket
@@ -1013,13 +983,17 @@ impl<I: Tokens> Parser<I> {
         }
 
         if let Some(pos) = pos {
+            if self.input().has_escaped_keyword() {
+                return Ok(None);
+            }
             if stop_on_start_of_class_static_blocks
                 && self.input().is(Token::Static)
                 && peek!(self).is_some_and(|peek| peek == Token::LBrace)
             {
                 return Ok(None);
             }
-            if self.try_parse_ts_bool(|p| Ok(Some(p.ts_next_token_can_follow_modifier())))? {
+            if self.ts_next_token_can_follow_modifier() {
+                self.bump();
                 return Ok(Some(allowed_modifiers[pos]));
             }
         }
@@ -1068,7 +1042,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_ts_entity_name);
         let start = self.input().cur_pos();
         let init_token = self.input().cur();
-        let init = self.parse_ident_name()?;
+        let init = self.parse_ident_name_with_escape_check()?;
         if init_token == Token::Void {
             let dot_start = self.input().cur_pos();
             let dot_span = self.span(dot_start);
@@ -1299,7 +1273,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.input().cur_pos();
-        let name = self.parse_ident_name()?;
+        let name = self.parse_ident_name_with_escape_check()?;
         let constraint = Some(self.expect_then_parse_ts_type(Token::In, "in")?);
 
         Ok(TsTypeParam {
@@ -1455,7 +1429,7 @@ impl<I: Tokens> Parser<I> {
             };
         }
 
-        let name = self.in_type(Self::parse_ident_name)?;
+        let name = self.in_type(Self::parse_ident_name_with_escape_check)?;
         if self.syntax().flow() {
             self.emit_flow_reserved_type_name_error(name.span, &name.sym);
         }
@@ -1590,16 +1564,19 @@ impl<I: Tokens> Parser<I> {
             }
 
             let type_pred_start = p.input().cur_pos();
-            let has_type_pred_asserts = p.input().cur() == Token::Asserts && {
-                let ctx = p.ctx();
-                peek!(p).is_some_and(|peek| {
-                    if peek.is_word() {
-                        !peek.is_reserved(ctx)
-                    } else {
-                        false
-                    }
-                })
-            };
+            // In TypeScript, `asserts` and its parameter must be on the same line.
+            let has_type_pred_asserts = p.input().cur() == Token::Asserts
+                && {
+                    let ctx = p.ctx();
+                    peek!(p).is_some_and(|peek| {
+                        if peek.is_word() {
+                            !peek.is_reserved(ctx)
+                        } else {
+                            false
+                        }
+                    })
+                }
+                && (p.syntax().flow() || !p.input_mut().has_linebreak_between_cur_and_peeked());
             let has_flow_implies = p.syntax().flow()
                 && p.input().cur().is_word()
                 && p.input().cur().take_word(&p.input) == atom!("implies")
@@ -1636,7 +1613,7 @@ impl<I: Tokens> Parser<I> {
             let param_name = if p.input().is(Token::This) {
                 TsThisTypeOrIdent::TsThisType(p.parse_ts_this_type_node()?)
             } else {
-                let ident = p.parse_ident_name()?;
+                let ident = p.parse_ident_name_with_escape_check()?;
                 if has_flow_implies && ident.sym == *"implies" {
                     p.emit_err(ident.span, SyntaxError::TS1003);
                 }
@@ -2139,7 +2116,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_flow_enum_decl(start, is_const);
         }
 
-        let id = self.parse_ident_name()?;
+        let id = self.parse_ident_name_with_escape_check()?;
         expect!(self, Token::LBrace);
         let members =
             self.parse_ts_delimited_list(ParsingContext::EnumMembers, Self::parse_ts_enum_member)?;
@@ -2270,7 +2247,7 @@ impl<I: Tokens> Parser<I> {
         // Note: TS uses parseLeftHandSideExpressionOrHigher,
         // then has grammar errors later if it's not an EntityName.
 
-        let ident = self.parse_ident_name()?.into();
+        let ident = self.parse_ident_name_with_escape_check()?.into();
         let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
         if !matches!(
             &*expr,
@@ -2470,7 +2447,9 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::LBracket);
 
         let ident_start = self.cur_pos();
-        let mut id = self.parse_ident_name().map(BindingIdent::from)?;
+        let mut id = self
+            .parse_ident_name_with_escape_check()
+            .map(BindingIdent::from)?;
         let type_ann_start = self.cur_pos();
 
         if self.input_mut().eat(Token::Comma) {
@@ -2609,6 +2588,13 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Eats ')` at the end but does not eat `(` at start.
     fn parse_ts_binding_list_for_signature(&mut self) -> PResult<Vec<TsFnParam>> {
+        self.do_inside_of_context(
+            Context::InParameters,
+            Self::parse_ts_binding_list_for_signature_inner,
+        )
+    }
+
+    fn parse_ts_binding_list_for_signature_inner(&mut self) -> PResult<Vec<TsFnParam>> {
         if !cfg!(feature = "typescript") {
             return Ok(Default::default());
         }
@@ -2818,7 +2804,7 @@ impl<I: Tokens> Parser<I> {
                 None
             };
 
-            let mut ident = p.parse_ident_name().map(Ident::from)?;
+            let mut ident = p.parse_ident_name_with_escape_check().map(Ident::from)?;
             if p.input_mut().eat(Token::QuestionMark) {
                 ident.optional = true;
                 ident.span = ident.span.with_hi(p.input().prev_span().hi);
@@ -2880,6 +2866,14 @@ impl<I: Tokens> Parser<I> {
         };
 
         let label = self.try_parse_ts_tuple_element_name();
+
+        // Validate the confirmed label outside speculative parsing.
+        if let Some(Pat::Rest(rest)) = &label {
+            let is_optional = matches!(rest.arg.as_ref(), Pat::Ident(ident) if ident.id.optional);
+            if is_optional && !self.input().syntax().flow() {
+                syntax_error!(self, rest.span, SyntaxError::TsOptionalRestElement);
+            }
+        }
 
         if self.input().syntax().flow() {
             if variance_span.is_some() && label.is_none() {
@@ -2960,22 +2954,23 @@ impl<I: Tokens> Parser<I> {
             )?
         };
 
-        // Validate the elementTypes to ensure:
-        //   No mandatory elements may follow optional elements
-        //   If there's a rest element, it must be at the end of the tuple
-
+        // No required elements may follow optional elements. Named elements store
+        // their optional/rest markers on the label instead of the type.
         let mut seen_optional_element = false;
 
         for elem in elems.iter() {
-            match *elem.ty {
-                TsType::TsRestType(..) => {}
-                TsType::TsOptionalType(..) => {
-                    seen_optional_element = true;
-                }
-                _ if seen_optional_element => {
-                    syntax_error!(self, self.span(start), SyntaxError::TsRequiredAfterOptional)
-                }
-                _ => {}
+            if matches!(&elem.label, Some(Pat::Rest(..)))
+                || matches!(*elem.ty, TsType::TsRestType(..))
+            {
+                continue;
+            }
+
+            let is_optional = matches!(&elem.label, Some(Pat::Ident(ident)) if ident.id.optional)
+                || matches!(*elem.ty, TsType::TsOptionalType(..));
+            if is_optional {
+                seen_optional_element = true;
+            } else if seen_optional_element {
+                syntax_error!(self, self.span(start), SyntaxError::TsRequiredAfterOptional)
             }
         }
 
@@ -3072,7 +3067,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Box<TsTypeAliasDecl>> {
         debug_assert!(self.input().syntax().typescript());
 
-        let id = self.parse_ident_name()?;
+        let id = self.parse_ident_name_with_escape_check()?;
         if self.syntax().flow() {
             self.emit_flow_reserved_type_name_error(id.span, &id.sym);
         }
@@ -3110,7 +3105,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().flow());
 
         expect!(self, Token::Type);
-        let id = self.parse_ident_name()?;
+        let id = self.parse_ident_name_with_escape_check()?;
         if self.syntax().flow() {
             self.emit_flow_reserved_type_name_error(id.span, &id.sym);
         }
@@ -3518,7 +3513,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
         expect!(self, Token::Infer);
-        let type_param_name = self.parse_ident_name()?;
+        let type_param_name = self.parse_ident_name_with_escape_check()?;
         let constraint = self.try_parse_ts(|p| {
             expect!(p, Token::Extends);
             let constraint = p.parse_ts_non_conditional_type();
@@ -4085,7 +4080,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Box<TsInterfaceDecl>> {
         debug_assert!(self.input().syntax().typescript());
 
-        let id = self.parse_ident_name()?;
+        let id = self.parse_ident_name_with_escape_check()?;
         match &*id.sym {
             "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
             | "symbol" | "void" | "never" | "intrinsic" => {
@@ -4313,13 +4308,18 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         namespace: bool,
+        nested: bool,
     ) -> PResult<Box<TsModuleDecl>> {
         debug_assert!(self.input().syntax().typescript());
 
-        let id = self.parse_ident_name()?;
+        let id = if nested {
+            self.parse_ident_name()?
+        } else {
+            self.parse_ident_name_with_escape_check()?
+        };
         let body: TsNamespaceBody = if self.input_mut().eat(Token::Dot) {
             let inner_start = self.cur_pos();
-            let inner = self.parse_ts_module_or_ns_decl(inner_start, namespace)?;
+            let inner = self.parse_ts_module_or_ns_decl(inner_start, namespace, true)?;
             let inner = TsNamespaceDecl {
                 span: inner.span,
                 id: match inner.id {
@@ -4444,6 +4444,8 @@ impl<I: Tokens> Parser<I> {
         {
             if self.input().is(Token::Asserts)
                 && peek!(self).is_some_and(|peek| peek == Token::This)
+                && (self.syntax().flow()
+                    || !self.input_mut().has_linebreak_between_cur_and_peeked())
             {
                 self.bump();
                 let this_keyword = self.parse_ts_this_type_node()?;
@@ -4675,6 +4677,12 @@ impl<I: Tokens> Parser<I> {
 
         match &*expr.sym {
             "declare" => {
+                // A line break after `declare` terminates the expression statement, so the
+                // following declaration is not ambient.
+                if !self.syntax().flow() && self.input().had_line_break_before_cur() {
+                    return Ok(None);
+                }
+
                 let decl = self.try_parse_ts_declare(start, decorators)?;
                 if let Some(decl) = decl {
                     Ok(Some(make_decl_declare(decl)))
@@ -5125,7 +5133,7 @@ impl<I: Tokens> Parser<I> {
                     return Err(self.eof_error());
                 } else if next || self.is_ident_ref() {
                     return self
-                        .parse_ts_module_or_ns_decl(start, false)
+                        .parse_ts_module_or_ns_decl(start, false, false)
                         .map(From::from)
                         .map(Some);
                 }
@@ -5137,7 +5145,7 @@ impl<I: Tokens> Parser<I> {
                         self.bump();
                     }
                     return self
-                        .parse_ts_module_or_ns_decl(start, true)
+                        .parse_ts_module_or_ns_decl(start, true, false)
                         .map(From::from)
                         .map(Some);
                 }

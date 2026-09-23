@@ -1,7 +1,7 @@
 use par_iter::prelude::*;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Value};
+use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
@@ -39,24 +39,13 @@ impl Pure<'_> {
                 right,
                 ..
             }) if match &*left {
-                AssignTargetPat::Array(arr) => {
-                    arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none())
+                AssignTargetPat::Object(obj) => {
+                    obj.props.is_empty()
+                        && !matches!(
+                            right.get_type(self.expr_ctx),
+                            Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                        )
                 }
-                _ => false,
-            } =>
-            {
-                report_change!("Dropping assignment to an empty array pattern");
-                self.changed = true;
-                *e = *right.take();
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Pat(left),
-                right,
-                ..
-            }) if match &*left {
-                AssignTargetPat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
             {
@@ -382,36 +371,26 @@ impl Pure<'_> {
                 }
                 Some(Stmt::Try(t)) => {
                     let mut changed = false;
-                    let side_effect = match last {
-                        Stmt::Break(_) | Stmt::Continue(_) => false,
-                        Stmt::Return(ReturnStmt { arg: None, .. }) => false,
-                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
-                            arg.may_have_side_effects(ctx)
-                        }
-                        Stmt::Throw(_) => true,
-                        _ => unreachable!(),
-                    };
-
-                    // A return in either the try block or the catch handler is evaluated before
-                    // the finalizer, unlike the duplicate return following this try statement.
-                    let can_drop = t.finalizer.is_none() && !side_effect;
-
                     // TODO: let chain
                     if let Some(stmt) = t.block.stmts.last_mut() {
-                        if can_drop {
+                        let side_effect = match last {
+                            Stmt::Break(_) | Stmt::Continue(_) => false,
+                            Stmt::Return(ReturnStmt { arg: None, .. }) => false,
+                            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                                arg.may_have_side_effects(ctx)
+                            }
+                            Stmt::Throw(_) => true,
+                            _ => unreachable!(),
+                        };
+                        if t.finalizer.is_none() && !side_effect {
                             changed |= drop(stmt, last, need_break, ctx)
                         }
                     }
                     if let Some(h) = t.handler.as_mut() {
                         if let Some(stmt) = h.body.stmts.last_mut() {
-                            if can_drop {
+                            if t.finalizer.is_none() {
                                 changed |= drop(stmt, last, need_break, ctx);
                             }
-                        }
-                    }
-                    if let Some(f) = t.finalizer.as_mut() {
-                        if let Some(stmt) = f.stmts.last_mut() {
-                            changed |= drop(stmt, last, need_break, ctx);
                         }
                     }
                     changed

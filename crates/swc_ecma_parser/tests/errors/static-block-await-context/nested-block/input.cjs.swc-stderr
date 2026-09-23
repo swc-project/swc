@@ -1,0 +1,5 @@
+  x Expected ident
+   ,-[$DIR/tests/errors/static-block-await-context/nested-block/input.cjs:1:1]
+ 1 | class C { static { class D { static { await; } } } }
+   :                                       ^^^^^
+   `----

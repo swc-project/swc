@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_nodejs_support_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.16.2"
+version     = "1.16.8-nightly-20260918.1"
 
 [lib]
 bench      = false
@@ -25,7 +25,9 @@ serde-wasm-bindgen = { workspace = true }
 serde_json = { workspace = true }
 swc_common = { path = "../../crates/swc_common" }
 swc_ecma_ast = { path = "../../crates/swc_ecma_ast" }
-swc_ecma_parser = { path = "../../crates/swc_ecma_parser" }
+swc_ecma_parser = { path = "../../crates/swc_ecma_parser", features = [
+  "unstable",
+] }
 swc_ecma_visit = { path = "../../crates/swc_ecma_visit" }
 swc_error_reporters = { path = "../../crates/swc_error_reporters" }
 swc_ts_fast_strip = { path = "../../crates/swc_ts_fast_strip", features = [
@@ -35,6 +37,9 @@ tracing = { workspace = true, features = ["max_level_off"] }
 unicode-width = { workspace = true }
 wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 wasm-bindgen-futures = { workspace = true }
+
+[dev-dependencies]
+testing = { path = "../../crates/testing" }
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false

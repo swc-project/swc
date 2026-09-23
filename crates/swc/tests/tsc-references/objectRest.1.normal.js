@@ -2,7 +2,7 @@
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
-var _ref, _ref1;
+var _ref, _ref1, _ref2, _ref3;
 var o = {
     a: 1,
     b: 'no'
@@ -32,35 +32,35 @@ var { d: renamed } = o2, d = _object_without_properties(o2, [
     "d"
 ]);
 let nestedrest;
-var { x, n1: _ref2 } = nestedrest, { y, n2: _ref3 } = _ref2, { z, n3: _ref4 } = _ref3, {} = _ref4, nr = _extends({}, _ref4), restrest = _object_without_properties(nestedrest, [
+var { x, n1: _ref4 } = nestedrest, { y, n2: _ref5 } = _ref4, { z, n3: _ref6 } = _ref5, {} = _ref6, nr = _extends({}, _ref6), restrest = _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
 let complex;
-var { x: _ref5 } = complex, { ka } = _ref5, nested = _object_without_properties(_ref5, [
+var { x: _ref7 } = complex, { ka } = _ref7, nested = _object_without_properties(_ref7, [
     "ka"
 ]), { y: other } = complex, rest = _object_without_properties(complex, [
     "x",
     "y"
 ]);
-({ x: _ref } = complex), ({ ka } = _ref), nested = _object_without_properties(_ref, [
+_ref = complex, ({ x: _ref1 } = _ref), ({ ka } = _ref1), nested = _object_without_properties(_ref1, [
     "ka"
-]), ({ y: other } = complex), rest = _object_without_properties(complex, [
+]), ({ y: other } = _ref), rest = _object_without_properties(_ref, [
     "x",
     "y"
-]), complex;
-var _ref6 = {
+]), _ref;
+var _ref8 = {
     x: 1,
     y: 2
-}, { x } = _ref6, fresh = _object_without_properties(_ref6, [
+}, { x } = _ref8, fresh = _object_without_properties(_ref8, [
     "x"
 ]);
-_ref1 = {
+_ref2 = {
     x: 1,
     y: 2
-}, ({ x } = _ref1), fresh = _object_without_properties(_ref1, [
+}, ({ x } = _ref2), fresh = _object_without_properties(_ref2, [
     "x"
-]), _ref1;
+]), _ref2;
 class Removable {
     set z(value) {}
     get both() {
@@ -83,10 +83,10 @@ var { [computed]: stillNotGreat, [computed2]: soSo } = o, o = _object_without_pr
     computed,
     computed2
 ].map(_to_property_key));
-({ [computed]: stillNotGreat, [computed2]: soSo } = o), o = _object_without_properties(o, [
+_ref3 = o, ({ [computed]: stillNotGreat, [computed2]: soSo } = _ref3), o = _object_without_properties(_ref3, [
     computed,
     computed2
-].map(_to_property_key)), o;
+].map(_to_property_key)), _ref3;
 var noContextualType = (_0)=>{
     let { aNumber = 12 } = _0, notEmptyObject = _object_without_properties(_0, [
         "aNumber"

@@ -1,0 +1,19 @@
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/u-brace-escape/input.js:1:1]
+ 1 | /a/\u{69};
+   : ^^^^^^^^^
+ 2 | /foo/g\u{0069};
+   `----
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/u-brace-escape/input.js:2:1]
+ 1 | /a/\u{69};
+ 2 | /foo/g\u{0069};
+   : ^^^^^^^^^^^^^^
+ 3 | /\w+/\u{006d}\u{0073};
+   `----
+  x Regular expression flags cannot contain unicode escapes.
+   ,-[$DIR/tests/errors/regexp-flags-unicode-escape/u-brace-escape/input.js:3:1]
+ 2 | /foo/g\u{0069};
+ 3 | /\w+/\u{006d}\u{0073};
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----

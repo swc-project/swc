@@ -1,0 +1,15 @@
+```==================== .D.TS ====================
+
+export declare const newline = "\n";
+export declare const css = "\\2b";
+export declare const hex = "A";
+export declare const unicode = "􏿿";
+export declare const surrogates = "\uD800\uD801";
+export declare const continuation = "firstsecond";
+export declare class Values {
+    readonly newline = "\n";
+    readonly css = "\\2b";
+    readonly surrogate = "\uD800";
+}
+
+

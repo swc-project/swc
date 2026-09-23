@@ -1158,6 +1158,14 @@ impl MacroNode for TsTypeAssertion {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "<");
+        if matches!(
+            &*self.type_ann,
+            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(function))
+                if function.type_params.is_some()
+        ) {
+            // Keep the assertion and generic parameter openers from becoming `<<`.
+            space!(emitter);
+        }
         emit!(self.type_ann);
         punct!(emitter, ">");
         emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::EXPONENTIATION)?;

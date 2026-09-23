@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 45
+    "end": 94
   },
   "body": [
     {
@@ -137,6 +137,83 @@
           "definite": false
         }
       ]
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 47,
+        "end": 94
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 52,
+          "end": 65
+        },
+        "ctxt": 0,
+        "value": "MixedOptional",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTupleType",
+        "span": {
+          "start": 68,
+          "end": 93
+        },
+        "elemTypes": [
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 69,
+              "end": 76
+            },
+            "label": null,
+            "ty": {
+              "type": "TsOptionalType",
+              "span": {
+                "start": 69,
+                "end": 76
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 69,
+                  "end": 75
+                },
+                "kind": "number"
+              }
+            }
+          },
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 78,
+              "end": 92
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 78,
+                "end": 84
+              },
+              "ctxt": 0,
+              "value": "named",
+              "optional": true,
+              "typeAnnotation": null
+            },
+            "ty": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 86,
+                "end": 92
+              },
+              "kind": "string"
+            }
+          }
+        ]
+      }
     }
   ],
   "interpreter": null

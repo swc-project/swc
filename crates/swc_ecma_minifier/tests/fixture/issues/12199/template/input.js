@@ -14,9 +14,11 @@ function templateControl(x) {
     return [`${x}`, "a"].join("-");
 }
 
-console.log([
-    templateLeading("x"),
-    templateInterior("x"),
-    templateTrailing("x"),
-    templateControl("x"),
-].join("|"));
+console.log(
+    [
+        templateLeading("x"),
+        templateInterior("x"),
+        templateTrailing("x"),
+        templateControl("x"),
+    ].join("|")
+);

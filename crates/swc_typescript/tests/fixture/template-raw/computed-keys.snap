@@ -1,0 +1,10 @@
+```==================== .D.TS ====================
+
+export declare const keys: {
+    readonly ["A"]: 1;
+    readonly ["line\nbreak"]: 2;
+    readonly ["😀"]: 3;
+    readonly ["\uD800"]: 4;
+};
+
+

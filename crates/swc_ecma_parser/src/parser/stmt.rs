@@ -135,7 +135,8 @@ impl<I: Tokens> Parser<I> {
         let is_typescript =
             matches!(cur, Token::Bang | Token::Colon) && self.input().syntax().typescript();
 
-        let definite = if is_typescript {
+        // `!` cannot be a definite assignment assertion after a line break.
+        let definite = if is_typescript && !self.input().had_line_break_before_cur() {
             match name {
                 Pat::Ident(..) => self.input_mut().eat(Token::Bang),
                 _ => false,
@@ -393,6 +394,7 @@ impl<I: Tokens> Parser<I> {
         if cur == Token::Const
             || cur == Token::Var
             || (self.input().is(Token::Let)
+                && !self.input().has_escaped_keyword()
                 && peek!(self).map_or(false, |v| v.follows_keyword_let()))
         {
             let decl = self.parse_var_stmt(true)?;
@@ -474,7 +476,8 @@ impl<I: Tokens> Parser<I> {
             }
 
             if maybe_using_decl
-                && !self.input().is(Token::Of)
+                // Only synchronous `using` forbids `of` as a for-of binding name.
+                && (maybe_await_using_decl || !self.input().is(Token::Of))
                 && (peek!(self).is_some_and(|peek| peek == Token::Of || peek == Token::In))
             {
                 is_using_decl = maybe_using_decl;
@@ -1578,6 +1581,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn flow_match_parse_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        // Flow allows one optional leading pipe, including in nested patterns.
+        self.input_mut().eat(Token::Pipe);
         let mut pat = self.flow_match_parse_primary_pattern()?;
 
         while self.input_mut().eat(Token::Pipe) {
@@ -1915,17 +1920,23 @@ impl<I: Tokens> Parser<I> {
         }
 
         if cur == Token::Await && (include_decl || top_level) {
-            let handled_by_explicit_program =
-                top_level && self.program_parse_mode == ProgramParseMode::None;
+            let is_await_using = peek!(self).is_some_and(|peek| peek == Token::Using)
+                && !self.input_mut().has_linebreak_between_cur_and_peeked();
+
+            // In Script grammar, `await` can start an expression or a label.
+            // Only `await using` needs a statement-level context error.
+            let handled_by_explicit_program = top_level
+                && self.program_parse_mode == ProgramParseMode::None
+                && (self
+                    .ctx()
+                    .intersects(Context::Module.union(Context::CanBeModule))
+                    || is_await_using);
             if handled_by_explicit_program {
                 self.mark_found_module_item();
                 if !self.ctx().contains(Context::CanBeModule) {
                     self.emit_err(self.input().cur_span(), SyntaxError::TopLevelAwaitInScript);
                 }
             }
-
-            let is_await_using = peek!(self).is_some_and(|peek| peek == Token::Using)
-                && !self.input_mut().has_linebreak_between_cur_and_peeked();
 
             if is_await_using {
                 let eaten_await = Some(self.input().cur_pos());
@@ -2049,8 +2060,8 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::Var || (cur == Token::Const && include_decl) {
             let v = self.parse_var_stmt(false)?;
             return Ok(v.into());
-        } else if cur == Token::Let && include_decl {
-            // 'let' can start an identifier reference.
+        } else if cur == Token::Let && include_decl && !self.input().has_escaped_keyword() {
+            // Only an unescaped 'let' can introduce a lexical declaration.
             let is_keyword = match peek!(self) {
                 Some(t) => t.follows_keyword_let(),
                 _ => false,
@@ -2085,8 +2096,8 @@ impl<I: Tokens> Parser<I> {
             && is_typescript
             && self.input().syntax().typescript_allows_enum()
             && peek!(self).is_some_and(|peek| peek.is_word())
-            && !self.input_mut().has_linebreak_between_cur_and_peeked()
         {
+            // A line break before an enum name does not terminate the declaration.
             let start = self.input().cur_pos();
             self.bump();
             return Ok(self.parse_ts_enum_decl(start, false)?.into());

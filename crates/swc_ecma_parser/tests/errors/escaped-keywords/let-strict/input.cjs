@@ -1,0 +1,1 @@
+"use strict"; l\u0065t[x] = 1;

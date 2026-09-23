@@ -470,7 +470,7 @@
           "type": "ExportSpecifier",
           "span": {
             "start": 490,
-            "end": 494
+            "end": 504
           },
           "orig": {
             "type": "Identifier",

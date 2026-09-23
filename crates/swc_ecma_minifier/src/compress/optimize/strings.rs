@@ -228,8 +228,8 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8Atom) -> Atom {
                 _ => result.push(ch),
             }
         } else {
-            // Unparied surrogate, escape as \\uXXXX (two backslashes)
-            result.push_str(&format!("\\\\u{:04X}", code_point.to_u32()));
+            // Unpaired surrogates must remain Unicode escapes in a template raw value.
+            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
         }
     }
 

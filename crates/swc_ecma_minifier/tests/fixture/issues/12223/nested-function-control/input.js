@@ -4,16 +4,17 @@ function f() {
     } catch (e) {
         function g() {
             let a;
-            return a = 1;
+            return (a = 1);
         }
 
         const h = () => {
             let b;
-            return b = 2;
+            return (b = 2);
         };
 
         return g() + h();
-    } finally {}
+    } finally {
+    }
 }
 
 console.log(f());

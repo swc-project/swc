@@ -60,5 +60,5 @@ console.log(
     superDefault.m(),
     argumentsBody(1, 2),
     superBody.m(),
-    safeDefault.m(),
+    safeDefault.m()
 );

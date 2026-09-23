@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: break
+   ,-[$DIR/tests/errors/escaped-keywords/interface/input.ts:1:1]
+ 1 | interface br\u0065ak {}
+   :           ^^^^^^^^^^
+   `----

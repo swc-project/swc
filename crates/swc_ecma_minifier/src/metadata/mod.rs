@@ -14,11 +14,18 @@ use crate::{option::CompressOptions, usage_analyzer::marks::Marks};
 #[cfg(test)]
 mod tests;
 
+pub(crate) mod pure_annotations;
+
+use self::pure_annotations::PureAnnotations;
+
 /// This pass analyzes the comment and convert it to a mark.
+///
+/// Annotations that cannot be stored on the AST go to `annotations` instead.
 pub(crate) fn info_marker<'a>(
     options: Option<&'a CompressOptions>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
+    annotations: &'a mut PureAnnotations,
 ) -> impl 'a + VisitMut {
     let pure_funcs = options.map(|options| {
         options
@@ -34,6 +41,7 @@ pub(crate) fn info_marker<'a>(
         pure_funcs,
         state: Default::default(),
         pure_callee: Default::default(),
+        annotations,
     }
 }
 
@@ -51,6 +59,8 @@ struct InfoMarker<'a> {
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     state: State,
+
+    annotations: &'a mut PureAnnotations,
 }
 
 impl InfoMarker<'_> {
@@ -159,6 +169,37 @@ impl VisitMut for InfoMarker<'_> {
         });
 
         n.visit_mut_children_with(self);
+    }
+
+    /// Records `/*#__PURE__*/ obj.prop`.
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.visit_mut_children_with(self);
+
+        // A member expression shares `lo` with its object, so the annotation
+        // in `/*#__PURE__*/ x().y` belongs to the call, which already consumes
+        // it. Only claim it when the object cannot have taken it.
+        if n.obj.span().lo == n.span.lo && !matches!(&*n.obj, Expr::Ident(..) | Expr::This(..)) {
+            return;
+        }
+
+        if has_pure(self.comments, n.span) && !n.span.is_dummy_ignoring_cmt() {
+            self.annotations.insert(n.span.lo);
+        }
+    }
+
+    /// Records `const /*#__PURE__*/ { a } = obj`.
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        n.visit_mut_children_with(self);
+
+        let span = match n {
+            Pat::Object(p) => p.span,
+            Pat::Array(p) => p.span,
+            _ => return,
+        };
+
+        if has_pure(self.comments, span) && !span.is_dummy_ignoring_cmt() {
+            self.annotations.insert(span.lo);
+        }
     }
 
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {

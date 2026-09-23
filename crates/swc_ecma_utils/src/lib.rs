@@ -737,8 +737,9 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
+    #[deprecated(note = "please use `is_array` in `Expr` directly")]
     fn is_array_lit(&self) -> bool {
-        is_array_lit(self.as_expr())
+        self.as_expr().is_array()
     }
 
     /// Checks if `self` is `NaN`.
@@ -857,14 +858,14 @@ pub fn class_has_side_effect(expr_ctx: ExprCtx, c: &Class) -> bool {
                 }
 
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
             }
             ClassMember::PrivateProp(p) => {
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
@@ -2812,10 +2813,6 @@ fn is_str(expr: &Expr) -> bool {
     }
 }
 
-fn is_array_lit(expr: &Expr) -> bool {
-    matches!(*expr, Expr::Array(..))
-}
-
 fn is_nan(expr: &Expr) -> bool {
     match expr {
         Expr::Lit(Lit::Num(number)) => number.value.is_nan(),
@@ -3349,9 +3346,11 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             ..
         }) if &**length == "length" => match &**obj {
             Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
-            Expr::Ident(Ident { sym: arguments, .. }) if &**arguments == "arguments" => {
-                Known(Type::Num)
-            }
+            Expr::Ident(Ident {
+                sym: arguments,
+                ctxt,
+                ..
+            }) if &**arguments == "arguments" && *ctxt == ctx.unresolved_ctxt => Known(Type::Num),
             _ => Unknown,
         },
 
@@ -3424,9 +3423,9 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             Unknown
         }
 
-        Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
-            "undefined" => UndefinedType,
-            "NaN" | "Infinity" => NumberType,
+        Expr::Ident(Ident { sym, ctxt, .. }) => Known(match &**sym {
+            "undefined" if *ctxt == ctx.unresolved_ctxt => UndefinedType,
+            "NaN" | "Infinity" if *ctxt == ctx.unresolved_ctxt => NumberType,
             _ => return Unknown,
         }),
 

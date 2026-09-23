@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: break
+   ,-[$DIR/tests/errors/escaped-keywords/binding-default/input.js:1:1]
+ 1 | const { br\u0065ak = 42 } = {};
+   :         ^^^^^^^^^^
+   `----

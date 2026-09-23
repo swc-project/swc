@@ -19,6 +19,26 @@ impl<I: Tokens> Parser<I> {
         self.parse_block_body(allow_directives, end, handle_import_export)
     }
 
+    /// Parses attributes shared by imports and re-exports. Only the legacy
+    /// `assert` keyword has a no-line-terminator restriction before it.
+    fn parse_import_attributes(&mut self) -> PResult<Option<Box<ObjectLit>>> {
+        if !self.input().syntax().import_attributes() {
+            return Ok(None);
+        }
+
+        match self.input().cur() {
+            Token::With => {}
+            Token::Assert if !self.input().had_line_break_before_cur() => {}
+            _ => return Ok(None),
+        }
+        self.bump();
+
+        match self.parse_object_expr()? {
+            Expr::Object(v) => Ok(Some(Box::new(v))),
+            _ => unreachable!(),
+        }
+    }
+
     /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`
     fn parse_from_clause_and_semi(&mut self) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
         expect!(self, Token::From);
@@ -29,17 +49,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             unexpected!(self, "a string literal")
         };
-        let with = if self.input().syntax().import_attributes()
-            && !self.input().had_line_break_before_cur()
-            && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-        {
-            match self.parse_object_expr()? {
-                Expr::Object(v) => Some(Box::new(v)),
-                _ => unreachable!(),
-            }
-        } else {
-            None
-        };
+        let with = self.parse_import_attributes()?;
         self.expect_general_semi()?;
         Ok((src, with))
     }
@@ -58,61 +68,61 @@ impl<I: Tokens> Parser<I> {
                 // `export { type as }`
                 // `export { type as as }`
                 // `export { type as as as }`
+                // These names may also be string ModuleExportNames.
                 if self.syntax().typescript()
                     && orig_token == Token::Type
-                    && self.input().cur().is_word()
+                    && (self.input().cur().is_word() || self.input().cur() == Token::Str)
                 {
                     let possibly_orig_token = self.input().cur();
-                    let possibly_orig = self.parse_ident_name().map(Ident::from)?;
+                    let possibly_orig = self.parse_module_export_name()?;
                     if possibly_orig_token == Token::As {
                         // `export { type as }`
-                        if !self.input().cur().is_word() {
+                        if !(self.input().cur().is_word() || self.input().cur() == Token::Str) {
                             if type_only {
                                 self.emit_err(orig_ident.span, SyntaxError::TS2207);
                             }
 
                             return Ok(ExportNamedSpecifier {
                                 span: self.span(start),
-                                orig: ModuleExportName::Ident(possibly_orig),
+                                orig: possibly_orig,
                                 exported: None,
                                 is_type_only: true,
                             });
                         }
 
                         let maybe_as_token = self.input().cur();
-                        let maybe_as = self.parse_ident_name().map(Ident::from)?;
+                        let maybe_as = self.parse_module_export_name()?;
                         if maybe_as_token == Token::As {
-                            if self.input().cur().is_word() {
+                            if self.input().cur().is_word() || self.input().cur() == Token::Str {
                                 // `export { type as as as }`
                                 // `export { type as as foo }`
-                                let exported = self.parse_ident_name().map(Ident::from)?;
+                                let exported = self.parse_module_export_name()?;
 
                                 if type_only {
                                     self.emit_err(orig_ident.span, SyntaxError::TS2207);
                                 }
 
-                                debug_assert!(start <= orig_ident.span.hi());
                                 return Ok(ExportNamedSpecifier {
-                                    span: Span::new_with_checked(start, orig_ident.span.hi()),
-                                    orig: ModuleExportName::Ident(possibly_orig),
-                                    exported: Some(ModuleExportName::Ident(exported)),
+                                    span: self.span(start),
+                                    orig: possibly_orig,
+                                    exported: Some(exported),
                                     is_type_only: true,
                                 });
                             } else {
                                 // `export { type as as }`
                                 return Ok(ExportNamedSpecifier {
-                                    span: Span::new_with_checked(start, orig_ident.span.hi()),
+                                    span: self.span(start),
                                     orig: ModuleExportName::Ident(orig_ident),
-                                    exported: Some(ModuleExportName::Ident(maybe_as)),
+                                    exported: Some(maybe_as),
                                     is_type_only: false,
                                 });
                             }
                         } else {
                             // `export { type as xxx }`
                             return Ok(ExportNamedSpecifier {
-                                span: Span::new_with_checked(start, orig_ident.span.hi()),
+                                span: self.span(start),
                                 orig: ModuleExportName::Ident(orig_ident),
-                                exported: Some(ModuleExportName::Ident(maybe_as)),
+                                exported: Some(maybe_as),
                                 is_type_only: false,
                             });
                         }
@@ -124,7 +134,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         is_type_only = true;
-                        ModuleExportName::Ident(possibly_orig)
+                        possibly_orig
                     }
                 } else {
                     ModuleExportName::Ident(orig_ident)
@@ -161,6 +171,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self, type_only: bool) -> PResult<ImportSpecifier> {
+        let mut escaped_keyword_error = self.input().escaped_keyword_error();
         let start = self.cur_pos();
         let orig_token = self.input().cur();
         match self.parse_module_export_name()? {
@@ -181,10 +192,14 @@ impl<I: Tokens> Parser<I> {
                         && orig_token == Token::TypeOf
                         && self.input().cur().is_word()
                     {
+                        let escaped_keyword_error = self.input().escaped_keyword_error();
                         let imported = self.parse_module_export_name()?;
                         let local = if self.input_mut().eat(Token::As) {
                             self.parse_binding_ident(false)?.into()
                         } else {
+                            if let Some(error) = escaped_keyword_error {
+                                self.emit_error(error);
+                            }
                             match &imported {
                                 ModuleExportName::Ident(i) => i.clone(),
                                 ModuleExportName::Str(s) => {
@@ -250,6 +265,7 @@ impl<I: Tokens> Parser<I> {
 
                     if self.input().cur().is_word() {
                         let possibly_orig_token = self.input().cur();
+                        escaped_keyword_error = self.input().escaped_keyword_error();
                         let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
                         if possibly_orig_token == Token::As {
                             // `import { type as } from 'mod'`
@@ -334,6 +350,10 @@ impl<I: Tokens> Parser<I> {
                         imported: Some(ModuleExportName::Ident(orig_name)),
                         is_type_only,
                     }));
+                }
+
+                if let Some(error) = escaped_keyword_error {
+                    self.emit_error(error);
                 }
 
                 // Handle difference between
@@ -905,17 +925,7 @@ impl<I: Tokens> Parser<I> {
         if self.input().cur() == Token::Str {
             self.enter_import_module_context();
             let src = Box::new(self.parse_str_lit());
-            let with = if self.input().syntax().import_attributes()
-                && !self.input().had_line_break_before_cur()
-                && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-            {
-                match self.parse_object_expr()? {
-                    Expr::Object(v) => Some(Box::new(v)),
-                    _ => unreachable!(),
-                }
-            } else {
-                None
-            };
+            let with = self.parse_import_attributes()?;
             self.eat_general_semi();
             return Ok(ImportDecl {
                 span: self.span(start),
@@ -1073,17 +1083,7 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
-        let with = if self.input().syntax().import_attributes()
-            && !self.input().had_line_break_before_cur()
-            && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-        {
-            match self.parse_object_expr()? {
-                Expr::Object(v) => Some(Box::new(v)),
-                _ => unreachable!(),
-            }
-        } else {
-            None
-        };
+        let with = self.parse_import_attributes()?;
 
         self.expect_general_semi()?;
 

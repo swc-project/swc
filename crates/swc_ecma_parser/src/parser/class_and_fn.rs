@@ -10,7 +10,7 @@ use crate::{
     lexer::Token,
     parser::{
         state::State,
-        util::{IsInvalidClassName, IsSimpleParameterList},
+        util::{is_ts_ambient_initializer, IsInvalidClassName, IsSimpleParameterList},
     },
     Context, PResult, Parser,
 };
@@ -108,6 +108,22 @@ impl<I: Tokens> Parser<I> {
             self.parse_opt_binding_ident(disallow_let)
                 .map(|v| v.map(|v| v.id))
         }
+    }
+
+    /// Ambient function names, unlike ambient variables, may be `eval` or
+    /// `arguments` even in a strict-mode module.
+    fn parse_maybe_opt_function_ident(&mut self, required: bool) -> PResult<Option<Ident>> {
+        if self.syntax().typescript()
+            && !self.syntax().flow()
+            && self.ctx().contains(Context::InDeclare)
+            && self.input().is(Token::Ident)
+        {
+            let word = self.input().cur().take_word(self.input());
+            if word == atom!("eval") || word == atom!("arguments") {
+                return self.parse_ident(true, true).map(Some);
+            }
+        }
+        self.parse_maybe_opt_binding_ident(required, false)
     }
 
     fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
@@ -461,11 +477,15 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
-        if is_async {
-            self.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
-        } else {
-            self.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
-        }
+        // Ordinary functions and methods establish their own Await grammar
+        // parameter, including their parameter lists, inside static blocks.
+        self.do_outside_of_context(Context::InStaticBlock, |p| {
+            if is_async {
+                p.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
+            } else {
+                p.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
+            }
+        })
     }
 
     pub(crate) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
@@ -525,17 +545,17 @@ impl<I: Tokens> Parser<I> {
             let f_with_generator_context = |p: &mut Self| {
                 if is_generator {
                     p.do_inside_of_context(Context::InGenerator, |p| {
-                        p.parse_maybe_opt_binding_ident(is_ident_required, false)
+                        p.parse_maybe_opt_function_ident(is_ident_required)
                     })
                 } else {
                     p.do_outside_of_context(Context::InGenerator, |p| {
-                        p.parse_maybe_opt_binding_ident(is_ident_required, false)
+                        p.parse_maybe_opt_function_ident(is_ident_required)
                     })
                 }
             };
 
             self.do_outside_of_context(
-                Context::AllowDirectSuper.union(Context::InClassField),
+                Context::AllowDirectSuper | Context::InClassField | Context::InStaticBlock,
                 |p| {
                     if is_async {
                         p.do_inside_of_context(Context::InAsync, f_with_generator_context)
@@ -548,7 +568,7 @@ impl<I: Tokens> Parser<I> {
             // function declaration does not change context for `BindingIdentifier`.
             self.do_outside_of_context(
                 Context::AllowDirectSuper.union(Context::InClassField),
-                |p| p.parse_maybe_opt_binding_ident(is_ident_required, false),
+                |p| p.parse_maybe_opt_function_ident(is_ident_required),
             )?
         };
 
@@ -886,6 +906,21 @@ impl<I: Tokens> Parser<I> {
         if is_constructor(&key) {
             syntax_error!(self, key.span(), SyntaxError::PropertyNamedConstructor);
         }
+        if self.syntax().typescript() {
+            if let Some(span) = accessor_token {
+                if declare {
+                    self.emit_err(
+                        span,
+                        SyntaxError::TS1243(atom!("accessor"), atom!("declare")),
+                    );
+                } else if readonly {
+                    self.emit_err(
+                        span,
+                        SyntaxError::TS1243(atom!("accessor"), atom!("readonly")),
+                    );
+                }
+            }
+        }
         if key.is_private() {
             if declare && !self.syntax().flow() {
                 self.emit_err(
@@ -905,11 +940,16 @@ impl<I: Tokens> Parser<I> {
 
         let type_ann = self.try_parse_ts_type_ann()?;
 
-        self.do_inside_of_context(Context::IncludeInExpr.union(Context::InClassField), |p| {
-            // Class field initializers have their own Await grammar parameter and must
-            // not inherit the unambiguous Program probe's top-level async context.
+        self.do_inside_of_context(Context::IncludeInExpr | Context::InClassField, |p| {
+            // Instance field initializers do not inherit a static block's Await
+            // restriction. All fields clear the Program probe's async context.
+            let reset_context = if is_static {
+                Context::InAsync
+            } else {
+                Context::InAsync | Context::InStaticBlock
+            };
             let value = p.without_async_arrow_param_await_collection(|p| {
-                p.do_outside_of_context(Context::InAsync, |p| {
+                p.do_outside_of_context(reset_context, |p| {
                     if p.input().is(Token::Eq) {
                         p.assert_and_bump(Token::Eq);
                         p.parse_assignment_expr().map(Some)
@@ -919,8 +959,19 @@ impl<I: Tokens> Parser<I> {
                 })
             })?;
 
+            // Definite assertions forbid initializers even outside ambient declarations.
+            if definite && value.is_some() {
+                p.emit_err(p.span(start), SyntaxError::TS1263);
+            }
+
             if declare && value.is_some() {
-                p.emit_err(p.span(start), SyntaxError::TS1183);
+                let allowed = p.syntax().typescript()
+                    && readonly
+                    && type_ann.is_none()
+                    && value.as_deref().is_some_and(is_ts_ambient_initializer);
+                if !allowed {
+                    p.emit_err(p.span(start), SyntaxError::TS1183);
+                }
             }
 
             if p.syntax().flow() && p.ctx().contains(Context::InDeclare) && type_ann.is_none() {
@@ -953,6 +1004,12 @@ impl<I: Tokens> Parser<I> {
                 // ambiguous when the separator came from ASI. An explicit `;`
                 // or Flow `,` should keep the next computed field valid.
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
+            }
+
+            // Check both ordinary properties and auto-accessors before constructing the
+            // AST.
+            if is_abstract && value.is_some() {
+                p.emit_err(p.span(start), SyntaxError::TS1267);
             }
 
             if accessor_token.is_some() {
@@ -995,9 +1052,6 @@ impl<I: Tokens> Parser<I> {
                 }
                 Key::Public(key) => {
                     let span = p.span(start);
-                    if is_abstract && value.is_some() {
-                        p.emit_err(span, SyntaxError::TS1267)
-                    }
                     ClassProp {
                         span,
                         key,
@@ -1145,7 +1199,10 @@ impl<I: Tokens> Parser<I> {
             }
             return self.parse_static_block(start);
         }
-        if self.input().is(Token::Static) && peek!(self).is_some_and(|cur| cur == Token::LBrace) {
+        if self.input().is(Token::Static)
+            && !self.input().has_escaped_keyword()
+            && peek!(self).is_some_and(|cur| cur == Token::LBrace)
+        {
             // For "readonly", "abstract" and "override"
             if let Some(span) = modifier_span {
                 self.emit_err(span, SyntaxError::TS1184);
@@ -1190,16 +1247,25 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        // Static methods named `constructor` are ordinary methods in JavaScript
+        // and Flow. Preserve TypeScript's constructor classification so invalid
+        // constructor modifiers still produce the existing diagnostics.
+        let can_be_constructor =
+            static_token.is_none() || (self.syntax().typescript() && !self.syntax().flow());
+
         if self.input_mut().eat(Token::Asterisk) {
             // generator method
             let key = self.parse_class_prop_name()?;
+            // TypeScript permits the same optional marker on generator methods.
+            let is_optional =
+                self.input().syntax().typescript() && self.input_mut().eat(Token::QuestionMark);
             if let Some(variance_span) = flow_variance_span {
                 self.emit_err(variance_span, SyntaxError::TS1184);
             }
             if readonly.is_some() {
                 self.emit_err(self.span(start), SyntaxError::ReadOnlyMethod);
             }
-            if is_constructor(&key) && (!self.syntax().flow() || static_token.is_none()) {
+            if can_be_constructor && is_constructor(&key) {
                 self.emit_err(self.span(start), SyntaxError::GeneratorConstructor);
             }
 
@@ -1213,7 +1279,7 @@ impl<I: Tokens> Parser<I> {
                     accessibility,
                     is_abstract,
                     is_override,
-                    is_optional: false,
+                    is_optional,
                     static_token,
                     key,
                     kind: MethodKind::Method,
@@ -1269,8 +1335,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
                 }
             }
-            let is_constructor =
-                is_constructor(&key) && (!self.syntax().flow() || static_token.is_none());
+            let is_constructor = can_be_constructor && is_constructor(&key);
 
             if is_constructor {
                 if self.syntax().typescript() && is_override {
@@ -1299,13 +1364,23 @@ impl<I: Tokens> Parser<I> {
 
                 let prev_allow_super_call = self.allow_super_call();
                 self.set_allow_super_call(true);
-                let ctor_sig_and_body =
-                    (|| -> PResult<(Vec<ParamOrTsParamProp>, Option<FunctionBody>)> {
-                        expect!(self, Token::LParen);
-                        let params = self.parse_constructor_params()?;
-                        expect!(self, Token::RParen);
+                // Ordinary methods, including constructors, use [~Yield, ~Await] for
+                // UniqueFormalParameters and FunctionBody. Also clear enclosing field
+                // and static-block contexts so their await/arguments restrictions do
+                // not leak into constructor parameters or the body.
+                let ctor_sig_and_body = self.do_outside_of_context(
+                    Context::InAsync
+                        | Context::InGenerator
+                        | Context::InClassField
+                        | Context::InStaticBlock,
+                    |p| -> PResult<(Vec<ParamOrTsParamProp>, Option<FunctionBody>)> {
+                        expect!(p, Token::LParen);
+                        let params = p.without_async_arrow_param_await_collection(
+                            Self::parse_constructor_params,
+                        )?;
+                        expect!(p, Token::RParen);
 
-                        if self.syntax().flow() {
+                        if p.syntax().flow() {
                             for param in &params {
                                 if let ParamOrTsParamProp::Param(Param {
                                     pat: Pat::Ident(ident),
@@ -1313,23 +1388,23 @@ impl<I: Tokens> Parser<I> {
                                 }) = param
                                 {
                                     if ident.id.sym == *"this" {
-                                        self.emit_err(ident.id.span, SyntaxError::TS1003);
+                                        p.emit_err(ident.id.span, SyntaxError::TS1003);
                                     }
                                 }
                             }
                         }
 
-                        if self.syntax().typescript() && self.input().is(Token::Colon) {
-                            let start = self.cur_pos();
-                            let type_ann = self.parse_ts_type_ann(true, start)?;
+                        if p.syntax().typescript() && p.input().is(Token::Colon) {
+                            let start = p.cur_pos();
+                            let type_ann = p.parse_ts_type_ann(true, start)?;
 
                             // Flow allows return type annotations on constructors.
-                            if !self.syntax().flow() {
-                                self.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                            if !p.syntax().flow() {
+                                p.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
                             }
                         }
 
-                        let body = self.parse_fn_block_body(
+                        let body = p.parse_fn_block_body(
                             false,
                             false,
                             false,
@@ -1337,7 +1412,8 @@ impl<I: Tokens> Parser<I> {
                         )?;
 
                         Ok((params, body))
-                    })();
+                    },
+                );
                 self.set_allow_super_call(prev_allow_super_call);
                 let (params, body) = ctor_sig_and_body?;
 
@@ -1467,7 +1543,7 @@ impl<I: Tokens> Parser<I> {
 
             let is_generator = self.input_mut().eat(Token::Asterisk);
             let key = self.parse_class_prop_name()?;
-            if is_constructor(&key) && (!self.syntax().flow() || static_token.is_none()) {
+            if can_be_constructor && is_constructor(&key) {
                 syntax_error!(self, key.span(), SyntaxError::AsyncConstructor)
             }
             if readonly.is_some() {
@@ -1512,7 +1588,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(key_span, SyntaxError::TS1003);
             }
 
-            if is_constructor(&key) && (!self.syntax().flow() || static_token.is_none()) {
+            if can_be_constructor && is_constructor(&key) {
                 self.emit_err(key_span, SyntaxError::ConstructorAccessor);
             }
 
@@ -1662,8 +1738,12 @@ impl<I: Tokens> Parser<I> {
 
         let static_token = {
             let start = self.cur_pos();
-            if self.input_mut().eat(Token::Static) {
-                Some(self.span(start))
+            // Escaped keywords are property names, never modifiers. In particular,
+            // an escaped `static` followed by a line break must allow field ASI.
+            if self.input().is(Token::Static) && !self.input().has_escaped_keyword() {
+                self.bump();
+                let span = self.span(start);
+                Some(span)
             } else {
                 None
             }
@@ -1788,8 +1868,6 @@ impl<I: Tokens> Parser<I> {
                         false,
                     );
                 }
-            } else {
-                // TODO: error if static contains escape
             }
         }
 
@@ -1935,6 +2013,7 @@ impl<I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
         is_ident_required: bool,
     ) -> PResult<(Option<Ident>, Box<Class>)> {
+        let outer_ctx = self.ctx();
         self.strict_mode(|p| {
             expect!(p, Token::Class);
 
@@ -2037,6 +2116,9 @@ impl<I: Tokens> Parser<I> {
                 p.do_outside_of_context(Context::HasSuperClass, Self::parse_class_body)?
             };
 
+            // Consuming `}` also lexes the next token, which belongs to the enclosing
+            // scope and must not inherit the class's strict mode.
+            p.set_ctx(outer_ctx);
             if p.input().cur() == Token::Eof {
                 let eof_text = p.input_mut().dump_cur();
                 p.emit_err(

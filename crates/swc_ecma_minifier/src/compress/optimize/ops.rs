@@ -42,7 +42,7 @@ impl Optimizer<'_> {
         if e.op == op!("===") || e.op == op!("!==") {
             if (e.left.is_ident() || e.left.is_member())
                 && e.left.eq_ignore_span(&e.right)
-                && !contains_update_or_assign(&e.left)
+                && is_stable_for_repeated_evaluation(&e.left)
             {
                 self.changed = true;
                 report_change!("Reducing comparison of same variable ({})", e.op);
@@ -304,71 +304,30 @@ impl Optimizer<'_> {
     }
 }
 
-/// Check if an expression contains update expressions (++, --) or assignments
-/// that would make duplicate evaluations produce different results.
-fn contains_update_or_assign(expr: &Expr) -> bool {
+/// Check whether evaluating an expression again is safe for the structural
+/// equality optimization.
+///
+/// Calls can produce a different value on each evaluation even if neither the
+/// callee nor its arguments contain an update or assignment. Restrict this to
+/// stable identifier and member accesses instead of attempting to enumerate
+/// every expression that may change between evaluations.
+fn is_stable_for_repeated_evaluation(expr: &Expr) -> bool {
     match expr {
-        Expr::Update(..) | Expr::Assign(..) => true,
-
-        Expr::Bin(BinExpr { left, right, .. }) => {
-            contains_update_or_assign(left) || contains_update_or_assign(right)
-        }
-
-        Expr::Unary(UnaryExpr { arg, .. }) => contains_update_or_assign(arg),
-
-        Expr::Cond(CondExpr {
-            test, cons, alt, ..
-        }) => {
-            contains_update_or_assign(test)
-                || contains_update_or_assign(cons)
-                || contains_update_or_assign(alt)
-        }
+        Expr::Ident(..)
+        | Expr::This(..)
+        | Expr::Lit(
+            Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::Num(..) | Lit::BigInt(..),
+        ) => true,
 
         Expr::Member(MemberExpr { obj, prop, .. }) => {
-            contains_update_or_assign(obj)
-                || match prop {
+            is_stable_for_repeated_evaluation(obj)
+                && match prop {
                     MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                        contains_update_or_assign(expr)
+                        is_stable_for_repeated_evaluation(expr)
                     }
-                    _ => false,
+                    _ => true,
                 }
         }
-
-        Expr::Call(CallExpr {
-            callee: Callee::Expr(callee),
-            args,
-            ..
-        }) => {
-            contains_update_or_assign(callee)
-                || args.iter().any(|arg| contains_update_or_assign(&arg.expr))
-        }
-
-        Expr::Seq(SeqExpr { exprs, .. }) => {
-            exprs.iter().any(|expr| contains_update_or_assign(expr))
-        }
-
-        Expr::Paren(ParenExpr { expr, .. }) => contains_update_or_assign(expr),
-
-        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
-            OptChainBase::Member(member) => {
-                contains_update_or_assign(&member.obj)
-                    || match &member.prop {
-                        MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                            contains_update_or_assign(expr)
-                        }
-                        _ => false,
-                    }
-            }
-            OptChainBase::Call(call) => {
-                contains_update_or_assign(&call.callee)
-                    || call
-                        .args
-                        .iter()
-                        .any(|arg| contains_update_or_assign(&arg.expr))
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => false,
-        },
 
         _ => false,
     }

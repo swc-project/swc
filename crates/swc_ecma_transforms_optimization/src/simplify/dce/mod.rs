@@ -40,6 +40,8 @@ pub fn dce(
         in_fn: false,
         in_non_top_level_lexical_scope: false,
         var_decl_kind: None,
+        cur_fn_id: None,
+        cur_class_id: None,
         data: Default::default(),
     })
 }
@@ -86,6 +88,13 @@ struct TreeShaker {
     in_fn: bool,
     in_non_top_level_lexical_scope: bool,
     var_decl_kind: Option<VarDeclKind>,
+
+    /// Innermost enclosing named function / class, tracked exactly like the
+    /// [Analyzer] does: references to these from inside their own body are
+    /// self-references, which the analyzer never counts, so the [Dropper]
+    /// must not subtract them either.
+    cur_fn_id: Option<Id>,
+    cur_class_id: Option<Id>,
 
     data: Data,
 }
@@ -238,11 +247,18 @@ impl Data {
 
 /// Graph modification
 impl Data {
-    fn drop_ast_node<N>(&mut self, node: &N)
+    /// `cur_fn_id` / `cur_class_id` are the innermost named function / class
+    /// enclosing `node`, so that self-references (which [Analyzer::add] never
+    /// counted) are not subtracted here.
+    fn drop_ast_node<N>(&mut self, node: &N, cur_fn_id: Option<Id>, cur_class_id: Option<Id>)
     where
         N: for<'aa> VisitWith<Dropper<'aa>>,
     {
-        let mut dropper = Dropper { data: self };
+        let mut dropper = Dropper {
+            data: self,
+            cur_fn_id,
+            cur_class_id,
+        };
 
         node.visit_with(&mut dropper);
     }
@@ -250,6 +266,16 @@ impl Data {
 
 struct Dropper<'a> {
     data: &'a mut Data,
+    /// Mirrors [Analyzer::cur_fn_id].
+    cur_fn_id: Option<Id>,
+    /// Mirrors [Analyzer::cur_class_id].
+    cur_class_id: Option<Id>,
+}
+
+impl Dropper<'_> {
+    fn is_self_ref(&self, id: &Id) -> bool {
+        self.cur_fn_id.as_ref() == Some(id) || self.cur_class_id.as_ref() == Some(id)
+    }
 }
 
 impl<'a> Visit for Dropper<'a> {
@@ -262,22 +288,35 @@ impl<'a> Visit for Dropper<'a> {
     }
 
     fn visit_class_decl(&mut self, node: &ClassDecl) {
-        node.visit_children_with(self);
+        // Same shape as `Analyzer::visit_class_decl`: the superclass is
+        // visited outside the class's own binding, the body inside it.
+        node.class.super_class.visit_with(self);
+
+        let old = self.cur_class_id.replace(node.ident.to_id());
+        node.class.decorators.visit_with(self);
+        node.class.body.visit_with(self);
+        self.cur_class_id = old;
 
         self.data.drop_assign(&node.ident.to_id());
     }
 
     fn visit_class_expr(&mut self, node: &ClassExpr) {
-        node.visit_children_with(self);
-
         if let Some(i) = &node.ident {
+            let old = self.cur_class_id.replace(i.to_id());
+            node.visit_children_with(self);
+            self.cur_class_id = old;
+
             self.data.drop_assign(&i.to_id());
+        } else {
+            node.visit_children_with(self);
         }
     }
 
     fn visit_expr(&mut self, expr: &Expr) {
         if let Expr::Ident(i) = expr {
-            self.data.drop_usage(&i.to_id());
+            if !self.is_self_ref(&i.to_id()) {
+                self.data.drop_usage(&i.to_id());
+            }
             return;
         }
 
@@ -285,16 +324,22 @@ impl<'a> Visit for Dropper<'a> {
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
+        let old = self.cur_fn_id.replace(node.ident.to_id());
         node.visit_children_with(self);
+        self.cur_fn_id = old;
 
         self.data.drop_assign(&node.ident.to_id());
     }
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {
-        node.visit_children_with(self);
-
         if let Some(i) = &node.ident {
+            let old = self.cur_fn_id.replace(i.to_id());
+            node.visit_children_with(self);
+            self.cur_fn_id = old;
+
             self.data.drop_assign(&i.to_id());
+        } else {
+            node.visit_children_with(self);
         }
     }
 }
@@ -872,6 +917,14 @@ impl Repeated for TreeShaker {
 }
 
 impl TreeShaker {
+    fn drop_ast_node<N>(&mut self, node: &N)
+    where
+        N: for<'aa> VisitWith<Dropper<'aa>>,
+    {
+        self.data
+            .drop_ast_node(node, self.cur_fn_id.clone(), self.cur_class_id.clone());
+    }
+
     fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
@@ -959,14 +1012,14 @@ impl TreeShaker {
         };
 
         if b.op == op!("&&") && b.left.as_pure_bool(self.expr_ctx) == Known(false) {
-            self.data.drop_ast_node(&b.right);
+            self.drop_ast_node(&b.right);
             *n = *b.left.take();
             self.changed = true;
             return;
         }
 
         if b.op == op!("||") && b.left.as_pure_bool(self.expr_ctx) == Known(true) {
-            self.data.drop_ast_node(&b.right);
+            self.drop_ast_node(&b.right);
             *n = *b.left.take();
             self.changed = true;
         }
@@ -1038,7 +1091,7 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
                 #[cfg(debug_assertions)]
                 debug!("Dropping an assignment to `{}` because it's not used", id);
-                self.data.drop_ast_node(&n.left);
+                self.drop_ast_node(&n.left);
 
                 n.left.take();
             }
@@ -1066,6 +1119,27 @@ impl VisitMut for TreeShaker {
         self.in_fn = old_in_fn;
     }
 
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        // Same shape as `Analyzer::visit_class_decl`: the superclass is
+        // visited outside the class's own binding, the body inside it.
+        n.class.super_class.visit_mut_with(self);
+
+        let old = self.cur_class_id.replace(n.ident.to_id());
+        n.class.decorators.visit_mut_with(self);
+        n.class.body.visit_mut_with(self);
+        self.cur_class_id = old;
+    }
+
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        if let Some(i) = &n.ident {
+            let old = self.cur_class_id.replace(i.to_id());
+            n.visit_mut_children_with(self);
+            self.cur_class_id = old;
+        } else {
+            n.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
         self.visit_mut_par(cpu_count() * 8, members);
     }
@@ -1079,7 +1153,7 @@ impl VisitMut for TreeShaker {
                 debug!("Dropping function `{}` as it's not used", f.ident);
                 self.changed = true;
 
-                self.data.drop_ast_node(&*f);
+                self.drop_ast_node(&*f);
 
                 n.take();
             }
@@ -1091,7 +1165,7 @@ impl VisitMut for TreeShaker {
                 debug!("Dropping class `{}` as it's not used", c.ident);
                 self.changed = true;
 
-                self.data.drop_ast_node(&*c);
+                self.drop_ast_node(&*c);
                 n.take();
             }
             _ => {}
@@ -1184,6 +1258,22 @@ impl VisitMut for TreeShaker {
 
         if !n.is_invalid() {
             debug_assert_valid(n);
+        }
+    }
+
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        let old = self.cur_fn_id.replace(n.ident.to_id());
+        n.visit_mut_children_with(self);
+        self.cur_fn_id = old;
+    }
+
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        if let Some(i) = &n.ident {
+            let old = self.cur_fn_id.replace(i.to_id());
+            n.visit_mut_children_with(self);
+            self.cur_fn_id = old;
+        } else {
+            n.visit_mut_children_with(self);
         }
     }
 
@@ -1442,7 +1532,7 @@ impl VisitMut for TreeShaker {
                 })
             {
                 for decl in v.decls.iter() {
-                    self.data.drop_ast_node(&decl.name);
+                    self.drop_ast_node(&decl.name);
                 }
 
                 let exprs = v
@@ -1536,7 +1626,7 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
                 #[cfg(debug_assertions)]
                 debug!("Dropping {} because it's not used", i);
-                self.data.drop_ast_node(&*v);
+                self.drop_ast_node(&*v);
                 v.name.take();
             }
         }

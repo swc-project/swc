@@ -1,7 +1,10 @@
-use swc_ecma_ast::Pass;
+use std::path::PathBuf;
+
+use swc_ecma_ast::{Expr, Pass};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2015::template_literal;
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 fn syntax() -> Syntax {
     Default::default()
@@ -839,3 +842,29 @@ var undefined = 4;
 tag`\01`;
 }"
 );
+
+/// Models plugins that synthesize ordinary templates with only raw text.
+struct ClearCooked;
+
+impl VisitMut for ClearCooked {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
+        if let Expr::Tpl(tpl) = expr {
+            for quasi in &mut tpl.quasis {
+                quasi.cooked = None;
+            }
+        }
+    }
+}
+
+#[testing::fixture("tests/template-literals/missing-cooked/**/input.js")]
+fn missing_cooked(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+    test_fixture(
+        syntax(),
+        &|_| (visit_mut_pass(ClearCooked), tr(Default::default())),
+        &input,
+        &output,
+        Default::default(),
+    );
+}

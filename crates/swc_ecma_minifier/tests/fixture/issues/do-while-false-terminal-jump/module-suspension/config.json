@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "module": true,
+    "loops": true,
+    "passes": 1
+}

@@ -49,7 +49,7 @@ pub use crate::pass::global_defs::globals_defs;
 use crate::usage_analyzer::marks::Marks;
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
-    metadata::info_marker,
+    metadata::{info_marker, pure_annotations::PureAnnotations},
     mode::Minification,
     option::{CompressOptions, ExtraOptions, MinifyOptions},
     pass::{
@@ -120,15 +120,21 @@ pub fn optimize(
         }
     }
 
+    // Pure annotations on nodes that cannot carry a `SyntaxContext` mark.
+    // Collected once here and read by the passes below.
+    let mut pure_annotations = PureAnnotations::default();
+
     if options.compress.is_some() {
         n.visit_mut_with(&mut info_marker(
             options.compress.as_ref(),
             comments,
             marks,
+            &mut pure_annotations,
             // extra.unresolved_mark,
         ));
         debug_assert_valid(&n);
     }
+    let pure_annotations = &pure_annotations;
 
     if options.wrap {
         // TODO: wrap_common_js
@@ -159,6 +165,7 @@ pub fn optimize(
                 marks,
                 c,
                 options.mangle.as_ref(),
+                pure_annotations,
                 &Minification,
             ));
 
@@ -172,6 +179,7 @@ pub fn optimize(
         n.visit_mut_with(&mut pure_optimizer(
             c,
             marks,
+            pure_annotations,
             PureOptimizerConfig {
                 enable_join_vars: true,
             },

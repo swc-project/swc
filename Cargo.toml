@@ -5,6 +5,7 @@ members = [
   "crates/*",
   "tools/generate-code",
   "tools/swc-releaser",
+  "tools/swc-native-addon-pack",
 ]
 resolver = "2"
 
@@ -29,7 +30,7 @@ backtrace                 = "0.3"
 base64                    = "0.22.1"
 bitflags                  = "2.5.0"
 blake3                    = "1.5.4"
-browserslist-rs           = "0.20.0"
+browserslist-rs           = { version = "0.21.2", features = ["deflate"] }
 bumpalo                   = "3.16.0"
 bytes-str                 = "0.2.5"
 cargo_metadata            = "0.18.1"

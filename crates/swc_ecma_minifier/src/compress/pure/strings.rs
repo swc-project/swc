@@ -708,10 +708,12 @@ mod tests {
                 ecma,
                 ..Default::default()
             };
+            let pure_annotations = Default::default();
 
             let mut optimizer = pure_optimizer(
                 &compress_options,
                 marks,
+                &pure_annotations,
                 PureOptimizerConfig {
                     enable_join_vars: false,
                 },

@@ -208,7 +208,7 @@
                     };
                     eo(S), V.current = S;
                 }, ei = (m)=>{
-                    ee(), y;
+                    ee(), y && ((m = y)=>{})();
                 }, ea = (S)=>{
                     var h;
                     [

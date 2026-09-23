@@ -778,7 +778,7 @@ impl Lexer<'_> {
             *start = self.input.cur_pos();
         };
 
-        if self.input.last_pos() == self.input.end_pos() {
+        if self.input.as_str().is_empty() {
             // End of input.
             self.consume_pending_comments();
             return Ok(Token::Eof);
