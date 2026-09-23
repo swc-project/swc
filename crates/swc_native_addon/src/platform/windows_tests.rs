@@ -49,7 +49,7 @@ fn ancestor_acl_fixtures() {
         if fields[0] == "allow" {
             result.unwrap_or_else(|error| panic!("{line}: {error}"));
         } else {
-            let message = result.unwrap_err().to_string();
+            let message = result.expect_err(line).to_string();
             assert!(message.contains(&path.display().to_string()), "{message}");
             assert!(message.contains(fields[2]), "{message}");
         }

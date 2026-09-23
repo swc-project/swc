@@ -51,8 +51,8 @@ impl CacheMode {
 }
 
 /// Owns staging cleanup and cache coordination until loading has succeeded.
-/// On Windows the cleanup handle is armed only after the image loader has
-/// opened the DLL, then outlives every use of that DLL.
+/// On Windows the cleanup handle is armed before the image loader opens the
+/// DLL, then outlives every use of that DLL.
 pub struct Materialized {
     path: PathBuf,
     temporary: bool,

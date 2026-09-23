@@ -10,4 +10,5 @@ deny|O:SYD:P(A;;GA;;;WD)|S-1-1-0
 deny|O:SYD:P(A;OICIID;GW;;;BU)|S-1-5-32-545
 deny|O:SYD:P(A;;WD;;;AU)|S-1-5-11
 deny|O:SYD:P(A;;WO;;;WD)|S-1-1-0
-deny|O:SYD:P(A;;DC;;;WD)|S-1-1-0
+# SDDL DC is the directory-service right 0x2; FILE_DELETE_CHILD is 0x40.
+deny|O:SYD:P(A;;0x40;;;WD)|S-1-1-0
