@@ -26,9 +26,7 @@ function sideEffect() {
 function sideEffectWithoutFinally() {
     try {
         throw 0;
-    } catch (error) {
-        return sideEffect();
-    }
+    } catch (error) {}
     return sideEffect();
 }
 function safeWithoutFinally() {

@@ -883,11 +883,13 @@ impl Optimizer<'_> {
                         }
                         Mergable::FnDecl(..) => continue,
                         Mergable::Drop => {
-                            if self.drop_mergable_seq(a)? {
-                                changed = true;
-                                merge_seq_cache.invalidate(a_idx);
-                                merge_seq_cache.invalidate(b_idx);
-                                break;
+                            if let Mergable::Expr(a) = a {
+                                if self.optimize_last_expr_before_termination(a) {
+                                    changed = true;
+                                    merge_seq_cache.invalidate(a_idx);
+                                    merge_seq_cache.invalidate(b_idx);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -1040,16 +1042,6 @@ impl Optimizer<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
-    }
-
-    fn drop_mergable_seq(&mut self, a: &mut Mergable) -> Result<bool, ()> {
-        if let Mergable::Expr(a) = a {
-            if self.optimize_last_expr_before_termination(a) {
-                return Ok(true);
-            }
-        }
-
-        Ok(false)
     }
 
     fn is_simple_assign_target_skippable_for_seq(

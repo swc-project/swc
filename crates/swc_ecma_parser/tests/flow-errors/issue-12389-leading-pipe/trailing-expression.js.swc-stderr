@@ -1,0 +1,7 @@
+  x Unexpected token `=>`. Expected a pattern
+   ,-[$DIR/tests/flow-errors/issue-12389-leading-pipe/trailing-expression.js:3:1]
+ 2 | const result = match (kind) {
+ 3 |   | 'start' | => true,
+   :               ^^
+ 4 | };
+   `----

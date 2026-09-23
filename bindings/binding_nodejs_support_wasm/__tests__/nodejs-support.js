@@ -27,6 +27,8 @@ describe("@swc/nodejs-support-wasm", () => {
         expect(typeof nodejsSupport.getFirstExpression).toBe("function");
         expect(typeof nodejsSupport.isValidSyntax).toBe("function");
         expect(typeof nodejsSupport.isRecoverableError).toBe("function");
+        expect(typeof nodejsSupport.tokenize).toBe("function");
+        expect(typeof nodejsSupport.findTopLevelAwaits).toBe("function");
         expect(nodejsSupport.nodejs).toBeUndefined();
         expect(nodejsSupport.__nodejsTransformModuleSyntax).toBeUndefined();
     });
@@ -61,10 +63,9 @@ describe("@swc/nodejs-support-wasm", () => {
         expect(
             nodejsSupport.transformModuleSyntax(`import fs from "node:fs";`)
         ).toEqual({
-            code: `const __nodeREPLImport0 = await ${validatedImport(
-                "node:fs",
-                ["default"]
-            )};`,
+            code: `const { default: fs } = await ${validatedImport("node:fs", [
+                "default",
+            ])};`,
             hadModuleSyntax: true,
         });
 
@@ -73,10 +74,9 @@ describe("@swc/nodejs-support-wasm", () => {
                 `import { readFile as rf } from "node:fs";\nrf();`
             )
         ).toEqual({
-            code: `const __nodeREPLImport0 = await ${validatedImport(
-                "node:fs",
-                ["readFile"]
-            )};\n__nodeREPLImport0.readFile();`,
+            code: `const { readFile: rf } = await ${validatedImport("node:fs", [
+                "readFile",
+            ])};\nrf();`,
             hadModuleSyntax: true,
         });
 
@@ -157,6 +157,11 @@ describe("@swc/nodejs-support-wasm", () => {
             "export declare function transformModuleSyntax"
         );
         expect(types).toContain("export interface ModuleSyntaxTransformOutput");
+        expect(types).toContain("export declare function tokenize");
+        expect(types).toContain("export declare function findTopLevelAwaits");
+        expect(types).toContain("export interface Token");
+        expect(types).toContain("export type TokenKind");
+        expect(types).toContain("export interface TopLevelAwaitLocation");
         expect(types).not.toContain("namespace nodejs");
         expect(types).not.toContain("__nodejsTransformModuleSyntax");
     });

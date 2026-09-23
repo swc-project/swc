@@ -1,0 +1,105 @@
+[
+    {
+        "source": "await (await a); { await b; }",
+        "expected": [
+            {
+                "line": 1,
+                "column": 0
+            },
+            {
+                "line": 1,
+                "column": 7
+            },
+            {
+                "line": 1,
+                "column": 19
+            }
+        ]
+    },
+    {
+        "source": "for await (const x of await xs) { await x; }",
+        "expected": [
+            {
+                "line": 1,
+                "column": 0
+            },
+            {
+                "line": 1,
+                "column": 22
+            },
+            {
+                "line": 1,
+                "column": 34
+            }
+        ]
+    },
+    {
+        "source": "await using resource = await acquire();",
+        "expected": [
+            {
+                "line": 1,
+                "column": 0
+            },
+            {
+                "line": 1,
+                "column": 23
+            }
+        ]
+    },
+    {
+        "source": "async function f() { await hidden; } const g = async () => await hidden; await visible;",
+        "expected": [
+            {
+                "line": 1,
+                "column": 73
+            }
+        ]
+    },
+    {
+        "source": "class C extends (await base) { [await key]() {} async method() { await hidden; } }",
+        "expected": [
+            {
+                "line": 1,
+                "column": 17
+            },
+            {
+                "line": 1,
+                "column": 32
+            }
+        ]
+    },
+    {
+        "source": "const obj = { [await key]: 1, async method() { await hidden; } };",
+        "expected": [
+            {
+                "line": 1,
+                "column": 15
+            }
+        ]
+    },
+    {
+        "source": "const x: number = await value;",
+        "expected": [
+            {
+                "line": 1,
+                "column": 18
+            }
+        ]
+    },
+    {
+        "source": "await",
+        "expected": []
+    },
+    {
+        "source": "const x = ; await value;",
+        "expected": []
+    },
+    {
+        "source": "const x = \"await\"; /await/; // await",
+        "expected": []
+    },
+    {
+        "source": "",
+        "expected": []
+    }
+]

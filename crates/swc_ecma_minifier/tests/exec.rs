@@ -12742,3 +12742,80 @@ fn issue_12213_object_keys_with_modified_globals() {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn issue_12397_hoist_props_destructuring_member_targets() {
+    run_default_exec_test(
+        r#"
+        const a = { n: 1 };
+        [a.n] = [2];
+        console.log(a.n);
+
+        var b = { n: 1 };
+        [b.n] = [2];
+        console.log(b.n);
+
+        (function () {
+            const c = { n: 1 };
+            [c.n] = [2];
+            console.log(c.n);
+        })();
+
+        const d = { n: 1 };
+        ({ x: d.n } = { x: 2 });
+        console.log(d.n);
+
+        const e = { a: { x: 0 }, b: { y: 0 } };
+        [e.a.x, e.b.y] = [10, 20];
+        console.log(e.a.x, e.b.y);
+
+        const f = { flag: false };
+        [f.flag] = [true];
+        console.log(f.flag);
+
+        const g = { n: 1 };
+        [g.n = 3] = [];
+        console.log(g.n);
+
+        const h = { n: 1 };
+        [...h.n] = [4, 5];
+        console.log(h.n);
+
+        const i = { n: 1 };
+        for ([i.n] of [[6]]);
+        console.log(i.n);
+        "#,
+    );
+}
+
+#[test]
+fn issue_12400_fn_decl_self_ref_in_unused_local() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            function handler() {
+                var self = handler;
+                console.log("called");
+            }
+            setTimeout(handler, 0);
+        })();
+        "#,
+    );
+}
+
+#[test]
+fn issue_12400_class_decl_self_ref_in_unused_local() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            class Widget {
+                render() {
+                    var self = Widget;
+                    console.log("rendered");
+                }
+            }
+            setTimeout(function () { new Widget().render(); }, 0);
+        })();
+        "#,
+    );
+}
