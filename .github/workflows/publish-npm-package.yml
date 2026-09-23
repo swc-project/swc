@@ -43,6 +43,11 @@ on:
       skipPublishing:
         type: boolean
         required: true
+      sourceRef:
+        description: "Exact source commit for verification only; requires skipPublishing"
+        type: string
+        required: false
+        default: ""
 
 jobs:
   check-if-build-required:
@@ -50,11 +55,21 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    # Run only on main branch
-    if: github.ref == 'refs/heads/main'
+    # Publishing remains on main; verification can exercise an untagged fix.
+    if: github.ref == 'refs/heads/main' || inputs.skipPublishing || inputs.sourceRef != ''
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
+      - name: Validate verification source
+        env:
+          SOURCE_REF: ${{ inputs.sourceRef }}
+          SKIP_PUBLISHING: ${{ inputs.skipPublishing }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$SOURCE_REF" ]]; then
+            [[ "$SKIP_PUBLISHING" == "true" ]] || { echo "sourceRef requires skipPublishing: true" >&2; exit 1; }
+            [[ "$SOURCE_REF" =~ ^[0-9a-f]{40}$ ]] || { echo "sourceRef must be an exact commit SHA" >&2; exit 1; }
+          fi
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
@@ -302,7 +317,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - name: Corepack
@@ -311,6 +326,7 @@ jobs:
       - name: Setup node x64
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: 20
           architecture: x64
       - name: Output toolchain
@@ -345,6 +361,7 @@ jobs:
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
+          package-manager-cache: false
           node-version: 20
           architecture: x86
       - name: Build in docker
@@ -447,7 +464,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - uses: ./.github/actions/setup-node
@@ -545,7 +562,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - run: corepack enable
@@ -553,6 +570,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.settings.architecture }}
       - name: Install dependencies
@@ -625,7 +643,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - name: Corepack
@@ -633,6 +651,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: corepack enable && pnpm install --frozen-lockfile
@@ -742,7 +761,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - run: corepack enable
@@ -750,6 +769,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: |
@@ -858,7 +878,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
       - uses: ./.github/actions/setup-node
         with:
@@ -886,6 +906,7 @@ jobs:
         run: pnpm build:ts
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: ${{ matrix.settings.node }}
           architecture: x64
       - name: Test minimum runtime through both package layouts
@@ -916,10 +937,11 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: "20"
       - uses: ./.github/actions/native-tools
       - name: Verify private crates and native registration
@@ -968,9 +990,10 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: "20"
       - uses: ./.github/actions/native-tools
       - name: Download all prepared packages
@@ -1009,9 +1032,10 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: "24"
       - name: Update npm for trusted publishing
         run: npm install -g npm@latest
@@ -1091,7 +1115,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - name: Corepack
@@ -1110,6 +1134,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: 24
 
       - name: Install node dependencies

@@ -20,6 +20,11 @@ import {
     writeJson,
 } from "./common.mjs";
 import { validateReport } from "./contracts.mjs";
+import {
+    createMeasurementCache,
+    measureLoads,
+    validateMeasurements,
+} from "./measurements.mjs";
 
 const [product, target, output, mode = "runtime"] = process.argv.slice(2);
 if (!output || !["runtime", "minimum"].includes(mode))
@@ -80,9 +85,7 @@ function variant(name, addon, holdCarrier = false) {
     return { entry: join(directory, "index.js"), addon: destination };
 }
 
-function median(values) {
-    return [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
-}
+let cacheRoot;
 
 try {
     const carrier = variant("carrier", original, true);
@@ -148,28 +151,18 @@ try {
             baseline.exports,
             "carrier changed N-API exports"
         );
-        const rawMs = [],
-            coldMs = [],
-            warmMs = [];
-        const warmCache = join(stage, "warm-cache");
-        smoke(carrier.entry, carrier.addon, warmCache);
-        for (let sample = 0; sample < 15; sample++) {
-            rawMs.push(smoke(raw.entry, raw.addon, "0").loadMs);
-            coldMs.push(
-                smoke(
-                    carrier.entry,
-                    carrier.addon,
-                    join(stage, "cold-" + sample)
-                ).loadMs
-            );
-            warmMs.push(smoke(carrier.entry, carrier.addon, warmCache).loadMs);
-        }
-        Object.assign(result, {
-            samples: 15,
-            rawMs: median(rawMs),
-            coldMs: median(coldMs),
-            warmMs: median(warmMs),
-        });
+        cacheRoot = createMeasurementCache();
+        Object.assign(
+            result,
+            measureLoads({
+                raw,
+                carrier,
+                copyRaw: (sample) => variant("raw-cold-" + sample, rawPath),
+                smoke,
+                cacheRoot,
+            })
+        );
+        const warmCache = join(cacheRoot, "warm");
         const materialized = [];
         function inspectCache(directory) {
             for (const entry of readdirSync(directory, {
@@ -188,25 +181,15 @@ try {
         );
         assert.equal(sha512(readFileSync(materialized[0])), report.rawSha512);
         result.materializedSha512 = report.rawSha512;
-        result.coldOverheadMs = result.coldMs - result.rawMs;
-        result.warmOverheadMs = result.warmMs - result.rawMs;
         // Keep measured evidence in failed job logs; no success report is written on failure.
         console.log(JSON.stringify(result));
-        if (target.startsWith("x86_64-")) {
-            assert(
-                result.coldOverheadMs <= 100,
-                "median cold-load overhead exceeds 100 ms"
-            );
-            assert(
-                result.warmOverheadMs <= 25,
-                "median warm-cache overhead exceeds 25 ms"
-            );
-        }
+        validateMeasurements(result);
         assert.equal(sha512(readFileSync(carrier.addon)), report.carrierSha512);
     }
     assert.equal(sha512(readFileSync(original)), report.carrierSha512);
     writeJson(resolve(output), result);
     console.log(JSON.stringify(result));
 } finally {
+    if (cacheRoot) rmSync(cacheRoot, { recursive: true, force: true });
     rmSync(stage, { recursive: true, force: true });
 }

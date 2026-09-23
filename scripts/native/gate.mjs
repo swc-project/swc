@@ -18,6 +18,7 @@ import {
     writeJson,
 } from "./common.mjs";
 import { containsPayload, validateInventory } from "./contracts.mjs";
+import { validateMeasurements } from "./measurements.mjs";
 import { minimumNodes, products, targets } from "./targets.mjs";
 import { inspectTarball, tarMember } from "./tarballs.mjs";
 
@@ -175,21 +176,7 @@ try {
         seen.add(key);
         if (result.kind === "runtime") {
             assert.equal(result.materializedSha512, artifact.rawSha512);
-            assert.equal(result.samples, 15);
-            for (const field of [
-                "rawMs",
-                "coldMs",
-                "warmMs",
-                "coldOverheadMs",
-                "warmOverheadMs",
-            ])
-                assert(Number.isFinite(result[field]));
-            if (result.target.startsWith("x86_64-")) {
-                assert(
-                    result.coldOverheadMs <= 100 && result.warmOverheadMs <= 25,
-                    "load overhead exceeds release budget"
-                );
-            }
+            validateMeasurements(result);
         } else assert.equal(result.kind, "minimum");
     }
     for (const product of products) {
@@ -244,8 +231,11 @@ try {
                     r.target,
                     r.node,
                     r.rawMs.toFixed(2),
+                    r.rawColdMs.toFixed(2),
                     r.coldMs.toFixed(2),
                     r.warmMs.toFixed(2),
+                    r.coldOverheadMs.toFixed(2),
+                    r.warmOverheadMs.toFixed(2),
                 ].join(" | ")
             );
         appendFileSync(
@@ -260,7 +250,7 @@ try {
                 "Product | Target | Kind | Raw bytes | Payload bytes | Carrier bytes | Reduction | npm bytes\n" +
                 "--- | --- | --- | ---: | ---: | ---: | ---: | ---:\n" +
                 rows.join("\n") +
-                "\n\nProduct | Target | Node | Raw ms | Cold ms | Warm ms\n--- | --- | --- | ---: | ---: | ---:\n" +
+                "\n\nProduct | Target | Node | Raw warm ms | Raw cold ms | Cold ms | Warm ms | Cold overhead ms | Warm overhead ms\n--- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---:\n" +
                 times.join("\n") +
                 "\n"
         );

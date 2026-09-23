@@ -35,17 +35,37 @@ on:
         required: false
         type: boolean
         default: false
+      verifySourceRef:
+        description: "Verify this exact commit SHA without creating tags or publishing (version must match its manifests)"
+        required: false
+        type: string
+        default: ""
 
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ inputs.verifySourceRef && format('native-verification-{0}', github.ref) || github.workflow }}
   cancel-in-progress: true
 
 jobs:
+  verify-native-source:
+    name: "Verify native release without publishing"
+    if: inputs.verifySourceRef != ''
+    permissions:
+      contents: read
+    uses: ./.github/workflows/publish-npm-package.yml
+    with:
+      buildType: "verification"
+      version: ${{ inputs.version }}
+      buildCli: true
+      skipBuild: false
+      publishWasm: false
+      skipPublishing: true
+      sourceRef: ${{ inputs.verifySourceRef }}
+
   determine-nightly-version:
     name: "Determine nightly version"
     runs-on: ubuntu-latest
     # Run only on main branch
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && inputs.verifySourceRef == ''
     permissions:
       contents: read
     outputs:
