@@ -160,8 +160,8 @@ pub struct MinifyOptions<CO> {
     pub remove_redundant_attributes: RemoveRedundantAttributes,
     #[serde(default = "true_by_default")]
     pub collapse_boolean_attributes: bool,
-    /// Merge the same metadata elements into one (for example, consecutive
-    /// `style` elements will be merged into one `style` element)
+    /// Merge consecutive compatible `style` elements into one. Script elements
+    /// remain separate because each one is evaluated independently.
     #[serde(default = "true_by_default")]
     pub merge_metadata_elements: bool,
     /// Remove extra whitespace in space and comma separated attribute values
