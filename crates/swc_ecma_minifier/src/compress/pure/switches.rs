@@ -489,7 +489,7 @@ impl Pure<'_> {
                     .into()
                 }
                 [case] => {
-                    if contains_nested_break(case) {
+                    if contains_nested_break(case) || contains_case_function_declaration(case) {
                         return;
                     }
                     self.changed = true;
@@ -539,7 +539,11 @@ impl Pure<'_> {
                     }
                 }
                 [first, second] if first.test.is_none() || second.test.is_none() => {
-                    if contains_nested_break(first) || contains_nested_break(second) {
+                    if contains_nested_break(first)
+                        || contains_nested_break(second)
+                        || contains_case_function_declaration(first)
+                        || contains_case_function_declaration(second)
+                    {
                         return;
                     }
                     self.changed = true;
@@ -759,6 +763,14 @@ fn remove_last_break(stmt: &mut Vec<Stmt>) -> bool {
         Some(Stmt::Block(BlockStmt { stmts, .. })) => remove_last_break(stmts),
         _ => false,
     }
+}
+
+/// A direct case declaration belongs to the switch's lexical scope, so moving
+/// it into an `if` block can change bindings used by case tests.
+fn contains_case_function_declaration(case: &SwitchCase) -> bool {
+    case.cons
+        .iter()
+        .any(|stmt| matches!(stmt, Stmt::Decl(Decl::Fn(..))))
 }
 
 fn contains_nested_break(case: &SwitchCase) -> bool {

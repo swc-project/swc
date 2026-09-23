@@ -665,11 +665,6 @@ where
 
 pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
     match s {
-        Stmt::Decl(Decl::Fn(FnDecl {
-            ident: Ident { sym, .. },
-            ..
-        })) if &**sym == "undefined" => false,
-
         Stmt::Decl(Decl::Var(v))
             if matches!(
                 &**v,
@@ -681,7 +676,9 @@ pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
         {
             true
         }
-        Stmt::Decl(Decl::Fn(..)) => true,
+        // A function declaration needs its block for lexical scope. Ordinary
+        // functions are unwrapped in sloppy mode by the context-aware path.
+        Stmt::Decl(Decl::Fn(..)) => false,
         Stmt::Decl(..) => false,
         _ => true,
     }
