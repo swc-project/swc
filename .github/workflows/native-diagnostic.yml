@@ -1,6 +1,9 @@
 name: Native load diagnostics
 on:
   workflow_dispatch:
+  push:
+    branches: [codex/fix-native-release-ci]
+    paths: [.github/workflows/native-diagnostic.yml, scripts/native/diagnostic.py]
 permissions:
   contents: read
   actions: read
