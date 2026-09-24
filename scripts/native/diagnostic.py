@@ -28,3 +28,8 @@ p.write_text(s)
 import os
 if os.environ.get("NATIVE_DIAGNOSTIC_EXPERIMENT", "").startswith("uncompressed"):
     p=Path("crates/swc_native_addon/src/cache.rs");s=p.read_text().replace("platform::compress_cache(staged.path())", "Ok::<(), std::io::Error>(())");p.write_text(s)
+
+experiment = os.environ.get("NATIVE_DIAGNOSTIC_EXPERIMENT", "")
+if experiment.startswith("threads-"):
+    threads = int(experiment.split("-")[1])
+    p=Path("crates/swc_native_addon/src/integrity.rs");s=p.read_text().replace(".get().min(4)", f".get().min({threads})");p.write_text(s)

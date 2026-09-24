@@ -24,9 +24,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { host: windows-latest, product: html, node: "20", architecture: x64, target: x86_64-pc-windows-msvc, mode: finalized, experiment: home }
-          - { host: windows-latest, product: html, node: "20", architecture: x64, target: x86_64-pc-windows-msvc, mode: finalized, experiment: uncompressed-home }
-          - { host: windows-latest, product: core, node: "22", architecture: x64, target: x86_64-pc-windows-msvc, mode: finalized, experiment: uncompressed-home }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: threads-1 }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: threads-2 }
+          - { host: macos-latest, product: minifier, node: "20", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: threads-1 }
+          - { host: macos-latest, product: minifier, node: "20", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: threads-2 }
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
