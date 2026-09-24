@@ -104,6 +104,23 @@ test("embedded bash build scripts remain syntactically valid", () => {
     }
 });
 
+test("native builds do not depend on the separate WASM installer", () => {
+    for (const step of workflow.jobs.build.steps) {
+        const commands = (step.run || "")
+            .split("\n")
+            .filter((line) => !line.trimStart().startsWith("#"))
+            .join("\n");
+        assert(!commands.includes("wasm-pack"));
+    }
+    for (const setting of workflow.jobs.build.strategy.matrix.settings)
+        assert(!setting.build.includes("wasm-pack"));
+    assert(
+        workflow.jobs["publish-wasm"].steps.some((step) =>
+            step.run?.includes("wasm-pack/installer/init.sh")
+        )
+    );
+});
+
 test("direct setup-node calls never infer pnpm caching, including minimum runtimes", () => {
     for (const job of Object.values(workflow.jobs)) {
         for (const step of job.steps || []) {

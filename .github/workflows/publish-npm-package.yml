@@ -363,8 +363,8 @@ jobs:
           else
             pnpm install --frozen-lockfile
           fi
-          curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-          echo '/usr/local/cargo/bin' >> $GITHUB_PATH
+          # These jobs build native addons with napi/cargo. Only publish-wasm
+          # needs wasm-pack; its installer can crash on Windows runners.
       - name: Setup node x86
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         if: matrix.settings.target == 'i686-pc-windows-msvc'
@@ -417,7 +417,7 @@ jobs:
             -v "$WORKSPACE:/build" \
             -w /build \
             "$DOCKER_IMAGE" \
-            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; npm install -g "corepack@${COREPACK_VERSION}"; corepack enable; corepack prepare "${PACKAGE_MANAGER}" --activate; npm i -g wasm-pack; bash -e -o pipefail -lc "$BUILD_SCRIPT"'
+            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; npm install -g "corepack@${COREPACK_VERSION}"; corepack enable; corepack prepare "${PACKAGE_MANAGER}" --activate; bash -e -o pipefail -lc "$BUILD_SCRIPT"'
       - name: Build
         if: ${{ !matrix.settings.docker }}
         shell: bash
