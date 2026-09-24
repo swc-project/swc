@@ -188,3 +188,19 @@ also failed core on Node 22. Serial verification measured 181.59/68.37 ms and
 parallel verification measured 232.41/74.87 ms. The local prototype passed the
 three private crate suites and measured approximately 7 ms warm overhead, but
 the CI failures take precedence. Direct mapping is not adopted in production.
+
+Further isolated ARM mapping experiments also failed core on Node 22:
+
+| Run | Variant | Cold overhead (ms) | Warm overhead (ms) |
+| --- | --- | ---: | ---: |
+| [35960382089](https://github.com/swc-project/swc/actions/runs/35960382089) | Serial native mapping | 105.90 | 40.70 |
+| [35960382089](https://github.com/swc-project/swc/actions/runs/35960382089) | Serial mapping with user-initiated scheduling | 535.60 | 51.52 |
+| [35960712691](https://github.com/swc-project/swc/actions/runs/35960712691) | Parallel mapping with user-initiated scheduling | 13.19 | 36.61 |
+| [35960964263](https://github.com/swc-project/swc/actions/runs/35960964263) | Calling worker participates in parallel mapping | 105.00 | 48.43 |
+
+None is adopted. No ARM helper asset or mapped-file verification has been added
+to the production implementation. Their temporary instrumentation is removed.
+The remaining comparison measures the uninstrumented production carrier and
+records memory pressure while either retaining or cleaning completed cold
+samples. Run 35961538261 was cancelled during building, before any measurements,
+and superseded by the uninstrumented comparison.

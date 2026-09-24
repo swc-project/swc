@@ -1,9 +1,6 @@
 name: Native load diagnostics
 on:
   workflow_dispatch:
-  push:
-    branches: [codex/fix-native-release-ci]
-    paths: [.github/workflows/native-diagnostic.yml, scripts/native/diagnostic.py]
 permissions:
   contents: read
   actions: read
@@ -50,9 +47,6 @@ jobs:
           filename="$(node --input-type=module -e 'import {artifactInfo} from "./scripts/native/common.mjs"; console.log(artifactInfo(process.env.PRODUCT,process.env.TARGET).filename)')"
           echo "FILENAME=$filename" >> "$GITHUB_ENV"
           "$SWC_NATIVE_TOOLS/swc-native-addon-verify" --input "target/diagnostic-input/$filename" --target "$TARGET" --extract "$GITHUB_WORKSPACE/target/diagnostic-input/raw.node"
-          if [[ "$NATIVE_DIAGNOSTIC_EXPERIMENT" == fast-* ]]; then
-            cargo build --release -p swc_native_addon_pack
-          fi
           rustup target add "$TARGET"
           if [ "$MODE" = finalized ]; then
             cp target/diagnostic-input/raw.node "packages/$PRODUCT/$filename"
