@@ -33,3 +33,25 @@ experiment = os.environ.get("NATIVE_DIAGNOSTIC_EXPERIMENT", "")
 if experiment.startswith("threads-"):
     threads = int(experiment.split("-")[1])
     p=Path("crates/swc_native_addon/src/integrity.rs");s=p.read_text().replace(".get().min(4)", f".get().min({threads})");p.write_text(s)
+if experiment.startswith("bulk-"):
+    threads = int(experiment.split("-")[1])
+    p=Path("crates/swc_native_addon/src/integrity.rs");s=p.read_text().replace(".get().min(4)", f".get().min({threads})");p.write_text(s)
+    p=Path("crates/swc_native_addon/src/format.rs");s=p.read_text()
+    marker = '        let mut decoder = zstd::stream::read::Decoder::with_buffer(self.compressed)'
+    s=s.replace(marker, '''        if self.header.raw_len <= 32 * 1024 * 1024 && matches!(&hash, Verifier::Blake3(..)) {
+            let t = std::time::Instant::now();
+            let decoded = zstd::bulk::decompress(self.compressed, self.header.raw_len as usize)
+                .map_err(|e| Error::io(ErrorKind::Compression, "decompress native addon", e))?;
+            eprintln!("bulk decode {:?}", t.elapsed());
+            if decoded.len() as u64 != self.header.raw_len {
+                return Err(Error::new(ErrorKind::Integrity, "decoded addon length mismatch"));
+            }
+            let t = std::time::Instant::now();
+            hash.update(&decoded);
+            hash.finish()?;
+            eprintln!("bulk hash {:?}", t.elapsed());
+            output.write_all(&decoded).map_err(|e| Error::io(ErrorKind::Cache, "write bulk addon", e))?;
+            native_kind(output, self.header.raw_len)?;
+            return Ok(());
+        }
+''' + marker);p.write_text(s)
