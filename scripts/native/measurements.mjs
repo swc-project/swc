@@ -3,6 +3,14 @@ import { mkdtempSync, realpathSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
+// Product-approved startup overhead, measured against the matching raw load.
+// Runtime checks and the final release gate share these limits and still fail
+// when either 15-sample median exceeds its budget.
+export const x64LoadBudgets = Object.freeze({
+    coldOverheadMs: 500,
+    warmOverheadMs: 100,
+});
+
 // Checkout ancestors can belong to the host runner while Docker runs as root.
 // A canonical home path also avoids symlink ancestors such as macOS /var.
 export function createMeasurementCache() {
@@ -72,12 +80,12 @@ export function validateMeasurements(result) {
     assert.equal(result.warmOverheadMs, result.warmMs - result.rawMs);
     if (result.target.startsWith("x86_64-")) {
         assert(
-            result.coldOverheadMs <= 100,
-            "median cold-load overhead exceeds 100 ms"
+            result.coldOverheadMs <= x64LoadBudgets.coldOverheadMs,
+            `median cold-load overhead ${result.coldOverheadMs} ms exceeds ${x64LoadBudgets.coldOverheadMs} ms`
         );
         assert(
-            result.warmOverheadMs <= 25,
-            "median warm-cache overhead exceeds 25 ms"
+            result.warmOverheadMs <= x64LoadBudgets.warmOverheadMs,
+            `median warm-cache overhead ${result.warmOverheadMs} ms exceeds ${x64LoadBudgets.warmOverheadMs} ms`
         );
     }
 }

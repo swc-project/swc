@@ -70,11 +70,12 @@ test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budg
         samples: 15,
         rawMs: 10,
         rawColdMs: 1000,
-        coldMs: 1100,
-        warmMs: 35,
-        coldOverheadMs: 100,
-        warmOverheadMs: 25,
+        coldMs: 1500,
+        warmMs: 110,
+        coldOverheadMs: 500,
+        warmOverheadMs: 100,
     };
+    validateMeasurements(valid);
     for (const field of [
         "rawMs",
         "rawColdMs",
@@ -92,17 +93,59 @@ test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budg
         { coldOverheadMs: 0 },
         { warmOverheadMs: 0 },
         { samples: 14 },
-        { coldMs: 1101, coldOverheadMs: 101 },
-        { warmMs: 36, warmOverheadMs: 26 },
+        { coldMs: 1501, coldOverheadMs: 501 },
+        { warmMs: 111, warmOverheadMs: 101 },
     ])
         assert.throws(() => validateMeasurements({ ...valid, ...change }));
+});
+
+test("all x64 targets share the approved startup budgets", () => {
+    for (const target of [
+        "x86_64-apple-darwin",
+        "x86_64-pc-windows-msvc",
+        "x86_64-unknown-linux-gnu",
+        "x86_64-unknown-linux-musl",
+    ]) {
+        const result = {
+            target,
+            samples: 15,
+            rawMs: 10,
+            rawColdMs: 1000,
+            coldMs: 1500,
+            warmMs: 110,
+            coldOverheadMs: 500,
+            warmOverheadMs: 100,
+        };
+        validateMeasurements(result);
+        assert.throws(
+            () =>
+                validateMeasurements({
+                    ...result,
+                    coldMs: 1501,
+                    coldOverheadMs: 501,
+                }),
+            /cold-load overhead 501 ms exceeds 500 ms/
+        );
+        assert.throws(
+            () =>
+                validateMeasurements({
+                    ...result,
+                    warmMs: 111,
+                    warmOverheadMs: 101,
+                }),
+            /warm-cache overhead 101 ms exceeds 100 ms/
+        );
+    }
 });
 
 test("cold raw copies use the cache volume instead of the checkout volume", () => {
     const cacheRoot = join("user-home", "measurement");
     const copies = [];
     measureLoads({
-        raw: { entry: "checkout/raw/index.js", addon: "checkout/raw/binding.node" },
+        raw: {
+            entry: "checkout/raw/index.js",
+            addon: "checkout/raw/binding.node",
+        },
         carrier: {
             entry: "checkout/carrier/index.js",
             addon: "checkout/carrier/binding.node",

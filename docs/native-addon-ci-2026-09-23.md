@@ -1,13 +1,15 @@
 # Native release CI repair status — updated 2026-09-24
 
-Release acceptance is **not satisfied**. The 100 ms cold and 25 ms warm gates
-remain unchanged, and macOS x64 still runs under Rosetta. No npm package or
-release tag was published by these verification runs.
+Release acceptance is **not satisfied** pending a new full verification run.
+The approved startup overhead budgets are now 500 ms cold and 100 ms warm,
+and macOS x64 still runs under Rosetta. No npm package or release tag was
+published by these verification runs. Earlier results below used 100/25 ms
+budgets and retain their original pass/fail outcomes.
 
 The current production implementation passes the four-host lifecycle suite, but
 no full release gate has passed. Windows still enables NTFS cache compression;
-macOS x64 still ships a compressed carrier. Changing either behavior requires
-the pending user decision. All unsuccessful diagnostic workflows and prototype
+macOS x64 still ships a compressed carrier. The approved budget revision keeps
+both behaviors. All unsuccessful diagnostic workflows and prototype
 scripts have been removed from the branch; their source and evidence remain in
 Git and the linked workflow runs.
 
@@ -226,9 +228,9 @@ initialization followed by a main-thread retry. Its local 28.57/7.46 ms timings
 do not supersede the CI failures. Neither caller-owned scheduling nor mapped
 verification nor faster encoding has been adopted.
 
-## Scope decisions still pending
+## Alternatives considered before revising the startup budget
 
-- Keeping compressed macOS x64 carriers has not met the unchanged performance
+- Keeping compressed macOS x64 carriers did not meet the original performance
   budgets on CI. Shipping the original macOS x64 images is an alternative, not
   an implemented or verified fix. Based on the last full run's 32 selected
   artifact reports, that substitution would retain approximately 54.90% total
@@ -236,8 +238,19 @@ verification nor faster encoding has been adopted.
   This calculation excludes the other 16 builds and is not a new gate result.
 - Disabling NTFS compression for Windows runtime cache images passed focused
   measurements, but changes the existing compressed-cache test contract. It is
-  not implemented pending explicit authorization. npm payload compression and
+  not implemented. npm payload compression and
   complete runtime integrity verification would remain required.
 
-Any approved implementation must pass a new exact-source release workflow,
+## Approved startup budget revision (2026-09-24)
+
+The maintainer accepted the measured startup cost and explicitly selected
+500 ms cold / 100 ms warm overhead. The shared runtime/final gate now enforces
+those limits for the existing x64 target scope, with boundary and rejection
+coverage for macOS, Windows, GNU, and musl. The gate JSON and summary disclose
+the limits alongside measured timings. The 15-sample medians, fresh cold raw
+copies, complete integrity verification, compressed carriers, NTFS cache
+compression, and Rosetta execution remain unchanged. No raw fallback or
+unsuccessful optimization prototype is adopted.
+
+The revised implementation must pass a new exact-source release workflow,
 including all runtime/minimum-Node jobs and the final gate, before acceptance.

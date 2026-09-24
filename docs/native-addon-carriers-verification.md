@@ -1,5 +1,10 @@
 # Native release integration verification
 
+This is historical evidence under the original 100/25 ms startup budgets. The
+current [release contract](native-addon-carriers.md) uses approved 500/100 ms
+budgets; [subsequent CI evidence](native-addon-ci-2026-09-23.md) records the
+repair and revalidation. Historical failures below have not been relabeled.
+
 Observed on 2026-09-08 in the hosted Linux x86_64 runner, starting from main
 `2855b5a8c1f24d09e69cca1ea80b03c3c55180e4`. The host reports Intel Xeon Platinum
 8488C CPUs and uses overlayfs. This records this integration's checks; the
