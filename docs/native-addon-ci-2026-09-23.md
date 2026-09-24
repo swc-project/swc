@@ -1,7 +1,7 @@
 # Native release CI repair status — updated 2026-09-24
 
 Release acceptance is **not satisfied** pending a new full verification run.
-The approved startup overhead budgets are now 500 ms cold and 100 ms warm,
+The approved startup overhead budgets are now 500 ms cold and 125 ms warm,
 and macOS x64 still runs under Rosetta. No npm package or release tag was
 published by these verification runs. Earlier results below used 100/25 ms
 budgets and retain their original pass/fail outcomes.
@@ -337,5 +337,18 @@ not justify changing the production loader's symbol resolution behavior.
 The temporary comparison workflow and scripts have been removed. None of the
 scheduling, streaming, or lazy-loading candidates is shipped. The latest full
 release evidence remains the 63/64 result at 98f1ecac0b, including the 103.34 ms
-Rosetta warm failure. The 500/100 ms limits remain in force pending a maintainer
-decision; no full release gate has passed for this repair.
+Rosetta warm failure under the then-current 500/100 ms limits; no full release
+gate has passed for this repair.
+
+## Approved warm budget adjustment
+
+The maintainer approved a 125 ms warm overhead limit while retaining the
+500 ms cold limit. Runtime validation and the final release gate share this
+policy, including the budgets written to the gate report. Boundary tests accept
+125 ms and reject 126 ms for every representative x64 target. The 15-sample
+medians, raw baselines, Rosetta coverage, compressed npm carriers, and full-byte
+integrity checks are unchanged.
+
+The earlier 103.34 ms result remains a failure of its original 100 ms gate.
+Release acceptance requires a new complete verification of the updated source
+with publishing disabled; historical reports are not reclassified as passing.

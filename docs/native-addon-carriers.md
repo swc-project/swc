@@ -95,7 +95,7 @@ inconsistent arithmetic. Measurement caches use canonical paths beneath the
 executing user's home, including Docker, and are removed after the run. These are not claims
 about an empty operating-system page cache. Disposable hardlinked carrier
 copies prevent filesystem self-replacement from disguising warm-cache costs.
-Representative x64 jobs require at most 500 ms cold overhead and 100 ms warm
+Representative x64 jobs require at most 500 ms cold overhead and 125 ms warm
 overhead over the corresponding raw addon. x64 macOS continues to run under
 Rosetta on the ARM64 runner. These startup budgets accept the measured loading
 tradeoff while retaining compressed carriers and full integrity checks. They

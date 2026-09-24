@@ -8,7 +8,7 @@ import { join } from "node:path";
 // when either 15-sample median exceeds its budget.
 export const x64LoadBudgets = Object.freeze({
     coldOverheadMs: 500,
-    warmOverheadMs: 100,
+    warmOverheadMs: 125,
 });
 
 // Checkout ancestors can belong to the host runner while Docker runs as root.

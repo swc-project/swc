@@ -1,7 +1,7 @@
 # Native release integration verification
 
 This is historical evidence under the original 100/25 ms startup budgets. The
-current [release contract](native-addon-carriers.md) uses approved 500/100 ms
+current [release contract](native-addon-carriers.md) uses approved 500/125 ms
 budgets; [subsequent CI evidence](native-addon-ci-2026-09-23.md) records the
 repair and revalidation. Historical failures below have not been relabeled.
 

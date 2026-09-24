@@ -71,9 +71,9 @@ test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budg
         rawMs: 10,
         rawColdMs: 1000,
         coldMs: 1500,
-        warmMs: 110,
+        warmMs: 135,
         coldOverheadMs: 500,
-        warmOverheadMs: 100,
+        warmOverheadMs: 125,
     };
     validateMeasurements(valid);
     for (const field of [
@@ -94,7 +94,7 @@ test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budg
         { warmOverheadMs: 0 },
         { samples: 14 },
         { coldMs: 1501, coldOverheadMs: 501 },
-        { warmMs: 111, warmOverheadMs: 101 },
+        { warmMs: 136, warmOverheadMs: 126 },
     ])
         assert.throws(() => validateMeasurements({ ...valid, ...change }));
 });
@@ -112,9 +112,9 @@ test("all x64 targets share the approved startup budgets", () => {
             rawMs: 10,
             rawColdMs: 1000,
             coldMs: 1500,
-            warmMs: 110,
+            warmMs: 135,
             coldOverheadMs: 500,
-            warmOverheadMs: 100,
+            warmOverheadMs: 125,
         };
         validateMeasurements(result);
         assert.throws(
@@ -130,10 +130,10 @@ test("all x64 targets share the approved startup budgets", () => {
             () =>
                 validateMeasurements({
                     ...result,
-                    warmMs: 111,
-                    warmOverheadMs: 101,
+                    warmMs: 136,
+                    warmOverheadMs: 126,
                 }),
-            /warm-cache overhead 101 ms exceeds 100 ms/
+            /warm-cache overhead 126 ms exceeds 125 ms/
         );
     }
 });
