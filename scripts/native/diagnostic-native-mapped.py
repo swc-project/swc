@@ -8,6 +8,8 @@ if sys.argv[1] == 'prepare':
     p=Path('crates/swc_native_addon/src/integrity.rs');s=p.read_text()
     if parallel:
         s=s.replace('all(target_os = "macos", target_arch = "x86_64")', 'target_os = "macos"').replace('.get().min(4)', '.get().min(2)')
+    if 'current' in os.environ.get('NATIVE_DIAGNOSTIC_EXPERIMENT',''):
+        s=s.replace('        rayon_core::ThreadPoolBuilder::new()\n            .num_threads(threads)\n            .thread_name', '        let builder = rayon_core::ThreadPoolBuilder::new().num_threads(threads);\n        #[cfg(target_arch = "aarch64")]\n        let builder = builder.use_current_thread();\n        builder.thread_name')
     methods='''
     pub fn diagnostic_digest(bytes: &[u8]) -> [u8; 32] { *blake3::hash(bytes).as_bytes() }
     pub fn diagnostic_verify_mapped(&self, file: &std::fs::File) -> Result<()> {

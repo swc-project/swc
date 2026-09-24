@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: native-map-parallel-qos }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: native-map-current-parallel-qos }
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
