@@ -4,6 +4,13 @@ Release acceptance is **not satisfied**. The 100 ms cold and 25 ms warm gates
 remain unchanged, and macOS x64 still runs under Rosetta. No npm package or
 release tag was published by these verification runs.
 
+The current production implementation passes the four-host lifecycle suite, but
+no full release gate has passed. Windows still enables NTFS cache compression;
+macOS x64 still ships a compressed carrier. Changing either behavior requires
+the pending user decision. All unsuccessful diagnostic workflows and prototype
+scripts have been removed from the branch; their source and evidence remain in
+Git and the linked workflow runs.
+
 ## Implemented and checked
 
 - Direct setup-node calls disable inferred package-manager caching. Minimum
@@ -208,3 +215,29 @@ not satisfy the latency budgets. Neither host swapped during measurement.
 The production measurement lifecycle remains unchanged. Run 35961538261 was
 cancelled during building, before any measurements, and superseded by this
 uninstrumented comparison.
+
+[Caller participation comparison 35963772315](https://github.com/swc-project/swc/actions/runs/35963772315)
+tested an isolated caller-owned verification pool with faster payload encoding,
+using the unchanged 15-sample harness and no Rust timing instrumentation.
+Ordinary reads measured -234.29/79.98 ms cold/warm overhead; mapped reads measured
+233.80/64.75 ms. Both failed. A local mapped prototype passed the private crate
+suites, actual Rosetta cache/integrity tests, and a failed Node worker
+initialization followed by a main-thread retry. Its local 28.57/7.46 ms timings
+do not supersede the CI failures. Neither caller-owned scheduling nor mapped
+verification nor faster encoding has been adopted.
+
+## Scope decisions still pending
+
+- Keeping compressed macOS x64 carriers has not met the unchanged performance
+  budgets on CI. Shipping the original macOS x64 images is an alternative, not
+  an implemented or verified fix. Based on the last full run's 32 selected
+  artifact reports, that substitution would retain approximately 54.90% total
+  size reduction across those 32 artifacts, versus 62.57% with all carriers.
+  This calculation excludes the other 16 builds and is not a new gate result.
+- Disabling NTFS compression for Windows runtime cache images passed focused
+  measurements, but changes the existing compressed-cache test contract. It is
+  not implemented pending explicit authorization. npm payload compression and
+  complete runtime integrity verification would remain required.
+
+Any approved implementation must pass a new exact-source release workflow,
+including all runtime/minimum-Node jobs and the final gate, before acceptance.
