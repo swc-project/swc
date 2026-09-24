@@ -24,3 +24,7 @@ s=s.replace('"write decoded addon", e))?;', '"write decoded addon", e))?;\n     
 s=s.replace("        if count != self.raw_len {", '        eprintln!("verify read/hash/write {:?}", phase_times);\n        if count != self.raw_len {')
 s=s.replace("        if count != self.header.raw_len {", '        eprintln!("decode read/hash/write {:?}", phase_times);\n        if count != self.header.raw_len {')
 p.write_text(s)
+
+import os
+if os.environ.get("NATIVE_DIAGNOSTIC_EXPERIMENT", "").startswith("uncompressed"):
+    p=Path("crates/swc_native_addon/src/cache.rs");s=p.read_text().replace("platform::compress_cache(staged.path())", "Ok::<(), std::io::Error>(())");p.write_text(s)

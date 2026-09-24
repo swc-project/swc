@@ -7,7 +7,7 @@ const [product, rawPath, carrierPath, filename, target = "x86_64-apple-darwin"] 
 const stage=mkdtempSync(resolve('target/diagnostic-'));
 const cacheRoot=createMeasurementCache();
 function variant(name, source, hold=false) {
- const dir=join(stage,name), base=resolve('packages',product);
+ const dir=join(name.startsWith('cold-raw') && process.env.NATIVE_DIAGNOSTIC_EXPERIMENT?.includes('home') ? cacheRoot : stage,name), base=resolve('packages',product);
  cpSync(base,dir,{recursive:true,filter:path=>{
   const relative=path.slice(base.length);
   return !/(^|\/)(node_modules|scripts|target|artifacts|artifacts_cli)(\/|$)/.test(relative) && !relative.endsWith('.node');
