@@ -1,4 +1,4 @@
-# Native release CI repair status — 2026-09-23
+# Native release CI repair status — updated 2026-09-24
 
 Release acceptance is **not satisfied**. The 100 ms cold and 25 ms warm gates
 remain unchanged, and macOS x64 still runs under Rosetta. No npm package or
@@ -51,31 +51,29 @@ reported 308.98 ms cold overhead. Core Rosetta reported 399.71/65.02 ms
 cold/warm overhead on Node 20 and 317.04/30.57 ms on Node 22. Subsequent cache
 flush and parallel-verification changes have not yet passed a full release run.
 
-## Unresolved native lifecycle contracts
+## Native lifecycle fixes (verified 2026-09-24)
 
-Windows binding registration and the new SID/ACE fixtures passed in
-[carrier-only run 35867585312](https://github.com/swc-project/swc/actions/runs/35867585312),
-but temporary_cleanup_after_process_exit failed because the mapped DLL remained
-on disk after process termination. Acquiring the deletion handle before mapping
-fixes registration; it does not establish immediate post-exit removal.
+[Lifecycle run 35948451570](https://github.com/swc-project/swc/actions/runs/35948451570)
+passed all four hosts: Windows x64, Windows ARM64, macOS ARM64, and Linux x64.
+This includes registration, cache/ACL/integrity fixtures, NTFS/APFS/btrfs checks,
+and Windows cleanup after both ordinary exit and forced termination.
 
-Dedicated Windows reproductions tested ordinary/extended delete disposition,
-POSIX disposition, replacement, and native NtSetInformationFile:
-[Win32 deletion](https://github.com/swc-project/swc/actions/runs/35869871695),
-[replacement](https://github.com/swc-project/swc/actions/runs/35870188130), and
-[native disposition](https://github.com/swc-project/swc/actions/runs/35870669765).
-Deletion before loading prevents loading; deletion after image mapping is
-rejected. Deferring delete-on-close leaves the pathname. Failed immediate-delete
-experiments were removed so they do not break otherwise successful loading.
-Choosing stale-process cleanup or an asynchronous cleanup process requires a
-corresponding test-contract decision; the existing test has not been weakened.
+Windows uses a small embedded native executable to remove a temporary DLL after
+its owning process releases the image section. A private pipe triggers cleanup
+without relying on destructors or PID reuse. The worker is verified over its
+complete bytes before every launch and retries deletion for up to ten seconds.
+It needs no shell or separately installed runtime. Its executable persists in
+the private cache; temporary loading starts a worker, while persistent cache hits
+do not. External mappings or termination of the worker can still leave files.
+The test retains its deletion assertion with a bounded wait for this asynchronous
+contract. Additional tests cover literal Unicode/metacharacter paths and a
+corrupted worker executable. The final source additionally statically links the
+helper's CRT and includes an explicit Windows Rust 1.73 CI check.
 
-The macOS final-artifact verifier fixture appends 4 MiB after the linked Mach-O
-image, which current codesign refuses. An unapplied proposal instead retains
-4 MiB of nonzero data in the linked fixture and preserves every assertion.
-All three private crates passed their full Rust 1.73 suites in a separate macOS
-workspace with that proposal. Its existing fixture construction remains unchanged
-pending authorization under the supplied AGENTS.md instruction.
+The macOS verifier fixture now links its 4 MiB padding as retained static data
+instead of appending an overlay that codesign rejects. Every existing verifier
+assertion is preserved. The changes to fixture construction and Windows cleanup
+were authorized by the user's instruction to complete the first approach.
 
 ## Rosetta diagnostics, not release acceptance
 
@@ -99,6 +97,27 @@ output, and lazy loading were also investigated; none establishes a passing
 release gate. Temporary diagnostic workflows and instrumentation were removed
 from the final working tree; their committed sources and run logs remain linked.
 
-Completion still requires resolving the two native test contracts, satisfying
-the unchanged timing budgets, and a new exact-source verification run passing
-every required platform, Node version, and final artifact gate.
+## Bounded verification batches (2026-09-24)
+
+[Comparison run 35948542616](https://github.com/swc-project/swc/actions/runs/35948542616)
+compared the existing 1 MiB batches against batches bounded at 32 MiB. Both read
+and hash every byte. Avoiding repeated worker dispatch reduced Rosetta Node 22
+core overhead from 282.28/28.61 ms to 42.25/20.77 ms, and HTML overhead from
+127.03/74.73 ms to 93.45/10.57 ms. Both optimized diagnostic jobs passed the
+unchanged 100/25 ms gates. Disabling zstd assembly was not retained.
+
+The final implementation includes corruption and irregular-read tests around
+32 MiB, executed as native ARM64 and actual Rosetta x64 test binaries. All three
+private crate suites, full clippy, native JS tests, core binding build/tests,
+and macOS/Linux Rust 1.73 suites passed locally. The earlier diagnostic results
+above remain historical evidence, not acceptance for the final source.
+
+## Exact-source release verification in progress
+
+[Full verification run 35949055402](https://github.com/swc-project/swc/actions/runs/35949055402)
+builds source bfc1095d7a with publishing and tag creation disabled. Release
+acceptance remains pending until all 48 artifacts, all required Node/platform
+runtime jobs, Windows MSRV, and the final release gate pass. One initial build
+failed in the external wasm-pack installer after installation with a segmentation
+fault; no loader or performance assertion had run in that job. Infrastructure
+failures will be retried, without waiving any runtime or performance gate.
