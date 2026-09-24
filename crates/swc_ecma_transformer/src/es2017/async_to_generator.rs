@@ -428,7 +428,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         if matches!(stmt, Stmt::Labeled(..)) {
             if let Some(mode) = self.fn_state.as_ref().and_then(|s| s.await_for_mode) {
                 // A label must stay attached to the generated iteration statement.
-                handle_await_for(stmt, mode);
+                handle_await_for(stmt, mode, self.unresolved_ctxt);
             }
         }
     }
@@ -436,7 +436,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     fn exit_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         if let Some(mode) = self.fn_state.as_ref().and_then(|s| s.await_for_mode) {
             if matches!(stmt, Stmt::ForOf(..)) {
-                handle_await_for(stmt, mode);
+                handle_await_for(stmt, mode, self.unresolved_ctxt);
             }
         }
     }
@@ -523,7 +523,7 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
 }
 
 #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
-fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode) {
+fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: SyntaxContext) {
     let mut labels = Vec::new();
     let mut body = &mut *stmt;
     while let Stmt::Labeled(labeled) = body {
@@ -552,6 +552,126 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode) {
         };
 
         let mut for_loop_body = Vec::new();
+        if matches!(mode, AwaitForMode::NativeAsync) {
+            // Validate the awaited iterator result before accessing its properties.
+            let iter_next = iterator.clone().make_member(quote_ident!("next"));
+            let iter_next = CallExpr {
+                span: DUMMY_SP,
+                callee: iter_next.as_callee(),
+                args: Default::default(),
+                ..Default::default()
+            };
+            for_loop_body.push(
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: step.clone().into(),
+                        right: await_iteration(iter_next.into(), mode).into(),
+                    }
+                    .into(),
+                }
+                .into(),
+            );
+
+            let is_not_type = |kind| -> Expr {
+                BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("!=="),
+                    left: UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("typeof"),
+                        arg: step.clone().into(),
+                    }
+                    .into(),
+                    right: Str {
+                        span: DUMMY_SP,
+                        value: kind,
+                        raw: None,
+                    }
+                    .into(),
+                }
+                .into()
+            };
+            let non_object = BinExpr {
+                span: DUMMY_SP,
+                op: op!("||"),
+                left: BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("==="),
+                    left: step.clone().into(),
+                    right: Null { span: DUMMY_SP }.into(),
+                }
+                .into(),
+                right: BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("&&"),
+                    left: is_not_type("object".into()).into(),
+                    right: is_not_type("function".into()).into(),
+                }
+                .into(),
+            };
+            for_loop_body.push(
+                IfStmt {
+                    span: DUMMY_SP,
+                    test: non_object.into(),
+                    cons: Box::new(Stmt::Throw(ThrowStmt {
+                        span: DUMMY_SP,
+                        arg: NewExpr {
+                            span: DUMMY_SP,
+                            callee: quote_ident!(unresolved_ctxt, "TypeError").into(),
+                            args: Some(vec![Str {
+                                span: DUMMY_SP,
+                                value: "Iterator result is not an object".into(),
+                                raw: None,
+                            }
+                            .as_arg()]),
+                            ..Default::default()
+                        }
+                        .into(),
+                    })),
+                    alt: None,
+                }
+                .into(),
+            );
+
+            for_loop_body.push(
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: iterator_abrupt_completion.clone().into(),
+                        right: UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!("!"),
+                            arg: step.clone().make_member(quote_ident!("done")).into(),
+                        }
+                        .into(),
+                    }
+                    .into(),
+                }
+                .into(),
+            );
+            for_loop_body.push(
+                IfStmt {
+                    span: DUMMY_SP,
+                    test: UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("!"),
+                        arg: iterator_abrupt_completion.clone().into(),
+                    }
+                    .into(),
+                    cons: Box::new(Stmt::Break(BreakStmt {
+                        span: DUMMY_SP,
+                        label: None,
+                    })),
+                    alt: None,
+                }
+                .into(),
+            );
+        }
         {
             // let value = _step.value;
             let value_var = VarDeclarator {
@@ -664,7 +784,9 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode) {
                 .into(),
             ),
             // _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done
-            test: {
+            test: if matches!(mode, AwaitForMode::NativeAsync) {
+                None
+            } else {
                 let iter_next = iterator.clone().make_member(quote_ident!("next"));
                 let iter_next = CallExpr {
                     span: DUMMY_SP,

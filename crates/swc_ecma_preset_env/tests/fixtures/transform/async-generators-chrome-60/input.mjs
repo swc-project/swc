@@ -92,6 +92,12 @@ export async function functionScopedBinding(iterable) {
     return item;
 }
 
+export async function validatedResult(iterable) {
+    for await (const item of iterable) {
+        return item;
+    }
+}
+
 export const consume = async (iterable) => {
     for await (const item of iterable) {
         if (item) break;
