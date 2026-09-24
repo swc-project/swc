@@ -1,16 +1,18 @@
 # Native release CI repair status — updated 2026-09-24
 
-Release acceptance is **not satisfied** pending a new full verification run.
+Release acceptance is **not satisfied**: the latest full run exceeds the cold
+overhead budget on three Rosetta jobs.
 The approved startup overhead budgets are now 500 ms cold and 125 ms warm,
 and macOS x64 still runs under Rosetta. No npm package or release tag was
 published by these verification runs. Earlier results below used 100/25 ms
 budgets and retain their original pass/fail outcomes.
 
-The latest full run at 98f1ecac0b passed all Windows checks after disabling NTFS
-compression for new cache images. It passed 63/64 runtime jobs; Rosetta core
-Node 20 exceeded the then-current 100 ms warm budget at 103.34 ms. A new complete
-verification is required with the approved budget and review follow-ups. Temporary diagnostic
-comparisons below are not release acceptance evidence.
+The latest full run at 553620d7c9 includes the review fixes for fresh cold
+carrier files, uncompressed Windows baselines, and blocked cleanup workers.
+It passed 61/64 runtime jobs. All warm measurements passed 125 ms, but Rosetta
+cold overhead reached 1,337.36 ms, exceeding the approved 500 ms limit. The
+final release gate was skipped. Temporary diagnostic comparisons below are
+not release acceptance evidence.
 
 ## Implemented and checked
 
@@ -371,3 +373,26 @@ cleanup. A mapped file may remain after forced termination in that restricted
 environment. Corrupt helpers still fail verification and cannot execute. A new
 Windows fixture denies execute permission on the verified helper and checks
 that the addon loads and is removed after unmapping.
+
+## Full verification with symmetric cold measurements
+
+[Run 36001332183](https://github.com/swc-project/swc/actions/runs/36001332183)
+tested source 553620d7c9 with 500/125 ms budgets. All 48 builds, four npm
+assemblies, five minimum-Node checks, and four lifecycle jobs passed. Windows
+x64 and ARM64 passed the added NTFS measurement and denied-helper-execution
+fixtures, including Rust 1.73 checks. All 200 standard PR checks passed.
+
+Runtime jobs passed 61/64 combinations. The three failures passed loading,
+installed-package resolution, full image integrity, and the warm budget, then
+failed the cold budget:
+
+| Rosetta product | Node | Raw cold (ms) | Carrier cold (ms) | Cold overhead (ms) | Warm overhead (ms) |
+| --- | --- | ---: | ---: | ---: | ---: |
+| core | 20 | 6,085.02 | 6,902.09 | 817.07 | 82.24 |
+| core | 22 | 5,954.35 | 7,291.72 | 1,337.36 | 79.15 |
+| minifier | 22 | 3,111.11 | 3,667.00 | 555.88 | 48.51 |
+
+These measurements include each fresh carrier's first load as well as fresh
+raw/cache images. Earlier reused-carrier measurements are not comparable cold
+acceptance evidence. The limits remain 500/125 ms; no failed job was rerun or
+reclassified, and no final gate, npm publication, or release tag occurred.
