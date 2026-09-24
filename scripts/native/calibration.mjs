@@ -20,8 +20,8 @@ try {
             () => coldMs.push(smoke(carrier.entry, carrier.addon, join(cacheRoot, "cold-" + sample)).loadMs),
             () => warmMs.push(smoke(carrier.entry, carrier.addon, warmCache).loadMs),
         ];
-        const offset = sample % actions.length;
-        for (let i=0;i<actions.length;i++) actions[(offset+i)%actions.length]();`+source.slice(to);
+        if (sample % 2) actions.reverse();
+        for (const action of actions) action();`+source.slice(to);
  const balancedPath=join(root,'balanced.mjs');writeFileSync(balancedPath,source);
  const balanced=(await import(pathToFileURL(balancedPath))).measureLoads;
  for (const [name,measure] of [['fixed',measureLoads],['balanced',balanced]]) {
