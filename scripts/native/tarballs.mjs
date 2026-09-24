@@ -2,16 +2,33 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { run, sha512 } from "./common.mjs";
 
+// GNU tar treats a Windows drive letter in -f as a remote host. Feeding the
+// verified archive bytes through stdin also works with Windows/BSD tar and
+// avoids shell/path translation entirely. These operations are outside timers.
+export function listTarball(file) {
+    return run("tar", ["-tzf", "-"], { input: readFileSync(file) })
+        .split("\n")
+        .filter(Boolean);
+}
+
+export function extractTarball(file, directory) {
+    return run("tar", ["-xzf", "-", "--strip-components=1"], {
+        input: readFileSync(file),
+        cwd: directory,
+    });
+}
+
 /** Read tar members without extracting untrusted paths or running lifecycle scripts. */
 export function tarMember(file, name) {
-    return run("tar", ["-xOf", file, "package/" + name], {
+    return run("tar", ["-xzOf", "-", "package/" + name], {
+        input: readFileSync(file),
         encoding: null,
         maxBuffer: 512 * 1024 * 1024,
     });
 }
 
 export function inspectTarball(file, manifest, report) {
-    const names = run("tar", ["-tzf", file]).split("\n").filter(Boolean);
+    const names = listTarball(file);
     for (const name of names) {
         assert(
             name.startsWith("package/") &&

@@ -20,6 +20,7 @@ import {
     writeJson,
 } from "./common.mjs";
 import { validateReport } from "./contracts.mjs";
+import { extractTarball, listTarball } from "./tarballs.mjs";
 import {
     createMeasurementCache,
     measureLoads,
@@ -101,7 +102,7 @@ try {
         assert(record, "missing npm tarball " + name);
         const tarball = join(assemblyDirectory, record.filename);
         assert.equal(sha512(readFileSync(tarball)), record.sha512);
-        const names = run("tar", ["-tzf", tarball]).split("\n").filter(Boolean);
+        const names = listTarball(tarball);
         assert(
             names.every(
                 (name) =>
@@ -112,7 +113,7 @@ try {
         );
         const directory = join(installed, name.slice("@swc/".length));
         mkdirSync(directory);
-        run("tar", ["-xf", tarball, "--strip-components=1", "-C", directory]);
+        extractTarball(tarball, directory);
     }
     const installedAddon = join(
         installed,

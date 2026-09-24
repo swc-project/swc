@@ -1,11 +1,11 @@
 import { defineConfig } from "@rstest/core";
 
 export default defineConfig({
-    setupFiles: ["./native-test-setup.ts"],
     projects: [
         /* Normal unit tests node-swc runs */
         {
             name: "unit tests",
+            setupFiles: ["./native-test-setup.ts"],
             globals: true,
             include: [
                 "**/__tests__/**/*.[jt]s?(x)",
@@ -18,6 +18,7 @@ export default defineConfig({
             ? undefined
             : {
                   name: "e2e tests",
+                  setupFiles: ["./native-test-setup.ts"],
                   globals: true,
                   include: ["**/e2e/**/?(*.)+(spec|test).[jt]s?(x)"],
               },
