@@ -324,3 +324,18 @@ but warm overhead regressed from 32.39 to 42.06 ms on Node 20 and from 29.43 to
 33.42 ms on Node 22. The streamed verification prototype and its added test
 fixture were reverted; it is not adopted. The production verification code is
 unchanged from the full run at 98f1ecac0b.
+
+## Native loading flags comparison
+
+Node 20 defaults to `RTLD_LAZY` on POSIX, while the carrier explicitly uses
+`RTLD_NOW`. [Comparison 35998148201](https://github.com/swc-project/swc/actions/runs/35998148201)
+tested that flag alone on each Rosetta host. Node 20 warm overhead increased
+from 29.15 to 33.61 ms; Node 22 decreased from 39.42 to 29.46 ms. Local Node 20
+measurements also increased from 9.38 to 10.50 ms. The inconsistent result does
+not justify changing the production loader's symbol resolution behavior.
+
+The temporary comparison workflow and scripts have been removed. None of the
+scheduling, streaming, or lazy-loading candidates is shipped. The latest full
+release evidence remains the 63/64 result at 98f1ecac0b, including the 103.34 ms
+Rosetta warm failure. The 500/100 ms limits remain in force pending a maintainer
+decision; no full release gate has passed for this repair.
