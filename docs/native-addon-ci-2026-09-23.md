@@ -175,3 +175,9 @@ locally installing a fresh helper executable before each verification added a
 median of about 142 ms including its first execution and verification. The
 preinstalled-helper prototype omits this deployment cost and will not ship.
 Its scripts have been removed; the historical source is retained in Git.
+
+[Direct mapped-file experiment 35959107897](https://github.com/swc-project/swc/actions/runs/35959107897)
+also failed core on Node 22. Serial verification measured 181.59/68.37 ms and
+parallel verification measured 232.41/74.87 ms. The local prototype passed the
+three private crate suites and measured approximately 7 ms warm overhead, but
+the CI failures take precedence. Direct mapping is not adopted in production.
