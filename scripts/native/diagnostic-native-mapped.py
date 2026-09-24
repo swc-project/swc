@@ -2,7 +2,12 @@ from pathlib import Path
 import os, sys, subprocess, json
 if sys.argv[1] == 'prepare':
     p=Path('crates/swc_native_addon/src/format.rs');s=p.read_text().replace('pub const COMPRESSION_LEVEL: i32 = 16;', 'pub const COMPRESSION_LEVEL: i32 = -5;');p.write_text(s)
+    parallel='parallel' in os.environ.get('NATIVE_DIAGNOSTIC_EXPERIMENT','')
+    if parallel:
+        p=Path('crates/swc_native_addon/Cargo.toml');s=p.read_text().replace('cfg(all(target_os = "macos", target_arch = "x86_64"))', 'cfg(target_os = "macos")');p.write_text(s)
     p=Path('crates/swc_native_addon/src/integrity.rs');s=p.read_text()
+    if parallel:
+        s=s.replace('all(target_os = "macos", target_arch = "x86_64")', 'target_os = "macos"').replace('.get().min(4)', '.get().min(2)')
     methods='''
     pub fn diagnostic_digest(bytes: &[u8]) -> [u8; 32] { *blake3::hash(bytes).as_bytes() }
     pub fn diagnostic_verify_mapped(&self, file: &std::fs::File) -> Result<()> {
