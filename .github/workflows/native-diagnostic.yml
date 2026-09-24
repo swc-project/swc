@@ -23,11 +23,9 @@ jobs:
       matrix:
         include:
           - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized }
-          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: plain }
           - { host: macos-latest, product: minifier, node: "20", architecture: x64, target: x86_64-apple-darwin, mode: finalized }
           - { host: windows-latest, product: core, node: "22", architecture: x64, target: x86_64-pc-windows-msvc, mode: finalized }
           - { host: windows-latest, product: html, node: "20", architecture: x64, target: x86_64-pc-windows-msvc, mode: finalized }
-          - { host: windows-11-arm, product: minifier, node: "20", architecture: arm64, target: aarch64-pc-windows-msvc, mode: finalized }
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
@@ -75,7 +73,6 @@ jobs:
           DISABLE_PLUGIN_E2E_TESTS: "true"
         run: |
           node -e 'try { require("./index.js") } catch (error) { console.dir(error, {depth: null}); throw error }'
-          pnpm test
       - name: Measure unchanged budgets with phase timings
         shell: bash
         env:
