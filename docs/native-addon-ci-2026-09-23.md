@@ -161,6 +161,13 @@ The successful initialization path now resolves native exception helpers only
 if an error occurs. All three private crate suites, Rust 1.73 checks, full
 clippy, and core build/tests passed locally after this change.
 
+[Latest lifecycle run 35960471029](https://github.com/swc-project/swc/actions/runs/35960471029)
+passed all four hosts at source dcc20b4b19: Windows x64/ARM64, Linux x64,
+and macOS ARM64. This checks the current production implementation, including
+Windows Rust 1.73, NTFS compression, cleanup, portable tarballs, and APFS/btrfs
+replacement. This carrier-only dispatch does not run the release performance
+gate and publishes no packages or tags.
+
 [Rosetta worker experiment 35957275680](https://github.com/swc-project/swc/actions/runs/35957275680)
 kept Node and the actual addon under Rosetta, while a native ARM process decoded
 and verified complete images. Minifier passed at 60.01/16.22 ms, but core failed
