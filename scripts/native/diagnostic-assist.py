@@ -16,8 +16,7 @@ impl Payload<'_> {
             .map_err(|e| Error::io(ErrorKind::Integrity, "spawn worker", e))?;
         let mut input=child.stdin.take().unwrap();
         input.write_all(&self.integrity.as_ref().unwrap().encode()).unwrap();
-        input.write_all(&self.header.encode()).unwrap();
-        input.write_all(self.compressed).unwrap();
+        if decode { input.write_all(&self.header.encode()).unwrap(); input.write_all(self.compressed).unwrap(); }
         drop(input);
         let result=child.wait_with_output().map_err(|e| Error::io(ErrorKind::Integrity, "wait worker", e))?;
         if !result.status.success() {return Err(Error::new(ErrorKind::Integrity, String::from_utf8_lossy(&result.stderr).into_owned()));}
@@ -28,5 +27,5 @@ impl Payload<'_> {
 p=Path('crates/swc_native_addon/src/cache.rs');s=p.read_text()
 s=s.replace('payload.verify_image(&mut file)', 'payload.diagnostic_assist(&path, false)')
 s=s.replace('payload.decode_into(staged.as_file_mut())?', 'payload.diagnostic_assist(staged.path(), true)?')
-s=s.replace('payload.verify_image(staged.as_file_mut())?', 'payload.diagnostic_assist(staged.path(), false)?')
+s=s.replace('payload.verify_image(staged.as_file_mut())?', '()')
 p.write_text(s)

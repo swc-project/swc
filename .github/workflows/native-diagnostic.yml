@@ -50,8 +50,7 @@ jobs:
           filename="$(node --input-type=module -e 'import {artifactInfo} from "./scripts/native/common.mjs"; console.log(artifactInfo(process.env.PRODUCT,process.env.TARGET).filename)')"
           echo "FILENAME=$filename" >> "$GITHUB_ENV"
           "$SWC_NATIVE_TOOLS/swc-native-addon-verify" --input "target/diagnostic-input/$filename" --target "$TARGET" --extract "$GITHUB_WORKSPACE/target/diagnostic-input/raw.node"
-          mkdir -p tools/swc-native-addon-pack/src/bin
-          cp scripts/native/diagnostic-worker.rs tools/swc-native-addon-pack/src/bin/native-diagnostic-worker.rs
+          python scripts/native/diagnostic-worker-setup.py
           cargo build --release -p swc_native_addon_pack --bin native-diagnostic-worker
           python scripts/native/diagnostic.py
           python scripts/native/diagnostic-assist.py
