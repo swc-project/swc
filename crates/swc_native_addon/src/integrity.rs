@@ -90,11 +90,13 @@ impl Verifier {
     }
 
     pub(crate) fn buffer_len(&self, _raw_len: u64) -> usize {
-        // Larger bounded batches amortize parallel hashing under Rosetta.
-        // Small images and the default SHA-512 API keep the streaming buffer.
+        // Enter the worker pool once for ordinary addon sizes. Repeated 1 MiB
+        // dispatches stall Rosetta verification on constrained CI hosts. Bound
+        // scratch memory even for the largest accepted payloads; the buffer is
+        // freed after verification. Small images and SHA-512 keep streaming.
         #[cfg(all(target_os = "macos", target_arch = "x86_64"))]
         if matches!(self, Self::Blake3(..)) && _raw_len >= 1024 * 1024 {
-            return 1024 * 1024;
+            return _raw_len.min(32 * 1024 * 1024) as usize;
         }
         64 * 1024
     }

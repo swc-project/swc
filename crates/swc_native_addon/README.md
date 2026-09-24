@@ -129,7 +129,9 @@ with newly decoded, verified bytes. If both custom and default roots fail, the
 loader throws rather than silently loading unverified data.
 
 Every cache hit is checked for native magic, length, and BLAKE3 over the entire
-file. The SHA-512 cache key remains unchanged. Per-digest OS
+file. On x64 macOS, verification batches use at most 32 MiB of temporary scratch
+memory to avoid repeated worker dispatch under Rosetta; larger images still
+stream in bounded batches. The SHA-512 cache key remains unchanged. Per-digest OS
 file locks coordinate checking, repair, publication, and native loading. Writers
 use unique staging files in the destination directory, write and verify them,
 then rename atomically. Canonical entries are never truncated in place. Closing
