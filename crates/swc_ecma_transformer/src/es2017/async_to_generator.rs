@@ -538,6 +538,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
 
     let value = private_ident!("_value");
     let iterator = private_ident!("_iterator");
+    let next_method = matches!(mode, AwaitForMode::NativeAsync).then(|| private_ident!("_next"));
     let iterator_error = private_ident!("_iteratorError");
     let step = private_ident!("_step");
     let did_iteration_error = private_ident!("_didIteratorError");
@@ -554,13 +555,23 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
         let mut for_loop_body = Vec::new();
         if matches!(mode, AwaitForMode::NativeAsync) {
             // Validate the awaited iterator result before accessing its properties.
-            let iter_next = iterator.clone().make_member(quote_ident!("next"));
-            let iter_next = CallExpr {
+            let iter_next: Expr = CallExpr {
                 span: DUMMY_SP,
-                callee: iter_next.as_callee(),
-                args: Default::default(),
+                callee: quote_ident!(unresolved_ctxt, "Reflect")
+                    .make_member(quote_ident!("apply"))
+                    .as_callee(),
+                args: vec![
+                    next_method.as_ref().unwrap().clone().as_arg(),
+                    iterator.clone().as_arg(),
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![],
+                    }
+                    .as_arg(),
+                ],
                 ..Default::default()
-            };
+            }
+            .into();
             for_loop_body.push(
                 ExprStmt {
                     span: DUMMY_SP,
@@ -568,7 +579,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
                         span: DUMMY_SP,
                         op: op!("="),
                         left: step.clone().into(),
-                        right: await_iteration(iter_next.into(), mode).into(),
+                        right: await_iteration(iter_next, mode).into(),
                     }
                     .into(),
                 }
@@ -763,6 +774,14 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
             },
             definite: false,
         });
+        if let Some(next_method) = next_method {
+            init_var_decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: next_method.into(),
+                init: Some(iterator.clone().make_member(quote_ident!("next")).into()),
+                definite: false,
+            });
+        }
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
             name: step.clone().into(),

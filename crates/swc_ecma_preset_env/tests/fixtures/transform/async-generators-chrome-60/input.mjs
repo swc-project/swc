@@ -98,6 +98,14 @@ export async function validatedResult(iterable) {
     }
 }
 
+export async function cachedNext(iterable) {
+    const values = [];
+    for await (const item of iterable) {
+        values.push(item);
+    }
+    return values;
+}
+
 export const consume = async (iterable) => {
     for await (const item of iterable) {
         if (item) break;
