@@ -972,6 +972,14 @@ jobs:
         run: |
           cargo test -p swc_native_addon --test platform ntfs_compression -- --ignored --exact
           cargo test -p swc_native_addon --test platform temporary_cleanup_after_process_exit -- --exact
+      - name: Install Windows MSRV toolchain
+        if: matrix.host == 'windows-latest'
+        shell: bash
+        run: rustup toolchain install 1.73.0 --profile minimal
+      - name: Verify Windows MSRV and embedded cleanup worker
+        if: matrix.host == 'windows-latest'
+        shell: bash
+        run: python crates/swc_native_addon/scripts/msrv.py
       - name: Verify btrfs replacement
         if: runner.os == 'Linux'
         shell: bash

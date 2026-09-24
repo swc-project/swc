@@ -16,6 +16,7 @@ fn main() {
         "--crate-name=swc_native_cleanup",
         "-Copt-level=s",
         "-Cpanic=abort",
+        "-Ctarget-feature=+crt-static",
         "-Clto",
         "-Ccodegen-units=1",
         "-Cstrip=symbols",
