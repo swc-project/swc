@@ -166,5 +166,12 @@ kept Node and the actual addon under Rosetta, while a native ARM process decoded
 and verified complete images. Minifier passed at 60.01/16.22 ms, but core failed
 at 197.86/34.17 ms. This is an incomplete prototype, with a prebuilt helper at
 a checkout path; it is not a self-contained shipping implementation. Its result
-does not establish acceptance. Further experiments compare parallel native
-verification and faster zstd encoding without changing the gates.
+does not establish acceptance.
+
+[Parallel worker experiment 35958141560](https://github.com/swc-project/swc/actions/runs/35958141560)
+also failed core: the original encoding measured -69.51/64.36 ms and faster
+encoding measured 26.68/48.38 ms. Minifier passed at 50.67/23.43 ms. In addition,
+locally installing a fresh helper executable before each verification added a
+median of about 142 ms including its first execution and verification. The
+preinstalled-helper prototype omits this deployment cost and will not ship.
+Its scripts have been removed; the historical source is retained in Git.
