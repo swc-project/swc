@@ -55,3 +55,7 @@ if experiment.startswith("bulk-"):
             return Ok(());
         }
 ''' + marker);p.write_text(s)
+if experiment.startswith("fast-stream-"):
+    level = -int(experiment.split("-")[2])
+    p=Path("crates/swc_native_addon/src/format.rs");s=p.read_text().replace("pub const COMPRESSION_LEVEL: i32 = 16;", f"pub const COMPRESSION_LEVEL: i32 = {level};");p.write_text(s)
+    p=Path("crates/swc_native_addon/src/integrity.rs");s=p.read_text().replace("return _raw_len.min(32 * 1024 * 1024) as usize;", "return 64 * 1024;");p.write_text(s)

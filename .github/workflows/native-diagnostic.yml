@@ -24,8 +24,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: bulk-1 }
-          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: bulk-2 }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: fast-stream-5 }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: fast-stream-10 }
+          - { host: macos-latest, product: minifier, node: "20", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: fast-stream-10 }
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
@@ -51,6 +52,9 @@ jobs:
           echo "FILENAME=$filename" >> "$GITHUB_ENV"
           "$SWC_NATIVE_TOOLS/swc-native-addon-verify" --input "target/diagnostic-input/$filename" --target "$TARGET" --extract "$GITHUB_WORKSPACE/target/diagnostic-input/raw.node"
           python scripts/native/diagnostic.py
+          if [[ "$NATIVE_DIAGNOSTIC_EXPERIMENT" == fast-* ]]; then
+            cargo build --release -p swc_native_addon_pack
+          fi
           rustup target add "$TARGET"
           if [ "$MODE" = finalized ]; then
             cp target/diagnostic-input/raw.node "packages/$PRODUCT/$filename"
