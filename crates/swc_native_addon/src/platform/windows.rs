@@ -24,9 +24,9 @@ use windows_sys::Win32::{
     Storage::FileSystem::{
         CreateDirectoryW, GetFileInformationByHandle, LockFileEx, MoveFileExW,
         BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_DEFAULT, FILE_ATTRIBUTE_REPARSE_POINT,
-        FILE_FLAG_DELETE_ON_CLOSE, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE,
-        FILE_SHARE_READ, FILE_SHARE_WRITE, LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY,
-        MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
+        FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE, FILE_SHARE_READ, FILE_SHARE_WRITE,
+        LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY, MOVEFILE_REPLACE_EXISTING,
+        MOVEFILE_WRITE_THROUGH,
     },
     System::{
         Ioctl::FSCTL_SET_COMPRESSION,
@@ -509,17 +509,6 @@ pub fn replace_file(source: &Path, destination: &Path) -> io::Result<()> {
         return Err(io::Error::last_os_error());
     }
     Ok(())
-}
-
-pub fn delete_on_close(path: &Path) -> io::Result<File> {
-    // Acquire DELETE access before mapping the DLL. Windows rejects both new
-    // DELETE handles and immediate deletion after creating an image section.
-    OpenOptions::new()
-        .read(true)
-        .access_mode(0x8000_0000 | 0x0001_0000) // GENERIC_READ | DELETE
-        .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
-        .custom_flags(FILE_FLAG_DELETE_ON_CLOSE | FILE_FLAG_OPEN_REPARSE_POINT)
-        .open(path)
 }
 
 /// # Safety

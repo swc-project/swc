@@ -12,3 +12,5 @@ pub mod platform;
 pub mod replacement;
 
 pub use error::{Error, ErrorKind, Result};
+#[cfg(windows)]
+mod cleanup;

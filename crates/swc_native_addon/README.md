@@ -145,11 +145,15 @@ an image being loaded is deferred until a later materialization.
 
 In mode `0`, each materialization has a unique process-prefixed filename. Unix
 unlinks it after successful `dlopen` while retaining the mapped library. Windows
-closes the writable decoder handle and arms a noninheritable read/delete
-handle before loading, retaining it until process teardown. Windows can reject
-arming deletion once the image is mapped. This avoids relying on Rust
-destructors running at exit. Native Windows subprocess tests must verify this
-lifecycle before release activation.
+closes the writable decoder handle and starts an embedded native cleanup worker
+before loading. The worker waits for EOF on a private pipe and retries deletion
+for up to ten seconds while Windows releases the mapped image. The pipe closes
+on both normal and forced process termination; Rust destructors are not required.
+The small helper executable persists in the private cache, is verified over all
+bytes before each launch, and requires no shell or additional installed runtime.
+The worker is used only for temporary images, not persistent cache hits. If an
+external process keeps the image mapped beyond the retry limit, or terminates
+the cleanup worker too, the temporary file can remain for manual cache cleanup.
 
 ## Transparent filesystem compression
 

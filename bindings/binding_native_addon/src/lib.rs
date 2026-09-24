@@ -25,7 +25,7 @@ struct Loaded {
 
 // Statics are deliberately never dropped. Addon callbacks can survive the
 // original registration call and other Node environments in the same process.
-// A Windows temporary's deletion handle is closed by process teardown.
+// A Windows temporary's cleanup pipe is closed by process teardown.
 static LOADED: Mutex<Option<Loaded>> = Mutex::new(None);
 static IMAGE_ANCHOR: u8 = 0;
 

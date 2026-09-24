@@ -44,7 +44,7 @@ entries are repaired from the verified payload.
 | Value                | Behavior                                                                                                                                                                   |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Unset or empty       | Use the default user cache and eligible filesystem replacement.                                                                                                            |
-| `0`                  | Materialize a unique temporary image; never replace the installed carrier. Unix unlinks it after loading; Windows retains a delete-on-close handle until process teardown. |
+| `0`                  | Materialize a unique temporary image; never replace the installed carrier. Unix unlinks it after loading; Windows uses a verified native worker to delete it after process teardown. |
 | Absolute directory   | Use this cache root, falling back to the default user cache if unusable.                                                                                                   |
 | Other relative value | Throw a configuration error.                                                                                                                                               |
 

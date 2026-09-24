@@ -51,15 +51,14 @@ impl CacheMode {
 }
 
 /// Owns staging cleanup and cache coordination until loading has succeeded.
-/// On Windows the cleanup handle is armed before the image loader opens the
-/// DLL, then outlives every use of that DLL.
+/// On Windows a cleanup worker is armed before the image loader opens the DLL.
 pub struct Materialized {
     path: PathBuf,
     temporary: bool,
     lock: Option<File>,
     cache_directory: Option<PathBuf>,
     #[cfg(windows)]
-    _delete_on_close: Option<File>,
+    _cleanup: Option<crate::cleanup::Cleanup>,
 }
 
 impl Materialized {
@@ -96,7 +95,8 @@ impl Materialized {
 impl Drop for Materialized {
     fn drop(&mut self) {
         if self.temporary {
-            // Windows retains the cleanup handle for the image's lifetime.
+            // The Windows worker retries after the pipe closes if an image
+            // section still prevents this immediate, best-effort deletion.
             let _ = fs::remove_file(&self.path);
         }
     }
@@ -163,11 +163,10 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
     // Close the writable file before mapping an image on Windows. Retaining a
     // write handle can conflict with the OS image loader's sharing requirements.
     let path = file.into_temp_path();
-    // Windows rejects requesting deletion after an image section is mapped.
-    // Arm cleanup after closing the writer but before LoadLibrary, and retain
-    // only a read/delete handle for the image's lifetime (including hard exits).
+    // Arm cleanup before LoadLibrary. The pipe writer is not inherited by
+    // other children and closes even on forced termination of this process.
     #[cfg(windows)]
-    let delete_on_close = platform::delete_on_close(&path)
+    let cleanup = crate::cleanup::arm(&path)
         .map_err(|e| io_error("arm temporary addon cleanup", &path, e))?;
     let path = path
         .keep()
@@ -178,7 +177,7 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
         lock: None,
         cache_directory: None,
         #[cfg(windows)]
-        _delete_on_close: Some(delete_on_close),
+        _cleanup: Some(cleanup),
     })
 }
 
@@ -318,6 +317,6 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
         lock: Some(lock),
         cache_directory: Some(directory),
         #[cfg(windows)]
-        _delete_on_close: None,
+        _cleanup: None,
     })
 }
