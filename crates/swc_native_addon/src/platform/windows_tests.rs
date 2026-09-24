@@ -3,6 +3,25 @@ use windows_sys::Win32::Security::{GetSecurityDescriptorDacl, GetSecurityDescrip
 use super::*;
 
 #[test]
+fn newly_created_files_have_the_explicit_user_owner() {
+    let root = tempfile::tempdir().unwrap();
+    let directory = root.path().join("private");
+    private_directory(&directory).unwrap();
+    let path = directory.join("entry");
+    let file = new_private_file(&path).unwrap();
+    assert_eq!(
+        new_private_file(&path).unwrap_err().kind(),
+        io::ErrorKind::AlreadyExists
+    );
+    drop(file);
+    // Reopening validates ownership, DACL, file kind, and hardlink count.
+    open_regular(&path, false, false).unwrap();
+    open_regular(&directory.join("lock"), true, true).unwrap();
+    let stage = super::super::temporary_file(&directory, "stage-", ".tmp").unwrap();
+    open_regular(stage.path(), false, false).unwrap();
+}
+
+#[test]
 fn ancestor_acl_fixtures() {
     let path = Path::new(r"C:\Users\fixture");
     for line in include_str!("../../tests/fixtures/windows-acls.txt").lines() {

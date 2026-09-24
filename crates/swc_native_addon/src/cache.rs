@@ -11,8 +11,6 @@ use std::{
     time::SystemTime,
 };
 
-use tempfile::Builder;
-
 use crate::{format::Payload, platform, Error, ErrorKind, Result};
 
 const MAX_PERSISTENT_IMAGES: usize = 3;
@@ -152,11 +150,9 @@ pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materializ
 pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
     let root = platform::user_cache_root()?;
     let dir = cache_directory(&root)?;
-    let mut file = Builder::new()
-        .prefix(&format!("process-{}-", std::process::id()))
-        .suffix(".node")
-        .tempfile_in(&dir)
-        .map_err(|e| io_error("create temporary addon", &dir, e))?;
+    let mut file =
+        platform::temporary_file(&dir, &format!("process-{}-", std::process::id()), ".node")
+            .map_err(|e| io_error("create temporary addon", &dir, e))?;
     payload.decode_into(file.as_file_mut())?;
     // File writes are already visible to the image loader. This process-local
     // image does not need to survive power loss, so no durability flush is needed.
@@ -289,10 +285,7 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
         Err(e) => return Err(io_error("open cache entry", &path, e)),
     };
     if !valid {
-        let mut staged = Builder::new()
-            .prefix("publish-")
-            .suffix(".tmp")
-            .tempfile_in(&directory)
+        let mut staged = platform::temporary_file(&directory, "publish-", ".tmp")
             .map_err(|e| io_error("stage cache entry", &directory, e))?;
         payload.decode_into(staged.as_file_mut())?;
         // Compression is an optimization. Its failure must never turn verified

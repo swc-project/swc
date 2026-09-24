@@ -348,15 +348,75 @@ pub fn private_directory(path: &Path) -> io::Result<()> {
     Ok(())
 }
 
+/// An elevated token can default new files to the Administrators owner. Never
+/// weaken validation to accept that owner: create our own files with the user's
+/// SID explicitly, and leave existing files subject to the original checks.
+pub(crate) fn new_private_file(path: &Path) -> io::Result<File> {
+    use std::os::windows::io::FromRawHandle;
+
+    use windows_sys::Win32::{
+        Foundation::{GENERIC_READ, GENERIC_WRITE, INVALID_HANDLE_VALUE},
+        Storage::FileSystem::{CreateFileW, CREATE_NEW, FILE_ATTRIBUTE_NORMAL},
+    };
+    let sid = current_sid()?;
+    let sddl: Vec<u16> = format!("O:{sid}D:P(A;;FA;;;{sid})(A;;FA;;;SY)")
+        .encode_utf16()
+        .chain(Some(0))
+        .collect();
+    let mut descriptor = ptr::null_mut();
+    if unsafe {
+        ConvertStringSecurityDescriptorToSecurityDescriptorW(
+            sddl.as_ptr(),
+            SDDL_REVISION_1,
+            &mut descriptor,
+            ptr::null_mut(),
+        )
+    } == 0
+    {
+        return Err(io::Error::last_os_error());
+    }
+    let _descriptor = LocalAllocation(descriptor);
+    let attributes = SECURITY_ATTRIBUTES {
+        nLength: std::mem::size_of::<SECURITY_ATTRIBUTES>() as u32,
+        lpSecurityDescriptor: descriptor,
+        bInheritHandle: 0,
+    };
+    let handle = unsafe {
+        CreateFileW(
+            wide(path).as_ptr(),
+            GENERIC_READ | GENERIC_WRITE,
+            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+            &attributes,
+            CREATE_NEW,
+            FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OPEN_REPARSE_POINT,
+            0,
+        )
+    };
+    if handle == INVALID_HANDLE_VALUE {
+        return Err(io::Error::last_os_error());
+    }
+    Ok(unsafe { File::from_raw_handle(handle as _) })
+}
+
 pub fn open_regular(path: &Path, write: bool, create: bool) -> io::Result<File> {
     use std::os::windows::io::AsRawHandle;
-    let file = OpenOptions::new()
-        .read(true)
-        .write(write)
-        .create(create)
-        .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
-        .custom_flags(FILE_FLAG_OPEN_REPARSE_POINT)
-        .open(path)?;
+    let open = || {
+        OpenOptions::new()
+            .read(true)
+            .write(write)
+            .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
+            .custom_flags(FILE_FLAG_OPEN_REPARSE_POINT)
+            .open(path)
+    };
+    let file = if create {
+        match new_private_file(path) {
+            Ok(file) => file,
+            Err(error) if error.kind() == io::ErrorKind::AlreadyExists => open()?,
+            Err(error) => return Err(error),
+        }
+    } else {
+        open()?
+    };
     let metadata = file.metadata()?;
     if !metadata.is_file() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
         return Err(io::Error::new(
@@ -393,10 +453,14 @@ pub fn open_regular(path: &Path, write: bool, create: bool) -> io::Result<File> 
     }
     let _security = LocalAllocation(security);
     let sid = current_sid()?;
-    if sid_string(owner)? != sid {
+    let owner = sid_string(owner)?;
+    if owner != sid {
         return Err(io::Error::new(
             io::ErrorKind::PermissionDenied,
-            "cache entry belongs to another user",
+            format!(
+                "cache entry {} has owner SID {owner}, expected {sid}",
+                path.display()
+            ),
         ));
     }
     protect_entry_dacl(path, &sid)?;

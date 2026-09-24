@@ -27,7 +27,7 @@ fn verified_helper(directory: &Path) -> io::Result<(std::path::PathBuf, File)> {
     let mut file = match platform::open_regular(&path, false, false) {
         Ok(file) => file,
         Err(error) if error.kind() == io::ErrorKind::NotFound => {
-            let mut stage = tempfile::NamedTempFile::new_in(directory)?;
+            let mut stage = platform::temporary_file(directory, "cleanup-", ".tmp")?;
             stage.write_all(HELPER)?;
             let stage = stage.into_temp_path();
             platform::replace_file(&stage, &path)?;
