@@ -25,14 +25,15 @@ release tag was published by these verification runs.
   carrier-only workflow dispatch is available for native lifecycle diagnosis.
 
 Local validation passed: submodule initialization, cargo fmt --all, full
-cargo clippy --all --all-targets -- -D warnings, 16 native JS tests, core
+cargo clippy --all --all-targets -- -D warnings, 17 native JS tests, core
 pnpm build:dev and pnpm test (119 passed, three existing tests skipped), and
 swc_native_addon / binding_native_addon crate tests on macOS. APFS replacement
 passed with an explicit writable APFS volume. Generated public bindings and
 fixture lockfiles were restored after testing.
 
 The current three private crates passed their complete test suites in a
-Linux ARM64 rust:1.73-bookworm container using scripts/msrv.py. All three also
+Linux ARM64 rust:1.73-bookworm container using
+crates/swc_native_addon/scripts/msrv.py. All three also
 passed Rust 1.73 x64 macOS type checking, including the parallel implementation.
 The four integrity tests passed as actual x64 macOS executables under Rosetta,
 including irregular reads, batch boundaries, and corruption after prior success.
@@ -140,3 +141,30 @@ approximately 80 ms. However, the first LoadLibrary call still dominates their
 cold measurements. Focused diagnostics are checking filesystem compression and
 volume placement before any further implementation or measurement change.
 Neither these profiles nor a cancelled diagnostic run is passing release evidence.
+
+## Follow-up measurements and current decision points
+
+Fresh raw baseline files now use the same home/cache volume as extracted files.
+Windows runners place checkout and home on different drives; comparing their
+first-load times confounded loader overhead with volume behavior. The copying
+remains outside the timer, and all reports still use 15-sample medians.
+
+[Windows comparison 35954368485](https://github.com/swc-project/swc/actions/runs/35954368485)
+measured HTML at 468.19/5.53 ms cold/warm overhead with NTFS compression and
+92.20/8.74 ms without it, using the same home volume. Uncompressed core measured
+-122.95/16.03 ms. Negative cold overhead reflects variation in first native
+loading, not a claim that verification is free. These are diagnostic variants:
+production still enables NTFS compression, pending the requested decision about
+changing this existing cache behavior and its test contract.
+
+The successful initialization path now resolves native exception helpers only
+if an error occurs. All three private crate suites, Rust 1.73 checks, full
+clippy, and core build/tests passed locally after this change.
+
+[Rosetta worker experiment 35957275680](https://github.com/swc-project/swc/actions/runs/35957275680)
+kept Node and the actual addon under Rosetta, while a native ARM process decoded
+and verified complete images. Minifier passed at 60.01/16.22 ms, but core failed
+at 197.86/34.17 ms. This is an incomplete prototype, with a prebuilt helper at
+a checkout path; it is not a self-contained shipping implementation. Its result
+does not establish acceptance. Further experiments compare parallel native
+verification and faster zstd encoding without changing the gates.
