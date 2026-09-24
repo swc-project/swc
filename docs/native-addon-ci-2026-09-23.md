@@ -6,10 +6,12 @@ and macOS x64 still runs under Rosetta. No npm package or release tag was
 published by these verification runs. Earlier results below used 100/25 ms
 budgets and retain their original pass/fail outcomes.
 
-The current production implementation passes the four-host lifecycle suite, but
-no full release gate has passed. Windows still enables NTFS cache compression;
-macOS x64 still ships a compressed carrier. The approved budget revision keeps
-both behaviors. All unsuccessful diagnostic workflows and prototype
+The preceding implementation passed the four-host lifecycle suite and all eight
+Rosetta runtime jobs under the revised budgets, but Windows cold loading still
+failed. Newly approved changes keep compressed npm carriers and create ordinary
+Windows runtime cache images, including beneath compressed cache directories.
+Existing compressed entries remain immutable and fully verified. A new complete
+release verification is required. All unsuccessful diagnostic workflows and prototype
 scripts have been removed from the branch; their source and evidence remain in
 Git and the linked workflow runs.
 
@@ -238,7 +240,7 @@ verification nor faster encoding has been adopted.
   This calculation excludes the other 16 builds and is not a new gate result.
 - Disabling NTFS compression for Windows runtime cache images passed focused
   measurements, but changes the existing compressed-cache test contract. It is
-  not implemented. npm payload compression and
+  approved in the follow-up below. npm payload compression and
   complete runtime integrity verification would remain required.
 
 ## Approved startup budget revision (2026-09-24)
@@ -252,5 +254,41 @@ copies, complete integrity verification, compressed carriers, NTFS cache
 compression, and Rosetta execution remain unchanged. No raw fallback or
 unsuccessful optimization prototype is adopted.
 
-The revised implementation must pass a new exact-source release workflow,
-including all runtime/minimum-Node jobs and the final gate, before acceptance.
+## Full verification under 500/100 ms budgets
+
+[Run 35982132217](https://github.com/swc-project/swc/actions/runs/35982132217)
+tested source deb4b9689b. All 48 builds, four npm assembly jobs, five minimum-Node
+checks, and four platform lifecycle jobs passed. Runtime checks passed 61 of 64
+jobs, including all eight Rosetta jobs. Rosetta core measured 84.05/75.70 ms
+cold/warm overhead on Node 20 and 177.57/62.20 ms on Node 22. All 201 standard
+PR checks also passed at this source.
+
+Three Windows x64 jobs failed the 500 ms cold budget after passing package
+loading and image-integrity checks:
+
+| Product | Node | Cold overhead (ms) | Warm overhead (ms) |
+| --- | --- | ---: | ---: |
+| core | 20 | 1517.92 | 16.10 |
+| core | 22 | 1123.64 | 16.53 |
+| html | 22 | 635.45 | 9.23 |
+
+The final release gate was skipped. A preceding run was cancelled during builds
+after an unused wasm-pack installer crashed on Windows. Native build jobs now
+omit that installer; the separate WASM publishing job retains it. The Rust
+installation action also uses a commit retained in upstream master history,
+with explicit toolchain inputs preserving the previous installer behavior.
+
+## Approved Windows cache policy follow-up
+
+The maintainer approved ordinary Windows cache images while retaining the
+500/100 ms budgets, npm zstd carriers, and full integrity verification. New
+persistent and temporary images clear inherited NTFS compression through their
+existing private write handles before decoding. Existing compressed images
+remain immutable on verified hits; corruption triggers replacement with an
+ordinary image. Ownership, DACL, reparse-point, and digest checks are unchanged.
+
+The existing NTFS fixture now constructs a legacy compressed entry and retains
+its compression/integrity assertions. Additional fixtures cover ordinary and
+compressed cache roots, compressed-entry corruption after a successful hit, and
+process-local images beneath a compressed root. The complete release workflow
+must pass again for the new source before acceptance.

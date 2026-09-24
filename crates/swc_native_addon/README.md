@@ -180,11 +180,16 @@ is regenerated for the raw image instead of copied from the carrier.
 On macOS, a carrier with an ACL not equivalent to its mode bits uses the verified
 cache instead, because staging replacement cannot safely preserve that ACL.
 
-Windows never replaces a loaded carrier DLL. It enables NTFS compression on the
-empty staging file before decoding, avoiding a synchronous rewrite of the entire
-image during startup. Full-byte readback verification still precedes cache
-publication. Unsupported filesystem compression does not prevent loading a
-verified ordinary cache file.
+Windows never replaces a loaded carrier DLL. New persistent and process-local
+cache images are ordinary, uncompressed files: first loading an NTFS-compressed
+DLL adds substantial startup latency. Before decoding, the loader clears any
+compression inherited from the cache directory through the private staging
+file's existing write handle. Ordinary files require no compression control call,
+and the user's directory policy remains unchanged. Failure to prepare the image
+uses the usual cache error/fallback path. Full-byte verification still precedes
+publication and loading. Existing compressed cache entries remain immutable and
+are fully verified on every hit; corrupt entries are replaced by new ordinary
+images. The npm carrier's zstd payload is unchanged.
 
 ## Verification
 
@@ -218,6 +223,7 @@ SWC_TEST_VOLUME=/writable/apfs \
 SWC_TEST_VOLUME=/writable/btrfs \
   cargo test -p swc_native_addon --test platform btrfs_self_replacement -- --ignored --exact
 cargo test -p swc_native_addon --test platform ntfs_compression -- --ignored --exact
+cargo test -p swc_native_addon --test ntfs -- --ignored
 ```
 
 Cross-target `cargo check` validates Rust adapters but cannot establish native

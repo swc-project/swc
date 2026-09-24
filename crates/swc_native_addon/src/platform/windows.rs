@@ -23,10 +23,10 @@ use windows_sys::Win32::{
     },
     Storage::FileSystem::{
         CreateDirectoryW, GetFileInformationByHandle, LockFileEx, MoveFileExW,
-        BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_DEFAULT, FILE_ATTRIBUTE_REPARSE_POINT,
-        FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE, FILE_SHARE_READ, FILE_SHARE_WRITE,
-        LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY, MOVEFILE_REPLACE_EXISTING,
-        MOVEFILE_WRITE_THROUGH,
+        BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_NONE, FILE_ATTRIBUTE_COMPRESSED,
+        FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE,
+        FILE_SHARE_READ, FILE_SHARE_WRITE, LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY,
+        MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
     },
     System::{
         Ioctl::FSCTL_SET_COMPRESSION,
@@ -614,10 +614,17 @@ pub unsafe fn carrier_path(address: *const c_void) -> Result<PathBuf> {
     }
 }
 
-pub fn compress_cache(path: &Path) -> io::Result<()> {
+/// Prepare a new, empty image before decoding. NTFS compression can be
+/// inherited from a user-selected cache directory, even when we never request
+/// it ourselves. Clear it through the existing private write handle: first
+/// loading compressed DLLs is substantially slower. Published images are never
+/// modified in place.
+pub(crate) fn prepare_cache_image(file: &File) -> io::Result<()> {
     use std::os::windows::io::AsRawHandle;
-    let file = open_regular(path, true, false)?;
-    let mut format = COMPRESSION_FORMAT_DEFAULT;
+    if file.metadata()?.file_attributes() & FILE_ATTRIBUTE_COMPRESSED == 0 {
+        return Ok(());
+    }
+    let mut format = COMPRESSION_FORMAT_NONE;
     let mut returned = 0;
     if unsafe {
         DeviceIoControl(

@@ -968,11 +968,12 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         run: SWC_TEST_VOLUME="$RUNNER_TEMP" cargo test -p swc_native_addon --test platform apfs_self_replacement -- --ignored --exact
-      - name: Verify NTFS compression and process-exit cleanup
+      - name: Verify NTFS cache policy and process-exit cleanup
         if: runner.os == 'Windows'
         shell: bash
         run: |
           cargo test -p swc_native_addon --test platform ntfs_compression -- --ignored --exact
+          cargo test -p swc_native_addon --test ntfs -- --ignored
           cargo test -p swc_native_addon --test platform temporary_cleanup_after_process_exit -- --exact
       - name: Install Windows MSRV toolchain
         if: matrix.host == 'windows-latest'

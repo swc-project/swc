@@ -143,6 +143,16 @@ fn ntfs_compression() {
     let mut file = cache::cached_at(&payload, root.path()).unwrap();
     #[cfg(windows)]
     {
+        // Older releases populated compressed entries. Preserve their loading
+        // and verification contract while new materializations stay ordinary.
+        let path = file.path().to_owned();
+        file.loaded().unwrap();
+        drop(file);
+        support::ntfs::compress(&path).unwrap();
+        file = cache::cached_at(&payload, root.path()).unwrap();
+    }
+    #[cfg(windows)]
+    {
         use std::os::windows::fs::MetadataExt;
 
         use windows_sys::Win32::Storage::FileSystem::FILE_ATTRIBUTE_COMPRESSED;

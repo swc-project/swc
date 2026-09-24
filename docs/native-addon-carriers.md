@@ -56,8 +56,11 @@ On writable APFS or btrfs, the loader may atomically replace its installed
 carrier with the original addon under transparent filesystem compression.
 The current process loads a separate verified temporary image. Read-only,
 hardlinked, unsupported, or unsuitable installations use the cache. Windows
-keeps the carrier DLL in place and requests NTFS compression on decoded cache
-files. The sibling CLI is never part of materialization or replacement.
+keeps the carrier DLL in place and writes ordinary cache files to avoid NTFS
+compressed-DLL startup costs. New persistent and temporary images have inherited
+NTFS compression cleared before decoding; existing compressed entries remain
+fully verified and usable. The sibling CLI is never part of materialization or
+replacement.
 
 ## Release verification
 

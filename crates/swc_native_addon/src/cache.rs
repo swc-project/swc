@@ -153,6 +153,8 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
     let mut file =
         platform::temporary_file(&dir, &format!("process-{}-", std::process::id()), ".node")
             .map_err(|e| io_error("create temporary addon", &dir, e))?;
+    platform::prepare_cache_image(file.as_file())
+        .map_err(|e| io_error("prepare temporary addon", file.path(), e))?;
     payload.decode_into(file.as_file_mut())?;
     // File writes are already visible to the image loader. This process-local
     // image does not need to survive power loss, so no durability flush is needed.
@@ -287,13 +289,8 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
     if !valid {
         let mut staged = platform::temporary_file(&directory, "publish-", ".tmp")
             .map_err(|e| io_error("stage cache entry", &directory, e))?;
-        // Enable NTFS compression while the file is empty. Applying it after
-        // decoding rewrites the complete image synchronously during startup.
-        // Other filesystems leave this unchanged; unsupported compression is
-        // only an optimization failure, never a reason to reject verified bytes.
-        if let Err(error) = platform::compress_cache(staged.path()) {
-            tracing::debug!(%error, "native cache filesystem compression unavailable");
-        }
+        platform::prepare_cache_image(staged.as_file())
+            .map_err(|e| io_error("prepare staged cache image", staged.path(), e))?;
         payload.decode_into(staged.as_file_mut())?;
         payload.verify_image(staged.as_file_mut())?;
         // All cooperating readers hold the digest lock, including during repair.
