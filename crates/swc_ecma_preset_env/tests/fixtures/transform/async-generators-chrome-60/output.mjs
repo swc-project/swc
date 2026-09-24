@@ -153,6 +153,35 @@ export async function getAll(iterable) {
     }
     return results;
 }
+export async function labeled(iterable) {
+    let count = 0;
+    {
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+        try {
+            outer: inner: for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                let _value = _step.value;
+                const item = _value;
+                if (item < 0) continue outer;
+                count += item;
+                if (count > 3) break inner;
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (_iteratorAbruptCompletion && _iterator.return != null) {
+                    await _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+    }
+    return count;
+}
 export const consume = async (iterable)=>{
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;

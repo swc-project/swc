@@ -424,9 +424,20 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
     }
 
+    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        if matches!(stmt, Stmt::Labeled(..)) {
+            if let Some(mode) = self.fn_state.as_ref().and_then(|s| s.await_for_mode) {
+                // A label must stay attached to the generated iteration statement.
+                handle_await_for(stmt, mode);
+            }
+        }
+    }
+
     fn exit_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         if let Some(mode) = self.fn_state.as_ref().and_then(|s| s.await_for_mode) {
-            handle_await_for(stmt, mode);
+            if matches!(stmt, Stmt::ForOf(..)) {
+                handle_await_for(stmt, mode);
+            }
         }
     }
 
@@ -513,7 +524,14 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
 
 #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
 fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode) {
-    let s = match stmt {
+    let mut labels = Vec::new();
+    let mut body = &mut *stmt;
+    while let Stmt::Labeled(labeled) = body {
+        labels.push((labeled.span, labeled.label.clone()));
+        body = &mut labeled.body;
+    }
+
+    let s = match body {
         Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),
         _ => return,
     };
@@ -632,7 +650,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode) {
             definite: false,
         });
 
-        let for_stmt = ForStmt {
+        let mut for_stmt: Stmt = ForStmt {
             span: s.span,
             // var _iterator = _async_iterator(lol()), _step;
             init: Some(
@@ -695,6 +713,15 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode) {
             body: Box::new(Stmt::Block(for_loop_body)),
         }
         .into();
+
+        for (span, label) in labels.into_iter().rev() {
+            for_stmt = LabeledStmt {
+                span,
+                label,
+                body: Box::new(for_stmt),
+            }
+            .into();
+        }
 
         BlockStmt {
             span: body_span,

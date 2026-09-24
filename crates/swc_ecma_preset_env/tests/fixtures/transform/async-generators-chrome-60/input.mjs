@@ -66,6 +66,16 @@ export async function getAll(iterable) {
     return results;
 }
 
+export async function labeled(iterable) {
+    let count = 0;
+    outer: inner: for await (const item of iterable) {
+        if (item < 0) continue outer;
+        count += item;
+        if (count > 3) break inner;
+    }
+    return count;
+}
+
 export const consume = async (iterable) => {
     for await (const item of iterable) {
         if (item) break;
