@@ -180,9 +180,11 @@ is regenerated for the raw image instead of copied from the carrier.
 On macOS, a carrier with an ACL not equivalent to its mode bits uses the verified
 cache instead, because staging replacement cannot safely preserve that ACL.
 
-Windows never replaces a loaded carrier DLL. It requests NTFS compression on the
-decoded staging file before cache publication. Unsupported filesystem compression
-does not prevent loading a verified ordinary cache file.
+Windows never replaces a loaded carrier DLL. It enables NTFS compression on the
+empty staging file before decoding, avoiding a synchronous rewrite of the entire
+image during startup. Full-byte readback verification still precedes cache
+publication. Unsupported filesystem compression does not prevent loading a
+verified ordinary cache file.
 
 ## Verification
 
