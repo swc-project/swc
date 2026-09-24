@@ -24,9 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: native-assist-parallel }
-          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: native-assist-parallel-fast }
-          - { host: macos-latest, product: minifier, node: "20", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: native-assist-parallel }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: mapped-serial }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: mapped-parallel }
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
@@ -51,10 +50,8 @@ jobs:
           filename="$(node --input-type=module -e 'import {artifactInfo} from "./scripts/native/common.mjs"; console.log(artifactInfo(process.env.PRODUCT,process.env.TARGET).filename)')"
           echo "FILENAME=$filename" >> "$GITHUB_ENV"
           "$SWC_NATIVE_TOOLS/swc-native-addon-verify" --input "target/diagnostic-input/$filename" --target "$TARGET" --extract "$GITHUB_WORKSPACE/target/diagnostic-input/raw.node"
-          python scripts/native/diagnostic-worker-setup.py
-          cargo build --release -p swc_native_addon_pack --bin native-diagnostic-worker
           python scripts/native/diagnostic.py
-          python scripts/native/diagnostic-assist.py
+          python scripts/native/diagnostic-mapped.py
           if [[ "$NATIVE_DIAGNOSTIC_EXPERIMENT" == fast-* ]]; then
             cargo build --release -p swc_native_addon_pack
           fi
