@@ -41,9 +41,11 @@ jobs:
           "$SWC_NATIVE_TOOLS/swc-native-addon-verify" --input target/diagnostic-input/swc.darwin-x64.node --target x86_64-apple-darwin --extract "$GITHUB_WORKSPACE/target/diagnostic-input/raw.node"
           "$SWC_NATIVE_TOOLS/swc-native-addon-pack" --input target/diagnostic-input/raw.node --target x86_64-apple-darwin --output "$GITHUB_WORKSPACE/target/diagnostic-input/payload.swcn"
           cp crates/swc_native_addon/src/integrity.rs target/diagnostic-input/integrity.rs
+          cp crates/swc_native_addon/src/format.rs target/diagnostic-input/format.rs
+          cp crates/swc_native_addon/src/cache.rs target/diagnostic-input/cache.rs
           rustup target add x86_64-apple-darwin
           failures=0
-          for variant in current two-workers serial; do
+          for variant in current worker-stream; do
             python3 scripts/native/diagnostic-scheduling.py "$variant"
             SWC_NATIVE_BINDING_PAYLOAD="$GITHUB_WORKSPACE/target/diagnostic-input/payload.swcn" cargo build --locked --release -p binding_native_addon --features embedded-payload --target x86_64-apple-darwin
             cp target/x86_64-apple-darwin/release/libbinding_native_addon.dylib "target/diagnostic-input/$variant.node"

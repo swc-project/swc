@@ -17,7 +17,7 @@ import {
 } from "./measurements.mjs";
 
 const [name] = process.argv.slice(2);
-if (!["current", "two-workers", "serial"].includes(name))
+if (!["current", "two-workers", "serial", "worker-stream"].includes(name))
     throw new Error("Unknown scheduling comparison");
 const target = "x86_64-apple-darwin";
 const input = resolve("target/diagnostic-input");
