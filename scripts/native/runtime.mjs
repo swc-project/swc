@@ -61,8 +61,8 @@ function smoke(entry, addon, cache) {
     return JSON.parse(value.split("\n").at(-1));
 }
 
-function variant(name, addon, holdCarrier = false) {
-    const directory = join(stage, name);
+function variant(name, addon, holdCarrier = false, root = stage) {
+    const directory = join(root, name);
     cpSync(info.directory, directory, {
         recursive: true,
         filter: (source) => {
@@ -158,7 +158,8 @@ try {
             measureLoads({
                 raw,
                 carrier,
-                copyRaw: (sample) => variant("raw-cold-" + sample, rawPath),
+                copyRaw: (sample, root) =>
+                    variant("raw-cold-" + sample, rawPath, false, root),
                 smoke,
                 cacheRoot,
             })

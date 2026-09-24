@@ -26,9 +26,11 @@ export function measureLoads({ raw, carrier, copyRaw, smoke, cacheRoot }) {
     smoke(carrier.entry, carrier.addon, warmCache);
     for (let sample = 0; sample < 15; sample++) {
         rawMs.push(smoke(raw.entry, raw.addon, "0").loadMs);
-        // Copying is outside smoke's require timer. Each cold sample uses a
-        // fresh inode, including the raw baseline for Rosetta/code signing.
-        const coldRaw = copyRaw(sample);
+        // Copying is outside smoke's require timer. Both new images belong on
+        // the cache volume: Windows runners put checkout and home on different
+        // drives with different first-load costs. Each raw sample uses a fresh
+        // file, including for Rosetta/code-signing work on the first load.
+        const coldRaw = copyRaw(sample, cacheRoot);
         rawColdMs.push(smoke(coldRaw.entry, coldRaw.addon, "0").loadMs);
         coldMs.push(
             smoke(

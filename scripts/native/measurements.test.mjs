@@ -97,3 +97,31 @@ test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budg
     ])
         assert.throws(() => validateMeasurements({ ...valid, ...change }));
 });
+
+test("cold raw copies use the cache volume instead of the checkout volume", () => {
+    const cacheRoot = join("user-home", "measurement");
+    const copies = [];
+    measureLoads({
+        raw: { entry: "checkout/raw/index.js", addon: "checkout/raw/binding.node" },
+        carrier: {
+            entry: "checkout/carrier/index.js",
+            addon: "checkout/carrier/binding.node",
+        },
+        cacheRoot,
+        copyRaw(sample, root) {
+            assert.equal(root, cacheRoot);
+            const directory = join(root, "raw-cold-" + sample);
+            copies.push(directory);
+            return {
+                entry: join(directory, "index.js"),
+                addon: join(directory, "binding.node"),
+            };
+        },
+        smoke(entry) {
+            if (entry.startsWith(cacheRoot))
+                assert(copies.includes(dirname(entry)));
+            return { loadMs: 1 };
+        },
+    });
+    assert.equal(new Set(copies).size, 15);
+});
