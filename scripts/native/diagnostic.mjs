@@ -6,8 +6,8 @@ import { measureLoads, createMeasurementCache, validateMeasurements } from './me
 const [product, rawPath, carrierPath, filename, target = "x86_64-apple-darwin"] = process.argv.slice(2);
 const stage=mkdtempSync(resolve('target/diagnostic-'));
 const cacheRoot=createMeasurementCache();
-function variant(name, source, hold=false) {
- const dir=join(name.startsWith('cold-raw') && process.env.NATIVE_DIAGNOSTIC_EXPERIMENT?.includes('home') ? cacheRoot : stage,name), base=resolve('packages',product);
+function variant(name, source, hold=false, root=stage) {
+ const dir=join(root,name), base=resolve('packages',product);
  cpSync(base,dir,{recursive:true,filter:path=>{
   const relative=path.slice(base.length);
   return !/(^|\/)(node_modules|scripts|target|artifacts|artifacts_cli)(\/|$)/.test(relative) && !relative.endsWith('.node');
@@ -26,6 +26,6 @@ try {
   console.error(JSON.stringify({entry,cache,loadMs:value.loadMs}));
   return value;
  };
- const result={target,...measureLoads({raw,carrier,copyRaw:i=>variant('cold-raw-'+i,rawPath),smoke,cacheRoot})};
+ const result={target,...measureLoads({raw,carrier,copyRaw:(i,root)=>variant('cold-raw-'+i,rawPath,false,root),smoke,cacheRoot})};
  console.log(JSON.stringify(result)); validateMeasurements(result);
 } finally {rmSync(stage,{recursive:true,force:true});rmSync(cacheRoot,{recursive:true,force:true});}
