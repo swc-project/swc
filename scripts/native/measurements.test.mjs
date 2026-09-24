@@ -22,6 +22,7 @@ test("measurement cache belongs to the current home outside the checkout", () =>
 
 test("cold samples copy raw before loading while warm samples reuse files", () => {
     const copied = new Set();
+    const copiedCarriers = new Set();
     const caches = new Map();
     const loads = new Map();
     const result = measureLoads({
@@ -34,6 +35,12 @@ test("cold samples copy raw before loading while warm samples reuse files", () =
             copied.add(file);
             return { entry: file, addon: file + ".node" };
         },
+        copyCarrier(sample) {
+            const file = "carrier-cold-" + sample;
+            assert(!copiedCarriers.has(file));
+            copiedCarriers.add(file);
+            return { entry: file, addon: file + ".node" };
+        },
         smoke(entry, addon, cache) {
             assert.equal(addon, entry + ".node");
             loads.set(entry, (loads.get(entry) || 0) + 1);
@@ -42,12 +49,20 @@ test("cold samples copy raw before loading while warm samples reuse files", () =
                 return { loadMs: 1000 + Number(entry.slice(9)) };
             }
             if (entry === "raw") return { loadMs: 10 };
+            if (cache !== join("cache", "warm"))
+                assert(
+                    copiedCarriers.has(entry),
+                    "carrier copy must precede loading"
+                );
             caches.set(cache, (caches.get(cache) || 0) + 1);
             return { loadMs: cache === join("cache", "warm") ? 35 : 1107 };
         },
     });
     assert.equal(copied.size, 15);
     for (const file of copied) assert.equal(loads.get(file), 1);
+    assert.equal(copiedCarriers.size, 15);
+    for (const file of copiedCarriers) assert.equal(loads.get(file), 1);
+    assert.equal(loads.get("carrier"), 16);
     assert.equal(loads.get("raw"), 15);
     assert.equal(caches.get(join("cache", "warm")), 16);
     for (let i = 0; i < 15; i++)
@@ -158,6 +173,13 @@ test("cold raw copies use the cache volume instead of the checkout volume", () =
             return {
                 entry: join(directory, "index.js"),
                 addon: join(directory, "binding.node"),
+            };
+        },
+        copyCarrier(sample, root) {
+            assert.equal(root, cacheRoot);
+            return {
+                entry: "carrier-cold-" + sample,
+                addon: "carrier-cold-" + sample + ".node",
             };
         },
         smoke(entry) {

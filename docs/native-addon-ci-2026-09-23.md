@@ -8,8 +8,8 @@ budgets and retain their original pass/fail outcomes.
 
 The latest full run at 98f1ecac0b passed all Windows checks after disabling NTFS
 compression for new cache images. It passed 63/64 runtime jobs; Rosetta core
-Node 20 exceeded the warm budget at 103.34 ms. A new complete verification is
-required after fixing the remaining Rosetta warm-load failure. Temporary diagnostic
+Node 20 exceeded the then-current 100 ms warm budget at 103.34 ms. A new complete
+verification is required with the approved budget and review follow-ups. Temporary diagnostic
 comparisons below are not release acceptance evidence.
 
 ## Implemented and checked
@@ -352,3 +352,22 @@ integrity checks are unchanged.
 The earlier 103.34 ms result remains a failure of its original 100 ms gate.
 Release acceptance requires a new complete verification of the updated source
 with publishing disabled; historical reports are not reclassified as passing.
+
+## Review follow-up: symmetric cold files and cleanup policy
+
+The budget-only run at a9eab7ba36 was cancelled during builds after review found
+two measurement asymmetries. Each cold sample now copies both the carrier and
+the raw baseline to new files on the cache volume. Windows measurement copies
+explicitly clear inherited or source NTFS compression before timing, matching
+the materialized raw cache image. Regression tests cover fresh carrier loads
+and compressed source/destination directories; the four-host lifecycle jobs run
+these tests as well. Earlier timing results remain historical evidence under
+their original measurement conditions.
+
+Windows helper execution can also be denied independently of DLL loading.
+After helper integrity verification, a failed process spawn now logs a warning
+and permits the verified temporary DLL to load with best-effort in-process
+cleanup. A mapped file may remain after forced termination in that restricted
+environment. Corrupt helpers still fail verification and cannot execute. A new
+Windows fixture denies execute permission on the verified helper and checks
+that the addon loads and is removed after unmapping.

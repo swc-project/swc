@@ -25,7 +25,14 @@ function median(values) {
     return [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
 }
 
-export function measureLoads({ raw, carrier, copyRaw, smoke, cacheRoot }) {
+export function measureLoads({
+    raw,
+    carrier,
+    copyRaw,
+    copyCarrier,
+    smoke,
+    cacheRoot,
+}) {
     const rawMs = [],
         rawColdMs = [],
         coldMs = [],
@@ -36,14 +43,15 @@ export function measureLoads({ raw, carrier, copyRaw, smoke, cacheRoot }) {
         rawMs.push(smoke(raw.entry, raw.addon, "0").loadMs);
         // Copying is outside smoke's require timer. Both new images belong on
         // the cache volume: Windows runners put checkout and home on different
-        // drives with different first-load costs. Each raw sample uses a fresh
-        // file, including for Rosetta/code-signing work on the first load.
+        // drives with different first-load costs. Both raw and carrier samples
+        // use fresh files, including Rosetta/code-signing work on the first load.
         const coldRaw = copyRaw(sample, cacheRoot);
+        const coldCarrier = copyCarrier(sample, cacheRoot);
         rawColdMs.push(smoke(coldRaw.entry, coldRaw.addon, "0").loadMs);
         coldMs.push(
             smoke(
-                carrier.entry,
-                carrier.addon,
+                coldCarrier.entry,
+                coldCarrier.addon,
                 join(cacheRoot, "cold-" + sample)
             ).loadMs
         );

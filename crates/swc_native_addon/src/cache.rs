@@ -49,7 +49,8 @@ impl CacheMode {
 }
 
 /// Owns staging cleanup and cache coordination until loading has succeeded.
-/// On Windows a cleanup worker is armed before the image loader opens the DLL.
+/// On Windows a cleanup worker is armed before loading when execution is
+/// allowed.
 pub struct Materialized {
     path: PathBuf,
     temporary: bool,
@@ -175,7 +176,7 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
         lock: None,
         cache_directory: None,
         #[cfg(windows)]
-        _cleanup: Some(cleanup),
+        _cleanup: cleanup,
     })
 }
 

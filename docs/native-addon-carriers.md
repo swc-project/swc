@@ -44,13 +44,18 @@ entries are repaired from the verified payload.
 | Value                | Behavior                                                                                                                                                                   |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Unset or empty       | Use the default user cache and eligible filesystem replacement.                                                                                                            |
-| `0`                  | Materialize a unique temporary image; never replace the installed carrier. Unix unlinks it after loading; Windows uses a verified native worker to delete it after process teardown. |
+| `0`                  | Materialize a unique temporary image; never replace the installed carrier. Unix unlinks it after loading; Windows uses a verified native worker to delete it after process teardown when executable policy permits. |
 | Absolute directory   | Use this cache root, falling back to the default user cache if unusable.                                                                                                   |
 | Other relative value | Throw a configuration error.                                                                                                                                               |
 
 Failure of both a custom root and the default root throws. An executable cache
 filesystem is required; a Linux `noexec` cache is rejected. Existing cache
 namespaces retain at most three inactive-or-current raw images.
+
+If Windows blocks the cleanup worker from starting, loading continues with a
+warning and best-effort deletion when the materialized image is dropped. A DLL
+that remains mapped until process exit may remain on disk in that environment.
+The helper's integrity is still verified before any attempt to execute it.
 
 On writable APFS or btrfs, the loader may atomically replace its installed
 carrier with the original addon under transparent filesystem compression.
@@ -87,9 +92,11 @@ The job summary and JSON artifacts report raw size, compressed frame size,
 payload size (including its 96-byte header), carrier size, reduction ratio, npm
 tarball size, and load timings. Timings are medians of 15 fresh Node processes
 per case, measured around package loading. Cold means an empty materialization
-cache and a freshly copied raw baseline for each sample (`rawColdMs`); warm uses
+cache and freshly copied raw and carrier files for each sample (`rawColdMs`); warm uses
 an already populated verified cache and a reused raw image (`rawMs`). Raw file
-copying occurs before the loading timer. Cold overhead is `coldMs - rawColdMs`;
+copying occurs before the loading timer. On Windows, disposable measurement
+images are uncompressed before timing, matching the new raw cache image policy
+even beneath compressed home directories. Cold overhead is `coldMs - rawColdMs`;
 warm overhead is `warmMs - rawMs`. The gate rejects missing baselines or
 inconsistent arithmetic. Measurement caches use canonical paths beneath the
 executing user's home, including Docker, and are removed after the run. These are not claims

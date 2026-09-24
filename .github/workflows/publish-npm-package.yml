@@ -959,7 +959,7 @@ jobs:
         run: |
           node -e 'const fs = require("fs"); const root = fs.realpathSync.native(require("os").tmpdir()); fs.appendFileSync(process.env.GITHUB_ENV, ["TMPDIR", "TMP", "TEMP"].map(key => key + "=" + root + "\n").join(""));'
       - name: Verify portable tarball access
-        run: node --test scripts/native/tarballs.test.mjs
+        run: node --test scripts/native/tarballs.test.mjs scripts/native/measurements.test.mjs scripts/native/measurement-files.test.mjs
       - uses: ./.github/actions/native-tools
       - name: Verify private crates and native registration
         shell: bash

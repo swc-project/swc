@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import {
     cpSync,
-    copyFileSync,
     linkSync,
     mkdirSync,
     mkdtempSync,
@@ -21,6 +20,7 @@ import {
 } from "./common.mjs";
 import { validateReport } from "./contracts.mjs";
 import { extractTarball, listTarball } from "./tarballs.mjs";
+import { copyMeasurementAddon } from "./measurement-files.mjs";
 import {
     createMeasurementCache,
     measureLoads,
@@ -79,7 +79,7 @@ function variant(name, addon, holdCarrier = false, root = stage) {
         },
     });
     const destination = join(directory, info.filename);
-    copyFileSync(addon, destination);
+    copyMeasurementAddon(addon, destination);
     // The runtime deliberately skips self-replacement for hardlinked files.
     // Use links only between disposable copies, never to a release candidate.
     if (holdCarrier) linkSync(destination, join(directory, ".carrier-inode"));
@@ -160,6 +160,8 @@ try {
                 carrier,
                 copyRaw: (sample, root) =>
                     variant("raw-cold-" + sample, rawPath, false, root),
+                copyCarrier: (sample, root) =>
+                    variant("carrier-cold-" + sample, original, true, root),
                 smoke,
                 cacheRoot,
             })

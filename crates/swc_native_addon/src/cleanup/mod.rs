@@ -49,15 +49,27 @@ fn verified_helper(directory: &Path) -> io::Result<(std::path::PathBuf, File)> {
     Ok((path, file))
 }
 
-pub(crate) fn arm(path: &Path) -> io::Result<Cleanup> {
+pub(crate) fn arm(path: &Path) -> io::Result<Option<Cleanup>> {
     let directory = path.parent().ok_or(io::ErrorKind::InvalidInput)?;
     let (helper, _verified) = verified_helper(directory)?;
-    let mut child = Command::new(helper)
+    let mut child = match Command::new(&helper)
         .stdin(Stdio::piped())
         .stdout(Stdio::null())
         .stderr(Stdio::null())
         .creation_flags(0x0800_0000) // CREATE_NO_WINDOW; never flash a console.
-        .spawn()?;
+        .spawn()
+    {
+        Ok(child) => child,
+        Err(error) => {
+            // Application-control policies can allow a DLL while blocking a
+            // child executable. Keep loading available with in-process Drop
+            // cleanup only; a mapped image may remain after forced termination.
+            // Helper integrity errors above still fail before any execution.
+            tracing::warn!(path = %path.display(), helper = %helper.display(), %error,
+                "native cleanup worker unavailable; temporary cleanup is best effort");
+            return Ok(None);
+        }
+    };
     let mut input = child.stdin.take().unwrap();
     let bytes: Vec<_> = path
         .as_os_str()
@@ -66,8 +78,8 @@ pub(crate) fn arm(path: &Path) -> io::Result<Cleanup> {
         .collect();
     input.write_all(&bytes)?;
     tracing::debug!(path = %path.display(), helper_pid = child.id(), "armed native temporary cleanup");
-    Ok(Cleanup {
+    Ok(Some(Cleanup {
         _input: input,
         _child: child,
-    })
+    }))
 }
