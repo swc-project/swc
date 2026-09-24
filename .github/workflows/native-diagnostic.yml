@@ -3,29 +3,86 @@ on:
   workflow_dispatch:
   push:
     branches: [codex/fix-native-release-ci]
-    paths: [.github/workflows/native-diagnostic.yml, scripts/native/diagnostic.py, scripts/native/calibration.mjs]
+    paths: [.github/workflows/native-diagnostic.yml, scripts/native/diagnostic.py]
 permissions:
   contents: read
   actions: read
+env:
+  CI: "1"
+  CARGO_INCREMENTAL: "0"
+  CARGO_PROFILE_RELEASE_LTO: fat
+  MACOSX_DEPLOYMENT_TARGET: "10.13"
+  NODE_OPTIONS: --max-old-space-size=6144
+  BUILD_TYPE: diagnostic
+  RELEASE_VERSION: 1.16.9-nightly-20260923.1
 jobs:
-  calibrate:
-    runs-on: macos-latest
+  probe:
+    runs-on: ${{ matrix.host }}
+    env:
+      NATIVE_DIAGNOSTIC_EXPERIMENT: ${{ matrix.experiment }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: native-assist }
+          - { host: macos-latest, product: minifier, node: "20", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: native-assist }
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          submodules: recursive
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           package-manager-cache: false
-          node-version: "22"
-          architecture: x64
+          node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.architecture }}
       - run: corepack enable && pnpm install --frozen-lockfile
       - uses: ./.github/actions/native-tools
-      - name: Extract verified raw control image
+      - name: Rebuild the verified release image
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          PRODUCT: ${{ matrix.product }}
+          TARGET: ${{ matrix.target }}
+          MODE: ${{ matrix.mode }}
         run: |
-          gh run download 35949055402 -n bindings-verification-core-1.16.9-nightly-20260923.1-x86_64-apple-darwin -D target/diagnostic-input
-          "$SWC_NATIVE_TOOLS/swc-native-addon-verify" --input target/diagnostic-input/swc.darwin-x64.node --target x86_64-apple-darwin --extract "$GITHUB_WORKSPACE/target/diagnostic-input/raw.node"
+          set -euo pipefail
+          gh run download 35949055402 -n "bindings-verification-$PRODUCT-$RELEASE_VERSION-$TARGET" -D target/diagnostic-input
+          filename="$(node --input-type=module -e 'import {artifactInfo} from "./scripts/native/common.mjs"; console.log(artifactInfo(process.env.PRODUCT,process.env.TARGET).filename)')"
+          echo "FILENAME=$filename" >> "$GITHUB_ENV"
+          "$SWC_NATIVE_TOOLS/swc-native-addon-verify" --input "target/diagnostic-input/$filename" --target "$TARGET" --extract "$GITHUB_WORKSPACE/target/diagnostic-input/raw.node"
+          mkdir -p tools/swc-native-addon-pack/src/bin
+          cp scripts/native/diagnostic-worker.rs tools/swc-native-addon-pack/src/bin/native-diagnostic-worker.rs
+          cargo build --release -p swc_native_addon_pack --bin native-diagnostic-worker
+          python scripts/native/diagnostic.py
+          python scripts/native/diagnostic-assist.py
+          if [[ "$NATIVE_DIAGNOSTIC_EXPERIMENT" == fast-* ]]; then
+            cargo build --release -p swc_native_addon_pack
+          fi
+          rustup target add "$TARGET"
+          if [ "$MODE" = finalized ]; then
+            cp target/diagnostic-input/raw.node "packages/$PRODUCT/$filename"
+            node scripts/native/finalize.mjs "$PRODUCT" "$TARGET" "target/diagnostic-report.json"
+            cp "packages/$PRODUCT/$filename" target/diagnostic-input/carrier.node
+          else
+            "$SWC_NATIVE_TOOLS/swc-native-addon-pack" --input target/diagnostic-input/raw.node --target "$TARGET" --output "$GITHUB_WORKSPACE/target/diagnostic-input/payload.swcn"
+            SWC_NATIVE_BINDING_PAYLOAD="$GITHUB_WORKSPACE/target/diagnostic-input/payload.swcn" cargo build --release -p binding_native_addon --features embedded-payload --target "$TARGET"
+            cp "target/$TARGET/release/libbinding_native_addon.dylib" target/diagnostic-input/carrier.node
+            codesign --force --sign - target/diagnostic-input/carrier.node
+            cp target/diagnostic-input/carrier.node "packages/$PRODUCT/$filename"
+          fi
       - run: pnpm build:ts
-        working-directory: packages/core
-      - name: Compare identical images with fixed and balanced sample order
-        run: node scripts/native/calibration.mjs
+        working-directory: packages/${{ matrix.product }}
+      - name: Check registration and package tests
+        shell: bash
+        working-directory: packages/${{ matrix.product }}
+        env:
+          SWC_NATIVE_BINDING_CACHE: "0"
+          DISABLE_PLUGIN_E2E_TESTS: "true"
+        run: |
+          node -e 'try { require("./index.js") } catch (error) { console.dir(error, {depth: null}); throw error }'
+      - name: Measure unchanged budgets with phase timings
+        shell: bash
+        env:
+          PRODUCT: ${{ matrix.product }}
+          TARGET: ${{ matrix.target }}
+        run: node scripts/native/diagnostic.mjs "$PRODUCT" target/diagnostic-input/raw.node target/diagnostic-input/carrier.node "$FILENAME" "$TARGET"
