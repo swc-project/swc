@@ -25,7 +25,7 @@ release tag was published by these verification runs.
   carrier-only workflow dispatch is available for native lifecycle diagnosis.
 
 Local validation passed: submodule initialization, cargo fmt --all, full
-cargo clippy --all --all-targets -- -D warnings, 15 native JS tests, core
+cargo clippy --all --all-targets -- -D warnings, 16 native JS tests, core
 pnpm build:dev and pnpm test (119 passed, three existing tests skipped), and
 swc_native_addon / binding_native_addon crate tests on macOS. APFS replacement
 passed with an explicit writable APFS volume. Generated public bindings and
@@ -94,8 +94,8 @@ Local M5 Max Rosetta measurements improved from approximately 71/15 ms to
 do not override the CI failures. CI phase logs show substantial variation in
 both decoding and verification. Larger batches with fewer workers, mapped
 output, and lazy loading were also investigated; none establishes a passing
-release gate. Temporary diagnostic workflows and instrumentation were removed
-from the final working tree; their committed sources and run logs remain linked.
+release gate. Diagnostic workflows are temporary; their instrumented binaries do not count
+as final release evidence.
 
 ## Bounded verification batches (2026-09-24)
 
@@ -112,12 +112,31 @@ private crate suites, full clippy, native JS tests, core binding build/tests,
 and macOS/Linux Rust 1.73 suites passed locally. The earlier diagnostic results
 above remain historical evidence, not acceptance for the final source.
 
-## Exact-source release verification in progress
+## Exact-source release verification: remaining failures
 
 [Full verification run 35949055402](https://github.com/swc-project/swc/actions/runs/35949055402)
-builds source bfc1095d7a with publishing and tag creation disabled. Release
-acceptance remains pending until all 48 artifacts, all required Node/platform
-runtime jobs, Windows MSRV, and the final release gate pass. One initial build
-failed in the external wasm-pack installer after installation with a segmentation
-fault; no loader or performance assertion had run in that job. Infrastructure
-failures will be retried, without waiving any runtime or performance gate.
+built source bfc1095d7a with publishing and tag creation disabled. After retrying
+one external wasm-pack installer segmentation fault, all 48 artifact builds,
+all four npm assembly jobs, and all five minimum-Node checks passed. Linux
+GNU/musl and native macOS ARM64 runtime jobs passed. The final gate did not run:
+eight Windows x64 jobs, one Windows ARM64 job, and seven Rosetta jobs failed.
+
+Windows failures exposed drive-letter tar parsing, default elevated-token file
+ownership, and test setup that Rstest did not inherit into inline projects.
+Tarballs now travel through tar's stdin, new private files explicitly name the
+current user's SID as owner, and each Rstest project installs the diagnostics.
+Existing files still require exact ownership and safe DACL/reparse properties.
+[Lifecycle run 35953122812](https://github.com/swc-project/swc/actions/runs/35953122812)
+passed all four hosts, including Windows Rust 1.73 and portable tarball tests.
+
+Rosetta core reported cold/warm overhead of 197.62/67.92 ms on Node 20 and
+238.30/81.05 ms on Node 22. These failures supersede the earlier passing focused
+diagnostics; release acceptance remains unsatisfied.
+
+Subsequent Windows profiles separate cache preparation from DLL loading.
+Enabling NTFS compression before decoding avoids the expensive rewrite of an
+already populated file: HTML cache preparation is approximately 40 ms and core
+approximately 80 ms. However, the first LoadLibrary call still dominates their
+cold measurements. Focused diagnostics are checking filesystem compression and
+volume placement before any further implementation or measurement change.
+Neither these profiles nor a cancelled diagnostic run is passing release evidence.
