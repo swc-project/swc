@@ -584,7 +584,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode) {
                 for_loop_body.push(
                     VarDecl {
                         span: DUMMY_SP,
-                        kind: VarDeclKind::Const,
+                        kind: v.kind,
                         declare: false,
                         decls: vec![var_decl],
                         ..Default::default()

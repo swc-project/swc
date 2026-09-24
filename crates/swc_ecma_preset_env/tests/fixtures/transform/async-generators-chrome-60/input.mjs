@@ -76,6 +76,22 @@ export async function labeled(iterable) {
     return count;
 }
 
+export async function mutableBinding(iterable) {
+    let total = 0;
+    for await (let item of iterable) {
+        item += 1;
+        total += item;
+    }
+    return total;
+}
+
+export async function functionScopedBinding(iterable) {
+    for await (var item of iterable) {
+        if (item) break;
+    }
+    return item;
+}
+
 export const consume = async (iterable) => {
     for await (const item of iterable) {
         if (item) break;

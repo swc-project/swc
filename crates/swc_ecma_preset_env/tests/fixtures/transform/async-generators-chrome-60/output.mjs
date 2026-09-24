@@ -182,6 +182,60 @@ export async function labeled(iterable) {
     }
     return count;
 }
+export async function mutableBinding(iterable) {
+    let total = 0;
+    {
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+        try {
+            for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                let _value = _step.value;
+                let item = _value;
+                item += 1;
+                total += item;
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (_iteratorAbruptCompletion && _iterator.return != null) {
+                    await _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+    }
+    return total;
+}
+export async function functionScopedBinding(iterable) {
+    {
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+        try {
+            for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false){
+                let _value = _step.value;
+                var item = _value;
+                if (item) break;
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (_iteratorAbruptCompletion && _iterator.return != null) {
+                    await _iterator.return();
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+    }
+    return item;
+}
 export const consume = async (iterable)=>{
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
