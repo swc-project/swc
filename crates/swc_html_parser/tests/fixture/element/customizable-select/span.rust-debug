@@ -5,7 +5,9 @@
  3 | |   <select><option><span>one<option>two</select>
  4 | |   <select><optgroup><option><b>Bold</b> text</option></optgroup></select>
  5 | |   <select><option>one<textarea>two</textarea>three</option></select>
- 6 | `-> <select><option>one<keygen>two</option></select>
+ 6 | |   <select><option>one<keygen>two</option></select>
+ 7 | |   <select><option>one<hr><option>two</select>
+ 8 | `-> <select><optgroup><option>one<hr><option>two</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:1:1]
@@ -509,6 +511,7 @@
  5 | <select><option>one<textarea>two</textarea>three</option></select>
    :                                                                   ^
  6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Text
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:5:1]
@@ -516,76 +519,285 @@
  5 | <select><option>one<textarea>two</textarea>three</option></select>
    :                                                                   ^
  6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :                 ^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Text
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :                 ^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :                    ^^^^^^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :                    ^^^^^^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :                            ^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Text
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :                            ^^^
+ 7 | <select><option>one<hr><option>two</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :                                                 ^
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
    `----
   x Text
    ,-[$DIR/tests/fixture/element/customizable-select/input.html:6:1]
  5 | <select><option>one<textarea>two</textarea>three</option></select>
  6 | <select><option>one<keygen>two</option></select>
    :                                                 ^
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :         ^^^^^^^^^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :         ^^^^^^^^^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                 ^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                 ^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                    ^^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                    ^^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                        ^^^^^^^^^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                        ^^^^^^^^^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                                ^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                                ^^^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                                            ^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:7:1]
+ 6 | <select><option>one<keygen>two</option></select>
+ 7 | <select><option>one<hr><option>two</select>
+   :                                            ^
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :         ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :         ^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                   ^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                   ^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                           ^^^
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                           ^^^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                              ^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                              ^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                                  ^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                                  ^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                                          ^^^
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                                          ^^^
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                                                      ^
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/customizable-select/input.html:8:1]
+ 7 | <select><option>one<hr><option>two</select>
+ 8 | <select><optgroup><option>one<hr><option>two</select>
+   :                                                      ^
    `----

@@ -3852,6 +3852,9 @@ where
                     // If the stack of open elements has a p element in button scope, then close a p
                     // element.
                     //
+                    // If a select element is in scope, generate implied end tags. If an option or
+                    // optgroup remains in scope, this is a parse error.
+                    //
                     // Insert an HTML element for the token. Immediately pop the current node off
                     // the stack of open elements.
                     //
@@ -3867,6 +3870,19 @@ where
 
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
+                        }
+
+                        if self.open_elements_stack.has_in_scope("select") {
+                            self.open_elements_stack.generate_implied_end_tags();
+
+                            if self.open_elements_stack.has_in_scope("option")
+                                || self.open_elements_stack.has_in_scope("optgroup")
+                            {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::UnclosedElementsOnStack,
+                                ));
+                            }
                         }
 
                         self.insert_html_element(token_and_info)?;

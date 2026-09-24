@@ -50,3 +50,20 @@
 |         "two"
 |     "
 "
+|     <select>
+|       <option>
+|         "one"
+|       <hr>
+|       <option>
+|         "two"
+|     "
+"
+|     <select>
+|       <optgroup>
+|         <option>
+|           "one"
+|       <hr>
+|       <option>
+|         "two"
+|     "
+"
