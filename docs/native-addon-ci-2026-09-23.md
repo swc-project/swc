@@ -6,14 +6,11 @@ and macOS x64 still runs under Rosetta. No npm package or release tag was
 published by these verification runs. Earlier results below used 100/25 ms
 budgets and retain their original pass/fail outcomes.
 
-The preceding implementation passed the four-host lifecycle suite and all eight
-Rosetta runtime jobs under the revised budgets, but Windows cold loading still
-failed. Newly approved changes keep compressed npm carriers and create ordinary
-Windows runtime cache images, including beneath compressed cache directories.
-Existing compressed entries remain immutable and fully verified. A new complete
-release verification is required. All unsuccessful diagnostic workflows and prototype
-scripts have been removed from the branch; their source and evidence remain in
-Git and the linked workflow runs.
+The latest full run at 98f1ecac0b passed all Windows checks after disabling NTFS
+compression for new cache images. It passed 63/64 runtime jobs; Rosetta core
+Node 20 exceeded the warm budget at 103.34 ms. A new complete verification is
+required after fixing the remaining Rosetta warm-load failure. Temporary diagnostic
+comparisons below are not release acceptance evidence.
 
 ## Implemented and checked
 
@@ -292,3 +289,38 @@ its compression/integrity assertions. Additional fixtures cover ordinary and
 compressed cache roots, compressed-entry corruption after a successful hit, and
 process-local images beneath a compressed root. The complete release workflow
 must pass again for the new source before acceptance.
+
+## Full verification after the Windows cache change
+
+[Run 35988753734](https://github.com/swc-project/swc/actions/runs/35988753734)
+tested source 98f1ecac0b. All 48 builds, four npm assemblies, five minimum-Node
+checks, four lifecycle jobs, and 63/64 runtime jobs passed. All 201 standard PR
+checks also passed. Windows core cold/warm overhead was 146.27/16.67 ms on
+Node 20 and 124.33/13.99 ms on Node 22; HTML Node 22 passed at 135.61/7.02 ms.
+
+Rosetta core Node 20 passed cold at 132.97 ms but failed warm at 103.34 ms.
+Node 22 passed at 197.77/66.71 ms. The final release gate was skipped. No failed
+performance job was rerun to obtain a passing result.
+
+## Streaming verification within one worker task
+
+[Scheduling comparison 35995040990](https://github.com/swc-project/swc/actions/runs/35995040990)
+compared unchanged code, two workers, and sequential hashing on each host.
+Warm overhead on Node 20 was 26.41/28.17/42.00 ms; on Node 22 it was
+47.35/28.54/45.77 ms. Neither reducing workers nor sequential hashing gave a
+consistent improvement, so those alternatives are not adopted.
+
+Local x64 profiling separated file reading from hashing. Keeping the entire
+file verification loop within one worker task allowed a reusable 1 MiB buffer
+without repeatedly dispatching from the calling thread. Median verification
+time fell from 8.97 ms to 5.48 ms with identical bytes and digests. The prototype passed local private-crate, MSRV, clippy, core binding, and
+actual Rosetta cache/integrity tests, including corruption across streaming
+boundaries. These local results do not establish a CI performance improvement.
+
+[Comparison 35996139123](https://github.com/swc-project/swc/actions/runs/35996139123)
+compared unchanged and streamed verification on each Rosetta host using the
+production 15-sample measurement and 500/100 ms gates. Both passed the budgets,
+but warm overhead regressed from 32.39 to 42.06 ms on Node 20 and from 29.43 to
+33.42 ms on Node 22. The streamed verification prototype and its added test
+fixture were reverted; it is not adopted. The production verification code is
+unchanged from the full run at 98f1ecac0b.
