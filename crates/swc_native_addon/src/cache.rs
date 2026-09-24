@@ -287,12 +287,14 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
     if !valid {
         let mut staged = platform::temporary_file(&directory, "publish-", ".tmp")
             .map_err(|e| io_error("stage cache entry", &directory, e))?;
-        payload.decode_into(staged.as_file_mut())?;
-        // Compression is an optimization. Its failure must never turn verified
-        // bytes into an invalid addon or force a Windows carrier replacement.
+        // Enable NTFS compression while the file is empty. Applying it after
+        // decoding rewrites the complete image synchronously during startup.
+        // Other filesystems leave this unchanged; unsupported compression is
+        // only an optimization failure, never a reason to reject verified bytes.
         if let Err(error) = platform::compress_cache(staged.path()) {
             tracing::debug!(%error, "native cache filesystem compression unavailable");
         }
+        payload.decode_into(staged.as_file_mut())?;
         payload.verify_image(staged.as_file_mut())?;
         // All cooperating readers hold the digest lock, including during repair.
         // No writer ever truncates the canonical filename in place.
