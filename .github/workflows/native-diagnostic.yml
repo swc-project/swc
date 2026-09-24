@@ -21,8 +21,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: retain-samples }
-          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: cleanup-samples }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: caller-read }
+          - { host: macos-latest, product: core, node: "22", architecture: x64, target: x86_64-apple-darwin, mode: finalized, experiment: caller-mapped }
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
@@ -47,6 +47,7 @@ jobs:
           filename="$(node --input-type=module -e 'import {artifactInfo} from "./scripts/native/common.mjs"; console.log(artifactInfo(process.env.PRODUCT,process.env.TARGET).filename)')"
           echo "FILENAME=$filename" >> "$GITHUB_ENV"
           "$SWC_NATIVE_TOOLS/swc-native-addon-verify" --input "target/diagnostic-input/$filename" --target "$TARGET" --extract "$GITHUB_WORKSPACE/target/diagnostic-input/raw.node"
+          python scripts/native/diagnostic-caller-pool.py
           rustup target add "$TARGET"
           if [ "$MODE" = finalized ]; then
             cp target/diagnostic-input/raw.node "packages/$PRODUCT/$filename"

@@ -200,7 +200,11 @@ Further isolated ARM mapping experiments also failed core on Node 22:
 
 None is adopted. No ARM helper asset or mapped-file verification has been added
 to the production implementation. Their temporary instrumentation is removed.
-The remaining comparison measures the uninstrumented production carrier and
-records memory pressure while either retaining or cleaning completed cold
-samples. Run 35961538261 was cancelled during building, before any measurements,
-and superseded by the uninstrumented comparison.
+[Uninstrumented comparison 35961800265](https://github.com/swc-project/swc/actions/runs/35961800265)
+failed core on Node 22 both with retained samples (219.35/62.05 ms) and with
+completed cold samples removed after each iteration (152.68/69.23 ms). Cleanup
+bounded temporary storage at about 85 MB instead of growing to 884 MB, but did
+not satisfy the latency budgets. Neither host swapped during measurement.
+The production measurement lifecycle remains unchanged. Run 35961538261 was
+cancelled during building, before any measurements, and superseded by this
+uninstrumented comparison.
