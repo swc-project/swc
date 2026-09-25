@@ -1,9 +1,9 @@
-use std::{fs::read_to_string, path::PathBuf};
+use std::{fs::read_to_string, path::PathBuf, process::Command};
 
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::{Ident, Pass, PropName, TsQualifiedName};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_base::{fixer::fixer, helpers::inject_helpers, hygiene::hygiene, resolver};
 use swc_ecma_transforms_compat::{
     es2015,
     es2015::{block_scoping, for_of::for_of},
@@ -668,7 +668,10 @@ fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
     test_fixture(
-        Default::default(),
+        Syntax::Es(swc_ecma_parser::EsSyntax {
+            auto_accessors: true,
+            ..Default::default()
+        }),
         &|_| {
             let unresolved_mark = Mark::new();
             (
@@ -681,6 +684,105 @@ fn fixture(input: PathBuf) {
         &output,
         Default::default(),
     );
+}
+
+// Exercise the public block_scoping pass with modern class elements intact.
+// The regular exec fixture also runs ES2015 class lowering, which expects
+// fields to have been lowered already and otherwise discards them.
+#[testing::fixture("tests/block-scoping/**/exec.block-scoping.js")]
+fn exec_block_scoping(input: PathBuf) {
+    let input = read_to_string(input).unwrap();
+    compare_stdout(Default::default(), |_| tr(), &input);
+}
+
+// `with` and bindings named `eval` require sloppy scripts. The shared
+// compare_stdout harness parses modules, which reject this syntax.
+#[testing::fixture("tests/block-scoping/**/exec.script.js")]
+fn exec_script(input: PathBuf) {
+    let input = read_to_string(input).unwrap();
+    compare_script_stdout(|_| tr(), &input);
+    compare_script_stdout(
+        |t| {
+            let unresolved_mark = Mark::new();
+            (
+                resolver(unresolved_mark, Mark::new(), false),
+                es2015(
+                    unresolved_mark,
+                    Some(t.comments.clone()),
+                    Default::default(),
+                ),
+            )
+        },
+        &input,
+    );
+}
+
+fn compare_script_stdout<F, P>(tr: F, input: &str)
+where
+    F: FnOnce(&mut Tester<'_>) -> P,
+    P: Pass,
+{
+    Tester::run(|tester| {
+        let tr = tr(tester);
+        let program = tester
+            .apply_transform(tr, "input.js", Default::default(), Some(false), input)?
+            .apply(hygiene())
+            .apply(fixer(Some(&tester.comments)))
+            .apply(inject_helpers(Mark::new()));
+        let output = tester.print(&program, &tester.comments.clone());
+        let run = |source: &str| {
+            Command::new("node")
+                .args(["--eval", source])
+                .output()
+                .expect("failed to execute node")
+        };
+        let expected = run(input);
+        assert!(
+            expected.status.success(),
+            "native script failed:\n{}",
+            String::from_utf8_lossy(&expected.stderr)
+        );
+        let actual = run(&output);
+        assert_eq!(
+            expected.status,
+            actual.status,
+            "transformed script:\n{output}\nstderr:\n{}",
+            String::from_utf8_lossy(&actual.stderr)
+        );
+        assert_eq!(
+            String::from_utf8_lossy(&expected.stdout),
+            String::from_utf8_lossy(&actual.stdout),
+            "transformed script:\n{output}\nstderr:\n{}",
+            String::from_utf8_lossy(&actual.stderr)
+        );
+        Ok(())
+    });
+}
+
+// A public pass may process multiple programs. Reusing its allocation buffers
+// must produce the same output as a fresh pass, including after an empty input.
+#[testing::fixture("tests/block-scoping/reused-pass/**/first.js")]
+fn reused_pass(input: PathBuf) {
+    Tester::run(|tester| {
+        let mut reused = tr();
+        for name in ["first.js", "second.js", "third.js", "empty.js", "first.js"] {
+            let source = read_to_string(input.with_file_name(name)).unwrap();
+            let expected = tester
+                .apply_transform(tr(), name, Default::default(), Some(false), &source)?
+                .apply(hygiene())
+                .apply(fixer(Some(&tester.comments)));
+            let actual = tester
+                .apply_transform(&mut reused, name, Default::default(), Some(false), &source)?
+                .apply(hygiene())
+                .apply(fixer(Some(&tester.comments)));
+            assert_eq!(
+                tester.print(&expected, &tester.comments.clone()),
+                tester.print(&actual, &tester.comments.clone()),
+                "reused pass changed {name}"
+            );
+        }
+        Ok(())
+    });
 }
 
 struct TsHygiene {
