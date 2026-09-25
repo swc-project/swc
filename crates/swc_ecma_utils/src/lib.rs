@@ -622,7 +622,11 @@ pub trait StmtExt {
                 }
                 Stmt::Decl(decl) => match decl {
                     Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
-                    Decl::Fn(_) => !ctx.in_strict,
+                    // Async and generator declarations are block-scoped even in sloppy mode;
+                    // only ordinary functions can create an Annex B var binding.
+                    Decl::Fn(f) => {
+                        !ctx.in_strict && !f.function.is_async && !f.function.is_generator
+                    }
                     Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
                     _ => false,
                 },
