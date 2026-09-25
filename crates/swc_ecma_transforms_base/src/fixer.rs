@@ -19,6 +19,7 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
         in_opt_chain: Default::default(),
+        is_strict: false,
         remove_only: false,
     })
 }
@@ -30,6 +31,7 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
         in_opt_chain: Default::default(),
+        is_strict: false,
         remove_only: true,
     })
 }
@@ -45,6 +47,7 @@ struct Fixer<'a> {
 
     in_for_stmt_head: bool,
     in_opt_chain: bool,
+    is_strict: bool,
 
     remove_only: bool,
 }
@@ -122,6 +125,22 @@ impl Fixer<'_> {
             | Expr::Await(..)
             | Expr::Yield(..) => self.wrap(e),
             _ => (),
+        }
+    }
+
+    fn wrap_single_function(&self, s: &mut Stmt) {
+        if !self.is_strict {
+            return;
+        }
+
+        if let Stmt::Decl(Decl::Fn(f)) = s {
+            let f = f.take();
+
+            *s = Stmt::Block(BlockStmt {
+                span: f.span(),
+                ctxt: f.function.ctxt,
+                stmts: vec![Stmt::Decl(Decl::Fn(f))],
+            })
         }
     }
 }
@@ -454,8 +473,11 @@ impl VisitMut for Fixer<'_> {
         node.super_class.visit_mut_with(self);
 
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        let is_strict = self.is_strict;
+        self.is_strict = true;
         node.body.visit_mut_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
+        self.is_strict = is_strict;
 
         match &mut node.super_class {
             Some(e)
@@ -558,6 +580,24 @@ impl VisitMut for Fixer<'_> {
         Self::normalize_for_head_pat(n);
     }
 
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body);
+    }
+
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body);
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body);
+    }
+
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
 
@@ -588,6 +628,8 @@ impl VisitMut for Fixer<'_> {
         if let Expr::Seq(..) | Expr::Await(..) = &*s.right {
             self.wrap(&mut s.right)
         }
+
+        self.wrap_single_function(&mut s.body);
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
@@ -598,6 +640,8 @@ impl VisitMut for Fixer<'_> {
         n.test.visit_mut_with(self);
         n.update.visit_mut_with(self);
         n.body.visit_mut_with(self);
+
+        self.wrap_single_function(&mut n.body);
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
@@ -610,6 +654,12 @@ impl VisitMut for Fixer<'_> {
                 ..Default::default()
             }
             .into();
+        }
+
+        self.wrap_single_function(&mut node.cons);
+
+        if let Some(alt) = &mut node.alt {
+            self.wrap_single_function(alt);
         }
     }
 
@@ -683,6 +733,7 @@ impl VisitMut for Fixer<'_> {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
 
+        self.is_strict = true;
         n.visit_mut_children_with(self);
         if let Some(c) = self.comments {
             for (to, from) in self.span_map.drain(RangeFull).rev() {
@@ -798,6 +849,25 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::ForcedExpr;
         e.visit_mut_children_with(self);
         self.ctx = old;
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let is_strict = self.is_strict;
+
+        if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first() {
+            if let Expr::Lit(Lit::Str(v)) = &**expr {
+                match &v.raw {
+                    Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                        self.is_strict = true;
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        stmts.visit_mut_children_with(self);
+
+        self.is_strict = is_strict;
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
@@ -1970,17 +2040,15 @@ var store = global[SHARED] || (global[SHARED] = {});
         "(function () { })() && a, b"
     );
 
-    test_fixer!(
-        issue_11322_simple,
-        "(function () { })() && a",
-        "(function () { })() && a"
-    );
+    identical!(issue_11322_simple, "(function () { })() && a");
 
-    test_fixer!(
-        issue_11322_stmt,
-        "(function () { })() && a;",
-        "(function () { })() && a;"
-    );
+    identical!(issue_11322_stmt, "(function () { })() && a;");
 
     identical!(issue_11612, "r = new (XE?.default)({ ...e });");
+
+    test_fixer!(
+        issue_12404,
+        "while (a) function foo() {}",
+        "while(a){ function foo() {} }"
+    );
 }
