@@ -60,6 +60,9 @@ fn run() -> carrier::Result<()> {
     }
     let mut decoded = tempfile::tempfile()?;
     payload.decode_into(&mut decoded)?;
+    // The final artifact must agree with both its runtime BLAKE3 metadata and
+    // the unchanged SHA-512 release identity in the v1 payload header.
+    payload.header.verify(&mut decoded)?;
     payload.verify_target(&mut decoded)?;
     let raw = raw.map(fs::canonicalize).transpose()?;
     if let Some(path) = &raw {

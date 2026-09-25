@@ -103,3 +103,100 @@ test("embedded bash build scripts remain syntactically valid", () => {
         run("bash", ["-n"], { input: setting.build });
     }
 });
+
+test("native builds do not depend on the separate WASM installer", () => {
+    for (const step of workflow.jobs.build.steps) {
+        const commands = (step.run || "")
+            .split("\n")
+            .filter((line) => !line.trimStart().startsWith("#"))
+            .join("\n");
+        assert(!commands.includes("wasm-pack"));
+    }
+    for (const setting of workflow.jobs.build.strategy.matrix.settings)
+        assert(!setting.build.includes("wasm-pack"));
+    assert(
+        workflow.jobs["publish-wasm"].steps.some((step) =>
+            step.run?.includes("wasm-pack/installer/init.sh")
+        )
+    );
+});
+
+test("direct setup-node calls never infer pnpm caching, including minimum runtimes", () => {
+    for (const job of Object.values(workflow.jobs)) {
+        for (const step of job.steps || []) {
+            if (step.uses?.startsWith("actions/setup-node@"))
+                assert.equal(step.with["package-manager-cache"], false);
+        }
+    }
+    const minimum = workflow.jobs["test-minimum-binding"].steps;
+    const oldNode = minimum.findIndex((step) =>
+        step.uses?.startsWith("actions/setup-node@")
+    );
+    assert(
+        oldNode >
+            minimum.findIndex(
+                (step) => step.name === "Build TypeScript with tooling Node"
+            )
+    );
+    const smoke = minimum.find(
+        (step) =>
+            step.name === "Test minimum runtime through both package layouts"
+    );
+    assert(smoke.run.includes('"$TOOLING_NODE" scripts/native/runtime.mjs'));
+    assert(smoke.run.includes("export SWC_RUNTIME_NODE="));
+});
+
+test("source verification requires an immutable commit and cannot tag or publish", () => {
+    const check = workflow.jobs["check-if-build-required"].steps.find(
+        (step) => step.name === "Validate verification source"
+    );
+    for (const [source, skip, allowed] of [
+        ["", "false", true],
+        ["a".repeat(40), "true", true],
+        ["a".repeat(40), "false", false],
+        ["main", "true", false],
+    ]) {
+        const execute = () =>
+            run("bash", ["-e", "-c", check.run], {
+                env: {
+                    ...process.env,
+                    SOURCE_REF: source,
+                    SKIP_PUBLISHING: skip,
+                },
+            });
+        if (allowed) execute();
+        else assert.throws(execute);
+    }
+    for (const [name, job] of Object.entries(workflow.jobs)) {
+        if (name === "check-if-build-required") continue;
+        for (const step of job.steps || []) {
+            if (step.uses?.startsWith("actions/checkout@"))
+                assert.equal(
+                    step.with.ref,
+                    name === "test-carrier-platform"
+                        ? "${{ inputs.onlyCarrierTests && github.sha || inputs.sourceRef || format('v{0}', inputs.version) }}"
+                        : "${{ inputs.sourceRef || format('v{0}', inputs.version) }}"
+                );
+        }
+    }
+    const parent = parse(
+        readFileSync(join(repository, ".github/workflows/publish.yml"), "utf8")
+    );
+    const verify = parent.jobs["verify-native-source"];
+    assert.equal(verify.with.skipPublishing, true);
+    assert.equal(verify.with.publishWasm, false);
+    assert.equal(verify.with.skipBuild, false);
+    assert.equal(verify.with.sourceRef, "${{ inputs.verifySourceRef }}");
+    assert.equal(verify.environment, undefined);
+    assert.deepEqual(verify.permissions, {
+        contents: "write",
+        "id-token": "write",
+    });
+    assert(
+        parent.jobs["determine-nightly-version"].if.includes(
+            "inputs.verifySourceRef == ''"
+        )
+    );
+    assert(workflow.jobs.publish.if.includes("!inputs.skipPublishing"));
+    assert(workflow.jobs["publish-wasm"].if.includes("!inputs.skipPublishing"));
+});

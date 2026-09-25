@@ -23,8 +23,8 @@ use windows_sys::Win32::{
     },
     Storage::FileSystem::{
         CreateDirectoryW, GetFileInformationByHandle, LockFileEx, MoveFileExW,
-        BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_DEFAULT, FILE_ATTRIBUTE_REPARSE_POINT,
-        FILE_FLAG_DELETE_ON_CLOSE, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE,
+        BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_NONE, FILE_ATTRIBUTE_COMPRESSED,
+        FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE,
         FILE_SHARE_READ, FILE_SHARE_WRITE, LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY,
         MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
     },
@@ -43,6 +43,11 @@ use crate::{Error, ErrorKind, Result};
 
 const SYSTEM_SID: &str = "S-1-5-18";
 const ADMINISTRATORS_SID: &str = "S-1-5-32-544";
+// Windows system directories may be owned by its servicing account. This trust
+// applies only to ancestors: cache directories/files still require our own SID.
+const TRUSTED_INSTALLER_SID: &str =
+    "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464";
+const INHERIT_ONLY_ACE: u8 = 0x08;
 const ACCESS_ALLOWED_ACE_TYPE: u8 = 0;
 const ACCESS_DENIED_ACE_TYPE: u8 = 1;
 const DANGEROUS_DIRECTORY_ACCESS: u32 =
@@ -155,7 +160,10 @@ fn validate_cache_ancestor(path: &Path, current_sid: &str) -> io::Result<()> {
     if !metadata.is_dir() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
         return Err(io::Error::new(
             io::ErrorKind::PermissionDenied,
-            "cache root contains a non-directory or reparse point",
+            format!(
+                "cache ancestor {} is a non-directory or reparse point",
+                path.display()
+            ),
         ));
     }
 
@@ -181,37 +189,60 @@ fn validate_cache_ancestor(path: &Path, current_sid: &str) -> io::Result<()> {
     }
     let _security = LocalAllocation(security);
     let owner = sid_string(owner)?;
-    if !trusted_principal(&owner, current_sid) {
+    validate_ancestor_security(path, &owner, dacl, current_sid)
+}
+
+fn validate_ancestor_security(
+    path: &Path,
+    owner: &str,
+    dacl: *mut ACL,
+    current_sid: &str,
+) -> io::Result<()> {
+    if !trusted_principal(owner, current_sid) {
         return Err(io::Error::new(
             io::ErrorKind::PermissionDenied,
-            "cache root has an ancestor owned by another user",
+            format!(
+                "cache ancestor {} has untrusted owner SID {owner}",
+                path.display()
+            ),
         ));
     }
-    if !dacl_rejects_untrusted_replacement(dacl, current_sid)? {
-        return Err(io::Error::new(
-            io::ErrorKind::PermissionDenied,
-            "cache root has an ancestor with an untrusted replacement DACL",
-        ));
-    }
-    Ok(())
+    validate_ancestor_dacl(dacl, current_sid).map_err(|error| {
+        io::Error::new(
+            error.kind(),
+            format!("cache ancestor {}: {error}", path.display()),
+        )
+    })
 }
 
 fn trusted_principal(sid: &str, current_sid: &str) -> bool {
-    sid == current_sid || sid == SYSTEM_SID || sid == ADMINISTRATORS_SID
+    sid == current_sid
+        || sid == SYSTEM_SID
+        || sid == ADMINISTRATORS_SID
+        || sid == TRUSTED_INSTALLER_SID
 }
 
 /// Conservatively reject ACLs that grant an untrusted principal the rights to
 /// remove, retake ownership of, or rewrite a cache-root ancestor. This avoids
 /// mutating caller-owned roots while preventing pathname substitution.
-fn dacl_rejects_untrusted_replacement(dacl: *mut ACL, current_sid: &str) -> io::Result<bool> {
+fn validate_ancestor_dacl(dacl: *mut ACL, current_sid: &str) -> io::Result<()> {
+    let denied = |message| io::Error::new(io::ErrorKind::PermissionDenied, message);
     if dacl.is_null() {
         // A null DACL grants full access to every account.
-        return Ok(false);
+        return Err(denied(
+            "null DACL grants replacement to everyone".to_owned(),
+        ));
     }
     for index in 0..u32::from(unsafe { (*dacl).AceCount }) {
         let mut ace = ptr::null_mut();
         if unsafe { GetAce(dacl, index, &mut ace) } == 0 {
             return Err(io::Error::last_os_error());
+        }
+        let flags = unsafe { *ace.cast::<u8>().add(1) };
+        // An inheritance-only grant applies to children, not this directory.
+        // Its inherited effective copy is checked when visiting that child.
+        if flags & INHERIT_ONLY_ACE != 0 {
+            continue;
         }
         let ace_type = unsafe { *ace.cast::<u8>() };
         if ace_type == ACCESS_DENIED_ACE_TYPE {
@@ -220,7 +251,7 @@ fn dacl_rejects_untrusted_replacement(dacl: *mut ACL, current_sid: &str) -> io::
         if ace_type != ACCESS_ALLOWED_ACE_TYPE {
             // Object and callback allow ACEs use a different SID offset. Do
             // not risk misclassifying an untrusted grant as harmless.
-            return Ok(false);
+            return Err(denied(format!("unsupported effective ACE type {ace_type}")));
         }
         let mask = unsafe { std::ptr::read_unaligned(ace.cast::<u8>().add(4).cast::<u32>()) };
         if mask & DANGEROUS_DIRECTORY_ACCESS == 0 {
@@ -230,10 +261,12 @@ fn dacl_rejects_untrusted_replacement(dacl: *mut ACL, current_sid: &str) -> io::
         // access mask (eight bytes in total).
         let trustee = sid_string(unsafe { ace.cast::<u8>().add(8).cast() })?;
         if !trusted_principal(&trustee, current_sid) {
-            return Ok(false);
+            return Err(denied(format!(
+                "DACL grants replacement rights {mask:#x} to SID {trustee}"
+            )));
         }
     }
-    Ok(true)
+    Ok(())
 }
 
 pub fn private_directory(path: &Path) -> io::Result<()> {
@@ -315,15 +348,75 @@ pub fn private_directory(path: &Path) -> io::Result<()> {
     Ok(())
 }
 
+/// An elevated token can default new files to the Administrators owner. Never
+/// weaken validation to accept that owner: create our own files with the user's
+/// SID explicitly, and leave existing files subject to the original checks.
+pub(crate) fn new_private_file(path: &Path) -> io::Result<File> {
+    use std::os::windows::io::FromRawHandle;
+
+    use windows_sys::Win32::{
+        Foundation::{GENERIC_READ, GENERIC_WRITE, INVALID_HANDLE_VALUE},
+        Storage::FileSystem::{CreateFileW, CREATE_NEW, FILE_ATTRIBUTE_NORMAL},
+    };
+    let sid = current_sid()?;
+    let sddl: Vec<u16> = format!("O:{sid}D:P(A;;FA;;;{sid})(A;;FA;;;SY)")
+        .encode_utf16()
+        .chain(Some(0))
+        .collect();
+    let mut descriptor = ptr::null_mut();
+    if unsafe {
+        ConvertStringSecurityDescriptorToSecurityDescriptorW(
+            sddl.as_ptr(),
+            SDDL_REVISION_1,
+            &mut descriptor,
+            ptr::null_mut(),
+        )
+    } == 0
+    {
+        return Err(io::Error::last_os_error());
+    }
+    let _descriptor = LocalAllocation(descriptor);
+    let attributes = SECURITY_ATTRIBUTES {
+        nLength: std::mem::size_of::<SECURITY_ATTRIBUTES>() as u32,
+        lpSecurityDescriptor: descriptor,
+        bInheritHandle: 0,
+    };
+    let handle = unsafe {
+        CreateFileW(
+            wide(path).as_ptr(),
+            GENERIC_READ | GENERIC_WRITE,
+            FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
+            &attributes,
+            CREATE_NEW,
+            FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OPEN_REPARSE_POINT,
+            0,
+        )
+    };
+    if handle == INVALID_HANDLE_VALUE {
+        return Err(io::Error::last_os_error());
+    }
+    Ok(unsafe { File::from_raw_handle(handle as _) })
+}
+
 pub fn open_regular(path: &Path, write: bool, create: bool) -> io::Result<File> {
     use std::os::windows::io::AsRawHandle;
-    let file = OpenOptions::new()
-        .read(true)
-        .write(write)
-        .create(create)
-        .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
-        .custom_flags(FILE_FLAG_OPEN_REPARSE_POINT)
-        .open(path)?;
+    let open = || {
+        OpenOptions::new()
+            .read(true)
+            .write(write)
+            .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
+            .custom_flags(FILE_FLAG_OPEN_REPARSE_POINT)
+            .open(path)
+    };
+    let file = if create {
+        match new_private_file(path) {
+            Ok(file) => file,
+            Err(error) if error.kind() == io::ErrorKind::AlreadyExists => open()?,
+            Err(error) => return Err(error),
+        }
+    } else {
+        open()?
+    };
     let metadata = file.metadata()?;
     if !metadata.is_file() || metadata.file_attributes() & FILE_ATTRIBUTE_REPARSE_POINT != 0 {
         return Err(io::Error::new(
@@ -360,10 +453,14 @@ pub fn open_regular(path: &Path, write: bool, create: bool) -> io::Result<File> 
     }
     let _security = LocalAllocation(security);
     let sid = current_sid()?;
-    if sid_string(owner)? != sid {
+    let owner = sid_string(owner)?;
+    if owner != sid {
         return Err(io::Error::new(
             io::ErrorKind::PermissionDenied,
-            "cache entry belongs to another user",
+            format!(
+                "cache entry {} has owner SID {owner}, expected {sid}",
+                path.display()
+            ),
         ));
     }
     protect_entry_dacl(path, &sid)?;
@@ -478,17 +575,6 @@ pub fn replace_file(source: &Path, destination: &Path) -> io::Result<()> {
     Ok(())
 }
 
-pub fn delete_on_close(path: &Path) -> io::Result<File> {
-    // Retain a read/delete handle, not the writable decoder handle, while the
-    // image is mapped. Kernel handle teardown also runs after abrupt process exit.
-    OpenOptions::new()
-        .read(true)
-        .access_mode(0x8000_0000 | 0x0001_0000) // GENERIC_READ | DELETE
-        .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
-        .custom_flags(FILE_FLAG_DELETE_ON_CLOSE | FILE_FLAG_OPEN_REPARSE_POINT)
-        .open(path)
-}
-
 /// # Safety
 /// `address` must point into a currently loaded native image.
 pub unsafe fn carrier_path(address: *const c_void) -> Result<PathBuf> {
@@ -528,10 +614,17 @@ pub unsafe fn carrier_path(address: *const c_void) -> Result<PathBuf> {
     }
 }
 
-pub fn compress_cache(path: &Path) -> io::Result<()> {
+/// Prepare a new, empty image before decoding. NTFS compression can be
+/// inherited from a user-selected cache directory, even when we never request
+/// it ourselves. Clear it through the existing private write handle: first
+/// loading compressed DLLs is substantially slower. Published images are never
+/// modified in place.
+pub(crate) fn prepare_cache_image(file: &File) -> io::Result<()> {
     use std::os::windows::io::AsRawHandle;
-    let file = open_regular(path, true, false)?;
-    let mut format = COMPRESSION_FORMAT_DEFAULT;
+    if file.metadata()?.file_attributes() & FILE_ATTRIBUTE_COMPRESSED == 0 {
+        return Ok(());
+    }
+    let mut format = COMPRESSION_FORMAT_NONE;
     let mut returned = 0;
     if unsafe {
         DeviceIoControl(
@@ -550,3 +643,7 @@ pub fn compress_cache(path: &Path) -> io::Result<()> {
     }
     Ok(())
 }
+
+#[cfg(test)]
+#[path = "windows_tests.rs"]
+mod tests;

@@ -4,7 +4,10 @@
 use std::io::Cursor;
 
 use object::{Object, ObjectSection, SectionFlags};
-use swc_native_addon::format::{native_target, NativeTarget, Payload, HEADER_LEN, MAX_SIZE};
+use swc_native_addon::{
+    format::{native_target, NativeTarget, Payload, HEADER_LEN, MAX_SIZE},
+    integrity::{RuntimeIntegrity, INTEGRITY_LEN},
+};
 
 pub type Result<T> = std::result::Result<T, Box<dyn std::error::Error>>;
 
@@ -39,26 +42,7 @@ pub fn payload(bytes: &[u8], target: NativeTarget) -> Result<Payload<'_>> {
         object::BinaryFormat::Pe => ".swcn",
         _ => return Err("unsupported carrier image format".into()),
     };
-    let mut sections = image
-        .sections()
-        .filter(|section| section.name().ok() == Some(section_name));
-    let section = sections
-        .next()
-        .ok_or("carrier is missing its retained payload section")?;
-    if sections.next().is_some() {
-        return Err("carrier contains multiple payload sections".into());
-    }
-    match section.flags() {
-        SectionFlags::Elf { sh_flags }
-            if sh_flags & u64::from(object::elf::SHF_ALLOC) != 0
-                && sh_flags & u64::from(object::elf::SHF_WRITE) == 0 => {}
-        SectionFlags::Coff { characteristics }
-            if characteristics & object::pe::IMAGE_SCN_MEM_READ != 0
-                && characteristics & object::pe::IMAGE_SCN_MEM_WRITE == 0 => {}
-        SectionFlags::MachO { .. } if section.segment_name()? == Some("__TEXT") => {}
-        _ => return Err("carrier payload must be in mapped read-only data".into()),
-    }
-    let data = section.data()?;
+    let data = retained_section(&image, section_name)?;
     if data.len() < HEADER_LEN {
         return Err("truncated carrier payload section".into());
     }
@@ -77,5 +61,41 @@ pub fn payload(bytes: &[u8], target: NativeTarget) -> Result<Payload<'_>> {
     if payload.header.target != target {
         return Err("carrier payload target mismatch".into());
     }
-    Ok(payload)
+    let integrity_name = match image.format() {
+        object::BinaryFormat::Elf => ".swc_integrity",
+        object::BinaryFormat::MachO => "__swc_integrity",
+        object::BinaryFormat::Pe => ".swci",
+        _ => unreachable!(),
+    };
+    let metadata = retained_section(&image, integrity_name)?;
+    let encoded = metadata
+        .get(..INTEGRITY_LEN)
+        .ok_or("truncated carrier integrity metadata")?;
+    if metadata[INTEGRITY_LEN..].iter().any(|byte| *byte != 0) {
+        return Err("unexpected data after carrier integrity metadata".into());
+    }
+    Ok(payload.with_integrity(RuntimeIntegrity::parse(encoded)?)?)
+}
+
+fn retained_section<'data>(image: &object::File<'data>, section_name: &str) -> Result<&'data [u8]> {
+    let mut sections = image
+        .sections()
+        .filter(|section| section.name().ok() == Some(section_name));
+    let section = sections
+        .next()
+        .ok_or("carrier is missing its retained section")?;
+    if sections.next().is_some() {
+        return Err("carrier contains multiple retained sections".into());
+    }
+    match section.flags() {
+        SectionFlags::Elf { sh_flags }
+            if sh_flags & u64::from(object::elf::SHF_ALLOC) != 0
+                && sh_flags & u64::from(object::elf::SHF_WRITE) == 0 => {}
+        SectionFlags::Coff { characteristics }
+            if characteristics & object::pe::IMAGE_SCN_MEM_READ != 0
+                && characteristics & object::pe::IMAGE_SCN_MEM_WRITE == 0 => {}
+        SectionFlags::MachO { .. } if section.segment_name()? == Some("__TEXT") => {}
+        _ => return Err("carrier section must be in mapped read-only data".into()),
+    }
+    Ok(section.data()?)
 }

@@ -18,6 +18,11 @@ import {
     writeJson,
 } from "./common.mjs";
 import { containsPayload, validateInventory } from "./contracts.mjs";
+import {
+    validateMeasurements,
+    x64LoadBudgets,
+    rosettaLoadBudgets,
+} from "./measurements.mjs";
 import { minimumNodes, products, targets } from "./targets.mjs";
 import { inspectTarball, tarMember } from "./tarballs.mjs";
 
@@ -175,21 +180,7 @@ try {
         seen.add(key);
         if (result.kind === "runtime") {
             assert.equal(result.materializedSha512, artifact.rawSha512);
-            assert.equal(result.samples, 15);
-            for (const field of [
-                "rawMs",
-                "coldMs",
-                "warmMs",
-                "coldOverheadMs",
-                "warmOverheadMs",
-            ])
-                assert(Number.isFinite(result[field]));
-            if (result.target.startsWith("x86_64-")) {
-                assert(
-                    result.coldOverheadMs <= 100 && result.warmOverheadMs <= 25,
-                    "load overhead exceeds release budget"
-                );
-            }
+            validateMeasurements(result);
         } else assert.equal(result.kind, "minimum");
     }
     for (const product of products) {
@@ -221,7 +212,14 @@ try {
         }
     }
     assert.equal(seen.size, 0, "unexpected runtime evidence");
-    const gate = { ...expected, totals, reports, runtime, tarballs };
+    const gate = {
+        ...expected,
+        loadBudgets: { x64: x64LoadBudgets, rosetta: rosettaLoadBudgets },
+        totals,
+        reports,
+        runtime,
+        tarballs,
+    };
     writeJson(resolve(output), gate);
     if (process.env.GITHUB_STEP_SUMMARY) {
         const rows = reports.map((r) =>
@@ -244,8 +242,11 @@ try {
                     r.target,
                     r.node,
                     r.rawMs.toFixed(2),
+                    r.rawColdMs.toFixed(2),
                     r.coldMs.toFixed(2),
                     r.warmMs.toFixed(2),
+                    r.coldOverheadMs.toFixed(2),
+                    r.warmOverheadMs.toFixed(2),
                 ].join(" | ")
             );
         appendFileSync(
@@ -257,10 +258,12 @@ try {
                 " raw addons; " +
                 (totals.reduction * 100).toFixed(2) +
                 "% aggregate selected reduction.\n\n" +
+                `x64 startup overhead limits: ${x64LoadBudgets.coldOverheadMs} ms cold; ${x64LoadBudgets.warmOverheadMs} ms warm (15-sample medians). ` +
+                `Rosetta macOS x64: ${rosettaLoadBudgets.coldOverheadMs} ms cold; ${rosettaLoadBudgets.warmOverheadMs} ms warm.\n\n` +
                 "Product | Target | Kind | Raw bytes | Payload bytes | Carrier bytes | Reduction | npm bytes\n" +
                 "--- | --- | --- | ---: | ---: | ---: | ---: | ---:\n" +
                 rows.join("\n") +
-                "\n\nProduct | Target | Node | Raw ms | Cold ms | Warm ms\n--- | --- | --- | ---: | ---: | ---:\n" +
+                "\n\nProduct | Target | Node | Raw warm ms | Raw cold ms | Cold ms | Warm ms | Cold overhead ms | Warm overhead ms\n--- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---:\n" +
                 times.join("\n") +
                 "\n"
         );

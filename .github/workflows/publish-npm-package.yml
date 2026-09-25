@@ -23,6 +23,14 @@ env:
 permissions: {}
 
 on:
+  # Run the private platform checks directly while iterating on loader fixes.
+  # This input is deliberately unavailable to workflow_call/release callers.
+  workflow_dispatch:
+    inputs:
+      onlyCarrierTests:
+        description: "Run private carrier lifecycle checks without building or publishing packages"
+        type: boolean
+        default: true
   workflow_call:
     inputs:
       buildType:
@@ -43,6 +51,11 @@ on:
       skipPublishing:
         type: boolean
         required: true
+      sourceRef:
+        description: "Exact source commit for verification only; requires skipPublishing"
+        type: string
+        required: false
+        default: ""
 
 jobs:
   check-if-build-required:
@@ -50,11 +63,21 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    # Run only on main branch
-    if: github.ref == 'refs/heads/main'
+    # Publishing remains on main; verification can exercise an untagged fix.
+    if: ${{ !inputs.onlyCarrierTests && (github.ref == 'refs/heads/main' || inputs.skipPublishing || inputs.sourceRef != '') }}
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
+      - name: Validate verification source
+        env:
+          SOURCE_REF: ${{ inputs.sourceRef }}
+          SKIP_PUBLISHING: ${{ inputs.skipPublishing }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$SOURCE_REF" ]]; then
+            [[ "$SKIP_PUBLISHING" == "true" ]] || { echo "sourceRef requires skipPublishing: true" >&2; exit 1; }
+            [[ "$SOURCE_REF" =~ ^[0-9a-f]{40}$ ]] || { echo "sourceRef must be an exact commit SHA" >&2; exit 1; }
+          fi
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
@@ -302,7 +325,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - name: Corepack
@@ -311,6 +334,7 @@ jobs:
       - name: Setup node x64
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: 20
           architecture: x64
       - name: Output toolchain
@@ -318,7 +342,7 @@ jobs:
         shell: bash
         run: echo "version=$(cat ./rust-toolchain)" >> "$GITHUB_OUTPUT"
       - name: Install
-        uses: dtolnay/rust-toolchain@4360b52568e2003a75bf9bc1d59f33a8e3fc893c # stable
+        uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
         if: ${{ !matrix.settings.docker }}
         with:
           targets: ${{ matrix.settings.target }}
@@ -339,12 +363,13 @@ jobs:
           else
             pnpm install --frozen-lockfile
           fi
-          curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-          echo '/usr/local/cargo/bin' >> $GITHUB_PATH
+          # These jobs build native addons with napi/cargo. Only publish-wasm
+          # needs wasm-pack; its installer can crash on Windows runners.
       - name: Setup node x86
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
+          package-manager-cache: false
           node-version: 20
           architecture: x86
       - name: Build in docker
@@ -392,7 +417,7 @@ jobs:
             -v "$WORKSPACE:/build" \
             -w /build \
             "$DOCKER_IMAGE" \
-            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; npm install -g "corepack@${COREPACK_VERSION}"; corepack enable; corepack prepare "${PACKAGE_MANAGER}" --activate; npm i -g wasm-pack; bash -e -o pipefail -lc "$BUILD_SCRIPT"'
+            bash -lc 'set -euo pipefail; cd "/build/packages/${PACKAGE}"; npm install -g "corepack@${COREPACK_VERSION}"; corepack enable; corepack prepare "${PACKAGE_MANAGER}" --activate; bash -e -o pipefail -lc "$BUILD_SCRIPT"'
       - name: Build
         if: ${{ !matrix.settings.docker }}
         shell: bash
@@ -447,7 +472,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - uses: ./.github/actions/setup-node
@@ -545,7 +570,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - run: corepack enable
@@ -553,6 +578,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.settings.architecture }}
       - name: Install dependencies
@@ -625,7 +651,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - name: Corepack
@@ -633,6 +659,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: corepack enable && pnpm install --frozen-lockfile
@@ -742,7 +769,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - run: corepack enable
@@ -750,6 +777,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: |
@@ -858,7 +886,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
       - uses: ./.github/actions/setup-node
         with:
@@ -886,6 +914,7 @@ jobs:
         run: pnpm build:ts
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: ${{ matrix.settings.node }}
           architecture: x64
       - name: Test minimum runtime through both package layouts
@@ -904,6 +933,7 @@ jobs:
 
   test-carrier-platform:
     name: Native carrier lifecycle - ${{ matrix.host }}
+    if: ${{ always() && (inputs.onlyCarrierTests || needs.build.result == 'success') }}
     needs: [build]
     runs-on: ${{ matrix.host }}
     permissions:
@@ -911,16 +941,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        host: [ubuntu-latest, macos-latest, windows-latest]
+        host: [ubuntu-latest, macos-latest, windows-latest, windows-11-arm]
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.onlyCarrierTests && github.sha || inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: "20"
+      - name: Canonicalize native test temporary directory
+        # macOS exposes /var through a symlink. Fixtures deliberately reject
+        # symlink ancestors, just like the production cache does.
+        shell: bash
+        run: |
+          node -e 'const fs = require("fs"); const root = fs.realpathSync.native(require("os").tmpdir()); fs.appendFileSync(process.env.GITHUB_ENV, ["TMPDIR", "TMP", "TEMP"].map(key => key + "=" + root + "\n").join(""));'
+      - name: Verify portable tarball access
+        run: node --test scripts/native/tarballs.test.mjs scripts/native/measurements.test.mjs scripts/native/measurement-files.test.mjs
       - uses: ./.github/actions/native-tools
       - name: Verify private crates and native registration
         shell: bash
@@ -929,12 +968,21 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         run: SWC_TEST_VOLUME="$RUNNER_TEMP" cargo test -p swc_native_addon --test platform apfs_self_replacement -- --ignored --exact
-      - name: Verify NTFS compression and process-exit cleanup
+      - name: Verify NTFS cache policy and process-exit cleanup
         if: runner.os == 'Windows'
         shell: bash
         run: |
           cargo test -p swc_native_addon --test platform ntfs_compression -- --ignored --exact
+          cargo test -p swc_native_addon --test ntfs -- --ignored
           cargo test -p swc_native_addon --test platform temporary_cleanup_after_process_exit -- --exact
+      - name: Install Windows MSRV toolchain
+        if: matrix.host == 'windows-latest'
+        shell: bash
+        run: rustup toolchain install 1.73.0 --profile minimal
+      - name: Verify Windows MSRV and embedded cleanup worker
+        if: matrix.host == 'windows-latest'
+        shell: bash
+        run: python crates/swc_native_addon/scripts/msrv.py
       - name: Verify btrfs replacement
         if: runner.os == 'Linux'
         shell: bash
@@ -968,9 +1016,10 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: "20"
       - uses: ./.github/actions/native-tools
       - name: Download all prepared packages
@@ -995,7 +1044,7 @@ jobs:
   publish:
     name: Publish verified ${{ matrix.package }}@${{ inputs.version }}
     environment: publish
-    if: ${{ !inputs.skipPublishing }}
+    if: ${{ !inputs.onlyCarrierTests && !inputs.skipPublishing }}
     needs: [verify-native-release]
     runs-on: ubuntu-latest
     permissions:
@@ -1009,9 +1058,10 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: "24"
       - name: Update npm for trusted publishing
         run: npm install -g npm@latest
@@ -1041,7 +1091,7 @@ jobs:
   publish-wasm:
     environment: publish
     name: Build - wasm (${{ matrix.settings.npm }})
-    if: ${{ inputs.publishWasm && !inputs.skipPublishing }}
+    if: ${{ !inputs.onlyCarrierTests && inputs.publishWasm && !inputs.skipPublishing }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -1091,7 +1141,7 @@ jobs:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
-          ref: "v${{ inputs.version }}"
+          ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
           submodules: recursive
 
       - name: Corepack
@@ -1110,6 +1160,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
+          package-manager-cache: false
           node-version: 24
 
       - name: Install node dependencies

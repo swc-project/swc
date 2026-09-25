@@ -1,5 +1,10 @@
 # Native release integration verification
 
+This is historical evidence under the original 100/25 ms startup budgets. The
+current [release contract](native-addon-carriers.md) uses approved 500/125 ms
+budgets, with a 1,500 ms cold budget for Rosetta. Historical failures below
+have not been relabeled.
+
 Observed on 2026-09-08 in the hosted Linux x86_64 runner, starting from main
 `2855b5a8c1f24d09e69cca1ea80b03c3c55180e4`. The host reports Intel Xeon Platinum
 8488C CPUs and uses overlayfs. This records this integration's checks; the
@@ -141,7 +146,7 @@ command passed separately.
 | `SWC_TEST_VOLUME=... cargo test -p swc_native_addon --test platform btrfs_self_replacement -- --ignored --exact` | btrfs-progs was installed and an image formatted. `sudo -n mount -o loop /tmp/swc-native-btrfs.img /tmp/swc-native-btrfs-volume` failed with `sudo: a password is required`; workspace and temp paths are overlayfs.                                                           |
 | `SWC_TEST_VOLUME=... cargo test -p swc_native_addon --test platform apfs_self_replacement -- --ignored --exact`  | Linux has no APFS volume, macOS runtime, Apple SDK, `/usr/bin/ditto`, or `/usr/bin/codesign`. Mach-O execution and signing need a Mac host.                                                                                                                                    |
 | `cargo test -p swc_native_addon --test platform ntfs_compression -- --ignored --exact`                           | No Windows runtime or NTFS volume supporting the Win32 compression API is available.                                                                                                                                                                                           |
-| `cargo test -p swc_native_addon --test platform temporary_cleanup_after_process_exit -- --exact` on Windows      | Windows-only process-exit/delete-on-close behavior cannot execute on Linux.                                                                                                                                                                                                    |
+| `cargo test -p swc_native_addon --test platform temporary_cleanup_after_process_exit -- --exact` on Windows      | Windows-only process-exit cleanup behavior cannot execute on Linux.                                                                                                                                                                                                            |
 | Steady-state CodSpeed comparison                                                                                 | The existing Rust benchmark workflow uses the hosted CodSpeed action and repository `CODSPEED_TOKEN`; this local run has no hosted comparison result. The benchmark workflow was preserved.                                                                                    |
 
 The release workflow now requires real APFS, btrfs, Windows lifecycle checks,

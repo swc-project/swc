@@ -1,17 +1,40 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { closeSync, openSync, readFileSync } from "node:fs";
 import { run, sha512 } from "./common.mjs";
+
+// GNU tar treats a Windows drive letter in -f as a remote host. A stdin file
+// handle avoids path translation and the EPIPE race when BSD tar finishes a
+// member before Node has written the whole archive to a pipe. These operations
+// are outside loading timers. Always close our copy of the handle after tar.
+function readTarball(file, args, options = {}) {
+    const input = openSync(file, "r");
+    try {
+        return run("tar", args, { ...options, stdio: [input, "pipe", "pipe"] });
+    } finally {
+        closeSync(input);
+    }
+}
+
+export function listTarball(file) {
+    return readTarball(file, ["-tzf", "-"]).split("\n").filter(Boolean);
+}
+
+export function extractTarball(file, directory) {
+    return readTarball(file, ["-xzf", "-", "--strip-components=1"], {
+        cwd: directory,
+    });
+}
 
 /** Read tar members without extracting untrusted paths or running lifecycle scripts. */
 export function tarMember(file, name) {
-    return run("tar", ["-xOf", file, "package/" + name], {
+    return readTarball(file, ["-xzOf", "-", "package/" + name], {
         encoding: null,
         maxBuffer: 512 * 1024 * 1024,
     });
 }
 
 export function inspectTarball(file, manifest, report) {
-    const names = run("tar", ["-tzf", file]).split("\n").filter(Boolean);
+    const names = listTarball(file);
     for (const name of names) {
         assert(
             name.startsWith("package/") &&

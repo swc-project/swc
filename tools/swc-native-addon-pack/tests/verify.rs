@@ -1,4 +1,4 @@
-use std::{fs, io::Write, path::Path, process::Command};
+use std::{fs, path::Path, process::Command};
 
 fn checked(command: &mut Command) {
     let result = command.output().unwrap();
@@ -15,7 +15,7 @@ fn final_carrier_verification_and_atomic_replacement() {
     let directory = tempfile::tempdir().unwrap();
     let raw = directory.path().join("raw with spaces.node");
     let fixture = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../crates/swc_native_addon/tests/fixtures/node.rs");
+        .join("../../crates/swc_native_addon/tests/fixtures/large_node.rs");
     checked(
         Command::new("rustc")
             .args([
@@ -28,14 +28,6 @@ fn final_carrier_verification_and_atomic_replacement() {
             .arg("-o")
             .arg(&raw),
     );
-    // Keep this real native fixture larger than the loader on every host.
-    // Native loaders ignore the overlay; the payload must reproduce it too.
-    fs::OpenOptions::new()
-        .append(true)
-        .open(&raw)
-        .unwrap()
-        .write_all(&vec![0; 4 * 1024 * 1024])
-        .unwrap();
     #[cfg(target_os = "macos")]
     checked(
         Command::new("/usr/bin/codesign")
@@ -156,6 +148,25 @@ fn final_carrier_verification_and_atomic_replacement() {
         original,
         "failed verification changed raw"
     );
+    let metadata = swc_native_addon::integrity::RuntimeIntegrity::from_raw(
+        &swc_native_addon::format::Payload::parse(&packed)
+            .unwrap()
+            .header,
+        &mut std::io::Cursor::new(&original),
+    )
+    .unwrap()
+    .encode();
+    let valid = fs::read(&carrier).unwrap();
+    let offset = memchr::memmem::find(&valid, &metadata).unwrap();
+    for byte in [0, 8 + 32, metadata.len() - 1] {
+        let mut bytes = valid.clone();
+        bytes[offset + byte] ^= 1;
+        fs::write(&corrupt, bytes).unwrap();
+        assert!(
+            !verifier(&corrupt).status().unwrap().success(),
+            "integrity byte {byte}"
+        );
+    }
     checked(
         verifier(&carrier)
             .arg("--raw")
