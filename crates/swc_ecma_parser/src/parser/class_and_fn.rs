@@ -153,6 +153,14 @@ impl<I: Tokens> Parser<I> {
         if !self.syntax().decorators() {
             return Ok(Vec::new());
         }
+
+        // Parameter decorators are not part of TC39 stage 3 decorators and are only
+        // allowed in TypeScript, not in JavaScript.
+        // See: https://github.com/swc-project/swc/issues/9661
+        if self.ctx().contains(Context::InParameters) && !self.syntax().typescript() {
+            return Ok(Vec::new());
+        }
+
         trace_cur!(self, parse_decorators);
 
         let mut decorators = Vec::new();
