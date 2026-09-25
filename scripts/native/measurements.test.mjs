@@ -81,7 +81,7 @@ test("cold samples copy raw before loading while warm samples reuse files", () =
 
 test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budgets", () => {
     const valid = {
-        target: "x86_64-apple-darwin",
+        target: "x86_64-pc-windows-msvc",
         samples: 15,
         rawMs: 10,
         rawColdMs: 1000,
@@ -114,21 +114,21 @@ test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budg
         assert.throws(() => validateMeasurements({ ...valid, ...change }));
 });
 
-test("all x64 targets share the approved startup budgets", () => {
-    for (const target of [
-        "x86_64-apple-darwin",
-        "x86_64-pc-windows-msvc",
-        "x86_64-unknown-linux-gnu",
-        "x86_64-unknown-linux-musl",
+test("only Rosetta receives the higher cold budget; all x64 warm budgets stay shared", () => {
+    for (const [target, coldBudget] of [
+        ["x86_64-apple-darwin", 1500],
+        ["x86_64-pc-windows-msvc", 500],
+        ["x86_64-unknown-linux-gnu", 500],
+        ["x86_64-unknown-linux-musl", 500],
     ]) {
         const result = {
             target,
             samples: 15,
             rawMs: 10,
             rawColdMs: 1000,
-            coldMs: 1500,
+            coldMs: 1000 + coldBudget,
             warmMs: 135,
-            coldOverheadMs: 500,
+            coldOverheadMs: coldBudget,
             warmOverheadMs: 125,
         };
         validateMeasurements(result);
@@ -136,10 +136,14 @@ test("all x64 targets share the approved startup budgets", () => {
             () =>
                 validateMeasurements({
                     ...result,
-                    coldMs: 1501,
-                    coldOverheadMs: 501,
+                    coldMs: result.coldMs + 1,
+                    coldOverheadMs: coldBudget + 1,
                 }),
-            /cold-load overhead 501 ms exceeds 500 ms/
+            new RegExp(
+                `cold-load overhead ${
+                    coldBudget + 1
+                } ms exceeds ${coldBudget} ms`
+            )
         );
         assert.throws(
             () =>

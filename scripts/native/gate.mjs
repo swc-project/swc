@@ -18,7 +18,11 @@ import {
     writeJson,
 } from "./common.mjs";
 import { containsPayload, validateInventory } from "./contracts.mjs";
-import { validateMeasurements, x64LoadBudgets } from "./measurements.mjs";
+import {
+    validateMeasurements,
+    x64LoadBudgets,
+    rosettaLoadBudgets,
+} from "./measurements.mjs";
 import { minimumNodes, products, targets } from "./targets.mjs";
 import { inspectTarball, tarMember } from "./tarballs.mjs";
 
@@ -210,7 +214,7 @@ try {
     assert.equal(seen.size, 0, "unexpected runtime evidence");
     const gate = {
         ...expected,
-        loadBudgets: { x64: x64LoadBudgets },
+        loadBudgets: { x64: x64LoadBudgets, rosetta: rosettaLoadBudgets },
         totals,
         reports,
         runtime,
@@ -254,7 +258,8 @@ try {
                 " raw addons; " +
                 (totals.reduction * 100).toFixed(2) +
                 "% aggregate selected reduction.\n\n" +
-                `x64 startup overhead limits: ${x64LoadBudgets.coldOverheadMs} ms cold; ${x64LoadBudgets.warmOverheadMs} ms warm (15-sample medians).\n\n` +
+                `x64 startup overhead limits: ${x64LoadBudgets.coldOverheadMs} ms cold; ${x64LoadBudgets.warmOverheadMs} ms warm (15-sample medians). ` +
+                `Rosetta macOS x64: ${rosettaLoadBudgets.coldOverheadMs} ms cold; ${rosettaLoadBudgets.warmOverheadMs} ms warm.\n\n` +
                 "Product | Target | Kind | Raw bytes | Payload bytes | Carrier bytes | Reduction | npm bytes\n" +
                 "--- | --- | --- | ---: | ---: | ---: | ---: | ---:\n" +
                 rows.join("\n") +

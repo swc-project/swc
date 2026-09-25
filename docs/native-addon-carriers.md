@@ -103,11 +103,12 @@ executing user's home, including Docker, and are removed after the run. These ar
 about an empty operating-system page cache. Disposable hardlinked carrier
 copies prevent filesystem self-replacement from disguising warm-cache costs.
 Representative x64 jobs require at most 500 ms cold overhead and 125 ms warm
-overhead over the corresponding raw addon. x64 macOS continues to run under
-Rosetta on the ARM64 runner. These startup budgets accept the measured loading
+overhead over the corresponding raw addon. The macOS x64 jobs run under Rosetta
+on ARM64 runners and have a separately approved 1,500 ms cold limit; their warm
+limit remains 125 ms. These startup budgets accept the measured loading
 tradeoff while retaining compressed carriers and full integrity checks. They
 apply when a process initializes the native module, not to each subsequent
-transform. Both limits are included in the release gate JSON and job summary;
+transform. The default and Rosetta limits are included in the release gate JSON and job summary;
 exceeding either still fails verification.
 
 To test an untagged fix, dispatch `publish.yml` on the fixing branch with
