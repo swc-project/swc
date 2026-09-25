@@ -1,0 +1,14 @@
+.class {
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
+}
+.class {
+  cursor: -webkit-zoom-out;
+  cursor: zoom-out;
+}
+input::-webkit-input-placeholder {
+  color: gray;
+}
+input::placeholder {
+  color: gray;
+}

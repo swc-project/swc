@@ -1,0 +1,28 @@
+.class {
+  cursor: -webkit-zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: zoom-in;
+}
+.class {
+  cursor: -webkit-zoom-out;
+  cursor: -moz-zoom-out;
+  cursor: zoom-out;
+}
+input::-webkit-input-placeholder {
+  color: gray;
+}
+input:-moz-placeholder {
+  color: gray;
+}
+input::-moz-placeholder {
+  color: gray;
+}
+input:-ms-input-placeholder {
+  color: gray;
+}
+input::-ms-input-placeholder {
+  color: gray;
+}
+input::placeholder {
+  color: gray;
+}

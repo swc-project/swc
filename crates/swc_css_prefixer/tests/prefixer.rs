@@ -78,3 +78,17 @@ fn test_with_env(input: PathBuf) {
         Some("defaults-not-ie-11"),
     )
 }
+
+/// Android 4.3 needs `-webkit-zoom-*` (through the Android to Chrome fallback)
+/// and `::-webkit-input-placeholder`, but is outside the ranges of the
+/// unrelated keys those prefixes used to be gated on.
+#[testing::fixture("tests/fixture/legacy-browsers/input.css")]
+fn test_with_legacy_env(input: PathBuf) {
+    prefix(
+        input,
+        Options {
+            env: Some(Targets::Query(Query::Single(String::from("android 4.3")))),
+        },
+        Some("legacy-browsers"),
+    )
+}

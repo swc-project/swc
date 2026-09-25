@@ -1211,7 +1211,7 @@ impl VisitMut for Prefixer {
                 );
             }
 
-            if should_prefix("::-webkit-file-upload-button", &self.env, false) {
+            if should_prefix("::-webkit-input-placeholder", &self.env, false) {
                 replace_pseudo_element_selector_name(
                     &mut new_webkit_prelude,
                     "placeholder",
@@ -1851,11 +1851,11 @@ impl VisitMut for Prefixer {
 
             "cursor" => {
                 if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    if should_prefix("-o-repeating-radial-gradient()", &self.env, false) {
+                    if should_prefix("-webkit-zoom-in", &self.env, false) {
                         replace_ident(&mut webkit_value, "zoom-in", "-webkit-zoom-in");
                     }
 
-                    if should_prefix("-o-repeating-radial-gradient()", &self.env, false) {
+                    if should_prefix("-webkit-zoom-out", &self.env, false) {
                         replace_ident(&mut webkit_value, "zoom-out", "-webkit-zoom-out");
                     }
 
