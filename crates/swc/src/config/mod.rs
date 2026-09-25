@@ -910,20 +910,26 @@ impl Options {
         } else {
             let jsx_enabled = syntax.jsx() && !jsx_preserve;
 
-            let decorator_pass: Box<dyn Pass> =
-                match transform.decorator_version.unwrap_or_default() {
-                    DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
-                        legacy: transform.legacy_decorator.into_bool(),
-                        emit_metadata: transform.decorator_metadata.into_bool(),
-                        use_define_for_class_fields: !assumptions.set_public_class_fields,
-                    })),
-                    DecoratorVersion::V202203 => Box::new(
-                        swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03(),
-                    ),
-                    DecoratorVersion::V202311 => Box::new(
-                        swc_ecma_transforms::proposals::decorator_2023_11::decorator_2023_11(),
-                    ),
-                };
+            let decorator_version = transform.decorator_version.unwrap_or_default();
+            // `tsc` always lowers legacy (`experimentalDecorators`) decorators, since
+            // they have no native runtime representation, but it leaves the newer,
+            // standards-track decorator syntax untouched when the output target is
+            // `esnext`, assuming the runtime understands it natively.
+            let is_legacy_decorators = matches!(decorator_version, DecoratorVersion::V202112)
+                && transform.legacy_decorator.into_bool();
+            let decorator_pass: Box<dyn Pass> = match decorator_version {
+                DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
+                    legacy: transform.legacy_decorator.into_bool(),
+                    emit_metadata: transform.decorator_metadata.into_bool(),
+                    use_define_for_class_fields: !assumptions.set_public_class_fields,
+                })),
+                DecoratorVersion::V202203 => {
+                    Box::new(swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03())
+                }
+                DecoratorVersion::V202311 => {
+                    Box::new(swc_ecma_transforms::proposals::decorator_2023_11::decorator_2023_11())
+                }
+            };
             #[cfg(feature = "lint")]
             let lint = {
                 use swc_common::SyntaxContext;
@@ -951,8 +957,13 @@ impl Options {
                     },
                     #[cfg(feature = "lint")]
                     lint,
-                    // Decorators may use type information
-                    Optional::new(decorator_pass, syntax.decorators()),
+                    // Decorators may use type information. Mirror `tsc`: only skip the
+                    // transform for non-legacy decorators when targeting `esnext`.
+                    Optional::new(
+                        decorator_pass,
+                        syntax.decorators()
+                            && (is_legacy_decorators || target != EsVersion::EsNext),
+                    ),
                     Optional::new(
                         explicit_resource_management(),
                         syntax.explicit_resource_management(),
