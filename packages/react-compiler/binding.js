@@ -7,6 +7,7 @@ const { createRequire } = require('node:module')
 require = createRequire(__filename)
 
 const { readFileSync } = require('node:fs')
+const { execSync } = require('node:child_process')
 let nativeBinding = null
 const loadErrors = []
 
@@ -28,7 +29,11 @@ const isFileMusl = (f) => f.includes('libc.musl-') || f.includes('ld-musl-')
 
 const isMuslFromFilesystem = () => {
   try {
-    return readFileSync('/usr/bin/ldd', 'utf-8').includes('musl')
+    let lddPath = '/usr/bin/ldd'
+    try {
+      lddPath = execSync('command -v ldd', { encoding: 'utf8' }).trim() || lddPath
+    } catch {}
+    return readFileSync(lddPath, 'utf-8').includes('musl')
   } catch {
     return null
   }
