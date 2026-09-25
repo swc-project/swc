@@ -19,6 +19,7 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
         in_opt_chain: Default::default(),
+        is_strict: false,
         remove_only: false,
     })
 }
@@ -30,6 +31,7 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
         in_opt_chain: Default::default(),
+        is_strict: false,
         remove_only: true,
     })
 }
@@ -45,6 +47,7 @@ struct Fixer<'a> {
 
     in_for_stmt_head: bool,
     in_opt_chain: bool,
+    is_strict: bool,
 
     remove_only: bool,
 }
@@ -126,6 +129,10 @@ impl Fixer<'_> {
     }
 
     fn wrap_single_function(&self, s: &mut Stmt) {
+        if !self.is_strict {
+            return;
+        }
+
         if let Stmt::Decl(Decl::Fn(f)) = s {
             let f = f.take();
 
@@ -466,8 +473,11 @@ impl VisitMut for Fixer<'_> {
         node.super_class.visit_mut_with(self);
 
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        let is_strict = self.is_strict;
+        self.is_strict = true;
         node.body.visit_mut_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
+        self.is_strict = is_strict;
 
         match &mut node.super_class {
             Some(e)
@@ -723,6 +733,7 @@ impl VisitMut for Fixer<'_> {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
 
+        self.is_strict = true;
         n.visit_mut_children_with(self);
         if let Some(c) = self.comments {
             for (to, from) in self.span_map.drain(RangeFull).rev() {
@@ -838,6 +849,25 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::ForcedExpr;
         e.visit_mut_children_with(self);
         self.ctx = old;
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let is_strict = self.is_strict;
+
+        if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first() {
+            if let Expr::Lit(Lit::Str(v)) = &**expr {
+                match &v.raw {
+                    Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                        self.is_strict = true;
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        stmts.visit_mut_children_with(self);
+
+        self.is_strict = is_strict;
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {

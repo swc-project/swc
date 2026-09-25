@@ -1,6 +1,5 @@
 function e() {
     function f() {}
-    if (!window) return;
-    function g() {}
+    if (window) function g() {}
     function h() {}
 }
