@@ -440,24 +440,9 @@ impl Optimizer<'_> {
 
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
-        // Respect annotations on the pattern itself.
-        //  e.g. `const /*#__PURE__*/ { a } = obj`.
-        // Such an annotation asserts that the implicit property accesses are
-        // pure, and that the initializer is not nullish so the `TypeError`
-        // cannot be dropped.
-        //
-        // A `/*#__PURE__*/` annotation on the initializer only describes the
-        // evaluation of the initializer expression. The pattern itself still
-        // performs property reads, which can invoke getters, and checks the
-        // initializer value for nullishness, which can throw. An initializer
-        // annotation therefore never allows dropping the pattern; only an
-        // annotation written on the pattern does.
-        let has_pure_ann = match &*name {
-            Pat::Object(ObjectPat { span, .. }) | Pat::Array(ArrayPat { span, .. }) => {
-                self.pure_annotations.contains(span.lo)
-            }
-            _ => false,
-        };
+        // A PURE annotation on the initializer does not make destructuring
+        // safe to remove: the pattern can still invoke getters or throw on a
+        // nullish value. Keep the fix from #12386 when reverting #12384.
         // Restrict this to structural values known to be non-nullish so removing
         // the whole pattern cannot remove a destructuring error. A pure annotation
         // only describes evaluation effects, not the value produced by the
@@ -477,23 +462,21 @@ impl Optimizer<'_> {
 
             if !is_assign_pat_without_init {
                 // TODO: Use smart logic
-                if self.options.pure_getters != PureGetterOption::Bool(true) && !has_pure_ann {
+                if self.options.pure_getters != PureGetterOption::Bool(true) {
                     return;
                 }
 
-                if !has_pure_ann {
-                    if let Some(init) = init.as_mut() {
-                        if !matches!(init, Expr::Ident(_))
-                            && self.should_preserve_property_access(
-                                init,
-                                PropertyAccessOpts {
-                                    allow_getter: false,
-                                    only_ident: false,
-                                },
-                            )
-                        {
-                            return;
-                        }
+                if let Some(init) = init.as_mut() {
+                    if !matches!(init, Expr::Ident(_))
+                        && self.should_preserve_property_access(
+                            init,
+                            PropertyAccessOpts {
+                                allow_getter: false,
+                                only_ident: false,
+                            },
+                        )
+                    {
+                        return;
                     }
                 }
             }
@@ -522,10 +505,6 @@ impl Optimizer<'_> {
                             *arr_elem = None;
                         }
                     }
-                }
-
-                if has_pure_ann && arr.elems.iter().all(|e| e.is_none()) {
-                    name.take();
                 }
             }
 
