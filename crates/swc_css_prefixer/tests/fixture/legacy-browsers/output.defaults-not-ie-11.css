@@ -1,0 +1,9 @@
+.class {
+  cursor: zoom-in;
+}
+.class {
+  cursor: zoom-out;
+}
+input::placeholder {
+  color: gray;
+}
