@@ -581,10 +581,9 @@ impl<I: Tokens> Parser<I> {
                 };
 
                 match module_decl {
-                    ModuleDecl::TsImportEquals(import) => {
-                        import.is_export
-                            || matches!(&import.module_ref, TsModuleRef::TsExternalModuleRef(..))
-                    }
+                    ModuleDecl::TsImportEquals(_) => false,
+                    ModuleDecl::TsExportAssignment(_) => false,
+                    ModuleDecl::TsNamespaceExport(_) => false,
                     _ => true,
                 }
             })
