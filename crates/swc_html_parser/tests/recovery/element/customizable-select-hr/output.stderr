@@ -1,0 +1,5 @@
+  x Unclosed elements on stack
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                         ^^^^
+   `----

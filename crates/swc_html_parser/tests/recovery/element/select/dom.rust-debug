@@ -2,8 +2,10 @@
 |   <head>
 |   <body>
 |     <select>
-|       "foobar"
+|       <div>
+|         "foo"
+|       "bar"
 |     "
 "
 |     <select>
-|     <keygen>
+|       <keygen>
