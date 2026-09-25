@@ -998,9 +998,6 @@ impl<I: Tokens> Parser<I> {
 
                 if self.input().syntax().typescript() && self.input().is(Token::Eq) {
                     let decl = self.parse_ts_import_equals_decl(start, local, false, type_only)?;
-                    if matches!(&decl.module_ref, TsModuleRef::TsExternalModuleRef(..)) {
-                        self.enter_import_module_context();
-                    }
                     return Ok(ModuleDecl::TsImportEquals(decl).into());
                 }
 
