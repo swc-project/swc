@@ -124,6 +124,18 @@ impl Fixer<'_> {
             _ => (),
         }
     }
+
+    fn wrap_single_function(&self, s: &mut Stmt) {
+        if let Stmt::Decl(Decl::Fn(f)) = s {
+            let f = f.take();
+
+            *s = Stmt::Block(BlockStmt {
+                span: f.span(),
+                ctxt: f.function.ctxt,
+                stmts: vec![Stmt::Decl(Decl::Fn(f))],
+            })
+        }
+    }
 }
 
 impl VisitMut for Fixer<'_> {
@@ -558,6 +570,24 @@ impl VisitMut for Fixer<'_> {
         Self::normalize_for_head_pat(n);
     }
 
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body);
+    }
+
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body);
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body);
+    }
+
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
 
@@ -588,6 +618,8 @@ impl VisitMut for Fixer<'_> {
         if let Expr::Seq(..) | Expr::Await(..) = &*s.right {
             self.wrap(&mut s.right)
         }
+
+        self.wrap_single_function(&mut s.body);
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
@@ -598,6 +630,8 @@ impl VisitMut for Fixer<'_> {
         n.test.visit_mut_with(self);
         n.update.visit_mut_with(self);
         n.body.visit_mut_with(self);
+
+        self.wrap_single_function(&mut n.body);
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
@@ -610,6 +644,12 @@ impl VisitMut for Fixer<'_> {
                 ..Default::default()
             }
             .into();
+        }
+
+        self.wrap_single_function(&mut node.cons);
+
+        if let Some(alt) = &mut node.alt {
+            self.wrap_single_function(alt);
         }
     }
 
@@ -1970,17 +2010,15 @@ var store = global[SHARED] || (global[SHARED] = {});
         "(function () { })() && a, b"
     );
 
-    test_fixer!(
-        issue_11322_simple,
-        "(function () { })() && a",
-        "(function () { })() && a"
-    );
+    identical!(issue_11322_simple, "(function () { })() && a");
 
-    test_fixer!(
-        issue_11322_stmt,
-        "(function () { })() && a;",
-        "(function () { })() && a;"
-    );
+    identical!(issue_11322_stmt, "(function () { })() && a;");
 
     identical!(issue_11612, "r = new (XE?.default)({ ...e });");
+
+    test_fixer!(
+        issue_12404,
+        "while (a) function foo() {}",
+        "while(a){ function foo() {} }"
+    );
 }

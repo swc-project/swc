@@ -401,23 +401,6 @@ impl Optimizer<'_> {
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr { function: f, .. })
-                        if matches!(
-                            &**f,
-                            Function { is_async: true, .. }
-                                | Function {
-                                    is_generator: true,
-                                    ..
-                                }
-                        ) =>
-                    {
-                        return
-                    }
-                    Expr::Arrow(ArrowExpr { is_async: true, .. })
-                    | Expr::Arrow(ArrowExpr {
-                        is_generator: true, ..
-                    }) => return,
-
                     Expr::Lit(Lit::Regex(..)) => {
                         if !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                             || usage
@@ -635,12 +618,8 @@ impl Optimizer<'_> {
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
         let i = match &*decl {
             Decl::Class(v) => &v.ident,
-            Decl::Fn(f) => {
-                if f.function.is_async {
-                    return;
-                }
-                &f.ident
-            }
+            Decl::Fn(f) => &f.ident,
+
             _ => return,
         };
 
@@ -704,7 +683,12 @@ impl Optimizer<'_> {
             // Inline very simple functions.
             self.vars.inline_with_multi_replacer(decl);
             match decl {
-                Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
+                Decl::Fn(f)
+                    if self.options.inline >= 2
+                        && f.ident.sym != *"arguments"
+                        && !f.function.is_async
+                        && !f.function.is_generator =>
+                {
                     if let Some(body) = &f.function.body {
                         if !usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                             // only callees can be inlined multiple times
@@ -1006,7 +990,7 @@ impl Optimizer<'_> {
 }
 
 fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> Option<u8> {
-    if e.is_async {
+    if e.is_async || e.is_generator {
         return None;
     }
 
