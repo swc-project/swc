@@ -42,9 +42,9 @@ pub trait Tokens: Clone {
     ///
     /// This errors should be dropped if it's not a module.
     ///
-    /// Implementor should check for if [Context].module, and buffer errors if
-    /// module is false. Also, implementors should move errors to the error
-    /// buffer on set_ctx if the parser mode become module mode.
+    /// Implementors should buffer the error unless [`Context::Module`] is set.
+    /// When `set_ctx` enables module mode, buffered module errors should be
+    /// moved to the main error buffer.
     fn add_module_mode_error(&mut self, error: Error);
 
     fn end_pos(&self) -> BytePos;

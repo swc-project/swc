@@ -426,7 +426,7 @@ impl<I: Tokens> Parser<I> {
                 Ok(Invalid { span }.into())
             }
 
-            Expr::Yield(..) if self.ctx().contains(Context::InGenerator) => {
+            Expr::Yield(..) if self.includes_yield_expr() => {
                 self.emit_err(span, SyntaxError::InvalidPat);
                 Ok(Invalid { span }.into())
             }
@@ -455,16 +455,17 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::Eq) {
             let initializer_span = self.input().prev_span();
 
-            let right = self.allow_in_expr(Self::parse_assignment_expr)?;
+            let right =
+                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
 
-            if self.ctx().contains(Context::InParameters)
-                && self.ctx().contains(Context::InAsync)
+            if self.boundary_ctx().contains(BoundaryContext::InParameters)
+                && self.includes_await_expr()
                 && is_await_ident_or_expr(&right)
             {
                 self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
             }
 
-            if self.ctx().contains(Context::InDeclare) {
+            if self.type_ctx().contains(TypeContext::InDeclare) {
                 self.emit_err(self.span(start), SyntaxError::TS2371);
             }
 
@@ -549,7 +550,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         expect!(self, Token::RBracket);
-        let optional = (self.input().syntax().dts() || self.ctx().contains(Context::InDeclare))
+        let optional = (self.input().syntax().dts()
+            || self.type_ctx().contains(TypeContext::InDeclare))
             && self.input_mut().eat(Token::QuestionMark);
 
         Ok(ArrayPat {
@@ -608,8 +610,8 @@ impl<I: Tokens> Parser<I> {
                         *optional = true;
                         opt = true;
                     }
-                    _ if self.input().syntax().dts() || self.ctx().contains(Context::InDeclare) => {
-                    }
+                    _ if self.input().syntax().dts()
+                        || self.type_ctx().contains(TypeContext::InDeclare) => {}
                     _ => {
                         syntax_error!(
                             self,
@@ -675,13 +677,13 @@ impl<I: Tokens> Parser<I> {
             }
 
             let right = self.parse_assignment_expr()?;
-            if self.ctx().contains(Context::InParameters)
-                && self.ctx().contains(Context::InAsync)
+            if self.boundary_ctx().contains(BoundaryContext::InParameters)
+                && self.includes_await_expr()
                 && is_await_ident_or_expr(&right)
             {
                 self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
             }
-            if self.ctx().contains(Context::InDeclare) {
+            if self.type_ctx().contains(TypeContext::InDeclare) {
                 self.emit_err(self.span(start), SyntaxError::TS2371);
             }
 
@@ -743,7 +745,12 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_constructor_params(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
-        self.do_inside_of_context(Context::InParameters, Self::parse_constructor_params_inner)
+        self.do_inside_of_boundary_context(BoundaryContext::InParameters, |p| {
+            p.with_syntax_context(
+                super::SyntaxContext::Parameters,
+                Self::parse_constructor_params_inner,
+            )
+        })
     }
 
     fn parse_constructor_params_inner(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
@@ -794,7 +801,7 @@ impl<I: Tokens> Parser<I> {
                 expect!(self, Token::Comma);
                 if self.input().is(Token::RParen)
                     && is_rest
-                    && (!self.ctx().contains(Context::InDeclare) || self.syntax().flow())
+                    && (!self.type_ctx().contains(TypeContext::InDeclare) || self.syntax().flow())
                 {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
                 }
@@ -805,7 +812,12 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
-        self.do_inside_of_context(Context::InParameters, Self::parse_formal_params_inner)
+        self.do_inside_of_boundary_context(BoundaryContext::InParameters, |p| {
+            p.with_syntax_context(
+                super::SyntaxContext::Parameters,
+                Self::parse_formal_params_inner,
+            )
+        })
     }
 
     fn parse_formal_params_inner(&mut self) -> PResult<Vec<Param>> {
@@ -882,7 +894,7 @@ impl<I: Tokens> Parser<I> {
                 // Ambient TypeScript signatures allow a trailing comma after rest.
                 if is_rest
                     && self.input().is(Token::RParen)
-                    && (!self.ctx().contains(Context::InDeclare) || self.syntax().flow())
+                    && (!self.type_ctx().contains(TypeContext::InDeclare) || self.syntax().flow())
                 {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
                 }
@@ -899,7 +911,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.syntax().flow() && !self.ctx().contains(Context::InType) {
-            let in_declare = self.ctx().contains(Context::InDeclare);
+            let in_declare = self.type_ctx().contains(TypeContext::InDeclare);
 
             for (idx, param) in params.iter().enumerate() {
                 if let Pat::Ident(ident) = &param.pat {

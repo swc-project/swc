@@ -6,8 +6,11 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token, parser::util::IsSimpleParameterList, Context,
-    PResult, Parser,
+    error::SyntaxError,
+    input::Tokens,
+    lexer::Token,
+    parser::{util::IsSimpleParameterList, BoundaryContext, FunctionKind, TypeContext},
+    Context, PResult, Parser,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -450,8 +453,17 @@ impl<I: Tokens> Parser<I> {
         }
         let return_type = self.parse_flow_component_renders_ann()?;
 
-        let body = self.parse_fn_block_body(false, false, false, true)?;
-        if self.syntax().flow() && body.is_none() && !self.ctx().contains(Context::InDeclare) {
+        let body = self.parse_fn_block_body(
+            FunctionKind::Function {
+                is_async: false,
+                is_generator: false,
+            },
+            true,
+        )?;
+        if self.syntax().flow()
+            && body.is_none()
+            && !self.type_ctx().contains(TypeContext::InDeclare)
+        {
             self.emit_err(self.input().cur_span(), SyntaxError::TS1005);
         }
 
@@ -816,7 +828,7 @@ impl<I: Tokens> Parser<I> {
                 trace_cur!(self, try_parse_ts__success_value);
                 let mut ctx = self.ctx();
                 ctx.set(Context::IgnoreError, prev_ignore_error);
-                self.input_mut().set_ctx(ctx);
+                self.set_ctx(ctx);
                 Some(res)
             }
             Ok(None) => {
@@ -1104,8 +1116,8 @@ impl<I: Tokens> Parser<I> {
                     p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
                         trace_cur!(p, parse_ts_type_args__arg);
 
-                        p.do_outside_of_context(
-                            Context::DisallowFlowAnonFnType,
+                        p.do_outside_of_type_context(
+                            TypeContext::DisallowFlowAnonFnType,
                             Self::parse_ts_type,
                         )
                     })
@@ -1155,8 +1167,9 @@ impl<I: Tokens> Parser<I> {
         let type_params = if (self.syntax().flow() || !self.input().had_line_break_before_cur())
             && (self.input().is(Token::Lt) || self.input().is(Token::LShift))
         {
-            let ret = self.do_outside_of_context(
+            let ret = self.with_type_lexing(
                 Context::ShouldNotLexLtOrGtAsType,
+                false,
                 Self::parse_ts_type_args,
             )?;
             self.assert_and_bump(Token::Gt);
@@ -1431,7 +1444,7 @@ impl<I: Tokens> Parser<I> {
             };
         }
 
-        let name = self.in_type(Self::parse_ident_name_with_escape_check)?;
+        let name = self.in_type(Self::parse_ts_binding_ident_name)?;
         if self.syntax().flow() {
             self.emit_flow_reserved_type_name_error(name.span, &name.sym);
         }
@@ -1554,7 +1567,7 @@ impl<I: Tokens> Parser<I> {
 
                 if p.input_mut().eat(Token::LParen) {
                     if !p.input().is(Token::RParen) {
-                        p.allow_in_expr(Self::parse_assignment_expr)?;
+                        with_grammar_context!(p, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
                     }
                     expect!(p, Token::RParen);
                 }
@@ -1569,10 +1582,9 @@ impl<I: Tokens> Parser<I> {
             // In TypeScript, `asserts` and its parameter must be on the same line.
             let has_type_pred_asserts = p.input().cur() == Token::Asserts
                 && {
-                    let ctx = p.ctx();
                     peek!(p).is_some_and(|peek| {
                         if peek.is_word() {
-                            !peek.is_reserved(ctx)
+                            !p.token_is_reserved(peek)
                         } else {
                             false
                         }
@@ -2118,7 +2130,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_flow_enum_decl(start, is_const);
         }
 
-        let id = self.parse_ident_name_with_escape_check()?;
+        let id = self.parse_ts_binding_ident_name()?;
         expect!(self, Token::LBrace);
         let members =
             self.parse_ts_delimited_list(ParsingContext::EnumMembers, Self::parse_ts_enum_member)?;
@@ -2308,8 +2320,10 @@ impl<I: Tokens> Parser<I> {
     fn is_ts_unambiguously_start_of_fn_type(&mut self) -> PResult<bool> {
         debug_assert!(self.input().syntax().typescript());
 
-        let disallow_flow_anon_fn_type =
-            self.is_flow_syntax() && self.ctx().contains(Context::DisallowFlowAnonFnType);
+        let disallow_flow_anon_fn_type = self.is_flow_syntax()
+            && self
+                .type_ctx()
+                .contains(TypeContext::DisallowFlowAnonFnType);
 
         self.assert_and_bump(Token::LParen);
         let starts_with_parenthesized_object_or_array =
@@ -2590,10 +2604,12 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Eats ')` at the end but does not eat `(` at start.
     fn parse_ts_binding_list_for_signature(&mut self) -> PResult<Vec<TsFnParam>> {
-        self.do_inside_of_context(
-            Context::InParameters,
-            Self::parse_ts_binding_list_for_signature_inner,
-        )
+        self.do_inside_of_boundary_context(BoundaryContext::InParameters, |p| {
+            p.with_syntax_context(
+                super::SyntaxContext::Parameters,
+                Self::parse_ts_binding_list_for_signature_inner,
+            )
+        })
     }
 
     fn parse_ts_binding_list_for_signature_inner(&mut self) -> PResult<Vec<TsFnParam>> {
@@ -2939,7 +2955,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
         let elems = if self.input().syntax().flow() {
-            self.do_outside_of_context(Context::DisallowFlowAnonFnType, |p| {
+            self.do_outside_of_type_context(TypeContext::DisallowFlowAnonFnType, |p| {
                 p.parse_ts_bracketed_list(
                     ParsingContext::TupleElementTypes,
                     Self::parse_ts_tuple_element_type,
@@ -3051,7 +3067,10 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         expect!(self, Token::LParen);
         let type_ann = if self.input().syntax().flow() {
-            self.do_outside_of_context(Context::DisallowFlowAnonFnType, Self::parse_ts_type)?
+            self.do_outside_of_type_context(
+                TypeContext::DisallowFlowAnonFnType,
+                Self::parse_ts_type,
+            )?
         } else {
             self.parse_ts_type()?
         };
@@ -3069,7 +3088,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Box<TsTypeAliasDecl>> {
         debug_assert!(self.input().syntax().typescript());
 
-        let id = self.parse_ident_name_with_escape_check()?;
+        let id = self.parse_ts_binding_ident_name()?;
         if self.syntax().flow() {
             self.emit_flow_reserved_type_name_error(id.span, &id.sym);
         }
@@ -3107,7 +3126,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().flow());
 
         expect!(self, Token::Type);
-        let id = self.parse_ident_name_with_escape_check()?;
+        let id = self.parse_ts_binding_ident_name()?;
         if self.syntax().flow() {
             self.emit_flow_reserved_type_name_error(id.span, &id.sym);
         }
@@ -3119,7 +3138,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_ann = if self.input_mut().eat(Token::Eq) {
-            if self.ctx().contains(Context::InDeclare) {
+            if self.type_ctx().contains(TypeContext::InDeclare) {
                 self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
             }
             self.in_type(Self::parse_ts_type)?
@@ -3327,7 +3346,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         index: usize,
     ) -> PResult<Option<Pat>> {
-        if !self.input().syntax().flow() || !self.ctx().contains(Context::InDeclare) {
+        if !self.input().syntax().flow() || !self.type_ctx().contains(TypeContext::InDeclare) {
             return Ok(None);
         }
 
@@ -3340,7 +3359,9 @@ impl<I: Tokens> Parser<I> {
 
     fn try_parse_flow_anon_fn_type(&mut self) -> PResult<Option<TsFnType>> {
         if !self.input().syntax().flow()
-            || self.ctx().contains(Context::DisallowFlowAnonFnType)
+            || self
+                .type_ctx()
+                .contains(TypeContext::DisallowFlowAnonFnType)
             || !self.input().is(Token::LParen)
         {
             return Ok(None);
@@ -3464,7 +3485,9 @@ impl<I: Tokens> Parser<I> {
                     let ty = self.parse_ts_array_type_or_higher(readonly)?;
 
                     if self.is_flow_syntax()
-                        && !self.ctx().contains(Context::DisallowFlowAnonFnType)
+                        && !self
+                            .type_ctx()
+                            .contains(TypeContext::DisallowFlowAnonFnType)
                         && !self.input().had_line_break_before_cur()
                         && self.input().is(Token::Arrow)
                         && !matches!(&*ty, TsType::TsThisType(..))
@@ -3519,7 +3542,7 @@ impl<I: Tokens> Parser<I> {
         let constraint = self.try_parse_ts(|p| {
             expect!(p, Token::Extends);
             let constraint = p.parse_ts_non_conditional_type();
-            if p.ctx().contains(Context::DisallowConditionalTypes)
+            if p.type_ctx().contains(TypeContext::DisallowConditionalTypes)
                 || !p.input().is(Token::QuestionMark)
             {
                 constraint.map(Some)
@@ -3647,7 +3670,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
 
-        self.do_outside_of_context(Context::DisallowConditionalTypes, |p| {
+        self.do_outside_of_type_context(TypeContext::DisallowConditionalTypes, |p| {
             let ty = p.parse_ts_non_conditional_type()?;
             if p.input().syntax().flow()
                 && !p.input().had_line_break_before_cur()
@@ -3674,8 +3697,8 @@ impl<I: Tokens> Parser<I> {
             }
 
             let check_type = ty;
-            let extends_type = p.do_inside_of_context(
-                Context::DisallowConditionalTypes,
+            let extends_type = p.do_inside_of_type_context(
+                TypeContext::DisallowConditionalTypes,
                 Self::parse_ts_non_conditional_type,
             )?;
 
@@ -3727,27 +3750,25 @@ impl<I: Tokens> Parser<I> {
             expect!(self, Token::RBracket);
             (true, key)
         } else {
-            self.do_inside_of_context(Context::InPropertyName, |p| {
-                // We check if it's valid for it to be a private name when we push it.
-                let cur = p.input().cur();
+            // We check if it's valid for it to be a private name when we push it.
+            let cur = self.input().cur();
 
-                let key = if cur == Token::Num || cur == Token::Str {
-                    p.parse_new_expr()
-                } else if cur == Token::Error {
-                    let err = p.input_mut().expect_error_token_and_bump();
-                    return Err(err);
-                } else {
-                    p.parse_maybe_private_name().map(|e| match e {
-                        Either::Left(e) => {
-                            p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
+            let key = if cur == Token::Num || cur == Token::Str {
+                self.parse_new_expr()
+            } else if cur == Token::Error {
+                let err = self.input_mut().expect_error_token_and_bump();
+                return Err(err);
+            } else {
+                self.parse_maybe_private_name().map(|e| match e {
+                    Either::Left(e) => {
+                        self.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
 
-                            e.into()
-                        }
-                        Either::Right(e) => e.into(),
-                    })
-                };
-                key.map(|key| (false, key))
-            })?
+                        e.into()
+                    }
+                    Either::Right(e) => e.into(),
+                })
+            };
+            key.map(|key| (false, key))?
         };
 
         Ok((computed, key))
@@ -4029,7 +4050,7 @@ impl<I: Tokens> Parser<I> {
             }
         };
         let members = if self.input().syntax().flow() {
-            self.do_outside_of_context(Context::DisallowFlowAnonFnType, parse_members)?
+            self.do_outside_of_type_context(TypeContext::DisallowFlowAnonFnType, parse_members)?
         } else {
             parse_members(self)?
         };
@@ -4082,7 +4103,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Box<TsInterfaceDecl>> {
         debug_assert!(self.input().syntax().typescript());
 
-        let id = self.parse_ident_name_with_escape_check()?;
+        let id = self.parse_ts_binding_ident_name()?;
         match &*id.sym {
             "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
             | "symbol" | "void" | "never" | "intrinsic" => {
@@ -4208,8 +4229,9 @@ impl<I: Tokens> Parser<I> {
         };
 
         let type_args = if self.input().is(Token::Lt) {
-            let ret = self.do_outside_of_context(
+            let ret = self.with_type_lexing(
                 Context::ShouldNotLexLtOrGtAsType,
+                false,
                 Self::parse_ts_type_args,
             )?;
             self.assert_and_bump(Token::Gt);
@@ -4268,8 +4290,9 @@ impl<I: Tokens> Parser<I> {
         };
 
         let type_args = if !self.input().had_line_break_before_cur() && self.input().is(Token::Lt) {
-            let ret = self.do_outside_of_context(
+            let ret = self.with_type_lexing(
                 Context::ShouldNotLexLtOrGtAsType,
+                false,
                 Self::parse_ts_type_args,
             )?;
             self.assert_and_bump(Token::Gt);
@@ -4293,11 +4316,24 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
         expect!(self, Token::LBrace);
-        let body = self.do_inside_of_context(Context::TsModuleBlock, |p| {
-            p.do_outside_of_context(Context::TopLevel, |p| {
-                p.parse_module_item_block_body(false, Some(Token::RBrace))
+        let outer_ctx = self.ctx();
+        let body = self.do_inside_of_type_context(TypeContext::TsModuleBlock, |p| {
+            p.do_outside_of_boundary_context(BoundaryContext::TopLevel, |p| {
+                with_grammar_context!(p, [?Yield, ?Await, ~Return], |p| {
+                    p.with_syntax_context(super::SyntaxContext::Nested, |p| {
+                        p.parse_module_item_block_body(false, Some(Token::RBrace))
+                    })
+                })
             })
-        })?;
+        });
+        // Imports may enable Module/Strict inside this declaration container.
+        // Restore before consuming `}`: advancing also lexes the outer token.
+        self.set_ctx(outer_ctx);
+        let body = body?;
+        // The body parser already reports an unterminated container at EOF.
+        if self.input().cur() != Token::Eof {
+            expect!(self, Token::RBrace);
+        }
 
         Ok(TsModuleBlock {
             span: self.span(start),
@@ -4317,7 +4353,7 @@ impl<I: Tokens> Parser<I> {
         let id = if nested {
             self.parse_ident_name()?
         } else {
-            self.parse_ident_name_with_escape_check()?
+            self.parse_ts_binding_ident_name()?
         };
         let body: TsNamespaceBody = if self.input_mut().eat(Token::Dot) {
             let inner_start = self.cur_pos();
@@ -4735,15 +4771,15 @@ impl<I: Tokens> Parser<I> {
 
         if !self.syntax().flow()
             && self
-                .ctx()
-                .contains(Context::InDeclare | Context::TsModuleBlock)
+                .type_ctx()
+                .contains(TypeContext::InDeclare | TypeContext::TsModuleBlock)
         {
             let span_of_declare = self.span(start);
             self.emit_err(span_of_declare, SyntaxError::TS1038);
         }
 
         let declare_start = start;
-        self.do_inside_of_context(Context::InDeclare, |p| {
+        self.do_inside_of_type_context(TypeContext::InDeclare, |p| {
             if p.input().is(Token::Function) {
                 return p
                     .parse_fn_decl(decorators)
@@ -5098,7 +5134,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if self.input().syntax().flow()
-                    && self.ctx().contains(Context::InDeclare)
+                    && self.type_ctx().contains(TypeContext::InDeclare)
                     && self.input_mut().eat(Token::Dot)
                 {
                     let is_exports = self.input().cur().is_word()
@@ -5172,7 +5208,7 @@ impl<I: Tokens> Parser<I> {
                     if next {
                         self.bump();
                     }
-                    let declare = self.ctx().contains(Context::InDeclare);
+                    let declare = self.type_ctx().contains(TypeContext::InDeclare);
                     return self
                         .parse_flow_component_decl(start, decorators, declare)
                         .map(Some);
@@ -5184,7 +5220,7 @@ impl<I: Tokens> Parser<I> {
                     if next {
                         self.bump();
                     }
-                    let declare = self.ctx().contains(Context::InDeclare);
+                    let declare = self.type_ctx().contains(TypeContext::InDeclare);
                     return self
                         .parse_flow_hook_decl(start, decorators, declare)
                         .map(Some);
@@ -5252,7 +5288,7 @@ impl<I: Tokens> Parser<I> {
                 let return_type = if p.input().syntax().flow() {
                     // In arrow return type context, `T => expr` belongs to the
                     // outer arrow unless the function type is parenthesized.
-                    p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                    p.do_inside_of_type_context(TypeContext::DisallowFlowAnonFnType, |p| {
                         p.try_parse_ts_type_or_type_predicate_ann()
                     })?
                 } else {
@@ -5271,28 +5307,25 @@ impl<I: Tokens> Parser<I> {
             None => return Ok(None),
         };
 
-        self.do_inside_of_context(Context::InAsync, |p| {
-            p.do_outside_of_context(Context::InGenerator, |p| {
-                let is_generator = false;
-                let is_async = true;
-                p.record_await_in_arrow_params(&params);
-                let body = p.parse_fn_block_or_expr_body(
-                    true,
-                    false,
-                    true,
-                    params.is_simple_parameter_list(),
-                )?;
-                Ok(Some(ArrowExpr {
-                    span: p.span(start),
-                    body,
-                    is_async,
-                    is_generator,
-                    type_params: Some(type_params),
-                    params,
-                    return_type,
-                    ..Default::default()
-                }))
-            })
+        // AsyncConciseBody[?In] derives ExpressionBody[?In, +Await].
+        with_grammar_context!(self, [?In, ~Yield, +Await], |p| {
+            let is_generator = false;
+            let is_async = true;
+            p.record_await_in_arrow_params(&params);
+            let body = p.parse_fn_block_or_expr_body(
+                FunctionKind::Arrow { is_async: true },
+                params.is_simple_parameter_list(),
+            )?;
+            Ok(Some(ArrowExpr {
+                span: p.span(start),
+                body,
+                is_async,
+                is_generator,
+                type_params: Some(type_params),
+                params,
+                return_type,
+                ..Default::default()
+            }))
         })
     }
 }

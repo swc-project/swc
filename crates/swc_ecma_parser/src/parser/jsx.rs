@@ -2,7 +2,7 @@ use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
-use super::{input::Tokens, Parser};
+use super::{input::Tokens, Parser, TypeContext};
 use crate::{
     error::SyntaxError,
     lexer::{Token, TokenFlags},
@@ -218,36 +218,33 @@ impl<I: Tokens> Parser<I> {
         match t {
             Token::LessSlash => Ok(None),
             Token::LBrace => Ok(Some({
-                self.do_outside_of_context(
-                    Context::InCondExpr.union(Context::WillExpectColonForCond),
-                    |p| {
-                        let start = p.cur_pos();
-                        p.bump(); // bump "{"
-                        let ret = if p.input().cur() == Token::DotDotDot {
-                            p.bump(); // bump "..."
-                            let expr = p.parse_expr()?;
-                            p.expect_without_advance(Token::RBrace)?;
-                            p.input_mut().scan_jsx_token();
-                            JSXElementChild::JSXSpreadChild(JSXSpreadChild {
-                                span: p.span(start),
-                                expr,
-                            })
+                self.do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
+                    let start = p.cur_pos();
+                    p.bump(); // bump "{"
+                    let ret = if p.input().cur() == Token::DotDotDot {
+                        p.bump(); // bump "..."
+                        let expr = p.parse_expr()?;
+                        p.expect_without_advance(Token::RBrace)?;
+                        p.input_mut().scan_jsx_token();
+                        JSXElementChild::JSXSpreadChild(JSXSpreadChild {
+                            span: p.span(start),
+                            expr,
+                        })
+                    } else {
+                        let expr = if p.input().cur() == Token::RBrace {
+                            JSXExpr::JSXEmptyExpr(p.parse_jsx_empty_expr())
                         } else {
-                            let expr = if p.input().cur() == Token::RBrace {
-                                JSXExpr::JSXEmptyExpr(p.parse_jsx_empty_expr())
-                            } else {
-                                p.parse_expr().map(JSXExpr::Expr)?
-                            };
-                            p.expect_without_advance(Token::RBrace)?;
-                            p.input_mut().scan_jsx_token();
-                            JSXElementChild::JSXExprContainer(JSXExprContainer {
-                                span: p.span(start),
-                                expr,
-                            })
+                            p.parse_expr().map(JSXExpr::Expr)?
                         };
-                        Ok(ret)
-                    },
-                )?
+                        p.expect_without_advance(Token::RBrace)?;
+                        p.input_mut().scan_jsx_token();
+                        JSXElementChild::JSXExprContainer(JSXExprContainer {
+                            span: p.span(start),
+                            expr,
+                        })
+                    };
+                    Ok(ret)
+                })?
             })),
             Token::Lt => {
                 let ele = self.parse_jsx_element(false)?;
@@ -368,10 +365,10 @@ impl<I: Tokens> Parser<I> {
         } else {
             let start = self.input().cur_pos();
             let name = self.parse_jsx_attr_name()?;
-            let value = self.do_outside_of_context(
-                Context::InCondExpr.union(Context::WillExpectColonForCond),
-                |p| p.parse_jsx_attr_value(),
-            )?;
+            let value = self
+                .do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
+                    p.parse_jsx_attr_value()
+                })?;
             Ok(JSXAttrOrSpread::JSXAttr(JSXAttr {
                 span: self.span(start),
                 name,
@@ -403,7 +400,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
 
-        self.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+        self.with_type_lexing(Context::ShouldNotLexLtOrGtAsType, false, |p| {
             p.expect(Token::Lt)?;
 
             // Handle JSX fragment opening followed by '=': '<>='
@@ -434,7 +431,7 @@ impl<I: Tokens> Parser<I> {
                     closing,
                 }))
             } else {
-                let name = p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+                let name = p.with_type_lexing(Context::ShouldNotLexLtOrGtAsType, false, |p| {
                     p.parse_jsx_element_name()
                 })?;
                 let type_args = if p.input().syntax().typescript() && p.input().is(Token::Lt) {

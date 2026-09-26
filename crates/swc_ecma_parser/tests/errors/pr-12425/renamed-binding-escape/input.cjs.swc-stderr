@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/renamed-binding-escape/input.cjs:1:1]
+ 1 | async function f() { let { aw\u0061it: aw\u0061it } = obj; }
+   :                                        ^^^^^^^^^^
+   `----

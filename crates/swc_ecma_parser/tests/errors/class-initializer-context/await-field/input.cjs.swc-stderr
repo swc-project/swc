@@ -1,0 +1,5 @@
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/class-initializer-context/await-field/input.cjs:1:1]
+ 1 | async function f(x = class { field = await 1; }) {}
+   :                                            ^
+   `----

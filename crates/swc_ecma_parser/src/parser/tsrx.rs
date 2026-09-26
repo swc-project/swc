@@ -19,8 +19,8 @@ use swc_atoms::{atom, Atom};
 use swc_common::{BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
-use super::{input::Tokens, stmt::TempForHead, Parser};
-use crate::{error::SyntaxError, lexer::Token, Context, PResult};
+use super::{input::Tokens, stmt::TempForHead, Parser, StatementContext};
+use crate::{error::SyntaxError, lexer::Token, PResult};
 
 const REACT_SOURCE: &str = "react";
 const ERROR_BOUNDARY_SOURCE: &str = "@tsrx/react/error-boundary";
@@ -398,8 +398,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_tsrx_branch(&mut self) -> PResult<CodeBlock> {
-        self.do_outside_of_context(
-            Context::IsBreakAllowed.union(Context::IsContinueAllowed),
+        self.do_outside_of_statement_context(
+            StatementContext::IsBreakAllowed.union(StatementContext::IsContinueAllowed),
             |parser| parser.parse_tsrx_code_block(false),
         )
     }
@@ -411,13 +411,11 @@ impl<I: Tokens> Parser<I> {
         let await_span = is_await.then(|| self.span(await_start));
         expect!(self, Token::LParen);
 
-        let head = self.do_inside_of_context(Context::ForLoopInit, |p| {
-            if is_await {
-                p.do_inside_of_context(Context::ForAwaitLoopInit, Self::parse_for_head)
-            } else {
-                p.do_outside_of_context(Context::ForAwaitLoopInit, Self::parse_for_head)
-            }
-        })?;
+        let head = if is_await {
+            self.parse_for_head_with_await(true)?
+        } else {
+            self.parse_for_head()?
+        };
 
         let mut index = None;
         let mut key = None;
@@ -430,19 +428,23 @@ impl<I: Tokens> Parser<I> {
                         unexpected!(self, "`key` after `index` in a TSRX @for header")
                     }
                     self.bump();
-                    key = Some(self.allow_in_expr(Self::parse_assignment_expr)?);
+                    key = Some(
+                        with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?,
+                    );
                 }
             } else if self.is_contextual_word("key") {
                 self.bump();
-                key = Some(self.allow_in_expr(Self::parse_assignment_expr)?);
+                key = Some(
+                    with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?,
+                );
             } else {
                 unexpected!(self, "`index` or `key` in a TSRX @for header")
             }
         }
         expect!(self, Token::RParen);
 
-        let body = self.do_inside_of_context(
-            Context::IsBreakAllowed.union(Context::IsContinueAllowed),
+        let body = self.do_inside_of_statement_context(
+            StatementContext::IsBreakAllowed.union(StatementContext::IsContinueAllowed),
             |p| p.parse_tsrx_code_block(false),
         )?;
         let empty = self.parse_tsrx_named_block("empty")?;
@@ -494,7 +496,7 @@ impl<I: Tokens> Parser<I> {
         self.assert_and_bump(Token::Switch);
         let discriminant = self.parse_tsrx_condition()?;
         expect!(self, Token::LBrace);
-        let cases = self.do_inside_of_context(Context::IsBreakAllowed, |p| {
+        let cases = self.do_inside_of_statement_context(StatementContext::IsBreakAllowed, |p| {
             let mut cases = Vec::new();
             let mut previous_default = None;
             while !p.input().is(Token::RBrace) {
@@ -1102,11 +1104,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn suspension_context(&self) -> SuspensionContext {
-        let context = self.ctx();
-        match (
-            context.contains(Context::InAsync),
-            context.contains(Context::InGenerator),
-        ) {
+        match (self.includes_await_expr(), self.includes_yield_expr()) {
             (false, false) => SuspensionContext::Synchronous,
             (true, false) => SuspensionContext::Async,
             (false, true) => SuspensionContext::Generator,

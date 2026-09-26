@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 use crate::{
     error::SyntaxError,
     input::Buffer,
-    lexer::{Token, TokenAndSpan},
+    lexer::{Token, TokenAndSpan, TokenValue},
     parser::{
         input::Tokens,
         state::{State, WithState},
@@ -28,6 +28,7 @@ use crate::error::Error;
 #[macro_use]
 mod macros;
 mod class_and_fn;
+mod context;
 mod expr;
 mod ident;
 pub mod input;
@@ -49,6 +50,11 @@ mod util;
 #[cfg(feature = "verify")]
 mod verifier;
 
+use self::context::{
+    BoundaryContext, FunctionKind, GrammarContext, StatementContext, StatementGrammar,
+    SyntaxContext, TypeContext,
+};
+
 pub type PResult<T> = Result<T, crate::error::Error>;
 
 #[cfg(feature = "typescript")]
@@ -58,6 +64,11 @@ pub struct ParserCheckpoint<I: Tokens> {
     buffer_prev_span: Span,
     buffer_cur: TokenAndSpan,
     buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+    grammar_context: GrammarContext,
+    boundary_context: BoundaryContext,
+    syntax_context: SyntaxContext,
+    statement_context: StatementContext,
+    type_context: TypeContext,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -73,6 +84,11 @@ struct ProgramCheckpoint<I: Tokens> {
     program_parse_mode: ProgramParseMode,
     diagnostic_lengths: (usize, usize),
     token_flags: crate::lexer::TokenFlags,
+    grammar_context: GrammarContext,
+    boundary_context: BoundaryContext,
+    syntax_context: SyntaxContext,
+    statement_context: StatementContext,
+    type_context: TypeContext,
     #[cfg(feature = "flow")]
     allow_super_call: bool,
 }
@@ -108,6 +124,17 @@ enum ProgramGrammar {
 pub struct Parser<I: self::input::Tokens> {
     state: State,
     input: self::input::Buffer<I>,
+    /// ECMAScript `[In]`, `[Yield]`, `[Await]`, and `[Return]` grammatical
+    /// parameters.
+    grammar_context: GrammarContext,
+    /// State inherited across function, class, and program boundaries.
+    boundary_context: BoundaryContext,
+    /// The nearest syntactic region used for parser early errors.
+    syntax_context: SyntaxContext,
+    /// State derived from the enclosing statement grammar.
+    statement_context: StatementContext,
+    /// TypeScript, Flow, and cover-grammar parsing state.
+    type_context: TypeContext,
     found_module_item: bool,
     #[cfg(feature = "tsrx")]
     tsrx: tsrx::TsrxState,
@@ -153,6 +180,11 @@ impl<I: Tokens> Parser<I> {
             program_parse_mode: self.program_parse_mode,
             diagnostic_lengths: self.input.iter.diagnostic_checkpoint_save(),
             token_flags: self.input.iter.token_flags(),
+            grammar_context: self.grammar_context,
+            boundary_context: self.boundary_context,
+            syntax_context: self.syntax_context,
+            statement_context: self.statement_context,
+            type_context: self.type_context,
             #[cfg(feature = "flow")]
             allow_super_call: self.allow_super_call,
         }
@@ -173,6 +205,11 @@ impl<I: Tokens> Parser<I> {
         self.found_module_item = checkpoint.found_module_item;
         self.ambiguous_script_different_ast = checkpoint.ambiguous_script_different_ast;
         self.program_parse_mode = checkpoint.program_parse_mode;
+        self.grammar_context = checkpoint.grammar_context;
+        self.boundary_context = checkpoint.boundary_context;
+        self.syntax_context = checkpoint.syntax_context;
+        self.statement_context = checkpoint.statement_context;
+        self.type_context = checkpoint.type_context;
         #[cfg(feature = "flow")]
         {
             self.allow_super_call = checkpoint.allow_super_call;
@@ -187,6 +224,11 @@ impl<I: Tokens> Parser<I> {
             buffer_cur: self.input.cur,
             buffer_next: self.input.next.clone(),
             buffer_prev_span: self.input.prev_span,
+            grammar_context: self.grammar_context,
+            boundary_context: self.boundary_context,
+            syntax_context: self.syntax_context,
+            statement_context: self.statement_context,
+            type_context: self.type_context,
             allow_super_call: self.allow_super_call,
         }
     }
@@ -199,6 +241,11 @@ impl<I: Tokens> Parser<I> {
             buffer_cur: self.input.cur,
             buffer_next: self.input.next.clone(),
             buffer_prev_span: self.input.prev_span,
+            grammar_context: self.grammar_context,
+            boundary_context: self.boundary_context,
+            syntax_context: self.syntax_context,
+            statement_context: self.statement_context,
+            type_context: self.type_context,
         }
     }
 
@@ -211,6 +258,11 @@ impl<I: Tokens> Parser<I> {
         self.input.cur = checkpoint.buffer_cur;
         self.input.next = checkpoint.buffer_next;
         self.input.prev_span = checkpoint.buffer_prev_span;
+        self.grammar_context = checkpoint.grammar_context;
+        self.boundary_context = checkpoint.boundary_context;
+        self.syntax_context = checkpoint.syntax_context;
+        self.statement_context = checkpoint.statement_context;
+        self.type_context = checkpoint.type_context;
         self.allow_super_call = checkpoint.allow_super_call;
     }
 
@@ -223,6 +275,11 @@ impl<I: Tokens> Parser<I> {
         self.input.cur = checkpoint.buffer_cur;
         self.input.next = checkpoint.buffer_next;
         self.input.prev_span = checkpoint.buffer_prev_span;
+        self.grammar_context = checkpoint.grammar_context;
+        self.boundary_context = checkpoint.boundary_context;
+        self.syntax_context = checkpoint.syntax_context;
+        self.statement_context = checkpoint.statement_context;
+        self.type_context = checkpoint.type_context;
     }
 
     #[cfg(feature = "flow")]
@@ -263,6 +320,17 @@ impl<I: Tokens> Parser<I> {
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
     }
+
+    /// Allows module-only syntax in a direct parser entry point without
+    /// changing the source to module code.
+    ///
+    /// Program-level entry points configure this automatically. This is
+    /// intended for callers which invoke methods such as [`Parser::parse_expr`]
+    /// directly and need constructs such as `import.meta` or top-level `await`.
+    #[inline(always)]
+    pub fn allow_module_syntax(&mut self) {
+        self.set_boundary_ctx(self.boundary_ctx() | BoundaryContext::CanBeModule);
+    }
 }
 
 impl<'a> Parser<crate::lexer::Lexer<'a>> {
@@ -273,16 +341,23 @@ impl<'a> Parser<crate::lexer::Lexer<'a>> {
 }
 
 impl<I: Tokens> Parser<I> {
-    pub fn new_from(mut input: I) -> Self {
+    pub fn new_from(input: I) -> Self {
         let in_declare = input.syntax().dts();
-        let mut ctx = input.ctx() | Context::TopLevel;
-        ctx.set(Context::InDeclare, in_declare);
-        input.set_ctx(ctx);
+        let grammar_context = GrammarContext::empty();
+        let boundary_context = BoundaryContext::TopLevel;
+        let statement_context = StatementContext::empty();
+        let mut type_context = TypeContext::empty();
+        type_context.set(TypeContext::InDeclare, in_declare);
 
         let start_pos = input.start_pos();
         let mut p = Parser {
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
+            grammar_context,
+            boundary_context,
+            syntax_context: SyntaxContext::Program,
+            statement_context,
+            type_context,
             found_module_item: false,
             #[cfg(feature = "tsrx")]
             tsrx: Default::default(),
@@ -313,12 +388,15 @@ impl<I: Tokens> Parser<I> {
 
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
+        self.enter_program_syntax_context();
 
         #[cfg(feature = "tsrx")]
         self.tsrx.enter_non_module();
 
-        let ctx = (self.ctx() & !Context::Module) | Context::TopLevel;
-        self.set_ctx(ctx);
+        let lexical_context = self.ctx() - Context::Module;
+        self.input_mut().set_ctx(lexical_context);
+        enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, ~Return);
+        self.set_boundary_ctx(self.boundary_ctx() | BoundaryContext::TopLevel);
 
         let start = self.cur_pos();
 
@@ -338,15 +416,17 @@ impl<I: Tokens> Parser<I> {
 
     pub fn parse_commonjs(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_commonjs);
+        self.enter_program_syntax_context();
 
         #[cfg(feature = "tsrx")]
         self.tsrx.enter_non_module();
 
         // CommonJS module is acctually in a function scope
-        let ctx = (self.ctx() & !Context::Module)
-            | Context::InFunction
-            | Context::InsideNonArrowFunctionScope;
-        self.set_ctx(ctx);
+        let lexical_context = self.ctx() - Context::Module;
+        self.input_mut().set_ctx(lexical_context);
+        enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, +Return);
+        self.syntax_context = SyntaxContext::FunctionBody;
+        self.set_boundary_ctx(self.boundary_ctx() | BoundaryContext::InsideNonArrowFunctionScope);
 
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
@@ -365,6 +445,7 @@ impl<I: Tokens> Parser<I> {
 
     pub fn parse_typescript_module(&mut self) -> PResult<Module> {
         trace_cur!(self, parse_typescript_module);
+        self.enter_program_syntax_context();
 
         #[cfg(feature = "tsrx")]
         self.tsrx.enter_module();
@@ -372,9 +453,11 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.syntax().typescript());
 
         //TODO: parse() -> PResult<Program>
-        let ctx = (self.ctx() | Context::Module | Context::TopLevel) & !Context::Strict;
+        let ctx = (self.ctx() | Context::Module) - Context::Strict;
         // Module code is always in strict mode
-        self.set_ctx(ctx);
+        self.input_mut().set_ctx(ctx);
+        enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, ~Return);
+        self.set_boundary_ctx(self.boundary_ctx() | BoundaryContext::TopLevel);
 
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
@@ -492,13 +575,12 @@ impl<I: Tokens> Parser<I> {
 
         let ret = match grammar {
             ProgramGrammar::Module => {
-                let ctx = self.ctx()
-                    | Context::Module
-                    | Context::CanBeModule
-                    | Context::TopLevel
-                    | Context::Strict;
+                let ctx = self.ctx() | Context::Module | Context::Strict;
                 // Emit buffered strict mode / module code violations.
-                self.input.set_ctx(ctx);
+                self.input_mut().set_ctx(ctx);
+                self.set_boundary_ctx(
+                    self.boundary_ctx() | BoundaryContext::CanBeModule | BoundaryContext::TopLevel,
+                );
                 if self.syntax().flow() {
                     self.report_duplicate_exports(&body);
                 }
@@ -509,8 +591,13 @@ impl<I: Tokens> Parser<I> {
                 })
             }
             ProgramGrammar::Script => {
-                let ctx = self.ctx() & !Context::Module & !Context::CanBeModule & !Context::InAsync;
-                self.input.set_ctx(ctx | Context::TopLevel);
+                let lexical_context = self.ctx() - Context::Module;
+                self.input_mut().set_ctx(lexical_context);
+                self.set_boundary_ctx(
+                    (self.boundary_ctx() - BoundaryContext::CanBeModule)
+                        | BoundaryContext::TopLevel,
+                );
+                enter_grammar_context!(&mut self.grammar_context, ?Yield, ~Await, ?Return);
 
                 let requires_module_ast = body
                     .iter()
@@ -550,15 +637,26 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn enter_unambiguous_module_context(&mut self) {
-        let ctx = (self.ctx() & !Context::Module) | Context::CanBeModule | Context::TopLevel;
-        self.set_ctx(ctx);
+        self.enter_program_syntax_context();
+        let lexical_context = self.ctx() - Context::Module;
+        self.input_mut().set_ctx(lexical_context);
+        enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, ~Return);
+        self.set_boundary_ctx(
+            self.boundary_ctx() | BoundaryContext::CanBeModule | BoundaryContext::TopLevel,
+        );
         self.program_parse_mode = ProgramParseMode::Module;
         self.ambiguous_script_different_ast = false;
     }
 
     fn enter_unambiguous_script_context(&mut self) {
-        let ctx = self.ctx() & !Context::Module & !Context::CanBeModule & !Context::InAsync;
-        self.set_ctx(ctx | Context::TopLevel);
+        self.enter_program_syntax_context();
+        let lexical_context = self.ctx() - Context::Module;
+        self.input_mut().set_ctx(lexical_context);
+        enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, ~Return);
+        self.set_boundary_ctx(
+            (self.boundary_ctx() - BoundaryContext::CanBeModule) | BoundaryContext::TopLevel,
+        );
+        enter_grammar_context!(&mut self.grammar_context, ?Yield, ~Await, ?Return);
         self.program_parse_mode = ProgramParseMode::Script;
         self.ambiguous_script_different_ast = false;
     }
@@ -596,25 +694,26 @@ impl<I: Tokens> Parser<I> {
 
     fn can_classify_module(&self) -> bool {
         self.is_unambiguous_module()
-            && !self.ctx().intersects(
-                Context::InFunction
-                    .union(Context::InParameters)
-                    .union(Context::InClassField)
-                    .union(Context::InStaticBlock),
+            && self.syntax_context == SyntaxContext::Program
+            && !self.boundary_ctx().intersects(
+                BoundaryContext::InParameters
+                    .union(BoundaryContext::InClassField)
+                    .union(BoundaryContext::InStaticBlock),
             )
     }
 
     pub fn parse_module(&mut self) -> PResult<Module> {
+        self.enter_program_syntax_context();
         #[cfg(feature = "tsrx")]
         self.tsrx.enter_module();
 
-        let ctx = self.ctx()
-            | Context::Module
-            | Context::CanBeModule
-            | Context::TopLevel
-            | Context::Strict;
+        let ctx = self.ctx() | Context::Module | Context::Strict;
         // Module code is always in strict mode
-        self.set_ctx(ctx);
+        self.input_mut().set_ctx(ctx);
+        enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, ~Return);
+        self.set_boundary_ctx(
+            self.boundary_ctx() | BoundaryContext::CanBeModule | BoundaryContext::TopLevel,
+        );
 
         let start = self.cur_pos();
         let shebang = self.parse_shebang()?;
@@ -690,6 +789,206 @@ impl<I: Tokens> Parser<I> {
         self.input_mut().set_ctx(ctx);
     }
 
+    #[inline(always)]
+    fn grammar_ctx(&self) -> GrammarContext {
+        self.grammar_context
+    }
+
+    #[inline(always)]
+    fn set_grammar_ctx(&mut self, grammar_context: GrammarContext) {
+        self.grammar_context = grammar_context;
+    }
+
+    #[inline(always)]
+    fn boundary_ctx(&self) -> BoundaryContext {
+        self.boundary_context
+    }
+
+    #[inline(always)]
+    fn set_boundary_ctx(&mut self, boundary_context: BoundaryContext) {
+        self.boundary_context = boundary_context;
+    }
+
+    #[inline(always)]
+    fn statement_ctx(&self) -> StatementContext {
+        self.statement_context
+    }
+
+    #[inline(always)]
+    fn set_statement_ctx(&mut self, statement_context: StatementContext) {
+        self.statement_context = statement_context;
+    }
+
+    #[inline(always)]
+    fn type_ctx(&self) -> TypeContext {
+        self.type_context
+    }
+
+    #[inline(always)]
+    fn set_type_ctx(&mut self, type_context: TypeContext) {
+        self.type_context = type_context;
+    }
+
+    /// Changes type tokenization without restoring unrelated lexical state,
+    /// such as module classification or strict-mode diagnostics, on exit.
+    #[inline]
+    fn with_type_lexing<T>(
+        &mut self,
+        flag: Context,
+        enabled: bool,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let type_flags = Context::InType | Context::ShouldNotLexLtOrGtAsType;
+        let mut context = self.ctx();
+        let previous = context & type_flags;
+        context.set(flag, enabled);
+        self.set_ctx(context);
+        let result = f(self);
+        self.set_ctx((self.ctx() - type_flags) | previous);
+        result
+    }
+
+    /// Runs with derived grammatical parameters, restoring them on success or
+    /// error.
+    #[inline]
+    fn with_grammar_context<T>(
+        &mut self,
+        context: GrammarContext,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let grammar_context = self.grammar_ctx();
+        self.set_grammar_ctx(context);
+        let result = f(self);
+        self.set_grammar_ctx(grammar_context);
+        result
+    }
+
+    #[inline]
+    fn do_inside_of_boundary_context<T>(
+        &mut self,
+        context: BoundaryContext,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let previous = self.boundary_ctx();
+        self.set_boundary_ctx(previous | context);
+        let result = f(self);
+        self.set_boundary_ctx(previous);
+        result
+    }
+
+    #[inline]
+    fn do_outside_of_boundary_context<T>(
+        &mut self,
+        context: BoundaryContext,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let previous = self.boundary_ctx();
+        self.set_boundary_ctx(previous - context);
+        let result = f(self);
+        self.set_boundary_ctx(previous);
+        result
+    }
+
+    #[inline]
+    fn do_inside_of_statement_context<T>(
+        &mut self,
+        context: StatementContext,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let previous = self.statement_ctx();
+        self.set_statement_ctx(previous | context);
+        let result = f(self);
+        self.set_statement_ctx(previous);
+        result
+    }
+
+    #[inline]
+    fn do_outside_of_statement_context<T>(
+        &mut self,
+        context: StatementContext,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let previous = self.statement_ctx();
+        self.set_statement_ctx(previous - context);
+        let result = f(self);
+        self.set_statement_ctx(previous);
+        result
+    }
+
+    #[inline]
+    fn do_inside_of_type_context<T>(
+        &mut self,
+        context: TypeContext,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let previous = self.type_ctx();
+        self.set_type_ctx(previous | context);
+        let result = f(self);
+        self.set_type_ctx(previous);
+        result
+    }
+
+    #[inline]
+    fn do_outside_of_type_context<T>(
+        &mut self,
+        context: TypeContext,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let previous = self.type_ctx();
+        self.set_type_ctx(previous - context);
+        let result = f(self);
+        self.set_type_ctx(previous);
+        result
+    }
+
+    #[inline(always)]
+    fn includes_in_expr(&self) -> bool {
+        self.grammar_ctx().contains(GrammarContext::In)
+    }
+
+    #[inline(always)]
+    fn includes_yield_expr(&self) -> bool {
+        self.grammar_ctx().contains(GrammarContext::Yield)
+    }
+
+    #[inline(always)]
+    fn includes_await_expr(&self) -> bool {
+        self.grammar_ctx().contains(GrammarContext::Await)
+    }
+
+    /// Applies the class initializer early error to every syntactic form of
+    /// `await`, independently of the enclosing production's Await parameter.
+    /// Function bodies establish their own boundary, even inside a class field.
+    fn is_await_forbidden_in_initializer(&self) -> bool {
+        self.syntax_context != SyntaxContext::FunctionBody
+            && self
+                .boundary_ctx()
+                .intersects(BoundaryContext::InClassField | BoundaryContext::InStaticBlock)
+    }
+
+    #[inline(always)]
+    fn allows_return_stmt(&self) -> bool {
+        self.grammar_ctx().contains(GrammarContext::Return)
+    }
+
+    fn enter_program_syntax_context(&mut self) {
+        self.syntax_context = SyntaxContext::Program;
+    }
+
+    /// Runs within a nested syntactic region, restoring it on success or error.
+    /// These regions cannot classify their enclosing program as a module.
+    fn with_syntax_context<T>(
+        &mut self,
+        context: SyntaxContext,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let previous = self.syntax_context;
+        self.syntax_context = context;
+        let result = f(self);
+        self.syntax_context = previous;
+        result
+    }
+
     #[inline]
     pub fn do_inside_of_context<T>(
         &mut self,
@@ -723,25 +1022,95 @@ impl<I: Tokens> Parser<I> {
         self.do_inside_of_context(Context::Strict, f)
     }
 
-    /// Original context is restored when returned guard is dropped.
+    /// Enables type tokenization and restores its flags on success or error.
     #[inline(always)]
     pub fn in_type<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
-        self.do_inside_of_context(Context::InType, f)
-    }
-
-    #[inline(always)]
-    pub fn allow_in_expr<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
-        self.do_inside_of_context(Context::IncludeInExpr, f)
-    }
-
-    #[inline(always)]
-    pub fn disallow_in_expr<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
-        self.do_outside_of_context(Context::IncludeInExpr, f)
+        self.with_type_lexing(Context::InType, true, f)
     }
 
     #[inline(always)]
     pub fn syntax(&self) -> SyntaxFlags {
         self.input().syntax()
+    }
+
+    #[inline(always)]
+    fn token_is_reserved(&self, token: Token) -> bool {
+        match token {
+            Token::Await => {
+                self.includes_await_expr()
+                    || self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
+                    || self.ctx().contains(Context::Module)
+            }
+            Token::Yield => self.includes_yield_expr() || self.ctx().contains(Context::Strict),
+            _ => token.is_reserved(self.ctx()),
+        }
+    }
+
+    #[inline(always)]
+    fn word_is_reserved(&self, word: &Atom) -> bool {
+        match &**word {
+            "null" | "true" | "false" | "break" | "case" | "catch" | "continue" | "debugger"
+            | "default" | "do" | "export" | "else" | "finally" | "for" | "function" | "if"
+            | "return" | "switch" | "throw" | "try" | "var" | "const" | "while" | "with"
+            | "new" | "this" | "super" | "class" | "extends" | "import" | "in" | "instanceof"
+            | "typeof" | "void" | "delete" | "enum" => true,
+            "let" => self.ctx().contains(Context::Strict),
+            "await" => {
+                self.includes_await_expr()
+                    || self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
+                    || self.ctx().contains(Context::Module)
+            }
+            "yield" => self.includes_yield_expr() || self.ctx().contains(Context::Strict),
+            "implements" | "package" | "protected" | "interface" | "private" | "public"
+                if self.ctx().contains(Context::Strict) =>
+            {
+                true
+            }
+            _ => false,
+        }
+    }
+
+    /// Captures an escape diagnostic before an IdentifierName's role is known.
+    /// Contextual keywords depend on parser grammar, not just lexical state.
+    /// Read the buffered token value: lexer flags may describe lookahead
+    /// instead.
+    #[inline]
+    fn escaped_keyword_error(&self) -> Option<Error> {
+        if !self.input().has_escaped_keyword() {
+            return None;
+        }
+        self.reserved_word_escape_error()
+    }
+
+    /// Checks contextual reservation and owns the diagnostic only on the
+    /// uncommon path containing an escaped keyword.
+    #[cold]
+    #[inline(never)]
+    fn reserved_word_escape_error(&self) -> Option<Error> {
+        if !self.token_is_reserved(self.input().cur()) {
+            return None;
+        }
+        let Some(TokenValue::Word(word)) = self.input().get_token_value() else {
+            return None;
+        };
+        Some(Error::new(
+            self.input().cur_span(),
+            SyntaxError::EscapeInReservedWord { word: word.clone() },
+        ))
+    }
+
+    fn check_current_token_escape(&mut self) -> PResult<()> {
+        let token = self.input().cur();
+        // Buffer validates the other keywords when they are consumed. Only
+        // these contextual keywords depend on parser-owned grammar parameters.
+        if !matches!(token, Token::Await | Token::Yield) {
+            return Ok(());
+        }
+        if let Some(error) = self.escaped_keyword_error() {
+            return Err(error);
+        }
+
+        Ok(())
     }
 
     #[cold]
@@ -1091,12 +1460,13 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::LBracket {
             self.bump();
             let inner_start = self.input().cur_pos();
-            let mut expr = self.allow_in_expr(Self::parse_assignment_expr)?;
+            let mut expr =
+                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
             if self.syntax().typescript() && self.input().is(Token::Comma) {
                 let mut exprs = vec![expr];
                 while self.input_mut().eat(Token::Comma) {
                     //
-                    exprs.push(self.allow_in_expr(Self::parse_assignment_expr)?);
+                    exprs.push(with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?);
                 }
                 self.emit_err(self.span(inner_start), SyntaxError::TS1171);
                 expr = Box::new(
@@ -1124,13 +1494,12 @@ impl<I: Tokens> Parser<I> {
     #[inline]
     pub fn is_ident_ref(&mut self) -> bool {
         let cur = self.input().cur();
-        cur.is_word() && !cur.is_reserved(self.ctx())
+        cur.is_word() && !self.token_is_reserved(cur)
     }
 
     #[inline]
     pub fn peek_is_ident_ref(&mut self) -> bool {
-        let ctx = self.ctx();
-        peek!(self).is_some_and(|peek| peek.is_word() && !peek.is_reserved(ctx))
+        peek!(self).is_some_and(|peek| peek.is_word() && !self.token_is_reserved(peek))
     }
 
     #[inline(always)]
