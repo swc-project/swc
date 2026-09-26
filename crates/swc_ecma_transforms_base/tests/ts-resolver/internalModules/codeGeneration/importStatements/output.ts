@@ -21,8 +21,8 @@ namespace D__2 {
     var p__7 = new a__7.Point(1, 1);
 }
 namespace E__2 {
-    import a__8 = A__2;
-    export function xDist__8(x__9: a__8.Point) {
-        return a__8.Origin.x - x__9.x;
+    import a__9 = A__2;
+    export function xDist__8(x__10: a__9.Point) {
+        return a__9.Origin.x - x__10.x;
     }
 }
