@@ -12,7 +12,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::util::may_inline_arrow,
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
-    util::{idents_captured_by, make_number},
+    util::{idents_captured_by, make_number, CapturedIdCollector},
 };
 
 /// Methods related to the option `negate_iife`.
@@ -581,6 +581,25 @@ impl Optimizer<'_> {
                 if f.params.iter().any(|param| !param.is_ident()) {
                     return false;
                 }
+
+                let params = f.params.iter().map(|param| &param.as_ident().unwrap().id);
+                let can_inline_captures = match &*f.body {
+                    ArrowFunctionBody::FunctionBody(body) => {
+                        self.can_inline_fn_captures(params, body)
+                    }
+                    ArrowFunctionBody::Expr(body) => {
+                        // This path extracts parameters into `let` declarations.
+                        // A loop-body statement gets fresh bindings each iteration,
+                        // unlike loop headers and instance field initializers.
+                        !self.ctx.bit_ctx.contains(BitCtx::RepeatedInSameStmt)
+                            || self.can_inline_fn_captures(params, body)
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                };
+                if !can_inline_captures {
+                    return false;
+                }
             }
 
             Expr::Fn(f) => {
@@ -630,10 +649,47 @@ impl Optimizer<'_> {
                 if contains_this_expr(body) {
                     return false;
                 }
+
+                let params = f
+                    .function
+                    .params
+                    .iter()
+                    .map(|param| &param.pat.as_ident().unwrap().id);
+                if !self.can_inline_fn_captures(params, body) {
+                    return false;
+                }
             }
 
             _ => return false,
         };
+
+        true
+    }
+
+    /// Preserve a fresh parameter binding for each call when a nested function
+    /// captures it and the call can run repeatedly, including in class fields.
+    fn can_inline_fn_captures<'a, N>(
+        &self,
+        params: impl ExactSizeIterator<Item = &'a Ident>,
+        body: &N,
+    ) -> bool
+    where
+        N: VisitWith<CapturedIdCollector>,
+    {
+        if !self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) || params.len() == 0 {
+            return true;
+        }
+
+        let captured = idents_captured_by(body);
+        for param in params {
+            if captured.contains(&param.to_id()) {
+                log_abort!(
+                    "iife: [x] Cannot inline because of the capture of `{}`",
+                    param
+                );
+                return false;
+            }
+        }
 
         true
     }
@@ -1032,22 +1088,6 @@ impl Optimizer<'_> {
             if has_decl {
                 log_abort!("iife: [x] Found decl");
                 return false;
-            }
-        }
-
-        if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
-            if param_ids.len() != 0 {
-                let captured = idents_captured_by(body);
-
-                for param in param_ids {
-                    if captured.contains(&param.to_id()) {
-                        log_abort!(
-                            "iife: [x] Cannot inline because of the capture of `{}`",
-                            param
-                        );
-                        return false;
-                    }
-                }
             }
         }
 

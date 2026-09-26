@@ -203,6 +203,10 @@ bitflags! {
         /// In try or catch block with finally, return may not be the actual last
         /// statement of function
         const InTryCatchWithFinally = 1 << 30;
+
+        /// The expression can run repeatedly within one statement evaluation,
+        /// so prepended `let` declarations would be shared across evaluations.
+        const RepeatedInSameStmt = 1 << 31;
     }
 }
 
@@ -1502,12 +1506,28 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Field initializers cannot declare bindings in the surrounding block.
+    /// Instance fields also run once per instance, so extracted bindings must
+    /// not be shared across evaluations.
+    fn class_field_ctx(&self, is_static: bool) -> Ctx {
+        self.ctx
+            .clone()
+            .with(BitCtx::InClass, true)
+            .with(BitCtx::InFnLike, false)
+            .with(BitCtx::InBlock, false)
+            .with(
+                BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                !is_static || self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime),
+            )
+    }
+
     fn function_like_ctx(&self, scope: SyntaxContext) -> Ctx {
         Ctx {
             bit_ctx: self
                 .ctx
                 .bit_ctx
                 .with(BitCtx::InFnLike, true)
+                .with(BitCtx::RepeatedInSameStmt, false)
                 // The outer try/finally cannot observe termination within a nested function.
                 .with(BitCtx::InTryCatchWithFinally, false)
                 .with(BitCtx::TopLevel, false)
@@ -1838,6 +1858,7 @@ impl VisitMut for Optimizer<'_> {
         match n {
             ClassMember::ClassProp(class_prop) => {
                 class_prop.key.visit_mut_with(self);
+                let ctx = self.class_field_ctx(class_prop.is_static);
                 class_prop.value.visit_mut_with(&mut *self.with_ctx(ctx));
             }
             ClassMember::Method(class_method) => {
@@ -1848,9 +1869,11 @@ impl VisitMut for Optimizer<'_> {
             }
             ClassMember::AutoAccessor(auto_accessor) => {
                 auto_accessor.key.visit_mut_with(self);
+                let ctx = self.class_field_ctx(auto_accessor.is_static);
                 auto_accessor.value.visit_mut_with(&mut *self.with_ctx(ctx));
             }
             ClassMember::PrivateProp(private_prop) => {
+                let ctx = self.class_field_ctx(private_prop.is_static);
                 private_prop.visit_mut_with(&mut *self.with_ctx(ctx));
             }
             ClassMember::PrivateMethod(private_method) => {
@@ -1941,7 +1964,10 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
-        let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+        let ctx = self.ctx.clone().with(
+            BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+            true,
+        );
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
@@ -2346,12 +2372,18 @@ impl VisitMut for Optimizer<'_> {
                 .clone()
                 .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
                 .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
-                .with(BitCtx::ExecutedMultipleTime, true);
+                .with(
+                    BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                    true,
+                );
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
 
         {
-            let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+            let ctx = self.ctx.clone().with(
+                BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                true,
+            );
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
@@ -2369,12 +2401,18 @@ impl VisitMut for Optimizer<'_> {
                 .clone()
                 .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
                 .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
-                .with(BitCtx::ExecutedMultipleTime, true);
+                .with(
+                    BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                    true,
+                );
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
 
         {
-            let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+            let ctx = self.ctx.clone().with(
+                BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+                true,
+            );
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
@@ -2388,7 +2426,10 @@ impl VisitMut for Optimizer<'_> {
 
         debug_assert_valid(&s.init);
 
-        let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+        let ctx = self.ctx.clone().with(
+            BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+            true,
+        );
         let mut child = self.with_ctx(ctx.clone());
 
         s.test.visit_mut_with(&mut *child);
@@ -2785,6 +2826,9 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsLhsOfAssign, false)
             .with(BitCtx::InBangArg, false)
             .with(BitCtx::IsExported, false)
+            // Synthesized lexical declarations are evaluated with this statement,
+            // including when the statement is a loop body without braces.
+            .with(BitCtx::RepeatedInSameStmt, false)
             .with(BitCtx::InObjOfNonComputedMember, false);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
@@ -3495,7 +3539,10 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
-        let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
+        let ctx = self.ctx.clone().with(
+            BitCtx::ExecutedMultipleTime | BitCtx::RepeatedInSameStmt,
+            true,
+        );
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
