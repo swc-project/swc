@@ -1,0 +1,429 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 167
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 13
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 12
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 1,
+            "end": 7
+          },
+          "phase": "evaluation"
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 8,
+                "end": 11
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 14,
+        "end": 27
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 14,
+          "end": 26
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 14,
+            "end": 20
+          },
+          "phase": "evaluation"
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 21,
+                "end": 24
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 28,
+        "end": 49
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 28,
+          "end": 48
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 28,
+            "end": 34
+          },
+          "phase": "evaluation"
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 35,
+                "end": 38
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 40,
+                "end": 47
+              },
+              "ctxt": 0,
+              "value": "options",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 50,
+        "end": 72
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 50,
+          "end": 71
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 50,
+            "end": 56
+          },
+          "phase": "evaluation"
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 57,
+                "end": 60
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 62,
+                "end": 69
+              },
+              "ctxt": 0,
+              "value": "options",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 73,
+        "end": 111
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 73,
+          "end": 110
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 73,
+            "end": 79
+          },
+          "phase": "evaluation"
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 80,
+                "end": 93
+              },
+              "ctxt": 0,
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 80,
+                  "end": 84
+                },
+                "ctxt": 0,
+                "value": "load",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": {
+                    "start": 85,
+                    "end": 88
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 88,
+                      "end": 92
+                    },
+                    "ctxt": 0,
+                    "value": "args",
+                    "optional": false
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 95,
+                "end": 109
+              },
+              "properties": [
+                {
+                  "type": "SpreadElement",
+                  "spread": {
+                    "start": 97,
+                    "end": 100
+                  },
+                  "arguments": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 100,
+                      "end": 107
+                    },
+                    "ctxt": 0,
+                    "value": "options",
+                    "optional": false
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 112,
+        "end": 131
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 112,
+          "end": 130
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Import",
+          "span": {
+            "start": 112,
+            "end": 118
+          },
+          "phase": "evaluation"
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 119,
+                "end": 129
+              },
+              "elements": [
+                {
+                  "spread": {
+                    "start": 120,
+                    "end": 123
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 123,
+                      "end": 128
+                    },
+                    "ctxt": 0,
+                    "value": "parts",
+                    "optional": false
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 132,
+        "end": 146
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 132,
+          "end": 145
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 132,
+            "end": 136
+          },
+          "ctxt": 0,
+          "value": "load",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": {
+              "start": 137,
+              "end": 140
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 140,
+                "end": 144
+              },
+              "ctxt": 0,
+              "value": "args",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 147,
+        "end": 167
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 147,
+          "end": 166
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 151,
+            "end": 157
+          },
+          "ctxt": 0,
+          "value": "Loader",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": {
+              "start": 158,
+              "end": 161
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 161,
+                "end": 165
+              },
+              "ctxt": 0,
+              "value": "args",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

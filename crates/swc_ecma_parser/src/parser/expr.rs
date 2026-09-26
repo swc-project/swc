@@ -1085,7 +1085,15 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                expr_or_spreads.push(p.allow_in_expr(|p| p.parse_expr_or_spread())?);
+                expr_or_spreads.push(p.allow_in_expr(|p| {
+                    if is_dynamic_import {
+                        // ImportCall accepts AssignmentExpression, not spread arguments.
+                        p.parse_assignment_expr()
+                            .map(|expr| ExprOrSpread { spread: None, expr })
+                    } else {
+                        p.parse_expr_or_spread()
+                    }
+                })?);
             }
 
             expect!(p, Token::RParen);
