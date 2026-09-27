@@ -1595,6 +1595,80 @@ fn transform_compilation_mode_all_does_not_skip() {
     let _ = result.program;
 }
 
+/// Runs `f` on a thread with a 2 MiB stack, the default for spawned threads
+/// in bundlers such as rspack, so a regression shows up as a stack overflow.
+fn on_small_stack<T: Send + 'static>(f: impl FnOnce() -> T + Send + 'static) -> T {
+    std::thread::Builder::new()
+        .stack_size(2 * 1024 * 1024)
+        .spawn(f)
+        .expect("spawn test thread")
+        .join()
+        .expect("test thread panicked")
+}
+
+/// A module with a `links`-long call chain and no React code.
+fn long_call_chain(links: usize) -> String {
+    format!("export const value = builder{};\n", ".next()".repeat(links))
+}
+
+#[test]
+fn transform_infer_mode_skips_long_non_react_chain() {
+    let result = on_small_stack(|| {
+        let source = long_call_chain(1000);
+        let result = transform_source(&source, Default::default(), default_options());
+        (result.program.is_none(), result.diagnostics.len())
+    });
+
+    assert_eq!(result, (true, 0));
+}
+
+#[test]
+fn transform_annotation_mode_skips_long_non_react_chain() {
+    let result = on_small_stack(|| {
+        let source = long_call_chain(1000);
+        let mut options = default_options();
+        options.compilation_mode = "annotation".to_string();
+        let result = transform_source(&source, Default::default(), options);
+        (result.program.is_none(), result.diagnostics.len())
+    });
+
+    assert_eq!(result, (true, 0));
+}
+
+#[test]
+fn transform_infer_mode_compiles_component_with_call_chain() {
+    let source = r#"
+        import { useState } from "react";
+        export function Counter() {
+            const [count] = useState(0);
+            return builder.next().next().next().value(count);
+        }
+    "#;
+
+    let result = transform_source(source, Default::default(), default_options());
+
+    assert!(
+        result.program.is_some(),
+        "component should compile: {:#?}",
+        result.diagnostics
+    );
+}
+
+#[test]
+fn transform_compilation_mode_all_compiles_non_react_function() {
+    let source = "export function add(a, b) { return { sum: a + b }; }";
+    let mut options = default_options();
+    options.compilation_mode = "all".to_string();
+
+    let result = transform_source(source, Default::default(), options);
+
+    assert!(
+        result.program.is_some(),
+        "`all` mode must not be gated by fast_check: {:#?}",
+        result.diagnostics
+    );
+}
+
 #[test]
 fn transform_preserves_default_export_function_overload_signatures() {
     let source = r#"

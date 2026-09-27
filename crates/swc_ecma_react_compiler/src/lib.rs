@@ -84,7 +84,16 @@ pub fn transform(
     comments: Option<&SingleThreadedComments>,
     options: PluginOptions,
 ) -> TransformResult {
-    if has_resource_management_declarations(program) {
+    // `infer` and `annotation` only compile functions that `fast_check` can
+    // see (JSX, hook calls, opt-in directives), so a `false` result means the
+    // compiler cannot change the program. Skipping it avoids converting and
+    // lowering files without React code. `all` and `syntax` compile other
+    // functions too, so they are not gated.
+    let may_compile = match options.compilation_mode.as_str() {
+        "infer" | "annotation" => fast_check::is_required(program),
+        _ => true,
+    };
+    if !may_compile || has_resource_management_declarations(program) {
         return TransformResult {
             program: None,
             diagnostics: vec![],
