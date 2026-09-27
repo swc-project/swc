@@ -11,8 +11,6 @@ use std::{
     time::SystemTime,
 };
 
-use tempfile::Builder;
-
 use crate::{format::Payload, platform, Error, ErrorKind, Result};
 
 const MAX_PERSISTENT_IMAGES: usize = 3;
@@ -51,15 +49,15 @@ impl CacheMode {
 }
 
 /// Owns staging cleanup and cache coordination until loading has succeeded.
-/// On Windows the cleanup handle is armed only after the image loader has
-/// opened the DLL, then outlives every use of that DLL.
+/// On Windows a cleanup worker is armed before loading when execution is
+/// allowed.
 pub struct Materialized {
     path: PathBuf,
     temporary: bool,
     lock: Option<File>,
     cache_directory: Option<PathBuf>,
     #[cfg(windows)]
-    _delete_on_close: Option<File>,
+    _cleanup: Option<crate::cleanup::Cleanup>,
 }
 
 impl Materialized {
@@ -74,13 +72,6 @@ impl Materialized {
             fs::remove_file(&self.path)
                 .map_err(|e| Error::io(ErrorKind::Cache, "unlink loaded temporary addon", e))?;
             self.temporary = false;
-        }
-        #[cfg(windows)]
-        if self.temporary {
-            self._delete_on_close = Some(
-                platform::delete_on_close(&self.path)
-                    .map_err(|e| io_error("arm temporary addon cleanup", &self.path, e))?,
-            );
         }
         self.lock = None;
         if let Some(directory) = &self.cache_directory {
@@ -103,8 +94,8 @@ impl Materialized {
 impl Drop for Materialized {
     fn drop(&mut self) {
         if self.temporary {
-            // On Windows the delete-on-close handle performs final cleanup even
-            // when the process exits without running Rust destructors.
+            // The Windows worker retries after the pipe closes if an image
+            // section still prevents this immediate, best-effort deletion.
             let _ = fs::remove_file(&self.path);
         }
     }
@@ -160,19 +151,23 @@ pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materializ
 pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
     let root = platform::user_cache_root()?;
     let dir = cache_directory(&root)?;
-    let mut file = Builder::new()
-        .prefix(&format!("process-{}-", std::process::id()))
-        .suffix(".node")
-        .tempfile_in(&dir)
-        .map_err(|e| io_error("create temporary addon", &dir, e))?;
+    let mut file =
+        platform::temporary_file(&dir, &format!("process-{}-", std::process::id()), ".node")
+            .map_err(|e| io_error("create temporary addon", &dir, e))?;
+    platform::prepare_cache_image(file.as_file())
+        .map_err(|e| io_error("prepare temporary addon", file.path(), e))?;
     payload.decode_into(file.as_file_mut())?;
-    file.as_file()
-        .sync_all()
-        .map_err(|e| io_error("flush temporary addon", file.path(), e))?;
+    // File writes are already visible to the image loader. This process-local
+    // image does not need to survive power loss, so no durability flush is needed.
     // Close the writable file before mapping an image on Windows. Retaining a
     // write handle can conflict with the OS image loader's sharing requirements.
-    let path = file
-        .into_temp_path()
+    let path = file.into_temp_path();
+    // Arm cleanup before LoadLibrary. The pipe writer is not inherited by
+    // other children and closes even on forced termination of this process.
+    #[cfg(windows)]
+    let cleanup = crate::cleanup::arm(&path)
+        .map_err(|e| io_error("arm temporary addon cleanup", &path, e))?;
+    let path = path
         .keep()
         .map_err(|e| io_error("retain temporary addon", &dir, e.error))?;
     Ok(Materialized {
@@ -181,7 +176,7 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
         lock: None,
         cache_directory: None,
         #[cfg(windows)]
-        _delete_on_close: None,
+        _cleanup: cleanup,
     })
 }
 
@@ -280,7 +275,7 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
     platform::lock_exclusive(&lock).map_err(|e| io_error("lock cache entry", &lock_path, e))?;
     drop(namespace);
     let valid = match platform::open_regular(&path, false, false) {
-        Ok(mut file) => match payload.header.verify(&mut file) {
+        Ok(mut file) => match payload.verify_image(&mut file) {
             Ok(()) => true,
             Err(error) => {
                 tracing::warn!(path = %path.display(), %error, "rejecting corrupt native cache entry; rebuilding from payload");
@@ -293,29 +288,21 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
         Err(e) => return Err(io_error("open cache entry", &path, e)),
     };
     if !valid {
-        let mut staged = Builder::new()
-            .prefix("publish-")
-            .suffix(".tmp")
-            .tempfile_in(&directory)
+        let mut staged = platform::temporary_file(&directory, "publish-", ".tmp")
             .map_err(|e| io_error("stage cache entry", &directory, e))?;
+        platform::prepare_cache_image(staged.as_file())
+            .map_err(|e| io_error("prepare staged cache image", staged.path(), e))?;
         payload.decode_into(staged.as_file_mut())?;
-        staged
-            .as_file()
-            .sync_all()
-            .map_err(|e| io_error("flush cache entry", staged.path(), e))?;
-        // Compression is an optimization. Its failure must never turn verified
-        // bytes into an invalid addon or force a Windows carrier replacement.
-        if let Err(error) = platform::compress_cache(staged.path()) {
-            tracing::debug!(%error, "native cache filesystem compression unavailable");
-        }
-        payload.header.verify(staged.as_file_mut())?;
+        payload.verify_image(staged.as_file_mut())?;
         // All cooperating readers hold the digest lock, including during repair.
         // No writer ever truncates the canonical filename in place.
         let staged = staged.into_temp_path();
         platform::replace_file(&staged, &path)
             .map_err(|e| io_error("atomically publish cache entry", &path, e))?;
-        platform::sync_directory(&directory)
-            .map_err(|e| io_error("flush cache directory", &directory, e))?;
+        // A cache is recoverable, unlike the installed carrier. Atomic rename
+        // protects concurrent readers; full-byte verification repairs missing,
+        // truncated, or corrupt entries after power loss. Avoid forcing either
+        // the file or directory to stable storage on the startup path.
     }
     Ok(Materialized {
         path,
@@ -323,6 +310,6 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
         lock: Some(lock),
         cache_directory: Some(directory),
         #[cfg(windows)]
-        _delete_on_close: None,
+        _cleanup: None,
     })
 }

@@ -143,6 +143,16 @@ fn ntfs_compression() {
     let mut file = cache::cached_at(&payload, root.path()).unwrap();
     #[cfg(windows)]
     {
+        // Older releases populated compressed entries. Preserve their loading
+        // and verification contract while new materializations stay ordinary.
+        let path = file.path().to_owned();
+        file.loaded().unwrap();
+        drop(file);
+        support::ntfs::compress(&path).unwrap();
+        file = cache::cached_at(&payload, root.path()).unwrap();
+    }
+    #[cfg(windows)]
+    {
         use std::os::windows::fs::MetadataExt;
 
         use windows_sys::Win32::Storage::FileSystem::FILE_ATTRIBUTE_COMPRESSED;
@@ -203,9 +213,15 @@ fn temporary_cleanup_after_process_exit() {
             "{}",
             String::from_utf8_lossy(&result.stderr)
         );
+        // Windows cleanup runs outside the terminated process because its
+        // mapped DLL cannot be deleted until the OS releases the image section.
+        let cleanup_deadline = Instant::now() + Duration::from_secs(15);
+        while path.exists() && Instant::now() < cleanup_deadline {
+            std::thread::sleep(Duration::from_millis(10));
+        }
         assert!(
             !path.exists(),
-            "delete-on-close left {} after process exit",
+            "native cleanup worker left {} after process exit",
             path.display()
         );
     }

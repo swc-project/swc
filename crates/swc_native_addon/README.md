@@ -42,6 +42,15 @@ decoded bytes, and size. `--raw` compares against the final stripped input;
 `--extract` creates a new verified comparison image; `--replace` requires
 `--raw` and atomically replaces only that verified `.node` destination.
 
+The build also retains private runtime integrity metadata in `.swc_integrity`
+(ELF), `__TEXT,__swc_integrity` (Mach-O), or `.swci` (PE). Its 136 bytes contain
+`SWCNB3V1`, the complete 96-byte v1 header, and a 32-byte BLAKE3 digest derived
+from SHA-512-verified raw bytes. Runtime decoding and cache reads bind that
+metadata to the payload header before verifying every byte with BLAKE3 1.5.4.
+The final artifact verifier checks both digests against the decoded image.
+Ordinary payload decoding and `Header::verify` retain their SHA-512 defaults;
+npm artifacts, reports, and cache filenames keep their SHA-512 identities.
+
 See [the release and user guide](../../docs/native-addon-carriers.md) for artifact
 contracts, the shared publishing gate, and CI measurements.
 
@@ -110,29 +119,43 @@ The default user cache avoids hardened system temporary mounts that are `noexec`
 Linux rejects a user cache mounted `noexec` before attempting to load from it.
 Under either persistent root, entries live in `swc-native-<effective UID or user
 SID>/v1/<128 hexadecimal SHA-512 digits>.node`. Unix directories are owner-only;
-Windows directories have protected owner/SYSTEM DACLs. Unsafe cache files,
+Windows directories have protected owner/SYSTEM DACLs. Ancestor directories
+may also belong to Administrators or TrustedInstaller. Effective untrusted
+replacement grants are rejected with their directory and SID; inheritance-only
+ACEs are checked at the descendants to which they apply. Unsafe cache files,
 symlinks/reparse points, and Unix roots with a non-sticky cross-user-writable
 ancestor are rejected. A normal corrupt regular entry is replaced
 with newly decoded, verified bytes. If both custom and default roots fail, the
 loader throws rather than silently loading unverified data.
 
-Every cache hit is checked for native magic, length, and SHA-512. Per-digest OS
+Every cache hit is checked for native magic, length, and BLAKE3 over the entire
+file. On x64 macOS, verification batches use at most 32 MiB of temporary scratch
+memory to avoid repeated worker dispatch under Rosetta; larger images still
+stream in bounded batches. The SHA-512 cache key remains unchanged. Per-digest OS
 file locks coordinate checking, repair, publication, and native loading. Writers
-use unique staging files in the destination directory, flush and verify them,
+use unique staging files in the destination directory, write and verify them,
 then rename atomically. Canonical entries are never truncated in place. Closing
 the lock handle releases coordination after failures or process death, without
 stale PID locks. Staging files abandoned by abrupt termination are never cache
 hits; they may be removed when the owning user cleans the temporary directory.
+Cache publication does not force durable storage: missing or damaged entries
+after power loss are rebuilt after full-byte verification. Installed-carrier
+replacement retains its file and directory durability flushes.
 Each persistent namespace retains at most three inactive-or-current raw addon
 images. A short namespace lock coordinates eviction with per-digest locks, so
 an image being loaded is deferred until a later materialization.
 
 In mode `0`, each materialization has a unique process-prefixed filename. Unix
 unlinks it after successful `dlopen` while retaining the mapped library. Windows
-closes the writable decoder handle before loading and retains a noninheritable
-delete-on-close handle until process teardown. This avoids relying on Rust
-destructors running at exit. Native Windows subprocess tests must verify this
-lifecycle before release activation.
+closes the writable decoder handle and starts an embedded native cleanup worker
+before loading. The worker waits for EOF on a private pipe and retries deletion
+for up to ten seconds while Windows releases the mapped image. The pipe closes
+on both normal and forced process termination; Rust destructors are not required.
+The small helper executable persists in the private cache, is verified over all
+bytes before each launch, and requires no shell or additional installed runtime.
+The worker is used only for temporary images, not persistent cache hits. If an
+external process keeps the image mapped beyond the retry limit, or terminates
+the cleanup worker too, the temporary file can remain for manual cache cleanup.
 
 ## Transparent filesystem compression
 
@@ -157,9 +180,16 @@ is regenerated for the raw image instead of copied from the carrier.
 On macOS, a carrier with an ACL not equivalent to its mode bits uses the verified
 cache instead, because staging replacement cannot safely preserve that ACL.
 
-Windows never replaces a loaded carrier DLL. It requests NTFS compression on the
-decoded staging file before cache publication. Unsupported filesystem compression
-does not prevent loading a verified ordinary cache file.
+Windows never replaces a loaded carrier DLL. New persistent and process-local
+cache images are ordinary, uncompressed files: first loading an NTFS-compressed
+DLL adds substantial startup latency. Before decoding, the loader clears any
+compression inherited from the cache directory through the private staging
+file's existing write handle. Ordinary files require no compression control call,
+and the user's directory policy remains unchanged. Failure to prepare the image
+uses the usual cache error/fallback path. Full-byte verification still precedes
+publication and loading. Existing compressed cache entries remain immutable and
+are fully verified on every hit; corrupt entries are replaced by new ordinary
+images. The npm carrier's zstd payload is unchanged.
 
 ## Verification
 
@@ -193,6 +223,7 @@ SWC_TEST_VOLUME=/writable/apfs \
 SWC_TEST_VOLUME=/writable/btrfs \
   cargo test -p swc_native_addon --test platform btrfs_self_replacement -- --ignored --exact
 cargo test -p swc_native_addon --test platform ntfs_compression -- --ignored --exact
+cargo test -p swc_native_addon --test ntfs -- --ignored
 ```
 
 Cross-target `cargo check` validates Rust adapters but cannot establish native

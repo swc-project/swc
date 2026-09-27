@@ -1,5 +1,8 @@
 #![allow(dead_code)]
 
+#[cfg(windows)]
+pub mod ntfs;
+
 use std::{
     fs,
     path::{Path, PathBuf},

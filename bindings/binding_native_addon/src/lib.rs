@@ -11,6 +11,7 @@ use libloading::Library;
 use swc_native_addon::{
     cache::{self, CacheMode, Materialized},
     format::Payload,
+    integrity::RuntimeIntegrity,
     platform, replacement, Error, ErrorKind, Result,
 };
 
@@ -24,7 +25,7 @@ struct Loaded {
 
 // Statics are deliberately never dropped. Addon callbacks can survive the
 // original registration call and other Node environments in the same process.
-// A Windows temporary's deletion handle is closed by process teardown.
+// A Windows temporary's cleanup pipe is closed by process teardown.
 static LOADED: Mutex<Option<Loaded>> = Mutex::new(None);
 static IMAGE_ANCHOR: u8 = 0;
 
@@ -54,7 +55,7 @@ fn initialize() -> Result<napi::Register> {
     if let Some(loaded) = loaded.as_ref() {
         return Ok(loaded.register);
     }
-    let payload = Payload::parse(PAYLOAD)?;
+    let payload = Payload::parse(PAYLOAD)?.with_integrity(RuntimeIntegrity::parse(INTEGRITY)?)?;
     let mode = CacheMode::from_env()?;
     let replacement = if let Some(carrier) = replacement_carrier(&mode, || unsafe {
         platform::carrier_path((&IMAGE_ANCHOR as *const u8).cast())
@@ -130,6 +131,14 @@ pub unsafe extern "C" fn napi_register_module_v1(
     env: napi::Env,
     exports: napi::Value,
 ) -> napi::Value {
+    let error = match std::panic::catch_unwind(initialize) {
+        Ok(Ok(register)) => return register(env, exports),
+        Ok(Err(error)) => error,
+        Err(_) => Error::new(ErrorKind::Load, "native loader initialization panicked"),
+    };
+    // Successful registration forwards the raw initializer directly. Resolving
+    // exception helpers would open and close the process image unnecessarily on
+    // every environment; only the failure path needs those symbols.
     let api = match napi::Api::load() {
         Ok(api) => api,
         Err(error) => {
@@ -139,15 +148,7 @@ pub unsafe extern "C" fn napi_register_module_v1(
             std::process::abort();
         }
     };
-    let initialized = std::panic::catch_unwind(initialize);
-    match initialized {
-        Ok(Ok(register)) => register(env, exports),
-        Ok(Err(error)) => api.throw(env, &error),
-        Err(_) => api.throw(
-            env,
-            &Error::new(ErrorKind::Load, "native loader initialization panicked"),
-        ),
-    }
+    api.throw(env, &error)
 }
 
 #[cfg(test)]

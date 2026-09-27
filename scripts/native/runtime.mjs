@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import {
     cpSync,
-    copyFileSync,
     linkSync,
     mkdirSync,
     mkdtempSync,
@@ -20,6 +19,13 @@ import {
     writeJson,
 } from "./common.mjs";
 import { validateReport } from "./contracts.mjs";
+import { extractTarball, listTarball } from "./tarballs.mjs";
+import { copyMeasurementAddon } from "./measurement-files.mjs";
+import {
+    createMeasurementCache,
+    measureLoads,
+    validateMeasurements,
+} from "./measurements.mjs";
 
 const [product, target, output, mode = "runtime"] = process.argv.slice(2);
 if (!output || !["runtime", "minimum"].includes(mode))
@@ -55,8 +61,8 @@ function smoke(entry, addon, cache) {
     return JSON.parse(value.split("\n").at(-1));
 }
 
-function variant(name, addon, holdCarrier = false) {
-    const directory = join(stage, name);
+function variant(name, addon, holdCarrier = false, root = stage) {
+    const directory = join(root, name);
     cpSync(info.directory, directory, {
         recursive: true,
         filter: (source) => {
@@ -73,16 +79,14 @@ function variant(name, addon, holdCarrier = false) {
         },
     });
     const destination = join(directory, info.filename);
-    copyFileSync(addon, destination);
+    copyMeasurementAddon(addon, destination);
     // The runtime deliberately skips self-replacement for hardlinked files.
     // Use links only between disposable copies, never to a release candidate.
     if (holdCarrier) linkSync(destination, join(directory, ".carrier-inode"));
     return { entry: join(directory, "index.js"), addon: destination };
 }
 
-function median(values) {
-    return [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
-}
+let cacheRoot;
 
 try {
     const carrier = variant("carrier", original, true);
@@ -98,7 +102,7 @@ try {
         assert(record, "missing npm tarball " + name);
         const tarball = join(assemblyDirectory, record.filename);
         assert.equal(sha512(readFileSync(tarball)), record.sha512);
-        const names = run("tar", ["-tzf", tarball]).split("\n").filter(Boolean);
+        const names = listTarball(tarball);
         assert(
             names.every(
                 (name) =>
@@ -109,7 +113,7 @@ try {
         );
         const directory = join(installed, name.slice("@swc/".length));
         mkdirSync(directory);
-        run("tar", ["-xf", tarball, "--strip-components=1", "-C", directory]);
+        extractTarball(tarball, directory);
     }
     const installedAddon = join(
         installed,
@@ -148,28 +152,21 @@ try {
             baseline.exports,
             "carrier changed N-API exports"
         );
-        const rawMs = [],
-            coldMs = [],
-            warmMs = [];
-        const warmCache = join(stage, "warm-cache");
-        smoke(carrier.entry, carrier.addon, warmCache);
-        for (let sample = 0; sample < 15; sample++) {
-            rawMs.push(smoke(raw.entry, raw.addon, "0").loadMs);
-            coldMs.push(
-                smoke(
-                    carrier.entry,
-                    carrier.addon,
-                    join(stage, "cold-" + sample)
-                ).loadMs
-            );
-            warmMs.push(smoke(carrier.entry, carrier.addon, warmCache).loadMs);
-        }
-        Object.assign(result, {
-            samples: 15,
-            rawMs: median(rawMs),
-            coldMs: median(coldMs),
-            warmMs: median(warmMs),
-        });
+        cacheRoot = createMeasurementCache();
+        Object.assign(
+            result,
+            measureLoads({
+                raw,
+                carrier,
+                copyRaw: (sample, root) =>
+                    variant("raw-cold-" + sample, rawPath, false, root),
+                copyCarrier: (sample, root) =>
+                    variant("carrier-cold-" + sample, original, true, root),
+                smoke,
+                cacheRoot,
+            })
+        );
+        const warmCache = join(cacheRoot, "warm");
         const materialized = [];
         function inspectCache(directory) {
             for (const entry of readdirSync(directory, {
@@ -188,25 +185,15 @@ try {
         );
         assert.equal(sha512(readFileSync(materialized[0])), report.rawSha512);
         result.materializedSha512 = report.rawSha512;
-        result.coldOverheadMs = result.coldMs - result.rawMs;
-        result.warmOverheadMs = result.warmMs - result.rawMs;
         // Keep measured evidence in failed job logs; no success report is written on failure.
         console.log(JSON.stringify(result));
-        if (target.startsWith("x86_64-")) {
-            assert(
-                result.coldOverheadMs <= 100,
-                "median cold-load overhead exceeds 100 ms"
-            );
-            assert(
-                result.warmOverheadMs <= 25,
-                "median warm-cache overhead exceeds 25 ms"
-            );
-        }
+        validateMeasurements(result);
         assert.equal(sha512(readFileSync(carrier.addon)), report.carrierSha512);
     }
     assert.equal(sha512(readFileSync(original)), report.carrierSha512);
     writeJson(resolve(output), result);
     console.log(JSON.stringify(result));
 } finally {
+    if (cacheRoot) rmSync(cacheRoot, { recursive: true, force: true });
     rmSync(stage, { recursive: true, force: true });
 }

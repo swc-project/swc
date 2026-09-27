@@ -342,7 +342,7 @@ pub unsafe fn carrier_path(address: *const std::ffi::c_void) -> Result<PathBuf> 
     })
 }
 
-pub fn compress_cache(_path: &Path) -> io::Result<()> {
+pub(crate) fn prepare_cache_image(_file: &File) -> io::Result<()> {
     Ok(())
 }
 

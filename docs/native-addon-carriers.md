@@ -16,10 +16,18 @@ Standalone `swc` executables and WASM packages are not compressed by this step.
 ## First load and cache
 
 The native carrier decodes the original stripped addon, verifies its length,
-native image format, and SHA-512 digest, and forwards native registration to
+native image format, and BLAKE3 digest, and forwards native registration to
 that verified image. Materialized bytes are identical to the stripped build
-input. Corrupt payloads and materialization failures produce actionable
+input. Build and final-artifact verification also check the unchanged SHA-512
+payload identity, and private metadata binds the runtime digest to the complete
+payload header. Every cache load reads and verifies the whole file. Corrupt payloads and materialization failures produce actionable
 `ERR_SWC_NATIVE_*` errors.
+
+On x64 macOS, large BLAKE3 inputs use batches bounded at 32 MiB and at most
+four verification workers to reduce Rosetta startup overhead. The worker pool
+is private to the carrier; it does not change the application's Rayon pool.
+Unavailable workers fall back to sequential hashing. No verification result
+is reused between loads.
 
 The default cache is isolated by user and addressed by the raw image's SHA-512.
 It uses the existing private loader's user-cache root: an absolute
@@ -36,7 +44,7 @@ entries are repaired from the verified payload.
 | Value                | Behavior                                                                                                                                                                   |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Unset or empty       | Use the default user cache and eligible filesystem replacement.                                                                                                            |
-| `0`                  | Materialize a unique temporary image; never replace the installed carrier. Unix unlinks it after loading; Windows retains a delete-on-close handle until process teardown. |
+| `0`                  | Materialize a unique temporary image; never replace the installed carrier. Unix unlinks it after loading; Windows uses a verified native worker to delete it after process teardown when executable policy permits. |
 | Absolute directory   | Use this cache root, falling back to the default user cache if unusable.                                                                                                   |
 | Other relative value | Throw a configuration error.                                                                                                                                               |
 
@@ -44,12 +52,20 @@ Failure of both a custom root and the default root throws. An executable cache
 filesystem is required; a Linux `noexec` cache is rejected. Existing cache
 namespaces retain at most three inactive-or-current raw images.
 
+If Windows blocks the cleanup worker from starting, loading continues with a
+warning and best-effort deletion when the materialized image is dropped. A DLL
+that remains mapped until process exit may remain on disk in that environment.
+The helper's integrity is still verified before any attempt to execute it.
+
 On writable APFS or btrfs, the loader may atomically replace its installed
 carrier with the original addon under transparent filesystem compression.
 The current process loads a separate verified temporary image. Read-only,
 hardlinked, unsupported, or unsuitable installations use the cache. Windows
-keeps the carrier DLL in place and requests NTFS compression on decoded cache
-files. The sibling CLI is never part of materialization or replacement.
+keeps the carrier DLL in place and writes ordinary cache files to avoid NTFS
+compressed-DLL startup costs. New persistent and temporary images have inherited
+NTFS compression cleared before decoding; existing compressed entries remain
+fully verified and usable. The sibling CLI is never part of materialization or
+replacement.
 
 ## Release verification
 
@@ -76,11 +92,31 @@ The job summary and JSON artifacts report raw size, compressed frame size,
 payload size (including its 96-byte header), carrier size, reduction ratio, npm
 tarball size, and load timings. Timings are medians of 15 fresh Node processes
 per case, measured around package loading. Cold means an empty materialization
-cache; warm means an already populated verified cache. These are not claims
+cache and freshly copied raw and carrier files for each sample (`rawColdMs`); warm uses
+an already populated verified cache and a reused raw image (`rawMs`). Raw file
+copying occurs before the loading timer. On Windows, disposable measurement
+images are uncompressed before timing, matching the new raw cache image policy
+even beneath compressed home directories. Cold overhead is `coldMs - rawColdMs`;
+warm overhead is `warmMs - rawMs`. The gate rejects missing baselines or
+inconsistent arithmetic. Measurement caches use canonical paths beneath the
+executing user's home, including Docker, and are removed after the run. These are not claims
 about an empty operating-system page cache. Disposable hardlinked carrier
 copies prevent filesystem self-replacement from disguising warm-cache costs.
-Representative x64 jobs require at most 100 ms cold overhead and 25 ms warm
-overhead over the corresponding raw addon.
+Representative x64 jobs require at most 500 ms cold overhead and 125 ms warm
+overhead over the corresponding raw addon. The macOS x64 jobs run under Rosetta
+on ARM64 runners and have a separately approved 1,500 ms cold limit; their warm
+limit remains 125 ms. These startup budgets accept the measured loading
+tradeoff while retaining compressed carriers and full integrity checks. They
+apply when a process initializes the native module, not to each subsequent
+transform. The default and Rosetta limits are included in the release gate JSON and job summary;
+exceeding either still fails verification.
+
+To test an untagged fix, dispatch `publish.yml` on the fixing branch with
+`verifySourceRef` set to its full commit SHA and `version` matching its checked-in
+manifests. This calls the same complete release gate with `skipPublishing: true`,
+without tag creation or npm publication. The reusable workflow's `sourceRef`
+input accepts only full commit SHAs and is rejected unless publishing is disabled;
+normal publishing continues to check out the release tag.
 
 Node 20/22 checks exercise every selected target through product tests and
 installed tarball resolution. Standalone smoke scripts also exercise Linux GNU

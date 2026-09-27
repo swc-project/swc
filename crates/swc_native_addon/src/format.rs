@@ -6,7 +6,10 @@ use std::io::{Cursor, Read, Seek, SeekFrom, Write};
 
 use sha2::{Digest, Sha512};
 
-use crate::{Error, ErrorKind, Result};
+use crate::{
+    integrity::{RuntimeIntegrity, Verifier},
+    Error, ErrorKind, Result,
+};
 
 pub const MAGIC: &[u8; 8] = b"SWCNZSTD";
 pub const VERSION: u16 = 1;
@@ -48,6 +51,10 @@ impl Header {
     /// Verify a complete raw file, including cache hits. Never trust a filename
     /// or an earlier successful verification as evidence about today's bytes.
     pub fn verify(&self, input: &mut (impl Read + Seek)) -> Result<()> {
+        self.verify_with(input, Verifier::sha512(self))
+    }
+
+    fn verify_with(&self, input: &mut (impl Read + Seek), mut hash: Verifier) -> Result<()> {
         let len = input
             .seek(SeekFrom::End(0))
             .map_err(|e| Error::io(ErrorKind::Integrity, "measure raw addon", e))?;
@@ -61,8 +68,7 @@ impl Header {
         input
             .rewind()
             .map_err(|e| Error::io(ErrorKind::Integrity, "rewind raw addon", e))?;
-        let mut hash = Sha512::new();
-        let mut buffer = [0; 64 * 1024];
+        let mut buffer = vec![0; hash.buffer_len(self.raw_len)];
         let mut count = 0_u64;
         loop {
             let read = input
@@ -86,13 +92,7 @@ impl Header {
                 "cache file shrank during verification",
             ));
         }
-        if hash.finalize()[..] != self.digest {
-            return Err(Error::new(
-                ErrorKind::Integrity,
-                "raw addon SHA-512 mismatch",
-            ));
-        }
-        Ok(())
+        hash.finish()
     }
 }
 
@@ -207,6 +207,7 @@ impl NativeTarget {
 pub struct Payload<'a> {
     pub header: Header,
     compressed: &'a [u8],
+    integrity: Option<RuntimeIntegrity>,
 }
 
 impl<'a> Payload<'a> {
@@ -268,7 +269,31 @@ impl<'a> Payload<'a> {
                 digest: bytes[32..96].try_into().unwrap(),
             },
             compressed,
+            integrity: None,
         })
+    }
+
+    /// Opt into runtime BLAKE3 verification only after binding the complete
+    /// payload header to the metadata retained by the trusted carrier build.
+    /// `parse`, `Header::verify`, and ordinary decoding still default to
+    /// SHA-512.
+    pub fn with_integrity(mut self, integrity: RuntimeIntegrity) -> Result<Self> {
+        integrity.verifier(&self.header)?;
+        self.integrity = Some(integrity);
+        Ok(self)
+    }
+
+    fn verifier(&self) -> Result<Verifier> {
+        match &self.integrity {
+            Some(integrity) => integrity.verifier(&self.header),
+            None => Ok(Verifier::sha512(&self.header)),
+        }
+    }
+
+    /// Read and verify the complete materialized image on every use, including
+    /// cache hits and the readback after filesystem compression.
+    pub fn verify_image(&self, input: &mut (impl Read + Seek)) -> Result<()> {
+        self.header.verify_with(input, self.verifier()?)
     }
 
     /// Check that the decoded image agrees with the target stamped by the
@@ -280,6 +305,7 @@ impl<'a> Payload<'a> {
     /// Decode into an empty staging file. A caller must discard the file on any
     /// error; publication is allowed only after this method succeeds.
     pub fn decode_into(&self, output: &mut (impl Read + Write + Seek)) -> Result<()> {
+        let mut hash = self.verifier()?;
         let window_log = (64 - self.header.raw_len.saturating_sub(1).leading_zeros()).max(10);
         if self.compressed[4] & 0x20 == 0 {
             let descriptor = self.compressed[5];
@@ -302,8 +328,7 @@ impl<'a> Payload<'a> {
             .window_log_max(window_log)
             .map_err(|e| Error::io(ErrorKind::Compression, "limit zstd window", e))?;
         let mut count = 0_u64;
-        let mut hash = Sha512::new();
-        let mut buffer = [0; 64 * 1024];
+        let mut buffer = vec![0; hash.buffer_len(self.header.raw_len)];
         loop {
             let read = decoder
                 .read(&mut buffer)
@@ -329,12 +354,7 @@ impl<'a> Payload<'a> {
                 "decoded addon length mismatch",
             ));
         }
-        if hash.finalize()[..] != self.header.digest {
-            return Err(Error::new(
-                ErrorKind::Integrity,
-                "decoded addon SHA-512 mismatch",
-            ));
-        }
+        hash.finish()?;
         native_kind(output, count)?;
         Ok(())
     }
