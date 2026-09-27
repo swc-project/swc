@@ -644,7 +644,16 @@ impl<I: Tokens> Parser<I> {
 
             if !self.input().is(Token::RBracket) {
                 expect!(self, Token::Comma);
-                if self.input().is(Token::RBracket) {
+                if self.input().is(Token::RBracket)
+                    && matches!(
+                        elems.last(),
+                        Some(Some(ExprOrSpread {
+                            spread: Some(_),
+                            ..
+                        }))
+                    )
+                {
+                    // Only a spread can become a rest element with an invalid trailing comma.
                     let prev_span = self.input().prev_span();
                     self.state_mut().trailing_commas.insert(start, prev_span);
                 }

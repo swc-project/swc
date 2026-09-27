@@ -177,9 +177,13 @@ impl<I: Tokens> Parser<I> {
         trailing_comma: Option<Span>,
     ) -> PResult<Expr> {
         if let Some(trailing_comma) = trailing_comma {
-            self.state_mut()
-                .trailing_commas
-                .insert(span.lo, trailing_comma);
+            // Preserve the comma only if cover grammar can turn the last property into
+            // rest.
+            if matches!(props.last(), Some(PropOrSpread::Spread(_))) {
+                self.state_mut()
+                    .trailing_commas
+                    .insert(span.lo, trailing_comma);
+            }
         }
         Ok(ObjectLit { span, props }.into())
     }
