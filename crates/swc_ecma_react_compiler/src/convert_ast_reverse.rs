@@ -604,6 +604,11 @@ impl ReverseCtx {
     // ===== Expressions =====
 
     fn convert_expression(&self, expr: &Expression) -> swc::Expr {
+        // Long member-call chains recurse once per link.
+        crate::stack::maybe_grow(|| self.convert_expression_inner(expr))
+    }
+
+    fn convert_expression_inner(&self, expr: &Expression) -> swc::Expr {
         match expr {
             Expression::Identifier(id) => swc::Expr::Ident(self.convert_identifier(id)),
             Expression::StringLiteral(lit) => {

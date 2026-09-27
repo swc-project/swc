@@ -615,6 +615,11 @@ impl<'a> ConvertCtx<'a> {
     // ===== Expressions =====
 
     fn convert_expr(&self, expr: &swc::Expr) -> Expression {
+        // Long member-call chains recurse once per link.
+        crate::stack::maybe_grow(|| self.convert_expr_inner(expr))
+    }
+
+    fn convert_expr_inner(&self, expr: &swc::Expr) -> Expression {
         match expr {
             swc::Expr::Lit(lit) => match lit {
                 swc::Lit::Str(s) => Expression::StringLiteral(StringLiteral {

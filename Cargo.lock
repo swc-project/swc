@@ -6749,6 +6749,7 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
+ "stacker",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",

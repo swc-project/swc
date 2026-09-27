@@ -12,6 +12,7 @@ pub mod fast_check;
 mod prefilter;
 mod preserved_ast;
 mod source_type;
+mod stack;
 
 #[cfg(test)]
 mod tests;

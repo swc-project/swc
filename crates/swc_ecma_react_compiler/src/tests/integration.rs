@@ -1584,6 +1584,35 @@ fn transform_ref_access_error_is_not_swc_diagnostic_with_default_panic_threshold
     );
 }
 
+/// Runs `f` on a thread with a 2 MiB stack, the default for spawned threads
+/// in bundlers such as rspack, so a regression shows up as a stack overflow.
+fn on_small_stack<T: Send + 'static>(f: impl FnOnce() -> T + Send + 'static) -> T {
+    std::thread::Builder::new()
+        .stack_size(2 * 1024 * 1024)
+        .spawn(f)
+        .expect("spawn test thread")
+        .join()
+        .expect("test thread panicked")
+}
+
+/// `builder.next().next()...` with `links` calls.
+fn long_call_chain(links: usize) -> String {
+    format!("builder{}", ".next()".repeat(links))
+}
+
+#[test]
+fn convert_long_call_chain_round_trips_on_small_stack() {
+    let body_len = on_small_stack(|| {
+        let source = format!("export const value = {};\n", long_call_chain(1000));
+        let program = parse_program(&source);
+        let file = convert_program(&program, &source, None).file;
+        let program = convert_program_to_swc(&file);
+        program.expect_module().body.len()
+    });
+
+    assert_eq!(body_len, 1);
+}
+
 #[test]
 fn transform_compilation_mode_all_does_not_skip() {
     let source = "const x = 1 + 2;";

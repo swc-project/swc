@@ -12,6 +12,11 @@ version       = "25.0.0"
 all-features = true
 rustdoc-args = ["--cfg", "docsrs"]
 
+[features]
+# `stacker` grows the stack on demand while converting deeply nested
+# expressions.
+default = ["stacker"]
+
 [dependencies]
 indexmap           = { workspace = true, features = ["serde"] }
 react_compiler     = { version = "=0.1.0", package = "react_compiler" }
@@ -28,6 +33,9 @@ swc_ecma_parser    = { version = "45.1.6", path = "../swc_ecma_parser", default-
   "typescript",
 ] }
 swc_ecma_visit     = { version = "29.0.0", path = "../swc_ecma_visit" }
+
+[target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
+stacker = { version = "0.1.15", optional = true }
 
 [dev-dependencies]
 swc_common      = { version = "26.0.0", path = "../swc_common" }
