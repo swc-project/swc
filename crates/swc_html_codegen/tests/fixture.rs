@@ -589,6 +589,8 @@ static IGNORE_TAG_OMISSION: &[&str] = &[
         "tests18_dat.8.html",
         "tests18_dat.9.html",
         "tests18_dat.12.html",
+        // The foster-parented table follows plaintext in the DOM, which cannot roundtrip.
+        "tests18_dat.14.html",
         "tests18_dat.21.html",
         "tests19_dat.103.html",
         "tests20_dat.42.html",
