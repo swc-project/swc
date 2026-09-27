@@ -765,18 +765,6 @@ impl<I: Tokens> Parser<I> {
         Ok(buf)
     }
 
-    /// In no lexer context
-    pub(crate) fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<T>
-    where
-        F: FnOnce(&mut Self) -> PResult<T>,
-    {
-        debug_assert!(self.input().syntax().typescript());
-        trace_cur!(self, ts_in_no_context__before);
-        let res = op(self);
-        trace_cur!(self, ts_in_no_context__after);
-        res
-    }
-
     /// `tsIsListTerminator`
     fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> bool {
         debug_assert!(self.input().syntax().typescript());
@@ -1131,31 +1119,27 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.input().cur_pos();
         let params = self.in_type(|p| {
-            // Temporarily remove a JSX parsing context, which makes us scan different
-            // tokens.
-            p.ts_in_no_context(|p| {
-                if p.input().is(Token::LShift) {
-                    p.input_mut().cut_lshift();
-                } else {
-                    expect!(p, Token::Lt);
-                }
-                if p.syntax().flow() {
-                    p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
-                        trace_cur!(p, parse_ts_type_args__arg);
+            if p.input().is(Token::LShift) {
+                p.input_mut().cut_lshift();
+            } else {
+                expect!(p, Token::Lt);
+            }
+            if p.syntax().flow() {
+                p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
+                    trace_cur!(p, parse_ts_type_args__arg);
 
-                        p.do_outside_of_type_context(
-                            TypeContext::DisallowFlowAnonFnType,
-                            Self::parse_ts_type,
-                        )
-                    })
-                } else {
-                    p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
-                        trace_cur!(p, parse_ts_type_args__arg);
+                    p.do_outside_of_type_context(
+                        TypeContext::DisallowFlowAnonFnType,
+                        Self::parse_ts_type,
+                    )
+                })
+            } else {
+                p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
+                    trace_cur!(p, parse_ts_type_args__arg);
 
-                        p.parse_ts_type()
-                    })
-                }
-            })
+                    p.parse_ts_type()
+                })
+            }
         })?;
         // This reads the next token after the `>` too, so do this in the enclosing
         // context. But be sure not to parse a regex in the jsx expression
@@ -1511,44 +1495,42 @@ impl<I: Tokens> Parser<I> {
         permit_const: bool,
     ) -> PResult<Box<TsTypeParamDecl>> {
         self.in_type(|p| {
-            p.ts_in_no_context(|p| {
-                let start = p.input().cur_pos();
-                let cur = p.input().cur();
-                if cur != Token::Lt && cur != Token::JSXTagStart {
-                    unexpected!(p, "< (jsx tag start)")
-                }
-                p.bump();
+            let start = p.input().cur_pos();
+            let cur = p.input().cur();
+            if cur != Token::Lt && cur != Token::JSXTagStart {
+                unexpected!(p, "< (jsx tag start)")
+            }
+            p.bump();
 
-                let params = p.parse_ts_bracketed_list(
-                    ParsingContext::TypeParametersOrArguments,
-                    |p| p.parse_ts_type_param(permit_in_out, permit_const), // bracket
-                    false,
-                    // skip_first_token
-                    true,
-                )?;
+            let params = p.parse_ts_bracketed_list(
+                ParsingContext::TypeParametersOrArguments,
+                |p| p.parse_ts_type_param(permit_in_out, permit_const), // bracket
+                false,
+                // skip_first_token
+                true,
+            )?;
 
-                if p.syntax().flow() && params.is_empty() {
-                    p.emit_err(p.span(start), SyntaxError::TS1005);
-                }
+            if p.syntax().flow() && params.is_empty() {
+                p.emit_err(p.span(start), SyntaxError::TS1005);
+            }
 
-                if p.syntax().flow() {
-                    let mut saw_default = false;
-                    for param in &params {
-                        if param.default.is_some() {
-                            saw_default = true;
-                        } else if saw_default {
-                            // Flow requires all subsequent parameters to provide defaults once
-                            // one default is introduced.
-                            p.emit_err(param.span, SyntaxError::TS1005);
-                        }
+            if p.syntax().flow() {
+                let mut saw_default = false;
+                for param in &params {
+                    if param.default.is_some() {
+                        saw_default = true;
+                    } else if saw_default {
+                        // Flow requires all subsequent parameters to provide defaults once
+                        // one default is introduced.
+                        p.emit_err(param.span, SyntaxError::TS1005);
                     }
                 }
+            }
 
-                Ok(Box::new(TsTypeParamDecl {
-                    span: p.span(start),
-                    params,
-                }))
-            })
+            Ok(Box::new(TsTypeParamDecl {
+                span: p.span(start),
+                params,
+            }))
         })
     }
 
@@ -2666,93 +2648,26 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input().syntax().flow() && self.type_ctx().contains(TypeContext::InType) {
-            let mut list = Vec::with_capacity(4);
-            let mut rest_span = Span::default();
-
-            while !self.input().is(Token::RParen) {
-                if !rest_span.is_dummy() {
-                    self.emit_err(rest_span, SyntaxError::TS1014);
-                }
-
+            let list = self.parse_parameter_list(|p, index| {
                 if let Some(param) =
-                    self.try_parse_ts(|p| p.try_parse_flow_anon_signature_param(list.len()))
+                    p.try_parse_ts(|p| p.try_parse_flow_anon_signature_param(index))
                 {
-                    if matches!(param, TsFnParam::Rest(..)) {
-                        rest_span = param.span();
-                    }
-                    list.push(param);
+                    return Ok(param);
+                }
+                let pat_start = p.cur_pos();
+                let pat = if p.input_mut().eat(Token::DotDotDot) {
+                    p.parse_rest_parameter(pat_start)?
                 } else {
-                    let pat_start = self.cur_pos();
-                    let pat = if self.input_mut().eat(Token::DotDotDot) {
-                        let dot3_token = self.span(pat_start);
-
-                        let mut pat = self.parse_binding_pat_or_ident(false)?;
-
-                        if self.input_mut().eat(Token::Eq) {
-                            let right = self.parse_assignment_expr()?;
-                            self.emit_err(pat.span(), SyntaxError::TS1048);
-                            pat = AssignPat {
-                                span: self.span(pat_start),
-                                left: Box::new(pat),
-                                right,
-                            }
-                            .into();
-                        }
-
-                        let type_ann = if self.input().syntax().typescript()
-                            && self.input().is(Token::Colon)
-                        {
-                            let cur_pos = self.cur_pos();
-                            Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
-                        } else {
-                            None
-                        };
-
-                        let pat: Pat = RestPat {
-                            span: self.span(pat_start),
-                            dot3_token,
-                            arg: Box::new(pat),
-                            type_ann,
-                        }
-                        .into();
-
-                        if self.syntax().typescript() && self.input_mut().eat(Token::QuestionMark) {
-                            self.emit_err(self.input().prev_span(), SyntaxError::TS1047);
-                        }
-
-                        rest_span = pat.span();
-                        pat
-                    } else {
-                        self.parse_formal_param_pat()?
-                    };
-
-                    let is_rest = matches!(pat, Pat::Rest(..));
-                    let item = pat_to_ts_fn_param(self, pat)?;
-                    list.push(item);
-
-                    if is_rest && !self.input().is(Token::RParen) {
-                        rest_span = list.last().expect("rest param").span();
-                    }
-                }
-
-                if !self.input().is(Token::RParen) {
-                    expect!(self, Token::Comma);
-                    if !rest_span.is_dummy() && self.input().is(Token::RParen) {
-                        self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
-                    }
-                }
-            }
+                    p.parse_formal_param_pat()?
+                };
+                pat_to_ts_fn_param(p, pat)
+            })?;
 
             expect!(self, Token::RParen);
             return Ok(list);
         }
 
-        let params = self.parse_formal_params()?;
-        let mut list = Vec::with_capacity(4);
-
-        for param in params {
-            list.push(pat_to_ts_fn_param(self, param.pat)?);
-        }
+        let list = self.parse_formal_params_inner(|p, param| pat_to_ts_fn_param(p, param.pat))?;
         expect!(self, Token::RParen);
         Ok(list)
     }
@@ -3686,7 +3601,7 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().syntax().typescript());
 
-        // Need to set `state.inType` so that we don't parse JSX in a type context.
+        // Callers explicitly enter type grammar before parsing a type.
         debug_assert!(self.type_ctx().contains(TypeContext::InType));
 
         let start = self.cur_pos();
@@ -5289,11 +5204,7 @@ impl<I: Tokens> Parser<I> {
 
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, Token::LParen);
-                let params: Vec<Pat> = p
-                    .parse_formal_params()?
-                    .into_iter()
-                    .map(|p| p.pat)
-                    .collect();
+                let params = p.parse_formal_param_patterns()?;
                 expect!(p, Token::RParen);
                 let return_type = if p.input().syntax().flow() {
                     // In arrow return type context, `T => expr` belongs to the
