@@ -831,7 +831,7 @@ impl<I: Tokens> Parser<I> {
             let type_ann_start = self.cur_pos();
 
             if self.syntax().typescript() && self.input_mut().eat(Token::Colon) {
-                let ty = self.with_type_lexing(Context::InType, true, Self::parse_ts_type)?;
+                let ty = self.in_type(Self::parse_ts_type)?;
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
                 match &mut pat {

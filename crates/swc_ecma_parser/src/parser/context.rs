@@ -120,8 +120,7 @@ bitflags::bitflags! {
 }
 
 bitflags::bitflags! {
-    /// Parser-only TypeScript, Flow, and cover-grammar state. Type-tokenization
-    /// flags live exclusively in the lexical context.
+    /// Parser-only TypeScript, Flow, and cover-grammar state.
     #[derive(Debug, Clone, Copy, Default)]
     pub(super) struct TypeContext: u8 {
         const InDeclare = 1 << 0;
@@ -131,5 +130,7 @@ bitflags::bitflags! {
         const DisallowConditionalTypes = 1 << 2;
         const TsModuleBlock = 1 << 3;
         const DisallowFlowAnonFnType = 1 << 4;
+        /// Type grammar, independent of how angle operators are tokenized.
+        const InType = 1 << 5;
     }
 }

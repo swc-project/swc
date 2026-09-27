@@ -100,6 +100,9 @@ pub trait Tokens: Clone {
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan;
     fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan;
+    /// Rewinds a compound greater-than operator to its first `>`, discarding
+    /// any diagnostics and buffered comments produced by later lookahead.
+    fn rescan_type_gt(&mut self, span: Span) -> TokenAndSpan;
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan;
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan;
     fn rescan_template_token(&mut self, start: BytePos, start_with_back_tick: bool)
@@ -453,65 +456,20 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(token);
     }
 
-    pub fn merge_lt_gt(&mut self) {
-        debug_assert!(
-            self.is(Token::Lt) || self.is(Token::Gt),
-            "parser should only call merge_lt_gt when encountering Less token"
-        );
-        if self.peek().is_none() {
-            return;
+    /// Consumes one type-closing `>`. Rescanning is necessary because the
+    /// suffix may combine with following source, as in `>=>` becoming `=>`.
+    pub fn eat_type_gt(&mut self) -> bool {
+        if self.cur().should_rescan_into_gt_in_jsx() {
+            let had_line_break = self.cur.had_line_break;
+            let mut token = self.iter.rescan_type_gt(self.cur.span);
+            token.had_line_break = had_line_break;
+            self.next = None;
+            self.set_cur(token);
+        } else if self.cur() != Token::Gt {
+            return false;
         }
-        let span = self.cur_span();
-        let next = self.next().unwrap();
-        if span.hi != next.span().lo {
-            return;
-        }
-        let next = self.next_mut().take().unwrap();
-        let cur = self.get_cur();
-        let cur_token = cur.token;
-        let token = if cur_token == Token::Gt {
-            let next_token = next.token();
-            if next_token == Token::Gt {
-                // >>
-                Token::RShift
-            } else if next_token == Token::Eq {
-                // >=
-                Token::GtEq
-            } else if next_token == Token::RShift {
-                // >>>
-                Token::ZeroFillRShift
-            } else if next_token == Token::GtEq {
-                // >>=
-                Token::RShiftEq
-            } else if next_token == Token::RShiftEq {
-                // >>>=
-                Token::ZeroFillRShiftEq
-            } else {
-                self.set_next(Some(next));
-                return;
-            }
-        } else if cur_token == Token::Lt {
-            let next_token = next.token();
-            if next_token == Token::Lt {
-                // <<
-                Token::LShift
-            } else if next_token == Token::Eq {
-                // <=
-                Token::LtEq
-            } else if next_token == Token::LtEq {
-                // <<=
-                Token::LShiftEq
-            } else {
-                self.set_next(Some(next));
-                return;
-            }
-        } else {
-            self.set_next(Some(next));
-            return;
-        };
-        let span = span.with_hi(next.span().hi);
-        let token = TokenAndSpan::new(token, span, cur.had_line_break);
-        self.set_cur(token);
+        self.bump();
+        true
     }
 
     #[inline(always)]

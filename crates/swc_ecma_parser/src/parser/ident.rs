@@ -39,7 +39,7 @@ impl<I: Tokens> Parser<I> {
             };
             self.input_mut().bump_without_escape_check();
             word
-        } else if cur == Token::JSXName && self.ctx().contains(Context::InType) {
+        } else if cur == Token::JSXName && self.type_ctx().contains(TypeContext::InType) {
             self.input_mut().expect_jsx_name_token_and_bump()
         } else {
             syntax_error!(self, SyntaxError::ExpectedIdent)

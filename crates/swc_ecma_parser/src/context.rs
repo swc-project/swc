@@ -15,9 +15,6 @@ bitflags::bitflags! {
       const Module = 1 << 1;
       const Strict = 1 << 2;
 
-      const InType = 1 << 3;
-      /// Typescript extension.
-      const ShouldNotLexLtOrGtAsType = 1 << 4;
   }
 }
 

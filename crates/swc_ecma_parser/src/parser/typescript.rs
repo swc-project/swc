@@ -22,6 +22,13 @@ enum ParsingContext {
     TypeParametersOrArguments,
 }
 
+/// Expression type arguments cannot split a comparison or shift operator.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum AngleClose {
+    Exact,
+    Peel,
+}
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum UnionOrIntersection {
     Union,
@@ -780,7 +787,9 @@ impl<I: Tokens> Parser<I> {
                 matches!(cur, Token::LBrace | Token::Implements | Token::Extends)
             }
             ParsingContext::TupleElementTypes => cur == Token::RBracket,
-            ParsingContext::TypeParametersOrArguments => cur == Token::Gt,
+            ParsingContext::TypeParametersOrArguments => {
+                cur == Token::Gt || cur.should_rescan_into_gt_in_jsx()
+            }
         }
     }
 
@@ -1036,7 +1045,7 @@ impl<I: Tokens> Parser<I> {
         if bracket {
             expect!(self, Token::RBracket);
         } else {
-            expect!(self, Token::Gt);
+            self.expect_ts_type_gt()?;
         }
         Ok(result)
     }
@@ -1097,8 +1106,26 @@ impl<I: Tokens> Parser<I> {
         ret
     }
 
-    /// `tsParseTypeArguments`
+    /// Type arguments may start with adjacent opening angles after
+    /// tokenization.
+    fn is_ts_type_args_start(&self) -> bool {
+        matches!(self.input().cur(), Token::Lt | Token::LShift)
+    }
+
+    /// Parses a complete type argument list, including its closing `>`.
+    /// The following token is read in the caller's lexical context.
     pub(crate) fn parse_ts_type_args(&mut self) -> PResult<Box<TsTypeParamInstantiation>> {
+        self.parse_ts_type_args_with_close(AngleClose::Peel)
+    }
+
+    pub(crate) fn parse_ts_type_args_in_expr(&mut self) -> PResult<Box<TsTypeParamInstantiation>> {
+        self.parse_ts_type_args_with_close(AngleClose::Exact)
+    }
+
+    fn parse_ts_type_args_with_close(
+        &mut self,
+        close: AngleClose,
+    ) -> PResult<Box<TsTypeParamInstantiation>> {
         trace_cur!(self, parse_ts_type_args);
         debug_assert!(self.input().syntax().typescript());
 
@@ -1134,8 +1161,11 @@ impl<I: Tokens> Parser<I> {
         // context. But be sure not to parse a regex in the jsx expression
         // `<C<number> />`, so set exprAllowed = false
         self.input_mut().set_expr_allowed(false);
-        self.expect_without_advance(Token::Gt)?;
-        let span = Span::new_with_checked(start, self.input().cur_span().hi);
+        if close == AngleClose::Exact {
+            self.expect_without_advance(Token::Gt)?;
+        }
+        self.expect_ts_type_gt()?;
+        let span = self.span(start);
 
         // Report grammar error for empty type argument list like `I<>`.
         // Flow allows this form in several positions.
@@ -1144,6 +1174,15 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(Box::new(TsTypeParamInstantiation { span, params }))
+    }
+
+    /// Consumes one closing angle, leaving any operator suffix for the caller.
+    pub(super) fn expect_ts_type_gt(&mut self) -> PResult<()> {
+        if self.input_mut().eat_type_gt() {
+            Ok(())
+        } else {
+            self.expect(Token::Gt)
+        }
     }
 
     /// `tsParseTypeReference`
@@ -1165,15 +1204,9 @@ impl<I: Tokens> Parser<I> {
         }
         trace_cur!(self, parse_ts_type_ref__type_args);
         let type_params = if (self.syntax().flow() || !self.input().had_line_break_before_cur())
-            && (self.input().is(Token::Lt) || self.input().is(Token::LShift))
+            && self.is_ts_type_args_start()
         {
-            let ret = self.with_type_lexing(
-                Context::ShouldNotLexLtOrGtAsType,
-                false,
-                Self::parse_ts_type_args,
-            )?;
-            self.assert_and_bump(Token::Gt);
-            Some(ret)
+            Some(self.parse_ts_type_args()?)
         } else {
             None
         };
@@ -1693,8 +1726,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         self.try_parse_ts(|p| {
-            let type_args = p.parse_ts_type_args()?;
-            p.assert_and_bump(Token::Gt);
+            let type_args = p.parse_ts_type_args_in_expr()?;
             let cur = p.input().cur();
             if matches!(
                 cur,
@@ -1759,19 +1791,10 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn next_then_parse_ts_type(&mut self) -> PResult<Box<TsType>> {
         debug_assert!(self.input().syntax().typescript());
 
-        let result = self.in_type(|p| {
+        self.in_type(|p| {
             p.bump();
             p.parse_ts_type()
-        });
-
-        if !self.ctx().contains(Context::InType) && {
-            let cur = self.input().cur();
-            cur == Token::Lt || cur == Token::Gt
-        } {
-            self.input_mut().merge_lt_gt();
-        }
-
-        result
+        })
     }
 
     fn parse_flow_enum_explicit_kind(&mut self) -> PResult<Option<FlowEnumKind>> {
@@ -2278,9 +2301,7 @@ impl<I: Tokens> Parser<I> {
             }),
             _ => {
                 let type_args = if self.input().is(Token::Lt) {
-                    let ret = self.parse_ts_type_args()?;
-                    self.assert_and_bump(Token::Gt);
-                    Some(ret)
+                    Some(self.parse_ts_type_args()?)
                 } else {
                     None
                 };
@@ -2504,7 +2525,7 @@ impl<I: Tokens> Parser<I> {
         is_static: bool,
     ) -> PResult<Option<TsIndexSignature>> {
         if !self.input().syntax().flow()
-            || !self.ctx().contains(Context::InType)
+            || !self.type_ctx().contains(TypeContext::InType)
             || self.input().cur() != Token::LBracket
         {
             return Ok(None);
@@ -2644,7 +2665,7 @@ impl<I: Tokens> Parser<I> {
             Ok(item)
         }
 
-        if self.input().syntax().flow() && self.ctx().contains(Context::InType) {
+        if self.input().syntax().flow() && self.type_ctx().contains(TypeContext::InType) {
             let mut list = Vec::with_capacity(4);
             let mut rest_span = Span::default();
 
@@ -3308,7 +3329,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn try_parse_flow_anon_signature_param(&mut self, index: usize) -> PResult<Option<TsFnParam>> {
-        if !self.input().syntax().flow() || !self.ctx().contains(Context::InType) {
+        if !self.input().syntax().flow() || !self.type_ctx().contains(TypeContext::InType) {
             return Ok(None);
         }
 
@@ -3666,7 +3687,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         // Need to set `state.inType` so that we don't parse JSX in a type context.
-        debug_assert!(self.ctx().contains(Context::InType));
+        debug_assert!(self.type_ctx().contains(TypeContext::InType));
 
         let start = self.cur_pos();
 
@@ -4175,7 +4196,7 @@ impl<I: Tokens> Parser<I> {
         // plugin is enabled, but need `tsInType` to satisfy the assertion in
         // `tsParseType`.
         let type_ann = self.in_type(Self::parse_ts_type)?;
-        expect!(self, Token::Gt);
+        self.expect_ts_type_gt()?;
         let expr = self.parse_unary_expr()?;
         Ok(TsTypeAssertion {
             span: self.span(start),
@@ -4228,14 +4249,8 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        let type_args = if self.input().is(Token::Lt) {
-            let ret = self.with_type_lexing(
-                Context::ShouldNotLexLtOrGtAsType,
-                false,
-                Self::parse_ts_type_args,
-            )?;
-            self.assert_and_bump(Token::Gt);
-            Some(ret)
+        let type_args = if self.is_ts_type_args_start() {
+            Some(self.parse_ts_type_args()?)
         } else {
             None
         };
@@ -4289,14 +4304,9 @@ impl<I: Tokens> Parser<I> {
             self.parse_ts_entity_name(true).map(From::from)?
         };
 
-        let type_args = if !self.input().had_line_break_before_cur() && self.input().is(Token::Lt) {
-            let ret = self.with_type_lexing(
-                Context::ShouldNotLexLtOrGtAsType,
-                false,
-                Self::parse_ts_type_args,
-            )?;
-            self.assert_and_bump(Token::Gt);
-            Some(ret)
+        let type_args = if !self.input().had_line_break_before_cur() && self.is_ts_type_args_start()
+        {
+            Some(self.parse_ts_type_args()?)
         } else {
             None
         };

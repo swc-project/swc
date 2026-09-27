@@ -275,7 +275,7 @@ impl<I: Tokens> Parser<I> {
                 let start = self.input().cur_pos();
                 self.bump(); // consume `<`
                 return if self.input_mut().eat(Token::Const) {
-                    self.expect(Token::Gt)?;
+                    self.expect_ts_type_gt()?;
                     let expr = self.parse_unary_expr()?;
                     Ok(TsConstAssertion {
                         span: self.span(start),
@@ -529,8 +529,7 @@ impl<I: Tokens> Parser<I> {
             cur == Token::Lt || cur == Token::LShift
         } {
             self.try_parse_ts(|p| {
-                let type_args = p.parse_ts_type_args()?;
-                p.assert_and_bump(Token::Gt);
+                let type_args = p.parse_ts_type_args_in_expr()?;
                 if p.input().is(Token::LParen) {
                     Ok(Some(type_args))
                 } else {
@@ -1318,72 +1317,69 @@ impl<I: Tokens> Parser<I> {
                 // on tagged template expressions. If any of them fail, walk it back and
                 // continue.
 
-                let result = self.with_type_lexing(Context::ShouldNotLexLtOrGtAsType, true, |p| {
-                    p.try_parse_ts(|p| {
-                        if !no_call && p.at_possible_async(&callee) {
-                            // Almost certainly this is a generic async function `async <T>() =>
-                            // ... But it might be a call with a
-                            // type argument `async<T>();`
-                            let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
-                            if let Some(async_arrow_fn) = async_arrow_fn {
-                                return Ok(Some((async_arrow_fn.into(), true)));
-                            }
+                let result = self.try_parse_ts(|p| {
+                    if !no_call && p.at_possible_async(&callee) {
+                        // Almost certainly this is a generic async function `async <T>() =>
+                        // ... But it might be a call with a
+                        // type argument `async<T>();`
+                        let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
+                        if let Some(async_arrow_fn) = async_arrow_fn {
+                            return Ok(Some((async_arrow_fn.into(), true)));
                         }
+                    }
 
-                        let type_args = p.parse_ts_type_args()?;
-                        p.assert_and_bump(Token::Gt);
-                        let cur = p.input().cur();
+                    let type_args = p.parse_ts_type_args_in_expr()?;
+                    let cur = p.input().cur();
 
-                        if !no_call && cur == Token::LParen {
-                            // possibleAsync always false here, because we would have handled it
-                            // above. (won't be any undefined arguments)
-                            let args = p.parse_args(false)?;
+                    if !no_call && cur == Token::LParen {
+                        // possibleAsync always false here, because we would have handled it
+                        // above. (won't be any undefined arguments)
+                        let args = p.parse_args(false)?;
 
-                            let expr = if callee.is_opt_chain() {
-                                Expr::OptChain(OptChainExpr {
+                        let expr = if callee.is_opt_chain() {
+                            Expr::OptChain(OptChainExpr {
+                                span: p.span(start),
+                                base: Box::new(OptChainBase::Call(OptCall {
                                     span: p.span(start),
-                                    base: Box::new(OptChainBase::Call(OptCall {
-                                        span: p.span(start),
-                                        callee: callee.take(),
-                                        type_args: Some(type_args),
-                                        args,
-                                        ..Default::default()
-                                    })),
-                                    optional: false,
-                                })
-                            } else {
-                                Expr::Call(CallExpr {
-                                    span: p.span(start),
-                                    callee: Callee::Expr(callee.take()),
+                                    callee: callee.take(),
                                     type_args: Some(type_args),
                                     args,
                                     ..Default::default()
-                                })
-                            };
-
-                            Ok(Some((Box::new(expr), true)))
-                        } else if matches!(
-                            cur,
-                            Token::NoSubstitutionTemplateLiteral
-                                | Token::TemplateHead
-                                | Token::BackQuote
-                        ) {
-                            p.parse_tagged_tpl(callee.take(), Some(type_args))
-                                .map(|expr| (expr.into(), true))
-                                .map(Some)
-                        } else if matches!(cur, Token::Eq | Token::As | Token::Satisfies) {
-                            let expr = Expr::TsInstantiation(TsInstantiation {
-                                span: p.span(start),
-                                expr: callee.take(),
-                                type_args,
-                            });
-                            Ok(Some((Box::new(expr), false)))
-                        } else if no_call {
-                            unexpected!(p, "`")
+                                })),
+                                optional: false,
+                            })
                         } else {
-                            unexpected!(p, "( or `")
-                        }
-                    })
+                            Expr::Call(CallExpr {
+                                span: p.span(start),
+                                callee: Callee::Expr(callee.take()),
+                                type_args: Some(type_args),
+                                args,
+                                ..Default::default()
+                            })
+                        };
+
+                        Ok(Some((Box::new(expr), true)))
+                    } else if matches!(
+                        cur,
+                        Token::NoSubstitutionTemplateLiteral
+                            | Token::TemplateHead
+                            | Token::BackQuote
+                    ) {
+                        p.parse_tagged_tpl(callee.take(), Some(type_args))
+                            .map(|expr| (expr.into(), true))
+                            .map(Some)
+                    } else if matches!(cur, Token::Eq | Token::As | Token::Satisfies) {
+                        let expr = Expr::TsInstantiation(TsInstantiation {
+                            span: p.span(start),
+                            expr: callee.take(),
+                            type_args,
+                        });
+                        Ok(Some((Box::new(expr), false)))
+                    } else if no_call {
+                        unexpected!(p, "`")
+                    } else {
+                        unexpected!(p, "( or `")
+                    }
                 });
 
                 if let Some(expr) = result {
@@ -1456,9 +1452,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_args = if syntax.typescript() && self.input().is(Token::Lt) && question_dot {
-            let ret = self.parse_ts_type_args()?;
-            self.assert_and_bump(Token::Gt);
-            Some(ret)
+            Some(self.parse_ts_type_args_in_expr()?)
         } else {
             None
         };
@@ -1917,16 +1911,6 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
-        if self.ctx().contains(Context::InType) {
-            self.with_type_lexing(Context::ShouldNotLexLtOrGtAsType, true, |p| {
-                p.parse_member_expr_or_new_expr_inner(is_new_expr)
-            })
-        } else {
-            self.parse_member_expr_or_new_expr_inner(is_new_expr)
-        }
-    }
-
-    fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
         let cur = self.input().cur();
@@ -1992,12 +1976,7 @@ impl<I: Tokens> Parser<I> {
                 cur == Token::Lt || cur == Token::LShift
             } {
                 self.try_parse_ts(|p| {
-                    let args = p.with_type_lexing(
-                        Context::ShouldNotLexLtOrGtAsType,
-                        false,
-                        Self::parse_ts_type_args,
-                    )?;
-                    p.assert_and_bump(Token::Gt);
+                    let args = p.parse_ts_type_args_in_expr()?;
                     if !p.input().is(Token::LParen) {
                         let span = p.input().cur_span();
                         let cur = p.input_mut().dump_cur();

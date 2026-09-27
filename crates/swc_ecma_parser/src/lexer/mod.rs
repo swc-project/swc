@@ -426,17 +426,6 @@ impl Lexer<'_> {
         let start = self.cur_pos();
         self.bump(1); // first `<` or `>`
 
-        if self.syntax.typescript()
-            && self.ctx.contains(Context::InType)
-            && !self.ctx.contains(Context::ShouldNotLexLtOrGtAsType)
-        {
-            if C == b'<' {
-                return Ok(Token::Lt);
-            } else if C == b'>' {
-                return Ok(Token::Gt);
-            }
-        }
-
         // XML style comment. `<!--`
         if C == b'<'
             && self.is(b'!')

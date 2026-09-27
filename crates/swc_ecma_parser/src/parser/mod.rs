@@ -829,25 +829,6 @@ impl<I: Tokens> Parser<I> {
         self.type_context = type_context;
     }
 
-    /// Changes type tokenization without restoring unrelated lexical state,
-    /// such as module classification or strict-mode diagnostics, on exit.
-    #[inline]
-    fn with_type_lexing<T>(
-        &mut self,
-        flag: Context,
-        enabled: bool,
-        f: impl FnOnce(&mut Self) -> T,
-    ) -> T {
-        let type_flags = Context::InType | Context::ShouldNotLexLtOrGtAsType;
-        let mut context = self.ctx();
-        let previous = context & type_flags;
-        context.set(flag, enabled);
-        self.set_ctx(context);
-        let result = f(self);
-        self.set_ctx((self.ctx() - type_flags) | previous);
-        result
-    }
-
     /// Runs with derived grammatical parameters, restoring them on success or
     /// error.
     #[inline]
@@ -1022,10 +1003,15 @@ impl<I: Tokens> Parser<I> {
         self.do_inside_of_context(Context::Strict, f)
     }
 
-    /// Enables type tokenization and restores its flags on success or error.
+    /// Enters type grammar without changing tokenization. Only the type-grammar
+    /// flag is restored on exit; unrelated parser state is left intact.
     #[inline(always)]
     pub fn in_type<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
-        self.with_type_lexing(Context::InType, true, f)
+        let previous = self.type_context.contains(TypeContext::InType);
+        self.type_context.insert(TypeContext::InType);
+        let result = f(self);
+        self.type_context.set(TypeContext::InType, previous);
+        result
     }
 
     #[inline(always)]

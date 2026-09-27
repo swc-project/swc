@@ -910,7 +910,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.syntax().flow() && !self.ctx().contains(Context::InType) {
+        if self.syntax().flow() && !self.type_ctx().contains(TypeContext::InType) {
             let in_declare = self.type_ctx().contains(TypeContext::InDeclare);
 
             for (idx, param) in params.iter().enumerate() {
