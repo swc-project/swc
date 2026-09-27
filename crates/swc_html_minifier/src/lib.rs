@@ -1203,18 +1203,16 @@ impl<C: MinifyCss> Minifier<'_, C> {
         true
     }
 
-    fn allow_elements_to_merge(&self, left: Option<&Child>, right: &Element) -> bool {
+    fn allow_styles_to_merge(&self, left: Option<&Child>, right: &Element) -> bool {
         if let Some(Child::Element(left)) = left {
+            // Separate script elements have separate evaluation contexts and DOM
+            // identities.
             let is_style_tag = matches!(left.namespace, Namespace::HTML | Namespace::SVG)
                 && left.tag_name == "style"
                 && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
                 && right.tag_name == "style";
-            let is_script_tag = matches!(left.namespace, Namespace::HTML | Namespace::SVG)
-                && left.tag_name == "script"
-                && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
-                && right.tag_name == "script";
 
-            if is_style_tag || is_script_tag {
+            if is_style_tag {
                 let mut need_skip = false;
 
                 let mut left_attributes = left
@@ -1222,21 +1220,10 @@ impl<C: MinifyCss> Minifier<'_, C> {
                     .clone()
                     .into_iter()
                     .filter(|attribute| match &*attribute.name {
-                        "src" if is_script_tag => {
-                            need_skip = true;
-
-                            true
-                        }
                         "type" => {
                             if let Some(value) = &attribute.value {
-                                if (is_style_tag && self.is_type_text_css(value))
-                                    || (is_script_tag && self.is_type_text_javascript(value))
-                                {
+                                if self.is_type_text_css(value) {
                                     false
-                                } else if is_script_tag
-                                    && value.trim().eq_ignore_ascii_case("module")
-                                {
-                                    true
                                 } else {
                                     need_skip = true;
 
@@ -1264,21 +1251,10 @@ impl<C: MinifyCss> Minifier<'_, C> {
                     .clone()
                     .into_iter()
                     .filter(|attribute| match &*attribute.name {
-                        "src" if is_script_tag => {
-                            need_skip = true;
-
-                            true
-                        }
                         "type" => {
                             if let Some(value) = &attribute.value {
-                                if (is_style_tag && self.is_type_text_css(value))
-                                    || (is_script_tag && self.is_type_text_javascript(value))
-                                {
+                                if self.is_type_text_css(value) {
                                     false
-                                } else if is_script_tag
-                                    && value.trim().eq_ignore_ascii_case("module")
-                                {
-                                    true
                                 } else {
                                     need_skip = true;
 
@@ -1311,46 +1287,23 @@ impl<C: MinifyCss> Minifier<'_, C> {
         false
     }
 
-    fn merge_text_children(&self, left: &Element, right: &Element) -> Option<Vec<Child>> {
-        let is_script_tag = matches!(left.namespace, Namespace::HTML | Namespace::SVG)
-            && left.tag_name == "script"
-            && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
-            && right.tag_name == "script";
-
-        // `script`/`style` elements should have only one text child
+    fn merge_style_text_children(left: &Element, right: &Element) -> Option<Vec<Child>> {
+        // `style` elements should have only one text child.
         let left_data = match left.children.first() {
-            Some(Child::Text(left)) => left.data.to_string(),
-            None => String::new(),
+            Some(Child::Text(left)) => &*left.data,
+            None => "",
             _ => return None,
         };
 
         let right_data = match right.children.first() {
-            Some(Child::Text(right)) => right.data.to_string(),
-            None => String::new(),
+            Some(Child::Text(right)) => &*right.data,
+            None => "",
             _ => return None,
         };
 
         let mut data = String::with_capacity(left_data.len() + right_data.len());
-
-        if is_script_tag {
-            let is_modules = if is_script_tag {
-                left.attributes.iter().any(|attribute| matches!(&attribute.value, Some(value) if value.trim().eq_ignore_ascii_case("module")))
-            } else {
-                false
-            };
-
-            match self.merge_js(left_data, right_data, is_modules) {
-                Some(minified) => {
-                    data.push_str(&minified);
-                }
-                _ => {
-                    return None;
-                }
-            }
-        } else {
-            data.push_str(&left_data);
-            data.push_str(&right_data);
-        }
+        data.push_str(left_data);
+        data.push_str(right_data);
 
         if data.is_empty() {
             return Some(Vec::new());
@@ -1383,10 +1336,10 @@ impl<C: MinifyCss> Minifier<'_, C> {
                     }
                     Child::Element(element)
                         if self.options.merge_metadata_elements
-                            && self.allow_elements_to_merge(prev_children.last(), element) =>
+                            && self.allow_styles_to_merge(prev_children.last(), element) =>
                     {
                         if let Some(Child::Element(prev)) = prev_children.last_mut() {
-                            if let Some(children) = self.merge_text_children(prev, element) {
+                            if let Some(children) = Self::merge_style_text_children(prev, element) {
                                 prev.children = children;
 
                                 false
@@ -1823,154 +1776,6 @@ impl<C: MinifyCss> Minifier<'_, C> {
             },
             MinifyJsOption::Options(js_options) => *js_options.clone(),
         }
-    }
-
-    fn merge_js(&self, left: String, right: String, is_modules: bool) -> Option<String> {
-        let comments = SingleThreadedComments::default();
-        let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-
-        // Left
-        let mut left_errors: Vec<_> = Vec::new();
-        let left_fm = cm.new_source_file(FileName::Anon.into(), left);
-        let syntax = swc_ecma_parser::Syntax::default();
-        // Use the latest target for merging
-        let target = swc_ecma_ast::EsVersion::latest();
-
-        let mut left_program = if is_modules {
-            match swc_ecma_parser::parse_file_as_module(
-                &left_fm,
-                syntax,
-                target,
-                Some(&comments),
-                &mut left_errors,
-            ) {
-                Ok(module) => swc_ecma_ast::Program::Module(module),
-                _ => return None,
-            }
-        } else {
-            match swc_ecma_parser::parse_file_as_script(
-                &left_fm,
-                syntax,
-                target,
-                Some(&comments),
-                &mut left_errors,
-            ) {
-                Ok(script) => swc_ecma_ast::Program::Script(script),
-                _ => return None,
-            }
-        };
-
-        // Avoid compress potential invalid JS
-        if !left_errors.is_empty() {
-            return None;
-        }
-
-        let unresolved_mark = Mark::new();
-        let left_top_level_mark = Mark::new();
-
-        swc_ecma_visit::VisitMutWith::visit_mut_with(
-            &mut left_program,
-            &mut swc_ecma_transforms_base::resolver(unresolved_mark, left_top_level_mark, false),
-        );
-
-        // Right
-        let mut right_errors: Vec<_> = Vec::new();
-        let right_fm = cm.new_source_file(FileName::Anon.into(), right);
-
-        let mut right_program = if is_modules {
-            match swc_ecma_parser::parse_file_as_module(
-                &right_fm,
-                syntax,
-                target,
-                Some(&comments),
-                &mut right_errors,
-            ) {
-                Ok(module) => swc_ecma_ast::Program::Module(module),
-                _ => return None,
-            }
-        } else {
-            match swc_ecma_parser::parse_file_as_script(
-                &right_fm,
-                syntax,
-                target,
-                Some(&comments),
-                &mut right_errors,
-            ) {
-                Ok(script) => swc_ecma_ast::Program::Script(script),
-                _ => return None,
-            }
-        };
-
-        // Avoid compress potential invalid JS
-        if !right_errors.is_empty() {
-            return None;
-        }
-
-        let right_top_level_mark = Mark::new();
-
-        swc_ecma_visit::VisitMutWith::visit_mut_with(
-            &mut right_program,
-            &mut swc_ecma_transforms_base::resolver(unresolved_mark, right_top_level_mark, false),
-        );
-
-        // Merge
-        match &mut left_program {
-            swc_ecma_ast::Program::Module(left_program) => match right_program {
-                swc_ecma_ast::Program::Module(right_program) => {
-                    left_program.body.extend(right_program.body);
-                }
-                _ => {
-                    unreachable!();
-                }
-            },
-            swc_ecma_ast::Program::Script(left_program) => match right_program {
-                swc_ecma_ast::Program::Script(right_program) => {
-                    left_program.body.extend(right_program.body);
-                }
-                _ => {
-                    unreachable!();
-                }
-            },
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
-
-        if is_modules {
-            swc_ecma_visit::VisitMutWith::visit_mut_with(
-                &mut left_program,
-                &mut swc_ecma_transforms_base::hygiene::hygiene(),
-            );
-        }
-
-        let left_program =
-            left_program.apply(swc_ecma_transforms_base::fixer::fixer(Some(&comments)));
-
-        let mut buf = Vec::new();
-
-        {
-            let wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                cm.clone(),
-                "\n",
-                &mut buf,
-                None,
-            )) as Box<dyn swc_ecma_codegen::text_writer::WriteJs>;
-
-            let mut emitter = swc_ecma_codegen::Emitter {
-                cfg: swc_ecma_codegen::Config::default().with_target(target),
-                cm,
-                comments: Some(&comments),
-                wr,
-            };
-
-            emitter.emit_program(&left_program).unwrap();
-        }
-
-        let code = match String::from_utf8(buf) {
-            Ok(minified) => minified,
-            _ => return None,
-        };
-
-        Some(code)
     }
 
     // TODO source map url output for JS and CSS?
