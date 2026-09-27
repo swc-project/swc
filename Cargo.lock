@@ -470,7 +470,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "78.0.0"
+version = "79.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1810,7 +1810,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "62.0.0"
+version = "63.0.0"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -5783,7 +5783,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "78.0.1"
+version = "79.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5949,7 +5949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.125.3"
+version = "0.126.0"
 dependencies = [
  "anyhow",
  "par-core",
@@ -5958,7 +5958,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "80.0.0"
+version = "81.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -6009,7 +6009,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "64.0.0"
+version = "65.0.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -6063,7 +6063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "80.0.1"
+version = "81.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6616,7 +6616,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "61.0.9"
+version = "62.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6659,7 +6659,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "45.1.5"
+version = "45.1.6"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -7120,7 +7120,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "72.0.0"
+version = "73.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -7249,7 +7249,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "61.0.0"
+version = "62.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "once_cell",
@@ -7280,7 +7280,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "26.0.0"
+version = "26.1.0"
 dependencies = [
  "codspeed-criterion-compat",
  "rustc-hash 2.1.1",
@@ -7365,7 +7365,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "79.0.0"
+version = "80.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
