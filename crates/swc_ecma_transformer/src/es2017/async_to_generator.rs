@@ -59,6 +59,23 @@ struct AsyncToGeneratorPass {
 }
 
 impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
+    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        if !matches!(stmt, Stmt::Labeled(_)) {
+            return;
+        }
+
+        let Some(FnState {
+            should_transform: true,
+            is_generator,
+            ..
+        }) = &self.fn_state
+        else {
+            return;
+        };
+
+        handle_await_for(stmt, *is_generator, true);
+    }
+
     fn exit_function(&mut self, function: &mut Function, _ctx: &mut TraverseCtx) {
         let Some(body) = &mut function.body else {
             return;
@@ -394,7 +411,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             ..
         }) = self.fn_state
         {
-            handle_await_for(stmt, is_generator);
+            handle_await_for(stmt, is_generator, false);
         }
     }
 
@@ -480,8 +497,32 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
 }
 
 #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
-fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
-    let s = match stmt {
+fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool, is_labeled_stmt: bool) {
+    let mut labels = Vec::new();
+    let mut labeled_inner = None;
+    if is_labeled_stmt {
+        let mut inner = &mut *stmt;
+        while let Stmt::Labeled(labeled_stmt) = inner {
+            labels.push((labeled_stmt.span, labeled_stmt.label.clone()));
+            inner = &mut labeled_stmt.body;
+        }
+
+        if labels.is_empty() || !matches!(inner, Stmt::ForOf(ForOfStmt { is_await: true, .. })) {
+            return;
+        }
+
+        let mut inner = stmt.take();
+        for _ in &labels {
+            let Stmt::Labeled(labeled_stmt) = inner else {
+                unreachable!("a labeled for-await-of statement was checked above")
+            };
+            inner = *labeled_stmt.body;
+        }
+        labeled_inner = Some(inner);
+    }
+
+    let target_stmt = labeled_inner.as_mut().unwrap_or(stmt);
+    let s = match target_stmt {
         Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),
         _ => return,
     };
@@ -600,7 +641,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             definite: false,
         });
 
-        let for_stmt = ForStmt {
+        let for_stmt: Stmt = ForStmt {
             span: s.span,
             // var _iterator = _async_iterator(lol()), _step;
             init: Some(
@@ -683,7 +724,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
 
         BlockStmt {
             span: body_span,
-            stmts: vec![for_stmt],
+            stmts: vec![wrap_labels(for_stmt, &labels)],
             ..Default::default()
         }
     };
@@ -870,6 +911,25 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         ..Default::default()
     }
     .into()
+}
+
+fn wrap_labels(mut stmt: Stmt, labels: &[(swc_common::Span, Ident)]) -> Stmt {
+    if labels.is_empty() {
+        return stmt;
+    }
+
+    // Keep labels attached to the iteration statement after lowering. The
+    // cleanup try is outside this loop, so labeled continues still target it.
+    for (span, label) in labels.iter().rev() {
+        stmt = LabeledStmt {
+            span: *span,
+            label: label.clone(),
+            body: Box::new(stmt),
+        }
+        .into();
+    }
+
+    stmt
 }
 
 /// Replace all `this` expressions with the given identifier in a
