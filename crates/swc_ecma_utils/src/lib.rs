@@ -3706,6 +3706,12 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             op: op!("delete"), ..
         }) => true,
         Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
+        // The `in` operator always has side effects: it triggers the `has` trap on Proxy
+        // objects, so an expression like `key in proxy` must never be dropped even when
+        // used as a bare statement.
+        Expr::Bin(BinExpr {
+            op: op!("in"), ..
+        }) => true,
         Expr::Bin(BinExpr { left, right, .. }) => {
             left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
         }

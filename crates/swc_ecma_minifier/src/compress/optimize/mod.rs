@@ -1205,6 +1205,11 @@ impl Optimizer<'_> {
                 return self.ignore_return_value(&mut expr.arg);
             }
 
+            // The `in` operator has an intrinsic side effect: it triggers the `has` trap on
+            // Proxy objects even when the result is discarded. We must preserve the full
+            // expression rather than decomposing it into just its operands.
+            Expr::Bin(BinExpr { op: op!("in"), .. }) => return Some(e.take()),
+
             Expr::Bin(BinExpr {
                 span,
                 left,
