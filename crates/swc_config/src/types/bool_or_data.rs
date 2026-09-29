@@ -120,6 +120,10 @@ where
         match value {
             Value::Bool(b) => Ok(BoolOr::Bool(b)),
             Value::Object(map) if map.is_empty() => Ok(BoolOr::Bool(true)),
+            // An object was given, so the error of `T` names the actual problem
+            obj @ Value::Object(_) => T::deserialize(obj)
+                .map(BoolOr::Data)
+                .map_err(serde::de::Error::custom),
             other => {
                 // Try to deserialize the value as T
                 T::deserialize(other)
