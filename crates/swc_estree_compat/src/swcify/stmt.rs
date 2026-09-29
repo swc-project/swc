@@ -609,7 +609,7 @@ impl Swcify for ForOfStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ForOfStmt {
             span: ctx.span(&self.base),
-            is_await: false,
+            is_await: self.is_await,
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx),
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
