@@ -641,7 +641,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool, is_labeled_stmt: 
             definite: false,
         });
 
-        let for_stmt: Stmt = ForStmt {
+        let for_stmt = ForStmt {
             span: s.span,
             // var _iterator = _async_iterator(lol()), _step;
             init: Some(
