@@ -4,6 +4,10 @@ use std::{
     process::Command,
 };
 
+#[cfg(target_os = "macos")]
+#[path = "support/macos.rs"]
+mod macos;
+
 fn fixture_source(name: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("../../crates/swc_native_addon/tests/fixtures")
@@ -126,6 +130,16 @@ fn real_carrier_forwards_registration_and_throws_loader_errors() {
     fs::copy(build.join("debug").join(artifact), &carrier).unwrap();
     sign(&carrier);
     let original_carrier = fs::read(&carrier).unwrap();
+    #[cfg(target_os = "macos")]
+    macos::check_cache_policy(
+        &std::env::var_os("SWC_TEST_NODE").unwrap_or_else(|| "node".into()),
+        &carrier,
+        &raw_bytes,
+        &swc_native_addon::format::Payload::parse(&packed)
+            .unwrap()
+            .header
+            .cache_key(),
+    );
     let cli = directory.path().join("swc");
     fs::write(&cli, b"sibling CLI must be preserved").unwrap();
 
@@ -213,7 +227,11 @@ fn real_carrier_forwards_registration_and_throws_loader_errors() {
     );
     // Each child traverses the real N-API entry point against the same cold
     // cache/carrier. This covers registration as well as atomic materialization.
-    let cache = directory.path().join("concurrent cache");
+    let cache = directory
+        .path()
+        .canonicalize()
+        .unwrap()
+        .join("concurrent cache");
     let mut children = Vec::new();
     for _ in 0..8 {
         children.push(
@@ -235,6 +253,17 @@ fn real_carrier_forwards_registration_and_throws_loader_errors() {
             "concurrent registration: {}",
             String::from_utf8_lossy(&result.stderr)
         );
+    }
+    #[cfg(target_os = "macos")]
+    {
+        assert_eq!(fs::read(&carrier).unwrap(), original_carrier);
+        let images = fs::read_dir(swc_native_addon::cache::cache_directory(&cache).unwrap())
+            .unwrap()
+            .map(|entry| entry.unwrap().path())
+            .filter(|path| path.extension().is_some_and(|ext| ext == "node"))
+            .collect::<Vec<_>>();
+        assert_eq!(images.len(), 1);
+        assert_eq!(fs::read(&images[0]).unwrap(), raw_bytes);
     }
     assert_eq!(fs::read(&raw).unwrap(), raw_bytes);
     assert_eq!(fs::read(cli).unwrap(), b"sibling CLI must be preserved");

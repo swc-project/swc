@@ -33,7 +33,10 @@ fn replacement_carrier(
     mode: &CacheMode,
     resolve: impl FnOnce() -> Result<std::path::PathBuf>,
 ) -> Option<std::path::PathBuf> {
-    if *mode == CacheMode::Temporary {
+    // APFS self-replacement recompresses the decoded image with ditto and
+    // decodes it again for this process. Keep macOS first loads on the verified
+    // cache path, even for writable installations, before resolving the carrier.
+    if cfg!(target_os = "macos") || *mode == CacheMode::Temporary {
         return None;
     }
     match resolve() {
@@ -164,10 +167,25 @@ mod tests {
     }
 
     #[test]
+    #[cfg(not(target_os = "macos"))]
     fn unavailable_carrier_disables_replacement() {
         assert!(replacement_carrier(&CacheMode::Default, || {
             Err(Error::new(ErrorKind::Load, "carrier is unavailable"))
         })
         .is_none());
+    }
+
+    #[test]
+    #[cfg(target_os = "macos")]
+    fn macos_persistent_modes_skip_carrier_resolution() {
+        for mode in [
+            CacheMode::Default,
+            CacheMode::Custom("/custom/cache".into()),
+        ] {
+            assert!(replacement_carrier(&mode, || -> Result<_> {
+                panic!("macOS must not resolve the carrier for self-replacement")
+            })
+            .is_none());
+        }
     }
 }

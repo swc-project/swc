@@ -11,7 +11,10 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { run } from "./common.mjs";
-import { copyMeasurementAddon } from "./measurement-files.mjs";
+import {
+    copyMeasurementAddon,
+    copyMeasurementCarrier,
+} from "./measurement-files.mjs";
 
 test("measurement copies preserve bytes in distinct files", () => {
     const root = mkdtempSync(join(tmpdir(), "swc measurement 日本語 "));
@@ -23,6 +26,33 @@ test("measurement copies preserve bytes in distinct files", () => {
         copyMeasurementAddon(source, destination);
         assert.deepEqual(readFileSync(destination), bytes);
         assert.notEqual(statSync(source).ino, statSync(destination).ino);
+    } finally {
+        rmSync(root, { recursive: true, force: true });
+    }
+});
+
+test("cold macOS carriers use one link while warm samples preserve the cache path", () => {
+    const root = mkdtempSync(join(tmpdir(), "swc carrier measurement "));
+    try {
+        const source = join(root, "source.node");
+        const bytes = Buffer.alloc(65536, 42);
+        writeFileSync(source, bytes);
+        for (const cold of [true, false]) {
+            const destination = join(root, cold ? "cold.node" : "warm.node");
+            copyMeasurementCarrier(source, destination, cold);
+            assert.deepEqual(readFileSync(destination), bytes);
+            assert.notEqual(statSync(source).ino, statSync(destination).ino);
+            assert.equal(
+                statSync(destination).nlink,
+                cold && process.platform === "darwin" ? 1 : 2
+            );
+        }
+        assert.equal(
+            statSync(source).nlink,
+            1,
+            "release candidate was hardlinked"
+        );
+        assert.deepEqual(readFileSync(source), bytes);
     } finally {
         rmSync(root, { recursive: true, force: true });
     }
