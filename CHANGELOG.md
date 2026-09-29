@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.16.12] - 2026-09-29
 
 ### Bug Fixes
 
@@ -2224,12 +2224,6 @@
 - Copy opt-level configs to the top level workspace ([#11210](https://github.com/swc-project/swc/issues/11210)) ([dba23f5](https://github.com/swc-project/swc/commit/dba23f5a72d26b3b62fbafe2d8a65c69c3642669))
 
 ## [1.14.0] - 2025-10-29
-
-### Bug Fixes
-
-
-
-- **(atoms)** Fix broken quote macro ([#11195](https://github.com/swc-project/swc/issues/11195)) ([3485179](https://github.com/swc-project/swc/commit/3485179196c056b913cdc7507ed5f3bb282623ee))
 
 ### Performance
 
