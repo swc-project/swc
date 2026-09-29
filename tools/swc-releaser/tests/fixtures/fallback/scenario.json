@@ -1,0 +1,69 @@
+{
+  "steps": [
+    {
+      "files": {
+        ".changeset/binary.md": "non-utf8.md"
+      },
+      "message": "fix(parser): Keep fallback for non-UTF-8 historical notes (#90)"
+    },
+    {
+      "remove": [
+        ".changeset/binary.md"
+      ],
+      "message": "chore: Consume non-UTF-8 note"
+    },
+    {
+      "files": {
+        ".changeset/invalid.md": "invalid.md"
+      },
+      "message": "fix(parser): Keep fallback for historical parse errors (#91)"
+    },
+    {
+      "remove": [
+        ".changeset/invalid.md"
+      ],
+      "message": "chore: Consume invalid old file",
+      "tags": [
+        "v1.1.0",
+        "swc_core@v1.1.0"
+      ]
+    },
+    {
+      "files": {
+        ".changeset/empty.md": "empty.md"
+      },
+      "message": "fix(parser): Keep fallback for an empty body (#92)"
+    },
+    {
+      "remove": [
+        ".changeset/empty.md"
+      ],
+      "message": "chore: Consume empty file",
+      "tags": [
+        "v1.2.0",
+        "swc_core@v1.2.0"
+      ]
+    },
+    {
+      "files": {
+        ".changeset/note.md": "note.md"
+      },
+      "message": "chore: Add changeset",
+      "tags": [
+        "v1.3.0",
+        "swc_core@v1.3.0"
+      ]
+    },
+    {
+      "remove": [
+        ".changeset/note.md"
+      ],
+      "message": "chore: Publish crates",
+      "tags": [
+        "v1.4.0",
+        "swc_core@v1.4.0"
+      ],
+      "snapshot": "fallback"
+    }
+  ]
+}

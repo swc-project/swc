@@ -5,16 +5,22 @@ use std::{
     process::Command,
 };
 
-use anyhow::{Context, Result};
+use anyhow::{ensure, Context, Result};
 use cargo_metadata::{semver::Version, DependencyKind};
 use changesets::ChangeType;
 use clap::{Parser, Subcommand};
 use indexmap::IndexSet;
 use petgraph::{prelude::DiGraphMap, Direction};
 
+mod changelog;
+mod changeset;
+mod history;
+mod notes;
+mod process;
+
 #[derive(Debug, Parser)]
 struct CliArgs {
-    #[clap(long)]
+    #[clap(long, global = true)]
     pub dry_run: bool,
 
     #[clap(subcommand)]
@@ -23,7 +29,10 @@ struct CliArgs {
 
 #[derive(Debug, Subcommand)]
 enum Cmd {
+    /// Bump Rust crates and record their release notes.
     Bump,
+    /// Rebuild both changelogs, including historical changeset bodies.
+    Changelog,
 }
 
 fn main() -> Result<()> {
@@ -33,9 +42,16 @@ fn main() -> Result<()> {
         .map(PathBuf::from)
         .context("CARGO_WORKSPACE_DIR is not set")?;
 
+    env::set_current_dir(&workspace_dir).context("failed to enter workspace")?;
+
     match cmd {
         Cmd::Bump => {
             run_bump(&workspace_dir, dry_run)?;
+        }
+        Cmd::Changelog => {
+            let pending = changeset::load(&workspace_dir)?;
+            changelog::Changelogs::generate(&workspace_dir, &pending, None)?
+                .write(&workspace_dir, dry_run)?;
         }
     }
 
@@ -43,10 +59,9 @@ fn main() -> Result<()> {
 }
 
 fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
-    let changeset_dir = workspace_dir.join(".changeset");
-
-    let changeset = changesets::ChangeSet::from_directory(&changeset_dir)
-        .context("failed to load changeset")?;
+    let pending = changeset::load(workspace_dir)?;
+    let changeset: changesets::ChangeSet =
+        pending.iter().map(|entry| entry.change.clone()).collect();
 
     if changeset.releases.is_empty() {
         eprintln!("No changeset found");
@@ -72,34 +87,61 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
             .with_context(|| format!("failed to bump package {pkg_name}"))?;
     }
 
+    let core_version = new_versions
+        .get("swc_core")
+        .context("release does not bump swc_core")?
+        .to_string();
+    let tag = format!("swc_core@v{core_version}");
+    let existing = process::output(Command::new("git").args(["tag", "--list", &tag]), None)?;
+    ensure!(existing.is_empty(), "release tag {tag} already exists");
+
+    // Render before version updates or consuming any files. Both calendars must
+    // succeed so a failed generator cannot discard the source release notes.
+    let changelogs = changelog::Changelogs::generate(workspace_dir, &pending, Some(&core_version))?;
+    if !dry_run {
+        changelogs.ensure_committed()?;
+    }
+    let mut new_versions = new_versions.into_iter().collect::<Vec<_>>();
+    new_versions.sort_by(|a, b| a.0.cmp(&b.0));
     for (pkg_name, version) in new_versions {
         run_cargo_set_version(&pkg_name, &version, dry_run)
             .with_context(|| format!("failed to set version for {pkg_name}"))?;
     }
+    changelogs.write(workspace_dir, dry_run)?;
 
-    // Remove changeset files
-    {
-        eprintln!("Removing changeset files... ");
-        if !dry_run {
-            for file in std::fs::read_dir(&changeset_dir)? {
-                let file = file?;
-                if file.file_type()?.is_file()
-                    && file.path().extension().unwrap_or_default() == "md"
-                {
-                    std::fs::remove_file(file.path())?;
-                }
-            }
+    if !dry_run {
+        for entry in &pending {
+            let path = workspace_dir.join(&entry.path);
+            // Do not consume edits made while the changelog was being rendered.
+            ensure!(
+                std::fs::read_to_string(&path)? == entry.content,
+                "changeset {} changed during release; refusing to remove it",
+                entry.path.display()
+            );
+        }
+        for entry in &pending {
+            std::fs::remove_file(workspace_dir.join(&entry.path))?;
         }
     }
-
-    {
-        // Update changelog
-
-        update_changelog().with_context(|| "failed to update changelog")?;
+    if let Err(error) = git_commit(&core_version, dry_run) {
+        // A rejected commit must not make the pending notes disappear. Avoid
+        // overwriting a concurrently recreated file while restoring our inputs.
+        for entry in &pending {
+            use std::io::Write;
+            let path = workspace_dir.join(&entry.path);
+            match std::fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(&path)
+            {
+                Ok(mut file) => file.write_all(entry.content.as_bytes())?,
+                Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {}
+                Err(error) => return Err(error).context("failed to restore pending changeset"),
+            }
+        }
+        return Err(error).context("failed to commit");
     }
-
-    git_commit(dry_run).context("failed to commit")?;
-    git_tag_core(dry_run).context("failed to tag core")?;
+    git_tag_core(&core_version, dry_run).context("failed to tag core")?;
 
     Ok(())
 }
@@ -117,58 +159,31 @@ fn run_cargo_set_version(pkg_name: &str, version: &Version, dry_run: bool) -> Re
         return Ok(());
     }
 
-    cmd.status().context("failed to run cargo set-version")?;
+    process::run(&mut cmd)?;
 
     Ok(())
 }
 
-fn get_swc_core_version() -> Result<String> {
-    let md = cargo_metadata::MetadataCommand::new()
-        .no_deps()
-        .exec()
-        .expect("failed to run cargo metadata");
-
-    md.packages
-        .iter()
-        .find(|p| p.name == "swc_core")
-        .map(|p| p.version.to_string())
-        .context("failed to find swc_core")
-}
-
-fn git_commit(dry_run: bool) -> Result<()> {
-    let core_ver = get_swc_core_version()?;
-
-    let mut cmd = Command::new("git");
-    cmd.arg("commit").arg("-am").arg(format!(
-        "chore: Publish crates with `swc_core` `v{core_ver}`"
-    ));
-
-    eprintln!("Running {cmd:?}");
-
+fn git_commit(core_ver: &str, dry_run: bool) -> Result<()> {
     if dry_run {
+        eprintln!("Would commit release swc_core@v{core_ver}");
         return Ok(());
     }
-
-    cmd.status().context("failed to run git commit")?;
-
-    Ok(())
+    process::run(Command::new("git").args(["add", "--update"]))?;
+    process::run(Command::new("git").args(["add", "--", "CHANGELOG.md", "CHANGELOG-CORE.md"]))?;
+    process::run(Command::new("git").args([
+        "commit",
+        "-m",
+        &format!("chore: Publish crates with `swc_core` `v{core_ver}`"),
+    ]))
 }
 
-fn git_tag_core(dry_run: bool) -> Result<()> {
-    let core_ver = get_swc_core_version()?;
-
-    let mut cmd = Command::new("git");
-    cmd.arg("tag").arg(format!("swc_core@v{core_ver}"));
-
-    eprintln!("Running {cmd:?}");
-
+fn git_tag_core(core_ver: &str, dry_run: bool) -> Result<()> {
     if dry_run {
+        eprintln!("Would tag swc_core@v{core_ver}");
         return Ok(());
     }
-
-    cmd.status().context("failed to run git tag")?;
-
-    Ok(())
+    process::run(Command::new("git").args(["tag", &format!("swc_core@v{core_ver}")]))
 }
 
 struct Bump<'a> {
@@ -284,18 +299,6 @@ impl Bump<'_> {
     }
 }
 
-fn update_changelog() -> Result<()> {
-    // Run `yarn changelog`
-    let mut cmd = Command::new("yarn");
-    cmd.arg("changelog");
-
-    eprintln!("Running {cmd:?}");
-
-    cmd.status().context("failed to run yarn changelog")?;
-
-    Ok(())
-}
-
 type VersionMap = HashMap<String, Version>;
 
 #[derive(Debug, Default)]
@@ -322,8 +325,9 @@ impl InternedGraph {
 
 fn get_data() -> Result<(VersionMap, InternedGraph)> {
     let md = cargo_metadata::MetadataCommand::new()
+        .no_deps()
         .exec()
-        .expect("failed to run cargo metadata");
+        .context("failed to run cargo metadata")?;
 
     let workspace_packages = md
         .workspace_packages()

@@ -3,6 +3,16 @@ import test from "node:test";
 
 import { classifyChanges, isMainPush } from "./change-detection.mjs";
 
+test("changelog templates select the releaser fixture suite", () => {
+  for (const file of ["cliff.toml", "cliff-core.toml"]) {
+    const result = classifyChanges({ files: [file] });
+    assert.deepEqual(result.affectedPackages, ["swc-releaser"]);
+    assert.equal(result.rustChecks, true);
+    assert.equal(result.fullCargoTestMatrix, false);
+    assert.equal(result.nodeTest, false);
+  }
+});
+
 test("a root Cargo.lock change runs Rust, binding, deny, and cargo tests", () => {
   const result = classifyChanges({ files: ["Cargo.lock"] });
 

@@ -391,6 +391,12 @@ jobs:
             .swc-exec-cache
           key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
 
+      - name: Install git-cliff for release tooling tests
+        if: matrix.settings.crate == 'swc-releaser'
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
+        with:
+          tool: git-cliff@2.8.0
+
       - name: Run cargo test
         if: matrix.settings.crate != '__noop__' && matrix.settings.crate != 'swc_plugin_backend_tests' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm' && matrix.settings.crate != 'hstr'
         run: |
