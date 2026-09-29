@@ -7,7 +7,7 @@ description: Create, commit, and push SWC changeset files for the current or an 
 
 ## Goal
 
-Add one Markdown file under `.changeset/` whose front matter lists every changed publishable Rust crate in the PR, plus `swc_core` when any Rust crate changes.
+Add one Markdown file under `.changeset/` whose front matter lists every changed publishable Rust crate in the PR, plus `swc_core` when any Rust crate changes. Its body must give readers useful release notes, including the behavior change and any migration they need to make.
 
 ## Workflow
 
@@ -50,9 +50,14 @@ Add one Markdown file under `.changeset/` whose front matter lists every changed
    - Keep the front matter sorted by crate name unless a maintainer provided another order.
    - Mention only Rust crate names and bump levels in front matter.
    - Write a concise summary after the front matter using SWC commit style, such as `fix(es/parser): ...`, `feat(es/parser): ...`, `perf(es/parser): ...`, or `refactor(es/parser): ...`.
+   - Follow the summary with substantive English prose describing the previous behavior, the resulting behavior, why it changed, and the affected users or APIs. Ground these details in the diff, source, and tests; do not merely repeat the title or paste the PR description.
+   - For breaking changes, identify removed or changed APIs and their replacements, explain how callers migrate, and state any relevant limitations. Include a short before/after example when it makes the migration clearer; say when there is no direct replacement.
+   - Mention `swc_core` exposure when the change affects callers using its re-exports or features. Explain distinct user-visible effects when several crates are listed, without repeating the same body for each crate.
+   - Preserve useful Markdown paragraphs, lists, and fenced examples: the changelog generator carries them into release notes. Scale detail to the change; avoid empty headings, fixed word counts, and unrelated implementation history.
+   - Claim performance numbers, compatibility guarantees, or unchanged behavior only when supported by inspected code, tests, or measurements. Do not invent a benchmark result or a migration requirement.
 
 7. Validate, commit, and push the changeset.
-   - Review `git status --short` and the changeset contents before staging.
+   - Review `git status --short` and the changeset contents before staging. Verify that the body explains the change beyond its title and that any breaking changes have actionable migration guidance.
    - Stage only the new changeset with `git add -- .changeset/<short-kebab-summary>.md`; never include unrelated worktree changes.
    - Run `git diff --cached --check` and inspect `git diff --cached` before committing.
    - Commit with `git commit -m "chore: Add changeset"`; never use `--no-verify`.
@@ -63,16 +68,52 @@ Add one Markdown file under `.changeset/` whose front matter lists every changed
    - For current-branch mode, push with plain `git push` when the branch has an upstream. When no upstream exists, identify the PR head remote and branch with `gh pr view` and repository remotes, then use `git push --set-upstream <remote> <branch>`. Stop and ask the user if the target is ambiguous.
    - Never force-push. If the PR head changed or a push is rejected as non-fast-forward, stop and report the concurrent update instead of overwriting it.
 
-## Example
+## Examples
+
+A performance change uses `patch` unless it also changes the public contract or adds a capability. Explain the mechanism without asserting an unmeasured speedup:
 
 ```markdown
 ---
-swc_core: minor
-swc_ecma_parser: minor
+swc_core: patch
+swc_ecma_parser: patch
 ---
 
-perf: Optimize es parser comment finalization
+perf(es/parser): Avoid growing the identifier escape buffer repeatedly
+
+Reserve space for decoded identifier escapes before appending them. Previously,
+identifiers with several escapes could repeatedly grow the buffer while scanning
+the same identifier. This reduces buffer growth on that path without changing
+how escaped identifiers are represented in the AST.
 ```
+
+A breaking parser change documents both the API change and the migration:
+
+```markdown
+---
+swc_core: major
+swc_ecma_parser: major
+---
+
+refactor(es/parser): Separate lexical and parser contexts
+
+Move parser grammar state out of the lexer context so lexical flags and parser
+control flow can be managed separately. This affects consumers of the low-level
+Rust parser API, including `swc_core::ecma::parser` callers.
+
+Breaking changes and migration:
+
+- `Context` contains only lexical flags and uses `u8` instead of `u32`. Update
+  code that stores or constructs its underlying bits.
+- Replace `Context::CanBeModule` with `Parser::allow_module_syntax()`.
+- Custom `Tokens` implementations must implement `rescan_type_gt`.
+- `Buffer::merge_lt_gt` is removed. Use `Buffer::eat_type_gt` for consuming
+  type-closing angles; it is not a drop-in replacement for arbitrary operator
+  merging.
+
+AST node definitions and serialization schemas remain unchanged.
+```
+
+These are examples of the expected detail, not claims to copy into unrelated PRs.
 
 ## Helper
 
