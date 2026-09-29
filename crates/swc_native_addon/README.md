@@ -159,7 +159,14 @@ the cleanup worker too, the temporary file can remain for manual cache cleanup.
 
 ## Transparent filesystem compression
 
-On writable APFS/btrfs, persistent modes first try self-replacement. Only a
+On writable btrfs, persistent modes first try self-replacement. The macOS
+loader instead uses the verified cache directly, before even resolving the
+carrier path: synchronous APFS recompression and decoding a second image make
+installation-first loads unnecessarily expensive. macOS retains the zstd carrier
+and a separate uncompressed cache image, trading disk space for startup latency.
+Cache verification, repair, and temporary mode are unchanged. The low-level APFS
+replacement helper remains available for explicit filesystem tests; it is not
+part of normal macOS loading. Only a
 completed compressed staging file beside the carrier is atomically renamed into
 place. The original mapped inode is never modified. The current process loads a
 separate verified temporary image, avoiding recursive lookup of the already

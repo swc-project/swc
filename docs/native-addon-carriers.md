@@ -57,7 +57,7 @@ warning and best-effort deletion when the materialized image is dropped. A DLL
 that remains mapped until process exit may remain on disk in that environment.
 The helper's integrity is still verified before any attempt to execute it.
 
-On writable APFS or btrfs, the loader may atomically replace its installed
+On writable btrfs, the loader may atomically replace its installed
 carrier with the original addon under transparent filesystem compression.
 The current process loads a separate verified temporary image. Read-only,
 hardlinked, unsupported, or unsuitable installations use the cache. Windows
@@ -66,6 +66,13 @@ compressed-DLL startup costs. New persistent and temporary images have inherited
 NTFS compression cleared before decoding; existing compressed entries remain
 fully verified and usable. The sibling CLI is never part of materialization or
 replacement.
+
+macOS always uses the verified cache, without resolving the carrier for
+self-replacement or launching `ditto`. This avoids synchronous APFS recompression
+and a second payload decode on installation-first loads. The installed zstd
+carrier and the uncompressed raw cache coexist, increasing disk use in exchange
+for faster first loads. Full-byte verification, repair, and temporary mode retain
+the same behavior. The low-level APFS helper remains covered by explicit tests.
 
 ## Release verification
 
@@ -100,8 +107,10 @@ even beneath compressed home directories. Cold overhead is `coldMs - rawColdMs`;
 warm overhead is `warmMs - rawMs`. The gate rejects missing baselines or
 inconsistent arithmetic. Measurement caches use canonical paths beneath the
 executing user's home, including Docker, and are removed after the run. These are not claims
-about an empty operating-system page cache. Disposable hardlinked carrier
-copies prevent filesystem self-replacement from disguising warm-cache costs.
+about an empty operating-system page cache. Warm samples use disposable hardlinked carrier copies to prevent filesystem
+self-replacement from disguising warm-cache costs. macOS cold samples instead
+use ordinary single-link files so the real installation-first policy is measured;
+other platforms retain their existing hardlinked cold samples.
 Representative x64 jobs require at most 500 ms cold overhead and 125 ms warm
 overhead over the corresponding raw addon. The macOS x64 jobs run under Rosetta
 on ARM64 runners and have a separately approved 1,500 ms cold limit; their warm
