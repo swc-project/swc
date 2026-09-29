@@ -579,17 +579,28 @@ impl Optimizer<'_> {
             0
         } as usize;
         let cost_limit = 3 + param_cost + func_body_cost;
+        let inline_cost = |expr: &Expr| {
+            let mut cost = expr.size(self.ctx.expr_ctx.unresolved_ctxt);
+            if let Expr::Object(obj) = expr {
+                // Substitution can expand `{ x }` to `{ x: value }`. Count at
+                // least the colon and a one-character value before copying it.
+                cost += 2 * obj
+                    .props
+                    .iter()
+                    .filter(|prop| {
+                        matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::Shorthand(..)))
+                    })
+                    .count();
+            }
+            cost
+        };
 
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
-                Stmt::Expr(ExprStmt { expr, .. })
-                    if expr.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
-                {
-                    return true
-                }
+                Stmt::Expr(ExprStmt { expr, .. }) if inline_cost(expr) < cost_limit => return true,
 
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. })
-                    if arg.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
+                    if inline_cost(arg) < cost_limit =>
                 {
                     return true
                 }
