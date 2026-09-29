@@ -14,7 +14,8 @@ Each release uses the last revision of a changeset within its Git commit range.
 Consumption does not erase the notes: old blobs remain available in Git.
 Deleting a file in a later release does not repeat its notes, and edits after a
 tag do not rewrite that tag's description. Crates listed in the same changeset
-share one entry. Original Markdown paragraphs, lists, and examples are retained.
+share one entry, with crate names but no per-crate version-bump levels. Original
+Markdown paragraphs, lists, and examples are retained.
 Commits without usable changeset bodies remain as ordinary changelog entries.
 Malformed historical changesets produce warnings; malformed pending changesets
 are errors.

@@ -6,7 +6,7 @@
 
 - **(api)** Preserve a changeset-only release ([COMMIT](https://github.com/swc-project/swc/commit/COMMIT))
 
-  **Crates:** `swc_core` (breaking)
+  **Crates:** `swc_core`
 
   Replace the old API with the documented replacement.
 

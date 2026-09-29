@@ -10,7 +10,7 @@
 
 - **(es/parser)** Separate parser contexts and streamline parameter construction. ([#42](https://github.com/swc-project/swc/pull/42)) ([COMMIT](https://github.com/swc-project/swc/commit/COMMIT))
 
-  **Crates:** `swc_core` (major), `swc_ecma_parser` (major), `swc_ecma_quote_macros` (major)
+  **Crates:** `swc_core`, `swc_ecma_parser`, `swc_ecma_quote_macros`
 
   Separate grammatical parameters from lexical and parser control-flow state, model statement and function boundaries explicitly, and decouple type grammar from angle-operator tokenization. Share parameter parsing and validation, and reduce unnecessary speculation and allocation in parsing and identifier scanning.
 
@@ -35,7 +35,7 @@
 
 - **(local)** Include an uncommitted change
 
-  **Crates:** `swc_core` (patch)
+  **Crates:** `swc_core`
 
   No commit link exists yet.
 
@@ -43,7 +43,7 @@
 
 - **(parser)** Read CRLF changesets and wrapped summaries ([#42](https://github.com/swc-project/swc/pull/42)) ([COMMIT](https://github.com/swc-project/swc/commit/COMMIT))
 
-  **Crates:** `swc_core` (minor)
+  **Crates:** `swc_core`
 
   Keep the description.  
   And the Markdown hard break.
@@ -52,7 +52,7 @@
 
 - Preserve arbitrary Markdown ([#42](https://github.com/swc-project/swc/pull/42)) ([COMMIT](https://github.com/swc-project/swc/commit/COMMIT))
 
-  **Crates:** `swc_core` (patch)
+  **Crates:** `swc_core`
 
   ## Details
 

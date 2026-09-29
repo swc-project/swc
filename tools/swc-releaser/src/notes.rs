@@ -105,7 +105,7 @@ impl Notes {
         crates.sort_by(|a, b| a.0.cmp(b.0));
         let crates = crates
             .into_iter()
-            .map(|(name, kind)| format!("`{name}` ({kind})"))
+            .map(|(name, _)| format!("`{name}`"))
             .collect();
         let source = sources.first();
         let pr = sources.iter().find_map(|source| {
