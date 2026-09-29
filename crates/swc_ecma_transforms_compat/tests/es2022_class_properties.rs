@@ -1084,6 +1084,51 @@ expect(results[7]).toBe(4);
 "#
 );
 
+test_exec!(
+    syntax(),
+    |t| tr(t),
+    issue_12427_private_method_call_update_exec,
+    r#"
+class A {
+  #m() { return (this.o ??= { n: 0 }) }
+  go() { this.#m().n++; return this.o.n }
+}
+expect(new A().go()).toBe(1);
+
+class Prefix {
+  #m() { return (this.o ??= { n: 0 }) }
+  go() { ++this.#m().n; return this.o.n }
+}
+expect(new Prefix().go()).toBe(1);
+
+class Nested {
+  #m() { return (this.o ??= { a: { n: 0 } }) }
+  go() { this.#m().a.n++; return this.o.a.n }
+}
+expect(new Nested().go()).toBe(1);
+
+class Indexed {
+  #m() { return (this.o ??= [0]) }
+  go() { this.#m()[0]++; return this.o[0] }
+}
+expect(new Indexed().go()).toBe(1);
+
+class Other {
+  #m() { return (this.o ??= { n: 0 }) }
+  go(other) { other.#m().n++; return other.o.n }
+}
+const o = new Other();
+expect(o.go(o)).toBe(1);
+
+class StaticA {
+  static #m() { return (this.o ??= { n: 0 }) }
+  static go() { this.#m().n++; return this.o.n }
+}
+expect(StaticA.go()).toBe(1);
+
+"#
+);
+
 test!(
     syntax(),
     |t| tr(t),

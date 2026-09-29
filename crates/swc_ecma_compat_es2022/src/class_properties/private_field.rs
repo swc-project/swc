@@ -264,7 +264,22 @@ impl VisitMut for PrivateAccessVisitor<'_> {
             Expr::Update(UpdateExpr { arg, .. }) if arg.is_member() => {
                 let old_access_type = self.private_access_type;
 
-                self.private_access_type = PrivateAccessType::Update;
+                // `this.#x++` writes the private member, so it needs the update
+                // helper. `this.#m().n++` / `this.#x.n++` only write a public
+                // property of the value that was read, so nested private
+                // accesses must stay Get — otherwise a private method is
+                // compiled through `_class_private_field_update` and throws
+                // `privateMap.get is not a function` (swc-project/swc#12427).
+                let is_direct_private_member = matches!(
+                    &**arg,
+                    Expr::Member(MemberExpr {
+                        prop: MemberProp::PrivateName(..),
+                        ..
+                    })
+                );
+                if is_direct_private_member {
+                    self.private_access_type = PrivateAccessType::Update;
+                }
                 arg.visit_mut_with(self);
                 self.private_access_type = old_access_type;
             }
