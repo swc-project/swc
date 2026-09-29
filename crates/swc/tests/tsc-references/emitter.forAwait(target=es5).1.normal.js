@@ -414,8 +414,10 @@ function f5() {
                     ];
                     _value = _step.value;
                     x = _value;
-                    continue outer;
-                    _state.label = 4;
+                    return [
+                        3,
+                        4
+                    ];
                 case 4:
                     _iteratorAbruptCompletion = false;
                     return [
@@ -512,8 +514,10 @@ function f6() {
                     ];
                     _value = _step.value;
                     x = _value;
-                    continue outer;
-                    _state.label = 4;
+                    return [
+                        3,
+                        4
+                    ];
                 case 4:
                     _iteratorAbruptCompletion = false;
                     return [

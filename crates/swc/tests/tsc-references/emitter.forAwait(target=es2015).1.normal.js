@@ -127,10 +127,10 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 function f5() {
     return _async_to_generator(function*() {
         let y;
-        outer: {
+        {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
-                for(var _iterator = _async_iterator(y), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
+                outer: for(var _iterator = _async_iterator(y), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
                     let _value = _step.value;
                     const x = _value;
                     continue outer;
@@ -160,10 +160,10 @@ import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator
 function f6() {
     return _wrap_async_generator(function*() {
         let y;
-        outer: {
+        {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
             try {
-                for(var _iterator = _async_iterator(y), _step; _iteratorAbruptCompletion = !(_step = yield _await_async_generator(_iterator.next())).done; _iteratorAbruptCompletion = false){
+                outer: for(var _iterator = _async_iterator(y), _step; _iteratorAbruptCompletion = !(_step = yield _await_async_generator(_iterator.next())).done; _iteratorAbruptCompletion = false){
                     let _value = _step.value;
                     const x = _value;
                     continue outer;
