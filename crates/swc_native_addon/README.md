@@ -166,9 +166,11 @@ installation-first loads unnecessarily expensive. macOS retains the zstd carrier
 and a separate uncompressed cache image, trading disk space for startup latency.
 Cache verification, repair, and temporary mode are unchanged. The low-level APFS
 replacement helper remains available for explicit filesystem tests; it is not
-part of normal macOS loading. Only a
-completed compressed staging file beside the carrier is atomically renamed into
-place. The original mapped inode is never modified. The current process loads a
+part of normal macOS loading.
+
+When self-replacement is attempted, only a completed compressed staging file
+beside the carrier is atomically renamed into place. The original mapped inode
+is never modified. The current process loads a
 separate verified temporary image, avoiding recursive lookup of the already
 mapped carrier. Competing first loads lock the original inode and recheck its
 identity before replacement. Hardlinked or differently owned images use the

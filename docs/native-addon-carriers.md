@@ -73,6 +73,8 @@ and a second payload decode on installation-first loads. The installed zstd
 carrier and the uncompressed raw cache coexist, increasing disk use in exchange
 for faster first loads. Full-byte verification, repair, and temporary mode retain
 the same behavior. The low-level APFS helper remains covered by explicit tests.
+See the [macOS startup measurements](native-addon-macos-startup.md) for the
+first-load, subsequent-load, and disk-space comparison.
 
 ## Release verification
 
@@ -107,8 +109,9 @@ even beneath compressed home directories. Cold overhead is `coldMs - rawColdMs`;
 warm overhead is `warmMs - rawMs`. The gate rejects missing baselines or
 inconsistent arithmetic. Measurement caches use canonical paths beneath the
 executing user's home, including Docker, and are removed after the run. These are not claims
-about an empty operating-system page cache. Warm samples use disposable hardlinked carrier copies to prevent filesystem
-self-replacement from disguising warm-cache costs. macOS cold samples instead
+about an empty operating-system page cache. Warm samples use disposable
+hardlinked carrier copies to prevent filesystem self-replacement from disguising
+warm-cache costs. macOS cold samples instead
 use ordinary single-link files so the real installation-first policy is measured;
 other platforms retain their existing hardlinked cold samples.
 Representative x64 jobs require at most 500 ms cold overhead and 125 ms warm
