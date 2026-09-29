@@ -162,8 +162,9 @@ the cleanup worker too, the temporary file can remain for manual cache cleanup.
 On writable btrfs, persistent modes first try self-replacement. The macOS
 loader instead uses the verified cache directly, before even resolving the
 carrier path: synchronous APFS recompression and decoding a second image make
-installation-first loads unnecessarily expensive. macOS retains the zstd carrier
-and a separate uncompressed cache image, trading disk space for startup latency.
+the first load after installation unnecessarily expensive. macOS retains the
+zstd carrier and a separate uncompressed cache image, trading disk space for
+startup latency.
 Cache verification, repair, and temporary mode are unchanged. The low-level APFS
 replacement helper remains available for explicit filesystem tests; it is not
 part of normal macOS loading.

@@ -23,8 +23,8 @@ core JavaScript package through the existing native smoke test. Each sample
 copies a single-link image outside the timer, starts a fresh Node process with
 an empty isolated default cache, and measures only `require()`. Baseline and
 optimized order alternates. Three rounds contain 15 samples per case, for each
-Node version. No build or test jobs ran locally during the measurements.
-These are installation-first loads, not measurements after clearing the OS
+Node version. Release builds and Rust validation completed before measurement.
+These measure the first load after installation, not after clearing the OS
 page cache. The script asserts that baseline samples really perform APFS
 replacement, optimized samples retain the carrier and create one verified raw
 cache image, and the three source artifacts remain unchanged.
@@ -98,6 +98,32 @@ blocked custom root, same-length cache corruption, warm reuse, hardlinked and
 read-only installations, and eight simultaneous first loads. It checks that
 the carrier's bytes, inode, permissions, and link count are preserved.
 
-Cross-platform release verification is tracked in
-[the verification-only workflow](https://github.com/swc-project/swc/actions/runs/36549130544),
-which checks runtime commit `1439941c7c` with publishing and tag creation disabled.
+## CI verification
+
+[The verification-only workflow](https://github.com/swc-project/swc/actions/runs/36549130544)
+succeeded for runtime commit `1439941c7c`, with publishing and tag creation
+disabled. All 48 builds, four package assemblies, 64 Node 20/22 runtime jobs,
+five minimum-Node jobs, four native lifecycle jobs, and the final release gate
+passed. The gate contains 48 artifact reports, 69 runtime reports, and 52 npm
+tarballs bound to the same source commit.
+
+All 16 macOS product/architecture/Node combinations passed. Across the eight
+reports per architecture, maximum overheads over matching raw addons were:
+
+| Target | Cold overhead (ms) | Warm-cache overhead (ms) |
+| --- | ---: | ---: |
+| Native ARM64 | 117.97 | 19.47 |
+| x64 under Rosetta | 856.00 | 75.51 |
+
+Rosetta remains within its existing 1,500 ms cold / 125 ms warm limits.
+These CI observations use the release artifacts and runner hosts, separately
+from the local before/after experiment above.
+
+[The first attempt](https://github.com/swc-project/swc/actions/runs/36549130544/attempts/1)
+failed only the Windows x64 core/Node 20 cold budget: 571.99 ms overhead exceeded
+500 ms; all 118 functional tests in that job passed. Node 22 measured 185.68 ms
+on the same carrier SHA-512. A single diagnostic rerun of the failed job, using
+identical artifacts and no runtime or budget changes, measured 374.45 ms cold
+and 13.51 ms warm overhead and passed. The downstream gate then passed. The
+initial failed measurement is retained here; it is not evidence of a Windows
+performance improvement from this macOS change.
