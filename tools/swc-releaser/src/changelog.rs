@@ -75,6 +75,17 @@ impl Changelogs {
             )?;
             let mut releases: Vec<Value> =
                 serde_json::from_slice(&bytes).context("invalid git-cliff context")?;
+            // A full checkout can still lack tags (e.g. clone --no-tags).
+            // Validate the selected calendar, including its tag filters, before
+            // replacing versioned history with an unreleased-only document.
+            ensure!(
+                releases
+                    .iter()
+                    .any(|release| release["version"].is_string()),
+                "no release tags selected by {}; fetch the complete Git history and tags with git \
+                 fetch --tags before generating changelogs",
+                calendar.config()
+            );
             let next_core = if matches!(calendar, Calendar::Core) {
                 core_version
             } else {

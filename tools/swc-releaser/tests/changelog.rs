@@ -20,6 +20,8 @@ struct Scenario {
 #[derive(Deserialize)]
 struct Step {
     #[serde(default)]
+    git: Vec<Vec<String>>,
+    #[serde(default)]
     files: BTreeMap<String, String>,
     #[serde(default)]
     remove: Vec<String>,
@@ -135,6 +137,9 @@ fn changelog_fixture(input: PathBuf) {
     let scenario: Scenario = serde_json::from_str(&fs::read_to_string(&input).unwrap()).unwrap();
     let repo = Repo::new();
     for (index, step) in scenario.steps.into_iter().enumerate() {
+        for args in step.git {
+            repo.git(&args.iter().map(String::as_str).collect::<Vec<_>>());
+        }
         for (destination, source) in step.files {
             let destination = repo.path().join(destination);
             fs::create_dir_all(destination.parent().unwrap()).unwrap();

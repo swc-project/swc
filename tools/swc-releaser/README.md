@@ -3,6 +3,8 @@
 `cargo releaser changelog` (also `pnpm changelog`) regenerates `CHANGELOG.md`
 and `CHANGELOG-CORE.md`. Install git-cliff 2.8.0 and use a checkout with complete
 Git history and tags. Linked worktrees are supported.
+Generation fails before writing either file if either calendar has no selected
+release tags. Fetch missing tags with `git fetch --tags` and retry.
 
 The two existing git-cliff configurations select the npm and Rust release
 calendars. The releaser enriches their JSON contexts with changesets before
