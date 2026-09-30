@@ -7,7 +7,9 @@ use swc_ecma_utils::{
     number::{parse_canonical_index, ToJsString},
     private_ident,
 };
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use super::Optimizer;
 use crate::{compress::optimize::is_left_access_to_arguments, program_data::VarUsageInfoFlags};
@@ -128,6 +130,15 @@ impl Optimizer<'_> {
             }
         }
 
+        // Deletion breaks the parameter mapping, and strict-mode updates never
+        // update the parameter. Check the whole body before replacing reads:
+        // source order alone cannot account for loop backedges or arrow calls.
+        let mut mutation = ArgumentsMutationFinder::default();
+        f.body.visit_with(&mut mutation);
+        if mutation.found {
+            return;
+        }
+
         let mut v = ArgReplacer {
             params: &mut f.params,
             reassigned_params,
@@ -141,6 +152,64 @@ impl Optimizer<'_> {
         f.body.visit_mut_children_with(&mut v);
 
         self.changed |= v.changed;
+    }
+}
+
+/// Finds delete/update operations that can change an indexed arguments slot.
+/// Arrow functions share the surrounding arguments object; ordinary functions
+/// and constructors have their own and are analyzed separately.
+#[derive(Default)]
+struct ArgumentsMutationFinder {
+    found: bool,
+}
+
+impl Visit for ArgumentsMutationFinder {
+    noop_visit_type!(fail);
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if !self.found {
+            n.visit_children_with(self);
+        }
+    }
+
+    fn visit_expr(&mut self, n: &Expr) {
+        if self.found {
+            return;
+        }
+
+        let operand = match n {
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"),
+                arg,
+                ..
+            })
+            | Expr::Update(UpdateExpr { arg, .. }) => Some(&**arg),
+            _ => None,
+        };
+
+        if let Some(
+            operand @ Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Computed(computed),
+                ..
+            }),
+        ) = operand
+        {
+            if obj.is_ident_ref_to("arguments") {
+                // Static non-index properties cannot affect indexed arguments.
+                // A dynamic key, however, can refer to any arguments slot.
+                self.found = !matches!(&*computed.expr, Expr::Lit(Lit::Str(_) | Lit::Num(_)))
+                    || argument_access_index(operand).is_some();
+            }
+        }
+
+        if !self.found {
+            n.visit_children_with(self);
+        }
     }
 }
 
