@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_html_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.16.13-nightly-20260930.1"
+version     = "1.16.13"
 
 [lib]
 bench      = false
