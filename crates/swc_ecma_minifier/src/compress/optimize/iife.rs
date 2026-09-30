@@ -3,9 +3,10 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
+use swc_ecma_utils::{contains_ident_ref, find_pat_ids, ExprExt, ExprFactory};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
+use self::fn_env::contains_this_or_new_target;
 use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
@@ -14,6 +15,8 @@ use crate::{
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{idents_captured_by, make_number},
 };
+
+mod fn_env;
 
 /// Methods related to the option `negate_iife`.
 impl Optimizer<'_> {
@@ -627,7 +630,8 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if contains_this_expr(body) {
+                if contains_this_or_new_target(body) {
+                    log_abort!("iife: [x] Found this or new.target");
                     return false;
                 }
             }
