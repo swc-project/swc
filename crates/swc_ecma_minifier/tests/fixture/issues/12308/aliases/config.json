@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "module": false,
+    "unsafe_hoist_static_method_alias": true,
+    "unsafe_hoist_global_objects_alias": true
+}
