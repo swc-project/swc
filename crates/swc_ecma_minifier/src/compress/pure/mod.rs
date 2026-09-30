@@ -95,6 +95,13 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    /// Keep root parameter defaults: even `undefined` changes function arity
+    /// and whether `arguments` aliases the parameters. Nested patterns and
+    /// initializer expressions can still be simplified normally.
+    fn visit_fn_param(&mut self, p: &mut Pat) {
+        p.visit_mut_children_with(self);
+    }
+
     #[inline(always)]
     fn is_expr_leaf(e: &Expr) -> bool {
         matches!(
@@ -356,6 +363,13 @@ impl Pure<'_> {
 
 impl VisitMut for Pure<'_> {
     noop_visit_mut_type!(fail);
+
+    fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
+        for param in &mut e.params {
+            self.visit_fn_param(param);
+        }
+        e.body.visit_mut_with(self);
+    }
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         self.do_inside_of_context(Ctx::IS_LHS_OF_ASSIGN, |this| {
@@ -1203,6 +1217,10 @@ impl VisitMut for Pure<'_> {
         self.visit_par(4, nodes);
 
         self.eval_spread_array_in_array(nodes);
+    }
+
+    fn visit_mut_param(&mut self, p: &mut Param) {
+        self.visit_fn_param(&mut p.pat);
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
