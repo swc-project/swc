@@ -19,7 +19,7 @@ use swc_atoms::{atom, Atom};
 use swc_common::{BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 
-use super::{input::Tokens, stmt::TempForHead, Parser, StatementContext};
+use super::{input::Tokens, stmt::TempForHead, BoundaryContext, Parser, StatementContext};
 use crate::{error::SyntaxError, lexer::Token, PResult};
 
 const REACT_SOURCE: &str = "react";
@@ -1108,6 +1108,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn suspension_context(&self) -> SuspensionContext {
+        if self.boundary_ctx().contains(BoundaryContext::InStaticBlock) {
+            return SuspensionContext::Synchronous;
+        }
+
         match (self.includes_await_expr(), self.includes_yield_expr()) {
             (false, false) => SuspensionContext::Synchronous,
             (true, false) => SuspensionContext::Async,
