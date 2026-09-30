@@ -51,7 +51,14 @@ impl Optimizer<'_> {
             // If the parameter is not referenced, we can remove it
             if usage.ref_count == 0 {
                 if let Some(scope) = self.data.get_scope(f.ctxt) {
-                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    // Removing the last non-simple parameter can make sloppy-mode
+                    // arguments alias named parameters. Conservatively retain the
+                    // rest parameter whenever the function uses arguments.
+                    if scope.intersects(
+                        ScopeData::HAS_EVAL_CALL
+                            .union(ScopeData::HAS_WITH_STMT)
+                            .union(ScopeData::USED_ARGUMENTS),
+                    ) {
                         return;
                     }
                 }
