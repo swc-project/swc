@@ -6034,7 +6034,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "6.0.0"
+version = "6.0.1"
 dependencies = [
  "anyhow",
  "bytes-str",
@@ -6063,7 +6063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "81.0.1"
+version = "81.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",

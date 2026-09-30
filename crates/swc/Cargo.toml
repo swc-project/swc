@@ -93,7 +93,7 @@ swc_common = { version = "26.0.0", path = "../swc_common", features = [
   "parking_lot",
 ] }
 swc_compiler_base = { version = "65.0.0", path = "../swc_compiler_base" }
-swc_config = { version = "6.0.0", path = "../swc_config" }
+swc_config = { version = "6.0.1", path = "../swc_config" }
 swc_ecma_ast = { version = "29.0.2", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "32.0.3", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "35.0.0", path = "../swc_ecma_ext_transforms" }
