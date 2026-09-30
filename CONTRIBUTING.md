@@ -162,7 +162,7 @@ To revert the changes:
     git restore bindings/Cargo.toml bindings/Cargo.lock
     ```
 
-2. Update your overriden project's `package.json` to use the published version of `@swc/core`
+2. Update your overridden project's `package.json` to use the published version of `@swc/core`
 
 ## Pull requests
 
