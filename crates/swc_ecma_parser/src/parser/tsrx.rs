@@ -407,7 +407,11 @@ impl<I: Tokens> Parser<I> {
     fn parse_tsrx_for(&mut self, start: BytePos) -> PResult<ForDirective> {
         self.assert_and_bump(Token::For);
         let await_start = self.cur_pos();
-        let is_await = self.input_mut().eat(Token::Await);
+        let is_await = self.input().is(Token::Await);
+        if is_await {
+            self.check_current_token_escape()?;
+            self.bump();
+        }
         let await_span = is_await.then(|| self.span(await_start));
         expect!(self, Token::LParen);
 

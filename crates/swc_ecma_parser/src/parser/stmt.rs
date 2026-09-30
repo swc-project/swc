@@ -556,7 +556,9 @@ impl<I: Tokens> Parser<I> {
 
         self.assert_and_bump(Token::For);
         let await_start = self.cur_pos();
-        let await_token = if self.input_mut().eat(Token::Await) {
+        let await_token = if self.input().is(Token::Await) {
+            self.check_current_token_escape()?;
+            self.bump();
             Some(self.span(await_start))
         } else {
             None
