@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import {
     cpSync,
-    linkSync,
     mkdirSync,
     mkdtempSync,
     readFileSync,
@@ -20,7 +19,10 @@ import {
 } from "./common.mjs";
 import { validateReport } from "./contracts.mjs";
 import { extractTarball, listTarball } from "./tarballs.mjs";
-import { copyMeasurementAddon } from "./measurement-files.mjs";
+import {
+    copyMeasurementAddon,
+    copyMeasurementCarrier,
+} from "./measurement-files.mjs";
 import {
     createMeasurementCache,
     measureLoads,
@@ -61,7 +63,7 @@ function smoke(entry, addon, cache) {
     return JSON.parse(value.split("\n").at(-1));
 }
 
-function variant(name, addon, holdCarrier = false, root = stage) {
+function variant(name, addon, isCarrier = false, root = stage, cold = false) {
     const directory = join(root, name);
     cpSync(info.directory, directory, {
         recursive: true,
@@ -79,10 +81,8 @@ function variant(name, addon, holdCarrier = false, root = stage) {
         },
     });
     const destination = join(directory, info.filename);
-    copyMeasurementAddon(addon, destination);
-    // The runtime deliberately skips self-replacement for hardlinked files.
-    // Use links only between disposable copies, never to a release candidate.
-    if (holdCarrier) linkSync(destination, join(directory, ".carrier-inode"));
+    if (isCarrier) copyMeasurementCarrier(addon, destination, cold);
+    else copyMeasurementAddon(addon, destination);
     return { entry: join(directory, "index.js"), addon: destination };
 }
 
@@ -161,7 +161,13 @@ try {
                 copyRaw: (sample, root) =>
                     variant("raw-cold-" + sample, rawPath, false, root),
                 copyCarrier: (sample, root) =>
-                    variant("carrier-cold-" + sample, original, true, root),
+                    variant(
+                        "carrier-cold-" + sample,
+                        original,
+                        true,
+                        root,
+                        true
+                    ),
                 smoke,
                 cacheRoot,
             })
