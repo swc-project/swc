@@ -2,6 +2,12 @@
 
 ## [unreleased]
 
+### Bug Fixes
+
+- **(releaser)** Reject changelog calendars without release tags ([75b5d02](https://github.com/swc-project/swc/commit/75b5d026b9276cc0812a8a940846ae605ee51101))
+
+- **(releaser)** Roll back release files and index on commit failure ([80f4d96](https://github.com/swc-project/swc/commit/80f4d96f8da02d45b43c0f1ebc597d1a89938e50))
+
 ### Performance
 
 - **(node)** Reduce macOS native addon startup time by using the verified cache directly and skipping APFS recompression while retaining compressed downloads. ([#12436](https://github.com/swc-project/swc/pull/12436)) ([0b151bf](https://github.com/swc-project/swc/commit/0b151bfab3a4507d65a6f888dfda065bbeb6c297))
@@ -2383,8 +2389,6 @@ This reverts commit c388e870cae2e9253f1ef39f659aebe7470ea741. ([b5025b3](https:/
   **Crates:** `hstr`, `swc_core`
 
 ### Performance
-
-- **(atoms)** Remove temporary allocations in rkyv serialize and deserialize ([#11202](https://github.com/swc-project/swc/issues/11202)) ([85e6e8a](https://github.com/swc-project/swc/commit/85e6e8a66f0e517512d7cd13c5b287b1ef82e191))
 
 - **(es/parser)** Remove `start` in `State` ([#11201](https://github.com/swc-project/swc/pull/11201)) ([b9aeaa3](https://github.com/swc-project/swc/commit/b9aeaa3a3bab072f90fb8f26454cb33062bff584))
 

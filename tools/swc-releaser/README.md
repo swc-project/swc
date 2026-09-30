@@ -13,6 +13,9 @@ after extracting any changesets they contain; this keeps changeset-only
 releases visible without listing release housekeeping commits.
 
 Each release uses the last revision of a changeset within its Git commit range.
+Bodies follow each release's first-parent history, so notes rejected by a merge
+resolution are excluded. Accepted side-branch blobs retain their original
+commit and PR links; custom merge resolutions link to the merge commit.
 Consumption does not erase the notes: old blobs remain available in Git.
 Deleting a file in a later release does not repeat its notes, and edits after a
 tag do not rewrite that tag's description. Crates listed in the same changeset

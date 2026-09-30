@@ -103,7 +103,7 @@ impl Changelogs {
                         .context("release has no Git commit")?
                 };
                 let members = history::members(workspace, previous, end)?;
-                let entries = history.changes(&members);
+                let entries = history.changes(&members, end)?;
                 let mut replaced = HashSet::new();
                 let mut notes = Vec::new();
                 let mut overlays = std::collections::HashMap::new();

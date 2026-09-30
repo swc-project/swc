@@ -9,6 +9,8 @@ use changesets::Change;
 
 use crate::{changeset, process::output};
 
+mod lineage;
+
 #[derive(Clone)]
 pub(crate) struct Source {
     pub id: String,
@@ -18,10 +20,12 @@ pub(crate) struct Source {
 struct Edit {
     path: PathBuf,
     blob: Option<String>,
+    added: bool,
 }
 
 struct Commit {
     source: Source,
+    parents: Vec<usize>,
     edits: Vec<Edit>,
 }
 
@@ -36,6 +40,7 @@ pub(crate) struct HistoricalChange {
 /// carry release notes, so history must be read independently of its commits.
 pub(crate) struct History {
     commits: Vec<Commit>,
+    indices: HashMap<String, usize>,
     blobs: HashMap<String, Vec<u8>>,
     parsed: HashMap<(PathBuf, String), Option<Change>>,
     pub head_files: BTreeMap<PathBuf, String>,
@@ -58,13 +63,15 @@ impl History {
                 "log",
                 "--reverse",
                 "--topo-order",
+                "--full-history",
+                "--sparse",
                 "--raw",
                 "-z",
                 "--no-abbrev",
                 "--no-renames",
                 "--root",
                 "--diff-merges=first-parent",
-                "--format=%x00commit%x00%H%x00%s%x00",
+                "--format=%x00commit%x00%H%x00%P%x00%s%x00",
                 "HEAD",
                 "--",
                 ":(glob).changeset/*.md",
@@ -73,13 +80,28 @@ impl History {
         )?;
         let mut tokens = raw.split(|&byte| byte == 0);
         let mut commits: Vec<Commit> = Vec::new();
+        let mut indices = HashMap::new();
         let mut ids = BTreeSet::new();
         while let Some(token) = tokens.next() {
             if token == b"commit" {
                 let id = text(tokens.next().context("missing history commit")?)?;
+                // Full, sparse history retains ancestry even for commits that
+                // do not edit changesets. Reverse topological order guarantees
+                // that every parent has already been indexed.
+                let parents = text(tokens.next().context("missing history parents")?)?
+                    .split_whitespace()
+                    .map(|parent| {
+                        indices
+                            .get(parent)
+                            .copied()
+                            .context("missing history parent")
+                    })
+                    .collect::<Result<Vec<_>>>()?;
                 let subject = text(tokens.next().context("missing history subject")?)?;
+                indices.insert(id.clone(), commits.len());
                 commits.push(Commit {
                     source: Source { id, subject },
+                    parents,
                     edits: Vec::new(),
                 });
             } else if token.strip_prefix(b"\n").unwrap_or(token).starts_with(b":") {
@@ -98,7 +120,11 @@ impl History {
                     .last_mut()
                     .context("diff without a commit")?
                     .edits
-                    .push(Edit { path, blob });
+                    .push(Edit {
+                        path,
+                        blob,
+                        added: fields[4] == "A",
+                    });
             }
         }
 
@@ -136,6 +162,7 @@ impl History {
         let blobs = read_blobs(workspace, ids)?;
         Ok(Self {
             commits,
+            indices,
             blobs,
             parsed: HashMap::new(),
             head_files,
@@ -144,37 +171,6 @@ impl History {
 
     pub fn content(&self, blob: &str) -> &[u8] {
         &self.blobs[blob]
-    }
-
-    /// Keep the last version within this release, even after consumption.
-    /// A deletion without a preceding edit contributes nothing; reusing a
-    /// filename after deletion starts a separate change.
-    pub fn changes(&self, members: &HashSet<String>) -> Vec<HistoricalChange> {
-        let mut changes: Vec<HistoricalChange> = Vec::new();
-        let mut active = HashMap::new();
-        for commit in &self.commits {
-            if !members.contains(&commit.source.id) {
-                continue;
-            }
-            for edit in &commit.edits {
-                if let Some(blob) = &edit.blob {
-                    let index = *active.entry(edit.path.clone()).or_insert_with(|| {
-                        let index = changes.len();
-                        changes.push(HistoricalChange {
-                            path: edit.path.clone(),
-                            blob: blob.clone(),
-                            sources: Vec::new(),
-                        });
-                        index
-                    });
-                    changes[index].blob.clone_from(blob);
-                    changes[index].sources.push(commit.source.clone());
-                } else {
-                    active.remove(&edit.path);
-                }
-            }
-        }
-        changes
     }
 
     pub fn parse(&mut self, entry: &HistoricalChange) -> Option<Change> {

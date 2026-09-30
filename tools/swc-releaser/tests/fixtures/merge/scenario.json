@@ -1,0 +1,46 @@
+{
+  "steps": [
+    {
+      "git": [["checkout", "-b", "discarded"]],
+      "files": {".changeset/discarded.md": "discarded.md"},
+      "message": "chore: Add discarded changeset"
+    },
+    {
+      "git": [["checkout", "main"]],
+      "message": "fix(cli): Keep the main branch fallback (#13000)"
+    },
+    {
+      "git": [["merge", "--no-commit", "--no-ff", "-s", "ours", "discarded"]],
+      "message": "chore: Merge without the discarded changeset",
+      "tags": ["v1.1.0", "swc_core@v1.1.0"],
+      "snapshot": "discarded"
+    },
+    {
+      "git": [["checkout", "-b", "accepted"]],
+      "files": {".changeset/accepted.md": "original.md"},
+      "message": "fix(core): Keep the accepted change (#13001)"
+    },
+    {
+      "files": {".changeset/accepted.md": "updated.md"},
+      "message": "chore: Clarify the accepted change"
+    },
+    {
+      "git": [["checkout", "main"], ["merge", "--no-commit", "--no-ff", "accepted"]],
+      "message": "chore: Merge the accepted change",
+      "tags": ["v1.2.0"],
+      "snapshot": "accepted"
+    },
+    {
+      "git": [["checkout", "-b", "discarded-edit"]],
+      "files": {".changeset/accepted.md": "discarded.md"},
+      "message": "chore: Propose an edit that will be discarded"
+    },
+    {
+      "git": [["checkout", "main"], ["merge", "--no-commit", "--no-ff", "-s", "ours", "discarded-edit"]],
+      "message": "chore: Retain the accepted version",
+      "remove": [".changeset/accepted.md"],
+      "tags": ["v1.3.0", "swc_core@v1.2.0"],
+      "snapshot": "consumed"
+    }
+  ]
+}
