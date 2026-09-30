@@ -2,6 +2,8 @@
 
 extern crate swc_malloc;
 
+use std::{fs::read_to_string, path::PathBuf};
+
 use ansi_term::Color;
 use anyhow::Error;
 use serde::Deserialize;
@@ -27,7 +29,7 @@ use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_visit::VisitMutWith;
-use testing::DebugUsingDisplay;
+use testing::{DebugUsingDisplay, NormalizedOutput};
 use tracing::{info, span, Level};
 
 #[derive(Debug, Clone, Deserialize)]
@@ -235,6 +237,32 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
         })
         .unwrap();
     }
+}
+
+/// Exercise property mangling without compression normalizing literal keys
+/// first.
+#[testing::fixture("tests/fixture/**/expected.mangle-only-stdout")]
+fn mangle_only_fixture(expected: PathBuf) {
+    let dir = expected.parent().unwrap();
+    let input = read_to_string(dir.join("input.js")).unwrap();
+    let expected = read_to_string(&expected).unwrap();
+    let options =
+        serde_json::from_str::<MangleOptions>(&read_to_string(dir.join("mangle.json")).unwrap())
+            .unwrap();
+
+    assert_eq!(stdout_of(&input).unwrap(), expected);
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, None, Some(options))
+            .expect("failed to parse mangle-only fixture");
+        let output = print(cm, &[&output], true, false);
+        eprintln!("---- Mangle-only output -----\n{output}");
+        assert_eq!(stdout_of(&output).unwrap(), expected);
+        NormalizedOutput::from(output)
+            .compare_to_file(dir.join("output.mangle-only.js"))
+            .unwrap();
+        Ok(())
+    })
+    .unwrap();
 }
 
 fn run_mangle_props_exec_test(input_src: &str) {

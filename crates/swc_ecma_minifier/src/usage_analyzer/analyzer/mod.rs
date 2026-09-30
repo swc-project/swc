@@ -1329,6 +1329,13 @@ where
             PropName::Str(s) => {
                 self.data.add_property_atom(s.value.clone());
             }
+            PropName::Computed(c) => {
+                // Literal definitions select the same names as quoted keys.
+                // Leave the usage analysis of dynamic expressions unchanged.
+                if let Expr::Lit(Lit::Str(s)) = c.expr.unwrap_parens() {
+                    self.data.add_property_atom(s.value.clone());
+                }
+            }
             _ => {}
         };
     }

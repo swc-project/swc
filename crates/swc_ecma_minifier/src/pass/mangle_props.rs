@@ -43,6 +43,16 @@ struct ManglePropertiesState<'a> {
 
 impl<'a> ManglePropertiesState<'a> {
     fn add(&mut self, name: Wtf8Atom) {
+        // Numeric definitions and accesses are not rewritten. Keep equivalent
+        // quoted keys unchanged too, including integers used as BigInt keys.
+        if name
+            .as_str()
+            .is_some_and(|value| value.parse::<f64>().is_ok())
+        {
+            self.unmangleable.insert(name);
+            return;
+        }
+
         let can_mangle = self.can_mangle(&name);
         let should_mangle = self.should_mangle(&name);
         match (can_mangle, !should_mangle) {
@@ -163,10 +173,26 @@ impl Mangler<'_, '_> {
             string.raw = None;
         }
     }
+
+    /// Apply the selected property mapping only to literal key positions.
+    /// Strings inside dynamic expressions and ordinary values stay unchanged.
+    fn mangle_literal_key(&mut self, expr: &mut Expr) {
+        if let Expr::Lit(Lit::Str(string)) = expr.unwrap_parens_mut() {
+            self.mangle_str(string);
+        }
+    }
 }
 
 impl VisitMut for Mangler<'_, '_> {
     noop_visit_mut_type!(fail);
+
+    fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
+        expr.visit_mut_children_with(self);
+
+        if expr.op == op!("in") {
+            self.mangle_literal_key(&mut expr.left);
+        }
+    }
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
@@ -182,6 +208,11 @@ impl VisitMut for Mangler<'_, '_> {
         if let MemberProp::Ident(ident) = &mut member_expr.prop {
             self.mangle_ident(ident);
         }
+    }
+
+    fn visit_mut_computed_prop_name(&mut self, name: &mut ComputedPropName) {
+        name.visit_mut_children_with(self);
+        self.mangle_literal_key(&mut name.expr);
     }
 
     fn visit_mut_prop(&mut self, prop: &mut Prop) {

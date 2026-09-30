@@ -1,0 +1,8 @@
+{
+  "props": {
+    "regex": "^longprop$",
+    "reserved": [
+      "longprop"
+    ]
+  }
+}
