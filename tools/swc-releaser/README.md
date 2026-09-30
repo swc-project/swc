@@ -32,8 +32,11 @@ The core changelog already uses the new version in that release commit.
 Pending changesets must be committed before a real bump so their original
 contents remain recoverable after consumption. `cargo releaser --dry-run bump`
 also previews uncommitted notes without changing versions, files, commits, or
-tags. A failed generation or version command leaves the changesets available;
-if the release commit fails, consumed changeset files are restored.
+tags. If version updates, changelog writes, or the release commit fail, the
+releaser restores manifests, the lockfile, changelogs, changesets, and the Git
+index to their pre-mutation state. Fix the failing command or hook and rerun
+`cargo bump`; the retry computes versions from the original manifests. A tag
+failure after a successful commit leaves that release commit intact.
 
 ## Tests
 

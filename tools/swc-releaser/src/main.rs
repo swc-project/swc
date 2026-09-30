@@ -1,5 +1,5 @@
 use std::{
-    collections::{hash_map::Entry, HashMap},
+    collections::{hash_map::Entry, BTreeSet, HashMap},
     env,
     path::{Path, PathBuf},
     process::Command,
@@ -17,6 +17,7 @@ mod changeset;
 mod history;
 mod notes;
 mod process;
+mod rollback;
 
 #[derive(Debug, Parser)]
 struct CliArgs {
@@ -68,7 +69,11 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         return Ok(());
     }
 
-    let (versions, graph) = get_data()?;
+    let ReleaseData {
+        versions,
+        graph,
+        mut manifests,
+    } = get_data()?;
     let mut new_versions = VersionMap::new();
 
     let mut worker = Bump {
@@ -103,13 +108,26 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     }
     let mut new_versions = new_versions.into_iter().collect::<Vec<_>>();
     new_versions.sort_by(|a, b| a.0.cmp(&b.0));
-    for (pkg_name, version) in new_versions {
-        run_cargo_set_version(&pkg_name, &version, dry_run)
-            .with_context(|| format!("failed to set version for {pkg_name}"))?;
+    if dry_run {
+        for (pkg_name, version) in new_versions {
+            run_cargo_set_version(&pkg_name, &version, true)?;
+        }
+        changelogs.write(workspace_dir, true)?;
+        git_commit(&core_version, true)?;
+        return git_tag_core(&core_version, true);
     }
-    changelogs.write(workspace_dir, dry_run)?;
+    manifests.extend(
+        ["Cargo.lock", "CHANGELOG.md", "CHANGELOG-CORE.md"].map(|path| workspace_dir.join(path)),
+    );
+    manifests.extend(pending.iter().map(|entry| workspace_dir.join(&entry.path)));
+    let rollback = rollback::Rollback::capture(workspace_dir, manifests)?;
+    rollback.run(|| {
+        for (pkg_name, version) in new_versions {
+            run_cargo_set_version(&pkg_name, &version, dry_run)
+                .with_context(|| format!("failed to set version for {pkg_name}"))?;
+        }
+        changelogs.write(workspace_dir, dry_run)?;
 
-    if !dry_run {
         for entry in &pending {
             let path = workspace_dir.join(&entry.path);
             // Do not consume edits made while the changelog was being rendered.
@@ -122,25 +140,8 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         for entry in &pending {
             std::fs::remove_file(workspace_dir.join(&entry.path))?;
         }
-    }
-    if let Err(error) = git_commit(&core_version, dry_run) {
-        // A rejected commit must not make the pending notes disappear. Avoid
-        // overwriting a concurrently recreated file while restoring our inputs.
-        for entry in &pending {
-            use std::io::Write;
-            let path = workspace_dir.join(&entry.path);
-            match std::fs::OpenOptions::new()
-                .write(true)
-                .create_new(true)
-                .open(&path)
-            {
-                Ok(mut file) => file.write_all(entry.content.as_bytes())?,
-                Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {}
-                Err(error) => return Err(error).context("failed to restore pending changeset"),
-            }
-        }
-        return Err(error).context("failed to commit");
-    }
+        git_commit(&core_version, false).context("failed to commit")
+    })?;
     git_tag_core(&core_version, dry_run).context("failed to tag core")?;
 
     Ok(())
@@ -323,7 +324,13 @@ impl InternedGraph {
     }
 }
 
-fn get_data() -> Result<(VersionMap, InternedGraph)> {
+struct ReleaseData {
+    versions: VersionMap,
+    graph: InternedGraph,
+    manifests: BTreeSet<PathBuf>,
+}
+
+fn get_data() -> Result<ReleaseData> {
     let md = cargo_metadata::MetadataCommand::new()
         .no_deps()
         .exec()
@@ -365,5 +372,17 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
         }
     }
 
-    Ok((versions, graph))
+    // cargo-edit also updates dependency requirements in non-published crates
+    // and shared dependencies in the workspace manifest.
+    let mut manifests = md
+        .workspace_packages()
+        .into_iter()
+        .map(|pkg| pkg.manifest_path.clone().into_std_path_buf())
+        .collect::<BTreeSet<_>>();
+    manifests.insert(md.workspace_root.join("Cargo.toml").into_std_path_buf());
+    Ok(ReleaseData {
+        versions,
+        graph,
+        manifests,
+    })
 }
