@@ -390,10 +390,17 @@ fn script_repeated_stdout(expected: PathBuf) {
     check_script_fixture(expected, ScriptExpectation::Stdout);
 }
 
+/// Observe named global properties from outside each freshly evaluated Script.
+#[testing::fixture("tests/fixture/**/expected.globals")]
+fn script_global_bindings(expected: PathBuf) {
+    check_script_fixture(expected, ScriptExpectation::Globals);
+}
+
 #[derive(Clone, Copy)]
 enum ScriptExpectation {
     Completion,
     Stdout,
+    Globals,
 }
 
 fn check_script_fixture(expected: PathBuf, expectation: ScriptExpectation) {
@@ -429,6 +436,7 @@ fn check_script_fixture(expected: PathBuf, expectation: ScriptExpectation) {
             eprintln!("---- Script round {round} -----\n{source}");
             let actual = match expectation {
                 ScriptExpectation::Completion => script_completion_of(&source),
+                ScriptExpectation::Globals => script_globals_of(&source, &expected),
                 ScriptExpectation::Stdout => exec_node_js(
                     &source,
                     JsExecOptions {
@@ -449,6 +457,29 @@ fn check_script_fixture(expected: PathBuf, expectation: ScriptExpectation) {
         Ok(())
     })
     .unwrap()
+}
+
+fn script_globals_of(source: &str, expected: &str) -> Result<String, Error> {
+    let source = serde_json::to_string(source)?;
+    let expected: serde_json::Map<String, serde_json::Value> = serde_json::from_str(expected)?;
+    let names = serde_json::to_string(&expected.keys().collect::<Vec<_>>())?;
+    exec_node_js(
+        &format!(
+            r#"
+const context = {{ console: {{ log() {{}} }} }};
+require('node:vm').runInNewContext({source}, context);
+const globals = {{}};
+for (const name of {names}) {{
+    globals[name] = context[name];
+}}
+console.log(JSON.stringify(globals));
+"#
+        ),
+        JsExecOptions {
+            cache: false,
+            ..Default::default()
+        },
+    )
 }
 
 fn script_completion_of(source: &str) -> Result<String, Error> {

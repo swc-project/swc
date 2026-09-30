@@ -22,6 +22,7 @@ where
         preserved: Default::default(),
         should_preserve: false,
         in_top_level: false,
+        in_script_global_var_decl: false,
 
         idents: Vec::new(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
@@ -64,6 +65,9 @@ pub(crate) struct Preserver<'a> {
 
     should_preserve: bool,
     in_top_level: bool,
+    /// Blocks retain the Script's var scope. Function bodies, static blocks,
+    /// and lexical declarations are excluded from global var preservation.
+    in_script_global_var_decl: bool,
 
     idents: Vec<Id>,
     unresolved_ctx: SyntaxContext,
@@ -104,7 +108,10 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_function_body(&mut self, n: &FunctionBody) {
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl = false;
         self.visit_non_top_level_stmts(&n.stmts);
+        self.in_script_global_var_decl = old;
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {
@@ -213,16 +220,35 @@ impl Visit for Preserver<'_> {
     }
 
     fn visit_script(&mut self, n: &Script) {
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl = true;
         for n in n.body.iter() {
             self.in_top_level = true;
             n.visit_with(self);
         }
+        self.in_script_global_var_decl = old;
+    }
+
+    fn visit_static_block(&mut self, n: &StaticBlock) {
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl = false;
+        n.visit_children_with(self);
+        self.in_script_global_var_decl = old;
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        let old = self.in_script_global_var_decl;
+        self.in_script_global_var_decl &= n.kind == VarDeclKind::Var;
+        n.visit_children_with(self);
+        self.in_script_global_var_decl = old;
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         n.visit_children_with(self);
 
-        if self.in_top_level && !self.options.top_level.unwrap_or_default() {
+        if (self.in_top_level || self.in_script_global_var_decl)
+            && !self.options.top_level.unwrap_or_default()
+        {
             let old = self.should_preserve;
             self.should_preserve = true;
             n.name.visit_with(self);
