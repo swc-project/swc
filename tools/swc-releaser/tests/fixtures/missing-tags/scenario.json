@@ -1,0 +1,20 @@
+{
+  "steps": [
+    {
+      "files": {
+        "CHANGELOG.md": "existing.md",
+        "CHANGELOG-CORE.md": "existing.md"
+      },
+      "git": [["tag", "--delete", "v1.0.0", "swc_core@v1.0.0"]],
+      "error": "no release tags selected by cliff.toml"
+    },
+    {
+      "git": [["tag", "v1.0.0"]],
+      "error": "no release tags selected by cliff-core.toml"
+    },
+    {
+      "git": [["tag", "--delete", "v1.0.0"], ["tag", "swc_core@v1.0.0"], ["tag", "v1.0.1-nightly-20260101.1"]],
+      "error": "no release tags selected by cliff.toml"
+    }
+  ]
+}

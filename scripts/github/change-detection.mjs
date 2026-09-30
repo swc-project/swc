@@ -61,8 +61,16 @@ export function classifyChanges({
   forceAll = false,
 }) {
   const normalizedFiles = files.map(normalizePath);
-  const affectedPackages = [...new Set(packages)].sort();
-  const affectedPackageSet = new Set(affectedPackages);
+  const affectedPackageSet = new Set(packages);
+  // The releaser's fixture suite renders these repository-level templates.
+  if (
+    normalizedFiles.some(
+      (file) => file === "cliff.toml" || file === "cliff-core.toml"
+    )
+  ) {
+    affectedPackageSet.add("swc-releaser");
+  }
+  const affectedPackages = [...affectedPackageSet].sort();
 
   const detectionInfraChanged = normalizedFiles.some((file) =>
     DETECTION_INFRA_PATHS.has(file)

@@ -1,0 +1,5 @@
+# These fixtures exercise original bytes and Markdown hard line breaks.
+markdown/crlf.md -text whitespace=-blank-at-eol,cr-at-eol
+markdown/pending.*.md whitespace=-blank-at-eol
+markdown/plain.md whitespace=-blank-at-eol
+fallback/non-utf8.md -text

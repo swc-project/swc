@@ -5866,9 +5866,15 @@ dependencies = [
  "anyhow",
  "cargo_metadata",
  "changesets",
+ "chrono",
  "clap 4.5.9",
  "indexmap 2.12.0",
  "petgraph",
+ "regex",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "testing",
 ]
 
 [[package]]

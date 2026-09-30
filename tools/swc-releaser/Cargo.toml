@@ -10,6 +10,14 @@ version           = "0.1.0"
 anyhow         = { workspace = true }
 cargo_metadata = { workspace = true }
 changesets     = { workspace = true }
+chrono         = { workspace = true }
 clap           = { version = "4.5.9", features = ["derive"] }
 indexmap       = { workspace = true }
 petgraph       = { workspace = true }
+regex          = { workspace = true }
+serde          = { workspace = true, features = ["derive"] }
+serde_json     = { workspace = true }
+tempfile       = { workspace = true }
+
+[dev-dependencies]
+testing = { path = "../../crates/testing" }

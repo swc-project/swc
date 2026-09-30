@@ -1,0 +1,44 @@
+{
+  "steps": [
+    {
+      "files": {
+        ".changeset/parser-context.md": "original.md"
+      },
+      "message": "refactor(es/parser): Separate parser contexts (#12425)",
+      "tags": [
+        "v1.1.0"
+      ],
+      "snapshot": "before-edit"
+    },
+    {
+      "files": {
+        ".changeset/parser-context.md": "updated.md"
+      },
+      "message": "chore: Clarify migration"
+    },
+    {
+      "remove": [
+        ".changeset/parser-context.md"
+      ],
+      "message": "chore: Publish crates",
+      "tags": [
+        "swc_core@v2.0.0"
+      ]
+    },
+    {
+      "message": "fix(cli): Retain commits without changesets (#12426)",
+      "tags": [
+        "v1.2.0",
+        "swc_core@v2.0.1"
+      ],
+      "snapshot": "released"
+    },
+    {
+      "files": {
+        ".changeset/parser-context.md": "reused.md"
+      },
+      "message": "fix(es/parser): Reuse a changeset filename (#12427)",
+      "snapshot": "reused"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "steps": [
+    {
+      "files": {
+        ".changeset/foo-bar.md": "rich.md",
+        ".changeset/foo_bar.md": "plain.md",
+        ".changeset/windows.md": "crlf.md",
+        ".changeset/empty.md": "empty.md"
+      },
+      "message": "fix(parser): Add changesets (#42)"
+    },
+    {
+      "message": "feat(api)!: Switch to explicit configuration\n\nBREAKING CHANGE: Pass the configuration explicitly."
+    },
+    {
+      "files": {
+        ".changeset/local.md": "local.md"
+      },
+      "snapshot": "pending"
+    },
+    {
+      "files": {
+        ".changeset/bad.md": "invalid.md"
+      },
+      "error": "invalid changeset"
+    }
+  ]
+}

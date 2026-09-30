@@ -1,0 +1,3 @@
+---
+swc_core: patch
+---

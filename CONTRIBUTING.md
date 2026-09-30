@@ -195,7 +195,17 @@ swc_ecma_transforms_base: patch
 ---
 
 fix(es/renamer): Check `preserved` in normal renaming mode
+
+Keep identifiers listed in `preserved` unchanged during normal renaming.
+Previously, normal renaming could rename these identifiers despite the caller's
+preservation settings, breaking references that rely on their original names.
 ```
+
+After the summary, explain the previous behavior, the new behavior, and who is
+affected. For breaking changes, list the affected APIs and give migration
+instructions, including replacement APIs and important limitations. Use paragraphs,
+lists, and code examples where useful; the changelog preserves this Markdown.
+Only include performance numbers or compatibility claims backed by evidence.
 
 You need to list the `crate names: patch | minor | major` in the front matter (`---` section).
 If you are not sure, you can skip it and the maintainer will help you.
