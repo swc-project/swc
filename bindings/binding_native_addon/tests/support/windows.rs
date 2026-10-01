@@ -14,6 +14,7 @@ enum Installation {
     Fallback,
     CustomFallback,
     Temporary,
+    Unavailable,
 }
 
 pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
@@ -23,6 +24,7 @@ pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
         Installation::Fallback,
         Installation::CustomFallback,
         Installation::Temporary,
+        Installation::Unavailable,
     ] {
         let root = tempfile::tempdir().unwrap();
         let local = root.path().join("local with spaces-λ");
@@ -60,6 +62,22 @@ pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
             }
             Installation::Temporary => {
                 command.env("SWC_NATIVE_BINDING_CACHE", "0");
+            }
+            Installation::Unavailable => {
+                acl::unsafe_directory(&cache_root, acl::Grant::AuthenticatedUsers);
+                let profile_security = acl::security(&cache_root);
+                checked(
+                    Command::new(node)
+                        .arg(fixture_source("windows-cache-error.cjs"))
+                        .arg(carrier)
+                        .env("LOCALAPPDATA", &local)
+                        .env("USERPROFILE", &profile)
+                        .env_remove("SWC_NATIVE_BINDING_CACHE"),
+                );
+                assert_eq!(acl::security(&cache_root), profile_security);
+                assert_eq!(acl::security(&local), local_security);
+                assert_eq!(fs::read(carrier).unwrap(), original);
+                continue;
             }
             Installation::Fallback => {}
         }
