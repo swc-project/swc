@@ -27,9 +27,12 @@ pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
         Installation::Unavailable,
     ] {
         let root = tempfile::tempdir().unwrap();
-        let local = root.path().join("local with spaces-λ");
-        let profile = root.path().join("profile with spaces-λ");
-        let custom = root.path().join("custom");
+        // A digest/SID cache under nested Unicode fixtures exceeds MAX_PATH.
+        // Use the extended prefix supplied by Windows canonicalization.
+        let path = root.path().canonicalize().unwrap();
+        let local = path.join("local with spaces-λ");
+        let profile = path.join("profile with spaces-λ");
+        let custom = path.join("custom");
         swc_native_addon::platform::private_directory(&profile).unwrap();
         if matches!(installation, Installation::Primary) {
             swc_native_addon::platform::private_directory(&local).unwrap();

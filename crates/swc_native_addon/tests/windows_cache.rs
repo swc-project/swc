@@ -58,12 +58,15 @@ fn windows_cache_fixtures() {
         }
         Scenario::parse(case);
         let root = tempfile::tempdir().unwrap();
+        // Content-addressed filenames plus a user SID can exceed MAX_PATH in
+        // nested fixtures. Canonicalization supplies Windows' extended prefix.
+        let path = root.path().canonicalize().unwrap();
         let result = Command::new(std::env::current_exe().unwrap())
             .args(["--exact", "windows_cache_worker", "--nocapture"])
             .env("SWC_TEST_WINDOWS_CACHE_CASE", case)
-            .env("SWC_TEST_WINDOWS_CACHE_ROOT", root.path())
-            .env("LOCALAPPDATA", root.path().join("local"))
-            .env("USERPROFILE", root.path().join("profile"))
+            .env("SWC_TEST_WINDOWS_CACHE_ROOT", &path)
+            .env("LOCALAPPDATA", path.join("local"))
+            .env("USERPROFILE", path.join("profile"))
             .output()
             .unwrap();
         assert!(
