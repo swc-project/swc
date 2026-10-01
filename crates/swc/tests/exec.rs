@@ -228,6 +228,22 @@ fn run_fixture_test(entry: PathBuf) {
     unignore_fixture(&entry);
 }
 
+/// Verify native async iteration lowering through the complete compiler,
+/// including compression, mangling, helper injection, and source maps.
+#[testing::fixture("../swc_ecma_preset_env/tests/fixtures/transform/native-async/**/exec.js")]
+fn native_async(entry: PathBuf) {
+    let _ = init_helpers();
+    let _guard = testing::init();
+    let expected_stdout = get_expected_stdout(&entry).expect("failed to get stdout");
+    for (idx, opts) in create_matrix(&entry)
+        .into_iter()
+        .filter(|opts| opts.config.jsc.target == Some(EsVersion::Es2017))
+        .enumerate()
+    {
+        test_file_with_opts(&entry, &opts, &expected_stdout, idx).unwrap();
+    }
+}
+
 #[testing::fixture("tests/babel-exec/**/exec.js")]
 fn run_babel_fixture_exec_test(entry: PathBuf) {
     let _ = init_helpers();

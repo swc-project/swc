@@ -1,3 +1,4 @@
+import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 function generate() {
@@ -15,8 +16,35 @@ function generate() {
 }
 async function printValues() {
     const iterator = generate();
-    for await (const value of iterator){
-        console.log(`iterator value: ${value}`);
+    {
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
+        try {
+            var _iterator = _async_iterator(iterator);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+                _step = await Reflect.apply(_next, _iterator, []);
+                if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
+                _iteratorAbruptCompletion = !_step.done;
+                if (!_iteratorAbruptCompletion) break;
+                let _value = _step.value;
+                const value = _value;
+                console.log(`iterator value: ${value}`);
+            }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally{
+            try {
+                if (_iteratorAbruptCompletion && (_return = _iterator.return) != null) {
+                    _step = await Reflect.apply(_return, _iterator, []);
+                    if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
+                }
+            } finally{
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
     }
 }
 printValues();

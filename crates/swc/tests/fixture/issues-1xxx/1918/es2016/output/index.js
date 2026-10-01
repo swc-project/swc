@@ -20,7 +20,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
                     try {
                         for(var _iterator = _async_iterator(iterable), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false){
                             let _value = _step.value;
-                            const value = _value;
+                            let value = _value;
                             counter++;
                             console.log(value);
                         }
