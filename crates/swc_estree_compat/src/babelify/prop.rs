@@ -5,7 +5,7 @@ use swc_ecma_ast::{
     SetterProp,
 };
 use swc_estree_ast::{
-    AssignmentPattern, AssignmentPatternLeft, Expression, FunctionExpression, ObjectKey,
+    AssignmentPattern, AssignmentPatternLeft, Expression, FunctionExpression, Literal, ObjectKey,
     ObjectMember, ObjectMethod, ObjectMethodKind, ObjectPropVal, ObjectProperty,
 };
 
@@ -17,6 +17,7 @@ fn babelify_object_method(
     kind: ObjectMethodKind,
     ctx: &Context,
 ) -> ObjectMethod {
+    let computed = key.is_computed();
     let func: FunctionExpression = function.babelify(ctx);
 
     ObjectMethod {
@@ -26,7 +27,7 @@ fn babelify_object_method(
         params: func.params,
         body: func.body,
         return_type: func.return_type,
-        computed: Default::default(),
+        computed,
         generator: func.generator,
         is_async: func.is_async,
         decorator: Default::default(),
@@ -66,11 +67,12 @@ impl Babelify for KeyValueProp {
     type Output = ObjectProperty;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let computed = self.key.is_computed();
         ObjectProperty {
             base: ctx.base(self.span()),
             key: self.key.babelify(ctx),
             value: ObjectPropVal::Expr(Box::alloc().init(self.value.babelify(ctx).into())),
-            computed: Default::default(),
+            computed,
             shorthand: Default::default(),
             decorators: Default::default(),
         }
@@ -126,6 +128,10 @@ impl Babelify for PropName {
             PropName::Str(s) => ObjectKey::String(s.babelify(ctx)),
             PropName::Num(n) => ObjectKey::Numeric(n.babelify(ctx)),
             PropName::Computed(e) => ObjectKey::Expr(Box::alloc().init(e.babelify(ctx))),
+            PropName::BigInt(b) => ObjectKey::Expr(
+                Box::alloc().init(Expression::Literal(Literal::BigInt(b.babelify(ctx)))),
+            ),
+            #[cfg(swc_ast_unknown)]
             _ => panic!(
                 "illegal conversion: Cannot convert {:?} to ObjectKey",
                 &self
@@ -139,5 +145,43 @@ impl Babelify for ComputedPropName {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         self.expr.babelify(ctx).into()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_common::{sync::Lrc, FileName, SourceMap, DUMMY_SP};
+    use swc_ecma_ast::{BigInt, PropName};
+    use swc_estree_ast as estree;
+    use swc_node_comments::SwcComments;
+
+    use crate::babelify::{Babelify, Context};
+
+    #[test]
+    fn test_bigint_prop_name() {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), String::new());
+        let ctx = Context {
+            fm,
+            cm,
+            comments: SwcComments::default(),
+        };
+
+        let prop_name = PropName::BigInt(BigInt {
+            span: DUMMY_SP,
+            value: Box::new(123u64.into()),
+            raw: Some("123n".into()),
+        });
+
+        let key = prop_name.babelify(&ctx);
+        match key {
+            estree::ObjectKey::Expr(expr) => match *expr {
+                estree::Expression::Literal(estree::Literal::BigInt(bi)) => {
+                    assert_eq!(bi.value.as_str(), "123");
+                }
+                _ => panic!("Expected Literal::BigInt"),
+            },
+            _ => panic!("Expected ObjectKey::Expr"),
+        }
     }
 }

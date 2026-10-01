@@ -287,7 +287,7 @@ impl Babelify for ForOfStmt {
             left: self.left.babelify(ctx),
             right: Box::alloc().init(self.right.babelify(ctx).into()),
             body: Box::alloc().init(self.body.babelify(ctx)),
-            // await_token not yet implemented
+            is_await: self.is_await,
         }
     }
 }

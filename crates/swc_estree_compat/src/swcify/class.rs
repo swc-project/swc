@@ -49,7 +49,11 @@ impl Swcify for swc_estree_ast::ClassMethod {
 
                 swc_ecma_ast::ClassMethod {
                     span: ctx.span(&self.base),
-                    key: self.key.swcify(ctx),
+                    key: crate::swcify::expr::swcify_object_key(
+                        self.key,
+                        self.computed.unwrap_or_default(),
+                        ctx,
+                    ),
                     function: Function {
                         this_param,
                         params,
@@ -68,7 +72,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
                         .map(|kind| match kind {
                             ClassMethodKind::Get => MethodKind::Getter,
                             ClassMethodKind::Set => MethodKind::Setter,
-                            ClassMethodKind::Method => MethodKind::Getter,
+                            ClassMethodKind::Method => MethodKind::Method,
                             ClassMethodKind::Constructor => {
                                 unreachable!()
                             }
@@ -84,7 +88,11 @@ impl Swcify for swc_estree_ast::ClassMethod {
             }
             ClassMethodKind::Constructor => swc_ecma_ast::Constructor {
                 span: ctx.span(&self.base),
-                key: self.key.swcify(ctx),
+                key: crate::swcify::expr::swcify_object_key(
+                    self.key,
+                    self.computed.unwrap_or_default(),
+                    ctx,
+                ),
                 params: self
                     .params
                     .into_iter()
@@ -127,7 +135,7 @@ impl Swcify for swc_estree_ast::ClassPrivateMethod {
             kind: match self.kind.unwrap_or(ClassMethodKind::Method) {
                 ClassMethodKind::Get => MethodKind::Getter,
                 ClassMethodKind::Set => MethodKind::Setter,
-                ClassMethodKind::Method => MethodKind::Getter,
+                ClassMethodKind::Method => MethodKind::Method,
                 ClassMethodKind::Constructor => {
                     unreachable!()
                 }
@@ -145,7 +153,11 @@ impl Swcify for swc_estree_ast::ClassProperty {
     type Output = swc_ecma_ast::ClassProp;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        let key = self.key.swcify(ctx);
+        let key = crate::swcify::expr::swcify_object_key(
+            self.key,
+            self.computed.unwrap_or_default(),
+            ctx,
+        );
 
         swc_ecma_ast::ClassProp {
             span: ctx.span(&self.base),
@@ -174,7 +186,7 @@ impl Swcify for swc_estree_ast::ClassPrivateProperty {
             key: self.key.swcify(ctx),
             value: self.value.swcify(ctx),
             type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
-            is_static: false,
+            is_static: self.static_any.as_bool().unwrap_or(false),
             decorators: Default::default(),
             accessibility: Default::default(),
             is_optional: false,
@@ -226,6 +238,114 @@ impl Swcify for TSExpressionWithTypeArguments {
             span: ctx.span(&self.base),
             expr: swcify_expr(self.expression, ctx),
             type_args: self.type_parameters.swcify(ctx).map(Box::new),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::atom;
+    use swc_common::{sync::Lrc, FileName, SourceMap};
+    use swc_ecma_ast::{ClassMember, MethodKind};
+    use swc_estree_ast as estree;
+    use swc_node_comments::SwcComments;
+
+    use crate::swcify::{Context, Swcify};
+
+    fn base() -> estree::BaseNode {
+        estree::BaseNode {
+            leading_comments: Default::default(),
+            inner_comments: Default::default(),
+            trailing_comments: Default::default(),
+            start: None,
+            end: None,
+            loc: None,
+            range: None,
+        }
+    }
+
+    #[test]
+    fn test_swcify_class_method_kind_method() {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), String::new());
+        let comments = SwcComments::default();
+        let ctx = Context::new_without_alloc(cm, comments, fm);
+
+        let method = estree::ClassMethod {
+            base: base(),
+            kind: Some(estree::ClassMethodKind::Method),
+            key: estree::ObjectKey::Id(estree::Identifier {
+                base: base(),
+                name: atom!("foo"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            }),
+            params: vec![],
+            body: estree::BlockStatement {
+                base: base(),
+                body: vec![],
+                directives: vec![],
+            },
+            computed: None,
+            is_static: None,
+            generator: None,
+            is_async: None,
+            is_abstract: None,
+            access: None,
+            accessibility: None,
+            decorators: None,
+            optional: None,
+            return_type: None,
+            type_parameters: None,
+        };
+
+        let class_member: ClassMember = method.swcify(&ctx);
+        match class_member {
+            ClassMember::Method(m) => {
+                assert_eq!(m.kind, MethodKind::Method);
+            }
+            _ => panic!("Expected ClassMember::Method"),
+        }
+
+        let private_method = estree::ClassBodyEl::PrivateMethod(estree::ClassPrivateMethod {
+            base: base(),
+            kind: Some(estree::ClassMethodKind::Method),
+            key: estree::PrivateName {
+                base: base(),
+                id: estree::Identifier {
+                    base: base(),
+                    name: atom!("bar"),
+                    type_annotation: None,
+                    optional: None,
+                    decorators: None,
+                },
+            },
+            params: vec![],
+            body: estree::BlockStatement {
+                base: base(),
+                body: vec![],
+                directives: vec![],
+            },
+            is_static: None,
+            generator: None,
+            is_async: None,
+            is_abstract: None,
+            access: None,
+            accessibility: None,
+            decorators: None,
+            optional: None,
+            computed: None,
+            return_type: None,
+            type_parameters: None,
+        });
+
+        let private_member: ClassMember = private_method.swcify(&ctx);
+        match private_member {
+            ClassMember::PrivateMethod(m) => {
+                assert_eq!(m.kind, MethodKind::Method);
+            }
+            _ => panic!("Expected ClassMember::PrivateMethod"),
         }
     }
 }
