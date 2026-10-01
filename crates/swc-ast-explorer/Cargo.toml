@@ -15,7 +15,7 @@ path  = "src/main.rs"
 
 [dependencies]
 anyhow = { workspace = true }
-clap = { version = "3", features = ["derive"] }
+clap = { version = "4", features = ["derive"] }
 owo-colors = { workspace = true }
 regex = { workspace = true }
 swc_common = { version = "26.0.0", path = "../swc_common" }
