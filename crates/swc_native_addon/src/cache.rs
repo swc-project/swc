@@ -199,8 +199,21 @@ fn temporary_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
     // Arm cleanup before LoadLibrary. The pipe writer is not inherited by
     // other children and closes even on forced termination of this process.
     #[cfg(windows)]
-    let cleanup = crate::cleanup::arm(&path)
-        .map_err(|e| io_error("arm temporary addon cleanup", &path, e))?;
+    let cleanup = crate::cleanup::arm(&path).map_err(|error| {
+        // Worker verification reports corrupt bytes as InvalidData. This is
+        // an integrity failure, not an unusable root: do not hide it by trying
+        // a different cache, just as we never retry a corrupt addon payload.
+        let kind = if error.kind() == io::ErrorKind::InvalidData {
+            ErrorKind::Integrity
+        } else {
+            ErrorKind::Cache
+        };
+        Error::io(
+            kind,
+            &format!("arm temporary addon cleanup {}", path.display()),
+            error,
+        )
+    })?;
     let path = path
         .keep()
         .map_err(|e| io_error("retain temporary addon", &dir, e.error))?;

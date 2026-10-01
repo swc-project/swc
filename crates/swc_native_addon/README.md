@@ -125,7 +125,8 @@ replacement grants, so the profile fallback preserves validation without
 changing the original root's ACL. A usable primary cache does not consult
 `USERPROFILE`. If neither candidate is safe and writable, the error includes
 both causes and recommends setting `SWC_NATIVE_BINDING_CACHE` to a safe absolute
-directory. Payload integrity failures never trigger the profile retry.
+directory. Payload or cleanup-helper integrity failures never trigger the
+profile retry.
 Under either persistent root, entries live in `swc-native-<effective UID or user
 SID>/v1/<128 hexadecimal SHA-512 digits>.node`. Unix directories are owner-only;
 Windows directories have protected owner/SYSTEM DACLs. Ancestor directories
