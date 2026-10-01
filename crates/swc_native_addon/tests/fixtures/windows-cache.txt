@@ -1,0 +1,14 @@
+# Each case runs in a separate process with isolated LOCALAPPDATA/USERPROFILE.
+primary
+appcontainer
+authenticated-users
+custom-fallback
+temporary
+missing-primary
+relative-primary
+late-cache-failure
+missing-profile
+relative-profile
+blocked-profile
+unsafe-profile
+integrity

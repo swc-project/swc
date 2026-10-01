@@ -3,6 +3,9 @@
 #[cfg(windows)]
 pub mod ntfs;
 
+#[cfg(windows)]
+pub mod windows;
+
 use std::{
     fs,
     path::{Path, PathBuf},

@@ -124,21 +124,52 @@ pub fn cache_directory(root: &Path) -> Result<PathBuf> {
     Ok(version)
 }
 
+/// Try the usual user cache first. Windows alone has a second candidate because
+/// ordinary LocalAppData ACLs can grant untrusted replacement rights. Retry
+/// only cache failures, never payload corruption, and validate both roots using
+/// the same security checks. The successful primary path does no extra work.
+fn with_user_cache_root<T>(materialize: impl Fn(&Path) -> Result<T>) -> Result<T> {
+    let primary = platform::user_cache_root().and_then(|root| materialize(&root));
+    #[cfg(windows)]
+    if let Err(primary) = primary {
+        if primary.kind != ErrorKind::Cache {
+            return Err(primary);
+        }
+        tracing::debug!(error = %primary, "native user cache unavailable; trying profile cache");
+        return platform::user_profile_cache_root()
+            .and_then(|root| materialize(&root))
+            .map_err(|fallback| {
+                if fallback.kind != ErrorKind::Cache {
+                    return fallback;
+                }
+                Error::new(
+                    ErrorKind::Cache,
+                    format!(
+                        "user cache failed: {primary}; profile cache failed: {fallback}; set \
+                         SWC_NATIVE_BINDING_CACHE to a safe absolute directory owned by your user \
+                         whose ancestors do not grant other users replacement rights"
+                    ),
+                )
+            });
+    }
+    primary
+}
+
 pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materialized> {
     match mode {
         CacheMode::Temporary => temporary(payload),
-        CacheMode::Default => cached_at(payload, &platform::user_cache_root()?),
+        CacheMode::Default => with_user_cache_root(|root| cached_at(payload, root)),
         CacheMode::Custom(root) => match cached_at(payload, root) {
             Ok(file) => Ok(file),
             Err(custom) => {
                 tracing::debug!(path = %root.display(), error = %custom, "custom native cache unavailable; using user cache");
-                let default_root = platform::user_cache_root()?;
-                cached_at(payload, &default_root).map_err(|default| {
+                with_user_cache_root(|root| cached_at(payload, root)).map_err(|default| {
                     Error::new(
                         ErrorKind::Cache,
                         format!(
-                            "custom cache failed: {custom}; default cache failed: {default}; make \
-                             either directory writable or unset SWC_NATIVE_BINDING_CACHE"
+                            "custom cache failed: {custom}; default cache failed: {default}; set \
+                             SWC_NATIVE_BINDING_CACHE to a safe writable absolute directory or \
+                             unset it to use the default user cache"
                         ),
                     )
                 })
@@ -149,8 +180,11 @@ pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materializ
 
 /// Materialize without consulting or creating any persistent digest entry.
 pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
-    let root = platform::user_cache_root()?;
-    let dir = cache_directory(&root)?;
+    with_user_cache_root(|root| temporary_at(payload, root))
+}
+
+fn temporary_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
+    let dir = cache_directory(root)?;
     let mut file =
         platform::temporary_file(&dir, &format!("process-{}-", std::process::id()), ".node")
             .map_err(|e| io_error("create temporary addon", &dir, e))?;
@@ -165,8 +199,21 @@ pub fn temporary(payload: &Payload<'_>) -> Result<Materialized> {
     // Arm cleanup before LoadLibrary. The pipe writer is not inherited by
     // other children and closes even on forced termination of this process.
     #[cfg(windows)]
-    let cleanup = crate::cleanup::arm(&path)
-        .map_err(|e| io_error("arm temporary addon cleanup", &path, e))?;
+    let cleanup = crate::cleanup::arm(&path).map_err(|error| {
+        // Worker verification reports corrupt bytes as InvalidData. This is
+        // an integrity failure, not an unusable root: do not hide it by trying
+        // a different cache, just as we never retry a corrupt addon payload.
+        let kind = if error.kind() == io::ErrorKind::InvalidData {
+            ErrorKind::Integrity
+        } else {
+            ErrorKind::Cache
+        };
+        Error::io(
+            kind,
+            &format!("arm temporary addon cleanup {}", path.display()),
+            error,
+        )
+    })?;
     let path = path
         .keep()
         .map_err(|e| io_error("retain temporary addon", &dir, e.error))?;

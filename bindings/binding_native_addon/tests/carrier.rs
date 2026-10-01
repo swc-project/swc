@@ -8,6 +8,10 @@ use std::{
 #[path = "support/macos.rs"]
 mod macos;
 
+#[cfg(windows)]
+#[path = "support/windows.rs"]
+mod windows;
+
 fn fixture_source(name: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("../../crates/swc_native_addon/tests/fixtures")
@@ -132,6 +136,16 @@ fn real_carrier_forwards_registration_and_throws_loader_errors() {
     let original_carrier = fs::read(&carrier).unwrap();
     #[cfg(target_os = "macos")]
     macos::check_cache_policy(
+        &std::env::var_os("SWC_TEST_NODE").unwrap_or_else(|| "node".into()),
+        &carrier,
+        &raw_bytes,
+        &swc_native_addon::format::Payload::parse(&packed)
+            .unwrap()
+            .header
+            .cache_key(),
+    );
+    #[cfg(windows)]
+    windows::check_cache_policy(
         &std::env::var_os("SWC_TEST_NODE").unwrap_or_else(|| "node".into()),
         &carrier,
         &raw_bytes,

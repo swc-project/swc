@@ -130,7 +130,29 @@ pub fn user_cache_root() -> Result<PathBuf> {
     env::var_os("LOCALAPPDATA")
         .filter(|value| Path::new(value).is_absolute())
         .map(|value| PathBuf::from(value).join("swc"))
-        .ok_or_else(|| Error::new(ErrorKind::Cache, "cannot determine native addon user cache"))
+        .ok_or_else(|| {
+            Error::new(
+                ErrorKind::Cache,
+                "cannot determine native addon user cache: LOCALAPPDATA must be an absolute \
+                 directory",
+            )
+        })
+}
+
+/// AppContainer grants inherited by LocalAppData can make it unsafe for native
+/// loading. Use a separately validated profile cache rather than trusting those
+/// grants or changing the user's directory ACLs.
+pub(crate) fn user_profile_cache_root() -> Result<PathBuf> {
+    env::var_os("USERPROFILE")
+        .filter(|value| Path::new(value).is_absolute())
+        .map(|value| PathBuf::from(value).join(".swc-cache"))
+        .ok_or_else(|| {
+            Error::new(
+                ErrorKind::Cache,
+                "cannot determine native addon profile cache: USERPROFILE must be an absolute \
+                 directory",
+            )
+        })
 }
 
 /// Windows does not expose a mount-level `noexec` equivalent for ordinary
