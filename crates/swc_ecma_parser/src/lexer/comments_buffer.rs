@@ -42,7 +42,6 @@ impl CommentsBuffer {
         self.pending_leading.truncate(checkpoint.pending_leading);
     }
 
-    #[cfg(feature = "tsrx")]
     pub fn retain_before(&mut self, pos: BytePos) {
         self.comments
             .retain(|comment| comment.comment.span.lo < pos);

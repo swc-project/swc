@@ -261,8 +261,7 @@ macro_rules! expose {
 
 expose!(parse_file_as_expr, Box<Expr>, |p| {
     // This allow to parse `import.meta`
-    let ctx = p.ctx();
-    p.set_ctx(ctx.union(Context::CanBeModule));
+    p.allow_module_syntax();
     p.parse_expr()
 });
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });

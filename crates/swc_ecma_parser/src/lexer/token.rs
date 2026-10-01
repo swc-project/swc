@@ -431,12 +431,8 @@ impl Token {
     pub const fn is_reserved(self, ctx: Context) -> bool {
         match self {
             Token::Let | Token::Static => ctx.contains(Context::Strict),
-            Token::Await => {
-                ctx.contains(Context::InAsync)
-                    || ctx.contains(Context::InStaticBlock)
-                    || ctx.contains(Context::Strict)
-            }
-            Token::Yield => ctx.contains(Context::InGenerator) || ctx.contains(Context::Strict),
+            Token::Await => ctx.contains(Context::Module),
+            Token::Yield => ctx.contains(Context::Strict),
 
             Token::Null
             | Token::True

@@ -48,6 +48,14 @@ impl<I: Tokens> Parser<I> {
         unreachable!("parse_ts_type_args should not be called without typescript feature")
     }
 
+    pub(crate) fn parse_ts_type_args_in_expr(&mut self) -> PResult<Box<TsTypeParamInstantiation>> {
+        unreachable!("parse_ts_type_args_in_expr should not be called without typescript feature")
+    }
+
+    pub(super) fn expect_ts_type_gt(&mut self) -> PResult<()> {
+        unreachable!("expect_ts_type_gt should not be called without typescript feature")
+    }
+
     pub(crate) fn parse_ts_type_ann(
         &mut self,
         _eat_colon: bool,

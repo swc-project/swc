@@ -4,9 +4,7 @@ use swc_atoms::{
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
     Wtf8Atom,
 };
-#[cfg(feature = "tsrx")]
-use swc_common::Spanned;
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::EsVersion;
 
 use super::{Context, Input, Lexer};
@@ -252,6 +250,32 @@ impl crate::input::Tokens for Lexer<'_> {
             }
         };
         self.finish_next_token(self.span(start), token)
+    }
+
+    // Most type closers are already a single `>`. Keep suffix rescanning and
+    // speculative lookahead cleanup out of the common closer's call frame.
+    #[cold]
+    #[inline(never)]
+    fn rescan_type_gt(&mut self, span: Span) -> TokenAndSpan {
+        let start = span.lo;
+        let end = start + BytePos(1);
+        // Without lookahead, no diagnostics or comments can follow this
+        // punctuation token. Avoid scanning accumulated buffers on that path.
+        if self.cur_pos() > span.hi {
+            self.errors.retain(|error| error.span().lo < end);
+            self.module_errors.retain(|error| error.span().lo < end);
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                comments.retain_before(end);
+            }
+        }
+        // The parser only calls this for an ASCII greater-than operator.
+        unsafe {
+            self.input.reset_to(end);
+        }
+        self.state.token_value = None;
+        self.state.next_regexp = None;
+        self.token_flags = TokenFlags::empty();
+        self.finish_next_token(Span::new_with_checked(start, end), Token::Gt)
     }
 
     fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan {

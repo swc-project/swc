@@ -1,0 +1,21 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/container-grammar-boundaries/input.script.ts:3:1]
+ 2 |     declare module "m" { import type { X } from "n"; }
+ 3 |     let { aw\u0061it = 1 } = obj;
+   :           ^^^^^^^^^^
+ 4 | }
+   `----
+  x Unexpected escape sequence in reserved word: yield
+   ,-[$DIR/tests/errors/pr-12425/container-grammar-boundaries/input.script.ts:7:1]
+ 6 |     declare module "m" { import type { X } from "n"; }
+ 7 |     let { y\u0069eld = 1 } = obj;
+   :           ^^^^^^^^^^
+ 8 | }
+   `----
+  x Unexpected escape sequence in reserved word: await
+    ,-[$DIR/tests/errors/pr-12425/container-grammar-boundaries/input.script.ts:12:1]
+ 11 |         declare module "m" { import type { X } from "n"; }
+ 12 |         let { aw\u0061it = 1 } = obj;
+    :               ^^^^^^^^^^
+ 13 |     }
+    `----

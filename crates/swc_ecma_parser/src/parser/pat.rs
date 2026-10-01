@@ -49,6 +49,90 @@ fn direct_ts_this_ident(pat: &Pat) -> Option<&Ident> {
     Some(ident)
 }
 
+/// The binding information needed by shared parameter-list validation.
+/// Implementations borrow it from the final AST instead of retaining a
+/// second list of intermediate patterns.
+pub(super) trait FormalParameter: ParameterListItem {
+    fn binding_ident(&self) -> Option<&BindingIdent>;
+
+    fn direct_this_ident(&self) -> Option<&Ident>;
+}
+
+/// The list grammar only needs to know whether an item is a rest parameter.
+pub(super) trait ParameterListItem {
+    fn rest_span(&self) -> Option<Span>;
+}
+
+impl ParameterListItem for Param {
+    fn rest_span(&self) -> Option<Span> {
+        self.pat.rest_span()
+    }
+}
+
+impl ParameterListItem for Pat {
+    fn rest_span(&self) -> Option<Span> {
+        match self {
+            Pat::Rest(rest) => Some(rest.span),
+            _ => None,
+        }
+    }
+}
+
+impl FormalParameter for Param {
+    fn binding_ident(&self) -> Option<&BindingIdent> {
+        self.pat.binding_ident()
+    }
+
+    fn direct_this_ident(&self) -> Option<&Ident> {
+        self.pat.direct_this_ident()
+    }
+}
+
+impl FormalParameter for Pat {
+    fn binding_ident(&self) -> Option<&BindingIdent> {
+        self.as_ident()
+    }
+
+    fn direct_this_ident(&self) -> Option<&Ident> {
+        direct_ts_this_ident(self)
+    }
+}
+
+impl ParameterListItem for TsFnParam {
+    fn rest_span(&self) -> Option<Span> {
+        match self {
+            Self::Rest(rest) => Some(rest.span),
+            _ => None,
+        }
+    }
+}
+
+impl ParameterListItem for ParamOrTsParamProp {
+    fn rest_span(&self) -> Option<Span> {
+        match self {
+            Self::Param(param) => param.rest_span(),
+            Self::TsParamProp(_) => None,
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!("parser constructs only known parameter variants"),
+        }
+    }
+}
+
+impl FormalParameter for TsFnParam {
+    fn binding_ident(&self) -> Option<&BindingIdent> {
+        match self {
+            Self::Ident(ident) => Some(ident),
+            _ => None,
+        }
+    }
+
+    fn direct_this_ident(&self) -> Option<&Ident> {
+        self.binding_ident()
+            .map(|ident| &ident.id)
+            .filter(|ident| &*ident.sym == "this")
+    }
+}
+
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
         self.parse_binding_pat_or_ident(false)
@@ -426,7 +510,7 @@ impl<I: Tokens> Parser<I> {
                 Ok(Invalid { span }.into())
             }
 
-            Expr::Yield(..) if self.ctx().contains(Context::InGenerator) => {
+            Expr::Yield(..) if self.includes_yield_expr() => {
                 self.emit_err(span, SyntaxError::InvalidPat);
                 Ok(Invalid { span }.into())
             }
@@ -455,16 +539,17 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::Eq) {
             let initializer_span = self.input().prev_span();
 
-            let right = self.allow_in_expr(Self::parse_assignment_expr)?;
+            let right =
+                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
 
-            if self.ctx().contains(Context::InParameters)
-                && self.ctx().contains(Context::InAsync)
+            if self.boundary_ctx().contains(BoundaryContext::InParameters)
+                && self.includes_await_expr()
                 && is_await_ident_or_expr(&right)
             {
                 self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
             }
 
-            if self.ctx().contains(Context::InDeclare) {
+            if self.type_ctx().contains(TypeContext::InDeclare) {
                 self.emit_err(self.span(start), SyntaxError::TS2371);
             }
 
@@ -549,7 +634,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         expect!(self, Token::RBracket);
-        let optional = (self.input().syntax().dts() || self.ctx().contains(Context::InDeclare))
+        let optional = (self.input().syntax().dts()
+            || self.type_ctx().contains(TypeContext::InDeclare))
             && self.input_mut().eat(Token::QuestionMark);
 
         Ok(ArrayPat {
@@ -608,8 +694,8 @@ impl<I: Tokens> Parser<I> {
                         *optional = true;
                         opt = true;
                     }
-                    _ if self.input().syntax().dts() || self.ctx().contains(Context::InDeclare) => {
-                    }
+                    _ if self.input().syntax().dts()
+                        || self.type_ctx().contains(TypeContext::InDeclare) => {}
                     _ => {
                         syntax_error!(
                             self,
@@ -675,13 +761,13 @@ impl<I: Tokens> Parser<I> {
             }
 
             let right = self.parse_assignment_expr()?;
-            if self.ctx().contains(Context::InParameters)
-                && self.ctx().contains(Context::InAsync)
+            if self.boundary_ctx().contains(BoundaryContext::InParameters)
+                && self.includes_await_expr()
                 && is_await_ident_or_expr(&right)
             {
                 self.emit_err(right.span(), SyntaxError::AwaitParamInAsync);
             }
-            if self.ctx().contains(Context::InDeclare) {
+            if self.type_ctx().contains(TypeContext::InDeclare) {
                 self.emit_err(self.span(start), SyntaxError::TS2371);
             }
 
@@ -743,37 +829,32 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_constructor_params(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
-        self.do_inside_of_context(Context::InParameters, Self::parse_constructor_params_inner)
+        self.do_inside_of_boundary_context(BoundaryContext::InParameters, |p| {
+            p.with_syntax_context(
+                super::SyntaxContext::Parameters,
+                Self::parse_constructor_params_inner,
+            )
+        })
     }
 
     fn parse_constructor_params_inner(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
-        let mut params = Vec::new();
-        let mut rest_span = Span::default();
+        self.parse_parameter_list(|p, _| {
+            let param_start = p.cur_pos();
+            let decorators = p.parse_decorators(false)?;
+            let pat_start = p.cur_pos();
 
-        while !self.input().is(Token::RParen) {
-            if !rest_span.is_dummy() {
-                self.emit_err(rest_span, SyntaxError::TS1014);
-            }
+            if p.input_mut().eat(Token::DotDotDot) {
+                let dot3_token = p.span(pat_start);
 
-            let param_start = self.cur_pos();
-            let decorators = self.parse_decorators(false)?;
-            let pat_start = self.cur_pos();
+                let pat = p.parse_binding_pat_or_ident(false)?;
+                let type_ann = if p.input().syntax().typescript() && p.input().is(Token::Colon) {
+                    let cur_pos = p.cur_pos();
+                    Some(p.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                } else {
+                    None
+                };
 
-            let mut is_rest = false;
-            if self.input_mut().eat(Token::DotDotDot) {
-                is_rest = true;
-                let dot3_token = self.span(pat_start);
-
-                let pat = self.parse_binding_pat_or_ident(false)?;
-                let type_ann =
-                    if self.input().syntax().typescript() && self.input().is(Token::Colon) {
-                        let cur_pos = self.cur_pos();
-                        Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
-                    } else {
-                        None
-                    };
-
-                rest_span = self.span(pat_start);
+                let rest_span = p.span(pat_start);
                 let pat = RestPat {
                     span: rest_span,
                     dot3_token,
@@ -781,128 +862,80 @@ impl<I: Tokens> Parser<I> {
                     type_ann,
                 }
                 .into();
-                params.push(ParamOrTsParamProp::Param(Param {
-                    span: self.span(param_start),
+                Ok(ParamOrTsParamProp::Param(Param {
+                    span: p.span(param_start),
                     decorators,
                     pat,
-                }));
+                }))
             } else {
-                params.push(self.parse_constructor_param(param_start, decorators)?);
+                p.parse_constructor_param(param_start, decorators)
             }
-
-            if !self.input().is(Token::RParen) {
-                expect!(self, Token::Comma);
-                if self.input().is(Token::RParen)
-                    && is_rest
-                    && (!self.ctx().contains(Context::InDeclare) || self.syntax().flow())
-                {
-                    self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
-                }
-            }
-        }
-
-        Ok(params)
+        })
     }
 
     pub(crate) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
-        self.do_inside_of_context(Context::InParameters, Self::parse_formal_params_inner)
+        self.parse_formal_params_with(|_, param| Ok(param))
     }
 
-    fn parse_formal_params_inner(&mut self) -> PResult<Vec<Param>> {
-        let mut params = Vec::new();
-        let mut rest_span = Span::default();
+    /// Arrow ASTs retain patterns without parameter decorator wrappers.
+    #[cfg(feature = "typescript")]
+    pub(super) fn parse_formal_param_patterns(&mut self) -> PResult<Vec<Pat>> {
+        self.parse_formal_params_with(|_, param| Ok(param.pat))
+    }
 
-        while !self.input().is(Token::RParen) {
-            if !rest_span.is_dummy() {
-                self.emit_err(rest_span, SyntaxError::TS1014);
-            }
+    fn parse_formal_params_with<T: FormalParameter>(
+        &mut self,
+        convert: impl FnMut(&mut Self, Param) -> PResult<T>,
+    ) -> PResult<Vec<T>> {
+        self.do_inside_of_boundary_context(BoundaryContext::InParameters, |p| {
+            p.with_syntax_context(super::SyntaxContext::Parameters, |p| {
+                p.parse_formal_params_inner(convert)
+            })
+        })
+    }
 
-            let param_start = self.cur_pos();
-            let decorators = self.parse_decorators(false)?;
-            let pat_start = self.cur_pos();
+    /// Shares parameter grammar while constructing the consumer's final
+    /// representation.
+    pub(super) fn parse_formal_params_inner<T: FormalParameter>(
+        &mut self,
+        mut convert: impl FnMut(&mut Self, Param) -> PResult<T>,
+    ) -> PResult<Vec<T>> {
+        let params = self.parse_parameter_list(|p, index| {
+            // Construct and convert in the same production so pattern-only
+            // consumers do not carry a separate parameter return value.
+            let param_start = p.cur_pos();
+            let decorators = p.parse_decorators(false)?;
+            let pat_start = p.cur_pos();
 
-            let pat = if let Some(pat) = self.try_parse_flow_anon_formal_param(params.len())? {
+            let pat = if let Some(pat) = p.try_parse_flow_anon_formal_param(index)? {
                 pat
-            } else if self.input_mut().eat(Token::DotDotDot) {
-                let dot3_token = self.span(pat_start);
-
-                let mut pat = self.parse_binding_pat_or_ident(false)?;
-
-                if self.input_mut().eat(Token::Eq) {
-                    let right = self.parse_assignment_expr()?;
-                    self.emit_err(pat.span(), SyntaxError::TS1048);
-                    pat = AssignPat {
-                        span: self.span(pat_start),
-                        left: Box::new(pat),
-                        right,
-                    }
-                    .into();
-                }
-
-                let type_ann =
-                    if self.input().syntax().typescript() && self.input().is(Token::Colon) {
-                        let cur_pos = self.cur_pos();
-                        let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
-                        Some(ty)
-                    } else {
-                        None
-                    };
-
-                rest_span = self.span(pat_start);
-                let pat = RestPat {
-                    span: rest_span,
-                    dot3_token,
-                    arg: Box::new(pat),
-                    type_ann,
-                }
-                .into();
-
-                if self.syntax().typescript() && self.input_mut().eat(Token::QuestionMark) {
-                    self.emit_err(self.input().prev_span(), SyntaxError::TS1047);
-                    //
-                }
-
-                pat
+            } else if p.input_mut().eat(Token::DotDotDot) {
+                p.parse_rest_parameter(pat_start)?
             } else {
-                self.parse_formal_param_pat()?
+                p.parse_formal_param_pat()?
             };
-            let is_rest = matches!(pat, Pat::Rest(_));
-            if is_rest {
-                rest_span = pat.span();
-            }
-
-            params.push(Param {
-                span: self.span(param_start),
+            let param = Param {
+                span: p.span(param_start),
                 decorators,
                 pat,
-            });
-
-            if !self.input().is(Token::RParen) {
-                expect!(self, Token::Comma);
-                // Ambient TypeScript signatures allow a trailing comma after rest.
-                if is_rest
-                    && self.input().is(Token::RParen)
-                    && (!self.ctx().contains(Context::InDeclare) || self.syntax().flow())
-                {
-                    self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
-                }
-            }
-        }
+            };
+            convert(p, param)
+        })?;
 
         if self.syntax().typescript() && !self.syntax().flow() {
             for param in params.iter().skip(1) {
-                let Some(ident) = direct_ts_this_ident(&param.pat) else {
+                let Some(ident) = param.direct_this_ident() else {
                     continue;
                 };
                 self.emit_err(ident.span, SyntaxError::TS2680);
             }
         }
 
-        if self.syntax().flow() && !self.ctx().contains(Context::InType) {
-            let in_declare = self.ctx().contains(Context::InDeclare);
+        if self.syntax().flow() && !self.type_ctx().contains(TypeContext::InType) {
+            let in_declare = self.type_ctx().contains(TypeContext::InDeclare);
 
             for (idx, param) in params.iter().enumerate() {
-                if let Pat::Ident(ident) = &param.pat {
+                if let Some(ident) = param.binding_ident() {
                     if ident.id.sym == *"this" {
                         if idx != 0 {
                             self.emit_err(ident.id.span, SyntaxError::TS1003);
@@ -919,6 +952,85 @@ impl<I: Tokens> Parser<I> {
         }
 
         Ok(params)
+    }
+
+    /// Parses a parameter list into its final AST representation. Individual
+    /// parameter grammar and list-wide binding validation remain with callers.
+    pub(super) fn parse_parameter_list<T: ParameterListItem>(
+        &mut self,
+        mut parse: impl FnMut(&mut Self, usize) -> PResult<T>,
+    ) -> PResult<Vec<T>> {
+        let mut params = Vec::new();
+        let mut rest_span = Span::default();
+
+        while !self.input().is(Token::RParen) {
+            if !rest_span.is_dummy() {
+                self.emit_err(rest_span, SyntaxError::TS1014);
+            }
+
+            let param = parse(self, params.len())?;
+            let current_rest = param.rest_span();
+            if let Some(span) = current_rest {
+                rest_span = span;
+            }
+            params.push(param);
+
+            if !self.input().is(Token::RParen) {
+                expect!(self, Token::Comma);
+                // Ambient TypeScript signatures allow a trailing comma after rest.
+                if current_rest.is_some()
+                    && self.input().is(Token::RParen)
+                    && (!self.type_ctx().contains(TypeContext::InDeclare) || self.syntax().flow())
+                {
+                    self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
+                }
+            }
+        }
+
+        Ok(params)
+    }
+
+    /// Parses the binding and annotation after an already consumed `...`.
+    /// List-level rest placement and trailing-comma checks belong to the
+    /// caller.
+    pub(super) fn parse_rest_parameter(&mut self, pat_start: BytePos) -> PResult<Pat> {
+        let dot3_token = self.span(pat_start);
+
+        let mut pat = self.parse_binding_pat_or_ident(false)?;
+
+        if self.input_mut().eat(Token::Eq) {
+            let right = self.parse_assignment_expr()?;
+            self.emit_err(pat.span(), SyntaxError::TS1048);
+            pat = AssignPat {
+                span: self.span(pat_start),
+                left: Box::new(pat),
+                right,
+            }
+            .into();
+        }
+
+        let type_ann = if self.input().syntax().typescript() && self.input().is(Token::Colon) {
+            let cur_pos = self.cur_pos();
+            let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
+            Some(ty)
+        } else {
+            None
+        };
+
+        let rest_span = self.span(pat_start);
+        let pat = RestPat {
+            span: rest_span,
+            dot3_token,
+            arg: Box::new(pat),
+            type_ann,
+        }
+        .into();
+
+        if self.syntax().typescript() && self.input_mut().eat(Token::QuestionMark) {
+            self.emit_err(self.input().prev_span(), SyntaxError::TS1047);
+        }
+
+        Ok(pat)
     }
 
     pub(crate) fn parse_unique_formal_params(&mut self) -> PResult<Vec<Param>> {

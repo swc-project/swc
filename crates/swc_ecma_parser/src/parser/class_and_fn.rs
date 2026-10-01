@@ -11,8 +11,9 @@ use crate::{
     parser::{
         state::State,
         util::{is_ts_ambient_initializer, IsInvalidClassName, IsSimpleParameterList},
+        BoundaryContext, FunctionKind, StatementContext, SyntaxContext, TypeContext,
     },
-    Context, PResult, Parser,
+    PResult, Parser,
 };
 
 struct MakeMethodArgs {
@@ -55,8 +56,8 @@ fn parse_ts_this_param<I: Tokens>(p: &mut Parser<I>) -> PResult<Option<Box<TsThi
     let type_ann = p.try_parse_ts_type_ann()?;
     if is_flow
         && type_ann.is_none()
-        && !p.ctx().contains(Context::InType)
-        && !p.ctx().contains(Context::InDeclare)
+        && !p.type_ctx().contains(TypeContext::InType)
+        && !p.type_ctx().contains(TypeContext::InDeclare)
     {
         p.emit_err(this_span, SyntaxError::TS1003);
     }
@@ -71,7 +72,7 @@ fn parse_ts_this_param<I: Tokens>(p: &mut Parser<I>) -> PResult<Option<Box<TsThi
             };
             p.emit_err(p.input().prev_span(), error);
         }
-        p.allow_in_expr(|p| p.parse_assignment_expr())?;
+        with_grammar_context!(p, [+In, ?Yield, ?Await], |p| p.parse_assignment_expr())?;
     }
 
     if !p.input().is(Token::RParen) {
@@ -115,7 +116,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_maybe_opt_function_ident(&mut self, required: bool) -> PResult<Option<Ident>> {
         if self.syntax().typescript()
             && !self.syntax().flow()
-            && self.ctx().contains(Context::InDeclare)
+            && self.type_ctx().contains(TypeContext::InDeclare)
             && self.input().is(Token::Ident)
         {
             let word = self.input().cur().take_word(self.input());
@@ -128,9 +129,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_maybe_decorator_args(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
         let type_args = if self.input().syntax().typescript() && self.input().is(Token::Lt) {
-            let ret = self.parse_ts_type_args()?;
-            self.assert_and_bump(Token::Gt);
-            Some(ret)
+            Some(self.parse_ts_type_args()?)
         } else {
             None
         };
@@ -169,22 +168,22 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input().is(Token::Export) {
-            if !self.ctx().contains(Context::InClass)
-                && !self.ctx().contains(Context::InFunction)
+            if !self.boundary_ctx().contains(BoundaryContext::InClass)
+                && self.syntax_context != SyntaxContext::FunctionBody
                 && !allow_export
             {
                 syntax_error!(self, self.input().cur_span(), SyntaxError::ExportNotAllowed);
             }
 
-            if !self.ctx().contains(Context::InClass)
-                && !self.ctx().contains(Context::InFunction)
+            if !self.boundary_ctx().contains(BoundaryContext::InClass)
+                && self.syntax_context != SyntaxContext::FunctionBody
                 && !self.syntax().decorators_before_export()
             {
                 syntax_error!(self, self.span(start), SyntaxError::DecoratorOnExport);
             }
         } else if self.syntax().flow_decorators()
-            && !self.ctx().contains(Context::InClass)
-            && !self.ctx().contains(Context::InFunction)
+            && !self.boundary_ctx().contains(BoundaryContext::InClass)
+            && self.syntax_context != SyntaxContext::FunctionBody
             && !self.input().is(Token::Class)
         {
             syntax_error!(self, self.span(start), SyntaxError::InvalidLeadingDecorator)
@@ -285,7 +284,6 @@ impl<I: Tokens> Parser<I> {
                 // but it's a super class with type params, for example, in JSX.
                 if self.syntax().typescript() && self.input().is(Token::Lt) {
                     let ret = self.parse_ts_type_args()?;
-                    self.assert_and_bump(Token::Gt);
                     Ok((super_class, Some(ret)))
                 } else {
                     Ok((super_class, None))
@@ -338,7 +336,7 @@ impl<I: Tokens> Parser<I> {
 
         if self.input_mut().eat(Token::LParen) {
             if !self.input().is(Token::RParen) {
-                self.allow_in_expr(Self::parse_assignment_expr)?;
+                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
             }
             expect!(self, Token::RParen);
         }
@@ -378,27 +376,15 @@ impl<I: Tokens> Parser<I> {
 
             expect!(p, Token::LParen);
 
-            let parse_args_with_generator_ctx = |p: &mut Self| {
-                let parse_this_and_args = |p: &mut Self| {
-                    let this_param = parse_ts_this_param(p)?;
-                    parse_args(p).map(|params| (this_param, params))
-                };
-
-                if is_generator {
-                    p.do_inside_of_context(Context::InGenerator, parse_this_and_args)
-                } else {
-                    p.do_outside_of_context(Context::InGenerator, parse_this_and_args)
-                }
-            };
-
             let (this_param, params) = p.without_async_arrow_param_await_collection(|p| {
-                p.do_inside_of_context(Context::InParameters, |p| {
-                    p.do_outside_of_context(Context::InFunction, |p| {
-                        if is_async {
-                            p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
-                        } else {
-                            p.do_outside_of_context(Context::InAsync, parse_args_with_generator_ctx)
-                        }
+                p.do_inside_of_boundary_context(BoundaryContext::InParameters, |p| {
+                    p.with_syntax_context(SyntaxContext::Parameters, |p| {
+                        // FormalParameters use the function kind's derived arguments;
+                        // their FormalParameter children inherit both parameters.
+                        with_grammar_context!(p, [?Yield, ?Await], |p| {
+                            let this_param = parse_ts_this_param(p)?;
+                            parse_args(p).map(|params| (this_param, params))
+                        })
                     })
                 })
             })?;
@@ -429,13 +415,15 @@ impl<I: Tokens> Parser<I> {
             }
 
             let body: Option<_> = p.parse_fn_block_body(
-                is_async,
-                is_generator,
-                false,
+                FunctionKind::Function {
+                    is_async,
+                    is_generator,
+                },
                 params.is_simple_parameter_list(),
             )?;
 
-            if p.syntax().flow() && body.is_none() && !p.ctx().contains(Context::InDeclare) {
+            if p.syntax().flow() && body.is_none() && !p.type_ctx().contains(TypeContext::InDeclare)
+            {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
             }
 
@@ -469,21 +457,15 @@ impl<I: Tokens> Parser<I> {
             }))
         };
 
-        let f_with_generator_ctx = |p: &mut Self| {
-            if is_generator {
-                p.do_inside_of_context(Context::InGenerator, f)
-            } else {
-                p.do_outside_of_context(Context::InGenerator, f)
-            }
-        };
-
         // Ordinary functions and methods establish their own Await grammar
         // parameter, including their parameter lists, inside static blocks.
-        self.do_outside_of_context(Context::InStaticBlock, |p| {
-            if is_async {
-                p.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
-            } else {
-                p.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
+        self.do_outside_of_boundary_context(BoundaryContext::InStaticBlock, |p| {
+            // Function, generator, async-function, and async-generator parameters.
+            match (is_generator, is_async) {
+                (false, false) => with_grammar_context!(p, [~Yield, ~Await], f),
+                (true, false) => with_grammar_context!(p, [+Yield, ~Await], f),
+                (false, true) => with_grammar_context!(p, [~Yield, +Await], f),
+                (true, true) => with_grammar_context!(p, [+Yield, +Await], f),
             }
         })
     }
@@ -542,52 +524,51 @@ impl<I: Tokens> Parser<I> {
         let is_generator = self.input_mut().eat(Token::Asterisk);
 
         let ident = if is_fn_expr {
-            let f_with_generator_context = |p: &mut Self| {
-                if is_generator {
-                    p.do_inside_of_context(Context::InGenerator, |p| {
-                        p.parse_maybe_opt_function_ident(is_ident_required)
-                    })
-                } else {
-                    p.do_outside_of_context(Context::InGenerator, |p| {
-                        p.parse_maybe_opt_function_ident(is_ident_required)
-                    })
-                }
-            };
-
-            self.do_outside_of_context(
-                Context::AllowDirectSuper | Context::InClassField | Context::InStaticBlock,
+            self.do_outside_of_boundary_context(
+                BoundaryContext::AllowDirectSuper
+                    | BoundaryContext::InClassField
+                    | BoundaryContext::InStaticBlock,
                 |p| {
-                    if is_async {
-                        p.do_inside_of_context(Context::InAsync, f_with_generator_context)
-                    } else {
-                        p.do_outside_of_context(Context::InAsync, f_with_generator_context)
+                    // Expression names use the function kind's BindingIdentifier
+                    // arguments; declaration names inherit the enclosing grammar.
+                    let parse_name =
+                        |p: &mut Self| p.parse_maybe_opt_function_ident(is_ident_required);
+                    match (is_generator, is_async) {
+                        (false, false) => with_grammar_context!(p, [~Yield, ~Await], parse_name),
+                        (true, false) => with_grammar_context!(p, [+Yield, ~Await], parse_name),
+                        (false, true) => with_grammar_context!(p, [~Yield, +Await], parse_name),
+                        (true, true) => with_grammar_context!(p, [+Yield, +Await], parse_name),
                     }
                 },
             )?
         } else {
             // function declaration does not change context for `BindingIdentifier`.
-            self.do_outside_of_context(
-                Context::AllowDirectSuper.union(Context::InClassField),
-                |p| p.parse_maybe_opt_function_ident(is_ident_required),
+            self.do_outside_of_boundary_context(
+                BoundaryContext::AllowDirectSuper.union(BoundaryContext::InClassField),
+                |p| {
+                    with_grammar_context!(p, [?Yield, ?Await], |p| {
+                        p.parse_maybe_opt_function_ident(is_ident_required)
+                    })
+                },
             )?
         };
 
-        self.do_outside_of_context(
-            Context::AllowDirectSuper
-                .union(Context::InClassField)
-                .union(Context::WillExpectColonForCond),
+        self.do_outside_of_boundary_context(
+            BoundaryContext::AllowDirectSuper | BoundaryContext::InClassField,
             |p| {
-                let f = p.parse_fn_args_body(
-                    decorators,
-                    start,
-                    Self::parse_formal_params,
-                    is_async,
-                    is_generator,
-                )?;
-                if is_fn_expr && f.body.is_none() {
-                    unexpected!(p, "{");
-                }
-                Ok((ident, f))
+                p.do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
+                    let f = p.parse_fn_args_body(
+                        decorators,
+                        start,
+                        Self::parse_formal_params,
+                        is_async,
+                        is_generator,
+                    )?;
+                    if is_fn_expr && f.body.is_none() {
+                        unexpected!(p, "{");
+                    }
+                    Ok((ident, f))
+                })
             },
         )
     }
@@ -667,11 +648,12 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, make_method);
 
         let is_static = static_token.is_some();
-        let function = self.do_inside_of_context(Context::AllowDirectSuper, |p| {
-            p.do_outside_of_context(Context::InClassField, |p| {
-                p.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)
-            })
-        })?;
+        let function =
+            self.do_inside_of_boundary_context(BoundaryContext::AllowDirectSuper, |p| {
+                p.do_outside_of_boundary_context(BoundaryContext::InClassField, |p| {
+                    p.parse_fn_args_body(decorators, start, parse_args, is_async, is_generator)
+                })
+            })?;
 
         if self.syntax().flow()
             && matches!(kind, MethodKind::Getter | MethodKind::Setter)
@@ -737,17 +719,13 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub(crate) fn parse_fn_block_or_expr_body(
+    pub(super) fn parse_fn_block_or_expr_body(
         &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
+        kind: FunctionKind,
         is_simple_parameter_list: bool,
     ) -> PResult<Box<ArrowFunctionBody>> {
         self.parse_fn_body(
-            is_async,
-            is_generator,
-            is_arrow_function,
+            kind,
             is_simple_parameter_list,
             |p, is_simple_parameter_list| {
                 if p.input().is(Token::LBrace) {
@@ -774,9 +752,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_fn_body<T>(
         &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
+        kind: FunctionKind,
         is_simple_parameter_list: bool,
         f: impl FnOnce(&mut Self, bool) -> PResult<T>,
     ) -> PResult<T> {
@@ -786,10 +762,10 @@ impl<I: Tokens> Parser<I> {
             || self.syntax().tsrx()
                 && self.input().is(Token::At)
                 && peek!(self).is_some_and(|token| token == Token::LBrace);
-        if self.ctx().contains(Context::InDeclare)
+        if self.type_ctx().contains(TypeContext::InDeclare)
             && self.syntax().typescript()
             && has_explicit_body
-            && (!self.syntax().flow() || !self.ctx().contains(Context::TsModuleBlock))
+            && (!self.syntax().flow() || !self.type_ctx().contains(TypeContext::TsModuleBlock))
         {
             //            self.emit_err(
             //                self.ctx().span_of_fn_name.expect("we are not in function"),
@@ -798,55 +774,67 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.input().cur_span(), SyntaxError::TS1183);
         }
 
-        let f_with_generator_context = |p: &mut Self| {
-            let f_with_inside_non_arrow_fn_scope = |p: &mut Self| {
-                let f_with_new_state = |p: &mut Self| {
-                    let mut p = p.with_state(State::default());
-                    f(&mut p, is_simple_parameter_list)
-                };
-
-                if is_arrow_function && !p.ctx().contains(Context::InsideNonArrowFunctionScope) {
-                    p.do_outside_of_context(Context::InsideNonArrowFunctionScope, f_with_new_state)
-                } else {
-                    p.do_inside_of_context(Context::InsideNonArrowFunctionScope, f_with_new_state)
-                }
+        let f_with_function_scope = |p: &mut Self| {
+            let f_with_new_state = |p: &mut Self| {
+                let mut p = p.with_state(State::default());
+                f(&mut p, is_simple_parameter_list)
             };
 
-            if is_generator {
-                p.do_inside_of_context(Context::InGenerator, f_with_inside_non_arrow_fn_scope)
+            if kind.is_arrow()
+                && !p
+                    .boundary_ctx()
+                    .contains(BoundaryContext::InsideNonArrowFunctionScope)
+            {
+                p.do_outside_of_boundary_context(
+                    BoundaryContext::InsideNonArrowFunctionScope,
+                    f_with_new_state,
+                )
             } else {
-                p.do_outside_of_context(Context::InGenerator, f_with_inside_non_arrow_fn_scope)
+                p.do_inside_of_boundary_context(
+                    BoundaryContext::InsideNonArrowFunctionScope,
+                    f_with_new_state,
+                )
             }
         };
 
-        self.do_inside_of_context(Context::InFunction, |p| {
-            p.do_outside_of_context(
-                Context::InStaticBlock
-                    .union(Context::IsBreakAllowed)
-                    .union(Context::IsContinueAllowed)
-                    .union(Context::TopLevel),
-                |p| {
-                    if is_async {
-                        p.do_inside_of_context(Context::InAsync, f_with_generator_context)
-                    } else {
-                        p.do_outside_of_context(Context::InAsync, f_with_generator_context)
-                    }
-                },
-            )
+        with_grammar_context!(self, [?Yield, ?Await, +Return], |p| {
+            p.with_syntax_context(SyntaxContext::FunctionBody, |p| {
+                p.do_outside_of_boundary_context(
+                    BoundaryContext::InStaticBlock | BoundaryContext::TopLevel,
+                    |p| {
+                        p.do_outside_of_statement_context(
+                            StatementContext::IsBreakAllowed | StatementContext::IsContinueAllowed,
+                            |p| {
+                                // FunctionBody arguments selected by the enclosing production.
+                                match (kind.is_generator(), kind.is_async()) {
+                                    (false, false) => with_grammar_context!(
+                                        p, [~Yield, ~Await], f_with_function_scope
+                                    ),
+                                    (true, false) => with_grammar_context!(
+                                        p, [+Yield, ~Await], f_with_function_scope
+                                    ),
+                                    (false, true) => with_grammar_context!(
+                                        p, [~Yield, +Await], f_with_function_scope
+                                    ),
+                                    (true, true) => with_grammar_context!(
+                                        p, [+Yield, +Await], f_with_function_scope
+                                    ),
+                                }
+                            },
+                        )
+                    },
+                )
+            })
         })
     }
 
     pub(super) fn parse_fn_block_body(
         &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
+        kind: FunctionKind,
         is_simple_parameter_list: bool,
     ) -> PResult<Option<FunctionBody>> {
         self.parse_fn_body(
-            is_async,
-            is_generator,
-            is_arrow_function,
+            kind,
             is_simple_parameter_list,
             |p, is_simple_parameter_list| {
                 #[cfg(feature = "tsrx")]
@@ -862,8 +850,8 @@ impl<I: Tokens> Parser<I> {
                 // allow omitting body and allow placing `{` on next line
                 let has_explicit_body_terminator = p.input_mut().eat(Token::Semi)
                     || (p.syntax().flow()
-                        && p.ctx().contains(Context::InDeclare)
-                        && p.ctx().contains(Context::InClass)
+                        && p.type_ctx().contains(TypeContext::InDeclare)
+                        && p.boundary_ctx().contains(BoundaryContext::InClass)
                         && p.input_mut().eat(Token::Comma));
                 let omitted_body_terminator = has_explicit_body_terminator
                     || p.input().is(Token::RBrace)
@@ -877,14 +865,15 @@ impl<I: Tokens> Parser<I> {
                 {
                     return Ok(None);
                 }
-                p.allow_in_expr(|p| p.parse_block(true)).map(|block_stmt| {
-                    if !is_simple_parameter_list {
-                        if let Some(span) = has_use_strict(&block_stmt) {
-                            p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+                with_grammar_context!(p, [+In, ?Yield, ?Await, ?Return], |p| p.parse_block(true))
+                    .map(|block_stmt| {
+                        if !is_simple_parameter_list {
+                            if let Some(span) = has_use_strict(&block_stmt) {
+                                p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
+                            }
                         }
-                    }
-                    Some(function_body_from_block_stmt(block_stmt))
-                })
+                        Some(function_body_from_block_stmt(block_stmt))
+                    })
             },
         )
     }
@@ -940,147 +929,174 @@ impl<I: Tokens> Parser<I> {
 
         let type_ann = self.try_parse_ts_type_ann()?;
 
-        self.do_inside_of_context(Context::IncludeInExpr | Context::InClassField, |p| {
-            // Instance field initializers do not inherit a static block's Await
-            // restriction. All fields clear the Program probe's async context.
-            let reset_context = if is_static {
-                Context::InAsync
-            } else {
-                Context::InAsync | Context::InStaticBlock
-            };
-            let value = p.without_async_arrow_param_await_collection(|p| {
-                p.do_outside_of_context(reset_context, |p| {
-                    if p.input().is(Token::Eq) {
-                        p.assert_and_bump(Token::Eq);
-                        p.parse_assignment_expr().map(Some)
-                    } else {
-                        Ok(None)
-                    }
-                })
-            })?;
+        self.do_inside_of_boundary_context(BoundaryContext::InClassField, |p| {
+            with_grammar_context!(p, [+In, ?Yield, ?Await], |p| {
+                // Instance field initializers do not inherit a static block's Await
+                // restriction. All fields clear the Program probe's async context.
+                let reset_context = if is_static {
+                    BoundaryContext::empty()
+                } else {
+                    BoundaryContext::InStaticBlock
+                };
+                let value = p.without_async_arrow_param_await_collection(|p| {
+                    // FieldDefinition still passes the enclosing Yield/Await flags in
+                    // the specification. Follow V8, SpiderMonkey, and fixed JSC instead:
+                    // an initializer has its own non-generator, non-async function
+                    // boundary. Computed names were parsed before this boundary.
+                    // The normative grammar is disputed; do not treat this reset as
+                    // an unambiguous specification requirement.
+                    // https://tc39.es/ecma262/#prod-FieldDefinition
+                    // https://github.com/tc39/ecma262/issues/2437
+                    // https://github.com/tc39/ecma262/issues/3333
+                    with_grammar_context!(p, [+In, ~Yield, ~Await], |p| {
+                        p.do_outside_of_boundary_context(reset_context, |p| {
+                            p.with_syntax_context(SyntaxContext::Nested, |p| {
+                                if p.input().is(Token::Eq) {
+                                    p.assert_and_bump(Token::Eq);
+                                    p.parse_assignment_expr().map(Some)
+                                } else {
+                                    Ok(None)
+                                }
+                            })
+                        })
+                    })
+                })?;
 
-            // Definite assertions forbid initializers even outside ambient declarations.
-            if definite && value.is_some() {
-                p.emit_err(p.span(start), SyntaxError::TS1263);
-            }
-
-            if declare && value.is_some() {
-                let allowed = p.syntax().typescript()
-                    && readonly
-                    && type_ann.is_none()
-                    && value.as_deref().is_some_and(is_ts_ambient_initializer);
-                if !allowed {
-                    p.emit_err(p.span(start), SyntaxError::TS1183);
+                // Definite assertions forbid initializers even outside ambient declarations.
+                if definite && value.is_some() {
+                    p.emit_err(p.span(start), SyntaxError::TS1263);
                 }
-            }
 
-            if p.syntax().flow() && p.ctx().contains(Context::InDeclare) && type_ann.is_none() {
-                p.emit_err(p.span(start), SyntaxError::TS1003);
-            }
-
-            if p.syntax().flow() && is_optional {
-                p.emit_err(p.span(start), SyntaxError::TS1003);
-            }
-
-            let implicit_flow_separator = p.syntax().flow()
-                && type_ann.is_some()
-                && value.is_none()
-                && p.input().cur().is_word();
-            let had_explicit_separator =
-                p.input().is(Token::Semi) || (p.syntax().flow() && p.input().is(Token::Comma));
-            let ate_semi =
-                p.eat_general_semi() || (p.syntax().flow() && p.input_mut().eat(Token::Comma));
-            if !ate_semi && !implicit_flow_separator {
-                p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
-            }
-            if p.syntax().flow()
-                && !had_explicit_separator
-                && type_ann.is_some()
-                && value.is_none()
-                && p.input().had_line_break_before_cur()
-                && p.input().is(Token::LBracket)
-            {
-                // `foo: T` followed by a computed key on the next line is only
-                // ambiguous when the separator came from ASI. An explicit `;`
-                // or Flow `,` should keep the next computed field valid.
-                p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
-            }
-
-            // Check both ordinary properties and auto-accessors before constructing the
-            // AST.
-            if is_abstract && value.is_some() {
-                p.emit_err(p.span(start), SyntaxError::TS1267);
-            }
-
-            if accessor_token.is_some() {
-                return Ok(ClassMember::AutoAccessor(AutoAccessor {
-                    span: p.span(start),
-                    key,
-                    value,
-                    type_ann,
-                    is_static,
-                    decorators,
-                    accessibility,
-                    is_abstract,
-                    is_override,
-                    definite,
-                }));
-            }
-
-            Ok(match key {
-                Key::Private(key) => {
-                    let span = p.span(start);
-                    if accessibility.is_some() {
-                        p.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
+                if declare && value.is_some() {
+                    let allowed = p.syntax().typescript()
+                        && readonly
+                        && type_ann.is_none()
+                        && value.as_deref().is_some_and(is_ts_ambient_initializer);
+                    if !allowed {
+                        p.emit_err(p.span(start), SyntaxError::TS1183);
                     }
+                }
 
-                    PrivateProp {
+                if p.syntax().flow()
+                    && p.type_ctx().contains(TypeContext::InDeclare)
+                    && type_ann.is_none()
+                {
+                    p.emit_err(p.span(start), SyntaxError::TS1003);
+                }
+
+                if p.syntax().flow() && is_optional {
+                    p.emit_err(p.span(start), SyntaxError::TS1003);
+                }
+
+                let implicit_flow_separator = p.syntax().flow()
+                    && type_ann.is_some()
+                    && value.is_none()
+                    && p.input().cur().is_word();
+                let had_explicit_separator =
+                    p.input().is(Token::Semi) || (p.syntax().flow() && p.input().is(Token::Comma));
+                let ate_semi =
+                    p.eat_general_semi() || (p.syntax().flow() && p.input_mut().eat(Token::Comma));
+                if !ate_semi && !implicit_flow_separator {
+                    p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
+                }
+                if p.syntax().flow()
+                    && !had_explicit_separator
+                    && type_ann.is_some()
+                    && value.is_none()
+                    && p.input().had_line_break_before_cur()
+                    && p.input().is(Token::LBracket)
+                {
+                    // `foo: T` followed by a computed key on the next line is only
+                    // ambiguous when the separator came from ASI. An explicit `;`
+                    // or Flow `,` should keep the next computed field valid.
+                    p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
+                }
+
+                // Check both ordinary properties and auto-accessors before constructing the
+                // AST.
+                if is_abstract && value.is_some() {
+                    p.emit_err(p.span(start), SyntaxError::TS1267);
+                }
+
+                if accessor_token.is_some() {
+                    return Ok(ClassMember::AutoAccessor(AutoAccessor {
                         span: p.span(start),
                         key,
                         value,
-                        is_static,
-                        decorators,
-                        accessibility,
-                        is_optional,
-                        is_override,
-                        readonly,
                         type_ann,
-                        definite,
-                        ctxt: Default::default(),
-                    }
-                    .into()
-                }
-                Key::Public(key) => {
-                    let span = p.span(start);
-                    ClassProp {
-                        span,
-                        key,
-                        value,
                         is_static,
                         decorators,
                         accessibility,
                         is_abstract,
-                        is_optional,
                         is_override,
-                        readonly,
-                        declare,
                         definite,
-                        type_ann,
-                    }
-                    .into()
+                    }));
                 }
-                #[cfg(swc_ast_unknown)]
-                _ => unreachable!(),
+
+                Ok(match key {
+                    Key::Private(key) => {
+                        let span = p.span(start);
+                        if accessibility.is_some() {
+                            p.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
+                        }
+
+                        PrivateProp {
+                            span: p.span(start),
+                            key,
+                            value,
+                            is_static,
+                            decorators,
+                            accessibility,
+                            is_optional,
+                            is_override,
+                            readonly,
+                            type_ann,
+                            definite,
+                            ctxt: Default::default(),
+                        }
+                        .into()
+                    }
+                    Key::Public(key) => {
+                        let span = p.span(start);
+                        ClassProp {
+                            span,
+                            key,
+                            value,
+                            is_static,
+                            decorators,
+                            accessibility,
+                            is_abstract,
+                            is_optional,
+                            is_override,
+                            readonly,
+                            declare,
+                            definite,
+                            type_ann,
+                        }
+                        .into()
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
+                })
             })
         })
     }
 
     fn parse_static_block(&mut self, start: BytePos) -> PResult<ClassMember> {
-        let body = self.do_inside_of_context(
-            Context::InStaticBlock
-                .union(Context::InClassField)
-                .union(Context::AllowUsingDecl),
-            |p| p.parse_block(false),
+        let body = self.do_inside_of_boundary_context(
+            BoundaryContext::InStaticBlock | BoundaryContext::InClassField,
+            |p| {
+                p.do_inside_of_statement_context(StatementContext::AllowUsingDecl, |p| {
+                    // Static blocks have StatementList[~Yield, +Await, ~Return].
+                    // Await is recognized, but rejected by the static-block early error.
+                    // https://tc39.es/ecma262/#prod-ClassStaticBlockStatementList
+                    with_grammar_context!(p, [+In, ~Yield, +Await, ~Return], |p| {
+                        p.with_syntax_context(SyntaxContext::Nested, |p| {
+                            p.parse_block(false)
+                        })
+                    })
+                })
+            },
         )?;
 
         let span = self.span(start);
@@ -1089,6 +1105,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_class_member_with_is_static(
         &mut self,
+        has_super_class: bool,
         start: BytePos,
         declare_token: Option<Span>,
         accessibility: Option<Accessibility>,
@@ -1148,7 +1165,7 @@ impl<I: Tokens> Parser<I> {
                             self.input().prev_span(),
                             SyntaxError::TS1243(atom!("override"), atom!("declare")),
                         );
-                    } else if !self.ctx().contains(Context::HasSuperClass) {
+                    } else if !has_super_class {
                         self.emit_err(self.input().prev_span(), SyntaxError::TS4112);
                     }
                     is_override = true;
@@ -1368,50 +1385,50 @@ impl<I: Tokens> Parser<I> {
                 // UniqueFormalParameters and FunctionBody. Also clear enclosing field
                 // and static-block contexts so their await/arguments restrictions do
                 // not leak into constructor parameters or the body.
-                let ctor_sig_and_body = self.do_outside_of_context(
-                    Context::InAsync
-                        | Context::InGenerator
-                        | Context::InClassField
-                        | Context::InStaticBlock,
-                    |p| -> PResult<(Vec<ParamOrTsParamProp>, Option<FunctionBody>)> {
-                        expect!(p, Token::LParen);
-                        let params = p.without_async_arrow_param_await_collection(
-                            Self::parse_constructor_params,
-                        )?;
-                        expect!(p, Token::RParen);
+                let ctor_sig_and_body = self.do_outside_of_boundary_context(
+                    BoundaryContext::InClassField | BoundaryContext::InStaticBlock,
+                    |p| {
+                        with_grammar_context!(p, [~Yield, ~Await], |p| {
+                            expect!(p, Token::LParen);
+                            let params = p.without_async_arrow_param_await_collection(
+                                Self::parse_constructor_params,
+                            )?;
+                            expect!(p, Token::RParen);
 
-                        if p.syntax().flow() {
-                            for param in &params {
-                                if let ParamOrTsParamProp::Param(Param {
-                                    pat: Pat::Ident(ident),
-                                    ..
-                                }) = param
-                                {
-                                    if ident.id.sym == *"this" {
-                                        p.emit_err(ident.id.span, SyntaxError::TS1003);
+                            if p.syntax().flow() {
+                                for param in &params {
+                                    if let ParamOrTsParamProp::Param(Param {
+                                        pat: Pat::Ident(ident),
+                                        ..
+                                    }) = param
+                                    {
+                                        if ident.id.sym == *"this" {
+                                            p.emit_err(ident.id.span, SyntaxError::TS1003);
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        if p.syntax().typescript() && p.input().is(Token::Colon) {
-                            let start = p.cur_pos();
-                            let type_ann = p.parse_ts_type_ann(true, start)?;
+                            if p.syntax().typescript() && p.input().is(Token::Colon) {
+                                let start = p.cur_pos();
+                                let type_ann = p.parse_ts_type_ann(true, start)?;
 
-                            // Flow allows return type annotations on constructors.
-                            if !p.syntax().flow() {
-                                p.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                                // Flow allows return type annotations on constructors.
+                                if !p.syntax().flow() {
+                                    p.emit_err(type_ann.type_ann.span(), SyntaxError::TS1093);
+                                }
                             }
-                        }
 
-                        let body = p.parse_fn_block_body(
-                            false,
-                            false,
-                            false,
-                            params.is_simple_parameter_list(),
-                        )?;
+                            let body = p.parse_fn_block_body(
+                                FunctionKind::Function {
+                                    is_async: false,
+                                    is_generator: false,
+                                },
+                                params.is_simple_parameter_list(),
+                            )?;
 
-                        Ok((params, body))
+                            Ok((params, body))
+                        })
                     },
                 );
                 self.set_allow_super_call(prev_allow_super_call);
@@ -1666,7 +1683,7 @@ impl<I: Tokens> Parser<I> {
         unexpected!(self, "* for generator, private key, identifier or async")
     }
 
-    fn parse_class_member(&mut self) -> PResult<ClassMember> {
+    fn parse_class_member(&mut self, has_super_class: bool) -> PResult<ClassMember> {
         trace_cur!(self, parse_class_member);
 
         let start = self.cur_pos();
@@ -1872,6 +1889,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         self.parse_class_member_with_is_static(
+            has_super_class,
             start,
             declare_token,
             accessibility,
@@ -1881,7 +1899,7 @@ impl<I: Tokens> Parser<I> {
         )
     }
 
-    fn parse_class_body(&mut self) -> PResult<Vec<ClassMember>> {
+    fn parse_class_body(&mut self, has_super_class: bool) -> PResult<Vec<ClassMember>> {
         let mut elems = Vec::with_capacity(32);
         let mut has_constructor_with_body = false;
         while !self.input().is(Token::RBrace) {
@@ -1891,10 +1909,12 @@ impl<I: Tokens> Parser<I> {
                 elems.push(ClassMember::Empty(EmptyStmt { span }));
                 continue;
             }
-            let elem =
-                self.do_inside_of_context(Context::AllowDirectSuper, Self::parse_class_member)?;
+            let elem = self
+                .do_inside_of_boundary_context(BoundaryContext::AllowDirectSuper, |p| {
+                    p.parse_class_member(has_super_class)
+                })?;
 
-            if !self.ctx().contains(Context::InDeclare) {
+            if !self.type_ctx().contains(TypeContext::InDeclare) {
                 if let ClassMember::Constructor(Constructor {
                     body: Some(..),
                     span,
@@ -1910,7 +1930,7 @@ impl<I: Tokens> Parser<I> {
             elems.push(elem);
 
             // Flow `declare class` allows `,` as a class member separator.
-            if self.syntax().flow() && self.ctx().contains(Context::InDeclare) {
+            if self.syntax().flow() && self.type_ctx().contains(TypeContext::InDeclare) {
                 self.input_mut().eat(Token::Comma);
             }
         }
@@ -1975,9 +1995,10 @@ impl<I: Tokens> Parser<I> {
     where
         T: OutputType,
     {
-        let (ident, mut class) = self.do_inside_of_context(Context::InClass, |p| {
-            p.parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)
-        })?;
+        let (ident, mut class) = self
+            .do_inside_of_boundary_context(BoundaryContext::InClass, |p| {
+                p.parse_class_inner(start, class_start, decorators, T::IS_IDENT_REQUIRED)
+            })?;
 
         if is_abstract {
             class.is_abstract = true
@@ -2110,11 +2131,7 @@ impl<I: Tokens> Parser<I> {
 
             expect!(p, Token::LBrace);
 
-            let body = if super_class.is_some() {
-                p.do_inside_of_context(Context::HasSuperClass, Self::parse_class_body)?
-            } else {
-                p.do_outside_of_context(Context::HasSuperClass, Self::parse_class_body)?
-            };
+            let body = p.parse_class_body(super_class.is_some())?;
 
             // Consuming `}` also lexes the next token, which belongs to the enclosing
             // scope and must not inherit the class's strict mode.
