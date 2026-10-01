@@ -539,6 +539,8 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
     let value = private_ident!("_value");
     let iterator = private_ident!("_iterator");
     let next_method = matches!(mode, AwaitForMode::NativeAsync).then(|| private_ident!("_next"));
+    let return_method =
+        matches!(mode, AwaitForMode::NativeAsync).then(|| private_ident!("_return"));
     let iterator_error = private_ident!("_iteratorError");
     let step = private_ident!("_step");
     let did_iteration_error = private_ident!("_didIteratorError");
@@ -866,13 +868,35 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
         }
         .into();
 
-        let iterator_return: Expr = CallExpr {
-            span: DUMMY_SP,
-            callee: iterator
+        // GetMethod reads `return` once. Reflect.apply preserves the receiver
+        // without consulting a method's own `call` or `apply` properties.
+        let return_callee = if return_method.is_some() {
+            quote_ident!(unresolved_ctxt, "Reflect")
+                .make_member(quote_ident!("apply"))
+                .as_callee()
+        } else {
+            iterator
                 .clone()
                 .make_member(quote_ident!("return"))
-                .as_callee(),
-            args: Vec::new(),
+                .as_callee()
+        };
+        let return_args = if let Some(return_method) = &return_method {
+            vec![
+                return_method.clone().as_arg(),
+                iterator.clone().as_arg(),
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .as_arg(),
+            ]
+        } else {
+            vec![]
+        };
+        let iterator_return: Expr = CallExpr {
+            span: DUMMY_SP,
+            callee: return_callee,
+            args: return_args,
             ..Default::default()
         }
         .into();
@@ -903,6 +927,17 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
             .into()]
         };
 
+        let get_return = iterator.make_member(quote_ident!("return"));
+        let get_return = if let Some(return_method) = &return_method {
+            Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: return_method.clone().into(),
+                right: get_return.into(),
+            })
+        } else {
+            get_return.into()
+        };
         let conditional_yield = IfStmt {
             span: DUMMY_SP,
             // _iteratorAbruptCompletion && _iterator.return != null
@@ -916,7 +951,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
                     BinExpr {
                         span: DUMMY_SP,
                         op: op!("!="),
-                        left: iterator.make_member(quote_ident!("return")).into(),
+                        left: get_return.into(),
                         right: Null { span: DUMMY_SP }.into(),
                     }
                     .into(),
@@ -958,32 +993,41 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
         finalizer: Some(finally_block),
     };
 
+    let mut decls = vec![
+        // var _iteratorAbruptCompletion = false;
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: iterator_abrupt_completion.into(),
+            init: Some(false.into()),
+            definite: false,
+        },
+        // var _didIteratorError = false;
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: did_iteration_error.into(),
+            init: Some(false.into()),
+            definite: false,
+        },
+        // var _iteratorError;
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: iterator_error.into(),
+            init: None,
+            definite: false,
+        },
+    ];
+    if let Some(return_method) = return_method {
+        decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: return_method.into(),
+            init: None,
+            definite: false,
+        });
+    }
     let stmts = vec![
         VarDecl {
             kind: VarDeclKind::Var,
-            decls: vec![
-                // var _iteratorAbruptCompletion = false;
-                VarDeclarator {
-                    span: DUMMY_SP,
-                    name: iterator_abrupt_completion.into(),
-                    init: Some(false.into()),
-                    definite: false,
-                },
-                // var _didIteratorError = false;
-                VarDeclarator {
-                    span: DUMMY_SP,
-                    name: did_iteration_error.into(),
-                    init: Some(false.into()),
-                    definite: false,
-                },
-                // var _iteratorError;
-                VarDeclarator {
-                    span: DUMMY_SP,
-                    name: iterator_error.into(),
-                    init: None,
-                    definite: false,
-                },
-            ],
+            decls,
             ..Default::default()
         }
         .into(),

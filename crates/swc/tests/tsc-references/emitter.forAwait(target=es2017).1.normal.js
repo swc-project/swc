@@ -3,7 +3,7 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 async function f1() {
     let y;
     {
-        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
             for(var _iterator = _async_iterator(y), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
@@ -18,8 +18,8 @@ async function f1() {
             _iteratorError = err;
         } finally{
             try {
-                if (_iteratorAbruptCompletion && _iterator.return != null) {
-                    _step = await _iterator.return();
+                if (_iteratorAbruptCompletion && (_return = _iterator.return) != null) {
+                    _step = await Reflect.apply(_return, _iterator, []);
                     if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 }
             } finally{
@@ -35,7 +35,7 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 async function f2() {
     let x, y;
     {
-        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
             for(var _iterator = _async_iterator(y), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
@@ -50,8 +50,8 @@ async function f2() {
             _iteratorError = err;
         } finally{
             try {
-                if (_iteratorAbruptCompletion && _iterator.return != null) {
-                    _step = await _iterator.return();
+                if (_iteratorAbruptCompletion && (_return = _iterator.return) != null) {
+                    _step = await Reflect.apply(_return, _iterator, []);
                     if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 }
             } finally{
@@ -130,7 +130,7 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 async function f5() {
     let y;
     {
-        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError;
+        var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
             outer: for(var _iterator = _async_iterator(y), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
@@ -146,8 +146,8 @@ async function f5() {
             _iteratorError = err;
         } finally{
             try {
-                if (_iteratorAbruptCompletion && _iterator.return != null) {
-                    _step = await _iterator.return();
+                if (_iteratorAbruptCompletion && (_return = _iterator.return) != null) {
+                    _step = await Reflect.apply(_return, _iterator, []);
                     if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 }
             } finally{
