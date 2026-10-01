@@ -19,7 +19,8 @@ async function f1() {
         } finally{
             try {
                 if (_iteratorAbruptCompletion && _iterator.return != null) {
-                    await _iterator.return();
+                    _step = await _iterator.return();
+                    if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 }
             } finally{
                 if (_didIteratorError) {
@@ -50,7 +51,8 @@ async function f2() {
         } finally{
             try {
                 if (_iteratorAbruptCompletion && _iterator.return != null) {
-                    await _iterator.return();
+                    _step = await _iterator.return();
+                    if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 }
             } finally{
                 if (_didIteratorError) {
@@ -145,7 +147,8 @@ async function f5() {
         } finally{
             try {
                 if (_iteratorAbruptCompletion && _iterator.return != null) {
-                    await _iterator.return();
+                    _step = await _iterator.return();
+                    if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 }
             } finally{
                 if (_didIteratorError) {

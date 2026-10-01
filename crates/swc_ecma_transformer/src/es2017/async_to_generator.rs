@@ -586,66 +586,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
                 .into(),
             );
 
-            let is_not_type = |kind| -> Expr {
-                BinExpr {
-                    span: DUMMY_SP,
-                    op: op!("!=="),
-                    left: UnaryExpr {
-                        span: DUMMY_SP,
-                        op: op!("typeof"),
-                        arg: step.clone().into(),
-                    }
-                    .into(),
-                    right: Str {
-                        span: DUMMY_SP,
-                        value: kind,
-                        raw: None,
-                    }
-                    .into(),
-                }
-                .into()
-            };
-            let non_object = BinExpr {
-                span: DUMMY_SP,
-                op: op!("||"),
-                left: BinExpr {
-                    span: DUMMY_SP,
-                    op: op!("==="),
-                    left: step.clone().into(),
-                    right: Null { span: DUMMY_SP }.into(),
-                }
-                .into(),
-                right: BinExpr {
-                    span: DUMMY_SP,
-                    op: op!("&&"),
-                    left: is_not_type("object".into()).into(),
-                    right: is_not_type("function".into()).into(),
-                }
-                .into(),
-            };
-            for_loop_body.push(
-                IfStmt {
-                    span: DUMMY_SP,
-                    test: non_object.into(),
-                    cons: Box::new(Stmt::Throw(ThrowStmt {
-                        span: DUMMY_SP,
-                        arg: NewExpr {
-                            span: DUMMY_SP,
-                            callee: quote_ident!(unresolved_ctxt, "TypeError").into(),
-                            args: Some(vec![Str {
-                                span: DUMMY_SP,
-                                value: "Iterator result is not an object".into(),
-                                raw: None,
-                            }
-                            .as_arg()]),
-                            ..Default::default()
-                        }
-                        .into(),
-                    })),
-                    alt: None,
-                }
-                .into(),
-            );
+            for_loop_body.push(check_iterator_object(&step, unresolved_ctxt));
 
             for_loop_body.push(
                 ExprStmt {
@@ -817,7 +758,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
                 let assign_to_step: Expr = AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: step.into(),
+                    left: step.clone().into(),
                     right: await_iteration(iter_next.into(), mode).into(),
                 }
                 .into();
@@ -936,11 +877,31 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
         }
         .into();
 
-        let await_stmt = ExprStmt {
-            span: DUMMY_SP,
-            expr: await_iteration(iterator_return, mode).into(),
-        }
-        .into();
+        let awaited_return = await_iteration(iterator_return, mode);
+        let close_stmts = if matches!(mode, AwaitForMode::NativeAsync) {
+            // AsyncIteratorClose validates the awaited result even though its
+            // properties are unused. The inner finally preserves a body error.
+            vec![
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: step.clone().into(),
+                        right: awaited_return.into(),
+                    }
+                    .into(),
+                }
+                .into(),
+                check_iterator_object(&step, unresolved_ctxt),
+            ]
+        } else {
+            vec![ExprStmt {
+                span: DUMMY_SP,
+                expr: awaited_return.into(),
+            }
+            .into()]
+        };
 
         let conditional_yield = IfStmt {
             span: DUMMY_SP,
@@ -963,7 +924,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
             }
             .into(),
             cons: Box::new(Stmt::Block(BlockStmt {
-                stmts: vec![await_stmt],
+                stmts: close_stmts,
                 ..Default::default()
             })),
             alt: None,
@@ -1033,6 +994,69 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
         span: s.span,
         stmts,
         ..Default::default()
+    }
+    .into()
+}
+
+/// Reject primitive iterator objects and operation results, accepting callable
+/// objects without accessing any user-defined properties.
+fn check_iterator_object(value: &Ident, unresolved_ctxt: SyntaxContext) -> Stmt {
+    let is_not_type = |kind| -> Expr {
+        BinExpr {
+            span: DUMMY_SP,
+            op: op!("!=="),
+            left: UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("typeof"),
+                arg: value.clone().into(),
+            }
+            .into(),
+            right: Str {
+                span: DUMMY_SP,
+                value: kind,
+                raw: None,
+            }
+            .into(),
+        }
+        .into()
+    };
+    let non_object = BinExpr {
+        span: DUMMY_SP,
+        op: op!("||"),
+        left: BinExpr {
+            span: DUMMY_SP,
+            op: op!("==="),
+            left: value.clone().into(),
+            right: Null { span: DUMMY_SP }.into(),
+        }
+        .into(),
+        right: BinExpr {
+            span: DUMMY_SP,
+            op: op!("&&"),
+            left: is_not_type("object".into()).into(),
+            right: is_not_type("function".into()).into(),
+        }
+        .into(),
+    };
+    IfStmt {
+        span: DUMMY_SP,
+        test: non_object.into(),
+        cons: Box::new(Stmt::Throw(ThrowStmt {
+            span: DUMMY_SP,
+            arg: NewExpr {
+                span: DUMMY_SP,
+                callee: quote_ident!(unresolved_ctxt, "TypeError").into(),
+                args: Some(vec![Str {
+                    span: DUMMY_SP,
+                    value: "Iterator result is not an object".into(),
+                    raw: None,
+                }
+                .as_arg()]),
+                ..Default::default()
+            }
+            .into(),
+        })),
+        alt: None,
     }
     .into()
 }
