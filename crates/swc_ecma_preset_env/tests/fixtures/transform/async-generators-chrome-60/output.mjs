@@ -41,7 +41,9 @@ export class D extends C {
                 {
                     var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
                     try {
-                        for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+                        var _iterator = _async_iterator(iterable);
+                        if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+                        for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                             _step = await Reflect.apply(_next, _iterator, []);
                             if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                             _iteratorAbruptCompletion = !_step.done;
@@ -78,7 +80,9 @@ export class E extends C {
             {
                 var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
                 try {
-                    for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+                    var _iterator = _async_iterator(iterable);
+                    if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+                    for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                         _step = await Reflect.apply(_next, _iterator, []);
                         if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                         _iteratorAbruptCompletion = !_step.done;
@@ -141,7 +145,9 @@ export async function getAll(iterable) {
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
-            for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+            var _iterator = _async_iterator(iterable);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
                 if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 _iteratorAbruptCompletion = !_step.done;
@@ -173,7 +179,9 @@ export async function labeled(iterable) {
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
-            outer: inner: for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+            var _iterator = _async_iterator(iterable);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            outer: inner: for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
                 if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 _iteratorAbruptCompletion = !_step.done;
@@ -207,7 +215,9 @@ export async function mutableBinding(iterable) {
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
-            for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+            var _iterator = _async_iterator(iterable);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
                 if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 _iteratorAbruptCompletion = !_step.done;
@@ -239,7 +249,9 @@ export async function functionScopedBinding(iterable) {
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
-            for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+            var _iterator = _async_iterator(iterable);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
                 if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 _iteratorAbruptCompletion = !_step.done;
@@ -270,7 +282,9 @@ export async function validatedResult(iterable) {
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
-            for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+            var _iterator = _async_iterator(iterable);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
                 if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 _iteratorAbruptCompletion = !_step.done;
@@ -301,7 +315,9 @@ export async function cachedNext(iterable) {
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
-            for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+            var _iterator = _async_iterator(iterable);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
                 if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 _iteratorAbruptCompletion = !_step.done;
@@ -332,7 +348,9 @@ export const consume = async (iterable)=>{
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
-            for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+            var _iterator = _async_iterator(iterable);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
                 if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 _iteratorAbruptCompletion = !_step.done;
@@ -363,7 +381,9 @@ export const consumer = {
         {
             var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
             try {
-                for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+                var _iterator = _async_iterator(iterable);
+                if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+                for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                     _step = await Reflect.apply(_next, _iterator, []);
                     if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                     _iteratorAbruptCompletion = !_step.done;
@@ -396,7 +416,9 @@ export function nested(_0) {
             {
                 var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
                 try {
-                    for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+                    var _iterator = _async_iterator(iterable);
+                    if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+                    for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                         _step = await Reflect.apply(_next, _iterator, []);
                         if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                         _iteratorAbruptCompletion = !_step.done;
@@ -427,7 +449,9 @@ export function nested(_0) {
                 {
                     var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
                     try {
-                        for(var _iterator = _async_iterator(iterable), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+                        var _iterator = _async_iterator(iterable);
+                        if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+                        for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                             _step = await Reflect.apply(_next, _iterator, []);
                             if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                             _iteratorAbruptCompletion = !_step.done;

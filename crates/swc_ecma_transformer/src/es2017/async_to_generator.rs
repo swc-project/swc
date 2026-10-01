@@ -697,9 +697,10 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
             ..Default::default()
         };
 
+        let mut try_stmts = Vec::new();
         let mut init_var_decls = Vec::new();
         // _iterator = _async_iterator(lol())
-        init_var_decls.push(VarDeclarator {
+        let iterator_decl = VarDeclarator {
             span: DUMMY_SP,
             name: iterator.clone().into(),
             init: {
@@ -716,7 +717,24 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
                 )
             },
             definite: false,
-        });
+        };
+        if matches!(mode, AwaitForMode::NativeAsync) {
+            // GetIterator rejects a primitive before reading its `next` method.
+            // Keep acquisition inside the try block so no close is attempted
+            // if either acquisition or validation fails.
+            try_stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: vec![iterator_decl],
+                    ..Default::default()
+                }
+                .into(),
+            );
+            try_stmts.push(check_iterator_object(&iterator, unresolved_ctxt));
+        } else {
+            init_var_decls.push(iterator_decl);
+        }
         if let Some(next_method) = next_method {
             init_var_decls.push(VarDeclarator {
                 span: DUMMY_SP,
@@ -807,9 +825,10 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
             .into();
         }
 
+        try_stmts.push(for_stmt);
         BlockStmt {
             span: body_span,
-            stmts: vec![for_stmt],
+            stmts: try_stmts,
             ..Default::default()
         }
     };

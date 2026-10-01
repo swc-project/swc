@@ -19,7 +19,9 @@ async function printValues() {
     {
         var _iteratorAbruptCompletion = false, _didIteratorError = false, _iteratorError, _return;
         try {
-            for(var _iterator = _async_iterator(iterator), _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
+            var _iterator = _async_iterator(iterator);
+            if (_iterator === null || typeof _iterator !== "object" && typeof _iterator !== "function") throw new TypeError("Iterator result is not an object");
+            for(var _next = _iterator.next, _step;; _iteratorAbruptCompletion = false){
                 _step = await Reflect.apply(_next, _iterator, []);
                 if (_step === null || typeof _step !== "object" && typeof _step !== "function") throw new TypeError("Iterator result is not an object");
                 _iteratorAbruptCompletion = !_step.done;
