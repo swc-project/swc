@@ -12,6 +12,10 @@ use swc_ecma_visit::VisitMutWith;
 
 use crate::TraverseCtx;
 
+mod loop_head_scope;
+
+use self::loop_head_scope::LoopHeadScope;
+
 pub fn hook(
     transform_async_to_generator: bool,
     transform_async_generator_functions: bool,
@@ -531,9 +535,14 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
         body = &mut labeled.body;
     }
 
-    let s = match body {
+    let mut s = match body {
         Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),
         _ => return,
+    };
+    let loop_head_scope = if matches!(mode, AwaitForMode::NativeAsync) {
+        LoopHeadScope::new(&mut s)
+    } else {
+        None
     };
 
     let value = private_ident!("_value");
@@ -722,15 +731,19 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
             // GetIterator rejects a primitive before reading its `next` method.
             // Keep acquisition inside the try block so no close is attempted
             // if either acquisition or validation fails.
-            try_stmts.push(
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: vec![iterator_decl],
-                    ..Default::default()
-                }
-                .into(),
-            );
+            if let Some(loop_head_scope) = loop_head_scope {
+                loop_head_scope.init_iterator(iterator_decl, &mut try_stmts);
+            } else {
+                try_stmts.push(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![iterator_decl],
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
             try_stmts.push(check_iterator_object(&iterator, unresolved_ctxt));
         } else {
             init_var_decls.push(iterator_decl);
@@ -1058,7 +1071,7 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
         stmts,
         ..Default::default()
     }
-    .into()
+    .into();
 }
 
 /// Reject primitive iterator objects and operation results, accepting callable
