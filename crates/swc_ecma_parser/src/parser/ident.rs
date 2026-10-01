@@ -3,7 +3,13 @@ use swc_atoms::atom;
 use swc_common::BytePos;
 use swc_ecma_ast::*;
 
-use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, Parser};
+use crate::{
+    error::SyntaxError,
+    input::Tokens,
+    lexer::Token,
+    parser::{BoundaryContext, TypeContext},
+    Context, PResult, Parser,
+};
 
 impl<I: Tokens> Parser<I> {
     // https://tc39.es/ecma262/#prod-ModuleExportName
@@ -33,7 +39,7 @@ impl<I: Tokens> Parser<I> {
             };
             self.input_mut().bump_without_escape_check();
             word
-        } else if cur == Token::JSXName && self.ctx().contains(Context::InType) {
+        } else if cur == Token::JSXName && self.type_ctx().contains(TypeContext::InType) {
             self.input_mut().expect_jsx_name_token_and_bump()
         } else {
             syntax_error!(self, SyntaxError::ExpectedIdent)
@@ -48,6 +54,17 @@ impl<I: Tokens> Parser<I> {
         if let Some(error) = self.input().escaped_keyword_error() {
             // Escape errors must survive successful speculation. Parser checkpoints
             // discard them if the binding interpretation is rolled back.
+            self.input_mut().iter_mut().add_error(error);
+        }
+        self.parse_ident_name()
+    }
+
+    /// Declaration names also obey parser-owned contextual keyword
+    /// restrictions. Type-only names such as `infer` variables retain
+    /// lexical-only checking.
+    #[cfg(feature = "typescript")]
+    pub(super) fn parse_ts_binding_ident_name(&mut self) -> PResult<IdentName> {
+        if let Some(error) = self.escaped_keyword_error() {
             self.input_mut().iter_mut().add_error(error);
         }
         self.parse_ident_name()
@@ -83,11 +100,7 @@ impl<I: Tokens> Parser<I> {
     /// IdentifierReference
     #[inline]
     fn parse_ident_ref(&mut self) -> PResult<Ident> {
-        let ctx = self.ctx();
-        self.parse_ident(
-            !ctx.contains(Context::InGenerator),
-            !ctx.contains(Context::InAsync),
-        )
+        self.parse_ident(!self.includes_yield_expr(), !self.includes_await_expr())
     }
 
     /// LabelIdentifier
@@ -113,9 +126,8 @@ impl<I: Tokens> Parser<I> {
                 // Keep strict-mode checks for variables and non-ambient types.
                 let ambient_parameter = self.syntax().typescript()
                     && !self.syntax().flow()
-                    && self
-                        .ctx()
-                        .contains(Context::InDeclare | Context::InParameters);
+                    && self.type_ctx().contains(TypeContext::InDeclare)
+                    && self.boundary_ctx().contains(BoundaryContext::InParameters);
                 if !ambient_parameter {
                     self.emit_strict_mode_err(span, SyntaxError::EvalAndArgumentsInStrict);
                 }
@@ -126,9 +138,10 @@ impl<I: Tokens> Parser<I> {
         // "yield" and "await" is **lexically** accepted.
         let token = self.input().cur();
         let ident = self.parse_ident(true, true)?;
-        let ctx = self.ctx();
-        if (ctx.intersects(Context::InAsync.union(Context::InStaticBlock)) && token == Token::Await)
-            || (ctx.contains(Context::InGenerator) && token == Token::Yield)
+        if ((self.includes_await_expr()
+            || self.boundary_ctx().contains(BoundaryContext::InStaticBlock))
+            && token == Token::Await)
+            || (self.includes_yield_expr() && token == Token::Yield)
         {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
@@ -151,10 +164,10 @@ impl<I: Tokens> Parser<I> {
         } else {
             // Strict mode alone does not reserve `await` in a function name.
             let is_await_ident = cur == Token::Await
-                && !self
-                    .ctx()
-                    .intersects(Context::InAsync | Context::InStaticBlock | Context::Module);
-            if is_await_ident || (cur.is_word() && !cur.is_reserved(self.ctx())) {
+                && !self.includes_await_expr()
+                && !self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
+                && !self.ctx().contains(Context::Module);
+            if is_await_ident || (cur.is_word() && !self.token_is_reserved(cur)) {
                 self.parse_binding_ident(disallow_let).map(Some)
             } else {
                 Ok(None)
@@ -167,6 +180,8 @@ impl<I: Tokens> Parser<I> {
     /// In strict mode, "yield" is SyntaxError if matched.
     pub(crate) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
         trace_cur!(self, parse_ident);
+
+        self.check_current_token_escape()?;
 
         let token_and_span = self.input().get_cur();
         if !token_and_span.token.is_word() {
@@ -206,16 +221,18 @@ impl<I: Tokens> Parser<I> {
         // value as the StringValue of any ReservedWord except for yield or await.
         if t == Token::Await {
             let ctx = self.ctx();
-            if ctx.contains(Context::InDeclare) {
+            if self.type_ctx().contains(TypeContext::InDeclare) {
                 word = atom!("await");
-            } else if ctx.contains(Context::InStaticBlock) {
+            } else if self.boundary_ctx().contains(BoundaryContext::InStaticBlock) {
                 syntax_error!(self, span, SyntaxError::ExpectedIdent)
-            } else if ctx.contains(Context::InAsync)
+            } else if self.includes_await_expr()
                 || (ctx.contains(Context::Module) && !self.syntax().flow())
             {
                 syntax_error!(self, span, SyntaxError::InvalidIdentInAsync)
             } else if incl_await {
-                if ctx.contains(Context::CanBeModule) && !self.syntax().flow() {
+                if self.boundary_ctx().contains(BoundaryContext::CanBeModule)
+                    && !self.syntax().flow()
+                {
                     self.emit_module_mode_err(span, SyntaxError::InvalidIdentInAsync);
                 }
                 self.record_await_in_async_arrow_params(span);
@@ -232,7 +249,9 @@ impl<I: Tokens> Parser<I> {
             word = ident
         } else if t == Token::Ident {
             let word = self.input_mut().expect_word_token_and_bump();
-            if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
+            if self.boundary_ctx().contains(BoundaryContext::InClassField)
+                && word == atom!("arguments")
+            {
                 self.emit_err(span, SyntaxError::ArgumentsInClassField)
             }
             return Ok(Ident::new_no_ctxt(word, self.span(start)));

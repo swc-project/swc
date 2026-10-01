@@ -379,6 +379,13 @@ impl Swcify for MemberExpression {
                 obj: s.swcify(ctx),
                 prop: match (*self.property, self.computed) {
                     (MemberExprProp::Id(i), false) => SuperProp::Ident(i.swcify(ctx).into()),
+                    (MemberExprProp::Id(i), true) => {
+                        let expr: Box<Expr> = Box::new(Expr::Ident(i.swcify(ctx).id));
+                        SuperProp::Computed(ComputedPropName {
+                            span: expr.span(),
+                            expr,
+                        })
+                    }
                     (MemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
                         SuperProp::Computed(ComputedPropName {
@@ -395,6 +402,13 @@ impl Swcify for MemberExpression {
                 obj: self.object.swcify(ctx),
                 prop: match (*self.property, self.computed) {
                     (MemberExprProp::Id(i), false) => MemberProp::Ident(i.swcify(ctx).into()),
+                    (MemberExprProp::Id(i), true) => {
+                        let expr: Box<Expr> = Box::new(Expr::Ident(i.swcify(ctx).id));
+                        MemberProp::Computed(ComputedPropName {
+                            span: expr.span(),
+                            expr,
+                        })
+                    }
                     (MemberExprProp::PrivateName(e), false) => {
                         MemberProp::PrivateName(e.swcify(ctx))
                     }
@@ -454,8 +468,41 @@ impl Swcify for ObjectExprProp {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ObjectExprProp::Method(m) => PropOrSpread::Prop(Box::new(Prop::Method(m.swcify(ctx)))),
-            ObjectExprProp::Prop(p) => PropOrSpread::Prop(Box::new(Prop::KeyValue(p.swcify(ctx)))),
+            ObjectExprProp::Method(m) => {
+                let kind = m.kind;
+                let method = m.swcify(ctx);
+                match kind {
+                    swc_estree_ast::ObjectMethodKind::Get => {
+                        PropOrSpread::Prop(Box::new(Prop::Getter(swc_ecma_ast::GetterProp {
+                            span: method.function.span,
+                            key: method.key,
+                            function: method.function,
+                        })))
+                    }
+                    swc_estree_ast::ObjectMethodKind::Set => {
+                        PropOrSpread::Prop(Box::new(Prop::Setter(swc_ecma_ast::SetterProp {
+                            span: method.function.span,
+                            key: method.key,
+                            function: method.function,
+                        })))
+                    }
+                    swc_estree_ast::ObjectMethodKind::Method => {
+                        PropOrSpread::Prop(Box::new(Prop::Method(method)))
+                    }
+                }
+            }
+            ObjectExprProp::Prop(p) => {
+                if let (true, false, ObjectKey::Id(key_id), ObjectPropVal::Expr(val_expr)) =
+                    (p.shorthand, p.computed, &p.key, &p.value)
+                {
+                    if matches!(&**val_expr, Expression::Id(val_id) if key_id.name == val_id.name) {
+                        return PropOrSpread::Prop(Box::new(Prop::Shorthand(
+                            key_id.clone().swcify(ctx).id,
+                        )));
+                    }
+                }
+                PropOrSpread::Prop(Box::new(Prop::KeyValue(p.swcify(ctx))))
+            }
             ObjectExprProp::Spread(p) => PropOrSpread::Spread(SpreadElement {
                 // TODO: Use exact span
                 dot3_token: ctx.span(&p.base),
@@ -473,7 +520,7 @@ impl Swcify for ObjectMethod {
             swcify_function_params(self.params, ctx);
 
         MethodProp {
-            key: self.key.swcify(ctx),
+            key: swcify_object_key(self.key, self.computed, ctx),
             function: Box::new(Function {
                 this_param,
                 params,
@@ -509,14 +556,31 @@ impl Swcify for ObjectKey {
             ObjectKey::Id(v) => PropName::Ident(v.swcify(ctx).into()),
             ObjectKey::String(v) => PropName::Str(v.swcify(ctx)),
             ObjectKey::Numeric(v) => PropName::Num(v.swcify(ctx)),
-            ObjectKey::Expr(v) => {
-                let expr = v.swcify(ctx);
-                PropName::Computed(ComputedPropName {
+            ObjectKey::Expr(v) => match *v.swcify(ctx) {
+                Expr::Lit(Lit::BigInt(b)) => PropName::BigInt(b),
+                expr => PropName::Computed(ComputedPropName {
                     span: expr.span(),
-                    expr,
-                })
-            }
+                    expr: Box::new(expr),
+                }),
+            },
         }
+    }
+}
+
+pub(crate) fn swcify_object_key(key: ObjectKey, computed: bool, ctx: &Context) -> PropName {
+    if computed {
+        let expr: Box<Expr> = match key {
+            ObjectKey::Id(v) => Box::new(v.swcify(ctx).id.into()),
+            ObjectKey::String(v) => Box::new(Lit::Str(v.swcify(ctx)).into()),
+            ObjectKey::Numeric(v) => Box::new(Lit::Num(v.swcify(ctx)).into()),
+            ObjectKey::Expr(v) => v.swcify(ctx),
+        };
+        PropName::Computed(ComputedPropName {
+            span: expr.span(),
+            expr,
+        })
+    } else {
+        key.swcify(ctx)
     }
 }
 
@@ -525,7 +589,7 @@ impl Swcify for ObjectProperty {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         KeyValueProp {
-            key: self.key.swcify(ctx),
+            key: swcify_object_key(self.key, self.computed, ctx),
             value: match self.value {
                 ObjectPropVal::Pattern(pat) => match pat {
                     PatternLike::Id(i) => i.swcify(ctx).into(),
@@ -791,6 +855,13 @@ impl Swcify for OptionalMemberExpression {
                 prop: match (self.property, self.computed) {
                     (OptionalMemberExprProp::Id(i), false) => {
                         MemberProp::Ident(i.swcify(ctx).into())
+                    }
+                    (OptionalMemberExprProp::Id(i), true) => {
+                        let expr: Box<Expr> = Box::new(Expr::Ident(i.swcify(ctx).id));
+                        MemberProp::Computed(ComputedPropName {
+                            span: expr.span(),
+                            expr,
+                        })
                     }
                     (OptionalMemberExprProp::Expr(e), true) => {
                         let expr = e.swcify(ctx);
@@ -1197,5 +1268,131 @@ impl Swcify for ArrayExprEl {
                 expr: e.swcify(ctx),
             },
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::atom;
+    use swc_common::{sync::Lrc, FileName, SourceMap};
+    use swc_ecma_ast::{Expr, MemberProp, OptChainBase, SuperProp};
+    use swc_estree_ast as estree;
+    use swc_node_comments::SwcComments;
+
+    use crate::swcify::{Context, Swcify};
+
+    fn base() -> estree::BaseNode {
+        estree::BaseNode {
+            leading_comments: Default::default(),
+            inner_comments: Default::default(),
+            trailing_comments: Default::default(),
+            start: None,
+            end: None,
+            loc: None,
+            range: None,
+        }
+    }
+
+    #[test]
+    fn test_swcify_computed_member_identifier() {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), String::new());
+        let comments = SwcComments::default();
+        let ctx = Context::new_without_alloc(cm, comments, fm);
+
+        let member_expr = estree::MemberExpression {
+            base: base(),
+            object: Box::new(estree::Expression::Id(estree::Identifier {
+                base: base(),
+                name: atom!("arr"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            })),
+            property: Box::new(estree::MemberExprProp::Id(estree::Identifier {
+                base: base(),
+                name: atom!("i"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            })),
+            computed: true,
+            optional: None,
+        };
+
+        let swc_expr = member_expr.swcify(&ctx);
+        assert!(matches!(
+            swc_expr,
+            Expr::Member(m) if matches!(m.prop, MemberProp::Computed(_))
+        ));
+
+        let super_member_expr = estree::MemberExpression {
+            base: base(),
+            object: Box::new(estree::Expression::Super(estree::Super { base: base() })),
+            property: Box::new(estree::MemberExprProp::Id(estree::Identifier {
+                base: base(),
+                name: atom!("i"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            })),
+            computed: true,
+            optional: None,
+        };
+
+        let swc_super_expr = super_member_expr.swcify(&ctx);
+        assert!(matches!(
+            swc_super_expr,
+            Expr::SuperProp(s) if matches!(s.prop, SuperProp::Computed(_))
+        ));
+
+        let opt_member_expr = estree::OptionalMemberExpression {
+            base: base(),
+            object: Box::new(estree::Expression::Id(estree::Identifier {
+                base: base(),
+                name: atom!("arr"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            })),
+            property: estree::OptionalMemberExprProp::Id(estree::Identifier {
+                base: base(),
+                name: atom!("i"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            }),
+            computed: true,
+            optional: true,
+        };
+
+        let swc_opt_expr = opt_member_expr.swcify(&ctx);
+        assert!(matches!(
+            *swc_opt_expr.base,
+            OptChainBase::Member(m) if matches!(m.prop, MemberProp::Computed(_))
+        ));
+    }
+
+    #[test]
+    fn test_swcify_non_computed_bigint_object_key() {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), String::new());
+        let comments = SwcComments::default();
+        let ctx = Context::new_without_alloc(cm, comments, fm);
+
+        let key = estree::ObjectKey::Expr(Box::new(estree::Expression::Literal(
+            estree::Literal::BigInt(estree::BigIntLiteral {
+                base: base(),
+                value: "10".to_string(),
+                raw: atom!("10n"),
+                extra: None,
+            }),
+        )));
+
+        let non_computed = super::swcify_object_key(key.clone(), false, &ctx);
+        assert!(matches!(non_computed, swc_ecma_ast::PropName::BigInt(_)));
+
+        let computed = super::swcify_object_key(key, true, &ctx);
+        assert!(matches!(computed, swc_ecma_ast::PropName::Computed(_)));
     }
 }

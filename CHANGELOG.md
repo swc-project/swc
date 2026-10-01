@@ -1,5 +1,25 @@
 # Changelog
-## [unreleased]
+## [1.16.13] - 2026-09-30
+
+### Bug Fixes
+
+
+
+- **(swc_config)** Show why an options object failed to deserialize ([#12441](https://github.com/swc-project/swc/issues/12441)) ([e92460a](https://github.com/swc-project/swc/commit/e92460a18e5694d91fa2039f8516f4907961a45b))
+
+### Performance
+
+
+
+- **(node)** Optimize macOS native addon first load ([#12436](https://github.com/swc-project/swc/issues/12436)) ([0b151bf](https://github.com/swc-project/swc/commit/0b151bfab3a4507d65a6f888dfda065bbeb6c297))
+
+### Testing
+
+
+
+- **(es/ast)** Add missing ctxt field to jsx_element serde test ([#12439](https://github.com/swc-project/swc/issues/12439)) ([7dc1796](https://github.com/swc-project/swc/commit/7dc1796987ab886b8f86e37e67da2c72aa734017))
+
+## [1.16.12] - 2026-09-29
 
 ### Bug Fixes
 
@@ -21,6 +41,9 @@
 
 
 - **(es/compat)** Preserve array rest when lowering nested object rest ([#12352](https://github.com/swc-project/swc/issues/12352)) ([9348083](https://github.com/swc-project/swc/commit/93480832352270aeae2624c1729867fd84c11c39))
+
+
+- **(es/lexer)** Stop iteration when input is exhausted ([#12388](https://github.com/swc-project/swc/issues/12388)) ([c392686](https://github.com/swc-project/swc/commit/c392686e98fcefc861c47e79fc15158c760738e1))
 
 
 - **(es/minifier)** Check eval and arguments usage in var define scope ([#12174](https://github.com/swc-project/swc/issues/12174)) ([5d1aa16](https://github.com/swc-project/swc/commit/5d1aa161d9532f074c4dc3a70e249162250cec36))
@@ -188,6 +211,18 @@
 - **(es/minifier)** Do not merge sequences across array spreads ([#12375](https://github.com/swc-project/swc/issues/12375)) ([f145dfe](https://github.com/swc-project/swc/commit/f145dfe1dd92c0b1315ef26ee595cc83aa0ce34c))
 
 
+- **(es/minifier)** Preserve destructuring patterns with PURE-annotated initializers ([#12386](https://github.com/swc-project/swc/issues/12386)) ([6ee2384](https://github.com/swc-project/swc/commit/6ee238450e1fd17f24faf5f47dba63d396149921))
+
+
+- **(es/minifier)** Mark properties assigned through destructuring targets as mutated ([#12398](https://github.com/swc-project/swc/issues/12398)) ([42e4f7e](https://github.com/swc-project/swc/commit/42e4f7e98b2c78d708a5b85c7e29365fdce2b213))
+
+
+- **(es/minifier)** Keep function and class declarations whose self-reference is dropped ([#12401](https://github.com/swc-project/swc/issues/12401)) ([cd25b14](https://github.com/swc-project/swc/commit/cd25b1466a608b20b90312b18c1a5c9086673c33))
+
+
+- **(es/minifier)** Avoid inline arrow with this when used as arg ([#12409](https://github.com/swc-project/swc/issues/12409)) ([9de48a0](https://github.com/swc-project/swc/commit/9de48a01e5d5dddb2dc286221bc7e155d4e8c81e))
+
+
 - **(es/parser)** Reject unicode escapes in RegExp flags ([#12093](https://github.com/swc-project/swc/issues/12093)) ([4f98673](https://github.com/swc-project/swc/commit/4f98673af6270948d36261f41dd3d1eef0992093))
 
 
@@ -248,10 +283,31 @@
 - **(es/parser)** Recognize named optional and rest tuple elements ([#12368](https://github.com/swc-project/swc/issues/12368)) ([476ba33](https://github.com/swc-project/swc/commit/476ba3384ed3d1453fae9a1b0d83918a25c3e4fa))
 
 
+- **(es/parser)** Support leading pipes in Flow match patterns ([#12393](https://github.com/swc-project/swc/issues/12393)) ([3c381f4](https://github.com/swc-project/swc/commit/3c381f4f3ba62185410c5e37f0d7f3d00372530d))
+
+
+- **(es/parser)** Allow escaped keywords as property names ([#12358](https://github.com/swc-project/swc/issues/12358)) ([478aaee](https://github.com/swc-project/swc/commit/478aaeefab89206fd25f2fd1b5c41213dd7435d6))
+
+
+- **(es/parser)** Parse optional renamed Flow component parameters ([#12410](https://github.com/swc-project/swc/issues/12410)) ([1dea7a6](https://github.com/swc-project/swc/commit/1dea7a6ec8e1326f49f381a63b1b11932047d54a))
+
+
 - **(es/typescript)** Fold optional-chained enum member reads ([#12179](https://github.com/swc-project/swc/issues/12179)) ([4519330](https://github.com/swc-project/swc/commit/45193304cdf7e0eca7e536d56f4ffc2a00aaf6f7))
 
 
 - **(hstr)** Avoid panic in Wtf8::starts_with ([#12383](https://github.com/swc-project/swc/issues/12383)) ([3ae4e24](https://github.com/swc-project/swc/commit/3ae4e24165303cb64609268cc1e3ec967aedfbe0))
+
+
+- **(html/minifier)** Preserve adjacent script elements ([#12411](https://github.com/swc-project/swc/issues/12411)) ([aea189d](https://github.com/swc-project/swc/commit/aea189db3a34f8b8c40bca71a0f02780e3131c16))
+
+
+- **(html/parser)** Preserve customizable select markup ([#12413](https://github.com/swc-project/swc/issues/12413)) ([86d40bd](https://github.com/swc-project/swc/commit/86d40bdd5bec8e673e57bdd0ae0421eef6ef0a9f))
+
+
+- **(node)** Repair native release verification and cache handling ([#12415](https://github.com/swc-project/swc/issues/12415)) ([2b292c8](https://github.com/swc-project/swc/commit/2b292c804347ce83dde75cc3431d1faa592554e4))
+
+
+- **(nodejs)** Complete Amaro REPL support APIs ([#12395](https://github.com/swc-project/swc/issues/12395)) ([4b42cd5](https://github.com/swc-project/swc/commit/4b42cd59d7ceaa194a1ef0bdbbb30f12a02ac992))
 
 
 - Use Rust changeset package names ([#12283](https://github.com/swc-project/swc/issues/12283)) ([7241d4b](https://github.com/swc-project/swc/commit/7241d4b3cd0f04462101dbd390eee7dd2a916c24))
@@ -284,6 +340,9 @@
 - **(es/minifier)** Honor `/*#__PURE__*/` on property reads and destructuring patterns ([#12384](https://github.com/swc-project/swc/issues/12384)) ([43f4fdb](https://github.com/swc-project/swc/commit/43f4fdb583e7205adb3f0c60218705077d86dd7d))
 
 
+- **(es/minifier)** Account for shorthand expansion when inlining ([#12428](https://github.com/swc-project/swc/issues/12428)) ([bd4c573](https://github.com/swc-project/swc/commit/bd4c573affb3eeb6f68ce4a4078645abd64fcce2))
+
+
 - **(es/module)** Support moduleRoot for AMD module IDs ([#11964](https://github.com/swc-project/swc/issues/11964)) ([4b4c135](https://github.com/swc-project/swc/commit/4b4c135ef479287bfc2c489e0214d04a1f4bfedb))
 
 ### Miscellaneous Tasks
@@ -304,6 +363,9 @@
 
 - **(es/transforms)** Skip script traversal in export-default-from ([#12348](https://github.com/swc-project/swc/issues/12348)) ([f37ce70](https://github.com/swc-project/swc/commit/f37ce705d2dce729fe4448dded8ce9a1f700ad3c))
 
+
+- **(swc_core)** Deduplicate ICU dependencies ([#12385](https://github.com/swc-project/swc/issues/12385)) ([53cb564](https://github.com/swc-project/swc/commit/53cb564071ad55bfbdbefc3804fe454e814c4563))
+
 ### Refactor
 
 
@@ -316,6 +378,9 @@
 
 - **(es/minifier)** Remove useless helpers ([#12343](https://github.com/swc-project/swc/issues/12343)) ([14bfa36](https://github.com/swc-project/swc/commit/14bfa3676e8ca475fba6e2622c5193fd72eac9a7))
 
+
+- **(es/minifier)** Dead code ([#12392](https://github.com/swc-project/swc/issues/12392)) ([bbdc059](https://github.com/swc-project/swc/commit/bbdc059047416ae1584e91249c17bbe9054a48c3))
+
 ### Testing
 
 
@@ -327,6 +392,12 @@
 
 
 - **(es/minifier)** Check Map/Set param is array ([#12287](https://github.com/swc-project/swc/issues/12287)) ([d602f58](https://github.com/swc-project/swc/commit/d602f58df03e2c12a0a3dd07de76a46b4c4e04aa))
+
+### Revert
+
+
+
+- **(es/minifier)** Revert #12384 ([#12419](https://github.com/swc-project/swc/issues/12419)) ([763cc20](https://github.com/swc-project/swc/commit/763cc20be690560793ab51c1b7a9014a1e0dfc81))
 
 ## [1.16.2] - 2026-09-04
 
@@ -2171,75 +2242,5 @@
 
 
 - Copy opt-level configs to the top level workspace ([#11210](https://github.com/swc-project/swc/issues/11210)) ([dba23f5](https://github.com/swc-project/swc/commit/dba23f5a72d26b3b62fbafe2d8a65c69c3642669))
-
-## [1.14.0] - 2025-10-29
-
-### Bug Fixes
-
-
-
-- **(atoms)** Fix broken quote macro ([#11195](https://github.com/swc-project/swc/issues/11195)) ([3485179](https://github.com/swc-project/swc/commit/3485179196c056b913cdc7507ed5f3bb282623ee))
-
-
-- **(es/ast)** Fix unicode unpaired surrogates handling ([#11144](https://github.com/swc-project/swc/issues/11144)) ([845512c](https://github.com/swc-project/swc/commit/845512c67819cd37bb25601d34bd5b1ac79afca3))
-
-
-- **(hstr)** Fix unsoundness of `wtf8`'s transmutation ([#11194](https://github.com/swc-project/swc/issues/11194)) ([f27e65b](https://github.com/swc-project/swc/commit/f27e65b94b517204944505a3c0e11b6033407594))
-
-### Features
-
-
-
-- **(es/compiler)** Merge `nullish_coalescing` into `Compiler` ([#11157](https://github.com/swc-project/swc/issues/11157)) ([dd6f71b](https://github.com/swc-project/swc/commit/dd6f71b92fecd0137af3cf16d72799afc3ce30d6))
-
-### Miscellaneous Tasks
-
-
-
-- **(binding_macros)** Add `default-features = false` ([#11193](https://github.com/swc-project/swc/issues/11193)) ([85d855f](https://github.com/swc-project/swc/commit/85d855fd0478f989bac5d62caad668497f497137))
-
-### Performance
-
-
-
-- **(es/parser)** Remove `had_line_break_before_last` ([#11200](https://github.com/swc-project/swc/issues/11200)) ([7b5bcd7](https://github.com/swc-project/swc/commit/7b5bcd7abe2f4d7c048c350c7403ad719ce52bee))
-
-### Refactor
-
-
-
-- **(bindings)** Adjust compile options ([#11190](https://github.com/swc-project/swc/issues/11190)) ([4c6df95](https://github.com/swc-project/swc/commit/4c6df954df6eb1476b65b6c53bfc72e9b856f8e9))
-
-
-- **(bindings)** Add `opt-level = s` to more crates ([#11191](https://github.com/swc-project/swc/issues/11191)) ([ed63413](https://github.com/swc-project/swc/commit/ed63413d3f0b9b19e717361a09ef938f243400cf))
-
-
-- **(es/ast)** Cherry-pick #10763 ([#11182](https://github.com/swc-project/swc/issues/11182)) ([e93ffde](https://github.com/swc-project/swc/commit/e93ffde52f33a6b65ad9a595cb73776a9064e7c3))
-
-
-- **(es/parser)** Detach `swc_ecma_parser` from `swc_ecma_lexer` ([#11148](https://github.com/swc-project/swc/issues/11148)) ([94f175d](https://github.com/swc-project/swc/commit/94f175d643f38477d2c84f00c8602bfebdb7b343))
-
-## [1.13.21] - 2025-10-24
-
-### Bug Fixes
-
-
-
-- **(bindings)** Improve ARM64 and Alpine Linux (musl) binary loading and validation ([#11173](https://github.com/swc-project/swc/issues/11173)) ([f9be4d7](https://github.com/swc-project/swc/commit/f9be4d7a37a6b358fe34f0c25fa7391b3a375509))
-
-
-- **(es/helpers)** Fix SuppressedError argument order in explicit resource management ([#11172](https://github.com/swc-project/swc/issues/11172)) ([7693fb9](https://github.com/swc-project/swc/commit/7693fb909fa2541ca4182a932c6834895f25956e))
-
-
-- **(es/minifier)** Fix inlining of hoisted functions in param ([#11161](https://github.com/swc-project/swc/issues/11161)) ([5a4088d](https://github.com/swc-project/swc/commit/5a4088d73ab12c7cb59f577e80fc9e5b0edadd07))
-
-
-- **(es/parser)** Support literal computed property names in enums ([#11163](https://github.com/swc-project/swc/issues/11163)) ([146c77c](https://github.com/swc-project/swc/commit/146c77c04d4cb002326fffffce0a282366d890bf))
-
-### Features
-
-
-
-- **(es/parser)** Add an error for empty type args for generic ([#11164](https://github.com/swc-project/swc/issues/11164)) ([9a1fa84](https://github.com/swc-project/swc/commit/9a1fa847a74fd288013aeff8947b5ca331eee00f))
 
 <!-- generated by git-cliff -->

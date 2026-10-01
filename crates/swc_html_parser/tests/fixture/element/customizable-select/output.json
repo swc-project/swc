@@ -1,0 +1,731 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 510
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 1,
+        "end": 16
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null,
+      "raw": "<!doctype html>"
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null,
+          "isSelfClosing": false
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 16,
+                "end": 124
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 24,
+                    "end": 76
+                  },
+                  "tagName": "button",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 32,
+                        "end": 67
+                      },
+                      "tagName": "selectedcontent",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null,
+                      "isSelfClosing": false
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 76,
+                    "end": 115
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 84,
+                        "end": 100
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 90,
+                            "end": 93
+                          },
+                          "data": "Red",
+                          "raw": "Red"
+                        }
+                      ],
+                      "content": null,
+                      "isSelfClosing": false
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 100,
+                        "end": 106
+                      },
+                      "data": " apple",
+                      "raw": " apple"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 124,
+                "end": 125
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 125,
+                "end": 177
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 133,
+                    "end": 157
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 141,
+                        "end": 157
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 147,
+                            "end": 150
+                          },
+                          "data": "one",
+                          "raw": "one"
+                        }
+                      ],
+                      "content": null,
+                      "isSelfClosing": false
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 157,
+                    "end": 168
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 165,
+                        "end": 168
+                      },
+                      "data": "two",
+                      "raw": "two"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 177,
+                "end": 178
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 178,
+                "end": 223
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 186,
+                    "end": 214
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 194,
+                        "end": 214
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 200,
+                            "end": 203
+                          },
+                          "data": "one",
+                          "raw": "one"
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 203,
+                            "end": 214
+                          },
+                          "tagName": "option",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 211,
+                                "end": 214
+                              },
+                              "data": "two",
+                              "raw": "two"
+                            }
+                          ],
+                          "content": null,
+                          "isSelfClosing": false
+                        }
+                      ],
+                      "content": null,
+                      "isSelfClosing": false
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 223,
+                "end": 224
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 224,
+                "end": 295
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 232,
+                    "end": 286
+                  },
+                  "tagName": "optgroup",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 242,
+                        "end": 275
+                      },
+                      "tagName": "option",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 250,
+                            "end": 261
+                          },
+                          "tagName": "b",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 253,
+                                "end": 257
+                              },
+                              "data": "Bold",
+                              "raw": "Bold"
+                            }
+                          ],
+                          "content": null,
+                          "isSelfClosing": false
+                        },
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 261,
+                            "end": 266
+                          },
+                          "data": " text",
+                          "raw": " text"
+                        }
+                      ],
+                      "content": null,
+                      "isSelfClosing": false
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 295,
+                "end": 296
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 296,
+                "end": 362
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 304,
+                    "end": 353
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 312,
+                        "end": 315
+                      },
+                      "data": "one",
+                      "raw": "one"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 315,
+                        "end": 339
+                      },
+                      "tagName": "textarea",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 325,
+                            "end": 328
+                          },
+                          "data": "two",
+                          "raw": "two"
+                        }
+                      ],
+                      "content": null,
+                      "isSelfClosing": false
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 339,
+                        "end": 344
+                      },
+                      "data": "three",
+                      "raw": "three"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 362,
+                "end": 363
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 363,
+                "end": 411
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 371,
+                    "end": 402
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 379,
+                        "end": 382
+                      },
+                      "data": "one",
+                      "raw": "one"
+                    },
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 382,
+                        "end": 390
+                      },
+                      "tagName": "keygen",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null,
+                      "isSelfClosing": false
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 390,
+                        "end": 393
+                      },
+                      "data": "two",
+                      "raw": "two"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 411,
+                "end": 412
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 412,
+                "end": 455
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 420,
+                    "end": 431
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 428,
+                        "end": 431
+                      },
+                      "data": "one",
+                      "raw": "one"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 431,
+                    "end": 435
+                  },
+                  "tagName": "hr",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 435,
+                    "end": 446
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 443,
+                        "end": 446
+                      },
+                      "data": "two",
+                      "raw": "two"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 455,
+                "end": 456
+              },
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 456,
+                "end": 509
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 464,
+                    "end": 485
+                  },
+                  "tagName": "optgroup",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 474,
+                        "end": 485
+                      },
+                      "tagName": "option",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 482,
+                            "end": 485
+                          },
+                          "data": "one",
+                          "raw": "one"
+                        }
+                      ],
+                      "content": null,
+                      "isSelfClosing": false
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 485,
+                    "end": 489
+                  },
+                  "tagName": "hr",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 489,
+                    "end": 500
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 497,
+                        "end": 500
+                      },
+                      "data": "two",
+                      "raw": "two"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 509,
+                "end": 510
+              },
+              "data": "\n",
+              "raw": "\n"
+            }
+          ],
+          "content": null,
+          "isSelfClosing": false
+        }
+      ],
+      "content": null,
+      "isSelfClosing": false
+    }
+  ]
+}

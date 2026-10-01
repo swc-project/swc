@@ -5,16 +5,15 @@ use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_ident_ref, contains_this_expr, find_pat_ids,
-    ExprExt, Remapper,
+    class_has_side_effect, collect_decls, contains_ident_ref, find_pat_ids, ExprExt, Remapper,
 };
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
-    compress::{
-        optimize::{util::is_valid_for_lhs, BitCtx},
-        util::contains_super,
+    compress::optimize::{
+        util::{is_valid_for_lhs, may_inline_arrow},
+        BitCtx,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
     usage_analyzer::{
@@ -55,11 +54,8 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Expr::Arrow(ArrowExpr { body, .. }) = init {
-            if contains_super(body) {
-                return;
-            }
-            if contains_this_expr(body) {
+        if let Expr::Arrow(a) = init {
+            if !may_inline_arrow(a) {
                 return;
             }
         }
@@ -583,17 +579,28 @@ impl Optimizer<'_> {
             0
         } as usize;
         let cost_limit = 3 + param_cost + func_body_cost;
+        let inline_cost = |expr: &Expr| {
+            let mut cost = expr.size(self.ctx.expr_ctx.unresolved_ctxt);
+            if let Expr::Object(obj) = expr {
+                // Substitution can expand `{ x }` to `{ x: value }`. Count at
+                // least the colon and a one-character value before copying it.
+                cost += 2 * obj
+                    .props
+                    .iter()
+                    .filter(|prop| {
+                        matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::Shorthand(..)))
+                    })
+                    .count();
+            }
+            cost
+        };
 
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
-                Stmt::Expr(ExprStmt { expr, .. })
-                    if expr.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
-                {
-                    return true
-                }
+                Stmt::Expr(ExprStmt { expr, .. }) if inline_cost(expr) < cost_limit => return true,
 
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. })
-                    if arg.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
+                    if inline_cost(arg) < cost_limit =>
                 {
                     return true
                 }

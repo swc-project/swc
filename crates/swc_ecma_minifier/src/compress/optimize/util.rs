@@ -10,7 +10,8 @@ use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{
-    collect_decls, prop_name_from_ident, ExprCtx, ExprExt, IdentUsageFinder, Remapper,
+    collect_decls, contains_this_expr, prop_name_from_ident, ExprCtx, ExprExt, IdentUsageFinder,
+    Remapper,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -19,7 +20,7 @@ use swc_ecma_visit::{
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::HEAVY_TASK_PARALLELS;
+use crate::{compress::util::contains_super, HEAVY_TASK_PARALLELS};
 
 #[cfg(test)]
 mod tests;
@@ -1086,4 +1087,8 @@ pub fn get_ids_of_pat(pat: &Pat) -> Vec<Id> {
     let mut idents = vec![];
     append(pat, &mut idents);
     idents
+}
+
+pub(crate) fn may_inline_arrow(a: &ArrowExpr) -> bool {
+    !(contains_super(&a.body) || contains_this_expr(&a.body))
 }

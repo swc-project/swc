@@ -1,0 +1,163 @@
+  x Document
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | ,-> <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | `-> <select><option>before<input>after
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   : ^^^^^^^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x DocumentType
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   : ^^^^^^^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Child
+  x Element
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                        ^^^^^^^^^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                        ^^^^^^^^^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                ^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                ^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                      ^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                      ^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                                  ^^^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                                  ^^^^^^^^^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                                          ^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                                          ^^^
+ 2 | <select><option>before<input>after
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                                                      ^
+ 2 | <select><option>before<input>after
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+   :                                                                      ^
+ 2 | <select><option>before<input>after
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   :         ^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   :         ^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   :                 ^^^^^^
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   :                 ^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   :                       ^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   :                       ^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   :                              ^^^^^^
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/customizable-select/input.html:2:1]
+ 1 | <!doctype html><select><option><span>one</option><option>two</select>
+ 2 | <select><option>before<input>after
+   :                              ^^^^^^
+   `----

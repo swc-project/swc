@@ -1,0 +1,5 @@
+  x The 'with' statement is not supported. All symbols in a 'with' block will have type 'any'.
+   ,-[$DIR/tests/errors/pr-12425/outer-statement/input.script.ts:1:1]
+ 1 | declare module "m" { import type { X } from "n"; } with (obj) {}
+   :                                                    ^^^^
+   `----

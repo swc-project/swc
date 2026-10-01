@@ -1,0 +1,4 @@
+  x Expected '}', got '<eof>'
+   ,-[$DIR/tests/errors/pr-12425/unterminated-container/input.script.ts:1:34]
+ 1 | declare module "m" { import "n";
+   `----

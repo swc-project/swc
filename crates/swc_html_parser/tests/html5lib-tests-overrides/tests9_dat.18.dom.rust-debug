@@ -1,0 +1,15 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       <math math>
+|         <math mi>
+|           "foo"
+|         <math mi>
+|           "bar"
+|       <p>
+|         "baz"
+|     <table>
+|     <p>
+|       "quux"

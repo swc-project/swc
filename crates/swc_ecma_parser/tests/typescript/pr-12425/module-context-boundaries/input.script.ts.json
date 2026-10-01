@@ -1,0 +1,1053 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 581
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 1,
+        "end": 35
+      },
+      "declare": true,
+      "global": false,
+      "namespace": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 16,
+          "end": 19
+        },
+        "value": "m",
+        "raw": "\"m\""
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 20,
+          "end": 35
+        },
+        "body": [
+          {
+            "type": "ImportDeclaration",
+            "span": {
+              "start": 22,
+              "end": 33
+            },
+            "specifiers": [],
+            "source": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 29,
+                "end": 32
+              },
+              "value": "n",
+              "raw": "\"n\""
+            },
+            "typeOnly": false,
+            "with": null,
+            "phase": "evaluation"
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 36,
+        "end": 50
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 40,
+            "end": 49
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 40,
+              "end": 45
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 48,
+              "end": 49
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 51,
+        "end": 96
+      },
+      "declare": true,
+      "global": false,
+      "namespace": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 66,
+          "end": 69
+        },
+        "value": "m",
+        "raw": "\"m\""
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 70,
+          "end": 96
+        },
+        "body": [
+          {
+            "type": "ImportDeclaration",
+            "span": {
+              "start": 72,
+              "end": 94
+            },
+            "specifiers": [
+              {
+                "type": "ImportSpecifier",
+                "span": {
+                  "start": 81,
+                  "end": 82
+                },
+                "local": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 81,
+                    "end": 82
+                  },
+                  "ctxt": 0,
+                  "value": "X",
+                  "optional": false
+                },
+                "imported": null,
+                "isTypeOnly": false
+              }
+            ],
+            "source": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 90,
+                "end": 93
+              },
+              "value": "n",
+              "raw": "\"n\""
+            },
+            "typeOnly": false,
+            "with": null,
+            "phase": "evaluation"
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 97,
+        "end": 111
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 101,
+            "end": 110
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 101,
+              "end": 106
+            },
+            "ctxt": 0,
+            "value": "yield",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 109,
+              "end": 110
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 112,
+        "end": 159
+      },
+      "declare": true,
+      "global": false,
+      "namespace": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 127,
+          "end": 130
+        },
+        "value": "m",
+        "raw": "\"m\""
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 131,
+          "end": 159
+        },
+        "body": [
+          {
+            "type": "TsImportEqualsDeclaration",
+            "span": {
+              "start": 133,
+              "end": 157
+            },
+            "isExport": false,
+            "isTypeOnly": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 140,
+                "end": 141
+              },
+              "ctxt": 0,
+              "value": "X",
+              "optional": false
+            },
+            "moduleRef": {
+              "type": "TsExternalModuleReference",
+              "span": {
+                "start": 144,
+                "end": 156
+              },
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 152,
+                  "end": 155
+                },
+                "value": "n",
+                "raw": "\"n\""
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 160,
+        "end": 173
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 164,
+            "end": 172
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 164,
+              "end": 168
+            },
+            "ctxt": 0,
+            "value": "eval",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 171,
+              "end": 172
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 174,
+        "end": 224
+      },
+      "declare": true,
+      "global": false,
+      "namespace": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 189,
+          "end": 192
+        },
+        "value": "m",
+        "raw": "\"m\""
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 193,
+          "end": 224
+        },
+        "body": [
+          {
+            "type": "ImportDeclaration",
+            "span": {
+              "start": 195,
+              "end": 222
+            },
+            "specifiers": [
+              {
+                "type": "ImportSpecifier",
+                "span": {
+                  "start": 209,
+                  "end": 210
+                },
+                "local": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 209,
+                    "end": 210
+                  },
+                  "ctxt": 0,
+                  "value": "X",
+                  "optional": false
+                },
+                "imported": null,
+                "isTypeOnly": false
+              }
+            ],
+            "source": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 218,
+                "end": 221
+              },
+              "value": "n",
+              "raw": "\"n\""
+            },
+            "typeOnly": true,
+            "with": null,
+            "phase": "evaluation"
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 225,
+        "end": 243
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 229,
+            "end": 242
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 229,
+              "end": 238
+            },
+            "ctxt": 0,
+            "value": "arguments",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 241,
+              "end": 242
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 244,
+        "end": 278
+      },
+      "declare": true,
+      "global": false,
+      "namespace": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 259,
+          "end": 262
+        },
+        "value": "m",
+        "raw": "\"m\""
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 263,
+          "end": 278
+        },
+        "body": [
+          {
+            "type": "ImportDeclaration",
+            "span": {
+              "start": 265,
+              "end": 276
+            },
+            "specifiers": [],
+            "source": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 272,
+                "end": 275
+              },
+              "value": "n",
+              "raw": "\"n\""
+            },
+            "typeOnly": false,
+            "with": null,
+            "phase": "evaluation"
+          }
+        ]
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 288,
+          "end": 294
+        },
+        "ctxt": 0,
+        "value": "nested",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 279,
+        "end": 315
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 297,
+          "end": 315
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 299,
+              "end": 313
+            },
+            "ctxt": 0,
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 303,
+                  "end": 312
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 303,
+                    "end": 308
+                  },
+                  "ctxt": 0,
+                  "value": "await",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 311,
+                    "end": 312
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 316,
+        "end": 383
+      },
+      "declare": true,
+      "global": false,
+      "namespace": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 331,
+          "end": 334
+        },
+        "value": "m",
+        "raw": "\"m\""
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 335,
+          "end": 383
+        },
+        "body": [
+          {
+            "type": "TsModuleDeclaration",
+            "span": {
+              "start": 337,
+              "end": 364
+            },
+            "declare": false,
+            "global": false,
+            "namespace": true,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 347,
+                "end": 348
+              },
+              "ctxt": 0,
+              "value": "N",
+              "optional": false
+            },
+            "body": {
+              "type": "TsModuleBlock",
+              "span": {
+                "start": 349,
+                "end": 364
+              },
+              "body": [
+                {
+                  "type": "ImportDeclaration",
+                  "span": {
+                    "start": 351,
+                    "end": 362
+                  },
+                  "specifiers": [],
+                  "source": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 358,
+                      "end": 361
+                    },
+                    "value": "n",
+                    "raw": "\"n\""
+                  },
+                  "typeOnly": false,
+                  "with": null,
+                  "phase": "evaluation"
+                }
+              ]
+            }
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 365,
+              "end": 381
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 371,
+                  "end": 380
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 371,
+                    "end": 376
+                  },
+                  "ctxt": 0,
+                  "value": "await",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 379,
+                    "end": 380
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 384,
+        "end": 430
+      },
+      "declare": true,
+      "global": true,
+      "namespace": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 392,
+          "end": 398
+        },
+        "ctxt": 0,
+        "value": "global",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 399,
+          "end": 430
+        },
+        "body": [
+          {
+            "type": "TsModuleDeclaration",
+            "span": {
+              "start": 401,
+              "end": 428
+            },
+            "declare": false,
+            "global": false,
+            "namespace": true,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 411,
+                "end": 412
+              },
+              "ctxt": 0,
+              "value": "N",
+              "optional": false
+            },
+            "body": {
+              "type": "TsModuleBlock",
+              "span": {
+                "start": 413,
+                "end": 428
+              },
+              "body": [
+                {
+                  "type": "ImportDeclaration",
+                  "span": {
+                    "start": 415,
+                    "end": 426
+                  },
+                  "specifiers": [],
+                  "source": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 422,
+                      "end": 425
+                    },
+                    "value": "n",
+                    "raw": "\"n\""
+                  },
+                  "typeOnly": false,
+                  "with": null,
+                  "phase": "evaluation"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 431,
+        "end": 445
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 435,
+            "end": 444
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 435,
+              "end": 440
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 443,
+              "end": 444
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 446,
+        "end": 477
+      },
+      "declare": false,
+      "global": false,
+      "namespace": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 456,
+          "end": 457
+        },
+        "ctxt": 0,
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 458,
+          "end": 477
+        },
+        "body": [
+          {
+            "type": "TsImportEqualsDeclaration",
+            "span": {
+              "start": 460,
+              "end": 475
+            },
+            "isExport": false,
+            "isTypeOnly": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 467,
+                "end": 468
+              },
+              "ctxt": 0,
+              "value": "X",
+              "optional": false
+            },
+            "moduleRef": {
+              "type": "TsQualifiedName",
+              "span": {
+                "start": 471,
+                "end": 474
+              },
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 471,
+                  "end": 472
+                },
+                "ctxt": 0,
+                "value": "M",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 473,
+                  "end": 474
+                },
+                "value": "X"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 478,
+        "end": 492
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 482,
+            "end": 491
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 482,
+              "end": 487
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 490,
+              "end": 491
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 493,
+        "end": 529
+      },
+      "declare": true,
+      "global": false,
+      "namespace": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 508,
+          "end": 511
+        },
+        "value": "m",
+        "raw": "\"m\""
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 512,
+          "end": 529
+        },
+        "body": [
+          {
+            "type": "ExportNamedDeclaration",
+            "span": {
+              "start": 514,
+              "end": 527
+            },
+            "specifiers": [
+              {
+                "type": "ExportSpecifier",
+                "span": {
+                  "start": 523,
+                  "end": 524
+                },
+                "orig": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 523,
+                    "end": 524
+                  },
+                  "ctxt": 0,
+                  "value": "X",
+                  "optional": false
+                },
+                "exported": null,
+                "isTypeOnly": false
+              }
+            ],
+            "source": null,
+            "typeOnly": false,
+            "with": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 530,
+        "end": 544
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 534,
+            "end": 543
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 534,
+              "end": 539
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 542,
+              "end": 543
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 545,
+        "end": 566
+      },
+      "declare": true,
+      "global": false,
+      "namespace": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 560,
+          "end": 563
+        },
+        "value": "m",
+        "raw": "\"m\""
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 564,
+          "end": 566
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 567,
+        "end": 581
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 571,
+            "end": 580
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 571,
+              "end": 576
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 579,
+              "end": 580
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

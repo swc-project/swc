@@ -160,34 +160,6 @@ fn run(
     Some(output)
 }
 
-/// Compress `input_src` and return the generated code without executing it.
-///
-/// Used by tests whose optimized output intentionally produces no stdout, which
-/// [`run_exec_test`] cannot express because it compares runtime output against
-/// the unoptimized program.
-fn compress_only(input_src: &str, config: &str) -> String {
-    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-
-    testing::run_test2(false, |cm, handler| {
-        HANDLER.set(&handler, || {
-            let _tracing = span!(Level::ERROR, "compress-only").entered();
-
-            let output = run(cm.clone(), &handler, input_src, Some(config), None);
-            let output = output.expect("Parsing in base test should not fail");
-            let output = print(cm, &[output], false, false);
-
-            eprintln!(
-                "---- {} -----\n{}",
-                Color::Green.paint("Optimized code"),
-                output
-            );
-
-            Ok(output)
-        })
-    })
-    .unwrap()
-}
-
 fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
@@ -2017,12 +1989,6 @@ console.log(
     run_exec_test(src, config, false);
 }
 
-/// `pure_getters: true` is an unsound-by-design assumption: the user promises
-/// that property reads have no side effects. Here the getter *does* have one
-/// (`console.log(1)`), so honoring the assumption legitimately erases the
-/// output. Terser compresses this to nothing as well, so the optimized program
-/// prints nothing and cannot be compared against the original with
-/// [`run_exec_test`].
 #[test]
 fn terser_pure_getters_impure_getter_2() {
     let src = r###"({
@@ -2042,19 +2008,7 @@ fn terser_pure_getters_impure_getter_2() {
     "side_effects": true
 }"#;
 
-    // Both property reads are dropped, so the getter is never invoked and the
-    // program prints nothing. The object literals themselves survive here only
-    // because this harness parses the input as a module without `toplevel`.
-    let output = compress_only(src, config);
-    assert!(
-        !output.contains(".a") && !output.contains(".b"),
-        "both property accesses should be dropped under `pure_getters: true`, got:\n{output}"
-    );
-    assert_eq!(
-        stdout_of(&output).expect("failed to execute the optimized code"),
-        "",
-        "the impure getter must no longer be invoked"
-    );
+    run_exec_test(src, config, false);
 }
 
 #[test]

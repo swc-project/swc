@@ -29,10 +29,14 @@ impl Swcify for StringLiteral {
     type Output = Str;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        let raw = self
+            .extra
+            .and_then(|extra| (!extra.raw.is_empty()).then_some(extra.raw))
+            .or_else(|| (!self.raw.is_empty()).then_some(self.raw));
         Str {
             span: ctx.span(&self.base),
             value: self.value,
-            raw: Some(self.raw),
+            raw,
         }
     }
 }
@@ -54,11 +58,13 @@ impl Swcify for NumericLiteral {
     type Output = Number;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        let raw = self
+            .extra
+            .and_then(|extra| (!extra.raw.is_empty()).then_some(extra.raw));
         Number {
             span: ctx.span(&self.base),
             value: self.value,
-            // TODO improve me
-            raw: None,
+            raw,
         }
     }
 }
@@ -136,15 +142,13 @@ impl Swcify for BigIntLiteral {
     type Output = BigInt;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
+        let raw = self
+            .extra
+            .and_then(|extra| (!extra.raw.is_empty()).then_some(extra.raw));
         BigInt {
             span: ctx.span(&self.base),
-            value: self
-                .value
-                .parse()
-                .map(Box::new)
-                .expect("failed to parse the value of BigIntLiteral"),
-            // TODO improve me
-            raw: None,
+            value: Box::new(self.value.trim_end_matches('n').parse().unwrap_or_default()),
+            raw,
         }
     }
 }

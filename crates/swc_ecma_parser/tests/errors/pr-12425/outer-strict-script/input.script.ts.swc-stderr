@@ -1,0 +1,6 @@
+  x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+   ,-[$DIR/tests/errors/pr-12425/outer-strict-script/input.script.ts:2:1]
+ 1 | "use strict";
+ 2 | declare module "m" { import type { X } from "n"; } var eval = 1;
+   :                                                        ^^^^
+   `----

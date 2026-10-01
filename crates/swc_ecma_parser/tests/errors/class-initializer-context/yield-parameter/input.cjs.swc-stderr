@@ -1,0 +1,5 @@
+  x Expression expected
+   ,-[$DIR/tests/errors/class-initializer-context/yield-parameter/input.cjs:1:1]
+ 1 | function* f(x = class { field = yield 1; }) {}
+   :                                 ^^^^^
+   `----

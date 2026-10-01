@@ -199,7 +199,13 @@ fn run_spec(file: &Path, output_json: &Path) {
     let no_early_errors = config.no_early_errors.unwrap_or(true);
 
     with_parser(false, file, no_early_errors, false, |p, _| {
-        let program = p.parse_program()?.fold_with(&mut Normalizer {
+        let program = if file.to_string_lossy().ends_with(".script.ts") {
+            // Explicit Script fixtures also verify container context restoration.
+            p.parse_script().map(Program::Script)?
+        } else {
+            p.parse_program()?
+        };
+        let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
         });

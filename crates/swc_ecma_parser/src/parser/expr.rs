@@ -97,7 +97,7 @@ impl<I: Tokens> Parser<I> {
             let start = self.input().prev_span().lo;
             let spread_span = self.span(start);
             let spread = Some(spread_span);
-            self.allow_in_expr(Self::parse_assignment_expr)
+            with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)
                 .map_err(|err| {
                     Error::new(
                         err.span(),
@@ -153,7 +153,7 @@ impl<I: Tokens> Parser<I> {
             && (peek!(self).is_some_and(|peek| peek.is_word() || peek == Token::JSXName))
         {
             let start = self.input().cur_span();
-            let res = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+            let res = self.do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
                 p.try_parse_ts(|p| {
                     let type_parameters = p.parse_ts_type_params(false, true)?;
 
@@ -213,7 +213,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if cur == Token::Yield && self.ctx().contains(Context::InGenerator) {
+        if cur == Token::Yield && self.includes_yield_expr() {
             return self.parse_yield_expr();
         }
 
@@ -275,7 +275,7 @@ impl<I: Tokens> Parser<I> {
                 let start = self.input().cur_pos();
                 self.bump(); // consume `<`
                 return if self.input_mut().eat(Token::Const) {
-                    self.expect(Token::Gt)?;
+                    self.expect_ts_type_gt()?;
                     let expr = self.parse_unary_expr()?;
                     Ok(TsConstAssertion {
                         span: self.span(start),
@@ -392,15 +392,16 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into());
             } else if cur == Token::Await {
-                let parses_await = self.ctx().intersects(
-                    Context::InAsync
-                        .union(Context::Module)
-                        .union(Context::InStaticBlock),
-                ) || self.is_unambiguous_module()
+                let parses_await = self.includes_await_expr()
+                    || self.ctx().contains(Context::Module)
+                    || self
+                        .boundary_ctx()
+                        .contains(BoundaryContext::InStaticBlock)
+                    || self.is_unambiguous_module()
                     // Direct node parsers, such as `parse_file_as_expr`, opt into
                     // module-capable grammar without parsing an entire Program.
                     || (self.program_parse_mode == ProgramParseMode::None
-                        && self.ctx().contains(Context::CanBeModule));
+                        && self.boundary_ctx().contains(BoundaryContext::CanBeModule));
 
                 if parses_await {
                     return self.parse_await_expr(None);
@@ -456,8 +457,10 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::LBracket => {
-                return self
-                    .do_outside_of_context(Context::WillExpectColonForCond, Self::parse_array_lit)
+                return self.do_outside_of_type_context(
+                    TypeContext::WillExpectColonForCond,
+                    Self::parse_array_lit,
+                )
             }
             Token::LBrace => {
                 return self.parse_object_expr().map(Box::new);
@@ -483,7 +486,9 @@ impl<I: Tokens> Parser<I> {
             Token::TemplateHead => {
                 // parse template literal
                 return Ok(self
-                    .do_outside_of_context(Context::WillExpectColonForCond, |p| p.parse_tpl(false))?
+                    .do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
+                        p.parse_tpl(false)
+                    })?
                     .into());
             }
             _ => {}
@@ -524,8 +529,7 @@ impl<I: Tokens> Parser<I> {
             cur == Token::Lt || cur == Token::LShift
         } {
             self.try_parse_ts(|p| {
-                let type_args = p.parse_ts_type_args()?;
-                p.assert_and_bump(Token::Gt);
+                let type_args = p.parse_ts_type_args_in_expr()?;
                 if p.input().is(Token::LParen) {
                     Ok(Some(type_args))
                 } else {
@@ -633,11 +637,23 @@ impl<I: Tokens> Parser<I> {
                 continue;
             }
 
-            elems.push(self.allow_in_expr(|p| p.parse_expr_or_spread()).map(Some)?);
+            elems.push(
+                with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr_or_spread())
+                    .map(Some)?,
+            );
 
             if !self.input().is(Token::RBracket) {
                 expect!(self, Token::Comma);
-                if self.input().is(Token::RBracket) {
+                if self.input().is(Token::RBracket)
+                    && matches!(
+                        elems.last(),
+                        Some(Some(ExprOrSpread {
+                            spread: Some(_),
+                            ..
+                        }))
+                    )
+                {
+                    // Only a spread can become a rest element with an invalid trailing comma.
                     let prev_span = self.input().prev_span();
                     self.state_mut().trailing_commas.insert(start, prev_span);
                 }
@@ -656,15 +672,16 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
+        self.check_current_token_escape()?;
         let start = self.input().cur_pos();
         self.assert_and_bump(Token::Yield);
-        debug_assert!(self.ctx().contains(Context::InGenerator));
+        debug_assert!(self.includes_yield_expr());
 
         // Spec says
         // YieldExpression cannot be used within the FormalParameters of a generator
         // function because any expressions that are part of FormalParameters are
         // evaluated before the resulting generator object is in a resumable state.
-        if self.ctx().contains(Context::InParameters) && !self.ctx().contains(Context::InFunction) {
+        if self.syntax_context == SyntaxContext::Parameters {
             syntax_error!(self, self.input().prev_span(), SyntaxError::YieldParamInGen)
         }
 
@@ -720,7 +737,7 @@ impl<I: Tokens> Parser<I> {
         let mut quasis = vec![cur_elem];
 
         while !is_tail {
-            exprs.push(self.allow_in_expr(|p| p.parse_expr())?);
+            exprs.push(with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?);
             let elem = self.parse_tpl_element(is_tagged_tpl)?;
             is_tail = elem.tail;
             quasis.push(elem);
@@ -1058,38 +1075,46 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(self, parse_args);
 
-        self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
-            let start = p.cur_pos();
-            expect!(p, Token::LParen);
+        // Arguments use +In for the whole list, independently of the enclosing
+        // expression.
+        with_grammar_context!(self, [+In, ?Yield, ?Await], |p| {
+            p.do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
+                let start = p.cur_pos();
+                expect!(p, Token::LParen);
 
-            if p.input().is(Token::RParen) {
-                expect!(p, Token::RParen);
-                return Ok(Vec::new());
-            }
-
-            let mut first = true;
-            let mut expr_or_spreads = Vec::with_capacity(2);
-
-            while !p.input().is(Token::RParen) {
-                if first {
-                    first = false;
-                } else {
-                    expect!(p, Token::Comma);
-                    // Handle trailing comma.
-                    if p.input().is(Token::RParen) {
-                        if is_dynamic_import && !p.input().syntax().import_attributes() {
-                            syntax_error!(p, p.span(start), SyntaxError::TrailingCommaInsideImport)
-                        }
-
-                        break;
-                    }
+                if p.input().is(Token::RParen) {
+                    expect!(p, Token::RParen);
+                    return Ok(Vec::new());
                 }
 
-                expr_or_spreads.push(p.allow_in_expr(|p| p.parse_expr_or_spread())?);
-            }
+                let mut first = true;
+                let mut expr_or_spreads = Vec::with_capacity(2);
 
-            expect!(p, Token::RParen);
-            Ok(expr_or_spreads)
+                while !p.input().is(Token::RParen) {
+                    if first {
+                        first = false;
+                    } else {
+                        expect!(p, Token::Comma);
+                        // Handle trailing comma.
+                        if p.input().is(Token::RParen) {
+                            if is_dynamic_import && !p.input().syntax().import_attributes() {
+                                syntax_error!(
+                                    p,
+                                    p.span(start),
+                                    SyntaxError::TrailingCommaInsideImport
+                                )
+                            }
+
+                            break;
+                        }
+                    }
+
+                    expr_or_spreads.push(p.parse_expr_or_spread()?);
+                }
+
+                expect!(p, Token::RParen);
+                Ok(expr_or_spreads)
+            })
         })
     }
 
@@ -1160,21 +1185,15 @@ impl<I: Tokens> Parser<I> {
 
         if self.input_mut().eat(Token::QuestionMark) {
             let start = test.span_lo();
-            let cons = self.do_inside_of_context(
-                Context::InCondExpr
-                    .union(Context::WillExpectColonForCond)
-                    .union(Context::IncludeInExpr),
-                Self::parse_assignment_expr,
+            let cons = self.do_inside_of_type_context(
+                TypeContext::WillExpectColonForCond,
+                |p| with_grammar_context!(p, [+In, ?Yield, ?Await], Self::parse_assignment_expr),
             )?;
 
             expect!(self, Token::Colon);
 
-            let alt = self.do_inside_of_context(Context::InCondExpr, |p| {
-                p.do_outside_of_context(
-                    Context::WillExpectColonForCond,
-                    Self::parse_assignment_expr,
-                )
-            })?;
+            // The alternate still belongs to any enclosing consequent.
+            let alt = self.parse_assignment_expr()?;
 
             let span = Span::new_with_checked(start, alt.span_hi());
             Ok(CondExpr {
@@ -1307,72 +1326,69 @@ impl<I: Tokens> Parser<I> {
                 // on tagged template expressions. If any of them fail, walk it back and
                 // continue.
 
-                let result = self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
-                    p.try_parse_ts(|p| {
-                        if !no_call && p.at_possible_async(&callee) {
-                            // Almost certainly this is a generic async function `async <T>() =>
-                            // ... But it might be a call with a
-                            // type argument `async<T>();`
-                            let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
-                            if let Some(async_arrow_fn) = async_arrow_fn {
-                                return Ok(Some((async_arrow_fn.into(), true)));
-                            }
+                let result = self.try_parse_ts(|p| {
+                    if !no_call && p.at_possible_async(&callee) {
+                        // Almost certainly this is a generic async function `async <T>() =>
+                        // ... But it might be a call with a
+                        // type argument `async<T>();`
+                        let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
+                        if let Some(async_arrow_fn) = async_arrow_fn {
+                            return Ok(Some((async_arrow_fn.into(), true)));
                         }
+                    }
 
-                        let type_args = p.parse_ts_type_args()?;
-                        p.assert_and_bump(Token::Gt);
-                        let cur = p.input().cur();
+                    let type_args = p.parse_ts_type_args_in_expr()?;
+                    let cur = p.input().cur();
 
-                        if !no_call && cur == Token::LParen {
-                            // possibleAsync always false here, because we would have handled it
-                            // above. (won't be any undefined arguments)
-                            let args = p.parse_args(false)?;
+                    if !no_call && cur == Token::LParen {
+                        // possibleAsync always false here, because we would have handled it
+                        // above. (won't be any undefined arguments)
+                        let args = p.parse_args(false)?;
 
-                            let expr = if callee.is_opt_chain() {
-                                Expr::OptChain(OptChainExpr {
+                        let expr = if callee.is_opt_chain() {
+                            Expr::OptChain(OptChainExpr {
+                                span: p.span(start),
+                                base: Box::new(OptChainBase::Call(OptCall {
                                     span: p.span(start),
-                                    base: Box::new(OptChainBase::Call(OptCall {
-                                        span: p.span(start),
-                                        callee: callee.take(),
-                                        type_args: Some(type_args),
-                                        args,
-                                        ..Default::default()
-                                    })),
-                                    optional: false,
-                                })
-                            } else {
-                                Expr::Call(CallExpr {
-                                    span: p.span(start),
-                                    callee: Callee::Expr(callee.take()),
+                                    callee: callee.take(),
                                     type_args: Some(type_args),
                                     args,
                                     ..Default::default()
-                                })
-                            };
-
-                            Ok(Some((Box::new(expr), true)))
-                        } else if matches!(
-                            cur,
-                            Token::NoSubstitutionTemplateLiteral
-                                | Token::TemplateHead
-                                | Token::BackQuote
-                        ) {
-                            p.parse_tagged_tpl(callee.take(), Some(type_args))
-                                .map(|expr| (expr.into(), true))
-                                .map(Some)
-                        } else if matches!(cur, Token::Eq | Token::As | Token::Satisfies) {
-                            let expr = Expr::TsInstantiation(TsInstantiation {
-                                span: p.span(start),
-                                expr: callee.take(),
-                                type_args,
-                            });
-                            Ok(Some((Box::new(expr), false)))
-                        } else if no_call {
-                            unexpected!(p, "`")
+                                })),
+                                optional: false,
+                            })
                         } else {
-                            unexpected!(p, "( or `")
-                        }
-                    })
+                            Expr::Call(CallExpr {
+                                span: p.span(start),
+                                callee: Callee::Expr(callee.take()),
+                                type_args: Some(type_args),
+                                args,
+                                ..Default::default()
+                            })
+                        };
+
+                        Ok(Some((Box::new(expr), true)))
+                    } else if matches!(
+                        cur,
+                        Token::NoSubstitutionTemplateLiteral
+                            | Token::TemplateHead
+                            | Token::BackQuote
+                    ) {
+                        p.parse_tagged_tpl(callee.take(), Some(type_args))
+                            .map(|expr| (expr.into(), true))
+                            .map(Some)
+                    } else if matches!(cur, Token::Eq | Token::As | Token::Satisfies) {
+                        let expr = Expr::TsInstantiation(TsInstantiation {
+                            span: p.span(start),
+                            expr: callee.take(),
+                            type_args,
+                        });
+                        Ok(Some((Box::new(expr), false)))
+                    } else if no_call {
+                        unexpected!(p, "`")
+                    } else {
+                        unexpected!(p, "( or `")
+                    }
                 });
 
                 if let Some(expr) = result {
@@ -1400,7 +1416,7 @@ impl<I: Tokens> Parser<I> {
         // $obj[name()]
         if !NO_COMPUTED && self.input_mut().eat(Token::LBracket) {
             let bracket_lo = self.input().prev_span().lo;
-            let prop = self.allow_in_expr(|p| p.parse_expr())?;
+            let prop = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
             expect!(self, Token::RBracket);
             let span = Span::new_with_checked(callee.span_lo(), self.input().last_pos());
             debug_assert_eq!(callee.span_lo(), span.lo());
@@ -1445,9 +1461,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let type_args = if syntax.typescript() && self.input().is(Token::Lt) && question_dot {
-            let ret = self.parse_ts_type_args()?;
-            self.assert_and_bump(Token::Gt);
-            Some(ret)
+            Some(self.parse_ts_type_args_in_expr()?)
         } else {
             None
         };
@@ -1488,7 +1502,7 @@ impl<I: Tokens> Parser<I> {
             })?;
             if syntax.flow()
                 && matches!(prop, MemberProp::PrivateName(..))
-                && !self.ctx().contains(Context::InClass)
+                && !self.boundary_ctx().contains(BoundaryContext::InClass)
             {
                 self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
             }
@@ -1548,9 +1562,10 @@ impl<I: Tokens> Parser<I> {
             cur,
             Token::TemplateHead | Token::NoSubstitutionTemplateLiteral | Token::BackQuote
         ) {
-            let tpl = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
-                p.parse_tagged_tpl(expr, None)
-            })?;
+            let tpl = self
+                .do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
+                    p.parse_tagged_tpl(expr, None)
+                })?;
             return Ok((tpl.into(), true));
         }
 
@@ -1589,7 +1604,7 @@ impl<I: Tokens> Parser<I> {
             })?;
             if syntax.flow()
                 && matches!(prop, MemberProp::PrivateName(..))
-                && !self.ctx().contains(Context::InClass)
+                && !self.boundary_ctx().contains(BoundaryContext::InClass)
             {
                 self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
             }
@@ -1620,7 +1635,7 @@ impl<I: Tokens> Parser<I> {
         if !NO_COMPUTED && cur == Token::LBracket {
             self.bump();
             let bracket_lo = self.input().prev_span().lo;
-            let prop = self.allow_in_expr(|p| p.parse_expr())?;
+            let prop = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
             expect!(self, Token::RBracket);
             let span = Span::new_with_checked(callee.span_lo(), self.input().last_pos());
             debug_assert_eq!(callee.span_lo(), span.lo());
@@ -1683,7 +1698,7 @@ impl<I: Tokens> Parser<I> {
             })?;
             if syntax.flow()
                 && matches!(prop, MemberProp::PrivateName(..))
-                && !self.ctx().contains(Context::InClass)
+                && !self.boundary_ctx().contains(BoundaryContext::InClass)
             {
                 self.emit_err(self.input().prev_span(), SyntaxError::TS1003);
             }
@@ -1710,9 +1725,10 @@ impl<I: Tokens> Parser<I> {
             cur,
             Token::TemplateHead | Token::NoSubstitutionTemplateLiteral | Token::BackQuote
         ) {
-            let tpl = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
-                p.parse_tagged_tpl(callee, None)
-            })?;
+            let tpl = self
+                .do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
+                    p.parse_tagged_tpl(callee, None)
+                })?;
             return Ok((tpl.into(), true));
         }
 
@@ -1735,7 +1751,7 @@ impl<I: Tokens> Parser<I> {
             Token::LBracket => {
                 self.bump();
                 let bracket_lo = self.input().prev_span().lo;
-                let prop = self.allow_in_expr(|p| p.parse_expr())?;
+                let prop = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
                 expect!(self, Token::RBracket);
                 let span = Span::new_with_checked(lhs.span_lo(), self.input().last_pos());
                 debug_assert_eq!(lhs.span_lo(), span.lo());
@@ -1744,7 +1760,9 @@ impl<I: Tokens> Parser<I> {
                     expr: prop,
                 };
 
-                if !self.ctx().contains(Context::AllowDirectSuper)
+                if !self
+                    .boundary_ctx()
+                    .contains(BoundaryContext::AllowDirectSuper)
                     && !self.input().syntax().allow_super_outside_method()
                 {
                     syntax_error!(self, lhs.span, SyntaxError::InvalidSuper)
@@ -1779,7 +1797,9 @@ impl<I: Tokens> Parser<I> {
                 debug_assert_eq!(lhs.span_lo(), span.lo());
                 debug_assert_eq!(prop.span_hi(), span.hi());
 
-                if !self.ctx().contains(Context::AllowDirectSuper)
+                if !self
+                    .boundary_ctx()
+                    .contains(BoundaryContext::AllowDirectSuper)
                     && !self.input().syntax().allow_super_outside_method()
                 {
                     syntax_error!(self, lhs.span, SyntaxError::InvalidSuper);
@@ -1864,7 +1884,7 @@ impl<I: Tokens> Parser<I> {
             match &*ident.sym {
                 "meta" => {
                     let span = self.span(start);
-                    if !self.ctx().contains(Context::CanBeModule) {
+                    if !self.boundary_ctx().contains(BoundaryContext::CanBeModule) {
                         self.emit_err(span, SyntaxError::ImportMetaInScript);
                     }
                     let expr = MetaPropExpr {
@@ -1900,16 +1920,6 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
-        if self.ctx().contains(Context::InType) {
-            self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
-                p.parse_member_expr_or_new_expr_inner(is_new_expr)
-            })
-        } else {
-            self.parse_member_expr_or_new_expr_inner(is_new_expr)
-        }
-    }
-
-    fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
         let cur = self.input().cur();
@@ -1925,10 +1935,10 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into();
 
-                    let ctx = self.ctx();
-                    if !ctx.contains(Context::InsideNonArrowFunctionScope)
-                        && !ctx.contains(Context::InParameters)
-                        && !ctx.contains(Context::InClass)
+                    let boundary_context = self.boundary_ctx();
+                    if !boundary_context.contains(BoundaryContext::InsideNonArrowFunctionScope)
+                        && !boundary_context.contains(BoundaryContext::InParameters)
+                        && !boundary_context.contains(BoundaryContext::InClass)
                     {
                         self.emit_err(span, SyntaxError::InvalidNewTarget);
                     }
@@ -1975,11 +1985,7 @@ impl<I: Tokens> Parser<I> {
                 cur == Token::Lt || cur == Token::LShift
             } {
                 self.try_parse_ts(|p| {
-                    let args = p.do_outside_of_context(
-                        Context::ShouldNotLexLtOrGtAsType,
-                        Self::parse_ts_type_args,
-                    )?;
-                    p.assert_and_bump(Token::Gt);
+                    let args = p.parse_ts_type_args_in_expr()?;
                     if !p.input().is(Token::LParen) {
                         let span = p.input().cur_span();
                         let cur = p.input_mut().dump_cur();
@@ -2081,7 +2087,7 @@ impl<I: Tokens> Parser<I> {
                 if cur == Token::Error {
                     let err = self.input_mut().expect_error_token_and_bump();
                     return Err(err);
-                } else if (cur == Token::In && self.ctx().contains(Context::IncludeInExpr))
+                } else if (cur == Token::In && self.includes_in_expr())
                     || cur == Token::InstanceOf
                     || cur.is_bin_op()
                 {
@@ -2134,7 +2140,7 @@ impl<I: Tokens> Parser<I> {
         // Return left on eof
         let cur = self.input().cur();
 
-        let op = if cur == Token::In && self.ctx().contains(Context::IncludeInExpr) {
+        let op = if cur == Token::In && self.includes_in_expr() {
             op!("in")
         } else if cur == Token::InstanceOf {
             op!("instanceof")
@@ -2312,6 +2318,9 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start_of_await_token: Option<BytePos>,
     ) -> PResult<Box<Expr>> {
+        if start_of_await_token.is_none() {
+            self.check_current_token_escape()?;
+        }
         let start = start_of_await_token.unwrap_or_else(|| self.cur_pos());
 
         if start_of_await_token.is_none() {
@@ -2328,16 +2337,18 @@ impl<I: Tokens> Parser<I> {
         }
 
         let ctx = self.ctx();
+        let boundary_context = self.boundary_ctx();
 
-        if !ctx.contains(Context::InFunction)
-            && ctx.intersects(Context::InClassField.union(Context::InStaticBlock))
-        {
+        let forbidden_in_initializer = self.is_await_forbidden_in_initializer();
+        if forbidden_in_initializer {
             self.emit_err(await_token, SyntaxError::ExpectedIdent);
         }
 
         let span = self.span(start);
 
-        if !ctx.contains(Context::InAsync)
+        // A forbidden await with no operand recovers as an identifier. Its early
+        // error was already emitted, even when this region has the Await flag.
+        if (!self.includes_await_expr() || forbidden_in_initializer)
             && (self.is_general_semi() || {
                 let cur = self.input().cur();
                 matches!(
@@ -2346,7 +2357,9 @@ impl<I: Tokens> Parser<I> {
                 )
             })
         {
-            if ctx.intersects(Context::Module.union(Context::CanBeModule)) {
+            if ctx.contains(Context::Module)
+                || boundary_context.contains(BoundaryContext::CanBeModule)
+            {
                 self.emit_module_mode_err(span, SyntaxError::InvalidIdentInAsync);
             }
 
@@ -2356,11 +2369,11 @@ impl<I: Tokens> Parser<I> {
         let ambiguous_script_different_ast =
             self.can_classify_module() && self.is_ambiguous_await_prefix();
 
-        if ctx.contains(Context::InFunction) && !ctx.contains(Context::InAsync) {
+        if self.syntax_context == SyntaxContext::FunctionBody && !self.includes_await_expr() {
             self.emit_err(await_token, SyntaxError::AwaitInFunction);
         }
 
-        if ctx.contains(Context::InParameters) && !ctx.contains(Context::InFunction) {
+        if self.syntax_context == SyntaxContext::Parameters {
             self.emit_err(span, SyntaxError::AwaitParamInAsync);
         }
 
@@ -2403,7 +2416,7 @@ impl<I: Tokens> Parser<I> {
             | Token::Bang
             | Token::Lt => true,
             Token::Of | Token::InstanceOf if !is_escaped => true,
-            Token::In if !is_escaped => self.ctx().contains(Context::IncludeInExpr),
+            Token::In if !is_escaped => self.includes_in_expr(),
             Token::As | Token::Satisfies if !is_escaped => self.input().syntax().typescript(),
             Token::Regex => {
                 unreachable!("regular expressions are initially scanned as '/' or '/='")
@@ -2422,8 +2435,8 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn parse_args_or_pats(&mut self) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
-        self.do_outside_of_context(
-            Context::WillExpectColonForCond,
+        self.do_outside_of_type_context(
+            TypeContext::WillExpectColonForCond,
             Self::parse_args_or_pats_inner,
         )
     }
@@ -2478,7 +2491,7 @@ impl<I: Tokens> Parser<I> {
 
                     ExprOrSpread { spread, expr }
                 } else {
-                    self.allow_in_expr(|p| p.parse_expr_or_spread())?
+                    with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr_or_spread())?
                 }
             };
 
@@ -2509,20 +2522,13 @@ impl<I: Tokens> Parser<I> {
                         expect!(self, Token::QuestionMark);
                         let test = arg.expr;
 
-                        let cons = self.do_inside_of_context(
-                            Context::InCondExpr
-                                .union(Context::WillExpectColonForCond)
-                                .union(Context::IncludeInExpr),
-                            Self::parse_assignment_expr,
+                        let cons = self.do_inside_of_type_context(
+                            TypeContext::WillExpectColonForCond,
+                            |p| with_grammar_context!(p, [+In, ?Yield, ?Await], Self::parse_assignment_expr),
                         )?;
                         expect!(self, Token::Colon);
 
-                        let alt = self.do_inside_of_context(Context::InCondExpr, |p| {
-                            p.do_outside_of_context(
-                                Context::WillExpectColonForCond,
-                                Self::parse_assignment_expr,
-                            )
-                        })?;
+                        let alt = self.parse_assignment_expr()?;
 
                         arg = ExprOrSpread {
                             spread: None,
@@ -2693,9 +2699,7 @@ impl<I: Tokens> Parser<I> {
                 self.record_await_in_arrow_params(&params);
 
                 let body: Box<ArrowFunctionBody> = self.parse_fn_block_or_expr_body(
-                    false,
-                    false,
-                    true,
+                    FunctionKind::Arrow { is_async: false },
                     params.is_simple_parameter_list(),
                 )?;
                 let span = self.span(start);
@@ -2752,9 +2756,10 @@ impl<I: Tokens> Parser<I> {
             self.state_mut().collect_async_arrow_param_await = true;
             (was_collecting, previous_pending)
         });
-        let paren_result = self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
-            p.allow_in_expr(Self::parse_args_or_pats)
-        });
+        let paren_result = self.do_outside_of_type_context(
+            TypeContext::WillExpectColonForCond,
+            |p| with_grammar_context!(p, [+In, ?Yield, ?Await], Self::parse_args_or_pats),
+        );
         let pending_await = collection_checkpoint.map(|(was_collecting, previous_pending)| {
             let pending = self.state_mut().pending_async_arrow_param_await.take();
             self.state_mut().collect_async_arrow_param_await = was_collecting;
@@ -2767,17 +2772,16 @@ impl<I: Tokens> Parser<I> {
             .iter()
             .any(|item| matches!(item, AssignTargetOrSpread::Pat(..)));
 
-        let will_expect_colon_for_cond = self.ctx().contains(Context::WillExpectColonForCond);
-        // This is slow path. We handle arrow in conditional expression.
-        if self.syntax().typescript()
-            && self.ctx().contains(Context::InCondExpr)
-            && self.input().is(Token::Colon)
+        let will_expect_colon_for_cond = self
+            .type_ctx()
+            .contains(TypeContext::WillExpectColonForCond);
+        // Only a conditional consequent needs to speculate through the body
+        // to distinguish a return annotation from the conditional's colon.
+        if self.syntax().typescript() && will_expect_colon_for_cond && self.input().is(Token::Colon)
         {
-            // TODO: Remove clone
-            let items_ref = &paren_items;
-            if let Some(expr) = self.try_parse_ts(|p| {
+            if let Some((params, return_type, body)) = self.try_parse_ts(|p| {
                 let return_type = if p.input().syntax().flow() {
-                    p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                    p.do_inside_of_type_context(TypeContext::DisallowFlowAnonFnType, |p| {
                         p.parse_ts_type_or_type_predicate_ann(Token::Colon)
                     })?
                 } else {
@@ -2786,49 +2790,45 @@ impl<I: Tokens> Parser<I> {
 
                 expect!(p, Token::Arrow);
 
-                let params: Vec<Pat> =
-                    p.parse_paren_items_as_params(items_ref.clone(), trailing_comma)?;
-
+                // Conversion can fail and consumes its AST. Keep the original
+                // cover expressions available for the conditional fallback.
+                let params = p.parse_paren_items_as_params(paren_items.clone(), trailing_comma)?;
                 let body: Box<ArrowFunctionBody> = p.parse_fn_block_or_expr_body(
-                    async_span.is_some(),
-                    false,
-                    true,
+                    FunctionKind::Arrow {
+                        is_async: async_span.is_some(),
+                    },
                     params.is_simple_parameter_list(),
                 )?;
 
-                if will_expect_colon_for_cond && !p.input().is(Token::Colon) {
+                if !p.input().is(Token::Colon) {
                     trace_cur!(p, parse_arrow_in_cond__fail);
                     unexpected!(p, "fail")
                 }
 
-                Ok(Some::<Box<Expr>>(
-                    ArrowExpr {
-                        span: p.span(expr_start),
-                        is_async: async_span.is_some(),
-                        is_generator: false,
-                        params,
-                        body,
-                        return_type: Some(return_type),
-                        ..Default::default()
-                    }
-                    .into(),
-                ))
+                Ok(Some((params, return_type, body)))
             }) {
-                if let Expr::Arrow(ArrowExpr { params, .. }) = expr.as_ref() {
-                    self.record_await_in_arrow_params(params);
-                }
+                self.record_await_in_arrow_params(&params);
                 self.emit_pending_async_arrow_param_await(pending_await);
-                return Ok(expr);
+                return Ok(ArrowExpr {
+                    span: self.span(expr_start),
+                    is_async: async_span.is_some(),
+                    is_generator: false,
+                    params,
+                    body,
+                    return_type: Some(return_type),
+                    ..Default::default()
+                }
+                .into());
             }
         }
 
-        let return_type = if !self.ctx().contains(Context::WillExpectColonForCond)
+        let return_type = if !will_expect_colon_for_cond
             && self.input().syntax().typescript()
             && self.input().is(Token::Colon)
         {
             self.try_parse_ts(|p| {
                 let return_type = if p.input().syntax().flow() {
-                    p.do_inside_of_context(Context::DisallowFlowAnonFnType, |p| {
+                    p.do_inside_of_type_context(TypeContext::DisallowFlowAnonFnType, |p| {
                         p.parse_ts_type_or_type_predicate_ann(Token::Colon)
                     })?
                 } else {
@@ -2861,7 +2861,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                if p.ctx().contains(Context::InGenerator)
+                if p.includes_yield_expr()
                     && matches!(
                         param,
                         Pat::Assign(AssignPat { right, .. })
@@ -2894,9 +2894,9 @@ impl<I: Tokens> Parser<I> {
             self.emit_pending_async_arrow_param_await(pending_await);
 
             let body: Box<ArrowFunctionBody> = self.parse_fn_block_or_expr_body(
-                async_span.is_some(),
-                false,
-                true,
+                FunctionKind::Arrow {
+                    is_async: async_span.is_some(),
+                },
                 params.is_simple_parameter_list(),
             )?;
             let arrow_expr = ArrowExpr {
@@ -3074,28 +3074,15 @@ impl<I: Tokens> Parser<I> {
         let try_parse_arrow_expr = |p: &mut Self, id: Ident, id_is_async| -> PResult<Box<Expr>> {
             let cur = p.input().cur();
 
-            if id_is_async && cur.is_word() && !cur.is_reserved(p.ctx()) {
+            if id_is_async && cur.is_word() && !p.token_is_reserved(cur) {
                 if !p.input().had_line_break_before_cur() {
-                    // see https://github.com/tc39/ecma262/issues/2034
-                    // ```js
-                    // for(async of
-                    // for(async of x);
-                    // for(async of =>{};;);
-                    // ```
-                    let ctx = p.ctx();
-                    if ctx.contains(Context::ForLoopInit)
-                        && p.input().is(Token::Of)
-                        && !peek!(p).is_some_and(|peek| peek == Token::Arrow)
-                    {
-                        // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
-                        // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-                        // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-                        // ```
-
-                        if !ctx.contains(Context::ForAwaitLoopInit) {
-                            p.emit_err(p.input().prev_span(), SyntaxError::TS1106);
-                        }
-
+                    // An identifier after `async` starts an arrow only when
+                    // followed by `=>`. Keep TS `async as T` on its type-assertion
+                    // path; leave other tokens to the enclosing production.
+                    let is_type_assertion = p.syntax().typescript() && cur == Token::As;
+                    let is_arrow = peek!(p).is_some_and(|peek| peek == Token::Arrow)
+                        && !p.input_mut().has_linebreak_between_cur_and_peeked();
+                    if !is_type_assertion && !is_arrow {
                         return Ok(id.into());
                     }
 
@@ -3121,9 +3108,7 @@ impl<I: Tokens> Parser<I> {
                     expect!(p, Token::Arrow);
                     p.record_await_in_arrow_params(&params);
                     let body = p.parse_fn_block_or_expr_body(
-                        true,
-                        false,
-                        true,
+                        FunctionKind::Arrow { is_async: true },
                         params.is_simple_parameter_list(),
                     )?;
 
@@ -3145,9 +3130,7 @@ impl<I: Tokens> Parser<I> {
                 p.bump();
                 p.record_await_in_arrow_params(&params);
                 let body = p.parse_fn_block_or_expr_body(
-                    false,
-                    false,
-                    true,
+                    FunctionKind::Arrow { is_async: false },
                     params.is_simple_parameter_list(),
                 )?;
 
@@ -3166,11 +3149,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         if cur == Token::Let || cur == Token::Await {
-            let ctx = self.ctx();
-            let id = self.parse_ident(
-                !ctx.contains(Context::InGenerator),
-                !ctx.contains(Context::InAsync),
-            )?;
+            let id = self.parse_ident(!self.includes_yield_expr(), !self.includes_await_expr())?;
 
             if !can_be_arrow {
                 return Ok(id.into());
@@ -3189,7 +3168,9 @@ impl<I: Tokens> Parser<I> {
             .into())
         } else if cur == Token::Ident {
             let word = self.input_mut().expect_word_token_and_bump();
-            if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
+            if self.boundary_ctx().contains(BoundaryContext::InClassField)
+                && word == atom!("arguments")
+            {
                 self.emit_err(self.input().prev_span(), SyntaxError::ArgumentsInClassField)
             };
             let id = Ident::new_no_ctxt(word, self.span(start));

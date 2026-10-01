@@ -395,7 +395,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.16.8-nightly-20260918.1"
+version = "1.16.13"
 dependencies = [
  "anyhow",
  "getrandom 0.3.4",
@@ -408,7 +408,7 @@ dependencies = [
 
 [[package]]
 name = "binding_es_ast_viewer"
-version = "1.16.8-nightly-20260918.1"
+version = "1.16.13"
 dependencies = [
  "anyhow",
  "swc_core",
@@ -444,7 +444,7 @@ dependencies = [
 
 [[package]]
 name = "binding_html_wasm"
-version = "1.16.8-nightly-20260918.1"
+version = "1.16.13"
 dependencies = [
  "anyhow",
  "getrandom 0.3.4",
@@ -470,7 +470,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "78.0.0"
+version = "79.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -509,7 +509,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.16.8-nightly-20260918.1"
+version = "1.16.13"
 dependencies = [
  "getrandom 0.3.4",
  "serde",
@@ -530,7 +530,7 @@ dependencies = [
 
 [[package]]
 name = "binding_nodejs_support_wasm"
-version = "1.16.8-nightly-20260918.1"
+version = "1.16.13"
 dependencies = [
  "anyhow",
  "js-sys",
@@ -570,7 +570,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.16.8-nightly-20260918.1"
+version = "1.16.13"
 dependencies = [
  "anyhow",
  "js-sys",
@@ -637,6 +637,7 @@ dependencies = [
  "cc",
  "cfg-if",
  "constant_time_eq",
+ "rayon-core",
 ]
 
 [[package]]
@@ -1809,7 +1810,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "62.0.0"
+version = "63.0.0"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -4698,9 +4699,9 @@ dependencies = [
 
 [[package]]
 name = "rayon"
-version = "1.11.0"
+version = "1.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "368f01d005bf8fd9b1206fb6fa653e6c4a81ceb1466406b81792d87c5677a58f"
+checksum = "b418a60154510ca1a002a752ca9714984e21e4241e804d32555251faf8b78ffa"
 dependencies = [
  "either",
  "rayon-core",
@@ -4708,9 +4709,9 @@ dependencies = [
 
 [[package]]
 name = "rayon-core"
-version = "1.13.0"
+version = "1.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "22e18b0f0062d30d4230b2e85ff77fdfe4326feb054b9783a3460d8435c8ab91"
+checksum = "1465873a3dfdaa8ae7cb14b4383657caab0b3e8a0aa9ae8e04b044854c8dfce2"
 dependencies = [
  "crossbeam-deque",
  "crossbeam-utils",
@@ -5782,7 +5783,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "78.0.0"
+version = "79.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5948,7 +5949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.125.2"
+version = "0.126.6"
 dependencies = [
  "anyhow",
  "par-core",
@@ -5957,7 +5958,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "80.0.0"
+version = "81.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -6008,7 +6009,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "64.0.0"
+version = "65.0.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -6033,7 +6034,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "6.0.0"
+version = "6.0.1"
 dependencies = [
  "anyhow",
  "bytes-str",
@@ -6062,7 +6063,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "80.0.0"
+version = "81.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6548,7 +6549,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "44.0.1"
+version = "44.0.2"
 dependencies = [
  "bitflags 2.10.0",
  "compact_str",
@@ -6615,7 +6616,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "61.0.8"
+version = "62.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6658,7 +6659,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "45.1.4"
+version = "45.1.6"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6962,7 +6963,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "52.0.1"
+version = "52.0.2"
 dependencies = [
  "bytes-str",
  "dashmap 6.1.0",
@@ -7121,7 +7122,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "72.0.0"
+version = "73.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -7250,7 +7251,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "61.0.0"
+version = "62.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "once_cell",
@@ -7281,7 +7282,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "26.0.0"
+version = "26.1.0"
 dependencies = [
  "codspeed-criterion-compat",
  "rustc-hash 2.1.1",
@@ -7339,9 +7340,11 @@ dependencies = [
 name = "swc_native_addon"
 version = "0.1.0"
 dependencies = [
+ "blake3",
  "jobserver",
  "libc",
  "libloading",
+ "rayon-core",
  "sha2",
  "tempfile",
  "tracing",
@@ -7364,7 +7367,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "79.0.0"
+version = "80.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",

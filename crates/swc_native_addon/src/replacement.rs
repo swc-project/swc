@@ -110,7 +110,7 @@ mod supported {
         let candidate = compress(stage)?;
         let mut verified =
             File::open(&candidate).map_err(|e| fail("open compressed replacement", e))?;
-        payload.header.verify(&mut verified)?;
+        payload.verify_image(&mut verified)?;
         verified
             .sync_all()
             .map_err(|e| fail("flush compressed replacement", e))?;

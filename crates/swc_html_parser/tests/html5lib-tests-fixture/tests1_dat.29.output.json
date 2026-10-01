@@ -52,8 +52,49 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 12,
+                    "start": 9,
                     "end": 20
+                  },
+                  "tagName": "b",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 12,
+                        "end": 20
+                      },
+                      "tagName": "option",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [],
+                      "content": null,
+                      "isSelfClosing": false
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 9,
+                "end": 40
+              },
+              "tagName": "b",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 28,
+                    "end": 36
                   },
                   "tagName": "option",
                   "namespace": "http://www.w3.org/1999/xhtml",
@@ -67,27 +108,13 @@
               "isSelfClosing": false
             },
             {
-              "type": "Element",
+              "type": "Text",
               "span": {
-                "start": 28,
+                "start": 49,
                 "end": 50
               },
-              "tagName": "option",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": [
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 49,
-                    "end": 50
-                  },
-                  "data": "X",
-                  "raw": "X"
-                }
-              ],
-              "content": null,
-              "isSelfClosing": false
+              "data": "X",
+              "raw": "X"
             }
           ],
           "content": null,

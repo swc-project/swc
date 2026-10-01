@@ -1,0 +1,75 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:1:1]
+ 1 | async function f({ aw\u0061it = 1 }) {
+   :                    ^^^^^^^^^^
+ 2 |     let { aw\u0061it = 1 } = obj;
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:2:1]
+ 1 | async function f({ aw\u0061it = 1 }) {
+ 2 |     let { aw\u0061it = 1 } = obj;
+   :           ^^^^^^^^^^
+ 3 |     let { nested: { aw\u0061it = 1 } } = obj;
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:3:1]
+ 2 |     let { aw\u0061it = 1 } = obj;
+ 3 |     let { nested: { aw\u0061it = 1 } } = obj;
+   :                     ^^^^^^^^^^
+ 4 |     ({ aw\u0061it = 1 } = obj);
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:4:1]
+ 3 |     let { nested: { aw\u0061it = 1 } } = obj;
+ 4 |     ({ aw\u0061it = 1 } = obj);
+   :        ^^^^^^^^^^
+ 5 |     try {} catch ({ aw\u0061it = 1 }) {}
+   `----
+  x Cannot use a reserved word as a shorthand property
+   ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:4:1]
+ 3 |     let { nested: { aw\u0061it = 1 } } = obj;
+ 4 |     ({ aw\u0061it = 1 } = obj);
+   :        ^^^^^^^^^^
+ 5 |     try {} catch ({ aw\u0061it = 1 }) {}
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:5:1]
+ 4 |     ({ aw\u0061it = 1 } = obj);
+ 5 |     try {} catch ({ aw\u0061it = 1 }) {}
+   :                     ^^^^^^^^^^
+ 6 | }
+   `----
+  x Unexpected escape sequence in reserved word: yield
+   ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:7:1]
+ 6 | }
+ 7 | function* g({ y\u0069eld = 1 }) {
+   :               ^^^^^^^^^^
+ 8 |     let { y\u0069eld = 1 } = obj;
+   `----
+  x Unexpected escape sequence in reserved word: yield
+   ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:8:1]
+ 7 | function* g({ y\u0069eld = 1 }) {
+ 8 |     let { y\u0069eld = 1 } = obj;
+   :           ^^^^^^^^^^
+ 9 |     ({ y\u0069eld });
+   `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:9:1]
+  8 |     let { y\u0069eld = 1 } = obj;
+  9 |     ({ y\u0069eld });
+    :        ^^^^^^^^^^
+ 10 | }
+    `----
+  x Cannot use a reserved word as a shorthand property
+    ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:9:1]
+  8 |     let { y\u0069eld = 1 } = obj;
+  9 |     ({ y\u0069eld });
+    :        ^^^^^^^^^^
+ 10 | }
+    `----
+  x Unexpected escape sequence in reserved word: await
+    ,-[$DIR/tests/errors/pr-12425/contextual-escapes/input.cjs:11:1]
+ 10 | }
+ 11 | class C { static { let { aw\u0061it = 1 } = obj; } }
+    :                          ^^^^^^^^^^
+    `----

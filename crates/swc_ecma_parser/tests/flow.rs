@@ -138,7 +138,15 @@ fn errors(file: PathBuf) {
         eprintln!("\n\n========== Running flow error test {file_name}\nSource:\n{input}\n");
     }
 
-    let module = with_parser(false, &file, &config_path, |p, _| p.parse_program());
+    let module = with_parser(false, &file, &config_path, |p, _| {
+        if file_name.ends_with(".script.js") {
+            p.parse_script().map(Program::Script)
+        } else if file_name.ends_with(".module.js") {
+            p.parse_module().map(Program::Module)
+        } else {
+            p.parse_program()
+        }
+    });
     let err = module.expect_err("should fail, but parsed as");
 
     if err

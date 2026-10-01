@@ -1,0 +1,5 @@
+  x 'yield' cannot be used as a parameter within generator
+   ,-[$DIR/tests/errors/class-initializer-context/yield-computed-parameter/input.cjs:1:1]
+ 1 | function* f(x = class { [yield 1] = 0; }) {}
+   :                          ^^^^^
+   `----

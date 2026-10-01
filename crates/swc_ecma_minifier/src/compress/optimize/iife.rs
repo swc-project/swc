@@ -10,6 +10,7 @@ use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
+    compress::optimize::util::may_inline_arrow,
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{idents_captured_by, make_number},
 };
@@ -869,7 +870,8 @@ impl Optimizer<'_> {
             Expr::Lit(
                 Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::BigInt(..),
             ) => true,
-            Expr::Fn(..) | Expr::Arrow(..) if usage.can_inline_fn_once() => true,
+            Expr::Fn(..) if usage.can_inline_fn_once() => true,
+            Expr::Arrow(a) if usage.can_inline_fn_once() && may_inline_arrow(a) => true,
             _ => false,
         }
     }

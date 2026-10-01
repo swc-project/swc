@@ -371,9 +371,51 @@ impl Babelify for ModuleExportName {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             ModuleExportName::Ident(ident) => ModuleExportNameType::Ident(ident.babelify(ctx)),
-            ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+            ModuleExportName::Str(s) => ModuleExportNameType::Ident(swc_estree_ast::Identifier {
+                base: ctx.base(s.span),
+                name: s.value.to_string_lossy().into(),
+                decorators: Default::default(),
+                optional: Default::default(),
+                type_annotation: Default::default(),
+            }),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::atom;
+    use swc_common::{sync::Lrc, FileName, SourceMap, DUMMY_SP};
+    use swc_ecma_ast::{ModuleExportName, Str};
+    use swc_estree_ast as estree;
+    use swc_node_comments::SwcComments;
+
+    use crate::babelify::{Babelify, Context};
+
+    #[test]
+    fn test_module_export_string_name() {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), String::new());
+        let ctx = Context {
+            fm,
+            cm,
+            comments: SwcComments::default(),
+        };
+
+        let export_name = ModuleExportName::Str(Str {
+            span: DUMMY_SP,
+            value: atom!("default").into(),
+            raw: None,
+        });
+
+        let res = export_name.babelify(&ctx);
+        match res {
+            estree::ModuleExportNameType::Ident(id) => {
+                assert_eq!(id.name.as_str(), "default");
+            }
+            _ => panic!("Expected ModuleExportNameType::Ident"),
         }
     }
 }

@@ -30,6 +30,6 @@ swc_html_utils          = { version = "17.0.0", path = "../swc_html_utils" }
 swc_common = { version = "26.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_html_parser = { version = "26.0.0", path = "../swc_html_parser" }
+swc_html_parser = { version = "26.1.0", path = "../swc_html_parser" }
 swc_html_visit = { version = "26.0.0", path = "../swc_html_visit" }
 testing = { version = "27.0.0", path = "../testing" }

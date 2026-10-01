@@ -5,12 +5,15 @@ const fs = require("fs");
 const path = require("path");
 const product = process.argv[2];
 const entry = path.resolve(process.argv[3]);
-const expected = fs.realpathSync(path.resolve(process.argv[4]));
+// Node passes Windows namespace paths to dlopen. The native realpath handles
+// both those paths and ordinary drive paths without lstat'ing a bare drive.
+const canonical = (filename) => fs.realpathSync.native(path.resolve(filename));
+const expected = canonical(process.argv[4]);
 const target = process.argv[5];
 const loaded = [];
 const dlopen = process.dlopen;
 process.dlopen = function (module, filename) {
-    loaded.push(fs.realpathSync(filename));
+    loaded.push(canonical(filename));
     // Preserve argument count: passing an explicit undefined flag changes Node's dlopen mode.
     return dlopen.apply(process, arguments);
 };

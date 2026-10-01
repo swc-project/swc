@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/escaped-for-await/middle/input.script.ts:1:1]
+ 1 | async function f() { for aw\u0061it (x of xs) {} }
+   :                          ^^^^^^^^^^
+   `----
