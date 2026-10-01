@@ -526,6 +526,7 @@ dependencies = [
  "swc_native_addon",
  "tempfile",
  "tracing",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]

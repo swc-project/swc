@@ -117,6 +117,15 @@ before invoking addon registration.
 
 The default user cache avoids hardened system temporary mounts that are `noexec`;
 Linux rejects a user cache mounted `noexec` before attempting to load from it.
+Windows first uses `%LOCALAPPDATA%\swc`. If resolving or using that cache fails,
+it retries `%USERPROFILE%\.swc-cache` for cache errors only, including in mode
+`0` and after a custom root fails. Both paths must be absolute and pass the same
+ownership, ACL, and reparse-point checks. LocalAppData can inherit AppContainer
+replacement grants, so the profile fallback preserves validation without
+changing the original root's ACL. A usable primary cache does not consult
+`USERPROFILE`. If neither candidate is safe and writable, the error includes
+both causes and recommends setting `SWC_NATIVE_BINDING_CACHE` to a safe absolute
+directory. Payload integrity failures never trigger the profile retry.
 Under either persistent root, entries live in `swc-native-<effective UID or user
 SID>/v1/<128 hexadecimal SHA-512 digits>.node`. Unix directories are owner-only;
 Windows directories have protected owner/SYSTEM DACLs. Ancestor directories

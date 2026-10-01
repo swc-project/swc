@@ -12,3 +12,7 @@ deny|O:SYD:P(A;;WD;;;AU)|S-1-5-11
 deny|O:SYD:P(A;;WO;;;WD)|S-1-1-0
 # SDDL DC is the directory-service right 0x2; FILE_DELETE_CHILD is 0x40.
 deny|O:SYD:P(A;;0x40;;;WD)|S-1-1-0
+# Issue #12442: effective AppContainer full control and inherited Authenticated
+# Users modify grants are unsafe even though Windows commonly supplies them.
+deny|O:SYD:P(A;OICIID;0x1f01ff;;;S-1-15-3-1)|S-1-15-3-1
+deny|O:SYD:P(A;OICIID;0x1301bf;;;AU)|S-1-5-11

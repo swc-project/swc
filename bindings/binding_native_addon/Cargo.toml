@@ -24,3 +24,8 @@ tempfile = "=3.12.0"
 
 [dev-dependencies]
 tempfile = "=3.12.0"
+
+[target.'cfg(windows)'.dev-dependencies]
+windows-sys = { version = "=0.52.0", features = [
+  "Win32_Foundation", "Win32_Security", "Win32_Security_Authorization",
+] }
