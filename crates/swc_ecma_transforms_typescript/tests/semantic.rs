@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::{fmt::Write, path::PathBuf};
 
 use swc_common::{sync::Lrc, util::take::Take, Mark, SourceMap};
 use swc_ecma_ast::{Pass, Program};
@@ -8,7 +8,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_testing::{exec_tr, test_fixture};
+use swc_ecma_transforms_testing::{exec_tr, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{typescript, Config};
 
 #[testing::fixture("tests/fixture/namespace-bindings/**/exec.ts")]
@@ -133,4 +133,56 @@ fn configured_snapshot(input: PathBuf) {
 fn configured_runtime(input: PathBuf) {
     let config = fixture_config(&input);
     execute_config(input, true, config);
+}
+
+#[derive(serde::Deserialize)]
+struct AliasDepthFixture {
+    aliases: usize,
+    terminal: AliasTerminal,
+}
+
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "lowercase")]
+enum AliasTerminal {
+    Value,
+    Cycle,
+}
+
+/// Generate a deep dependency graph from a compact fixture. The syntax stays
+/// flat, so compilation must not require one call-stack frame per alias.
+#[testing::fixture("tests/fixture/enum-semantics/alias-depth/**/input.json")]
+fn alias_dependency_depth(input: PathBuf) {
+    let config = std::fs::read(input).expect("alias depth fixture must be readable");
+    let config: AliasDepthFixture =
+        serde_json::from_slice(&config).expect("alias depth fixture must be valid");
+    assert!(
+        config.aliases > 0,
+        "alias depth fixture must contain an alias"
+    );
+
+    let mut source = String::with_capacity(config.aliases * 32);
+    source.push_str("enum E { Value = 21 }\nnamespace N {\n");
+    for alias in 0..config.aliases {
+        write!(source, "export import A{alias} = ").unwrap();
+        let next = alias + 1;
+        if next < config.aliases {
+            writeln!(source, "N.A{next};").unwrap();
+        } else {
+            source.push_str(match config.terminal {
+                AliasTerminal::Value => "E;\n",
+                AliasTerminal::Cycle => "N.A0;\n",
+            });
+        }
+    }
+    source.push_str("}\nconst result = N.A0;\n");
+
+    Tester::run(|tester| {
+        tester.apply_transform(
+            pipeline(true, Config::default()),
+            "alias-depth.ts",
+            Syntax::Typescript(TsSyntax::default()),
+            Some(true),
+            &source,
+        )
+    });
 }
