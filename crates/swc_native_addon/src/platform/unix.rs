@@ -64,12 +64,24 @@ pub fn executable_cache_root(root: &Path) -> Result<()> {
 /// world-writable sticky directory such as /tmp is safe only when it belongs
 /// to the effective user or root. A sticky directory owned by another user
 /// still lets that owner rename our private namespace after validation.
+/// Trusted environments may explicitly skip this ancestor validation with
+/// `SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK=1`. Absolute paths, private
+/// cache entries, and executable-mount requirements are still enforced.
 pub fn secure_cache_root(root: &Path) -> io::Result<()> {
     if !root.is_absolute() {
         return Err(io::Error::new(
             io::ErrorKind::InvalidInput,
             "cache root must be absolute",
         ));
+    }
+    // Some isolated CI executors cannot satisfy ancestor ownership or mode
+    // requirements. This opt-out also permits symlinked ancestors, so callers
+    // must trust every component against replacement before the native load.
+    if env::var_os("SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK").as_deref()
+        == Some(std::ffi::OsStr::new("1"))
+    {
+        tracing::debug!(path = %root.display(), "skipping native cache root security check by explicit environment opt-out");
+        return Ok(());
     }
     for directory in root.ancestors() {
         let metadata = fs::symlink_metadata(directory)?;

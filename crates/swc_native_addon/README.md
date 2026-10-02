@@ -106,7 +106,7 @@ libraries remain resident for the process lifetime because callbacks can outlive
 registration or any one Node environment. Initialization locks are released
 before invoking addon registration.
 
-`SWC_NATIVE_BINDING_CACHE` is the **only runtime cache control**:
+`SWC_NATIVE_BINDING_CACHE` selects the materialization mode and cache root:
 
 | Value | Behavior |
 | --- | --- |
@@ -114,6 +114,25 @@ before invoking addon registration.
 | `0` | Temporary materialization only in the user cache; never self-replace the carrier |
 | Absolute directory | Custom root; fall back to the user cache if unusable |
 | Any other relative value | Throw a configuration error |
+
+On Unix, `SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK=1` skips the ownership,
+permission, and symlink checks on the cache root and every ancestor. Unset,
+empty, and all other values retain those checks. Windows ignores this variable.
+The opt-out applies to default and custom roots, fallback roots, and temporary
+mode. For example, an isolated Jenkins executor can use:
+
+```sh
+SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK=1 \
+    SWC_NATIVE_BINDING_CACHE=/absolute/jenkins/cache node build.js
+```
+
+Use this only when all root components are trusted: another user with access
+to replace an ancestor could redirect the verified addon path before loading.
+The root must still be absolute and writable on an executable filesystem.
+Private namespace directories, cache-file checks, payload and cache-image
+integrity verification, locking, and atomic publication remain enforced. This
+option does not make shared or symlinked directories inside the private cache
+namespace acceptable.
 
 The default user cache avoids hardened system temporary mounts that are `noexec`;
 Linux rejects a user cache mounted `noexec` before attempting to load from it.
@@ -133,10 +152,11 @@ Windows directories have protected owner/SYSTEM DACLs. Ancestor directories
 may also belong to Administrators or TrustedInstaller. Effective untrusted
 replacement grants are rejected with their directory and SID; inheritance-only
 ACEs are checked at the descendants to which they apply. Unsafe cache files,
-symlinks/reparse points, and Unix roots with a non-sticky cross-user-writable
-ancestor are rejected. A normal corrupt regular entry is replaced
-with newly decoded, verified bytes. If both custom and default roots fail, the
-loader throws rather than silently loading unverified data.
+symlinks/reparse points inside the private namespace, and (unless explicitly
+opted out on Unix) roots with an unsafe ancestor are rejected. A normal corrupt
+regular entry is replaced with newly decoded, verified bytes. If both custom
+and default roots fail, the loader throws rather than silently loading
+unverified data.
 
 Every cache hit is checked for native magic, length, and BLAKE3 over the entire
 file. On x64 macOS, verification batches use at most 32 MiB of temporary scratch
