@@ -1,7 +1,7 @@
 //! Enum values and runtime requirements share resolved declaration handles.
 //! Evaluation borrows immutable definitions; cached values own only literals.
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Wtf8Atom;
 use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -168,6 +168,7 @@ pub(super) fn analyze(
     unresolved: SyntaxContext,
     mutable: bool,
     flow: bool,
+    enum_roots: Option<&FxHashSet<Id>>,
 ) -> EnumFacts {
     let mut definitions = Definitions {
         bindings,
@@ -180,6 +181,7 @@ pub(super) fn analyze(
         exported: false,
         ambient: false,
         phase: DefinitionPhase::Enums,
+        enum_roots,
     };
     program.visit_with(&mut definitions);
     let needs_constants = definitions.enums.iter().any(|definition| {
@@ -306,9 +308,18 @@ struct Definitions<'a> {
     exported: bool,
     ambient: bool,
     phase: DefinitionPhase,
+    enum_roots: Option<&'a FxHashSet<Id>>,
 }
 
 impl Definitions<'_> {
+    fn skip_enum_free_declaration(&self, ident: &Ident) -> bool {
+        if !matches!(self.phase, DefinitionPhase::Enums) {
+            return false;
+        }
+        self.enum_roots
+            .is_some_and(|roots| !roots.contains(&ident.to_id()))
+    }
+
     fn expression(&self, expression: &Expr, owner: Option<TsContainerId>) -> ConstantExpr {
         ConstantExpr::collect(
             expression,
@@ -412,12 +423,18 @@ impl Visit for Definitions<'_> {
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
+        if self.skip_enum_free_declaration(&node.ident) {
+            return;
+        }
         let exported = std::mem::take(&mut self.exported);
         node.function.visit_with(self);
         self.exported = exported;
     }
 
     fn visit_class_decl(&mut self, node: &ClassDecl) {
+        if self.skip_enum_free_declaration(&node.ident) {
+            return;
+        }
         let exported = std::mem::take(&mut self.exported);
         node.class.visit_with(self);
         self.exported = exported;

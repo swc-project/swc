@@ -85,9 +85,11 @@ pub(crate) fn analyze_program(
         enum_seen: false,
         enum_usage_needs_substitution: false,
         import_names: None,
+        enum_roots: None,
     };
 
     let bindings = if has_root_runtime_declaration(program) {
+        analyzer.enum_roots = Some(EnumDeclarationRoots::default());
         let (bindings, observed) = TsBindings::collect_with_observer(program, analyzer);
         analyzer = observed;
         Some(bindings)
@@ -101,6 +103,7 @@ pub(crate) fn analyze_program(
     let runtime_bindings_seen = analyzer.runtime_bindings_seen;
     let enum_seen = analyzer.enum_seen;
     let enum_usage_needs_substitution = analyzer.enum_usage_needs_substitution;
+    let enum_roots = analyzer.enum_roots.map(|roots| roots.declarations);
     let mut info = analyzer.info;
     if runtime_bindings_seen {
         info.bindings = bindings.unwrap_or_else(|| TsBindings::collect(program));
@@ -112,6 +115,7 @@ pub(crate) fn analyze_program(
                 SyntaxContext::empty().apply_mark(unresolved_mark),
                 ts_enum_is_mutable,
                 flow_syntax,
+                enum_roots.as_ref(),
             );
             if enum_usage_needs_substitution {
                 let runtime_usage = usage::analyze(
@@ -185,6 +189,21 @@ struct SemanticAnalyzer {
     enum_seen: bool,
     enum_usage_needs_substitution: bool,
     import_names: Option<FxHashSet<Atom>>,
+    enum_roots: Option<EnumDeclarationRoots>,
+}
+
+/// Resolved declarations whose bodies contain enum syntax. The following
+/// definition walk sees the same AST. Repeated declaration identities share a
+/// key, conservatively retaining every contributing body.
+#[derive(Default)]
+struct EnumDeclarationRoots {
+    count: usize,
+    declarations: FxHashSet<Id>,
+}
+
+struct DeclarationState {
+    skip_transform_info: bool,
+    enum_root: Option<(Id, usize)>,
 }
 
 impl SemanticAnalyzer {
@@ -206,6 +225,9 @@ impl SemanticAnalyzer {
     }
 
     fn collect_enum(&mut self, node: &TsEnumDecl) {
+        if let Some(roots) = &mut self.enum_roots {
+            roots.count += 1;
+        }
         self.runtime_bindings_seen = true;
         self.enum_seen = true;
         self.enum_usage_needs_substitution |= node.is_const;
@@ -368,7 +390,7 @@ impl SemanticAnalyzer {
 }
 
 impl TsBindingObserver for SemanticAnalyzer {
-    type DeclarationState = bool;
+    type DeclarationState = DeclarationState;
     type NamespaceState = Option<Option<Id>>;
 
     const RUNTIME: bool = true;
@@ -377,14 +399,30 @@ impl TsBindingObserver for SemanticAnalyzer {
         self.collect_module(node);
     }
 
-    fn enter_decl(&mut self, node: &Decl) -> bool {
-        let previous = self.skip_transform_info;
+    fn enter_decl(&mut self, node: &Decl) -> DeclarationState {
+        let enum_root = self.enum_roots.as_ref().and_then(|roots| {
+            let ident = match node {
+                Decl::Fn(function) => &function.ident,
+                Decl::Class(class) => &class.ident,
+                _ => return None,
+            };
+            Some((ident.to_id(), roots.count))
+        });
+        let state = DeclarationState {
+            skip_transform_info: self.skip_transform_info,
+            enum_root,
+        };
         self.skip_transform_info |= !should_retain_decl(node);
-        previous
+        state
     }
 
-    fn leave_decl(&mut self, previous: bool) {
-        self.skip_transform_info = previous;
+    fn leave_decl(&mut self, state: DeclarationState) {
+        self.skip_transform_info = state.skip_transform_info;
+        if let (Some(roots), Some((id, count))) = (&mut self.enum_roots, state.enum_root) {
+            if roots.count != count {
+                roots.declarations.insert(id);
+            }
+        }
     }
 
     fn ident(&mut self, node: &Ident) {
