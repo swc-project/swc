@@ -8,11 +8,11 @@ publish = false
 description = "Private verified native addon payload and materialization support"
 
 [dependencies]
-blake3 = "=1.5.4"
-sha2 = "=0.10.8"
-tempfile = "=3.12.0"
+blake3 = "=1.8.7"
+sha2 = "=0.11.0"
+tempfile = "=3.27.0"
 tracing = { version = "=0.1.41", default-features = false, features = ["std"] }
-zstd = { version = "=0.13.3", default-features = false }
+zstd = { version = "=0.14.0", default-features = false }
 
 # Newer jobserver releases require Rust 1.85. zstd's C build enables cc's
 # parallel feature, so constrain this transitive host dependency for Rust 1.73.
@@ -24,19 +24,19 @@ ignored = ["jobserver"]
 
 [target.'cfg(unix)'.dependencies]
 libc = "=0.2.177"
-xattr = "=1.3.1"
+xattr = "=1.6.1"
 
 [target.'cfg(all(target_os = "macos", target_arch = "x86_64"))'.dependencies]
-blake3 = { version = "=1.5.4", features = ["rayon"] }
+blake3 = { version = "=1.8.7", features = ["rayon"] }
 # Newer rayon-core releases require Rust 1.80. Keep the carrier's Rust 1.73 MSRV.
-rayon-core = "=1.12.1"
+rayon-core = "=1.13.0"
 
 [target.'cfg(windows)'.dependencies]
-windows-sys = { version = "=0.52.0", features = [
+windows-sys = { version = "=0.61.2", features = [
   "Win32_Foundation", "Win32_Security", "Win32_Security_Authorization",
   "Win32_Storage_FileSystem", "Win32_System_IO", "Win32_System_Ioctl",
   "Win32_System_LibraryLoader", "Win32_System_Memory", "Win32_System_Threading",
 ] }
 
 [dev-dependencies]
-libloading = "=0.8.1"
+libloading = "=0.9.0"
