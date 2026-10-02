@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<!-- The character after `&` is only entity lookahead, so it still decides
+     whether the value can be left unquoted. -->
+<div title="a& b">x</div>
+<div title="a&> b">x</div>
+<div title="a&'b">x</div>
+<div title='a&"b'>x</div>
+<div title="a&foo bar">x</div>
+<div title="a&foo> bar">x</div>
+<div title="a&#> b">x</div>
+
+<!-- Values that really are unquotable must keep minifying as before. -->
+<div title="a&b">x</div>
+<div title="a&amp;b">x</div>
+<div title="a&amp;#38;b">x</div>
+
+<!-- The same lookahead must not emit a raw `<` into a text node. -->
+<p>&amp;&lt;img src=x&gt;</p>
+<p>&amp;foo&lt;img src=x&gt;</p>
+<p>&amp;#&lt;img src=x&gt;</p>
+<p>&amp;#x&lt;img src=x&gt;</p>
+<p>&amp;amp;&lt;img src=x&gt;</p>
+
+</body>
+</html>

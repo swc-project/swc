@@ -952,17 +952,16 @@ fn minify_attribute_value(value: &str, quotes: bool) -> (Cow<'_, str>, Option<ch
     while let Some(c) = chars.next() {
         match c {
             '&' => {
-                let next = chars.next();
-
-                if let Some(next) = next {
-                    if matches!(next, '#' | 'a'..='z' | 'A'..='Z') {
+                // Only consume the next character when it can start an entity.
+                // Anything else is ordinary content and has to be classified
+                // below, otherwise a space, a quote or a `>` ends up verbatim in
+                // an unquoted value.
+                match chars.peek() {
+                    Some(&next) if matches!(next, '#' | 'a'..='z' | 'A'..='Z') => {
+                        chars.next();
                         minified.push_str(&minify_amp(next, &mut chars));
-                    } else {
-                        minified.push('&');
-                        minified.push(next);
                     }
-                } else {
-                    minified.push('&');
+                    _ => minified.push('&'),
                 }
 
                 continue;
@@ -1020,17 +1019,15 @@ fn minify_text(value: &str) -> Cow<'_, str> {
     while let Some(c) = chars.next() {
         match c {
             '&' => {
-                let next = chars.next();
-
-                if let Some(next) = next {
-                    if matches!(next, '#' | 'a'..='z' | 'A'..='Z') {
+                // Only consume the next character when it can start an entity,
+                // so that a `<` which merely followed an ampersand is still
+                // escaped by the arm below instead of being emitted as markup.
+                match chars.peek() {
+                    Some(&next) if matches!(next, '#' | 'a'..='z' | 'A'..='Z') => {
+                        chars.next();
                         result.push_str(&minify_amp(next, &mut chars));
-                    } else {
-                        result.push('&');
-                        result.push(next);
                     }
-                } else {
-                    result.push('&');
+                    _ => result.push('&'),
                 }
             }
             '<' => {
@@ -1048,15 +1045,18 @@ fn minify_amp(next: char, chars: &mut Peekable<Chars>) -> String {
 
     match next {
         hash @ '#' => {
-            match chars.next() {
+            match chars.peek() {
                 // HTML CODE
                 // Prevent `&amp;#38;` -> `&#38`
-                Some(number @ '0'..='9') => {
+                Some(&number @ '0'..='9') => {
+                    chars.next();
                     result.push_str("&amp;");
                     result.push(hash);
                     result.push(number);
                 }
-                Some(x @ 'x' | x @ 'X') => {
+                Some(&x @ ('x' | 'X')) => {
+                    chars.next();
+
                     match chars.peek() {
                         // HEX CODE
                         // Prevent `&amp;#x38;` -> `&#x38`
@@ -1072,13 +1072,11 @@ fn minify_amp(next: char, chars: &mut Peekable<Chars>) -> String {
                         }
                     }
                 }
-                any => {
+                // Not a numeric reference, so leave the character for the caller:
+                // it is ordinary content and still needs that caller's escaping.
+                _ => {
                     result.push('&');
                     result.push(hash);
-
-                    if let Some(any) = any {
-                        result.push(any);
-                    }
                 }
             }
         }
@@ -1092,11 +1090,13 @@ fn minify_amp(next: char, chars: &mut Peekable<Chars>) -> String {
 
             let mut found_entity = false;
 
-            // No need to validate input, because we reset position if nothing was found
-            for c in chars {
+            // Characters are only consumed while they can still complete an
+            // entity. The one that ends the lookahead belongs to the caller.
+            while let Some(&c) = chars.peek() {
                 entity_temporary_buffer.push(c);
 
                 if HTML_ENTITIES.get(&entity_temporary_buffer).is_some() {
+                    chars.next();
                     found_entity = true;
 
                     break;
@@ -1106,9 +1106,13 @@ fn minify_amp(next: char, chars: &mut Peekable<Chars>) -> String {
                     // - not ascii alphanumeric
                     // - we consume more characters than the longest entity
                     if !c.is_ascii_alphanumeric() || entity_temporary_buffer.len() > 32 {
+                        entity_temporary_buffer.pop();
+
                         break;
                     }
                 }
+
+                chars.next();
             }
 
             if found_entity {
