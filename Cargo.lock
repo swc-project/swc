@@ -7088,6 +7088,7 @@ name = "swc_ecma_utils"
 version = "35.0.2"
 dependencies = [
  "dragonbox_ecma",
+ "hashbrown 0.14.5",
  "indexmap 2.12.0",
  "num_cpus",
  "once_cell",

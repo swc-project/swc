@@ -62,6 +62,8 @@ mod node_ignore_span;
 pub mod number;
 pub mod stack_size;
 pub mod str;
+#[doc(hidden)]
+pub mod ts_bindings;
 pub use node_ignore_span::NodeIgnoringSpan;
 
 // TODO: remove
