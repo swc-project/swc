@@ -1,0 +1,5 @@
+# All groups grant the same access. Add GitHub usernames, not organization names.
+groups:
+  individuals: []
+  nextjs: [] # Next.js and Turbopack contributors.
+  rspack: []

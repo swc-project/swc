@@ -1,0 +1,10 @@
+groups:
+  individuals:
+    - TrustedPerson
+    - IndependentEngineer
+  nextjs:
+    - NextEngineer
+    - TurboEngineer
+  rspack:
+    - RspackEngineer
+    - trustedperson

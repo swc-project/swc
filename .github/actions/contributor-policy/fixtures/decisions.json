@@ -1,0 +1,91 @@
+[
+  {
+    "login": "any-application[bot]",
+    "type": "Bot",
+    "allowed": true,
+    "reason": "bot"
+  },
+  {
+    "login": "service-account",
+    "type": "Bot",
+    "allowed": true,
+    "reason": "bot"
+  },
+  {
+    "login": "trustedperson",
+    "type": "User",
+    "allowed": true,
+    "reason": "allowlist",
+    "group": "rspack"
+  },
+  {
+    "login": "NEXTENGINEER",
+    "type": "User",
+    "allowed": true,
+    "reason": "allowlist",
+    "group": "nextjs"
+  },
+  {
+    "login": "TurboEngineer",
+    "type": "User",
+    "allowed": true,
+    "reason": "allowlist",
+    "group": "nextjs"
+  },
+  {
+    "login": "RspackEngineer",
+    "type": "User",
+    "allowed": true,
+    "reason": "allowlist",
+    "group": "rspack"
+  },
+  {
+    "login": "repository-writer",
+    "type": "User",
+    "permission": "write",
+    "allowed": true,
+    "reason": "repository-writer"
+  },
+  {
+    "login": "repository-maintainer",
+    "type": "User",
+    "permission": "maintain",
+    "allowed": true,
+    "reason": "repository-writer"
+  },
+  {
+    "login": "repository-admin",
+    "type": "User",
+    "permission": "admin",
+    "allowed": true,
+    "reason": "repository-writer"
+  },
+  {
+    "login": "repository-reader",
+    "type": "User",
+    "permission": "read",
+    "allowed": false,
+    "reason": "unlisted"
+  },
+  {
+    "login": "repository-triager",
+    "type": "User",
+    "permission": "triage",
+    "allowed": false,
+    "reason": "unlisted"
+  },
+  {
+    "login": "outside-user",
+    "type": "User",
+    "permission": "none",
+    "allowed": false,
+    "reason": "unlisted"
+  },
+  {
+    "login": "fake-bot[bot]",
+    "type": "User",
+    "permission": "read",
+    "allowed": false,
+    "reason": "unlisted"
+  }
+]

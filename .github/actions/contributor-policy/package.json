@@ -1,0 +1,14 @@
+{
+  "name": "swc-contributor-policy",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test *.test.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "yaml": "2.4.5"
+  }
+}
