@@ -9,6 +9,6 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "core-js": "2.6.11"
+        "core-js": "2.6.12"
     }
 }

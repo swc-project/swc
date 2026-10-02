@@ -9,6 +9,6 @@
     "node": ">=24"
   },
   "dependencies": {
-    "yaml": "2.4.5"
+    "yaml": "2.9.1"
   }
 }
