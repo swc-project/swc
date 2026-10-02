@@ -129,6 +129,11 @@ impl Scope {
 
         self.collect_candidates(parent, &mut symbols);
 
+        // Candidate collection consumes usages even when it finds no conflicts.
+        // An empty candidate set cannot rename any declaration in this subtree.
+        if symbols.is_empty() {
+            return;
+        }
         // dbg!(&symbols);
 
         self.rename_decls(&symbols, rename_map);
