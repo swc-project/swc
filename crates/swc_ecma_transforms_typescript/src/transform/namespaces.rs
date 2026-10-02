@@ -120,7 +120,7 @@ impl Transform<'_> {
                     NamespaceInstantiation::NonInstantiated
                 }
             }
-            _ if should_retain_module_item(item, true) => NamespaceInstantiation::Instantiated,
+            _ if should_retain_module_item(item) => NamespaceInstantiation::Instantiated,
             _ => NamespaceInstantiation::NonInstantiated,
         }
     }

@@ -119,12 +119,8 @@ impl Transform<'_> {
         }
     }
 
-    fn retain_module_item(&self, item: &ModuleItem, in_namespace: bool) -> bool {
+    fn retain_module_item(&self, item: &ModuleItem) -> bool {
         match item {
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                decl: Decl::Var(_),
-                ..
-            })) if in_namespace => true,
             ModuleItem::Stmt(Stmt::Decl(declaration))
             | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                 decl: declaration,
@@ -136,7 +132,7 @@ impl Transform<'_> {
                         .semantic
                         .has_import_equals_usage(&declaration.id.to_id())
             }
-            _ => should_retain_module_item(item, in_namespace),
+            _ => should_retain_module_item(item),
         }
     }
 
@@ -289,7 +285,7 @@ impl VisitMut for Transform<'_> {
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
         let var_list = self.var_list.take();
-        node.retain(|item| self.retain_module_item(item, self.in_namespace));
+        node.retain(|item| self.retain_module_item(item));
         node.retain_mut(|item| {
             let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
             item.visit_mut_with(self);

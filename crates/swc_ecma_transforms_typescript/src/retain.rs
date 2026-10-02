@@ -1,14 +1,9 @@
 use swc_ecma_ast::*;
 
 /// Returns true if a module item should survive TS type-stripping.
-pub(crate) fn should_retain_module_item(module_item: &ModuleItem, in_namespace: bool) -> bool {
+pub(crate) fn should_retain_module_item(module_item: &ModuleItem) -> bool {
     match module_item {
         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
-            // Keep `export declare var` in namespace blocks for downstream transforms.
-            if in_namespace && export_decl.decl.is_var() {
-                return true;
-            }
-
             should_retain_decl(&export_decl.decl)
         }
         ModuleItem::Stmt(stmt) => should_retain_stmt(stmt),
