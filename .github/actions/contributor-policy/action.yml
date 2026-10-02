@@ -1,0 +1,34 @@
+name: Contributor policy
+description: Check pull request authors against the trusted contributor policy.
+inputs:
+  token:
+    description: Repository token. Closing a PR requires pull-requests write access.
+    required: true
+  close-untrusted:
+    description: Close pull requests whose authors are not allowed.
+    default: "false"
+outputs:
+  allowed:
+    description: Whether the pull request author is allowed to contribute.
+    value: ${{ steps.policy.outputs.allowed }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      with:
+        node-version: "24"
+        package-manager-cache: false
+
+    - name: Install policy dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: npm ci --ignore-scripts --no-audit --no-fund
+
+    - name: Check contributor
+      id: policy
+      shell: bash
+      env:
+        POLICY_ACTION_PATH: ${{ github.action_path }}
+        POLICY_TOKEN: ${{ inputs.token }}
+        POLICY_CLOSE_UNTRUSTED: ${{ inputs.close-untrusted }}
+      run: node "$POLICY_ACTION_PATH/main.mjs"

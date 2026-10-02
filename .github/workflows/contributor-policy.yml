@@ -1,0 +1,35 @@
+name: Contributor policy
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+
+permissions: {}
+
+concurrency:
+  group: contributor-policy-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  enforce:
+    if: github.repository == 'swc-project/swc'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      # Only trusted default-branch files may run with the write token. Never
+      # check out the PR head, merge ref, or a contributor-selected base branch.
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/contributors.yml
+            /.github/actions/contributor-policy/
+
+      - uses: ./.github/actions/contributor-policy
+        with:
+          token: ${{ github.token }}
+          close-untrusted: "true"

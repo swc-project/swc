@@ -166,6 +166,37 @@ To revert the changes:
 
 ## Pull requests
 
+SWC accepts pull requests from bot accounts, users with write access or higher
+to this repository, and contributors listed in
+[`.github/contributors.yml`](.github/contributors.yml). Next.js and Turbopack
+contributors share the `nextjs` group; individual and Rspack contributors have
+their own groups. Every group grants the same access, and usernames are compared
+case-insensitively. Organization membership and triage access alone do not grant
+an exception.
+
+Pull requests from other accounts are automatically closed with an explanation,
+and their CI builds and benchmarks are skipped. Contact an SWC maintainer to
+request inclusion in the contributor list. Once your username is added to the
+default branch, you can reopen the same pull request. The policy is checked when
+a pull request is opened, reopened, or updated; existing pull requests are not
+scanned in bulk. Configuration errors and GitHub API failures stop the policy
+check and CI, without automatically closing the pull request.
+
+Maintainers should add usernames as YAML list entries in the appropriate group.
+For example, replace `individuals: []` with `individuals: [github-username]`.
+Changes to the policy must be merged into the default branch before they take
+effect; a pull request cannot authorize itself by editing the contributor list.
+Bots are recognized by GitHub's account type, not a username suffix. A machine
+account with the `User` type follows the same access rules as any other user.
+
+When deploying this policy, first merge the contributor action, configuration,
+and automatic closure workflow, then enable the CI gates after those files are
+available on the default branch. Populate and validate the external contributor
+list before changing **Settings > General > Features > Pull requests** from
+**Collaborators only** to **Everyone**. Until then, GitHub still restricts PR
+creation to repository writers. The existing approval policy for workflows from
+forks remains in effect even for allowlisted contributors.
+
 After the pull request is made, one of the SWC project developers will review your code.
 The review-process will make sure that the proposed changes are sound.
 Please give the assigned reviewer sufficient time, especially during weekends.
