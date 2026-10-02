@@ -9,9 +9,13 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::rename;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, ident::IdentLike, is_literal, member_expr,
-    private_ident, quote_ident, quote_str, stack_size::maybe_grow_default, ExprFactory, QueryRef,
-    RefRewriter, StmtLikeInjector,
+    alias_ident_for,
+    constructor::inject_after_super,
+    ident::IdentLike,
+    is_literal, member_expr, private_ident, quote_ident, quote_str,
+    stack_size::maybe_grow_default,
+    ts_bindings::{TsContainerId, TsMemberId},
+    ExprFactory, QueryRef, RefRewriter, StmtLikeInjector,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -19,7 +23,7 @@ use swc_ecma_visit::{
 
 use crate::{
     config::TsImportExportAssignConfig,
-    retain::{should_retain_module_item, should_retain_stmt},
+    retain::{should_retain_decl, should_retain_module_item, should_retain_stmt},
     semantic::SemanticInfo,
     shared::enum_member_name,
     ts_enum::{
@@ -27,6 +31,10 @@ use crate::{
     },
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
+
+mod exports;
+
+use self::exports::{EmissionIndex, ExportQuery};
 
 /// ## This Module will transform all TypeScript specific synatx
 ///
@@ -52,8 +60,7 @@ use crate::{
 /// [enums]: https://www.typescriptlang.org/docs/handbook/enums.html
 /// [parameter properties]: https://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties
 /// [export and import require]: https://www.typescriptlang.org/docs/handbook/modules.html#export--and-import--require
-#[derive(Default)]
-pub(crate) struct Transform {
+pub(crate) struct Transform<'a> {
     unresolved_ctxt: SyntaxContext,
     top_level_ctxt: SyntaxContext,
 
@@ -64,12 +71,15 @@ pub(crate) struct Transform {
     native_class_properties: bool,
     flow_syntax: bool,
 
-    semantic: SemanticInfo,
+    semantic: &'a SemanticInfo,
+    emission_index: EmissionIndex<'a>,
+    has_export_refs: bool,
 
     in_namespace: bool,
     is_lhs: bool,
 
-    ref_rewriter: Option<RefRewriter<ExportQuery>>,
+    in_binding: bool,
+    namespace_contexts: Vec<NamespaceContext>,
 
     decl_id_record: FxHashSet<Id>,
     namespace_id: Option<Id>,
@@ -81,33 +91,108 @@ pub(crate) struct Transform {
     in_class_prop_init: Vec<Box<Expr>>,
 }
 
+/// The JS bindings that this particular emitted container body provides.
+/// Exported variables, enums, aliases and nested namespaces are properties;
+/// functions and classes retain a body-local declaration.
+struct NamespaceContext {
+    container: TsContainerId,
+    object: Id,
+    locals: FxHashMap<TsMemberId, Id>,
+}
+
+impl Transform<'_> {
+    fn namespace_context(&self, object: Id, body: &TsNamespaceBody) -> Option<NamespaceContext> {
+        let container = self.semantic.bindings.container(&object)?;
+        let mut locals = FxHashMap::default();
+
+        if let TsNamespaceBody::TsModuleBlock(body) = body {
+            for item in &body.body {
+                let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) = item else {
+                    continue;
+                };
+                if !should_retain_decl(&decl.decl) {
+                    continue;
+                }
+                let ident = match &decl.decl {
+                    Decl::Fn(decl) => &decl.ident,
+                    Decl::Class(decl) => &decl.ident,
+                    _ => continue,
+                };
+                if let Some(member) = self.semantic.bindings.member_of(&ident.to_id()) {
+                    locals.insert(member, ident.to_id());
+                }
+            }
+        }
+
+        Some(NamespaceContext {
+            container,
+            object,
+            locals,
+        })
+    }
+
+    fn ref_rewriter(&self) -> Option<RefRewriter<ExportQuery<'_, '_>>> {
+        if self.in_binding || (self.namespace_contexts.is_empty() && !self.has_export_refs) {
+            return None;
+        }
+
+        Some(RefRewriter {
+            query: ExportQuery::new(
+                &self.semantic.exported_binding,
+                &self.semantic.bindings,
+                &self.emission_index,
+                &self.namespace_contexts,
+                self.has_export_refs,
+            ),
+        })
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
-pub fn transform(
+pub fn transform<'a>(
     unresolved_mark: Mark,
     top_level_mark: Mark,
-    semantic: SemanticInfo,
+    semantic: &'a SemanticInfo,
     import_not_used_as_values: crate::ImportsNotUsedAsValues,
     import_export_assign_config: TsImportExportAssignConfig,
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
     native_class_properties: bool,
     flow_syntax: bool,
-) -> impl Pass {
+) -> impl Pass + 'a {
+    let emission_index = EmissionIndex::new(&semantic.bindings);
+    // Shared members are handled by the emitted owner. Only unindexed exports
+    // can use the legacy fallback outside or after those owner queries.
+    let has_export_refs = semantic
+        .exported_binding
+        .iter()
+        .any(|(id, owner)| owner.is_some() && semantic.bindings.member_of(id).is_none());
     visit_mut_pass(Transform {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         semantic,
+        emission_index,
+        has_export_refs,
         import_not_used_as_values,
         import_export_assign_config,
         ts_enum_is_mutable,
         verbatim_module_syntax,
         native_class_properties,
         flow_syntax,
-        ..Default::default()
+        in_namespace: false,
+        is_lhs: false,
+        in_binding: false,
+        namespace_contexts: Vec::new(),
+        decl_id_record: FxHashSet::default(),
+        namespace_id: None,
+        var_list: Vec::new(),
+        export_var_list: Vec::new(),
+        in_class_prop: Vec::new(),
+        in_class_prop_init: Vec::new(),
     })
 }
 
-impl VisitMut for Transform {
+impl VisitMut for Transform<'_> {
     noop_visit_mut_type!();
 
     crate::type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
@@ -122,13 +207,6 @@ impl VisitMut for Transform {
     );
 
     fn visit_mut_program(&mut self, node: &mut Program) {
-        if !self.semantic.exported_binding.is_empty() {
-            self.ref_rewriter = Some(RefRewriter {
-                query: ExportQuery {
-                    export_name: self.semantic.exported_binding.clone(),
-                },
-            });
-        }
         node.visit_mut_children_with(self);
     }
 
@@ -328,21 +406,57 @@ impl VisitMut for Transform {
 
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
         let id = node.id.to_id();
+        let context = self.namespace_context(id.clone(), &node.body);
+        let pushed = context.is_some();
+        self.namespace_contexts.extend(context);
         let namespace_id = self.namespace_id.replace(id);
 
         node.body.visit_mut_with(self);
 
         self.namespace_id = namespace_id;
+        if pushed {
+            self.namespace_contexts.pop();
+        }
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
         let id = node.id.to_id();
 
+        let context = node
+            .body
+            .as_ref()
+            .and_then(|body| self.namespace_context(id.clone(), body));
+        let pushed = context.is_some();
+        self.namespace_contexts.extend(context);
+
         let namespace_id = self.namespace_id.replace(id);
 
         node.body.visit_mut_with(self);
 
         self.namespace_id = namespace_id;
+        if pushed {
+            self.namespace_contexts.pop();
+        }
+    }
+
+    fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
+        // An enum IIFE has its own object parameter, but contributes no local
+        // enum binding to the surrounding namespace body's emitted scope.
+        let context = self
+            .semantic
+            .bindings
+            .container(&node.id.to_id())
+            .map(|container| NamespaceContext {
+                container,
+                object: node.id.to_id(),
+                locals: FxHashMap::default(),
+            });
+        let pushed = context.is_some();
+        self.namespace_contexts.extend(context);
+        node.members.visit_mut_with(self);
+        if pushed {
+            self.namespace_contexts.pop();
+        }
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
@@ -402,7 +516,7 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
-        if self.ref_rewriter.is_some() {
+        if self.ref_rewriter().is_some() {
             if let Decl::Var(var_decl) = &mut node.decl {
                 // visit inner directly to bypass visit_mut_var_declarator
                 for decl in var_decl.decls.iter_mut() {
@@ -421,7 +535,7 @@ impl VisitMut for Transform {
     fn visit_mut_prop(&mut self, node: &mut Prop) {
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_prop(node);
         }
     }
@@ -431,16 +545,16 @@ impl VisitMut for Transform {
             convert_flow_component_arrow(n);
         }
 
-        let ref_rewriter = self.ref_rewriter.take();
+        let in_binding = mem::replace(&mut self.in_binding, true);
         n.name.visit_mut_with(self);
-        self.ref_rewriter = ref_rewriter;
+        self.in_binding = in_binding;
         n.init.visit_mut_with(self);
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_pat(node);
         }
     }
@@ -460,7 +574,7 @@ impl VisitMut for Transform {
 
         maybe_grow_default(|| node.visit_mut_children_with(self));
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_expr(node);
         }
     }
@@ -512,7 +626,7 @@ impl VisitMut for Transform {
 
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_simple_assign_target(node);
         }
     }
@@ -520,7 +634,7 @@ impl VisitMut for Transform {
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_jsx_element_name(node);
         }
     }
@@ -528,7 +642,7 @@ impl VisitMut for Transform {
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject) {
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_jsx_object(node);
         }
     }
@@ -536,7 +650,7 @@ impl VisitMut for Transform {
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         n.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_object_pat_prop(n);
         }
     }
@@ -672,8 +786,12 @@ impl VisitMut for Transform {
         node.visit_mut_children_with(self);
     }
 
-    fn visit_mut_ts_import_equals_decl(&mut self, _: &mut TsImportEqualsDecl) {
-        // id should be left intact for runtime rewriting
+    fn visit_mut_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
+        if let TsModuleRef::TsEntityName(name) = &mut node.module_ref {
+            if let Some(rewriter) = self.ref_rewriter() {
+                rewriter.query.rewrite_entity_name(name);
+            }
+        }
     }
 
     fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp) {
@@ -688,7 +806,7 @@ enum FoldedDecl {
     Expr(Stmt),
 }
 
-impl Transform {
+impl Transform<'_> {
     fn normalize_flow_static_constructor_key(
         &self,
         key: &mut PropName,
@@ -1087,7 +1205,7 @@ impl InitArg<'_> {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     fn transform_ts_enum(
         &mut self,
         ts_enum: TsEnumDecl,
@@ -1261,7 +1379,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     fn transform_ts_module(&self, ts_module: TsModuleDecl, is_export: bool) -> FoldedDecl {
         debug_assert!(!ts_module.declare);
         debug_assert!(!ts_module.global);
@@ -1488,7 +1606,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     fn reorder_class_prop_decls_and_inits(
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
@@ -1608,7 +1726,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     // Foo.x = x;
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
         let expr = prop
@@ -1641,7 +1759,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     fn enter_expr_for_inline_enum(&mut self, node: &mut Expr) {
         if self.is_lhs {
             return;
@@ -1878,37 +1996,6 @@ impl Transform {
                 }
             }
         }
-    }
-}
-
-struct ExportQuery {
-    export_name: FxHashMap<Id, Option<Id>>,
-}
-
-impl QueryRef for ExportQuery {
-    fn query_ref(&self, export_name: &Ident) -> Option<Box<Expr>> {
-        self.export_name
-            .get(&export_name.to_id())?
-            .clone()
-            .map(|namespace_id| namespace_id.make_member(export_name.clone().into()).into())
-    }
-
-    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
-        self.query_ref(ident)
-    }
-
-    fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
-        self.export_name
-            .get(&ident.to_id())?
-            .clone()
-            .map(|namespace_id| {
-                JSXMemberExpr {
-                    span: DUMMY_SP,
-                    obj: JSXObject::Ident(namespace_id.into()),
-                    prop: ident.clone().into(),
-                }
-                .into()
-            })
     }
 }
 

@@ -58,7 +58,7 @@ impl Pass for TypeScript {
         n.mutate(transform(
             self.unresolved_mark,
             self.top_level_mark,
-            semantic,
+            &semantic,
             self.config.import_not_used_as_values,
             self.config.import_export_assign_config,
             self.config.ts_enum_is_mutable,

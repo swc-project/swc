@@ -1,7 +1,7 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
+use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default, ts_bindings::TsBindings};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
@@ -12,6 +12,7 @@ use crate::{
 
 #[derive(Debug, Default)]
 pub(crate) struct SemanticInfo {
+    pub bindings: TsBindings,
     pub usage: FxHashSet<Id>,
     pub id_type: FxHashSet<Id>,
     pub id_value: FxHashSet<Id>,
@@ -64,11 +65,17 @@ pub(crate) fn analyze_program(
         skip_transform_info: false,
         flow_syntax,
         ts_enum_is_mutable,
+        namespace_seen: false,
     };
 
     program.visit_with(&mut analyzer);
 
-    analyzer.finish()
+    let namespace_seen = analyzer.namespace_seen;
+    let mut info = analyzer.finish();
+    if namespace_seen {
+        info.bindings = TsBindings::collect(program);
+    }
+    info
 }
 
 struct SemanticAnalyzer {
@@ -80,6 +87,7 @@ struct SemanticAnalyzer {
     skip_transform_info: bool,
     flow_syntax: bool,
     ts_enum_is_mutable: bool,
+    namespace_seen: bool,
 }
 
 #[derive(Default)]
@@ -546,6 +554,7 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
+        self.namespace_seen = true;
         if self.skip_transform_info {
             if let Some(body) = &node.body {
                 body.visit_with(self);
