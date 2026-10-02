@@ -1,5 +1,5 @@
 {
     "devDependencies": {
-        "@rstest/core": "0.7.8"
+        "@rstest/core": "0.7.9"
     }
 }
