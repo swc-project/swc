@@ -1,6 +1,9 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": ["config:recommended"],
+    "timezone": "Asia/Seoul",
+    "schedule": ["* 0-5 * * 1"],
+    "updateNotScheduled": false,
     "automergeStrategy": "squash",
     "automergeType": "pr",
     "packageRules": [
