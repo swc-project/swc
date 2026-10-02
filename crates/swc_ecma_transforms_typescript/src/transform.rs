@@ -576,12 +576,6 @@ impl VisitMut for Transform<'_> {
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
         if self.ref_rewriter().is_some() {
             if let Decl::Var(var_decl) = &mut node.decl {
-                let enum_inlining = self.enum_inlining;
-                // Runtime reference analysis skips ambient declarations. Retained
-                // namespace exports still need emission-time substitution.
-                if var_decl.declare {
-                    self.enum_inlining = EnumInlining::Emit;
-                }
                 // visit inner directly to bypass visit_mut_var_declarator
                 for decl in var_decl.decls.iter_mut() {
                     if self.flow_syntax {
@@ -590,7 +584,6 @@ impl VisitMut for Transform<'_> {
                     decl.name.visit_mut_with(self);
                     decl.init.visit_mut_with(self);
                 }
-                self.enum_inlining = enum_inlining;
                 return;
             }
         }
