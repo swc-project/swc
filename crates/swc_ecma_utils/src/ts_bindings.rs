@@ -18,29 +18,13 @@ use crate::for_each_binding_ident;
 
 mod aliases;
 mod exports;
+mod ids;
 mod observer;
 
-pub use self::observer::TsBindingObserver;
-
-/// A same-file namespace or enum owner, including merged declarations.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct TsContainerId(usize);
-
-/// An exported declaration or enum member under one resolved owner.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct TsMemberId(usize);
-
-/// One namespace declaration body's private lexical environment.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct TsNamespaceBodyId(usize);
-
-/// A declaration ID interned once for this analysis phase.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct TsDeclarationId(usize);
-
-/// An import-equals declaration, kept separate from its terminal target.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-pub struct TsAliasId(usize);
+pub use self::{
+    ids::{TsAliasId, TsContainerId, TsDeclarationId, TsMemberId, TsNamespaceBodyId},
+    observer::TsBindingObserver,
+};
 
 /// A resolved value reached through a binding, member, or internal alias.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -190,12 +174,12 @@ impl TsBindings {
     /// Bodies in declaration visitation order, for the immediately following
     /// Resolver walk. Do not retain these handles across structural AST edits.
     pub fn namespace_bodies(&self) -> impl Iterator<Item = TsNamespaceBodyId> + '_ {
-        (0..self.bodies.len()).map(TsNamespaceBodyId)
+        (0..self.bodies.len()).map(TsNamespaceBodyId::from_index)
     }
 
     /// Get a body while walking the same declaration sequence again.
     pub fn namespace_body(&self, index: usize) -> Option<TsNamespaceBodyId> {
-        (index < self.bodies.len()).then_some(TsNamespaceBodyId(index))
+        (index < self.bodies.len()).then(|| TsNamespaceBodyId::from_index(index))
     }
 
     /// The owner shared by all declarations contributing to a container.
@@ -206,14 +190,14 @@ impl TsBindings {
 
     /// The source binding identity for an interned declaration.
     pub fn declaration(&self, declaration: TsDeclarationId) -> &Id {
-        &self.declarations[declaration.0].id
+        &self.declarations[declaration.index()].id
     }
 
     /// Interned declaration corresponding to an already resolved AST ID.
     pub fn declaration_id(&self, id: &Id) -> Option<TsDeclarationId> {
         self.declarations_by_id
             .find(declaration_hash(id), |&declaration| {
-                self.declarations[declaration.0].id == *id
+                self.declarations[declaration.index()].id == *id
             })
             .copied()
     }
@@ -226,13 +210,13 @@ impl TsBindings {
             .enumerate()
             .filter_map(|(index, declaration)| {
                 (declaration.container.is_some() || declaration.member.is_some())
-                    .then_some((TsDeclarationId(index), &declaration.id))
+                    .then_some((TsDeclarationId::from_index(index), &declaration.id))
             })
     }
 
     /// The runtime container attached to this declaration or merged member.
     pub fn declaration_container(&self, declaration: TsDeclarationId) -> Option<TsContainerId> {
-        let declaration = &self.declarations[declaration.0];
+        let declaration = &self.declarations[declaration.index()];
         declaration.container.or_else(|| {
             declaration
                 .member
@@ -242,7 +226,7 @@ impl TsBindings {
 
     /// One representative declaration of a shared runtime container.
     pub fn container_declaration(&self, container: TsContainerId) -> TsDeclarationId {
-        self.containers[container.0].declaration
+        self.containers[container.index()].declaration
     }
 
     /// The shared member contributed by an exported declaration.
@@ -253,27 +237,30 @@ impl TsBindings {
 
     /// Shared membership of an already interned declaration.
     pub fn declaration_member(&self, declaration: TsDeclarationId) -> Option<TsMemberId> {
-        self.declarations[declaration.0].member
+        self.declarations[declaration.index()].member
     }
 
     /// Facts for a handle obtained from this index.
     pub fn member(&self, member: TsMemberId) -> &TsMember {
-        &self.members[member.0]
+        &self.members[member.index()]
     }
 
     /// Lookup under a resolved owner, preserving quoted/lone-surrogate keys.
     pub fn named_member(&self, container: TsContainerId, name: &Wtf8Atom) -> Option<TsMemberId> {
-        self.containers[container.0].members.get(name).copied()
+        self.containers[container.index()]
+            .members
+            .get(name)
+            .copied()
     }
 
     /// Aliases in declaration order, with independent binding identities.
     pub fn aliases(&self) -> impl Iterator<Item = TsAliasId> + '_ {
-        (0..self.aliases.len()).map(TsAliasId)
+        (0..self.aliases.len()).map(TsAliasId::from_index)
     }
 
     /// Declaration and dependency policy inputs for one alias.
     pub fn alias(&self, alias: TsAliasId) -> &TsAlias {
-        &self.aliases[alias.0]
+        &self.aliases[alias.index()]
     }
 
     /// Whether a declaration is an import-equals binding.
@@ -284,7 +271,7 @@ impl TsBindings {
     /// Known terminal value of an internal alias. Cycles, type-only aliases,
     /// and external targets deliberately return no value.
     pub fn alias_target(&self, alias: TsAliasId) -> Option<TsValueTarget> {
-        match self.alias_states[alias.0] {
+        match self.alias_states[alias.index()] {
             AliasState::Resolved(target) => Some(target),
             AliasState::Pending | AliasState::Resolving | AliasState::Unknown => None,
         }
@@ -298,7 +285,7 @@ impl TsBindings {
         }
         match self.alias_target(alias) {
             Some(TsValueTarget::Binding(declaration)) => {
-                self.declarations[declaration.0].value_space
+                self.declarations[declaration.index()].value_space
             }
             Some(TsValueTarget::EnumMember(_)) | None => true,
         }
@@ -306,7 +293,7 @@ impl TsBindings {
 
     /// The root dependency retains its own alias declaration identity.
     pub fn alias_dependency(&self, alias: TsAliasId) -> Option<TsDeclarationId> {
-        self.aliases[alias.0]
+        self.aliases[alias.index()]
             .path
             .as_ref()
             .and_then(|path| self.declaration_id(&path.root))
@@ -358,7 +345,7 @@ impl TsBindings {
     fn index_runtime_values(&mut self) {
         let mut values = FxHashMap::<Atom, Vec<(SyntaxContext, TsValueTarget)>>::default();
         for index in 0..self.declarations.len() {
-            let Some(target) = self.declaration_value(TsDeclarationId(index)) else {
+            let Some(target) = self.declaration_value(TsDeclarationId::from_index(index)) else {
                 continue;
             };
             if !self.is_runtime_target(target) {
@@ -375,7 +362,7 @@ impl TsBindings {
 
     fn declaration_value(&self, declaration: TsDeclarationId) -> Option<TsValueTarget> {
         let declaration = self.canonical_value_declaration(declaration);
-        if !self.declarations[declaration.0].value_space {
+        if !self.declarations[declaration.index()].value_space {
             return None;
         }
         match self.declaration_alias(declaration) {
@@ -385,7 +372,7 @@ impl TsBindings {
     }
 
     fn canonical_value_declaration(&self, declaration: TsDeclarationId) -> TsDeclarationId {
-        let facts = &self.declarations[declaration.0];
+        let facts = &self.declarations[declaration.index()];
         facts
             .export_target
             .or_else(|| facts.member.and_then(|member| self.member(member).value))
@@ -466,17 +453,17 @@ impl TsBindings {
         let declarations = &mut self.declarations;
         let entry = self.declarations_by_id.entry(
             declaration_hash(&id),
-            |&declaration| declarations[declaration.0].id == id,
-            |&declaration| declaration_hash(&declarations[declaration.0].id),
+            |&declaration| declarations[declaration.index()].id == id,
+            |&declaration| declaration_hash(&declarations[declaration.index()].id),
         );
         match entry {
             Entry::Occupied(entry) => {
                 let declaration = *entry.get();
-                declarations[declaration.0].owner = owner;
+                declarations[declaration.index()].owner = owner;
                 declaration
             }
             Entry::Vacant(entry) => {
-                let declaration = TsDeclarationId(declarations.len());
+                let declaration = TsDeclarationId::from_index(declarations.len());
                 declarations.push(Declaration {
                     id,
                     owner,
@@ -503,7 +490,7 @@ impl TsBindings {
     ) -> Option<&Id> {
         let lexical_owner = self
             .declaration_id(reference)
-            .and_then(|declaration| self.declarations[declaration.0].owner);
+            .and_then(|declaration| self.declarations[declaration.index()].owner);
         if bodies.last().copied() == lexical_owner {
             return None;
         }
@@ -514,7 +501,7 @@ impl TsBindings {
                 return None;
             }
 
-            let container = self.bodies[body.0].container;
+            let container = self.bodies[body.index()].container;
             let Some(member) = self.named_member(container, &name) else {
                 continue;
             };
@@ -524,10 +511,10 @@ impl TsBindings {
             } else {
                 member.value.filter(|declaration| {
                     let declaration = self.canonical_value_declaration(*declaration);
-                    self.declaration_alias(declaration)
-                        .map_or(self.declarations[declaration.0].value_space, |alias| {
-                            self.alias_has_value(alias)
-                        })
+                    self.declaration_alias(declaration).map_or(
+                        self.declarations[declaration.index()].value_space,
+                        |alias| self.alias_has_value(alias),
+                    )
                 })
             };
             if let Some(target) = target {
@@ -541,10 +528,10 @@ impl TsBindings {
     fn add_member(&mut self, owner: TsContainerId, name: Wtf8Atom) -> TsMemberId {
         use std::collections::hash_map::Entry;
 
-        match self.containers[owner.0].members.entry(name) {
+        match self.containers[owner.index()].members.entry(name) {
             Entry::Occupied(entry) => *entry.get(),
             Entry::Vacant(entry) => {
-                let member = TsMemberId(self.members.len());
+                let member = TsMemberId::from_index(self.members.len());
                 self.members.push(TsMember {
                     owner,
                     name: entry.key().clone(),
@@ -591,12 +578,12 @@ impl<O: TsBindingObserver> TsBindingCollector<O> {
 
     fn record_owner(&mut self, id: Id) {
         let declaration = self.bindings.register(id, self.body);
-        self.bindings.declarations[declaration.0].value_space = true;
+        self.bindings.declarations[declaration.index()].value_space = true;
     }
 
     fn declaration(&mut self, id: Id, value: bool, ty: bool, exported: bool) -> TsDeclarationId {
         let declaration = self.bindings.register(id, self.body);
-        let facts = &mut self.bindings.declarations[declaration.0];
+        let facts = &mut self.bindings.declarations[declaration.index()];
         facts.ambient = self.ambient && (!(facts.value_space || facts.type_space) || facts.ambient);
         facts.value_space |= value;
         facts.type_space |= ty;
@@ -607,33 +594,34 @@ impl<O: TsBindingObserver> TsBindingCollector<O> {
             return declaration;
         }
 
-        let owner = self.bindings.bodies[body.0].container;
+        let owner = self.bindings.bodies[body.index()].container;
         let name = self.bindings.declaration(declaration).0.clone().into();
         let member = self.bindings.add_member(owner, name);
-        let replaces_ambient = self.bindings.members[member.0]
-            .value
-            .is_some_and(|previous| {
-                self.bindings.declarations[previous.0].ambient && !self.ambient
-            });
-        let facts = &mut self.bindings.members[member.0];
+        let replaces_ambient =
+            self.bindings.members[member.index()]
+                .value
+                .is_some_and(|previous| {
+                    self.bindings.declarations[previous.index()].ambient && !self.ambient
+                });
+        let facts = &mut self.bindings.members[member.index()];
         if value && (facts.value.is_none() || replaces_ambient) {
             facts.value = Some(declaration);
         }
         if ty && facts.ty.is_none() {
             facts.ty = Some(declaration);
         }
-        self.bindings.declarations[declaration.0].member = Some(member);
+        self.bindings.declarations[declaration.index()].member = Some(member);
         declaration
     }
 
     fn container(&mut self, declaration: TsDeclarationId) -> TsContainerId {
-        let member = self.bindings.declarations[declaration.0].member;
+        let member = self.bindings.declarations[declaration.index()].member;
         let existing = member
             .and_then(|member| self.bindings.member(member).container)
             .or_else(|| self.bindings.declaration_container(declaration));
 
         let container = existing.unwrap_or_else(|| {
-            let container = TsContainerId(self.bindings.containers.len());
+            let container = TsContainerId::from_index(self.bindings.containers.len());
             self.bindings.containers.push(Container {
                 declaration,
                 members: FxHashMap::default(),
@@ -641,9 +629,9 @@ impl<O: TsBindingObserver> TsBindingCollector<O> {
             container
         });
         if let Some(member) = member {
-            self.bindings.members[member.0].container = Some(container);
+            self.bindings.members[member.index()].container = Some(container);
         }
-        self.bindings.declarations[declaration.0].container = Some(container);
+        self.bindings.declarations[declaration.index()].container = Some(container);
         container
     }
 
@@ -652,7 +640,7 @@ impl<O: TsBindingObserver> TsBindingCollector<O> {
         let exported = std::mem::take(&mut self.exported);
         let declaration = self.declaration(id, exports::has_value(body), true, exported);
         let container = self.container(declaration);
-        let next = TsNamespaceBodyId(self.bindings.bodies.len());
+        let next = TsNamespaceBodyId::from_index(self.bindings.bodies.len());
         self.bindings.bodies.push(NamespaceBody { container });
         let previous_body = self.body.replace(next);
         let previous_ambient = self.ambient;
@@ -891,7 +879,7 @@ impl<O: TsBindingObserver> Visit for TsBindingCollector<O> {
                 _ => continue,
             };
             let member = self.bindings.add_member(owner, name);
-            self.bindings.members[member.0].kind = MemberKind::Enum;
+            self.bindings.members[member.index()].kind = MemberKind::Enum;
         }
         node.members.visit_with(self);
     }
@@ -935,7 +923,7 @@ impl<O: TsBindingObserver> Visit for TsBindingCollector<O> {
             #[cfg(swc_ast_unknown)]
             _ => None,
         };
-        let alias = TsAliasId(self.bindings.aliases.len());
+        let alias = TsAliasId::from_index(self.bindings.aliases.len());
         self.bindings.aliases.push(TsAlias {
             declaration,
             span: node.span,

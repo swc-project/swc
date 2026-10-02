@@ -58,7 +58,7 @@ impl TsBindings {
         let Some(source) = self.declaration_id(&export.source) else {
             return;
         };
-        let source_facts = &self.declarations[source.0];
+        let source_facts = &self.declarations[source.index()];
         // Namespace export specifiers refer to that body's declarations. A
         // malformed outer export must not steal an unrelated lexical ID.
         if source_facts.owner != Some(export.body) {
@@ -77,16 +77,16 @@ impl TsBindings {
         } else {
             source
         };
-        let owner = self.bodies[export.body.0].container;
+        let owner = self.bodies[export.body.index()].container;
         let member = self.add_member(owner, export.name.into());
-        let facts = &mut self.members[member.0];
+        let facts = &mut self.members[member.index()];
         if value && facts.value.is_none() {
             facts.value = Some(carrier);
         }
         if ty && facts.ty.is_none() {
             facts.ty = Some(carrier);
         }
-        let facts = &mut self.declarations[carrier.0];
+        let facts = &mut self.declarations[carrier.index()];
         facts.ambient = ambient;
         facts.member = Some(member);
         facts.value_space |= value;

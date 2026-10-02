@@ -55,15 +55,15 @@ impl AliasResolver<'_> {
     }
 
     fn resolve(&mut self, alias: TsAliasId) -> Option<TsValueTarget> {
-        match self.states[alias.0] {
+        match self.states[alias.index()] {
             AliasState::Resolved(target) => return Some(target),
             AliasState::Resolving | AliasState::Unknown => return None,
             AliasState::Pending => {}
         }
 
-        self.states[alias.0] = AliasState::Resolving;
+        self.states[alias.index()] = AliasState::Resolving;
         let result = self.resolve_path(self.bindings.alias(alias));
-        self.states[alias.0] = match result {
+        self.states[alias.index()] = match result {
             Some(target) => AliasState::Resolved(target),
             None => AliasState::Unknown,
         };
