@@ -803,6 +803,8 @@ impl VisitMut for Transform<'_> {
     }
 
     fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
+        // Filter aliases once at their body boundary. Namespace instantiation
+        // already uses pre-erasure liveness from semantic analysis.
         if !self.verbatim_module_syntax {
             self.strip_namespace_module_items_with_semantic(&mut node.body);
         }
@@ -1013,36 +1015,8 @@ impl Transform<'_> {
                 self.semantic
                     .has_import_equals_usage(&ts_import_equals_decl.id.to_id())
             }
-            ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) if ts_module.body.is_some() => {
-                if let Some(body) = &mut ts_module.body {
-                    self.strip_namespace_body_with_semantic(body);
-                }
-
-                true
-            }
             _ => true,
         });
-    }
-
-    fn strip_namespace_body_with_semantic(&self, body: &mut TsNamespaceBody) {
-        match body {
-            TsNamespaceBody::TsModuleBlock(block) => {
-                self.strip_namespace_module_items_with_semantic(&mut block.body);
-
-                for module_item in &mut block.body {
-                    if let ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ts_module))) = module_item {
-                        if let Some(body) = &mut ts_module.body {
-                            self.strip_namespace_body_with_semantic(body);
-                        }
-                    }
-                }
-            }
-            TsNamespaceBody::TsNamespaceDecl(namespace_decl) => {
-                self.strip_namespace_body_with_semantic(&mut namespace_decl.body);
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
     }
 
     fn strip_namespace_module_items_with_semantic(&self, items: &mut Vec<ModuleItem>) {
