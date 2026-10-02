@@ -3,8 +3,9 @@ use swc_ecma_ast::*;
 /// Phase-specific facts collected alongside declaration relationships.
 #[doc(hidden)]
 pub trait TsBindingObserver: Default {
-    /// Suppress observations of erased syntax, while still collecting its
-    /// declaration owners. Runtime expression walks also guard stack depth.
+    /// Skip erased type syntax for runtime consumers. Lexical namespace
+    /// resolution still collects its type-scope declaration owners.
+    /// Runtime expression walks also guard stack depth.
     const RUNTIME: bool = false;
 
     type DeclarationState;

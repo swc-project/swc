@@ -166,7 +166,6 @@ impl TsBindings {
     ) -> (Self, O) {
         let mut collector = TsBindingCollector {
             observer,
-            observe_runtime: true,
             ..Default::default()
         };
         node.visit_with(&mut collector);
@@ -571,7 +570,6 @@ fn declaration_hash(id: &Id) -> u64 {
 #[derive(Default)]
 pub struct TsBindingCollector<O: TsBindingObserver = ()> {
     observer: O,
-    observe_runtime: bool,
     bindings: TsBindings,
     body: Option<TsNamespaceBodyId>,
     exported: bool,
@@ -583,11 +581,10 @@ pub struct TsBindingCollector<O: TsBindingObserver = ()> {
 
 impl<O: TsBindingObserver> TsBindingCollector<O> {
     fn visit_erased<N: VisitWith<Self>>(&mut self, node: &N) {
-        if O::RUNTIME {
-            let previous = std::mem::replace(&mut self.observe_runtime, false);
-            node.visit_children_with(self);
-            self.observe_runtime = previous;
-        } else {
+        // Runtime consumers keep the enclosing declaration's identity, but
+        // erased syntax cannot contribute a runtime binding or reference.
+        // Lexical namespace resolution still needs owners inside type scopes.
+        if !O::RUNTIME {
             node.visit_children_with(self);
         }
     }
@@ -686,9 +683,7 @@ impl<O: TsBindingObserver> Visit for TsBindingCollector<O> {
     }
 
     fn visit_ident(&mut self, node: &Ident) {
-        if self.observe_runtime {
-            self.observer.ident(node);
-        }
+        self.observer.ident(node);
     }
 
     fn visit_expr(&mut self, node: &Expr) {
