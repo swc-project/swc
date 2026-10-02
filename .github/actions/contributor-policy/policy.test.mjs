@@ -36,6 +36,19 @@ test("validates the repository allowlist", async () => {
   parseContributors(actual);
 });
 
+test("individual contributors have the same access as product groups", async () => {
+  assert.deepEqual(
+    await checkContributor({
+      author: { login: "independentengineer", type: "User" },
+      contributors: parseContributors(source),
+      getPermission: async () => {
+        throw new Error("Listed users do not require a permission lookup");
+      },
+    }),
+    { allowed: true, reason: "allowlist", group: "individuals" }
+  );
+});
+
 test("rejects duplicate YAML group keys", async () => {
   const invalid = await readFile(
     new URL("fixtures/invalid-contributors.yml", import.meta.url),
