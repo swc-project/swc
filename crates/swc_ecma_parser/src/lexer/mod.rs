@@ -66,6 +66,9 @@ static DOUBLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
 static SINGLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'\'' | b'\n' | b'\\' | b'\r'));
 
+static TEMPLATE_END_TABLE: SafeByteMatchTable =
+    safe_byte_match_table!(|b| matches!(b, b'`' | b'$' | b'\\' | b'\n' | b'\r'));
+
 static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || b == b'_' || b == b'$'));
 
@@ -519,7 +522,15 @@ impl Lexer<'_> {
             }};
         }
 
-        while let Some(c) = self.cur() {
+        loop {
+            let c = byte_search! {
+                lexer: self,
+                table: TEMPLATE_END_TABLE,
+                handle_eof: {
+                    return self.error(start, SyntaxError::UnterminatedTpl);
+                },
+            };
+
             if c == b'`' {
                 consume_cooked!();
                 let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
@@ -560,41 +571,30 @@ impl Lexer<'_> {
                 }
 
                 cooked_slice_start = self.cur_pos();
-            } else if c.is_line_terminator() {
+            } else if c == b'$' {
+                // A `$` not followed by `{` remains in the cooked slice.
+                self.bump(1);
+            } else {
+                debug_assert!(
+                    matches!(c, b'\n' | b'\r'),
+                    "template byte search must stop at CR or LF after handling delimiters and \
+                     escapes"
+                );
                 consume_cooked!();
 
-                // For line terminators, we need the full char (can be multi-byte UTF-8)
-                let c_char = if c <= 0x7f {
-                    c as char
-                } else {
-                    self.cur_as_char().unwrap()
-                };
-
-                let c = if c == b'\r' && self.peek() == Some(b'\n') {
+                // Normalize CR and CRLF to LF in the cooked value.
+                if c == b'\r' && self.peek() == Some(b'\n') {
                     self.bump(1); // '\r'
-                    '\n'
-                } else {
-                    match c_char {
-                        '\n' => '\n',
-                        '\r' => '\n',
-                        '\u{2028}' => '\u{2028}',
-                        '\u{2029}' => '\u{2029}',
-                        _ => unreachable!(),
-                    }
-                };
+                }
 
-                self.bump(c_char.len_utf8());
+                self.bump(1);
 
                 if let Ok(ref mut cooked) = cooked {
-                    cooked.push_char(c);
+                    cooked.push_char('\n');
                 }
                 cooked_slice_start = self.cur_pos();
-            } else {
-                self.bump(1);
             }
         }
-
-        self.error(start, SyntaxError::UnterminatedTpl)?
     }
 }
 

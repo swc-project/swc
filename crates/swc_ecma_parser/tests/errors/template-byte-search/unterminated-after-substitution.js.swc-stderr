@@ -1,0 +1,5 @@
+  x Unterminated template
+   ,-[$DIR/tests/errors/template-byte-search/unterminated-after-substitution.js:1:1]
+ 1 | `head${value}abcdefghijklmnopqrstuvwxyz123456789abcdefghijklmnopqrstuvwxyzé中😀$
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
