@@ -166,12 +166,16 @@ impl Transform<'_> {
         })
     }
 
-    fn ref_rewriter(&self) -> Option<RefRewriter<ExportQuery<'_, '_>>> {
-        if self.in_binding || (self.namespace_contexts.is_empty() && !self.has_export_refs) {
-            return None;
-        }
+    fn has_ref_rewrites(&self) -> bool {
+        !self.in_binding && (!self.namespace_contexts.is_empty() || self.has_export_refs)
+    }
 
-        Some(RefRewriter {
+    fn ref_rewriter(&self) -> Option<RefRewriter<ExportQuery<'_, '_>>> {
+        self.has_ref_rewrites().then(|| self.new_ref_rewriter())
+    }
+
+    fn new_ref_rewriter(&self) -> RefRewriter<ExportQuery<'_, '_>> {
+        RefRewriter {
             query: ExportQuery::new(
                 &self.semantic.exported_binding,
                 &self.semantic.bindings,
@@ -179,7 +183,7 @@ impl Transform<'_> {
                 &self.namespace_contexts,
                 self.has_export_refs,
             ),
-        })
+        }
     }
 }
 
@@ -574,7 +578,7 @@ impl VisitMut for Transform<'_> {
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
-        if self.ref_rewriter().is_some() {
+        if self.has_ref_rewrites() {
             if let Decl::Var(var_decl) = &mut node.decl {
                 // visit inner directly to bypass visit_mut_var_declarator
                 for decl in var_decl.decls.iter_mut() {
@@ -634,8 +638,10 @@ impl VisitMut for Transform<'_> {
 
         maybe_grow_default(|| node.visit_mut_children_with(self));
 
-        if let Some(mut ref_rewriter) = self.ref_rewriter() {
-            ref_rewriter.exit_expr(node);
+        // Only identifiers can be rewritten at this boundary. Other expressions
+        // have already visited their reference-bearing children.
+        if self.has_ref_rewrites() && matches!(node, Expr::Ident(_)) {
+            self.new_ref_rewriter().exit_expr(node);
         }
     }
 
