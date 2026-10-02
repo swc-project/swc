@@ -142,23 +142,28 @@ impl UsageCollector<'_> {
         require_target(self.bindings, &mut self.usage.containers, target);
     }
 
-    fn record_ident(&mut self, node: &Ident, candidate: Option<ReferenceFacts>) {
-        if candidate.is_some_and(|facts| facts.reference) {
+    fn record_ident(&mut self, node: &Ident, candidate: ReferenceFacts) {
+        if candidate.reference {
             self.usage.bindings.insert(node.to_id());
         }
-        if node.ctxt == self.unresolved {
-            if let Some(owner) = self.enum_owner {
-                if self
-                    .bindings
-                    .named_member(owner, &node.sym.clone().into())
-                    .is_some_and(|member| self.bindings.member(member).is_enum_member())
-                {
-                    self.usage.containers.insert(owner);
-                }
-            }
+        if let Some(owner) = self.enum_owner {
+            self.require_unresolved_enum_member(node, owner);
         }
-        if let Some(target) = candidate.and_then(|facts| facts.target) {
+        if let Some(target) = candidate.target {
             self.require_target(target);
+        }
+    }
+
+    fn require_unresolved_enum_member(&mut self, node: &Ident, owner: TsContainerId) {
+        if node.ctxt != self.unresolved {
+            return;
+        }
+        if self
+            .bindings
+            .named_member(owner, &node.sym.clone().into())
+            .is_some_and(|member| self.bindings.member(member).is_enum_member())
+        {
+            self.usage.containers.insert(owner);
         }
     }
 }
@@ -192,14 +197,18 @@ impl VisitMut for UsageCollector<'_> {
         // contribute references through their children.
         match &*node {
             Expr::Ident(ident) => {
-                let candidate = self.candidates.get(ident);
-                if let Some(target) = candidate.and_then(|facts| facts.target) {
-                    if let Some(value) = self.inline_value(target, ident.span) {
-                        *node = value;
-                        return;
+                if let Some(candidate) = self.candidates.get(ident) {
+                    if let Some(target) = candidate.target {
+                        if let Some(value) = self.inline_value(target, ident.span) {
+                            *node = value;
+                            return;
+                        }
                     }
+                    self.record_ident(ident, candidate);
+                } else if let Some(owner) = self.enum_owner {
+                    // Unresolved member names can still retain an enum initializer's owner.
+                    self.require_unresolved_enum_member(ident, owner);
                 }
-                self.record_ident(ident, candidate);
                 return;
             }
             Expr::Member(_) | Expr::Paren(_) => {
@@ -217,7 +226,11 @@ impl VisitMut for UsageCollector<'_> {
     }
 
     fn visit_mut_ident(&mut self, node: &mut Ident) {
-        self.record_ident(node, self.candidates.get(node));
+        if let Some(candidate) = self.candidates.get(node) {
+            self.record_ident(node, candidate);
+        } else if let Some(owner) = self.enum_owner {
+            self.require_unresolved_enum_member(node, owner);
+        }
     }
 
     fn visit_mut_binding_ident(&mut self, _: &mut BindingIdent) {}
