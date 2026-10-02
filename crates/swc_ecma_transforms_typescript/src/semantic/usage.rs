@@ -290,6 +290,15 @@ impl VisitMut for UsageCollector<'_> {
         self.lhs = previous;
     }
 
+    fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
+        // Delete consumes a reference; other unary operators consume a value.
+        let target_is_reference =
+            node.op == UnaryOp::Delete && crate::shared::is_reference_expr(&node.arg);
+        let previous = std::mem::replace(&mut self.lhs, target_is_reference);
+        node.arg.visit_mut_with(self);
+        self.lhs = previous;
+    }
+
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
         let previous = std::mem::replace(&mut self.lhs, true);
         node.arg.visit_mut_with(self);
@@ -314,6 +323,13 @@ impl VisitMut for UsageCollector<'_> {
     fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
         let previous = std::mem::replace(&mut self.lhs, false);
         node.visit_mut_children_with(self);
+        self.lhs = previous;
+    }
+
+    fn visit_mut_computed_prop_name(&mut self, node: &mut ComputedPropName) {
+        // A computed key is read even when its property is a write target.
+        let previous = std::mem::replace(&mut self.lhs, false);
+        node.expr.visit_mut_with(self);
         self.lhs = previous;
     }
 
