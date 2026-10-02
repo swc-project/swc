@@ -11,7 +11,7 @@ Object.defineProperty(exports, "ServiceError", {
 const _define_property = require("@swc/helpers/_/_define_property");
 class ServiceError extends Error {
     constructor(...args){
-        super(...args), _define_property._(this, "code", ServiceError.Code.badResponse), _define_property._(this, "name", "ServiceError.BadResponse");
+        super(...args), _define_property._(this, "code", 422), _define_property._(this, "name", "ServiceError.BadResponse");
     }
 }
 (function(ServiceError) {
@@ -33,7 +33,7 @@ class ServiceError extends Error {
     ServiceError.ServiceNotFound = ServiceNotFound;
     function toMessageBody(error) {
         return {
-            code: ServiceError.Code.implementation
+            code: 500
         };
     }
     ServiceError.toMessageBody = toMessageBody;

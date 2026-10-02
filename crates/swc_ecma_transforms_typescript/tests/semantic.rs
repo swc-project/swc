@@ -8,20 +8,23 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_testing::exec_tr;
+use swc_ecma_transforms_testing::{exec_tr, test_fixture};
 use swc_ecma_transforms_typescript::{typescript, Config};
 
 #[testing::fixture("tests/fixture/namespace-bindings/**/exec.ts")]
+#[testing::fixture("tests/fixture/enum-semantics/**/exec.ts")]
 fn runtime(input: PathBuf) {
     execute(input, true);
 }
 
 #[testing::fixture("tests/fixture/namespace-bindings/**/exec.ts")]
+#[testing::fixture("tests/fixture/enum-semantics/**/exec.ts")]
 fn runtime_without_type_resolution(input: PathBuf) {
     execute(input, false);
 }
 
 #[testing::fixture("tests/fixture/namespace-bindings/**/exec.ts")]
+#[testing::fixture("tests/fixture/enum-semantics/**/exec.ts")]
 fn runtime_minified(input: PathBuf) {
     let code = std::fs::read_to_string(input).expect("semantic execution fixture must be readable");
     exec_tr(
@@ -106,4 +109,28 @@ fn execute_config(input: PathBuf, handle_types: bool, config: Config) {
         |_| pipeline(handle_types, config),
         &code,
     );
+}
+
+fn fixture_config(input: &std::path::Path) -> Config {
+    let config = std::fs::read(input.with_file_name("config.json"))
+        .expect("semantic configuration fixture must be readable");
+    serde_json::from_slice(&config).expect("semantic fixture configuration must be valid")
+}
+
+#[testing::fixture("tests/semantic-config/**/input.ts")]
+fn configured_snapshot(input: PathBuf) {
+    let config = fixture_config(&input);
+    test_fixture(
+        Syntax::Typescript(TsSyntax::default()),
+        &|_| pipeline(true, config),
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}
+
+#[testing::fixture("tests/semantic-config/**/exec.ts")]
+fn configured_runtime(input: PathBuf) {
+    let config = fixture_config(&input);
+    execute_config(input, true, config);
 }

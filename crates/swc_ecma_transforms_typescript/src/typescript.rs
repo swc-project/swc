@@ -53,6 +53,7 @@ impl Pass for TypeScript {
             mem::take(&mut self.id_usage),
             self.config.flow_syntax,
             self.config.ts_enum_is_mutable,
+            self.config.verbatim_module_syntax,
         );
 
         n.mutate(transform(
@@ -76,7 +77,14 @@ impl Pass for TypeScript {
 
 impl TypeScript {
     fn get_last_module_span(&self, n: &Module) -> Option<Span> {
-        if self.config.no_empty_export {
+        if self.config.no_empty_export
+            || n.body.iter().any(|item| {
+                matches!(
+                    item,
+                    ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(_))
+                )
+            })
+        {
             return None;
         }
 

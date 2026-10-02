@@ -50,7 +50,20 @@ impl IsConcrete for TsNamespaceBody {
     fn is_concrete(&self) -> bool {
         match self {
             Self::TsModuleBlock(ts_module_block) => {
-                ts_module_block.body.iter().any(|item| item.is_concrete())
+                ts_module_block.body.iter().any(|item| match item {
+                    ModuleItem::Stmt(Stmt::Decl(declaration))
+                    | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        decl: declaration,
+                        ..
+                    })) => match declaration {
+                        Decl::TsInterface(_) | Decl::TsTypeAlias(_) => false,
+                        Decl::TsModule(namespace) => namespace.is_concrete(),
+                        // Value declarations instantiate the namespace even
+                        // when they are ambient or bodyless function signatures.
+                        _ => true,
+                    },
+                    _ => item.is_concrete(),
+                })
             }
             Self::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl.body.is_concrete(),
             #[cfg(swc_ast_unknown)]

@@ -28,7 +28,7 @@ var L = /*#__PURE__*/ function(L) {
     return L;
 }(L || {});
 console.log(L.A);
-const m = M.A;
+const m = 7;
 var N = /*#__PURE__*/ function(N) {
     N[N["A"] = 7] = "A";
     N[N["B"] = 8] = "B";
