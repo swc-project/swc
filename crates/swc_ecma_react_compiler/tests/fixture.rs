@@ -12,6 +12,7 @@ use swc_ecma_codegen::{
 };
 use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax, TsSyntax};
 use swc_ecma_react_compiler::{default_plugin_options, transform, SourceType, TransformResult};
+use swc_ecma_utils::stack_size::maybe_grow;
 use testing::{run_test2, NormalizedOutput};
 
 #[derive(Deserialize)]
@@ -19,6 +20,60 @@ use testing::{run_test2, NormalizedOutput};
 enum ParserConfig {
     Syntax(Syntax),
     Parser { parser: Syntax },
+}
+
+#[derive(Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "lowercase")]
+enum CompilationMode {
+    #[default]
+    Infer,
+    Annotation,
+    All,
+    Syntax,
+}
+
+impl CompilationMode {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Infer => "infer",
+            Self::Annotation => "annotation",
+            Self::All => "all",
+            Self::Syntax => "syntax",
+        }
+    }
+}
+
+#[derive(Default, Deserialize)]
+#[serde(default, rename_all = "camelCase")]
+struct CompilerConfig {
+    compilation_mode: CompilationMode,
+}
+
+fn read_compilation_mode(input: &Path) -> CompilationMode {
+    let options_json = input
+        .parent()
+        .unwrap()
+        .parent()
+        .unwrap()
+        .join("options.json");
+    if !options_json.exists() {
+        return CompilationMode::Infer;
+    }
+    let json = read_to_string(&options_json).unwrap();
+    serde_json::from_str::<CompilerConfig>(&json)
+        .unwrap_or_else(|err| panic!("failed to parse {}: {err}", options_json.display()))
+        .compilation_mode
+}
+
+/// Reproduce the stack budget of native bundler workers independently of
+/// RUST_MIN_STACK. Construct and drop each fixture's ASTs on the same thread.
+fn run_on_worker_stack(test: impl FnOnce() + Send + 'static) {
+    std::thread::Builder::new()
+        .stack_size(2 * 1024 * 1024)
+        .spawn(test)
+        .expect("spawn fixture worker")
+        .join()
+        .expect("fixture worker panicked");
 }
 
 fn syntax_for_path(path: &Path) -> Syntax {
@@ -118,12 +173,17 @@ fn emit_program(program: &Program, cm: Lrc<SourceMap>) -> String {
     String::from_utf8(buf).expect("emitted module is not valid UTF-8")
 }
 
-fn transform_fixture(input: &Path, cm: Lrc<SourceMap>) -> TransformResult {
+fn transform_fixture(
+    input: &Path,
+    cm: Lrc<SourceMap>,
+    compilation_mode: CompilationMode,
+) -> TransformResult {
     let source_text = read_to_string(input)
         .unwrap_or_else(|err| panic!("failed to read {}: {err}", input.display()));
     let (program, comments, source_type) = parse_program(input, cm);
     let mut options = default_plugin_options();
     options.filename = Some(input.display().to_string());
+    options.compilation_mode = compilation_mode.as_str().into();
 
     transform(
         &program,
@@ -144,7 +204,8 @@ fn run_compile_pass(input: PathBuf) {
         .join(input.file_name().unwrap());
 
     run_test2(false, |cm, _| {
-        let result = transform_fixture(&input, cm.clone());
+        let result = transform_fixture(&input, cm.clone(), read_compilation_mode(&input));
+        assert!(result.diagnostics.is_empty(), "{:#?}", result.diagnostics);
         let transformed = result.program.unwrap_or_else(|| {
             panic!(
                 "React Compiler did not return a transformed program for {}\ndiagnostics:\n{:#?}",
@@ -152,7 +213,12 @@ fn run_compile_pass(input: PathBuf) {
                 result.diagnostics
             )
         });
-        let code = emit_program(&transformed, cm);
+        // Snapshot generation recursively emits the original call chain, even
+        // after successful compilation. Only emission gets a larger stack;
+        // parsing and transformation above still run on the 2 MiB worker.
+        let code = maybe_grow(64 * 1024 * 1024, 64 * 1024 * 1024, || {
+            emit_program(&transformed, cm)
+        });
 
         NormalizedOutput::from(code)
             .compare_to_file(&output)
@@ -167,7 +233,8 @@ fn run_compile_pass(input: PathBuf) {
 /// panic, even if the React Compiler later declines to emit a program.
 fn run_build_pass(input: PathBuf) {
     run_test2(false, |cm, _| {
-        drop(transform_fixture(&input, cm));
+        // Always exercise conversion even when a fixture has no React patterns.
+        drop(transform_fixture(&input, cm, CompilationMode::All));
         Ok(())
     })
     .unwrap();
@@ -175,10 +242,26 @@ fn run_build_pass(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/compile-pass/**/input/*")]
 fn compile_pass(input: PathBuf) {
-    run_compile_pass(input);
+    run_on_worker_stack(move || run_compile_pass(input));
 }
 
 #[testing::fixture("tests/fixture/build-pass/*")]
 fn build_pass(input: PathBuf) {
-    run_build_pass(input);
+    run_on_worker_stack(move || run_build_pass(input));
+}
+
+#[testing::fixture("tests/fixture/skip-pass/*")]
+fn skip_pass(input: PathBuf) {
+    run_on_worker_stack(move || {
+        for mode in [CompilationMode::Infer, CompilationMode::Annotation] {
+            run_test2(false, |cm, _| {
+                let result = transform_fixture(&input, cm, mode);
+                assert!(result.program.is_none());
+                assert!(result.diagnostics.is_empty());
+                assert!(result.events.is_empty());
+                Ok(())
+            })
+            .unwrap();
+        }
+    });
 }

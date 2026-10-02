@@ -5,6 +5,8 @@ use swc_ecma_ast::{
 };
 use swc_ecma_visit::{Visit, VisitWith};
 
+use crate::stack::with_expression_stack;
+
 /// Conservatively determines whether infer or annotation mode could compile
 /// anything.
 ///
@@ -93,6 +95,13 @@ fn module_has_opt_in_directive(module: &Module) -> bool {
 }
 
 impl Visit for Finder {
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+        with_expression_stack(|| node.visit_children_with(self));
+    }
+
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
         if let ArrowFunctionBody::FunctionBody(body) = &*node.body {
             if has_opt_in_directive(&body.stmts) {

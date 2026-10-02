@@ -6,6 +6,8 @@
 use swc_ecma_ast as swc;
 use swc_ecma_visit::{Visit, VisitWith};
 
+use crate::stack::with_expression_stack;
+
 /// Whether the program contains `using` or `await using` declarations.
 pub fn has_resource_management_declarations(program: &swc::Program) -> bool {
     let mut visitor = ResourceManagementVisitor { found: false };
@@ -18,6 +20,13 @@ struct ResourceManagementVisitor {
 }
 
 impl Visit for ResourceManagementVisitor {
+    fn visit_expr(&mut self, expr: &swc::Expr) {
+        if self.found {
+            return;
+        }
+        with_expression_stack(|| expr.visit_children_with(self));
+    }
+
     fn visit_var_decl(&mut self, decl: &swc::VarDecl) {
         if self.found {
             return;
