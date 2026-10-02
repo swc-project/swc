@@ -313,6 +313,55 @@ fn fixture(input: PathBuf) {
     );
 }
 
+#[testing::fixture("tests/for-of/issue-12433/modes/input.js")]
+fn fixture_modes(input: PathBuf) {
+    for (config, output) in [
+        (
+            Config {
+                loose: true,
+                ..Default::default()
+            },
+            "output.loose.js",
+        ),
+        (
+            Config {
+                assume_array: true,
+                ..Default::default()
+            },
+            "output.array.js",
+        ),
+    ] {
+        test_fixture(
+            Syntax::default(),
+            &|_| (resolver(Mark::new(), Mark::new(), false), for_of(config)),
+            &input,
+            &input.with_file_name(output),
+            Default::default(),
+        );
+    }
+}
+
+#[testing::fixture("tests/for-of/issue-12433/modes/exec.js")]
+fn exec_modes(input: PathBuf) {
+    let input = read_to_string(input).unwrap();
+    for config in [
+        Config {
+            loose: true,
+            ..Default::default()
+        },
+        Config {
+            assume_array: true,
+            ..Default::default()
+        },
+    ] {
+        compare_stdout(
+            Syntax::default(),
+            |_| (resolver(Mark::new(), Mark::new(), false), for_of(config)),
+            &input,
+        );
+    }
+}
+
 #[testing::fixture("tests/for-of/**/exec.js")]
 fn exec_es2015(input: PathBuf) {
     let input = read_to_string(input).unwrap();
