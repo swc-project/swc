@@ -141,10 +141,12 @@ impl EnumFacts {
         span: Span,
         initializer: Option<EnumInitializer>,
     ) -> Option<&EnumValue> {
-        let owner = bindings.member(member).owner;
-        let facts = self.containers.get(&owner)?;
-        if mutable && !facts.is_const {
-            return None;
+        if mutable {
+            let owner = bindings.member(member).owner;
+            let facts = self.containers.get(&owner)?;
+            if !facts.is_const {
+                return None;
+            }
         }
         let value = self.values.get(&member)?;
         if initializer.is_some_and(|location| !available(value.span, span, location.deferred)) {
