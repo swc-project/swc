@@ -2,7 +2,7 @@
 //! Resolve import-alias dependencies after substitution.
 
 use rustc_hash::FxHashSet;
-use swc_common::{Spanned, SyntaxContext};
+use swc_common::{Span, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     stack_size::maybe_grow_default,
@@ -120,6 +120,24 @@ struct UsageCollector<'a> {
 }
 
 impl UsageCollector<'_> {
+    fn inline_value(&self, target: TsValueTarget, span: Span) -> Option<Expr> {
+        if self.lhs || self.verbatim {
+            return None;
+        }
+        let TsValueTarget::EnumMember(member) = target else {
+            return None;
+        };
+        self.enums
+            .member_value(
+                self.bindings,
+                member,
+                self.mutable,
+                span,
+                self.enum_initializer,
+            )
+            .and_then(EnumValue::literal)
+    }
+
     fn require_target(&mut self, target: TsValueTarget) {
         require_target(self.bindings, &mut self.usage.containers, target);
     }
@@ -169,47 +187,31 @@ impl VisitMut for UsageCollector<'_> {
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        let reference = match &*node {
-            Expr::Ident(ident) => Some(ident),
-            _ => None,
-        };
-        let candidate = reference.and_then(|ident| self.candidates.get(ident));
-        let target = match reference {
-            Some(_) => candidate.and_then(|facts| facts.target),
-            None if matches!(node, Expr::Member(_) | Expr::Paren(_)) => {
-                self.bindings.runtime_expression_target(node)
-            }
-            None => None,
-        };
-
-        // Inline selection and runtime dependencies share this resolved target.
-        // Only import candidates need owned IDs across syntax erasure.
-        if !self.lhs && !self.verbatim {
-            let inline = match target {
-                Some(TsValueTarget::EnumMember(member)) => self
-                    .enums
-                    .member_value(
-                        self.bindings,
-                        member,
-                        self.mutable,
-                        node.span(),
-                        self.enum_initializer,
-                    )
-                    .and_then(EnumValue::literal),
-                _ => None,
-            };
-            if let Some(value) = inline {
-                *node = value;
+        // Only resolved identifiers and static member reads can substitute an
+        // enum value or retain a runtime container. Other expression kinds
+        // contribute references through their children.
+        match &*node {
+            Expr::Ident(ident) => {
+                let candidate = self.candidates.get(ident);
+                if let Some(target) = candidate.and_then(|facts| facts.target) {
+                    if let Some(value) = self.inline_value(target, ident.span) {
+                        *node = value;
+                        return;
+                    }
+                }
+                self.record_ident(ident, candidate);
                 return;
             }
-        }
-
-        if let Some(ident) = reference {
-            self.record_ident(ident, candidate);
-            return;
-        }
-        if let Some(target) = target {
-            self.require_target(target);
+            Expr::Member(_) | Expr::Paren(_) => {
+                if let Some(target) = self.bindings.runtime_expression_target(node) {
+                    if let Some(value) = self.inline_value(target, node.span()) {
+                        *node = value;
+                        return;
+                    }
+                    self.require_target(target);
+                }
+            }
+            _ => {}
         }
         maybe_grow_default(|| node.visit_mut_children_with(self));
     }
