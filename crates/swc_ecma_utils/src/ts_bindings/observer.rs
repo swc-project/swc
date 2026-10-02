@@ -5,7 +5,10 @@ use swc_ecma_ast::*;
 pub trait TsBindingObserver: Default {
     /// Skip erased type syntax for runtime consumers. Lexical namespace
     /// resolution still collects its type-scope declaration owners.
-    /// Runtime expression walks also guard stack depth.
+    /// Parameters, catch bindings and named expression bindings only provide
+    /// lexical shadowing owners, so runtime consumers omit those records too.
+    /// Declared and imported bindings remain available for constant evaluation
+    /// and alias dependencies. Runtime expression walks also guard stack depth.
     const RUNTIME: bool = false;
 
     type DeclarationState;

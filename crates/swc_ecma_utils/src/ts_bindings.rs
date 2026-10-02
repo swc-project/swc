@@ -785,29 +785,39 @@ impl<O: TsBindingObserver> Visit for TsBindingCollector<O> {
     }
 
     fn visit_function(&mut self, node: &Function) {
-        for_each_binding_ident(&node.params, |id| self.record_owner(id.id.to_id()));
+        if !O::RUNTIME {
+            for_each_binding_ident(&node.params, |id| self.record_owner(id.id.to_id()));
+        }
         node.visit_children_with(self);
     }
 
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
-        for_each_binding_ident(&node.params, |id| self.record_owner(id.id.to_id()));
+        if !O::RUNTIME {
+            for_each_binding_ident(&node.params, |id| self.record_owner(id.id.to_id()));
+        }
         node.visit_children_with(self);
     }
 
     fn visit_constructor(&mut self, node: &Constructor) {
-        for_each_binding_ident(&node.params, |id| self.record_owner(id.id.to_id()));
+        if !O::RUNTIME {
+            for_each_binding_ident(&node.params, |id| self.record_owner(id.id.to_id()));
+        }
         node.visit_children_with(self);
     }
 
     fn visit_catch_clause(&mut self, node: &CatchClause) {
-        for_each_binding_ident(&node.param, |id| self.record_owner(id.id.to_id()));
+        if !O::RUNTIME {
+            for_each_binding_ident(&node.param, |id| self.record_owner(id.id.to_id()));
+        }
         node.visit_children_with(self);
     }
 
     fn visit_ts_type_param(&mut self, node: &TsTypeParam) {
-        self.record_owner(node.name.to_id());
-        node.constraint.visit_with(self);
-        node.default.visit_with(self);
+        if !O::RUNTIME {
+            self.record_owner(node.name.to_id());
+            node.constraint.visit_with(self);
+            node.default.visit_with(self);
+        }
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
@@ -817,8 +827,10 @@ impl<O: TsBindingObserver> Visit for TsBindingCollector<O> {
     }
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {
-        if let Some(ident) = &node.ident {
-            self.record_owner(ident.to_id());
+        if !O::RUNTIME {
+            if let Some(ident) = &node.ident {
+                self.record_owner(ident.to_id());
+            }
         }
         node.function.visit_with(self);
     }
@@ -830,8 +842,10 @@ impl<O: TsBindingObserver> Visit for TsBindingCollector<O> {
     }
 
     fn visit_class_expr(&mut self, node: &ClassExpr) {
-        if let Some(ident) = &node.ident {
-            self.record_owner(ident.to_id());
+        if !O::RUNTIME {
+            if let Some(ident) = &node.ident {
+                self.record_owner(ident.to_id());
+            }
         }
         node.class.visit_with(self);
     }
