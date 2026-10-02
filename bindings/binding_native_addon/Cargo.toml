@@ -15,8 +15,8 @@ embedded-payload = []
 
 [dependencies]
 swc_native_addon = { path = "../../crates/swc_native_addon" }
-libloading = "=0.8.1"
-tracing = { version = "=0.1.41", default-features = false, features = ["std"] }
+libloading = "=0.8.9"
+tracing = { version = "=0.1.44", default-features = false, features = ["std"] }
 
 [build-dependencies]
 swc_native_addon = { path = "../../crates/swc_native_addon" }
