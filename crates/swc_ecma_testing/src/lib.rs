@@ -1,7 +1,6 @@
 use std::{
     env, fs,
     path::{Path, PathBuf},
-    process::Command,
     sync::atomic::{AtomicU64, Ordering},
 };
 
@@ -12,6 +11,10 @@ use testing::CARGO_TARGET_DIR;
 use tracing::debug;
 
 static CACHE_WRITE_ID: AtomicU64 = AtomicU64::new(0);
+
+mod node;
+#[cfg(test)]
+mod tests;
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct JsExecOptions {
@@ -70,21 +73,7 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
     #[cfg(debug_assertions)]
     debug!("Executing nodejs:\n{}", js_code);
 
-    let mut c = Command::new("node");
-
-    if opts.module {
-        c.arg("--input-type=module");
-    } else {
-        c.arg("--input-type=commonjs");
-    }
-
-    c.arg("-e").arg(js_code);
-
-    for arg in opts.args {
-        c.arg(arg);
-    }
-
-    let output = c.output().context("failed to execute output of minifier")?;
+    let output = node::exec(js_code, &opts).context("failed to execute output of minifier")?;
 
     if !output.status.success() {
         bail!(
