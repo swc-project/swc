@@ -88,28 +88,34 @@ impl<'a, 'semantic> ExportQuery<'a, 'semantic> {
                 .is_none()
                 .then_some(RuntimeAccess::NamespaceProperty(object));
         }
-        let declaration = self.emission_index.declaration(self.bindings, ident);
-        let container = declaration.and_then(|id| self.bindings.declaration_container(id));
-        let member = declaration.and_then(|id| self.bindings.declaration_member(id));
+        // Missing declarations cannot name a current owner. Keep the context
+        // scan inside the successful query and preserve the legacy fallback.
+        if let Some(declaration) = self.emission_index.declaration(self.bindings, ident) {
+            let container = self.bindings.declaration_container(declaration);
+            let member = self.bindings.declaration_member(declaration);
 
-        for context in self.contexts.iter().rev() {
-            if container == Some(context.container) {
-                return Some(RuntimeAccess::Local(&context.object));
-            }
+            for context in self.contexts.iter().rev() {
+                if container == Some(context.container) {
+                    return Some(RuntimeAccess::Local(&context.object));
+                }
 
-            if let Some(member) = member {
-                if self.bindings.member(member).owner == context.container {
-                    return Some(match context.locals.get(&member) {
-                        Some(local) => RuntimeAccess::Local(local),
-                        None => RuntimeAccess::NamespaceProperty(&context.object),
-                    });
+                if let Some(member) = member {
+                    if self.bindings.member(member).owner == context.container {
+                        return Some(match context.locals.get(&member) {
+                            Some(local) => RuntimeAccess::Local(local),
+                            None => RuntimeAccess::NamespaceProperty(&context.object),
+                        });
+                    }
                 }
             }
-        }
 
-        // A shared namespace member requires a current emitted owner. Never
-        // use an object parameter belonging to a different declaration body.
-        if member.is_some() || !self.has_legacy_exports {
+            // A shared namespace member requires a current emitted owner.
+            // Never reuse another declaration body's object parameter.
+            if member.is_some() {
+                return None;
+            }
+        }
+        if !self.has_legacy_exports {
             return None;
         }
         self.export_name
