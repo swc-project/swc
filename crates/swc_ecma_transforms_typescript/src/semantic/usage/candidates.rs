@@ -1,5 +1,5 @@
 //! Runtime targets and import retention share one resolved-identity query.
-//! Candidate names borrow the immutable import syntax and declaration graph;
+//! Candidate names borrow the declaration graph, which outlives substitutions;
 //! only surviving use records acquire IDs that outlive syntax erasure.
 
 use rustc_hash::FxHashMap;
@@ -19,17 +19,18 @@ pub(super) struct Candidates<'a> {
 }
 
 impl<'a> Candidates<'a> {
-    pub(super) fn new(program: &'a Program, bindings: &'a TsBindings) -> Self {
+    pub(super) fn new(program: &Program, bindings: &'a TsBindings) -> Self {
         let mut values = FxHashMap::<_, ReferenceFacts>::default();
         if let Program::Module(module) = program {
             for item in &module.body {
                 if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
                     for specifier in &import.specifiers {
                         let local = specifier.local();
-                        values
-                            .entry((&local.sym, local.ctxt))
-                            .or_default()
-                            .reference = true;
+                        let declaration = bindings
+                            .declaration_id(&local.to_id())
+                            .expect("runtime binding collection must register every import");
+                        let id = bindings.declaration(declaration);
+                        values.entry((&id.0, id.1)).or_default().reference = true;
                     }
                 }
             }

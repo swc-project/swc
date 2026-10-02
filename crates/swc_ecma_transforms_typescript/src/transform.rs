@@ -24,7 +24,7 @@ use swc_ecma_visit::{
 use crate::{
     config::TsImportExportAssignConfig,
     retain::{should_retain_decl, should_retain_module_item, should_retain_stmt},
-    semantic::{EnumInitializer, EnumValue, SemanticInfo},
+    semantic::{EnumInitializer, EnumInlining, EnumValue, SemanticInfo},
     shared::enum_member_name,
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
@@ -79,6 +79,7 @@ pub(crate) struct Transform<'a> {
     in_binding: bool,
     namespace_contexts: Vec<NamespaceContext>,
     enum_initializer: Option<EnumInitializer>,
+    enum_inlining: EnumInlining,
     enum_objects: Vec<Id>,
 
     decl_id_record: FxHashSet<Id>,
@@ -222,6 +223,7 @@ pub fn transform<'a>(
         in_binding: false,
         namespace_contexts: Vec::new(),
         enum_initializer: None,
+        enum_inlining: semantic.enum_inlining,
         enum_objects: Vec::new(),
         decl_id_record: FxHashSet::default(),
         namespace_id: None,
@@ -578,6 +580,12 @@ impl VisitMut for Transform<'_> {
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
         if self.ref_rewriter().is_some() {
             if let Decl::Var(var_decl) = &mut node.decl {
+                let enum_inlining = self.enum_inlining;
+                // Runtime reference analysis skips ambient declarations. Retained
+                // namespace exports still need emission-time substitution.
+                if var_decl.declare {
+                    self.enum_inlining = EnumInlining::Emit;
+                }
                 // visit inner directly to bypass visit_mut_var_declarator
                 for decl in var_decl.decls.iter_mut() {
                     if self.flow_syntax {
@@ -586,6 +594,7 @@ impl VisitMut for Transform<'_> {
                     decl.name.visit_mut_with(self);
                     decl.init.visit_mut_with(self);
                 }
+                self.enum_inlining = enum_inlining;
                 return;
             }
         }
@@ -630,7 +639,9 @@ impl VisitMut for Transform<'_> {
             *node = *expr.take();
         }
 
-        self.enter_expr_for_inline_enum(node);
+        if matches!(self.enum_inlining, EnumInlining::Emit) {
+            self.enter_expr_for_inline_enum(node);
+        }
 
         maybe_grow_default(|| node.visit_mut_children_with(self));
 
@@ -1868,7 +1879,14 @@ impl Transform<'_> {
                     match &mut decl.module_ref {
                         // import foo = bar.baz
                         TsModuleRef::TsEntityName(ts_entity_name) => {
-                            let init = Self::ts_entity_name_to_expr(ts_entity_name.clone());
+                            let mut init = Self::ts_entity_name_to_expr(ts_entity_name.clone());
+                            if matches!(self.enum_inlining, EnumInlining::Applied) {
+                                // This expression did not exist during reference analysis.
+                                let enum_inlining =
+                                    mem::replace(&mut self.enum_inlining, EnumInlining::Emit);
+                                init.visit_mut_with(self);
+                                self.enum_inlining = enum_inlining;
+                            }
 
                             let mut var_decl =
                                 init.into_var_decl(VarDeclKind::Const, decl.id.take().into());

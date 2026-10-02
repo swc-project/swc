@@ -1,5 +1,5 @@
-//! Runtime references that survive enum substitution, plus import-alias
-//! dependencies.
+//! Substitute enum reads while collecting the surviving runtime references.
+//! Resolve import-alias dependencies after substitution.
 
 use rustc_hash::FxHashSet;
 use swc_common::{Spanned, SyntaxContext};
@@ -8,9 +8,9 @@ use swc_ecma_utils::{
     stack_size::maybe_grow_default,
     ts_bindings::{TsAliasId, TsBindings, TsContainerId, TsValueTarget},
 };
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use super::enums::{EnumFacts, EnumInitializer};
+use super::enums::{EnumFacts, EnumInitializer, EnumValue};
 
 mod candidates;
 use candidates::{Candidates, ReferenceFacts};
@@ -22,7 +22,7 @@ pub(super) struct RuntimeUsage {
 }
 
 pub(super) fn analyze(
-    program: &Program,
+    program: &mut Program,
     bindings: &TsBindings,
     enums: &EnumFacts,
     seed: FxHashSet<Id>,
@@ -46,7 +46,7 @@ pub(super) fn analyze(
         enum_initializer: None,
         lhs: false,
     };
-    program.visit_with(&mut collector);
+    program.visit_mut_with(&mut collector);
     finish_aliases(bindings, collector.usage, verbatim)
 }
 
@@ -159,17 +159,17 @@ fn require_target(
     }
 }
 
-impl Visit for UsageCollector<'_> {
-    noop_visit_type!();
+impl VisitMut for UsageCollector<'_> {
+    noop_visit_mut_type!();
 
-    fn visit_decl(&mut self, node: &Decl) {
+    fn visit_mut_decl(&mut self, node: &mut Decl) {
         if crate::retain::should_retain_decl(node) {
-            node.visit_children_with(self);
+            node.visit_mut_children_with(self);
         }
     }
 
-    fn visit_expr(&mut self, node: &Expr) {
-        let reference = match node {
+    fn visit_mut_expr(&mut self, node: &mut Expr) {
+        let reference = match &*node {
             Expr::Ident(ident) => Some(ident),
             _ => None,
         };
@@ -195,10 +195,11 @@ impl Visit for UsageCollector<'_> {
                         node.span(),
                         self.enum_initializer,
                     )
-                    .is_some(),
-                _ => false,
+                    .and_then(EnumValue::literal),
+                _ => None,
             };
-            if inline {
+            if let Some(value) = inline {
+                *node = value;
                 return;
             }
         }
@@ -210,40 +211,40 @@ impl Visit for UsageCollector<'_> {
         if let Some(target) = target {
             self.require_target(target);
         }
-        maybe_grow_default(|| node.visit_children_with(self));
+        maybe_grow_default(|| node.visit_mut_children_with(self));
     }
 
-    fn visit_ident(&mut self, node: &Ident) {
+    fn visit_mut_ident(&mut self, node: &mut Ident) {
         self.record_ident(node, self.candidates.get(node));
     }
 
-    fn visit_binding_ident(&mut self, _: &BindingIdent) {}
+    fn visit_mut_binding_ident(&mut self, _: &mut BindingIdent) {}
 
-    fn visit_import_decl(&mut self, _: &ImportDecl) {}
+    fn visit_mut_import_decl(&mut self, _: &mut ImportDecl) {}
 
-    fn visit_ts_import_equals_decl(&mut self, _: &TsImportEqualsDecl) {}
+    fn visit_mut_ts_import_equals_decl(&mut self, _: &mut TsImportEqualsDecl) {}
 
-    fn visit_fn_decl(&mut self, node: &FnDecl) {
-        node.function.visit_with(self);
+    fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        node.function.visit_mut_with(self);
     }
 
-    fn visit_fn_expr(&mut self, node: &FnExpr) {
-        node.function.visit_with(self);
+    fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
+        node.function.visit_mut_with(self);
     }
 
-    fn visit_class_decl(&mut self, node: &ClassDecl) {
-        node.class.visit_with(self);
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        node.class.visit_mut_with(self);
     }
 
-    fn visit_class_expr(&mut self, node: &ClassExpr) {
-        node.class.visit_with(self);
+    fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
+        node.class.visit_mut_with(self);
     }
 
-    fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
-        node.body.visit_with(self);
+    fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
+        node.body.visit_mut_with(self);
     }
 
-    fn visit_export_decl(&mut self, node: &ExportDecl) {
+    fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
         if let Decl::TsModule(namespace) = &node.decl {
             if crate::retain::should_retain_decl(&node.decl) {
                 if let TsModuleName::Ident(id) = &namespace.id {
@@ -253,90 +254,90 @@ impl Visit for UsageCollector<'_> {
                 }
             }
         }
-        node.decl.visit_with(self);
+        node.decl.visit_mut_with(self);
     }
 
-    fn visit_ts_namespace_decl(&mut self, node: &TsNamespaceDecl) {
-        node.body.visit_with(self);
+    fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
+        node.body.visit_mut_with(self);
     }
 
-    fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
+    fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
         let declaration = self.enums.declaration(&node.id.to_id(), node.span);
         let previous = self.enum_owner;
         self.enum_owner = declaration.map(|declaration| declaration.container);
         let previous_initializer = self.enum_initializer;
         self.enum_initializer = declaration.map(|declaration| declaration.initializer);
-        for (index, member) in node.members.iter().enumerate() {
+        for (index, member) in node.members.iter_mut().enumerate() {
             if declaration
                 .and_then(|declaration| declaration.values.get(index))
                 .is_some_and(|value| value.is_constant())
             {
                 continue;
             }
-            member.init.visit_with(self);
+            member.init.visit_mut_with(self);
         }
         self.enum_owner = previous;
         self.enum_initializer = previous_initializer;
     }
 
-    fn visit_assign_expr(&mut self, node: &AssignExpr) {
+    fn visit_mut_assign_expr(&mut self, node: &mut AssignExpr) {
         let previous = std::mem::replace(&mut self.lhs, true);
-        node.left.visit_with(self);
+        node.left.visit_mut_with(self);
         self.lhs = false;
-        node.right.visit_with(self);
+        node.right.visit_mut_with(self);
         self.lhs = previous;
     }
 
-    fn visit_update_expr(&mut self, node: &UpdateExpr) {
+    fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
         let previous = std::mem::replace(&mut self.lhs, true);
-        node.arg.visit_with(self);
+        node.arg.visit_mut_with(self);
         self.lhs = previous;
     }
 
-    fn visit_assign_pat(&mut self, node: &AssignPat) {
+    fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
         let previous = std::mem::replace(&mut self.lhs, true);
-        node.left.visit_with(self);
+        node.left.visit_mut_with(self);
         self.lhs = false;
-        node.right.visit_with(self);
+        node.right.visit_mut_with(self);
         self.lhs = previous;
     }
 
-    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
-        node.key.visit_with(self);
+    fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
+        node.key.visit_mut_with(self);
         let previous = std::mem::replace(&mut self.lhs, false);
-        node.value.visit_with(self);
+        node.value.visit_mut_with(self);
         self.lhs = previous;
     }
 
-    fn visit_member_expr(&mut self, node: &MemberExpr) {
+    fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
         let previous = std::mem::replace(&mut self.lhs, false);
-        node.visit_children_with(self);
+        node.visit_mut_children_with(self);
         self.lhs = previous;
     }
 
-    fn visit_for_head(&mut self, node: &ForHead) {
+    fn visit_mut_for_head(&mut self, node: &mut ForHead) {
         let previous = std::mem::replace(&mut self.lhs, true);
-        node.visit_children_with(self);
+        node.visit_mut_children_with(self);
         self.lhs = previous;
     }
 
-    fn visit_named_export(&mut self, node: &NamedExport) {
+    fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
         if !node.type_only && node.src.is_none() {
-            node.visit_children_with(self);
+            node.visit_mut_children_with(self);
         }
     }
 
-    fn visit_export_named_specifier(&mut self, node: &ExportNamedSpecifier) {
+    fn visit_mut_export_named_specifier(&mut self, node: &mut ExportNamedSpecifier) {
         if !node.is_type_only {
-            node.orig.visit_with(self);
+            node.orig.visit_mut_with(self);
         }
     }
 
-    fn visit_jsx_element_name(&mut self, node: &JSXElementName) {
+    fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
         if matches!(node, JSXElementName::Ident(ident) if ident.sym.starts_with(|character: char| character.is_ascii_lowercase()))
         {
             return;
         }
-        node.visit_children_with(self);
+        node.visit_mut_children_with(self);
     }
 }

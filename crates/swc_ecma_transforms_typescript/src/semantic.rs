@@ -21,12 +21,21 @@ pub(crate) use enums::{EnumFacts, EnumInitializer, EnumValue};
 pub(crate) struct SemanticInfo {
     pub bindings: TsBindings,
     pub enums: EnumFacts,
+    pub enum_inlining: EnumInlining,
     pub live_aliases: FxHashSet<TsAliasId>,
     pub runtime_containers: FxHashSet<TsContainerId>,
     pub usage: FxHashSet<Id>,
     pub id_type: FxHashSet<Id>,
     pub id_value: FxHashSet<Id>,
     pub exported_binding: FxHashMap<Id, Option<Id>>,
+}
+
+/// Whether runtime reference analysis has already substituted enum reads.
+#[derive(Debug, Default, Clone, Copy)]
+pub(crate) enum EnumInlining {
+    #[default]
+    Emit,
+    Applied,
 }
 
 impl SemanticInfo {
@@ -56,8 +65,10 @@ impl SemanticInfo {
     }
 }
 
+/// Evaluate enum definitions before erasure, substitute eligible reads, and
+/// retain only the references that survive those substitutions.
 pub(crate) fn analyze_program(
-    program: &Program,
+    program: &mut Program,
     unresolved_mark: Mark,
     seed_usage: FxHashSet<Id>,
     flow_syntax: bool,
@@ -103,7 +114,7 @@ pub(crate) fn analyze_program(
                 flow_syntax,
             );
             if enum_usage_needs_substitution {
-                usage::analyze(
+                let runtime_usage = usage::analyze(
                     program,
                     &info.bindings,
                     &info.enums,
@@ -111,7 +122,9 @@ pub(crate) fn analyze_program(
                     ts_enum_is_mutable,
                     verbatim_module_syntax,
                     SyntaxContext::empty().apply_mark(unresolved_mark),
-                )
+                );
+                info.enum_inlining = EnumInlining::Applied;
+                runtime_usage
             } else {
                 // Ordinary enums always emit their runtime object. Without
                 // namespaces or aliases, folding their member reads cannot
@@ -612,7 +625,7 @@ mod tests {
             let mut program = Program::Module(module);
             program.mutate(resolver(unresolved, top_level, true));
             let info = analyze_program(
-                &program,
+                &mut program,
                 unresolved,
                 FxHashSet::default(),
                 false,
