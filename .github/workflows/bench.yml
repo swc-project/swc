@@ -75,6 +75,9 @@ jobs:
 
   benchmark-crate:
     name: Benchmark ${{ matrix.crate }}
+    # Main skips the PR-only policy ancestor; override the implicit success gate
+    # while still requiring successful crate discovery.
+    if: ${{ !cancelled() && needs.list-crates.result == 'success' }}
     runs-on: ubuntu-22.04
     permissions:
       contents: read
