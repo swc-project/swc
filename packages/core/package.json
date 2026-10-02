@@ -99,7 +99,7 @@
     },
     "devDependencies": {
         "@napi-rs/cli": "^3.2.0",
-        "@rstest/core": "^0.7.8",
+        "@rstest/core": "^0.12.0",
         "cross-env": "^7.0.3",
         "typescript": "^5.3.3"
     }
