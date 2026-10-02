@@ -40,7 +40,7 @@ importers:
         version: 7.22.3
       '@rstest/core':
         specifier: ^0.7.8
-        version: 0.7.8
+        version: 0.7.9
       '@swc/core':
         specifier: workspace:^
         version: link:packages/core
@@ -85,7 +85,7 @@ importers:
         version: 5.2.3(@popperjs/core@2.11.8)
       class-validator:
         specifier: ^0.14.2
-        version: 0.14.2
+        version: 0.14.4
       core-js:
         specifier: ^2.6.11
         version: 2.6.12
@@ -145,7 +145,7 @@ importers:
         version: 0.13.11
       source-map:
         specifier: ^0.7.3
-        version: 0.7.4
+        version: 0.7.6
       source-map-support:
         specifier: ^0.5.19
         version: 0.5.21
@@ -153,8 +153,8 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       swc-plugin-coverage-instrument:
-        specifier: ^0.0.26
-        version: 0.0.26
+        specifier: ^0.0.33
+        version: 0.0.33
       terser:
         specifier: ^5.7.1
         version: 5.17.6
@@ -251,8 +251,8 @@ importers:
   bindings/binding_core_wasm:
     devDependencies:
       '@rstest/core':
-        specifier: 0.7.8
-        version: 0.7.8
+        specifier: 0.7.9
+        version: 0.7.9
 
   bindings/binding_core_wasm/example:
     devDependencies:
@@ -276,31 +276,31 @@ importers:
     devDependencies:
       '@rstest/core':
         specifier: ^0.7.8
-        version: 0.7.8
+        version: 0.7.9
 
   bindings/binding_html_wasm:
     devDependencies:
       '@rstest/core':
         specifier: ^0.7.8
-        version: 0.7.8
+        version: 0.7.9
 
   bindings/binding_minifier_wasm:
     devDependencies:
       '@rstest/core':
         specifier: ^0.7.8
-        version: 0.7.8
+        version: 0.7.9
 
   bindings/binding_nodejs_support_wasm:
     devDependencies:
       '@rstest/core':
         specifier: ^0.7.8
-        version: 0.7.8
+        version: 0.7.9
 
   bindings/binding_typescript_wasm:
     devDependencies:
       '@rstest/core':
         specifier: ^0.7.8
-        version: 0.7.8
+        version: 0.7.9
 
   packages/core:
     dependencies:
@@ -319,7 +319,7 @@ importers:
         version: 3.2.0(@emnapi/runtime@1.8.1)(@types/node@20.14.10)
       '@rstest/core':
         specifier: ^0.7.8
-        version: 0.7.8
+        version: 0.7.9
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -355,7 +355,7 @@ importers:
     devDependencies:
       '@ast-grep/napi':
         specifier: ^0.40.3
-        version: 0.40.3
+        version: 0.40.5
       dprint:
         specifier: ^0.35.3
         version: 0.35.4
@@ -518,66 +518,66 @@ packages:
     resolution: {integrity: sha512-2aDL3WUv8hMJb2L3r/PIQWsTLyq7RQr3v9xD16fiz6O8ys1xEyLhhTOv8gxtZvJiTzjTF5pHoArvRdesGL1DMQ==}
     hasBin: true
 
-  '@ast-grep/napi-darwin-arm64@0.40.3':
-    resolution: {integrity: sha512-uIUecbLHjGE2HHSrCH2jzpjekPFaHOnBkqhUkMmfNUTG5c3H/4zSUDcWRLalFPOlNBgHtKGPe/RcIYGfC7Uk6Q==}
+  '@ast-grep/napi-darwin-arm64@0.40.5':
+    resolution: {integrity: sha512-2F072fGN0WTq7KI3okuEnkGJVEHLbi56Bw1H6NAMf7j2mJJeQWsRyGOMcyNnUXZDeNdvoMH0OB2a5wwUegY/nQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@ast-grep/napi-darwin-x64@0.40.3':
-    resolution: {integrity: sha512-j6wNLb0LGNpKCkCYRd4zDWe5Q/+1CSKP62WtKgvACEvlLw4nMldxE6TnNYZpZddV7wG+Rb+tfuih33rB4h+dZA==}
+  '@ast-grep/napi-darwin-x64@0.40.5':
+    resolution: {integrity: sha512-dJMidHZhhxuLBYNi6/FKI812jQ7wcFPSKkVPwviez2D+KvYagapUMAV/4dJ7FCORfguVk8Y0jpPAlYmWRT5nvA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@ast-grep/napi-linux-arm64-gnu@0.40.3':
-    resolution: {integrity: sha512-/KNX7byCcXrmPXLbtBExJSjajVxlgwl3rlFxtDZvgPAoIa+kpTZ4IGKgciNaUi0TXEpJsq9mPvVHLR2WpP52rA==}
+  '@ast-grep/napi-linux-arm64-gnu@0.40.5':
+    resolution: {integrity: sha512-nBRCbyoS87uqkaw4Oyfe5VO+SRm2B+0g0T8ME69Qry9ShMf41a2bTdpcQx9e8scZPogq+CTwDHo3THyBV71l9w==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@ast-grep/napi-linux-arm64-musl@0.40.3':
-    resolution: {integrity: sha512-w5ivvONb3zb6AigCvl0sr+O4WYgMziQg+I4n4JDdYu8rCGLUBc0WSb4++nmEY0KSNbHxKYVduLIPaEtXKUVhdg==}
+  '@ast-grep/napi-linux-arm64-musl@0.40.5':
+    resolution: {integrity: sha512-/qKsmds5FMoaEj6FdNzepbmLMtlFuBLdrAn9GIWCqOIcVcYvM1Nka8+mncfeXB/MFZKOrzQsQdPTWqrrQzXLrA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@ast-grep/napi-linux-x64-gnu@0.40.3':
-    resolution: {integrity: sha512-3W1I9hKREFR/Wpu443C7RCR7s3kIP61eBDaevpJcO3Xi99+t2UNas6p765oqv08M7DOxJoTbC4OpI9GybD0aUA==}
+  '@ast-grep/napi-linux-x64-gnu@0.40.5':
+    resolution: {integrity: sha512-DP4oDbq7f/1A2hRTFLhJfDFR6aI5mRWdEfKfHzRItmlKsR9WlcEl1qDJs/zX9R2EEtIDsSKRzuJNfJllY3/W8Q==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@ast-grep/napi-linux-x64-musl@0.40.3':
-    resolution: {integrity: sha512-A7W/iRlkuGQG7qR6ov4QZjk7/1QPSxTOLxQFHjvdUUEa5Eklv85YMpMCi38v9NI2PP9fBFNB/dQisf6cvQUoLA==}
+  '@ast-grep/napi-linux-x64-musl@0.40.5':
+    resolution: {integrity: sha512-BRZUvVBPUNpWPo6Ns8chXVzxHPY+k9gpsubGTHy92Q26ecZULd/dTkWWdnvfhRqttsSQ9Pe/XQdi5+hDQ6RYcg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@ast-grep/napi-win32-arm64-msvc@0.40.3':
-    resolution: {integrity: sha512-nvBtz+g0d0eNIJo8+ryP2pETuGg1K5Up5AwDWQ+dbfQq3xvuL/kSseG+3MwNp6ASWjL3OZ/JinTDo6r3p/BocA==}
+  '@ast-grep/napi-win32-arm64-msvc@0.40.5':
+    resolution: {integrity: sha512-y95zSEwc7vhxmcrcH0GnK4ZHEBQrmrszRBNQovzaciF9GUqEcCACNLoBesn4V47IaOp4fYgD2/EhGRTIBFb2Ug==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  '@ast-grep/napi-win32-ia32-msvc@0.40.3':
-    resolution: {integrity: sha512-4oiHlAEuD8BcdtDPGhodN9vBzW7P2z0YU1Yeau5rEzLrfwi2SHptfTDsmngBAKLYXoRqHHs9T4E5ZENnDs6SQA==}
+  '@ast-grep/napi-win32-ia32-msvc@0.40.5':
+    resolution: {integrity: sha512-K/u8De62iUnFCzVUs7FBdTZ2Jrgc5/DLHqjpup66KxZ7GIM9/HGME/O8aSoPkpcAeCD4TiTZ11C1i5p5H98hTg==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
 
-  '@ast-grep/napi-win32-x64-msvc@0.40.3':
-    resolution: {integrity: sha512-aZijW9FjFlUaC9NBv8f+yAR5Ql5tPtBPNBZkyy6GcOPiiHSjZKObvNJxIiw5KsQ26mTtZzq/l7z3t/z3lDqWWA==}
+  '@ast-grep/napi-win32-x64-msvc@0.40.5':
+    resolution: {integrity: sha512-dqm5zg/o4Nh4VOQPEpMS23ot8HVd22gG0eg01t4CFcZeuzyuSgBlOL3N7xLbz3iH2sVkk7keuBwAzOIpTqziNQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
-  '@ast-grep/napi@0.40.3':
-    resolution: {integrity: sha512-pRChD3a571FjQndLyabnrrZ5N3T0n68Q+6LyJz5SaZs/gc/TA0s4+UuoL12GEx/oqmaHHYOhnaFW0WB6dvI6fA==}
+  '@ast-grep/napi@0.40.5':
+    resolution: {integrity: sha512-hJA62OeBKUQT68DD2gDyhOqJxZxycqg8wLxbqjgqSzYttCMSDL9tiAQ9abgekBYNHudbJosm9sWOEbmCDfpX2A==}
     engines: {node: '>= 10'}
 
   '@babel/code-frame@7.21.4':
@@ -2458,8 +2458,11 @@ packages:
   '@rspack/lite-tapable@1.1.0':
     resolution: {integrity: sha512-E2B0JhYFmVAwdDiG14+DW0Di4Ze4Jg10Pc4/lILUrd5DRCaklduz2OvJ5HYQ6G+hd+WTzqQb3QnDNfK4yvAFYw==}
 
-  '@rstest/core@0.7.8':
-    resolution: {integrity: sha512-A7oN5GLMYuVkTGjXTH+69nz3wR0lxHUkWax+hVq+jNQmcf81ZqJosTLqN6jwFZdmCfHbj3iTd9ku6boo8tJlnA==}
+  '@rspack/lite-tapable@1.1.5':
+    resolution: {integrity: sha512-uzB782zJbFTM3ta+e2Glikx36dca/6Y+DXyvFN+wb0Tx5ItIW+g03A0t3amP3LGzPHSkb0k81VHCm4jxLQwfag==}
+
+  '@rstest/core@0.7.9':
+    resolution: {integrity: sha512-RHNPS1MDUxtf+1Z0YZi+vIQ13SdvCbcbpzDA7XHcPziTRy2mAPg8nfcms+XzbIp95KXH75ucAhgAKNFO0QgARA==}
     engines: {node: '>=18.12.0'}
     hasBin: true
     peerDependencies:
@@ -2689,8 +2692,8 @@ packages:
     resolution: {integrity: sha512-J0Wy8A7ULEqVJftkWhrXZbH0iBk4tYuTj0gBiiveKaY9deNi6cCsxl0ApJ27ojqwYv51bvEw85lOb8Wt4ng9zA==}
     deprecated: This is a stub types definition. terser provides its own type definitions, so you do not need this installed.
 
-  '@types/validator@13.15.2':
-    resolution: {integrity: sha512-y7pa/oEJJ4iGYBxOpfAKn5b9+xuihvzDVnC/OSvlVnGxVg0pOqmjiMafiJ1KVNQEaPZf9HsEp5icEwGg8uIe5Q==}
+  '@types/validator@13.15.10':
+    resolution: {integrity: sha512-T8L6i7wCuyoK8A/ZeLYt1+q0ty3Zb9+qbSSvrIVitzT3YjZqkTZ40IbRsPanlB4h1QB3JVL1SYCdR6ngtFYcuA==}
 
   '@types/which@3.0.3':
     resolution: {integrity: sha512-2C1+XoY0huExTbs8MQv1DuS5FS86+SEjdM9F/+GS61gg5Hqbtj8ZiDSx8MfWcyei907fIPbfPGCOrNUTnVHY1g==}
@@ -3299,8 +3302,8 @@ packages:
     resolution: {integrity: sha512-qOhPa/Fj7s6TY8H8esGu5QNpMMQxz79h+urzrNYN6mn+9BnxlDGf5QZ+XeCDsxSjPqsSR56XOZOJmpeurnLMeg==}
     engines: {node: '>=0.10.0'}
 
-  class-validator@0.14.2:
-    resolution: {integrity: sha512-3kMVRF2io8N8pY1IFIXlho9r8IPUUIfHe2hYVtiebvAzU2XeQFXTv+XI4WX+TnXmtwXMDcjngcpkiPM0O9PvLw==}
+  class-validator@0.14.4:
+    resolution: {integrity: sha512-AwNusCCam51q703dW82x95tOqQp6oC9HNUl724KxJJOfnKscI8dOloXFgyez7LbTTKWuRBA37FScqVbJEoq8Yw==}
 
   clean-stack@2.2.0:
     resolution: {integrity: sha512-4diC9HaTE+KRAMWhDhrGOECgWZxoevMc5TlkObMqNSsVU62PYzXZ/SMTjzyGAFF1YusgxGcSWTEXBhp0CPwQ1A==}
@@ -4806,8 +4809,8 @@ packages:
       node-notifier:
         optional: true
 
-  jiti@2.6.1:
-    resolution: {integrity: sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==}
+  jiti@2.7.0:
+    resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
 
   js-beautify@1.14.7:
@@ -4900,8 +4903,8 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
-  libphonenumber-js@1.12.9:
-    resolution: {integrity: sha512-VWwAdNeJgN7jFOD+wN4qx83DTPMVPPAUyx9/TUkBXKLiNkuWWk6anV0439tgdtwaJDrEdqkvdN22iA6J4bUCZg==}
+  libphonenumber-js@1.13.14:
+    resolution: {integrity: sha512-llihgCcx0BFLksecLP+x1J+6JDE1GsXS1RN/LoPF6qcwpeQcnjj0lcvZxY8AzbEpYwyZWPZW/nDuqkqzm3amiw==}
 
   lilconfig@2.0.5:
     resolution: {integrity: sha512-xaYmXZtTHPAw5m+xLN8ab9C+3a8YmV3asNSPOATITbtwrfbwaLJj8h66H1WMIpALCkqsIzK3h7oQ+PdX+LQ9Eg==}
@@ -6042,9 +6045,9 @@ packages:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
 
-  source-map@0.7.4:
-    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
-    engines: {node: '>= 8'}
+  source-map@0.7.6:
+    resolution: {integrity: sha512-i5uvt8C3ikiWeNZSVZNWcfZPItFQOsYTUAOkcUPGd8DqDy1uOUikjt5dG+uRlwyvR108Fb9DOd4GvXfT0N2/uQ==}
+    engines: {node: '>= 12'}
 
   sourcemap-validator@2.1.0:
     resolution: {integrity: sha512-87aDeWwPT6Flaz6fJQdXmTmW2uZ1kebAthB3i2NmCZzAFkJtNpUm6vqIs5SGO44L92W8WpewkdBwVgNPvZeT+Q==}
@@ -6202,8 +6205,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  swc-plugin-coverage-instrument@0.0.26:
-    resolution: {integrity: sha512-fOJb6p6UXeyFG577sx5hhvbJw4THeOA9csV8C3IdVw9KmShaTqBvV2YPe5lnXbO5L4ZZfuAhYPmRisjm+aQOsA==}
+  swc-plugin-coverage-instrument@0.0.33:
+    resolution: {integrity: sha512-zM17DgG3jURPNOrEHye0MtrkrsZ9BtCMf3W5osQTHAtlNolfDUtZl7740wdx7XhUSL322qdph//DgHzZe62wHg==}
 
   tapable@1.1.3:
     resolution: {integrity: sha512-4WK/bYZmj8xLr+HUCODHGF1ZFzsYffasLUgEiMBY4fgtltdO6B4WJtlSbPaDTLpYTcGVwM2qLnFTICEcNxs3kA==}
@@ -6304,6 +6307,9 @@ packages:
 
   tslib@2.8.0:
     resolution: {integrity: sha512-jWVzBLplnCmoaTr13V9dYbiQ99wvZRd0vNWaDRg+aVYRcjDF3nDksxFDE/+fkXnKhpnUUkmx5pK/v8mCtLVqZA==}
+
+  tslib@2.8.1:
+    resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
   tsx@3.14.0:
     resolution: {integrity: sha512-xHtFaKtHxM9LOklMmJdI3BEnQq/D5F73Of2E1GDrITi9sgoVkvIsrQUTY1G8FlmGtA+awCI4EBlTRRYxkL2sRg==}
@@ -6492,8 +6498,8 @@ packages:
   validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
 
-  validator@13.15.15:
-    resolution: {integrity: sha512-BgWVbCI72aIQy937xbawcs+hrVaN/CZ2UwutgaJ36hGqRrLNM+f5LUT/YPRbo8IV/ASeFzXszezV+y2+rq3l8A==}
+  validator@13.15.35:
+    resolution: {integrity: sha512-TQ5pAGhd5whStmqWvYF4OjQROlmv9SMFVt37qoCBdqRffuuklWYQlCNnEs2ZaIBD1kZRNnikiZOS1eqgkar0iw==}
     engines: {node: '>= 0.10'}
 
   vary@1.1.2:
@@ -6763,44 +6769,44 @@ snapshots:
 
   '@antfu/ni@0.21.12': {}
 
-  '@ast-grep/napi-darwin-arm64@0.40.3':
+  '@ast-grep/napi-darwin-arm64@0.40.5':
     optional: true
 
-  '@ast-grep/napi-darwin-x64@0.40.3':
+  '@ast-grep/napi-darwin-x64@0.40.5':
     optional: true
 
-  '@ast-grep/napi-linux-arm64-gnu@0.40.3':
+  '@ast-grep/napi-linux-arm64-gnu@0.40.5':
     optional: true
 
-  '@ast-grep/napi-linux-arm64-musl@0.40.3':
+  '@ast-grep/napi-linux-arm64-musl@0.40.5':
     optional: true
 
-  '@ast-grep/napi-linux-x64-gnu@0.40.3':
+  '@ast-grep/napi-linux-x64-gnu@0.40.5':
     optional: true
 
-  '@ast-grep/napi-linux-x64-musl@0.40.3':
+  '@ast-grep/napi-linux-x64-musl@0.40.5':
     optional: true
 
-  '@ast-grep/napi-win32-arm64-msvc@0.40.3':
+  '@ast-grep/napi-win32-arm64-msvc@0.40.5':
     optional: true
 
-  '@ast-grep/napi-win32-ia32-msvc@0.40.3':
+  '@ast-grep/napi-win32-ia32-msvc@0.40.5':
     optional: true
 
-  '@ast-grep/napi-win32-x64-msvc@0.40.3':
+  '@ast-grep/napi-win32-x64-msvc@0.40.5':
     optional: true
 
-  '@ast-grep/napi@0.40.3':
+  '@ast-grep/napi@0.40.5':
     optionalDependencies:
-      '@ast-grep/napi-darwin-arm64': 0.40.3
-      '@ast-grep/napi-darwin-x64': 0.40.3
-      '@ast-grep/napi-linux-arm64-gnu': 0.40.3
-      '@ast-grep/napi-linux-arm64-musl': 0.40.3
-      '@ast-grep/napi-linux-x64-gnu': 0.40.3
-      '@ast-grep/napi-linux-x64-musl': 0.40.3
-      '@ast-grep/napi-win32-arm64-msvc': 0.40.3
-      '@ast-grep/napi-win32-ia32-msvc': 0.40.3
-      '@ast-grep/napi-win32-x64-msvc': 0.40.3
+      '@ast-grep/napi-darwin-arm64': 0.40.5
+      '@ast-grep/napi-darwin-x64': 0.40.5
+      '@ast-grep/napi-linux-arm64-gnu': 0.40.5
+      '@ast-grep/napi-linux-arm64-musl': 0.40.5
+      '@ast-grep/napi-linux-x64-gnu': 0.40.5
+      '@ast-grep/napi-linux-x64-musl': 0.40.5
+      '@ast-grep/napi-win32-arm64-msvc': 0.40.5
+      '@ast-grep/napi-win32-ia32-msvc': 0.40.5
+      '@ast-grep/napi-win32-x64-msvc': 0.40.5
 
   '@babel/code-frame@7.21.4':
     dependencies:
@@ -7803,17 +7809,17 @@ snapshots:
   '@emnapi/core@1.8.1':
     dependencies:
       '@emnapi/wasi-threads': 1.1.0
-      tslib: 2.8.0
+      tslib: 2.8.1
     optional: true
 
   '@emnapi/runtime@1.8.1':
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
     optional: true
 
   '@emnapi/wasi-threads@1.1.0':
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
     optional: true
 
   '@esbuild/android-arm64@0.18.20':
@@ -8838,11 +8844,11 @@ snapshots:
 
   '@rsbuild/core@1.7.1':
     dependencies:
-      '@rspack/core': 1.7.0(@swc/helpers@0.5.21)
-      '@rspack/lite-tapable': 1.1.0
-      '@swc/helpers': 0.5.21
+      '@rspack/core': 1.7.0(@swc/helpers@0.5.23)
+      '@rspack/lite-tapable': 1.1.5
+      '@swc/helpers': 0.5.23
       core-js: 3.47.0
-      jiti: 2.6.1
+      jiti: 2.7.0
 
   '@rspack/binding-darwin-arm64@1.7.0':
     optional: true
@@ -8889,17 +8895,19 @@ snapshots:
       '@rspack/binding-win32-ia32-msvc': 1.7.0
       '@rspack/binding-win32-x64-msvc': 1.7.0
 
-  '@rspack/core@1.7.0(@swc/helpers@0.5.21)':
+  '@rspack/core@1.7.0(@swc/helpers@0.5.23)':
     dependencies:
       '@module-federation/runtime-tools': 0.22.0
       '@rspack/binding': 1.7.0
       '@rspack/lite-tapable': 1.1.0
     optionalDependencies:
-      '@swc/helpers': 0.5.21
+      '@swc/helpers': 0.5.23
 
   '@rspack/lite-tapable@1.1.0': {}
 
-  '@rstest/core@0.7.8':
+  '@rspack/lite-tapable@1.1.5': {}
+
+  '@rstest/core@0.7.9':
     dependencies:
       '@rsbuild/core': 1.7.1
       '@types/chai': 5.2.3
@@ -8979,8 +8987,7 @@ snapshots:
 
   '@swc/helpers@0.5.23':
     dependencies:
-      tslib: 2.8.0
-    optional: true
+      tslib: 2.8.1
 
   '@swc/plugin-jest@1.5.117':
     dependencies:
@@ -9003,7 +9010,7 @@ snapshots:
 
   '@tybys/wasm-util@0.10.1':
     dependencies:
-      tslib: 2.8.0
+      tslib: 2.8.1
     optional: true
 
   '@types/aws-lambda@8.10.138': {}
@@ -9105,7 +9112,7 @@ snapshots:
     dependencies:
       terser: 5.17.6
 
-  '@types/validator@13.15.2': {}
+  '@types/validator@13.15.10': {}
 
   '@types/which@3.0.3': {}
 
@@ -9865,11 +9872,11 @@ snapshots:
       isobject: 3.0.1
       static-extend: 0.1.2
 
-  class-validator@0.14.2:
+  class-validator@0.14.4:
     dependencies:
-      '@types/validator': 13.15.2
-      libphonenumber-js: 1.12.9
-      validator: 13.15.15
+      '@types/validator': 13.15.10
+      libphonenumber-js: 1.13.14
+      validator: 13.15.35
 
   clean-stack@2.2.0: {}
 
@@ -11760,7 +11767,7 @@ snapshots:
       - supports-color
       - ts-node
 
-  jiti@2.6.1: {}
+  jiti@2.7.0: {}
 
   js-beautify@1.14.7:
     dependencies:
@@ -11851,7 +11858,7 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
-  libphonenumber-js@1.12.9: {}
+  libphonenumber-js@1.13.14: {}
 
   lilconfig@2.0.5: {}
 
@@ -13085,7 +13092,7 @@ snapshots:
 
   source-map@0.6.1: {}
 
-  source-map@0.7.4: {}
+  source-map@0.7.6: {}
 
   sourcemap-validator@2.1.0:
     dependencies:
@@ -13261,7 +13268,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  swc-plugin-coverage-instrument@0.0.26: {}
+  swc-plugin-coverage-instrument@0.0.33: {}
 
   tapable@1.1.3: {}
 
@@ -13390,6 +13397,8 @@ snapshots:
       '@swc/core': link:packages/core
 
   tslib@2.8.0: {}
+
+  tslib@2.8.1: {}
 
   tsx@3.14.0:
     dependencies:
@@ -13549,7 +13558,7 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  validator@13.15.15: {}
+  validator@13.15.35: {}
 
   vary@1.1.2: {}
 
