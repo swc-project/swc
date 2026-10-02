@@ -119,11 +119,12 @@ impl EnumFacts {
         if verbatim || self.values.is_empty() {
             return None;
         }
-        // A bare identifier can inline an enum value only through an
-        // import-equals alias to a member. Avoid resolving every ordinary
-        // identifier when this file has no such alias.
-        if !self.has_member_aliases && matches!(transparent_expr(expression), Expr::Ident(_)) {
-            return None;
+        // Only member accesses and aliases to enum members can be replaced.
+        // Other expressions still visit their children during transformation.
+        match transparent_expr(expression) {
+            Expr::Member(_) => {}
+            Expr::Ident(_) if self.has_member_aliases => {}
+            _ => return None,
         }
         let TsValueTarget::EnumMember(member) = bindings.runtime_expression_target(expression)?
         else {

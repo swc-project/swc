@@ -176,7 +176,10 @@ impl Visit for UsageCollector<'_> {
         let candidate = reference.and_then(|ident| self.candidates.get(ident));
         let target = match reference {
             Some(_) => candidate.and_then(|facts| facts.target),
-            None => self.bindings.runtime_expression_target(node),
+            None if matches!(node, Expr::Member(_) | Expr::Paren(_)) => {
+                self.bindings.runtime_expression_target(node)
+            }
+            None => None,
         };
 
         // Inline selection and runtime dependencies share this resolved target.
