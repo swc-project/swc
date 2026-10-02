@@ -32,7 +32,7 @@ napi-build = { version = "2" }
 [dependencies]
 anyhow = "1.0.66"
 backtrace = "0.3"
-munge_macro = "=0.4.3"
+munge_macro = "=0.4.7"
 napi = { version = "3", default-features = false, features = [
   "napi3",
   "serde-json",
