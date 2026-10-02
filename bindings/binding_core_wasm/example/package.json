@@ -7,8 +7,8 @@
     "devDependencies": {
         "copyfiles": "^2.3.0",
         "npm-run-all": "^4.1.5",
-        "webpack": "^4.25.1",
-        "webpack-cli": "^3.1.2",
-        "webpack-dev-server": "^3.1.10"
+        "webpack": "^5.0.0",
+        "webpack-cli": "^7.0.0",
+        "webpack-dev-server": "^6.0.0"
     }
 }
