@@ -155,6 +155,29 @@ test("benchmark chore pushes still skip the benchmark workload", async () => {
   assert.equal(condition(jobs["list-crates"].if, context), false);
 });
 
+const benchmarkScenarios = JSON.parse(
+  await readFile(
+    new URL("fixtures/benchmark-jobs.json", import.meta.url),
+    "utf8"
+  )
+);
+for (const scenario of benchmarkScenarios) {
+  test(`benchmark matrix conditions for ${scenario.name}`, async () => {
+    const { jobs } = await workflow("bench");
+    // GitHub's implicit success gate also considers skipped policy ancestors.
+    const context = {
+      needs: {
+        "contributor-policy": { result: scenario.policyResult },
+        "list-crates": { result: scenario.listResult },
+      },
+    };
+    assert.equal(
+      condition(jobs["benchmark-crate"].if ?? "true", context),
+      scenario.run
+    );
+  });
+}
+
 test("closure is serial, event-driven, and runs only trusted default-branch code", async () => {
   const document = await workflow("contributor-policy");
   assert.deepEqual(document.on, {
