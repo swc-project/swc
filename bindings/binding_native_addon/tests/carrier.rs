@@ -8,6 +8,10 @@ use std::{
 #[path = "support/macos.rs"]
 mod macos;
 
+#[cfg(unix)]
+#[path = "support/unix.rs"]
+mod unix;
+
 #[cfg(windows)]
 #[path = "support/windows.rs"]
 mod windows;
@@ -134,6 +138,16 @@ fn real_carrier_forwards_registration_and_throws_loader_errors() {
     fs::copy(build.join("debug").join(artifact), &carrier).unwrap();
     sign(&carrier);
     let original_carrier = fs::read(&carrier).unwrap();
+    #[cfg(unix)]
+    unix::check_cache_security_opt_out(
+        &std::env::var_os("SWC_TEST_NODE").unwrap_or_else(|| "node".into()),
+        &carrier,
+        &raw_bytes,
+        &swc_native_addon::format::Payload::parse(&packed)
+            .unwrap()
+            .header
+            .cache_key(),
+    );
     #[cfg(target_os = "macos")]
     macos::check_cache_policy(
         &std::env::var_os("SWC_TEST_NODE").unwrap_or_else(|| "node".into()),

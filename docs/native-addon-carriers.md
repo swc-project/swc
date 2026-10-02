@@ -39,7 +39,7 @@ loading. Unique staging files, locks, and atomic replacement prevent concurrent
 first loads from observing partially written images. Corrupt regular cache
 entries are repaired from the verified payload.
 
-`SWC_NATIVE_BINDING_CACHE` is the only carrier runtime control:
+`SWC_NATIVE_BINDING_CACHE` selects the materialization mode and cache root:
 
 | Value                | Behavior                                                                                                                                                                   |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -47,6 +47,24 @@ entries are repaired from the verified payload.
 | `0`                  | Materialize a unique temporary image; never replace the installed carrier. Unix unlinks it after loading; Windows uses a verified native worker to delete it after process teardown when executable policy permits. |
 | Absolute directory   | Use this cache root, falling back to the default user cache if unusable.                                                                                                   |
 | Other relative value | Throw a configuration error.                                                                                                                                               |
+
+Unix also supports `SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK=1` for trusted
+environments such as isolated Jenkins executors. It skips ownership, permission,
+and symlink checks on the cache root and its ancestors, including default,
+custom, fallback, and temporary roots. Only the exact value `1` enables it;
+Windows ignores it. For example:
+
+```sh
+SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK=1 \
+    XDG_CACHE_HOME=/absolute/jenkins/cache node build.js
+```
+
+All root components must be trusted against replacement by another user, who
+could otherwise redirect the verified addon path before loading. Absolute
+paths, writable executable filesystems, private namespace directories and
+cache files, full integrity checks, locking, and atomic publication remain
+required. The opt-out does not permit unsafe directories or links inside the
+private namespace.
 
 Failure of both a custom root and the default root throws. An executable cache
 filesystem is required; a Linux `noexec` cache is rejected. Existing cache
