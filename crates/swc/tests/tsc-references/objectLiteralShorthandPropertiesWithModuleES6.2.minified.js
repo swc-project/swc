@@ -1,3 +1,3 @@
 //// [objectLiteralShorthandPropertiesWithModuleES6.ts]
-var m;
-m || (m = {}), m || (m = {}), x, x, x;
+var m, m1;
+m || (m = {}), (m1 = m || (m = {})).x, m1.x, m1.x;
