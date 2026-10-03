@@ -156,11 +156,14 @@ impl<'a> Transform<'a> {
                 _ => NamespaceInstantiation::Instantiated,
             },
             ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(declaration)) => {
-                let live = !declaration.is_type_only
-                    && self
-                        .semantic
-                        .has_import_equals_usage(&declaration.id.to_id());
-                if live {
+                // Exported aliases instantiate their namespace even when a
+                // type-only target erases the alias assignment.
+                let instantiates = !declaration.is_type_only
+                    && (declaration.is_export
+                        || self
+                            .semantic
+                            .has_import_equals_usage(&declaration.id.to_id()));
+                if instantiates {
                     NamespaceInstantiation::Instantiated
                 } else {
                     NamespaceInstantiation::NonInstantiated
