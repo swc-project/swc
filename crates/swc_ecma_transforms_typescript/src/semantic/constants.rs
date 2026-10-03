@@ -104,7 +104,7 @@ impl ConstantExpr {
                     }));
                 }
                 bindings
-                    .value_target(&ident.to_id())
+                    .ident_value_target(ident)
                     .map_or(Self::Unknown, |target| reference(target, ident.span))
             }
             Expr::Member(_) | Expr::OptChain(_) => bindings
