@@ -36,6 +36,9 @@ If you start working on an already-filed issue, post a comment on this issue to
 let people know that somebody is working it. Feel free to ask for comments if
 you are unsure about the solution you would like to submit.
 
+The pull request workflow below is for accounts that meet the
+[pull request requirements](#pull-requests).
+
 We use the "fork and pull" model [described here][development-models], where
 contributors push changes to their personal fork and create pull requests to
 bring those changes into the source repository. This process is partly
@@ -175,12 +178,14 @@ case-insensitively. Organization membership and triage access alone do not grant
 an exception.
 
 Pull requests from other accounts are automatically closed with an explanation,
-and their CI builds and benchmarks are skipped. Contact an SWC maintainer to
-request inclusion in the contributor list. Once your username is added to the
-default branch, you can reopen the same pull request. The policy is checked when
-a pull request is opened, reopened, or updated; existing pull requests are not
-scanned in bulk. Configuration errors and GitHub API failures stop the policy
-check and CI, without automatically closing the pull request.
+and their CI builds and benchmarks are skipped. If your account does not meet the
+requirements above, please [open an issue][new-issues] describing the bug or
+proposed improvement instead of submitting a pull request.
+
+The policy is checked when a pull request is opened, reopened, or updated;
+existing pull requests are not scanned in bulk. Configuration errors and GitHub
+API failures stop the policy check and CI, without automatically closing the
+pull request.
 
 Maintainers should add usernames as YAML list entries in the appropriate group.
 For example, replace `individuals: []` with `individuals: [github-username]`.
