@@ -62,6 +62,8 @@ mod node_ignore_span;
 pub mod number;
 pub mod stack_size;
 pub mod str;
+#[doc(hidden)]
+pub mod ts_bindings;
 pub use node_ignore_span::NodeIgnoringSpan;
 
 // TODO: remove
@@ -2554,6 +2556,9 @@ pub trait QueryRef {
     fn query_ref(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
+    /// Rewrites an assignment, update, or deletion target while preserving
+    /// its identity as a reference rather than substituting its stored value.
+    /// A replacement must remain assignable, such as an identifier or member.
     fn query_lhs(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
@@ -2582,6 +2587,30 @@ impl<T> RefRewriter<T>
 where
     T: QueryRef,
 {
+    /// Rewrites the target itself with the write query. Its receiver and
+    /// computed key are ordinary reads and keep using the read query.
+    fn visit_mut_reference(&mut self, mut expression: &mut Expr) {
+        loop {
+            expression = match expression {
+                Expr::Paren(ParenExpr { expr, .. })
+                | Expr::TsAs(TsAsExpr { expr, .. })
+                | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+                | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+                | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+                | Expr::TsInstantiation(TsInstantiation { expr, .. })
+                | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => expr,
+                _ => break,
+            };
+        }
+        if let Expr::Ident(ident) = expression {
+            if let Some(replacement) = self.query.query_lhs(ident) {
+                *expression = *replacement;
+            }
+        } else {
+            expression.visit_mut_children_with(self);
+        }
+    }
+
     pub fn exit_prop(&mut self, n: &mut Prop) {
         if let Prop::Shorthand(shorthand) = n {
             if let Some(expr) = self.query.query_ref(shorthand) {
@@ -2596,7 +2625,7 @@ where
 
     pub fn exit_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(id) = n {
-            if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
+            if let Some(expr) = self.query.query_lhs(&id.id) {
                 *n = expr.into();
             }
         }
@@ -2612,8 +2641,10 @@ where
 
     pub fn exit_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
         if let SimpleAssignTarget::Ident(ref_ident) = n {
-            if let Some(expr) = self.query.query_lhs(&ref_ident.clone().into()) {
-                *n = expr.try_into().unwrap();
+            if let Some(expr) = self.query.query_lhs(&ref_ident.id) {
+                *n = expr
+                    .try_into()
+                    .expect("write query must produce a simple assignment target");
             }
         };
     }
@@ -2646,7 +2677,10 @@ where
                 let value = value
                     .take()
                     .map(|default_value| {
-                        let left = expr.clone().try_into().unwrap();
+                        let left = expr
+                            .clone()
+                            .try_into()
+                            .expect("write query must produce an assignment target");
                         Box::new(default_value.make_assign_to(op!("="), left))
                     })
                     .unwrap_or(expr);
@@ -2688,8 +2722,12 @@ where
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
-        n.visit_mut_children_with(self);
-        self.exit_pat(n);
+        if let Pat::Expr(expression) = n {
+            self.visit_mut_reference(expression);
+        } else {
+            n.visit_mut_children_with(self);
+            self.exit_pat(n);
+        }
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -2697,9 +2735,33 @@ where
         self.exit_expr(n);
     }
 
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        self.visit_mut_reference(&mut n.arg);
+    }
+
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if n.op == UnaryOp::Delete {
+            self.visit_mut_reference(&mut n.arg);
+        } else {
+            n.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
-        n.visit_mut_children_with(self);
-        self.exit_simple_assign_target(n);
+        match n {
+            SimpleAssignTarget::Paren(ParenExpr { expr, .. })
+            | SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+            | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+            | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+            | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
+                self.visit_mut_reference(expr);
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+                self.exit_simple_assign_target(n);
+            }
+        }
     }
 
     fn visit_mut_callee(&mut self, n: &mut Callee) {

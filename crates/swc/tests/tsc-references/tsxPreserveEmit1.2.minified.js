@@ -13,5 +13,5 @@ define([
     "react-router"
 ], function(require, React, ReactRouter) {
     var M;
-    ReactRouter.Route, M || (M = {}), M || (M = {}), X;
+    ReactRouter.Route, M || (M = {}), (M || (M = {})).X;
 });

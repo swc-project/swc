@@ -1,26 +1,41 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_common::{Mark, Span, SyntaxContext};
+use swc_atoms::Atom;
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
+use swc_ecma_utils::{
+    for_each_binding_ident,
+    stack_size::maybe_grow_default,
+    ts_bindings::{TsAliasId, TsBindingObserver, TsBindings, TsContainerId},
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use crate::{
-    retain::{should_retain_decl, IsConcrete},
-    shared::{enum_member_name, get_module_ident},
-    ts_enum::{EnumValueComputer, EvalCtx, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
-};
+use crate::retain::{should_retain_decl, IsConcrete};
+
+mod constants;
+mod enums;
+mod usage;
+
+pub(crate) use enums::{EnumDeclaration, EnumFacts, EnumInitializer, EnumValue};
 
 #[derive(Debug, Default)]
 pub(crate) struct SemanticInfo {
+    pub bindings: TsBindings,
+    pub enums: EnumFacts,
+    pub enum_inlining: EnumInlining,
+    pub live_aliases: FxHashSet<TsAliasId>,
+    pub runtime_containers: FxHashSet<TsContainerId>,
     pub usage: FxHashSet<Id>,
     pub id_type: FxHashSet<Id>,
     pub id_value: FxHashSet<Id>,
     pub exported_binding: FxHashMap<Id, Option<Id>>,
-    pub enum_record: TsEnumRecord,
-    pub ambient_enum_record: TsEnumRecord,
-    pub const_enum: FxHashSet<Id>,
-    pub namespace_import_equals_usage: FxHashSet<Span>,
-    pub const_vars: FxHashMap<Id, TsEnumRecordValue>,
+}
+
+/// Whether runtime reference analysis has already substituted enum reads.
+#[derive(Debug, Default, Clone, Copy)]
+pub(crate) enum EnumInlining {
+    #[default]
+    Emit,
+    Applied,
 }
 
 impl SemanticInfo {
@@ -39,113 +54,225 @@ impl SemanticInfo {
         self.id_type.contains(id) && !self.id_value.contains(id)
     }
 
-    #[inline]
-    pub fn has_namespace_import_equals_usage(&self, span: Span) -> bool {
-        self.namespace_import_equals_usage.contains(&span)
+    pub fn has_import_equals_usage(&self, id: &Id) -> bool {
+        self.bindings
+            .declaration_id(id)
+            .and_then(|declaration| self.bindings.declaration_alias(declaration))
+            .map_or_else(
+                || self.has_usage(id),
+                |alias| self.live_aliases.contains(&alias),
+            )
     }
 }
 
+/// Evaluate enum definitions before erasure, substitute eligible reads, and
+/// retain only the references that survive those substitutions.
 pub(crate) fn analyze_program(
-    program: &Program,
+    program: &mut Program,
     unresolved_mark: Mark,
     seed_usage: FxHashSet<Id>,
     flow_syntax: bool,
     ts_enum_is_mutable: bool,
+    verbatim_module_syntax: bool,
 ) -> SemanticInfo {
     let mut analyzer = SemanticAnalyzer {
-        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         info: SemanticInfo {
-            usage: seed_usage,
             ..Default::default()
         },
-        import_chain: Default::default(),
-        namespace_block_stack: Default::default(),
         namespace_id: None,
         skip_transform_info: false,
-        flow_syntax,
-        ts_enum_is_mutable,
+        runtime_bindings_seen: false,
+        enum_seen: false,
+        enum_usage_needs_substitution: false,
+        import_names: None,
+        enum_roots: None,
     };
 
-    program.visit_with(&mut analyzer);
+    let bindings = if has_root_runtime_declaration(program) {
+        analyzer.enum_roots = Some(EnumDeclarationRoots::default());
+        let (bindings, observed) = TsBindings::collect_with_observer(program, analyzer);
+        analyzer = observed;
+        Some(bindings)
+    } else {
+        // Ordinary inputs retain their existing reference-only walk. Runtime
+        // declarations found in nested statements use the complete fallback.
+        program.visit_with(&mut analyzer);
+        None
+    };
 
-    analyzer.finish()
+    let runtime_bindings_seen = analyzer.runtime_bindings_seen;
+    let enum_seen = analyzer.enum_seen;
+    let enum_usage_needs_substitution = analyzer.enum_usage_needs_substitution;
+    let enum_roots = analyzer.enum_roots.map(|roots| roots.declarations);
+    let mut info = analyzer.info;
+    if runtime_bindings_seen {
+        info.bindings = bindings.unwrap_or_else(|| TsBindings::collect(program));
+        let runtime_usage = if enum_seen {
+            info.bindings = info.bindings.with_runtime_queries();
+            info.enums = enums::analyze(
+                program,
+                &info.bindings,
+                SyntaxContext::empty().apply_mark(unresolved_mark),
+                ts_enum_is_mutable,
+                flow_syntax,
+                enum_roots.as_ref(),
+            );
+            if enum_usage_needs_substitution {
+                let runtime_usage = usage::analyze(
+                    program,
+                    &info.bindings,
+                    &info.enums,
+                    seed_usage,
+                    ts_enum_is_mutable,
+                    verbatim_module_syntax,
+                    SyntaxContext::empty().apply_mark(unresolved_mark),
+                );
+                info.enum_inlining = EnumInlining::Applied;
+                runtime_usage
+            } else {
+                // Ordinary enums always emit their runtime object. Without
+                // namespaces or aliases, folding their member reads cannot
+                // change import retention or another container's liveness.
+                info.usage.extend(seed_usage);
+                usage::RuntimeUsage {
+                    bindings: std::mem::take(&mut info.usage),
+                    aliases: FxHashSet::default(),
+                    containers: FxHashSet::default(),
+                }
+            }
+        } else {
+            // Without enum substitution the first walk already collected the
+            // surviving references. Only alias dependencies remain to finish.
+            info.usage.extend(seed_usage);
+            usage::from_resolved_usage(
+                &info.bindings,
+                std::mem::take(&mut info.usage),
+                verbatim_module_syntax,
+            )
+        };
+        for &container in &runtime_usage.containers {
+            info.enums.require_runtime(container);
+        }
+        info.runtime_containers = runtime_usage.containers;
+        info.usage = runtime_usage.bindings;
+        info.live_aliases = runtime_usage.aliases;
+    } else {
+        info.usage.extend(seed_usage);
+    }
+    info
 }
 
-struct SemanticAnalyzer {
-    unresolved_ctxt: SyntaxContext,
-    info: SemanticInfo,
-    import_chain: FxHashMap<Id, Id>,
-    namespace_block_stack: Vec<NamespaceBlock>,
-    namespace_id: Option<Id>,
-    skip_transform_info: bool,
-    flow_syntax: bool,
-    ts_enum_is_mutable: bool,
+fn has_root_runtime_declaration(program: &Program) -> bool {
+    let declaration = |decl: &Decl| matches!(decl, Decl::TsEnum(_) | Decl::TsModule(_));
+    match program {
+        Program::Module(module) => module.body.iter().any(|item| match item {
+            ModuleItem::Stmt(Stmt::Decl(decl)) => declaration(decl),
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => declaration(&export.decl),
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(_)) => true,
+            _ => false,
+        }),
+        Program::Script(script) => script.body.iter().any(|stmt| match stmt {
+            Stmt::Decl(decl) => declaration(decl),
+            _ => false,
+        }),
+        #[cfg(swc_ast_unknown)]
+        _ => false,
+    }
 }
 
 #[derive(Default)]
-struct NamespaceBlock {
-    usage: FxHashSet<Id>,
-    import_chain: FxHashMap<Id, Id>,
-    import_equals: Vec<NamespaceImportEquals>,
+struct SemanticAnalyzer {
+    info: SemanticInfo,
+    namespace_id: Option<Id>,
+    skip_transform_info: bool,
+    runtime_bindings_seen: bool,
+    enum_seen: bool,
+    enum_usage_needs_substitution: bool,
+    import_names: Option<FxHashSet<Atom>>,
+    enum_roots: Option<EnumDeclarationRoots>,
 }
 
-struct NamespaceImportEquals {
-    id: Id,
-    span: Span,
-    is_export: bool,
-    is_type_only: bool,
+/// Resolved declarations whose bodies contain enum syntax. The following
+/// definition walk sees the same AST. Repeated declaration identities share a
+/// key, conservatively retaining every contributing body.
+#[derive(Default)]
+struct EnumDeclarationRoots {
+    count: usize,
+    declarations: FxHashSet<Id>,
 }
 
-impl NamespaceBlock {
-    fn analyze_import_chain(&mut self) {
-        if self.import_chain.is_empty() {
-            return;
-        }
-
-        let mut new_usage = FxHashSet::default();
-        for id in &self.usage {
-            let mut next = self.import_chain.remove(id);
-
-            while let Some(id) = next {
-                next = self.import_chain.remove(&id);
-                new_usage.insert(id);
-            }
-
-            if self.import_chain.is_empty() {
-                break;
-            }
-        }
-
-        self.usage.extend(new_usage);
-    }
+struct DeclarationState {
+    skip_transform_info: bool,
+    enum_root: Option<(Id, usize)>,
 }
 
 impl SemanticAnalyzer {
-    fn finish(mut self) -> SemanticInfo {
-        self.analyze_import_chain();
-        self.info
+    fn collect_module(&mut self, node: &Module) {
+        for item in &node.body {
+            self.collect_top_level_module_item(item);
+        }
+        if self.enum_seen && !self.enum_usage_needs_substitution {
+            let mut names = FxHashSet::default();
+            for item in &node.body {
+                if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
+                    for specifier in &import.specifiers {
+                        names.insert(specifier.local().sym.clone());
+                    }
+                }
+            }
+            self.import_names = Some(names);
+        }
     }
 
-    fn analyze_import_chain(&mut self) {
-        if self.import_chain.is_empty() {
+    fn collect_enum(&mut self, node: &TsEnumDecl) {
+        if let Some(roots) = &mut self.enum_roots {
+            roots.count += 1;
+        }
+        self.runtime_bindings_seen = true;
+        self.enum_seen = true;
+        self.enum_usage_needs_substitution |= node.is_const;
+        if self.enum_usage_needs_substitution {
+            self.info.usage.clear();
+        }
+    }
+
+    fn collect_export_decl(&mut self, node: &ExportDecl) {
+        if self.skip_transform_info {
             return;
         }
-
-        let mut new_usage = FxHashSet::default();
-        for id in &self.info.usage {
-            let mut next = self.import_chain.remove(id);
-
-            while let Some(id) = next {
-                next = self.import_chain.remove(&id);
-                new_usage.insert(id);
+        match &node.decl {
+            Decl::Var(var_decl) => {
+                for_each_binding_ident(&var_decl.decls, |binding| {
+                    self.info
+                        .exported_binding
+                        .insert(binding.id.to_id(), self.namespace_id.clone());
+                });
             }
-
-            if self.import_chain.is_empty() {
-                break;
+            Decl::TsEnum(ts_enum_decl) => {
+                self.info
+                    .exported_binding
+                    .insert(ts_enum_decl.id.to_id(), self.namespace_id.clone());
             }
+            Decl::TsModule(ts_module_decl) => {
+                if let TsModuleName::Ident(ident) = &ts_module_decl.id {
+                    self.info
+                        .exported_binding
+                        .insert(ident.to_id(), self.namespace_id.clone());
+                }
+            }
+            _ => {}
         }
+    }
 
-        self.info.usage.extend(new_usage);
+    fn collect_export_default_expr(&mut self, node: &ExportDefaultExpr) {
+        if self.skip_transform_info {
+            return;
+        }
+        if let Expr::Ident(ident) = &*node.expr {
+            self.info
+                .exported_binding
+                .insert(ident.to_id(), self.namespace_id.clone());
+        }
     }
 
     fn collect_top_level_module_item(&mut self, item: &ModuleItem) {
@@ -196,6 +323,7 @@ impl SemanticAnalyzer {
                 _ => {}
             },
             ModuleDecl::TsImportEquals(ts_import_equals_decl) => {
+                self.enum_usage_needs_substitution = true;
                 if ts_import_equals_decl.is_type_only {
                     self.info.id_type.insert(ts_import_equals_decl.id.to_id());
                 } else {
@@ -215,12 +343,14 @@ impl SemanticAnalyzer {
     fn collect_decl(&mut self, decl: &Decl) {
         match decl {
             Decl::Var(var_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&var_decl.decls);
-                self.info.id_value.extend(ids);
+                for_each_binding_ident(&var_decl.decls, |binding| {
+                    self.info.id_value.insert(binding.id.to_id());
+                });
             }
             Decl::Using(using_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&using_decl.decls);
-                self.info.id_value.extend(ids);
+                for_each_binding_ident(&using_decl.decls, |binding| {
+                    self.info.id_value.insert(binding.id.to_id());
+                });
             }
             Decl::Fn(fn_decl) => {
                 self.info.id_value.insert(fn_decl.ident.to_id());
@@ -229,9 +359,12 @@ impl SemanticAnalyzer {
                 self.info.id_value.insert(class_decl.ident.to_id());
             }
             Decl::TsEnum(ts_enum_decl) => {
+                self.enum_seen = true;
+                self.enum_usage_needs_substitution |= ts_enum_decl.is_const;
                 self.info.id_value.insert(ts_enum_decl.id.to_id());
             }
             Decl::TsModule(ts_module_decl) => {
+                self.enum_usage_needs_substitution = true;
                 if ts_module_decl.global {
                     return;
                 }
@@ -256,98 +389,84 @@ impl SemanticAnalyzer {
             _ => panic!("unable to access unknown nodes"),
         }
     }
-
-    #[allow(clippy::too_many_arguments)]
-    fn transform_ts_enum_member(
-        member: TsEnumMember,
-        enum_id: &Id,
-        default_init: &TsEnumRecordValue,
-        record: &TsEnumRecord,
-        ambient_record: &TsEnumRecord,
-        ambient_const_enum_only: Option<&FxHashSet<Id>>,
-        const_vars: &FxHashMap<Id, TsEnumRecordValue>,
-        unresolved_ctxt: SyntaxContext,
-        flow_syntax: bool,
-    ) -> TsEnumRecordValue {
-        member
-            .init
-            .map(|expr| {
-                EnumValueComputer {
-                    enum_id,
-                    unresolved_ctxt,
-                    record,
-                    const_vars,
-                    const_enum_only: None,
-                    ambient_record,
-                    ambient_const_enum_only,
-                }
-                .compute(expr, EvalCtx::MEMBER)
-            })
-            .filter(TsEnumRecordValue::has_value)
-            .unwrap_or_else(|| {
-                if flow_syntax && matches!(default_init, TsEnumRecordValue::Void) {
-                    // Flow defaulted enums without an initializer use the member
-                    // name as the runtime string value. The AST does not retain
-                    // the explicit `of string` kind, so `Void` acts as the
-                    // sentinel for Flow's default string mode here.
-                    TsEnumRecordValue::String(enum_member_name(&member.id))
-                } else {
-                    default_init.clone()
-                }
-            })
-    }
 }
 
-impl SemanticAnalyzer {
-    /// Ambient enums are erased from the output, but `tsc` still treats their
-    /// members with constant initializers as constant enum expressions inside
-    /// enum and const initializers. In an ambient `const enum` every member is
-    /// constant, so the usual auto-increment applies; in a plain ambient enum
-    /// a member without an initializer stays opaque. Kept out of `enum_record`
-    /// so the inliner never rewrites runtime reads of the ambient object.
-    fn record_ambient_enum(&mut self, node: &TsEnumDecl) {
-        if node.is_const {
-            self.info.const_enum.insert(node.id.to_id());
-        }
+impl TsBindingObserver for SemanticAnalyzer {
+    type DeclarationState = DeclarationState;
+    type NamespaceState = Option<Option<Id>>;
 
-        let mut default_init: TsEnumRecordValue = 0.0.into();
+    const RUNTIME: bool = true;
 
-        for member in &node.members {
-            let value = match (&member.init, node.is_const) {
-                (Some(init), _) => EnumValueComputer {
-                    enum_id: &node.id.to_id(),
-                    unresolved_ctxt: self.unresolved_ctxt,
-                    record: &self.info.enum_record,
-                    const_vars: &self.info.const_vars,
-                    const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
-                    ambient_record: &self.info.ambient_enum_record,
-                    ambient_const_enum_only: self
-                        .ts_enum_is_mutable
-                        .then_some(&self.info.const_enum),
-                }
-                .compute(
-                    init.clone(),
-                    // Type syntax inside an ambient initializer removes
-                    // constness, like in a const initializer: `tsc` leaves
-                    // `declare enum A { X = 1 as number }` opaque.
-                    EvalCtx::CONST_INIT,
-                ),
-                (None, true) => default_init.clone(),
-                (None, false) => continue,
+    fn module(&mut self, node: &Module) {
+        self.collect_module(node);
+    }
+
+    fn enter_decl(&mut self, node: &Decl) -> DeclarationState {
+        let enum_root = self.enum_roots.as_ref().and_then(|roots| {
+            let ident = match node {
+                Decl::Fn(function) => &function.ident,
+                Decl::Class(class) => &class.ident,
+                _ => return None,
             };
+            Some((ident.to_id(), roots.count))
+        });
+        let state = DeclarationState {
+            skip_transform_info: self.skip_transform_info,
+            enum_root,
+        };
+        self.skip_transform_info |= !should_retain_decl(node);
+        state
+    }
 
-            default_init = value.inc();
-
-            if value.is_const() {
-                self.info.ambient_enum_record.insert(
-                    TsEnumRecordKey {
-                        enum_id: node.id.to_id(),
-                        member_name: enum_member_name(&member.id),
-                    },
-                    value,
-                );
+    fn leave_decl(&mut self, state: DeclarationState) {
+        self.skip_transform_info = state.skip_transform_info;
+        if let (Some(roots), Some((id, count))) = (&mut self.enum_roots, state.enum_root) {
+            if roots.count != count {
+                roots.declarations.insert(id);
             }
         }
+    }
+
+    fn ident(&mut self, node: &Ident) {
+        self.visit_ident(node);
+    }
+
+    fn enter_namespace(&mut self, id: &Id) -> Self::NamespaceState {
+        if self.skip_transform_info {
+            return None;
+        }
+        Some(self.namespace_id.replace(id.clone()))
+    }
+
+    fn leave_namespace(&mut self, previous: Self::NamespaceState) {
+        if let Some(previous) = previous {
+            self.namespace_id = previous;
+        }
+    }
+
+    fn module_decl(&mut self, _: &TsModuleDecl) {
+        self.runtime_bindings_seen = true;
+        self.enum_usage_needs_substitution = true;
+    }
+
+    fn import_equals(&mut self, node: &TsImportEqualsDecl) {
+        self.visit_ts_import_equals_decl(node);
+    }
+
+    fn enum_decl(&mut self, node: &TsEnumDecl) {
+        self.collect_enum(node);
+    }
+
+    fn named_export(&mut self, node: &NamedExport) {
+        self.visit_named_export(node);
+    }
+
+    fn export_decl(&mut self, node: &ExportDecl) {
+        self.collect_export_decl(node);
+    }
+
+    fn export_default_expr(&mut self, node: &ExportDefaultExpr) {
+        self.collect_export_default_expr(node);
     }
 }
 
@@ -355,10 +474,7 @@ impl Visit for SemanticAnalyzer {
     noop_visit_type!();
 
     fn visit_module(&mut self, node: &Module) {
-        for item in &node.body {
-            self.collect_top_level_module_item(item);
-        }
-
+        self.collect_module(node);
         node.visit_children_with(self);
     }
 
@@ -374,12 +490,19 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_ident(&mut self, node: &Ident) {
-        let id = node.to_id();
-        self.info.usage.insert(id.clone());
-
-        if let Some(namespace_block) = self.namespace_block_stack.last_mut() {
-            namespace_block.usage.insert(id);
+        // Enum substitution needs the later reference walk. Do not collect a
+        // second set that would be discarded after evaluating the enums.
+        if self.skip_transform_info || (self.enum_seen && self.enum_usage_needs_substitution) {
+            return;
         }
+        if self
+            .import_names
+            .as_ref()
+            .is_some_and(|names| !names.contains(&node.sym))
+        {
+            return;
+        }
+        self.info.usage.insert(node.to_id());
     }
 
     fn visit_expr(&mut self, node: &Expr) {
@@ -415,80 +538,21 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
-        if let Some(namespace_block) = self.namespace_block_stack.last_mut() {
-            namespace_block.import_equals.push(NamespaceImportEquals {
-                id: node.id.to_id(),
-                span: node.span,
-                is_export: node.is_export,
-                is_type_only: node.is_type_only,
-            });
-        }
-
+        self.runtime_bindings_seen = true;
+        self.enum_usage_needs_substitution = true;
         if !self.skip_transform_info && node.is_export {
             self.info
                 .exported_binding
                 .insert(node.id.to_id(), self.namespace_id.clone());
         }
 
-        if node.is_type_only {
-            return;
-        }
-
-        let TsModuleRef::TsEntityName(ts_entity_name) = &node.module_ref else {
-            return;
-        };
-
-        let id = get_module_ident(ts_entity_name);
-
-        if let Some(namespace_block) = self.namespace_block_stack.last_mut() {
-            if node.is_export {
-                namespace_block.usage.insert(id.to_id());
-                namespace_block.usage.insert(node.id.to_id());
-            } else {
-                namespace_block
-                    .import_chain
-                    .insert(node.id.to_id(), id.to_id());
-            }
-        }
-
-        if node.is_export {
-            id.visit_with(self);
-            node.id.visit_with(self);
-            return;
-        }
-
-        self.import_chain.insert(node.id.to_id(), id.to_id());
+        // Alias roots are dependencies, not ordinary runtime references.
+        // The binding graph activates them only when their alias survives.
     }
 
     fn visit_export_decl(&mut self, node: &ExportDecl) {
         node.visit_children_with(self);
-
-        if self.skip_transform_info {
-            return;
-        }
-
-        match &node.decl {
-            Decl::Var(var_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&var_decl.decls);
-                self.info.exported_binding.extend(
-                    ids.into_iter()
-                        .zip(std::iter::repeat(self.namespace_id.clone())),
-                );
-            }
-            Decl::TsEnum(ts_enum_decl) => {
-                self.info
-                    .exported_binding
-                    .insert(ts_enum_decl.id.to_id(), self.namespace_id.clone());
-            }
-            Decl::TsModule(ts_module_decl) => {
-                if let TsModuleName::Ident(ident) = &ts_module_decl.id {
-                    self.info
-                        .exported_binding
-                        .insert(ident.to_id(), self.namespace_id.clone());
-                }
-            }
-            _ => {}
-        }
+        self.collect_export_decl(node);
     }
 
     fn visit_export_named_specifier(&mut self, node: &ExportNamedSpecifier) {
@@ -520,16 +584,7 @@ impl Visit for SemanticAnalyzer {
 
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
         node.visit_children_with(self);
-
-        if self.skip_transform_info {
-            return;
-        }
-
-        if let Expr::Ident(ident) = &*node.expr {
-            self.info
-                .exported_binding
-                .insert(ident.to_id(), self.namespace_id.clone());
-        }
+        self.collect_export_default_expr(node);
     }
 
     fn visit_ts_namespace_decl(&mut self, node: &TsNamespaceDecl) {
@@ -546,6 +601,8 @@ impl Visit for SemanticAnalyzer {
     }
 
     fn visit_ts_module_decl(&mut self, node: &TsModuleDecl) {
+        self.runtime_bindings_seen = true;
+        self.enum_usage_needs_substitution = true;
         if self.skip_transform_info {
             if let Some(body) = &node.body {
                 body.visit_with(self);
@@ -570,122 +627,9 @@ impl Visit for SemanticAnalyzer {
         self.namespace_id = namespace_id;
     }
 
-    fn visit_ts_module_block(&mut self, node: &TsModuleBlock) {
-        self.namespace_block_stack.push(NamespaceBlock::default());
-
-        node.visit_children_with(self);
-
-        let mut namespace_block = self
-            .namespace_block_stack
-            .pop()
-            .expect("namespace block stack should contain current block");
-
-        namespace_block.analyze_import_chain();
-
-        for import_equals in &namespace_block.import_equals {
-            if import_equals.is_type_only {
-                continue;
-            }
-
-            if import_equals.is_export || namespace_block.usage.contains(&import_equals.id) {
-                self.info
-                    .namespace_import_equals_usage
-                    .insert(import_equals.span);
-            }
-        }
-
-        if let Some(parent_block) = self.namespace_block_stack.last_mut() {
-            parent_block.usage.extend(namespace_block.usage);
-            parent_block
-                .import_chain
-                .extend(namespace_block.import_chain);
-        }
-    }
-
-    fn visit_var_decl(&mut self, node: &VarDecl) {
-        let track = node.kind == VarDeclKind::Const;
-
-        for decl in &node.decls {
-            decl.visit_with(self);
-
-            if !track {
-                continue;
-            }
-
-            let Pat::Ident(BindingIdent { id, type_ann: None }) = &decl.name else {
-                continue;
-            };
-            let Some(init) = &decl.init else { continue };
-
-            if !EnumValueComputer::can_fold_shape(init) {
-                continue;
-            }
-
-            let value = EnumValueComputer {
-                enum_id: &id.to_id(),
-                unresolved_ctxt: self.unresolved_ctxt,
-                record: &self.info.enum_record,
-                const_vars: &self.info.const_vars,
-                const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
-                ambient_record: &self.info.ambient_enum_record,
-                ambient_const_enum_only: self.ts_enum_is_mutable.then_some(&self.info.const_enum),
-            }
-            .compute(init.clone(), EvalCtx::CONST_INIT);
-
-            if value.is_const() {
-                self.info.const_vars.insert(id.to_id(), value);
-            }
-        }
-    }
-
     fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
-        node.visit_children_with(self);
-
-        if self.skip_transform_info {
-            self.record_ambient_enum(node);
-            return;
-        }
-
-        let TsEnumDecl {
-            is_const,
-            id,
-            members,
-            ..
-        } = node;
-
-        if *is_const {
-            self.info.const_enum.insert(id.to_id());
-        }
-
-        let mut default_init = if self.flow_syntax {
-            TsEnumRecordValue::Void
-        } else {
-            0.0.into()
-        };
-
-        for member in members {
-            let value = Self::transform_ts_enum_member(
-                member.clone(),
-                &id.to_id(),
-                &default_init,
-                &self.info.enum_record,
-                &self.info.ambient_enum_record,
-                self.ts_enum_is_mutable.then_some(&self.info.const_enum),
-                &self.info.const_vars,
-                self.unresolved_ctxt,
-                self.flow_syntax,
-            );
-
-            default_init = value.inc();
-
-            let member_name = enum_member_name(&member.id);
-            let key = TsEnumRecordKey {
-                enum_id: id.to_id(),
-                member_name,
-            };
-
-            self.info.enum_record.insert(key, value);
-        }
+        self.collect_enum(node);
+        node.members.visit_with(self);
     }
 
     fn visit_jsx_element_name(&mut self, node: &JSXElementName) {
@@ -700,50 +644,53 @@ impl Visit for SemanticAnalyzer {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::{SyntaxContext, DUMMY_SP};
+    use swc_common::DUMMY_SP;
     use swc_ecma_ast::{Ident, TsEnumMember, TsEnumMemberId};
+    use swc_ecma_parser::Syntax;
+    use swc_ecma_transforms_base::resolver;
+    use swc_ecma_transforms_testing::Tester;
 
     use super::*;
 
-    fn id(sym: &str) -> Id {
-        (sym.into(), SyntaxContext::empty())
+    fn namespace_usage(source: &str) -> FxHashSet<swc_atoms::Atom> {
+        Tester::run(|tester| {
+            let module = tester.with_parser(
+                "namespace-aliases.ts",
+                Syntax::Typescript(Default::default()),
+                source,
+                |parser| parser.parse_module(),
+            )?;
+            let unresolved = Mark::new();
+            let top_level = Mark::new();
+            let mut program = Program::Module(module);
+            program.mutate(resolver(unresolved, top_level, true));
+            let info = analyze_program(
+                &mut program,
+                unresolved,
+                FxHashSet::default(),
+                false,
+                false,
+                false,
+            );
+            Ok(info.usage.into_iter().map(|(name, _)| name).collect())
+        })
     }
 
     #[test]
     fn namespace_block_analyze_import_chain_marks_transitive_usage() {
-        let mut namespace_block = NamespaceBlock {
-            usage: [id("a")].into_iter().collect(),
-            import_chain: [(id("a"), id("b")), (id("b"), id("c"))]
-                .into_iter()
-                .collect(),
-            ..Default::default()
-        };
+        let usage = namespace_usage("namespace N { class c {} import b = c; import a = b; a; }");
 
-        namespace_block.analyze_import_chain();
-
-        assert!(namespace_block.usage.contains(&id("b")));
-        assert!(namespace_block.usage.contains(&id("c")));
+        assert!(usage.contains(&swc_atoms::Atom::from("b")));
+        assert!(usage.contains(&swc_atoms::Atom::from("c")));
     }
 
     #[test]
     fn namespace_block_merge_from_child_keeps_parent_alias_used() {
-        let mut parent = NamespaceBlock {
-            import_chain: [(id("a"), id("n"))].into_iter().collect(),
-            ..Default::default()
-        };
+        let usage = namespace_usage(
+            "namespace N { class n {} import a = n; namespace Child { import b = a; b; } }",
+        );
 
-        let mut child = NamespaceBlock {
-            usage: [id("b")].into_iter().collect(),
-            import_chain: [(id("b"), id("a"))].into_iter().collect(),
-            ..Default::default()
-        };
-
-        child.analyze_import_chain();
-        parent.usage.extend(child.usage);
-        parent.import_chain.extend(child.import_chain);
-        parent.analyze_import_chain();
-
-        assert!(parent.usage.contains(&id("a")));
+        assert!(usage.contains(&swc_atoms::Atom::from("a")));
     }
 
     fn enum_member(sym: &str) -> TsEnumMember {
@@ -756,19 +703,11 @@ mod tests {
 
     #[test]
     fn flow_defaulted_enum_member_uses_member_name_as_runtime_value() {
-        let value = SemanticAnalyzer::transform_ts_enum_member(
-            enum_member("A"),
-            &id("E"),
-            &TsEnumRecordValue::Void,
-            &Default::default(),
-            &Default::default(),
-            None,
-            &Default::default(),
-            SyntaxContext::empty(),
-            true,
-        );
+        let member = enum_member("A");
+        let name = crate::shared::enum_member_name(&member.id);
+        let value = enums::default_member(&EnumValue::Unknown, &name, true);
 
-        let TsEnumRecordValue::String(value) = value else {
+        let EnumValue::String(value) = value else {
             panic!("expected defaulted Flow enum member to become a string literal");
         };
         assert_eq!(&*value, "A");
@@ -776,19 +715,11 @@ mod tests {
 
     #[test]
     fn typescript_defaulted_enum_member_still_uses_numeric_sequence() {
-        let value = SemanticAnalyzer::transform_ts_enum_member(
-            enum_member("A"),
-            &id("E"),
-            &TsEnumRecordValue::from(2.0),
-            &Default::default(),
-            &Default::default(),
-            None,
-            &Default::default(),
-            SyntaxContext::empty(),
-            false,
-        );
+        let member = enum_member("A");
+        let name = crate::shared::enum_member_name(&member.id);
+        let value = enums::default_member(&EnumValue::number(2.0), &name, false);
 
-        let TsEnumRecordValue::Number(value) = value else {
+        let EnumValue::Number(value) = value else {
             panic!("expected defaulted TypeScript enum member to stay numeric");
         };
         assert_eq!(value.value, 2.0);
