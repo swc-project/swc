@@ -40,6 +40,20 @@
     "group": "rspack"
   },
   {
+    "login": "trueadm",
+    "type": "User",
+    "allowed": true,
+    "reason": "allowlist",
+    "group": "tsrx"
+  },
+  {
+    "login": "TRUEADM",
+    "type": "User",
+    "allowed": true,
+    "reason": "allowlist",
+    "group": "tsrx"
+  },
+  {
     "login": "repository-writer",
     "type": "User",
     "permission": "write",
