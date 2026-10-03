@@ -2558,6 +2558,7 @@ pub trait QueryRef {
     }
     /// Rewrites an assignment, update, or deletion target while preserving
     /// its identity as a reference rather than substituting its stored value.
+    /// A replacement must remain assignable, such as an identifier or member.
     fn query_lhs(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
@@ -2624,7 +2625,7 @@ where
 
     pub fn exit_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(id) = n {
-            if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
+            if let Some(expr) = self.query.query_lhs(&id.id) {
                 *n = expr.into();
             }
         }
@@ -2640,8 +2641,10 @@ where
 
     pub fn exit_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
         if let SimpleAssignTarget::Ident(ref_ident) = n {
-            if let Some(expr) = self.query.query_lhs(&ref_ident.clone().into()) {
-                *n = expr.try_into().unwrap();
+            if let Some(expr) = self.query.query_lhs(&ref_ident.id) {
+                *n = expr
+                    .try_into()
+                    .expect("write query must produce a simple assignment target");
             }
         };
     }
@@ -2674,7 +2677,10 @@ where
                 let value = value
                     .take()
                     .map(|default_value| {
-                        let left = expr.clone().try_into().unwrap();
+                        let left = expr
+                            .clone()
+                            .try_into()
+                            .expect("write query must produce an assignment target");
                         Box::new(default_value.make_assign_to(op!("="), left))
                     })
                     .unwrap_or(expr);
@@ -2742,8 +2748,20 @@ where
     }
 
     fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
-        n.visit_mut_children_with(self);
-        self.exit_simple_assign_target(n);
+        match n {
+            SimpleAssignTarget::Paren(ParenExpr { expr, .. })
+            | SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+            | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+            | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+            | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
+                self.visit_mut_reference(expr);
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+                self.exit_simple_assign_target(n);
+            }
+        }
     }
 
     fn visit_mut_callee(&mut self, n: &mut Callee) {
