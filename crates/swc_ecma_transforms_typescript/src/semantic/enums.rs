@@ -67,10 +67,10 @@ pub(crate) struct EnumInitializer {
     deferred: Option<Span>,
 }
 
+/// Erasure requirements accumulated across every body of a merged enum.
 #[derive(Debug)]
 pub(super) struct EnumContainer {
     pub is_const: bool,
-    pub declaration_count: usize,
     pub exported: bool,
     pub all_constant: bool,
     pub runtime_required: bool,
@@ -107,11 +107,7 @@ impl EnumFacts {
     pub(crate) fn can_erase(&self, container: TsContainerId, verbatim: bool) -> bool {
         !verbatim
             && self.containers.get(&container).is_some_and(|facts| {
-                facts.is_const
-                    && facts.declaration_count == 1
-                    && !facts.exported
-                    && facts.all_constant
-                    && !facts.runtime_required
+                facts.is_const && !facts.exported && facts.all_constant && !facts.runtime_required
             })
     }
 
@@ -238,13 +234,11 @@ pub(super) fn analyze(
             .entry(definition.container)
             .or_insert(EnumContainer {
                 is_const: true,
-                declaration_count: 0,
                 exported: false,
                 all_constant: true,
                 runtime_required: false,
             });
         container.is_const &= definition.is_const;
-        container.declaration_count += 1;
         container.exported |= definition.exported;
         container.all_constant &= all_constant;
         for (member, value) in definition.members.iter().zip(&values) {

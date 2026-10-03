@@ -38,13 +38,6 @@ function runtime() {
     return 12;
 }
 const mixed = Mixed;
-var Merged = /*#__PURE__*/ function(Merged) {
-    Merged[Merged["A"] = 13] = "A";
-    return Merged;
-}(Merged || {});
-(function(Merged) {
-    Merged[Merged["B"] = 14] = "B";
-})(Merged);
 const merged = [
     13,
     14
