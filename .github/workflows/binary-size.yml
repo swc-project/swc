@@ -27,7 +27,7 @@ jobs:
       allowed: ${{ steps.policy.outputs.allowed }}
     steps:
       # The gate must use the policy on the default branch, not PR changes.
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.repository.default_branch }}
           path: .contributor-policy
@@ -51,7 +51,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -64,7 +64,7 @@ jobs:
         uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: "20"
+          node-version: "24"
           install-dependencies: "false"
 
       - name: Install wasm-pack
@@ -74,7 +74,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
@@ -107,7 +107,7 @@ jobs:
         run: cat size_report.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload size report
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: size-report
           path: size_report.md
