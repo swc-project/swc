@@ -18,7 +18,7 @@ use swc_ecma_visit::{
 };
 
 use crate::{
-    config::TsImportExportAssignConfig,
+    config::{Config, TsImportExportAssignConfig},
     retain::{should_retain_decl, should_retain_module_item, should_retain_stmt},
     semantic::{EnumInitializer, EnumInlining, SemanticInfo},
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop},
@@ -157,17 +157,11 @@ impl Transform<'_> {
     }
 }
 
-#[allow(clippy::too_many_arguments)]
 pub fn transform<'a>(
     unresolved_mark: Mark,
     top_level_mark: Mark,
     semantic: &'a SemanticInfo,
-    import_not_used_as_values: crate::ImportsNotUsedAsValues,
-    import_export_assign_config: TsImportExportAssignConfig,
-    ts_enum_is_mutable: bool,
-    verbatim_module_syntax: bool,
-    native_class_properties: bool,
-    flow_syntax: bool,
+    config: Config,
 ) -> impl Pass + 'a {
     // Shared members are handled by the emitted owner. Only unindexed exports
     // can use the legacy fallback outside or after those owner queries.
@@ -182,12 +176,12 @@ pub fn transform<'a>(
         semantic,
         emission_index,
         has_export_refs,
-        import_not_used_as_values,
-        import_export_assign_config,
-        ts_enum_is_mutable,
-        verbatim_module_syntax,
-        native_class_properties,
-        flow_syntax,
+        import_not_used_as_values: config.import_not_used_as_values,
+        import_export_assign_config: config.import_export_assign_config,
+        ts_enum_is_mutable: config.ts_enum_is_mutable,
+        verbatim_module_syntax: config.verbatim_module_syntax,
+        native_class_properties: config.native_class_properties,
+        flow_syntax: config.flow_syntax,
         in_namespace: false,
         is_lhs: false,
         in_binding: false,

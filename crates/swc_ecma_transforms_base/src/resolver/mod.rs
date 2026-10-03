@@ -1783,19 +1783,12 @@ impl VisitMut for Hoister<'_, '_> {
                 self.resolver.in_type = old_in_type;
             }
 
-            Decl::TsModule(v)
-                if matches!(
-                    &**v,
-                    TsModuleDecl {
-                        global: false,
-                        id: TsModuleName::Ident(_),
-                        ..
-                    },
-                ) && !self.in_block =>
-            {
+            Decl::TsModule(namespace) if !self.in_block && !namespace.global => {
+                let TsModuleName::Ident(id) = &mut namespace.id else {
+                    return;
+                };
                 let old_in_type = self.resolver.in_type;
                 self.resolver.in_type = false;
-                let id = v.id.as_mut_ident().unwrap();
                 self.resolver.modify(id, DeclKind::Lexical);
                 self.resolver.in_type = old_in_type;
             }

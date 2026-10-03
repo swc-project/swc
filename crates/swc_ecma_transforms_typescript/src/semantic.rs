@@ -3,7 +3,7 @@ use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    find_pat_ids,
+    for_each_binding_ident,
     stack_size::maybe_grow_default,
     ts_bindings::{TsAliasId, TsBindingObserver, TsBindings, TsContainerId},
 };
@@ -242,11 +242,11 @@ impl SemanticAnalyzer {
         }
         match &node.decl {
             Decl::Var(var_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&var_decl.decls);
-                self.info.exported_binding.extend(
-                    ids.into_iter()
-                        .zip(std::iter::repeat(self.namespace_id.clone())),
-                );
+                for_each_binding_ident(&var_decl.decls, |binding| {
+                    self.info
+                        .exported_binding
+                        .insert(binding.id.to_id(), self.namespace_id.clone());
+                });
             }
             Decl::TsEnum(ts_enum_decl) => {
                 self.info
@@ -343,12 +343,14 @@ impl SemanticAnalyzer {
     fn collect_decl(&mut self, decl: &Decl) {
         match decl {
             Decl::Var(var_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&var_decl.decls);
-                self.info.id_value.extend(ids);
+                for_each_binding_ident(&var_decl.decls, |binding| {
+                    self.info.id_value.insert(binding.id.to_id());
+                });
             }
             Decl::Using(using_decl) => {
-                let ids: Vec<Id> = find_pat_ids(&using_decl.decls);
-                self.info.id_value.extend(ids);
+                for_each_binding_ident(&using_decl.decls, |binding| {
+                    self.info.id_value.insert(binding.id.to_id());
+                });
             }
             Decl::Fn(fn_decl) => {
                 self.info.id_value.insert(fn_decl.ident.to_id());

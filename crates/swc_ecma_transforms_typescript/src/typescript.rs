@@ -60,12 +60,7 @@ impl Pass for TypeScript {
             self.unresolved_mark,
             self.top_level_mark,
             &semantic,
-            self.config.import_not_used_as_values,
-            self.config.import_export_assign_config,
-            self.config.ts_enum_is_mutable,
-            self.config.verbatim_module_syntax,
-            self.config.native_class_properties,
-            self.config.flow_syntax,
+            self.config,
         ));
 
         if let Some(span) = last_module_span {
