@@ -171,12 +171,6 @@ impl TsBindings {
         !self.bodies.is_empty()
     }
 
-    /// Bodies in declaration visitation order, for the immediately following
-    /// Resolver walk. Do not retain these handles across structural AST edits.
-    pub fn namespace_bodies(&self) -> impl Iterator<Item = TsNamespaceBodyId> + '_ {
-        (0..self.bodies.len()).map(TsNamespaceBodyId::from_index)
-    }
-
     /// Get a body while walking the same declaration sequence again.
     pub fn namespace_body(&self, index: usize) -> Option<TsNamespaceBodyId> {
         (index < self.bodies.len()).then(|| TsNamespaceBodyId::from_index(index))
@@ -195,9 +189,19 @@ impl TsBindings {
 
     /// Interned declaration corresponding to an already resolved AST ID.
     pub fn declaration_id(&self, id: &Id) -> Option<TsDeclarationId> {
+        self.lookup_declaration(&id.0, id.1)
+    }
+
+    /// Resolve an identifier without copying its owned declaration ID.
+    pub fn ident_declaration(&self, ident: &Ident) -> Option<TsDeclarationId> {
+        self.lookup_declaration(&ident.sym, ident.ctxt)
+    }
+
+    fn lookup_declaration(&self, name: &Atom, ctxt: SyntaxContext) -> Option<TsDeclarationId> {
         self.declarations_by_id
-            .find(declaration_hash(id), |&declaration| {
-                self.declarations[declaration.index()].id == *id
+            .find(declaration_hash(name, ctxt), |&declaration| {
+                let id = &self.declarations[declaration.index()].id;
+                id.0 == *name && id.1 == ctxt
             })
             .copied()
     }
@@ -316,7 +320,8 @@ impl TsBindings {
                 .iter()
                 .find_map(|&(ctxt, target)| (ctxt == ident.ctxt).then_some(target)),
             None => self
-                .value_target(&ident.to_id())
+                .ident_declaration(ident)
+                .and_then(|declaration| self.declaration_value(declaration))
                 .filter(|&target| self.is_runtime_target(target)),
         }
     }
@@ -452,9 +457,12 @@ impl TsBindings {
 
         let declarations = &mut self.declarations;
         let entry = self.declarations_by_id.entry(
-            declaration_hash(&id),
+            declaration_hash(&id.0, id.1),
             |&declaration| declarations[declaration.index()].id == id,
-            |&declaration| declaration_hash(&declarations[declaration.index()].id),
+            |&declaration| {
+                let id = &declarations[declaration.index()].id;
+                declaration_hash(&id.0, id.1)
+            },
         );
         match entry {
             Entry::Occupied(entry) => {
@@ -547,9 +555,9 @@ impl TsBindings {
     }
 }
 
-fn declaration_hash(id: &Id) -> u64 {
+fn declaration_hash(name: &Atom, ctxt: SyntaxContext) -> u64 {
     let mut hasher = FxHasher::default();
-    id.hash(&mut hasher);
+    (name, ctxt).hash(&mut hasher);
     hasher.finish()
 }
 

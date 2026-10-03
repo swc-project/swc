@@ -27,7 +27,7 @@ impl<'a> Candidates<'a> {
                     for specifier in &import.specifiers {
                         let local = specifier.local();
                         let declaration = bindings
-                            .declaration_id(&local.to_id())
+                            .ident_declaration(local)
                             .expect("runtime binding collection must register every import");
                         let id = bindings.declaration(declaration);
                         values.entry((&id.0, id.1)).or_default().reference = true;

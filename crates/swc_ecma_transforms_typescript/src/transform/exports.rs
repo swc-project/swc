@@ -9,7 +9,7 @@ use swc_ecma_utils::{
     ExprFactory, QueryRef,
 };
 
-use super::NamespaceContext;
+use super::ContainerContext;
 
 /// Semantic storage outlives the emitter. The sparse query index therefore
 /// borrows its names and carries declaration handles without copying IDs.
@@ -40,7 +40,7 @@ impl<'a> EmissionIndex<'a> {
                 .get(&&ident.sym)?
                 .iter()
                 .find_map(|&(ctxt, declaration)| (ctxt == ident.ctxt).then_some(declaration)),
-            None => bindings.declaration_id(&ident.to_id()),
+            None => bindings.ident_declaration(ident),
         }
     }
 }
@@ -53,7 +53,7 @@ enum RuntimeAccess<'a> {
 pub(super) struct ExportQuery<'a, 'semantic> {
     export_name: &'a FxHashMap<Id, Option<Id>>,
     bindings: &'a TsBindings,
-    contexts: &'a [NamespaceContext],
+    contexts: &'a [ContainerContext],
     emission_index: &'a EmissionIndex<'semantic>,
     has_legacy_exports: bool,
 }
@@ -63,7 +63,7 @@ impl<'a, 'semantic> ExportQuery<'a, 'semantic> {
         export_name: &'a FxHashMap<Id, Option<Id>>,
         bindings: &'a TsBindings,
         emission_index: &'a EmissionIndex<'semantic>,
-        contexts: &'a [NamespaceContext],
+        contexts: &'a [ContainerContext],
         has_legacy_exports: bool,
     ) -> Self {
         Self {

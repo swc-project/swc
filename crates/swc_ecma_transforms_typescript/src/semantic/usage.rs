@@ -277,7 +277,7 @@ impl VisitMut for UsageCollector<'_> {
     }
 
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
-        let declaration = self.enums.declaration(&node.id.to_id(), node.span);
+        let declaration = self.enums.declaration(self.bindings, node);
         let previous = self.enum_owner;
         self.enum_owner = declaration.map(|declaration| declaration.container);
         let previous_initializer = self.enum_initializer;

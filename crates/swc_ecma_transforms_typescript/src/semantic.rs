@@ -15,7 +15,7 @@ mod constants;
 mod enums;
 mod usage;
 
-pub(crate) use enums::{EnumFacts, EnumInitializer, EnumValue};
+pub(crate) use enums::{EnumDeclaration, EnumFacts, EnumInitializer, EnumValue};
 
 #[derive(Debug, Default)]
 pub(crate) struct SemanticInfo {

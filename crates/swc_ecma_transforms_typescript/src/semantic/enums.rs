@@ -86,15 +86,22 @@ struct EnumMemberValue {
 /// Facts survive syntax erasure; no initializer AST or evaluator is retained.
 #[derive(Debug, Default)]
 pub(crate) struct EnumFacts {
-    declarations: FxHashMap<(Id, Span), EnumDeclaration>,
+    declarations: FxHashMap<(TsDeclarationId, Span), EnumDeclaration>,
     pub(super) containers: FxHashMap<TsContainerId, EnumContainer>,
     values: FxHashMap<TsMemberId, EnumMemberValue>,
     has_member_aliases: bool,
 }
 
 impl EnumFacts {
-    pub(crate) fn declaration(&self, id: &Id, span: Span) -> Option<&EnumDeclaration> {
-        self.declarations.get(&(id.clone(), span))
+    /// A resolved declaration may contribute several enum bodies. The span
+    /// distinguishes their values while the handle preserves binding identity.
+    pub(crate) fn declaration(
+        &self,
+        bindings: &TsBindings,
+        declaration: &TsEnumDecl,
+    ) -> Option<&EnumDeclaration> {
+        let id = bindings.ident_declaration(&declaration.id)?;
+        self.declarations.get(&(id, declaration.span))
     }
 
     pub(crate) fn can_erase(&self, container: TsContainerId, verbatim: bool) -> bool {
@@ -251,10 +258,7 @@ pub(super) fn analyze(
             );
         }
         facts.declarations.insert(
-            (
-                bindings.declaration(definition.declaration).clone(),
-                definition.span,
-            ),
+            (definition.declaration, definition.span),
             EnumDeclaration {
                 values,
                 container: definition.container,
@@ -362,7 +366,7 @@ impl Visit for Definitions<'_> {
                 if let (Pat::Ident(BindingIdent { id, type_ann: None }), Some(init)) =
                     (&declaration.name, &declaration.init)
                 {
-                    if let Some(id) = self.bindings.declaration_id(&id.to_id()) {
+                    if let Some(id) = self.bindings.ident_declaration(id) {
                         let expression = self.expression(init, None);
                         let index = self.constants.len();
                         self.constants.push(ConstantDefinition {
@@ -384,7 +388,7 @@ impl Visit for Definitions<'_> {
             return;
         }
         let exported = std::mem::take(&mut self.exported);
-        let Some(declaration) = self.bindings.declaration_id(&node.id.to_id()) else {
+        let Some(declaration) = self.bindings.ident_declaration(&node.id) else {
             return;
         };
         let Some(container) = self.bindings.declaration_container(declaration) else {

@@ -1,21 +1,17 @@
-use std::{iter, mem};
+use std::mem;
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{Atom, Wtf8Atom};
-use swc_common::{
-    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
-    DUMMY_SP,
-};
+use swc_atoms::Atom;
+use swc_common::{errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::rename;
 use swc_ecma_utils::{
     alias_ident_for,
     constructor::inject_after_super,
-    ident::IdentLike,
     is_literal, member_expr, private_ident, quote_ident, quote_str,
     stack_size::maybe_grow_default,
-    ts_bindings::{TsBindings, TsContainerId, TsMemberId},
-    ExprFactory, QueryRef, RefRewriter, StmtLikeInjector,
+    ts_bindings::{TsContainerId, TsMemberId},
+    ExprFactory, RefRewriter, StmtLikeInjector,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -24,17 +20,20 @@ use swc_ecma_visit::{
 use crate::{
     config::TsImportExportAssignConfig,
     retain::{should_retain_decl, should_retain_module_item, should_retain_stmt},
-    semantic::{EnumInitializer, EnumInlining, EnumValue, SemanticInfo},
-    shared::enum_member_name,
-    utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
+    semantic::{EnumInitializer, EnumInlining, SemanticInfo},
+    utils::{assign_value_to_this_private_prop, assign_value_to_this_prop},
 };
 
+mod enums;
 mod exports;
 mod namespaces;
 
-use self::exports::{EmissionIndex, ExportQuery};
+use self::{
+    enums::EnumEmission,
+    exports::{EmissionIndex, ExportQuery},
+};
 
-/// ## This Module will transform all TypeScript specific synatx
+/// ## This Module will transform all TypeScript specific syntax
 ///
 /// - ### [namespace]/[modules]/[enums]
 /// - ### class constructor [parameter properties]
@@ -77,10 +76,10 @@ pub(crate) struct Transform<'a> {
     is_lhs: bool,
 
     in_binding: bool,
-    namespace_contexts: Vec<NamespaceContext>,
+    container_contexts: Vec<ContainerContext>,
     enum_initializer: Option<EnumInitializer>,
     enum_inlining: EnumInlining,
-    enum_objects: Vec<Id>,
+    enum_emissions: Vec<EnumEmission<'a>>,
 
     decl_id_record: FxHashSet<Id>,
     namespace_id: Option<Id>,
@@ -95,7 +94,7 @@ pub(crate) struct Transform<'a> {
 /// The JS bindings that this particular emitted container body provides.
 /// Exported variables, enums, aliases and nested namespaces are properties;
 /// functions and classes retain a body-local declaration.
-struct NamespaceContext {
+struct ContainerContext {
     container: TsContainerId,
     object: Id,
     locals: FxHashMap<TsMemberId, Id>,
@@ -136,7 +135,7 @@ impl Transform<'_> {
         }
     }
 
-    fn namespace_context(&self, object: Id, body: &TsNamespaceBody) -> Option<NamespaceContext> {
+    fn namespace_context(&self, object: Id, body: &TsNamespaceBody) -> Option<ContainerContext> {
         let container = self.semantic.bindings.container(&object)?;
         let mut locals = FxHashMap::default();
 
@@ -159,7 +158,7 @@ impl Transform<'_> {
             }
         }
 
-        Some(NamespaceContext {
+        Some(ContainerContext {
             container,
             object,
             locals,
@@ -167,7 +166,7 @@ impl Transform<'_> {
     }
 
     fn has_ref_rewrites(&self) -> bool {
-        !self.in_binding && (!self.namespace_contexts.is_empty() || self.has_export_refs)
+        !self.in_binding && (!self.container_contexts.is_empty() || self.has_export_refs)
     }
 
     fn ref_rewriter(&self) -> Option<RefRewriter<ExportQuery<'_, '_>>> {
@@ -180,7 +179,7 @@ impl Transform<'_> {
                 &self.semantic.exported_binding,
                 &self.semantic.bindings,
                 &self.emission_index,
-                &self.namespace_contexts,
+                &self.container_contexts,
                 self.has_export_refs,
             ),
         }
@@ -199,13 +198,13 @@ pub fn transform<'a>(
     native_class_properties: bool,
     flow_syntax: bool,
 ) -> impl Pass + 'a {
-    let emission_index = EmissionIndex::new(&semantic.bindings);
     // Shared members are handled by the emitted owner. Only unindexed exports
     // can use the legacy fallback outside or after those owner queries.
     let has_export_refs = semantic
         .exported_binding
         .iter()
         .any(|(id, owner)| owner.is_some() && semantic.bindings.member_of(id).is_none());
+    let emission_index = EmissionIndex::new(&semantic.bindings);
     visit_mut_pass(Transform {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
@@ -221,10 +220,10 @@ pub fn transform<'a>(
         in_namespace: false,
         is_lhs: false,
         in_binding: false,
-        namespace_contexts: Vec::new(),
+        container_contexts: Vec::new(),
         enum_initializer: None,
         enum_inlining: semantic.enum_inlining,
-        enum_objects: Vec::new(),
+        enum_emissions: Vec::new(),
         decl_id_record: FxHashSet::default(),
         namespace_id: None,
         var_list: Vec::new(),
@@ -450,14 +449,14 @@ impl VisitMut for Transform<'_> {
         let id = node.id.to_id();
         let context = self.namespace_context(id.clone(), &node.body);
         let pushed = context.is_some();
-        self.namespace_contexts.extend(context);
+        self.container_contexts.extend(context);
         let namespace_id = self.namespace_id.replace(id);
 
         node.body.visit_mut_with(self);
 
         self.namespace_id = namespace_id;
         if pushed {
-            self.namespace_contexts.pop();
+            self.container_contexts.pop();
         }
     }
 
@@ -469,7 +468,7 @@ impl VisitMut for Transform<'_> {
             .as_ref()
             .and_then(|body| self.namespace_context(id.clone(), body));
         let pushed = context.is_some();
-        self.namespace_contexts.extend(context);
+        self.container_contexts.extend(context);
 
         let namespace_id = self.namespace_id.replace(id);
 
@@ -477,44 +476,12 @@ impl VisitMut for Transform<'_> {
 
         self.namespace_id = namespace_id;
         if pushed {
-            self.namespace_contexts.pop();
+            self.container_contexts.pop();
         }
     }
 
     fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
-        // The emitted IIFE parameter is a JS binding of its own. Sharing the
-        // source enum's ID makes compressor inlining merge unrelated scopes.
-        let object = (
-            node.id.sym.clone(),
-            SyntaxContext::empty().apply_mark(Mark::new()),
-        );
-        let previous_initializer = self.enum_initializer;
-        self.enum_initializer = self
-            .semantic
-            .enums
-            .declaration(&node.id.to_id(), node.span)
-            .map(|declaration| declaration.initializer);
-        // An enum IIFE has its own object parameter, but contributes no local
-        // enum binding to the surrounding namespace body's emitted scope.
-        let context = self
-            .semantic
-            .bindings
-            .container(&node.id.to_id())
-            .map(|container| NamespaceContext {
-                container,
-                object: object.clone(),
-                locals: FxHashMap::default(),
-            });
-        let pushed = context.is_some();
-        self.namespace_contexts.extend(context);
-        node.members.visit_mut_with(self);
-        self.enum_initializer = previous_initializer;
-        if pushed {
-            self.namespace_contexts.pop();
-        }
-        // fold_decl consumes this result immediately after visiting the enum.
-        // Nested enum declarations complete and consume their own result first.
-        self.enum_objects.push(object);
+        self.visit_enum(node);
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
@@ -1267,403 +1234,6 @@ impl InitArg<'_> {
 }
 
 impl Transform<'_> {
-    fn transform_ts_enum(
-        &mut self,
-        ts_enum: TsEnumDecl,
-        is_first: bool,
-        is_export: bool,
-    ) -> FoldedDecl {
-        let TsEnumDecl {
-            span,
-            declare,
-            is_const,
-            id,
-            members,
-        } = ts_enum;
-
-        debug_assert!(!declare);
-
-        let object = self
-            .enum_objects
-            .pop()
-            .expect("enum lowering must consume its previously selected IIFE parameter");
-
-        let declaration = self
-            .semantic
-            .enums
-            .declaration(&id.to_id(), span)
-            .expect("every retained enum declaration must have pre-erasure semantic facts");
-        if self
-            .semantic
-            .enums
-            .can_erase(declaration.container, self.verbatim_module_syntax)
-            && !is_export
-            && !self.semantic.exported_binding.contains_key(&id.to_id())
-        {
-            return FoldedDecl::Empty;
-        }
-
-        let member_list: Vec<_> = members
-            .into_iter()
-            .enumerate()
-            .map(|(index, m)| {
-                let span = m.span;
-                let name = enum_member_name(&m.id);
-
-                let value = declaration.values.get(index).unwrap_or(&EnumValue::Unknown);
-                let is_string = value.is_string();
-                let is_constant = value.is_constant();
-                let expression = value
-                    .literal()
-                    .map(Box::new)
-                    .or(m.init)
-                    .unwrap_or_else(|| Expr::undefined(DUMMY_SP));
-                let mut expression = expression;
-                if !is_constant {
-                    expression.visit_mut_with(&mut RefRewriter {
-                        query: EnumMemberRefQuery {
-                            enum_id: &object,
-                            bindings: &self.semantic.bindings,
-                            enums: &self.semantic.enums,
-                            initializer: declaration.initializer,
-                            mutable: self.ts_enum_is_mutable,
-                            verbatim: self.verbatim_module_syntax,
-                            owner: declaration.container,
-                            unresolved_ctxt: self.unresolved_ctxt,
-                        },
-                    });
-                }
-                EnumMemberItem {
-                    span,
-                    name,
-                    expression,
-                    is_string,
-                    is_constant,
-                }
-            })
-            .collect();
-
-        if member_list.is_empty() && is_const {
-            return FoldedDecl::Empty;
-        }
-
-        let opaque = member_list.iter().any(|item| !item.is_constant);
-
-        let stmts = member_list
-            .into_iter()
-            .map(|item| item.build_assign(&object));
-
-        let namespace_export = self.namespace_id.is_some() && is_export;
-        let iife = !is_first || namespace_export;
-
-        let body = if !iife {
-            let return_stmt: Stmt = ReturnStmt {
-                arg: Some(object.clone().into()),
-                ..Default::default()
-            }
-            .into();
-
-            let stmts = stmts.chain(iter::once(return_stmt)).collect();
-
-            BlockStmt {
-                stmts,
-                ..Default::default()
-            }
-        } else {
-            BlockStmt {
-                stmts: stmts.collect(),
-                ..Default::default()
-            }
-        };
-
-        let var_kind = if is_export || id.ctxt == self.top_level_ctxt {
-            VarDeclKind::Var
-        } else {
-            VarDeclKind::Let
-        };
-
-        let init_arg = 'init_arg: {
-            let init_arg = InitArg {
-                id: &id,
-                namespace_id: self.namespace_id.as_ref().filter(|_| is_export),
-            };
-            if !is_first {
-                break 'init_arg init_arg.get();
-            }
-
-            if namespace_export {
-                break 'init_arg init_arg.or_assign_empty();
-            }
-
-            if is_export || var_kind == VarDeclKind::Let {
-                InitArg::empty()
-            } else {
-                init_arg.or_empty()
-            }
-        };
-
-        let expr = Factory::function(vec![Ident::from(object).into()], body).as_call(
-            if iife || opaque { DUMMY_SP } else { PURE_SP },
-            vec![init_arg],
-        );
-
-        if iife {
-            FoldedDecl::Expr(
-                ExprStmt {
-                    span,
-                    expr: expr.into(),
-                }
-                .into(),
-            )
-        } else {
-            let var_declarator = VarDeclarator {
-                span,
-                name: id.into(),
-                init: Some(expr.into()),
-                definite: false,
-            };
-
-            FoldedDecl::Decl(
-                VarDecl {
-                    span,
-                    kind: var_kind,
-                    decls: vec![var_declarator],
-                    ..Default::default()
-                }
-                .into(),
-            )
-        }
-    }
-}
-
-impl Transform<'_> {
-    fn transform_ts_module(&self, ts_module: TsModuleDecl, is_export: bool) -> FoldedDecl {
-        debug_assert!(!ts_module.declare);
-        debug_assert!(!ts_module.global);
-
-        let TsModuleDecl {
-            span,
-            id: TsModuleName::Ident(module_ident),
-            body: Some(body),
-            ..
-        } = ts_module
-        else {
-            unreachable!();
-        };
-
-        let body = Self::transform_ts_namespace_body(module_ident.to_id(), body);
-
-        let init_arg = InitArg {
-            id: &module_ident,
-            namespace_id: self.namespace_id.as_ref().filter(|_| is_export),
-        }
-        .or_assign_empty();
-
-        let expr = Factory::function(vec![module_ident.clone().into()], body)
-            .as_call(DUMMY_SP, vec![init_arg])
-            .into();
-
-        FoldedDecl::Expr(ExprStmt { span, expr }.into())
-    }
-
-    fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
-        let TsNamespaceDecl {
-            span,
-            declare,
-            global,
-            id: local_name,
-            body,
-        } = match body {
-            TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-                return Self::transform_ts_module_block(id, ts_module_block);
-            }
-            TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        };
-
-        debug_assert!(!declare);
-        debug_assert!(!global);
-
-        let body = Self::transform_ts_namespace_body(local_name.to_id(), *body);
-
-        let init_arg = InitArg {
-            id: &local_name,
-            namespace_id: Some(&id.to_id()),
-        }
-        .or_assign_empty();
-
-        let expr =
-            Factory::function(vec![local_name.into()], body).as_call(DUMMY_SP, vec![init_arg]);
-
-        BlockStmt {
-            span,
-            stmts: vec![expr.into_stmt()],
-            ..Default::default()
-        }
-    }
-
-    /// Note:
-    /// All exported variable declarations are transformed into assignment to
-    /// the namespace. All references to the exported binding will be
-    /// replaced with qualified access to the namespace property.
-    ///
-    /// Exported function and class will be treat as const exported which is in
-    /// line with how the TypeScript compiler handles exports.
-    ///
-    /// Inline exported syntax should not be used with function which will lead
-    /// to issues with function hoisting.
-    ///
-    /// Input:
-    /// ```TypeScript
-    /// export const foo = init, { bar: baz = init } = init;
-    ///
-    /// export function a() {}
-    ///
-    /// export let b = init;
-    /// ```
-    ///
-    /// Output:
-    /// ```TypeScript
-    /// NS.foo = init, { bar: NS.baz = init } = init;
-    ///
-    /// function a() {}
-    /// NS.a = a;
-    ///
-    /// NS.b = init;
-    /// ```
-    fn transform_ts_module_block(id: Id, TsModuleBlock { span, body }: TsModuleBlock) -> BlockStmt {
-        let mut stmts = Vec::new();
-
-        for module_item in body {
-            match module_item {
-                ModuleItem::Stmt(stmt) => stmts.push(stmt),
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl, span, ..
-                })) => match decl {
-                    Decl::Class(ClassDecl { ref ident, .. })
-                    | Decl::Fn(FnDecl { ref ident, .. }) => {
-                        let assign_stmt = Self::assign_prop(&id, ident, span);
-                        stmts.push(decl.into());
-                        stmts.push(assign_stmt);
-                    }
-                    Decl::Var(var_decl) => {
-                        let mut exprs: Vec<Box<_>> = var_decl
-                            .decls
-                            .into_iter()
-                            .flat_map(
-                                |VarDeclarator {
-                                     span, name, init, ..
-                                 }| {
-                                    let right = init?;
-                                    let left = name.try_into().unwrap();
-
-                                    Some(
-                                        AssignExpr {
-                                            span,
-                                            left,
-                                            op: op!("="),
-                                            right,
-                                        }
-                                        .into(),
-                                    )
-                                },
-                            )
-                            .collect();
-
-                        if exprs.is_empty() {
-                            continue;
-                        }
-
-                        let expr = if exprs.len() == 1 {
-                            exprs.pop().unwrap()
-                        } else {
-                            SeqExpr {
-                                span: DUMMY_SP,
-                                exprs,
-                            }
-                            .into()
-                        };
-
-                        stmts.push(
-                            ExprStmt {
-                                span: var_decl.span,
-                                expr,
-                            }
-                            .into(),
-                        );
-                    }
-                    decl => unreachable!("{decl:?}"),
-                },
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) => {
-                    match decl.module_ref {
-                        TsModuleRef::TsEntityName(ts_entity_name) => {
-                            let init = Self::ts_entity_name_to_expr(ts_entity_name);
-
-                            // export impot foo = bar.baz
-                            let stmt = if decl.is_export {
-                                // Foo.foo = bar.baz
-                                let left = id.clone().make_member(decl.id.clone().into());
-                                let expr = init.make_assign_to(op!("="), left.into());
-
-                                ExprStmt {
-                                    span: decl.span,
-                                    expr: expr.into(),
-                                }
-                                .into()
-                            } else {
-                                // const foo = bar.baz
-                                let mut var_decl =
-                                    init.into_var_decl(VarDeclKind::Const, decl.id.clone().into());
-
-                                var_decl.span = decl.span;
-
-                                var_decl.into()
-                            };
-
-                            stmts.push(stmt);
-                        }
-                        TsModuleRef::TsExternalModuleRef(..) => {
-                            // TS1147
-                            if HANDLER.is_set() {
-                                HANDLER.with(|handler| {
-                                    handler
-                                    .struct_span_err(
-                                        decl.span,
-                                        r#"Import declarations in a namespace cannot reference a module."#,
-                                    )
-                                    .emit();
-                                });
-                            }
-                        }
-                        #[cfg(swc_ast_unknown)]
-                        _ => panic!("unable to access unknown nodes"),
-                    }
-                }
-                item => {
-                    if HANDLER.is_set() {
-                        HANDLER.with(|handler| {
-                            handler
-                                .struct_span_err(
-                                    item.span(),
-                                    r#"ESM-style module declarations are not permitted in a namespace."#,
-                                )
-                                .emit();
-                        });
-                    }
-                }
-            }
-        }
-
-        BlockStmt {
-            span,
-            stmts,
-            ..Default::default()
-        }
-    }
-}
-
-impl Transform<'_> {
     fn reorder_class_prop_decls_and_inits(
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
@@ -1817,26 +1387,6 @@ impl Transform<'_> {
 }
 
 impl Transform<'_> {
-    fn enter_expr_for_inline_enum(&mut self, node: &mut Expr) {
-        if self.is_lhs {
-            return;
-        }
-        if let Some(value) = self
-            .semantic
-            .enums
-            .inline_value(
-                &self.semantic.bindings,
-                node,
-                self.ts_enum_is_mutable,
-                self.verbatim_module_syntax,
-                self.enum_initializer,
-            )
-            .and_then(EnumValue::literal)
-        {
-            *node = value;
-        }
-    }
-
     fn visit_mut_for_ts_import_export(&mut self, node: &mut Module) {
         let mut should_inject = false;
         let create_require = private_ident!("_createRequire");
@@ -2047,121 +1597,6 @@ impl Transform<'_> {
                 }
             }
         }
-    }
-}
-
-struct EnumMemberRefQuery<'a> {
-    enum_id: &'a Id,
-    bindings: &'a TsBindings,
-    enums: &'a crate::semantic::EnumFacts,
-    initializer: EnumInitializer,
-    mutable: bool,
-    verbatim: bool,
-    owner: TsContainerId,
-    unresolved_ctxt: SyntaxContext,
-}
-
-impl QueryRef for EnumMemberRefQuery<'_> {
-    fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
-        if let Some(member) = self.member(ident) {
-            if !self.verbatim {
-                if let Some(value) = self
-                    .enums
-                    .member_value(
-                        self.bindings,
-                        member,
-                        self.mutable,
-                        ident.span,
-                        Some(self.initializer),
-                    )
-                    .and_then(EnumValue::literal)
-                {
-                    return Some(Box::new(value));
-                }
-            }
-            Some(
-                self.enum_id
-                    .clone()
-                    .make_member(ident.clone().into())
-                    .into(),
-            )
-        } else {
-            None
-        }
-    }
-
-    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
-        self.member(ident).map(|_| {
-            self.enum_id
-                .clone()
-                .make_member(ident.clone().into())
-                .into()
-        })
-    }
-
-    fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
-        if self.member(ident).is_some() {
-            Some(
-                JSXMemberExpr {
-                    span: DUMMY_SP,
-                    obj: JSXObject::Ident(self.enum_id.clone().into()),
-                    prop: ident.clone().into(),
-                }
-                .into(),
-            )
-        } else {
-            None
-        }
-    }
-}
-
-impl EnumMemberRefQuery<'_> {
-    fn member(&self, ident: &Ident) -> Option<TsMemberId> {
-        if ident.ctxt != self.unresolved_ctxt {
-            return None;
-        }
-        self.bindings
-            .named_member(self.owner, &ident.sym.clone().into())
-            .filter(|member| self.bindings.member(*member).is_enum_member())
-    }
-}
-
-struct EnumMemberItem {
-    span: Span,
-    name: Wtf8Atom,
-    expression: Box<Expr>,
-    is_string: bool,
-    is_constant: bool,
-}
-
-impl EnumMemberItem {
-    fn build_assign(self, enum_id: &Id) -> Stmt {
-        let value = *self.expression;
-        let name: Expr = Str::from(self.name).into();
-
-        let inner_assign = value.make_assign_to(
-            op!("="),
-            Ident::from(enum_id.clone())
-                .computed_member(name.clone())
-                .into(),
-        );
-
-        let outer_assign = if self.is_string {
-            inner_assign
-        } else {
-            name.make_assign_to(
-                op!("="),
-                Ident::from(enum_id.clone())
-                    .computed_member(inner_assign)
-                    .into(),
-            )
-        };
-
-        ExprStmt {
-            span: self.span,
-            expr: outer_assign.into(),
-        }
-        .into()
     }
 }
 
