@@ -58,5 +58,5 @@ function assertState(pr) {
 }
 
 function notice(repository) {
-  return `${NOTICE_MARKER}\n\nThis repository accepts pull requests from approved contributors, users with write access, and bot accounts. Your account is not currently on the approved contributor list, so this pull request is being closed automatically.\n\nPlease contact an SWC maintainer to request inclusion in the [contributor list](https://github.com/${repository}/blob/HEAD/.github/contributors.yml). Once your username has been added to the default branch, this pull request can be reopened.`;
+  return `${NOTICE_MARKER}\n\nThis repository accepts pull requests from approved contributors, users with write access, and bot accounts. Your account is not currently on the approved contributor list, so this pull request is being closed automatically.\n\nPlease [open an issue](https://github.com/${repository}/issues/new/choose) describing the bug or proposed improvement instead of submitting a pull request.`;
 }

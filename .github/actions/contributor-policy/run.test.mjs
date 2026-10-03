@@ -61,8 +61,16 @@ test("closes a denied live author, not the event sender or stale payload author"
   });
   assert.equal(responses.length, 0);
   const comment = calls.find((call) => call.method === "POST");
-  assert(JSON.parse(comment.body).body.startsWith(NOTICE_MARKER));
-  assert(JSON.parse(comment.body).body.includes(".github/contributors.yml"));
+  const commentBody = JSON.parse(comment.body).body;
+  assert(commentBody.startsWith(NOTICE_MARKER));
+  assert.equal(
+    commentBody.split("\n\n").at(-1),
+    "Please [open an issue](https://github.com/swc-project/swc/issues/new/choose) describing the bug or proposed improvement instead of submitting a pull request."
+  );
+  assert.doesNotMatch(
+    commentBody,
+    /contact an SWC maintainer|request inclusion|can be reopened|\.github\/contributors\.yml/
+  );
   const close = calls.at(-1);
   assert.equal(close.method, "PATCH");
   assert.deepEqual(JSON.parse(close.body), { state: "closed" });
