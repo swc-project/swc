@@ -297,6 +297,25 @@ impl Vars {
         self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
     }
 
+    /// Applies `v` to the expressions which are stored for later inlining.
+    ///
+    /// Those expressions were taken or cloned out of the AST, so a replacement
+    /// done on the AST does not reach them. If a binding is removed while one
+    /// of them still references it, the reference comes back when the
+    /// expression is inlined, and it's not declared anywhere.
+    fn visit_pending_inline_targets_with(&mut self, v: &mut NormalMultiReplacer) {
+        for e in self
+            .lits
+            .values_mut()
+            .chain(self.lits_for_cmp.values_mut())
+            .chain(self.lits_for_array_access.values_mut())
+            .chain(self.simple_functions.values_mut())
+            .chain(self.vars_for_inlining.values_mut())
+        {
+            e.visit_mut_with(v);
+        }
+    }
+
     /// Returns true if something is changed.
     fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
     where

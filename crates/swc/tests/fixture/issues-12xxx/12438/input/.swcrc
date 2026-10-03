@@ -1,0 +1,13 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript"
+    },
+    "target": "es2022",
+    "minify": {
+      "compress": true,
+      "mangle": true
+    }
+  },
+  "minify": true
+}

@@ -519,6 +519,7 @@ impl Optimizer<'_> {
 
         let mut v = NormalMultiReplacer::new(&mut vars, false);
         n.visit_mut_with(&mut v);
+        self.vars.visit_pending_inline_targets_with(&mut v);
         self.changed |= v.changed;
     }
 
