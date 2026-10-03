@@ -78,6 +78,10 @@ impl BlockScopedVars {
         self.scope.rename(parent, &mut rename_map, true);
         self.scope.rename(parent, &mut rename_map, false);
 
+        // No identifiers change when conflict analysis produces no replacements.
+        if rename_map.is_empty() {
+            return;
+        }
         // dbg!(&rename_map);
 
         n.visit_mut_with(
@@ -125,6 +129,11 @@ impl Scope {
 
         self.collect_candidates(parent, &mut symbols);
 
+        // Candidate collection consumes usages even when it finds no conflicts.
+        // An empty candidate set cannot rename any declaration in this subtree.
+        if symbols.is_empty() {
+            return;
+        }
         // dbg!(&symbols);
 
         self.rename_decls(&symbols, rename_map);
