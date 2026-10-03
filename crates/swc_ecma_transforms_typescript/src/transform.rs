@@ -76,7 +76,7 @@ pub(crate) struct Transform<'a> {
     is_lhs: bool,
 
     in_binding: bool,
-    container_contexts: Vec<ContainerContext>,
+    container_contexts: Vec<ContainerContext<'a>>,
     enum_initializer: Option<EnumInitializer>,
     enum_inlining: EnumInlining,
     enum_emissions: Vec<EnumEmission<'a>>,
@@ -94,10 +94,11 @@ pub(crate) struct Transform<'a> {
 /// The JS bindings that this particular emitted container body provides.
 /// Exported variables, enums, aliases and nested namespaces are properties;
 /// functions and classes retain a body-local declaration.
-struct ContainerContext {
+struct ContainerContext<'a> {
     container: TsContainerId,
     object: Id,
-    locals: FxHashMap<TsMemberId, Id>,
+    // Local names borrow the immutable semantic declaration store.
+    locals: FxHashMap<TsMemberId, &'a Id>,
 }
 
 impl Transform<'_> {
@@ -133,36 +134,6 @@ impl Transform<'_> {
             }
             _ => should_retain_module_item(item),
         }
-    }
-
-    fn namespace_context(&self, object: Id, body: &TsNamespaceBody) -> Option<ContainerContext> {
-        let container = self.semantic.bindings.container(&object)?;
-        let mut locals = FxHashMap::default();
-
-        if let TsNamespaceBody::TsModuleBlock(body) = body {
-            for item in &body.body {
-                let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) = item else {
-                    continue;
-                };
-                if !should_retain_decl(&decl.decl) {
-                    continue;
-                }
-                let ident = match &decl.decl {
-                    Decl::Fn(decl) => &decl.ident,
-                    Decl::Class(decl) => &decl.ident,
-                    _ => continue,
-                };
-                if let Some(member) = self.semantic.bindings.member_of(&ident.to_id()) {
-                    locals.insert(member, ident.to_id());
-                }
-            }
-        }
-
-        Some(ContainerContext {
-            container,
-            object,
-            locals,
-        })
     }
 
     fn has_ref_rewrites(&self) -> bool {
@@ -670,13 +641,19 @@ impl VisitMut for Transform<'_> {
     }
 
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
-        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+        // A wrapped assignment still targets the same reference. Peel the
+        // entire chain before visiting its receiver and computed-key reads.
+        while let SimpleAssignTarget::Paren(ParenExpr { expr, .. })
+        | SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
         | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
         | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
         | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
         | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = node
         {
-            *node = expr.take().try_into().unwrap();
+            *node = expr
+                .take()
+                .try_into()
+                .expect("assignment-target wrappers must contain an assignable expression");
         }
 
         node.visit_mut_children_with(self);

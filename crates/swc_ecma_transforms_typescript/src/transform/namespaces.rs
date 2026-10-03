@@ -3,12 +3,16 @@
 //! Ambient value declarations instantiate their enclosing namespace even though
 //! they do not emit statements themselves.
 
+use rustc_hash::FxHashMap;
 use swc_common::{errors::HANDLER, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprFactory;
 
-use super::{FoldedDecl, InitArg, Transform};
-use crate::{retain::should_retain_module_item, utils::Factory};
+use super::{ContainerContext, FoldedDecl, InitArg, Transform};
+use crate::{
+    retain::{should_retain_decl, should_retain_module_item},
+    utils::Factory,
+};
 
 /// The contribution of one declaration body, before applying its own `declare`
 /// modifier. Const-enum-only bodies additionally depend on runtime references;
@@ -26,7 +30,46 @@ impl NamespaceInstantiation {
     }
 }
 
-impl Transform<'_> {
+impl<'a> Transform<'a> {
+    pub(super) fn namespace_context(
+        &self,
+        object: Id,
+        body: &TsNamespaceBody,
+    ) -> Option<ContainerContext<'a>> {
+        let bindings = &self.semantic.bindings;
+        let container = bindings.container(&object)?;
+        let mut locals = FxHashMap::default();
+
+        if let TsNamespaceBody::TsModuleBlock(body) = body {
+            for item in &body.body {
+                let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) = item else {
+                    continue;
+                };
+                if !should_retain_decl(&decl.decl) {
+                    continue;
+                }
+                let ident = match &decl.decl {
+                    Decl::Fn(decl) => &decl.ident,
+                    Decl::Class(decl) => &decl.ident,
+                    _ => continue,
+                };
+                let Some(declaration) = bindings.ident_declaration(ident) else {
+                    continue;
+                };
+                let Some(member) = bindings.declaration_member(declaration) else {
+                    continue;
+                };
+                locals.insert(member, bindings.declaration(declaration));
+            }
+        }
+
+        Some(ContainerContext {
+            container,
+            object,
+            locals,
+        })
+    }
+
     pub(super) fn namespace_instantiation(
         &self,
         declaration: &TsModuleDecl,

@@ -53,7 +53,7 @@ enum RuntimeAccess<'a> {
 pub(super) struct ExportQuery<'a, 'semantic> {
     export_name: &'a FxHashMap<Id, Option<Id>>,
     bindings: &'a TsBindings,
-    contexts: &'a [ContainerContext],
+    contexts: &'a [ContainerContext<'semantic>],
     emission_index: &'a EmissionIndex<'semantic>,
     has_legacy_exports: bool,
 }
@@ -63,7 +63,7 @@ impl<'a, 'semantic> ExportQuery<'a, 'semantic> {
         export_name: &'a FxHashMap<Id, Option<Id>>,
         bindings: &'a TsBindings,
         emission_index: &'a EmissionIndex<'semantic>,
-        contexts: &'a [ContainerContext],
+        contexts: &'a [ContainerContext<'semantic>],
         has_legacy_exports: bool,
     ) -> Self {
         Self {
