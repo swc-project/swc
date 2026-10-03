@@ -29,3 +29,5 @@ groups:
     - chenjiahan
     - hardfist
     - SyMind
+  tsrx: # TSRX contributors; see #12120.
+    - trueadm

@@ -8,3 +8,5 @@ groups:
   rspack:
     - RspackEngineer
     - trustedperson
+  tsrx:
+    - trueadm

@@ -33,7 +33,7 @@ test("validates the repository allowlist", async () => {
     new URL("../../contributors.yml", import.meta.url),
     "utf8"
   );
-  parseContributors(actual);
+  assert.equal(parseContributors(actual).get("trueadm"), "tsrx");
 });
 
 test("individual contributors have the same access as product groups", async () => {
