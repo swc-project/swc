@@ -23,6 +23,33 @@ pub fn resolve_output_path(
     Ok(out_dir.join(relative_path))
 }
 
+/// Resolve a source-map source relative to the output file's directory without
+/// changing the input filename or resolving symlinks.
+pub fn resolve_source_file_name(
+    file_path: &Path,
+    output_file_path: &Path,
+) -> anyhow::Result<String> {
+    let file_path = file_path.absolutize()?;
+    let output_file_path = output_file_path.absolutize()?;
+    let output_dir = output_file_path
+        .parent()
+        .context("output file should have a parent directory")?;
+
+    // Different Windows drives or UNC roots require an absolute source path.
+    let source = if file_path.components().next() == output_dir.components().next() {
+        diff_paths(file_path.as_ref(), output_dir).unwrap_or_else(|| file_path.into_owned())
+    } else {
+        file_path.into_owned()
+    };
+    let source = source.to_string_lossy();
+
+    Ok(if cfg!(windows) {
+        source.replace('\\', "/")
+    } else {
+        source.into_owned()
+    })
+}
+
 fn resolve_relative_output_path(
     raw_inputs: &[PathBuf],
     file_path: &Path,

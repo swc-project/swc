@@ -15,7 +15,7 @@ use glob::Pattern;
 use par_iter::prelude::*;
 use path_absolutize::Absolutize;
 use pathdiff::diff_paths;
-use paths::resolve_output_path;
+use paths::{resolve_output_path, resolve_source_file_name};
 use swc_core::{
     base::{
         config::{
@@ -685,8 +685,16 @@ impl CompileOptions {
         &self,
         compiler: Arc<Compiler>,
         file_path: &Path,
+        output_file_path: &Path,
     ) -> anyhow::Result<TransformOutput> {
-        let options = self.build_transform_options(&Some(file_path))?;
+        let mut options = self.build_transform_options(&Some(file_path))?;
+        options.output_path = Some(output_file_path.to_path_buf());
+        if options.source_file_name.is_none() {
+            // Output paths are absolute, but source filenames may be relative.
+            // Normalize only the source-map name: loading an absolute input
+            // would also change JSX development filenames and plugin metadata.
+            options.source_file_name = Some(resolve_source_file_name(file_path, output_file_path)?);
+        }
         let fm = compiler
             .cm
             .load_file(file_path)
@@ -703,7 +711,6 @@ impl CompileOptions {
     ) -> anyhow::Result<()> {
         match entry.kind {
             OutputEntryKind::Compile => {
-                let output = self.transform_path(compiler, &entry.path)?;
                 let output_file_path = resolve_output_path(
                     out_dir,
                     &self.files,
@@ -711,6 +718,7 @@ impl CompileOptions {
                     Some(&self.out_file_extension),
                     self.strip_leading_paths,
                 )?;
+                let output = self.transform_path(compiler, &entry.path, &output_file_path)?;
 
                 emit_directory_output(output, &output_file_path)
             }

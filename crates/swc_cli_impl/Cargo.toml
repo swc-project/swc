@@ -49,3 +49,4 @@ swc_core = { version = "81.0.2", features = [
 [dev-dependencies]
 assert_cmd = { workspace = true }
 assert_fs  = { workspace = true }
+base64     = { workspace = true }
