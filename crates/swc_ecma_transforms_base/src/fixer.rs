@@ -800,6 +800,20 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        node.visit_mut_children_with(self);
+        self.ctx = old;
+    }
+
+    fn visit_mut_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        node.visit_mut_children_with(self);
+        self.ctx = old;
+    }
+
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old = self.ctx;
         // only ExprStmt would have unparented expr,
