@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "62.0.1"
+version       = "63.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -63,11 +63,11 @@ swc_ecma_ast = { version = "29.0.2", path = "../swc_ecma_ast", features = [
 ] }
 swc_ecma_codegen = { version = "32.0.3", path = "../swc_ecma_codegen" }
 swc_ecma_hooks = { version = "1.0.0", path = "../swc_ecma_hooks" }
-swc_ecma_parser = { version = "45.1.6", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "46.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "49.0.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "52.0.2", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_base = { version = "50.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "53.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "35.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "29.0.0", path = "../swc_ecma_visit" }
 tracing = { workspace = true }
@@ -80,7 +80,7 @@ flate2                    = { workspace = true }
 humansize                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 pretty_assertions         = { workspace = true }
-swc_ecma_testing          = { version = "27.0.0", path = "../swc_ecma_testing" }
+swc_ecma_testing          = { version = "27.0.1", path = "../swc_ecma_testing" }
 swc_malloc                = { version = "1.2.5", path = "../swc_malloc" }
 testing                   = { version = "27.0.0", path = "../testing" }
 walkdir                   = { workspace = true }

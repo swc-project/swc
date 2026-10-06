@@ -9,7 +9,7 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_estree_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "26.0.0"
+version = "27.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
