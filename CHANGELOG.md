@@ -1,4 +1,82 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(bindings)** Fall back to a secure Windows profile cache ([#12452](https://github.com/swc-project/swc/issues/12452)) ([2c0fb89](https://github.com/swc-project/swc/commit/2c0fb896611f5b9d462886db9d8089813a99a4a6))
+
+
+- **(bindings)** Allow opting out of Unix cache root security checks ([#12469](https://github.com/swc-project/swc/issues/12469)) ([e87fa40](https://github.com/swc-project/swc/commit/e87fa401933d6c27e5b14f26d9c3381cccc53cdc))
+
+
+- **(ci)** Run main CodSpeed benchmarks after policy skips ([1b6d869](https://github.com/swc-project/swc/commit/1b6d869ec415609664a06150df8ec4d614fdb3f8))
+
+
+- **(cli)** Resolve out-dir source map paths relative to output ([#12481](https://github.com/swc-project/swc/issues/12481)) ([717914f](https://github.com/swc-project/swc/commit/717914f88f4f19caa1dd93e971628acb4bd608d1))
+
+
+- **(deps)** Update cargo ([#10278](https://github.com/swc-project/swc/issues/10278)) ([fc7a9e2](https://github.com/swc-project/swc/commit/fc7a9e2c159409d97ae0647534a9b9cdefb6eaed))
+
+
+- **(es/compat)** Preserve consecutive loop labels ([#12472](https://github.com/swc-project/swc/issues/12472)) ([28c3370](https://github.com/swc-project/swc/commit/28c33708dc691a64358255b5aec02f1c7eb62cdf))
+
+
+- **(es/estree)** Fix AST roundtrip bugs and implement missing conversions ([#12440](https://github.com/swc-project/swc/issues/12440)) ([898b592](https://github.com/swc-project/swc/commit/898b5926d17b86e14262437b90ca37b043adecda))
+  - **BREAKING**: fix AST roundtrip bugs and implement missing conversions ([#12440](https://github.com/swc-project/swc/issues/12440))
+
+
+- **(es/fixer)** Preserve parentheses in JSX sequence expressions ([#12485](https://github.com/swc-project/swc/issues/12485)) ([7a36735](https://github.com/swc-project/swc/commit/7a36735f5636e5880cc4030d3b916dd19cedeb9b))
+
+
+- **(es/preset-env)** Lower for-await in native async functions ([#12414](https://github.com/swc-project/swc/issues/12414)) ([2b3d306](https://github.com/swc-project/swc/commit/2b3d306be5af54033ca69dca8826c7b7a1e1c861))
+
+
+- **(react-compiler)** Protect long call chains from stack overflow ([#12473](https://github.com/swc-project/swc/issues/12473)) ([a19b101](https://github.com/swc-project/swc/commit/a19b1019b3d58ca5c91552d1b89c6488af6b1740))
+
+
+- Direct unapproved contributors to open issues ([#12479](https://github.com/swc-project/swc/issues/12479)) ([3fac5ec](https://github.com/swc-project/swc/commit/3fac5ec63d2f396c017e9782d24797f470d3627d))
+
+### Features
+
+
+
+- **(ci)** Restrict pull requests to trusted contributors ([#12463](https://github.com/swc-project/swc/issues/12463)) ([ee297d6](https://github.com/swc-project/swc/commit/ee297d6e3680b1c62b30e978da9e4bcb89c1d5d9))
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Replace dependency babel-eslint with @babel/eslint-parser ^7.11.0 ([#12456](https://github.com/swc-project/swc/issues/12456)) ([a933f98](https://github.com/swc-project/swc/commit/a933f98502309c168f4343843815eecfab6653e4))
+
+
+- **(deps)** Replace dependency npm-run-all with npm-run-all2 ^5.0.0 ([#12457](https://github.com/swc-project/swc/issues/12457)) ([98e6c6e](https://github.com/swc-project/swc/commit/98e6c6e4f21c9d58a48ef37a16e045e5385fea56))
+
+
+- **(deps)** Update npm ([#12468](https://github.com/swc-project/swc/issues/12468)) ([7c75e36](https://github.com/swc-project/swc/commit/7c75e364758053454d4fb41157b310c2d74b4c60))
+
+### Performance
+
+
+
+- **(es/compat)** Skip empty block-scoping renames ([#12478](https://github.com/swc-project/swc/issues/12478)) ([952db74](https://github.com/swc-project/swc/commit/952db74fa0bbf3f5293153c44fff034e1637f371))
+
+
+- **(es/parser)** Scan template literals with byte search ([#12474](https://github.com/swc-project/swc/issues/12474)) ([3c46139](https://github.com/swc-project/swc/commit/3c46139b86b27a7b3fefcf7b19ca07a63de9db0a))
+
+### Refactor
+
+
+
+- **(es/parser)** Isolate parser state and make grammar parameters explicit ([#12425](https://github.com/swc-project/swc/issues/12425)) ([5898e8a](https://github.com/swc-project/swc/commit/5898e8aba9301d325a7fd395f339c6e27122c80c))
+
+### Ci
+
+
+
+- Refresh CodSpeed main baseline ([c19d531](https://github.com/swc-project/swc/commit/c19d53129ea2f3c2f2c1547e6bdd17a10d9e4948))
+
 ## [1.16.13] - 2026-09-30
 
 ### Bug Fixes
@@ -2195,52 +2273,5 @@
 
 
 - **(visit)** Use separate crate for hooks ([#11243](https://github.com/swc-project/swc/issues/11243)) ([d93ec90](https://github.com/swc-project/swc/commit/d93ec903acdd9029da179281fb93b4af76dc93f5))
-
-## [1.15.0] - 2025-11-04
-
-### Bug Fixes
-
-
-
-- **(cli)** Update plugin template to use VisitMut API ([#11218](https://github.com/swc-project/swc/issues/11218)) ([6a87e41](https://github.com/swc-project/swc/commit/6a87e41fbaf2f97e2f530d8560df7bb9e0ba1a12))
-
-
-- **(hstr)** Skip only `\u` for unicode ([#11216](https://github.com/swc-project/swc/issues/11216)) ([eda01e5](https://github.com/swc-project/swc/commit/eda01e5284ad5b1eda538eda7231795d75f7136f))
-
-### Features
-
-
-
-- **(hstr)** Support checked `from_bytes` for Wtf8Buf and Wtf8 ([#11211](https://github.com/swc-project/swc/issues/11211)) ([1430489](https://github.com/swc-project/swc/commit/1430489460a54598300427bfc7ed0f4a30bf8d63))
-
-### Performance
-
-
-
-- **(atoms)** Remove temporary allocations in rkyv serialize and deserialize ([#11202](https://github.com/swc-project/swc/issues/11202)) ([85e6e8a](https://github.com/swc-project/swc/commit/85e6e8a66f0e517512d7cd13c5b287b1ef82e191))
-
-
-- **(es/parser)** Remove `start` in `State` ([#11201](https://github.com/swc-project/swc/issues/11201)) ([b9aeaa3](https://github.com/swc-project/swc/commit/b9aeaa3a3bab072f90fb8f26454cb33062bff584))
-
-
-- **(plugin)** Avoid data copy when transformation finished ([#11223](https://github.com/swc-project/swc/issues/11223)) ([af134fa](https://github.com/swc-project/swc/commit/af134faecd5979126165a5462abf880c70b5b54b))
-
-### Refactor
-
-
-
-- **(ast)** Introduce flexible serialization encoding for AST ([#11100](https://github.com/swc-project/swc/issues/11100)) ([8ad3647](https://github.com/swc-project/swc/commit/8ad36478160ff848466bbff2bf442224696982bf))
-
-
-- **(plugin)** Switch plugin abi to flexible serialization ([#11198](https://github.com/swc-project/swc/issues/11198)) ([e5feaf1](https://github.com/swc-project/swc/commit/e5feaf15cebb2887cd8dc9d0275c4ec0fbf40d30))
-
-
-- Flatten cargo workspaces ([#11213](https://github.com/swc-project/swc/issues/11213)) ([6223100](https://github.com/swc-project/swc/commit/622310055c59ee42b744038a33997e6f43cf4af0))
-
-### Testing
-
-
-
-- Copy opt-level configs to the top level workspace ([#11210](https://github.com/swc-project/swc/issues/11210)) ([dba23f5](https://github.com/swc-project/swc/commit/dba23f5a72d26b3b62fbafe2d8a65c69c3642669))
 
 <!-- generated by git-cliff -->
