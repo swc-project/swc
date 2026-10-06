@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier",
-    "version": "1.16.13",
+    "version": "1.16.14-nightly-20261006.1",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",

@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_nodejs_support_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.16.13"
+version     = "1.16.14-nightly-20261006.1"
 
 [lib]
 bench      = false
