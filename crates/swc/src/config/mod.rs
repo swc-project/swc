@@ -1502,6 +1502,9 @@ pub struct JscOutputConfig {
 
     #[serde(default)]
     pub source_map_url: Option<String>,
+
+    #[serde(default)]
+    pub indent_string: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]

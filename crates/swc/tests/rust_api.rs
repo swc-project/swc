@@ -327,3 +327,37 @@ fn shopify_4_reduce_more() {
     })
     .unwrap()
 }
+
+#[test]
+fn test_indent_str() {
+    testing::run_test2(false, |cm, handler| {
+        let c = Compiler::new(cm.clone());
+
+        let fm = cm.new_source_file(FileName::Anon.into(), "function foo() {\n    return 1;\n}");
+
+        let res = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    config: Config {
+                        jsc: JscConfig {
+                            output: swc::config::JscOutputConfig {
+                                indent_string: Some("\t".into()),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+
+        assert_eq!(res.code, "function foo() {\n\treturn 1;\n}\n");
+
+        Ok(())
+    })
+    .unwrap();
+}

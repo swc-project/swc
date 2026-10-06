@@ -3,6 +3,8 @@ use swc_common::{LineCol, Span};
 pub use self::{basic_impl::JsWriter, semicolon::omit_trailing_semi};
 use super::*;
 
+pub const DEFAULT_INDENT_STR: &str = "    ";
+
 mod basic_impl;
 mod semicolon;
 

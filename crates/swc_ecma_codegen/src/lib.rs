@@ -19,7 +19,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-pub use self::config::Config;
+pub use self::{config::Config, text_writer::DEFAULT_INDENT_STR};
 use self::{
     text_writer::{BindingStorage, ScopeKind, WriteJs},
     util::StartsWithAlphaNum,

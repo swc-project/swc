@@ -5,7 +5,7 @@ use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
-use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
+use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs, DEFAULT_INDENT_STR};
 
 ///
 /// -----
@@ -15,7 +15,7 @@ use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
     indent: usize,
-    indent_str: &'static str,
+    indent_str: &'a str,
     line_start: bool,
     line_count: usize,
     line_pos: usize,
@@ -48,7 +48,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
     ) -> Self {
         JsWriter {
             indent: Default::default(),
-            indent_str: "    ",
+            indent_str: DEFAULT_INDENT_STR,
             line_start: true,
             line_count: 0,
             line_pos: Default::default(),
@@ -70,7 +70,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     /// Sets the indentation string. Defaults to four spaces.
-    pub fn set_indent_str(&mut self, indent_str: &'static str) {
+    pub fn set_indent_str(&mut self, indent_str: &'a str) {
         self.indent_str = indent_str;
     }
 

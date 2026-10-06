@@ -22,7 +22,7 @@ use swc_config::{file_pattern::FilePattern, is_module::IsModule, types::BoolOr};
 use swc_ecma_ast::{EsVersion, Ident, IdentName, Program};
 use swc_ecma_codegen::{
     text_writer::{ScopeRecord, WriteJs},
-    Emitter, Node,
+    Emitter, Node, DEFAULT_INDENT_STR,
 };
 use swc_ecma_minifier::js::JsMinifyCommentOption;
 use swc_ecma_parser::{
@@ -135,6 +135,7 @@ pub struct PrintArgs<'a> {
     pub emit_source_map_columns: bool,
     pub emit_source_map_scopes: bool,
     pub preamble: &'a str,
+    pub indent_str: &'a str,
     pub codegen_config: swc_ecma_codegen::Config,
     pub output: Option<FxHashMap<String, String>>,
     pub source_map_url: Option<&'a str>,
@@ -157,6 +158,7 @@ impl Default for PrintArgs<'_> {
             emit_source_map_columns: false,
             emit_source_map_scopes: false,
             preamble: "",
+            indent_str: DEFAULT_INDENT_STR,
             codegen_config: Default::default(),
             output: None,
             source_map_url: None,
@@ -190,6 +192,7 @@ pub fn print<T>(
         emit_source_map_columns,
         emit_source_map_scopes,
         preamble,
+        indent_str,
         codegen_config,
         output,
         source_map_url,
@@ -217,6 +220,8 @@ where
                 },
                 scope_buf.as_mut(),
             );
+            w.set_indent_str(indent_str);
+
             w.preamble(preamble).unwrap();
             let mut wr = Box::new(w) as Box<dyn WriteJs>;
 

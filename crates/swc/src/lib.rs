@@ -142,7 +142,7 @@ use swc_ecma_ast::{
     noop_pass, Decl, DefaultDecl, EsVersion, Module, ModuleDecl, ModuleItem, Pass, Program, Script,
     TsNamespaceBody,
 };
-use swc_ecma_codegen::Node;
+use swc_ecma_codegen::{Node, DEFAULT_INDENT_STR};
 #[cfg(feature = "module")]
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
@@ -1189,6 +1189,7 @@ impl Compiler {
                     emit_source_map_columns: opts.emit_source_map_columns,
                     emit_source_map_scopes: false,
                     preamble: &opts.format.preamble,
+                    indent_str: DEFAULT_INDENT_STR,
                     codegen_config: swc_ecma_codegen::Config::default()
                         .with_target(target)
                         .with_minify(true)
@@ -1362,6 +1363,11 @@ impl Compiler {
                     emit_source_map_columns: config.emit_source_map_columns,
                     emit_source_map_scopes: config.emit_source_map_scopes,
                     preamble: &config.output.preamble,
+                    indent_str: config
+                        .output
+                        .indent_string
+                        .as_deref()
+                        .unwrap_or(DEFAULT_INDENT_STR),
                     codegen_config: swc_ecma_codegen::Config::default()
                         .with_target(config.target)
                         .with_minify(config.minify)
