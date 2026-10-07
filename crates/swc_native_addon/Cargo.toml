@@ -2,7 +2,7 @@
 name = "swc_native_addon"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.73"
+rust-version = "1.85"
 license = "Apache-2.0"
 publish = false
 description = "Private verified native addon payload and materialization support"
@@ -14,8 +14,8 @@ tempfile = "=3.12.0"
 tracing = { version = "=0.1.44", default-features = false, features = ["std"] }
 zstd = { version = "=0.13.3", default-features = false }
 
-# Newer jobserver releases require Rust 1.85. zstd's C build enables cc's
-# parallel feature, so constrain this transitive host dependency for Rust 1.73.
+# zstd's C build enables cc's parallel feature. Pin this transitive host
+# dependency to a release compatible with the carrier's Rust 1.85 MSRV.
 [build-dependencies]
 jobserver = "=0.1.35"
 
@@ -28,7 +28,7 @@ xattr = "=1.3.1"
 
 [target.'cfg(all(target_os = "macos", target_arch = "x86_64"))'.dependencies]
 blake3 = { version = "=1.5.4", features = ["rayon"] }
-# Newer rayon-core releases require Rust 1.80. Keep the carrier's Rust 1.73 MSRV.
+# Keep the existing rayon-core pin for reproducible carrier builds.
 rayon-core = "=1.12.1"
 
 [target.'cfg(windows)'.dependencies]

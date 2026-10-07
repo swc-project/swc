@@ -242,7 +242,7 @@ cargo clippy --all --all-targets -- -D warnings
 ```
 
 The MSRV script copies only these private components into a temporary workspace
-and uses Rust 1.73 with the existing dependency versions. SWC's main workspace
+and uses Rust 1.85 with the existing dependency versions. SWC's main workspace
 uses a v4 lockfile and nightly flags, so those settings cannot directly serve as
 the MSRV harness. The script leaves the repository lockfile and configuration
 unchanged. Fixtures are compiled from Rust source and stripped during testing;
