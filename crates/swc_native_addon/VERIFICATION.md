@@ -83,32 +83,3 @@ The following native commands remain unavailable:
 The explicit APFS, btrfs, and NTFS tests remain ignored by default so an ordinary
 test run does not misrepresent fallback behavior as successful compression.
 Run these native checks before activating carriers in npm release publishing.
-
-## Rust 1.85 MSRV update verification
-
-Verified on 2026-10-07 on macOS aarch64, based on SWC main
-`5cd21e5261e3f4689fd437fa61998d107f1263d2`, with the MSRV update in
-`9b4c869dbf`. The historical Rust 1.73 results above remain unchanged.
-
-- `git submodule update --init --recursive` completed before testing.
-- `python3 crates/swc_native_addon/scripts/msrv.py` passed with Rust 1.85.0.
-- `cargo test -p swc_native_addon -p swc_native_addon_pack
-  -p binding_native_addon` passed with the repository toolchain.
-- `cargo fmt --all` passed.
-- `cargo clippy --all --all-targets -- -D warnings` passed. Clippy reported
-  configuration warnings because the workspace-level `clippy.toml` still sets
-  Rust 1.73; the workspace setting was not raised with these private crates.
-- In `packages/core`, `pnpm build:dev` and `pnpm test` passed after
-  `pnpm install --frozen-lockfile`: 40 test files and 119 tests passed; two
-  files and three tests were skipped by the existing suite. Generated binding,
-  postinstall, and fixture lockfile changes were restored after testing.
-
-The first MSRV and crate test runs failed cache tests because macOS's `/var`
-path is a symlink. Both complete suites passed after setting `TMPDIR` to the
-canonical OS temporary directory, as the release workflow already does. No
-existing test assertions were changed. The three explicit filesystem tests
-remained ignored by default.
-
-Windows MSRV compilation and the embedded cleanup worker were not executed
-locally. They still require the Windows release-workflow check. The repository
-lockfile and pinned dependency versions were not changed.
