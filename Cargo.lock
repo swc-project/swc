@@ -380,7 +380,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.16.15-nightly-20261007.1"
+version = "1.16.16-nightly-20261007.1"
 dependencies = [
  "anyhow",
  "getrandom 0.3.4",
@@ -393,7 +393,7 @@ dependencies = [
 
 [[package]]
 name = "binding_es_ast_viewer"
-version = "1.16.15-nightly-20261007.1"
+version = "1.16.16-nightly-20261007.1"
 dependencies = [
  "anyhow",
  "swc_core",
@@ -429,7 +429,7 @@ dependencies = [
 
 [[package]]
 name = "binding_html_wasm"
-version = "1.16.15-nightly-20261007.1"
+version = "1.16.16-nightly-20261007.1"
 dependencies = [
  "anyhow",
  "getrandom 0.3.4",
@@ -494,7 +494,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.16.15-nightly-20261007.1"
+version = "1.16.16-nightly-20261007.1"
 dependencies = [
  "getrandom 0.3.4",
  "serde",
@@ -516,7 +516,7 @@ dependencies = [
 
 [[package]]
 name = "binding_nodejs_support_wasm"
-version = "1.16.15-nightly-20261007.1"
+version = "1.16.16-nightly-20261007.1"
 dependencies = [
  "anyhow",
  "js-sys",
@@ -556,7 +556,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.16.15-nightly-20261007.1"
+version = "1.16.16-nightly-20261007.1"
 dependencies = [
  "anyhow",
  "js-sys",
@@ -5945,7 +5945,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.127.2"
+version = "0.127.3"
 dependencies = [
  "anyhow",
  "par-core",
