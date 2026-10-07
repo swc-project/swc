@@ -229,6 +229,9 @@ jobs:
             target: s390x-unknown-linux-gnu
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
+              # The napi cross GCC defaults to an older ISA that rejects psm's
+              # long-displacement instructions. Match Rust's z10 baseline.
+              export CFLAGS_s390x_unknown_linux_gnu="-march=z10"
               if [[ $PACKAGE == "core" ]]; then
                 pnpm exec napi build --bin swc --release --target s390x-unknown-linux-gnu --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
                 chmod +x ./swc

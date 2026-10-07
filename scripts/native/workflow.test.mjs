@@ -104,6 +104,39 @@ test("embedded bash build scripts remain syntactically valid", () => {
     }
 });
 
+test("s390x builds pass Rust's z10 baseline to every native compilation", () => {
+    const setting = workflow.jobs.build.strategy.matrix.settings.find(
+        (setting) => setting.target === "s390x-unknown-linux-gnu"
+    );
+    for (const product of products) {
+        const output = run(
+            "bash",
+            [
+                "-e",
+                "-c",
+                `
+            pnpm() {
+                printf '%s\\n' "$CFLAGS_s390x_unknown_linux_gnu"
+            }
+            chmod() { :; }
+            ${setting.build}
+        `,
+            ],
+            {
+                env: {
+                    ...process.env,
+                    PACKAGE: product,
+                    CFLAGS_s390x_unknown_linux_gnu: "",
+                },
+            }
+        );
+        assert.deepEqual(
+            output.split("\n"),
+            Array(product === "core" ? 2 : 1).fill("-march=z10")
+        );
+    }
+});
+
 test("native builds do not depend on the separate WASM installer", () => {
     for (const step of workflow.jobs.build.steps) {
         const commands = (step.run || "")
