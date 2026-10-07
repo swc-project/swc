@@ -723,6 +723,12 @@ export interface JscConfig {
 
     output?: {
         /**
+         * String used for each indentation level in non-minified output.
+         * Use two spaces or a tab to customize indentation.
+         * @default '    '
+         */
+        indentString?: string;
+        /**
          * This can be used to keep the output ascii-only.
          * If this option is set, `minify.format.asciiOnly` will be ignored.
          * @default 'utf8'

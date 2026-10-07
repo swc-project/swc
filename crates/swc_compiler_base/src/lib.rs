@@ -124,6 +124,8 @@ pub fn parse_js(
 }
 
 pub struct PrintArgs<'a> {
+    /// String used for each indentation level. Defaults to four spaces.
+    pub indent_string: Option<&'a str>,
     pub source_root: Option<&'a str>,
     pub source_file_name: Option<&'a str>,
     pub output_path: Option<PathBuf>,
@@ -146,6 +148,7 @@ impl Default for PrintArgs<'_> {
         static DUMMY_NAMES: Lazy<FxHashMap<BytePos, Atom>> = Lazy::new(Default::default);
 
         PrintArgs {
+            indent_string: None,
             source_root: None,
             source_file_name: None,
             output_path: None,
@@ -179,6 +182,7 @@ pub fn print<T>(
     cm: Lrc<SourceMap>,
     node: &T,
     PrintArgs {
+        indent_string,
         source_root,
         source_file_name,
         output_path,
@@ -217,8 +221,11 @@ where
                 },
                 scope_buf.as_mut(),
             );
+            if let Some(indent_string) = indent_string {
+                w.set_indent_str(indent_string);
+            }
             w.preamble(preamble).unwrap();
-            let mut wr = Box::new(w) as Box<dyn WriteJs>;
+            let mut wr = Box::new(w) as Box<dyn WriteJs + '_>;
 
             if codegen_config.minify {
                 wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));

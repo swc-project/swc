@@ -1491,6 +1491,12 @@ pub struct JscConfig {
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JscOutputConfig {
+    /// String used for each indentation level in non-minified output.
+    /// Defaults to four spaces. Use two spaces or a tab to customize
+    /// indentation.
+    #[serde(default)]
+    pub indent_string: Option<String>,
+
     #[serde(default)]
     pub charset: Option<OutputCharset>,
 
