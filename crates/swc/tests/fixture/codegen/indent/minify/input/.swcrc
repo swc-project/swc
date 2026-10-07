@@ -1,0 +1,9 @@
+{
+  "jsc": {
+    "target": "es2020",
+    "output": {
+      "indentString": "  "
+    }
+  },
+  "minify": true
+}

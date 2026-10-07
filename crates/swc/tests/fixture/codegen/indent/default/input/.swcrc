@@ -1,0 +1,7 @@
+{
+  "jsc": {
+    "target": "es2020",
+    "output": {}
+  },
+  "sourceMaps": true
+}
