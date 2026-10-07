@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the private foundation with Rust 1.73 without changing SWC's lockfile.
+"""Verify the private foundation with Rust 1.85 without changing SWC's lockfile.
 
 The main workspace has nightly flags and a Cargo v4 lockfile. This disposable
 workspace uses the same sources and dependency versions, with v3 serialization.
@@ -32,7 +32,7 @@ with tempfile.TemporaryDirectory(prefix="swc-native-msrv-") as temporary:
     environment["RUSTFLAGS"] = ""
     environment["RUSTDOCFLAGS"] = ""
     environment.pop("CARGO_ENCODED_RUSTFLAGS", None)
-    environment["RUSTUP_TOOLCHAIN"] = "1.73.0"
+    environment["RUSTUP_TOOLCHAIN"] = "1.85.0"
     # This lockfile also contains unrelated workspace packages, which Cargo
     # prunes in the disposable copy. Dependency versions remain pinned.
     subprocess.run(["cargo", "test", "--workspace"], cwd=root, env=environment, check=True)

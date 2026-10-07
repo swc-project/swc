@@ -1,5 +1,5 @@
 //! Minimal dependency-free N-API 1 fixture. Resolve host functions at runtime so
-//! the same source builds with Rust 1.73 on Unix and Windows without node.lib.
+//! the same source builds with Rust 1.85 on Unix and Windows without node.lib.
 use std::ffi::{c_char, c_void};
 type Value = *mut c_void;
 type Env = *mut c_void;

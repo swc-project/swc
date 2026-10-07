@@ -981,7 +981,7 @@ jobs:
       - name: Install Windows MSRV toolchain
         if: matrix.host == 'windows-latest'
         shell: bash
-        run: rustup toolchain install 1.73.0 --profile minimal
+        run: rustup toolchain install 1.85.0 --profile minimal
       - name: Verify Windows MSRV and embedded cleanup worker
         if: matrix.host == 'windows-latest'
         shell: bash
