@@ -1,0 +1,16 @@
+{
+  "mappings": "AAAA,SAASA,MAAMC,IAAI;AACf,IAAIA,MAAM;AACNC,QAAQC,GAAG,CAACF;AAChB;AACJ",
+  "names": [
+    "greet",
+    "name",
+    "console",
+    "log"
+  ],
+  "sources": [
+    "../input/index.js"
+  ],
+  "sourcesContent": [
+    "function greet(name) {\n    if (name) {\n        console.log(name);\n    }\n}\n"
+  ],
+  "version": 3
+}
