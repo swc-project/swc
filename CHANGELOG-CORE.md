@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(ci)** Match Rust's z10 baseline in s390x release builds ([#12489](https://github.com/swc-project/swc/issues/12489)) ([b96f92f](https://github.com/swc-project/swc/commit/b96f92fa6ddafac71133185c7c760855f27b6ed6))
+
 ## [swc_core@v82.0.0] - 2026-10-06
 
 ### Bug Fixes

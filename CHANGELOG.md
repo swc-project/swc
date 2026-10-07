@@ -14,6 +14,9 @@
 - **(ci)** Run main CodSpeed benchmarks after policy skips ([1b6d869](https://github.com/swc-project/swc/commit/1b6d869ec415609664a06150df8ec4d614fdb3f8))
 
 
+- **(ci)** Match Rust's z10 baseline in s390x release builds ([#12489](https://github.com/swc-project/swc/issues/12489)) ([b96f92f](https://github.com/swc-project/swc/commit/b96f92fa6ddafac71133185c7c760855f27b6ed6))
+
+
 - **(cli)** Resolve out-dir source map paths relative to output ([#12481](https://github.com/swc-project/swc/issues/12481)) ([717914f](https://github.com/swc-project/swc/commit/717914f88f4f19caa1dd93e971628acb4bd608d1))
 
 
