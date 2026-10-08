@@ -38,7 +38,7 @@ jobs:
       allowed: ${{ steps.policy.outputs.allowed }}
     steps:
       # The gate must use the policy on the default branch, not PR changes.
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.repository.default_branch }}
           path: .contributor-policy
@@ -61,7 +61,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: recursive
@@ -90,12 +90,12 @@ jobs:
       integration_test: ${{ steps.changes.outputs.integration_test }}
       full_cargo_test_matrix: ${{ steps.changes.outputs.full_cargo_test_matrix }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "24"
 
@@ -125,7 +125,7 @@ jobs:
     env:
       RUST_LOG: "0"
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -146,7 +146,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -166,7 +166,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: true
@@ -187,7 +187,7 @@ jobs:
       contents: read
     if: needs.detect-changes.outputs.cargo_deny == 'true'
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -214,7 +214,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -247,7 +247,7 @@ jobs:
           - macos-latest
           - windows-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
           submodules: true
@@ -261,7 +261,7 @@ jobs:
 
       - uses: ./.github/actions/setup-node
         with:
-          node-version: "20"
+          node-version: "24"
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --all --all-targets
@@ -279,7 +279,7 @@ jobs:
       matrix:
         pkg: ${{ fromJson(needs.detect-changes.outputs.wasm_packages) }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -293,7 +293,7 @@ jobs:
 
       - uses: ./.github/actions/setup-node
         with:
-          node-version: "20"
+          node-version: "24"
 
       - name: Test
         run: |
@@ -312,7 +312,7 @@ jobs:
       AFFECTED_PACKAGES: ${{ needs.detect-changes.outputs.affected_packages }}
       FULL_CARGO_TEST_MATRIX: ${{ needs.detect-changes.outputs.full_cargo_test_matrix }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -346,7 +346,7 @@ jobs:
           git config --system core.autocrlf false
           git config --system core.eol lf
 
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         if: matrix.settings.crate != '__noop__'
         with:
           persist-credentials: false
@@ -357,7 +357,7 @@ jobs:
         id: setup-node
         if: matrix.settings.crate != '__noop__'
         with:
-          node-version: "20"
+          node-version: "24"
           install-dependencies: "false"
 
       # We explicitly do this to cache properly.
@@ -369,10 +369,10 @@ jobs:
           target: wasm32-wasip1
           components: rustfmt
 
-      - uses: denoland/setup-deno@11b63cf76cfcafb4e43f97b6cad24d8e8438f62d # v1.5.2
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         if: matrix.settings.crate != '__noop__' && matrix.settings.crate == 'swc_bundler'
         with:
-          deno-version: v1.x
+          deno-version: 2.x
 
       - name: Install node dependencies
         if: matrix.settings.crate != '__noop__'
@@ -386,7 +386,7 @@ jobs:
           npm install -g jest@27 mocha || true
 
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: github.ref == 'refs/heads/main' && matrix.settings.crate != '__noop__' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
@@ -413,7 +413,7 @@ jobs:
 
       - name: Restore execution cache
         id: restore-execution-cache
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: matrix.settings.crate != '__noop__' && (matrix.settings.crate == 'swc' || startsWith(matrix.settings.crate, 'swc_ecma_transforms_'))
         with:
           path: |
@@ -495,7 +495,7 @@ jobs:
           env RUSTFLAGS="--cfg swc_ast_unknown" cargo check -p ${{ matrix.settings.crate }} --features typescript,react,proposal,optimization,module,compat
 
       - name: Save execution cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: github.ref == 'refs/heads/main' && matrix.settings.crate != '__noop__' && (matrix.settings.crate == 'swc' || startsWith(matrix.settings.crate, 'swc_ecma_transforms_')) && steps.restore-execution-cache.outputs.cache-hit != 'true'
         with:
           path: |
@@ -518,7 +518,7 @@ jobs:
           - windows-latest
           - macos-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -531,7 +531,7 @@ jobs:
       - uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: 18
+          node-version: 24
           install-dependencies: "false"
 
       - name: Set platform name
@@ -549,7 +549,7 @@ jobs:
           corepack enable
           pnpm install --frozen-lockfile
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
@@ -580,7 +580,7 @@ jobs:
           - windows-latest
           - macos-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -593,7 +593,7 @@ jobs:
       - uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: 18
+          node-version: 24
           install-dependencies: "false"
 
       - name: Prepare
@@ -601,7 +601,7 @@ jobs:
           corepack enable
           pnpm install --frozen-lockfile
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
@@ -626,14 +626,14 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: 20
+          node-version: 24
           install-dependencies: "false"
 
       - name: Set platform name
@@ -661,7 +661,7 @@ jobs:
           npm install -g file:$PWD
 
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
