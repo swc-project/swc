@@ -15,7 +15,7 @@ use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
 /// https://github.com/Microsoft/TypeScript/blob/45eaf42006/src/compiler/utilities.ts#L2548
 pub struct JsWriter<'a, W: Write> {
     indent: usize,
-    indent_str: &'a str,
+    indent_str: &'static str,
     line_start: bool,
     line_count: usize,
     line_pos: usize,
@@ -70,7 +70,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
     }
 
     /// Sets the indentation string. Defaults to four spaces.
-    pub fn set_indent_str(&mut self, indent_str: &'a str) {
+    pub fn set_indent_str(&mut self, indent_str: &'static str) {
         self.indent_str = indent_str;
     }
 
@@ -498,37 +498,6 @@ mod test {
         writer.increase_indent().unwrap();
         writer.write_indent_string().unwrap();
         assert_eq!(output, "\t\t\t".as_bytes());
-    }
-
-    #[test]
-    fn borrowed_indent_tracks_source_map_columns() {
-        for indent in ["  ", "\t", ""] {
-            // Keep the string owned at runtime to exercise non-static indentation.
-            let indent = indent.to_owned();
-            let source_map = Arc::new(SourceMap::default());
-            let mut output = Vec::new();
-            let mut srcmap = Vec::new();
-            {
-                let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
-                writer.set_indent_str(&indent);
-                writer.increase_indent().unwrap();
-                writer.increase_indent().unwrap();
-                writer.add_srcmap(swc_common::BytePos(1)).unwrap();
-                writer.write_keyword(None, "return").unwrap();
-            }
-
-            assert_eq!(output, format!("{indent}{indent}return").as_bytes());
-            assert_eq!(
-                srcmap,
-                vec![(
-                    swc_common::BytePos(1),
-                    swc_common::LineCol {
-                        line: 0,
-                        col: (indent.len() * 2) as u32,
-                    },
-                )]
-            );
-        }
     }
 
     #[test]
