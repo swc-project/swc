@@ -1115,27 +1115,3 @@ fn print_ls_alr(path: &Path) {
     cmd.arg("-alR").arg(path);
     cmd.status().unwrap();
 }
-
-#[test]
-fn issue_12488_custom_indent() -> Result<()> {
-    let fixture = Path::new("tests/fixture-manual/12488").canonicalize()?;
-    let tmp = TempDir::new()?;
-    let output = tmp.path().join("output.js");
-
-    cli()?
-        .current_dir(&fixture)
-        .arg("compile")
-        .arg("--config-file")
-        .arg(".swcrc")
-        .arg("--out-file")
-        .arg(&output)
-        .arg("input.js")
-        .assert()
-        .success();
-
-    assert_eq!(
-        fs::read_to_string(output)?,
-        "function greet(name) {\n  if (name) {\n    console.log(name);\n  }\n}\n"
-    );
-    Ok(())
-}

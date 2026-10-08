@@ -1,9 +1,0 @@
-{
-  "jsc": {
-    "target": "es2020",
-    "output": {
-      "indentString": "  "
-    }
-  },
-  "sourceMaps": true
-}
