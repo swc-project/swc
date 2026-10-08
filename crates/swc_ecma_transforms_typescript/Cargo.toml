@@ -36,6 +36,7 @@ swc_ecma_visit            = { version = "29.0.0", path = "../swc_ecma_visit" }
 codspeed-criterion-compat = { workspace = true }
 
 swc_ecma_codegen             = { version = "32.0.3", path = "../swc_ecma_codegen" }
+swc_ecma_minifier            = { version = "62.0.1", path = "../swc_ecma_minifier" }
 serde_json                   = { workspace = true }
 swc_ecma_parser              = { version = "46.0.0", path = "../swc_ecma_parser", features = ["flow"] }
 swc_ecma_transforms_compat   = { version = "58.0.0", path = "../swc_ecma_transforms_compat" }
