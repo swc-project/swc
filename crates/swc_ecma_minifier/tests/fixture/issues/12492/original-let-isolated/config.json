@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "switches": true,
+    "dead_code": true,
+    "module": false
+}

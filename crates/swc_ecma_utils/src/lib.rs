@@ -623,7 +623,13 @@ pub trait StmtExt {
                 Stmt::Decl(decl) => match decl {
                     Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
                     Decl::Fn(_) => !ctx.in_strict,
-                    Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
+                    // A variable declaration of any kind may evaluate an
+                    // effectful initializer or destructuring pattern, and a
+                    // `let`/`const` binding may be read by code outside this
+                    // statement, e.g. from another case of the same `switch`.
+                    // Proving it removable requires usage information, which is
+                    // left to the passes that have it.
+                    Decl::Var(_) => true,
                     _ => false,
                 },
                 Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
