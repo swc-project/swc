@@ -13,15 +13,14 @@ System.register([], function(_export, _context) {
 });
 //// [2.ts]
 System.register([], function(_export, _context) {
-    async function foo() {
-        class C extends (await _context.import("./0")).B {
-        }
-        new C().print();
-    }
     return {
         setters: [],
         execute: function() {
-            foo();
+            !async function() {
+                class C extends (await _context.import("./0")).B {
+                }
+                new C().print();
+            }();
         }
     };
 });
