@@ -66,7 +66,9 @@ cache files, full integrity checks, locking, and atomic publication remain
 required. The opt-out does not permit unsafe directories or links inside the
 private namespace.
 
-Failure of both a custom root and the default root throws. An executable cache
+If the default root is unusable, the loader tries the system temporary
+directory on Unix and `USERPROFILE\.swc-cache` on Windows, with the same
+checks. Failure of every candidate root throws. An executable cache
 filesystem is required; a Linux `noexec` cache is rejected. Existing cache
 namespaces retain at most three inactive-or-current raw images.
 

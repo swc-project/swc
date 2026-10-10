@@ -191,3 +191,43 @@ fn materialization_worker() {
     let corrupt = Payload::parse(&corrupt).unwrap();
     assert!(cache::cached_at(&corrupt, &root.join("corrupt")).is_err());
 }
+
+#[test]
+fn unsafe_user_cache_falls_back_to_temporary_directory() {
+    let temporary = tempfile::tempdir().unwrap();
+    let base = temporary.path().canonicalize().unwrap();
+    let shared = base.join("shared");
+    let fallback = base.join("tmp");
+    fs::create_dir_all(&shared).unwrap();
+    fs::create_dir_all(&fallback).unwrap();
+    fs::set_permissions(&shared, fs::Permissions::from_mode(0o770)).unwrap();
+    let output = Command::new(env::current_exe().unwrap())
+        .args(["--exact", "cache_security::fallback_worker", "--nocapture"])
+        .env(TEST_ROOT, &fallback)
+        .env("XDG_CACHE_HOME", shared.join("cache"))
+        .env("TMPDIR", &fallback)
+        .env_remove("SWC_NATIVE_BINDING_CACHE")
+        .env_remove(OPT_OUT)
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+#[test]
+fn fallback_worker() {
+    let Some(root) = env::var_os(TEST_ROOT).map(PathBuf::from) else {
+        return;
+    };
+    let bytes = support::packed();
+    let payload = Payload::parse(&bytes).unwrap();
+    for mode in [CacheMode::Default, CacheMode::Temporary] {
+        let mut image = cache::materialize(&payload, &mode).unwrap();
+        assert!(image.path().starts_with(&root));
+        image.loaded().unwrap();
+    }
+}

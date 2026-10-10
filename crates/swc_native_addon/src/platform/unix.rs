@@ -45,6 +45,12 @@ pub fn user_cache_root() -> Result<PathBuf> {
     Ok(root)
 }
 
+/// Resolve symlinks such as macOS's /var so the ancestor checks see real paths.
+pub(crate) fn fallback_cache_root() -> Result<PathBuf> {
+    fs::canonicalize(env::temp_dir())
+        .map_err(|e| Error::io(ErrorKind::Cache, "resolve native addon fallback cache", e))
+}
+
 /// Reject roots from which the dynamic loader cannot map a materialized addon.
 /// This applies to explicit custom roots as well as the user default.
 pub fn executable_cache_root(root: &Path) -> Result<()> {
