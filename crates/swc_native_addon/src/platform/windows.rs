@@ -142,7 +142,7 @@ pub fn user_cache_root() -> Result<PathBuf> {
 /// AppContainer grants inherited by LocalAppData can make it unsafe for native
 /// loading. Use a separately validated profile cache rather than trusting those
 /// grants or changing the user's directory ACLs.
-pub(crate) fn user_profile_cache_root() -> Result<PathBuf> {
+pub(crate) fn fallback_cache_root() -> Result<PathBuf> {
     env::var_os("USERPROFILE")
         .filter(|value| Path::new(value).is_absolute())
         .map(|value| PathBuf::from(value).join(".swc-cache"))

@@ -1,4 +1,5 @@
-//! Check the security opt-out through the real Node registration fixture.
+//! Check Unix cache fallback and security opt-out through real Node
+//! registration.
 
 use std::{
     ffi::OsStr,
@@ -20,11 +21,41 @@ pub fn check_cache_security_opt_out(node: &OsStr, carrier: &Path, raw: &[u8], ke
     symlink(&shared, &alias).unwrap();
     let default = alias.join("default");
     let custom = alias.join("custom");
+    let fallback = root.join("tmp");
+    fs::create_dir(&fallback).unwrap();
     // Keep self-replacement from hiding a cache validation failure on btrfs.
     let installed = root.join("carrier.node");
     fs::hard_link(carrier, &installed).unwrap();
 
     for mode in [None, Some(custom.as_os_str()), Some(OsStr::new("0"))] {
+        let mut command = Command::new(node);
+        command
+            .arg(fixture_source("smoke.cjs"))
+            .arg(&installed)
+            .arg("success")
+            .env("XDG_CACHE_HOME", &default)
+            .env("TMPDIR", &fallback)
+            .env_remove("SWC_NATIVE_BINDING_CACHE")
+            .env_remove("SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK");
+        if let Some(mode) = mode {
+            command.env("SWC_NATIVE_BINDING_CACHE", mode);
+        }
+        checked(&mut command);
+        let directory = fallback
+            .join(swc_native_addon::platform::user_namespace().unwrap())
+            .join("v1");
+        assert_eq!(
+            fs::read(directory.join(format!("{key}.node"))).unwrap(),
+            raw
+        );
+        assert!(fs::read_dir(&directory).unwrap().all(|entry| {
+            !entry
+                .unwrap()
+                .file_name()
+                .to_string_lossy()
+                .starts_with("process-")
+        }));
+
         for (opt_out, action) in [(None, "loader-error"), (Some("1"), "success")] {
             let mut command = Command::new(node);
             command
@@ -32,6 +63,9 @@ pub fn check_cache_security_opt_out(node: &OsStr, carrier: &Path, raw: &[u8], ke
                 .arg(&installed)
                 .arg(action)
                 .env("XDG_CACHE_HOME", &default)
+                // Both candidates must be unsafe to test strict rejection now
+                // that Unix automatically retries a usable temporary root.
+                .env("TMPDIR", &shared)
                 .env_remove("SWC_NATIVE_BINDING_CACHE")
                 .env_remove("SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK");
             if let Some(mode) = mode {

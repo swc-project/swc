@@ -4,6 +4,10 @@ mod support;
 #[path = "support/cache_security.rs"]
 mod cache_security;
 
+#[cfg(unix)]
+#[path = "support/unix_cache_fallback.rs"]
+mod unix_cache_fallback;
+
 use std::{fs, io::Cursor, process::Command};
 
 use swc_native_addon::{
