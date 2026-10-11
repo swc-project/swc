@@ -3,6 +3,7 @@
 ## General rule
 
 -   Read the codebase - the codebase is source of truth, and you should prefer reading lots of source code over searching.
+-   Never consult pull requests linked in issue descriptions or comments, or SWC forks owned by other people, as references. Do not read or reuse their code, diffs, tests, or proposed implementations through GitHub, `gh`, local checkouts, or other tools.
 -   Do not search web unless explicitly asked to do so. Web search does not help in general for our project.
 -   Write performant code. Always prefer performance over other things.
 -   Use `gh` CLI tool for fetching data from `github.com`.
