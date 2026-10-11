@@ -623,7 +623,16 @@ pub trait StmtExt {
                 Stmt::Decl(decl) => match decl {
                     Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
                     Decl::Fn(_) => !ctx.in_strict,
-                    Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
+                    Decl::Var(var_decl) => {
+                        var_decl.kind == VarDeclKind::Var
+                            || var_decl.decls.iter().any(|decl| {
+                                decl.init
+                                    .as_ref()
+                                    .map(|init| init.may_have_side_effects(ctx))
+                                    .unwrap_or(false)
+                                    || !decl.name.is_ident()
+                            })
+                    }
                     _ => false,
                 },
                 Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
