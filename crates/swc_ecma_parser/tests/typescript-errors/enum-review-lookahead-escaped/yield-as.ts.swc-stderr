@@ -1,0 +1,7 @@
+  x Unexpected escape sequence in reserved word: yield
+   ,-[$DIR/tests/typescript-errors/enum-review-lookahead-escaped/yield-as.ts:2:1]
+ 1 | enum E {
+ 2 |     A = y\u0069eld as,
+   :         ^^^^^^^^^^
+ 3 | }
+   `----

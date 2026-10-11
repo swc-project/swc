@@ -1,0 +1,10 @@
+  x Expected ';', got ')'
+   ,-[$DIR/tests/typescript-errors/enum-review-for-of/escaped-of-await.ts:1:1]
+ 1 | enum E { A = (() => { for (await o\u0066 [1]) {} })() }
+   :                                             ^
+   `----
+  x await isn't allowed in non-async function
+   ,-[$DIR/tests/typescript-errors/enum-review-for-of/escaped-of-await.ts:1:1]
+ 1 | enum E { A = (() => { for (await o\u0066 [1]) {} })() }
+   :                            ^^^^^
+   `----

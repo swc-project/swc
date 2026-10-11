@@ -213,7 +213,11 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if cur == Token::Yield && self.includes_yield_expr() {
+        if cur == Token::Yield
+            && (self.includes_yield_expr()
+                || (self.type_ctx().contains(TypeContext::TsContainerBody)
+                    && self.can_recover_ts_await_or_yield()))
+        {
             return self.parse_yield_expr();
         }
 
@@ -393,15 +397,16 @@ impl<I: Tokens> Parser<I> {
                 .into());
             } else if cur == Token::Await {
                 let parses_await = self.includes_await_expr()
-                    || self.ctx().contains(Context::Module)
-                    || self
-                        .boundary_ctx()
-                        .contains(BoundaryContext::InStaticBlock)
-                    || self.is_unambiguous_module()
-                    // Direct node parsers, such as `parse_file_as_expr`, opt into
-                    // module-capable grammar without parsing an entire Program.
-                    || (self.program_parse_mode == ProgramParseMode::None
-                        && self.boundary_ctx().contains(BoundaryContext::CanBeModule));
+                    || self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
+                    || (!self.type_ctx().contains(TypeContext::TsContainerBody)
+                        && (self.ctx().contains(Context::Module)
+                            || self.is_unambiguous_module()
+                            // Direct node parsers opt into module-capable grammar
+                            // without parsing an entire Program.
+                            || (self.program_parse_mode == ProgramParseMode::None
+                                && self.boundary_ctx().contains(BoundaryContext::CanBeModule))))
+                    || (self.type_ctx().contains(TypeContext::TsContainerBody)
+                        && self.can_recover_ts_await_or_yield());
 
                 if parses_await {
                     return self.parse_await_expr(None);
@@ -672,10 +677,12 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_yield_expr(&mut self) -> PResult<Box<Expr>> {
-        self.check_current_token_escape()?;
+        self.check_current_keyword_escape()?;
         let start = self.input().cur_pos();
         self.assert_and_bump(Token::Yield);
-        debug_assert!(self.includes_yield_expr());
+        debug_assert!(
+            self.includes_yield_expr() || self.type_ctx().contains(TypeContext::TsContainerBody)
+        );
 
         // Spec says
         // YieldExpression cannot be used within the FormalParameters of a generator
@@ -2314,12 +2321,52 @@ impl<I: Tokens> Parser<I> {
         Ok((node, Some(min_prec)))
     }
 
+    /// TypeScript containers defer await/yield context errors to semantic
+    /// analysis. Recover operand-shaped expressions without changing valid
+    /// identifier uses.
+    #[cold]
+    #[inline(never)]
+    fn can_recover_ts_await_or_yield(&mut self) -> bool {
+        let Some(next) = self.input_mut().peek() else {
+            return false;
+        };
+        let starts_operand =
+            next.is_word() || matches!(next, Token::Num | Token::BigInt | Token::Str);
+        if !starts_operand || self.input_mut().has_linebreak_between_cur_and_peeked() {
+            return false;
+        }
+        if matches!(next, Token::In | Token::InstanceOf) {
+            // With Await/Yield disabled, these are valid relational operators.
+            return false;
+        }
+        if matches!(next, Token::As | Token::Satisfies) {
+            // Unescaped contextual names may be type operators. Leave
+            // type-shaped input to that operator, preserving its precedence
+            // and avoiding a speculative type AST that would be parsed twice.
+            return self.ts_look_ahead(|p| {
+                p.bump(); // await/yield
+
+                // Escaped contextual words are identifier operands, even when
+                // their decoded spelling is `as` or `satisfies`.
+                if p.input().has_escaped_keyword() {
+                    return true;
+                }
+                if next == Token::As && p.input_mut().peek() == Some(Token::Const) {
+                    return false;
+                }
+                p.bump(); // as/satisfies
+                !p.ts_type_can_start()
+            });
+        }
+        true
+    }
+
     pub(crate) fn parse_await_expr(
         &mut self,
         start_of_await_token: Option<BytePos>,
     ) -> PResult<Box<Expr>> {
         if start_of_await_token.is_none() {
-            self.check_current_token_escape()?;
+            self.check_current_keyword_escape()?;
         }
         let start = start_of_await_token.unwrap_or_else(|| self.cur_pos());
 
@@ -2357,8 +2404,9 @@ impl<I: Tokens> Parser<I> {
                 )
             })
         {
-            if ctx.contains(Context::Module)
-                || boundary_context.contains(BoundaryContext::CanBeModule)
+            if !self.type_ctx().contains(TypeContext::TsContainerBody)
+                && (ctx.contains(Context::Module)
+                    || boundary_context.contains(BoundaryContext::CanBeModule))
             {
                 self.emit_module_mode_err(span, SyntaxError::InvalidIdentInAsync);
             }
@@ -2477,17 +2525,19 @@ impl<I: Tokens> Parser<I> {
 
                     // At here, we use parse_bin_expr() instead of parse_assignment_expr()
                     // because `x?: number` should not be parsed as a conditional expression
-                    let expr = if spread.is_some() {
-                        self.parse_bin_expr()?
+                    // Operand-form yield recovery must still use the assignment
+                    // production when this cover grammar starts with an identifier.
+                    let mut expr = if self.input().is(Token::Yield)
+                        && self.type_ctx().contains(TypeContext::TsContainerBody)
+                        && self.can_recover_ts_await_or_yield()
+                    {
+                        self.parse_yield_expr()?
                     } else {
-                        let mut expr = self.parse_bin_expr()?;
-
-                        if self.input().cur().is_assign_op() {
-                            expr = self.finish_assignment_expr(start, expr)?
-                        }
-
-                        expr
+                        self.parse_bin_expr()?
                     };
+                    if spread.is_none() && self.input().cur().is_assign_op() {
+                        expr = self.finish_assignment_expr(start, expr)?
+                    }
 
                     ExprOrSpread { spread, expr }
                 } else {

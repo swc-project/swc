@@ -1,0 +1,7 @@
+  x `await` cannot be used as an identifier in an async context
+   ,-[$DIR/tests/typescript-errors/enum-await-context/async-binding/input.ts:3:1]
+ 2 |     enum E { await = 1, X = await }
+ 3 |     const await = 1;
+   :           ^^^^^
+ 4 | }
+   `----

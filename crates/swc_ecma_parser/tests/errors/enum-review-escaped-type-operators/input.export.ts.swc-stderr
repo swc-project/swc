@@ -1,0 +1,55 @@
+  x Expected ',', got 'number'
+   ,-[$DIR/tests/errors/enum-review-escaped-type-operators/input.export.ts:2:1]
+ 1 | export {};
+ 2 | enum EAwaitAsNumber { AwaitAsNumber = await a\u0073 number }
+   :                                                     ^^^^^^
+ 3 | enum EAwaitSatisfiesNumber { AwaitSatisfiesNumber = await satisfie\u0073 number }
+   `----
+  x Expected ',', got 'number'
+   ,-[$DIR/tests/errors/enum-review-escaped-type-operators/input.export.ts:3:1]
+ 2 | enum EAwaitAsNumber { AwaitAsNumber = await a\u0073 number }
+ 3 | enum EAwaitSatisfiesNumber { AwaitSatisfiesNumber = await satisfie\u0073 number }
+   :                                                                          ^^^^^^
+ 4 | enum EAwaitAsExtendedNumber { AwaitAsExtendedNumber = await a\u{73} number }
+   `----
+  x Expected ',', got 'number'
+   ,-[$DIR/tests/errors/enum-review-escaped-type-operators/input.export.ts:4:1]
+ 3 | enum EAwaitSatisfiesNumber { AwaitSatisfiesNumber = await satisfie\u0073 number }
+ 4 | enum EAwaitAsExtendedNumber { AwaitAsExtendedNumber = await a\u{73} number }
+   :                                                                     ^^^^^^
+ 5 | enum EAwaitSatisfiesExtendedNumber { AwaitSatisfiesExtendedNumber = await satisfie\u{73} number }
+   `----
+  x Expected ',', got 'number'
+   ,-[$DIR/tests/errors/enum-review-escaped-type-operators/input.export.ts:5:1]
+ 4 | enum EAwaitAsExtendedNumber { AwaitAsExtendedNumber = await a\u{73} number }
+ 5 | enum EAwaitSatisfiesExtendedNumber { AwaitSatisfiesExtendedNumber = await satisfie\u{73} number }
+   :                                                                                          ^^^^^^
+ 6 | enum EYieldAsNumber { YieldAsNumber = yield a\u0073 number }
+   `----
+  x Expected ',', got 'number'
+   ,-[$DIR/tests/errors/enum-review-escaped-type-operators/input.export.ts:6:1]
+ 5 | enum EAwaitSatisfiesExtendedNumber { AwaitSatisfiesExtendedNumber = await satisfie\u{73} number }
+ 6 | enum EYieldAsNumber { YieldAsNumber = yield a\u0073 number }
+   :                                                     ^^^^^^
+ 7 | enum EYieldSatisfiesNumber { YieldSatisfiesNumber = yield satisfie\u0073 number }
+   `----
+  x Expected ',', got 'number'
+   ,-[$DIR/tests/errors/enum-review-escaped-type-operators/input.export.ts:7:1]
+ 6 | enum EYieldAsNumber { YieldAsNumber = yield a\u0073 number }
+ 7 | enum EYieldSatisfiesNumber { YieldSatisfiesNumber = yield satisfie\u0073 number }
+   :                                                                          ^^^^^^
+ 8 | enum EYieldAsExtendedNumber { YieldAsExtendedNumber = yield a\u{73} number }
+   `----
+  x Expected ',', got 'number'
+   ,-[$DIR/tests/errors/enum-review-escaped-type-operators/input.export.ts:8:1]
+ 7 | enum EYieldSatisfiesNumber { YieldSatisfiesNumber = yield satisfie\u0073 number }
+ 8 | enum EYieldAsExtendedNumber { YieldAsExtendedNumber = yield a\u{73} number }
+   :                                                                     ^^^^^^
+ 9 | enum EYieldSatisfiesExtendedNumber { YieldSatisfiesExtendedNumber = yield satisfie\u{73} number }
+   `----
+  x Expected ',', got 'number'
+   ,-[$DIR/tests/errors/enum-review-escaped-type-operators/input.export.ts:9:1]
+ 8 | enum EYieldAsExtendedNumber { YieldAsExtendedNumber = yield a\u{73} number }
+ 9 | enum EYieldSatisfiesExtendedNumber { YieldSatisfiesExtendedNumber = yield satisfie\u{73} number }
+   :                                                                                          ^^^^^^
+   `----

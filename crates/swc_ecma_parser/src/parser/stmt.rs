@@ -84,6 +84,8 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_for_each_head(&mut self, left: ForHead) -> PResult<TempForHead> {
         let is_of = self.input().cur() == Token::Of;
+        // The separator is a keyword even when its name is contextual.
+        self.check_current_keyword_escape()?;
         self.bump();
         if is_of {
             let right =
@@ -396,6 +398,17 @@ impl<I: Tokens> Parser<I> {
     /// expressions.
     pub(super) fn parse_for_head_with_await(&mut self, is_await: bool) -> PResult<TempForHead> {
         let cur = self.input().cur();
+        #[cfg(feature = "typescript")]
+        if self.type_ctx().contains(TypeContext::TsContainerBody)
+            && ((cur == Token::Await && !self.includes_await_expr())
+                || (cur == Token::Yield && !self.includes_yield_expr()))
+            && self.input_mut().peek() == Some(Token::Of)
+        {
+            if let Some(head) = self.try_parse_ts_container_for_of_head() {
+                return Ok(head);
+            }
+        }
+
         if cur == Token::Const
             || cur == Token::Var
             || (self.input().is(Token::Let)
@@ -551,15 +564,49 @@ impl<I: Tokens> Parser<I> {
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
     }
 
+    /// Resolve the identifier/keyword ambiguity at the loop head itself.
+    /// A complete for-of head keeps the parsed RHS and its diagnostics; an
+    /// ordinary for initializer or nested expression can recover `await of`
+    /// and `yield of` with `of` as the operand.
+    #[cfg(feature = "typescript")]
+    #[cold]
+    #[inline(never)]
+    fn try_parse_ts_container_for_of_head(&mut self) -> Option<TempForHead> {
+        let checkpoint = self.checkpoint_save();
+        let result = (|| {
+            let ident = self.parse_ident(true, true)?;
+            let left = ForHead::Pat(Box::new(Pat::Ident(ident.into())));
+            self.parse_for_each_head(left)
+        })();
+        match result {
+            Ok(head) if self.input().is(Token::RParen) => Some(head),
+            _ => {
+                self.checkpoint_load(checkpoint);
+                None
+            }
+        }
+    }
+
     fn parse_for_stmt(&mut self) -> PResult<Stmt> {
         let start = self.cur_pos();
 
         self.assert_and_bump(Token::For);
         let await_start = self.cur_pos();
         let await_token = if self.input().is(Token::Await) {
-            self.check_current_token_escape()?;
-            self.bump();
-            Some(self.span(await_start))
+            self.check_current_keyword_escape()?;
+            // For-await-of is only available with the Await grammar parameter.
+            // Program entry may still be selecting or recovering module grammar.
+            let at_module_entry = self.syntax_context == SyntaxContext::Program
+                && (self.ctx().contains(Context::Module)
+                    || self.program_parse_mode == ProgramParseMode::None);
+            let allows_for_await =
+                self.includes_await_expr() || self.can_classify_module() || at_module_entry;
+            if allows_for_await {
+                self.bump();
+                Some(self.span(await_start))
+            } else {
+                None
+            }
         } else {
             None
         };
@@ -569,7 +616,9 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::LParen);
 
         let head = if await_token.is_some() {
-            self.parse_for_head_with_await(true)?
+            with_grammar_context!(self, [?Yield, +Await], |p| {
+                p.parse_for_head_with_await(true)
+            })?
         } else {
             self.parse_for_head()?
         };

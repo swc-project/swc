@@ -1,0 +1,286 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 154
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 11
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 12,
+        "end": 65
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 17,
+          "end": 20
+        },
+        "ctxt": 0,
+        "value": "Top",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 23,
+            "end": 32
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 23,
+              "end": 28
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 31,
+              "end": 32
+            },
+            "value": 1.0,
+            "raw": "1"
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 34,
+            "end": 43
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 34,
+              "end": 35
+            },
+            "ctxt": 0,
+            "value": "X",
+            "optional": false
+          },
+          "init": {
+            "type": "Identifier",
+            "span": {
+              "start": 38,
+              "end": 43
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 45,
+            "end": 63
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 45,
+              "end": 46
+            },
+            "ctxt": 0,
+            "value": "Y",
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 49,
+              "end": 63
+            },
+            "operator": "+",
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 49,
+                "end": 59
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 62,
+                "end": 63
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 81,
+          "end": 82
+        },
+        "ctxt": 0,
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 66,
+        "end": 154
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 85,
+          "end": 154
+        },
+        "stmts": [
+          {
+            "type": "TsEnumDeclaration",
+            "span": {
+              "start": 91,
+              "end": 126
+            },
+            "declare": false,
+            "isConst": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 96,
+                "end": 101
+              },
+              "ctxt": 0,
+              "value": "Local",
+              "optional": false
+            },
+            "members": [
+              {
+                "type": "TsEnumMember",
+                "span": {
+                  "start": 104,
+                  "end": 113
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 104,
+                    "end": 109
+                  },
+                  "ctxt": 0,
+                  "value": "await",
+                  "optional": false
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 112,
+                    "end": 113
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                }
+              },
+              {
+                "type": "TsEnumMember",
+                "span": {
+                  "start": 115,
+                  "end": 124
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 115,
+                    "end": 116
+                  },
+                  "ctxt": 0,
+                  "value": "X",
+                  "optional": false
+                },
+                "init": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 119,
+                    "end": 124
+                  },
+                  "ctxt": 0,
+                  "value": "await",
+                  "optional": false
+                }
+              }
+            ]
+          },
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 131,
+              "end": 152
+            },
+            "argument": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 138,
+                "end": 151
+              },
+              "argument": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 144,
+                  "end": 151
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 144,
+                    "end": 149
+                  },
+                  "ctxt": 0,
+                  "value": "Local",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 150,
+                    "end": 151
+                  },
+                  "value": "X"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}
