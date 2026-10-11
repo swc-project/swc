@@ -50,7 +50,7 @@
                 {
                   "type": "VariableDeclarator",
                   "span": {
-                    "start": 117,
+                    "start": 129,
                     "end": 131
                   },
                   "id": {

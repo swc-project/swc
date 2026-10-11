@@ -465,15 +465,27 @@ impl<I: Tokens> Parser<I> {
         let mut is_await_using_decl = false;
 
         if self.input().syntax().explicit_resource_management() {
+            // `using` must be written without escapes to start a declaration.
+            let is_unescaped_using = |p: &Self, e: &Expr| {
+                e.is_ident_ref_to("using") && p.input.iter.read_string(e.span()) == "using"
+            };
+
             // using foo
-            let mut maybe_using_decl = init.is_ident_ref_to("using");
+            let mut maybe_using_decl = is_unescaped_using(self, &init);
             let mut maybe_await_using_decl = false;
 
-            // await using foo
+            // await [no LineTerminator here] using foo
             if !maybe_using_decl
                 && init
                     .as_await_expr()
-                    .filter(|e| e.arg.is_ident_ref_to("using"))
+                    .filter(|e| {
+                        is_unescaped_using(self, &e.arg)
+                            && !self
+                                .input
+                                .iter
+                                .read_string(Span::new(e.span.lo, e.arg.span_lo()))
+                                .contains(['\n', '\r', '\u{2028}', '\u{2029}'])
+                    })
                     .is_some()
             {
                 maybe_using_decl = true;
@@ -481,6 +493,8 @@ impl<I: Tokens> Parser<I> {
             }
 
             if maybe_using_decl
+                // using [no LineTerminator here] ForBinding
+                && !self.input().had_line_break_before_cur()
                 // Only synchronous `using` forbids `of` as a for-of binding name.
                 && (maybe_await_using_decl || !self.input().is(Token::Of))
                 && (peek!(self).is_some_and(|peek| peek == Token::Of || peek == Token::In))
@@ -493,8 +507,8 @@ impl<I: Tokens> Parser<I> {
         if is_using_decl {
             let name = self.parse_binding_ident(false)?;
             let decl = VarDeclarator {
+                span: name.span(),
                 name: name.into(),
-                span: self.span(start),
                 init: None,
                 definite: false,
             };

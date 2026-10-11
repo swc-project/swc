@@ -1,0 +1,7 @@
+  x Expected ';', got 'ident'
+   ,-[$DIR/tests/errors/using-for-head/await-using-line-break-before-binding/input.js:3:1]
+ 2 |     for (await using
+ 3 |     x of []) {}
+   :     ^
+ 4 | }
+   `----

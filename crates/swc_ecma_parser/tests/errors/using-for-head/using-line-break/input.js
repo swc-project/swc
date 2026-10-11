@@ -1,0 +1,2 @@
+for (using
+x of []) {}

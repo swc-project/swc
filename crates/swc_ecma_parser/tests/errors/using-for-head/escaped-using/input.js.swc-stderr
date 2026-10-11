@@ -1,0 +1,5 @@
+  x Expected ';', got 'ident'
+   ,-[$DIR/tests/errors/using-for-head/escaped-using/input.js:1:1]
+ 1 | for (\u0075sing x of []) {}
+   :                 ^
+   `----

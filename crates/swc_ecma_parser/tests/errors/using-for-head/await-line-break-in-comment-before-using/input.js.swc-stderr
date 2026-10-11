@@ -1,0 +1,7 @@
+  x Expected ';', got 'ident'
+   ,-[$DIR/tests/errors/using-for-head/await-line-break-in-comment-before-using/input.js:3:1]
+ 2 |     for (await /*
+ 3 |     */ using x of []) {}
+   :              ^
+ 4 | }
+   `----
