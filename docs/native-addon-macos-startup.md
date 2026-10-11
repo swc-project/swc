@@ -115,7 +115,9 @@ reports per architecture, maximum overheads over matching raw addons were:
 | Native ARM64 | 117.97 | 19.47 |
 | x64 under Rosetta | 856.00 | 75.51 |
 
-Rosetta remains within its existing 1,500 ms cold / 125 ms warm limits.
+Rosetta passed the 1,500 ms cold / 125 ms warm limits in effect for that run.
+The current [release contract](native-addon-carriers.md) retains the warm limit
+and reports cold-load timings without a performance limit on every OS.
 These CI observations use the release artifacts and runner hosts, separately
 from the local before/after experiment above.
 

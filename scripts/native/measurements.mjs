@@ -3,19 +3,10 @@ import { mkdtempSync, realpathSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
-// Product-approved startup overhead, measured against the matching raw load.
-// Runtime checks and the final release gate share these limits and still fail
-// when either 15-sample median exceeds its budget.
+// Runtime checks and the final release gate share the x64 warm-cache limit.
+// Cold-load timings remain diagnostic evidence without a performance limit.
 export const x64LoadBudgets = Object.freeze({
-    coldOverheadMs: 500,
     warmOverheadMs: 125,
-});
-
-// The release matrix runs macOS x64 under Rosetta on ARM64 hosts. First-load
-// translation has a separately approved cold budget; warm limits stay shared.
-export const rosettaLoadBudgets = Object.freeze({
-    ...x64LoadBudgets,
-    coldOverheadMs: 1500,
 });
 
 // Checkout ancestors can belong to the host runner while Docker runs as root.
@@ -94,17 +85,9 @@ export function validateMeasurements(result) {
     assert.equal(result.coldOverheadMs, result.coldMs - result.rawColdMs);
     assert.equal(result.warmOverheadMs, result.warmMs - result.rawMs);
     if (result.target.startsWith("x86_64-")) {
-        const budgets =
-            result.target === "x86_64-apple-darwin"
-                ? rosettaLoadBudgets
-                : x64LoadBudgets;
         assert(
-            result.coldOverheadMs <= budgets.coldOverheadMs,
-            `median cold-load overhead ${result.coldOverheadMs} ms exceeds ${budgets.coldOverheadMs} ms`
-        );
-        assert(
-            result.warmOverheadMs <= budgets.warmOverheadMs,
-            `median warm-cache overhead ${result.warmOverheadMs} ms exceeds ${budgets.warmOverheadMs} ms`
+            result.warmOverheadMs <= x64LoadBudgets.warmOverheadMs,
+            `median warm-cache overhead ${result.warmOverheadMs} ms exceeds ${x64LoadBudgets.warmOverheadMs} ms`
         );
     }
 }
