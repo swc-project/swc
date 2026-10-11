@@ -26,7 +26,7 @@ use self::{
 };
 use crate::{
     scope_helpers::{for_each_param_binding, for_each_pat_binding},
-    util::EndsWithAlphaNum,
+    util::{EndsWithAlphaNum, EndsWithNonNull},
 };
 
 #[macro_use]
@@ -361,6 +361,9 @@ where
         let need_pre_space = if self.cfg.minify {
             if is_kwd_op {
                 node.left.ends_with_alpha_num()
+            } else if matches!(node.op, op!("==") | op!("===")) {
+                // A postfix `!` would merge with equality into `!=` or `!==`.
+                node.left.ends_with_non_null()
             } else {
                 // space is mandatory to avoid outputting -->
                 match *node.left {
@@ -2051,7 +2054,12 @@ impl MacroNode for AssignExpr {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.left);
-        formatting_space!(emitter);
+        if emitter.cfg.minify && self.op == op!("=") && self.left.ends_with_non_null() {
+            // Preserve assignment instead of merging the assertion into `!=`.
+            space!(emitter);
+        } else {
+            formatting_space!(emitter);
+        }
         operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
         emit!(self.right);
