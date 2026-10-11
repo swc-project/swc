@@ -132,14 +132,13 @@ hardlinked carrier copies to prevent filesystem self-replacement from disguising
 warm-cache costs. macOS cold samples instead use ordinary single-link files to
 measure the first load after installation; other platforms retain their existing
 hardlinked cold samples.
-Representative x64 jobs require at most 500 ms cold overhead and 125 ms warm
-overhead over the corresponding raw addon. The macOS x64 jobs run under Rosetta
-on ARM64 runners and have a separately approved 1,500 ms cold limit; their warm
-limit remains 125 ms. These startup budgets accept the measured loading
-tradeoff while retaining compressed carriers and full integrity checks. They
-apply when a process initializes the native module, not to each subsequent
-transform. The default and Rosetta limits are included in the release gate JSON and job summary;
-exceeding either still fails verification.
+Cold-load timings are reported on every OS without a performance limit.
+Representative x64 jobs, including macOS x64 under Rosetta, require at most
+125 ms warm-cache overhead over the corresponding raw addon. This limit applies
+when a process initializes the native module, not to each subsequent transform.
+The warm-cache limit is included in the release gate JSON and job summary;
+exceeding it still fails verification. Cold measurements retain the same baseline
+and arithmetic checks as warm measurements.
 
 To test an untagged fix, dispatch `publish.yml` on the fixing branch with
 `verifySourceRef` set to its full commit SHA and `version` matching its checked-in

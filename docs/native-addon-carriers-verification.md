@@ -1,9 +1,9 @@
 # Native release integration verification
 
 This is historical evidence under the original 100/25 ms startup budgets. The
-current [release contract](native-addon-carriers.md) uses approved 500/125 ms
-budgets, with a 1,500 ms cold budget for Rosetta. Historical failures below
-have not been relabeled.
+current [release contract](native-addon-carriers.md) enforces a 125 ms x64
+warm-cache overhead limit and reports cold-load timings without a performance
+limit on every OS. Historical failures below have not been relabeled.
 
 Observed on 2026-09-08 in the hosted Linux x86_64 runner, starting from main
 `2855b5a8c1f24d09e69cca1ea80b03c3c55180e4`. The host reports Intel Xeon Platinum

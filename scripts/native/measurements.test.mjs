@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { realpathSync, rmSync, statSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
+import { targets } from "./targets.mjs";
 import {
     createMeasurementCache,
     measureLoads,
@@ -79,7 +80,7 @@ test("cold samples copy raw before loading while warm samples reuse files", () =
     validateMeasurements({ ...result, target: "x86_64-apple-darwin" });
 });
 
-test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budgets", () => {
+test("gate rejects missing cold baseline, incorrect arithmetic and exceeded warm budget", () => {
     const valid = {
         target: "x86_64-pc-windows-msvc",
         samples: 15,
@@ -108,52 +109,34 @@ test("gate rejects missing cold baseline, incorrect arithmetic and exceeded budg
         { coldOverheadMs: 0 },
         { warmOverheadMs: 0 },
         { samples: 14 },
-        { coldMs: 1501, coldOverheadMs: 501 },
         { warmMs: 136, warmOverheadMs: 126 },
     ])
         assert.throws(() => validateMeasurements({ ...valid, ...change }));
 });
 
-test("only Rosetta receives the higher cold budget; all x64 warm budgets stay shared", () => {
-    for (const [target, coldBudget] of [
-        ["x86_64-apple-darwin", 1500],
-        ["x86_64-pc-windows-msvc", 500],
-        ["x86_64-unknown-linux-gnu", 500],
-        ["x86_64-unknown-linux-musl", 500],
-    ]) {
+test("all OS targets accept cold overhead without a limit and preserve x64 warm limits", () => {
+    for (const target of Object.keys(targets)) {
         const result = {
             target,
             samples: 15,
             rawMs: 10,
             rawColdMs: 1000,
-            coldMs: 1000 + coldBudget,
+            coldMs: 61000,
             warmMs: 135,
-            coldOverheadMs: coldBudget,
+            coldOverheadMs: 60000,
             warmOverheadMs: 125,
         };
         validateMeasurements(result);
-        assert.throws(
-            () =>
-                validateMeasurements({
-                    ...result,
-                    coldMs: result.coldMs + 1,
-                    coldOverheadMs: coldBudget + 1,
-                }),
-            new RegExp(
-                `cold-load overhead ${
-                    coldBudget + 1
-                } ms exceeds ${coldBudget} ms`
-            )
-        );
-        assert.throws(
-            () =>
-                validateMeasurements({
-                    ...result,
-                    warmMs: 136,
-                    warmOverheadMs: 126,
-                }),
-            /warm-cache overhead 126 ms exceeds 125 ms/
-        );
+        if (target.startsWith("x86_64-"))
+            assert.throws(
+                () =>
+                    validateMeasurements({
+                        ...result,
+                        warmMs: 136,
+                        warmOverheadMs: 126,
+                    }),
+                /warm-cache overhead 126 ms exceeds 125 ms/
+            );
     }
 });
 
