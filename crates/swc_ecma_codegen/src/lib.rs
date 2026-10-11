@@ -417,6 +417,15 @@ where
         Ok(())
     }
 
+    /// Emits a type parameter declaration with the caller's comma rules.
+    fn emit_ts_type_param_decl(&mut self, node: &TsTypeParamDecl, format: ListFormat) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+        punct!(self, "<");
+        self.emit_list(node.span, Some(&node.params), format)?;
+        punct!(self, ">");
+        Ok(())
+    }
+
     fn emit_fn_params(&mut self, node: &Function) -> Result {
         punct!(self, "(");
         if let Some(this_param) = &node.this_param {
@@ -1945,12 +1954,26 @@ impl MacroNode for ArrowExpr {
         }
 
         let parens = !emitter.cfg.minify
+            || self.type_params.is_some()
             || match self.params.as_slice() {
                 [Pat::Ident(i)] => emitter.has_trailing_comment(i.span),
                 _ => true,
             };
 
-        emit!(self.type_params);
+        if let Some(type_params) = &self.type_params {
+            // The emitter has no TSX mode. Disambiguate single unconstrained
+            // generic arrows in both TypeScript and TSX instead of emitting JSX.
+            let needs_comma = matches!(
+                type_params.params.as_slice(),
+                [param] if param.constraint.is_none() && param.default.is_none()
+            );
+            let format = if needs_comma {
+                ListFormat::TypeParameters | ListFormat::ForceTrailingComma
+            } else {
+                ListFormat::TypeParameters
+            };
+            emitter.emit_ts_type_param_decl(type_params, format)?;
+        }
 
         if parens {
             punct!(emitter, "(");
