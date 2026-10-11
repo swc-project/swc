@@ -1082,6 +1082,59 @@ impl<I: Tokens> Parser<I> {
         Ok(entity)
     }
 
+    /// Tests a possible type prefix without constructing a type AST. Call only
+    /// during lookahead: parenthesized prefixes are consumed. An empty
+    /// parameter list needs an arrow to distinguish a function type from an
+    /// empty call.
+    pub(super) fn ts_type_can_start(&mut self) -> bool {
+        let mut parenthesized = false;
+        while self.input_mut().eat(Token::LParen) {
+            parenthesized = true;
+        }
+
+        let cur = self.input().cur();
+        if parenthesized && cur == Token::RParen {
+            self.bump();
+            return self.input().cur() == Token::Arrow;
+        }
+        if cur == Token::Minus {
+            return matches!(self.input_mut().peek(), Some(Token::Num | Token::BigInt));
+        }
+
+        // Match type prefixes rather than every word: relational operators
+        // such as `in` and `instanceof` cannot begin a TypeScript type.
+        cur.is_known_ident()
+            || matches!(
+                cur,
+                Token::Ident
+                    | Token::Void
+                    | Token::Yield
+                    | Token::Null
+                    | Token::Await
+                    | Token::Break
+                    | Token::Switch
+                    | Token::This
+                    | Token::TypeOf
+                    | Token::Import
+                    | Token::New
+                    | Token::True
+                    | Token::False
+                    | Token::Num
+                    | Token::BigInt
+                    | Token::Str
+                    | Token::BackQuote
+                    | Token::NoSubstitutionTemplateLiteral
+                    | Token::TemplateHead
+                    | Token::LBrace
+                    | Token::LBracket
+                    | Token::Lt
+                    | Token::Pipe
+                    | Token::Ampersand
+            )
+            || (self.syntax().flow() && cur == Token::In)
+            || (parenthesized && cur == Token::DotDotDot)
+    }
+
     pub(crate) fn ts_look_ahead<T, F>(&mut self, op: F) -> T
     where
         F: FnOnce(&mut Self) -> T,
@@ -4254,15 +4307,25 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         expect!(self, Token::LBrace);
         let outer_ctx = self.ctx();
-        let body = self.do_inside_of_type_context(TypeContext::TsModuleBlock, |p| {
-            p.do_outside_of_boundary_context(BoundaryContext::TopLevel, |p| {
-                with_grammar_context!(p, [?Yield, ?Await, ~Return], |p| {
-                    p.with_syntax_context(super::SyntaxContext::Nested, |p| {
-                        p.parse_module_item_block_body(false, Some(Token::RBrace))
-                    })
-                })
-            })
-        });
+        let outer_type_ctx = self.type_ctx();
+        let outer_boundary_ctx = self.boundary_ctx();
+        let outer_syntax_ctx = self.syntax_context;
+        let outer_grammar_ctx =
+            enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, ~Return);
+
+        // Module blocks inherit Yield and Await but clear Return. Apply and
+        // restore parser state directly around the shared module-item body loop.
+        self.set_type_ctx(
+            outer_type_ctx | TypeContext::TsModuleBlock | TypeContext::TsContainerBody,
+        );
+        self.set_boundary_ctx(outer_boundary_ctx - BoundaryContext::TopLevel);
+        self.syntax_context = super::SyntaxContext::Nested;
+        let body = self.parse_module_item_block_body(false, Some(Token::RBrace));
+
+        self.set_type_ctx(outer_type_ctx);
+        self.set_boundary_ctx(outer_boundary_ctx);
+        self.set_grammar_ctx(outer_grammar_ctx);
+        self.syntax_context = outer_syntax_ctx;
         // Imports may enable Module/Strict inside this declaration container.
         // Restore before consuming `}`: advancing also lexes the outer token.
         self.set_ctx(outer_ctx);

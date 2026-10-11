@@ -37,6 +37,10 @@ impl<I: Tokens> Parser<I> {
         unreachable!("parse_ts_modifier should not be called without typescript feature")
     }
 
+    pub(super) fn ts_type_can_start(&mut self) -> bool {
+        unreachable!("ts_type_can_start should not be called without typescript feature")
+    }
+
     pub(crate) fn ts_look_ahead<T, F>(&mut self, _op: F) -> T
     where
         F: FnOnce(&mut Self) -> T,

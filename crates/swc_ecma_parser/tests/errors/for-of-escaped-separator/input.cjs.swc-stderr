@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: of
+   ,-[$DIR/tests/errors/for-of-escaped-separator/input.cjs:1:1]
+ 1 | let await; for (await o\u0066 [1]) {}
+   :                       ^^^^^^^
+   `----

@@ -389,6 +389,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
         self.enter_program_syntax_context();
+        self.program_parse_mode = ProgramParseMode::Script;
 
         #[cfg(feature = "tsrx")]
         self.tsrx.enter_non_module();
@@ -417,6 +418,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_commonjs(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_commonjs);
         self.enter_program_syntax_context();
+        self.program_parse_mode = ProgramParseMode::Script;
 
         #[cfg(feature = "tsrx")]
         self.tsrx.enter_non_module();
@@ -937,6 +939,14 @@ impl<I: Tokens> Parser<I> {
         self.grammar_ctx().contains(GrammarContext::Await)
     }
 
+    /// Module reservation does not cross a TypeScript declaration container.
+    /// Async functions and class initializers enforce their own restrictions.
+    #[inline(always)]
+    fn is_await_reserved_in_module(&self) -> bool {
+        self.ctx().contains(Context::Module)
+            && !self.type_ctx().contains(TypeContext::TsContainerBody)
+    }
+
     /// Applies the class initializer early error to every syntactic form of
     /// `await`, independently of the enclosing production's Await parameter.
     /// Function bodies establish their own boundary, even inside a class field.
@@ -1025,7 +1035,7 @@ impl<I: Tokens> Parser<I> {
             Token::Await => {
                 self.includes_await_expr()
                     || self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
-                    || self.ctx().contains(Context::Module)
+                    || self.is_await_reserved_in_module()
             }
             Token::Yield => self.includes_yield_expr() || self.ctx().contains(Context::Strict),
             _ => token.is_reserved(self.ctx()),
@@ -1044,7 +1054,7 @@ impl<I: Tokens> Parser<I> {
             "await" => {
                 self.includes_await_expr()
                     || self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
-                    || self.ctx().contains(Context::Module)
+                    || self.is_await_reserved_in_module()
             }
             "yield" => self.includes_yield_expr() || self.ctx().contains(Context::Strict),
             "implements" | "package" | "protected" | "interface" | "private" | "public"
@@ -1076,6 +1086,12 @@ impl<I: Tokens> Parser<I> {
         if !self.token_is_reserved(self.input().cur()) {
             return None;
         }
+        self.keyword_escape_error()
+    }
+
+    #[cold]
+    #[inline(never)]
+    fn keyword_escape_error(&self) -> Option<Error> {
         let Some(TokenValue::Word(word)) = self.input().get_token_value() else {
             return None;
         };
@@ -1083,6 +1099,18 @@ impl<I: Tokens> Parser<I> {
             self.input().cur_span(),
             SyntaxError::EscapeInReservedWord { word: word.clone() },
         ))
+    }
+
+    /// Keyword syntax forbids escapes even when recovery selected the keyword
+    /// outside its usual grammatical context. Identifier uses still check
+    /// contextual reservation through `check_current_token_escape`.
+    fn check_current_keyword_escape(&self) -> PResult<()> {
+        if self.input().has_escaped_keyword() {
+            if let Some(error) = self.keyword_escape_error() {
+                return Err(error);
+            }
+        }
+        Ok(())
     }
 
     fn check_current_token_escape(&mut self) -> PResult<()> {
