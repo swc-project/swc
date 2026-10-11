@@ -1335,14 +1335,7 @@ impl MacroNode for TsTypeParam {
 #[node_impl]
 impl MacroNode for TsTypeParamDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        emitter.emit_leading_comments_of_span(self.span(), false)?;
-
-        punct!(emitter, "<");
-
-        emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
-
-        punct!(emitter, ">");
-        Ok(())
+        emitter.emit_ts_type_param_decl(self, ListFormat::TypeParameters)
     }
 }
 

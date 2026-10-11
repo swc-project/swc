@@ -99,7 +99,7 @@ class Circle extends Shape<"circle"> implements Drawable<string>, Serializable {
         return "";
     }
 }
-const identity = <TValue>(value: TValue): TValue =>value;
+const identity = <TValue, >(value: TValue): TValue =>value;
 export function App() {
     const $ = _c(1);
     let t0;
