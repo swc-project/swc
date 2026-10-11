@@ -23,9 +23,9 @@ pub fn user_namespace() -> Result<String> {
     Ok(format!("swc-native-{}", unsafe { libc::geteuid() }))
 }
 
-/// Use a per-user location rather than the system temporary directory: hardened
-/// Linux installations commonly mount the latter `noexec`, which prevents the
-/// dynamic loader from mapping a materialized addon.
+/// Prefer a per-user location: hardened Linux installations commonly mount the
+/// system temporary directory `noexec`, preventing native addon loading. The
+/// temporary directory is a fallback only and must pass the same checks.
 pub fn user_cache_root() -> Result<PathBuf> {
     let root = env::var_os("XDG_CACHE_HOME")
         .filter(|value| Path::new(value).is_absolute())
@@ -43,6 +43,13 @@ pub fn user_cache_root() -> Result<PathBuf> {
         .ok_or_else(|| Error::new(ErrorKind::Cache, "cannot determine native addon user cache"))?;
     executable_cache_root(&root)?;
     Ok(root)
+}
+
+/// Resolve aliases such as macOS's /var before validating fallback ancestors.
+/// The caller still checks mount execution policy and directory security.
+pub(crate) fn fallback_cache_root() -> Result<PathBuf> {
+    fs::canonicalize(env::temp_dir())
+        .map_err(|e| Error::io(ErrorKind::Cache, "resolve native addon fallback cache", e))
 }
 
 /// Reject roots from which the dynamic loader cannot map a materialized addon.

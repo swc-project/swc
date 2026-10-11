@@ -124,19 +124,18 @@ pub fn cache_directory(root: &Path) -> Result<PathBuf> {
     Ok(version)
 }
 
-/// Try the usual user cache first. Windows alone has a second candidate because
-/// ordinary LocalAppData ACLs can grant untrusted replacement rights. Retry
-/// only cache failures, never payload corruption, and validate both roots using
-/// the same security checks. The successful primary path does no extra work.
+/// Try the usual user cache first, then the platform fallback. Shared ancestors
+/// can make Unix home directories unsafe, as can ordinary Windows LocalAppData
+/// ACLs. Retry only cache failures, never payload corruption, and validate both
+/// roots using the same security checks. Primary success does no extra work.
 fn with_user_cache_root<T>(materialize: impl Fn(&Path) -> Result<T>) -> Result<T> {
     let primary = platform::user_cache_root().and_then(|root| materialize(&root));
-    #[cfg(windows)]
     if let Err(primary) = primary {
         if primary.kind != ErrorKind::Cache {
             return Err(primary);
         }
-        tracing::debug!(error = %primary, "native user cache unavailable; trying profile cache");
-        return platform::user_profile_cache_root()
+        tracing::debug!(error = %primary, "native user cache unavailable; trying fallback cache");
+        return platform::fallback_cache_root()
             .and_then(|root| materialize(&root))
             .map_err(|fallback| {
                 if fallback.kind != ErrorKind::Cache {
@@ -145,7 +144,7 @@ fn with_user_cache_root<T>(materialize: impl Fn(&Path) -> Result<T>) -> Result<T
                 Error::new(
                     ErrorKind::Cache,
                     format!(
-                        "user cache failed: {primary}; profile cache failed: {fallback}; set \
+                        "user cache failed: {primary}; fallback cache failed: {fallback}; set \
                          SWC_NATIVE_BINDING_CACHE to a safe absolute directory owned by your user \
                          whose ancestors do not grant other users replacement rights"
                     ),

@@ -1,0 +1,12 @@
+# Each case runs in an isolated child process with a real native payload.
+home
+xdg
+custom
+primary
+symlink-temp
+unsafe-temp
+missing-temp
+missing-primary
+primary-integrity
+fallback-integrity
+noexec-temp

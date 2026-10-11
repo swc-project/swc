@@ -156,13 +156,13 @@ fn windows_cache_worker() {
         let error = result.err().expect("unsafe caches or payload must fail");
         if scenario == Scenario::Integrity {
             assert_eq!(error.kind, ErrorKind::Integrity);
-            assert!(!error.to_string().contains("profile cache"));
+            assert!(!error.to_string().contains("fallback cache"));
         } else {
             assert_eq!(error.kind, ErrorKind::Cache);
             let message = error.to_string();
             assert!(message.contains(&local.display().to_string()), "{message}");
             assert!(message.contains(Grant::AppContainer.sid()), "{message}");
-            assert!(message.contains("profile cache failed"), "{message}");
+            assert!(message.contains("fallback cache failed"), "{message}");
             assert!(message.contains("SWC_NATIVE_BINDING_CACHE"), "{message}");
             if matches!(
                 scenario,
