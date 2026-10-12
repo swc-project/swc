@@ -1,0 +1,460 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 381
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 1,
+        "end": 381
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7
+        },
+        "ctxt": 0,
+        "value": "E",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 14,
+            "end": 32
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 21
+            },
+            "ctxt": 0,
+            "value": "AwaitAs",
+            "optional": false
+          },
+          "init": {
+            "type": "AwaitExpression",
+            "span": {
+              "start": 24,
+              "end": 32
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 30,
+                "end": 32
+              },
+              "ctxt": 0,
+              "value": "as",
+              "optional": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 38,
+            "end": 70
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 38,
+              "end": 52
+            },
+            "ctxt": 0,
+            "value": "AwaitSatisfies",
+            "optional": false
+          },
+          "init": {
+            "type": "AwaitExpression",
+            "span": {
+              "start": 55,
+              "end": 70
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 61,
+                "end": 70
+              },
+              "ctxt": 0,
+              "value": "satisfies",
+              "optional": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 76,
+            "end": 94
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 76,
+              "end": 83
+            },
+            "ctxt": 0,
+            "value": "YieldAs",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 86,
+              "end": 94
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 92,
+                "end": 94
+              },
+              "ctxt": 0,
+              "value": "as",
+              "optional": false
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 100,
+            "end": 132
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 100,
+              "end": 114
+            },
+            "ctxt": 0,
+            "value": "YieldSatisfies",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 117,
+              "end": 132
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 123,
+                "end": 132
+              },
+              "ctxt": 0,
+              "value": "satisfies",
+              "optional": false
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 138,
+            "end": 168
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 138,
+              "end": 151
+            },
+            "ctxt": 0,
+            "value": "AwaitAsMember",
+            "optional": false
+          },
+          "init": {
+            "type": "AwaitExpression",
+            "span": {
+              "start": 154,
+              "end": 168
+            },
+            "argument": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 160,
+                "end": 168
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 160,
+                  "end": 162
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 163,
+                  "end": 168
+                },
+                "value": "value"
+              }
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 174,
+            "end": 218
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 174,
+              "end": 194
+            },
+            "ctxt": 0,
+            "value": "YieldSatisfiesMember",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 197,
+              "end": 218
+            },
+            "argument": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 203,
+                "end": 218
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 203,
+                  "end": 212
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 213,
+                  "end": 218
+                },
+                "value": "value"
+              }
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 224,
+            "end": 248
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 224,
+              "end": 235
+            },
+            "ctxt": 0,
+            "value": "AwaitAsCall",
+            "optional": false
+          },
+          "init": {
+            "type": "AwaitExpression",
+            "span": {
+              "start": 238,
+              "end": 248
+            },
+            "argument": {
+              "type": "CallExpression",
+              "span": {
+                "start": 244,
+                "end": 248
+              },
+              "ctxt": 0,
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 244,
+                  "end": 246
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 254,
+            "end": 292
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 254,
+              "end": 272
+            },
+            "ctxt": 0,
+            "value": "YieldSatisfiesCall",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 275,
+              "end": 292
+            },
+            "argument": {
+              "type": "CallExpression",
+              "span": {
+                "start": 281,
+                "end": 292
+              },
+              "ctxt": 0,
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 281,
+                  "end": 290
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 298,
+            "end": 328
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 298,
+              "end": 313
+            },
+            "ctxt": 0,
+            "value": "AwaitAsAddition",
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 316,
+              "end": 328
+            },
+            "operator": "+",
+            "left": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 316,
+                "end": 324
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 322,
+                  "end": 324
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              }
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 327,
+                "end": 328
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 334,
+            "end": 378
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 334,
+              "end": 356
+            },
+            "ctxt": 0,
+            "value": "YieldSatisfiesAddition",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 359,
+              "end": 378
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 365,
+                "end": 378
+              },
+              "operator": "+",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 365,
+                  "end": 374
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 377,
+                  "end": 378
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            },
+            "delegate": false
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,157 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 81
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 16,
+          "end": 17
+        },
+        "ctxt": 0,
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 81
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 20,
+          "end": 81
+        },
+        "stmts": [
+          {
+            "type": "TsEnumDeclaration",
+            "span": {
+              "start": 26,
+              "end": 57
+            },
+            "declare": false,
+            "isConst": false,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 31,
+                "end": 32
+              },
+              "ctxt": 0,
+              "value": "E",
+              "optional": false
+            },
+            "members": [
+              {
+                "type": "TsEnumMember",
+                "span": {
+                  "start": 35,
+                  "end": 44
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 35,
+                    "end": 40
+                  },
+                  "ctxt": 0,
+                  "value": "await",
+                  "optional": false
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 43,
+                    "end": 44
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                }
+              },
+              {
+                "type": "TsEnumMember",
+                "span": {
+                  "start": 46,
+                  "end": 55
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 46,
+                    "end": 47
+                  },
+                  "ctxt": 0,
+                  "value": "X",
+                  "optional": false
+                },
+                "init": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 50,
+                    "end": 55
+                  },
+                  "ctxt": 0,
+                  "value": "await",
+                  "optional": false
+                }
+              }
+            ]
+          },
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 62,
+              "end": 79
+            },
+            "argument": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 69,
+                "end": 78
+              },
+              "argument": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 75,
+                  "end": 78
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 75,
+                    "end": 76
+                  },
+                  "ctxt": 0,
+                  "value": "E",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 77,
+                    "end": 78
+                  },
+                  "value": "X"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -132,5 +132,8 @@ bitflags::bitflags! {
         const DisallowFlowAnonFnType = 1 << 4;
         /// Type grammar, independent of how angle operators are tokenized.
         const InType = 1 << 5;
+        /// A TypeScript declaration container has its own `await` identifier
+        /// scope even when the enclosing source file is an ECMAScript module.
+        const TsContainerBody = 1 << 6;
     }
 }

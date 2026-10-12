@@ -1,0 +1,768 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 638
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 1,
+        "end": 638
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7
+        },
+        "ctxt": 0,
+        "value": "E",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 14,
+            "end": 39
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 21
+            },
+            "ctxt": 0,
+            "value": "AwaitAs",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 24,
+              "end": 39
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 24,
+                "end": 29
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 33,
+                "end": 39
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 45,
+            "end": 84
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 45,
+              "end": 59
+            },
+            "ctxt": 0,
+            "value": "AwaitSatisfies",
+            "optional": false
+          },
+          "init": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 62,
+              "end": 84
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 62,
+                "end": 67
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 78,
+                "end": 84
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 90,
+            "end": 117
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 90,
+              "end": 100
+            },
+            "ctxt": 0,
+            "value": "AwaitConst",
+            "optional": false
+          },
+          "init": {
+            "type": "TsConstAssertion",
+            "span": {
+              "start": 103,
+              "end": 117
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 103,
+                "end": 108
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 123,
+            "end": 148
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 123,
+              "end": 130
+            },
+            "ctxt": 0,
+            "value": "AwaitIn",
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 133,
+              "end": 148
+            },
+            "operator": "in",
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 133,
+                "end": 138
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 142,
+                "end": 148
+              },
+              "ctxt": 0,
+              "value": "values",
+              "optional": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 154,
+            "end": 190
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 154,
+              "end": 169
+            },
+            "ctxt": 0,
+            "value": "AwaitInstanceof",
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 172,
+              "end": 190
+            },
+            "operator": "instanceof",
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 172,
+                "end": 177
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 189,
+                "end": 190
+              },
+              "ctxt": 0,
+              "value": "C",
+              "optional": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 196,
+            "end": 225
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 196,
+              "end": 212
+            },
+            "ctxt": 0,
+            "value": "AwaitLiteralType",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 215,
+              "end": 225
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 215,
+                "end": 220
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsLiteralType",
+              "span": {
+                "start": 224,
+                "end": 225
+              },
+              "literal": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 224,
+                  "end": 225
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 231,
+            "end": 273
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 231,
+              "end": 245
+            },
+            "ctxt": 0,
+            "value": "AwaitTupleType",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 248,
+              "end": 273
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 248,
+                "end": 253
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTupleType",
+              "span": {
+                "start": 257,
+                "end": 273
+              },
+              "elemTypes": [
+                {
+                  "type": "TsTupleElement",
+                  "span": {
+                    "start": 258,
+                    "end": 264
+                  },
+                  "label": null,
+                  "ty": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 258,
+                      "end": 264
+                    },
+                    "kind": "number"
+                  }
+                },
+                {
+                  "type": "TsTupleElement",
+                  "span": {
+                    "start": 266,
+                    "end": 272
+                  },
+                  "label": null,
+                  "ty": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 266,
+                      "end": 272
+                    },
+                    "kind": "string"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 279,
+            "end": 322
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 279,
+              "end": 296
+            },
+            "ctxt": 0,
+            "value": "AwaitFunctionType",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 299,
+              "end": 322
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 299,
+                "end": 304
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsParenthesizedType",
+              "span": {
+                "start": 308,
+                "end": 322
+              },
+              "typeAnnotation": {
+                "type": "TsFunctionType",
+                "span": {
+                  "start": 309,
+                  "end": 321
+                },
+                "params": [],
+                "typeParams": null,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 312,
+                    "end": 321
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 315,
+                      "end": 321
+                    },
+                    "kind": "number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 328,
+            "end": 367
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 328,
+              "end": 342
+            },
+            "ctxt": 0,
+            "value": "AwaitTypeQuery",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 345,
+              "end": 367
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 345,
+                "end": 350
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTypeQuery",
+              "span": {
+                "start": 354,
+                "end": 367
+              },
+              "exprName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 361,
+                  "end": 367
+                },
+                "ctxt": 0,
+                "value": "values",
+                "optional": false
+              },
+              "typeArguments": null
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 373,
+            "end": 410
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 373,
+              "end": 387
+            },
+            "ctxt": 0,
+            "value": "EscapedAwaitAs",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 390,
+              "end": 410
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 390,
+                "end": 400
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 404,
+                "end": 410
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 416,
+            "end": 459
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 416,
+              "end": 430
+            },
+            "ctxt": 0,
+            "value": "AwaitAsComment",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 433,
+              "end": 459
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 433,
+                "end": 438
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 453,
+                "end": 459
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 465,
+            "end": 504
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 465,
+              "end": 485
+            },
+            "ctxt": 0,
+            "value": "AwaitAsUnicodeTrivia",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 488,
+              "end": 504
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 488,
+                "end": 493
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 498,
+                "end": 504
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 510,
+            "end": 546
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 510,
+              "end": 528
+            },
+            "ctxt": 0,
+            "value": "AwaitAsEscapedType",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 531,
+              "end": 546
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 531,
+                "end": 536
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 540,
+                "end": 546
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 540,
+                  "end": 546
+                },
+                "ctxt": 0,
+                "value": "C",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 552,
+            "end": 588
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 552,
+              "end": 574
+            },
+            "ctxt": 0,
+            "value": "AwaitAsNegativeLiteral",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 577,
+              "end": 588
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 577,
+                "end": 582
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsLiteralType",
+              "span": {
+                "start": 586,
+                "end": 588
+              },
+              "literal": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 587,
+                  "end": 588
+                },
+                "value": -1.0,
+                "raw": "-1"
+              }
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 594,
+            "end": 635
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 594,
+              "end": 606
+            },
+            "ctxt": 0,
+            "value": "AwaitAsUnion",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 609,
+              "end": 635
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 609,
+                "end": 614
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsUnionType",
+              "span": {
+                "start": 618,
+                "end": 635
+              },
+              "types": [
+                {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 620,
+                    "end": 626
+                  },
+                  "kind": "number"
+                },
+                {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 629,
+                    "end": 635
+                  },
+                  "kind": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

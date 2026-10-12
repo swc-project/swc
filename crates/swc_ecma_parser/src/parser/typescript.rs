@@ -1082,6 +1082,59 @@ impl<I: Tokens> Parser<I> {
         Ok(entity)
     }
 
+    /// Tests a possible type prefix without constructing a type AST. Call only
+    /// during lookahead: parenthesized prefixes are consumed. An empty
+    /// parameter list needs an arrow to distinguish a function type from an
+    /// empty call.
+    pub(super) fn ts_type_can_start(&mut self) -> bool {
+        let mut parenthesized = false;
+        while self.input_mut().eat(Token::LParen) {
+            parenthesized = true;
+        }
+
+        let cur = self.input().cur();
+        if parenthesized && cur == Token::RParen {
+            self.bump();
+            return self.input().cur() == Token::Arrow;
+        }
+        if cur == Token::Minus {
+            return matches!(self.input_mut().peek(), Some(Token::Num | Token::BigInt));
+        }
+
+        // Match type prefixes rather than every word: relational operators
+        // such as `in` and `instanceof` cannot begin a TypeScript type.
+        cur.is_known_ident()
+            || matches!(
+                cur,
+                Token::Ident
+                    | Token::Void
+                    | Token::Yield
+                    | Token::Null
+                    | Token::Await
+                    | Token::Break
+                    | Token::Switch
+                    | Token::This
+                    | Token::TypeOf
+                    | Token::Import
+                    | Token::New
+                    | Token::True
+                    | Token::False
+                    | Token::Num
+                    | Token::BigInt
+                    | Token::Str
+                    | Token::BackQuote
+                    | Token::NoSubstitutionTemplateLiteral
+                    | Token::TemplateHead
+                    | Token::LBrace
+                    | Token::LBracket
+                    | Token::Lt
+                    | Token::Pipe
+                    | Token::Ampersand
+            )
+            || (self.syntax().flow() && cur == Token::In)
+            || (parenthesized && cur == Token::DotDotDot)
+    }
+
     pub(crate) fn ts_look_ahead<T, F>(&mut self, op: F) -> T
     where
         F: FnOnce(&mut Self) -> T,
@@ -2137,8 +2190,15 @@ impl<I: Tokens> Parser<I> {
 
         let id = self.parse_ts_binding_ident_name()?;
         expect!(self, Token::LBrace);
-        let members =
-            self.parse_ts_delimited_list(ParsingContext::EnumMembers, Self::parse_ts_enum_member)?;
+        let members = self.do_inside_of_type_context(TypeContext::TsContainerBody, |p| {
+            // Enum initializers do not inherit an enclosing async or generator
+            // function's grammar. Nested functions derive their own parameters.
+            with_grammar_context!(p, [+In, ~Yield, ~Await], |p| {
+                p.with_syntax_context(super::SyntaxContext::Nested, |p| {
+                    p.parse_ts_delimited_list(ParsingContext::EnumMembers, Self::parse_ts_enum_member)
+                })
+            })
+        })?;
         expect!(self, Token::RBrace);
 
         Ok(Box::new(TsEnumDecl {

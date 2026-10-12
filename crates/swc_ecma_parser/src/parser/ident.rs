@@ -8,7 +8,7 @@ use crate::{
     input::Tokens,
     lexer::Token,
     parser::{BoundaryContext, TypeContext},
-    Context, PResult, Parser,
+    PResult, Parser,
 };
 
 impl<I: Tokens> Parser<I> {
@@ -166,7 +166,7 @@ impl<I: Tokens> Parser<I> {
             let is_await_ident = cur == Token::Await
                 && !self.includes_await_expr()
                 && !self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
-                && !self.ctx().contains(Context::Module);
+                && !self.is_await_reserved_in_module();
             if is_await_ident || (cur.is_word() && !self.token_is_reserved(cur)) {
                 self.parse_binding_ident(disallow_let).map(Some)
             } else {
@@ -220,17 +220,17 @@ impl<I: Tokens> Parser<I> {
         // It is a Syntax Error if StringValue of IdentifierName is the same String
         // value as the StringValue of any ReservedWord except for yield or await.
         if t == Token::Await {
-            let ctx = self.ctx();
             if self.type_ctx().contains(TypeContext::InDeclare) {
                 word = atom!("await");
             } else if self.boundary_ctx().contains(BoundaryContext::InStaticBlock) {
                 syntax_error!(self, span, SyntaxError::ExpectedIdent)
             } else if self.includes_await_expr()
-                || (ctx.contains(Context::Module) && !self.syntax().flow())
+                || (self.is_await_reserved_in_module() && !self.syntax().flow())
             {
                 syntax_error!(self, span, SyntaxError::InvalidIdentInAsync)
             } else if incl_await {
                 if self.boundary_ctx().contains(BoundaryContext::CanBeModule)
+                    && !self.type_ctx().contains(TypeContext::TsContainerBody)
                     && !self.syntax().flow()
                 {
                     self.emit_module_mode_err(span, SyntaxError::InvalidIdentInAsync);
@@ -262,7 +262,13 @@ impl<I: Tokens> Parser<I> {
         } else {
             unreachable!()
         }
-        self.bump();
+        if t == Token::Await {
+            // Its escape was checked against parser-owned grammar and container
+            // state above. The buffer only knows the file's Module context.
+            self.input_mut().bump_without_escape_check();
+        } else {
+            self.bump();
+        }
 
         Ok(Ident::new_no_ctxt(word, self.span(start)))
     }

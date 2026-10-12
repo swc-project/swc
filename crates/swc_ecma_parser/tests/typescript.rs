@@ -23,6 +23,15 @@ mod common;
 #[serde(rename_all = "camelCase")]
 struct TestConfig {
     no_early_errors: Option<bool>,
+    parse_mode: Option<ParseMode>,
+}
+
+#[derive(Clone, Copy, Deserialize)]
+#[serde(rename_all = "lowercase")]
+enum ParseMode {
+    Script,
+    Module,
+    Unambiguous,
 }
 
 #[testing::fixture("tests/shifted/**/*.ts")]
@@ -83,6 +92,13 @@ fn spec(file: PathBuf) {
         file.file_name().unwrap().to_string_lossy()
     ));
     run_spec(&file, &output);
+}
+
+// Recovery fixtures can contain semantically invalid ASTs. Keep them outside
+// the shared fixture roots that downstream transforms reparse as JavaScript.
+#[testing::fixture("tests/typescript-recovery/**/*.ts")]
+fn recovery_spec(file: PathBuf) {
+    spec(file);
 }
 
 #[testing::fixture(
@@ -197,13 +213,20 @@ fn run_spec(file: &Path, output_json: &Path) {
         Err(err) => panic!("failed to read {}: {err}", config_path.display()),
     };
     let no_early_errors = config.no_early_errors.unwrap_or(true);
+    let parse_mode = config.parse_mode.unwrap_or_else(|| {
+        if file.to_string_lossy().ends_with(".script.ts") {
+            ParseMode::Script
+        } else {
+            ParseMode::Unambiguous
+        }
+    });
 
     with_parser(false, file, no_early_errors, false, |p, _| {
-        let program = if file.to_string_lossy().ends_with(".script.ts") {
-            // Explicit Script fixtures also verify container context restoration.
-            p.parse_script().map(Program::Script)?
-        } else {
-            p.parse_program()?
+        // Explicit modes exercise grammar boundaries and Unambiguous retries.
+        let program = match parse_mode {
+            ParseMode::Script => p.parse_script().map(Program::Script)?,
+            ParseMode::Module => p.parse_module().map(Program::Module)?,
+            ParseMode::Unambiguous => p.parse_program()?,
         };
         let program = program.fold_with(&mut Normalizer {
             drop_span: false,

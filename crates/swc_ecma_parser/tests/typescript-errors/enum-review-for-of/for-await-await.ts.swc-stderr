@@ -1,0 +1,5 @@
+  x Expected '(', got 'await'
+   ,-[$DIR/tests/typescript-errors/enum-review-for-of/for-await-await.ts:1:1]
+ 1 | enum E { A = (() => { for await (await of [1]) {} })() }
+   :                           ^^^^^
+   `----
