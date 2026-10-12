@@ -1,0 +1,15 @@
+const typed = (x: number)=>x;
+const optional = (x?: number)=>x;
+const optionalOnly = (x?)=>x;
+const returning = (x): number =>x;
+const generic = <T extends unknown>(x)=>x;
+const asyncTyped = async (x: number)=>x;
+const asyncReturning = async (x): Promise<number> =>x;
+const asyncGeneric = async <T extends unknown>(x)=>x;
+const untyped = (x)=>x;
+const asyncUntyped = async (x)=>x;
+const multiple = (x: number, y: number)=>x + y;
+const destructured = ({ x }: {
+    x: number;
+})=>x;
+const rest = (...x: number[])=>x;

@@ -1956,10 +1956,15 @@ impl MacroNode for ArrowExpr {
             punct!(emitter, "*")
         }
 
+        // TypeScript annotations, optional parameters, and generic arrows require
+        // a parenthesized parameter list even with a single identifier.
         let parens = !emitter.cfg.minify
             || self.type_params.is_some()
+            || self.return_type.is_some()
             || match self.params.as_slice() {
-                [Pat::Ident(i)] => emitter.has_trailing_comment(i.span),
+                [Pat::Ident(i)] => {
+                    i.type_ann.is_some() || i.id.optional || emitter.has_trailing_comment(i.span)
+                }
                 _ => true,
             };
 
