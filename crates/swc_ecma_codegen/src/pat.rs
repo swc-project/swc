@@ -4,7 +4,7 @@ use swc_ecma_codegen_macros::node_impl;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
-use crate::util::EndsWithNonNull;
+use crate::util::EndsWithTypeScriptToken;
 
 #[node_impl]
 impl MacroNode for Param {
@@ -189,7 +189,7 @@ impl MacroNode for AssignPat {
         srcmap!(emitter, self, true);
 
         emit!(self.left);
-        if emitter.cfg.minify && self.left.ends_with_non_null() {
+        if emitter.cfg.minify && self.left.trailing_token().is_some() {
             space!(emitter);
         } else {
             formatting_space!(emitter);

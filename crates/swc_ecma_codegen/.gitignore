@@ -1,5 +1,6 @@
 /output.js
 *.map
 
-# Keep expected source-map snapshots for the template escape fixtures.
+# Keep expected source-map snapshots for fixtures.
 !tests/fixture/template-unicode-escapes/**/output*.map
+!tests/fixture/ts-token-boundaries/**/output*.map

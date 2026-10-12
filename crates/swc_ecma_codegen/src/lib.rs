@@ -26,7 +26,10 @@ use self::{
 };
 use crate::{
     scope_helpers::{for_each_param_binding, for_each_pat_binding},
-    util::{EndsWithAlphaNum, EndsWithNonNull},
+    util::{
+        starts_with_lt, type_starts_with_lt, EndsWithAlphaNum, EndsWithTypeScriptToken,
+        TrailingToken,
+    },
 };
 
 #[macro_use]
@@ -298,10 +301,14 @@ where
         }
 
         if let Some(ref args) = node.args {
-            if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
-                punct!(self, "(");
-                self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
-                punct!(self, ")");
+            // A generic constructor needs `()` to keep its type arguments distinct
+            // from following relational, shift, or unary operators.
+            let omit_args = self.cfg.minify
+                && args.is_empty()
+                && should_ignore_empty_args
+                && node.type_args.is_none();
+            if !omit_args {
+                self.emit_arguments(node.span(), args, ListFormat::NewExpressionArguments)?;
             }
         }
 
@@ -362,8 +369,8 @@ where
             if is_kwd_op {
                 node.left.ends_with_alpha_num()
             } else if matches!(node.op, op!("==") | op!("===")) {
-                // A postfix `!` would merge with equality into `!=` or `!==`.
-                node.left.ends_with_non_null()
+                // Keep postfix `!` and type argument `>` from becoming `!=` or `>=`.
+                node.left.trailing_token().is_some()
             } else {
                 // space is mandatory to avoid outputting -->
                 match *node.left {
@@ -373,6 +380,12 @@ where
                         (op, node.op),
                         (op!("--"), op!(">") | op!(">>") | op!(">>>") | op!(">="))
                     ),
+                    _ if matches!(node.op, op!(">") | op!(">>") | op!(">>>") | op!(">=")) => {
+                        matches!(
+                            node.left.trailing_token(),
+                            Some(TrailingToken::TypeArgumentClose)
+                        )
+                    }
                     _ => false,
                 }
             }
@@ -429,6 +442,27 @@ where
         Ok(())
     }
 
+    /// Keep adjacent type argument and generic function openers from becoming
+    /// `<<`.
+    #[inline]
+    fn emit_ts_type_arguments(
+        &mut self,
+        node: &TsTypeParamInstantiation,
+        format: ListFormat,
+    ) -> Result {
+        punct!(self, "<");
+        if node
+            .params
+            .first()
+            .is_some_and(|ty| type_starts_with_lt(ty))
+        {
+            space!(self);
+        }
+        self.emit_list(node.span, Some(&node.params), format)?;
+        punct!(self, ">");
+        Ok(())
+    }
+
     fn emit_fn_params(&mut self, node: &Function) -> Result {
         punct!(self, "(");
         if let Some(this_param) = &node.this_param {
@@ -480,13 +514,25 @@ where
         Ok(())
     }
 
-    fn emit_expr_or_spreads(
+    /// Emits a parenthesized argument list, batching an empty pair without
+    /// invoking the list printer.
+    #[inline]
+    fn emit_arguments(
         &mut self,
         parent_node: Span,
         nodes: &[ExprOrSpread],
         format: ListFormat,
     ) -> Result {
-        self.emit_list(parent_node, Some(nodes), format)
+        if nodes.is_empty() {
+            // The opening parenthesis commits pending semicolons for the pair.
+            self.wr.write_punct(None, "()", true)?;
+            return Ok(());
+        }
+
+        punct!(self, "(");
+        self.emit_list(parent_node, Some(nodes), format)?;
+        punct!(self, ")");
+        Ok(())
     }
 
     fn emit_ident_like(&mut self, span: Span, sym: &Atom, optional: bool) -> Result {
@@ -1462,7 +1508,16 @@ fn handle_invalid_unicodes(s: &str) -> Cow<'_, str> {
     Cow::Owned(s.replace("\\\0", "\\"))
 }
 
-fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
+fn require_space_before_rhs(mut rhs: &Expr, op: &BinaryOp) -> bool {
+    while let Expr::Bin(BinExpr { left, .. }) = rhs {
+        rhs = left;
+    }
+
+    // `<` followed by a type assertion or JSX would become a shift operator.
+    if *op == op!("<") && starts_with_lt(rhs) {
+        return true;
+    }
+
     match rhs {
         Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && *op == op!(bin, "-") => true,
 
@@ -1490,8 +1545,6 @@ fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
             (op, unary),
             (op!(bin, "-"), op!(unary, "-")) | (op!(bin, "+"), op!(unary, "+"))
         ),
-
-        Expr::Bin(BinExpr { left, .. }) => require_space_before_rhs(left, op),
 
         _ => false,
     }
@@ -1769,13 +1822,11 @@ impl MacroNode for OptChainExpr {
                     punct!(emitter, "?.");
                 }
 
-                punct!(emitter, "(");
-                emitter.emit_expr_or_spreads(
+                emitter.emit_arguments(
                     self.span(),
                     &e.args,
                     ListFormat::CallExpressionArguments,
                 )?;
-                punct!(emitter, ")");
             }
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
@@ -1811,13 +1862,7 @@ impl MacroNode for CallExpr {
             emit!(type_args);
         }
 
-        punct!(emitter, "(");
-        emitter.emit_expr_or_spreads(
-            self.span(),
-            &self.args,
-            ListFormat::CallExpressionArguments,
-        )?;
-        punct!(emitter, ")");
+        emitter.emit_arguments(self.span(), &self.args, ListFormat::CallExpressionArguments)?;
 
         // srcmap!(emitter, self, false);
 
@@ -2059,8 +2104,8 @@ impl MacroNode for AssignExpr {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.left);
-        if emitter.cfg.minify && self.op == op!("=") && self.left.ends_with_non_null() {
-            // Preserve assignment instead of merging the assertion into `!=`.
+        if emitter.cfg.minify && self.op == op!("=") && self.left.trailing_token().is_some() {
+            // Keep postfix `!` and type argument `>` from becoming `!=` or `>=`.
             space!(emitter);
         } else {
             formatting_space!(emitter);
