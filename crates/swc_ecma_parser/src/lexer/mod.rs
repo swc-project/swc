@@ -189,12 +189,27 @@ fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
         // Numeric literal text in lexer hot paths is ASCII, so byte-level filtering
         // avoids UTF-8 char iteration overhead.
         let bytes = s.as_bytes();
-        let mut stripped = Vec::with_capacity(bytes.len().saturating_sub(1));
+        let mut stripped: Vec<u8> = Vec::with_capacity(bytes.len());
 
+        // PERF: Filtering cannot grow the input. Reserving its full length lets us
+        // avoid `Vec::push` capacity checks and update the vector's length only once.
+        let dst = stripped.as_mut_ptr();
+        let mut len = 0;
         for &b in bytes {
             if b != b'_' {
-                stripped.push(b);
+                // SAFETY: Each input byte produces at most one write, so `len < bytes.len()`
+                // at every write. The buffer has at least that capacity and does not
+                // reallocate while `dst` is in use.
+                unsafe {
+                    *dst.add(len) = b;
+                }
+                len += 1;
             }
+        }
+        // SAFETY: The loop initialized the first `len` bytes, and
+        // `len <= bytes.len() <= stripped.capacity()`.
+        unsafe {
+            stripped.set_len(len);
         }
 
         // Safety: `stripped` is derived from valid UTF-8 by removing only `_` (0x5F),
