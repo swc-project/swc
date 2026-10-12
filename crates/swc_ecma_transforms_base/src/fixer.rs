@@ -7,6 +7,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
+mod typescript;
+
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
 /// You don't have to bother to create appropriate parenthesis.
@@ -161,6 +163,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
         expr.left.visit_mut_with(self);
+        self.wrap_ts_assign_target(expr.op, &mut expr.left);
 
         let ctx = self.ctx;
         self.ctx = Context::FreeExpr;
@@ -260,13 +263,17 @@ impl VisitMut for Fixer<'_> {
             | Expr::Assign(..)
             | Expr::Bin(..)
             | Expr::Yield(..)
-            | Expr::Arrow(..) => self.wrap(&mut expr.arg),
+            | Expr::Arrow(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..) => self.wrap(&mut expr.arg),
             _ => {}
         }
     }
 
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
         expr.left.visit_mut_with(self);
+
         let ctx = self.ctx;
         self.ctx = Context::FreeExpr;
         expr.right.visit_mut_with(self);
@@ -286,16 +293,21 @@ impl VisitMut for Fixer<'_> {
                 _ => {}
             },
 
-            op!(">") | op!(">=") | op!("<") | op!("<=") => {
-                if let (Expr::Update(..) | Expr::Lit(..), Expr::Update(..) | Expr::Lit(..)) =
-                    (&*expr.left, &*expr.right)
-                {
-                    return;
-                }
+            op!(">") | op!(">=") | op!("<") | op!("<=")
+                if matches!(
+                    (&*expr.left, &*expr.right),
+                    (
+                        Expr::Update(..) | Expr::Lit(..),
+                        Expr::Update(..) | Expr::Lit(..)
+                    )
+                ) =>
+            {
+                self.wrap_ts_instantiation_tail(expr.op, &mut expr.left);
+                return;
             }
 
             op!("**") => match &*expr.left {
-                Expr::Unary(..) => {
+                Expr::Unary(..) | Expr::Await(..) | Expr::TsTypeAssertion(..) => {
                     self.wrap(&mut expr.left);
                 }
                 Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() => {
@@ -313,6 +325,13 @@ impl VisitMut for Fixer<'_> {
             | Expr::Yield(..)
             | Expr::Cond(..)
             | Expr::Arrow(..) => {
+                self.wrap(&mut expr.right);
+            }
+            // Postfix casts have relational precedence. Without grouping, the
+            // cast would apply to the whole equal or higher precedence binary.
+            Expr::TsAs(..) | Expr::TsSatisfies(..) | Expr::TsConstAssertion(..)
+                if expr.op.precedence() >= op!("in").precedence() =>
+            {
                 self.wrap(&mut expr.right);
             }
             Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
@@ -385,6 +404,8 @@ impl VisitMut for Fixer<'_> {
                 _ => (),
             }
         }
+
+        self.wrap_ts_instantiation_tail(expr.op, &mut expr.left);
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
@@ -491,6 +512,8 @@ impl VisitMut for Fixer<'_> {
         expr.cons.visit_mut_with(self);
         expr.alt.visit_mut_with(self);
         self.ctx = ctx;
+
+        self.wrap_ts_conditional_test(&mut expr.test, &expr.cons);
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
@@ -847,6 +870,11 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
+    fn visit_mut_ts_type_assertion(&mut self, expr: &mut TsTypeAssertion) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_operand(&mut expr.expr);
+    }
+
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
         let old = self.ctx;
         self.ctx = Context::FreeExpr;
@@ -872,10 +900,18 @@ impl VisitMut for Fixer<'_> {
             | Expr::Seq(..)
             | Expr::Cond(..)
             | Expr::Arrow(..)
-            | Expr::Yield(..) => self.wrap(&mut n.arg),
+            | Expr::Yield(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..) => self.wrap(&mut n.arg),
 
             _ => {}
         }
+    }
+
+    fn visit_mut_update_expr(&mut self, expr: &mut UpdateExpr) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_operand(&mut expr.arg);
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
@@ -1150,7 +1186,13 @@ impl Fixer<'_> {
             return;
         }
 
-        let mut span = e.span();
+        let expr = Box::new(e.take());
+        *e = self.make_paren(expr).into();
+    }
+
+    /// Restores the removed parentheses' span for expressions and targets.
+    fn make_paren(&mut self, expr: Box<Expr>) -> ParenExpr {
+        let mut span = expr.span();
 
         if let Some(new_span) = self.span_map.shift_remove(&span) {
             span = new_span;
@@ -1160,8 +1202,7 @@ impl Fixer<'_> {
             span = DUMMY_SP;
         }
 
-        let expr = Box::new(e.take());
-        *e = ParenExpr { expr, span }.into();
+        ParenExpr { expr, span }
     }
 
     /// Removes paren
