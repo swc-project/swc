@@ -401,23 +401,6 @@ impl Optimizer<'_> {
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr { function: f, .. })
-                        if matches!(
-                            &**f,
-                            Function { is_async: true, .. }
-                                | Function {
-                                    is_generator: true,
-                                    ..
-                                }
-                        ) =>
-                    {
-                        return
-                    }
-                    Expr::Arrow(ArrowExpr { is_async: true, .. })
-                    | Expr::Arrow(ArrowExpr {
-                        is_generator: true, ..
-                    }) => return,
-
                     Expr::Lit(Lit::Regex(..)) => {
                         if !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                             || usage
@@ -437,11 +420,17 @@ impl Optimizer<'_> {
 
                     Expr::Lit(..) => {}
 
-                    Expr::Fn(_) | Expr::Arrow(..) if !usage.can_inline_fn_once() => {
-                        return;
-                    }
+                    Expr::Fn(_) | Expr::Arrow(..) => {
+                        let is_generator = match init {
+                            Expr::Arrow(ArrowExpr { is_generator, .. }) => *is_generator,
+                            Expr::Fn(FnExpr { function, .. }) => function.is_generator,
+                            _ => unreachable!(),
+                        };
 
-                    Expr::Fn(_) | Expr::Arrow(_) => {}
+                        if !usage.can_inline_fn_once(is_generator) {
+                            return;
+                        }
+                    }
 
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
@@ -646,12 +635,8 @@ impl Optimizer<'_> {
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
         let i = match &*decl {
             Decl::Class(v) => &v.ident,
-            Decl::Fn(f) => {
-                if f.function.is_async {
-                    return;
-                }
-                &f.ident
-            }
+            Decl::Fn(f) => &f.ident,
+
             _ => return,
         };
 
@@ -715,7 +700,12 @@ impl Optimizer<'_> {
             // Inline very simple functions.
             self.vars.inline_with_multi_replacer(decl);
             match decl {
-                Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
+                Decl::Fn(f)
+                    if self.options.inline >= 2
+                        && f.ident.sym != *"arguments"
+                        && !f.function.is_async
+                        && !f.function.is_generator =>
+                {
                     if let Some(body) = &f.function.body {
                         if !usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                             // only callees can be inlined multiple times
@@ -826,10 +816,14 @@ impl Optimizer<'_> {
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && usage.can_inline_fn_once()
                 && (match decl {
-                    Decl::Class(..) => !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL),
-                    Decl::Fn(..) => true,
+                    Decl::Class(..) => {
+                        !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL)
+                            && usage.can_inline_fn_once(false)
+                    }
+                    Decl::Fn(FnDecl { function, .. }) => {
+                        usage.can_inline_fn_once(function.is_generator)
+                    }
                     _ => false,
                 })
             {
@@ -1017,7 +1011,7 @@ impl Optimizer<'_> {
 }
 
 fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> Option<u8> {
-    if e.is_async {
+    if e.is_async || e.is_generator {
         return None;
     }
 

@@ -20121,7 +20121,27 @@
         while (!val.done)
         return val.value;
     }
-    async function run_cli({ program, packageJson, fs, path }) {
+    async function _default_options() {
+        let defs = {};
+        return Object.keys(infer_options({
+            0: 0
+        })).forEach((component)=>{
+            let options = infer_options({
+                [component]: {
+                    0: 0
+                }
+            });
+            options && (defs[component] = options);
+        }), defs;
+    }
+    async function infer_options(options) {
+        try {
+            await minify("", options);
+        } catch (error) {
+            return error.defs;
+        }
+    }
+    exports1._default_options = _default_options, exports1._run_cli = async function({ program, packageJson, fs, path }) {
         let filesList, skip_keys = new Set([
             "cname",
             "parent_scope",
@@ -20184,79 +20204,6 @@
         let convert_path = (name)=>name;
         function convert_ast(fn) {
             return AST_Node.from_mozilla_ast(Object.keys(files).reduce(fn, null));
-        }
-        async function run_cli() {
-            let result;
-            var content = program.sourceMap && program.sourceMap.content;
-            content && "inline" !== content && (options.sourceMap.content = read_file(content, content)), program.timings && (options.timings = !0);
-            try {
-                program.parse && (program.parse.acorn ? files = convert_ast(function(toplevel, name) {
-                    return require("acorn").parse(files[name], {
-                        ecmaVersion: 2018,
-                        locations: !0,
-                        program: toplevel,
-                        sourceFile: name,
-                        sourceType: options.module || program.parse.module ? "module" : "script"
-                    });
-                }) : program.parse.spidermonkey && (files = convert_ast(function(toplevel, name) {
-                    var obj = JSON.parse(files[name]);
-                    return toplevel ? (toplevel.body = toplevel.body.concat(obj.body), toplevel) : obj;
-                })));
-            } catch (ex) {
-                fatal(ex);
-            }
-            try {
-                result = await minify(files, options, fs);
-            } catch (ex) {
-                if ("SyntaxError" == ex.name) {
-                    print_error("Parse error at " + ex.filename + ":" + ex.line + "," + ex.col);
-                    var col = ex.col, lines = files[ex.filename].split(/\r?\n/), line = lines[ex.line - 1];
-                    line || col || (col = (line = lines[ex.line - 2]).length), line && (col > 70 && (line = line.slice(col - 70), col = 70), print_error(line.slice(0, 80)), print_error(line.slice(0, col).replace(/\S/g, " ") + "^"));
-                }
-                ex.defs && (print_error("Supported options:"), print_error(format_object(ex.defs))), fatal(ex);
-                return;
-            }
-            if ("ast" == program.output) options.compress || options.mangle || result.ast.figure_out_scope({}), console.log(JSON.stringify(result.ast, function(key, value) {
-                if (value) switch(key){
-                    case "thedef":
-                        return symdef(value);
-                    case "enclosed":
-                        return value.length ? value.map(symdef) : void 0;
-                    case "variables":
-                    case "globals":
-                        var callback, result;
-                        return value.size ? (callback = symdef, result = [], value.forEach(function(def) {
-                            result.push(callback(def));
-                        }), result) : void 0;
-                }
-                if (!skip_keys.has(key) && !(value instanceof AST_Token) && !(value instanceof Map)) {
-                    if (value instanceof AST_Node) {
-                        var result1 = {
-                            _class: "AST_" + value.TYPE
-                        };
-                        return value.block_scope && (result1.variables = value.block_scope.variables, result1.enclosed = value.block_scope.enclosed), value.CTOR.PROPS.forEach(function(prop) {
-                            "block_scope" !== prop && (result1[prop] = value[prop]);
-                        }), result1;
-                    }
-                    return value;
-                }
-            }, 2));
-            else if ("spidermonkey" == program.output) try {
-                let minified = await minify(result.code, {
-                    compress: !1,
-                    mangle: !1,
-                    format: {
-                        ast: !0,
-                        code: !1
-                    }
-                }, fs);
-                console.log(JSON.stringify(minified.ast.to_mozilla_ast(), null, 2));
-            } catch (ex) {
-                fatal(ex);
-                return;
-            }
-            else program.output ? (fs.writeFileSync(program.output, result.code), options.sourceMap && "inline" !== options.sourceMap.url && result.map && fs.writeFileSync(program.output + ".map", result.map)) : console.log(result.code);
-            if (program.nameCache && fs.writeFileSync(program.nameCache, JSON.stringify(options.nameCache)), result.timings) for(var phase in result.timings)print_error("- " + phase + ": " + result.timings[phase].toFixed(3) + "s");
         }
         function fatal(message) {
             message instanceof Error && (message = message.stack.replace(/^\S*?Error:/, "ERROR:")), print_error(message), process.exit(1);
@@ -20351,29 +20298,80 @@
                     chunks.join("")
                 ], resolve();
             }), process.stdin.resume();
-        }), await run_cli();
-    }
-    async function _default_options() {
-        let defs = {};
-        return Object.keys(infer_options({
-            0: 0
-        })).forEach((component)=>{
-            let options = infer_options({
-                [component]: {
-                    0: 0
+        }), await async function() {
+            let result;
+            var content = program.sourceMap && program.sourceMap.content;
+            content && "inline" !== content && (options.sourceMap.content = read_file(content, content)), program.timings && (options.timings = !0);
+            try {
+                program.parse && (program.parse.acorn ? files = convert_ast(function(toplevel, name) {
+                    return require("acorn").parse(files[name], {
+                        ecmaVersion: 2018,
+                        locations: !0,
+                        program: toplevel,
+                        sourceFile: name,
+                        sourceType: options.module || program.parse.module ? "module" : "script"
+                    });
+                }) : program.parse.spidermonkey && (files = convert_ast(function(toplevel, name) {
+                    var obj = JSON.parse(files[name]);
+                    return toplevel ? (toplevel.body = toplevel.body.concat(obj.body), toplevel) : obj;
+                })));
+            } catch (ex) {
+                fatal(ex);
+            }
+            try {
+                result = await minify(files, options, fs);
+            } catch (ex) {
+                if ("SyntaxError" == ex.name) {
+                    print_error("Parse error at " + ex.filename + ":" + ex.line + "," + ex.col);
+                    var col = ex.col, lines = files[ex.filename].split(/\r?\n/), line = lines[ex.line - 1];
+                    line || col || (col = (line = lines[ex.line - 2]).length), line && (col > 70 && (line = line.slice(col - 70), col = 70), print_error(line.slice(0, 80)), print_error(line.slice(0, col).replace(/\S/g, " ") + "^"));
                 }
-            });
-            options && (defs[component] = options);
-        }), defs;
-    }
-    async function infer_options(options) {
-        try {
-            await minify("", options);
-        } catch (error) {
-            return error.defs;
-        }
-    }
-    exports1._default_options = _default_options, exports1._run_cli = run_cli, exports1.minify = minify, exports1.minify_sync = function(files, options, _fs_module) {
+                ex.defs && (print_error("Supported options:"), print_error(format_object(ex.defs))), fatal(ex);
+                return;
+            }
+            if ("ast" == program.output) options.compress || options.mangle || result.ast.figure_out_scope({}), console.log(JSON.stringify(result.ast, function(key, value) {
+                if (value) switch(key){
+                    case "thedef":
+                        return symdef(value);
+                    case "enclosed":
+                        return value.length ? value.map(symdef) : void 0;
+                    case "variables":
+                    case "globals":
+                        var result;
+                        return value.size ? (result = [], value.forEach(function(def) {
+                            result.push(symdef(def));
+                        }), result) : void 0;
+                }
+                if (!skip_keys.has(key) && !(value instanceof AST_Token) && !(value instanceof Map)) {
+                    if (value instanceof AST_Node) {
+                        var result1 = {
+                            _class: "AST_" + value.TYPE
+                        };
+                        return value.block_scope && (result1.variables = value.block_scope.variables, result1.enclosed = value.block_scope.enclosed), value.CTOR.PROPS.forEach(function(prop) {
+                            "block_scope" !== prop && (result1[prop] = value[prop]);
+                        }), result1;
+                    }
+                    return value;
+                }
+            }, 2));
+            else if ("spidermonkey" == program.output) try {
+                let minified = await minify(result.code, {
+                    compress: !1,
+                    mangle: !1,
+                    format: {
+                        ast: !0,
+                        code: !1
+                    }
+                }, fs);
+                console.log(JSON.stringify(minified.ast.to_mozilla_ast(), null, 2));
+            } catch (ex) {
+                fatal(ex);
+                return;
+            }
+            else program.output ? (fs.writeFileSync(program.output, result.code), options.sourceMap && "inline" !== options.sourceMap.url && result.map && fs.writeFileSync(program.output + ".map", result.map)) : console.log(result.code);
+            if (program.nameCache && fs.writeFileSync(program.nameCache, JSON.stringify(options.nameCache)), result.timings) for(var phase in result.timings)print_error("- " + phase + ": " + result.timings[phase].toFixed(3) + "s");
+        }();
+    }, exports1.minify = minify, exports1.minify_sync = function(files, options, _fs_module) {
         let yielded, val, gen = minify_sync_or_async(files, options, _fs_module);
         do {
             if (yielded && "function" == typeof yielded.then) throw Error("minify_sync cannot be used with the legacy source-map module");

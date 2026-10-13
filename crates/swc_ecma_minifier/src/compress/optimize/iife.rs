@@ -870,8 +870,10 @@ impl Optimizer<'_> {
             Expr::Lit(
                 Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::Null(..) | Lit::BigInt(..),
             ) => true,
-            Expr::Fn(..) if usage.can_inline_fn_once() => true,
-            Expr::Arrow(a) if usage.can_inline_fn_once() && may_inline_arrow(a) => true,
+            Expr::Fn(f) if usage.can_inline_fn_once(f.function.is_generator) => true,
+            Expr::Arrow(a) if usage.can_inline_fn_once(a.is_generator) && may_inline_arrow(a) => {
+                true
+            }
             _ => false,
         }
     }
