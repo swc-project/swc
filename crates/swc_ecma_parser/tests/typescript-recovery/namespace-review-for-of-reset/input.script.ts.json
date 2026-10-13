@@ -1,0 +1,517 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 398
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 16,
+          "end": 26
+        },
+        "ctxt": 0,
+        "value": "outerAsync",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 246
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 29,
+          "end": 246
+        },
+        "stmts": [
+          {
+            "type": "TsModuleDeclaration",
+            "span": {
+              "start": 35,
+              "end": 206
+            },
+            "declare": false,
+            "global": false,
+            "namespace": true,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 45,
+                "end": 46
+              },
+              "ctxt": 0,
+              "value": "N",
+              "optional": false
+            },
+            "body": {
+              "type": "TsModuleBlock",
+              "span": {
+                "start": 47,
+                "end": 206
+              },
+              "body": [
+                {
+                  "type": "VariableDeclaration",
+                  "span": {
+                    "start": 57,
+                    "end": 67
+                  },
+                  "ctxt": 0,
+                  "kind": "let",
+                  "declare": false,
+                  "declarations": [
+                    {
+                      "type": "VariableDeclarator",
+                      "span": {
+                        "start": 61,
+                        "end": 66
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 61,
+                          "end": 66
+                        },
+                        "ctxt": 0,
+                        "value": "yield",
+                        "optional": false,
+                        "typeAnnotation": null
+                      },
+                      "init": null,
+                      "definite": false
+                    }
+                  ]
+                },
+                {
+                  "type": "ForOfStatement",
+                  "span": {
+                    "start": 76,
+                    "end": 103
+                  },
+                  "await": true,
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 87,
+                      "end": 92
+                    },
+                    "ctxt": 0,
+                    "value": "yield",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "right": {
+                    "type": "ArrayExpression",
+                    "span": {
+                      "start": 96,
+                      "end": 99
+                    },
+                    "elements": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 97,
+                            "end": 98
+                          },
+                          "value": 1.0,
+                          "raw": "1"
+                        }
+                      }
+                    ]
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 101,
+                      "end": 103
+                    },
+                    "ctxt": 0,
+                    "stmts": []
+                  }
+                },
+                {
+                  "type": "FunctionDeclaration",
+                  "identifier": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 121,
+                      "end": 129
+                    },
+                    "ctxt": 0,
+                    "value": "ordinary",
+                    "optional": false
+                  },
+                  "declare": false,
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 112,
+                    "end": 200
+                  },
+                  "ctxt": 0,
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 132,
+                      "end": 200
+                    },
+                    "stmts": [
+                      {
+                        "type": "VariableDeclaration",
+                        "span": {
+                          "start": 146,
+                          "end": 156
+                        },
+                        "ctxt": 0,
+                        "kind": "let",
+                        "declare": false,
+                        "declarations": [
+                          {
+                            "type": "VariableDeclarator",
+                            "span": {
+                              "start": 150,
+                              "end": 155
+                            },
+                            "id": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 150,
+                                "end": 155
+                              },
+                              "ctxt": 0,
+                              "value": "await",
+                              "optional": false,
+                              "typeAnnotation": null
+                            },
+                            "init": null,
+                            "definite": false
+                          }
+                        ]
+                      },
+                      {
+                        "type": "ForOfStatement",
+                        "span": {
+                          "start": 169,
+                          "end": 190
+                        },
+                        "await": false,
+                        "left": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 174,
+                            "end": 179
+                          },
+                          "ctxt": 0,
+                          "value": "await",
+                          "optional": false,
+                          "typeAnnotation": null
+                        },
+                        "right": {
+                          "type": "ArrayExpression",
+                          "span": {
+                            "start": 183,
+                            "end": 186
+                          },
+                          "elements": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "NumericLiteral",
+                                "span": {
+                                  "start": 184,
+                                  "end": 185
+                                },
+                                "value": 1.0,
+                                "raw": "1"
+                              }
+                            }
+                          ]
+                        },
+                        "body": {
+                          "type": "BlockStatement",
+                          "span": {
+                            "start": 188,
+                            "end": 190
+                          },
+                          "ctxt": 0,
+                          "stmts": []
+                        }
+                      }
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            }
+          },
+          {
+            "type": "ForOfStatement",
+            "span": {
+              "start": 211,
+              "end": 244
+            },
+            "await": true,
+            "left": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 222,
+                "end": 233
+              },
+              "ctxt": 0,
+              "kind": "const",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 228,
+                    "end": 233
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 228,
+                      "end": 233
+                    },
+                    "ctxt": 0,
+                    "value": "value",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": null,
+                  "definite": false
+                }
+              ]
+            },
+            "right": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 237,
+                "end": 240
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 238,
+                      "end": 239
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                }
+              ]
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 242,
+                "end": 244
+              },
+              "ctxt": 0,
+              "stmts": []
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 257,
+          "end": 271
+        },
+        "ctxt": 0,
+        "value": "outerGenerator",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 247,
+        "end": 398
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 274,
+          "end": 398
+        },
+        "stmts": [
+          {
+            "type": "TsModuleDeclaration",
+            "span": {
+              "start": 280,
+              "end": 396
+            },
+            "declare": false,
+            "global": false,
+            "namespace": true,
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 290,
+                "end": 291
+              },
+              "ctxt": 0,
+              "value": "N",
+              "optional": false
+            },
+            "body": {
+              "type": "TsModuleBlock",
+              "span": {
+                "start": 292,
+                "end": 396
+              },
+              "body": [
+                {
+                  "type": "FunctionDeclaration",
+                  "identifier": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 311,
+                      "end": 319
+                    },
+                    "ctxt": 0,
+                    "value": "ordinary",
+                    "optional": false
+                  },
+                  "declare": false,
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 302,
+                    "end": 390
+                  },
+                  "ctxt": 0,
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 322,
+                      "end": 390
+                    },
+                    "stmts": [
+                      {
+                        "type": "VariableDeclaration",
+                        "span": {
+                          "start": 336,
+                          "end": 346
+                        },
+                        "ctxt": 0,
+                        "kind": "let",
+                        "declare": false,
+                        "declarations": [
+                          {
+                            "type": "VariableDeclarator",
+                            "span": {
+                              "start": 340,
+                              "end": 345
+                            },
+                            "id": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 340,
+                                "end": 345
+                              },
+                              "ctxt": 0,
+                              "value": "yield",
+                              "optional": false,
+                              "typeAnnotation": null
+                            },
+                            "init": null,
+                            "definite": false
+                          }
+                        ]
+                      },
+                      {
+                        "type": "ForOfStatement",
+                        "span": {
+                          "start": 359,
+                          "end": 380
+                        },
+                        "await": false,
+                        "left": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 364,
+                            "end": 369
+                          },
+                          "ctxt": 0,
+                          "value": "yield",
+                          "optional": false,
+                          "typeAnnotation": null
+                        },
+                        "right": {
+                          "type": "ArrayExpression",
+                          "span": {
+                            "start": 373,
+                            "end": 376
+                          },
+                          "elements": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "NumericLiteral",
+                                "span": {
+                                  "start": 374,
+                                  "end": 375
+                                },
+                                "value": 1.0,
+                                "raw": "1"
+                              }
+                            }
+                          ]
+                        },
+                        "body": {
+                          "type": "BlockStatement",
+                          "span": {
+                            "start": 378,
+                            "end": 380
+                          },
+                          "ctxt": 0,
+                          "stmts": []
+                        }
+                      }
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

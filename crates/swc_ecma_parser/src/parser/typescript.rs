@@ -4314,15 +4314,25 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         expect!(self, Token::LBrace);
         let outer_ctx = self.ctx();
-        let body = self.do_inside_of_type_context(TypeContext::TsModuleBlock, |p| {
-            p.do_outside_of_boundary_context(BoundaryContext::TopLevel, |p| {
-                with_grammar_context!(p, [?Yield, ?Await, ~Return], |p| {
-                    p.with_syntax_context(super::SyntaxContext::Nested, |p| {
-                        p.parse_module_item_block_body(false, Some(Token::RBrace))
-                    })
-                })
-            })
-        });
+        let outer_type_ctx = self.type_ctx();
+        let outer_boundary_ctx = self.boundary_ctx();
+        let outer_syntax_ctx = self.syntax_context;
+        let outer_grammar_ctx =
+            enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, ~Return);
+
+        // Module blocks inherit Yield and Await but clear Return. Apply and
+        // restore parser state directly around the shared module-item body loop.
+        self.set_type_ctx(
+            outer_type_ctx | TypeContext::TsModuleBlock | TypeContext::TsContainerBody,
+        );
+        self.set_boundary_ctx(outer_boundary_ctx - BoundaryContext::TopLevel);
+        self.syntax_context = super::SyntaxContext::Nested;
+        let body = self.parse_module_item_block_body(false, Some(Token::RBrace));
+
+        self.set_type_ctx(outer_type_ctx);
+        self.set_boundary_ctx(outer_boundary_ctx);
+        self.set_grammar_ctx(outer_grammar_ctx);
+        self.syntax_context = outer_syntax_ctx;
         // Imports may enable Module/Strict inside this declaration container.
         // Restore before consuming `}`: advancing also lexes the outer token.
         self.set_ctx(outer_ctx);

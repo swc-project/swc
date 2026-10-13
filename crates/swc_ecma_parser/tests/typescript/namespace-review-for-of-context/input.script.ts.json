@@ -1,0 +1,304 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 185
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 1,
+        "end": 185
+      },
+      "declare": false,
+      "global": false,
+      "namespace": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 11,
+          "end": 12
+        },
+        "ctxt": 0,
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 13,
+          "end": 185
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 19,
+              "end": 36
+            },
+            "ctxt": 0,
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 23,
+                  "end": 28
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 23,
+                    "end": 28
+                  },
+                  "ctxt": 0,
+                  "value": "await",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": null,
+                "definite": false
+              },
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 30,
+                  "end": 35
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 30,
+                    "end": 35
+                  },
+                  "ctxt": 0,
+                  "value": "yield",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "ForOfStatement",
+            "span": {
+              "start": 41,
+              "end": 62
+            },
+            "await": false,
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 46,
+                "end": 51
+              },
+              "ctxt": 0,
+              "value": "await",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 55,
+                "end": 58
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 56,
+                      "end": 57
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                }
+              ]
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 60,
+                "end": 62
+              },
+              "ctxt": 0,
+              "stmts": []
+            }
+          },
+          {
+            "type": "ForOfStatement",
+            "span": {
+              "start": 67,
+              "end": 88
+            },
+            "await": false,
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 72,
+                "end": 77
+              },
+              "ctxt": 0,
+              "value": "yield",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 81,
+                "end": 84
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 82,
+                      "end": 83
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                }
+              ]
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 86,
+                "end": 88
+              },
+              "ctxt": 0,
+              "stmts": []
+            }
+          },
+          {
+            "type": "FunctionDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 108,
+                "end": 118
+              },
+              "ctxt": 0,
+              "value": "innerAsync",
+              "optional": false
+            },
+            "declare": false,
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 93,
+              "end": 183
+            },
+            "ctxt": 0,
+            "body": {
+              "type": "FunctionBody",
+              "span": {
+                "start": 121,
+                "end": 183
+              },
+              "stmts": [
+                {
+                  "type": "VariableDeclaration",
+                  "span": {
+                    "start": 131,
+                    "end": 141
+                  },
+                  "ctxt": 0,
+                  "kind": "let",
+                  "declare": false,
+                  "declarations": [
+                    {
+                      "type": "VariableDeclarator",
+                      "span": {
+                        "start": 135,
+                        "end": 140
+                      },
+                      "id": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 135,
+                          "end": 140
+                        },
+                        "ctxt": 0,
+                        "value": "yield",
+                        "optional": false,
+                        "typeAnnotation": null
+                      },
+                      "init": null,
+                      "definite": false
+                    }
+                  ]
+                },
+                {
+                  "type": "ForOfStatement",
+                  "span": {
+                    "start": 150,
+                    "end": 177
+                  },
+                  "await": true,
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 161,
+                      "end": 166
+                    },
+                    "ctxt": 0,
+                    "value": "yield",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "right": {
+                    "type": "ArrayExpression",
+                    "span": {
+                      "start": 170,
+                      "end": 173
+                    },
+                    "elements": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 171,
+                            "end": 172
+                          },
+                          "value": 1.0,
+                          "raw": "1"
+                        }
+                      }
+                    ]
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 175,
+                      "end": 177
+                    },
+                    "ctxt": 0,
+                    "stmts": []
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": true,
+            "typeParameters": null,
+            "returnType": null
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

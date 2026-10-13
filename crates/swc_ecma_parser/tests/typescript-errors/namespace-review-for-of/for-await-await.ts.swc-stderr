@@ -1,0 +1,5 @@
+  x Expected '(', got 'await'
+   ,-[$DIR/tests/typescript-errors/namespace-review-for-of/for-await-await.ts:1:1]
+ 1 | namespace N { for await (await of [1]) {} }
+   :                   ^^^^^
+   `----

@@ -1,0 +1,7 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/namespace-review-lookahead-escaped/await-satisfies.ts:2:1]
+ 1 | namespace N {
+ 2 |     const A = a\u0077ait satisfies;
+   :               ^^^^^^^^^^
+ 3 | }
+   `----

@@ -1,0 +1,608 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 446
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 1,
+        "end": 446
+      },
+      "declare": false,
+      "global": false,
+      "namespace": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 11,
+          "end": 12
+        },
+        "ctxt": 0,
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 13,
+          "end": 446
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 19,
+              "end": 44
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 25,
+                  "end": 43
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 25,
+                    "end": 32
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitAs",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "AwaitExpression",
+                  "span": {
+                    "start": 35,
+                    "end": 43
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 41,
+                      "end": 43
+                    },
+                    "ctxt": 0,
+                    "value": "as",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 49,
+              "end": 88
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 55,
+                  "end": 87
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 55,
+                    "end": 69
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitSatisfies",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "AwaitExpression",
+                  "span": {
+                    "start": 72,
+                    "end": 87
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 78,
+                      "end": 87
+                    },
+                    "ctxt": 0,
+                    "value": "satisfies",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 93,
+              "end": 118
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 99,
+                  "end": 117
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 99,
+                    "end": 106
+                  },
+                  "ctxt": 0,
+                  "value": "YieldAs",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 109,
+                    "end": 117
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 115,
+                      "end": 117
+                    },
+                    "ctxt": 0,
+                    "value": "as",
+                    "optional": false
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 123,
+              "end": 162
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 129,
+                  "end": 161
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 129,
+                    "end": 143
+                  },
+                  "ctxt": 0,
+                  "value": "YieldSatisfies",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 146,
+                    "end": 161
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 152,
+                      "end": 161
+                    },
+                    "ctxt": 0,
+                    "value": "satisfies",
+                    "optional": false
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 167,
+              "end": 204
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 173,
+                  "end": 203
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 173,
+                    "end": 186
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitAsMember",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "AwaitExpression",
+                  "span": {
+                    "start": 189,
+                    "end": 203
+                  },
+                  "argument": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 195,
+                      "end": 203
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 195,
+                        "end": 197
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 198,
+                        "end": 203
+                      },
+                      "value": "value"
+                    }
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 209,
+              "end": 260
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 215,
+                  "end": 259
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 215,
+                    "end": 235
+                  },
+                  "ctxt": 0,
+                  "value": "YieldSatisfiesMember",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 238,
+                    "end": 259
+                  },
+                  "argument": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 244,
+                      "end": 259
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 244,
+                        "end": 253
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 254,
+                        "end": 259
+                      },
+                      "value": "value"
+                    }
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 265,
+              "end": 296
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 271,
+                  "end": 295
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 271,
+                    "end": 282
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitAsCall",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "AwaitExpression",
+                  "span": {
+                    "start": 285,
+                    "end": 295
+                  },
+                  "argument": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 291,
+                      "end": 295
+                    },
+                    "ctxt": 0,
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 291,
+                        "end": 293
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    },
+                    "arguments": [],
+                    "typeArguments": null
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 301,
+              "end": 346
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 307,
+                  "end": 345
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 307,
+                    "end": 325
+                  },
+                  "ctxt": 0,
+                  "value": "YieldSatisfiesCall",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 328,
+                    "end": 345
+                  },
+                  "argument": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 334,
+                      "end": 345
+                    },
+                    "ctxt": 0,
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 334,
+                        "end": 343
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    },
+                    "arguments": [],
+                    "typeArguments": null
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 351,
+              "end": 388
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 357,
+                  "end": 387
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 357,
+                    "end": 372
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitAsAddition",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 375,
+                    "end": 387
+                  },
+                  "operator": "+",
+                  "left": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 375,
+                      "end": 383
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 381,
+                        "end": 383
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 386,
+                      "end": 387
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 393,
+              "end": 444
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 399,
+                  "end": 443
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 399,
+                    "end": 421
+                  },
+                  "ctxt": 0,
+                  "value": "YieldSatisfiesAddition",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 424,
+                    "end": 443
+                  },
+                  "argument": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 430,
+                      "end": 443
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 430,
+                        "end": 439
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 442,
+                        "end": 443
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    }
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

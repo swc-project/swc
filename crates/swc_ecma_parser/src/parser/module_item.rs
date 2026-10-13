@@ -479,8 +479,9 @@ impl<I: Tokens> Parser<I> {
             }
 
             if self.input_mut().eat(Token::Eq) {
-                // `export = x;`
-                let expr = self.parse_expr()?;
+                // TypeScript export expressions have their own Await grammar,
+                // including inside namespaces and ambient modules.
+                let expr = with_grammar_context!(self, [+In, ?Yield, +Await], Self::parse_expr)?;
                 self.expect_general_semi()?;
                 return Ok(TsExportAssignment {
                     span: self.span(start),
@@ -630,7 +631,11 @@ impl<I: Tokens> Parser<I> {
                     self.input().prev_span(),
                 ))
             } else {
-                let expr = with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
+                let expr = if self.input().syntax().typescript() {
+                    with_grammar_context!(self, [+In, ?Yield, +Await], Self::parse_assignment_expr)?
+                } else {
+                    with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?
+                };
                 self.expect_general_semi()?;
                 return Ok(ExportDefaultExpr {
                     span: self.span(start),
