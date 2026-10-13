@@ -2,12 +2,11 @@
 
 use std::{borrow::Cow, char, rc::Rc};
 
-use compact_str::CompactString;
 use either::Either::{self, Left, Right};
 use rustc_hash::FxHashMap;
 use swc_atoms::{
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
-    Atom, AtomStoreCell, Wtf8Atom,
+    Atom, AtomStoreCell,
 };
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
@@ -21,10 +20,10 @@ use crate::{
     byte_search,
     error::{Error, SyntaxError},
     input::Tokens,
+    jsx::decode_jsx_entity,
     lexer::{
         char_ext::CharExt,
         comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer},
-        jsx::xhtml,
         number::{parse_integer, LazyInteger},
         search::SafeByteMatchTable,
         state::State,
@@ -38,7 +37,6 @@ use crate::{
 pub(crate) mod capturing;
 mod char_ext;
 mod comments_buffer;
-mod jsx;
 mod number;
 pub(crate) mod search;
 mod state;
@@ -1398,119 +1396,18 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn read_jsx_entity(&mut self) -> LexResult<(Wtf8Atom, String)> {
+    fn read_jsx_entity(&mut self) -> CodePoint {
         debug_assert!(self.syntax().jsx());
-
-        fn parse_from_code(lexer: &mut Lexer, s: &str, radix: u32) -> Option<u32> {
-            let num = match u32::from_str_radix(s, radix) {
-                Ok(num) if num <= 0x10ffff => num,
-                _ => {
-                    lexer.emit_error(lexer.input.cur_pos(), SyntaxError::InvalidJSXValue);
-                    return None;
-                }
-            };
-
-            Some(num)
-        }
-
-        fn is_hex(s: &str) -> bool {
-            s.chars().all(|c| c.is_ascii_hexdigit())
-        }
-
-        fn is_dec(s: &str) -> bool {
-            s.chars().all(|c| c.is_ascii_digit())
-        }
-
-        let mut s = CompactString::default();
-
         debug_assert!(self.input().cur().is_some_and(|c| c == b'&'));
-        self.bump(1); // `&`
-
-        let start_pos = self.input().cur_pos();
-        let mut buf = Wtf8Buf::with_capacity(8);
-        let mut raw = String::new();
-        const NO_PREV_RESULT: u32 = 0xdc00;
-        let mut prev_result: u32 = NO_PREV_RESULT;
-        for _ in 0..20 {
-            let c = match self.input().cur() {
-                Some(c) => c,
-                None => break,
-            };
-            self.bump(1); // `c` is u8
-
-            if c != b';' {
-                s.push(c as char);
-                continue;
-            }
-            if let Some(stripped) = s.strip_prefix('#') {
-                let mut result: u32;
-                if stripped.starts_with('x') {
-                    if is_hex(&s[2..]) {
-                        result = parse_from_code(self, &s[2..], 16).unwrap();
-                    } else {
-                        return Ok((Wtf8Atom::from(format!("&{s};")), format!("&{s};")));
-                    }
-                } else if is_dec(stripped) {
-                    result = parse_from_code(self, stripped, 10).unwrap();
-                } else {
-                    return Ok((Wtf8Atom::from(format!("&{s};")), format!("&{s};")));
-                }
-
-                if (0xd800..=0xdfff).contains(&result) {
-                    if result < 0xdc00 {
-                        if prev_result != NO_PREV_RESULT {
-                            // If the previous result is a high surrogate
-                            // We can be sure `prev_result` is less than 0xdc00
-                            buf.push_str(format!("&#x{prev_result:04X};").as_str());
-                        }
-                        if self.input().cur() == Some(b'&') && self.input().peek() == Some(b'#') {
-                            self.bump(1); // `&`
-
-                            // wait for the next surrogate
-                            prev_result = result;
-                            raw.push_str(format!("&{s};").as_str());
-                            s.clear();
-                            continue;
-                        } else {
-                            // Safety: result is a valid Unicode code point
-                            buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
-                            return Ok((Wtf8Atom::from(buf), format!("&{s};")));
-                        }
-                    } else if prev_result != NO_PREV_RESULT {
-                        // Low surrogate pair
-                        // Decode to supplementary plane code point
-                        // (0x10000-0x10FFFF)
-                        result = 0x10000 + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
-                        // Safety: result is a valid Unicode code point
-                        buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
-                        raw.push_str(format!("&{s};").as_str());
-                        return Ok((Wtf8Atom::from(buf), raw));
-                    }
-                } else {
-                    if prev_result != NO_PREV_RESULT {
-                        buf.push(unsafe { CodePoint::from_u32_unchecked(prev_result) });
-                        raw.push_str(format!("&{s};").as_str());
-                    }
-                    // Safety: result is a valid Unicode code point
-                    buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
-                    return Ok((Wtf8Atom::from(buf), format!("&{s};")));
-                }
-                // Maybe prev_result here but ignore it follow babel behavior
-                // Safety: result is a valid Unicode code point
-                buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
-                return Ok((Wtf8Atom::from(buf), format!("&{s};")));
-            } else if let Some(entity) = xhtml(&s) {
-                return Ok((Wtf8Atom::from(entity.to_string()), format!("&{s};")));
-            }
+        if let Some((value, len)) = decode_jsx_entity(self.input().as_str()) {
+            self.bump(len);
+            return value;
         }
 
-        unsafe {
-            // Safety: start_pos is a valid position because we got it from self.input
-            self.input_mut().reset_to(start_pos);
-        }
-        buf.push_char('&');
-
-        Ok((Wtf8Atom::from(buf), "&".to_string()))
+        // Preserve an invalid reference as source text, and leave subsequent
+        // entities and JSX delimiters for the normal scanner.
+        self.bump(1);
+        CodePoint::from_char('&')
     }
 
     fn read_jsx_new_line(&mut self, normalize_crlf: bool) -> LexResult<Either<&'static str, char>> {
@@ -1570,9 +1467,8 @@ impl<'a> Lexer<'a> {
 
                 buf.push_str(value);
 
-                let jsx_entity = self.read_jsx_entity()?;
-
-                buf.push_wtf8(&jsx_entity.0);
+                let jsx_entity = self.read_jsx_entity();
+                buf.push(jsx_entity);
 
                 chunk_start = self.input().cur_pos();
             } else if ch.is_line_terminator() {

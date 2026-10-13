@@ -1,0 +1,13 @@
+const shortSpace = /*#__PURE__*/ React.createElement("div", null, "  text");
+const decimalSpace = /*#__PURE__*/ React.createElement("div", null, "  text");
+const hexSpace = /*#__PURE__*/ React.createElement("div", null, "  text");
+const decimalTab = /*#__PURE__*/ React.createElement("div", null, "	 text");
+const hexTab = /*#__PURE__*/ React.createElement("div", null, "	 text");
+const trailingSpace = /*#__PURE__*/ React.createElement("div", null, "text  next");
+const entityOnlyLine = /*#__PURE__*/ React.createElement("div", null, " ");
+const plainWhitespaceAroundEntity = /*#__PURE__*/ React.createElement("div", null, "  text");
+const followingNamedEntity = /*#__PURE__*/ React.createElement("div", null, " & text");
+const followingNumericEntity = /*#__PURE__*/ React.createElement("div", null, "A ");
+const unicodeAfterEntity = /*#__PURE__*/ React.createElement("div", null, "  🦀 text");
+const encodedNewline = /*#__PURE__*/ React.createElement("div", null, "text");
+const plainSpace = /*#__PURE__*/ React.createElement("div", null, "text");

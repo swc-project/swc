@@ -1,0 +1,9 @@
+const emptyDecimal = /*#__PURE__*/ React.createElement("div", null, "&#;  text");
+const emptyHex = /*#__PURE__*/ React.createElement("div", null, "&#x;  text");
+const outOfRangeDecimal = /*#__PURE__*/ React.createElement("div", null, "&#1114112;  text");
+const outOfRangeHex = /*#__PURE__*/ React.createElement("div", null, "&#x110000;  text");
+const uppercaseHexPrefix = /*#__PURE__*/ React.createElement("div", null, "&#X20;  text");
+const signedDecimal = /*#__PURE__*/ React.createElement("div", null, "&#+32;  text");
+const invalidLongDigits = /*#__PURE__*/ React.createElement("div", null, "&#000000000000000000000000000000G;  text");
+const strayAmpersand = /*#__PURE__*/ React.createElement("div", null, "& &  text");
+const nonAsciiReference = /*#__PURE__*/ React.createElement("div", null, "&é;&  text");

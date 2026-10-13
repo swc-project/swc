@@ -6,7 +6,7 @@ use std::{
 use pretty_assertions::assert_eq;
 use swc_common::{errors::Handler, sync::Lrc, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, PResult, Parser, Syntax, TsSyntax};
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{run_test, StdErr};
 
@@ -27,14 +27,18 @@ where
         .load_file(file_name)
         .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-    let mut p = Parser::new(
-        ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
+    let syntax = if file_name.extension().is_some_and(|ext| ext == "tsx") {
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        })
+    } else {
+        Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
-        }),
-        (&*fm).into(),
-        None,
-    );
+        })
+    };
+    let mut p = Parser::new(syntax, (&*fm).into(), None);
 
     let res = f(&mut p).map_err(|e| e.into_diagnostic(handler).emit());
 
@@ -48,7 +52,18 @@ where
 #[testing::fixture("tests/jsx/basic/**/*.js")]
 #[testing::fixture("tests/jsx/basic/**/*.jsx")]
 fn references(entry: PathBuf) {
-    run_test(false, |cm, handler| {
+    assert_references(entry, false);
+}
+
+#[testing::fixture("tests/jsx/entities/**/*.jsx")]
+#[testing::fixture("tests/jsx/entities/**/*.tsx")]
+fn entities(entry: PathBuf) {
+    // Entity regressions must also reject recoverable parser diagnostics.
+    assert_references(entry, true);
+}
+
+fn assert_references(entry: PathBuf, treat_err_as_bug: bool) {
+    run_test(treat_err_as_bug, |cm, handler| {
         let input = read_to_string(&entry).unwrap();
 
         eprintln!("\n\n========== Running reference test \nSource:\n{input}\n");
