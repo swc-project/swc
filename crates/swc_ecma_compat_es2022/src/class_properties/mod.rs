@@ -966,7 +966,6 @@ impl ClassProperties {
             private_method_fn_decls.visit_mut_with(&mut PrivateAccessVisitor {
                 private: &self.private,
                 vars: Vec::new(),
-                private_access_type: Default::default(),
                 c: self.c,
                 unresolved_mark: self.unresolved_mark,
             });
@@ -980,7 +979,6 @@ impl ClassProperties {
             members.visit_mut_with(&mut PrivateAccessVisitor {
                 private: &self.private,
                 vars: Vec::new(),
-                private_access_type: Default::default(),
                 c: self.c,
                 unresolved_mark: self.unresolved_mark,
             });
