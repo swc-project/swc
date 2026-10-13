@@ -531,8 +531,13 @@ impl<I: Tokens> Parser<I> {
                 |p| {
                     // Expression names use the function kind's BindingIdentifier
                     // arguments; declaration names inherit the enclosing grammar.
-                    let parse_name =
-                        |p: &mut Self| p.parse_maybe_opt_function_ident(is_ident_required);
+                    // These names also lie outside the enclosing async arrow's
+                    // parameter Await check, just like the function's parameters.
+                    let parse_name = |p: &mut Self| {
+                        p.without_async_arrow_param_await_collection(|p| {
+                            p.parse_maybe_opt_function_ident(is_ident_required)
+                        })
+                    };
                     match (is_generator, is_async) {
                         (false, false) => with_grammar_context!(p, [~Yield, ~Await], parse_name),
                         (true, false) => with_grammar_context!(p, [+Yield, ~Await], parse_name),
