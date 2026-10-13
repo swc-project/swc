@@ -29,7 +29,6 @@ verify        = ["swc_ecma_visit"]
 
 [dependencies]
 bitflags    = { workspace = true }
-compact_str = { workspace = true }
 either      = { workspace = true }
 num-bigint  = { workspace = true }
 rustc-hash  = { workspace = true }
@@ -48,6 +47,7 @@ swc_ecma_visit  = { version = "29.0.0", path = "../swc_ecma_visit", optional = t
 stacker = { version = "0.1.15", optional = true }
 
 [dev-dependencies]
+serde_json = { workspace = true }
 
 swc_ecma_ast = { version = "29.0.2", path = "../swc_ecma_ast", features = [
   "serde-impl",

@@ -1,7 +1,6 @@
 use std::borrow::Cow;
 
 use char::CharExt;
-use compact_str::CompactString;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use state::State;
@@ -15,8 +14,8 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Ident};
+use swc_ecma_parser::jsx::decode_jsx_entity;
 
-use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
 use crate::{
     common::lexer::{
@@ -29,7 +28,6 @@ use crate::{
 
 pub mod char;
 pub mod comments_buffer;
-mod jsx;
 pub mod number;
 mod search;
 pub mod state;
@@ -987,70 +985,45 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         Ok(Self::Token::jsx_name(slice, self))
     }
 
+    /// Read an entity as a Unicode scalar value.
+    ///
+    /// JavaScript string consumers should use
+    /// [`Self::read_jsx_entity_code_point`] to retain lone surrogates. This
+    /// scalar interface preserves unrecognized references as source text.
     fn read_jsx_entity(&mut self) -> LexResult<(char, String)> {
         debug_assert!(self.syntax().jsx());
-
-        fn from_code(s: &str, radix: u32) -> LexResult<char> {
-            // TODO(kdy1): unwrap -> Err
-            let c = char::from_u32(
-                u32::from_str_radix(s, radix).expect("failed to parse string as number"),
-            )
-            .expect("failed to parse number as char");
-
-            Ok(c)
-        }
-
-        fn is_hex(s: &str) -> bool {
-            s.chars().all(|c| c.is_ascii_hexdigit())
-        }
-
-        fn is_dec(s: &str) -> bool {
-            s.chars().all(|c| c.is_ascii_digit())
-        }
-
-        let mut s = CompactString::default();
-
         debug_assert!(self.input().cur().is_some_and(|c| c == b'&'));
-        self.bump();
-
-        let start_pos = self.input().cur_pos();
-
-        for _ in 0..10 {
-            let c = match self.input().cur() {
-                Some(c) => c as char,
-                None => break,
-            };
-            self.bump();
-
-            if c == ';' {
-                if let Some(stripped) = s.strip_prefix('#') {
-                    if stripped.starts_with('x') {
-                        if is_hex(&s[2..]) {
-                            let value = from_code(&s[2..], 16)?;
-
-                            return Ok((value, format!("&{s};")));
-                        }
-                    } else if is_dec(stripped) {
-                        let value = from_code(stripped, 10)?;
-
-                        return Ok((value, format!("&{s};")));
-                    }
-                } else if let Some(entity) = xhtml(&s) {
-                    return Ok((entity, format!("&{s};")));
-                }
-
-                break;
+        let entity = decode_jsx_entity(self.input().as_str())
+            .and_then(|(value, len)| value.to_char().map(|value| (value, len)));
+        if let Some((value, len)) = entity {
+            let raw = self.input().as_str()[..len].to_owned();
+            unsafe {
+                // Safety: the recognized entity consists of `len` ASCII bytes.
+                self.input_mut().bump_bytes(len);
             }
-
-            s.push(c)
+            return Ok((value, raw));
         }
 
-        unsafe {
-            // Safety: start_pos is a valid position because we got it from self.input
-            self.input_mut().reset_to(start_pos);
-        }
-
+        self.bump();
         Ok(('&', "&".to_string()))
+    }
+
+    /// Read one JSX entity as a JavaScript code point, including lone
+    /// surrogates. Invalid references consume only the `&`, leaving their
+    /// source text intact.
+    fn read_jsx_entity_code_point(&mut self) -> CodePoint {
+        debug_assert!(self.syntax().jsx());
+        debug_assert!(self.input().cur().is_some_and(|c| c == b'&'));
+        if let Some((value, len)) = decode_jsx_entity(self.input().as_str()) {
+            unsafe {
+                // Safety: the recognized entity consists of `len` ASCII bytes.
+                self.input_mut().bump_bytes(len);
+            }
+            return value;
+        }
+
+        self.bump();
+        CodePoint::from_char('&')
     }
 
     fn read_jsx_new_line(&mut self, normalize_crlf: bool) -> LexResult<Either<&'static str, char>> {
@@ -1072,7 +1045,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let start = self.input().cur_pos();
         // Safety: cur() was Some(quote)
         self.bump(); // `quote`
-        let mut out = String::new();
+        let mut out = Wtf8Buf::new();
         let mut chunk_start = self.input().cur_pos();
         loop {
             let ch = match self.input().cur() {
@@ -1090,7 +1063,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 };
 
                 out.push_str(value);
-                out.push('\\');
+                out.push_char('\\');
 
                 self.bump();
 
@@ -1111,9 +1084,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 out.push_str(value);
 
-                let jsx_entity = self.read_jsx_entity()?;
-
-                out.push(jsx_entity.0);
+                let jsx_entity = self.read_jsx_entity_code_point();
+                out.push(jsx_entity);
 
                 chunk_start = self.input().cur_pos();
             } else if ch.is_line_terminator() {
@@ -1129,7 +1101,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         out.push_str(s);
                     }
                     Either::Right(c) => {
-                        out.push(c);
+                        out.push_char(c);
                     }
                 }
 
@@ -1146,10 +1118,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         };
         let value = if out.is_empty() {
             // Fast path: We don't need to allocate
-            self.atom(s)
+            self.wtf8_atom(Wtf8::from_str(s))
         } else {
             out.push_str(s);
-            self.atom(out)
+            self.wtf8_atom(&*out)
         };
 
         // it might be at the end of the file when
@@ -1164,7 +1136,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_slice(start, end)
         };
         let raw = self.atom(raw);
-        Ok(Self::Token::str(value.into(), raw, self))
+        Ok(Self::Token::str(value, raw, self))
     }
 
     // Modified based on <https://github.com/oxc-project/oxc/blob/f0e1510b44efdb1b0d9a09f950181b0e4c435abe/crates/oxc_parser/src/lexer/unicode.rs#L237>
