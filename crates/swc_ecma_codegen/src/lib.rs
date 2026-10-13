@@ -371,23 +371,20 @@ where
             } else if matches!(node.op, op!("==") | op!("===")) {
                 // Keep postfix `!` and type argument `>` from becoming `!=` or `>=`.
                 node.left.trailing_token().is_some()
-            } else {
+            } else if matches!(node.op, op!(">") | op!(">>") | op!(">>>") | op!(">=")) {
+                // Inspect the suffix only when the operator can merge with it.
                 // space is mandatory to avoid outputting -->
                 match *node.left {
                     Expr::Update(UpdateExpr {
                         prefix: false, op, ..
-                    }) => matches!(
-                        (op, node.op),
-                        (op!("--"), op!(">") | op!(">>") | op!(">>>") | op!(">="))
+                    }) => op == op!("--"),
+                    _ => matches!(
+                        node.left.trailing_token(),
+                        Some(TrailingToken::TypeArgumentClose)
                     ),
-                    _ if matches!(node.op, op!(">") | op!(">>") | op!(">>>") | op!(">=")) => {
-                        matches!(
-                            node.left.trailing_token(),
-                            Some(TrailingToken::TypeArgumentClose)
-                        )
-                    }
-                    _ => false,
                 }
+            } else {
+                false
             }
         } else {
             is_kwd_op
@@ -1509,6 +1506,17 @@ fn handle_invalid_unicodes(s: &str) -> Cow<'_, str> {
 }
 
 fn require_space_before_rhs(mut rhs: &Expr, op: &BinaryOp) -> bool {
+    // A word token cannot merge with a symbolic operator.
+    if matches!(rhs, Expr::Ident(..)) {
+        return false;
+    }
+
+    // Only these operators can merge with an expression's first token. Avoid
+    // walking the left edge when the operator already provides a boundary.
+    if !matches!(*op, op!(bin, "+") | op!(bin, "-") | op!("<") | op!("<<")) {
+        return false;
+    }
+
     while let Expr::Bin(BinExpr { left, .. }) = rhs {
         rhs = left;
     }
