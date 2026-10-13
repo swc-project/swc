@@ -1769,6 +1769,9 @@ impl<I: Tokens> Parser<I> {
                     | Token::Gt
                     | Token::Eq
                     | Token::RShift
+                    | Token::ZeroFillRShift
+                    | Token::RShiftEq
+                    | Token::ZeroFillRShiftEq
                     | Token::GtEq
                     | Token::Plus
                     | Token::Minus
@@ -1776,7 +1779,7 @@ impl<I: Tokens> Parser<I> {
                     | Token::NoSubstitutionTemplateLiteral
                     | Token::TemplateHead
                     | Token::BackQuote
-            ) || cur.is_assign_op()
+            )
             // these should be type
             // arguments in function
             // call or template, not
@@ -1785,8 +1788,9 @@ impl<I: Tokens> Parser<I> {
             {
                 Ok(None)
             } else if p.input().had_line_break_before_cur()
-                || p.input().cur().is_bin_op()
-                || !p.is_start_of_expr()
+                || cur.is_bin_op()
+                // Unlike other assignments, `/=` can start a regexp on the same line.
+                || (cur != Token::DivEq && !p.is_start_of_expr())
             {
                 Ok(Some(type_args))
             } else {
@@ -4272,7 +4276,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeQuery`
-    fn parse_ts_type_query(&mut self) -> PResult<TsTypeQuery> {
+    fn parse_ts_type_query(&mut self) -> PResult<Box<TsType>> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.cur_pos();
@@ -4291,18 +4295,22 @@ impl<I: Tokens> Parser<I> {
             self.parse_ts_entity_name(true).map(From::from)?
         };
 
-        let type_args = if !self.input().had_line_break_before_cur() && self.is_ts_type_args_start()
+        // Imports already consume their own type arguments. Other queries
+        // require a separate `<` token; `<<` belongs to the enclosing expression.
+        let type_args = if self.input().is(Token::Lt)
+            && !self.input().had_line_break_before_cur()
+            && !matches!(expr_name, TsTypeQueryExpr::Import(..))
         {
             Some(self.parse_ts_type_args()?)
         } else {
             None
         };
 
-        Ok(TsTypeQuery {
+        Ok(Box::new(TsType::TsTypeQuery(TsTypeQuery {
             span: self.span(start),
             expr_name,
             type_args,
-        })
+        })))
     }
 
     /// `tsParseModuleBlock`
@@ -4682,7 +4690,7 @@ impl<I: Tokens> Parser<I> {
                 Ok(Box::new(TsType::TsThisType(this_keyword)))
             };
         } else if cur == Token::TypeOf {
-            return self.parse_ts_type_query().map(TsType::from).map(Box::new);
+            return self.parse_ts_type_query();
         } else if cur == Token::LBrace {
             return if self.ts_look_ahead(Self::is_ts_start_of_mapped_type) {
                 self.parse_ts_mapped_type().map(TsType::from).map(Box::new)

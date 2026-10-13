@@ -7,7 +7,7 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{
     lexer::Lexer, unstable::Capturing, EsSyntax, Parser, StringInput, Syntax, TsSyntax,
 };
-use swc_ts_fast_strip::{operate, Mode, Options, TransformConfig};
+use swc_ts_fast_strip::{operate, ErrorCode, Mode, Options, TransformConfig};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.ts")]
@@ -135,6 +135,40 @@ fn transform_without_deprecated_ts_module_as_error(input: PathBuf) {
         Ok(())
     })
     .expect("should not fail");
+}
+
+#[testing::fixture("tests/errors/assertion-*.ts")]
+fn assertion_error_in_strip_mode(input: PathBuf) {
+    let input_code = std::fs::read_to_string(&input).unwrap();
+
+    testing::run_test(false, |cm, handler| {
+        let error = operate(&cm, handler, input_code, opts(Mode::StripOnly))
+            .expect_err("strip-only must reject assertions that change expression grouping");
+        assert!(matches!(error.code, ErrorCode::InvalidSyntax));
+
+        Err::<(), _>(())
+    })
+    .expect_err("should fail")
+    .compare_to_file(input.with_extension("swc-stderr"))
+    .unwrap();
+}
+
+#[testing::fixture("tests/errors/assertion-*.ts")]
+fn assertion_error_in_transform_mode(input: PathBuf) {
+    let input_code = std::fs::read_to_string(&input).unwrap();
+
+    testing::run_test(false, |cm, handler| {
+        let mut options = opts(Mode::Transform);
+        options.deprecated_ts_module_as_error = Some(false);
+        let error = operate(&cm, handler, input_code, options)
+            .expect_err("transform mode must reject assertions that change expression grouping");
+        assert!(matches!(error.code, ErrorCode::InvalidSyntax));
+
+        Err::<(), _>(())
+    })
+    .expect_err("should fail")
+    .compare_to_file(input.with_extension("swc-stderr"))
+    .unwrap();
 }
 
 fn assert_utf16_layout_preserved(input: &str, output: &str) {

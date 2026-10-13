@@ -1,0 +1,10 @@
+  x Expression expected
+   ,-[$DIR/tests/typescript-errors/instantiation-lookahead/div-assign/input.ts:1:1]
+ 1 | f<T> /= other;
+   :      ^^^^^^^^^
+   `----
+  x Unterminated regexp literal
+   ,-[$DIR/tests/typescript-errors/instantiation-lookahead/div-assign/input.ts:1:1]
+ 1 | f<T> /= other;
+   :      ^^^^^^^^^
+   `----

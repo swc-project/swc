@@ -1,0 +1,1595 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 685
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 11
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 13,
+        "end": 40
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 13,
+          "end": 39
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 13,
+            "end": 30
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 13,
+              "end": 18
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 22,
+              "end": 30
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 29,
+                "end": 30
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 34,
+            "end": 39
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 41,
+        "end": 75
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 41,
+          "end": 74
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 41,
+            "end": 65
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 41,
+              "end": 46
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 57,
+              "end": 65
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 64,
+                "end": 65
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 69,
+            "end": 74
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 76,
+        "end": 116
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 76,
+          "end": 115
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 76,
+            "end": 106
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 76,
+              "end": 81
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeOperator",
+            "span": {
+              "start": 92,
+              "end": 106
+            },
+            "op": "keyof",
+            "typeAnnotation": {
+              "type": "TsTypeQuery",
+              "span": {
+                "start": 98,
+                "end": 106
+              },
+              "exprName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 105,
+                  "end": 106
+                },
+                "ctxt": 0,
+                "value": "f",
+                "optional": false
+              },
+              "typeArguments": null
+            }
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 110,
+            "end": 115
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 117,
+        "end": 157
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 117,
+          "end": 156
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 117,
+            "end": 147
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 117,
+              "end": 122
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsFunctionType",
+            "span": {
+              "start": 133,
+              "end": 147
+            },
+            "params": [],
+            "typeParams": null,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 136,
+                "end": 147
+              },
+              "typeAnnotation": {
+                "type": "TsTypeQuery",
+                "span": {
+                  "start": 139,
+                  "end": 147
+                },
+                "exprName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 146,
+                    "end": 147
+                  },
+                  "ctxt": 0,
+                  "value": "f",
+                  "optional": false
+                },
+                "typeArguments": null
+              }
+            }
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 151,
+            "end": 156
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 158,
+        "end": 196
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 158,
+          "end": 195
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 158,
+            "end": 186
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 158,
+              "end": 163
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsUnionType",
+            "span": {
+              "start": 174,
+              "end": 186
+            },
+            "types": [
+              {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 174,
+                  "end": 175
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 174,
+                    "end": 175
+                  },
+                  "ctxt": 0,
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              },
+              {
+                "type": "TsTypeQuery",
+                "span": {
+                  "start": 178,
+                  "end": 186
+                },
+                "exprName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 185,
+                    "end": 186
+                  },
+                  "ctxt": 0,
+                  "value": "f",
+                  "optional": false
+                },
+                "typeArguments": null
+              }
+            ]
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 190,
+            "end": 195
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 197,
+        "end": 227
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 197,
+          "end": 226
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 197,
+            "end": 217
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 197,
+              "end": 202
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 206,
+              "end": 217
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 213,
+                "end": 214
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 214,
+                "end": 217
+              },
+              "params": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 215,
+                    "end": 216
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 215,
+                      "end": 216
+                    },
+                    "ctxt": 0,
+                    "value": "U",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 221,
+            "end": 226
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 228,
+        "end": 269
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 228,
+          "end": 268
+        },
+        "operator": "<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 228,
+            "end": 260
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 228,
+              "end": 233
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 237,
+              "end": 260
+            },
+            "exprName": {
+              "type": "TsImportType",
+              "span": {
+                "start": 244,
+                "end": 260
+              },
+              "argument": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 251,
+                  "end": 254
+                },
+                "value": "m",
+                "raw": "\"m\""
+              },
+              "qualifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 256,
+                  "end": 257
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "typeArguments": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 257,
+                  "end": 260
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 258,
+                      "end": 259
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 258,
+                        "end": 259
+                      },
+                      "ctxt": 0,
+                      "value": "U",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              },
+              "attributes": null
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 263,
+            "end": 268
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 270,
+        "end": 319
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 270,
+          "end": 318
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 270,
+            "end": 309
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 270,
+              "end": 275
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 286,
+              "end": 309
+            },
+            "exprName": {
+              "type": "TsImportType",
+              "span": {
+                "start": 293,
+                "end": 309
+              },
+              "argument": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 300,
+                  "end": 303
+                },
+                "value": "m",
+                "raw": "\"m\""
+              },
+              "qualifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 305,
+                  "end": 306
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "typeArguments": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 306,
+                  "end": 309
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 307,
+                      "end": 308
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 307,
+                        "end": 308
+                      },
+                      "ctxt": 0,
+                      "value": "U",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              },
+              "attributes": null
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 313,
+            "end": 318
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 320,
+        "end": 362
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 320,
+          "end": 361
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 320,
+            "end": 352
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 320,
+              "end": 325
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 329,
+              "end": 352
+            },
+            "exprName": {
+              "type": "TsImportType",
+              "span": {
+                "start": 336,
+                "end": 352
+              },
+              "argument": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 343,
+                  "end": 346
+                },
+                "value": "m",
+                "raw": "\"m\""
+              },
+              "qualifier": {
+                "type": "Identifier",
+                "span": {
+                  "start": 348,
+                  "end": 349
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "typeArguments": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 349,
+                  "end": 352
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 350,
+                      "end": 351
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 350,
+                        "end": 351
+                      },
+                      "ctxt": 0,
+                      "value": "U",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              },
+              "attributes": null
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 356,
+            "end": 361
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 363,
+        "end": 402
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 363,
+          "end": 401
+        },
+        "operator": "<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 363,
+            "end": 393
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 363,
+              "end": 368
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 372,
+              "end": 393
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 379,
+                "end": 380
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 380,
+                "end": 393
+              },
+              "params": [
+                {
+                  "type": "TsFunctionType",
+                  "span": {
+                    "start": 382,
+                    "end": 392
+                  },
+                  "params": [],
+                  "typeParams": {
+                    "type": "TsTypeParameterDeclaration",
+                    "span": {
+                      "start": 382,
+                      "end": 385
+                    },
+                    "parameters": [
+                      {
+                        "type": "TsTypeParameter",
+                        "span": {
+                          "start": 383,
+                          "end": 384
+                        },
+                        "name": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 383,
+                            "end": 384
+                          },
+                          "ctxt": 0,
+                          "value": "T",
+                          "optional": false
+                        },
+                        "in": false,
+                        "out": false,
+                        "const": false,
+                        "constraint": null,
+                        "default": null
+                      }
+                    ]
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 388,
+                      "end": 392
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 391,
+                        "end": 392
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 391,
+                          "end": 392
+                        },
+                        "ctxt": 0,
+                        "value": "T",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 396,
+            "end": 401
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 403,
+        "end": 429
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 403,
+          "end": 428
+        },
+        "operator": "<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 403,
+            "end": 420
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 403,
+              "end": 408
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 412,
+              "end": 420
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 419,
+                "end": 420
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 423,
+            "end": 428
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 431,
+        "end": 466
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 436,
+          "end": 441
+        },
+        "ctxt": 0,
+        "value": "Query",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeQuery",
+        "span": {
+          "start": 444,
+          "end": 465
+        },
+        "exprName": {
+          "type": "Identifier",
+          "span": {
+            "start": 451,
+            "end": 452
+          },
+          "ctxt": 0,
+          "value": "f",
+          "optional": false
+        },
+        "typeArguments": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 452,
+            "end": 465
+          },
+          "params": [
+            {
+              "type": "TsFunctionType",
+              "span": {
+                "start": 454,
+                "end": 464
+              },
+              "params": [],
+              "typeParams": {
+                "type": "TsTypeParameterDeclaration",
+                "span": {
+                  "start": 454,
+                  "end": 457
+                },
+                "parameters": [
+                  {
+                    "type": "TsTypeParameter",
+                    "span": {
+                      "start": 455,
+                      "end": 456
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 455,
+                        "end": 456
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "in": false,
+                    "out": false,
+                    "const": false,
+                    "constraint": null,
+                    "default": null
+                  }
+                ]
+              },
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 460,
+                  "end": 464
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 463,
+                    "end": 464
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 463,
+                      "end": 464
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 467,
+        "end": 519
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 472,
+          "end": 483
+        },
+        "ctxt": 0,
+        "value": "ImportQuery",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeQuery",
+        "span": {
+          "start": 486,
+          "end": 518
+        },
+        "exprName": {
+          "type": "TsImportType",
+          "span": {
+            "start": 493,
+            "end": 518
+          },
+          "argument": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 500,
+              "end": 503
+            },
+            "value": "m",
+            "raw": "\"m\""
+          },
+          "qualifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 505,
+              "end": 506
+            },
+            "ctxt": 0,
+            "value": "T",
+            "optional": false
+          },
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 506,
+              "end": 518
+            },
+            "params": [
+              {
+                "type": "TsFunctionType",
+                "span": {
+                  "start": 507,
+                  "end": 517
+                },
+                "params": [],
+                "typeParams": {
+                  "type": "TsTypeParameterDeclaration",
+                  "span": {
+                    "start": 507,
+                    "end": 510
+                  },
+                  "parameters": [
+                    {
+                      "type": "TsTypeParameter",
+                      "span": {
+                        "start": 508,
+                        "end": 509
+                      },
+                      "name": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 508,
+                          "end": 509
+                        },
+                        "ctxt": 0,
+                        "value": "T",
+                        "optional": false
+                      },
+                      "in": false,
+                      "out": false,
+                      "const": false,
+                      "constraint": null,
+                      "default": null
+                    }
+                  ]
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 513,
+                    "end": 517
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 516,
+                      "end": 517
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 516,
+                        "end": 517
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                }
+              }
+            ]
+          },
+          "attributes": null
+        },
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 521,
+        "end": 568
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 521,
+          "end": 567
+        },
+        "operator": ">",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 521,
+            "end": 547
+          },
+          "operator": "<<",
+          "left": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 521,
+              "end": 538
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 521,
+                "end": 526
+              },
+              "ctxt": 0,
+              "value": "value",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTypeQuery",
+              "span": {
+                "start": 530,
+                "end": 538
+              },
+              "exprName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 537,
+                  "end": 538
+                },
+                "ctxt": 0,
+                "value": "f",
+                "optional": false
+              },
+              "typeArguments": null
+            }
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 542,
+              "end": 547
+            },
+            "ctxt": 0,
+            "value": "other",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 550,
+            "end": 567
+          },
+          "expression": {
+            "type": "SequenceExpression",
+            "span": {
+              "start": 551,
+              "end": 566
+            },
+            "expressions": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 551,
+                  "end": 554
+                },
+                "ctxt": 0,
+                "value": "one",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 556,
+                  "end": 559
+                },
+                "ctxt": 0,
+                "value": "two",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 561,
+                  "end": 566
+                },
+                "ctxt": 0,
+                "value": "three",
+                "optional": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 569,
+        "end": 623
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 569,
+          "end": 622
+        },
+        "operator": ">",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 569,
+            "end": 602
+          },
+          "operator": "<<",
+          "left": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 569,
+              "end": 593
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 569,
+                "end": 574
+              },
+              "ctxt": 0,
+              "value": "value",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsTypeQuery",
+              "span": {
+                "start": 585,
+                "end": 593
+              },
+              "exprName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 592,
+                  "end": 593
+                },
+                "ctxt": 0,
+                "value": "f",
+                "optional": false
+              },
+              "typeArguments": null
+            }
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 597,
+              "end": 602
+            },
+            "ctxt": 0,
+            "value": "other",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 605,
+            "end": 622
+          },
+          "expression": {
+            "type": "SequenceExpression",
+            "span": {
+              "start": 606,
+              "end": 621
+            },
+            "expressions": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 606,
+                  "end": 609
+                },
+                "ctxt": 0,
+                "value": "one",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 611,
+                  "end": 614
+                },
+                "ctxt": 0,
+                "value": "two",
+                "optional": false
+              },
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 616,
+                  "end": 621
+                },
+                "ctxt": 0,
+                "value": "three",
+                "optional": false
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 624,
+        "end": 651
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 624,
+          "end": 650
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 624,
+            "end": 641
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 624,
+              "end": 629
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 633,
+              "end": 641
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 640,
+                "end": 641
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 645,
+            "end": 650
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 652,
+        "end": 685
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 657,
+          "end": 666
+        },
+        "ctxt": 0,
+        "value": "Reference",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeReference",
+        "span": {
+          "start": 669,
+          "end": 684
+        },
+        "typeName": {
+          "type": "Identifier",
+          "span": {
+            "start": 669,
+            "end": 672
+          },
+          "ctxt": 0,
+          "value": "Box",
+          "optional": false
+        },
+        "typeParams": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 672,
+            "end": 684
+          },
+          "params": [
+            {
+              "type": "TsFunctionType",
+              "span": {
+                "start": 673,
+                "end": 683
+              },
+              "params": [],
+              "typeParams": {
+                "type": "TsTypeParameterDeclaration",
+                "span": {
+                  "start": 673,
+                  "end": 676
+                },
+                "parameters": [
+                  {
+                    "type": "TsTypeParameter",
+                    "span": {
+                      "start": 674,
+                      "end": 675
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 674,
+                        "end": 675
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "in": false,
+                    "out": false,
+                    "const": false,
+                    "constraint": null,
+                    "default": null
+                  }
+                ]
+              },
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 679,
+                  "end": 683
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 682,
+                    "end": 683
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 682,
+                      "end": 683
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

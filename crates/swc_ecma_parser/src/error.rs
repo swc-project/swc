@@ -134,6 +134,9 @@ pub enum SyntaxError {
 
     NullishCoalescingWithLogicalOp,
 
+    /// Erasing a postfix TypeScript cast would change binary operator grouping.
+    TsAssertionBinaryOp,
+
     MultipleDefault {
         /// Span of the previous default case
         previous: Span,
@@ -382,6 +385,10 @@ impl SyntaxError {
                 format!("Expected '{token}', got '{got}'").into()
             }
             SyntaxError::ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
+            SyntaxError::TsAssertionBinaryOp => "An unparenthesized `as` or `satisfies` \
+                                                 expression cannot be followed by an operator \
+                                                 that would bind differently after type erasure"
+                .into(),
 
             SyntaxError::AwaitStar => "await* has been removed from the async functions proposal. \
                                        Use Promise.all() instead."

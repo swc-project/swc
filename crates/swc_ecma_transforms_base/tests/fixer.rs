@@ -55,17 +55,8 @@ fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
     String::from_utf8(output).unwrap()
 }
 
-// SWC rejects some unparenthesized instantiation assignment targets that
-// TypeScript accepts. Check their structure separately and their emitted text
-// with the shared resolver snapshots until the parser supports these forms.
-#[fixture(
-    "tests/ts-resolver/fixer/**/input.ts",
-    exclude("instantiation-assignments")
-)]
-#[fixture(
-    "tests/ts-resolver/fixer/**/input.tsx",
-    exclude("instantiation-assignments")
-)]
+#[fixture("tests/ts-resolver/fixer/**/input.ts")]
+#[fixture("tests/ts-resolver/fixer/**/input.tsx")]
 fn ts_fixer_round_trip(input: PathBuf) {
     testing::run_test2(false, |cm, _| {
         let source = std::fs::read_to_string(&input).unwrap();

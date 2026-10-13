@@ -2162,10 +2162,21 @@ impl<I: Tokens> Parser<I> {
                     return Ok((left, None));
                 }
 
-                if cur == Token::As {
-                    let start = left.span_lo();
-                    let expr = left;
-                    let node = if peek!(self).is_some_and(|cur| cur == Token::Const) {
+                // Keep the binary precedence before the first cast. Nested casts
+                // share this bound, so checking a cast chain stays linear.
+                let operand_prec = match &*left {
+                    Expr::Bin(expr) => Some(expr.op.precedence()),
+                    _ => None,
+                };
+                let check_erasure = !self.syntax().flow();
+                let mut node = left;
+                let mut cur = cur;
+
+                loop {
+                    let start = node.span_lo();
+                    let expr = node;
+                    node = if cur == Token::As && peek!(self).is_some_and(|cur| cur == Token::Const)
+                    {
                         self.bump(); // as
                         self.bump(); // const
                         TsConstAssertion {
@@ -2175,30 +2186,50 @@ impl<I: Tokens> Parser<I> {
                         .into()
                     } else {
                         let type_ann = self.next_then_parse_ts_type()?;
-                        TsAsExpr {
-                            span: self.span(start),
-                            expr,
-                            type_ann,
+                        if cur == Token::As {
+                            TsAsExpr {
+                                span: self.span(start),
+                                expr,
+                                type_ann,
+                            }
+                            .into()
+                        } else {
+                            TsSatisfiesExpr {
+                                span: self.span(start),
+                                expr,
+                                type_ann,
+                            }
+                            .into()
                         }
-                        .into()
                     };
 
-                    return self.parse_bin_op_recursively_inner(node, min_prec);
-                } else {
-                    let start = left.span_lo();
-                    let expr = left;
-                    let node = {
-                        let type_ann = self.next_then_parse_ts_type()?;
-                        TsSatisfiesExpr {
-                            span: self.span(start),
-                            expr,
-                            type_ann,
+                    if check_erasure {
+                        if let (Some(operand_prec), Some(next_op)) =
+                            (operand_prec, self.input().cur().as_bin_op())
+                        {
+                            let next_prec = next_op.precedence();
+                            if next_prec > operand_prec
+                                || (next_prec == operand_prec && next_op == op!("**"))
+                            {
+                                // Report TS7's restriction without discarding the
+                                // cast or the rest of the expression's AST.
+                                self.emit_err(
+                                    self.input().cur_span(),
+                                    SyntaxError::TsAssertionBinaryOp,
+                                );
+                            }
                         }
-                        .into()
-                    };
+                    }
 
-                    return self.parse_bin_op_recursively_inner(node, min_prec);
+                    cur = self.input().cur();
+                    if !matches!(cur, Token::As | Token::Satisfies)
+                        || self.input().had_line_break_before_cur()
+                    {
+                        break;
+                    }
                 }
+
+                return Ok((node, Some(min_prec)));
             }
             return Ok((left, None));
         };

@@ -1,0 +1,5 @@
+  x Expected ';', got '<<'
+   ,-[$DIR/tests/typescript-errors/type-query-lookahead/empty-arguments/input.ts:1:1]
+ 1 | type Q = typeof f<<T>() => X<>>;
+   :                  ^^
+   `----
