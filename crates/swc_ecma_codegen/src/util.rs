@@ -1,57 +1,9 @@
 use swc_ecma_ast::*;
 
-/// Whether a node ends with a postfix TypeScript non-null assertion when
-/// minified.
-pub(crate) trait EndsWithNonNull {
-    fn ends_with_non_null(&self) -> bool;
-}
-
-impl EndsWithNonNull for Expr {
-    fn ends_with_non_null(&self) -> bool {
-        let mut expr = self;
-        loop {
-            // Follow only nodes whose final token comes from their operand.
-            expr = match expr {
-                Expr::TsNonNull(..) => return true,
-                Expr::Bin(n) => &n.right,
-                Expr::Unary(n) => &n.arg,
-                Expr::Update(n) if n.prefix => &n.arg,
-                Expr::Await(n) => &n.arg,
-                Expr::TsTypeAssertion(n) => &n.expr,
-                // Minification omits an empty constructor argument list.
-                Expr::New(n)
-                    if n.type_args.is_none() && matches!(n.args.as_deref(), None | Some([])) =>
-                {
-                    &n.callee
-                }
-                _ => return false,
-            };
-        }
-    }
-}
-
-impl EndsWithNonNull for AssignTarget {
-    #[inline]
-    fn ends_with_non_null(&self) -> bool {
-        match self {
-            AssignTarget::Simple(SimpleAssignTarget::TsNonNull(..)) => true,
-            AssignTarget::Simple(SimpleAssignTarget::TsTypeAssertion(n)) => {
-                n.expr.ends_with_non_null()
-            }
-            _ => false,
-        }
-    }
-}
-
-impl EndsWithNonNull for Pat {
-    #[inline]
-    fn ends_with_non_null(&self) -> bool {
-        match self {
-            Pat::Expr(n) => n.ends_with_non_null(),
-            _ => false,
-        }
-    }
-}
+mod token_boundaries;
+pub(crate) use token_boundaries::{
+    starts_with_lt, type_starts_with_lt, EndsWithTypeScriptToken, TrailingToken,
+};
 
 pub trait EndsWithAlphaNum {
     fn ends_with_alpha_num(&self) -> bool;

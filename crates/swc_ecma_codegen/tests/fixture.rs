@@ -4,7 +4,7 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::comments::SingleThreadedComments;
+use swc_common::{comments::SingleThreadedComments, EqIgnoreSpan};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
@@ -28,6 +28,8 @@ struct TestConfig {
     exec: bool,
     #[serde(default)]
     source_map: bool,
+    #[serde(default)]
+    check_ast: bool,
     #[serde(default = "true_by_default")]
     reduce_escaped_newline: bool,
     #[serde(default = "true_by_default")]
@@ -41,6 +43,7 @@ impl Default for TestConfig {
             inline_script: false,
             exec: false,
             source_map: false,
+            check_ast: false,
             reduce_escaped_newline: true,
             tsx: true,
         }
@@ -77,19 +80,24 @@ fn run(input: &Path, minify: bool) {
         let fm = cm.load_file(input).unwrap();
         let comments = SingleThreadedComments::default();
 
+        let syntax = Syntax::Typescript(TsSyntax {
+            decorators: true,
+            tsx: config.tsx,
+            dts,
+            ..Default::default()
+        });
+        let mut errors = Vec::new();
         let m = parse_file_as_module(
             &fm,
-            Syntax::Typescript(TsSyntax {
-                decorators: true,
-                tsx: config.tsx,
-                dts,
-                ..Default::default()
-            }),
+            syntax,
             EsVersion::latest(),
             Some(&comments),
-            &mut Vec::new(),
+            &mut errors,
         )
         .expect("failed to parse input as a module");
+        if config.check_ast {
+            assert!(errors.is_empty(), "input has syntax errors: {errors:?}");
+        }
 
         let mut buf = Vec::new();
         let mut source_map = Vec::new();
@@ -112,7 +120,7 @@ fn run(input: &Path, minify: bool) {
                     .with_ascii_only(config.ascii_only)
                     .with_inline_script(config.inline_script)
                     .with_reduce_escaped_newline(config.reduce_escaped_newline),
-                cm,
+                cm: cm.clone(),
                 comments: Some(&comments),
                 wr,
             };
@@ -121,6 +129,21 @@ fn run(input: &Path, minify: bool) {
         }
 
         let code = String::from_utf8(buf).unwrap();
+        if config.check_ast {
+            let output_file = cm.new_source_file(swc_common::FileName::Anon.into(), code.clone());
+            let mut errors = Vec::new();
+            let actual =
+                parse_file_as_module(&output_file, syntax, EsVersion::latest(), None, &mut errors)
+                    .unwrap_or_else(|error| {
+                        panic!("generated code failed to parse: {error:?}\n{code}")
+                    });
+            assert!(errors.is_empty(), "output has syntax errors: {errors:?}");
+            assert!(
+                m.eq_ignore_span(&actual),
+                "generated code changed the AST in {}:\n{code}",
+                input.display(),
+            );
+        }
         if config.inline_script {
             let html_markers = regex::Regex::new(r"(?i:</script)[/>\t\n\x0c\r ]|<!--|-->").unwrap();
             assert!(
