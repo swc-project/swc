@@ -2804,14 +2804,44 @@ impl MergeSequenceCache {
     }
 }
 
-/// Returns true for trivial bool/numeric literals
+/// Largest initializer, in AST nodes, that [is_trivial_lit] accepts.
+///
+/// The sequential inliner copies a trivial initializer into every use instead
+/// of moving it. Copies cascade: once the copy lands in the initializer of
+/// another variable, that initializer may become trivial and get copied too. A
+/// variable built from two earlier ones (`const c = 1 + a + b`) receives both
+/// of their expressions, so without a bound the copied expressions grow like
+/// the Fibonacci numbers along a chain of such declarations, and so do the time
+/// and memory spent on them. Real-world cascades, such as `24 * 60 * 60 * 1000`
+/// built from a chain of time constants, stay far below this bound.
+const TRIVIAL_LIT_MAX_NODES: usize = 16;
+
+/// Returns true for trivial bool/numeric literals, and for small expressions
+/// that combine them with `!` and binary operators (at most
+/// [TRIVIAL_LIT_MAX_NODES] nodes).
 pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
+    remaining_trivial_lit_budget(e, TRIVIAL_LIT_MAX_NODES).is_some()
+}
+
+/// Returns the budget left after visiting `e`, or [None] when `e` is not a
+/// trivial literal or has more nodes than `budget`. The walk stops as soon as
+/// the budget runs out, so it never visits more than [TRIVIAL_LIT_MAX_NODES]
+/// nodes.
+fn remaining_trivial_lit_budget(e: &Expr, budget: usize) -> Option<usize> {
+    let budget = budget.checked_sub(1)?;
+
     match e {
-        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => true,
-        Expr::Paren(e) => is_trivial_lit(&e.expr),
-        Expr::Bin(e) => is_trivial_lit(&e.left) && is_trivial_lit(&e.right),
-        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_trivial_lit(&e.arg),
-        _ => false,
+        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => Some(budget),
+        Expr::Paren(e) => remaining_trivial_lit_budget(&e.expr, budget),
+        // The right operand only gets the budget the left operand did not use, so
+        // this bounds the total number of nodes rather than the depth.
+        Expr::Bin(e) => {
+            remaining_trivial_lit_budget(&e.right, remaining_trivial_lit_budget(&e.left, budget)?)
+        }
+        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => {
+            remaining_trivial_lit_budget(&e.arg, budget)
+        }
+        _ => None,
     }
 }
 
