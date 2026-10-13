@@ -2618,7 +2618,7 @@ checksum = "ec9d92d097f4749b64e8cc33d924d9f40a2d4eb91402b458014b781f5733d60f"
 
 [[package]]
 name = "hstr"
-version = "4.0.2"
+version = "4.0.3"
 dependencies = [
  "compact_str",
  "criterion",
@@ -5779,7 +5779,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "80.0.0"
+version = "80.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6060,7 +6060,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "82.0.2"
+version = "82.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6317,7 +6317,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "32.0.3"
+version = "32.0.4"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -6488,7 +6488,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "54.0.0"
+version = "54.0.1"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -6546,7 +6546,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "45.0.0"
+version = "45.1.0"
 dependencies = [
  "bitflags 2.10.0",
  "either",
@@ -6613,7 +6613,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "63.0.1"
+version = "63.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6656,7 +6656,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "46.0.0"
+version = "46.1.0"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6850,7 +6850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "50.0.0"
+version = "50.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -6887,7 +6887,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "58.0.0"
+version = "58.0.1"
 dependencies = [
  "indexmap 2.12.0",
  "par-core",
@@ -7011,7 +7011,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "56.0.0"
+version = "56.0.1"
 dependencies = [
  "base64 0.22.1",
  "bytes-str",
