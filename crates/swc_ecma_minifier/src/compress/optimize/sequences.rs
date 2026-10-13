@@ -2820,17 +2820,17 @@ const TRIVIAL_LIT_MAX_NODES: usize = 16;
 /// that combine them with `!` and binary operators (at most
 /// [TRIVIAL_LIT_MAX_NODES] nodes).
 pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
-    let mut budget = TRIVIAL_LIT_MAX_NODES;
-    is_trivial_lit_within(e, &mut budget)
+    is_trivial_lit_within(e, TRIVIAL_LIT_MAX_NODES)
 }
 
 /// Decrements `budget` once per visited node and fails when it runs out, so the
 /// check never walks more than [TRIVIAL_LIT_MAX_NODES] nodes.
-fn is_trivial_lit_within(e: &Expr, budget: &mut usize) -> bool {
-    let Some(remaining) = budget.checked_sub(1) else {
+fn is_trivial_lit_within(e: &Expr, mut budget: usize) -> bool {
+    budget -= 1;
+
+    if budget == 0 {
         return false;
-    };
-    *budget = remaining;
+    }
 
     match e {
         Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => true,
