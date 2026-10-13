@@ -172,10 +172,10 @@ To revert the changes:
 SWC accepts pull requests from bot accounts, users with write access or higher
 to this repository, and contributors listed in
 [`.github/contributors.yml`](.github/contributors.yml). Next.js and Turbopack
-contributors share the `nextjs` group; individual and Rspack contributors have
-their own groups. Every group grants the same access, and usernames are compared
-case-insensitively. Organization membership and triage access alone do not grant
-an exception.
+contributors share the `nextjs` group; React contributors use the `react` group.
+Individual and Rspack contributors have their own groups. Every group grants the
+same access, and usernames are compared case-insensitively. Organization
+membership and triage access alone do not grant an exception.
 
 Pull requests from other accounts are automatically closed with an explanation,
 and their CI builds and benchmarks are skipped. If your account does not meet the

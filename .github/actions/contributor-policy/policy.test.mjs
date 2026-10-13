@@ -33,7 +33,9 @@ test("validates the repository allowlist", async () => {
     new URL("../../contributors.yml", import.meta.url),
     "utf8"
   );
-  assert.equal(parseContributors(actual).get("trueadm"), "tsrx");
+  const contributors = parseContributors(actual);
+  assert.equal(contributors.get("trueadm"), "tsrx");
+  assert.equal(contributors.get("vjeux"), "react");
 });
 
 test("individual contributors have the same access as product groups", async () => {
