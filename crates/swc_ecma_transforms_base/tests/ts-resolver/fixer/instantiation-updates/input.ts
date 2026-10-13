@@ -1,0 +1,29 @@
+export {};
+
+(f<T>)++;
+(f<T>)--;
+++(f<T>);
+--(f<T>);
+(f<T<U>>)++;
+++(f<T<U>>);
+
+((f<T>)++) + other;
+((f<T>)--) < other;
+++(f<T>) + other;
+--(f<T>) < other;
+++(f<T>) * other;
+--(f<T>) == other;
+
+((f<T>)!)++;
+++((f<T>)!);
+((f<T>).value)++;
+++((f<T>).value);
+((f<T>)<U>)++;
+++((f<T>)<U>);
+((value as T)<U>)++;
+++((value as T)<U>);
+
+f++;
+f--;
+++f;
+--f;

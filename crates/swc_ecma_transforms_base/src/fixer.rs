@@ -125,7 +125,11 @@ impl Fixer<'_> {
             | Expr::Unary(..)
             | Expr::Object(..)
             | Expr::Await(..)
-            | Expr::Yield(..) => self.wrap(e),
+            | Expr::Yield(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => self.wrap(e),
             _ => (),
         }
     }
@@ -370,6 +374,10 @@ impl VisitMut for Fixer<'_> {
         };
 
         match &mut *expr.left {
+            Expr::TsAs(..) | Expr::TsSatisfies(..) | Expr::TsConstAssertion(..) => {
+                self.wrap_ts_cast_left(expr.op, &mut expr.left);
+            }
+
             Expr::Bin(BinExpr { op: op!("??"), .. }) if expr.op != op!("??") => {
                 self.wrap(&mut expr.left);
             }
@@ -720,6 +728,11 @@ impl VisitMut for Fixer<'_> {
             | Expr::Class(..)
             | Expr::Yield(..)
             | Expr::Await(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..)
+            | Expr::TsInstantiation(..)
             | Expr::New(NewExpr { args: None, .. }) => {
                 self.wrap(&mut n.obj);
             }
@@ -789,7 +802,11 @@ impl VisitMut for Fixer<'_> {
             | Expr::Seq(..)
             | Expr::Unary(..)
             | Expr::Lit(..)
-            | Expr::OptChain(..) => self.wrap(&mut node.callee),
+            | Expr::OptChain(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => self.wrap(&mut node.callee),
             _ => {}
         }
         self.ctx = ctx;
@@ -933,11 +950,43 @@ impl VisitMut for Fixer<'_> {
             | Expr::New(..)
             | Expr::Fn(..)
             | Expr::Assign(..)
-            | Expr::Unary(..) => {
+            | Expr::Unary(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => {
                 self.wrap(&mut e.tag);
             }
             _ => {}
         }
+    }
+
+    #[inline]
+    fn visit_mut_ts_as_expr(&mut self, expr: &mut TsAsExpr) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    #[inline]
+    fn visit_mut_ts_satisfies_expr(&mut self, expr: &mut TsSatisfiesExpr) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    #[inline]
+    fn visit_mut_ts_const_assertion(&mut self, expr: &mut TsConstAssertion) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    fn visit_mut_ts_instantiation(&mut self, expr: &mut TsInstantiation) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_postfix_operand(&mut expr.expr);
+    }
+
+    fn visit_mut_ts_non_null_expr(&mut self, expr: &mut TsNonNullExpr) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_postfix_operand(&mut expr.expr);
     }
 
     fn visit_mut_ts_type_assertion(&mut self, expr: &mut TsTypeAssertion) {
@@ -981,7 +1030,18 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_update_expr(&mut self, expr: &mut UpdateExpr) {
         expr.visit_mut_children_with(self);
-        self.wrap_ts_cast_operand(&mut expr.arg);
+
+        // Update operands require a left-hand-side expression, including when
+        // the assertion uses prefix syntax.
+        match &*expr.arg {
+            Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => self.wrap(&mut expr.arg),
+            // Postfix updates make expression type-argument lookahead backtrack.
+            Expr::TsInstantiation(..) if !expr.prefix => self.wrap(&mut expr.arg),
+            _ => {}
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
