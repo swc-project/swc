@@ -25,6 +25,8 @@ groups:
     - lukesandberg
     - mischnic
     - wbinnssmith
+  react: # React contributors.
+    - vjeux
   rspack:
     - chenjiahan
     - hardfist
