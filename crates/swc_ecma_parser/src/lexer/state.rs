@@ -641,8 +641,8 @@ impl Lexer<'_> {
                     buf.push_str(s);
 
                     // Read the jsx entity and update the start of chunk
-                    let jsx_entity = self.read_jsx_entity()?;
-                    buf.push_wtf8(&jsx_entity.0);
+                    let jsx_entity = self.read_jsx_entity();
+                    buf.push(jsx_entity);
                     chunk_start = self.input.cur_pos();
                 }
                 '<' | '{' => break,

@@ -6661,7 +6661,6 @@ dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
  "codspeed-criterion-compat",
- "compact_str",
  "either",
  "num-bigint",
  "pathdiff",

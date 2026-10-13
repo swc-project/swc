@@ -192,6 +192,7 @@ use swc_ecma_ast::*;
 
 mod context;
 pub mod error;
+pub mod jsx;
 mod legacy;
 pub mod lexer;
 mod parser;

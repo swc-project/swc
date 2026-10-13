@@ -32,7 +32,6 @@ verify        = ["swc_ecma_visit"]
 
 [dependencies]
 bitflags       = { workspace = true }
-compact_str    = { workspace = true }
 either         = { workspace = true }
 num-bigint     = { workspace = true }
 phf            = { workspace = true, features = ["macros"] }

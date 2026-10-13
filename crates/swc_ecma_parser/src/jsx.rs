@@ -1,10 +1,68 @@
+//! JSX character reference decoding shared by lexical analysis and transforms.
+
+use swc_atoms::wtf8::CodePoint;
+
+/// Decode the JSX character reference at the start of `input`.
+///
+/// Returns its JavaScript code point and the number of source bytes consumed,
+/// including `&` and `;`. Any text after the reference is left untouched.
+///
+/// An unrecognized entity returns `None`, so the caller can preserve its source
+/// text. Numeric entities can name lone surrogates because JSX values are
+/// JavaScript strings, rather than Rust `char`s. The string consumer combines
+/// adjacent surrogate references into a pair.
+///
+/// # Examples
+///
+/// ```
+/// use swc_ecma_parser::jsx::decode_jsx_entity;
+///
+/// let (code_point, len) = decode_jsx_entity("&#x20;rest").unwrap();
+/// assert_eq!((code_point.to_u32(), len), (0x20, 6));
+/// assert_eq!(decode_jsx_entity("&#x110000;"), None);
+/// ```
+pub fn decode_jsx_entity(input: &str) -> Option<(CodePoint, usize)> {
+    let word = input.strip_prefix('&')?;
+    if let Some(number) = word.strip_prefix('#') {
+        let (digits, radix, prefix_len) = match number.strip_prefix('x') {
+            Some(hex) => (hex, 16, 3),
+            None => (number, 10, 2),
+        };
+        let mut value = 0u32;
+        for (index, byte) in digits.bytes().enumerate() {
+            let digit = match byte {
+                b';' if index != 0 => {
+                    let code_point = CodePoint::from_u32(value)?;
+                    return Some((code_point, prefix_len + index + 1));
+                }
+                b'0'..=b'9' => u32::from(byte - b'0'),
+                b'a'..=b'f' if radix == 16 => u32::from(byte - b'a') + 10,
+                b'A'..=b'F' if radix == 16 => u32::from(byte - b'A') + 10,
+                _ => return None,
+            };
+            value = value.checked_mul(radix)?;
+            value = value.checked_add(digit)?;
+        }
+        return None;
+    }
+
+    let end = word
+        .bytes()
+        .position(|byte| !byte.is_ascii_alphanumeric())?;
+    if word.as_bytes()[end] != b';' {
+        return None;
+    }
+    let value = xhtml(&word[..end])?;
+    Some((CodePoint::from_char(value), end + 2))
+}
+
 macro_rules! xhtml {
   (
       $(
           $i:ident : $s:expr,
       )*
   ) => {
-      pub(super) fn xhtml(s: &str) -> Option<char> {
+      fn xhtml(s: &str) -> Option<char> {
           match s{
               $(stringify!($i) => Some($s),)*
               _ => None,

@@ -1,0 +1,97 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 51
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 51
+      },
+      "expression": {
+        "type": "JSXElement",
+        "span": {
+          "start": 1,
+          "end": 51
+        },
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 2,
+              "end": 3
+            },
+            "ctxt": 0,
+            "value": "a",
+            "optional": false
+          },
+          "span": {
+            "start": 1,
+            "end": 30
+          },
+          "attributes": [
+            {
+              "type": "JSXAttribute",
+              "span": {
+                "start": 4,
+                "end": 29
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 4,
+                  "end": 9
+                },
+                "value": "value"
+              },
+              "value": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 10,
+                  "end": 29
+                },
+                "value": "&é;&&中文;",
+                "raw": "\"&é;&amp;&中文;\""
+              }
+            }
+          ],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 30,
+              "end": 47
+            },
+            "value": "&é;&&中文;",
+            "raw": "&é;&amp;&中文;"
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 47,
+            "end": 51
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 49,
+              "end": 50
+            },
+            "ctxt": 0,
+            "value": "a",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
