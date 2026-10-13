@@ -2820,26 +2820,28 @@ const TRIVIAL_LIT_MAX_NODES: usize = 16;
 /// that combine them with `!` and binary operators (at most
 /// [TRIVIAL_LIT_MAX_NODES] nodes).
 pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
-    is_trivial_lit_within(e, TRIVIAL_LIT_MAX_NODES)
+    remaining_trivial_lit_budget(e, TRIVIAL_LIT_MAX_NODES).is_some()
 }
 
-/// Decrements `budget` once per visited node and fails when it runs out, so the
-/// check never walks more than [TRIVIAL_LIT_MAX_NODES] nodes.
-fn is_trivial_lit_within(e: &Expr, mut budget: usize) -> bool {
-    budget -= 1;
-
-    if budget == 0 {
-        return false;
-    }
+/// Returns the budget left after visiting `e`, or [None] when `e` is not a
+/// trivial literal or has more nodes than `budget`. The walk stops as soon as
+/// the budget runs out, so it never visits more than [TRIVIAL_LIT_MAX_NODES]
+/// nodes.
+fn remaining_trivial_lit_budget(e: &Expr, budget: usize) -> Option<usize> {
+    let budget = budget.checked_sub(1)?;
 
     match e {
-        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => true,
-        Expr::Paren(e) => is_trivial_lit_within(&e.expr, budget),
+        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => Some(budget),
+        Expr::Paren(e) => remaining_trivial_lit_budget(&e.expr, budget),
+        // The right operand only gets the budget the left operand did not use, so
+        // this bounds the total number of nodes rather than the depth.
         Expr::Bin(e) => {
-            is_trivial_lit_within(&e.left, budget) && is_trivial_lit_within(&e.right, budget)
+            remaining_trivial_lit_budget(&e.right, remaining_trivial_lit_budget(&e.left, budget)?)
         }
-        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_trivial_lit_within(&e.arg, budget),
-        _ => false,
+        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => {
+            remaining_trivial_lit_budget(&e.arg, budget)
+        }
+        _ => None,
     }
 }
 
