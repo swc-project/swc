@@ -68,10 +68,13 @@ private namespace.
 
 If the default root is unusable, both default and temporary modes try the
 system temporary directory on Unix (respecting `TMPDIR`) or
-`USERPROFILE/.swc-cache` on Windows. Unix resolves temporary-directory symlinks
-before applying the same security checks. Only cache failures trigger this
-retry; corrupt payloads still fail immediately. Failure of every candidate root
-throws. An executable cache
+`USERPROFILE/.swc-cache` followed by `ProgramData` on Windows. The latter uses
+the same protected per-user SID namespace beneath the shared directory. All
+Windows candidates pass the same ancestor ACL and reparse-point checks; their
+existing ACLs are not changed. Unix resolves temporary-directory symlinks
+before applying its security checks. Only cache failures trigger another
+candidate; corrupt payloads still fail immediately. Failure of every candidate
+root throws. An executable cache
 filesystem is required; a Linux `noexec` cache is rejected. Existing cache
 namespaces retain at most three inactive-or-current raw images.
 
