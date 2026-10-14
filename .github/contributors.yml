@@ -22,6 +22,7 @@ groups:
     - sosukesuzuki
     - SukkaW
   nextjs: # Next.js and Turbopack contributors.
+    - jimmyhmiller
     - lukesandberg
     - mischnic
     - wbinnssmith
