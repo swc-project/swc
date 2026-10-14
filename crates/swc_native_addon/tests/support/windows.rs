@@ -19,6 +19,7 @@ use windows_sys::Win32::{
 pub enum Grant {
     AppContainer,
     AuthenticatedUsers,
+    OtherUser,
 }
 
 impl Grant {
@@ -26,6 +27,7 @@ impl Grant {
         match self {
             Self::AppContainer => "S-1-15-3-1",
             Self::AuthenticatedUsers => "S-1-5-11",
+            Self::OtherUser => "S-1-5-21-1-2-3-1001",
         }
     }
 
@@ -33,6 +35,7 @@ impl Grant {
         match self {
             Self::AppContainer => "0x1f01ff",
             Self::AuthenticatedUsers => "0x1301bf",
+            Self::OtherUser => "0x1f01ff",
         }
     }
 }

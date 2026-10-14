@@ -155,6 +155,22 @@ pub(crate) fn fallback_cache_root() -> Result<PathBuf> {
         })
 }
 
+/// Use the shared application-data directory only after both profile caches
+/// fail. Cache entries still live in a protected directory named for the
+/// current user's SID, and every ancestor must pass the usual ACL checks.
+pub(crate) fn shared_cache_root() -> Result<PathBuf> {
+    env::var_os("ProgramData")
+        .filter(|value| Path::new(value).is_absolute())
+        .map(PathBuf::from)
+        .ok_or_else(|| {
+            Error::new(
+                ErrorKind::Cache,
+                "cannot determine native addon shared cache: ProgramData must be an absolute \
+                 directory",
+            )
+        })
+}
+
 /// Windows does not expose a mount-level `noexec` equivalent for ordinary
 /// addon cache paths. Filesystem access is validated during cache creation.
 pub fn executable_cache_root(_root: &Path) -> Result<()> {

@@ -91,7 +91,13 @@ fn runtime_integrity_is_required_after_custom_cache_fallback() {
         .unwrap()
         .with_integrity(RuntimeIntegrity::parse(&damaged).unwrap())
         .unwrap();
-    assert!(cache::materialize(&invalid, &mode).is_err());
+    let error = cache::materialize(&invalid, &mode).err().unwrap();
+    assert_eq!(error.kind, swc_native_addon::ErrorKind::Integrity);
+    assert!(!error.to_string().contains("default cache failed"));
+    let custom = CacheMode::Custom(root.path().join("custom"));
+    let error = cache::materialize(&invalid, &custom).err().unwrap();
+    assert_eq!(error.kind, swc_native_addon::ErrorKind::Integrity);
+    assert!(!error.to_string().contains("default cache failed"));
     assert_eq!(fs::read(blocked).unwrap(), b"preserve blocked cache root");
 }
 

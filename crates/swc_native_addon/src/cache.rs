@@ -124,34 +124,49 @@ pub fn cache_directory(root: &Path) -> Result<PathBuf> {
     Ok(version)
 }
 
-/// Try the usual user cache first, then the platform fallback. Shared ancestors
-/// can make Unix home directories unsafe, as can ordinary Windows LocalAppData
-/// ACLs. Retry only cache failures, never payload corruption, and validate both
-/// roots using the same security checks. Primary success does no extra work.
+/// Try the usual user cache first, then the platform fallback. Windows also
+/// tries ProgramData when both profile roots fail. Retry only cache failures,
+/// never payload corruption, and validate every root with the same security
+/// checks. Primary success does no extra work.
 fn with_user_cache_root<T>(materialize: impl Fn(&Path) -> Result<T>) -> Result<T> {
-    let primary = platform::user_cache_root().and_then(|root| materialize(&root));
-    if let Err(primary) = primary {
-        if primary.kind != ErrorKind::Cache {
-            return Err(primary);
-        }
-        tracing::debug!(error = %primary, "native user cache unavailable; trying fallback cache");
-        return platform::fallback_cache_root()
-            .and_then(|root| materialize(&root))
-            .map_err(|fallback| {
-                if fallback.kind != ErrorKind::Cache {
-                    return fallback;
-                }
-                Error::new(
-                    ErrorKind::Cache,
-                    format!(
-                        "user cache failed: {primary}; fallback cache failed: {fallback}; set \
-                         SWC_NATIVE_BINDING_CACHE to a safe absolute directory owned by your user \
-                         whose ancestors do not grant other users replacement rights"
-                    ),
-                )
-            });
+    let primary = match platform::user_cache_root().and_then(|root| materialize(&root)) {
+        Ok(value) => return Ok(value),
+        Err(error) if error.kind == ErrorKind::Cache => error,
+        Err(error) => return Err(error),
+    };
+    tracing::debug!(error = %primary, "native user cache unavailable; trying fallback cache");
+    let fallback = match platform::fallback_cache_root().and_then(|root| materialize(&root)) {
+        Ok(value) => return Ok(value),
+        Err(error) if error.kind == ErrorKind::Cache => error,
+        Err(error) => return Err(error),
+    };
+    #[cfg(windows)]
+    {
+        tracing::debug!(error = %fallback, "native profile cache unavailable; trying shared cache");
+        let shared = match platform::shared_cache_root().and_then(|root| materialize(&root)) {
+            Ok(value) => return Ok(value),
+            Err(error) if error.kind == ErrorKind::Cache => error,
+            Err(error) => return Err(error),
+        };
+        return Err(Error::new(
+            ErrorKind::Cache,
+            format!(
+                "user cache failed: {primary}; fallback cache failed: {fallback}; ProgramData \
+                 cache failed: {shared}; set SWC_NATIVE_BINDING_CACHE to a safe absolute \
+                 directory owned by your user whose ancestors do not grant other users \
+                 replacement rights"
+            ),
+        ));
     }
-    primary
+    #[cfg(unix)]
+    Err(Error::new(
+        ErrorKind::Cache,
+        format!(
+            "user cache failed: {primary}; fallback cache failed: {fallback}; set \
+             SWC_NATIVE_BINDING_CACHE to a safe absolute directory owned by your user whose \
+             ancestors do not grant other users replacement rights"
+        ),
+    ))
 }
 
 pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materialized> {
@@ -160,9 +175,12 @@ pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materializ
         CacheMode::Default => with_user_cache_root(|root| cached_at(payload, root)),
         CacheMode::Custom(root) => match cached_at(payload, root) {
             Ok(file) => Ok(file),
-            Err(custom) => {
+            Err(custom) if custom.kind == ErrorKind::Cache => {
                 tracing::debug!(path = %root.display(), error = %custom, "custom native cache unavailable; using user cache");
                 with_user_cache_root(|root| cached_at(payload, root)).map_err(|default| {
+                    if default.kind != ErrorKind::Cache {
+                        return default;
+                    }
                     Error::new(
                         ErrorKind::Cache,
                         format!(
@@ -173,6 +191,7 @@ pub fn materialize(payload: &Payload<'_>, mode: &CacheMode) -> Result<Materializ
                     )
                 })
             }
+            Err(error) => Err(error),
         },
     }
 }

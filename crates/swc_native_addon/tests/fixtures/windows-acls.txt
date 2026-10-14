@@ -16,3 +16,5 @@ deny|O:SYD:P(A;;0x40;;;WD)|S-1-1-0
 # Users modify grants are unsafe even though Windows commonly supplies them.
 deny|O:SYD:P(A;OICIID;0x1f01ff;;;S-1-15-3-1)|S-1-15-3-1
 deny|O:SYD:P(A;OICIID;0x1301bf;;;AU)|S-1-5-11
+# Issue #12527: a different account can have full control of both profile roots.
+deny|O:SYD:P(A;OICIID;0x1f01ff;;;S-1-5-21-1-2-3-1001)|S-1-5-21-1-2-3-1001

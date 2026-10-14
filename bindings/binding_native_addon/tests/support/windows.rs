@@ -12,6 +12,7 @@ use super::{checked, fixture_source};
 enum Installation {
     Primary,
     Fallback,
+    SharedFallback,
     CustomFallback,
     Temporary,
     Unavailable,
@@ -22,6 +23,7 @@ pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
     for installation in [
         Installation::Primary,
         Installation::Fallback,
+        Installation::SharedFallback,
         Installation::CustomFallback,
         Installation::Temporary,
         Installation::Unavailable,
@@ -32,18 +34,28 @@ pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
         let path = root.path().canonicalize().unwrap();
         let local = path.join("local with spaces-λ");
         let profile = path.join("profile with spaces-λ");
+        let shared = path.join("program data with spaces-λ");
         let custom = path.join("custom");
         swc_native_addon::platform::private_directory(&profile).unwrap();
+        swc_native_addon::platform::private_directory(&shared).unwrap();
         if matches!(installation, Installation::Primary) {
             swc_native_addon::platform::private_directory(&local).unwrap();
+        } else if matches!(installation, Installation::SharedFallback) {
+            acl::unsafe_directory(&local, acl::Grant::OtherUser);
         } else {
             acl::unsafe_directory(&local, acl::Grant::AppContainer);
         }
+        if matches!(installation, Installation::SharedFallback) {
+            acl::unsafe_directory(&profile, acl::Grant::OtherUser);
+        }
         acl::unsafe_directory(&custom, acl::Grant::AuthenticatedUsers);
         let local_security = acl::security(&local);
+        let profile_security = acl::security(&profile);
         let custom_security = acl::security(&custom);
         let cache_root = if matches!(installation, Installation::Primary) {
             local.join("swc")
+        } else if matches!(installation, Installation::SharedFallback) {
+            shared.clone()
         } else {
             profile.join(".swc-cache")
         };
@@ -54,6 +66,7 @@ pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
             .arg("success")
             .env("LOCALAPPDATA", &local)
             .env("USERPROFILE", &profile)
+            .env("ProgramData", &shared)
             .env_remove("SWC_NATIVE_BINDING_CACHE");
         match installation {
             Installation::Primary => {
@@ -68,21 +81,25 @@ pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
             }
             Installation::Unavailable => {
                 acl::unsafe_directory(&cache_root, acl::Grant::AuthenticatedUsers);
+                acl::unsafe_directory(&shared, acl::Grant::OtherUser);
                 let profile_security = acl::security(&cache_root);
+                let shared_security = acl::security(&shared);
                 checked(
                     Command::new(node)
                         .arg(fixture_source("windows-cache-error.cjs"))
                         .arg(carrier)
                         .env("LOCALAPPDATA", &local)
                         .env("USERPROFILE", &profile)
+                        .env("ProgramData", &shared)
                         .env_remove("SWC_NATIVE_BINDING_CACHE"),
                 );
                 assert_eq!(acl::security(&cache_root), profile_security);
+                assert_eq!(acl::security(&shared), shared_security);
                 assert_eq!(acl::security(&local), local_security);
                 assert_eq!(fs::read(carrier).unwrap(), original);
                 continue;
             }
-            Installation::Fallback => {}
+            Installation::Fallback | Installation::SharedFallback => {}
         }
         // Simultaneous first loads must publish one complete image. Each child
         // also exercises exact exports forwarding and a live callback.
@@ -140,6 +157,7 @@ pub fn check_cache_policy(node: &OsStr, carrier: &Path, raw: &[u8], key: &str) {
             assert_eq!(fs::read(&image).unwrap(), raw);
         }
         assert_eq!(acl::security(&local), local_security);
+        assert_eq!(acl::security(&profile), profile_security);
         assert_eq!(acl::security(&custom), custom_security);
         assert_eq!(fs::read(carrier).unwrap(), original);
     }
