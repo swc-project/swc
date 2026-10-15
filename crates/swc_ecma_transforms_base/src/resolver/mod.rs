@@ -17,6 +17,8 @@ use crate::scope::{DeclKind, IdentType, ScopeKind};
 #[cfg(test)]
 mod tests;
 
+mod typescript;
+
 const LOG: bool = false && cfg!(debug_assertions);
 
 /// See [Ident] for know how does swc manages identifiers.
@@ -151,9 +153,12 @@ pub fn resolver(
         in_type: false,
         is_module: false,
         in_ts_module: false,
+        in_erased_type: false,
+        namespace_owner: None,
         unresolved_ctxt,
         decl_kind: DeclKind::Lexical,
         strict_mode: false,
+        namespace_state: Default::default(),
         config: InnerConfig {
             handle_types: typescript,
             unresolved_mark,
@@ -229,9 +234,15 @@ struct Resolver<'a> {
     in_type: bool,
     is_module: bool,
     in_ts_module: bool,
+    in_erased_type: bool,
+    namespace_owner: Option<typescript::NamespaceScopeId>,
     unresolved_ctxt: SyntaxContext,
     decl_kind: DeclKind,
     strict_mode: bool,
+    // Lexical fallback identities are recorded while parent scopes still
+    // exist. The later TS member pass can reject a known type-only alias
+    // without reconstructing lexical scopes or looking up names again.
+    namespace_state: typescript::NamespaceLookupStateRef<'a>,
 
     config: InnerConfig,
 }
@@ -260,10 +271,13 @@ impl<'a> Resolver<'a> {
             in_type: false,
             is_module: false,
             in_ts_module: false,
+            in_erased_type: false,
+            namespace_owner: None,
             unresolved_ctxt: SyntaxContext::empty().apply_mark(config.unresolved_mark),
             config,
             decl_kind: DeclKind::Lexical,
             strict_mode: false,
+            namespace_state: Default::default(),
         }
     }
 
@@ -282,12 +296,31 @@ impl<'a> Resolver<'a> {
             in_type: self.in_type,
             is_module: self.is_module,
             in_ts_module: self.in_ts_module,
+            in_erased_type: self.in_erased_type,
+            namespace_owner: self.namespace_owner,
             unresolved_ctxt: self.unresolved_ctxt,
             decl_kind: self.decl_kind,
             strict_mode: self.strict_mode,
+            namespace_state: typescript::NamespaceLookupStateRef::Borrowed(
+                self.namespace_state.get(),
+            ),
         };
 
         op(&mut child);
+
+        if let Some(owner) = child.namespace_owner {
+            if child.namespace_owner == self.namespace_owner
+                // Enum members deliberately share the global unresolved mark.
+                && child.current.mark != self.config.unresolved_mark
+                && (!child.current.declared_symbols.is_empty()
+                    || !child.current.declared_types.is_empty())
+            {
+                child
+                    .namespace_state
+                    .get()
+                    .scope(child.current.ctxt(), owner);
+            }
+        }
     }
 
     fn visit_ts_computed_key(&mut self, key: &mut Expr) {
@@ -526,8 +559,6 @@ impl VisitMut for Resolver<'_> {
 
     typed_ref!(visit_mut_ts_type_operator, TsTypeOperator);
 
-    typed_ref_init!(visit_mut_ts_type, TsType);
-
     typed_ref_init!(visit_mut_ts_type_ann, TsTypeAnn);
 
     typed!(
@@ -538,8 +569,6 @@ impl VisitMut for Resolver<'_> {
     typed!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
 
     typed_ref!(visit_mut_ts_union_type, TsUnionType);
-
-    typed_ref!(visit_mut_ts_infer_type, TsInferType);
 
     typed_ref!(visit_mut_ts_tuple_type, TsTupleType);
 
@@ -572,7 +601,36 @@ impl VisitMut for Resolver<'_> {
     // TODO: How should I handle this?
     typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
 
+    fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType) {
+        if self.config.handle_types {
+            // Inferred bindings do not yet have their own lexical scope.
+            // Keep their declaration-level owners in namespace completion
+            // instead of treating the surrounding scope as their owner.
+            self.namespace_state.get().require_type_scopes();
+            let in_type = std::mem::replace(&mut self.in_type, true);
+            let ident_type = self.ident_type;
+            node.visit_mut_children_with(self);
+            self.ident_type = ident_type;
+            self.in_type = in_type;
+        }
+    }
+
+    fn visit_mut_ts_type(&mut self, node: &mut TsType) {
+        if self.config.handle_types {
+            let in_type = std::mem::replace(&mut self.in_type, true);
+            let ident_type = std::mem::replace(&mut self.ident_type, IdentType::Ref);
+            let in_erased_type = std::mem::replace(&mut self.in_erased_type, true);
+            node.visit_mut_children_with(self);
+            self.in_erased_type = in_erased_type;
+            self.ident_type = ident_type;
+            self.in_type = in_type;
+        }
+    }
+
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
+        if self.in_erased_type {
+            self.namespace_state.get().require_type_scopes();
+        }
         self.with_child(ScopeKind::Fn, |child| {
             child.mark_block(&mut e.ctxt);
             e.type_params.visit_mut_with(child);
@@ -707,6 +765,9 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        if self.in_erased_type {
+            self.namespace_state.get().require_type_scopes();
+        }
         // Create a child scope. The class name is only accessible within the class.
 
         n.class.super_class.visit_mut_with(self);
@@ -925,6 +986,9 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
+        if self.in_erased_type {
+            self.namespace_state.get().require_type_scopes();
+        }
         self.mark_block(&mut f.ctxt);
         f.type_params.visit_mut_with(self);
 
@@ -1097,9 +1161,17 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
+        self.namespace_state.get().reset();
         self.strict_mode = true;
         self.is_module = true;
-        module.visit_mut_children_with(self)
+        module.visit_mut_children_with(self);
+        if self.namespace_state.get().needs_lookup() {
+            typescript::resolve(
+                module,
+                self.unresolved_ctxt,
+                self.namespace_state.get().take_facts(),
+            );
+        }
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
@@ -1127,6 +1199,10 @@ impl VisitMut for Resolver<'_> {
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
         if e.src.is_some() {
             return;
+        }
+
+        if self.in_ts_module && !e.specifiers.is_empty() {
+            self.namespace_state.get().require_lookup();
         }
 
         e.visit_mut_children_with(self);
@@ -1183,12 +1259,20 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
+        self.namespace_state.get().reset();
         self.strict_mode = script
             .body
             .first()
             .map(|stmt| stmt.is_use_strict())
             .unwrap_or(false);
-        script.visit_mut_children_with(self)
+        script.visit_mut_children_with(self);
+        if self.namespace_state.get().needs_lookup() {
+            typescript::resolve(
+                script,
+                self.unresolved_ctxt,
+                self.namespace_state.get().take_facts(),
+            );
+        }
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
@@ -1291,9 +1375,6 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
-        if decl.declare && !self.config.handle_types {
-            return;
-        }
         self.modify(&mut decl.id, DeclKind::Lexical);
 
         self.with_child(ScopeKind::Block, |child| {
@@ -1311,8 +1392,8 @@ impl VisitMut for Resolver<'_> {
             //
             // This keeps references like `A`, `B`, and `b = a` in the unresolved
             // context instead of resolving them to the enum's lexical scope, so the
-            // TypeScript enum transform can rewrite them later using
-            // `semantic.enum_record`.
+            // TypeScript enum transform can interpret them later through the
+            // current enum's typed member index.
             child.current.set_mark(self.config.unresolved_mark);
             // add the enum member names as declared symbols for this scope
             // Ex. `enum Foo { a, b = a }`
@@ -1345,7 +1426,9 @@ impl VisitMut for Resolver<'_> {
         if self.config.handle_types {
             let old = self.in_type;
             self.in_type = true;
+            let in_erased_type = std::mem::replace(&mut self.in_erased_type, true);
             n.visit_mut_children_with(self);
+            self.in_erased_type = in_erased_type;
             self.in_type = old;
         }
     }
@@ -1372,8 +1455,43 @@ impl VisitMut for Resolver<'_> {
         n.type_ann.visit_mut_with(self);
     }
 
+    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        self.with_child(ScopeKind::Block, |child| {
+            child.visit_ts_signature_params(&mut n.params);
+            n.type_ann.visit_mut_with(child);
+        });
+    }
+
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
         self.modify(&mut n.id, DeclKind::Lexical);
+        self.namespace_state.get().alias();
+
+        let mut scope = self.current.parent;
+        let mut fallback = self.config.unresolved_mark;
+        while let Some(parent) = scope {
+            if parent.declared_symbols.contains_key(&n.id.sym) {
+                fallback = parent.mark;
+                break;
+            }
+            scope = parent.parent;
+        }
+        if fallback == self.config.top_level_mark
+            && !self.is_module
+            && matches!(&*n.id.sym, "undefined" | "NaN" | "Infinity")
+        {
+            fallback = self.config.unresolved_mark;
+        }
+        // Most aliases have no outer value. Their default unresolved fallback
+        // is implicit; only custom lexical targets need an owned ID record.
+        if fallback != self.config.unresolved_mark {
+            self.namespace_state
+                .get()
+                .alias_fallback(n.id.to_id(), SyntaxContext::empty().apply_mark(fallback));
+        }
 
         n.module_ref.visit_mut_with(self);
     }
@@ -1404,6 +1522,7 @@ impl VisitMut for Resolver<'_> {
 
         self.with_child(ScopeKind::Fn, |child| {
             child.in_type = true;
+            child.in_erased_type = true;
 
             n.type_params.visit_mut_with(child);
             n.extends.visit_mut_with(child);
@@ -1447,34 +1566,37 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
-        if decl.declare && !self.config.handle_types {
-            return;
-        }
-
-        match &mut decl.id {
+        let owner = match &mut decl.id {
             TsModuleName::Ident(i) => {
                 self.modify(i, DeclKind::Lexical);
+                let owner = self.namespace_state.get().namespace(i);
+                (!decl.global).then_some(owner)
             }
-            TsModuleName::Str(_) => {}
+            TsModuleName::Str(_) => {
+                self.namespace_state.get().require_lookup();
+                None
+            }
             #[cfg(swc_ast_unknown)]
-            _ => {}
-        }
+            _ => None,
+        };
 
         self.with_child(ScopeKind::Block, |child| {
             child.in_ts_module = true;
+            child.namespace_owner = owner.or(child.namespace_owner);
 
             decl.body.visit_mut_children_with(child);
         });
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
-        if n.declare && !self.config.handle_types {
-            return;
-        }
-
         self.modify(&mut n.id, DeclKind::Lexical);
+        let owner = self.namespace_state.get().namespace(&n.id);
 
-        n.body.visit_mut_with(self);
+        self.with_child(ScopeKind::Block, |child| {
+            child.in_ts_module = true;
+            child.namespace_owner = Some(owner);
+            n.body.visit_mut_with(child);
+        });
     }
 
     fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
@@ -1523,17 +1645,6 @@ impl VisitMut for Resolver<'_> {
 
         self.with_child(ScopeKind::Fn, |child| {
             child.visit_ts_signature_params(std::slice::from_mut(&mut n.param));
-        });
-    }
-
-    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
-        if !self.config.handle_types {
-            return;
-        }
-
-        self.with_child(ScopeKind::Block, |child| {
-            child.visit_ts_signature_params(&mut n.params);
-            n.type_ann.visit_mut_with(child);
         });
     }
 
@@ -1807,51 +1918,42 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         decl.visit_mut_children_with(self);
 
-        if self.resolver.config.handle_types {
-            match decl {
-                Decl::TsInterface(i) => {
-                    if self.in_block {
-                        return;
-                    }
-
-                    let old_in_type = self.resolver.in_type;
-                    self.resolver.in_type = true;
-                    self.resolver.modify(&mut i.id, DeclKind::Type);
-                    self.resolver.in_type = old_in_type;
+        match decl {
+            Decl::TsInterface(i) if self.resolver.config.handle_types => {
+                if self.in_block {
+                    return;
                 }
 
-                Decl::TsTypeAlias(a) => {
-                    let old_in_type = self.resolver.in_type;
-                    self.resolver.in_type = true;
-                    self.resolver.modify(&mut a.id, DeclKind::Type);
-                    self.resolver.in_type = old_in_type;
-                }
-
-                Decl::TsEnum(e) if !self.in_block => {
-                    let old_in_type = self.resolver.in_type;
-                    self.resolver.in_type = false;
-                    self.resolver.modify(&mut e.id, DeclKind::Lexical);
-                    self.resolver.in_type = old_in_type;
-                }
-
-                Decl::TsModule(v)
-                    if matches!(
-                        &**v,
-                        TsModuleDecl {
-                            global: false,
-                            id: TsModuleName::Ident(_),
-                            ..
-                        },
-                    ) && !self.in_block =>
-                {
-                    let old_in_type = self.resolver.in_type;
-                    self.resolver.in_type = false;
-                    let id = v.id.as_mut_ident().unwrap();
-                    self.resolver.modify(id, DeclKind::Lexical);
-                    self.resolver.in_type = old_in_type;
-                }
-                _ => {}
+                let old_in_type = self.resolver.in_type;
+                self.resolver.in_type = true;
+                self.resolver.modify(&mut i.id, DeclKind::Type);
+                self.resolver.in_type = old_in_type;
             }
+
+            Decl::TsTypeAlias(a) if self.resolver.config.handle_types => {
+                let old_in_type = self.resolver.in_type;
+                self.resolver.in_type = true;
+                self.resolver.modify(&mut a.id, DeclKind::Type);
+                self.resolver.in_type = old_in_type;
+            }
+
+            Decl::TsEnum(e) if !self.in_block => {
+                let old_in_type = self.resolver.in_type;
+                self.resolver.in_type = false;
+                self.resolver.modify(&mut e.id, DeclKind::Lexical);
+                self.resolver.in_type = old_in_type;
+            }
+
+            Decl::TsModule(namespace) if !self.in_block && !namespace.global => {
+                let TsModuleName::Ident(id) = &mut namespace.id else {
+                    return;
+                };
+                let old_in_type = self.resolver.in_type;
+                self.resolver.in_type = false;
+                self.resolver.modify(id, DeclKind::Lexical);
+                self.resolver.in_type = old_in_type;
+            }
+            _ => {}
         }
     }
 
