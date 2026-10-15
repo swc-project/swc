@@ -22,8 +22,8 @@ var ReceiverReads = function(ReceiverReads) {
                 value: 1
             }
         ];
-        values[ReceiverReads.Index].value = 8;
-        values[ReceiverReads.Index].value += 2;
+        values[0].value = 8;
+        values[0].value += 2;
         return values[0].value;
     })()] = "Result";
     return ReceiverReads;

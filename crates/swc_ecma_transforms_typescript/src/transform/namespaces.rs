@@ -1,11 +1,240 @@
-//! Namespace runtime object emission.
+//! Namespace instantiation and runtime emission. Contributions are recorded
+//! before erasure and combined bottom up during the emission walk.
+//! Ambient value declarations instantiate their enclosing namespace even though
+//! they do not emit statements themselves.
 
+use rustc_hash::FxHashMap;
 use swc_common::{errors::HANDLER, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, ExprFactory};
+use swc_ecma_utils::ExprFactory;
+use swc_ecma_visit::VisitMutWith;
 
-use super::{FoldedDecl, InitArg, Transform};
-use crate::utils::Factory;
+use super::{ContainerContext, FoldedDecl, InitArg, Transform};
+use crate::{
+    retain::{should_retain_decl, should_retain_module_item},
+    utils::Factory,
+};
+
+/// The contribution of one declaration body, before applying its own `declare`
+/// modifier. Const-enum-only bodies additionally depend on runtime references;
+/// pure type bodies stay erased even when another declaration shares their
+/// name.
+#[derive(Clone, Copy, Default)]
+pub(super) enum NamespaceInstantiation {
+    #[default]
+    NonInstantiated,
+    ConstEnumOnly,
+    Instantiated,
+}
+
+impl NamespaceInstantiation {
+    pub(super) fn combine(self, other: Self) -> Self {
+        match (self, other) {
+            (Self::Instantiated, _) | (_, Self::Instantiated) => Self::Instantiated,
+            (Self::ConstEnumOnly, _) | (_, Self::ConstEnumOnly) => Self::ConstEnumOnly,
+            _ => Self::NonInstantiated,
+        }
+    }
+
+    pub(super) fn is_instantiated(&self) -> bool {
+        matches!(self, Self::Instantiated)
+    }
+}
+
+impl<'a> Transform<'a> {
+    /// Accumulate each body's runtime contribution before erasure and reuse
+    /// completed child results without recursively rescanning retained bodies.
+    pub(super) fn visit_namespace_items(
+        &mut self,
+        node: &mut Vec<ModuleItem>,
+    ) -> NamespaceInstantiation {
+        let mut namespace_state = NamespaceInstantiation::default();
+        node.retain_mut(|item| {
+            let is_namespace = matches!(
+                item,
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(_)))
+                    | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                        decl: Decl::TsModule(_),
+                        ..
+                    }))
+            );
+            let retain = self.retain_module_item(item);
+            // Capture contributions before erasure; retained child namespaces
+            // supply their completed body result after the ordinary walk.
+            let contribution = (!(namespace_state.is_instantiated() || is_namespace && retain))
+                .then(|| self.namespace_item_instantiation(item));
+            if let Some(contribution) = contribution {
+                namespace_state = namespace_state.combine(contribution);
+            }
+            if !retain {
+                return false;
+            }
+            let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
+            item.visit_mut_with(self);
+            if is_namespace {
+                namespace_state = namespace_state.combine(self.namespace_state);
+            }
+            // Remove those folded into Empty
+            is_empty || !item.as_stmt().map(Stmt::is_empty).unwrap_or(false)
+        });
+        namespace_state
+    }
+
+    pub(super) fn namespace_context(
+        &self,
+        object: Id,
+        body: &TsNamespaceBody,
+    ) -> Option<ContainerContext<'a>> {
+        let bindings = &self.semantic.bindings;
+        let container = bindings.container(&object)?;
+        let mut locals = FxHashMap::default();
+
+        if let TsNamespaceBody::TsModuleBlock(body) = body {
+            for item in &body.body {
+                let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) = item else {
+                    continue;
+                };
+                let ident = match &decl.decl {
+                    Decl::Fn(decl) => &decl.ident,
+                    Decl::Class(decl) => &decl.ident,
+                    _ => continue,
+                };
+                if !should_retain_decl(&decl.decl) {
+                    continue;
+                }
+                let Some(declaration) = bindings.ident_declaration(ident) else {
+                    continue;
+                };
+                let Some(member) = bindings.declaration_member(declaration) else {
+                    continue;
+                };
+                locals.insert(member, bindings.declaration(declaration));
+            }
+        }
+
+        Some(ContainerContext {
+            container,
+            object,
+            locals,
+        })
+    }
+
+    pub(super) fn namespace_instantiation(
+        &self,
+        declaration: &TsModuleDecl,
+    ) -> NamespaceInstantiation {
+        if declaration.global {
+            return NamespaceInstantiation::NonInstantiated;
+        }
+        let Some(body) = &declaration.body else {
+            return NamespaceInstantiation::Instantiated;
+        };
+        let state = self.namespace_body_instantiation(body);
+        match &declaration.id {
+            TsModuleName::Ident(id) => self.namespace_instantiation_with_usage(id, state),
+            _ => state,
+        }
+    }
+
+    pub(super) fn namespace_instantiation_with_usage(
+        &self,
+        id: &Ident,
+        state: NamespaceInstantiation,
+    ) -> NamespaceInstantiation {
+        if matches!(state, NamespaceInstantiation::ConstEnumOnly) {
+            let required = self
+                .semantic
+                .bindings
+                .container(&id.to_id())
+                .is_some_and(|container| self.semantic.runtime_containers.contains(&container));
+            if required {
+                return NamespaceInstantiation::Instantiated;
+            }
+        }
+        state
+    }
+
+    fn namespace_body_instantiation(&self, body: &TsNamespaceBody) -> NamespaceInstantiation {
+        match body {
+            TsNamespaceBody::TsNamespaceDecl(declaration) => {
+                let state = self.namespace_body_instantiation(&declaration.body);
+                self.namespace_instantiation_with_usage(&declaration.id, state)
+            }
+            TsNamespaceBody::TsModuleBlock(block) => {
+                let mut state = NamespaceInstantiation::NonInstantiated;
+                for item in &block.body {
+                    match self.namespace_item_instantiation(item) {
+                        NamespaceInstantiation::Instantiated => {
+                            return NamespaceInstantiation::Instantiated;
+                        }
+                        NamespaceInstantiation::ConstEnumOnly => {
+                            state = NamespaceInstantiation::ConstEnumOnly;
+                        }
+                        NamespaceInstantiation::NonInstantiated => {}
+                    }
+                }
+                state
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => NamespaceInstantiation::NonInstantiated,
+        }
+    }
+
+    pub(super) fn namespace_item_instantiation(&self, item: &ModuleItem) -> NamespaceInstantiation {
+        match item {
+            ModuleItem::Stmt(Stmt::Decl(declaration))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: declaration,
+                ..
+            })) => match declaration {
+                Decl::TsInterface(_) | Decl::TsTypeAlias(_) => {
+                    NamespaceInstantiation::NonInstantiated
+                }
+                Decl::TsModule(declaration) => self.namespace_instantiation(declaration),
+                Decl::TsEnum(declaration) => {
+                    let ambient_const =
+                        declaration.declare && declaration.is_const && !self.verbatim_module_syntax;
+                    if ambient_const || self.can_erase_enum(declaration) {
+                        NamespaceInstantiation::ConstEnumOnly
+                    } else {
+                        NamespaceInstantiation::Instantiated
+                    }
+                }
+                // A value declaration contributes even if it is ambient or a
+                // function signature with no body. Its own erasure is separate.
+                _ => NamespaceInstantiation::Instantiated,
+            },
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(declaration)) => {
+                // Exported aliases instantiate their namespace even when a
+                // type-only target erases the alias assignment.
+                let instantiates = !declaration.is_type_only
+                    && (declaration.is_export
+                        || self
+                            .semantic
+                            .has_import_equals_usage(&declaration.id.to_id()));
+                if instantiates {
+                    NamespaceInstantiation::Instantiated
+                } else {
+                    NamespaceInstantiation::NonInstantiated
+                }
+            }
+            _ if should_retain_module_item(item) => NamespaceInstantiation::Instantiated,
+            _ => NamespaceInstantiation::NonInstantiated,
+        }
+    }
+
+    pub(super) fn can_erase_enum(&self, declaration: &TsEnumDecl) -> bool {
+        self.semantic
+            .bindings
+            .ident_declaration(&declaration.id)
+            .and_then(|id| self.semantic.bindings.declaration_container(id))
+            .is_some_and(|container| {
+                self.semantic
+                    .enums
+                    .can_erase(container, self.verbatim_module_syntax)
+            })
+    }
+}
 
 impl Transform<'_> {
     pub(super) fn transform_ts_module(
@@ -64,7 +293,7 @@ impl Transform<'_> {
 
         let init_arg = InitArg {
             id: &local_name,
-            namespace_id: Some(&id.to_id()),
+            namespace_id: Some(&id),
         }
         .or_assign_empty();
 
@@ -175,7 +404,7 @@ impl Transform<'_> {
                         TsModuleRef::TsEntityName(ts_entity_name) => {
                             let init = Self::ts_entity_name_to_expr(ts_entity_name);
 
-                            // export impot foo = bar.baz
+                            // export import foo = bar.baz
                             let stmt = if decl.is_export {
                                 // Foo.foo = bar.baz
                                 let left = id.clone().make_member(decl.id.clone().into());

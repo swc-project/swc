@@ -14,9 +14,8 @@ define([
 //// [/x/node_modules/@types/b/index.d.ts]
 define([
     "require",
-    "exports",
-    "a"
-], function(require, exports, _a) {
+    "exports"
+], function(require, exports) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
