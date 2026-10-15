@@ -1,4 +1,87 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Disambiguate TSX generic arrows ([#12505](https://github.com/swc-project/swc/issues/12505)) ([2c9d198](https://github.com/swc-project/swc/commit/2c9d19813f05b74a704db9c40ce985e1d5b43d65))
+
+
+- **(es/codegen)** Preserve non-null token boundaries ([#12504](https://github.com/swc-project/swc/issues/12504)) ([410ae3a](https://github.com/swc-project/swc/commit/410ae3a0750e2d218eaabc2686d29f08b1e20482))
+
+
+- **(es/codegen)** Parenthesize typed arrow parameters ([#12503](https://github.com/swc-project/swc/issues/12503)) ([aa1ffd6](https://github.com/swc-project/swc/commit/aa1ffd682fa211f006b47588da6c2da3c1bf8abe))
+
+
+- **(es/codegen)** Preserve TypeScript token boundaries ([#12523](https://github.com/swc-project/swc/issues/12523)) ([9f36ae0](https://github.com/swc-project/swc/commit/9f36ae0b999c727900649518220adb2f4f8a1ac1))
+
+
+- **(es/compat)** Scope private access modes to each member ([#12526](https://github.com/swc-project/swc/issues/12526)) ([c0e3fa1](https://github.com/swc-project/swc/commit/c0e3fa13fd664634fc662087f3920e628c1a8001))
+
+
+- **(es/fixer)** Preserve TypeScript expression grouping ([#12518](https://github.com/swc-project/swc/issues/12518)) ([b9d3f8f](https://github.com/swc-project/swc/commit/b9d3f8fb383b385035dea2f48f258ff9eb04a062))
+
+
+- **(es/minifier)** Bound literal expressions copied by the sequential inliner ([#12521](https://github.com/swc-project/swc/issues/12521)) ([60c700f](https://github.com/swc-project/swc/commit/60c700f2eeb600973b2547b2d3d28ac22ef8e9f7))
+
+
+- **(es/parser)** Isolate enum await context ([#12506](https://github.com/swc-project/swc/issues/12506)) ([b789495](https://github.com/swc-project/swc/commit/b7894951bee205f85e498d36fcd0b20f14015f93))
+
+
+- **(es/parser)** Allow await function names in async arrow parameters ([#12517](https://github.com/swc-project/swc/issues/12517)) ([0827541](https://github.com/swc-project/swc/commit/08275410814e2922683d671125ade1c603de7067))
+
+
+- **(es/parser)** Preserve invalid JSX numeric entities as literal text ([#12524](https://github.com/swc-project/swc/issues/12524)) ([31b5fb9](https://github.com/swc-project/swc/commit/31b5fb9ae6e6769dc02d857fc1ea8eeb76b5a051))
+
+
+- **(es/parser)** Allow namespace await identifiers ([#12507](https://github.com/swc-project/swc/issues/12507)) ([3daa5dc](https://github.com/swc-project/swc/commit/3daa5dcce773a2994ff7f52d9ef72fdd7fec67ee))
+
+
+- **(es/parser)** Align TypeScript expression lookahead ([#12535](https://github.com/swc-project/swc/issues/12535)) ([7ef5966](https://github.com/swc-project/swc/commit/7ef5966233bf90cd662bb6b45b2826cc1fb28c99))
+
+
+- **(native-addon)** Use ProgramData after unsafe Windows profile caches ([#12534](https://github.com/swc-project/swc/issues/12534)) ([47394b8](https://github.com/swc-project/swc/commit/47394b851f73489672016f30a24806f6edd74946))
+
+
+- **(react-compiler)** Preserve intrinsic JSX tags during binding renames ([#12536](https://github.com/swc-project/swc/issues/12536)) ([c25e42e](https://github.com/swc-project/swc/commit/c25e42eba9028dc297f5c1953c37e6314ea3bb87))
+
+### Documentation
+
+
+
+- Prohibit references to issue-linked PRs and external SWC forks ([#12513](https://github.com/swc-project/swc/issues/12513)) ([5092a16](https://github.com/swc-project/swc/commit/5092a16cef14093df987a37334bb3253db4649e0))
+
+### Features
+
+
+
+- **(es/minifier)** Inline async function used only once ([#12416](https://github.com/swc-project/swc/issues/12416)) ([b9b2ebe](https://github.com/swc-project/swc/commit/b9b2ebe1bb3623bd5219726d592d1968fbc8b4a1))
+
+### Performance
+
+
+
+- **(es/parser)** Streamline numeric separator stripping ([#12515](https://github.com/swc-project/swc/issues/12515)) ([220a82c](https://github.com/swc-project/swc/commit/220a82ccc9d4412a3aa2094d72ffa43eb337c786))
+
+
+- **(hstr)** Allow Atom::as_str to inline across crates ([#12522](https://github.com/swc-project/swc/issues/12522)) ([c07290b](https://github.com/swc-project/swc/commit/c07290bb931df2a415649bd1fbda86b312426034))
+
+### Ci
+
+
+
+- Allow vjeux as a React contributor ([#12520](https://github.com/swc-project/swc/issues/12520)) ([4e8ee99](https://github.com/swc-project/swc/commit/4e8ee99048e304d2908844eb5aa2ebb38f80bc87))
+
+
+- Allow jimmyhmiller in the Next.js group ([#12532](https://github.com/swc-project/swc/issues/12532)) ([346a025](https://github.com/swc-project/swc/commit/346a025cd7738762442c99f9582c9dcee0f46b1c))
+
+
+- Ignore unreachable ruzstd advisory in Wasmer ([#12533](https://github.com/swc-project/swc/issues/12533)) ([1a55a5b](https://github.com/swc-project/swc/commit/1a55a5b1449e56d84e9312ac956acceb2aae241d))
+
+
+- Remove empty contributor changeset ([#12537](https://github.com/swc-project/swc/issues/12537)) ([3986d88](https://github.com/swc-project/swc/commit/3986d882324577a58eae94e66c0fe2c2afa77778))
+
 ## [1.16.18] - 2026-10-11
 
 ### Bug Fixes
@@ -2184,25 +2267,13 @@
 
 
 
-- **(es/codegen)** Restore missing top-level comments ([#11302](https://github.com/swc-project/swc/issues/11302)) ([0998c93](https://github.com/swc-project/swc/commit/0998c93a5ad391a6cc7bd25eb08104f825a29ac4))
-
-
 - **(es/codegen)** Emit comments of all nodes ([#11314](https://github.com/swc-project/swc/issues/11314)) ([387ee0f](https://github.com/swc-project/swc/commit/387ee0f4d864212d38c008f4d3b715b17036fbef))
-
-
-- **(es/minifier)** Prevent compress.comparisons from transforming expressions with side effects ([#11256](https://github.com/swc-project/swc/issues/11256)) ([58a9d81](https://github.com/swc-project/swc/commit/58a9d81959162778f6ca1200436c90f3545bd387))
 
 
 - **(es/minifier)** Remove unused arrow functions in dead code elimination ([#11319](https://github.com/swc-project/swc/issues/11319)) ([88c6ac7](https://github.com/swc-project/swc/commit/88c6ac7eb05e3367d3d14e40bad8468218576783))
 
 
-- **(es/parser)** Make the span of Program start at input start ([#11199](https://github.com/swc-project/swc/issues/11199)) ([b56e008](https://github.com/swc-project/swc/commit/b56e0083c60e9d96fbe7aef9de20ff83d4c77279))
-
-
 - **(es/plugin)** Use `#[cfg]` to avoid compilation error ([#11316](https://github.com/swc-project/swc/issues/11316)) ([f615cdb](https://github.com/swc-project/swc/commit/f615cdbc52773b4899fb7831992272088013acc0))
-
-
-- **(es/quote)** Replace usage of `swc_atoms` with `swc_core::atoms` ([#11299](https://github.com/swc-project/swc/issues/11299)) ([c1e32fa](https://github.com/swc-project/swc/commit/c1e32fafd3dd8c2424331730c6ebc03bc793b058))
 
 ### Miscellaneous Tasks
 
@@ -2224,34 +2295,5 @@
 
 
 - **(es/transfomer)** Prevent breaking change ([#11308](https://github.com/swc-project/swc/issues/11308)) ([45827fa](https://github.com/swc-project/swc/commit/45827fac5d0d0434f425769f6b3f4383617355e0))
-
-## [1.15.2] - 2025-11-14
-
-### Bug Fixes
-
-
-
-- **(bindings/es)** Respect `filename` option from `print()` ([#11264](https://github.com/swc-project/swc/issues/11264)) ([0d4d2d9](https://github.com/swc-project/swc/commit/0d4d2d9ab4e912ecf9e17e7c9b49d26b320c1d98))
-
-### Features
-
-
-
-- **(es/minifier)** Drop empty constructors during minification ([#11250](https://github.com/swc-project/swc/issues/11250)) ([2cea7dd](https://github.com/swc-project/swc/commit/2cea7ddb58390253fed44a4033c71d2333271691))
-
-
-- **(es/visit)** Add context parameter to VisitMutHook trait ([#11254](https://github.com/swc-project/swc/issues/11254)) ([8645d0d](https://github.com/swc-project/swc/commit/8645d0de8fcbd61d7a69235ac485debb64497205))
-
-### Performance
-
-
-
-- **(es/parser)** Inline `skip_space` ([afb824a](https://github.com/swc-project/swc/commit/afb824a97f3d917090e14a8289339ee259f42239))
-
-
-- **(es/parser)** Eliminate the outer loop of `skip_block_comment` ([#11261](https://github.com/swc-project/swc/issues/11261)) ([e41c0ac](https://github.com/swc-project/swc/commit/e41c0ac9d5e5e4956f826bceea43f01ad729725e))
-
-
-- **(es/plugin)** Use shared tokio runtime to avoid creation overhead ([#11267](https://github.com/swc-project/swc/issues/11267)) ([707026b](https://github.com/swc-project/swc/commit/707026bee1e0d98ec3602ef9d3aac348c7184940))
 
 <!-- generated by git-cliff -->
