@@ -37,7 +37,7 @@ jobs:
       allowed: ${{ steps.policy.outputs.allowed }}
     steps:
       # The gate must use the policy on the default branch, not PR changes.
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.repository.default_branch }}
           path: .contributor-policy
@@ -65,7 +65,7 @@ jobs:
     outputs:
       crates: ${{ steps.list-crates.outputs.crates }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -86,7 +86,7 @@ jobs:
       matrix:
         crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -113,7 +113,7 @@ jobs:
         run: ./scripts/bench/build-crate.sh ${{ matrix.crate }}
 
       - name: Run the benchmarks
-        uses: CodSpeedHQ/action@76578c2a7ddd928664caa737f0e962e3085d4e7c # v3.8.1
+        uses: CodSpeedHQ/action@373d6868929f444bc08d901fd0eb0ad52a8875ea # v5.2.1
         with:
           run: cargo codspeed run
           token: ${{ secrets.CODSPEED_TOKEN }}
