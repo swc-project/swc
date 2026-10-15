@@ -223,7 +223,7 @@ where
 
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
-            for_each_id_ref_in_expr(&m.obj, &mut |id| {
+            for_each_id_ref_in_member_obj(&m.obj, &mut |id| {
                 self.data.mark_property_mutation(id.to_id())
             });
         }
@@ -614,7 +614,7 @@ where
                     self.scope.mark_eval_called();
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
-                    for_each_id_ref_in_expr(&m.obj, &mut |id| {
+                    for_each_id_ref_in_member_obj(&m.obj, &mut |id| {
                         self.data.var_or_default(id.to_id()).mark_used_as_ref()
                     })
                 }
@@ -1141,7 +1141,7 @@ where
             c.visit_with(self);
         }
 
-        for_each_id_ref_in_expr(&e.obj, &mut |obj| {
+        for_each_id_ref_in_member_obj(&e.obj, &mut |obj| {
             let v = self.data.var_or_default(obj.to_id());
             v.mark_has_property_access();
 
@@ -1660,12 +1660,31 @@ impl Visit for MemberTargetsInPat {
     fn visit_pat(&mut self, p: &Pat) {
         if let Pat::Expr(e) = p {
             if let Some(m) = e.as_member() {
-                for_each_id_ref_in_expr(&m.obj, &mut |id| self.objs.push(id.to_id()));
+                for_each_id_ref_in_member_obj(&m.obj, &mut |id| self.objs.push(id.to_id()));
             }
             return;
         }
 
         p.visit_children_with(self);
+    }
+}
+
+/// Like [for_each_id_ref_in_expr], but for the object of a member expression.
+///
+/// The value of an assignment is what its target holds afterwards, so
+/// `(a = [])[0] = 1` and `(a = []).push(1)` access and mutate `a` just like
+/// `a[0] = 1` and `a.push(1)` do. Other passes produce this shape from
+/// `a = []; a[0] = 1`.
+fn for_each_id_ref_in_member_obj(e: &Expr, op: &mut impl FnMut(&Ident)) {
+    match e {
+        Expr::Paren(p) => for_each_id_ref_in_member_obj(&p.expr, op),
+        Expr::Seq(s) => for_each_id_ref_in_member_obj(s.exprs.last().unwrap(), op),
+        Expr::Assign(a) => {
+            if let Some(i) = a.left.as_ident() {
+                op(&i.id);
+            }
+        }
+        _ => for_each_id_ref_in_expr(e, op),
     }
 }
 
