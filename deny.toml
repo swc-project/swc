@@ -65,6 +65,10 @@ ignore = [
   # disables component-model and uses core Wasm modules with integer host calls.
   # Wasmtime 38 has no patched release; revisit when upgrading the backend.
   "RUSTSEC-2026-0316",
+  # Component-model resource handle tables are not used: the Wasmtime backend
+  # disables component-model and only instantiates core Wasm modules.
+  # Wasmtime 38 has no patched release; revisit when upgrading the backend.
+  "RUSTSEC-2026-0363",
   "RUSTSEC-2026-0186", # memmap2 is constrained by shared-buffer 0.1.4 via wasmer; shared-buffer has no patched release and only uses Mmap::map
   "RUSTSEC-2026-0235", # rkyv 0.7.45 is unsupported and transitive via parcel_sourcemap; rkyv 0.8 is upgraded to the patched release
   # Wasmer's object 0.32 dependency enables ruzstd 0.5 through default features,
