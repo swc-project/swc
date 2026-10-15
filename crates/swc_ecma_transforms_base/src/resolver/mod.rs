@@ -1,3 +1,5 @@
+use std::cell::Cell;
+
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
@@ -140,7 +142,7 @@ pub fn resolver(
         "Marker provided to resolver should not be the root mark"
     );
 
-    let _ = SyntaxContext::empty().apply_mark(unresolved_mark);
+    let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
     let _ = SyntaxContext::empty().apply_mark(top_level_mark);
 
     visit_mut_pass(Resolver {
@@ -149,6 +151,7 @@ pub fn resolver(
         in_type: false,
         is_module: false,
         in_ts_module: false,
+        unresolved_ctxt,
         decl_kind: DeclKind::Lexical,
         strict_mode: false,
         config: InnerConfig {
@@ -170,6 +173,10 @@ struct Scope<'a> {
     /// [Mark] of the current scope.
     mark: Mark,
 
+    /// Materialize the scope's identity once, without assigning contexts to
+    /// empty scopes or changing the lexical walk's context creation order.
+    ctxt: Cell<SyntaxContext>,
+
     /// All declarations in the scope
     declared_symbols: FxHashMap<Atom, DeclKind>,
 
@@ -183,9 +190,25 @@ impl<'a> Scope<'a> {
             parent,
             kind,
             mark,
+            ctxt: Cell::default(),
             declared_symbols: Default::default(),
             declared_types: Default::default(),
         }
+    }
+
+    fn ctxt(&self) -> SyntaxContext {
+        let ctxt = self.ctxt.get();
+        if ctxt != SyntaxContext::empty() || self.mark == Mark::root() {
+            return ctxt;
+        }
+        let ctxt = SyntaxContext::empty().apply_mark(self.mark);
+        self.ctxt.set(ctxt);
+        ctxt
+    }
+
+    fn set_mark(&mut self, mark: Mark) {
+        self.mark = mark;
+        self.ctxt.set(SyntaxContext::empty());
     }
 
     fn is_declared(&self, symbol: &Atom) -> Option<&DeclKind> {
@@ -206,6 +229,7 @@ struct Resolver<'a> {
     in_type: bool,
     is_module: bool,
     in_ts_module: bool,
+    unresolved_ctxt: SyntaxContext,
     decl_kind: DeclKind,
     strict_mode: bool,
 
@@ -219,6 +243,13 @@ struct InnerConfig {
     top_level_mark: Mark,
 }
 
+/// A found lexical declaration can intentionally resolve to the global value
+/// context for the non-configurable built-ins in scripts.
+enum ReferenceScope<'a> {
+    Declared(&'a Scope<'a>),
+    Unresolved,
+}
+
 #[allow(clippy::needless_lifetimes)]
 impl<'a> Resolver<'a> {
     #[cfg(test)]
@@ -229,6 +260,7 @@ impl<'a> Resolver<'a> {
             in_type: false,
             is_module: false,
             in_ts_module: false,
+            unresolved_ctxt: SyntaxContext::empty().apply_mark(config.unresolved_mark),
             config,
             decl_kind: DeclKind::Lexical,
             strict_mode: false,
@@ -250,6 +282,7 @@ impl<'a> Resolver<'a> {
             in_type: self.in_type,
             is_module: self.is_module,
             in_ts_module: self.in_ts_module,
+            unresolved_ctxt: self.unresolved_ctxt,
             decl_kind: self.decl_kind,
             strict_mode: self.strict_mode,
         };
@@ -296,43 +329,42 @@ impl<'a> Resolver<'a> {
         });
     }
 
-    /// Returns a [Mark] for an identifier reference.
-    fn mark_for_ref(&self, sym: &Atom) -> Option<Mark> {
-        self.mark_for_ref_inner(sym, false)
+    /// Preserve the resolved scope so references reuse its existing identity.
+    fn scope_for_ref(&self, sym: &Atom) -> Option<ReferenceScope<'_>> {
+        self.scope_for_ref_inner(sym, false)
     }
 
-    fn mark_for_ref_inner(&self, sym: &Atom, stop_an_fn_scope: bool) -> Option<Mark> {
+    fn scope_for_ref_inner(
+        &self,
+        sym: &Atom,
+        stop_an_fn_scope: bool,
+    ) -> Option<ReferenceScope<'_>> {
         if self.config.handle_types && self.in_type {
-            let mut mark = self.current.mark;
             let mut scope = Some(&self.current);
 
             while let Some(cur) = scope {
                 // if cur.declared_types.contains(sym) ||
                 // cur.hoisted_symbols.borrow().contains(sym) {
                 if cur.declared_types.contains(sym) {
-                    if mark == Mark::root() {
+                    if cur.mark == Mark::root() {
                         break;
                     }
-                    return Some(mark);
+                    return Some(ReferenceScope::Declared(cur));
                 }
 
                 if cur.kind == ScopeKind::Fn && stop_an_fn_scope {
                     return None;
                 }
 
-                if let Some(parent) = &cur.parent {
-                    mark = parent.mark;
-                }
                 scope = cur.parent;
             }
         }
 
-        let mut mark = self.current.mark;
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
             if cur.declared_symbols.contains_key(sym) {
-                if mark == Mark::root() {
+                if cur.mark == Mark::root() {
                     return None;
                 }
 
@@ -340,11 +372,11 @@ impl<'a> Resolver<'a> {
                     // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
                     // non configurable global value
                     "undefined" | "NaN" | "Infinity"
-                        if mark == self.config.top_level_mark && !self.is_module =>
+                        if cur.mark == self.config.top_level_mark && !self.is_module =>
                     {
-                        Some(self.config.unresolved_mark)
+                        Some(ReferenceScope::Unresolved)
                     }
-                    _ => Some(mark),
+                    _ => Some(ReferenceScope::Declared(cur)),
                 };
             }
 
@@ -352,9 +384,6 @@ impl<'a> Resolver<'a> {
                 return None;
             }
 
-            if let Some(parent) = &cur.parent {
-                mark = parent.mark;
-            }
             scope = cur.parent;
         }
 
@@ -381,11 +410,7 @@ impl<'a> Resolver<'a> {
             self.current.declared_symbols.insert(id.sym.clone(), kind);
         }
 
-        let mark = self.current.mark;
-
-        if mark != Mark::root() {
-            id.ctxt = id.ctxt.apply_mark(mark);
-        }
+        id.ctxt = self.current.ctxt();
     }
 
     fn mark_block(&mut self, ctxt: &mut SyntaxContext) {
@@ -393,11 +418,7 @@ impl<'a> Resolver<'a> {
             return;
         }
 
-        let mark = self.current.mark;
-
-        if mark != Mark::root() {
-            *ctxt = ctxt.apply_mark(mark)
-        }
+        *ctxt = self.current.ctxt();
     }
 
     fn try_resolving_as_type(&mut self, i: &mut Ident) {
@@ -986,8 +1007,11 @@ impl VisitMut for Resolver<'_> {
                     return;
                 }
 
-                if let Some(mark) = self.mark_for_ref(sym) {
-                    let ctxt = ctxt.apply_mark(mark);
+                if let Some(scope) = self.scope_for_ref(sym) {
+                    let ctxt = match scope {
+                        ReferenceScope::Declared(scope) => scope.ctxt(),
+                        ReferenceScope::Unresolved => self.unresolved_ctxt,
+                    };
 
                     if cfg!(debug_assertions) && LOG {
                         #[cfg(debug_assertions)]
@@ -1000,7 +1024,7 @@ impl VisitMut for Resolver<'_> {
                         debug!("\t -> Unresolved");
                     }
 
-                    let ctxt = ctxt.apply_mark(self.config.unresolved_mark);
+                    let ctxt = self.unresolved_ctxt;
 
                     if cfg!(debug_assertions) && LOG {
                         #[cfg(debug_assertions)]
@@ -1289,7 +1313,7 @@ impl VisitMut for Resolver<'_> {
             // context instead of resolving them to the enum's lexical scope, so the
             // TypeScript enum transform can rewrite them later using
             // `semantic.enum_record`.
-            child.current.mark = self.config.unresolved_mark;
+            child.current.set_mark(self.config.unresolved_mark);
             // add the enum member names as declared symbols for this scope
             // Ex. `enum Foo { a, b = a }`
             let member_names = decl.members.iter().filter_map(|m| match &m.id {
@@ -1652,7 +1676,7 @@ impl Hoister<'_, '_> {
     fn add_pat_id(&mut self, id: &mut BindingIdent) {
         if self.in_catch_body {
             // If we have a binding, it's different variable.
-            if self.resolver.mark_for_ref_inner(&id.sym, true).is_some()
+            if self.resolver.scope_for_ref_inner(&id.sym, true).is_some()
                 && self.catch_param_decls.contains(&id.sym)
             {
                 return;
