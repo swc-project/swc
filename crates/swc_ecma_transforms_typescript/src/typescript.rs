@@ -76,7 +76,14 @@ impl Pass for TypeScript {
 
 impl TypeScript {
     fn get_last_module_span(&self, n: &Module) -> Option<Span> {
-        if self.config.no_empty_export {
+        if self.config.no_empty_export
+            || n.body.iter().any(|item| {
+                matches!(
+                    item,
+                    ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(_))
+                )
+            })
+        {
             return None;
         }
 
