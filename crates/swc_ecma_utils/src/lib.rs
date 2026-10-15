@@ -1761,6 +1761,17 @@ where
     node.visit_with(&mut v);
 }
 
+/// Finds binding identifiers in a TypeScript signature parameter, ignoring
+/// expressions and type annotations. The ordinary binding visitor skips the
+/// erased `TsFnParam` wrapper, so enter its binding pattern directly.
+pub fn for_each_ts_fn_param_binding_ident<F>(node: &TsFnParam, op: F)
+where
+    F: for<'a> FnMut(&'a BindingIdent),
+{
+    let mut v = BindingIdentifierVisitor { op };
+    node.visit_children_with(&mut v);
+}
+
 impl<F> Visit for BindingIdentifierVisitor<F>
 where
     F: for<'a> FnMut(&'a BindingIdent),
