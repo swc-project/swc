@@ -1,7 +1,31 @@
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_visit::VisitMutWith;
 
-use super::Fixer;
+use super::{Context, Fixer};
+
+#[derive(Clone, Copy)]
+pub(super) enum TsOperand {
+    Postfix,
+    Update { prefix: bool },
+}
+
+impl TsOperand {
+    pub(super) fn needs_parens(self, expr: &Expr) -> bool {
+        match expr {
+            // Update operands require a left-hand-side expression, including
+            // when an assertion uses prefix syntax.
+            Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => true,
+            // Prefix updates allow expression type arguments; postfix updates
+            // and other postfix operations make their lookahead backtrack.
+            Expr::TsInstantiation(..) => !matches!(self, Self::Update { prefix: true }),
+            _ => false,
+        }
+    }
+}
 
 impl Fixer<'_> {
     /// Groups operands that bind less tightly than postfix casts.
@@ -141,20 +165,53 @@ impl Fixer<'_> {
         }
     }
 
-    /// Ends a cast or instantiation before another TypeScript postfix operator.
-    /// In particular, `!` cannot follow bare expression type arguments, and
-    /// postfix operations otherwise attach to a cast's operand or type.
-    pub(super) fn wrap_ts_postfix_operand(&mut self, expr: &mut Expr) {
-        if matches!(
-            expr,
-            Expr::TsAs(..)
-                | Expr::TsSatisfies(..)
-                | Expr::TsConstAssertion(..)
-                | Expr::TsTypeAssertion(..)
-                | Expr::TsInstantiation(..)
-        ) {
+    /// Fixes a postfix or update operand, reusing required TS parentheses.
+    /// Removing and rebuilding the innermost pair would free and allocate the
+    /// same expression box. Keep the usual span bookkeeping so comments and
+    /// repeated spans behave just as they do when a pair is rebuilt.
+    pub(super) fn visit_mut_ts_operand(&mut self, expr: &mut Expr, kind: TsOperand) {
+        if self.visit_mut_ts_paren_if_required(expr, kind) {
+            return;
+        }
+
+        expr.visit_mut_with(self);
+        if kind.needs_parens(expr) {
             self.wrap(expr);
         }
+    }
+
+    /// Returns whether an existing TS pair was retained and visited.
+    pub(super) fn visit_mut_ts_paren_if_required(
+        &mut self,
+        expr: &mut Expr,
+        kind: TsOperand,
+    ) -> bool {
+        if let Expr::Paren(paren) = expr {
+            if !self.remove_only && kind.needs_parens(paren.expr.unwrap_parens()) {
+                self.visit_mut_ts_paren(expr);
+                return true;
+            }
+        }
+        false
+    }
+
+    fn visit_mut_ts_paren(&mut self, expr: &mut Expr) {
+        let ctx = self.ctx;
+        if ctx == Context::Default {
+            self.ctx = Context::FreeExpr;
+        }
+        while let Expr::Paren(paren) = expr {
+            let inner_span = paren.expr.span();
+            self.span_map.insert(inner_span, paren.span);
+            if paren.expr.is_paren() {
+                *expr = *paren.expr.take();
+            } else {
+                paren.expr.visit_mut_with(self);
+                paren.span = self.restore_paren_span(paren.expr.span());
+                break;
+            }
+        }
+        self.ctx = ctx;
     }
 }
 

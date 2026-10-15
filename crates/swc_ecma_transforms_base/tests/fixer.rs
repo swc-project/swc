@@ -8,6 +8,9 @@ use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::fixture;
 
+#[path = "fixer/metadata.rs"]
+mod metadata;
+
 /// Compare expression structure independently of the parentheses that the
 /// parser records and the fixer inserts.
 struct IgnoreParens;

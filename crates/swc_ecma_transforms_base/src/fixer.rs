@@ -1,13 +1,14 @@
-use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
+use std::mem;
 
-use indexmap::IndexMap;
-use rustc_hash::FxHasher;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
+mod parens;
 mod typescript;
+
+use self::{parens::ParenSpans, typescript::TsOperand};
 
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
@@ -41,11 +42,7 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
 struct Fixer<'a> {
     comments: Option<&'a dyn Comments>,
     ctx: Context,
-    /// A hash map to preserve original span.
-    ///
-    /// Key is span of inner expression, and value is span of the paren
-    /// expression.
-    span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
+    span_map: ParenSpans,
 
     in_for_stmt_head: bool,
     in_opt_chain: bool,
@@ -771,12 +768,7 @@ impl VisitMut for Fixer<'_> {
 
         self.is_strict = true;
         n.visit_mut_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain(RangeFull).rev() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
+        self.span_map.move_comments(self.comments);
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
@@ -861,12 +853,7 @@ impl VisitMut for Fixer<'_> {
         self.span_map.clear();
 
         n.visit_mut_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain(RangeFull).rev() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
+        self.span_map.move_comments(self.comments);
     }
 
     fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
@@ -980,13 +967,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_ts_instantiation(&mut self, expr: &mut TsInstantiation) {
-        expr.visit_mut_children_with(self);
-        self.wrap_ts_postfix_operand(&mut expr.expr);
+        self.visit_mut_ts_operand(&mut expr.expr, TsOperand::Postfix);
     }
 
     fn visit_mut_ts_non_null_expr(&mut self, expr: &mut TsNonNullExpr) {
-        expr.visit_mut_children_with(self);
-        self.wrap_ts_postfix_operand(&mut expr.expr);
+        self.visit_mut_ts_operand(&mut expr.expr, TsOperand::Postfix);
     }
 
     fn visit_mut_ts_type_assertion(&mut self, expr: &mut TsTypeAssertion) {
@@ -1029,18 +1014,23 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_update_expr(&mut self, expr: &mut UpdateExpr) {
+        // Identifiers are already valid update operands and have no children
+        // that need fixing.
+        if expr.arg.is_ident() {
+            return;
+        }
+
+        let kind = TsOperand::Update {
+            prefix: expr.prefix,
+        };
+        if expr.arg.is_paren() && self.visit_mut_ts_paren_if_required(&mut expr.arg, kind) {
+            return;
+        }
+
         expr.visit_mut_children_with(self);
 
-        // Update operands require a left-hand-side expression, including when
-        // the assertion uses prefix syntax.
-        match &*expr.arg {
-            Expr::TsAs(..)
-            | Expr::TsSatisfies(..)
-            | Expr::TsConstAssertion(..)
-            | Expr::TsTypeAssertion(..) => self.wrap(&mut expr.arg),
-            // Postfix updates make expression type-argument lookahead backtrack.
-            Expr::TsInstantiation(..) if !expr.prefix => self.wrap(&mut expr.arg),
-            _ => {}
+        if kind.needs_parens(&expr.arg) {
+            self.wrap(&mut expr.arg);
         }
     }
 
@@ -1322,17 +1312,20 @@ impl Fixer<'_> {
 
     /// Restores the removed parentheses' span for expressions and targets.
     fn make_paren(&mut self, expr: Box<Expr>) -> ParenExpr {
-        let mut span = expr.span();
+        let span = self.restore_paren_span(expr.span());
+        ParenExpr { expr, span }
+    }
 
-        if let Some(new_span) = self.span_map.shift_remove(&span) {
-            span = new_span;
+    fn restore_paren_span(&mut self, mut span: Span) -> Span {
+        if let Some(paren_span) = self.span_map.remove(span) {
+            span = paren_span;
         }
 
         if span.is_pure() {
             span = DUMMY_SP;
         }
 
-        ParenExpr { expr, span }
+        span
     }
 
     /// Removes paren
