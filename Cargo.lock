@@ -6060,7 +6060,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "82.1.0"
+version = "82.1.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6656,7 +6656,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "46.1.0"
+version = "46.1.1"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6738,7 +6738,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "26.0.0"
+version = "26.0.1"
 dependencies = [
  "indexmap 2.12.0",
  "react_compiler",
@@ -6850,7 +6850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "50.0.1"
+version = "50.0.2"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -7535,7 +7535,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip"
-version = "59.0.0"
+version = "59.0.1"
 dependencies = [
  "anyhow",
  "bytes-str",

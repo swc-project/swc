@@ -104,13 +104,13 @@ swc_ecma_loader = { version = "27.0.0", path = "../swc_ecma_loader", features = 
   "tsc",
 ] }
 swc_ecma_minifier = { version = "63.0.2", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "46.1.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "46.1.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_preset_env = { version = "66.0.0", path = "../swc_ecma_preset_env", default-features = false, features = [
   "serde-impl",
 ] }
-swc_ecma_react_compiler = { version = "26.0.0", path = "../swc_ecma_react_compiler", optional = true }
+swc_ecma_react_compiler = { version = "26.0.1", path = "../swc_ecma_react_compiler", optional = true }
 swc_ecma_transforms = { version = "64.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "optimization",
@@ -118,7 +118,7 @@ swc_ecma_transforms = { version = "64.0.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "50.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "50.0.2", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "58.0.1", path = "../swc_ecma_transforms_compat", default-features = false }
 swc_ecma_transforms_module = { version = "57.0.0", path = "../swc_ecma_transforms_module", optional = true }
 swc_ecma_transforms_optimization = { version = "53.0.0", path = "../swc_ecma_transforms_optimization" }
@@ -166,7 +166,7 @@ swc_ecma_preset_env = { version = "66.0.0", path = "../swc_ecma_preset_env", fea
   "es3",
 ] }
 swc_ecma_testing = { version = "27.0.1", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "50.0.1", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "50.0.2", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_ecma_transforms_compat = { version = "58.0.1", path = "../swc_ecma_transforms_compat", features = [
