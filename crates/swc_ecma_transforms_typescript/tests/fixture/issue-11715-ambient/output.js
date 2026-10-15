@@ -25,7 +25,7 @@ var StaysRuntime = function(StaysRuntime) {
     return StaysRuntime;
 }(StaysRuntime || {});
 console.log(Ambient.X);
-const fromConstEnum = AmbientConst.Z;
+const fromConstEnum = 6;
 var FromAmbientConstEnum = /*#__PURE__*/ function(FromAmbientConstEnum) {
     FromAmbientConstEnum[FromAmbientConstEnum["P"] = 6] = "P";
     FromAmbientConstEnum[FromAmbientConstEnum["Q"] = 7] = "Q";

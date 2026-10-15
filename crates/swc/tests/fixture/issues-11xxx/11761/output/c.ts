@@ -3,7 +3,7 @@ var E = function(E) {
     E[E["B"] = 1] = "B";
     E[E["C"] = 2] = "C";
     E[E["D"] = ((C)=>{
-        console.log(E.A, E.B, C, E.F);
+        console.log(0, 1, C, E.F);
         return 2;
     })()] = "D";
     E["F"] = "F";

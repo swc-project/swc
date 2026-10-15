@@ -1,20 +1,59 @@
 //! Enum initializer rewriting and runtime object emission.
 
-use std::{borrow::Borrow, iter};
+use std::iter;
 
-use rustc_hash::FxHashSet;
+use rustc_hash::FxHashMap;
 use swc_atoms::Wtf8Atom;
-use swc_common::{source_map::PURE_SP, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{source_map::PURE_SP, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprFactory, QueryRef, RefRewriter};
+use swc_ecma_utils::{
+    ts_bindings::{TsBindings, TsContainerId, TsMemberId},
+    ExprFactory, QueryRef, RefRewriter,
+};
 use swc_ecma_visit::VisitMutWith;
 
-use super::{FoldedDecl, InitArg, Transform};
+use super::{ContainerContext, FoldedDecl, InitArg, Transform};
 use crate::{
+    semantic::{EnumDeclaration, EnumValue},
     shared::enum_member_name,
-    ts_enum::{EnumValueComputer, EvalCtx, TsEnumRecordKey, TsEnumRecordValue},
     utils::Factory,
 };
+
+/// State selected while visiting the initializer and consumed by lowering.
+pub(super) struct EnumEmission<'a> {
+    object: Id,
+    declaration: &'a EnumDeclaration,
+}
+
+impl<'a> Transform<'a> {
+    pub(super) fn visit_enum(&mut self, node: &mut TsEnumDecl) {
+        let declaration = self
+            .enum_bodies
+            .declaration(&self.semantic.bindings, node)
+            .expect("every retained enum declaration must have pre-erasure semantic facts");
+        // The emitted IIFE parameter is a JS binding of its own. Sharing the
+        // source enum's ID makes compressor inlining merge unrelated scopes.
+        let object = (
+            node.id.sym.clone(),
+            SyntaxContext::empty().apply_mark(Mark::new()),
+        );
+        // An enum IIFE has its own object parameter, but contributes no local
+        // enum binding to the surrounding namespace body's emitted scope.
+        self.container_contexts.push(ContainerContext {
+            container: declaration.container,
+            object: object.clone(),
+            locals: FxHashMap::default(),
+        });
+        node.members.visit_mut_with(self);
+        self.container_contexts.pop();
+        // Nested declarations consume their own state before this visit ends.
+        // The facts remain borrowed from immutable pre-erasure semantic storage.
+        self.enum_emissions.push(EnumEmission {
+            object,
+            declaration,
+        });
+    }
+}
 
 impl Transform<'_> {
     pub(super) fn transform_ts_enum(
@@ -33,86 +72,74 @@ impl Transform<'_> {
 
         debug_assert!(!declare);
 
-        let ts_enum_safe_remove = !self.verbatim_module_syntax
-            && is_const
-            && !is_export
-            && !self.semantic.exported_binding.contains_key(&id.to_id());
-
-        let member_names = self
+        let EnumEmission {
+            object,
+            declaration,
+        } = self
+            .enum_emissions
+            .pop()
+            .expect("enum lowering must consume the state selected by its preceding visit");
+        if self
             .semantic
-            .enum_record
-            .keys()
-            .filter(|k| k.enum_id == id.to_id())
-            .map(|k| k.member_name.clone())
-            .collect();
-
-        let enum_computer = EnumValueComputer {
-            enum_id: &id.to_id(),
-            unresolved_ctxt: self.unresolved_ctxt,
-            record: &self.semantic.enum_record,
-            const_vars: &self.semantic.const_vars,
-            const_enum_only: None,
-            ambient_record: &self.semantic.ambient_enum_record,
-            ambient_const_enum_only: None,
-        };
+            .enums
+            .can_erase(declaration.container, self.verbatim_module_syntax)
+            && !is_export
+            && !self.semantic.exported_binding.contains_key(&id.to_id())
+        {
+            return FoldedDecl::Empty;
+        }
 
         let member_list: Vec<_> = members
             .into_iter()
-            .map(|m| {
+            .enumerate()
+            .map(|(index, m)| {
                 let span = m.span;
                 let name = enum_member_name(&m.id);
 
-                let key = TsEnumRecordKey {
-                    enum_id: id.to_id(),
-                    member_name: name.clone(),
-                };
-
-                let mut value = self.semantic.enum_record.get(&key).unwrap().clone();
-
-                if matches!(value, TsEnumRecordValue::Opaque(..)) {
-                    if let Some(init) = m.init {
-                        // Recompute from the original initializer so enum member
-                        // references can be rewritten to runtime property
-                        // accesses. Implicit Flow enum members do not have an
-                        // initializer, so keep the semantic value as-is.
-                        let mut recomputed = enum_computer.compute(init, EvalCtx::RECOMPUTE);
-                        if let TsEnumRecordValue::Opaque(expr) = &mut recomputed {
-                            expr.visit_mut_with(&mut RefRewriter {
-                                query: EnumMemberRefQuery {
-                                    enum_id: &id.to_id(),
-                                    member_names: &member_names,
-                                    unresolved_ctxt: self.unresolved_ctxt,
-                                },
-                            });
-                        }
-                        value = recomputed;
-                    }
+                let value = declaration.values.get(index).unwrap_or(&EnumValue::Unknown);
+                let is_string = value.is_string();
+                let is_constant = value.is_constant();
+                let mut expression = value
+                    .literal()
+                    .map(Box::new)
+                    .or(m.init)
+                    .unwrap_or_else(|| Expr::undefined(DUMMY_SP));
+                if !is_constant {
+                    expression.visit_mut_with(&mut RefRewriter {
+                        query: EnumMemberRefQuery {
+                            enum_id: &object,
+                            bindings: &self.semantic.bindings,
+                            owner: declaration.container,
+                            unresolved_ctxt: self.unresolved_ctxt,
+                        },
+                    });
                 }
-
-                EnumMemberItem { span, name, value }
+                EnumMemberItem {
+                    span,
+                    name,
+                    expression,
+                    is_string,
+                    is_constant,
+                }
             })
-            .filter(|m| !ts_enum_safe_remove || !m.is_const())
             .collect();
 
         if member_list.is_empty() && is_const {
             return FoldedDecl::Empty;
         }
 
-        let opaque = member_list
-            .iter()
-            .any(|item| matches!(item.value, TsEnumRecordValue::Opaque(..)));
+        let opaque = member_list.iter().any(|item| !item.is_constant);
 
         let stmts = member_list
             .into_iter()
-            .filter(|item| !ts_enum_safe_remove || !item.is_const())
-            .map(|item| item.build_assign(&id.to_id()));
+            .map(|item| item.build_assign(&object));
 
         let namespace_export = self.namespace_id.is_some() && is_export;
         let iife = !is_first || namespace_export;
 
         let body = if !iife {
             let return_stmt: Stmt = ReturnStmt {
-                arg: Some(id.clone().into()),
+                arg: Some(object.clone().into()),
                 ..Default::default()
             }
             .into();
@@ -156,7 +183,7 @@ impl Transform<'_> {
             }
         };
 
-        let expr = Factory::function(vec![id.clone().into()], body).as_call(
+        let expr = Factory::function(vec![Ident::from(object).into()], body).as_call(
             if iife || opaque { DUMMY_SP } else { PURE_SP },
             vec![init_arg],
         );
@@ -190,15 +217,37 @@ impl Transform<'_> {
     }
 }
 
+impl Transform<'_> {
+    pub(super) fn enter_expr_for_inline_enum(&mut self, node: &mut Expr) {
+        if self.is_lhs {
+            return;
+        }
+        if let Some(value) = self
+            .semantic
+            .enums
+            .inline_module_value(
+                &self.semantic.bindings,
+                node,
+                self.ts_enum_is_mutable,
+                self.verbatim_module_syntax,
+            )
+            .and_then(EnumValue::literal)
+        {
+            *node = value;
+        }
+    }
+}
+
 struct EnumMemberRefQuery<'a> {
     enum_id: &'a Id,
-    member_names: &'a FxHashSet<Wtf8Atom>,
+    bindings: &'a TsBindings,
+    owner: TsContainerId,
     unresolved_ctxt: SyntaxContext,
 }
 
 impl QueryRef for EnumMemberRefQuery<'_> {
     fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
-        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(ident.sym.borrow()) {
+        if self.member(ident).is_some() {
             Some(
                 self.enum_id
                     .clone()
@@ -211,11 +260,16 @@ impl QueryRef for EnumMemberRefQuery<'_> {
     }
 
     fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
-        self.query_ref(ident)
+        self.member(ident).map(|_| {
+            self.enum_id
+                .clone()
+                .make_member(ident.clone().into())
+                .into()
+        })
     }
 
     fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
-        if ident.ctxt == self.unresolved_ctxt && self.member_names.contains(ident.sym.borrow()) {
+        if self.member(ident).is_some() {
             Some(
                 JSXMemberExpr {
                     span: DUMMY_SP,
@@ -230,20 +284,28 @@ impl QueryRef for EnumMemberRefQuery<'_> {
     }
 }
 
+impl EnumMemberRefQuery<'_> {
+    fn member(&self, ident: &Ident) -> Option<TsMemberId> {
+        if ident.ctxt != self.unresolved_ctxt {
+            return None;
+        }
+        self.bindings
+            .named_member(self.owner, &ident.sym.clone().into())
+            .filter(|member| self.bindings.member(*member).is_enum_member())
+    }
+}
+
 struct EnumMemberItem {
     span: Span,
     name: Wtf8Atom,
-    value: TsEnumRecordValue,
+    expression: Box<Expr>,
+    is_string: bool,
+    is_constant: bool,
 }
 
 impl EnumMemberItem {
-    fn is_const(&self) -> bool {
-        self.value.is_const()
-    }
-
     fn build_assign(self, enum_id: &Id) -> Stmt {
-        let is_string = self.value.is_string();
-        let value: Expr = self.value.into();
+        let value = *self.expression;
         let name: Expr = Str::from(self.name).into();
 
         let inner_assign = value.make_assign_to(
@@ -253,7 +315,7 @@ impl EnumMemberItem {
                 .into(),
         );
 
-        let outer_assign = if is_string {
+        let outer_assign = if self.is_string {
             inner_assign
         } else {
             name.make_assign_to(
