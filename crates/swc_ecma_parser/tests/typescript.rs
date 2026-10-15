@@ -351,9 +351,35 @@ fn errors(file: PathBuf) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
+    // Negative fixtures can also snapshot the AST that survives a recoverable
+    // diagnostic. A fatal parse error must not satisfy an AST recovery fixture.
+    let ast_output = file.with_file_name(format!(
+        "{}.json",
+        file.file_name().unwrap().to_string_lossy()
+    ));
+    let expect_ast = ast_output.is_file();
+    let mut parsed_ast = false;
     let module = with_parser(false, &file, false, false, |p, _| {
-        p.parse_typescript_module()
+        let module = p.parse_typescript_module()?;
+        if expect_ast {
+            let module = module.fold_with(&mut Normalizer {
+                drop_span: false,
+                is_test262: false,
+            });
+            let json = serde_json::to_string_pretty(&module)
+                .expect("failed to serialize recovered module");
+            StdErr::from(json).compare_to_file(&ast_output).unwrap();
+            parsed_ast = true;
+            Ok(module)
+        } else {
+            Ok(module)
+        }
     });
+
+    assert!(
+        !expect_ast || parsed_ast,
+        "AST recovery fixture must return a complete module"
+    );
 
     let err = module.expect_err("should fail, but parsed as");
     if err

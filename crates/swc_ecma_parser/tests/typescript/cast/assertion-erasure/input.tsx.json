@@ -1,0 +1,2212 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 893
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 17
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 16
+        },
+        "operator": "*",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 1,
+            "end": 12
+          },
+          "expression": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1,
+              "end": 2
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 6,
+              "end": 12
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 15,
+            "end": 16
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 18,
+        "end": 41
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 18,
+          "end": 40
+        },
+        "operator": "*",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 18,
+            "end": 36
+          },
+          "expression": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 18,
+              "end": 26
+            },
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 18,
+                "end": 19
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 23,
+                "end": 26
+              },
+              "kind": "any"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 30,
+              "end": 36
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 39,
+            "end": 40
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 42,
+        "end": 65
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 42,
+          "end": 64
+        },
+        "operator": "*",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 42,
+            "end": 60
+          },
+          "expression": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 42,
+              "end": 43
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 54,
+              "end": 60
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 63,
+            "end": 64
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 66,
+        "end": 103
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 66,
+          "end": 102
+        },
+        "operator": "*",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 66,
+            "end": 98
+          },
+          "expression": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 66,
+              "end": 81
+            },
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 66,
+                "end": 67
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 78,
+                "end": 81
+              },
+              "kind": "any"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 92,
+              "end": 98
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 101,
+            "end": 102
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 104,
+        "end": 124
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 104,
+          "end": 123
+        },
+        "operator": "+",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 104,
+            "end": 115
+          },
+          "expression": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 104,
+              "end": 105
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 109,
+              "end": 115
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 118,
+            "end": 123
+          },
+          "operator": "*",
+          "left": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 118,
+              "end": 119
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "right": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 122,
+              "end": 123
+            },
+            "value": 2.0,
+            "raw": "2"
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 125,
+        "end": 145
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 125,
+          "end": 144
+        },
+        "operator": "+",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 125,
+            "end": 140
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 125,
+              "end": 130
+            },
+            "operator": "*",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 125,
+                "end": 126
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 129,
+                "end": 130
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 134,
+              "end": 140
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 143,
+            "end": 144
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 146,
+        "end": 173
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 146,
+          "end": 172
+        },
+        "operator": "+",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 146,
+            "end": 168
+          },
+          "expression": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 146,
+              "end": 158
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 146,
+                "end": 151
+              },
+              "operator": "*",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 146,
+                  "end": 147
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 150,
+                  "end": 151
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 155,
+                "end": 158
+              },
+              "kind": "any"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 162,
+              "end": 168
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 171,
+            "end": 172
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 174,
+        "end": 196
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 174,
+          "end": 195
+        },
+        "operator": "*",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 174,
+            "end": 191
+          },
+          "expression": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 175,
+              "end": 190
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 175,
+                "end": 180
+              },
+              "operator": "+",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 175,
+                  "end": 176
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 179,
+                  "end": 180
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 184,
+                "end": 190
+              },
+              "kind": "number"
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 194,
+            "end": 195
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 197,
+        "end": 226
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 197,
+          "end": 225
+        },
+        "operator": "*",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 197,
+            "end": 221
+          },
+          "expression": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 198,
+              "end": 220
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 198,
+                "end": 203
+              },
+              "operator": "+",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 198,
+                  "end": 199
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 202,
+                  "end": 203
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 214,
+                "end": 220
+              },
+              "kind": "number"
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 224,
+            "end": 225
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 227,
+        "end": 256
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 227,
+          "end": 255
+        },
+        "operator": "*",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 227,
+            "end": 251
+          },
+          "expression": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 228,
+              "end": 250
+            },
+            "expression": {
+              "type": "TsAsExpression",
+              "span": {
+                "start": 228,
+                "end": 240
+              },
+              "expression": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 228,
+                  "end": 233
+                },
+                "operator": "+",
+                "left": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 228,
+                    "end": 229
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "right": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 232,
+                    "end": 233
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                }
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 237,
+                  "end": 240
+                },
+                "kind": "any"
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 244,
+                "end": 250
+              },
+              "kind": "number"
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 254,
+            "end": 255
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 257,
+        "end": 300
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 257,
+          "end": 299
+        },
+        "operator": "*",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 257,
+            "end": 295
+          },
+          "expression": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 258,
+              "end": 294
+            },
+            "expression": {
+              "type": "TsSatisfiesExpression",
+              "span": {
+                "start": 258,
+                "end": 277
+              },
+              "expression": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 258,
+                  "end": 263
+                },
+                "operator": "+",
+                "left": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 258,
+                    "end": 259
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "right": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 262,
+                    "end": 263
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                }
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 274,
+                  "end": 277
+                },
+                "kind": "any"
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 288,
+                "end": 294
+              },
+              "kind": "number"
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 298,
+            "end": 299
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 301,
+        "end": 323
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 301,
+          "end": 322
+        },
+        "operator": "*",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 301,
+            "end": 318
+          },
+          "expression": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 301,
+              "end": 308
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 302,
+                "end": 307
+              },
+              "operator": "+",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 302,
+                  "end": 303
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 306,
+                  "end": 307
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 312,
+              "end": 318
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 321,
+            "end": 322
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 324,
+        "end": 353
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 324,
+          "end": 352
+        },
+        "operator": "*",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 324,
+            "end": 348
+          },
+          "expression": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 324,
+              "end": 331
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 325,
+                "end": 330
+              },
+              "operator": "+",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 325,
+                  "end": 326
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 329,
+                  "end": 330
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 342,
+              "end": 348
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 351,
+            "end": 352
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 354,
+        "end": 376
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 354,
+          "end": 375
+        },
+        "operator": "===",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 354,
+            "end": 369
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 354,
+              "end": 359
+            },
+            "operator": "+",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 354,
+                "end": 355
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 358,
+                "end": 359
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 363,
+              "end": 369
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 374,
+            "end": 375
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 377,
+        "end": 406
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 377,
+          "end": 405
+        },
+        "operator": "===",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 377,
+            "end": 399
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 377,
+              "end": 382
+            },
+            "operator": "+",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 377,
+                "end": 378
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 381,
+                "end": 382
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 393,
+              "end": 399
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 404,
+            "end": 405
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 407,
+        "end": 427
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 407,
+          "end": 426
+        },
+        "operator": ">",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 407,
+            "end": 422
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 407,
+              "end": 412
+            },
+            "operator": "+",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 407,
+                "end": 408
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 411,
+                "end": 412
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 416,
+              "end": 422
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 425,
+            "end": 426
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 428,
+        "end": 449
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 428,
+          "end": 448
+        },
+        "operator": ">=",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 428,
+            "end": 443
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 428,
+              "end": 433
+            },
+            "operator": "+",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 428,
+                "end": 429
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 432,
+                "end": 433
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 437,
+              "end": 443
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 447,
+            "end": 448
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 450,
+        "end": 471
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 450,
+          "end": 470
+        },
+        "operator": ">>",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 450,
+            "end": 465
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 450,
+              "end": 455
+            },
+            "operator": "+",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 450,
+                "end": 451
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 454,
+                "end": 455
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 459,
+              "end": 465
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 469,
+            "end": 470
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 472,
+        "end": 500
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 472,
+          "end": 499
+        },
+        "operator": ">>",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 472,
+            "end": 494
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 472,
+              "end": 477
+            },
+            "operator": "+",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 472,
+                "end": 473
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 476,
+                "end": 477
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 488,
+              "end": 494
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 498,
+            "end": 499
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 501,
+        "end": 521
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 501,
+          "end": 520
+        },
+        "operator": "*",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 501,
+            "end": 516
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 501,
+              "end": 506
+            },
+            "operator": "*",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 501,
+                "end": 502
+              },
+              "value": 2.0,
+              "raw": "2"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 505,
+                "end": 506
+              },
+              "value": 3.0,
+              "raw": "3"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 510,
+              "end": 516
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 519,
+            "end": 520
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 522,
+        "end": 549
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 522,
+          "end": 548
+        },
+        "operator": "*",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 522,
+            "end": 544
+          },
+          "expression": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 522,
+              "end": 527
+            },
+            "operator": "*",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 522,
+                "end": 523
+              },
+              "value": 2.0,
+              "raw": "2"
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 526,
+                "end": 527
+              },
+              "value": 3.0,
+              "raw": "3"
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 538,
+              "end": 544
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 547,
+            "end": 548
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 550,
+        "end": 574
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 550,
+          "end": 573
+        },
+        "operator": "**",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 550,
+            "end": 568
+          },
+          "expression": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 551,
+              "end": 567
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 551,
+                "end": 557
+              },
+              "operator": "**",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 551,
+                  "end": 552
+                },
+                "value": 2.0,
+                "raw": "2"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 556,
+                  "end": 557
+                },
+                "value": 3.0,
+                "raw": "3"
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 561,
+                "end": 567
+              },
+              "kind": "number"
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 572,
+            "end": 573
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 575,
+        "end": 606
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 575,
+          "end": 605
+        },
+        "operator": "**",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 575,
+            "end": 600
+          },
+          "expression": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 576,
+              "end": 599
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 576,
+                "end": 582
+              },
+              "operator": "**",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 576,
+                  "end": 577
+                },
+                "value": 2.0,
+                "raw": "2"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 581,
+                  "end": 582
+                },
+                "value": 3.0,
+                "raw": "3"
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 593,
+                "end": 599
+              },
+              "kind": "number"
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 604,
+            "end": 605
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 607,
+        "end": 631
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 607,
+          "end": 630
+        },
+        "operator": "**",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 607,
+            "end": 625
+          },
+          "expression": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 607,
+              "end": 615
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 608,
+                "end": 614
+              },
+              "operator": "**",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 608,
+                  "end": 609
+                },
+                "value": 2.0,
+                "raw": "2"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 613,
+                  "end": 614
+                },
+                "value": 3.0,
+                "raw": "3"
+              }
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 619,
+              "end": 625
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 629,
+            "end": 630
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 632,
+        "end": 663
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 632,
+          "end": 662
+        },
+        "operator": "**",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 632,
+            "end": 657
+          },
+          "expression": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 632,
+              "end": 640
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 633,
+                "end": 639
+              },
+              "operator": "**",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 633,
+                  "end": 634
+                },
+                "value": 2.0,
+                "raw": "2"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 638,
+                  "end": 639
+                },
+                "value": 3.0,
+                "raw": "3"
+              }
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 651,
+              "end": 657
+            },
+            "kind": "number"
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 661,
+            "end": 662
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 664,
+        "end": 691
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 664,
+          "end": 690
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 664,
+            "end": 681
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 664,
+              "end": 669
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 673,
+              "end": 681
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 680,
+                "end": 681
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 685,
+            "end": 690
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 692,
+        "end": 726
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 692,
+          "end": 725
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 692,
+            "end": 716
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 692,
+              "end": 697
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 708,
+              "end": 716
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 715,
+                "end": 716
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 720,
+            "end": 725
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 727,
+        "end": 760
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 727,
+          "end": 759
+        },
+        "operator": "<<",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 727,
+            "end": 750
+          },
+          "expression": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 728,
+              "end": 749
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 728,
+                "end": 737
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 728,
+                  "end": 731
+                },
+                "ctxt": 0,
+                "value": "one",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 734,
+                  "end": 737
+                },
+                "ctxt": 0,
+                "value": "two",
+                "optional": false
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsTypeQuery",
+              "span": {
+                "start": 741,
+                "end": 749
+              },
+              "exprName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 748,
+                  "end": 749
+                },
+                "ctxt": 0,
+                "value": "f",
+                "optional": false
+              },
+              "typeArguments": null
+            }
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 754,
+            "end": 759
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 761,
+        "end": 801
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 761,
+          "end": 800
+        },
+        "operator": "<<",
+        "left": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 761,
+            "end": 791
+          },
+          "expression": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 762,
+              "end": 790
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 762,
+                "end": 771
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 762,
+                  "end": 765
+                },
+                "ctxt": 0,
+                "value": "one",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 768,
+                  "end": 771
+                },
+                "ctxt": 0,
+                "value": "two",
+                "optional": false
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsTypeQuery",
+              "span": {
+                "start": 782,
+                "end": 790
+              },
+              "exprName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 789,
+                  "end": 790
+                },
+                "ctxt": 0,
+                "value": "f",
+                "optional": false
+              },
+              "typeArguments": null
+            }
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 795,
+            "end": 800
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 802,
+        "end": 835
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 802,
+          "end": 834
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsAsExpression",
+          "span": {
+            "start": 802,
+            "end": 825
+          },
+          "expression": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 802,
+              "end": 813
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 803,
+                "end": 812
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 803,
+                  "end": 806
+                },
+                "ctxt": 0,
+                "value": "one",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 809,
+                  "end": 812
+                },
+                "ctxt": 0,
+                "value": "two",
+                "optional": false
+              }
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 817,
+              "end": 825
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 824,
+                "end": 825
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 829,
+            "end": 834
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 836,
+        "end": 876
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 836,
+          "end": 875
+        },
+        "operator": "<<",
+        "left": {
+          "type": "TsSatisfiesExpression",
+          "span": {
+            "start": 836,
+            "end": 866
+          },
+          "expression": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 836,
+              "end": 847
+            },
+            "expression": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 837,
+                "end": 846
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 837,
+                  "end": 840
+                },
+                "ctxt": 0,
+                "value": "one",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 843,
+                  "end": 846
+                },
+                "ctxt": 0,
+                "value": "two",
+                "optional": false
+              }
+            }
+          },
+          "typeAnnotation": {
+            "type": "TsTypeQuery",
+            "span": {
+              "start": 858,
+              "end": 866
+            },
+            "exprName": {
+              "type": "Identifier",
+              "span": {
+                "start": 865,
+                "end": 866
+              },
+              "ctxt": 0,
+              "value": "f",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 870,
+            "end": 875
+          },
+          "ctxt": 0,
+          "value": "other",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 877,
+        "end": 893
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 883,
+            "end": 892
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 883,
+              "end": 888
+            },
+            "ctxt": 0,
+            "value": "after",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 891,
+              "end": 892
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,15 +1,15 @@
-UnsupportedSyntax
+InvalidSyntax
 
-  x Type assertions that would change binary expression grouping are not supported in strip-only mode.
+  x An unparenthesized `as` or `satisfies` expression cannot be followed by an operator that would bind differently after type erasure
    ,----
  1 | 1 ** 1 as number ** 2;
-   : ^^^^^^^^^^^^^^^^
+   :                  ^^
    `----
-UnsupportedSyntax
+InvalidSyntax
 
-  x Type assertions that would change binary expression grouping are not supported in strip-only mode.
+  x An unparenthesized `as` or `satisfies` expression cannot be followed by an operator that would bind differently after type erasure
    ,-[3:1]
  2 | 
  3 | 1 ** 1 as const ** 2;
-   : ^^^^^^^^^^^^^^^
+   :                 ^^
    `----
