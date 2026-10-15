@@ -4,5 +4,5 @@
         DummyValues["B"] = "B";
     })(Test.DummyValues || (Test.DummyValues = {}));
 })(Test || (Test = {}));
-console(Test.DummyValues.A);
+console("A");
 var Test;

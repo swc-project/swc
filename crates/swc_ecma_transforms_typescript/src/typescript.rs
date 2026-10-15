@@ -53,6 +53,7 @@ impl Pass for TypeScript {
             mem::take(&mut self.id_usage),
             self.config.flow_syntax,
             self.config.ts_enum_is_mutable,
+            self.config.verbatim_module_syntax,
         );
 
         n.mutate(transform(
