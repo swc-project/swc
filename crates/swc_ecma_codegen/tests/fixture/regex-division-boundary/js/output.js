@@ -1,0 +1,40 @@
+var a = 4, b = 2;
+console.log(String(a / /x/));
+console.log(String(a / /x/g));
+console.log(String(a / /=/));
+console.log(a / /xy/.source.length);
+console.log(a / /x/.exec("x").length);
+console.log(a / /xy/["source"].length);
+console.log(a / /xy/?.source.length);
+try {
+    console.log(a / /x/`t`);
+} catch (e) {
+    console.log(e.constructor.name);
+}
+console.log(String(a / /x/ ** 2));
+console.log(a / /xy/.source.length ** 2);
+console.log(a / /xy/.source.length / b);
+console.log(String(a / b / /x/));
+console.log(String(/x/ / /y/));
+console.log(`${a / /xy/.source.length}`);
+console.log({
+    k: a / /xy/.source.length
+}.k);
+console.log([
+    a / /xy/.source.length
+][0]);
+var f = (c)=>c / /xy/.source.length;
+console.log(f(8));
+function g() {
+    return a / /xy/.source.length;
+}
+console.log(g());
+class C {
+    p = a / /xy/.source.length;
+}
+console.log(new C().p);
+var d = 8;
+d /= /xy/.source.length;
+console.log(d);
+console.log(a / (/xy/.source.length, b));
+console.log(a / -/xy/.source.length);
