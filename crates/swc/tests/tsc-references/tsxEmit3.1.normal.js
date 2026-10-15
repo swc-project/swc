@@ -1,17 +1,17 @@
 //// [file.tsx]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(M) {
-    var Foo1 = function Foo1() {
+    var Foo = function Foo() {
         "use strict";
-        _class_call_check(this, Foo1);
+        _class_call_check(this, Foo);
     };
-    M.Foo = Foo1;
-    (function(S1) {
-        var Bar1 = function Bar1() {
+    M.Foo = Foo;
+    (function(S) {
+        var Bar = function Bar() {
             "use strict";
-            _class_call_check(this, Bar1);
+            _class_call_check(this, Bar);
         };
-        S1.Bar = Bar1;
+        S.Bar = Bar;
     // Emit Foo
     // Foo, <Foo />;
     })(M.S || (M.S = {}));
@@ -19,7 +19,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (function(M) {
     // Emit M.Foo
     Foo, /*#__PURE__*/ React.createElement(Foo, null);
-    (function(S1) {
+    (function(S) {
         // Emit M.Foo
         Foo, /*#__PURE__*/ React.createElement(Foo, null);
         // Emit S.Bar
@@ -28,7 +28,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 })(M || (M = {}));
 (function(M) {
     // Emit M.S.Bar
-    S.Bar, /*#__PURE__*/ React.createElement(S.Bar, null);
+    M.S.Bar, /*#__PURE__*/ React.createElement(M.S.Bar, null);
 })(M || (M = {}));
 (function(M) {
     var M1 = 100;
