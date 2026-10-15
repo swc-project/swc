@@ -2,7 +2,9 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
+use swc_ecma_utils::{
+    find_pat_ids, for_each_ts_fn_param_binding_ident, stack_size::maybe_grow_default,
+};
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
 };
@@ -255,6 +257,35 @@ impl<'a> Resolver<'a> {
         op(&mut child);
     }
 
+    fn visit_ts_computed_key(&mut self, key: &mut Expr) {
+        // Computed names refer to values even in erased type syntax.
+        let in_type = std::mem::replace(&mut self.in_type, false);
+        key.visit_mut_with(self);
+        self.in_type = in_type;
+    }
+
+    fn visit_ts_signature_params(&mut self, params: &mut [TsFnParam]) {
+        // Constraints are resolved before parameters enter the value space.
+        // Predeclare every parameter so annotations can reference later ones.
+        for param in params.iter() {
+            for_each_ts_fn_param_binding_ident(param, |id| {
+                self.current
+                    .declared_symbols
+                    .insert(id.id.sym.clone(), DeclKind::Param);
+            });
+        }
+
+        let in_type = std::mem::replace(&mut self.in_type, false);
+        let ident_type = std::mem::replace(&mut self.ident_type, IdentType::Binding);
+        let decl_kind = std::mem::replace(&mut self.decl_kind, DeclKind::Param);
+        for param in params {
+            param.visit_mut_with(self);
+        }
+        self.decl_kind = decl_kind;
+        self.ident_type = ident_type;
+        self.in_type = in_type;
+    }
+
     fn visit_mut_stmt_within_child_scope(&mut self, s: &mut Stmt) {
         self.with_child(ScopeKind::Block, |child| match s {
             Stmt::Block(s) => {
@@ -472,8 +503,6 @@ impl VisitMut for Resolver<'_> {
 
     typed_ref!(visit_mut_ts_type_query, TsTypeQuery);
 
-    typed_ref!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
-
     typed_ref!(visit_mut_ts_type_operator, TsTypeOperator);
 
     typed_ref_init!(visit_mut_ts_type, TsType);
@@ -503,8 +532,6 @@ impl VisitMut for Resolver<'_> {
 
     typed!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
 
-    typed!(visit_mut_ts_index_signature, TsIndexSignature);
-
     typed!(visit_mut_ts_interface_body, TsInterfaceBody);
 
     typed!(visit_mut_ts_parenthesized_type, TsParenthesizedType);
@@ -518,8 +545,6 @@ impl VisitMut for Resolver<'_> {
     typed!(visit_mut_ts_rest_type, TsRestType);
 
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
-
-    typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
 
     visit_mut_obj_and_computed!();
 
@@ -1206,7 +1231,7 @@ impl VisitMut for Resolver<'_> {
             child.in_type = true;
 
             n.type_params.visit_mut_with(child);
-            n.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut n.params);
             n.type_ann.visit_mut_with(child);
         });
     }
@@ -1222,7 +1247,7 @@ impl VisitMut for Resolver<'_> {
 
             // order is important
             decl.type_params.visit_mut_with(child);
-            decl.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut decl.params);
             decl.type_ann.visit_mut_with(child);
         });
     }
@@ -1236,7 +1261,7 @@ impl VisitMut for Resolver<'_> {
             child.in_type = true;
 
             ty.type_params.visit_mut_with(child);
-            ty.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut ty.params);
             ty.type_ann.visit_mut_with(child);
         });
     }
@@ -1310,14 +1335,14 @@ impl VisitMut for Resolver<'_> {
             child.in_type = true;
 
             ty.type_params.visit_mut_with(child);
-            ty.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut ty.params);
             ty.type_ann.visit_mut_with(child);
         });
     }
 
     fn visit_mut_ts_getter_signature(&mut self, n: &mut TsGetterSignature) {
         if n.computed {
-            n.key.visit_mut_with(self);
+            self.visit_ts_computed_key(&mut n.key);
         }
 
         n.type_ann.visit_mut_with(self);
@@ -1384,14 +1409,15 @@ impl VisitMut for Resolver<'_> {
             return;
         }
 
+        if n.computed {
+            self.visit_ts_computed_key(&mut n.key);
+        }
+
         self.with_child(ScopeKind::Fn, |child| {
             child.in_type = true;
 
             n.type_params.visit_mut_with(child);
-            if n.computed {
-                n.key.visit_mut_with(child);
-            }
-            n.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut n.params);
             n.type_ann.visit_mut_with(child);
         });
     }
@@ -1438,7 +1464,7 @@ impl VisitMut for Resolver<'_> {
         }
 
         if n.computed {
-            n.key.visit_mut_with(self);
+            self.visit_ts_computed_key(&mut n.key);
         }
 
         self.with_child(ScopeKind::Fn, |child| {
@@ -1463,11 +1489,55 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_setter_signature(&mut self, n: &mut TsSetterSignature) {
-        if n.computed {
-            n.key.visit_mut_with(self);
+        if !self.config.handle_types {
+            return;
         }
 
-        n.param.visit_mut_with(self);
+        if n.computed {
+            self.visit_ts_computed_key(&mut n.key);
+        }
+
+        self.with_child(ScopeKind::Fn, |child| {
+            child.visit_ts_signature_params(std::slice::from_mut(&mut n.param));
+        });
+    }
+
+    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        self.with_child(ScopeKind::Block, |child| {
+            child.visit_ts_signature_params(&mut n.params);
+            n.type_ann.visit_mut_with(child);
+        });
+    }
+
+    fn visit_mut_ts_this_type_or_ident(&mut self, n: &mut TsThisTypeOrIdent) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        // Predicate names refer to value parameters, not type declarations.
+        let in_type = std::mem::replace(&mut self.in_type, false);
+        let ident_type = std::mem::replace(&mut self.ident_type, IdentType::Ref);
+        n.visit_mut_children_with(self);
+        self.ident_type = ident_type;
+        self.in_type = in_type;
+    }
+
+    fn visit_mut_ts_type_query_expr(&mut self, n: &mut TsTypeQueryExpr) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        // A type query's entity is a value reference; type arguments are
+        // resolved separately in the type space.
+        let in_type = std::mem::replace(&mut self.in_type, false);
+        let ident_type = std::mem::replace(&mut self.ident_type, IdentType::Ref);
+        n.visit_mut_children_with(self);
+        self.ident_type = ident_type;
+        self.in_type = in_type;
     }
 
     fn visit_mut_ts_tuple_element(&mut self, e: &mut TsTupleElement) {
