@@ -250,6 +250,32 @@ fn build_pass(input: PathBuf) {
     run_on_worker_stack(move || run_build_pass(input));
 }
 
+/// Binding renames preserve intrinsic tags and update component references.
+#[testing::fixture("tests/fixture/jsx-binding-renames/input/*")]
+fn jsx_binding_renames(input: PathBuf) {
+    run_on_worker_stack(move || {
+        let output = input
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .join("output")
+            .join(input.file_name().unwrap());
+        run_test2(false, |cm, _| {
+            let result = transform_fixture(&input, cm.clone(), CompilationMode::Infer);
+            assert!(result.diagnostics.iter().any(|diagnostic| {
+                diagnostic.rule_id.as_deref() == Some("incompatible-library")
+            }));
+            let transformed = result.program.expect("sibling component should compile");
+            NormalizedOutput::from(emit_program(&transformed, cm))
+                .compare_to_file(&output)
+                .unwrap();
+            Ok(())
+        })
+        .unwrap();
+    });
+}
+
 #[testing::fixture("tests/fixture/skip-pass/*")]
 fn skip_pass(input: PathBuf) {
     run_on_worker_stack(move || {
