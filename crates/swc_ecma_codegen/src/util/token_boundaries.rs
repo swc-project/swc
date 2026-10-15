@@ -98,6 +98,42 @@ pub(crate) fn starts_with_lt(mut expr: &Expr) -> bool {
     }
 }
 
+/// Follow the emitted left edge to a regular expression literal, which would
+/// turn a preceding `/` operator into a `//` line comment. Parentheses and
+/// prefix operators provide their own token boundary.
+pub(crate) fn starts_with_regex(mut expr: &Expr) -> bool {
+    loop {
+        expr = match expr {
+            Expr::Lit(Lit::Regex(..)) => return true,
+            Expr::Bin(n) => &n.left,
+            Expr::Cond(n) => &n.test,
+            Expr::Seq(n) => match n.exprs.first() {
+                Some(first) => first,
+                None => return false,
+            },
+            Expr::Member(n) => &n.obj,
+            Expr::Call(n) => match &n.callee {
+                Callee::Expr(callee) => callee,
+                _ => return false,
+            },
+            Expr::OptChain(n) => match &*n.base {
+                OptChainBase::Member(n) => &n.obj,
+                OptChainBase::Call(n) => &n.callee,
+                #[cfg(swc_ast_unknown)]
+                _ => return false,
+            },
+            Expr::TaggedTpl(n) => &n.tag,
+            Expr::Update(n) if !n.prefix => &n.arg,
+            Expr::TsNonNull(n) => &n.expr,
+            Expr::TsAs(n) => &n.expr,
+            Expr::TsSatisfies(n) => &n.expr,
+            Expr::TsConstAssertion(n) => &n.expr,
+            Expr::TsInstantiation(n) => &n.expr,
+            _ => return false,
+        };
+    }
+}
+
 /// A generic function type starts with its type parameter opener. Follow only
 /// types that emit their first constituent without an enclosing delimiter.
 pub(crate) fn type_starts_with_lt(mut ty: &TsType) -> bool {
