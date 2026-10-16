@@ -1729,6 +1729,34 @@ impl Pure<'_> {
                 return;
             }
 
+            // Spreading an argument consumes an iterator even when the call is pure:
+            // a generator body runs, an iterator is advanced, and a non-iterable such as
+            // `null` throws. Extracting only `arg.expr` would lose that, so keep the
+            // arguments as an array literal, whose spread elements are preserved below.
+            Expr::Call(CallExpr {
+                span,
+                ctxt,
+                callee,
+                args,
+                ..
+            }) if (ctxt.has_mark(self.marks.pure)
+                || callee
+                    .as_expr()
+                    .is_some_and(|callee| callee.is_pure_callee(self.expr_ctx)))
+                && args.iter().any(|arg| arg.spread.is_some()) =>
+            {
+                report_change!("ignore_return_value: Keeping spread arguments of a pure call");
+                self.changed = true;
+
+                *e = ArrayLit {
+                    span: *span,
+                    elems: args.take().into_iter().map(Some).collect(),
+                }
+                .into();
+                self.ignore_return_value(e, opts);
+                return;
+            }
+
             Expr::Call(CallExpr {
                 span, ctxt, args, ..
             }) if ctxt.has_mark(self.marks.pure) => {
@@ -1781,6 +1809,28 @@ impl Pure<'_> {
                 *e = self
                     .make_ignored_expr(*span, tpl.exprs.take().into_iter())
                     .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
+            // Same as the call above: `new` also evaluates spread arguments.
+            Expr::New(NewExpr {
+                callee,
+                span,
+                ctxt,
+                args: Some(args),
+                ..
+            }) if (callee.is_pure_new_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure))
+                && args.iter().any(|arg| arg.spread.is_some()) =>
+            {
+                report_change!("ignore_return_value: Keeping spread arguments of a pure new");
+                self.changed = true;
+
+                *e = ArrayLit {
+                    span: *span,
+                    elems: args.take().into_iter().map(Some).collect(),
+                }
+                .into();
+                self.ignore_return_value(e, opts);
                 return;
             }
 
