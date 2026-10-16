@@ -12,6 +12,9 @@ use std::{
 
 use crate::{Error, ErrorKind, Result};
 
+#[cfg(target_os = "linux")]
+mod linux_cache_owner;
+
 #[cfg(target_os = "macos")]
 const STICKY_BIT: u32 = libc::S_ISVTX as u32;
 #[cfg(not(target_os = "macos"))]
@@ -71,6 +74,7 @@ pub fn executable_cache_root(root: &Path) -> Result<()> {
 /// world-writable sticky directory such as /tmp is safe only when it belongs
 /// to the effective user or root. A sticky directory owned by another user
 /// still lets that owner rename our private namespace after validation.
+/// On Linux, an unmapped overflow owner follows the same mode rules as root.
 /// Trusted environments may explicitly skip this ancestor validation with
 /// `SWC_NATIVE_BINDING_CACHE_SKIP_SECURITY_CHECK=1`. Absolute paths, private
 /// cache entries, and executable-mount requirements are still enforced.
@@ -90,6 +94,9 @@ pub fn secure_cache_root(root: &Path) -> io::Result<()> {
         tracing::debug!(path = %root.display(), "skipping native cache root security check by explicit environment opt-out");
         return Ok(());
     }
+    let current = unsafe { libc::geteuid() };
+    #[cfg(target_os = "linux")]
+    let namespace = linux_cache_owner::CacheOwner::default();
     for directory in root.ancestors() {
         let metadata = fs::symlink_metadata(directory)?;
         if !metadata.is_dir() || metadata.file_type().is_symlink() {
@@ -98,7 +105,10 @@ pub fn secure_cache_root(root: &Path) -> io::Result<()> {
                 "cache root contains a non-directory or symlink",
             ));
         }
-        if !cache_ancestor_is_secure(metadata.mode(), metadata.uid(), unsafe { libc::geteuid() }) {
+        let owner = metadata.uid();
+        #[cfg(target_os = "linux")]
+        let owner = namespace.trusted_owner(owner, current);
+        if !cache_ancestor_is_secure(metadata.mode(), owner, current) {
             return Err(io::Error::new(
                 io::ErrorKind::PermissionDenied,
                 "cache root has a parent writable by another user without trusted sticky \
