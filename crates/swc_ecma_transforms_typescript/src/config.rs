@@ -27,9 +27,9 @@ pub struct Config {
     #[serde(default)]
     pub import_export_assign_config: TsImportExportAssignConfig,
 
-    /// Disables an optimization that inlines TS enum member values
-    /// within the same module that assumes the enum member values
-    /// are never modified.
+    /// Disables additional inlining of non-const enum member reads within
+    /// the same module. Enum initializers still follow TypeScript's constant
+    /// evaluation rules.
     ///
     /// Defaults to false.
     #[serde(default)]

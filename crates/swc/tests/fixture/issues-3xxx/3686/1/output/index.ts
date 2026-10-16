@@ -12,7 +12,7 @@ const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const CD = ()=>{};
 const PD = ()=>{};
 class ServiceError extends Error {
-    code = ServiceError.Code.badResponse;
+    code = 422;
     name = "ServiceError.BadResponse";
 }
 _ts_decorate._([
@@ -38,7 +38,7 @@ ServiceError = _ts_decorate._([
     ServiceError.ServiceNotFound = ServiceNotFound;
     function toMessageBody(error) {
         return {
-            code: ServiceError.Code.implementation
+            code: 500
         };
     }
     ServiceError.toMessageBody = toMessageBody;

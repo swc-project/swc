@@ -1,9 +1,9 @@
 interface Foo__2 {
-    (a: string) : void;
+    (a__3: string) : void;
     b__0: string;
 }
 interface Foo__2 {
-    (a: number) : number;
+    (a__4: number) : number;
     c__0: boolean;
     d__0: {
         x__0: number;

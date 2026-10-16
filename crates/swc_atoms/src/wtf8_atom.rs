@@ -200,7 +200,30 @@ impl shrink_to_fit::ShrinkToFit for Wtf8Atom {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashSet;
+
     use super::*;
+    use crate::AtomStore;
+
+    #[test]
+    fn owned_utf8_conversion_preserves_value_and_hash_across_stores() {
+        for text in ["inline", "A dynamically stored UTF-8 identifier: 世界"] {
+            let converted = {
+                let mut store = AtomStore::default();
+                Wtf8Atom::from(store.atom(text))
+            };
+            let mut other_store = AtomStore::default();
+            let equivalent = Wtf8Atom::from(other_store.atom(text));
+
+            assert_eq!(converted.as_str(), Some(text));
+            assert_eq!(converted, equivalent);
+            let values = HashSet::from([converted.clone()]);
+            assert!(values.contains(&equivalent));
+
+            let round_trip = converted.try_into_atom().expect("UTF-8 must remain valid");
+            assert_eq!(round_trip, Atom::from(text));
+        }
+    }
 
     #[test]
     fn to_atom_lossy_returns_borrowed_for_utf8() {
