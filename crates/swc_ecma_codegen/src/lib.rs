@@ -27,8 +27,8 @@ use self::{
 use crate::{
     scope_helpers::{for_each_param_binding, for_each_pat_binding},
     util::{
-        starts_with_lt, type_starts_with_lt, EndsWithAlphaNum, EndsWithTypeScriptToken,
-        TrailingToken,
+        starts_with_lt, starts_with_regex, type_starts_with_lt, EndsWithAlphaNum,
+        EndsWithTypeScriptToken, TrailingToken,
     },
 };
 
@@ -406,10 +406,13 @@ where
             } else if node.op == op!("/") {
                 let span = node.right.span();
 
+                // A leading comment or a regular expression literal right after
+                // `/` would start a comment.
                 span.is_pure()
                     || self
                         .comments
                         .is_some_and(|comments| comments.has_leading(span.lo))
+                    || starts_with_regex(&node.right)
             } else {
                 require_space_before_rhs(&node.right, &node.op)
             }
