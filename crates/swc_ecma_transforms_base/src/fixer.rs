@@ -257,7 +257,13 @@ impl VisitMut for Fixer<'_> {
         match n {
             AssignTarget::Simple(a) => {
                 if let SimpleAssignTarget::Paren(s) = a {
-                    *n = AssignTarget::try_from(s.expr.take()).unwrap();
+                    match AssignTarget::try_from(s.expr.take()) {
+                        Ok(target) => *n = target,
+                        // Parser recovery can retain expressions that have no
+                        // assignment-target variant. Keep their wrapper so
+                        // the recovered expression is neither lost nor invalidated.
+                        Err(expr) => s.expr = expr,
+                    }
                 }
             }
             AssignTarget::Pat(b) => {

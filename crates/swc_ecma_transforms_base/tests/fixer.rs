@@ -8,6 +8,8 @@ use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::fixture;
 
+#[path = "fixer/assignment_targets.rs"]
+mod assignment_targets;
 #[path = "fixer/metadata.rs"]
 mod metadata;
 
