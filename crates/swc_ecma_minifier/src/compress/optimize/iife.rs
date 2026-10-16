@@ -339,6 +339,26 @@ impl Optimizer<'_> {
                                 if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     || usage.ref_count != 1
                                     || !usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
+                                    // The rest array is allocated once per call. If its only
+                                    // reference can run more than once (in a loop or in a nested
+                                    // function), inlining allocates a new array on every
+                                    // evaluation, so `args.push(x)` or `args.shift()` no longer
+                                    // sees the previous one. There, inline only reads of `length`
+                                    // or of an element at a literal index, and only when the
+                                    // array does not escape.
+                                    || ((usage
+                                        .flags
+                                        .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+                                        || !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL))
+                                        && (usage.property_mutation_count != 0
+                                            || usage.flags.intersects(
+                                                VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
+                                                    .union(VarUsageInfoFlags::USED_AS_REF),
+                                            )
+                                            || usage
+                                                .accessed_props
+                                                .keys()
+                                                .any(|k| k.as_str() != Some("length"))))
                                 {
                                     continue;
                                 }
