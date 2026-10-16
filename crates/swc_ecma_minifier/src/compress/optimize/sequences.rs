@@ -1104,6 +1104,13 @@ impl Optimizer<'_> {
         a: Option<&Mergable>,
         MemberExpr { obj, prop, .. }: &MemberExpr,
     ) -> bool {
+        // Properties of `globalThis` are the global bindings, so `a` may write
+        // them (`x = 1` writes `globalThis.x`), like the properties of `window`.
+        if obj.is_global_ref_to(self.ctx.expr_ctx, "globalThis") {
+            log_abort!("property of globalThis");
+            return false;
+        }
+
         if !self.is_skippable_for_seq(a, obj) {
             return false;
         }
@@ -1356,6 +1363,11 @@ impl Optimizer<'_> {
 
             Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
                 OptChainBase::Member(e) => {
+                    if e.obj.is_global_ref_to(self.ctx.expr_ctx, "globalThis") {
+                        log_abort!("property of globalThis");
+                        return false;
+                    }
+
                     if !self.should_preserve_property_access(
                         &e.obj,
                         PropertyAccessOpts {
