@@ -8,6 +8,9 @@ use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::fixture;
 
+#[path = "fixer/metadata.rs"]
+mod metadata;
+
 /// Compare expression structure independently of the parentheses that the
 /// parser records and the fixer inserts.
 struct IgnoreParens;
@@ -84,7 +87,9 @@ fn ts_fixer_round_trip(input: PathBuf) {
 
 #[fixture("tests/ts-resolver/fixer/instantiation-assignments/input.ts")]
 #[fixture("tests/ts-resolver/fixer/instantiation-assignments/input.tsx")]
-fn ts_fixer_assignment_structure(input: PathBuf) {
+#[fixture("tests/ts-resolver/fixer/cast-type-query-tails/input.ts")]
+#[fixture("tests/ts-resolver/fixer/cast-type-query-tails/input.tsx")]
+fn ts_fixer_structure(input: PathBuf) {
     testing::run_test2(false, |cm, _| {
         let source = std::fs::read_to_string(&input).unwrap();
         let syntax = Syntax::Typescript(TsSyntax {
@@ -99,7 +104,7 @@ fn ts_fixer_assignment_structure(input: PathBuf) {
         actual.visit_mut_with(&mut IgnoreParens);
         assert!(
             expected.eq_ignore_span(&actual),
-            "fixer changed the assignment structure in {}",
+            "fixer changed the expression structure in {}",
             input.display(),
         );
         Ok(())

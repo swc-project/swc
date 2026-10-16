@@ -1,13 +1,14 @@
-use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
+use std::mem;
 
-use indexmap::IndexMap;
-use rustc_hash::FxHasher;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
+mod parens;
 mod typescript;
+
+use self::{parens::ParenSpans, typescript::TsOperand};
 
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
@@ -41,11 +42,7 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
 struct Fixer<'a> {
     comments: Option<&'a dyn Comments>,
     ctx: Context,
-    /// A hash map to preserve original span.
-    ///
-    /// Key is span of inner expression, and value is span of the paren
-    /// expression.
-    span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
+    span_map: ParenSpans,
 
     in_for_stmt_head: bool,
     in_opt_chain: bool,
@@ -125,7 +122,11 @@ impl Fixer<'_> {
             | Expr::Unary(..)
             | Expr::Object(..)
             | Expr::Await(..)
-            | Expr::Yield(..) => self.wrap(e),
+            | Expr::Yield(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => self.wrap(e),
             _ => (),
         }
     }
@@ -370,6 +371,10 @@ impl VisitMut for Fixer<'_> {
         };
 
         match &mut *expr.left {
+            Expr::TsAs(..) | Expr::TsSatisfies(..) | Expr::TsConstAssertion(..) => {
+                self.wrap_ts_cast_left(expr.op, &mut expr.left);
+            }
+
             Expr::Bin(BinExpr { op: op!("??"), .. }) if expr.op != op!("??") => {
                 self.wrap(&mut expr.left);
             }
@@ -720,6 +725,11 @@ impl VisitMut for Fixer<'_> {
             | Expr::Class(..)
             | Expr::Yield(..)
             | Expr::Await(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..)
+            | Expr::TsInstantiation(..)
             | Expr::New(NewExpr { args: None, .. }) => {
                 self.wrap(&mut n.obj);
             }
@@ -758,12 +768,7 @@ impl VisitMut for Fixer<'_> {
 
         self.is_strict = true;
         n.visit_mut_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain(RangeFull).rev() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
+        self.span_map.move_comments(self.comments);
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
@@ -789,7 +794,11 @@ impl VisitMut for Fixer<'_> {
             | Expr::Seq(..)
             | Expr::Unary(..)
             | Expr::Lit(..)
-            | Expr::OptChain(..) => self.wrap(&mut node.callee),
+            | Expr::OptChain(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => self.wrap(&mut node.callee),
             _ => {}
         }
         self.ctx = ctx;
@@ -844,12 +853,7 @@ impl VisitMut for Fixer<'_> {
         self.span_map.clear();
 
         n.visit_mut_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain(RangeFull).rev() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
+        self.span_map.move_comments(self.comments);
     }
 
     fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
@@ -933,11 +937,41 @@ impl VisitMut for Fixer<'_> {
             | Expr::New(..)
             | Expr::Fn(..)
             | Expr::Assign(..)
-            | Expr::Unary(..) => {
+            | Expr::Unary(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => {
                 self.wrap(&mut e.tag);
             }
             _ => {}
         }
+    }
+
+    #[inline]
+    fn visit_mut_ts_as_expr(&mut self, expr: &mut TsAsExpr) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    #[inline]
+    fn visit_mut_ts_satisfies_expr(&mut self, expr: &mut TsSatisfiesExpr) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    #[inline]
+    fn visit_mut_ts_const_assertion(&mut self, expr: &mut TsConstAssertion) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    fn visit_mut_ts_instantiation(&mut self, expr: &mut TsInstantiation) {
+        self.visit_mut_ts_operand(&mut expr.expr, TsOperand::Postfix);
+    }
+
+    fn visit_mut_ts_non_null_expr(&mut self, expr: &mut TsNonNullExpr) {
+        self.visit_mut_ts_operand(&mut expr.expr, TsOperand::Postfix);
     }
 
     fn visit_mut_ts_type_assertion(&mut self, expr: &mut TsTypeAssertion) {
@@ -980,8 +1014,24 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_update_expr(&mut self, expr: &mut UpdateExpr) {
+        // Identifiers are already valid update operands and have no children
+        // that need fixing.
+        if expr.arg.is_ident() {
+            return;
+        }
+
+        let kind = TsOperand::Update {
+            prefix: expr.prefix,
+        };
+        if expr.arg.is_paren() && self.visit_mut_ts_paren_if_required(&mut expr.arg, kind) {
+            return;
+        }
+
         expr.visit_mut_children_with(self);
-        self.wrap_ts_cast_operand(&mut expr.arg);
+
+        if kind.needs_parens(&expr.arg) {
+            self.wrap(&mut expr.arg);
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, node: &mut VarDeclarator) {
@@ -1262,17 +1312,20 @@ impl Fixer<'_> {
 
     /// Restores the removed parentheses' span for expressions and targets.
     fn make_paren(&mut self, expr: Box<Expr>) -> ParenExpr {
-        let mut span = expr.span();
+        let span = self.restore_paren_span(expr.span());
+        ParenExpr { expr, span }
+    }
 
-        if let Some(new_span) = self.span_map.shift_remove(&span) {
-            span = new_span;
+    fn restore_paren_span(&mut self, mut span: Span) -> Span {
+        if let Some(paren_span) = self.span_map.remove(span) {
+            span = paren_span;
         }
 
         if span.is_pure() {
             span = DUMMY_SP;
         }
 
-        ParenExpr { expr, span }
+        span
     }
 
     /// Removes paren

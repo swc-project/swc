@@ -1,0 +1,25 @@
+export { };
+declare let value__2: number;
+declare const other__2: number;
+declare const object__2: {
+    value__0: number;
+};
+++(<number>value__2);
+--(<number>value__2);
+(<number>value__2)++;
+(<number>value__2)--;
+++(<number><unknown>value__2);
+--(<number>(value__2 as unknown));
+(<number><unknown>value__2)++;
+(<number>(value__2 as unknown))--;
+++(<number>object__2.value);
+(<number>object__2.value)++;
+++(<number>value__2) + other__2;
+(<number>value__2)++ < other__2;
+++(value__2 as number);
+(value__2 as number)++;
+++value__2;
+value__2++;
+<number>++value__2;
+<number>value__2++;
+<number><unknown>value__2;

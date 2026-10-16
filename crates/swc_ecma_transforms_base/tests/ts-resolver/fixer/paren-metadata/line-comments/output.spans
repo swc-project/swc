@@ -1,0 +1,45 @@
+Source, remove_only=false:
+paren 18..30, operand 19..29
+paren 74..80, operand 75..79
+paren 133..147, operand 134..146
+
+Source, remove_only=true:
+
+Duplicated, remove_only=false:
+paren 18..30, operand 19..29
+paren 74..80, operand 75..79
+paren 133..147, operand 134..146
+paren 18..30, operand 19..29
+paren 74..80, operand 75..79
+paren 133..147, operand 134..146
+
+Duplicated, remove_only=true:
+
+Dummy, remove_only=false:
+paren 0..0, operand 0..0
+paren 0..0, operand 0..0
+paren 0..0, operand 0..0
+
+Dummy, remove_only=true:
+
+Shared, remove_only=false:
+paren 1..2, operand 1..2
+paren 1..2, operand 1..2
+paren 1..2, operand 1..2
+
+Shared, remove_only=true:
+
+Pure, remove_only=false:
+paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
+
+Pure, remove_only=true:
+
+Mixed, remove_only=false:
+paren 0..0, operand 0..0
+paren 74..80, operand 4294967294..4294967294
+paren 0..0, operand 134..146
+
+Mixed, remove_only=true:
+
