@@ -1833,6 +1833,10 @@ impl MacroNode for OptChainExpr {
                     punct!(emitter, "?.");
                 }
 
+                if let Some(type_args) = &e.type_args {
+                    emit!(type_args);
+                }
+
                 emitter.emit_arguments(
                     self.span(),
                     &e.args,
