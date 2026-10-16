@@ -29,10 +29,15 @@ pub fn parse(i: Input) -> IResult<Input, JsDoc> {
     }
 
     let hi = i.span().hi;
+    let span = if lo < hi {
+        Span::new(lo, hi)
+    } else {
+        Span::new(hi, lo)
+    };
     Ok((
         i,
         JsDoc {
-            span: Span::new(lo, hi),
+            span,
             tags,
             description,
         },
@@ -560,13 +565,13 @@ fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
                     return Err(err);
                 }
 
-                return Ok((
-                    i,
-                    NamePath {
-                        span: Span::new(lo, i.span().hi),
-                        components,
-                    },
-                ));
+                let hi = i.span().hi;
+                let span = if lo < hi {
+                    Span::new(lo, hi)
+                } else {
+                    Span::new(hi, lo)
+                };
+                return Ok((i, NamePath { span, components }));
             }
         };
         i = input;
