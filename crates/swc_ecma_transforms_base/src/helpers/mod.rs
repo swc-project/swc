@@ -185,19 +185,23 @@ impl InjectHelpers {
 
         for helper in generated::ALL {
             if required.contains(helper.name) {
-                buf.extend(
-                    generated::stmts(helper.name)
-                        .iter()
-                        .cloned()
-                        .map(|mut stmt| {
-                            stmt.visit_mut_with(&mut Marker {
-                                base,
-                                decls: Default::default(),
-                                decl_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
-                            });
-                            stmt
-                        }),
-                );
+                // Share one Marker across every statement of this helper so
+                // top-level bindings (e.g. `_SuppressedError` in
+                // `_ts_dispose_resources`) keep the same SyntaxContext as
+                // their references in later statements. A fresh Marker per
+                // statement left those refs on `base`, and hygiene then
+                // renamed the declaration (e.g. to `_SuppressedError1`)
+                // while leaving `new _SuppressedError(...)` untouched.
+                // See https://github.com/swc-project/swc/issues/12531
+                let mut marker = Marker {
+                    base,
+                    decls: Default::default(),
+                    decl_ctxt: SyntaxContext::empty().apply_mark(Mark::new()),
+                };
+                buf.extend(generated::stmts(helper.name).iter().cloned().map(|mut stmt| {
+                    stmt.visit_mut_with(&mut marker);
+                    stmt
+                }));
             }
         }
 
@@ -674,6 +678,70 @@ let x = 4;",
             }
                     
 let _throw = null;
+"#,
+            false,
+            Default::default,
+        )
+    }
+
+    /// Regression for https://github.com/swc-project/swc/issues/12531
+    ///
+    /// `_ts_dispose_resources` declares `_SuppressedError` in a separate
+    /// top-level statement from the function that references it. Inline
+    /// helper marking must keep that binding and its references in the same
+    /// SyntaxContext, otherwise hygiene renames only the declaration.
+    #[test]
+    #[cfg(feature = "inline-helpers")]
+    fn issue_12531_suppressed_error_hygiene() {
+        crate::tests::test_transform(
+            Default::default(),
+            |_| {
+                enable_helper!(ts_dispose_resources);
+                inject_helpers(Mark::new())
+            },
+            "null",
+            r#"
+var _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+function _ts_dispose_resources(env) {
+    function fail(e) {
+        env.error = env.hasError ? new _SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+        env.hasError = true;
+    }
+    var r, s = 0;
+    function next() {
+        while(r = env.stack.pop()){
+            try {
+                if (!r.async && s === 1) {
+                    return s = 0, env.stack.push(r), Promise.resolve().then(next);
+                }
+                if (r.dispose) {
+                    var result = r.dispose.call(r.value);
+                    if (r.async) {
+                        return s |= 2, Promise.resolve(result).then(next, function(e) {
+                            fail(e);
+                            return next();
+                        });
+                    }
+                } else {
+                    s |= 1;
+                }
+            } catch (e) {
+                fail(e);
+            }
+        }
+        if (s === 1) {
+            return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+        }
+        if (env.hasError) {
+            throw env.error;
+        }
+    }
+    return next();
+}
+null;
 "#,
             false,
             Default::default,
