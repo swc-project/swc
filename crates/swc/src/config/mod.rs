@@ -1127,7 +1127,9 @@ impl Default for Rc {
             Config {
                 env: None,
                 test: None,
-                exclude: Some(FileMatcher::Pattern(FilePattern::Regex("\\.tsx?$".into()))),
+                exclude: Some(FileMatcher::Pattern(FilePattern::Regex(
+                    "\\.(tsx?|[cm]ts)$".into(),
+                ))),
                 jsc: JscConfig {
                     syntax: Some(Default::default()),
                     ..Default::default()
