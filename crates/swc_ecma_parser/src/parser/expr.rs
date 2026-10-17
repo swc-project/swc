@@ -3268,6 +3268,11 @@ impl<I: Tokens> Parser<I> {
             }
             try_parse_arrow_expr(self, id, cur == Token::Async)
         } else {
+            // This token will not be consumed, so the buffer's usual keyword
+            // escape check would otherwise be skipped.
+            if let Some(error) = self.escaped_keyword_error() {
+                return Err(error);
+            }
             syntax_error!(self, self.input().cur_span(), SyntaxError::TS1109)
         }
     }

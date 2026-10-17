@@ -97,6 +97,7 @@ fn spec(file: PathBuf) {
 // Recovery fixtures can contain semantically invalid ASTs. Keep them outside
 // the shared fixture roots that downstream transforms reparse as JavaScript.
 #[testing::fixture("tests/typescript-recovery/**/*.ts")]
+#[testing::fixture("tests/typescript-recovery/**/*.tsx")]
 fn recovery_spec(file: PathBuf) {
     spec(file);
 }

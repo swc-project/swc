@@ -128,6 +128,18 @@ enum FlowComponentParam {
     Rest { rest: RestPat },
 }
 
+/// Calls, grouping, and computed or optional access remain expressions rather
+/// than entity names, even when followed by heritage type arguments.
+fn is_ts_heritage_entity_name(mut expr: &Expr) -> bool {
+    loop {
+        expr = match expr {
+            Expr::Ident(..) => return true,
+            Expr::Member(member) if matches!(member.prop, MemberProp::Ident(..)) => &member.obj,
+            _ => return false,
+        };
+    }
+}
+
 impl<I: Tokens> Parser<I> {
     fn make_flow_any_keyword_type(&mut self, start: BytePos) -> Box<TsType> {
         Box::new(TsType::TsKeywordType(TsKeywordType {
@@ -2327,24 +2339,32 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.cur_pos();
-        // Note: TS uses parseLeftHandSideExpressionOrHigher,
-        // then has grammar errors later if it's not an EntityName.
+        let is_flow = self.input().syntax().flow();
+        let expr = if is_flow {
+            // Flow heritage references are type names, where JavaScript
+            // reserved words such as `switch` remain valid identifiers.
+            let ident = self.parse_ident_name_with_escape_check()?.into();
+            let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
+            if !matches!(
+                &*expr,
+                Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)
+            ) {
+                self.emit_err(self.span(start), SyntaxError::TS2499);
+            }
+            expr
+        } else {
+            // TypeScript parses a complete left-hand-side expression before
+            // validating a type heritage reference. Retain that expression for
+            // recovery instead of failing on its first non-identifier token.
+            self.parse_lhs_expr()?
+        };
 
-        let ident = self.parse_ident_name_with_escape_check()?.into();
-        let expr = self.parse_subscripts(Callee::Expr(ident), true, true)?;
-        if !matches!(
-            &*expr,
-            Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)
-        ) {
-            self.emit_err(self.span(start), SyntaxError::TS2499);
-        }
-
-        match *expr {
-            Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
+        let heritage = match *expr {
+            Expr::TsInstantiation(v) => TsExprWithTypeArgs {
                 span: v.span,
                 expr: v.expr,
                 type_args: Some(v.type_args),
-            }),
+            },
             _ => {
                 let type_args = if self.input().is(Token::Lt) {
                     Some(self.parse_ts_type_args()?)
@@ -2352,13 +2372,18 @@ impl<I: Tokens> Parser<I> {
                     None
                 };
 
-                Ok(TsExprWithTypeArgs {
+                TsExprWithTypeArgs {
                     span: self.span(start),
                     expr,
                     type_args,
-                })
+                }
             }
+        };
+
+        if !is_flow && !is_ts_heritage_entity_name(&heritage.expr) {
+            self.emit_err(heritage.span, SyntaxError::TS2499);
         }
+        Ok(heritage)
     }
 
     /// `tsSkipParameterStart`

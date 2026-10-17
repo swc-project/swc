@@ -1,0 +1,5 @@
+  x Expected ',', got '('
+   ,-[$DIR/tests/flow-errors/heritage-type-references/call.js:1:1]
+ 1 | class C implements factory().I {}
+   :                           ^
+   `----
