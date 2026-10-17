@@ -1115,3 +1115,28 @@ fn print_ls_alr(path: &Path) {
     cmd.arg("-alR").arg(path);
     cmd.status().unwrap();
 }
+
+#[test]
+fn isolated_dts_emits_declaration_file() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    fs::write(sandbox.path().join("a.ts"), "export const a: number = 1;")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--config-json")
+        .arg(r#"{"jsc":{"experimental":{"emitIsolatedDts":true}}}"#)
+        .arg("--out-file")
+        .arg("a.js")
+        .arg("a.ts");
+
+    cmd.assert().success();
+
+    let declaration = fs::read_to_string(sandbox.path().join("a.d.ts"))?;
+    assert!(
+        declaration.contains("export declare const a: number;"),
+        "Expected isolated declarations. Got: {declaration}",
+    );
+
+    Ok(())
+}
