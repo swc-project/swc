@@ -7,6 +7,7 @@ use super::{Context, Fixer};
 #[derive(Clone, Copy)]
 pub(super) enum TsOperand {
     Postfix,
+    NonNull,
     Update { prefix: bool },
 }
 
@@ -187,7 +188,11 @@ impl Fixer<'_> {
         kind: TsOperand,
     ) -> bool {
         if let Expr::Paren(paren) = expr {
-            if !self.remove_only && kind.needs_parens(paren.expr.unwrap_parens()) {
+            let inner = paren.expr.unwrap_parens();
+            if !self.remove_only
+                && (kind.needs_parens(inner)
+                    || (matches!(kind, TsOperand::NonNull) && continues_optional_chain(inner)))
+            {
                 self.visit_mut_ts_paren(expr);
                 return true;
             }
@@ -213,6 +218,14 @@ impl Fixer<'_> {
         }
         self.ctx = ctx;
     }
+}
+
+/// Non-null assertions can continue an optional chain, but parentheses end it.
+pub(super) fn continues_optional_chain(mut expr: &Expr) -> bool {
+    while let Expr::TsNonNull(non_null) = expr {
+        expr = &non_null.expr;
+    }
+    expr.is_opt_chain()
 }
 
 /// Checks the last binary operand exposed through a chain of postfix casts.

@@ -8,7 +8,10 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 mod parens;
 mod typescript;
 
-use self::{parens::ParenSpans, typescript::TsOperand};
+use self::{
+    parens::ParenSpans,
+    typescript::{continues_optional_chain, TsOperand},
+};
 
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
@@ -468,7 +471,9 @@ impl VisitMut for Fixer<'_> {
         node.callee.visit_mut_with(self);
         if let Callee::Expr(e) = &mut node.callee {
             match &**e {
-                Expr::OptChain(_) if !self.in_opt_chain => self.wrap(e),
+                Expr::OptChain(..) | Expr::TsNonNull(..) if continues_optional_chain(e) => {
+                    self.wrap(e)
+                }
                 // Preserve parentheses around callees that carry a leading
                 // annotation like `/* @__PURE__ */` so downstream tools do not
                 // interpret the annotation as applying to the outer chained
@@ -564,6 +569,10 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = self.ctx;
+        // Optional-chain context belongs to the current postfix link. A
+        // nested expression establishes its own links, including inside
+        // arguments, computed keys, and function bodies.
+        let in_opt_chain = mem::replace(&mut self.in_opt_chain, false);
 
         if ctx == Context::Default {
             match e {
@@ -584,7 +593,8 @@ impl VisitMut for Fixer<'_> {
         maybe_grow_default(|| e.visit_mut_children_with(self));
 
         self.ctx = ctx;
-        self.wrap_with_paren_if_required(e)
+        self.wrap_with_paren_if_required(e);
+        self.in_opt_chain = in_opt_chain;
     }
 
     fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
@@ -742,7 +752,9 @@ impl VisitMut for Fixer<'_> {
             Expr::Call(..) if self.ctx == Context::Callee { is_new: true } => {
                 self.wrap(&mut n.obj);
             }
-            Expr::OptChain(..) if !self.in_opt_chain => {
+            Expr::OptChain(..) | Expr::TsNonNull(..)
+                if !self.in_opt_chain && continues_optional_chain(&n.obj) =>
+            {
                 self.wrap(&mut n.obj);
             }
             // Preserve parentheses around expressions that carry a leading
@@ -785,6 +797,9 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
         match *node.callee {
+            Expr::TsNonNull(..) if continues_optional_chain(&node.callee) => {
+                self.wrap(&mut node.callee)
+            }
             // `new foo()`bar`() constructs `foo`, while `new (foo()`bar`)()`
             // constructs the class returned by the tagged template expression.
             Expr::TaggedTpl(TaggedTpl { ref tag, .. })
@@ -930,6 +945,9 @@ impl VisitMut for Fixer<'_> {
         e.visit_mut_children_with(self);
 
         match &*e.tag {
+            Expr::TsNonNull(..) if continues_optional_chain(&e.tag) => {
+                self.wrap(&mut e.tag);
+            }
             Expr::Object(..) if self.ctx == Context::Default => {
                 self.wrap(&mut e.tag);
             }
@@ -977,7 +995,7 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_ts_non_null_expr(&mut self, expr: &mut TsNonNullExpr) {
-        self.visit_mut_ts_operand(&mut expr.expr, TsOperand::Postfix);
+        self.visit_mut_ts_operand(&mut expr.expr, TsOperand::NonNull);
     }
 
     fn visit_mut_ts_type_assertion(&mut self, expr: &mut TsTypeAssertion) {
