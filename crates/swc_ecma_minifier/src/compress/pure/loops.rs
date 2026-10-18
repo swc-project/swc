@@ -121,73 +121,72 @@ impl Pure<'_> {
             return None;
         }
 
-        if let Stmt::Block(body) = &mut *s.body {
-            let first = body.stmts.get_mut(0)?;
+        let first = if let Stmt::Block(b) = &mut *s.body {
+            b.stmts.first_mut()?
+        } else {
+            &mut *s.body
+        };
 
-            if let Stmt::If(IfStmt {
-                span,
-                test,
-                cons,
-                alt: None,
-                ..
-            }) = first
-            {
-                if let Stmt::Break(BreakStmt { label: None, .. }) = &**cons {
-                    self.negate(test, false, false);
+        if let Stmt::If(IfStmt {
+            span,
+            test,
+            cons,
+            alt,
+            ..
+        }) = first
+        {
+            if let Stmt::Break(BreakStmt { label: None, .. }) = &**cons {
+                self.negate(test, false, false);
 
-                    match s.test.as_deref_mut() {
-                        Some(e) => {
-                            let orig_test = e.take();
-                            *e = BinExpr {
-                                span: *span,
-                                op: op!("&&"),
-                                left: Box::new(orig_test),
-                                right: test.take(),
-                            }
-                            .into();
-                        }
-                        None => {
-                            s.test = Some(test.take());
-                        }
+                if let Some(e) = s.test.as_deref_mut() {
+                    let orig_test = e.take();
+                    *e = BinExpr {
+                        span: *span,
+                        op: op!("&&"),
+                        left: Box::new(orig_test),
+                        right: test.take(),
                     }
-
-                    report_change!("loops: Optimizing a for loop with an if-then-break");
-
-                    first.take();
-                    return None;
+                    .into();
+                } else {
+                    s.test = Some(test.take());
                 }
+
+                report_change!("loops: Optimizing a for loop with an if-then-break");
+
+                *first = *(alt.take().unwrap_or_default());
+                return None;
             }
+        }
 
-            if let Stmt::If(IfStmt {
-                span,
-                test,
-                cons,
-                alt: Some(alt),
-                ..
-            }) = first
-            {
-                if let Stmt::Break(BreakStmt { label: None, .. }) = &**alt {
-                    match s.test.as_deref_mut() {
-                        Some(e) => {
-                            let orig_test = e.take();
-                            *e = BinExpr {
-                                span: *span,
-                                op: op!("&&"),
-                                left: Box::new(orig_test),
-                                right: test.take(),
-                            }
-                            .into();
+        if let Stmt::If(IfStmt {
+            span,
+            test,
+            cons,
+            alt: Some(alt),
+            ..
+        }) = first
+        {
+            if let Stmt::Break(BreakStmt { label: None, .. }) = &**alt {
+                match s.test.as_deref_mut() {
+                    Some(e) => {
+                        let orig_test = e.take();
+                        *e = BinExpr {
+                            span: *span,
+                            op: op!("&&"),
+                            left: Box::new(orig_test),
+                            right: test.take(),
                         }
-                        None => {
-                            s.test = Some(test.take());
-                        }
+                        .into();
                     }
-
-                    report_change!("loops: Optimizing a for loop with an if-else-break");
-
-                    *first = *cons.take();
-                    return None;
+                    None => {
+                        s.test = Some(test.take());
+                    }
                 }
+
+                report_change!("loops: Optimizing a for loop with an if-else-break");
+
+                *first = *cons.take();
+                return None;
             }
         }
 

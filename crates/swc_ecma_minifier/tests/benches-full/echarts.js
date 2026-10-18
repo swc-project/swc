@@ -8046,7 +8046,9 @@
         }, Model.prototype._doGet = function(pathArr, parentModel) {
             var obj = this.option;
             if (!pathArr) return obj;
-            for(var i = 0; i < pathArr.length && (!pathArr[i] || null != (obj = obj && 'object' == typeof obj ? obj[pathArr[i]] : null)); i++);
+            for(var i = 0; // Ignore empty
+            i < pathArr.length && (!pathArr[i] || null != (obj = obj && 'object' == typeof obj ? obj[pathArr[i]] : null)) // obj could be number/string/... (like 0)
+            ; i++);
             return null == obj && parentModel && (obj = parentModel._doGet(this.resolveParentPath(pathArr), parentModel.parentModel)), obj;
         }, Model;
     }(); // TODO Performance improvement?
