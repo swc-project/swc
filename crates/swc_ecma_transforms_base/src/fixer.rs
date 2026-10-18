@@ -814,6 +814,7 @@ impl VisitMut for Fixer<'_> {
             | Expr::Assign(..)
             | Expr::Seq(..)
             | Expr::Unary(..)
+            | Expr::Arrow(..)
             | Expr::Lit(..)
             | Expr::OptChain(..)
             | Expr::TsAs(..)
@@ -2183,4 +2184,6 @@ var store = global[SHARED] || (global[SHARED] = {});
         "while (a) function foo() {}",
         "while(a){ function foo() {} }"
     );
+
+    identical!(pr_12558, "new (() => {})");
 }
