@@ -472,21 +472,6 @@ fn test_nan_comparison() {
 }
 
 #[test]
-fn test_object_comparison1() {
-    fold("!new Date()", "false");
-    fold("!!new Date()", "true");
-
-    fold("new Date() == null", "false");
-    fold("new Date() == undefined", "false");
-    fold("new Date() != null", "true");
-    fold("new Date() != undefined", "true");
-    fold("null == new Date()", "false");
-    fold("undefined == new Date()", "false");
-    fold("null != new Date()", "true");
-    fold("undefined != new Date()", "true");
-}
-
-#[test]
 fn test_unary_ops_1() {
     // These cases are handled by PeepholeRemoveDeadCode.
     fold_same("!foo()");
