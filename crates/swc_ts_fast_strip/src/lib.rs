@@ -664,6 +664,45 @@ impl TsStrip {
         }
     }
 
+    /// Erases a class member and keeps the members around it apart.
+    ///
+    /// ```ts
+    /// class C {
+    ///     f = 1
+    ///     abstract m(): void
+    ///     ["computed"]() {}
+    /// }
+    /// ```
+    ///
+    /// Erasing `m` alone would let `["computed"]` continue the initializer of
+    /// `f`, so a `;` is left in its place.
+    fn remove_class_member(&mut self, span: Span) {
+        self.add_replacement(span);
+
+        let index = self.get_prev_token_index(span.lo);
+        if index == 0 || matches!(self.tokens[index - 1].token, Token::Semi | Token::LBrace) {
+            return;
+        }
+
+        let index = self.get_prev_token_index(span.hi - BytePos(1));
+        let Some(next) = self.tokens.get(index + 1) else {
+            return;
+        };
+
+        if matches!(
+            next.token,
+            Token::LBracket
+                | Token::LParen
+                | Token::Asterisk
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::TemplateHead
+                | Token::In
+                | Token::InstanceOf
+        ) {
+            self.add_overwrite(span.lo, ';');
+        }
+    }
+
     fn fix_asi_in_expr(&mut self, span: Span) {
         let index = self.get_prev_token_index(span.hi - BytePos(1));
         if index == self.tokens.len() - 1 {
@@ -897,7 +936,7 @@ impl Visit for TsStrip {
 
     fn visit_constructor(&mut self, n: &Constructor) {
         if n.body.is_none() {
-            self.add_replacement(n.span);
+            self.remove_class_member(n.span);
             return;
         }
 
@@ -913,7 +952,7 @@ impl Visit for TsStrip {
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
         if n.function.body.is_none() || n.is_abstract {
-            self.add_replacement(n.span);
+            self.remove_class_member(n.span);
             return;
         }
 
@@ -965,7 +1004,7 @@ impl Visit for TsStrip {
 
     fn visit_class_prop(&mut self, n: &ClassProp) {
         if n.declare || n.is_abstract {
-            self.add_replacement(n.span);
+            self.remove_class_member(n.span);
             return;
         }
 
@@ -1023,7 +1062,7 @@ impl Visit for TsStrip {
         debug_assert!(!n.is_abstract);
 
         if n.function.body.is_none() {
-            self.add_replacement(n.span);
+            self.remove_class_member(n.span);
             return;
         }
 
@@ -1069,7 +1108,7 @@ impl Visit for TsStrip {
 
     fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
         if n.is_abstract {
-            self.add_replacement(n.span);
+            self.remove_class_member(n.span);
             return;
         }
 
