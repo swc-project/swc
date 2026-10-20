@@ -1,0 +1,1 @@
+let value = ['csv', 'json'] as (`csv` | `json`)[];

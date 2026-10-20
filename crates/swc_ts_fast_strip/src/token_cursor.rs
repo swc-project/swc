@@ -10,6 +10,9 @@ pub(crate) struct TokenCursor<'a> {
     tokens: &'a [TokenAndSpan],
 }
 
+#[cfg(test)]
+mod tests;
+
 impl<'a> TokenCursor<'a> {
     pub(crate) fn new(source: &'a str, source_start: BytePos, tokens: &'a [TokenAndSpan]) -> Self {
         Self {

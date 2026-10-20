@@ -1,0 +1,2 @@
+label: interface I {}
+after();

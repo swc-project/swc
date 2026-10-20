@@ -57,6 +57,11 @@ impl EditPlan {
             .push(Operation::Substitute { span, replacement });
     }
 
+    #[cfg(test)]
+    fn substitute_byte(&mut self, offset: BytePos, replacement: FixedSubstitution) {
+        self.substitute(Span::new(offset, offset + BytePos(1)), replacement);
+    }
+
     pub(crate) fn render<'source>(
         mut self,
         source_start: BytePos,
@@ -232,4 +237,125 @@ fn is_ecmascript_whitespace_or_line_terminator(character: char) -> bool {
                 | '\u{3000}'
                 | '\u{FEFF}'
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn span(start: u32, end: u32) -> Span {
+        Span::new(BytePos(start), BytePos(end))
+    }
+
+    #[test]
+    fn no_edits_returns_borrowed_source() {
+        let source = "const value = 1;";
+        let output = EditPlan::default().render(BytePos(0), source);
+
+        assert!(matches!(output, Cow::Borrowed(value) if value == source));
+    }
+
+    #[test]
+    fn blank_replaces_code_with_spaces() {
+        let source = "let value: number = 1;";
+        let mut edits = EditPlan::default();
+        edits.blank(span(9, 17));
+        let output = edits.render(BytePos(0), source);
+
+        assert_eq!(output, "let value         = 1;");
+    }
+
+    #[test]
+    fn blank_preserves_ecmascript_whitespace_and_line_terminators() {
+        let source = ":\tA\r\nB\u{2028}C\u{2029}D\u{00A0}";
+        let mut edits = EditPlan::default();
+        edits.blank(span(0, source.len() as u32));
+        let output = edits.render(BytePos(0), source);
+
+        assert_eq!(output, " \t \r\n \u{2028} \u{2029} \u{00A0}");
+    }
+
+    #[test]
+    fn blank_preserves_ascii_whitespace_in_vector_chunks() {
+        let source: String = (0u8..=127).map(char::from).collect();
+        let mut output = String::with_capacity(source.len());
+        push_blank(&mut output, &source);
+        let expected: String = source
+            .chars()
+            .map(|character| match character {
+                '\t'..='\r' | ' ' => character,
+                _ => ' ',
+            })
+            .collect();
+
+        assert_eq!(output, expected);
+    }
+
+    #[test]
+    fn blank_preserves_ascii_whitespace_in_word_tail() {
+        let source: String = (0u8..=127).map(char::from).collect();
+        let mut output = String::with_capacity(source.len());
+        for chunk in source.as_bytes().chunks(11) {
+            push_blank(&mut output, std::str::from_utf8(chunk).unwrap());
+        }
+        let expected: String = source
+            .chars()
+            .map(|character| match character {
+                '\t'..='\r' | ' ' => character,
+                _ => ' ',
+            })
+            .collect();
+
+        assert_eq!(output, expected);
+    }
+
+    #[test]
+    fn blank_preserves_utf16_width_for_bmp_and_astral_code_points() {
+        let source = ": 文𐀀";
+        let mut edits = EditPlan::default();
+        edits.blank(span(0, source.len() as u32));
+        let output = edits.render(BytePos(0), source);
+
+        assert_eq!(output, "     ");
+        assert_eq!(output.encode_utf16().count(), source.encode_utf16().count());
+    }
+
+    #[test]
+    fn overlapping_blanks_are_merged() {
+        let source = "abcdef";
+        let mut edits = EditPlan::default();
+        edits.blank(span(1, 4));
+        edits.blank(span(3, 5));
+        let output = edits.render(BytePos(0), source);
+
+        assert_eq!(output, "a    f");
+    }
+
+    #[test]
+    fn substitution_wins_over_overlapping_blanks() {
+        let source = "abstract [key]: Type";
+        let mut edits = EditPlan::default();
+        edits.blank(span(0, 8));
+        edits.blank(span(4, 15));
+        edits.substitute_byte(BytePos(0), FixedSubstitution::Semicolon);
+        let output = edits.render(BytePos(0), source);
+
+        assert_eq!(output, ";               Type");
+    }
+
+    #[test]
+    fn substitution_preserves_utf16_width() {
+        let source = "value as 类型𝒳";
+        let start = source.len() - "𝒳".len();
+        let mut edits = EditPlan::default();
+        edits.blank(span(5, source.len() as u32));
+        edits.substitute(
+            span(start as u32, source.len() as u32),
+            FixedSubstitution::RightParenthesis,
+        );
+        let output = edits.render(BytePos(0), source);
+
+        assert_eq!(output, "value      ) ");
+        assert_eq!(output.encode_utf16().count(), source.encode_utf16().count());
+    }
 }

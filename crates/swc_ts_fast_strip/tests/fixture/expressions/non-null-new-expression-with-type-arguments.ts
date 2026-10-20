@@ -1,0 +1,1 @@
+const value = new (Map!)<Key, Value>();

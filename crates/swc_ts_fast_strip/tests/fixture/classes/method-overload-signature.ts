@@ -1,0 +1,1 @@
+class C { method(value: string): string; method(value: string) {} }

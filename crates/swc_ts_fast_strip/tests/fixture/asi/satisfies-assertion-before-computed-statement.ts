@@ -1,0 +1,2 @@
+value satisfies Type
+[next]();
