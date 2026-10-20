@@ -11,8 +11,8 @@ use swc_common::{
     BytePos, FileName, Mark, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    ArrayPat, ArrowExpr, AutoAccessor, BindingIdent, Class, ClassDecl, ClassMethod, ClassProp,
-    Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
+    ArrayPat, ArrowExpr, AutoAccessor, BindingIdent, Class, ClassDecl, ClassMember, ClassMethod,
+    ClassProp, Constructor, Decl, DefaultDecl, DoWhileStmt, EsVersion, ExportAll, ExportDecl,
     ExportDefaultDecl, ExportSpecifier, FnDecl, ForInStmt, ForOfStmt, ForStmt, GetterProp, IfStmt,
     ImportDecl, ImportSpecifier, ModuleDecl, ModuleItem, NamedExport, ObjectPat, PrivateMethod,
     PrivateProp, Program, Stmt, TsAsExpr, TsConstAssertion, TsEnumDecl, TsExportAssignment,
@@ -664,6 +664,32 @@ impl TsStrip {
         }
     }
 
+    /// Keeps a class member boundary valid after a member is erased.
+    ///
+    /// A class member without a trailing `;` relies on ASI. Once the erased
+    /// member is blanked out, a following member starting with `[`, `*`, `in`
+    /// or `instanceof` could continue the previous member's initializer, e.g.
+    /// `f = 1 [x]() {}`. Overwrite the first character of the erased member
+    /// with `;` in that case.
+    fn fix_asi_after_class_member(&mut self, span: Span) {
+        let index = self.get_prev_token_index(span.hi - BytePos(1));
+        let Some(TokenAndSpan {
+            token,
+            had_line_break: true,
+            ..
+        }) = self.tokens.get(index + 1)
+        else {
+            return;
+        };
+
+        if matches!(
+            token,
+            Token::LBracket | Token::Asterisk | Token::In | Token::InstanceOf
+        ) {
+            self.add_overwrite(span.lo, ';');
+        }
+    }
+
     fn fix_asi_in_expr(&mut self, span: Span) {
         let index = self.get_prev_token_index(span.hi - BytePos(1));
         if index == self.tokens.len() - 1 {
@@ -898,6 +924,7 @@ impl Visit for TsStrip {
     fn visit_constructor(&mut self, n: &Constructor) {
         if n.body.is_none() {
             self.add_replacement(n.span);
+            self.fix_asi_after_class_member(n.span);
             return;
         }
 
@@ -914,6 +941,7 @@ impl Visit for TsStrip {
     fn visit_class_method(&mut self, n: &ClassMethod) {
         if n.function.body.is_none() || n.is_abstract {
             self.add_replacement(n.span);
+            self.fix_asi_after_class_member(n.span);
             return;
         }
 
@@ -966,6 +994,7 @@ impl Visit for TsStrip {
     fn visit_class_prop(&mut self, n: &ClassProp) {
         if n.declare || n.is_abstract {
             self.add_replacement(n.span);
+            self.fix_asi_after_class_member(n.span);
             return;
         }
 
@@ -1024,6 +1053,7 @@ impl Visit for TsStrip {
 
         if n.function.body.is_none() {
             self.add_replacement(n.span);
+            self.fix_asi_after_class_member(n.span);
             return;
         }
 
@@ -1070,6 +1100,7 @@ impl Visit for TsStrip {
     fn visit_auto_accessor(&mut self, n: &AutoAccessor) {
         if n.is_abstract {
             self.add_replacement(n.span);
+            self.fix_asi_after_class_member(n.span);
             return;
         }
 
@@ -1263,6 +1294,14 @@ impl Visit for TsStrip {
                     .emit();
             });
         }
+    }
+
+    fn visit_class_member(&mut self, n: &ClassMember) {
+        if let ClassMember::TsIndexSignature(sig) = n {
+            self.fix_asi_after_class_member(sig.span);
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_ts_index_signature(&mut self, n: &TsIndexSignature) {
