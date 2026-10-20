@@ -1,4 +1,4 @@
-  x Expression expected
+  x Unexpected escape sequence in reserved word: yield
    ,-[$DIR/tests/errors/class-initializer-context/yield-escaped/input.cjs:1:1]
  1 | function* f(x = class { field = yi\u0065ld; }) {}
    :                                 ^^^^^^^^^^
