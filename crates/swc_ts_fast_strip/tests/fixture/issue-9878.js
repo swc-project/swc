@@ -24,7 +24,7 @@ function f3() {
 (function () {
     return/**/(
          
-     /**/ v    /**/ 
+     /**/ v         
     )/**/=> v
 });
 (function* () {

@@ -9,22 +9,22 @@ class MyClassOk {
 
 // Note for implementors: This should not be an error
 // as this entire namespace block is fully erased
-                           
+;                          
                                   
                                        
                       
                                            
      
  
-                                            
+;                                           
                               
  
 
-                        
+;                       
          
  
 
-                                
+;                               
                       
                                   
      

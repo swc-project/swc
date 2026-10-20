@@ -18,7 +18,6 @@ nightly = []
 
 [dependencies]
 anyhow = { workspace = true }
-bytes-str = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 swc_atoms = { version = "10.0.0", path = "../swc_atoms" }
 swc_common = { version = "26.0.0", path = "../swc_common", features = [

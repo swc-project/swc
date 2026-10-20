@@ -21,7 +21,7 @@ class C /**/   /*︎*/ extends Array/**/    /*︎*/                /*︎*/ {
         //  ^^^^^^           ^^^         ^^^^^^^^      ^     ^^^^^^^^         ^^^^^^
     }
 
-                       
+    ;                  
     //  ^^^^^^^^^^^^^^^^^^^ index signature
 
     get g()      { return 1 };
@@ -73,7 +73,7 @@ class D extends C      {
 }
 
 /** @doc */
-               
+;              
 // ^^^^^^^^^^^ interface
 
 void 0;
@@ -100,7 +100,7 @@ export {
     //  ^^^^^^
 }
 
-/**/                   
+/**/;                  
 //  ^^^^^^^^^^^^^^^^^^^
 
 function foo   (p      = ()      => 1)      {
@@ -109,7 +109,7 @@ function foo   (p      = ()      => 1)      {
     //           ^^^^^^
 }
 
-/**/                   
+/**/;                  
 //  ^^^^^^^^^^^^^^^^^^ `declare enum`
 
 void 0;
@@ -171,7 +171,7 @@ void 0;
         1
 };
 {
-    (a, b, c    = []       /*comment-1*/ /*comment-2*/ 
+    (a, b, c    = []       /*comment-1*/               
           ) =>
         1
 };
@@ -182,7 +182,7 @@ void 0;
         1;
 
 {
-    (a, b, c    = []       /*comment-1*/ /*comment-2*/ 
+    (a, b, c    = []       /*comment-1*/               
                        )/*comment-4*/=>
         1
 };
@@ -193,6 +193,6 @@ void 0;
    )=>
 1;
 
-( /*comment-1*/              
+(                            
                 )/*comment-4*/=>
 1;

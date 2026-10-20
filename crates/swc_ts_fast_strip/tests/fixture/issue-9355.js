@@ -1,10 +1,10 @@
-const x1 = 10 ;     
+const x1 = 10;      
 (1)
 
 const x2 = (10);     
 (1)
 
-const x3 = 10 ;            
+const x3 = 10;             
 (1)
 
 const x4 = (10);            
@@ -16,5 +16,5 @@ const y = 10
 const z = 10       
     / 1
 
-const w = 10 ;     
+const w = 10;      
 [1];
