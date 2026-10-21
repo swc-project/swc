@@ -577,6 +577,12 @@ let _throw1 = null;
                     !actual_src.contains("@swc/helpers"),
                     "inline helpers should not emit external imports:\n{actual_src}"
                 );
+                assert!(
+                    actual_src
+                        .contains("if (n === \"Map\" || n === \"Set\") return Array.from(o);"),
+                    "expected `_unsupported_iterable_to_array` to pass `o` to \
+                     `Array.from`:\n{actual_src}"
+                );
 
                 Ok(())
             })
