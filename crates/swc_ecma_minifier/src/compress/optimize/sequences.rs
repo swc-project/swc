@@ -1104,6 +1104,14 @@ impl Optimizer<'_> {
         a: Option<&Mergable>,
         MemberExpr { obj, prop, .. }: &MemberExpr,
     ) -> bool {
+        // `globalThis` itself is droppable, but its properties are observable
+        // and can be written by a call, so keep them ordered in sequences.
+        if let Expr::Ident(obj) = &**obj {
+            if &*obj.sym == "globalThis" {
+                return false;
+            }
+        }
+
         if !self.is_skippable_for_seq(a, obj) {
             return false;
         }
