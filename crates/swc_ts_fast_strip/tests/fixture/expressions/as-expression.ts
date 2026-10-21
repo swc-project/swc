@@ -1,0 +1,1 @@
+const x = value as string;

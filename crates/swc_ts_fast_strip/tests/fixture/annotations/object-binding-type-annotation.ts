@@ -1,0 +1,1 @@
+const { value }: Shape = input;

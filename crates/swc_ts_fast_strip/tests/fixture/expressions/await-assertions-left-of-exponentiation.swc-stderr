@@ -1,0 +1,27 @@
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,-[2:1]
+ 1 | async function asAssertion() {
+ 2 |     return await input as number ** 2;
+   :            ^^^^^^^^^^^^^^^^^^^^^
+ 3 | }
+   `----
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,-[6:1]
+ 5 | async function satisfiesAssertion() {
+ 6 |     return await input satisfies number ** 2;
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | }
+   `----
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+    ,-[10:1]
+  9 | async function nestedAssertions() {
+ 10 |     return await input! as number satisfies number ** 2;
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 | }
+    `----

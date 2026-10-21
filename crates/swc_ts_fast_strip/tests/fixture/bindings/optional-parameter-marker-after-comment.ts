@@ -1,0 +1,1 @@
+const f = (value/** doc */?: Type) => value;
