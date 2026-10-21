@@ -6060,7 +6060,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "82.1.1"
+version = "82.1.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6317,7 +6317,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "32.0.4"
+version = "32.0.5"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -6613,7 +6613,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "63.0.2"
+version = "63.0.3"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6656,7 +6656,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "46.1.1"
+version = "46.1.2"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6850,7 +6850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "50.0.2"
+version = "50.0.3"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -7062,7 +7062,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "56.0.0"
+version = "56.0.1"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
@@ -7455,7 +7455,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_backend_wasmtime"
-version = "16.0.0"
+version = "17.0.0"
 dependencies = [
  "anyhow",
  "swc_common",
@@ -7535,7 +7535,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip"
-version = "59.0.1"
+version = "59.0.2"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
