@@ -11,10 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
           persist-credentials: false
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
@@ -27,12 +28,6 @@ jobs:
 
       - name: Check pull request changeset
         env:
-          GH_TOKEN: ${{ github.token }}
-          REPOSITORY: ${{ github.repository }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          CHANGED_FILES: ${{ github.event.pull_request.changed_files }}
-        run: |
-          set -euo pipefail
-          gh api --paginate --slurp \
-            "/repos/${REPOSITORY}/pulls/${PR_NUMBER}/files?per_page=100" \
-            | node scripts/github/check-changeset.mjs
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/github/check-changeset.mjs
