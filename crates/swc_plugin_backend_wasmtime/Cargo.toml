@@ -8,7 +8,10 @@ repository  = { workspace = true }
 version     = "16.0.0"
 
 [dependencies]
-anyhow      = { workspace = true }
+anyhow = { workspace = true }
+
+# The workspace uses the patched Wasmtime 36 LTS line to retain wasi-common
+# support without increasing the Rust version required by the backend.
 wasi-common = { workspace = true, features = ["sync", "wasmtime"] }
 wasmtime    = { workspace = true, features = ["runtime", "cranelift", "threads"] }
 
