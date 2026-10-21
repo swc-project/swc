@@ -1770,43 +1770,6 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::New(NewExpr {
-                callee,
-                span,
-                ctxt,
-                args,
-                ..
-            }) if callee.is_pure_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
-                report_change!("ignore_return_value: Dropping a pure call");
-                self.changed = true;
-
-                let new = self.make_ignored_expr(
-                    *span,
-                    args.take().into_iter().flatten().map(|arg| arg.expr),
-                );
-
-                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
-                return;
-            }
-
-            _ => {}
-        }
-
-        match e {
-            Expr::Call(CallExpr {
-                span,
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) if callee.is_pure_callee(self.expr_ctx) => {
-                self.changed = true;
-                report_change!("Dropping pure call as callee is pure");
-                *e = self
-                    .make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr))
-                    .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                return;
-            }
-
             Expr::TaggedTpl(TaggedTpl {
                 span,
                 tag: callee,
@@ -1820,7 +1783,27 @@ impl Pure<'_> {
                     .unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
             }
-            _ => (),
+
+            Expr::New(NewExpr {
+                callee,
+                span,
+                ctxt,
+                args,
+                ..
+            }) if callee.is_pure_new_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
+                report_change!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new = self.make_ignored_expr(
+                    *span,
+                    args.take().into_iter().flatten().map(|arg| arg.expr),
+                );
+
+                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
+            _ => {}
         }
 
         if self.options.conditionals || self.options.expr {
@@ -2322,10 +2305,12 @@ impl Pure<'_> {
 
                 Expr::New(NewExpr {
                     span, callee, args, ..
-                }) if callee.is_one_of_global_ref_to(
-                    self.expr_ctx,
-                    &["Array", "Object", "Boolean", "Number", "String"],
-                ) && !args.iter().flatten().any(|arg| arg.spread.is_some()) =>
+                }) if self.options.pristine_globals
+                    && (callee.is_one_of_global_ref_to(
+                        self.expr_ctx,
+                        &["Object", "Date", "Boolean", "Number", "String", "Error"],
+                    ) || callee.is_one_of_global_ref_to(self.expr_ctx, ARRAY_CTOR))
+                    && !args.iter().flatten().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure new expression");
 
@@ -2738,6 +2723,19 @@ fn is_block_scoped_stmt(s: &Stmt) -> bool {
     }
 }
 
+static ARRAY_CTOR: &[&str] = &[
+    "Array",
+    "Int16Array",
+    "Int32Array",
+    "Int8Array",
+    "Float32Array",
+    "Float64Array",
+    "Uint16Array",
+    "Uint32Array",
+    "Uint8Array",
+    "Uint8ClampedArray",
+];
+
 fn is_valid_map_set_init(expr: &Expr, ctx: ExprCtx, callee: &Expr) -> bool {
     let is_map = callee.is_global_ref_to(ctx, "Map");
 
@@ -2749,20 +2747,7 @@ fn is_valid_map_set_init(expr: &Expr, ctx: ExprCtx, callee: &Expr) -> bool {
                 ..
             })
             | Expr::New(NewExpr { callee: e, .. })
-                if e.is_one_of_global_ref_to(
-                    ctx,
-                    &[
-                        "Array",
-                        "Int16Array",
-                        "Int32Array",
-                        "Int8Array",
-                        "Float32Array",
-                        "Float64Array",
-                        "Uint16Array",
-                        "Uint32Array",
-                        "Uint8Array",
-                    ],
-                ) =>
+                if e.is_one_of_global_ref_to(ctx, ARRAY_CTOR) =>
             {
                 true
             }
