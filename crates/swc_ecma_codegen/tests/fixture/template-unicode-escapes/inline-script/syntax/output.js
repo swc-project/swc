@@ -10,5 +10,5 @@ console.log(JSON.stringify([
     `\u003C/scriptx>${value}\u003C/script`,
     `\u003C/script\u000A>${value}\u003C/script>`,
     String.raw`\u003C/script>${value}\u003C!-- --\u003E`,
-    "<\/script/>\x3c!-- --\x3e"
+    "<\/script/><\x21-- --\x3e"
 ]));
