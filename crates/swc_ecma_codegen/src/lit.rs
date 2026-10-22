@@ -224,12 +224,18 @@ impl MacroNode for Bool {
 
 /// Escape HTML-sensitive sequences after JavaScript string escaping is
 /// complete. Borrow the input when no inline-script protection is needed.
+///
+/// `<!--` is broken by escaping the `!`, not the `<`: the character right
+/// after `<` can never be preceded by a backslash inside this sequence, so
+/// `\x21` cannot merge with an existing escape the way `\x3c` would in
+/// `\<!--`. Any rewrite changes the observable `RegExp.source`; inline
+/// script protection takes precedence over byte-identical source.
 pub(crate) fn escape_inline_script(raw: &str) -> CowStr<'_> {
     let value = replace_close_inline_script(raw);
     if value.contains("<!--") || value.contains("-->") {
         CowStr::Owned(
             value
-                .replace("<!--", "\\x3c!--")
+                .replace("<!--", "<\\x21--")
                 .replace("-->", "--\\x3e")
                 .into(),
         )
