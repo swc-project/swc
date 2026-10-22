@@ -76,6 +76,85 @@ enum Context {
 }
 
 impl Fixer<'_> {
+    /// Returns `true` when the leftmost tokens of `e` would be `let` followed
+    /// by `[`. A script statement starting with `let [` is parsed as a `let`
+    /// declaration, and `let` in a for-head has the same ambiguity, so such an
+    /// expression must stay parenthesized. `(let)[0]` is the canonical case.
+    ///
+    /// Only a non-optional member whose object is exactly the `let` identifier
+    /// matters here: `let?.[x]` starts with `let` followed by `?`, which is
+    /// unambiguous, and `let.x` starts with `let` followed by `.`.
+    fn begins_with_let_computed_member(e: &Expr) -> bool {
+        match e {
+            Expr::Member(member) => Self::member_begins_with_let_computed(member),
+            Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+                // `let?.[x]` starts with `let` followed by `?`, which is not
+                // ambiguous, so only the object position can still hide a
+                // `let[x]` member such as `let[0]?.x`.
+                OptChainBase::Member(member) => Self::begins_with_let_computed_member(&member.obj),
+                OptChainBase::Call(call) => Self::begins_with_let_computed_member(&call.callee),
+            },
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                ..
+            }) => Self::begins_with_let_computed_member(callee),
+            Expr::Assign(AssignExpr {
+                left: AssignTarget::Simple(SimpleAssignTarget::Member(member)),
+                ..
+            }) => Self::member_begins_with_let_computed(member),
+            Expr::Bin(BinExpr { left, .. }) => Self::begins_with_let_computed_member(left),
+            Expr::Cond(CondExpr { test, .. }) => Self::begins_with_let_computed_member(test),
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs
+                .first()
+                .is_some_and(|e| Self::begins_with_let_computed_member(e)),
+            Expr::TaggedTpl(TaggedTpl { tag, .. }) => Self::begins_with_let_computed_member(tag),
+            Expr::TsAs(TsAsExpr { expr, .. })
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. })
+            | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+            | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+            | Expr::Paren(ParenExpr { expr, .. }) => Self::begins_with_let_computed_member(expr),
+            _ => false,
+        }
+    }
+
+    /// Checks whether a member expression reads `let[...]` or contains such a
+    /// member in its object position, e.g. `let[0].x` or `let[0](x)`.
+    fn member_begins_with_let_computed(member: &MemberExpr) -> bool {
+        if let MemberProp::Computed(..) = member.prop {
+            if member.obj.is_ident_ref_to("let") {
+                return true;
+            }
+        }
+        Self::begins_with_let_computed_member(&member.obj)
+    }
+
+    /// `for (let of y)` binds `of` as a `let` declaration, and `for (let [a]
+    /// in y)` is one too, so a for-head expression that begins with `let`
+    /// must stay parenthesized. `(let) of y` is the canonical case.
+    ///
+    /// Unlike the other wrapping done by this pass, the parenthesis is
+    /// restored even under `paren_remover`: it is required for the output to
+    /// parse as the same statement, so removing it was never valid.
+    fn wrap_let_for_head(&mut self, n: &mut ForHead) {
+        let ForHead::Pat(pat) = n else {
+            return;
+        };
+
+        match &mut **pat {
+            Pat::Ident(BindingIdent { id, .. }) if &*id.sym == "let" => {
+                let expr = Box::new(Expr::Ident(id.clone()));
+                **pat = Pat::Expr(Box::new(self.make_paren(expr).into()));
+            }
+            Pat::Expr(expr)
+                if expr.is_ident_ref_to("let") || Self::begins_with_let_computed_member(expr) =>
+            {
+                **expr = self.make_paren(expr.take()).into();
+            }
+            _ => {}
+        }
+    }
+
     /// `Pat::Expr` is needed for parenthesized for-head expressions, but a
     /// bare identifier should use the same pattern shape as `for (x of y)`.
     fn normalize_for_head_pat(n: &mut ForHead) {
@@ -627,6 +706,7 @@ impl VisitMut for Fixer<'_> {
         self.in_for_stmt_head = in_for_stmt_head;
 
         Self::normalize_for_head_pat(n);
+        self.wrap_let_for_head(n);
     }
 
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
@@ -1408,6 +1488,15 @@ impl Fixer<'_> {
                         self.handle_expr_stmt(expr);
                     }
                 });
+            }
+
+            // `(let)[0] = 2` must stay parenthesized: a statement starting
+            // with `let [` parses as a `let` declaration, not an expression.
+            // The parenthesis is restored even under `paren_remover` because
+            // it is required for the output to keep parsing as an expression
+            // statement.
+            e if Self::begins_with_let_computed_member(e) => {
+                *e = self.make_paren(Box::new(e.take())).into();
             }
 
             _ => {}
