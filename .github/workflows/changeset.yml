@@ -1,0 +1,33 @@
+name: Changeset
+
+on:
+  pull_request:
+
+permissions: {}
+
+jobs:
+  changeset:
+    name: Require changeset for crate changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+          package-manager-cache: false
+
+      - name: Test changeset check
+        run: node --test scripts/github/check-changeset.test.mjs
+
+      - name: Check pull request changeset
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/github/check-changeset.mjs
