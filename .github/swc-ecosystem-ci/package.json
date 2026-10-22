@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
-    "@antfu/ni": "^0.21.8",
+    "@antfu/ni": "^0.23.0",
     "@octokit/core": "^5.0.1",
     "cac": "^6.7.14",
     "execa": "^8.0.1",
