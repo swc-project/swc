@@ -134,12 +134,17 @@ impl Fixer<'_> {
         }
     }
 
-    fn wrap_single_function(&self, s: &mut Stmt) {
-        if !self.is_strict {
-            return;
-        }
-
+    /// Wraps a function declaration used as the body of a statement in a
+    /// block.
+    ///
+    /// Only a plain function declaration used as an `if` clause in sloppy mode
+    /// is valid without a block (Annex B). A loop body always needs one.
+    fn wrap_single_function(&self, s: &mut Stmt, is_if_clause: bool) {
         if let Stmt::Decl(Decl::Fn(f)) = s {
+            if is_if_clause && !self.is_strict && !f.function.is_async && !f.function.is_generator {
+                return;
+            }
+
             let f = f.take();
 
             *s = Stmt::Block(BlockStmt {
@@ -627,19 +632,19 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
         n.visit_mut_children_with(self);
 
-        self.wrap_single_function(&mut n.body);
+        self.wrap_single_function(&mut n.body, false);
     }
 
     fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
         n.visit_mut_children_with(self);
 
-        self.wrap_single_function(&mut n.body);
+        self.wrap_single_function(&mut n.body, false);
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
         n.visit_mut_children_with(self);
 
-        self.wrap_single_function(&mut n.body);
+        self.wrap_single_function(&mut n.body, false);
     }
 
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
@@ -673,7 +678,7 @@ impl VisitMut for Fixer<'_> {
             self.wrap(&mut s.right)
         }
 
-        self.wrap_single_function(&mut s.body);
+        self.wrap_single_function(&mut s.body, false);
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
@@ -685,7 +690,7 @@ impl VisitMut for Fixer<'_> {
         n.update.visit_mut_with(self);
         n.body.visit_mut_with(self);
 
-        self.wrap_single_function(&mut n.body);
+        self.wrap_single_function(&mut n.body, false);
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
@@ -700,10 +705,10 @@ impl VisitMut for Fixer<'_> {
             .into();
         }
 
-        self.wrap_single_function(&mut node.cons);
+        self.wrap_single_function(&mut node.cons, true);
 
         if let Some(alt) = &mut node.alt {
-            self.wrap_single_function(alt);
+            self.wrap_single_function(alt, true);
         }
     }
 
@@ -814,6 +819,7 @@ impl VisitMut for Fixer<'_> {
             | Expr::Assign(..)
             | Expr::Seq(..)
             | Expr::Unary(..)
+            | Expr::Arrow(..)
             | Expr::Lit(..)
             | Expr::OptChain(..)
             | Expr::TsAs(..)
@@ -2183,4 +2189,6 @@ var store = global[SHARED] || (global[SHARED] = {});
         "while (a) function foo() {}",
         "while(a){ function foo() {} }"
     );
+
+    identical!(pr_12558, "new (() => {})");
 }

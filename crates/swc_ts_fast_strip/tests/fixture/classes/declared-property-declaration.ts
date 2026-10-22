@@ -1,0 +1,1 @@
+class C { declare value: Type; next = 1; }

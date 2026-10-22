@@ -1,0 +1,1 @@
+class C { @readonly readonly value = 1; }

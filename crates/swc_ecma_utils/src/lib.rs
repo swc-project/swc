@@ -837,6 +837,11 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
+    fn is_pure_new_callee(&self, ctx: ExprCtx) -> bool {
+        is_pure_new_callee(self.as_expr(), ctx)
+    }
+
+    #[inline(always)]
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
         may_have_side_effects(self.as_expr(), ctx)
     }
@@ -1958,16 +1963,7 @@ impl ExprCtx {
             Expr::MetaProp(_) => to.push(Box::new(expr)),
 
             Expr::Call(_) => to.push(Box::new(expr)),
-            Expr::New(e) => {
-                // Known constructors
-                if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
-                    if *sym == "Date" && e.args.is_empty() {
-                        return;
-                    }
-                }
-
-                to.push(e.into())
-            }
+            Expr::New(e) => to.push(e.into()),
             Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
 
             // We are at here because we could not determine value of test.
@@ -3569,8 +3565,6 @@ fn is_pure_member_callee(obj: &Expr, prop: &MemberProp, ctx: ExprCtx) -> bool {
 
 fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
-        Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == "Date",
-
         Expr::Member(MemberExpr { obj, prop, .. }) => is_pure_member_callee(obj, prop, ctx),
 
         Expr::Fn(FnExpr { function: f, .. })
