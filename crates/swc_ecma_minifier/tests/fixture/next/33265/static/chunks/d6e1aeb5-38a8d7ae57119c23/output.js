@@ -1122,8 +1122,7 @@
                     if (!data.disabled) {
                         event = fixEvent(event);
                         var handlers = data.handlers[event.type];
-                        if (handlers) for(var handlersCopy = handlers.slice(0), m = 0, n = handlersCopy.length; m < n; m++)if (event.isImmediatePropagationStopped()) break;
-                        else try {
+                        if (handlers) for(var handlersCopy = handlers.slice(0), m = 0, n = handlersCopy.length; m < n && !event.isImmediatePropagationStopped(); m++)try {
                             handlersCopy[m].call(elem, event, hash);
                         } catch (e) {
                             log$1.error(e);

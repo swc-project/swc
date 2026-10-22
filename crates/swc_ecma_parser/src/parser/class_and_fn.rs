@@ -1515,8 +1515,9 @@ impl<I: Tokens> Parser<I> {
         let is_next_line_generator =
             self.input_mut().had_line_break_before_cur() && self.input().is(Token::Asterisk);
         let getter_or_setter_ident = match key_token {
+            // `get?` and `set?` are optional fields at this point.
             // `get\n*` is an uninitialized property named 'get' followed by a generator.
-            Token::Get | Token::Set => {
+            Token::Get | Token::Set if !is_optional => {
                 !self.is_class_property(/* asi */ false) && !is_next_line_generator
             }
             _ => false,

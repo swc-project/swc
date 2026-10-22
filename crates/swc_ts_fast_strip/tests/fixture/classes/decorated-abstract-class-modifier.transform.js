@@ -1,0 +1,3 @@
+@decorators.abstract
+class C {
+}

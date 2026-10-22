@@ -7,7 +7,7 @@ use swc_plugin_runner::runtime;
 /// Identifier for bytecode cache stored in local filesystem.
 ///
 /// This MUST be updated when bump up wasmtime.
-const MODULE_SERIALIZATION_IDENTIFIER: &str = concat!("wasmtime", "-", "v35");
+const MODULE_SERIALIZATION_IDENTIFIER: &str = concat!("wasmtime", "-", "v36.0.19");
 
 static ENGINE: OnceCell<wasmtime::Engine> = OnceCell::new();
 

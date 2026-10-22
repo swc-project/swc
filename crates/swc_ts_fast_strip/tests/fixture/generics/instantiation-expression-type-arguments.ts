@@ -1,0 +1,1 @@
+const f = make<string>;

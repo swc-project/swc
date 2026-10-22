@@ -17,13 +17,46 @@
 - **(es/codegen)** Preserve TypeScript token boundaries ([#12523](https://github.com/swc-project/swc/issues/12523)) ([9f36ae0](https://github.com/swc-project/swc/commit/9f36ae0b999c727900649518220adb2f4f8a1ac1))
 
 
+- **(es/codegen)** Emit space after div if rhs starts with a regex ([#12544](https://github.com/swc-project/swc/issues/12544)) ([dddf716](https://github.com/swc-project/swc/commit/dddf7168a086ab1b98461071a1fa63215a08e8ab))
+
+
+- **(es/codegen)** Preserve optional call type arguments ([#12549](https://github.com/swc-project/swc/issues/12549)) ([f7bef4d](https://github.com/swc-project/swc/commit/f7bef4daaf6e38e40991088120165260eb1f51d3))
+
+
 - **(es/compat)** Scope private access modes to each member ([#12526](https://github.com/swc-project/swc/issues/12526)) ([c0e3fa1](https://github.com/swc-project/swc/commit/c0e3fa13fd664634fc662087f3920e628c1a8001))
 
 
 - **(es/fixer)** Preserve TypeScript expression grouping ([#12518](https://github.com/swc-project/swc/issues/12518)) ([b9d3f8f](https://github.com/swc-project/swc/commit/b9d3f8fb383b385035dea2f48f258ff9eb04a062))
 
 
+- **(es/fixer)** Preserve TypeScript operand grouping ([#12539](https://github.com/swc-project/swc/issues/12539)) ([7c4a214](https://github.com/swc-project/swc/commit/7c4a21418c1a5df95e8eccb7a4d125460c44e92a))
+
+
+- **(es/fixer)** Avoid panicking on recovered parenthesized assignment targets ([#12551](https://github.com/swc-project/swc/issues/12551)) ([ec34371](https://github.com/swc-project/swc/commit/ec34371a49973bf076ccd8e489e7bed730e7cef6))
+
+
+- **(es/fixer)** Preserve optional chain boundaries ([#12550](https://github.com/swc-project/swc/issues/12550)) ([01d5630](https://github.com/swc-project/swc/commit/01d5630d40e939de3a1b4f5b83ed9918eaa0948e))
+
+
+- **(es/fixer)** Wrap function declarations in sloppy-mode loop bodies ([#12567](https://github.com/swc-project/swc/issues/12567)) ([76ff943](https://github.com/swc-project/swc/commit/76ff943b6380be9176be3983863e4d6899fafd01))
+
+
 - **(es/minifier)** Bound literal expressions copied by the sequential inliner ([#12521](https://github.com/swc-project/swc/issues/12521)) ([60c700f](https://github.com/swc-project/swc/commit/60c700f2eeb600973b2547b2d3d28ac22ef8e9f7))
+
+
+- **(es/minifier)** Preserve rest array identity when its reference runs more than once ([#12546](https://github.com/swc-project/swc/issues/12546)) ([4768dbe](https://github.com/swc-project/swc/commit/4768dbe091a6706a009d2e9c08950cacba107d55))
+
+
+- **(es/minifier)** Keep `trimLeft` and `trimRight` on string literals ([#12574](https://github.com/swc-project/swc/issues/12574)) ([663ffb0](https://github.com/swc-project/swc/commit/663ffb0c36c83e276b3fba4db3b917aee24033dc))
+
+
+- **(es/minifier)** Keep directive prologue when merging if returns ([#12580](https://github.com/swc-project/swc/issues/12580)) ([fd0edaf](https://github.com/swc-project/swc/commit/fd0edaff3484beb2293eac47e8e8126b41825f60))
+
+
+- **(es/minifier)** Preserve new async and generator ([#12558](https://github.com/swc-project/swc/issues/12558)) ([8f06994](https://github.com/swc-project/swc/commit/8f06994bbe4e1770f54e8e1213535205529a986c))
+
+
+- **(es/minifier)** Release utils API required by registry builds ([#12582](https://github.com/swc-project/swc/issues/12582)) ([b5a52b9](https://github.com/swc-project/swc/commit/b5a52b9a9d4b7f8c3e38628167e937037d831860))
 
 
 - **(es/parser)** Isolate enum await context ([#12506](https://github.com/swc-project/swc/issues/12506)) ([b789495](https://github.com/swc-project/swc/commit/b7894951bee205f85e498d36fcd0b20f14015f93))
@@ -41,10 +74,22 @@
 - **(es/parser)** Align TypeScript expression lookahead ([#12535](https://github.com/swc-project/swc/issues/12535)) ([7ef5966](https://github.com/swc-project/swc/commit/7ef5966233bf90cd662bb6b45b2826cc1fb28c99))
 
 
+- **(es/parser)** Do not treat optional get/set fields as accessors ([#12559](https://github.com/swc-project/swc/issues/12559)) ([a2fedec](https://github.com/swc-project/swc/commit/a2fedece141de509f81ca5187f0b2236507ac832))
+
+
+- **(es/parser)** Recover non-entity expressions in TypeScript heritage clauses ([#12552](https://github.com/swc-project/swc/issues/12552)) ([48586cb](https://github.com/swc-project/swc/commit/48586cb8cf850bd6d4666fd2d53df64af058452e))
+
+
+- **(native)** Allow unmapped overflow owners in Linux cache ancestors ([#12547](https://github.com/swc-project/swc/issues/12547)) ([8ce7daa](https://github.com/swc-project/swc/commit/8ce7daa2cd0a304c02c9bd66399a6c74dbe651dc))
+
+
 - **(native-addon)** Use ProgramData after unsafe Windows profile caches ([#12534](https://github.com/swc-project/swc/issues/12534)) ([47394b8](https://github.com/swc-project/swc/commit/47394b851f73489672016f30a24806f6edd74946))
 
 
 - **(react-compiler)** Preserve intrinsic JSX tags during binding renames ([#12536](https://github.com/swc-project/swc/issues/12536)) ([c25e42e](https://github.com/swc-project/swc/commit/c25e42eba9028dc297f5c1953c37e6314ea3bb87))
+
+
+- **(ts/fast-strip)** Preserve runtime boundaries during type erasure ([#12575](https://github.com/swc-project/swc/issues/12575)) ([ccdc3c1](https://github.com/swc-project/swc/commit/ccdc3c12eb1179ff3a07ccfea0829a624617d935))
 
 ### Documentation
 
@@ -52,11 +97,17 @@
 
 - Prohibit references to issue-linked PRs and external SWC forks ([#12513](https://github.com/swc-project/swc/issues/12513)) ([5092a16](https://github.com/swc-project/swc/commit/5092a16cef14093df987a37334bb3253db4649e0))
 
+
+- Add CodSpeed sponsor logo to README ([#12590](https://github.com/swc-project/swc/issues/12590)) ([9c5b1df](https://github.com/swc-project/swc/commit/9c5b1df49152de69cf239ad96f08dc0ad5ca89a0))
+
 ### Features
 
 
 
 - **(es/minifier)** Inline async function used only once ([#12416](https://github.com/swc-project/swc/issues/12416)) ([b9b2ebe](https://github.com/swc-project/swc/commit/b9b2ebe1bb3623bd5219726d592d1968fbc8b4a1))
+
+
+- **(es/minifier)** Implement more rules for if-break ([#12561](https://github.com/swc-project/swc/issues/12561)) ([644f85a](https://github.com/swc-project/swc/commit/644f85aa7f4c4bf70c2711054217894621c558cc))
 
 ### Performance
 
@@ -66,6 +117,12 @@
 
 
 - **(hstr)** Allow Atom::as_str to inline across crates ([#12522](https://github.com/swc-project/swc/issues/12522)) ([c07290b](https://github.com/swc-project/swc/commit/c07290bb931df2a415649bd1fbda86b312426034))
+
+### Testing
+
+
+
+- **(es/transforms)** Isolate transform timing from AST cloning ([#12540](https://github.com/swc-project/swc/issues/12540)) ([63ee4aa](https://github.com/swc-project/swc/commit/63ee4aad6baf566cd6ba0fcce74f8ff226a2d8cb))
 
 ### Ci
 
@@ -81,6 +138,9 @@
 
 
 - Remove empty contributor changeset ([#12537](https://github.com/swc-project/swc/issues/12537)) ([3986d88](https://github.com/swc-project/swc/commit/3986d882324577a58eae94e66c0fe2c2afa77778))
+
+
+- Require changesets for crate changes ([#12583](https://github.com/swc-project/swc/issues/12583)) ([ee2cd8a](https://github.com/swc-project/swc/commit/ee2cd8a10c1d022c13ffeda53fc6b984abca12b8))
 
 ## [1.16.18] - 2026-10-11
 
@@ -2178,19 +2238,10 @@
 - **(es/compat)** Fix parameter default value evaluation order with object rest ([#11352](https://github.com/swc-project/swc/issues/11352)) ([2ebb261](https://github.com/swc-project/swc/commit/2ebb261c90ab24290a8b972bd4bd7b5b452ddefc))
 
 
-- **(es/fixer)** Preserve parens around IFFE in binary expressions within sequences ([#11324](https://github.com/swc-project/swc/issues/11324)) ([a4c84ea](https://github.com/swc-project/swc/commit/a4c84ea7807839a87300d2e931b6a457f248b33a))
-
-
 - **(es/helpers)** Avoid extra trap calls on excluded keys in object rest spread ([#11338](https://github.com/swc-project/swc/issues/11338)) ([4662caf](https://github.com/swc-project/swc/commit/4662caf427c67a2aea7dade478b0f7c00276b30e))
 
 
-- **(es/minifier)** Fix `debug` cargo feature ([#11325](https://github.com/swc-project/swc/issues/11325)) ([be86fad](https://github.com/swc-project/swc/commit/be86fad7e9b935faac2da7d881a6991295a6dbad))
-
-
 - **(es/minifier)** Fix optimization pass for `merge_imports` ([#11331](https://github.com/swc-project/swc/issues/11331)) ([ca2f7ed](https://github.com/swc-project/swc/commit/ca2f7ed0d06c7d0971102875a5463176d0dd5204))
-
-
-- **(es/parser)** Don't call `bump_bytes` in the `continue_if` of `byte_search!` ([#11328](https://github.com/swc-project/swc/issues/11328)) ([583619d](https://github.com/swc-project/swc/commit/583619d019b548621becb8fb0c895dd9ce85da71))
 
 
 - **(es/parser)** Support type-only string literal in import specifiers ([#11333](https://github.com/swc-project/swc/issues/11333)) ([07762f1](https://github.com/swc-project/swc/commit/07762f13e9ddc5e756b545cb2a6877f427733406))
@@ -2250,9 +2301,6 @@
 - **(es/compat)** Use merged transformer ([#11366](https://github.com/swc-project/swc/issues/11366)) ([c4a5e79](https://github.com/swc-project/swc/commit/c4a5e7989bf0bb943051c56d03f8121d921c9f13))
 
 
-- **(es/parser)** Optimize `byte_search!` ([#11323](https://github.com/swc-project/swc/issues/11323)) ([67f67c1](https://github.com/swc-project/swc/commit/67f67c1dcb45203601d96d4e7a77cb4c16e82d79))
-
-
 - **(es/parser)** Small optimization after byte-based lexer ([#11340](https://github.com/swc-project/swc/issues/11340)) ([c92ea4e](https://github.com/swc-project/swc/commit/c92ea4ec5f32654921efaee9af8cb09dc39457df))
 
 
@@ -2260,40 +2308,5 @@
 
 
 - **(parser)** Make all parsers work by byte instead of char  ([#11318](https://github.com/swc-project/swc/issues/11318)) ([725efd1](https://github.com/swc-project/swc/commit/725efd16c67f4f2d42c6b3c673cb0ad473ff0ff3))
-
-## [1.15.3] - 2025-11-20
-
-### Bug Fixes
-
-
-
-- **(es/codegen)** Emit comments of all nodes ([#11314](https://github.com/swc-project/swc/issues/11314)) ([387ee0f](https://github.com/swc-project/swc/commit/387ee0f4d864212d38c008f4d3b715b17036fbef))
-
-
-- **(es/minifier)** Remove unused arrow functions in dead code elimination ([#11319](https://github.com/swc-project/swc/issues/11319)) ([88c6ac7](https://github.com/swc-project/swc/commit/88c6ac7eb05e3367d3d14e40bad8468218576783))
-
-
-- **(es/plugin)** Use `#[cfg]` to avoid compilation error ([#11316](https://github.com/swc-project/swc/issues/11316)) ([f615cdb](https://github.com/swc-project/swc/commit/f615cdbc52773b4899fb7831992272088013acc0))
-
-### Miscellaneous Tasks
-
-
-
-- **(es/transformer)** Determine project structure ([#11306](https://github.com/swc-project/swc/issues/11306)) ([58f2602](https://github.com/swc-project/swc/commit/58f2602981fd5d2efeabc44dc59fbc07dbb4e7cd))
-
-### Performance
-
-
-
-- **(es/compat)** Merge `regexp` pass into `Transformer` ([#11307](https://github.com/swc-project/swc/issues/11307)) ([440b391](https://github.com/swc-project/swc/commit/440b391e65fab9514c40e65145828c956b8b437b))
-
-
-- **(es/compat)** Merge `export_namespace_from` to `Transformer` ([#11309](https://github.com/swc-project/swc/issues/11309)) ([7a528ce](https://github.com/swc-project/swc/commit/7a528ce66ef1a8b715b702de5d246d60a093ab70))
-
-### Refactor
-
-
-
-- **(es/transfomer)** Prevent breaking change ([#11308](https://github.com/swc-project/swc/issues/11308)) ([45827fa](https://github.com/swc-project/swc/commit/45827fac5d0d0434f425769f6b3f4383617355e0))
 
 <!-- generated by git-cliff -->

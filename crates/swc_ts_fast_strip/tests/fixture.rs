@@ -11,6 +11,7 @@ use swc_ts_fast_strip::{operate, ErrorCode, Mode, Options, TransformConfig};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.ts")]
+#[testing::fixture("tests/fixture/**/*.tsx")]
 fn test(input: PathBuf) {
     let input_code = std::fs::read_to_string(&input).unwrap();
     let output_stderr = input.with_extension("swc-stderr");
@@ -18,10 +19,19 @@ fn test(input: PathBuf) {
     let transform_output_file = input.with_extension("transform.js");
 
     let err = testing::run_test(false, |cm, handler| {
-        if let Ok(code) = operate(&cm, handler, input_code.clone(), opts(Mode::StripOnly)) {
+        let mut options = opts(Mode::StripOnly);
+        options.parser.tsx = input
+            .extension()
+            .is_some_and(|extension| extension == "tsx");
+        if let Ok(code) = operate(&cm, handler, input_code.clone(), options) {
             let code = code.code;
 
             assert_utf16_layout_preserved(&input_code, &code);
+            reparse(&cm, handler, &input, code.clone());
+            assert!(
+                !handler.has_errors(),
+                "type stripping must produce valid JavaScript"
+            );
 
             NormalizedOutput::new_raw(code)
                 .compare_to_file(output_file)
@@ -38,7 +48,11 @@ fn test(input: PathBuf) {
     }
 
     testing::run_test(false, |cm, handler| {
-        let code = operate(&cm, handler, input_code, opts(Mode::Transform))
+        let mut options = opts(Mode::Transform);
+        options.parser.tsx = input
+            .extension()
+            .is_some_and(|extension| extension == "tsx");
+        let code = operate(&cm, handler, input_code, options)
             .expect("should not return Err()")
             .code;
 
@@ -115,7 +129,7 @@ fn error(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/fixture/test-1.ts")]
+#[testing::fixture("tests/fixture/declarations/test-1.ts")]
 fn transform_without_deprecated_ts_module_as_error(input: PathBuf) {
     let input_code = std::fs::read_to_string(&input).unwrap();
     let output_file = input.with_extension("transform.js");
@@ -137,7 +151,41 @@ fn transform_without_deprecated_ts_module_as_error(input: PathBuf) {
     .expect("should not fail");
 }
 
-#[testing::fixture("tests/errors/assertion-*.ts")]
+#[testing::fixture("tests/errors/modules/modules.ts")]
+fn strip_without_deprecated_ts_module_as_error(input: PathBuf) {
+    let source = std::fs::read_to_string(&input).unwrap();
+    for setting in [None, Some(false)] {
+        testing::run_test(false, |cm, handler| {
+            let mut options = opts(Mode::StripOnly);
+            options.deprecated_ts_module_as_error = setting;
+            let output = operate(&cm, handler, source.clone(), options).unwrap();
+            assert_utf16_layout_preserved(&source, &output.code);
+            NormalizedOutput::new_raw(output.code)
+                .compare_to_file(input.with_extension("js"))
+                .unwrap();
+            Ok(())
+        })
+        .unwrap();
+    }
+}
+
+#[testing::fixture("tests/fixture/layout/utf16-width.ts")]
+fn strip_with_reused_source_map(input: PathBuf) {
+    let source = std::fs::read_to_string(&input).unwrap();
+    testing::run_test(false, |cm, handler| {
+        for _ in 0..2 {
+            let output = operate(&cm, handler, source.clone(), opts(Mode::StripOnly)).unwrap();
+            assert_utf16_layout_preserved(&source, &output.code);
+            NormalizedOutput::new_raw(output.code)
+                .compare_to_file(input.with_extension("js"))
+                .unwrap();
+        }
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/errors/expressions/assertion-*.ts")]
 fn assertion_error_in_strip_mode(input: PathBuf) {
     let input_code = std::fs::read_to_string(&input).unwrap();
 
@@ -153,7 +201,7 @@ fn assertion_error_in_strip_mode(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/errors/assertion-*.ts")]
+#[testing::fixture("tests/errors/expressions/assertion-*.ts")]
 fn assertion_error_in_transform_mode(input: PathBuf) {
     let input_code = std::fs::read_to_string(&input).unwrap();
 
@@ -221,11 +269,15 @@ fn opts(mode: Mode) -> Options {
 }
 
 fn reparse(cm: &Lrc<SourceMap>, handler: &Handler, filename: &PathBuf, input: String) {
+    let jsx = filename
+        .extension()
+        .is_some_and(|extension| extension == "tsx");
     let filename = FileName::Real(filename.into());
 
     let fm = cm.new_source_file(filename.into(), input);
 
     let syntax = Syntax::Es(EsSyntax {
+        jsx,
         allow_super_outside_method: true,
         auto_accessors: true,
         decorators: true,

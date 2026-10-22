@@ -1,0 +1,1 @@
+const value = foo<<T>(x: T) => number>(() => 1);

@@ -5626,7 +5626,12 @@
                             {
                                 demerits: 1 / 0
                             }
-                        ]; null !== g && (v = g.next, w = g.data.line + 1, ((b = function(n, i, o, a) {
+                        ]; // before moving on to the active nodes for the next line.
+                        // TODO: The Knuth and Plass paper suggests a conditional for currentLine < j0. This means paragraphs
+                        // with identical line lengths will not be sorted by line number. Find out if that is a desirable outcome.
+                        // For now I left this out, as it only adds minimal overhead to the algorithm and keeping the active node
+                        // list sorted has a higher priority.
+                        null !== g && (v = g.next, w = g.data.line + 1, ((b = function(n, i, o, a) {
                             var l = u.width - o.totals.width, s = 0, c = 0, f = a < r.length ? r[a - 1] : r[r.length - 1];
                             return ("penalty" === e[i].type && (l += e[i].width), l < f) ? // Calculate the stretch ratio
                             (s = u.stretch - o.totals.stretch) > 0 ? (f - l) / s : t.infinity : l > f ? // Calculate the shrink ratio

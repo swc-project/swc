@@ -1,0 +1,1 @@
+class C { public value = 1; }
