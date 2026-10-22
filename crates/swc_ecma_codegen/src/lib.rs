@@ -1908,8 +1908,18 @@ impl MacroNode for MemberExpr {
                 emitter.emit_new(new, false)?;
             }
             Expr::Lit(Lit::Num(num)) => {
-                needs_2dots_for_property_access =
-                    emitter.emit_num_lit_expr(num, ExprPrecedence::POSTFIX, true)?;
+                if num.value.is_finite() && num.value.is_sign_negative() {
+                    // `-0..x` tokenizes as `-(0.x)`, so a negative literal
+                    // needs real parens rather than the extra-dot trick used
+                    // for `1..x`. Non-finite negatives already wrap
+                    // themselves as `(-1/0)` at this precedence.
+                    punct!(emitter, "(");
+                    emitter.emit_num_lit_expr(num, ExprPrecedence::POSTFIX, false)?;
+                    punct!(emitter, ")");
+                } else {
+                    needs_2dots_for_property_access =
+                        emitter.emit_num_lit_expr(num, ExprPrecedence::POSTFIX, true)?;
+                }
             }
             _ => {
                 emit!(self.obj);

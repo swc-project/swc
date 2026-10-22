@@ -734,6 +734,15 @@ impl VisitMut for Fixer<'_> {
 
         match *n.obj {
             Expr::Object(..) if self.ctx == Context::ForcedExpr => {}
+            // `-0..x` tokenizes as `-(0.x)`, so a negative numeric literal in
+            // member object position must keep its parentheses. The `fixer`
+            // mode wrap lives in `wrap_with_paren_if_required`; this arm only
+            // fires under `paren_remover`, where `wrap` is a no-op but the
+            // stripped paren was still required for the output to reparse
+            // with the same meaning.
+            Expr::Lit(Lit::Num(ref num)) if num.value.is_sign_negative() => {
+                *n.obj = self.make_paren(n.obj.take()).into();
+            }
             Expr::Fn(..)
             | Expr::Cond(..)
             | Expr::Unary(..)
@@ -1498,8 +1507,13 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_ast::{noop_pass, ForHead, ModuleItem, Pat, Program, Stmt};
+    use swc_common::DUMMY_SP;
+    use swc_ecma_ast::{
+        noop_pass, Expr, ForHead, Lit, MemberExpr, MemberProp, ModuleItem, Number, ParenExpr, Pat,
+        Program, Stmt,
+    };
     use swc_ecma_parser::Syntax;
+    use swc_ecma_visit::VisitMutWith;
 
     use super::paren_remover;
 
@@ -1568,6 +1582,61 @@ mod tests {
 
             Ok(())
         });
+    }
+
+    fn negative_zero_member_expr(wrapped: bool) -> Box<Expr> {
+        let num = Lit::Num(Number {
+            span: DUMMY_SP,
+            value: -0.0,
+            raw: None,
+        });
+
+        Expr::Member(MemberExpr {
+            span: DUMMY_SP,
+            obj: if wrapped {
+                ParenExpr {
+                    span: DUMMY_SP,
+                    expr: num.into(),
+                }
+                .into()
+            } else {
+                num.into()
+            },
+            prop: MemberProp::Ident("x".into()),
+        })
+        .into()
+    }
+
+    /// Constant folding can leave a negative `Lit::Num` in member object
+    /// position, where emitting `-0..x` would reparse as `-(0.x)`.
+    #[test]
+    fn fixer_wraps_negative_number_member_obj() {
+        let mut expr = negative_zero_member_expr(false);
+
+        expr.visit_mut_with(&mut super::fixer(None));
+
+        let Expr::Member(member) = &*expr else {
+            panic!("expected member expression");
+        };
+        assert!(
+            matches!(&*member.obj, Expr::Paren(..)),
+            "negative number member object should be parenthesized"
+        );
+    }
+
+    #[test]
+    fn paren_remover_keeps_negative_number_member_obj_parens() {
+        let mut expr = negative_zero_member_expr(true);
+
+        expr.visit_mut_with(&mut paren_remover(None));
+
+        let Expr::Member(member) = &*expr else {
+            panic!("expected member expression");
+        };
+        assert!(
+            matches!(&*member.obj, Expr::Paren(..)),
+            "paren_remover must keep required parens around a negative literal"
+        );
     }
 
     identical!(fn_expr_position, r#"foo(function(){}())"#);
