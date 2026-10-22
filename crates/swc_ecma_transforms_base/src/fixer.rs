@@ -108,6 +108,12 @@ impl Fixer<'_> {
                 .first()
                 .is_some_and(|e| Self::begins_with_let_computed_member(e)),
             Expr::TaggedTpl(TaggedTpl { tag, .. }) => Self::begins_with_let_computed_member(tag),
+            // A postfix update emits its operand first, so `(let)[0]++`
+            // still starts with `let[` and keeps the ambiguity. Prefix
+            // updates emit `++`/`--` first and are not ambiguous.
+            Expr::Update(UpdateExpr {
+                prefix: false, arg, ..
+            }) => Self::begins_with_let_computed_member(arg),
             Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
