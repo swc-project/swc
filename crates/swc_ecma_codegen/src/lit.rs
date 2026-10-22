@@ -71,6 +71,14 @@ impl MacroNode for Lit {
                 punct!(emitter, "/");
                 // Encode non-ASCII characters in regex pattern when ascii_only is enabled
                 let encoded_exp = encode_regex_for_ascii(&n.exp, emitter.cfg.ascii_only);
+                // `</script`, `<!--`, and `-->` inside a pattern would break
+                // out of an inline script element. All replacements stay
+                // valid regular expression escapes.
+                let encoded_exp = if emitter.cfg.inline_script {
+                    escape_inline_script(&encoded_exp)
+                } else {
+                    encoded_exp
+                };
                 emitter.wr.write_str(&encoded_exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;

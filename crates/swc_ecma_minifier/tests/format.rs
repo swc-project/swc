@@ -86,6 +86,25 @@ foo("/-->/");
 }
 
 #[test]
+fn inline_script_regex() {
+    let src = r#"
+console.log(1 < /script>/.source.length);
+console.log(2 < /SCRIPT>/i.source.length);
+console.log(3 < /script/.source);
+console.log(4 < /scriptx/);
+console.log(/[</script>]/.source.length);
+console.log(/x<!--/y.source.length);
+console.log(5 << /script>/);
+"#;
+    let expected = r#"console.log(1< /script>/.source.length);console.log(2< /SCRIPT>/i.source.length);console.log(3< /script/.source);console.log(4</scriptx/);console.log(/[<\/script>]/.source.length);console.log(/x\x3c!--/y.source.length);console.log(5<< /script>/);"#;
+    assert_format(
+        src,
+        expected,
+        Config::default().with_inline_script(true).with_minify(true),
+    )
+}
+
+#[test]
 fn rspack_issue_4797() {
     let src = r#"
 obj = {
