@@ -27,7 +27,7 @@ use self::{
 use crate::{
     scope_helpers::{for_each_param_binding, for_each_pat_binding},
     util::{
-        starts_with_lt, starts_with_regex, type_starts_with_lt, EndsWithAlphaNum,
+        leftmost_regex, starts_with_lt, starts_with_regex, type_starts_with_lt, EndsWithAlphaNum,
         EndsWithTypeScriptToken, TrailingToken,
     },
 };
@@ -415,6 +415,11 @@ where
                     || starts_with_regex(&node.right)
             } else {
                 require_space_before_rhs(&node.right, &node.op)
+                    // `x < /script>/` without a space would emit `</script>`
+                    // and terminate an inline script element.
+                    || (self.cfg.inline_script
+                        && matches!(node.op, op!("<") | op!("<<"))
+                        && matches!(leftmost_regex(&node.right), Some(Lit::Regex(regex)) if regex_starts_with_close_script(regex)))
             }
         } else {
             is_kwd_op
@@ -1559,6 +1564,21 @@ fn require_space_before_rhs(mut rhs: &Expr, op: &BinaryOp) -> bool {
 
         _ => false,
     }
+}
+
+/// Whether the regular expression pattern begins with `script` in a way that
+/// would complete `</script` when emitted right after a `<`. An empty rest
+/// still terminates the sequence because the closing `/` delimiter follows.
+fn regex_starts_with_close_script(regex: &swc_ecma_ast::Regex) -> bool {
+    let bytes = regex.exp.as_str().as_bytes();
+    if bytes.len() < 6 || !bytes[..6].eq_ignore_ascii_case(b"script") {
+        return false;
+    }
+    bytes.len() == 6
+        || matches!(
+            bytes[6],
+            b'>' | b'/' | b' ' | b'\t' | b'\n' | b'\x0C' | b'\r'
+        )
 }
 
 fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {

@@ -101,26 +101,29 @@ pub(crate) fn starts_with_lt(mut expr: &Expr) -> bool {
 /// Follow the emitted left edge to a regular expression literal, which would
 /// turn a preceding `/` operator into a `//` line comment. Parentheses and
 /// prefix operators provide their own token boundary.
-pub(crate) fn starts_with_regex(mut expr: &Expr) -> bool {
+pub(crate) fn starts_with_regex(expr: &Expr) -> bool {
+    leftmost_regex(expr).is_some()
+}
+
+/// Like [`starts_with_regex`], but returns the literal so the caller can
+/// inspect the pattern.
+pub(crate) fn leftmost_regex(mut expr: &Expr) -> Option<&Lit> {
     loop {
         expr = match expr {
-            Expr::Lit(Lit::Regex(..)) => return true,
+            Expr::Lit(lit @ Lit::Regex(..)) => return Some(lit),
             Expr::Bin(n) => &n.left,
             Expr::Cond(n) => &n.test,
-            Expr::Seq(n) => match n.exprs.first() {
-                Some(first) => first,
-                None => return false,
-            },
+            Expr::Seq(n) => n.exprs.first()?,
             Expr::Member(n) => &n.obj,
             Expr::Call(n) => match &n.callee {
                 Callee::Expr(callee) => callee,
-                _ => return false,
+                _ => return None,
             },
             Expr::OptChain(n) => match &*n.base {
                 OptChainBase::Member(n) => &n.obj,
                 OptChainBase::Call(n) => &n.callee,
                 #[cfg(swc_ast_unknown)]
-                _ => return false,
+                _ => return None,
             },
             Expr::TaggedTpl(n) => &n.tag,
             Expr::Update(n) if !n.prefix => &n.arg,
@@ -129,7 +132,7 @@ pub(crate) fn starts_with_regex(mut expr: &Expr) -> bool {
             Expr::TsSatisfies(n) => &n.expr,
             Expr::TsConstAssertion(n) => &n.expr,
             Expr::TsInstantiation(n) => &n.expr,
-            _ => return false,
+            _ => return None,
         };
     }
 }
