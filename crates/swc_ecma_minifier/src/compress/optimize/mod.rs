@@ -1100,6 +1100,29 @@ impl Optimizer<'_> {
             }
 
             Expr::Object(obj) => {
+                // Spreading enumerates and reads the argument, so a getter in
+                // `{ ...{ get prop() {} } }` runs even though the object itself
+                // is unused. Keep the whole literal when a spread argument
+                // needs preservation.
+                if obj.props.iter().any(|p| match p {
+                    // Spreading a literal has no observable effect.
+                    PropOrSpread::Spread(s) => {
+                        !matches!(&*s.expr, Expr::Lit(..))
+                            && self.should_preserve_property_access(
+                                &s.expr,
+                                PropertyAccessOpts {
+                                    allow_getter: false,
+                                    only_ident: false,
+                                },
+                            )
+                    }
+                    PropOrSpread::Prop(_) => false,
+                    #[cfg(swc_ast_unknown)]
+                    _ => false,
+                }) {
+                    return Some(e.take());
+                }
+
                 let mut exprs = Vec::new();
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an object literal");
