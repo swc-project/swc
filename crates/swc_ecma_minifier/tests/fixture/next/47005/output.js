@@ -120,7 +120,10 @@
                     ...k.platform,
                     _c: E
                 };
-                return (async ()=>{})();
+                return (async ()=>{})({
+                    ...k,
+                    platform: R
+                });
             };
             var et = {
                 arrow: "react-tooltip__arrow_KtSkBq",
@@ -167,13 +170,13 @@
                 ]), (0, A.useEffect)(()=>{}, [
                     N
                 ]);
-                let el = ()=>{}, ei = ()=>{}, eu = ({})=>{}, ea = (m)=>{
+                let el = ()=>{}, ei = ()=>{}, ea = ({})=>{}, eu = (m)=>{
                     if (!m) return;
                     let S = {
                         x: m.clientX,
                         y: m.clientY
                     };
-                    eu(S), Y.current = S;
+                    ea(S), Y.current = S;
                 }, es = (m)=>{
                     el(), y && ((m = y)=>{})();
                 }, ec = (S)=>{
@@ -215,7 +218,7 @@
                         listener: ed
                     }), g && R.push({
                         event: "mousemove",
-                        listener: ea
+                        listener: eu
                     }));
                     let A = ()=>{
                         J.current = !0;
@@ -278,9 +281,9 @@
                     r,
                     _
                 ]), (0, A.useEffect)(()=>{
-                    if (P) return void eu(P);
+                    if (P) return void ea(P);
                     if (g) {
-                        Y.current && eu(Y.current);
+                        Y.current && ea(Y.current);
                         return;
                     }
                     (async ({ elementReference: m = null, tooltipReference: S = null, tooltipArrowReference: h = null, place: E = "top", offset: k = 10, strategy: R = "absolute", middlewares: A = [
