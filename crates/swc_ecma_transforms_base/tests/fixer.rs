@@ -1,9 +1,9 @@
 use std::path::PathBuf;
 
 use swc_common::{sync::Lrc, util::take::Take, EqIgnoreSpan, FileName, SourceMap};
-use swc_ecma_ast::{EsVersion, Expr, Module, SimpleAssignTarget};
+use swc_ecma_ast::{EsVersion, Expr, Module, Program, SimpleAssignTarget};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, Syntax, TsSyntax};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::fixture;
@@ -48,6 +48,24 @@ fn parse(cm: &SourceMap, source: String, syntax: Syntax) -> Module {
     module
 }
 
+fn parse_program(cm: &SourceMap, source: String) -> Program {
+    let file = cm.new_source_file(FileName::Anon.into(), source);
+    let mut errors = Vec::new();
+    let program = parse_file_as_program(
+        &file,
+        Syntax::Es(Default::default()),
+        EsVersion::latest(),
+        None,
+        &mut errors,
+    )
+    .expect("fixer fixture should parse as a program");
+    assert!(
+        errors.is_empty(),
+        "fixer fixture has syntax errors: {errors:?}"
+    );
+    program
+}
+
 fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
     let mut output = Vec::new();
     let mut emitter = Emitter {
@@ -58,6 +76,43 @@ fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
     };
     emitter.emit_module(module).unwrap();
     String::from_utf8(output).unwrap()
+}
+
+fn print_program(cm: Lrc<SourceMap>, program: &Program) -> String {
+    let mut output = Vec::new();
+    let mut emitter = Emitter {
+        cfg: Default::default(),
+        cm: cm.clone(),
+        comments: None,
+        wr: JsWriter::new(cm, "\n", &mut output, None),
+    };
+    emitter.emit_program(program).unwrap();
+    String::from_utf8(output).unwrap()
+}
+
+/// A statement starting with `let [` is a declaration, not a member
+/// expression, and `for (let of` binds a `let` variable. Parentheses around
+/// `let` in those positions are required and must survive the fixer.
+#[fixture("tests/fixer/let/**/input.js")]
+fn js_fixer_let_round_trip(input: PathBuf) {
+    testing::run_test2(false, |cm, _| {
+        let source = std::fs::read_to_string(&input).unwrap();
+        let mut expected = parse_program(&cm, source);
+        let mut fixed = expected.clone();
+        fixed.visit_mut_with(&mut fixer(None));
+        let output = print_program(cm.clone(), &fixed);
+        let mut actual = parse_program(&cm, output.clone());
+
+        expected.visit_mut_with(&mut IgnoreParens);
+        actual.visit_mut_with(&mut IgnoreParens);
+        assert!(
+            expected.eq_ignore_span(&actual),
+            "fixer changed the program structure in {}:\n{output}",
+            input.display(),
+        );
+        Ok(())
+    })
+    .unwrap();
 }
 
 #[fixture("tests/ts-resolver/fixer/**/input.ts")]
