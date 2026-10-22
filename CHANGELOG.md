@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.16.20] - 2026-10-22
 
 ### Bug Fixes
 
@@ -2244,9 +2244,6 @@
 - **(es/minifier)** Fix optimization pass for `merge_imports` ([#11331](https://github.com/swc-project/swc/issues/11331)) ([ca2f7ed](https://github.com/swc-project/swc/commit/ca2f7ed0d06c7d0971102875a5463176d0dd5204))
 
 
-- **(es/parser)** Support type-only string literal in import specifiers ([#11333](https://github.com/swc-project/swc/issues/11333)) ([07762f1](https://github.com/swc-project/swc/commit/07762f13e9ddc5e756b545cb2a6877f427733406))
-
-
 - **(es/parser)** Handle TypeScript expressions in destructuring patterns ([#11353](https://github.com/swc-project/swc/issues/11353)) ([160ec34](https://github.com/swc-project/swc/commit/160ec343404d7363e94a447be5c23bed2ab50e37))
 
 
@@ -2290,9 +2287,6 @@
 
 ### Performance
 
-
-
-- **(es/compat)** Merge `exponentation_operator` ([#11310](https://github.com/swc-project/swc/issues/11310)) ([0ef3637](https://github.com/swc-project/swc/commit/0ef3637606035ce6258c9893fe458bc80c598574))
 
 
 - **(es/compat)** Merge `optional_catch_binding` ([#11313](https://github.com/swc-project/swc/issues/11313)) ([468d20c](https://github.com/swc-project/swc/commit/468d20cf811794e2e905617b4426e8d593cbca59))

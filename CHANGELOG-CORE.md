@@ -2761,14 +2761,8 @@
 
 - **(es/minifier)** Fix optimization pass for `merge_imports` ([#11331](https://github.com/swc-project/swc/issues/11331)) ([ca2f7ed](https://github.com/swc-project/swc/commit/ca2f7ed0d06c7d0971102875a5463176d0dd5204))
 
-
-- **(es/parser)** Support type-only string literal in import specifiers ([#11333](https://github.com/swc-project/swc/issues/11333)) ([07762f1](https://github.com/swc-project/swc/commit/07762f13e9ddc5e756b545cb2a6877f427733406))
-
 ### Performance
 
-
-
-- **(es/compat)** Merge `exponentation_operator` ([#11310](https://github.com/swc-project/swc/issues/11310)) ([0ef3637](https://github.com/swc-project/swc/commit/0ef3637606035ce6258c9893fe458bc80c598574))
 
 
 - **(parser)** Make all parsers work by byte instead of char  ([#11318](https://github.com/swc-project/swc/issues/11318)) ([725efd1](https://github.com/swc-project/swc/commit/725efd16c67f4f2d42c6b3c673cb0ad473ff0ff3))
