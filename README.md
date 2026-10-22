@@ -83,6 +83,14 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
 
 ## Sponsors
 
+<a href="https://codspeed.io/?utm_source=oss-sponsorship&utm_medium=swc-project">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://codspeed.io/codspeed-logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://codspeed.io/codspeed-logo-light.svg">
+    <img alt="CodSpeed logo" src="https://codspeed.io/codspeed-logo-light.svg" width="400">
+  </picture>
+</a>
+
 <p align="center">
   <a href="https://opencollective.com/swc">
     <img src="https://raw.githubusercontent.com/swc-project/swc-sponsor-images/main/sponsors.svg" alt="Sponsors">
