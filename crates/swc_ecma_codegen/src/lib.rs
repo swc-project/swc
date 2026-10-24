@@ -2355,7 +2355,7 @@ impl MacroNode for TplElement {
                 if offset_gen != 0 {
                     emitter
                         .wr
-                        .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+                        .add_srcmap(span.lo)?;
                 }
 
                 emitter
@@ -2366,7 +2366,7 @@ impl MacroNode for TplElement {
             }
             emitter
                 .wr
-                .add_srcmap(span.lo + BytePos(last_offset_origin as u32))?;
+                        .add_srcmap(span.lo)?;
             emitter.wr.write_str_lit(DUMMY_SP, &v[last_offset_gen..])?;
             emitter.wr.add_srcmap(span.hi)?;
         } else {
