@@ -5,12 +5,12 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@types/node": "^17.0.17",
+    "@types/node": "^24.0.0",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "typescript": "^7.0.0"
   },
   "dependencies": {
-    "@octokit/rest": "^18.12.0",
-    "yaml": "^1.10.2"
+    "@octokit/rest": "^22.0.0",
+    "yaml": "^2.0.0"
   }
 }

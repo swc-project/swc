@@ -23,17 +23,17 @@
     "bisect": "tsx ecosystem-ci.ts bisect"
   },
   "devDependencies": {
-    "@types/node": "^20.8.3",
-    "@typescript-eslint/eslint-plugin": "^6.7.4",
-    "@typescript-eslint/parser": "^6",
-    "eslint": "^8.51.0",
-    "eslint-define-config": "^1.23.0",
-    "eslint-plugin-n": "^16.1.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
+    "@types/node": "^24.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^10.0.0",
+    "eslint-define-config": "^2.0.0",
+    "eslint-plugin-n": "^18.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^17.0.0",
     "prettier": "^3.0.3",
-    "tsx": "^3.13.0",
-    "typescript": "^5.2.2"
+    "tsx": "^4.0.0",
+    "typescript": "^7.0.0"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
@@ -45,12 +45,12 @@
     ]
   },
   "dependencies": {
-    "@actions/core": "^1.10.1",
-    "@antfu/ni": "^0.21.8",
-    "@octokit/core": "^5.0.1",
-    "cac": "^6.7.14",
-    "execa": "^8.0.1",
-    "octokit": "^3.1.1",
+    "@actions/core": "^3.0.0",
+    "@antfu/ni": "^30.0.0",
+    "@octokit/core": "^7.0.0",
+    "cac": "^7.0.0",
+    "execa": "^10.0.0",
+    "octokit": "^5.0.0",
     "semver": "^7.5.4"
   }
 }

@@ -32,7 +32,7 @@
     "devDependencies": {
         "@ast-grep/napi": "^0.40.3",
         "dprint": "^0.35.3",
-        "zx": "^7.2.1"
+        "zx": "^8.0.0"
     },
     "exports": {
         "./package.json": "./package.json",
