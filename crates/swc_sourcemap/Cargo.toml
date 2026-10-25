@@ -20,7 +20,7 @@ data-encoding    = "2.3.3"
 debugid          = { version = "0.8.0", features = ["serde"] }
 if_chain         = "1.0.0"
 rustc-hash       = "2.1.1"
-scroll           = { version = "0.12.0", features = ["derive"], optional = true }
+scroll           = { version = "0.13.0", features = ["derive"], optional = true }
 serde            = { version = "1.0.104", features = ["derive", "rc"] }
 serde_json       = { version = "1.0.48", features = ["raw_value"] }
 unicode-id-start = "1"

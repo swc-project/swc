@@ -16,8 +16,8 @@ swc_v1  = []
 
 [dependencies]
 anyhow = "1.0.97"
-browserslist-rs = { version = "0.20.0", features = ["wasm_bindgen"] }
-getrandom = { version = "0.3.3", features = ["wasm_js"] }
+browserslist-rs = { version = "0.21.0", features = ["wasm_bindgen"] }
+getrandom = { version = "0.4.0", features = ["wasm_js"] }
 serde = { version = "1", features = ["derive"] }
 serde-wasm-bindgen = "0.6.5"
 swc_core = { path = "../../../../swc_core", features = [
