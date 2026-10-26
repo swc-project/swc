@@ -2043,3 +2043,20 @@ fn rename_keep_contexts() {
         Ok(())
     });
 }
+
+#[test]
+fn fn_expr_name_cannot_capture_transformed_global() {
+    test(
+        |tester| {
+            let global = Mark::new();
+            let local = Mark::new();
+            Ok(tester
+                .parse_stmts(
+                    "actual.js",
+                    "var NativeMap = Map; var Polyfill = function Map() { return Map; };",
+                )?
+                .fold_with(&mut OnceMarker::new(&[("Map", &[global, local, global])])))
+        },
+        "var NativeMap = Map; var Polyfill = function Map1() { return Map; };",
+    );
+}

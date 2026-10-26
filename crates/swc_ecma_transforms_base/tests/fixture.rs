@@ -4,7 +4,7 @@ use swc_common::{sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
-use swc_ecma_transforms_base::{fixer::fixer, resolver};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_visit::{visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith};
 use testing::{fixture, run_test2, NormalizedOutput};
 
@@ -133,4 +133,16 @@ impl VisitMut for TsHygiene {
     fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
         q.left.visit_mut_with(self);
     }
+}
+
+// Run hygiene after resolution to check emitted names and recursive references.
+#[fixture("tests/hygiene/**/input.js")]
+fn test_hygiene(input: PathBuf) {
+    run(Syntax::default(), &input, || {
+        (
+            resolver(Mark::new(), Mark::new(), false),
+            hygiene(),
+            fixer(None),
+        )
+    });
 }

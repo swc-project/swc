@@ -27,6 +27,9 @@ pub(crate) struct Scope {
     pub(super) data: ScopeData,
 
     pub(super) children: Vec<Scope>,
+
+    /// A function expression name is visible only inside this scope.
+    pub(crate) fn_expr_name: Option<Id>,
 }
 
 pub(super) type FxIndexSet<T> = IndexSet<T, BuildHasherDefault<FxHasher>>;
@@ -170,7 +173,7 @@ impl Scope {
             loop {
                 let sym = renamer.new_name_for(&id, &mut n);
 
-                if preserved_symbols.contains(&sym)
+                if (preserved_symbols.contains(&sym) && !self.can_keep_fn_expr_name(&id, &sym))
                     || self.data.reserved_output_symbols.contains(&sym)
                 {
                     continue;
@@ -194,6 +197,21 @@ impl Scope {
                 }
             }
         }
+    }
+
+    fn can_keep_fn_expr_name(&self, id: &Id, symbol: &Atom) -> bool {
+        if symbol != &id.0 || self.fn_expr_name.as_ref() != Some(id) {
+            return false;
+        }
+
+        // An unresolved reference outside this function cannot be captured by its
+        // name. Still rename when transforms introduce a reference with the same
+        // symbol but a different context inside the function or its descendants.
+        !self
+            .data
+            .all
+            .iter()
+            .any(|other| other.0 == *symbol && other != id)
     }
 
     fn can_rename(&self, id: &Id, symbol: &Atom, reverse: &ReverseMap) -> bool {

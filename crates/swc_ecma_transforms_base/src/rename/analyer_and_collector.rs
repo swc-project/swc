@@ -307,6 +307,7 @@ impl Visit for AnalyzerAndCollector {
     fn visit_fn_expr(&mut self, node: &FnExpr) {
         if let Some(id) = &node.ident {
             let old_analyzer0 = self.analyzer.enter_fn_scope();
+            self.analyzer.scope.fn_expr_name = Some(id.to_id());
             self.analyzer.add_decl(id.to_id(), true);
             let old_analyzer1 = self.analyzer.enter_fn_scope();
             // https://github.com/swc-project/swc/issues/6819
