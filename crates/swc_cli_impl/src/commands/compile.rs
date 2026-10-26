@@ -112,11 +112,11 @@ pub struct CompileOptions {
     out_file_extension: String,
 
     /// Deprecated no-op. Trace profiling is disabled in production builds.
-    #[clap(group = "experimental_trace", long)]
+    #[clap(group = "trace_options", long)]
     experimental_trace: bool,
 
     /// Deprecated no-op. No trace output file will be generated.
-    #[clap(group = "experimental_trace", long)]
+    #[clap(group = "trace_options", long)]
     trace_out_file: Option<String>,
 }
 
