@@ -29,6 +29,7 @@ fn ancestor_acl_fixtures() {
             continue;
         }
         let fields: Vec<_> = line.split('|').collect();
+        let path = Path::new(fields.get(3).copied().unwrap_or(r"C:\Users\fixture"));
         let sddl: Vec<u16> = fields[1].encode_utf16().chain(Some(0)).collect();
         let mut descriptor = ptr::null_mut();
         assert_ne!(

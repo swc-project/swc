@@ -23,7 +23,7 @@ use windows_sys::Win32::{
     },
     Storage::FileSystem::{
         CreateDirectoryW, GetFileInformationByHandle, LockFileEx, MoveFileExW,
-        BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_NONE, FILE_ATTRIBUTE_COMPRESSED,
+        BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_NONE, DELETE, FILE_ATTRIBUTE_COMPRESSED,
         FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE,
         FILE_SHARE_READ, FILE_SHARE_WRITE, LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY,
         MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
@@ -245,7 +245,7 @@ fn validate_ancestor_security(
             ),
         ));
     }
-    validate_ancestor_dacl(dacl, current_sid).map_err(|error| {
+    validate_ancestor_dacl(path, dacl, current_sid).map_err(|error| {
         io::Error::new(
             error.kind(),
             format!("cache ancestor {}: {error}", path.display()),
@@ -263,8 +263,16 @@ fn trusted_principal(sid: &str, current_sid: &str) -> bool {
 /// Conservatively reject ACLs that grant an untrusted principal the rights to
 /// remove, retake ownership of, or rewrite a cache-root ancestor. This avoids
 /// mutating caller-owned roots while preventing pathname substitution.
-fn validate_ancestor_dacl(dacl: *mut ACL, current_sid: &str) -> io::Result<()> {
+fn validate_ancestor_dacl(path: &Path, dacl: *mut ACL, current_sid: &str) -> io::Result<()> {
     let denied = |message| io::Error::new(io::ErrorKind::PermissionDenied, message);
+    // A volume/share root cannot itself be removed through DELETE. Keep checking
+    // rights that can replace its children or change its security descriptor.
+    // Non-root ancestors still need DELETE protection against substitution.
+    let dangerous_access = if path.is_absolute() && path.parent().is_none() {
+        DANGEROUS_DIRECTORY_ACCESS & !DELETE
+    } else {
+        DANGEROUS_DIRECTORY_ACCESS
+    };
     if dacl.is_null() {
         // A null DACL grants full access to every account.
         return Err(denied(
@@ -292,7 +300,7 @@ fn validate_ancestor_dacl(dacl: *mut ACL, current_sid: &str) -> io::Result<()> {
             return Err(denied(format!("unsupported effective ACE type {ace_type}")));
         }
         let mask = unsafe { std::ptr::read_unaligned(ace.cast::<u8>().add(4).cast::<u32>()) };
-        if mask & DANGEROUS_DIRECTORY_ACCESS == 0 {
+        if mask & dangerous_access == 0 {
             continue;
         }
         // ACCESS_ALLOWED_ACE stores the SID immediately after its header and
