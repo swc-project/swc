@@ -98,29 +98,33 @@ pub(crate) fn starts_with_lt(mut expr: &Expr) -> bool {
     }
 }
 
-/// Follow the emitted left edge to a regular expression literal, which would
-/// turn a preceding `/` operator into a `//` line comment. Parentheses and
-/// prefix operators provide their own token boundary.
-pub(crate) fn starts_with_regex(mut expr: &Expr) -> bool {
+/// Whether a regular expression literal would turn a preceding `/` into `//`.
+pub(crate) fn starts_with_regex(expr: &Expr) -> bool {
+    leading_regex(expr).is_some()
+}
+
+/// Follow the emitted left edge to a regular expression literal. Parentheses
+/// and prefix operators provide their own token boundary.
+pub(crate) fn leading_regex(mut expr: &Expr) -> Option<&Regex> {
     loop {
         expr = match expr {
-            Expr::Lit(Lit::Regex(..)) => return true,
+            Expr::Lit(Lit::Regex(regex)) => return Some(regex),
             Expr::Bin(n) => &n.left,
             Expr::Cond(n) => &n.test,
             Expr::Seq(n) => match n.exprs.first() {
                 Some(first) => first,
-                None => return false,
+                None => return None,
             },
             Expr::Member(n) => &n.obj,
             Expr::Call(n) => match &n.callee {
                 Callee::Expr(callee) => callee,
-                _ => return false,
+                _ => return None,
             },
             Expr::OptChain(n) => match &*n.base {
                 OptChainBase::Member(n) => &n.obj,
                 OptChainBase::Call(n) => &n.callee,
                 #[cfg(swc_ast_unknown)]
-                _ => return false,
+                _ => return None,
             },
             Expr::TaggedTpl(n) => &n.tag,
             Expr::Update(n) if !n.prefix => &n.arg,
@@ -129,7 +133,7 @@ pub(crate) fn starts_with_regex(mut expr: &Expr) -> bool {
             Expr::TsSatisfies(n) => &n.expr,
             Expr::TsConstAssertion(n) => &n.expr,
             Expr::TsInstantiation(n) => &n.expr,
-            _ => return false,
+            _ => return None,
         };
     }
 }

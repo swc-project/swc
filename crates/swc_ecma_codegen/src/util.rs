@@ -2,7 +2,8 @@ use swc_ecma_ast::*;
 
 mod token_boundaries;
 pub(crate) use token_boundaries::{
-    starts_with_lt, starts_with_regex, type_starts_with_lt, EndsWithTypeScriptToken, TrailingToken,
+    leading_regex, starts_with_lt, starts_with_regex, type_starts_with_lt, EndsWithTypeScriptToken,
+    TrailingToken,
 };
 
 pub trait EndsWithAlphaNum {

@@ -27,7 +27,7 @@ use self::{
 use crate::{
     scope_helpers::{for_each_param_binding, for_each_pat_binding},
     util::{
-        starts_with_lt, starts_with_regex, type_starts_with_lt, EndsWithAlphaNum,
+        leading_regex, starts_with_lt, starts_with_regex, type_starts_with_lt, EndsWithAlphaNum,
         EndsWithTypeScriptToken, TrailingToken,
     },
 };
@@ -413,6 +413,18 @@ where
                         .comments
                         .is_some_and(|comments| comments.has_leading(span.lo))
                     || starts_with_regex(&node.right)
+            } else if self.cfg.inline_script
+                && matches!(node.op, op!("<") | op!("<<"))
+                && leading_regex(&node.right).is_some_and(|regex| {
+                    regex
+                        .exp
+                        .as_bytes()
+                        .get(..6)
+                        .is_some_and(|prefix| prefix.eq_ignore_ascii_case(b"script"))
+                })
+            {
+                // The operator and the opening slash must not form `</script`.
+                true
             } else {
                 require_space_before_rhs(&node.right, &node.op)
             }

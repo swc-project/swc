@@ -71,6 +71,11 @@ impl MacroNode for Lit {
                 punct!(emitter, "/");
                 // Encode non-ASCII characters in regex pattern when ascii_only is enabled
                 let encoded_exp = encode_regex_for_ascii(&n.exp, emitter.cfg.ascii_only);
+                let encoded_exp = if emitter.cfg.inline_script {
+                    escape_inline_script_regex(&encoded_exp)
+                } else {
+                    CowStr::Borrowed(&encoded_exp)
+                };
                 emitter.wr.write_str(&encoded_exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
@@ -222,6 +227,22 @@ pub(crate) fn escape_inline_script(raw: &str) -> CowStr<'_> {
         CowStr::Owned(
             value
                 .replace("<!--", "\\x3c!--")
+                .replace("-->", "--\\x3e")
+                .into(),
+        )
+    } else {
+        value
+    }
+}
+
+/// Escape HTML markers without changing regex matching semantics. Escape `!`
+/// rather than `<` because `<` can already have an identity escape (`\<`).
+fn escape_inline_script_regex(raw: &str) -> CowStr<'_> {
+    let value = replace_close_inline_script(raw);
+    if value.contains("<!--") || value.contains("-->") {
+        CowStr::Owned(
+            value
+                .replace("<!--", "<\\x21--")
                 .replace("-->", "--\\x3e")
                 .into(),
         )
