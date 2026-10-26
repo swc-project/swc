@@ -1,7 +1,7 @@
 use nom::{
     bytes::complete::{tag, take_while},
     error::ErrorKind,
-    IResult, InputIter, Slice,
+    IResult, Input as NomInput, Parser,
 };
 use swc_common::{Span, Spanned};
 
@@ -16,7 +16,7 @@ pub fn parse(i: Input) -> IResult<Input, JsDoc> {
 
     let mut tags = Vec::new();
     let lo = i.span().lo;
-    let (description, mut i) = take_while(|c| c != '@')(i)?;
+    let (mut i, description) = take_while(|c| c != '@').parse(i)?;
     let description = trim(description).into();
 
     i = skip(i);
@@ -41,7 +41,7 @@ pub fn parse(i: Input) -> IResult<Input, JsDoc> {
 
 pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
     let i = skip(i);
-    let (_, i) = tag("@")(i)?;
+    let (i, _) = tag("@").parse(i)?;
 
     let (mut i, tag_name) = parse_word(i)?;
     i = skip_ws(i);
@@ -81,7 +81,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
 
         "borrows" => {
             let (input, from) = parse_name_path(i)?;
-            let (_, input) = tag("as")(input)?;
+            let (input, _) = tag("as").parse(input)?;
             let (input, to) = parse_name_path(input)?;
             i = input;
             Tag::Borrows(BorrowsTag { span, from, to })
@@ -161,7 +161,7 @@ pub fn parse_tag_item(i: Input) -> IResult<Input, TagItem> {
         }
 
         "example" => {
-            let (text, input) = take_while(|c| c != '@')(i)?;
+            let (input, text) = take_while(|c| c != '@').parse(i)?;
             i = input;
             Tag::Example(ExampleTag {
                 span,
@@ -533,9 +533,9 @@ fn parse_opt_type(i: Input) -> IResult<Input, Option<Text>> {
 fn parse_one_of<'i>(i: Input<'i>, list: &[&str]) -> IResult<Input<'i>, Text> {
     for &item in list {
         if i.starts_with(item) {
-            let res = tag::<&str, Input<'_>, (_, ErrorKind)>(item)(i);
+            let res = tag::<&str, Input<'_>, (_, ErrorKind)>(item).parse(i);
             match res {
-                Ok(v) => return Ok((v.1, v.0.into())),
+                Ok(v) => return Ok((v.0, v.1.into())),
                 Err(..) => continue,
             }
         }
@@ -553,7 +553,7 @@ fn parse_name_path(mut i: Input) -> IResult<Input, NamePath> {
         components.push(component);
         i = input;
 
-        let (_, input) = match tag(".")(i) {
+        let (input, _) = match tag(".").parse(i) {
             Ok(v) => v,
             Err(err) => {
                 if components.is_empty() {

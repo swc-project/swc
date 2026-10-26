@@ -113,7 +113,8 @@ smol_str                  = "0.2.0"
 st-map                    = "0.2.0"
 string_cache              = "0.8.7"
 swc_sourcemap             = { version = "10.0.2", path = "crates/swc_sourcemap" }
-syn                       = "3"
+# Keep syn 2 until the public macro helper API can migrate with its consumers.
+syn                       = "2"
 tempfile                  = "3.6.0"
 termcolor                 = "1.0"
 thiserror                 = "2.0.0"
@@ -126,12 +127,14 @@ unicode-id-start          = "1.2.0"
 unicode-width             = "0.2.1"
 url                       = "2.5.4"
 walkdir                   = "2.4.0"
-wasi-common               = { version = "46.0.0", default-features = false }
+# Keep wasi-common and wasmtime on the same LTS line for the current toolchain.
+wasi-common               = { version = "36.0.19", default-features = false }
 wasm-bindgen              = "0.2.100"
 wasm-bindgen-futures      = "0.4.50"
-wasmer                    = { version = "7.0.0", default-features = false }
+# wasmer-wasix 0.601 requires exactly Wasmer 6.1.0-rc.3.
+wasmer                    = { version = "6.1.0-rc.3", default-features = false }
 wasmer-wasix              = { version = "0.601.0-rc.3", default-features = false }
-wasmtime                  = { version = "50.0.0", default-features = false }
+wasmtime                  = { version = "36.0.19", default-features = false }
 
 
 cbor4ii         = "1.2"
