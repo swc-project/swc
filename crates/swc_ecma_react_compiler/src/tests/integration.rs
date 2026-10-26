@@ -1972,3 +1972,51 @@ fn emit_program(program: &swc_ecma_ast::Program) -> Result<String, String> {
 
     String::from_utf8(buf).map_err(|err| format!("emitted output is not valid UTF-8: {err}"))
 }
+
+/// A named class expression's binding is rebuilt from React Compiler's AST,
+/// which carries no syntax contexts, while the class body (including every
+/// self-reference) is restored verbatim from the original SWC AST. The binding
+/// must keep the context of its self-references; otherwise hygiene treats them
+/// as different variables and renames only the binding
+/// (`class _Foo1 { m() { return _Foo; } }`).
+#[test]
+fn named_class_expression_binding_keeps_syntax_context_of_self_references() {
+    use swc_common::{Globals, Mark, SyntaxContext, GLOBALS};
+    use swc_ecma_ast::{Decl, Expr, Ident, Program, Stmt};
+    use swc_ecma_visit::{VisitMut, VisitMutWith};
+
+    struct SetContext(SyntaxContext);
+
+    impl VisitMut for SetContext {
+        fn visit_mut_ident(&mut self, ident: &mut Ident) {
+            if &*ident.sym == "_Singleton" {
+                ident.ctxt = self.0;
+            }
+        }
+    }
+
+    GLOBALS.set(&Globals::new(), || {
+        let source = "var Singleton = class _Singleton { static make() { return _Singleton; } };";
+        let mut module = parse_module(source);
+        let ctxt = SyntaxContext::empty().apply_mark(Mark::new());
+        module.visit_mut_with(&mut SetContext(ctxt));
+
+        let result = convert_program(&Program::Module(module), source, None);
+        let Program::Module(module) = round_trip_convert_result(result) else {
+            panic!("expected a module");
+        };
+
+        let Some(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var)))) = module.body.first() else {
+            panic!("expected a variable declaration");
+        };
+        let Some(init) = &var.decls[0].init else {
+            panic!("expected an initializer");
+        };
+        let Expr::Class(class_expr) = &**init else {
+            panic!("expected a class expression");
+        };
+        let ident = class_expr.ident.as_ref().expect("class expression is named");
+
+        assert_eq!(ident.ctxt, ctxt);
+    });
+}
