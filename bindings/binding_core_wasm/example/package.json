@@ -6,9 +6,9 @@
     },
     "devDependencies": {
         "copyfiles": "^2.3.0",
-        "npm-run-all2": "^9.0.0",
+        "npm-run-all2": "^8.0.0",
         "webpack": "^5.0.0",
         "webpack-cli": "^7.0.0",
-        "webpack-dev-server": "^6.0.0"
+        "webpack-dev-server": "^5.0.0"
     }
 }

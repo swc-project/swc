@@ -32,7 +32,7 @@
     },
     "homepage": "https://swc.rs",
     "devDependencies": {
-        "typescript": "^7.0.0"
+        "typescript": "^5.2.2"
     },
     "dependencies": {
         "@swc/counter": "^0.1.3"

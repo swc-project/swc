@@ -1,7 +1,7 @@
 {
     "private": true,
-    "packageManager": "pnpm@12.15.0",
+    "packageManager": "pnpm@8.7.4",
     "dependencies": {
-        "nanoid": "^6.0.0"
+        "nanoid": "^4.0.2"
     }
 }
