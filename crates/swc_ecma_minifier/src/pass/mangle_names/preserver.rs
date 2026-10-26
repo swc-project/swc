@@ -122,8 +122,10 @@ impl Visit for Preserver<'_> {
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         n.visit_children_with(self);
 
+        // The renamer preserves the class name with a named class expression.
+        // Allow its outer binding to change: compression can move same-named
+        // declarations from separate scopes into the same scope.
         if (self.in_top_level && !self.options.top_level.unwrap_or_default())
-            || self.options.keep_class_names
             || self.is_reserved(&n.ident)
         {
             self.preserved.insert(n.ident.to_id());
