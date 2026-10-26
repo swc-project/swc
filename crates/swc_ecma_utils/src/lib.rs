@@ -3801,7 +3801,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::New(NewExpr { callee, args, .. }) if is_pure_new_callee(callee, ctx) => args
             .iter()
             .flatten()
-            .any(|arg| arg.expr.may_have_side_effects(ctx)),
+            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx)),
 
         Expr::New(_) => true,
 
@@ -3809,9 +3809,9 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             callee: Callee::Expr(callee),
             ref args,
             ..
-        }) if callee.is_pure_callee(ctx) => {
-            args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
-        }
+        }) if callee.is_pure_callee(ctx) => args
+            .iter()
+            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx)),
         Expr::OptChain(OptChainExpr { base, .. })
             if matches!(&**base, OptChainBase::Call(..))
                 && OptChainBase::as_call(base)
@@ -3823,7 +3823,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                 .unwrap()
                 .args
                 .iter()
-                .any(|arg| arg.expr.may_have_side_effects(ctx))
+                .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx))
         }
 
         Expr::Call(_) | Expr::OptChain(..) => true,
