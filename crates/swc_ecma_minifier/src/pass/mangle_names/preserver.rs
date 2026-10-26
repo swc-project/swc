@@ -122,8 +122,10 @@ impl Visit for Preserver<'_> {
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         n.visit_children_with(self);
 
+        // The renamer preserves the class name with a named class expression.
+        // Allow its outer binding to change: compression can move same-named
+        // declarations from separate scopes into the same scope.
         if (self.in_top_level && !self.options.top_level.unwrap_or_default())
-            || self.options.keep_class_names
             || self.is_reserved(&n.ident)
         {
             self.preserved.insert(n.ident.to_id());
@@ -187,6 +189,21 @@ impl Visit for Preserver<'_> {
                 self.preserved.insert(i.to_id());
             }
         }
+    }
+
+    fn visit_for_head(&mut self, n: &ForHead) {
+        let old_top_level = self.in_top_level;
+        // Lexical loop bindings are local to the loop. Preserving their names
+        // can capture outer references moved into the right-hand expression by
+        // compression. `var` bindings still belong to the enclosing scope.
+        if let ForHead::VarDecl(decl) = n {
+            if decl.kind != VarDeclKind::Var {
+                self.in_top_level = false;
+            }
+        }
+
+        n.visit_children_with(self);
+        self.in_top_level = old_top_level;
     }
 
     fn visit_ident(&mut self, i: &Ident) {
