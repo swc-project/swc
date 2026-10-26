@@ -153,7 +153,11 @@ SID>/v1/<128 hexadecimal SHA-512 digits>.node`. Unix directories are owner-only;
 Windows directories have protected owner/SYSTEM DACLs. Ancestor directories
 may also belong to Administrators or TrustedInstaller. Effective untrusted
 replacement grants are rejected with their directory and SID; inheritance-only
-ACEs are checked at the descendants to which they apply. Unsafe cache files,
+ACEs are checked at the descendants to which they apply. DELETE grants on a
+volume or share root are allowed because that root cannot itself be removed.
+DELETE grants on non-root ancestors remain unsafe. Root grants that allow child
+deletion, DACL changes, or ownership changes are still rejected, including full
+control grants. Unsafe cache files,
 symlinks/reparse points inside the private namespace, and (unless explicitly
 opted out on Unix) roots with an unsafe ancestor are rejected. A normal corrupt
 regular entry is replaced with newly decoded, verified bytes. If both custom
