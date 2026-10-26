@@ -28,8 +28,8 @@ pub(crate) struct Scope {
 
     pub(super) children: Vec<Scope>,
 
-    /// A function expression name is visible only inside this scope.
-    pub(crate) fn_expr_name: Option<Id>,
+    /// This scope contains only a function expression name binding.
+    pub(crate) is_fn_expr_name_scope: bool,
 }
 
 pub(super) type FxIndexSet<T> = IndexSet<T, BuildHasherDefault<FxHasher>>;
@@ -200,7 +200,7 @@ impl Scope {
     }
 
     fn can_keep_fn_expr_name(&self, id: &Id, symbol: &Atom) -> bool {
-        if symbol != &id.0 || self.fn_expr_name.as_ref() != Some(id) {
+        if symbol != &id.0 || !self.is_fn_expr_name_scope {
             return false;
         }
 
