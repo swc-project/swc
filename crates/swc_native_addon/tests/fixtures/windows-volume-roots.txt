@@ -1,0 +1,5 @@
+# Kind|Expected classification of the opened directory|Synthetic DELETE grant
+volume|root|O:SYD:P(A;;SD;;;AU)
+directory|directory|O:SYD:P(A;;SD;;;AU)
+subst|directory|O:SYD:P(A;;SD;;;AU)
+verbatim-subst|directory|O:SYD:P(A;;SD;;;AU)
