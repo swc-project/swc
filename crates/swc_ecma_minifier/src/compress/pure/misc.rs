@@ -1614,6 +1614,50 @@ impl Pure<'_> {
         }
     }
 
+    fn make_ignored_arg_expr(
+        &mut self,
+        span: Span,
+        args: impl Iterator<Item = ExprOrSpread>,
+    ) -> Option<Expr> {
+        let mut exprs = args
+            .filter_map(|mut e| {
+                if e.spread.is_some() {
+                    Some(e)
+                } else {
+                    self.ignore_return_value(
+                        &mut e.expr,
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
+                    );
+
+                    if let Expr::Invalid(..) = &*e.expr {
+                        None
+                    } else {
+                        Some(e)
+                    }
+                }
+            })
+            .collect::<Vec<_>>();
+
+        if exprs.is_empty() {
+            return None;
+        }
+        if exprs.len() == 1 && exprs[0].spread.is_none() {
+            let mut new = *exprs.remove(0).expr;
+            new.set_span(span);
+            return Some(new);
+        }
+
+        Some(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: exprs.into_iter().map(Some).collect(),
+            }
+            .into(),
+        )
+    }
+
     fn make_ignored_expr(
         &mut self,
         span: Span,
@@ -1735,8 +1779,7 @@ impl Pure<'_> {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new =
-                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter());
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -1751,8 +1794,7 @@ impl Pure<'_> {
                 report_change!("ignore_return_value: Dropping a pure call (callee is pure)");
                 self.changed = true;
 
-                let new =
-                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter());
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -1794,10 +1836,7 @@ impl Pure<'_> {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new = self.make_ignored_expr(
-                    *span,
-                    args.take().into_iter().flatten().map(|arg| arg.expr),
-                );
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter().flatten());
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -2338,7 +2377,7 @@ impl Pure<'_> {
 
                     self.changed = true;
                     *e = self
-                        .make_ignored_expr(*span, args.iter_mut().map(|arg| arg.expr.take()))
+                        .make_ignored_arg_expr(*span, args.take().into_iter())
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
@@ -2355,49 +2394,18 @@ impl Pure<'_> {
                 Expr::Object(..) => {}
 
                 Expr::Array(arr) => {
-                    if arr.elems.iter().any(|e| match e {
-                        Some(ExprOrSpread {
-                            spread: Some(..), ..
-                        }) => true,
-                        _ => false,
-                    }) {
-                        *e = ArrayLit {
-                            elems: arr
-                                .elems
-                                .take()
-                                .into_iter()
-                                .flatten()
-                                .filter_map(|mut e| {
-                                    if e.spread.is_some() {
-                                        return Some(e);
-                                    }
-
-                                    self.ignore_return_value(
-                                        &mut e.expr,
-                                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
-                                            .union(DropOpts::DROP_NUMBER)
-                                            .union(DropOpts::DROP_STR_LIT),
-                                    );
-                                    if e.expr.is_invalid() {
-                                        return None;
-                                    }
-
-                                    Some(ExprOrSpread {
-                                        spread: None,
-                                        expr: e.expr,
-                                    })
-                                })
-                                .map(Some)
-                                .collect(),
-                            ..*arr
-                        }
-                        .into();
+                    if arr
+                        .elems
+                        .iter()
+                        .any(|e| e.as_ref().and_then(|e| e.spread).is_some())
+                    {
+                        *e = self
+                            .make_ignored_arg_expr(arr.span, arr.elems.take().into_iter().flatten())
+                            .unwrap_or_default();
                         return;
                     }
 
                     let mut exprs = Vec::new();
-
-                    //
 
                     for ExprOrSpread { mut expr, .. } in arr.elems.take().into_iter().flatten() {
                         self.ignore_return_value(

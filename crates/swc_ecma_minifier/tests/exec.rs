@@ -12773,3 +12773,62 @@ fn issue_12400_class_decl_self_ref_in_unused_local() {
         "#,
     );
 }
+
+#[test]
+fn issue_12529_array_assigned_then_mutated_through_member() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            function fill(a) {
+                a[0] = 1;
+                console.log(a[0]);
+            }
+            fill([]);
+        })();
+
+        (function () {
+            function fill(a) {
+                a[0] = (console.log("x"), 1);
+                console.log(a[0]);
+            }
+            fill([]);
+        })();
+
+        (function () {
+            function fill(a) {
+                a[0] = String(1);
+                console.log(a[0]);
+            }
+            fill([]);
+        })();
+
+        function push() {
+            var r;
+            r = [];
+            r.push(3);
+            return r[0];
+        }
+        console.log(push());
+
+        (function () {
+            let e;
+            e = [1, 2];
+            e.reverse();
+            console.log(e[0]);
+        })();
+
+        (function () {
+            var t;
+            t = [1];
+            t.length = 0;
+            console.log(t[0]);
+        })();
+
+        (function () {
+            var d;
+            [(d = [])[0]] = [5];
+            console.log(d[0]);
+        })();
+        "#,
+    );
+}
