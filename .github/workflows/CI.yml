@@ -352,12 +352,13 @@ jobs:
           persist-credentials: false
           submodules: true
 
-      # Source map format
+      # Stacktrace fixtures use Node 20 output. Upgrade this runtime separately
+      # from the actions so the existing fixtures remain valid.
       - uses: ./.github/actions/setup-node
         id: setup-node
         if: matrix.settings.crate != '__noop__'
         with:
-          node-version: "24"
+          node-version: "20"
           install-dependencies: "false"
 
       # We explicitly do this to cache properly.
@@ -372,7 +373,8 @@ jobs:
       - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         if: matrix.settings.crate != '__noop__' && matrix.settings.crate == 'swc_bundler'
         with:
-          deno-version: 2.x
+          # The bundled fixtures use Deno 1 APIs, including the window global.
+          deno-version: v1.x
 
       - name: Install node dependencies
         if: matrix.settings.crate != '__noop__'

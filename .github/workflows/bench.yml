@@ -59,7 +59,7 @@ jobs:
       (github.event_name != 'pull_request' || needs.contributor-policy.outputs.allowed == 'true') &&
       !contains(github.event.head_commit.message, 'chore: ') }}
     name: List crates to benchmark
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
     outputs:
@@ -78,7 +78,7 @@ jobs:
     # Main skips the PR-only policy ancestor; override the implicit success gate
     # while still requiring successful crate discovery.
     if: ${{ !cancelled() && needs.list-crates.result == 'success' }}
-    runs-on: ubuntu-26.04
+    runs-on: ubuntu-22.04
     permissions:
       contents: read
     needs: list-crates
@@ -115,5 +115,6 @@ jobs:
       - name: Run the benchmarks
         uses: CodSpeedHQ/action@78102a468f96d8e0ccb92d0ec49425753fc42062 # v5.6.0
         with:
+          mode: simulation
           run: cargo codspeed run
           token: ${{ secrets.CODSPEED_TOKEN }}

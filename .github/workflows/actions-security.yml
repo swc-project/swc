@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - ".github/contributors.yml"
+      - ".github/pinact.yaml"
       - ".github/actions/**"
       - ".github/workflows/**"
       - "renovate.json"
@@ -13,6 +14,7 @@ on:
       - main
     paths:
       - ".github/contributors.yml"
+      - ".github/pinact.yaml"
       - ".github/actions/**"
       - ".github/workflows/**"
       - "renovate.json"
