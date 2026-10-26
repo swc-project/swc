@@ -111,10 +111,7 @@ pub(crate) fn leading_regex(mut expr: &Expr) -> Option<&Regex> {
             Expr::Lit(Lit::Regex(regex)) => return Some(regex),
             Expr::Bin(n) => &n.left,
             Expr::Cond(n) => &n.test,
-            Expr::Seq(n) => match n.exprs.first() {
-                Some(first) => first,
-                None => return None,
-            },
+            Expr::Seq(n) => n.exprs.first()?,
             Expr::Member(n) => &n.obj,
             Expr::Call(n) => match &n.callee {
                 Callee::Expr(callee) => callee,
