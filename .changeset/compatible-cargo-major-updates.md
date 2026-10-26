@@ -31,3 +31,5 @@ fix(deps): Update compatible Cargo major dependencies and migrate Clap 4 and nom
 Keep syn 2 and the existing Wasmer/WASIX and Wasmtime LTS versions to preserve
 macro API and toolchain compatibility. JSDoc inputs now implement nom 8 input
 traits; existing parsed fixture output remains unchanged.
+
+Update Tokio to the patched 1.51.6 release to resolve RUSTSEC-2026-0386.
