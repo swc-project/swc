@@ -78,7 +78,7 @@ jobs:
             [[ "$SKIP_PUBLISHING" == "true" ]] || { echo "sourceRef requires skipPublishing: true" >&2; exit 1; }
             [[ "$SOURCE_REF" =~ ^[0-9a-f]{40}$ ]] || { echo "sourceRef must be an exact commit SHA" >&2; exit 1; }
           fi
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
       # TODO: Check for existing artifacts
@@ -325,7 +325,7 @@ jobs:
     name: "Build ${{ matrix.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -472,7 +472,7 @@ jobs:
       contents: read
     needs: [build]
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -570,7 +570,7 @@ jobs:
           - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -651,7 +651,7 @@ jobs:
           - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -769,7 +769,7 @@ jobs:
           - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -886,7 +886,7 @@ jobs:
           - { package: minifier, node: "14.0.0" }
           - { package: react-compiler, node: "20.0.0" }
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -946,7 +946,7 @@ jobs:
       matrix:
         host: [ubuntu-latest, macos-latest, windows-latest, windows-11-arm]
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.onlyCarrierTests && github.sha || inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -1016,7 +1016,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -1058,7 +1058,7 @@ jobs:
       matrix:
         package: [core, html, minifier, react-compiler]
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
@@ -1141,7 +1141,7 @@ jobs:
           #   out: "pkg"
 
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           persist-credentials: false
           ref: ${{ inputs.sourceRef || format('v{0}', inputs.version) }}
