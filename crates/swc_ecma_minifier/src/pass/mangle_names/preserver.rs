@@ -189,6 +189,21 @@ impl Visit for Preserver<'_> {
         }
     }
 
+    fn visit_for_head(&mut self, n: &ForHead) {
+        let old_top_level = self.in_top_level;
+        // Lexical loop bindings are local to the loop. Preserving their names
+        // can capture outer references moved into the right-hand expression by
+        // compression. `var` bindings still belong to the enclosing scope.
+        if let ForHead::VarDecl(decl) = n {
+            if decl.kind != VarDeclKind::Var {
+                self.in_top_level = false;
+            }
+        }
+
+        n.visit_children_with(self);
+        self.in_top_level = old_top_level;
+    }
+
     fn visit_ident(&mut self, i: &Ident) {
         self.append_ident(i);
     }
