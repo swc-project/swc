@@ -798,15 +798,25 @@ impl ReverseCtx {
                     swc::MetaPropKind::NewTarget
                 },
             }),
-            Expression::ClassExpression(class) => swc::Expr::Class(swc::ClassExpr {
-                ident: class.id.as_ref().map(|id| self.convert_identifier(id)),
-                class: Box::new(self.make_class(
-                    &class.base,
-                    class.super_class.as_deref(),
-                    &class.body,
-                    false,
-                )),
-            }),
+            Expression::ClassExpression(class) => {
+                let mut ident = class.id.as_ref().map(|id| self.convert_identifier(id));
+                if let Some(ident) = &mut ident {
+                    // The class body is restored verbatim from the original AST, so the
+                    // binding must keep the syntax context its self-references have.
+                    self.preserved_ast
+                        .borrow()
+                        .restore_class_expr_ident(self.span_from_base(&class.base), ident);
+                }
+                swc::Expr::Class(swc::ClassExpr {
+                    ident,
+                    class: Box::new(self.make_class(
+                        &class.base,
+                        class.super_class.as_deref(),
+                        &class.body,
+                        false,
+                    )),
+                })
+            }
             Expression::PrivateName(private) => swc::Expr::PrivateName(swc::PrivateName {
                 span: self.span_from_base(&private.base),
                 name: self.atom(&private.id.name),

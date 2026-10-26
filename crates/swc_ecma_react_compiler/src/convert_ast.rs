@@ -1731,6 +1731,11 @@ impl<'a> ConvertCtx<'a> {
     fn convert_class_expr(&self, class: &swc::ClassExpr) -> ClassExpression {
         let c = &class.class;
         self.preserved_ast.borrow_mut().save_class(c);
+        if let Some(ident) = &class.ident {
+            self.preserved_ast
+                .borrow_mut()
+                .save_class_expr_ident(c, ident);
+        }
 
         ClassExpression {
             base: self.make_base_node(c.span),

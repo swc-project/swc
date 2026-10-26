@@ -1,10 +1,19 @@
 use rustc_hash::FxHashMap;
-use swc_common::{source_map::SmallPos, util::take::Take, Span};
+use swc_common::{source_map::SmallPos, util::take::Take, Span, SyntaxContext};
 use swc_ecma_ast::*;
 
 #[derive(Default, Clone)]
 pub struct PreservedAst {
     pub nodes: FxHashMap<u32, PreservedNode>,
+    /// Syntax context of each named class expression's inner binding, keyed by
+    /// the class's `span.lo`.
+    ///
+    /// The class body is restored verbatim by [`PreservedAst::load_class`], so
+    /// its self-references keep their original syntax context. The binding
+    /// itself is rebuilt from React Compiler's AST, which carries no syntax
+    /// contexts. Without restoring it, hygiene sees the binding and its
+    /// references as two different variables and renames only the binding.
+    class_expr_ident_ctxts: FxHashMap<u32, SyntaxContext>,
 }
 
 /// SWC AST nodes that are not represented losslessly in React Compiler's AST.
@@ -223,6 +232,19 @@ impl PreservedAst {
             class.span.lo.to_u32(),
             PreservedNode::Class(Box::new(class.clone())),
         );
+    }
+
+    pub fn save_class_expr_ident(&mut self, class: &Class, ident: &Ident) {
+        self.class_expr_ident_ctxts
+            .insert(class.span.lo.to_u32(), ident.ctxt);
+    }
+
+    /// Restores the syntax context of a named class expression's binding so it
+    /// matches the self-references inside the restored class body.
+    pub fn restore_class_expr_ident(&self, class_span: Span, ident: &mut Ident) {
+        if let Some(ctxt) = self.class_expr_ident_ctxts.get(&class_span.lo.to_u32()) {
+            ident.ctxt = *ctxt;
+        }
     }
 
     pub fn load_class(&mut self, class: &mut Class) -> bool {
