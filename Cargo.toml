@@ -117,7 +117,7 @@ syn                       = "2"
 tempfile                  = "3.6.0"
 termcolor                 = "1.0"
 thiserror                 = "1.0.30"
-tokio                     = { version = "1.53.3", default-features = false }
+tokio                     = { version = "1", default-features = false }
 toml                      = "0.8.2"
 tracing                   = "0.1.41"
 tracing-subscriber        = "0.3.20"
