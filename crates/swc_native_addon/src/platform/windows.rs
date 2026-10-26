@@ -22,11 +22,12 @@ use windows_sys::Win32::{
         SECURITY_ATTRIBUTES, TOKEN_QUERY, TOKEN_USER,
     },
     Storage::FileSystem::{
-        CreateDirectoryW, GetFileInformationByHandle, LockFileEx, MoveFileExW,
-        BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_NONE, DELETE, FILE_ATTRIBUTE_COMPRESSED,
-        FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE,
-        FILE_SHARE_READ, FILE_SHARE_WRITE, LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY,
-        MOVEFILE_REPLACE_EXISTING, MOVEFILE_WRITE_THROUGH,
+        CreateDirectoryW, GetFileInformationByHandle, GetFinalPathNameByHandleW, LockFileEx,
+        MoveFileExW, BY_HANDLE_FILE_INFORMATION, COMPRESSION_FORMAT_NONE, DELETE,
+        FILE_ATTRIBUTE_COMPRESSED, FILE_ATTRIBUTE_REPARSE_POINT, FILE_FLAG_BACKUP_SEMANTICS,
+        FILE_FLAG_OPEN_REPARSE_POINT, FILE_SHARE_DELETE, FILE_SHARE_READ, FILE_SHARE_WRITE,
+        LOCKFILE_EXCLUSIVE_LOCK, LOCKFILE_FAIL_IMMEDIATELY, MOVEFILE_REPLACE_EXISTING,
+        MOVEFILE_WRITE_THROUGH, VOLUME_NAME_NONE,
     },
     System::{
         Ioctl::FSCTL_SET_COMPRESSION,
@@ -227,7 +228,42 @@ fn validate_cache_ancestor(path: &Path, current_sid: &str) -> io::Result<()> {
     }
     let _security = LocalAllocation(security);
     let owner = sid_string(owner)?;
-    validate_ancestor_security(path, &owner, dacl, current_sid)
+    validate_ancestor_security(
+        path,
+        &owner,
+        dacl,
+        current_sid,
+        ancestor_is_volume_root(path)?,
+    )
+}
+
+/// Check the opened directory's volume-relative path rather than its drive
+/// name. A SUBST drive has no lexical parent but still names a removable
+/// directory.
+fn ancestor_is_volume_root(path: &Path) -> io::Result<bool> {
+    use std::os::windows::io::AsRawHandle;
+
+    if !path.is_absolute() || path.parent().is_some() {
+        return Ok(false);
+    }
+    let directory = OpenOptions::new()
+        .access_mode(0)
+        .share_mode(FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE)
+        .custom_flags(FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT)
+        .open(path)?;
+    let mut name = [0_u16; 2];
+    let length = unsafe {
+        GetFinalPathNameByHandleW(
+            directory.as_raw_handle() as HANDLE,
+            name.as_mut_ptr(),
+            name.len() as u32,
+            VOLUME_NAME_NONE,
+        )
+    };
+    if length == 0 {
+        return Err(io::Error::last_os_error());
+    }
+    Ok(length == 1 && name[0] == u16::from(b'\\'))
 }
 
 fn validate_ancestor_security(
@@ -235,6 +271,7 @@ fn validate_ancestor_security(
     owner: &str,
     dacl: *mut ACL,
     current_sid: &str,
+    is_volume_root: bool,
 ) -> io::Result<()> {
     if !trusted_principal(owner, current_sid) {
         return Err(io::Error::new(
@@ -245,7 +282,7 @@ fn validate_ancestor_security(
             ),
         ));
     }
-    validate_ancestor_dacl(path, dacl, current_sid).map_err(|error| {
+    validate_ancestor_dacl(dacl, current_sid, is_volume_root).map_err(|error| {
         io::Error::new(
             error.kind(),
             format!("cache ancestor {}: {error}", path.display()),
@@ -263,12 +300,16 @@ fn trusted_principal(sid: &str, current_sid: &str) -> bool {
 /// Conservatively reject ACLs that grant an untrusted principal the rights to
 /// remove, retake ownership of, or rewrite a cache-root ancestor. This avoids
 /// mutating caller-owned roots while preventing pathname substitution.
-fn validate_ancestor_dacl(path: &Path, dacl: *mut ACL, current_sid: &str) -> io::Result<()> {
+fn validate_ancestor_dacl(
+    dacl: *mut ACL,
+    current_sid: &str,
+    is_volume_root: bool,
+) -> io::Result<()> {
     let denied = |message| io::Error::new(io::ErrorKind::PermissionDenied, message);
     // A volume/share root cannot itself be removed through DELETE. Keep checking
     // rights that can replace its children or change its security descriptor.
     // Non-root ancestors still need DELETE protection against substitution.
-    let dangerous_access = if path.is_absolute() && path.parent().is_none() {
+    let dangerous_access = if is_volume_root {
         DANGEROUS_DIRECTORY_ACCESS & !DELETE
     } else {
         DANGEROUS_DIRECTORY_ACCESS

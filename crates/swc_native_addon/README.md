@@ -155,6 +155,8 @@ may also belong to Administrators or TrustedInstaller. Effective untrusted
 replacement grants are rejected with their directory and SID; inheritance-only
 ACEs are checked at the descendants to which they apply. DELETE grants on a
 volume or share root are allowed because that root cannot itself be removed.
+The opened directory's volume-relative path must identify the actual root.
+A directory-backed drive alias, such as SUBST, does not qualify for this exception.
 DELETE grants on non-root ancestors remain unsafe. Root grants that allow child
 deletion, DACL changes, or ownership changes are still rejected, including full
 control grants. Unsafe cache files,
