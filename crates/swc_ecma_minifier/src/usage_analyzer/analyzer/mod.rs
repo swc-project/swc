@@ -17,6 +17,8 @@ use crate::usage_analyzer::{
 
 mod ctx;
 pub mod storage;
+#[cfg(test)]
+mod tests;
 
 pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
 where
@@ -1675,13 +1677,26 @@ impl Visit for MemberTargetsInPat {
 /// `(a = [])[0] = 1` and `(a = []).push(1)` access and mutate `a` just like
 /// `a[0] = 1` and `a.push(1)` do. Other passes produce this shape from
 /// `a = []; a[0] = 1`.
+/// Follow aliases on the right and in branches that can supply the object.
 fn for_each_id_ref_in_member_obj(e: &Expr, op: &mut impl FnMut(&Ident)) {
     match e {
         Expr::Paren(p) => for_each_id_ref_in_member_obj(&p.expr, op),
         Expr::Seq(s) => for_each_id_ref_in_member_obj(s.exprs.last().unwrap(), op),
+        Expr::Cond(c) => {
+            for_each_id_ref_in_member_obj(&c.cons, op);
+            for_each_id_ref_in_member_obj(&c.alt, op);
+        }
+        Expr::Bin(b) if b.op.may_short_circuit() => {
+            for_each_id_ref_in_member_obj(&b.left, op);
+            for_each_id_ref_in_member_obj(&b.right, op);
+        }
         Expr::Assign(a) => {
             if let Some(i) = a.left.as_ident() {
                 op(&i.id);
+            }
+            // Arithmetic assignments produce a primitive, not an alias of the RHS.
+            if matches!(a.op, op!("=") | op!("&&=") | op!("||=") | op!("??=")) {
+                for_each_id_ref_in_member_obj(&a.right, op);
             }
         }
         _ => for_each_id_ref_in_expr(e, op),
