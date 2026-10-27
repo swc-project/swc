@@ -44690,13 +44690,13 @@
                 itemStyle: style.itemStyle,
                 lineStyle: style.lineStyle
             }));
-            var formatter = legendModel.get('formatter'), content = name;
+            var textX = 'left' === itemAlign ? itemWidth + 5 : -5, formatter = legendModel.get('formatter'), content = name;
             'string' == typeof formatter && formatter ? content = formatter.replace('{name}', null != name ? name : '') : 'function' == typeof formatter && (content = formatter(name));
             var inactiveColor = itemModel.get('inactiveColor');
             itemGroup.add(new ZRText({
                 style: createTextStyle(textStyleModel, {
                     text: content,
-                    x: 'left' === itemAlign ? itemWidth + 5 : -5,
+                    x: textX,
                     y: itemHeight / 2,
                     fill: isSelected ? textStyleModel.getTextColor() : inactiveColor,
                     align: itemAlign,
