@@ -86,59 +86,53 @@ impl serde::ser::Serialize for Wtf8Atom {
         S: serde::ser::Serializer,
     {
         use crate::wtf8::Wtf8;
+        /// Returns `true` if `iter` yields `u` followed by exactly four ASCII
+        /// hex digits, i.e. the text that a `\\uXXXX` escape would
+        /// start with.
+        fn starts_with_u_hex4(mut iter: impl Iterator<Item = Option<char>>) -> bool {
+            iter.next() == Some(Some('u'))
+                && (0..4).all(|_| matches!(iter.next(), Some(Some(c)) if c.is_ascii_hexdigit()))
+        }
+
         fn convert_wtf8_to_raw(s: &Wtf8) -> String {
             let mut result = String::new();
             let mut iter = s.code_points().peekable();
 
             while let Some(code_point) = iter.next() {
                 if let Some(c) = code_point.to_char() {
-                    // Escape literal '\u' sequences to avoid ambiguity with surrogate encoding.
-                    // Without this escaping, we couldn't distinguish between:
-                    // - JavaScript's "\uD800" (actual unpaired surrogate)
-                    // - JavaScript's "\\uD800" (literal text '\uD800')
-                    //
-                    // By escaping literal '\u' to '\\u', we ensure:
-                    // - Unpaired surrogates serialize as '\uXXXX'
-                    // - Literal '\u' text serializes as '\\uXXXX'
-                    //
-                    // However, we should only escape '\u' if it's followed by exactly 4 hex digits,
-                    // which would indicate a Unicode escape sequence. Otherwise, '\u' followed by
-                    // non-hex characters (like '\util') should not be escaped.
-                    if c == '\\' && iter.peek().map(|cp| cp.to_u32()) == Some('u' as u32) {
-                        // Look ahead to see if this is followed by exactly 4 hex digits
-                        let mut lookahead = iter.clone();
-                        lookahead.next(); // skip 'u'
+                    if c != '\\' {
+                        result.push(c);
+                        continue;
+                    }
 
-                        let mut hex_count = 0;
-                        let mut all_hex = true;
-                        for _ in 0..4 {
-                            if let Some(next_cp) = lookahead.next() {
-                                if let Some(next_c) = next_cp.to_char() {
-                                    if next_c.is_ascii_hexdigit() {
-                                        hex_count += 1;
-                                    } else {
-                                        all_hex = false;
-                                        break;
-                                    }
-                                } else {
-                                    all_hex = false;
-                                    break;
-                                }
-                            } else {
-                                all_hex = false;
-                                break;
-                            }
-                        }
+                    // Unpaired surrogates are written as '\uXXXX', so a literal backslash
+                    // run must not be confused with that encoding. A run of literal
+                    // backslashes is escaped (every backslash doubled) when it is
+                    // followed by either:
+                    // - an unpaired surrogate, which is written as '\uXXXX' and would otherwise
+                    //   extend the run, or
+                    // - a literal 'u' and exactly 4 hex digits, which would otherwise read back as
+                    //   a surrogate escape.
+                    //
+                    // The deserializer then counts the backslashes before 'uXXXX': an even
+                    // count is a run of literal backslashes, an odd count ends with a
+                    // surrogate escape. Any other backslash run is written as is, so
+                    // values like 'C:\\util' keep their single backslashes.
+                    let mut run = 1;
+                    while iter.peek().and_then(|cp| cp.to_char()) == Some('\\') {
+                        iter.next();
+                        run += 1;
+                    }
 
-                        // Only escape if we have exactly 4 hex digits after '\u'
-                        if hex_count == 4 && all_hex {
-                            iter.next(); // skip 'u'
-                            result.push_str("\\\\u");
-                        } else {
-                            result.push(c);
-                        }
-                    } else {
-                        result.push(c)
+                    let escape = match iter.peek() {
+                        Some(next) if next.to_char().is_none() => true,
+                        Some(_) => starts_with_u_hex4(iter.clone().map(|cp| cp.to_char())),
+                        None => false,
+                    };
+
+                    let count = if escape { run * 2 } else { run };
+                    for _ in 0..count {
+                        result.push('\\');
                     }
                 } else {
                     // Unpaired surrogates can't be represented in valid UTF-8,
@@ -166,72 +160,60 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
             let mut result = Wtf8Buf::with_capacity(s.len());
 
             // This function reverses the encoding done in serialize.
-            // It handles two cases:
-            // 1. '\uXXXX' - Decode as an unpaired surrogate code point
-            // 2. '\\uXXXX' - Treat as literal text '\uXXXX'
+            // For a run of N backslashes followed by 'u' and 4 hex digits:
+            // - N even: N / 2 literal backslashes, then literal 'uXXXX' text
+            // - N odd: (N - 1) / 2 literal backslashes, then the code point XXXX
+            // Any other backslash run is literal text and is kept as is.
             while let Some(c) = iter.next() {
-                if c == '\\' {
-                    if iter.peek() == Some(&'u') {
-                        // Found '\u' - might be a surrogate encoding
-                        let _ = iter.next(); // skip 'u'
-
-                        // Try to read 4 hex digits
-                        let d1 = iter.next();
-                        let d2 = iter.next();
-                        let d3 = iter.next();
-                        let d4 = iter.next();
-
-                        match (d1, d2, d3, d4) {
-                            (Some(d1), Some(d2), Some(d3), Some(d4)) => {
-                                let hex = format!("{d1}{d2}{d3}{d4}");
-                                if let Ok(code_point) = u16::from_str_radix(&hex, 16) {
-                                    result.push(unsafe {
-                                        CodePoint::from_u32_unchecked(code_point as u32)
-                                    });
-                                    continue;
-                                }
-
-                                result.push_char('\\');
-                                result.push_char('u');
-                                result.push_char(d1);
-                                result.push_char(d2);
-                                result.push_char(d3);
-                                result.push_char(d4);
-                            }
-                            (d1, d2, d3, d4) => {
-                                result.push_char('\\');
-                                result.push_char('u');
-
-                                macro_rules! push_if_some {
-                                    ($expr:expr) => {
-                                        if let Some(c) = $expr {
-                                            result.push_char(c);
-                                        }
-                                    };
-                                }
-
-                                push_if_some!(d1);
-                                push_if_some!(d2);
-                                push_if_some!(d3);
-                                push_if_some!(d4);
-                            }
-                        }
-                    } else if iter.peek() == Some(&'\\') {
-                        // Found '\\' - this is an escaped backslash
-                        // '\\u' should become literal '\u' text
-                        let _ = iter.next(); // skip the second '\'
-                        if iter.peek() == Some(&'u') {
-                            let _ = iter.next(); // skip 'u'
-                            result.push_char('\\');
-                            result.push_char('u');
-                        } else {
-                            result.push_str("\\\\");
-                        }
-                    } else {
-                        result.push_char(c);
-                    }
-                } else {
+                if c != '\\' {
                     result.push_char(c);
+                    continue;
+                }
+
+                let mut run = 1;
+                while iter.peek() == Some(&'\\') {
+                    iter.next();
+                    run += 1;
+                }
+
+                let mut lookahead = iter.clone();
+                let code_point = if lookahead.next() == Some('u') {
+                    let mut value = 0;
+                    let mut digits = 0;
+                    for c in lookahead.take(4) {
+                        match c.to_digit(16) {
+                            Some(d) => {
+                                value = value * 16 + d;
+                                digits += 1;
+                            }
+                            None => break,
+                        }
+                    }
+                    (digits == 4).then_some(value)
+                } else {
+                    None
+                };
+
+                match code_point {
+                    Some(code_point) => {
+                        for _ in 0..run / 2 {
+                            result.push_char('\\');
+                        }
+                        if run % 2 == 1 {
+                            // Skip 'u' and the 4 hex digits.
+                            for _ in 0..5 {
+                                iter.next();
+                            }
+                            // Safety: `code_point` has at most 4 hex digits, so it is
+                            // at most 0xFFFF.
+                            result.push(unsafe { CodePoint::from_u32_unchecked(code_point) });
+                        }
+                    }
+                    None => {
+                        for _ in 0..run {
+                            result.push_char('\\');
+                        }
+                    }
                 }
             }
             result
@@ -594,9 +576,9 @@ mod tests {
         // Test handling of incomplete escape sequences from our custom format
         let json = "\"\\\\\\\\u123\""; // Escaped backslash + incomplete sequence
         let atom: Wtf8Atom = serde_json::from_str(json).unwrap();
-        // JSON decodes \\\\u123 to \\u123, then our deserializer sees \u123 and treats
-        // it as literal
-        assert_eq!(atom.as_str(), Some("\\u123"));
+        // JSON decodes \\\\u123 to \\u123. Without 4 hex digits after 'u' this is
+        // not an escape, so both backslashes are kept (see #12625)
+        assert_eq!(atom.as_str(), Some("\\\\u123"));
     }
 
     #[cfg(feature = "serde")]
@@ -605,9 +587,9 @@ mod tests {
         // Test handling of invalid hex in escape sequences from our custom format
         let json = "\"\\\\\\\\uGGGG\""; // Escaped backslash + invalid hex
         let atom: Wtf8Atom = serde_json::from_str(json).unwrap();
-        // JSON decodes \\\\uGGGG to \\uGGGG, then our deserializer sees \uGGGG and
-        // treats it as literal
-        assert_eq!(atom.as_str(), Some("\\uGGGG"));
+        // JSON decodes \\\\uGGGG to \\uGGGG. Without 4 hex digits after 'u' this is
+        // not an escape, so both backslashes are kept (see #12625)
+        assert_eq!(atom.as_str(), Some("\\\\uGGGG"));
     }
 
     #[test]
@@ -659,5 +641,78 @@ mod tests {
         // Test round-trip
         let deserialized: Wtf8Atom = serde_json::from_str(&serialized).unwrap();
         assert_eq!(atom, deserialized);
+    }
+
+    #[cfg(feature = "serde")]
+    fn assert_round_trip(atom: Wtf8Atom) {
+        let serialized = serde_json::to_string(&atom).unwrap();
+        let deserialized: Wtf8Atom = serde_json::from_str(&serialized).unwrap();
+        assert_eq!(
+            atom, deserialized,
+            "round trip changed the value (serialized as {serialized})"
+        );
+    }
+
+    /// https://github.com/swc-project/swc/issues/12625
+    #[cfg(feature = "serde")]
+    #[test]
+    fn test_round_trip_backslash_runs_issue_12625() {
+        for value in [
+            r"\\u",
+            r"\\util",
+            r"\\\util",
+            r"\u",
+            r"\util",
+            r"\u0041",
+            r"\\u0041",
+            r"\\\u0041",
+            r"\\\\u0041",
+            r"\u004",
+            r"\\u004",
+            r"\\uD800",
+            r"a\\b\\\c\",
+            r"\\",
+            r"\\\",
+        ] {
+            assert_round_trip(Wtf8Atom::from(value));
+        }
+    }
+
+    /// https://github.com/swc-project/swc/issues/12625
+    #[cfg(feature = "serde")]
+    #[test]
+    fn test_round_trip_backslashes_before_surrogate_issue_12625() {
+        let surrogate = CodePoint::from_u32(0xd800).unwrap();
+        for prefix in ["", r"\", r"\\", r"\\\", r"a\u"] {
+            for suffix in ["", "u0041", r"\u0041", r"\"] {
+                let mut buf = Wtf8Buf::from_str(prefix);
+                buf.push(surrogate);
+                buf.push_str(suffix);
+                assert_round_trip(Wtf8Atom::from(buf));
+            }
+        }
+    }
+
+    #[cfg(feature = "serde")]
+    #[test]
+    fn test_serialize_backslash_runs() {
+        // Backslash runs that can't be mistaken for a '\uXXXX' escape are written
+        // as is.
+        assert_eq!(
+            serde_json::to_string(&Wtf8Atom::from(r"\\util")).unwrap(),
+            r#""\\\\util""#
+        );
+        // A run before 'u' and 4 hex digits is doubled, so the count is even.
+        assert_eq!(
+            serde_json::to_string(&Wtf8Atom::from(r"\\u0041")).unwrap(),
+            r#""\\\\\\\\u0041""#
+        );
+        // A run before an unpaired surrogate is doubled, so the count is odd.
+        let mut buf = Wtf8Buf::from_str(r"\");
+        buf.push(CodePoint::from_u32(0xd800).unwrap());
+        assert_eq!(
+            serde_json::to_string(&Wtf8Atom::from(buf)).unwrap(),
+            r#""\\\\\\uD800""#
+        );
     }
 }
