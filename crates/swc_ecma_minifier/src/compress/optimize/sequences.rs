@@ -1099,15 +1099,49 @@ impl Optimizer<'_> {
         true
     }
 
+    /// `e` is an unresolved reference to a global in
+    /// [is_global_var_with_pure_property_access] (`Math`, `console`,
+    /// `globalThis`, ...).
+    fn is_pure_global_ref(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => {
+                i.ctxt == self.ctx.expr_ctx.unresolved_ctxt
+                    && is_global_var_with_pure_property_access(&i.sym)
+            }
+            _ => false,
+        }
+    }
+
+    /// [Self::is_skippable_for_seq] for a callee in `b`. The minifier assumes
+    /// that builtins are not overridden, so a method of a builtin global
+    /// (`console.log`, `Math.max`) may still be read before `a`.
+    fn is_callee_skippable_for_seq(&self, a: Option<&Mergable>, callee: &Expr) -> bool {
+        if let Expr::Member(MemberExpr {
+            obj,
+            prop: MemberProp::Ident(_),
+            ..
+        }) = callee
+        {
+            if self.is_pure_global_ref(obj)
+                && !obj.is_global_ref_to(self.ctx.expr_ctx, "globalThis")
+            {
+                return self.is_skippable_for_seq(a, obj);
+            }
+        }
+
+        self.is_skippable_for_seq(a, callee)
+    }
+
     fn is_member_expr_skippable_for_seq(
         &self,
         a: Option<&Mergable>,
         MemberExpr { obj, prop, .. }: &MemberExpr,
     ) -> bool {
-        // Properties of `globalThis` are the global bindings, so `a` may write
-        // them (`x = 1` writes `globalThis.x`), like the properties of `window`.
-        if obj.is_global_ref_to(self.ctx.expr_ctx, "globalThis") {
-            log_abort!("property of globalThis");
+        // Reading a property of a builtin global is free of side effects, but most
+        // of them are writable, so `a` may write it (`Math.x = 1`, or `x = 1` for
+        // `globalThis.x`).
+        if self.is_pure_global_ref(obj) && !is_non_writable_builtin_prop(obj, prop) {
+            log_abort!("property of a builtin global");
             return false;
         }
 
@@ -1320,7 +1354,7 @@ impl Optimizer<'_> {
 
                 if let Callee::Expr(callee) = &e.callee {
                     if callee.is_pure_callee(self.ctx.expr_ctx) {
-                        if !self.is_skippable_for_seq(a, callee) {
+                        if !self.is_callee_skippable_for_seq(a, callee) {
                             return false;
                         }
 
@@ -1363,8 +1397,10 @@ impl Optimizer<'_> {
 
             Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
                 OptChainBase::Member(e) => {
-                    if e.obj.is_global_ref_to(self.ctx.expr_ctx, "globalThis") {
-                        log_abort!("property of globalThis");
+                    if self.is_pure_global_ref(&e.obj)
+                        && !is_non_writable_builtin_prop(&e.obj, &e.prop)
+                    {
+                        log_abort!("property of a builtin global");
                         return false;
                     }
 
@@ -1388,7 +1424,7 @@ impl Optimizer<'_> {
                 }
                 OptChainBase::Call(e) => {
                     if e.callee.is_pure_callee(self.ctx.expr_ctx) {
-                        if !self.is_skippable_for_seq(a, &e.callee) {
+                        if !self.is_callee_skippable_for_seq(a, &e.callee) {
                             return false;
                         }
 
@@ -1879,7 +1915,7 @@ impl Optimizer<'_> {
                     return Ok(true);
                 }
 
-                if !self.is_skippable_for_seq(Some(a), b_callee) {
+                if !self.is_callee_skippable_for_seq(Some(a), b_callee) {
                     return Ok(false);
                 }
 
@@ -1941,7 +1977,7 @@ impl Optimizer<'_> {
                     return Ok(true);
                 }
 
-                if !self.is_skippable_for_seq(Some(a), b_callee) {
+                if !self.is_callee_skippable_for_seq(Some(a), b_callee) {
                     return Ok(false);
                 }
 
@@ -2738,6 +2774,56 @@ impl Visit for UsageCounter<'_> {
             c.expr.visit_with(self);
             self.in_lhs = old;
         }
+    }
+}
+
+/// Data properties of builtins that are neither writable nor configurable, so
+/// `a` cannot change them.
+fn is_non_writable_builtin_prop(obj: &Expr, prop: &MemberProp) -> bool {
+    let (Expr::Ident(obj), MemberProp::Ident(prop)) = (obj, prop) else {
+        return false;
+    };
+
+    match &*obj.sym {
+        "Math" => matches!(
+            &*prop.sym,
+            "E" | "LN10" | "LN2" | "LOG10E" | "LOG2E" | "PI" | "SQRT1_2" | "SQRT2"
+        ),
+        "Number" => matches!(
+            &*prop.sym,
+            "EPSILON"
+                | "MAX_SAFE_INTEGER"
+                | "MAX_VALUE"
+                | "MIN_SAFE_INTEGER"
+                | "MIN_VALUE"
+                | "NaN"
+                | "NEGATIVE_INFINITY"
+                | "POSITIVE_INFINITY"
+                | "prototype"
+        ),
+        "Symbol" => matches!(
+            &*prop.sym,
+            "asyncIterator"
+                | "hasInstance"
+                | "isConcatSpreadable"
+                | "iterator"
+                | "match"
+                | "matchAll"
+                | "replace"
+                | "search"
+                | "species"
+                | "split"
+                | "toPrimitive"
+                | "toStringTag"
+                | "unscopables"
+                | "prototype"
+        ),
+        "Array" | "Set" | "Map" | "String" | "Object" | "Date" | "BigInt" | "Boolean" | "Error"
+        | "EvalError" | "Function" | "RegExp" | "RangeError" | "ReferenceError" | "SyntaxError"
+        | "TypeError" | "URIError" | "Promise" | "WeakRef" | "ArrayBuffer" => {
+            &*prop.sym == "prototype"
+        }
+        _ => false,
     }
 }
 
