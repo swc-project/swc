@@ -9,7 +9,7 @@ function afterEmptyStatement() {
     "use strict";
 }
 function afterParenthesizedString() {
-    "custom";
+    ("custom");
     "use strict";
 }
 function inOrdinaryBlock() {

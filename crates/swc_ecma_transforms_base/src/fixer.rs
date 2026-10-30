@@ -613,6 +613,17 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
+        // `("use strict");` is an expression statement, but without the parentheses
+        // it is a directive, and no later pass could tell the two apart. Keep one
+        // pair, also in `paren_remover` and outside of a directive prologue, because
+        // later passes can move the statement into one.
+        if let Expr::Paren(ParenExpr { expr, .. }) = &mut *s.expr {
+            if let Expr::Lit(Lit::Str(..)) = expr.unwrap_parens() {
+                self.unwrap_expr(expr);
+                return;
+            }
+        }
+
         let old = self.ctx;
         self.ctx = Context::Default;
         s.expr.visit_mut_with(self);
