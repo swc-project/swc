@@ -12,6 +12,28 @@ const workflow = parse(
         "utf8"
     )
 );
+test("release tagging installs rustfmt for the pre-push hook", () => {
+    const action = parse(
+        readFileSync(
+            join(repository, ".github/actions/tag-git-release/action.yml"),
+            "utf8"
+        )
+    );
+    const steps = action.runs.steps;
+    const setupIndex = steps.findIndex((step) =>
+        step.uses?.startsWith("dtolnay/rust-toolchain@")
+    );
+    const publishIndex = steps.findIndex((step) =>
+        step.run?.includes("./scripts/publish.sh")
+    );
+    assert(setupIndex >= 0 && setupIndex < publishIndex);
+    assert.equal(
+        steps[setupIndex].with.toolchain,
+        readFileSync(join(repository, "rust-toolchain"), "utf8").trim()
+    );
+    assert.equal(steps[setupIndex].with.components, "rustfmt");
+});
+
 test("all products share a gate and publication cannot rebuild artifacts", () => {
     assert.deepEqual(workflow.jobs.build.strategy.matrix.package, products);
     assert.deepEqual(
