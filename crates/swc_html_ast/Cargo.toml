@@ -9,7 +9,7 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_html_ast"
 repository = "https://github.com/swc-project/swc.git"
-version = "26.0.0"
+version = "27.0.0"
 
 [lib]
 bench = false
@@ -23,10 +23,10 @@ encoding-impl = [
 serde-impl = ["serde"]
 
 [dependencies]
-cbor4ii   = { workspace = true, features = ["use_std"], optional = true }
-is-macro  = { workspace = true }
-serde     = { workspace = true, features = ["derive"], optional = true }
+cbor4ii  = { workspace = true, features = ["use_std"], optional = true }
+is-macro = { workspace = true }
+serde    = { workspace = true, features = ["derive"], optional = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum/" }
 swc_atoms   = { version = "10.0.0", path = "../swc_atoms" }
-swc_common  = { version = "26.0.0", path = "../swc_common" }
+swc_common  = { version = "27.0.0", path = "../swc_common" }
