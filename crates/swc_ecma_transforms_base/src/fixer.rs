@@ -1370,6 +1370,8 @@ impl Fixer<'_> {
     }
 
     /// Removes paren
+    // `visit_mut_expr` calls this for every expression, keep it inlined there.
+    #[inline(always)]
     fn unwrap_expr(&mut self, e: &mut Expr) {
         loop {
             match e {
