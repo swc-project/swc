@@ -176,6 +176,25 @@ test("native builds do not depend on the separate WASM installer", () => {
     );
 });
 
+test("Windows ia32 builds use an available Node runtime after x64 installation", () => {
+    const steps = workflow.jobs.build.steps;
+    const install = steps.findIndex(
+        (step) => step.name === "Install dependencies"
+    );
+    const x64 = steps.findIndex((step) => step.name === "Setup node x64");
+    const x86 = steps.findIndex((step) => step.name === "Setup node x86");
+    assert(x64 >= 0 && x64 < install && install < x86);
+    assert.equal(steps[x64].with.architecture, "x64");
+    assert.equal(steps[x64].with["node-version"], 24);
+    assert.equal(steps[x86].with.architecture, "x86");
+    assert.equal(steps[x86].with["node-version"], 22);
+    assert.equal(
+        steps[x86].if,
+        "matrix.settings.target == 'i686-pc-windows-msvc'"
+    );
+    assert(x86 < steps.findIndex((step) => step.name === "Build"));
+});
+
 test("direct setup-node calls never infer pnpm caching, including minimum runtimes", () => {
     for (const job of Object.values(workflow.jobs)) {
         for (const step of job.steps || []) {
