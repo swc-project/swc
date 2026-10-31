@@ -37,6 +37,7 @@ codspeed-criterion-compat = { workspace = true }
 
 serde_json = { workspace = true }
 swc_ecma_codegen = { version = "33.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "64.0.0", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "47.0.0", path = "../swc_ecma_parser", features = [
   "flow",
 ] }

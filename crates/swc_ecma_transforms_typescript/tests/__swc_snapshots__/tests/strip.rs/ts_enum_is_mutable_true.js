@@ -17,8 +17,8 @@ var H = /*#__PURE__*/ function(H) {
 }(H || {});
 console.log(2);
 const j = H.A;
-var J = function(J) {
-    J[J["A"] = j] = "A";
+var J = /*#__PURE__*/ function(J) {
+    J[J["A"] = 2] = "A";
     return J;
 }(J || {});
 console.log(J.A);
@@ -28,15 +28,15 @@ var L = /*#__PURE__*/ function(L) {
     return L;
 }(L || {});
 console.log(L.A);
-const m = M.A;
+const m = 7;
 var N = /*#__PURE__*/ function(N) {
     N[N["A"] = 7] = "A";
     N[N["B"] = 8] = "B";
     return N;
 }(N || {});
 O.A = 5;
-var P = function(P) {
-    P[P["A"] = O.A] = "A";
+var P = /*#__PURE__*/ function(P) {
+    P[P["A"] = 1] = "A";
     return P;
 }(P || {});
 console.log(P.A);
