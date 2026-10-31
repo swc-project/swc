@@ -12,7 +12,7 @@ blake3 = "=1.5.4"
 sha2 = "=0.10.9"
 tempfile = "=3.12.0"
 tracing = { version = "=0.1.44", default-features = false, features = ["std"] }
-zstd = { version = "=0.13.3", default-features = false }
+zstd = { version = "=0.14.3", default-features = false }
 
 # zstd's C build enables cc's parallel feature. Pin this transitive host
 # dependency to a release compatible with the carrier's Rust 1.85 MSRV.
