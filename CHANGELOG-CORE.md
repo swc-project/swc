@@ -13,6 +13,9 @@
 
 - Install rustfmt for automatic crate releases ([#12630](https://github.com/swc-project/swc/issues/12630)) ([fe53f07](https://github.com/swc-project/swc/commit/fe53f073aff5125d77663d6ec1d3814b29ee1a8b))
 
+
+- Use Node 22 for Windows x86 release builds ([#12636](https://github.com/swc-project/swc/issues/12636)) ([577713d](https://github.com/swc-project/swc/commit/577713dd71d18d356cfcab20352dcc27c2e00ff0))
+
 ## [swc_core@v83.0.0] - 2026-10-30
 
 ### Bug Fixes
@@ -2727,26 +2730,11 @@
 
 ## [swc_core@v50.2.0] - 2025-12-12
 
-### Bug Fixes
-
-
-
-- **(es/transformer)** Complete `replace_this_in_expr` implementation ([#11361](https://github.com/swc-project/swc/issues/11361)) ([58c4067](https://github.com/swc-project/swc/commit/58c406723e78fbe87011450dd87edbf52508c08e))
-
 ### Features
 
 
 
-- **(es/parser)** Support `no_paren` parser option ([#11359](https://github.com/swc-project/swc/issues/11359)) ([5b9d77c](https://github.com/swc-project/swc/commit/5b9d77c1c89ade5772c6feee429386faf3b93a39))
-
-
 - **(es/parser)** Revert `no_paren` parser option ([#11362](https://github.com/swc-project/swc/issues/11362)) ([57a8731](https://github.com/swc-project/swc/commit/57a87313194f825efc2ce91d41fb27b8e1e9d9aa))
-
-
-- **(es/transformer)** Merge `async_to_generator` ([#11358](https://github.com/swc-project/swc/issues/11358)) ([25f3a47](https://github.com/swc-project/swc/commit/25f3a4724d48e7fe32eebacd743f1ab623681e46))
-
-
-- **(es/transformer)** Merge `object_rest_spread` ([#11357](https://github.com/swc-project/swc/issues/11357)) ([752188e](https://github.com/swc-project/swc/commit/752188ef85d8b0b36d8d60e962d5fbe6349b6263))
 
 
 - **(es/transformer)** Merge `nullish_coalescing` ([#11365](https://github.com/swc-project/swc/issues/11365)) ([5fb686a](https://github.com/swc-project/swc/commit/5fb686a2c2fca583707406b7d2fec1a60bf9d4c9))
