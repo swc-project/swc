@@ -373,7 +373,9 @@ jobs:
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           package-manager-cache: false
-          node-version: 24
+          # Node 24 does not provide Windows x86 binaries. Keep installation on
+          # x64 Node above, then use Node 22 to build and load the ia32 addons.
+          node-version: 22
           architecture: x86
       - name: Build in docker
         if: ${{ matrix.settings.docker }}
