@@ -62,7 +62,7 @@
     }
     {
         let _init_foo, _init_extra__init_foo;
-        "super() nested within another constructor should not be transformed";
+        ("super() nested within another constructor should not be transformed");
         let log = [];
         class A extends B {
             static{
@@ -99,7 +99,7 @@
         expect(a.foo).toBe(142);
     }
     {
-        "super() not in decorated derived constructor should not be transformed: computed key";
+        ("super() not in decorated derived constructor should not be transformed: computed key");
         let log = [];
         new class Dummy extends B {
             constructor(){
@@ -139,7 +139,7 @@
         expect(log + "").toBe("5,6");
     }
     {
-        "super() in decorator expression within decorated derived constructor should be transformed: decorator expression";
+        ("super() in decorator expression within decorated derived constructor should be transformed: decorator expression");
         let log = [];
         const noop = ()=>(fn)=>fn;
         new class extends B {
@@ -185,7 +185,7 @@
     }
     {
         let _init_foo, _init_extra__init_foo;
-        "super() within decorated derived constructor should be transformed: computed key";
+        ("super() within decorated derived constructor should be transformed: computed key");
         let log = [];
         class A extends B {
             static{
@@ -226,7 +226,7 @@
     }
     {
         let _init_foo, _init_extra__init_foo;
-        "super() within decorated derived constructor should be transformed: decorator expression";
+        ("super() within decorated derived constructor should be transformed: decorator expression");
         let log = [];
         const noop = ()=>(fn)=>fn;
         class A extends B {

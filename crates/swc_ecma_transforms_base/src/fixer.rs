@@ -613,6 +613,17 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
+        // `("use strict");` is an expression statement, but without the parentheses
+        // it is a directive, and no later pass could tell the two apart. Keep one
+        // pair, also in `paren_remover` and outside of a directive prologue, because
+        // later passes can move the statement into one.
+        if let Expr::Paren(ParenExpr { expr, .. }) = &mut *s.expr {
+            if let Expr::Lit(Lit::Str(..)) = expr.unwrap_parens() {
+                self.unwrap_expr(expr);
+                return;
+            }
+        }
+
         let old = self.ctx;
         self.ctx = Context::Default;
         s.expr.visit_mut_with(self);
@@ -1359,6 +1370,8 @@ impl Fixer<'_> {
     }
 
     /// Removes paren
+    // `visit_mut_expr` calls this for every expression, keep it inlined there.
+    #[inline(always)]
     fn unwrap_expr(&mut self, e: &mut Expr) {
         loop {
             match e {
@@ -1498,7 +1511,9 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_ast::{noop_pass, ForHead, ModuleItem, Pat, Program, Stmt};
+    use swc_ecma_ast::{
+        noop_pass, Expr, ExprStmt, ForHead, Lit, ModuleItem, ParenExpr, Pat, Program, Stmt,
+    };
     use swc_ecma_parser::Syntax;
 
     use super::paren_remover;
@@ -1569,6 +1584,56 @@ mod tests {
             Ok(())
         });
     }
+
+    #[test]
+    fn paren_remover_keeps_parens_of_str_lit_stmt() {
+        crate::tests::Tester::run(|tester| {
+            let program = tester.apply_transform(
+                paren_remover(None),
+                "input.js",
+                Syntax::default(),
+                "(\"use strict\");\n((\"use asm\"));\n('use strict');",
+            )?;
+
+            let Program::Module(module) = program else {
+                panic!("expected module");
+            };
+
+            assert_eq!(module.body.len(), 3);
+            for item in &module.body {
+                let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = item else {
+                    panic!("expected expression statement");
+                };
+
+                let Expr::Paren(ParenExpr { expr, .. }) = &**expr else {
+                    panic!("expected one pair of parentheses around the string literal");
+                };
+
+                assert!(matches!(&**expr, Expr::Lit(Lit::Str(..))));
+            }
+
+            Ok(())
+        });
+    }
+
+    identical!(paren_str_lit_stmt, r#"("use strict"); x = 1;"#);
+
+    identical!(
+        paren_str_lit_stmt_in_fn_body,
+        r#"function f() { ('use strict'); return this; }"#
+    );
+
+    identical!(paren_str_lit_stmt_after_stmt, r#"a; ("use strict");"#);
+
+    identical!(paren_str_lit_stmt_in_block, r#"{ ("use strict"); }"#);
+
+    test_fixer!(
+        nested_paren_str_lit_stmt,
+        r#"(("use asm"));"#,
+        r#"("use asm");"#
+    );
+
+    identical!(str_lit_directive, r#""use strict"; x = 1;"#);
 
     identical!(fn_expr_position, r#"foo(function(){}())"#);
 
