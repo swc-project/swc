@@ -166,7 +166,11 @@ impl Optimizer<'_> {
         };
 
         if let Some(scope) = find_scope(self.data, callee) {
-            if scope.contains(ScopeData::USED_ARGUMENTS) {
+            if scope.intersects(
+                ScopeData::USED_ARGUMENTS
+                    .union(ScopeData::HAS_EVAL_CALL)
+                    .union(ScopeData::HAS_WITH_STMT),
+            ) {
                 log_abort!("iife: [x] Found usage of arguments");
                 return;
             }
@@ -417,15 +421,8 @@ impl Optimizer<'_> {
                 return;
             }
 
-            let ctx = self
-                .ctx
-                .clone()
-                .with(BitCtx::InFnLike, true)
-                .with(BitCtx::TopLevel, false);
-            let mut optimizer = self.with_ctx(ctx);
-
             trace_op!("inline: Inlining arguments");
-            optimizer.inline_vars_in_node(callee, vars);
+            self.inline_vars_in_node(callee, vars);
 
             e.args.retain(|a| !a.expr.is_invalid());
 
@@ -544,6 +541,8 @@ impl Optimizer<'_> {
         let mut v = NormalMultiReplacer::new(&mut vars, false);
         n.visit_mut_with(&mut v);
         self.changed |= v.changed;
+
+        self.vars.lits.extend(vars);
     }
 
     fn may_invoke_iife(&self, call: &mut CallExpr) -> bool {

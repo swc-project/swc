@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_allocator"
 repository    = { workspace = true }
-version       = "5.0.0"
+version       = "5.0.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -15,9 +15,7 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]
-nightly = [
-  "skip-warning",
-]
+nightly   = ["skip-warning"]
 # The latest pinned nightly rejects the bumpalo/hashbrown/allocator-api2
 # nightly-only allocator paths. Stable allocator-api2 support is sufficient
 # for our usage here.

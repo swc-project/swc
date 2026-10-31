@@ -12,6 +12,28 @@ const workflow = parse(
         "utf8"
     )
 );
+test("release tagging installs rustfmt for the pre-push hook", () => {
+    const action = parse(
+        readFileSync(
+            join(repository, ".github/actions/tag-git-release/action.yml"),
+            "utf8"
+        )
+    );
+    const steps = action.runs.steps;
+    const setupIndex = steps.findIndex((step) =>
+        step.uses?.startsWith("dtolnay/rust-toolchain@")
+    );
+    const publishIndex = steps.findIndex((step) =>
+        step.run?.includes("./scripts/publish.sh")
+    );
+    assert(setupIndex >= 0 && setupIndex < publishIndex);
+    assert.equal(
+        steps[setupIndex].with.toolchain,
+        readFileSync(join(repository, "rust-toolchain"), "utf8").trim()
+    );
+    assert.equal(steps[setupIndex].with.components, "rustfmt");
+});
+
 test("all products share a gate and publication cannot rebuild artifacts", () => {
     assert.deepEqual(workflow.jobs.build.strategy.matrix.package, products);
     assert.deepEqual(
@@ -152,6 +174,25 @@ test("native builds do not depend on the separate WASM installer", () => {
             step.run?.includes("wasm-pack/installer/init.sh")
         )
     );
+});
+
+test("Windows ia32 builds use an available Node runtime after x64 installation", () => {
+    const steps = workflow.jobs.build.steps;
+    const install = steps.findIndex(
+        (step) => step.name === "Install dependencies"
+    );
+    const x64 = steps.findIndex((step) => step.name === "Setup node x64");
+    const x86 = steps.findIndex((step) => step.name === "Setup node x86");
+    assert(x64 >= 0 && x64 < install && install < x86);
+    assert.equal(steps[x64].with.architecture, "x64");
+    assert.equal(steps[x64].with["node-version"], 24);
+    assert.equal(steps[x86].with.architecture, "x86");
+    assert.equal(steps[x86].with["node-version"], 22);
+    assert.equal(
+        steps[x86].if,
+        "matrix.settings.target == 'i686-pc-windows-msvc'"
+    );
+    assert(x86 < steps.findIndex((step) => step.name === "Build"));
 });
 
 test("direct setup-node calls never infer pnpm caching, including minimum runtimes", () => {

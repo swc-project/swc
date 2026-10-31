@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_html_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.16.20"
+version     = "1.16.21-nightly-20261030.1"
 
 [lib]
 bench      = false
@@ -20,7 +20,9 @@ serde = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }
 serde_json = { workspace = true }
 swc_atoms = { path = "../../crates/swc_atoms" }
-swc_common = { path = "../../crates/swc_common", features = ["diagnostic-serde"] }
+swc_common = { path = "../../crates/swc_common", features = [
+  "diagnostic-serde",
+] }
 swc_config = { path = "../../crates/swc_config", features = ["regex"] }
 swc_css_ast = { path = "../../crates/swc_css_ast" }
 swc_css_codegen = { path = "../../crates/swc_css_codegen" }
@@ -29,7 +31,9 @@ swc_css_parser = { path = "../../crates/swc_css_parser" }
 swc_error_reporters = { path = "../../crates/swc_error_reporters" }
 swc_html = { path = "../../crates/swc_html" }
 swc_html_ast = { path = "../../crates/swc_html_ast", features = ["serde"] }
-swc_html_minifier = { path = "../../crates/swc_html_minifier", features = ["custom-css-minifier"] }
+swc_html_minifier = { path = "../../crates/swc_html_minifier", features = [
+  "custom-css-minifier",
+] }
 tracing = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 wasm-bindgen-futures = { workspace = true }
