@@ -1,5 +1,6 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_regexp::transform_unicode_property_escapes;
 use swc_ecma_hooks::VisitMutHook;
@@ -8,7 +9,7 @@ use swc_ecma_regexp::{
     LiteralParser, Options as RegexpOptions,
 };
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{quote_ident, ExprFactory};
+use swc_ecma_utils::{quote_ident, ExprFactory, IsDirective};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::TraverseCtx;
@@ -49,7 +50,17 @@ impl RegExpOptions {
     }
 }
 
-pub(crate) fn hook(options: RegExpOptions) -> Option<impl VisitMutHook<TraverseCtx>> {
+/// Determines how the pass recognizes the global `RegExp`.
+#[derive(Clone, Copy)]
+pub(crate) enum GlobalRegExp {
+    ByName,
+    Unresolved(SyntaxContext),
+}
+
+pub(crate) fn hook(
+    options: RegExpOptions,
+    global_regexp: GlobalRegExp,
+) -> Option<impl VisitMutHook<TraverseCtx>> {
     if options.dot_all_regex
         || options.has_indices
         || options.lookbehind_assertion
@@ -59,21 +70,152 @@ pub(crate) fn hook(options: RegExpOptions) -> Option<impl VisitMutHook<TraverseC
         || options.unicode_regex
         || options.unicode_sets_regex
     {
-        Some(RegexpPass { options })
+        Some(RegexpPass::new(options, global_regexp))
     } else {
         None
     }
 }
 
 pub(crate) fn pass(options: RegExpOptions) -> impl Pass {
-    visit_mut_pass(RegexpPass { options })
+    visit_mut_pass(RegexpPass::new(options, GlobalRegExp::ByName))
 }
 
 struct RegexpPass {
     options: RegExpOptions,
+    global_regexp: GlobalRegExp,
+    strict: bool,
+    constants: FxHashMap<Id, Box<Expr>>,
 }
 
 impl RegexpPass {
+    fn new(options: RegExpOptions, global_regexp: GlobalRegExp) -> Self {
+        Self {
+            options,
+            global_regexp,
+            strict: false,
+            constants: Default::default(),
+        }
+    }
+
+    /// Clears the constants of the previous program and checks whether
+    /// `program` is strict code.
+    fn reset(&mut self, program: &Program) {
+        self.constants.clear();
+        self.strict = match program {
+            Program::Module(_) => true,
+            Program::Script(script) => script
+                .body
+                .iter()
+                .take_while(|stmt| stmt.directive_continue())
+                .any(|stmt| stmt.is_use_strict()),
+        };
+    }
+
+    /// Records the `const` declarations directly in `items`.
+    fn record_module_items(&mut self, items: &[ModuleItem]) {
+        for item in items {
+            if let ModuleItem::Stmt(Stmt::Decl(Decl::Var(decl)))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(decl),
+                ..
+            })) = item
+            {
+                self.record_var_decl(decl);
+            }
+        }
+    }
+
+    /// Records the `const` declarations directly in `stmts`.
+    fn record_stmts(&mut self, stmts: &[Stmt]) {
+        for stmt in stmts {
+            if let Stmt::Decl(Decl::Var(decl)) = stmt {
+                self.record_var_decl(decl);
+            }
+        }
+    }
+
+    /// Records the initializers of `decl` that may fold to a string if it is a
+    /// `const` declaration in strict code.
+    fn record_var_decl(&mut self, decl: &VarDecl) {
+        if !self.options.unicode_property_regex || !self.strict || decl.kind != VarDeclKind::Const {
+            return;
+        }
+        for declarator in &decl.decls {
+            let (Pat::Ident(name), Some(init)) = (&declarator.name, &declarator.init) else {
+                continue;
+            };
+            if name.ctxt == SyntaxContext::empty() {
+                continue;
+            }
+            if is_foldable(init) {
+                self.constants.insert(name.to_id(), init.clone());
+            }
+        }
+    }
+
+    /// Evaluates `expr` to a string made of string literals, template
+    /// literals, `+` and recorded constants.
+    fn fold(
+        &self,
+        expr: &Expr,
+        folding: &mut Vec<Id>,
+        direct_reads: &mut Vec<Ident>,
+    ) -> Option<String> {
+        match expr {
+            Expr::Lit(Lit::Str(lit)) => lit.value.as_str().map(str::to_owned),
+            Expr::Tpl(tpl) => {
+                let mut value = String::new();
+                for (index, quasi) in tpl.quasis.iter().enumerate() {
+                    value.push_str(quasi.cooked.as_ref()?.as_str()?);
+                    if let Some(expr) = tpl.exprs.get(index) {
+                        value.push_str(&self.fold(expr, folding, direct_reads)?);
+                    }
+                }
+                Some(value)
+            }
+            Expr::Bin(BinExpr {
+                op: op!(bin, "+"),
+                left,
+                right,
+                ..
+            }) => {
+                let mut value = self.fold(left, folding, direct_reads)?;
+                value.push_str(&self.fold(right, folding, direct_reads)?);
+                Some(value)
+            }
+            Expr::Paren(ParenExpr { expr, .. }) => self.fold(expr, folding, direct_reads),
+            Expr::Ident(ident) => {
+                let id = ident.to_id();
+                if folding.contains(&id) {
+                    return None;
+                }
+                let init = self.constants.get(&id)?;
+                if folding.is_empty() && !direct_reads.iter().any(|read| read.to_id() == id) {
+                    direct_reads.push(ident.clone());
+                }
+                folding.push(id);
+                let value = self.fold(init, folding, direct_reads);
+                folding.pop();
+                value
+            }
+            _ => None,
+        }
+    }
+
+    /// Returns whether `callee` refers to the global `RegExp`.
+    fn is_global_regexp(&self, callee: &Expr) -> bool {
+        let Expr::Ident(ident) = callee else {
+            return false;
+        };
+        ident.sym == "RegExp"
+            && match self.global_regexp {
+                GlobalRegExp::ByName => true,
+                GlobalRegExp::Unresolved(unresolved_ctxt) => {
+                    ident.ctxt == unresolved_ctxt || ident.ctxt == SyntaxContext::empty()
+                }
+            }
+    }
+
     /// Transform the regex pattern if it contains unicode property escapes.
     /// Returns the transformed pattern string.
     fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
@@ -110,44 +252,42 @@ impl RegexpPass {
             return;
         }
 
-        let Expr::Lit(Lit::Str(pattern_lit)) = &*pattern_arg.expr else {
-            return;
-        };
-        let Some(pattern) = pattern_lit.value.as_str() else {
-            return;
-        };
-
         let flags = match rest_args.first() {
             Some(flags_arg) => {
                 if flags_arg.spread.is_some() {
                     return;
                 }
 
-                let Expr::Lit(Lit::Str(flags_lit)) = &*flags_arg.expr else {
-                    return;
-                };
-                let Some(flags) = flags_lit.value.as_str() else {
+                let Some(flags) = self.fold(&flags_arg.expr, &mut Vec::new(), &mut Vec::new())
+                else {
                     return;
                 };
 
                 flags
             }
-            None => "",
+            None => String::new(),
         };
 
         if !flags.contains(['u', 'v']) {
             return;
         }
 
-        let Some(transformed_pattern) = self.transform_pattern(pattern, flags) else {
+        let mut direct_reads = Vec::new();
+        let Some(pattern) = self.fold(&pattern_arg.expr, &mut Vec::new(), &mut direct_reads) else {
             return;
         };
 
-        let Expr::Lit(Lit::Str(pattern_lit)) = &mut *pattern_arg.expr else {
+        let Some(transformed_pattern) = self.transform_pattern(&pattern, &flags) else {
             return;
         };
-        pattern_lit.value = transformed_pattern.into();
-        pattern_lit.raw = None;
+
+        let span = pattern_arg.expr.span();
+        let literal = Expr::Lit(Lit::Str(Str {
+            span,
+            value: transformed_pattern.into(),
+            raw: None,
+        }));
+        *pattern_arg.expr = after_reads(direct_reads, literal);
     }
 
     /// Parse a regex pattern, extract named capturing groups, strip them,
@@ -219,7 +359,50 @@ impl RegexpPass {
     }
 }
 
+/// Returns whether `expr` is made only of the expressions `fold` evaluates.
+fn is_foldable(expr: &Expr) -> bool {
+    match expr {
+        Expr::Lit(Lit::Str(_)) | Expr::Ident(_) => true,
+        Expr::Tpl(tpl) => tpl.exprs.iter().all(|expr| is_foldable(expr)),
+        Expr::Bin(BinExpr {
+            op: op!(bin, "+"),
+            left,
+            right,
+            ..
+        }) => is_foldable(left) && is_foldable(right),
+        Expr::Paren(paren) => is_foldable(&paren.expr),
+        _ => false,
+    }
+}
+
+/// Evaluates `reads` before `expr`, so that reading a constant before its
+/// initialization still throws a `ReferenceError`.
+fn after_reads(reads: Vec<Ident>, expr: Expr) -> Expr {
+    if reads.is_empty() {
+        return expr;
+    }
+    let span = expr.span();
+    let mut exprs: Vec<Box<Expr>> = reads.into_iter().map(Box::<Expr>::from).collect();
+    exprs.push(Box::new(expr));
+    Expr::Paren(ParenExpr {
+        span,
+        expr: Box::new(Expr::Seq(SeqExpr { span, exprs })),
+    })
+}
+
 impl VisitMutHook<TraverseCtx> for RegexpPass {
+    fn enter_program(&mut self, program: &mut Program, _: &mut TraverseCtx) {
+        self.reset(program);
+    }
+
+    fn enter_module_items(&mut self, items: &mut Vec<ModuleItem>, _: &mut TraverseCtx) {
+        self.record_module_items(items);
+    }
+
+    fn enter_stmts(&mut self, stmts: &mut Vec<Stmt>, _: &mut TraverseCtx) {
+        self.record_stmts(stmts);
+    }
+
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
         self.transform_expr(expr);
     }
@@ -227,6 +410,21 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
 
 impl VisitMut for RegexpPass {
     noop_visit_mut_type!(fail);
+
+    fn visit_mut_program(&mut self, program: &mut Program) {
+        self.reset(program);
+        program.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        self.record_module_items(items);
+        items.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        self.record_stmts(stmts);
+        stmts.visit_mut_children_with(self);
+    }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         expr.visit_mut_children_with(self);
@@ -333,14 +531,14 @@ impl RegexpPass {
                 callee: Callee::Expr(callee),
                 args,
                 ..
-            }) if callee.is_ident_ref_to("RegExp") => {
+            }) if self.is_global_regexp(callee) => {
                 self.transform_regexp_args(args);
             }
             Expr::New(NewExpr {
                 callee,
                 args: Some(args),
                 ..
-            }) if callee.is_ident_ref_to("RegExp") => {
+            }) if self.is_global_regexp(callee) => {
                 self.transform_regexp_args(args);
             }
             _ => {}

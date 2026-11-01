@@ -62,7 +62,10 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     ));
     let hook = hook.chain(crate::es2016::hook(options.env.es2016));
     let hook = hook.chain(crate::es2015::hook(options.env.es2015));
-    let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
+    let hook = hook.chain_optional(crate::regexp::hook(
+        options.env.regexp,
+        crate::regexp::GlobalRegExp::Unresolved(options.unresolved_ctxt),
+    ));
     let hook = hook.chain(crate::bugfix::hook(options.env.bugfix));
 
     // ES3 transforms should run after all higher ES versions
@@ -124,7 +127,10 @@ pub fn es2022_runtime_transforms(regexp_options: crate::regexp::RegExpOptions) -
         hook_pass(
             HookBuilder::new(NoopHook)
                 .chain(crate::es2022::class_static_block::hook())
-                .chain_optional(crate::regexp::hook(regexp_options))
+                .chain_optional(crate::regexp::hook(
+                    regexp_options,
+                    crate::regexp::GlobalRegExp::ByName,
+                ))
                 .build(),
         ),
         crate::es2022::private_property_in_object::pass(),
@@ -167,7 +173,10 @@ pub fn es2018_runtime_transforms(
     hook_pass_with_var_declarations(
         HookBuilder::new(NoopHook)
             .chain(crate::es2018::object_rest_spread::hook(assumptions))
-            .chain_optional(crate::regexp::hook(regexp_options))
+            .chain_optional(crate::regexp::hook(
+                regexp_options,
+                crate::regexp::GlobalRegExp::ByName,
+            ))
             .build(),
     )
 }
@@ -222,10 +231,13 @@ pub fn es2015_runtime_transforms() -> impl Pass {
             .chain(crate::es2015::duplicate_keys::hook())
             .chain(crate::es2015::instanceof::hook())
             .chain(crate::es2015::typeof_symbol::hook())
-            .chain_optional(crate::regexp::hook(crate::regexp::RegExpOptions {
-                sticky_regex: true,
-                ..Default::default()
-            }))
+            .chain_optional(crate::regexp::hook(
+                crate::regexp::RegExpOptions {
+                    sticky_regex: true,
+                    ..Default::default()
+                },
+                crate::regexp::GlobalRegExp::ByName,
+            ))
             .build(),
     )
 }
