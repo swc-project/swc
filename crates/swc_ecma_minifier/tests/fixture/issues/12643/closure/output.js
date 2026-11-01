@@ -1,0 +1,1 @@
+globalThis.process = (value)=>value;

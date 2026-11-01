@@ -2138,6 +2138,16 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
+        match e {
+            Expr::Cond(cond) => self.inline_uninitialized_test(&mut cond.test),
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                left,
+                ..
+            }) => self.inline_uninitialized_test(left),
+            _ => {}
+        }
+
         self.compress_cond_expr_if_similar(e);
 
         if e.is_seq() {
@@ -2468,6 +2478,7 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.test.visit_mut_with(self);
+        self.inline_uninitialized_test(&mut n.test);
 
         let ctx = self.ctx.clone().with(BitCtx::InCond, true);
 

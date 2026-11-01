@@ -1,0 +1,9 @@
+{
+    "defaults": false,
+    "module": true,
+    "toplevel": true,
+    "reduce_vars": false,
+    "unused": true,
+    "dead_code": true,
+    "conditionals": true
+}

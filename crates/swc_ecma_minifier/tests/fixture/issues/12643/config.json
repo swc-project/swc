@@ -1,0 +1,8 @@
+{
+    "defaults": true,
+    "module": true,
+    "toplevel": true,
+    "reduce_vars": true,
+    "unused": true,
+    "passes": 10
+}

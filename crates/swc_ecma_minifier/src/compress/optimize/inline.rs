@@ -27,6 +27,46 @@ use crate::{
 
 /// Methods related to option `inline`.
 impl Optimizer<'_> {
+    /// Fold captured, never-assigned variables only where a branch can
+    /// disappear. Replacing ordinary reads with `void 0` can increase the
+    /// output size.
+    pub(super) fn inline_uninitialized_test(&mut self, test: &mut Expr) {
+        if !self.options.reduce_vars || self.ctx.bit_ctx.contains(BitCtx::InWithStmt) {
+            return;
+        }
+        let Expr::Ident(ident) = test else {
+            return;
+        };
+        if ident.sym == "arguments" || !self.may_remove_ident(ident) {
+            return;
+        }
+        let Some(usage) = self.data.vars.get(&ident.to_id()) else {
+            return;
+        };
+        if usage.assign_count != 0
+            || usage.declared_count != 1
+            || usage.var_kind.is_none()
+            || usage.flags.intersects(
+                VarUsageInfoFlags::IS_FN_LOCAL
+                    | VarUsageInfoFlags::VAR_INITIALIZED
+                    | VarUsageInfoFlags::REASSIGNED
+                    | VarUsageInfoFlags::INLINE_PREVENTED
+                    | VarUsageInfoFlags::DECLARED_AS_FN_PARAM
+                    | VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM
+                    | VarUsageInfoFlags::USED_ABOVE_DECL,
+            )
+            || self.data.get_scope(ident.ctxt).is_some_and(|scope| {
+                scope.intersects(ScopeData::HAS_EVAL_CALL | ScopeData::HAS_WITH_STMT)
+            })
+        {
+            return;
+        }
+
+        report_change!("inline: Replacing never-assigned test '{}'", ident);
+        *test = *Expr::undefined(ident.span);
+        self.changed = true;
+    }
+
     /// Stores the value of a variable to inline it.
     ///
     /// This method may remove value of initializer. It mean that the value will
