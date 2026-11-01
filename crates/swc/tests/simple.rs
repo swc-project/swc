@@ -313,3 +313,30 @@ fn test_unicode_property_regex_letter() {
     // Should NOT contain the original \p{L} escape
     assert!(!compiled.contains("\\p{L}"));
 }
+
+#[test]
+fn test_unicode_property_regex_flags() {
+    let source = r#"const negative = /^\P{Lowercase_Letter}$/iu;
+const set = /[\p{Script=Greek}--\p{Lowercase_Letter}]/v;
+const inClass = /[\P{Lowercase_Letter}]/iv;"#;
+
+    let compiled = compile(
+        source,
+        Options {
+            swcrc: false,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2017),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    );
+
+    assert!(compiled.contains(r"\\u0000-\\u0060"));
+    assert!(!compiled.contains("[^"));
+    assert!(compiled.contains(r"\\p{Script=Greek}--\\p{Lowercase_Letter}"));
+    assert!(compiled.contains(r"\\P{Lowercase_Letter}"));
+}

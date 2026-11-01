@@ -82,6 +82,9 @@ impl RegexpPass {
         if !self.options.unicode_property_regex {
             return None;
         }
+        if flags.contains('v') {
+            return None;
+        }
         if !pattern.contains("\\p{") && !pattern.contains("\\P{") {
             return None;
         }

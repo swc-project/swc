@@ -150,6 +150,11 @@ impl VisitMut for UnicodePropertyTransformer {
 /// Expands a unicode property escape into a character class.
 fn expand_unicode_property(prop: &UnicodePropertyEscape) -> Option<CharacterClass> {
     let ranges = get_property_ranges(prop)?;
+    let ranges = if prop.negative {
+        complement_ranges(&ranges)
+    } else {
+        ranges
+    };
 
     let mut body = Vec::new();
 
@@ -184,7 +189,7 @@ fn expand_unicode_property(prop: &UnicodePropertyEscape) -> Option<CharacterClas
 
     Some(CharacterClass {
         span: prop.span,
-        negative: prop.negative,
+        negative: false,
         strings: false,
         kind: CharacterClassContentsKind::Union,
         body,
@@ -511,7 +516,8 @@ mod tests {
     #[test]
     fn test_negative_property() {
         let result = parse_and_transform(r"\P{L}", "u");
-        assert!(result.starts_with("[^"));
+        assert!(result.starts_with('['));
+        assert!(!result.starts_with("[^"));
     }
 
     #[test]
