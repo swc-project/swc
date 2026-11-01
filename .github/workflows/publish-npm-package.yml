@@ -338,7 +338,7 @@ jobs:
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           package-manager-cache: false
-          node-version: 24
+          node-version: 26
           architecture: x64
       - name: Output toolchain
         id: toolchain
@@ -375,7 +375,7 @@ jobs:
           package-manager-cache: false
           # Node 24 does not provide Windows x86 binaries. Keep installation on
           # x64 Node above, then use Node 22 to build and load the ia32 addons.
-          node-version: 22
+          node-version: 26
           architecture: x86
       - name: Build in docker
         if: ${{ matrix.settings.docker }}
@@ -895,7 +895,7 @@ jobs:
           submodules: recursive
       - uses: ./.github/actions/setup-node
         with:
-          node-version: "24"
+          node-version: "26"
       - name: Record tooling Node
         id: tooling-node
         run: echo "path=$(node -p process.execPath)" >> "$GITHUB_OUTPUT"
@@ -956,7 +956,7 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           package-manager-cache: false
-          node-version: "24"
+          node-version: "26"
       - name: Canonicalize native test temporary directory
         # macOS exposes /var through a symlink. Fixtures deliberately reject
         # symlink ancestors, just like the production cache does.
@@ -1025,7 +1025,7 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           package-manager-cache: false
-          node-version: "24"
+          node-version: "26"
       - uses: ./.github/actions/native-tools
       - name: Download all prepared packages
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
@@ -1067,7 +1067,7 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           package-manager-cache: false
-          node-version: "24"
+          node-version: "26"
       - name: Update npm for trusted publishing
         run: npm install -g npm@latest
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
@@ -1166,7 +1166,7 @@ jobs:
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           package-manager-cache: false
-          node-version: 24
+          node-version: 26
 
       - name: Install node dependencies
         run: pnpm install --frozen-lockfile
