@@ -1,0 +1,6 @@
+{
+    "jsc": {
+        "target": "es2017"
+    },
+    "isModule": false
+}
