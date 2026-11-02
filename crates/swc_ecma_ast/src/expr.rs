@@ -364,9 +364,15 @@ impl Expr {
         self.directness_matters()
     }
 
-    /// Returns true for `eval` and member expressions.
+    /// Returns true for `eval` and member expressions, including optional-chain
+    /// member expressions such as `obj?.method`.
     pub fn directness_matters(&self) -> bool {
-        self.is_ident_ref_to("eval") || matches!(self, Expr::Member(..))
+        self.is_ident_ref_to("eval")
+            || match self {
+                Expr::Member(..) => true,
+                Expr::OptChain(e) => matches!(&*e.base, OptChainBase::Member(..)),
+                _ => false,
+            }
     }
 
     pub fn with_span(mut self, span: Span) -> Expr {

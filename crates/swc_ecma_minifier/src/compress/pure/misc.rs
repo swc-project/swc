@@ -2548,6 +2548,20 @@ impl Pure<'_> {
                 self.changed = true;
                 *e = r.take();
             }
+            _ if is_pure_undefined(self.expr_ctx, l) => {
+                report_change!("Removing undefined from lhs of ??");
+                self.changed = true;
+                // `(void 0 ?? obj.method)()` must not receive `obj` as `this`.
+                *e = if r.directness_matters() {
+                    SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: vec![0.into(), Box::new(r.take())],
+                    }
+                    .into()
+                } else {
+                    r.take()
+                };
+            }
             Expr::Lit(Lit::Num(..))
             | Expr::Lit(Lit::Str(..))
             | Expr::Lit(Lit::BigInt(..))

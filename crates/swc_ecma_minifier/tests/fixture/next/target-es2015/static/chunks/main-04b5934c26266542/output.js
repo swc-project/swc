@@ -867,9 +867,7 @@
                         });
                     },
                     loadRoute (route, prefetch) {
-                        return withFuture(route, routes, ()=>{
-                            let devBuildPromiseResolve;
-                            return resolvePromiseWithTimeout(getFilesForRoute(assetPrefix, route).then((param)=>{
+                        return withFuture(route, routes, ()=>resolvePromiseWithTimeout(getFilesForRoute(assetPrefix, route).then((param)=>{
                                 let { scripts, css } = param;
                                 return Promise.all([
                                     entrypoints.has(route) ? [] : Promise.all(scripts.map(maybeExecuteScript)),
@@ -889,8 +887,7 @@
                                 return {
                                     error: err
                                 };
-                            }).finally(()=>null == devBuildPromiseResolve ? void 0 : devBuildPromiseResolve());
-                        });
+                            }).finally(()=>void 0));
                     },
                     prefetch (route) {
                         // https://github.com/GoogleChromeLabs/quicklink/blob/453a661fa1fa940e2d2e044452398e38c67a98fb/src/index.mjs#L115-L118
