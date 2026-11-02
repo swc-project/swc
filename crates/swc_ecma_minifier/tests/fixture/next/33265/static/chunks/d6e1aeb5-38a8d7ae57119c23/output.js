@@ -16312,7 +16312,7 @@
                 }, PlaylistLoader;
             }(EventTarget$1), videojsXHR = videojs.xhr, mergeOptions$1 = videojs.mergeOptions, callbackWrapper = function(request, error, response, callback) {
                 var reqResponse = "arraybuffer" === request.responseType ? request.response : request.responseText;
-                !error && reqResponse && (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
+                !error && reqResponse && (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8 * 1000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
             }, xhrFactory = function() {
                 var xhr = function XhrFunction(options, callback) {
                     // Add a default timeout
@@ -21306,7 +21306,7 @@
                 };
                 return stats.bytesReceived = progressEvent.loaded, // because we should only use bandwidth stats on progress to determine when
                 // abort a request early due to insufficient bandwidth
-                stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8000), stats;
+                stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8 * 1000), stats;
             }, handleErrors = function(error, request) {
                 return request.timedout ? {
                     status: request.status,
@@ -23217,7 +23217,7 @@
                  * @param {Object} segmentInfo the object returned by loadSegment
                  */ _proto.recordThroughput_ = function(segmentInfo) {
                     if (segmentInfo.duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) return void this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
-                    var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8000); // Add one to the time to ensure that we don't accidentally attempt to divide
+                    var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8 * 1000); // Add one to the time to ensure that we don't accidentally attempt to divide
                     //   newAvg = oldAvg + (sample - oldAvg) / (sampleCount + 1)
                     this.throughput.rate += (segmentProcessingThroughput - rate) / ++this.throughput.count;
                 }, /**
