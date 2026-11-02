@@ -2,7 +2,7 @@ use std::ops::Deref;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
-use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
+use swc_common::{util::take::Take, EqIgnoreSpan, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     class_has_side_effect, collect_decls, contains_ident_ref, find_pat_ids, ExprExt, Remapper,
@@ -11,9 +11,12 @@ use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
-    compress::optimize::{
-        util::{is_valid_for_lhs, may_inline_arrow},
-        BitCtx,
+    compress::{
+        optimize::{
+            util::{is_valid_for_lhs, may_inline_arrow},
+            BitCtx,
+        },
+        util::is_pure_undefined,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
     usage_analyzer::{
@@ -549,6 +552,156 @@ impl Optimizer<'_> {
                     .vars_for_inlining
                     .insert(ident.take().to_id(), init.take().into());
             }
+        }
+    }
+
+    /// Records a variable declared without an initializer, if the variable is
+    /// never assigned.
+    ///
+    /// Every read of such a variable evaluates to `undefined`, even inside
+    /// closures. [Optimizer::inline_undefined_var] replaces the references
+    /// that can fold, and the unused-variable pass removes the declaration
+    /// after all references are gone.
+    ///
+    /// See https://github.com/swc-project/swc/issues/12643
+    pub(super) fn store_uninitialized_var_for_inlining(&mut self, ident: &Ident) {
+        if self.options.inline == 0 && !self.options.reduce_vars {
+            return;
+        }
+
+        // `var arguments;` in a non-arrow function refers to the arguments object.
+        if ident.sym == "arguments" {
+            return;
+        }
+
+        if let Some(scope) = self.data.get_scope(ident.ctxt) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
+        }
+
+        let Some(usage) = self.data.vars.get(&ident.to_id()) else {
+            return;
+        };
+
+        if usage.ref_count == 0
+            || usage.assign_count != 0
+            || usage.declared_count != 1
+            || usage.property_mutation_count != 0
+            || !matches!(usage.var_kind, Some(VarDeclKind::Let | VarDeclKind::Var))
+            || !usage.flags.contains(VarUsageInfoFlags::DECLARED)
+            || usage.flags.intersects(
+                VarUsageInfoFlags::INLINE_PREVENTED
+                    .union(VarUsageInfoFlags::REASSIGNED)
+                    .union(VarUsageInfoFlags::VAR_INITIALIZED)
+                    // Reading a `let` binding above its declaration throws.
+                    .union(VarUsageInfoFlags::USED_ABOVE_DECL)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                    .union(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FOR_INIT),
+            )
+        {
+            return;
+        }
+
+        // Top-level variables of a script may be assigned by other scripts.
+        if !self.may_remove_ident(ident) {
+            return;
+        }
+
+        report_change!(
+            "inline: Decided to treat never-assigned variable '{}{:?}' as `void 0`",
+            ident.sym,
+            ident.ctxt
+        );
+
+        self.mode.store(ident.to_id(), &Expr::undefined(ident.span));
+        self.vars.undefined_vars.insert(ident.to_id());
+    }
+
+    /// Returns `true` if `e` is a reference to a variable recorded by
+    /// [Optimizer::store_uninitialized_var_for_inlining].
+    pub(super) fn is_undefined_var(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => {
+                !self.vars.undefined_vars.is_empty()
+                    && self.vars.undefined_vars.contains(&i.to_id())
+            }
+            _ => false,
+        }
+    }
+
+    /// Replaces `e` with `void 0` if it is a reference to a never-assigned
+    /// variable.
+    ///
+    /// Callers invoke this only at positions where `undefined` lets the
+    /// enclosing expression fold, such as a condition or a comparison with a
+    /// constant.
+    pub(super) fn inline_undefined_var(&mut self, e: &mut Expr) {
+        if !self.is_undefined_var(e) {
+            return;
+        }
+
+        report_change!(
+            "inline: Replacing never-assigned variable `{}` with `void 0`",
+            crate::debug::dump(&*e, false)
+        );
+        self.changed = true;
+        *e = *Expr::undefined(e.span());
+    }
+
+    /// Replaces never-assigned variables in the operands of `n` where the
+    /// result can fold.
+    ///
+    /// - The left operand of `&&`, `||` and `??` decides the result.
+    /// - An equality comparison folds if the other operand is constant.
+    pub(super) fn inline_undefined_vars_in_bin_expr(&mut self, n: &mut BinExpr) {
+        if self.vars.undefined_vars.is_empty() {
+            return;
+        }
+
+        match n.op {
+            op!("&&") | op!("||") | op!("??") => self.inline_undefined_var(&mut n.left),
+            op!("==") | op!("!=") | op!("===") | op!("!==") => {
+                let is_const = |this: &Self, e: &Expr| {
+                    e.is_lit()
+                        || is_pure_undefined(this.ctx.expr_ctx, e)
+                        || this.is_undefined_var(e)
+                };
+
+                if is_const(self, &n.left) && is_const(self, &n.right) {
+                    self.inline_undefined_var(&mut n.left);
+                    self.inline_undefined_var(&mut n.right);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Replaces never-assigned variables in `e` where the result can fold.
+    ///
+    /// - The test of a conditional expression decides the branch.
+    /// - An optional chain on `undefined` short-circuits.
+    pub(super) fn inline_undefined_vars_in_expr(&mut self, e: &mut Expr) {
+        if self.vars.undefined_vars.is_empty() {
+            return;
+        }
+
+        match e {
+            Expr::Cond(c) => self.inline_undefined_var(&mut c.test),
+            Expr::OptChain(OptChainExpr {
+                optional: true,
+                base,
+                ..
+            }) => match &mut **base {
+                OptChainBase::Member(m) => self.inline_undefined_var(&mut m.obj),
+                OptChainBase::Call(c) => self.inline_undefined_var(&mut c.callee),
+                #[cfg(swc_ast_unknown)]
+                _ => {}
+            },
+            _ => {}
         }
     }
 

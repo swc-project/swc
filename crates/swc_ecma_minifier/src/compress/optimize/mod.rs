@@ -287,6 +287,14 @@ struct Vars {
     simple_functions: FxHashMap<Id, Box<Expr>>,
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
 
+    /// Variables declared without an initializer and never assigned, so every
+    /// read evaluates to `undefined`.
+    ///
+    /// Unlike [Vars::lits], references are replaced with `void 0` only where
+    /// the value lets the enclosing expression fold, because a mangled name is
+    /// shorter than `void 0`.
+    undefined_vars: FxHashSet<Id>,
+
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
     removed: FxHashSet<Id>,
@@ -1631,6 +1639,8 @@ impl VisitMut for Optimizer<'_> {
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        self.inline_undefined_vars_in_bin_expr(n);
+
         self.compress_typeof_undefined(n);
 
         self.optimize_bin_equal(n);
@@ -1996,6 +2006,8 @@ impl VisitMut for Optimizer<'_> {
                 .with(BitCtx::IsExported, false)
                 .with(BitCtx::IsCallee, false);
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+            self.inline_undefined_vars_in_expr(e);
 
             #[cfg(all(debug_assertions, feature = "trace-ast"))]
             let _tracing = {
@@ -2468,6 +2480,8 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
         n.test.visit_mut_with(self);
+
+        self.inline_undefined_var(&mut n.test);
 
         let ctx = self.ctx.clone().with(BitCtx::InCond, true);
 
@@ -3151,6 +3165,10 @@ impl VisitMut for Optimizer<'_> {
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        if matches!(n.op, op!("!") | op!("typeof")) {
+            self.inline_undefined_var(&mut n.arg);
+        }
+
         // infinite loop
         if n.op == op!("void") {
             match &*n.arg {
@@ -3300,7 +3318,15 @@ impl VisitMut for Optimizer<'_> {
             if id.sym.is_empty() {
                 var.name = Pat::dummy();
             }
-        };
+        } else if let VarDeclarator {
+            name: Pat::Ident(id),
+            init: None,
+            definite: false,
+            ..
+        } = var
+        {
+            self.store_uninitialized_var_for_inlining(&id.id);
+        }
 
         self.drop_unused_properties(var);
 

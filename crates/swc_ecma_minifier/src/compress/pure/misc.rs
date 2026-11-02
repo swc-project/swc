@@ -2548,6 +2548,11 @@ impl Pure<'_> {
                 self.changed = true;
                 *e = r.take();
             }
+            _ if is_pure_undefined(self.expr_ctx, l) => {
+                report_change!("Removing undefined from lhs of ??");
+                self.changed = true;
+                *e = r.take();
+            }
             Expr::Lit(Lit::Num(..))
             | Expr::Lit(Lit::Str(..))
             | Expr::Lit(Lit::BigInt(..))
