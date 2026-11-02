@@ -1005,7 +1005,7 @@ function(global, factory) {
         }(normalizedInput), // representation for dateAddRemove
         this._milliseconds = +milliseconds + 1e3 * seconds + // 1000
         6e4 * minutes + // 1000 * 60
-        1000 * hours * 3600, // Because of dateAddRemove treats 24 hours as different from a
+        1000 * hours * 60 * 60, // Because of dateAddRemove treats 24 hours as different from a
         // day when working around DST, we need to store them separately
         this._days = +days + 7 * weeks, // It is impossible to translate months into days without knowing
         // which months you are are talking about, so we have to store
