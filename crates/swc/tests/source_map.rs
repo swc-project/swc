@@ -253,12 +253,25 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     let stderr = String::from_utf8_lossy(&output.stderr);
 
     eprintln!("\n\n\nStderr: {stderr}\n\n\n");
+
+    // Normalize differences between Node.js versions:
     //
+    // - Node.js 20 and 22 print two blank lines between the source line and the
+    //   error message, but Node.js 24 and later print one.
+    // - Node.js 22 prints frames of built-in modules other than `node:internal`,
+    //   such as `node:diagnostics_channel`.
+    // - Node.js 24 and later prefix some source-mapped function names with the
+    //   receiver type, for example `Object.console` instead of `console`.
     let stacks = stderr
         .lines()
         .filter(|s| {
-            !s.contains("node:internal") && !s.contains("node_modules") && !s.contains("Node.js v")
+            !s.trim().is_empty()
+                && !s.contains("node:internal")
+                && !s.contains("(node:")
+                && !s.contains("node_modules")
+                && !s.contains("Node.js v")
         })
+        .map(|s| s.replacen("    at Object.", "    at ", 1))
         .collect::<Vec<_>>();
 
     let stacks = stacks.join("\n");
