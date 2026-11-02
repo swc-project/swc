@@ -75,9 +75,13 @@ fn init_helpers() -> Arc<PathBuf> {
             // lifecycle scripts. In a clean checkout `@swc/core` has not been
             // built yet, so its postinstall validation would fail while trying
             // to resolve generated files such as `index.js`.
+            //
+            // Use the lockfile as it is, like CI does. A plain `pnpm install`
+            // can resolve the workspace again and rewrite `pnpm-lock.yaml`.
             cmd.current_dir(&helper_dir)
                 .env("SWC_SKIP_VALIDATION", "1")
-                .arg("install");
+                .arg("install")
+                .arg("--frozen-lockfile");
             let status = cmd.status().expect("failed to install helper dependencies");
             assert!(status.success());
         }
