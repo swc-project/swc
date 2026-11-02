@@ -1,3 +1,3 @@
 //// [logicalAssignment11.ts]
-let x, d, e;
-d ?? (d = x ?? "x"), d.length, (e ??= x ?? "x").length;
+let d, e;
+d ?? (d = "x"), d.length, (e ??= "x").length;
