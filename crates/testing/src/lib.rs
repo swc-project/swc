@@ -313,17 +313,45 @@ impl Debug for DebugUsingDisplay<'_> {
 }
 
 /// Rename `foo/.bar/exec.js` => `foo/bar/exec.js`
+///
+/// Only components below the cargo workspace root mark a fixture as ignored.
+/// Hidden directories above the workspace, such as a worktree stored in
+/// `~/.worktrees`, are kept as they are.
 pub fn unignore_fixture(fixture_path: &Path) {
-    if fixture_path.components().all(|c| {
-        !matches!(c, Component::Normal(..)) || !c.as_os_str().to_string_lossy().starts_with('.')
-    }) {
+    // Fast path: most fixtures have no hidden component at all, so avoid
+    // resolving the workspace root for them.
+    if !fixture_path.components().any(is_hidden_component) {
         return;
     }
-    //
 
-    let mut new_path = PathBuf::new();
+    let root = CARGO_WORKSPACE_ROOT
+        .canonicalize()
+        .unwrap_or_else(|_| CARGO_WORKSPACE_ROOT.clone());
 
-    for c in fixture_path.components() {
+    let Some(new_path) = unignored_fixture_path(fixture_path, &root) else {
+        return;
+    };
+
+    create_dir_all(new_path.parent().unwrap()).expect("failed to create parent dir");
+
+    rename(fixture_path, &new_path).expect("failed to rename");
+}
+
+/// Returns the path of `fixture_path` with the leading `.` removed from every
+/// hidden component below `root`.
+///
+/// Returns [None] if `fixture_path` is not in `root` or if no component below
+/// `root` is hidden.
+fn unignored_fixture_path(fixture_path: &Path, root: &Path) -> Option<PathBuf> {
+    let relative = fixture_path.strip_prefix(root).ok()?;
+
+    if !relative.components().any(is_hidden_component) {
+        return None;
+    }
+
+    let mut new_path = root.to_path_buf();
+
+    for c in relative.components() {
         if let Component::Normal(s) = c {
             if let Some(s) = s.to_string_lossy().strip_prefix('.') {
                 new_path.push(s);
@@ -334,9 +362,12 @@ pub fn unignore_fixture(fixture_path: &Path) {
         new_path.push(c);
     }
 
-    create_dir_all(new_path.parent().unwrap()).expect("failed to create parent dir");
+    Some(new_path)
+}
 
-    rename(fixture_path, &new_path).expect("failed to rename");
+/// Returns whether `c` is a normal path component that starts with `.`.
+fn is_hidden_component(c: Component) -> bool {
+    matches!(c, Component::Normal(s) if s.to_string_lossy().starts_with('.'))
 }
 
 pub static CARGO_TARGET_DIR: Lazy<PathBuf> = Lazy::new(|| {
@@ -356,3 +387,43 @@ pub static CARGO_WORKSPACE_ROOT: Lazy<PathBuf> = Lazy::new(|| {
         .workspace_root
         .into()
 });
+
+#[cfg(test)]
+mod tests {
+    use std::path::{Path, PathBuf};
+
+    use super::unignored_fixture_path;
+
+    #[test]
+    fn unignores_hidden_fixture_components() {
+        assert_eq!(
+            unignored_fixture_path(
+                Path::new("/repo/crates/foo/tests/exec/.case/exec.js"),
+                Path::new("/repo")
+            ),
+            Some(PathBuf::from("/repo/crates/foo/tests/exec/case/exec.js"))
+        );
+    }
+
+    #[test]
+    fn keeps_hidden_components_above_workspace_root() {
+        let root = Path::new("/home/user/.worktrees/repo");
+
+        assert_eq!(
+            unignored_fixture_path(&root.join("crates/foo/tests/exec/case/exec.js"), root),
+            None
+        );
+        assert_eq!(
+            unignored_fixture_path(&root.join("crates/foo/tests/exec/.case/exec.js"), root),
+            Some(root.join("crates/foo/tests/exec/case/exec.js"))
+        );
+    }
+
+    #[test]
+    fn ignores_fixtures_outside_workspace_root() {
+        assert_eq!(
+            unignored_fixture_path(Path::new("/other/.case/exec.js"), Path::new("/repo")),
+            None
+        );
+    }
+}
