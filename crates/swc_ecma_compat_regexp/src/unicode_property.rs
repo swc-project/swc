@@ -90,43 +90,8 @@ impl VisitMut for UnicodePropertyTransformer {
             match content {
                 CharacterClassContents::UnicodePropertyEscape(prop) => {
                     // Inside a character class, we need to inline the ranges directly
-                    if let Some(ranges) = get_property_ranges(&prop) {
-                        // If the property is negative (\P{...}), we need to complement
-                        // the ranges
-                        let final_ranges = if prop.negative {
-                            complement_ranges(&ranges)
-                        } else {
-                            ranges
-                        };
-                        for range in final_ranges {
-                            let start = *range.start();
-                            let end = *range.end();
-                            if start == end {
-                                new_contents.push(CharacterClassContents::Character(Box::new(
-                                    Character {
-                                        span: prop.span,
-                                        kind: CharacterKind::UnicodeEscape,
-                                        value: start,
-                                    },
-                                )));
-                            } else {
-                                new_contents.push(CharacterClassContents::CharacterClassRange(
-                                    Box::new(CharacterClassRange {
-                                        span: prop.span,
-                                        min: Character {
-                                            span: prop.span,
-                                            kind: CharacterKind::UnicodeEscape,
-                                            value: start,
-                                        },
-                                        max: Character {
-                                            span: prop.span,
-                                            kind: CharacterKind::UnicodeEscape,
-                                            value: end,
-                                        },
-                                    }),
-                                ));
-                            }
-                        }
+                    if let Some(ranges) = get_matched_ranges(&prop) {
+                        push_ranges(&mut new_contents, &ranges, &prop);
                     } else {
                         // Keep original if we can't expand
                         new_contents.push(CharacterClassContents::UnicodePropertyEscape(prop));
@@ -148,32 +113,69 @@ impl VisitMut for UnicodePropertyTransformer {
 }
 
 /// Expands a unicode property escape into a character class.
+///
+/// `\P{...}` is expanded to a non-negated class of the complement ranges, not
+/// to a negated class. With the `i` flag, a negated class `[^...]` rejects
+/// every character whose case-folded form is in the property, but `\P{...}`
+/// matches a character if any case variant is outside the property. A class of
+/// the complement ranges has the same semantics as `\P{...}` in both cases.
 fn expand_unicode_property(prop: &UnicodePropertyEscape) -> Option<CharacterClass> {
+    let ranges = get_matched_ranges(prop)?;
+
+    let mut body = Vec::with_capacity(ranges.len());
+    push_ranges(&mut body, &ranges, prop);
+
+    Some(CharacterClass {
+        span: prop.span,
+        negative: false,
+        strings: false,
+        kind: CharacterClassContentsKind::Union,
+        body,
+    })
+}
+
+/// Gets the code point ranges that a unicode property escape matches, with the
+/// complement already applied for `\P{...}`.
+fn get_matched_ranges(prop: &UnicodePropertyEscape) -> Option<Vec<RangeInclusive<u32>>> {
     let ranges = get_property_ranges(prop)?;
 
-    let mut body = Vec::new();
+    Some(if prop.negative {
+        complement_ranges(&ranges)
+    } else {
+        ranges
+    })
+}
+
+/// Appends code point ranges to character class contents, using the span of
+/// the expanded escape.
+fn push_ranges(
+    contents: &mut Vec<CharacterClassContents>,
+    ranges: &[RangeInclusive<u32>],
+    prop: &UnicodePropertyEscape,
+) {
+    let span = prop.span;
 
     for range in ranges {
         let start = *range.start();
         let end = *range.end();
 
         if start == end {
-            body.push(CharacterClassContents::Character(Box::new(Character {
-                span: prop.span,
+            contents.push(CharacterClassContents::Character(Box::new(Character {
+                span,
                 kind: CharacterKind::UnicodeEscape,
                 value: start,
             })));
         } else {
-            body.push(CharacterClassContents::CharacterClassRange(Box::new(
+            contents.push(CharacterClassContents::CharacterClassRange(Box::new(
                 CharacterClassRange {
-                    span: prop.span,
+                    span,
                     min: Character {
-                        span: prop.span,
+                        span,
                         kind: CharacterKind::UnicodeEscape,
                         value: start,
                     },
                     max: Character {
-                        span: prop.span,
+                        span,
                         kind: CharacterKind::UnicodeEscape,
                         value: end,
                     },
@@ -181,14 +183,6 @@ fn expand_unicode_property(prop: &UnicodePropertyEscape) -> Option<CharacterClas
             )));
         }
     }
-
-    Some(CharacterClass {
-        span: prop.span,
-        negative: prop.negative,
-        strings: false,
-        kind: CharacterClassContentsKind::Union,
-        body,
-    })
 }
 
 /// Gets the code point ranges for a unicode property.
@@ -510,8 +504,10 @@ mod tests {
 
     #[test]
     fn test_negative_property() {
-        let result = parse_and_transform(r"\P{L}", "u");
-        assert!(result.starts_with("[^"));
+        // A bare \P{...} expands to the complement ranges, not to a negated
+        // class, so that the `i` flag keeps the same semantics.
+        let result = parse_and_transform(r"\P{ASCII}", "iu");
+        assert_eq!(result, r"[\u0080-\u{10FFFF}]");
     }
 
     #[test]

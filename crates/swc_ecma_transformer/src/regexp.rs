@@ -85,6 +85,13 @@ impl RegexpPass {
         if !pattern.contains("\\p{") && !pattern.contains("\\P{") {
             return None;
         }
+        // The expansion follows `u` mode rules. `v` mode has a different class
+        // syntax (set operations) and complements `\P{...}` after case folding,
+        // so expanding would change the meaning or produce an invalid pattern.
+        // Leave `v` patterns unchanged.
+        if flags.contains('v') {
+            return None;
+        }
 
         // Parse the regex pattern
         let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
