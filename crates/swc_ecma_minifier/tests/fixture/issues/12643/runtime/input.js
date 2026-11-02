@@ -47,3 +47,15 @@ sites(4);
 
 let sentinel;
 console.log(5 === sentinel, sentinel === undefined);
+
+// Folding `??` must keep the call indirect so `this` stays `undefined`.
+const receiver = {
+    method() {
+        "use strict";
+        return this === undefined;
+    },
+};
+function viaNullish(target) {
+    return (hook ?? target.method)();
+}
+console.log(viaNullish(receiver));
