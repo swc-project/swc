@@ -59,3 +59,13 @@ function viaNullish(target) {
     return (hook ?? target.method)();
 }
 console.log(viaNullish(receiver));
+
+// The same applies to optional-chain members.
+function viaOptionalNullish(target) {
+    return (hook ?? target?.method)();
+}
+console.log(viaOptionalNullish(receiver));
+function viaOptionalOr(target) {
+    return (hook || target?.method)();
+}
+console.log(viaOptionalOr(receiver));
