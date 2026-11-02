@@ -48,7 +48,9 @@ fn file(f: &str, config: Config) -> Result<(), StdErr> {
         let js_path = path.parent().unwrap().join("index.g.js");
         std::fs::write(&js_path, s.code.as_bytes()).unwrap();
 
-        let map_path = path.parent().unwrap().join("index.js.map");
+        // Name the map after the generated file. `index.js.map` would be read as
+        // the input source map of `index.js` when the test runs again.
+        let map_path = path.parent().unwrap().join("index.g.js.map");
         std::fs::write(&map_path, s.map.unwrap().as_bytes()).unwrap();
 
         let output = Command::new("node")
