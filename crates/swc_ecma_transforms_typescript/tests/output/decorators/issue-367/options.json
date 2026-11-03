@@ -1,0 +1,4 @@
+{
+  "pipeline": "decorators",
+  "decorators": true
+}

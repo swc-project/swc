@@ -1,0 +1,4 @@
+{
+  "pipeline": "async",
+  "decorators": false
+}

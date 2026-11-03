@@ -1,0 +1,4 @@
+{
+  "pipeline": "optional-chaining",
+  "decorators": true
+}
