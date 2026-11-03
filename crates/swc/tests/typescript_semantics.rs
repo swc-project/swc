@@ -1,88 +1,67 @@
 //! Runtime checks for TypeScript `namespace` and `enum` lowering followed by
 //! the minifier.
 //!
-//! The fixtures belong to `swc_ecma_transforms_typescript`, but the test lives
-//! here because a dev-dependency from `swc_ecma_transforms_typescript` on
-//! `swc_ecma_minifier` creates a dependency cycle through
-//! `swc_ecma_transforms_optimization`, which breaks crate publishing. `swc`
-//! already depends on both crates, so the test adds no new cycle.
+//! Each fixture directory has a `.swcrc` that selects the TypeScript parser and
+//! enables compression and mangling. The test compiles `exec.ts` with
+//! [`Compiler`] and runs the output with Node.js. The fixtures use the `expect`
+//! package for assertions.
+//!
+//! These tests live in `swc` instead of `swc_ecma_transforms_typescript`. If
+//! `swc_ecma_transforms_typescript` has a dev-dependency on
+//! `swc_ecma_minifier`, the dependency graph has a cycle through
+//! `swc_ecma_transforms_optimization`, and crate publishing fails.
 
-use std::path::PathBuf;
+use std::{path::PathBuf, sync::Arc};
 
-use swc_common::{sync::Lrc, util::take::Take, Mark, SourceMap};
-use swc_ecma_ast::{Pass, Program};
-use swc_ecma_minifier::{
-    optimize,
-    option::{ExtraOptions, MinifyOptions},
-};
-use swc_ecma_parser::{Syntax, TsSyntax};
-use swc_ecma_transforms::typescript::{typescript, Config};
-use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_testing::exec_tr;
+use anyhow::Context;
+use swc::{config::Options, try_with_handler, Compiler, HandlerOpts};
+use swc_common::{errors::ColorConfig, SourceMap, GLOBALS};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 
-#[testing::fixture(
-    "../swc_ecma_transforms_typescript/tests/fixture/namespace-bindings/emission-identities/exec.\
-     ts"
-)]
-#[testing::fixture(
-    "../swc_ecma_transforms_typescript/tests/fixture/enum-semantics/folded-reference-retention/\
-     exec.ts"
-)]
-#[testing::fixture(
-    "../swc_ecma_transforms_typescript/tests/fixture/enum-semantics/computed-write-reads/exec.ts"
-)]
+#[testing::fixture("tests/typescript-semantics/**/exec.ts")]
 fn runtime_minified(input: PathBuf) {
-    let code = std::fs::read_to_string(input).expect("semantic execution fixture must be readable");
-    exec_tr(
-        "typescript_semantics_minified",
-        Syntax::Typescript(TsSyntax::default()),
-        |tester| {
-            let unresolved = Mark::new();
-            let top_level = Mark::new();
-            (
-                resolver(unresolved, top_level, true),
-                typescript(
-                    Config {
-                        no_empty_export: true,
-                        ..Default::default()
-                    },
-                    unresolved,
-                    top_level,
-                ),
-                Minifier {
-                    cm: tester.cm.clone(),
-                    unresolved,
-                    top_level,
+    let _guard = testing::init();
+
+    let cm = Arc::new(SourceMap::default());
+    let c = Compiler::new(cm.clone());
+
+    let code = GLOBALS
+        .set(&Default::default(), || {
+            try_with_handler(
+                cm.clone(),
+                HandlerOpts {
+                    color: ColorConfig::Always,
+                    skip_filename: true,
+                },
+                |handler| {
+                    let fm = cm.load_file(&input).context("failed to load file")?;
+
+                    c.process_js_file(
+                        fm,
+                        handler,
+                        &Options {
+                            swcrc: true,
+                            ..Default::default()
+                        },
+                    )
+                    .context("failed to process file")
                 },
             )
+        })
+        .map_err(|err| err.to_pretty_error())
+        .expect("failed to compile semantic execution fixture")
+        .code;
+
+    println!("---- Code ----\n{code}");
+
+    // `node -e` resolves `require` from the working directory, so this finds
+    // `expect` in the `node_modules` directory of the repository root.
+    exec_node_js(
+        &format!("const expect = require(\"expect\");\n{code}"),
+        JsExecOptions {
+            cache: true,
+            ..Default::default()
         },
-        &code,
-    );
-}
-
-struct Minifier {
-    cm: Lrc<SourceMap>,
-    unresolved: Mark,
-    top_level: Mark,
-}
-
-impl Pass for Minifier {
-    fn process(&mut self, program: &mut Program) {
-        *program = optimize(
-            program.take(),
-            self.cm.clone(),
-            None,
-            None,
-            &MinifyOptions {
-                compress: Some(Default::default()),
-                mangle: Some(Default::default()),
-                ..Default::default()
-            },
-            &ExtraOptions {
-                unresolved_mark: self.unresolved,
-                top_level_mark: self.top_level,
-                mangle_name_cache: None,
-            },
-        );
-    }
+    )
+    .expect("semantic execution fixture failed");
 }

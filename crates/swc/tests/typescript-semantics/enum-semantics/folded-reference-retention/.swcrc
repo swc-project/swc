@@ -1,0 +1,20 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "target": "es2022",
+    "minify": {
+      "compress": {
+        "toplevel": true
+      },
+      "mangle": {
+        "toplevel": true
+      }
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "minify": true
+}
