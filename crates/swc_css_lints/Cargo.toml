@@ -21,7 +21,7 @@ rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 thiserror   = { workspace = true }
 
-swc_atoms     = { version = "10.0.0", path = "../swc_atoms" }
+swc_atoms     = { version = "10.0.1", path = "../swc_atoms" }
 swc_common    = { version = "27.0.0", path = "../swc_common" }
 swc_config    = { version = "6.0.1", path = "../swc_config", features = ["regex"] }
 swc_css_ast   = { version = "27.0.0", path = "../swc_css_ast" }
@@ -31,4 +31,4 @@ swc_css_visit = { version = "27.0.0", path = "../swc_css_visit" }
 serde_json = { workspace = true }
 
 swc_css_parser = { version = "27.0.0", path = "../swc_css_parser" }
-testing        = { version = "28.0.0", path = "../testing" }
+testing        = { version = "28.0.1", path = "../testing" }
