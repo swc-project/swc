@@ -2,19 +2,16 @@ use std::ops::Deref;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
-use swc_common::{util::take::Take, EqIgnoreSpan, Mark, Spanned};
+use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{class_has_side_effect, collect_decls, contains_ident_ref, ExprExt, Remapper};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
-    compress::{
-        optimize::{
-            util::{is_valid_for_lhs, may_inline_arrow},
-            BitCtx,
-        },
-        util::is_pure_undefined,
+    compress::optimize::{
+        util::{is_valid_for_lhs, may_inline_arrow},
+        BitCtx,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
     usage_analyzer::{
