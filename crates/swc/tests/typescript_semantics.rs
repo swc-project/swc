@@ -4,7 +4,8 @@
 //! The fixtures belong to `swc_ecma_transforms_typescript`, but the test lives
 //! here because a dev-dependency from `swc_ecma_transforms_typescript` on
 //! `swc_ecma_minifier` creates a dependency cycle through
-//! `swc_ecma_transforms_optimization`, which breaks crate publishing.
+//! `swc_ecma_transforms_optimization`, which breaks crate publishing. `swc`
+//! already depends on both crates, so the test adds no new cycle.
 
 use std::path::PathBuf;
 
@@ -15,9 +16,9 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MinifyOptions},
 };
 use swc_ecma_parser::{Syntax, TsSyntax};
+use swc_ecma_transforms::typescript::{typescript, Config};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_testing::exec_tr;
-use swc_ecma_transforms_typescript::{typescript, Config};
 
 #[testing::fixture(
     "../swc_ecma_transforms_typescript/tests/fixture/namespace-bindings/emission-identities/exec.\
