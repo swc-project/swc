@@ -6,10 +6,6 @@ env:
   # 7 GiB by default on GitHub, setting to 6 GiB
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
   NODE_OPTIONS: --max-old-space-size=6144
-  GIT_AUTHOR_NAME: "SWC Bot"
-  GIT_AUTHOR_EMAIL: "bot@swc.rs"
-  GIT_COMMITTER_NAME: "SWC Bot"
-  GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
 permissions: {}
 
@@ -99,11 +95,19 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: bot-token
+        if: inputs.skipBuild == false
+        with:
+          client-id: ${{ vars.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
       - uses: ./.github/actions/tag-git-release
         if: inputs.skipBuild == false
         with:
           version: ${{ needs.determine-nightly-version.outputs.version }}
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+          token: ${{ steps.bot-token.outputs.token }}
+          app-slug: ${{ steps.bot-token.outputs.app-slug }}
 
   publish-npm-nightly:
     name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
@@ -151,11 +155,19 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: bot-token
+        if: inputs.skipBuild == false
+        with:
+          client-id: ${{ vars.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
       - uses: ./.github/actions/tag-git-release
         if: inputs.skipBuild == false
         with:
           version: ${{ inputs.version }}
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+          token: ${{ steps.bot-token.outputs.token }}
+          app-slug: ${{ steps.bot-token.outputs.app-slug }}
 
   manage-milestone:
     name: "Manage milestone for ${{ inputs.version }}"
