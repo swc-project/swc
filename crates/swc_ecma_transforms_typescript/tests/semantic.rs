@@ -190,7 +190,7 @@ fn fixture_config(input: &std::path::Path) -> Config {
     serde_json::from_slice(&config).expect("semantic fixture configuration must be valid")
 }
 
-#[testing::fixture("tests/semantic-config/**/input.ts")]
+#[testing::fixture("tests/semantic/**/input.ts")]
 fn configured_snapshot(input: PathBuf) {
     let config = fixture_config(&input);
     test_fixture(
@@ -202,7 +202,7 @@ fn configured_snapshot(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/semantic-config/**/exec.ts")]
+#[testing::fixture("tests/semantic/**/exec.ts")]
 fn configured_runtime(input: PathBuf) {
     let config = fixture_config(&input);
     execute_config(input, true, config);
