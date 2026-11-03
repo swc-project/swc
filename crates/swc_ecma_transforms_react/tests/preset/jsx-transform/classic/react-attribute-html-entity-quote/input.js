@@ -1,0 +1,1 @@
+<Component text="Hello &quot;World&quot;" />

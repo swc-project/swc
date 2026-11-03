@@ -1,6 +1,0 @@
-{
-    "runtime": "automatic",
-    "importSource": "@emotion/react",
-    "pragma": "React.createElement",
-    "pragmaFrag": "React.Fragment"
-}
