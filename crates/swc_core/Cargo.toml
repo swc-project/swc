@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "83.1.0"
+version       = "83.1.1"
 [package.metadata.docs.rs]
 features = [
   "allocator_node",
@@ -334,7 +334,7 @@ par-core = { workspace = true, optional = true }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "81.0.0", path = "../binding_macros" }
-swc                              = { optional = true, version = "81.0.1", path = "../swc", default-features = false }
+swc                              = { optional = true, version = "81.0.2", path = "../swc", default-features = false }
 swc_allocator                    = { version = "5.0.1", path = "../swc_allocator", default-features = false }
 swc_atoms                        = { optional = true, version = "10.0.1", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "58.0.0", path = "../swc_bundler" }
@@ -363,9 +363,9 @@ swc_ecma_transforms_compat       = { optional = true, version = "59.0.0", path =
 swc_ecma_transforms_module       = { optional = true, version = "58.0.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_optimization = { optional = true, version = "54.0.1", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_transforms_proposal     = { optional = true, version = "51.0.1", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react        = { optional = true, version = "57.0.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_react        = { optional = true, version = "57.0.1", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "55.0.0", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript   = { optional = true, version = "57.0.1", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_typescript   = { optional = true, version = "57.0.2", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_utils                   = { optional = true, version = "36.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "30.0.0", path = "../swc_ecma_visit" }
 swc_malloc                       = { optional = true, version = "1.2.5", path = "../swc_malloc" }
