@@ -69,7 +69,7 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
     )
 }
 
-#[testing::fixture("tests/custom/jsx/**/input.js")]
+#[testing::fixture("tests/composite/jsx/**/input.js")]
 fn fixture(input: PathBuf) {
     let mut output = input.with_file_name("output.js");
     if !output.exists() {
@@ -95,7 +95,7 @@ fn fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/custom/script/**/input.js")]
+#[testing::fixture("tests/composite/script/**/input.js")]
 fn script(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
@@ -163,7 +163,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
     })
 }
 
-#[testing::fixture("tests/custom/jsx-self/**/input.js")]
+#[testing::fixture("tests/composite/jsx-self/**/input.js")]
 fn jsx_self_fixture(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax {
@@ -189,7 +189,7 @@ fn jsx_self_fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/custom/refresh/**/input.js")]
+#[testing::fixture("tests/composite/refresh/**/input.js")]
 fn refresh_fixture(input: PathBuf) {
     let group = input
         .parent()
@@ -257,7 +257,7 @@ fn refresh_fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/custom/jsx-transform/classic/**/input.js")]
+#[testing::fixture("tests/composite/jsx-transform/classic/**/input.js")]
 fn classic_jsx_fixture(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax {
@@ -290,7 +290,7 @@ fn classic_jsx_fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/custom/jsx-transform/regression/**/input.js")]
+#[testing::fixture("tests/composite/jsx-transform/regression/**/input.js")]
 fn jsx_regression_fixture(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax {
@@ -318,7 +318,7 @@ fn jsx_regression_fixture(input: PathBuf) {
 }
 
 #[cfg(feature = "es3")]
-#[testing::fixture("tests/custom/jsx-transform/es3/**/input.js")]
+#[testing::fixture("tests/composite/jsx-transform/es3/**/input.js")]
 fn jsx_es3_fixture(input: PathBuf) {
     test_fixture(
         Syntax::Es(EsSyntax {
@@ -352,7 +352,7 @@ fn jsx_es3_fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/custom/jsx-source/exec/**/input.js")]
+#[testing::fixture("tests/composite/jsx-source/exec/**/input.js")]
 fn jsx_source_exec(input: PathBuf) {
     swc_ecma_transforms_testing::exec_tr(
         "jsx_source",

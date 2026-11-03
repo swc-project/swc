@@ -45,8 +45,8 @@ enum Pipeline {
 
 /// Runs fixtures requiring parser settings or transforms outside the TypeScript
 /// preset.
-#[testing::fixture("tests/custom/**/input.ts")]
-#[testing::fixture("tests/custom/**/input.tsx")]
+#[testing::fixture("tests/composite/**/input.ts")]
+#[testing::fixture("tests/composite/**/input.tsx")]
 fn fixture(input: PathBuf) {
     let options: Options = if input.with_file_name("options.json").exists() {
         serde_json::from_slice(&std::fs::read(input.with_file_name("options.json")).unwrap())
@@ -185,7 +185,7 @@ fn pipeline(t: &Tester, options: &Options) -> Box<dyn Pass> {
 
 /// Executes the original legacy decorator regression with its runtime
 /// assertions.
-#[testing::fixture("tests/custom/runtime/**/exec.ts")]
+#[testing::fixture("tests/composite/runtime/**/exec.ts")]
 fn runtime(input: PathBuf) {
     if std::env::var("EXEC").as_deref() == Ok("0") {
         return;
