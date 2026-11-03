@@ -19,9 +19,6 @@ use options::RefreshOptions;
 mod hook;
 mod util;
 
-#[cfg(test)]
-mod tests;
-
 struct Hoc {
     insert: bool,
     reg: Vec<(Ident, Id)>,
@@ -73,24 +70,6 @@ struct Refresh<C: Comments> {
     should_reset: bool,
     comments: Option<C>,
     global_mark: Mark,
-}
-
-// For tests
-#[cfg(test)]
-fn refresh<C: Comments>(
-    dev: bool,
-    options: Option<RefreshOptions>,
-    cm: Lrc<SourceMap>,
-    comments: Option<C>,
-    global_mark: Mark,
-) -> impl Pass {
-    use swc_ecma_hooks::VisitMutWithHook;
-    use swc_ecma_visit::visit_mut_pass;
-
-    visit_mut_pass(VisitMutWithHook {
-        hook: hook(dev, options, cm, comments, global_mark),
-        context: (),
-    })
 }
 
 impl<C: Comments> Refresh<C> {
