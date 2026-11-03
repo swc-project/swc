@@ -1,4 +1,0 @@
-{
-  "pipeline": "tsx-only",
-  "decorators": false
-}

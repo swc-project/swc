@@ -1,8 +1,0 @@
-{
-  "decorators": false,
-  "useDefineForClassFields": true,
-  "typescript": {
-    "noEmptyExport": false,
-    "tsEnumIsMutable": true
-  }
-}

@@ -4,9 +4,9 @@
 - Update generated fixture outputs with: UPDATE=1 cargo test -p swc_ecma_transforms_typescript.
 - Verify without UPDATE before finishing: cargo test -p swc_ecma_transforms_typescript.
 
-### Output fixtures
+### Preset fixtures
 
-- Output comparisons live in `tests/output` and run through `tests/output.rs`.
+- Output comparisons live in `tests/preset` and run through `tests/preset.rs`.
   Each case has an `input.ts` or `input.tsx`, `output.js`, and `options.json`.
   Options describe parser settings, TypeScript configuration, and the original
   transform pipeline; preserve the pipeline and expected output when migrating.
