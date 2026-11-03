@@ -1,15 +1,17 @@
 use std::path::{Path, PathBuf};
 
 use serde::{de::IgnoredAny, Deserialize};
-use swc_common::Mark;
+use swc_common::{pass::Optional, Mark};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_proposal::{
-    decorator_2022_03::decorator_2022_03, decorator_2023_11::decorator_2023_11, DecoratorVersion,
+    decorator_2022_03::decorator_2022_03, decorator_2023_11::decorator_2023_11, decorators,
+    DecoratorVersion,
 };
 use swc_ecma_transforms_testing::{exec_tr, parse_options, test_fixture, FixtureTestConfig};
-use swc_ecma_transforms_typescript::typescript;
+use swc_ecma_transforms_typescript::{typescript, Config};
+use swc_ecma_utils::DropSpan;
 
 fn syntax_default_ts() -> Syntax {
     Syntax::Typescript(TsSyntax {
@@ -176,4 +178,58 @@ fn create_pass(input: &Path) -> Box<dyn Pass> {
     }
 
     pass
+}
+
+// Exercise the standalone TypeScript pass while decorators still exist in the
+// AST.
+fn pipeline(drop_spans: bool) -> impl swc_ecma_ast::Pass {
+    let unresolved = Mark::new();
+    let top_level = Mark::new();
+    (
+        resolver(unresolved, top_level, true),
+        Optional::new(DropSpan, drop_spans),
+        typescript(
+            Config {
+                no_empty_export: true,
+                ..Default::default()
+            },
+            unresolved,
+            top_level,
+        ),
+        decorators(decorators::Config {
+            legacy: true,
+            ..Default::default()
+        }),
+    )
+}
+
+#[testing::fixture("tests/decorators/enum-availability/**/input.ts")]
+fn snapshot(input: PathBuf) {
+    test_fixture(
+        syntax_default_ts(),
+        &|_| pipeline(false),
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}
+
+#[testing::fixture("tests/decorators/enum-availability/**/exec.ts")]
+fn runtime(input: PathBuf) {
+    execute(input, false);
+}
+
+#[testing::fixture("tests/decorators/enum-availability/**/exec.ts")]
+fn runtime_without_spans(input: PathBuf) {
+    execute(input, true);
+}
+
+fn execute(input: PathBuf, drop_spans: bool) {
+    let source = std::fs::read_to_string(input).unwrap();
+    exec_tr(
+        "enum_decorator_availability",
+        syntax_default_ts(),
+        |_| pipeline(drop_spans),
+        &source,
+    );
 }
