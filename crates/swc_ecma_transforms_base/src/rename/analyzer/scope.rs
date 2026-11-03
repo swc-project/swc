@@ -6,7 +6,7 @@ use indexmap::IndexSet;
 #[cfg(feature = "concurrent-renamer")]
 use par_iter::prelude::*;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
-use swc_atoms::{atom, Atom};
+use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use tracing::debug;
@@ -50,7 +50,7 @@ pub(super) struct ScopeData {
 
 impl Scope {
     pub(super) fn add_decl(&mut self, id: &Id, has_eval: bool, top_level_mark: Mark) {
-        if id.0 == atom!("arguments") {
+        if &*id.0 == "arguments" {
             return;
         }
 
@@ -72,7 +72,7 @@ impl Scope {
     }
 
     pub(super) fn add_usage(&mut self, id: Id) {
-        if id.0 == atom!("arguments") {
+        if &*id.0 == "arguments" {
             return;
         }
 
