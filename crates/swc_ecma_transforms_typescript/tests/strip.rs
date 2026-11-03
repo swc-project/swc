@@ -1,83 +1,161 @@
-use swc_common::{comments::NoopComments, pass::Optional, Mark};
-use swc_ecma_ast::Pass;
-use swc_ecma_parser::{Syntax, TsSyntax};
-use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_compat::class_fields_use_set::class_fields_use_set;
-use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_react::jsx;
-use swc_ecma_transforms_testing::{test_exec, Tester};
+use std::path::PathBuf;
+
+use swc_common::{FileName, Mark};
+use swc_ecma_ast::*;
+use swc_ecma_codegen::to_code_default;
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsSyntax};
+use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::typescript;
 
-fn tr(t: &mut Tester) -> impl Pass {
-    tr_config(t, None, None, false)
-}
+#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
+#[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
+#[testing::fixture("../swc_ecma_parser/tests/typescript/**/*.ts")]
+#[testing::fixture("../swc_ecma_parser/tests/typescript/**/*.tsx")]
+fn identity(entry: PathBuf) {
+    let file_name = entry
+        .to_string_lossy()
+        .replace("\\\\", "/")
+        .replace('\\', "/");
 
-fn tr_config(
-    t: &mut Tester,
-    config: Option<typescript::Config>,
-    decorators_config: Option<decorators::Config>,
-    use_define_for_class_fields: bool,
-) -> impl Pass {
-    let unresolved_mark = Mark::new();
-    let top_level_mark = Mark::new();
-    let has_decorators = decorators_config.is_some();
-    let config = config.unwrap_or_else(|| typescript::Config {
-        no_empty_export: true,
-        ..Default::default()
-    });
+    let ignored = &[
+        // Cannot run the test with current test suite
+        "multilinex",
+        // Stack size
+        "stack-size",
+        "issue-716",
+        "parenthesizedTypes.ts",
+        // These tests are hard to debug because file is large
+        "emitCompoundExponentiationAssignmentWithIndexingOnLHS3.ts",
+        "emitExponentiationOperator1.ts",
+        "emitExponentiationOperator3.ts",
+        "emitExponentiationOperator4.ts",
+        "emitExponentiationOperatorInTempalteString4.ts",
+        "emitExponentiationOperatorInTempalteString4ES6.ts",
+        "exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.ts",
+        // `let[0] = 'foo'` is useless
+        "letIdentifierInElementAccess01.ts",
+        // decorator
+        "issue-2417",
+    ];
 
-    (
-        Optional::new(
-            decorators(decorators_config.unwrap_or_default()),
-            has_decorators,
-        ),
-        resolver(unresolved_mark, top_level_mark, true),
-        typescript(config, unresolved_mark, top_level_mark),
-        jsx(
-            t.cm.clone(),
-            None::<NoopComments>,
-            Default::default(),
-            top_level_mark,
-            unresolved_mark,
-        ),
-        Optional::new(class_fields_use_set(true), !use_define_for_class_fields),
-    )
-}
+    // TODO: Unignore
+    let postponed = &[
+        "decoratorOnClassMethod11.ts",
+        "elementAccessChain.3.ts",
+        "awaitUsingDeclarationsInForAwaitOf.ts",
+        "awaitUsingDeclarationsInForOf.1.ts",
+        "usingDeclarationsInForOf.1.ts",
+        "usingDeclarationsInForAwaitOf.ts",
+        "tsxReactEmitNesting.tsx",
+        "staticAutoAccessorsWithDecorators.ts",
+        "generatorTypeCheck59.ts",
+        "generatorTypeCheck61.ts",
+        "parserAssignmentExpression1.ts",
+        "objectRestNegative.ts",
+        "parserSuperExpression2.ts",
+        "propertyAccessChain.3.ts",
+        "esDecorators-classDeclaration-classSuper.2.ts",
+        "esDecorators-classExpression-classSuper.2.ts",
+        "contextualTypes.ts",
+        "decoratorOnClassMethod12.ts",
+        "decoratorExpression.2.ts",
+        "preservesThis.ts",
+    ];
 
-test_exec!(
-    Syntax::Typescript(TsSyntax {
-        decorators: true,
-        ..Default::default()
-    }),
-    |t| (
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        tr(t)
-    ),
-    issue_960_2,
-    "function DefineAction() { return function(_a, _b, c) { return c } }
+    // TODO: Unignore const enum test
+    let ignore = file_name.contains("export-import-require")
+        || file_name.contains("issue-866")
+        || file_name.contains("jsdocTypeFromChainedAssignment3")
+        || file_name.contains("enumConstantMembers")
+        // `({...{}} = {})` etc are now parser-rejected per ECMA-262
+        // §13.15.5.1.  Coverage moves to
+        // crates/swc_ecma_parser/tests/errors/issue-11543{,-array}.  See
+        // #11543.
+        || file_name.contains("restPropertyWithBindingPattern")
+        || postponed
+            .iter()
+            .any(|postponed| file_name.ends_with(postponed))
+        || ignored.iter().any(|ignored| file_name.contains(ignored));
 
-    class Base {
-      constructor() {
-        this.action = 1
-      }
+    if ignore {
+        return;
     }
 
-    class Child extends Base {
-      @DefineAction() declare action: number
+    ::testing::run_test(false, |cm, handler| -> Result<(), ()> {
+        let src = cm.load_file(&entry).expect("failed to load file");
+        println!("{}", src.src);
 
-      callApi() {
-        console.log(this.action) // undefined
-        return this.action
-      }
-    }
+        let mut parser: Parser<Lexer> = Parser::new(
+            Syntax::Typescript(TsSyntax {
+                tsx: file_name.contains("tsx"),
+                decorators: true,
+                dts: false,
+                no_early_errors: false,
+                disallow_ambiguous_jsx_like: false,
+            }),
+            (&*src).into(),
+            None,
+        );
 
-    const c = new Child()
+        let js_content = {
+            // Parse source
+            let program = parser
+                .parse_typescript_module()
+                .map(|p| {
+                    let unresolved_mark = Mark::new();
+                    let top_level_mark = Mark::new();
+                    Program::Module(p)
+                        .apply(resolver(unresolved_mark, top_level_mark, true))
+                        .apply(typescript(
+                            typescript::Config {
+                                no_empty_export: true,
+                                ..Default::default()
+                            },
+                            unresolved_mark,
+                            top_level_mark,
+                        ))
+                        .apply(hygiene())
+                        .apply(fixer(None))
+                })
+                .map_err(|e| {
+                    eprintln!("failed to parse as typescript module");
+                    e.into_diagnostic(handler).emit();
+                });
 
-    c.callApi()
-    expect(c.callApi()).not.toBe(undefined)
-    expect(c.action).toBe(1);
-    "
-);
+            // We are not testing parser issues
+            let program = match program {
+                Ok(program) => program,
+                Err(_) => return Ok(()),
+            };
+
+            to_code_default(cm.clone(), None, &program)
+        };
+
+        println!("---------------- JS ----------------\n\n{js_content}");
+
+        let js_fm = cm.new_source_file(FileName::Anon.into(), js_content.clone());
+
+        let mut parser: Parser<Lexer> = Parser::new(
+            Syntax::Es(EsSyntax {
+                jsx: file_name.contains("tsx"),
+                decorators: true,
+                decorators_before_export: true,
+                export_default_from: true,
+                import_attributes: true,
+                explicit_resource_management: true,
+                allow_super_outside_method: true,
+                auto_accessors: true,
+                ..Default::default()
+            }),
+            (&*js_fm).into(),
+            None,
+        );
+
+        parser
+            .parse_program()
+            .unwrap_or_else(|err| panic!("{js_content} is invalid program\n{err:?}"));
+
+        Ok(())
+    })
+    .expect("failed to run test");
+}

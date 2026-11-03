@@ -1,8 +1,4 @@
 {
-    "decorators": false,
-    "useDefineForClassFields": true,
-    "typescript": {
-        "noEmptyExport": false,
-        "importExportAssignConfig": "NodeNext"
-    }
+    "noEmptyExport": false,
+    "importExportAssignConfig": "NodeNext"
 }

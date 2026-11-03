@@ -9,16 +9,16 @@ use swc_ecma_transforms_typescript::{typescript, Config};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{visit_mut_pass, VisitMut};
 
-#[testing::fixture("tests/fixture/namespace-bindings/**/exec.ts")]
-#[testing::fixture("tests/fixture/enum-semantics/**/exec.ts")]
+#[testing::fixture("tests/custom/namespace-bindings/**/exec.ts")]
+#[testing::fixture("tests/custom/enum-semantics/**/exec.ts")]
 fn runtime(input: PathBuf) {
     execute(input, true);
 }
 
-#[testing::fixture("tests/fixture/namespace-bindings/reference-roles/exec.ts")]
-#[testing::fixture("tests/fixture/namespace-bindings/parameter-type-merge/exec.ts")]
-#[testing::fixture("tests/fixture/namespace-bindings/fused-type-uses/exec.ts")]
-#[testing::fixture("tests/fixture/enum-semantics/enum-initializer-binding-owners/exec.ts")]
+#[testing::fixture("tests/custom/namespace-bindings/reference-roles/exec.ts")]
+#[testing::fixture("tests/custom/namespace-bindings/parameter-type-merge/exec.ts")]
+#[testing::fixture("tests/custom/namespace-bindings/fused-type-uses/exec.ts")]
+#[testing::fixture("tests/custom/enum-semantics/enum-initializer-binding-owners/exec.ts")]
 fn runtime_without_type_resolution(input: PathBuf) {
     execute(input, false);
 }
@@ -82,7 +82,7 @@ fn spanless_output(input: &std::path::Path) -> PathBuf {
     }
 }
 
-#[testing::fixture("tests/fixture/enum-semantics/body-identity/**/input.ts")]
+#[testing::fixture("tests/custom/enum-semantics/body-identity/**/input.ts")]
 fn snapshot_without_spans(input: PathBuf) {
     test_fixture(
         Syntax::Typescript(TsSyntax::default()),
@@ -101,8 +101,8 @@ impl VisitMut for IdenticalSpans {
     }
 }
 
-#[testing::fixture("tests/fixture/enum-semantics/body-identity/member-order/input.ts")]
-#[testing::fixture("tests/fixture/enum-semantics/body-identity/availability/**/input.ts")]
+#[testing::fixture("tests/custom/enum-semantics/body-identity/member-order/input.ts")]
+#[testing::fixture("tests/custom/enum-semantics/body-identity/availability/**/input.ts")]
 fn snapshot_with_identical_spans(input: PathBuf) {
     test_fixture(
         Syntax::Typescript(TsSyntax::default()),
@@ -146,7 +146,7 @@ impl VisitMut for ReversedSpans {
     }
 }
 
-#[testing::fixture("tests/fixture/enum-semantics/body-identity/availability/**/input.ts")]
+#[testing::fixture("tests/custom/enum-semantics/body-identity/availability/**/input.ts")]
 fn snapshot_with_reversed_spans(input: PathBuf) {
     test_fixture(
         Syntax::Typescript(TsSyntax::default()),
@@ -173,7 +173,7 @@ fn snapshot_with_reversed_spans(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/fixture/enum-semantics/body-identity/**/exec.ts")]
+#[testing::fixture("tests/custom/enum-semantics/body-identity/**/exec.ts")]
 fn runtime_without_spans(input: PathBuf) {
     let code = std::fs::read_to_string(input).expect("semantic execution fixture must be readable");
     exec_tr(
@@ -223,7 +223,7 @@ enum AliasTerminal {
 
 /// Generate a deep dependency graph from a compact fixture. The syntax stays
 /// flat, so compilation must not require one call-stack frame per alias.
-#[testing::fixture("tests/fixture/enum-semantics/alias-depth/**/input.json")]
+#[testing::fixture("tests/custom/enum-semantics/alias-depth/**/input.json")]
 fn alias_dependency_depth(input: PathBuf) {
     let config = std::fs::read(input).expect("alias depth fixture must be readable");
     let config: AliasDepthFixture =

@@ -1,15 +1,13 @@
 ### Fixture Test Addition Guide
 
-- Preferred fixture roots in this crate: tests/fixture, ../swc_ecma_parser/tests/tsc, ../swc_ecma_parser/tests/typescript.
+- Preferred fixture roots in this crate: tests/custom, ../swc_ecma_parser/tests/tsc, ../swc_ecma_parser/tests/typescript.
 - Update generated fixture outputs with: UPDATE=1 cargo test -p swc_ecma_transforms_typescript.
 - Verify without UPDATE before finishing: cargo test -p swc_ecma_transforms_typescript.
 
 ### Preset fixtures
 
-- Output comparisons live in `tests/preset` and run through `tests/preset.rs`.
-  Each case has an `input.ts` or `input.tsx`, `output.js`, and `options.json`.
-  Options describe parser settings, TypeScript configuration, and the original
-  transform pipeline; preserve the pipeline and expected output when migrating.
-- Existing `tests/fixture` inputs use the original class-field pipeline. Keep
-  runtime, parser correctness, and AST-specific assertions in their respective
-  test modules when output comparison cannot express their purpose.
+- `tests/preset` fixtures run through `tests/preset.rs` with TypeScript
+  transform options in `options.json`.
+- Place fixtures needing other parser settings, transforms, or runtime
+  assertions under `tests/custom` and run them through `tests/custom.rs`.
+  Keep semantic and parser correctness assertions in their dedicated modules.
