@@ -529,7 +529,9 @@ test_exec!(
     "#
 );
 
-#[testing::fixture("tests/composite/destructuring/**/input.js")]
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture("tests/composite/destructuring/**/input.js", exclude("/composite/destructuring/(destructuring|destructuring-loose|destructuring-spread-block-scoping-object-rest-spread|destructuring-spread-block-scoping-object-rest-spread-loose|resolver-es2015|resolver-object-rest-spread-spread-parameters-destructuring-block-scoping|resolver-object-rest-spread-spread-parameters-destructuring-block-scoping-object-rest-spread|resolver-spread-parameters-destructuring-block-scoping-object-rest-spread|spread-destructuring-block-scoping-object-rest-spread|spread-destructuring-block-scoping-object-rest-spread-loose)/"))]
 fn fixture(input: PathBuf) {
     let parent = input.parent().unwrap();
 
@@ -580,7 +582,38 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/destructuring/**/input.js")]
+#[testing::fixture("tests/composite/destructuring/destructuring/**/input.js")]
+#[testing::fixture("tests/composite/destructuring/destructuring-loose/**/input.js")]
+#[testing::fixture(
+    "tests/composite/destructuring/destructuring-spread-block-scoping-object-rest-spread/**/input.\
+     js"
+)]
+#[testing::fixture(
+    "tests/composite/destructuring/destructuring-spread-block-scoping-object-rest-spread-loose/**/\
+     input.js"
+)]
+#[testing::fixture("tests/composite/destructuring/resolver-es2015/**/input.js")]
+#[testing::fixture(
+    "tests/composite/destructuring/\
+     resolver-object-rest-spread-spread-parameters-destructuring-block-scoping/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/destructuring/\
+     resolver-object-rest-spread-spread-parameters-destructuring-block-scoping-object-rest-spread/\
+     **/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/destructuring/\
+     resolver-spread-parameters-destructuring-block-scoping-object-rest-spread/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/destructuring/spread-destructuring-block-scoping-object-rest-spread/**/input.\
+     js"
+)]
+#[testing::fixture(
+    "tests/composite/destructuring/spread-destructuring-block-scoping-object-rest-spread-loose/**/\
+     input.js"
+)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

@@ -360,7 +360,9 @@ test_exec!(
     expect(t()).toBe(3);"
 );
 
-#[testing::fixture("tests/composite/parameters/**/input.js")]
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture("tests/composite/parameters/**/input.js", exclude("/composite/parameters/(arrow-resolver-parameters-destructuring-block-scoping|classes-resolver-parameters-destructuring-block-scoping|resolver-async-to-generator-arrow-parameters|resolver-parameters-destructuring-block-scoping-classes-spread)/"))]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
@@ -393,7 +395,20 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/parameters/**/input.js")]
+#[testing::fixture(
+    "tests/composite/parameters/arrow-resolver-parameters-destructuring-block-scoping/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/parameters/classes-resolver-parameters-destructuring-block-scoping/**/input.\
+     js"
+)]
+#[testing::fixture(
+    "tests/composite/parameters/resolver-async-to-generator-arrow-parameters/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/parameters/resolver-parameters-destructuring-block-scoping-classes-spread/**/\
+     input.js"
+)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

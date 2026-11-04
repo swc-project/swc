@@ -261,7 +261,12 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/composite/optional-chaining/**/input.js")]
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture(
+    "tests/composite/optional-chaining/**/input.js",
+    exclude("/composite/optional-chaining/(resolver-optional-chaining)/")
+)]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
@@ -332,7 +337,7 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/optional-chaining/**/input.js")]
+#[testing::fixture("tests/composite/optional-chaining/resolver-optional-chaining/**/input.js")]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

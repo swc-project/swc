@@ -1246,7 +1246,24 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/generator/standard/**/input.js")]
+#[testing::fixture(
+    "tests/composite/generator/standard/async-to-generator-es2015-fresh-mark/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/generator/standard/async-to-generator-es2016-es2015-fresh-mark/**/input.js"
+)]
+#[testing::fixture("tests/composite/generator/standard/es2015-fresh-mark/**/input.js")]
+#[testing::fixture("tests/composite/generator/standard/generator/**/input.js")]
+#[testing::fixture(
+    "tests/composite/generator/standard/resolver-async-generator-noop-comments/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/generator/standard/\
+     resolver-es2022-es2021-es2018-es2017-es2016-es2015-typescript-resolver/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/generator/standard/resolver-generator-noop-comments/**/input.js"
+)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

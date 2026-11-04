@@ -74,7 +74,7 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/logical-assignments/**/input.js")]
+#[testing::fixture("tests/composite/logical-assignments/logical-assignments/**/input.js")]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

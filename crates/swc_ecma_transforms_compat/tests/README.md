@@ -17,7 +17,7 @@ the migration. Some of these tests have no expected output, as before.
 `composite.rs` includes the modules in `composite/` for tests requiring a
 specific pass order, custom AST handling, runtime assertions, or a flow that the
 preset cannot express. Output fixtures are grouped by behavior and pipeline in
-`composite/cases/<behavior>/<pipeline>/<case>/`; each pipeline directory has an
+`composite/<behavior>/<pipeline>/<case>/`; each pipeline directory has an
 `options.json` selecting a named pipeline, and each case contains `input.js` and
 its original `output.js`. Hidden case directories preserve ignored tests; those
 that had no expected output still have none. The same runtime input can be used

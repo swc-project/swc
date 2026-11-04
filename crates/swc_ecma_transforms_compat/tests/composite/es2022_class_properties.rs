@@ -1569,7 +1569,76 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/class-properties/**/input.js")]
+#[testing::fixture("tests/composite/class-properties/arrow-new-arrow-mark/**/input.js")]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     function-name-class-properties-classes-block-scoping-optional-es3/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     resolver-class-properties-arrow-classes-block-scoping-shared-arrow-mark/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     resolver-class-properties-arrow-typescript-resolver-new-arrow-mark/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     resolver-class-properties-arrow-typescript-resolver-shared-arrow-mark/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-async-to-generator/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     resolver-class-properties-async-to-generator-block-scoping-typescript-resolver/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     resolver-class-properties-async-to-generator-typescript-resolver/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-block-scoping/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-block-scoping-typescript-resolver/\
+     **/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-classes/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     resolver-class-properties-classes-block-scoping-typescript-resolver/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-classes-typescript-resolver/**/\
+     input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     resolver-class-properties-exponentiation-classes-block-scoping-typescript-resolver/**/input.\
+     js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-no-document-all/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-optional-chaining/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-set-public-fields/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/\
+     resolver-class-properties-set-public-fields-private-as-properties/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-class-properties-typescript-resolver/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/class-properties/resolver-function-name-class-properties/**/input.js"
+)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

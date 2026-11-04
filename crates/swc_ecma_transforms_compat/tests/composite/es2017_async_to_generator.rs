@@ -851,7 +851,9 @@ expect(a.doTest()).resolves.toEqual(3);
 "
 );
 
-#[testing::fixture("tests/composite/async-to-generator/**/input.js")]
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture("tests/composite/async-to-generator/**/input.js", exclude("/composite/async-to-generator/(async-to-generator|async-to-generator-arrow|async-to-generator-generator-fresh-mark|resolver-async-to-generator-parameters-destructuring|resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer)/"))]
 fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),
@@ -930,7 +932,19 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/async-to-generator/**/input.js")]
+#[testing::fixture("tests/composite/async-to-generator/async-to-generator/**/input.js")]
+#[testing::fixture("tests/composite/async-to-generator/async-to-generator-arrow/**/input.js")]
+#[testing::fixture(
+    "tests/composite/async-to-generator/async-to-generator-generator-fresh-mark/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/async-to-generator/resolver-async-to-generator-parameters-destructuring/**/\
+     input.js"
+)]
+#[testing::fixture(
+    "tests/composite/async-to-generator/\
+     resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer/**/input.js"
+)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

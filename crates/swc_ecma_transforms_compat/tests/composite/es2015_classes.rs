@@ -1967,7 +1967,9 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/composite/classes/**/input.js")]
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture("tests/composite/classes/**/input.js", exclude("/composite/classes/(classes|classes-arrow|classes-block-scoping|classes-constant-super|classes-no-class-calls|classes-set-class-methods|classes-super-is-callable-constructor|resolver-class-properties-es2015-typescript-resolver|resolver-es2022-es2018-es2017-es2016-es2015-typescript-resolver)/"))]
 fn fixture(input: PathBuf) {
     let output = input.parent().unwrap().join("output.js");
 
@@ -2037,7 +2039,20 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/classes/**/input.js")]
+#[testing::fixture("tests/composite/classes/classes/**/input.js")]
+#[testing::fixture("tests/composite/classes/classes-arrow/**/input.js")]
+#[testing::fixture("tests/composite/classes/classes-block-scoping/**/input.js")]
+#[testing::fixture("tests/composite/classes/classes-constant-super/**/input.js")]
+#[testing::fixture("tests/composite/classes/classes-no-class-calls/**/input.js")]
+#[testing::fixture("tests/composite/classes/classes-set-class-methods/**/input.js")]
+#[testing::fixture("tests/composite/classes/classes-super-is-callable-constructor/**/input.js")]
+#[testing::fixture(
+    "tests/composite/classes/resolver-class-properties-es2015-typescript-resolver/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/classes/resolver-es2022-es2018-es2017-es2016-es2015-typescript-resolver/**/\
+     input.js"
+)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

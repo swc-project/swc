@@ -199,7 +199,15 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/composite/block-scoping/**/input.js")]
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture(
+    "tests/composite/block-scoping/**/input.js",
+    exclude(
+        "/composite/block-scoping/\
+         (async-to-generator-es2015-fresh-mark|block-scoping|es2015-fresh-mark|resolver-es2015)/"
+    )
+)]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
@@ -262,7 +270,12 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/block-scoping/**/input.js")]
+#[testing::fixture(
+    "tests/composite/block-scoping/async-to-generator-es2015-fresh-mark/**/input.js"
+)]
+#[testing::fixture("tests/composite/block-scoping/block-scoping/**/input.js")]
+#[testing::fixture("tests/composite/block-scoping/es2015-fresh-mark/**/input.js")]
+#[testing::fixture("tests/composite/block-scoping/resolver-es2015/**/input.js")]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

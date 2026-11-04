@@ -1,2 +1,2 @@
 # Preserve the carriage return in this template literal input.
-template-literals/template-literal/issue_1549_1/input.js -text
+input.js -text

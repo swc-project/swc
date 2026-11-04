@@ -93,7 +93,12 @@ enum PluginConfig {
     Name(String),
 }
 
-#[testing::fixture("tests/composite/new-target/**/input.js")]
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture(
+    "tests/composite/new-target/**/input.js",
+    exclude("/composite/new-target/(classes-new-target)/")
+)]
 fn fixture(input: PathBuf) {
     let options: TestOptions = parse_options(&input);
 
@@ -115,7 +120,7 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/new-target/**/input.js")]
+#[testing::fixture("tests/composite/new-target/classes-new-target/**/input.js")]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

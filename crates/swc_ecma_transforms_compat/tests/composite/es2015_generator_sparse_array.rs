@@ -27,7 +27,9 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/generator/sparse-array/**/input.js")]
+#[testing::fixture(
+    "tests/composite/generator/sparse-array/resolver-generator-noop-comments/**/input.js"
+)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(

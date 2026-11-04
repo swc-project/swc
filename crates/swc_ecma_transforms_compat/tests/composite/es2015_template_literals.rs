@@ -353,7 +353,13 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/cases/template-literals/**/input.js")]
+#[testing::fixture("tests/composite/template-literals/template-literal/**/input.js")]
+#[testing::fixture(
+    "tests/composite/template-literals/template-literal-ignore-to-primitive/**/input.js"
+)]
+#[testing::fixture(
+    "tests/composite/template-literals/template-literal-mutable-template/**/input.js"
+)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(
