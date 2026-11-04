@@ -19,7 +19,14 @@ fn with_suffix(path: &Path, suffix: &str) -> PathBuf {
 }
 
 /// Compiles each input with its inherited `.swcrc` and verifies every output.
-#[testing::fixture("tests/preset/**/input/")]
+#[testing::fixture(
+    "tests/preset/**/input/",
+    exclude("[/\\\\]react-compiler[/\\\\]feature-only[/\\\\]")
+)]
+#[cfg_attr(
+    feature = "react-compiler",
+    testing::fixture("tests/preset/options/react-compiler/feature-only/**/input/")
+)]
 fn fixture(input_dir: PathBuf) {
     let _log = testing::init();
     #[cfg(not(feature = "flow"))]
@@ -45,7 +52,7 @@ fn fixture(input_dir: PathBuf) {
     let diagnostics_path = case_dir.join("output.swc-stderr");
     let expect_failure = diagnostics_path.is_file();
 
-    for entry in WalkDir::new(&input_dir) {
+    for entry in WalkDir::new(&input_dir).sort_by_file_name() {
         let entry = entry.unwrap();
         if !entry.file_type().is_file()
             || !matches!(

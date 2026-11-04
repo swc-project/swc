@@ -13,6 +13,15 @@ Excluded inputs still reach the compiler and are checked as producing no output.
 Tests that need execution or specialized assertions belong in their respective
 suites.
 
+Inputs within a fixture are compiled sequentially in filename order, with a fresh
+compiler and source map for each input. Process-wide caches remain shared. Keep
+all inputs of a cache regression in one fixture, with per-directory `.swcrc`
+files when configurations differ, so both cache entries are exercised together.
+
+Fixtures under `options/react-compiler/feature-only` are registered only when
+the `react-compiler` feature is enabled, preserving the original Rust tests'
+feature conditions.
+
 Missing snapshots represent empty output. To test exclusion, include the input
 and configure its exclusion in `.swcrc`, without adding output snapshots for it.
 If it unexpectedly emits nonempty code or a source map, ordinary snapshot
