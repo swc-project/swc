@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "lints": {
-            "quotes": ["error", {
-                "prefer": "double"
-            }]
-        }
-    }
-}

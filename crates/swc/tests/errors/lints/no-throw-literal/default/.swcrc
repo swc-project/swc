@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "lints": {
-            "no-throw-literal": [
-                "error"
-            ]
-        }
-    }
-}

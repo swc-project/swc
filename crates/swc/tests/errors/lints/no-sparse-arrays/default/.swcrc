@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "lints": {
-            "no-sparse-arrays": [
-                "error"
-            ]
-        }
-    }
-}

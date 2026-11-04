@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "lints": {
+            "use-isnan": [
+                "error",
+                {
+                    "checkAnyCast": false
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

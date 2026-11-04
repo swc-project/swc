@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "lints": {
-            "no-await-in-loop": [
-                "error"
-            ]
-        }
-    }
-}

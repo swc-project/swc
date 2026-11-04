@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "use-isnan": [
+                "error",
+                {
+                    "enforceForIndexOf": false
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

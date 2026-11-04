@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "target": "es2020",
+        "lints": {
+            "noAlert": [
+                "error"
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

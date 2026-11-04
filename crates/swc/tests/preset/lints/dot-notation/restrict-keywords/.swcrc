@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "dotNotation": [
+                "error",
+                {
+                    "allowKeywords": false
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}
