@@ -16,9 +16,6 @@
         "targets": {
             "chrome": "120"
         },
-        "include": [
-            "transform-nullish-coalescing-operator",
-            "transform-async-to-generator"
-        ]
+        "include": ["transform-nullish-coalescing-operator"]
     }
 }

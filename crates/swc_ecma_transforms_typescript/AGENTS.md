@@ -16,8 +16,10 @@
   well. Nested options inherit from parent directories up to `tests/preset`.
   The runner also supports `jsc.transform.useDefineForClassFields` and the
   `setPublicClassFields` and `pureGetters` assumptions for class field semantics.
-  `env` and `jsc.target` use the actual preset-env implementation. TSX and
-  decorator fixtures use the corresponding SWC transforms.
+  Explicit `env.include` and `env.exclude` features listed in `tests/preset.rs`
+  are supported with a Chrome 120 target; the runner rejects unsupported target
+  modes and combined async/nullish single-pass transforms. TSX and decorator
+  fixtures use the corresponding SWC transforms.
 - Place fixtures needing transforms or parser settings not supported by the
   preset, or runtime assertions, under `tests/composite` and run them through
   `tests/composite.rs`.
