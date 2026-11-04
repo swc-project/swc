@@ -1,0 +1,7 @@
+  x Expected Symbol to have a description
+   ,-[$DIR/tests/compile/lints/symbol-description/allow-any-as-symbol-description/input/input.js:1:1]
+ 1 | Symbol()
+   : ^^^^^^^^
+ 2 | Symbol({})
+ 3 | Symbol('name')
+   `----

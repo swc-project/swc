@@ -1,65 +1,42 @@
 # Compiler snapshot fixtures
 
-Each fixture has an `input` directory and an `output` directory. The compiler
-discovers `.swcrc` files from each input file using the normal configuration
-lookup, including configurations shared by parent directories. Fixtures without
-a `.swcrc` use the compiler defaults.
+Each fixture contains `input/` and `output/`. Inputs use the compiler's normal
+`.swcrc` lookup and configuration selection. External helpers default to enabled;
+set `jsc.externalHelpers` to false for inline helpers.
 
-The runner compiles JavaScript and TypeScript inputs and compares emitted code,
-source maps, diagnostics, and additional outputs with the existing snapshots.
-External helpers default to enabled for compatibility with the original fixture
-suite; set `jsc.externalHelpers` in `.swcrc` to select inline helpers instead.
-Excluded inputs still reach the compiler and are checked as producing no output.
-Tests that need execution or specialized assertions belong in their respective
-suites.
+The runner compiles JavaScript and TypeScript files sequentially in filename
+order, with a fresh compiler and source map for each input. Process-wide caches
+remain shared. Keep related inputs of a cache regression in one fixture so its
+configurations are exercised together.
 
-Inputs within a fixture are compiled sequentially in filename order, with a fresh
-compiler and source map for each input. Process-wide caches remain shared. Keep
-all inputs of a cache regression in one fixture, with per-directory `.swcrc`
-files when configurations differ, so both cache entries are exercised together.
+Every input uses the same pipeline and snapshot conventions:
 
-Fixtures under `options/react-compiler/feature-only` are registered only when
-the `react-compiler` feature is enabled, preserving the original Rust tests'
-feature conditions.
+- `output/<relative input filename>`: emitted code.
+- `output/<relative input filename>.stderr`: compiler diagnostics and errors.
+- `output/<relative input filename>.map`: source map, formatted as JSON.
+- `output/<relative input filename>.d.ts`: isolated declarations.
+- `output/<relative input filename>.extra.json`: remaining compiler metadata.
 
-Missing snapshots represent empty output. To test exclusion, include the input
-and configure its exclusion in `.swcrc`, without adding output snapshots for it.
-If it unexpectedly emits nonempty code or a source map, ordinary snapshot
-comparison fails. Unrelated compilation errors still fail the fixture.
+Every output kind is compared, including when it is empty. Missing snapshots
+represent empty output. Errors can coexist with emitted code; record both when
+the compiler produces both. Exclusions and configuration errors use the same
+`.stderr` snapshots as other compiler results. Parser mode, lints, source maps,
+and other compiler settings belong in `.swcrc`.
 
-A fixture with `output.swc-stderr` beside its `input` directory must fail to
-compile. Its diagnostic is checked with filename-free, non-colored reporting,
-while diagnostics stored beside an input retain filenames. Successful and
-failing fixtures use the same compiler invocation and options. Parser mode and
-lint settings belong in each fixture's `.swcrc`.
-Configuration failures that occur before source diagnostics are emitted snapshot
-the complete error chain instead.
+Append `.raw` to a code snapshot filename when the final newline is part of the
+assertion. Ordinary snapshots use the shared text comparison; raw snapshots also
+preserve the presence or absence of the final newline.
 
-Name an output snapshot `input.js.raw` (or the corresponding input filename
-with `.raw` appended) when the final newline is part of the assertion. Unlike
-ordinary snapshots, raw snapshots preserve the presence or absence of that
-newline while still normalizing platform-specific paths and line endings.
+Group fixtures by functionality. Use `regressions/` for issues without a single
+feature and `integration/` for shared project configurations. Flow and React
+Compiler fixtures require their corresponding Cargo features. Fixtures under
+`options/react-compiler/feature-only` are registered only with `react-compiler`.
 
-Feature directories group fixtures by the configuration they exercise. Issue
-regressions whose configuration does not identify a single feature remain in
-`regressions`. Integration fixtures keep their shared parent configurations
-together under `integration`.
+Use `exec.rs` for runtime assertions and the dedicated suites for specialized API
+checks. Transform API cases requiring internal options, helper references without
+injection, standalone passes, or custom AST operations stay in their transform
+crate. Minifier comment extraction stays in `minify.rs`; compiler minification
+belongs here or in `exec.rs`.
 
-The `minify/api` fixtures preserve snapshots originally produced by the minifier
-API. Where that API emitted ES5 text without lowering newer syntax, their configs
-use modern environment targets with the default print target to preserve both
-behaviors. Tests that extract comments remain in the minifier API suite because
-the compiler pipeline does not expose comment extraction through `.swcrc`.
-
-Migrated transform fixtures keep their effective options in complete `.swcrc`
-files. Fields ignored by the former API harness, such as `sourceMaps`, do not
-implicitly enable new outputs. Fixtures depending on internal-only options,
-helper references without injection, standalone passes, or custom AST operations
-remain in the corresponding transform crate.
-
-To assert emitted code together with compiler diagnostics, pair an ordinary
-code snapshot with `output/input.js.stderr`. The same compiler invocation must
-emit both. Diagnostics use the transform snapshots' reporting style and the
-compiler's normal source filenames. Both code and diagnostics are compared with
-their ordinary text snapshots. Cases asserting failure without emitted code
-continue to use `output.swc-stderr`.
+Update intentional snapshots with
+`UPDATE=1 cargo test -p swc --test compile <filter>`, then rerun without `UPDATE`.

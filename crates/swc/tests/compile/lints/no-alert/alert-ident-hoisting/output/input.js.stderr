@@ -1,0 +1,8 @@
+  x Unexpected alert
+   ,-[$DIR/tests/compile/lints/no-alert/alert-ident-hoisting/input/input.js:5:1]
+ 2 | 
+ 3 | const alert = () => {};
+ 4 | 
+ 5 | window.alert();
+   : ^^^^^^^^^^^^^^
+   `----

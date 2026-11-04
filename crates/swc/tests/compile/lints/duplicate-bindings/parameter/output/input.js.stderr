@@ -1,0 +1,10 @@
+  x the name `a` is defined multiple times
+   ,-[$DIR/tests/compile/lints/duplicate-bindings/parameter/input/input.js:1:1]
+ 1 | function foo(a) {
+   :              |
+   :              `-- previous definition of `a` here
+ 2 |     let a;
+   :         |
+   :         `-- `a` redefined here
+ 3 | }
+   `----

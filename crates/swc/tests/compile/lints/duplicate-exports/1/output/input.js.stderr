@@ -1,0 +1,15 @@
+  x the name `default` is exported multiple times
+   ,-[$DIR/tests/compile/lints/duplicate-exports/1/input/input.js:1:1]
+ 1 | ,-> export default () => {
+ 2 | |       let a = 2;
+ 3 | |-> }
+   : `---- previous exported here
+ 4 |     
+ 5 | ,-> export default () => {
+ 6 | |       let b = 2;
+ 7 | |-> }
+   : `---- exported more than once
+   `----
+
+Advice: 
+  > Exported identifiers must be unique
