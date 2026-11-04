@@ -5,8 +5,6 @@
             "tsx": true
         },
         "target": "es2015",
-        "externalHelpers": true,
-        "loose": false,
         "minify": {
             "compress": true,
             "mangle": {

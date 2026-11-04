@@ -13,7 +13,5 @@
       }
     }
   },
-  "sourceMaps": true,
-  "inlineSourcesContent": true,
-  "minify": false
+  "sourceMaps": true
 }

@@ -1,11 +1,9 @@
 {
     "jsc": {
-        "externalHelpers": true,
         "parser": {
             "syntax": "ecmascript",
             "jsx": true,
             "decorators": true,
-            "dynamicImport": true,
             "decoratorsBeforeExport": true
         },
         "transform": {
@@ -13,7 +11,9 @@
             "decoratorMetadata": true
         },
         "minify": {
-            "compress": false
+            "format": {
+                "comments": false
+            }
         }
     },
     "isModule": "unknown",

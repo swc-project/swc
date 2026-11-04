@@ -1,8 +1,5 @@
 {
     "isModule": false,
-    "jsc": {
-        "externalHelpers": true
-    },
     "env": {
         "targets": {
             "ie": "6"

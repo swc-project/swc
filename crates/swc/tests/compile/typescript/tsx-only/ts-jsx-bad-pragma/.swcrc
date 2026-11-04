@@ -1,13 +1,9 @@
 {
   "isModule": "unknown",
   "jsc": {
-    "externalHelpers": true,
     "parser": {
-      "decorators": false,
-      "syntax": "typescript",
-      "tsx": false
+      "syntax": "typescript"
     },
-    "preserveAllComments": false,
     "target": "esnext",
     "transform": {
       "react": {

@@ -4,17 +4,15 @@
       "syntax": "typescript",
       "tsx": true
     },
-    "loose": false,
     "minify": {
-      "compress": false,
-      "mangle": false
+      "format": {
+        "comments": false
+      }
     }
   },
   "module": {
     "type": "commonjs"
   },
-  "minify": false,
-  "isModule": true,
   "env": {
     "targets": {
       "ie": "8"

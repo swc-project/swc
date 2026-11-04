@@ -4,9 +4,7 @@
     // Optional, configure minification options
     "jsc": {
         "minify": {
-            "compress": {
-                "unused": true
-            },
+            "compress": true,
             "mangle": true
         },
         "target": "es2018"

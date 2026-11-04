@@ -4,11 +4,8 @@
     "assumptions": {
       "pureGetters": true
     },
-    "externalHelpers": true,
     "parser": {
-      "decorators": false,
-      "syntax": "typescript",
-      "tsx": false
+      "syntax": "typescript"
     },
     "preserveAllComments": true,
     "target": "esnext",

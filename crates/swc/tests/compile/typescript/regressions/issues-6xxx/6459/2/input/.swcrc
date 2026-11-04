@@ -3,8 +3,6 @@
         "parser": {
             "syntax": "typescript"
         },
-        "target": "es2020",
-        "loose": false
-    },
-    "isModule": true
+        "target": "es2020"
+    }
 }

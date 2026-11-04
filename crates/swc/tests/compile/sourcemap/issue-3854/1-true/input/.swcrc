@@ -3,12 +3,8 @@
     "jsc": {
         "target": "es2020",
         "parser": {
-            "syntax": "typescript",
-            "tsx": false,
-            "decorators": false,
-            "dynamicImport": false
+            "syntax": "typescript"
         },
-        "externalHelpers": true,
         "transform": {
             "hidden": {
                 "jest": true

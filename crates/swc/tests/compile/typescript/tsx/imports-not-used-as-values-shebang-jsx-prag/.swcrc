@@ -10,15 +10,10 @@
     "assumptions": {
       "pureGetters": true
     },
-    "externalHelpers": true,
     "parser": {
-      "decorators": false,
       "syntax": "typescript",
       "tsx": true
     },
-    "preserveAllComments": true,
-    "transform": {
-      "useDefineForClassFields": true
-    }
+    "preserveAllComments": true
   }
 }

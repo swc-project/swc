@@ -5,8 +5,7 @@
         },
         "transform": null,
         "target": "es2015",
-        "loose": true,
-        "keepClassNames": false
+        "loose": true
     },
     "minify": true
 }

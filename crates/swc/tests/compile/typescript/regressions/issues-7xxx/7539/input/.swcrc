@@ -4,6 +4,5 @@
             "syntax": "typescript",
             "tsx": true
         }
-    },
-    "isModule": true
+    }
 }

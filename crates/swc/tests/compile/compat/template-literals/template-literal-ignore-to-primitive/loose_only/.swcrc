@@ -12,7 +12,6 @@
     "assumptions": {
       "ignoreToPrimitiveHint": true
     },
-    "externalHelpers": true,
     "preserveAllComments": true
   }
 }

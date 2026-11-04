@@ -13,13 +13,9 @@
     "assumptions": {
       "pureGetters": true
     },
-    "externalHelpers": true,
     "parser": {
-      "decorators": false,
-      "syntax": "typescript",
-      "tsx": false
+      "syntax": "typescript"
     },
-    "preserveAllComments": false,
     "transform": {
       "useDefineForClassFields": false
     }

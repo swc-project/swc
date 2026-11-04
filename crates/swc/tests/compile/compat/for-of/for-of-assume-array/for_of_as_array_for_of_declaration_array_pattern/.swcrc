@@ -12,7 +12,6 @@
     "assumptions": {
       "iterableIsArray": true
     },
-    "externalHelpers": true,
     "preserveAllComments": true
   }
 }

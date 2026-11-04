@@ -7,8 +7,7 @@
         "target": "es2021",
         "parser": {
             "syntax": "typescript",
-            "decorators": true,
-            "dynamicImport": true
+            "decorators": true
         },
         "transform": {
             "legacyDecorator": true,

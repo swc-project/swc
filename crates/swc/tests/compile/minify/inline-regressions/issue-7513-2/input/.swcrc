@@ -9,6 +9,5 @@
             "toplevel": true
         }
     },
-    "minify": true,
-    "isModule": true
+    "minify": true
 }

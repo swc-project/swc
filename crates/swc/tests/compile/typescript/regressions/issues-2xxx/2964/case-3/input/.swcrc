@@ -1,21 +1,13 @@
 {
-    "sourceMaps": false,
     "module": {
         "type": "commonjs"
     },
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "tsx": false,
-            "dynamicImport": true,
-            "decorators": false
+            "syntax": "typescript"
         },
         "transform": {
             "react": {
-                "pragma": "React.createElement",
-                "pragmaFrag": "React.Fragment",
-                "throwIfNamespace": true,
-                "development": false,
                 "useBuiltins": false
             },
             "hidden": {
@@ -23,10 +15,6 @@
             }
         },
         "target": "es2015",
-        "loose": false,
-        "externalHelpers": true,
-        "keepClassNames": false,
         "preserveAllComments": true
-    },
-    "minify": false
+    }
 }

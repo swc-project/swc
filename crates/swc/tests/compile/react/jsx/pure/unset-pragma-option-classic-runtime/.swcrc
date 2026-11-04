@@ -1,7 +1,5 @@
 {
-  "isModule": true,
   "jsc": {
-    "externalHelpers": true,
     "parser": {
       "jsx": true,
       "syntax": "ecmascript"
@@ -10,8 +8,7 @@
     "target": "esnext",
     "transform": {
       "react": {
-        "pragma": "h",
-        "runtime": "classic"
+        "pragma": "h"
       }
     }
   }

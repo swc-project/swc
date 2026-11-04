@@ -1,19 +1,8 @@
 {
     "jsc": {
-        "parser": {
-            "syntax": "ecmascript",
-            "tsx": false
-        },
-        "target": "es2016",
-        "loose": false,
-        "minify": {
-            "compress": false,
-            "mangle": false
-        }
+        "target": "es2016"
     },
     "module": {
         "type": "commonjs"
-    },
-    "minify": false,
-    "isModule": true
+    }
 }

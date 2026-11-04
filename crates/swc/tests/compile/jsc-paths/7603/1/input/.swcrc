@@ -3,8 +3,7 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "decorators": true,
-            "dynamicImport": true
+            "decorators": true
         },
         "baseUrl": "./src",
         "paths": {
@@ -12,6 +11,5 @@
                 "*"
             ]
         }
-    },
-    "minify": false
+    }
 }

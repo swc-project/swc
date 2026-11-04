@@ -5,21 +5,19 @@
             "jsx": true
         },
         "target": "es2022",
-        "loose": false,
-        "minify": {
-            "compress": false,
-            "mangle": false
-        },
         "transform": {
             "react": {
                 "development": true,
                 "runtime": "automatic"
             }
+        },
+        "minify": {
+            "format": {
+                "comments": false
+            }
         }
     },
     "module": {
         "type": "es6"
-    },
-    "minify": false,
-    "isModule": true
+    }
 }

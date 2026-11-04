@@ -1,9 +1,6 @@
 {
     "jsc": {
-        "target": "es2020",
-        "parser": {
-            "syntax": "ecmascript"
-        }
+        "target": "es2020"
     },
     "module": {
         "type": "commonjs"

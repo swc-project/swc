@@ -1,7 +1,5 @@
 {
-  "isModule": true,
   "jsc": {
-    "externalHelpers": true,
     "parser": {
       "jsx": true,
       "syntax": "ecmascript"

@@ -1,6 +1,5 @@
 {
     "jsc": {
-        "externalHelpers": true,
         "parser": {
             "syntax": "ecmascript",
             "jsx": true,

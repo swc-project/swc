@@ -5,9 +5,6 @@
     },
     "jsc": {
         "target": "es2015",
-        "parser": {
-            "syntax": "ecmascript"
-        },
         "minify": {
             "format": {
                 "comments": { "regex": "^!" }

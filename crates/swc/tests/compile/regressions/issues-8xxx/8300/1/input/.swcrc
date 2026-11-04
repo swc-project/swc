@@ -1,15 +1,4 @@
 {
-    "jsc": {
-        "parser": {
-            "syntax": "ecmascript",
-            "jsx": false
-        },
-        "loose": false,
-        "minify": {
-            "compress": false,
-            "mangle": false
-        }
-    },
     "module": {
         "type": "es6"
     },
@@ -21,7 +10,5 @@
             "safari >= 10",
             "ios_saf >= 10"
         ],
-    },
-    "minify": false,
-    "isModule": true
+    }
 }

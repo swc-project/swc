@@ -9,12 +9,9 @@
   },
   "isModule": "unknown",
   "jsc": {
-    "externalHelpers": true,
     "parser": {
-      "importAttributes": true,
       "jsx": true,
       "syntax": "ecmascript"
-    },
-    "preserveAllComments": false
+    }
   }
 }

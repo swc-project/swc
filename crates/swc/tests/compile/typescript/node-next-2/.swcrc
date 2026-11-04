@@ -1,15 +1,11 @@
 {
   "isModule": "unknown",
   "jsc": {
-    "externalHelpers": true,
     "parser": {
-      "decorators": false,
-      "syntax": "typescript",
-      "tsx": false
+      "syntax": "typescript"
     },
     "preserveAllComments": true,
-    "target": "esnext",
-    "transform": {}
+    "target": "esnext"
   },
   "module": {
     "type": "nodenext"

@@ -8,6 +8,5 @@
             "decoratorVersion": "2022-03"
         },
         "target": "es2022"
-    },
-    "isModule": true
+    }
 }

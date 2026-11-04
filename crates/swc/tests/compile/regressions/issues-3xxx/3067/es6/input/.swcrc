@@ -1,15 +1,13 @@
 {
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "dynamicImport": true,
+            "syntax": "typescript"
         },
         "target": "es2020",
         "baseUrl": ".",
         "paths": {
             "@print/c": ["./packages/c/src/index.js"],
-        },
-        "externalHelpers": true,
+        }
     },
     "module": {
         "type": "es6",

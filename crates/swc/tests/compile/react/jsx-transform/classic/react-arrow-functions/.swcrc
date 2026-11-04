@@ -8,16 +8,11 @@
       "chrome": "120"
     }
   },
-  "isModule": true,
   "jsc": {
-    "externalHelpers": true,
     "parser": {
       "jsx": true,
       "syntax": "ecmascript"
     },
-    "preserveAllComments": true,
-    "transform": {
-      "react": {}
-    }
+    "preserveAllComments": true
   }
 }

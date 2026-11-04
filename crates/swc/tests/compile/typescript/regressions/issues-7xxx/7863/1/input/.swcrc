@@ -9,7 +9,6 @@
             "~/*": [
                 "./src/*"
             ]
-        },
-        "externalHelpers": true
+        }
     }
 }

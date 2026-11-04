@@ -8,8 +8,7 @@
         "target": "es2020",
         "parser": {
             "syntax": "typescript",
-            "decorators": true,
-            "importMeta": true
+            "decorators": true
         },
         "transform": {
             "legacyDecorator": true,

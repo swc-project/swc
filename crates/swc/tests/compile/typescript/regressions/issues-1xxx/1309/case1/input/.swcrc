@@ -2,24 +2,16 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": true,
-            "dynamicImport": false,
-            "decorators": false
+            "tsx": true
         },
         "transform": {
             "legacyDecorator": true,
             "decoratorMetadata": true
         },
-        "target": "es2016",
-        "loose": false,
-        "externalHelpers": true
+        "target": "es2016"
     },
     "module": {
-        "type": "commonjs",
-        "strict": false,
-        "strictMode": true,
-        "lazy": false,
-        "noInterop": false
+        "type": "commonjs"
     },
     "sourceMaps": true
 }

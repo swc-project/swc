@@ -1,13 +1,8 @@
 {
     "module": {
-        "type": "amd",
-        "strict": false,
-        "strictMode": true,
-        "lazy": false,
-        "noInterop": false
+        "type": "amd"
     },
     "jsc": {
-        "externalHelpers": true,
         "parser": {
             "syntax": "typescript",
             "tsx": true
@@ -15,7 +10,6 @@
         "transform": {
             "react": {
                 "pragma": "DCGView.createElement",
-                "development": false,
                 "useBuiltins": true
             }
         }

@@ -4,19 +4,17 @@
             "syntax": "typescript",
             "tsx": true
         },
-        "externalHelpers": true,
         "transform": {
             "react": {
                 "runtime": "automatic"
             }
         },
-        "loose": false,
         "minify": {
-            "compress": false,
-            "mangle": false
+            "format": {
+                "comments": false
+            }
         }
     },
-    "minify": false,
     "module": {
         "type": "es6"
     },

@@ -1,11 +1,5 @@
 {
     "jsc": {
-        "parser": {
-            "syntax": "ecmascript",
-            "jsx": false
-        },
-        "target": "es5",
-        "loose": false,
         "minify": {
             "compress": true,
             "format": {
@@ -15,7 +9,5 @@
     },
     "module": {
         "type": "es6"
-    },
-    "minify": false,
-    "isModule": true
+    }
 }

@@ -4,9 +4,6 @@
         "parser": {
             "syntax": "ecmascript",
             "jsx": true,
-            "dynamicImport": true,
-            "classProperty": true,
-            "exportNamespaceFrom": true,
             "exportDefaultFrom": true
         },
         "externalHelpers": false

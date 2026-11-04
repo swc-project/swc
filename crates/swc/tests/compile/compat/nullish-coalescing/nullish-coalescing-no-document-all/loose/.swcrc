@@ -12,7 +12,6 @@
     "assumptions": {
       "noDocumentAll": true
     },
-    "externalHelpers": true,
     "preserveAllComments": true
   }
 }

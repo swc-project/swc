@@ -5,15 +5,8 @@
       "decorators": true
     },
     "transform": {
-      "decoratorVersion": "2022-03",
-      "legacyDecorator": false
+      "decoratorVersion": "2022-03"
     },
-    "target": "es2022",
-    "loose": false,
-    "minify": {
-      "compress": false
-    }
-  },
-  "isModule": true,
-  "minify": false
+    "target": "es2022"
+  }
 }

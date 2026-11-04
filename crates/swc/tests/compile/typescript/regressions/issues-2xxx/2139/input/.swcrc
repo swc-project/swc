@@ -2,10 +2,8 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": true,
-            "dynamicImport": true
-        },
-        "externalHelpers": true
+            "tsx": true
+        }
     },
     "env": {
         "targets": "Chrome >= 48"

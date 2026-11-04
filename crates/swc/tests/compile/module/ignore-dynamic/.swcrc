@@ -1,10 +1,6 @@
 {
     "jsc": {
-        "target": "es2017",
-        "parser": {
-            "syntax": "ecmascript",
-            "topLevelAwait": true
-        }
+        "target": "es2017"
     },
     "module": {
         "type": "commonjs",

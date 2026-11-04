@@ -14,7 +14,6 @@
     "assumptions": {
       "ignoreFunctionLength": true
     },
-    "externalHelpers": true,
     "preserveAllComments": true
   }
 }

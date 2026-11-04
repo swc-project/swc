@@ -1,5 +1,4 @@
 {
-    "isModule": true,
     "jsc": {
         "target": "es2022",
         "transform": {
@@ -11,9 +10,7 @@
             "format": {
                 "comments": true
             },
-            "compress": true,
-            "mangle": false
+            "compress": true
         },
-    },
-    "minify": false,
+    }
 }

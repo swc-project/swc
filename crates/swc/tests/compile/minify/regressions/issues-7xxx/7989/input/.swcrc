@@ -1,13 +1,6 @@
 {
     "jsc": {
-        "parser": {
-            "syntax": "ecmascript",
-            "jsx": false
-        },
-        "loose": false,
         "minify": {
-            "compress": false,
-            "mangle": false,
             "format": {
                 "comments": "all"
             }
@@ -16,8 +9,6 @@
     "module": {
         "type": "es6"
     },
-    "minify": false,
-    "isModule": true,
     "env": {
         "targets": "supports async-functions"
     }

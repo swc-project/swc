@@ -1,21 +1,12 @@
 {
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "tsx": false
-        },
-        "loose": false,
-        "minify": {
-            "compress": false,
-            "mangle": false
-        },
-        "externalHelpers": true
+            "syntax": "typescript"
+        }
     },
     "module": {
         "type": "es6"
     },
-    "minify": false,
-    "isModule": true,
     "env": {
         "mode": "usage",
         "coreJs": "3.29"

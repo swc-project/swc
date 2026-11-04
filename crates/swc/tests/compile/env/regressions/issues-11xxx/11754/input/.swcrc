@@ -1,13 +1,5 @@
 {
-  "sourceMaps": false,
   "isModule": false,
-  "jsc": {
-    "parser": {
-      "syntax": "ecmascript"
-    },
-    "transform": {},
-    "externalHelpers": true
-  },
   "env": {
     "include": ["transform-named-capturing-groups-regex"]
   }

@@ -1,15 +1,9 @@
 {
-  "isModule": true,
   "jsc": {
-    "externalHelpers": true,
     "parser": {
       "jsx": true,
       "syntax": "ecmascript"
     },
-    "preserveAllComments": false,
-    "target": "esnext",
-    "transform": {
-      "react": {}
-    }
+    "target": "esnext"
   }
 }

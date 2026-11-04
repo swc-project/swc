@@ -11,7 +11,6 @@
       "pureGetters": true,
       "setPublicClassFields": true
     },
-    "externalHelpers": true,
     "preserveAllComments": true
   }
 }

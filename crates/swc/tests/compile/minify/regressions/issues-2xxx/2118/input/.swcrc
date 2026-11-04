@@ -1,10 +1,6 @@
 {
-    "sourceMaps": false,
     "jsc": {
         "loose": true,
-        "parser": {
-            "syntax": "ecmascript"
-        },
         "target": "es3",
         "minify": {
             "compress": true,

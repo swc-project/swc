@@ -2,15 +2,13 @@
     "isModule": "unknown",
     "minify": true,
     "sourceMaps": true,
-    "inlineSourcesContent": true,
     "jsc": {
         "target": "esnext",
         "parser": {
             "syntax": "ecmascript",
             "jsx": true,
             "decorators": true,
-            "decoratorsBeforeExport": true,
-            "importAttributes": true
+            "decoratorsBeforeExport": true
         },
         "minify": {
             "compress": true,

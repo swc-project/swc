@@ -1,20 +1,11 @@
 {
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "tsx": false,
-            "decorators": false,
-            "dynamicImport": false
+            "syntax": "typescript"
         },
         "transform": null,
-        "target": "es5",
-        "loose": false,
-        "externalHelpers": true,
-        "keepClassNames": false,
         "minify": {
-            "compress": {
-                "unused": true
-            },
+            "compress": true,
             "mangle": true
         }
     },

@@ -2,11 +2,7 @@
     {
         "test": [".*.js"],
         "jsc": {
-            "target": "es2019",
-            "parser": {
-                "dynamicImport": true,
-                "syntax": "ecmascript"
-            }
+            "target": "es2019"
         },
         "module": {
             "type": "commonjs"

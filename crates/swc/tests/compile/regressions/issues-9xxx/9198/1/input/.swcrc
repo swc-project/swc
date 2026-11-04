@@ -4,7 +4,5 @@
             "syntax": "typescript"
         },
         "target": "es2015"
-    },
-    "minify": false,
-    "isModule": true
+    }
 }

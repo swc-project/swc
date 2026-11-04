@@ -13,11 +13,9 @@
     "assumptions": {
       "pureGetters": true
     },
-    "externalHelpers": true,
     "parser": {
       "decorators": true,
-      "syntax": "typescript",
-      "tsx": false
+      "syntax": "typescript"
     },
     "preserveAllComments": true,
     "transform": {

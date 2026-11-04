@@ -7,7 +7,6 @@
         "transform": {
             "decoratorVersion": "2022-03"
         },
-        "externalHelpers": true,
         "experimental": {
             "plugins": [
                 [

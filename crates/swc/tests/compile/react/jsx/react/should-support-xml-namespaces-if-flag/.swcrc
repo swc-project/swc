@@ -1,7 +1,5 @@
 {
-  "isModule": true,
   "jsc": {
-    "externalHelpers": true,
     "parser": {
       "jsx": true,
       "syntax": "ecmascript"
@@ -11,7 +9,6 @@
     "transform": {
       "react": {
         "pragma": "h",
-        "runtime": "classic",
         "throwIfNamespace": false
       }
     }

@@ -3,10 +3,7 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": false,
-            "decorators": true,
-            "dynamicImport": true,
-            "topLevelAwait": true
+            "decorators": true
         },
         "target": "es2022",
         "transform": {
@@ -15,8 +12,6 @@
         }
     },
     "module": {
-        "type": "commonjs",
-        "strict": false,
-        "strictMode": true
+        "type": "commonjs"
     }
 }

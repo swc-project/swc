@@ -1,8 +1,7 @@
 {
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "dynamicImport": true
+            "syntax": "typescript"
         },
         "target": "es2020",
         "baseUrl": ".",

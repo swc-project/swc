@@ -7,9 +7,5 @@
       "chrome": "120"
     }
   },
-  "isModule": "unknown",
-  "jsc": {
-    "externalHelpers": true,
-    "preserveAllComments": false
-  }
+  "isModule": "unknown"
 }

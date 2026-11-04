@@ -6,11 +6,9 @@
         "target": "es2018",
         "parser": {
             "syntax": "typescript",
-            "decorators": true,
-            "dynamicImport": false
+            "decorators": true
         },
         "transform": {
-            "legacyDecorator": false,
             "decoratorMetadata": true
         }
     }

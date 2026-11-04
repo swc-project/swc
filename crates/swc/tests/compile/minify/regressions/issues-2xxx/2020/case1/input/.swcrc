@@ -3,9 +3,6 @@
         "type": "commonjs"
     },
     "jsc": {
-        "parser": {
-            "syntax": "ecmascript"
-        },
         "target": "es2018"
     },
     "minify": true

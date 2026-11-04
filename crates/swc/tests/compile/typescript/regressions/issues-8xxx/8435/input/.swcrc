@@ -2,15 +2,12 @@
   "jsc": {
     "parser": {
       "syntax": "typescript",
-      "dynamicImport": true,
       "tsx": true,
       "jsx": true
     },
     "minify": {
-      "compress": true,
-      "mangle": false
-    },
-    "loose": false
+      "compress": true
+    }
   },
   "env": {
     "targets": "> 0.25%, not dead, Safari >=8",

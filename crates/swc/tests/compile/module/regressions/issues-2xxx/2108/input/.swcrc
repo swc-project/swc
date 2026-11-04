@@ -1,8 +1,5 @@
 {
     "jsc": {
-        "parser": {
-            "syntax": "ecmascript"
-        },
         "transform": {
             "optimizer": {
                 "globals": {
@@ -11,8 +8,7 @@
             }
         },
         "loose": true,
-        "target": "es2021",
-        "externalHelpers": true
+        "target": "es2021"
     },
     "module": {
         "type": "commonjs"

@@ -2,7 +2,6 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "dynamicImport": true,
             "decorators": true
         },
         "transform": {
@@ -15,8 +14,6 @@
         },
         "target": "es2022",
         "loose": true,
-        "externalHelpers": true,
-        "keepClassNames": false,
         "minify": {
             "compress": {
                 "comparisons": false,

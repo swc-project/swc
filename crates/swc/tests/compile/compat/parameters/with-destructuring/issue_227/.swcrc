@@ -11,7 +11,6 @@
   },
   "isModule": "unknown",
   "jsc": {
-    "externalHelpers": true,
     "preserveAllComments": true
   }
 }

@@ -1,13 +1,7 @@
 {
     "jsc": {
-        "parser": {
-            "syntax": "ecmascript",
-            "jsx": false
-        },
         "target": "es2015",
-        "loose": false,
         "minify": {
-            "compress": false,
             "mangle": true
         }
     },

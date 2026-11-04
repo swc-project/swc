@@ -3,18 +3,14 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": false,
             "dts": true,
-            "decorators": true,
-            "dynamicImport": true
+            "decorators": true
         },
         "transform": {
             "legacyDecorator": true,
             "decoratorMetadata": true
         },
-        "target": "es2020",
-        "loose": false,
-        "externalHelpers": true
+        "target": "es2020"
     },
     "test": ".+\\.ts$",
     "module": {
@@ -24,6 +20,5 @@
     "exclude": [
         ".+\\.spec\\.ts$",
         ".+\\.d\\.ts$"
-    ],
-    "minify": false
+    ]
 }

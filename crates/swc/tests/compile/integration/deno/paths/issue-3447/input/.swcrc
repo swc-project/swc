@@ -2,18 +2,8 @@
     "jsc": {
         "baseUrl": "./src",
         "target": "es2018",
-        "externalHelpers": true,
         "parser": {
-            "syntax": "typescript",
-            "tsx": false,
-            "decorators": false,
-            "dynamicImport": true
-        },
-        "transform": {
-            "react": {
-                "runtime": "classic",
-                "throwIfNamespace": true
-            }
+            "syntax": "typescript"
         },
         "paths": {
             "@moduleA/*": [

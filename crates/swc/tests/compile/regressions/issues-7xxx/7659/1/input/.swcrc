@@ -7,13 +7,10 @@
             "syntax": "typescript",
             "decorators": true,
             "tsx": true
-        },
-        "target": "es5",
-        "loose": false,
+        }
     },
     "module": {
         "type": "commonjs"
     },
-    "isModule": true,
     "minify": true
 }

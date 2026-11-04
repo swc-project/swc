@@ -12,7 +12,6 @@
     "assumptions": {
       "mutableTemplateObject": true
     },
-    "externalHelpers": true,
     "preserveAllComments": true
   }
 }

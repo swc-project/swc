@@ -1,11 +1,5 @@
 {
     "jsc": {
-        "parser": {
-            "syntax": "ecmascript"
-        },
-        "target": "es2020",
-        "transform": {
-            "useDefineForClassFields": true
-        }
+        "target": "es2020"
     }
 }

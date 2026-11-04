@@ -5,9 +5,7 @@
       "decorators": true
     },
     "transform": {
-      "legacyDecorator": false,
       "decoratorVersion": "2023-11"
     }
-  },
-  "isModule": true
+  }
 }

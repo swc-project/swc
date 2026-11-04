@@ -3,8 +3,7 @@
         "parser": {
             "syntax": "typescript"
         },
-        "target": "es2022",
-        "loose": false
+        "target": "es2022"
     },
     "module": {
         "type": "commonjs"

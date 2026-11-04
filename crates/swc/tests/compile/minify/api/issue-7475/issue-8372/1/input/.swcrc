@@ -2,14 +2,12 @@
     "isModule": "unknown",
     "minify": true,
     "sourceMaps": true,
-    "inlineSourcesContent": true,
     "jsc": {
         "parser": {
             "syntax": "ecmascript",
             "jsx": true,
             "decorators": true,
-            "decoratorsBeforeExport": true,
-            "importAttributes": true
+            "decoratorsBeforeExport": true
         },
         "minify": {
             "compress": {
@@ -21,7 +19,6 @@
             }
         },
         "output": {
-            "preamble": "",
             "sourceMapUrl": "input.map"
         }
     },

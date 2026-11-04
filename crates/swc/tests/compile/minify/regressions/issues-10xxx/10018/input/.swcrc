@@ -4,16 +4,13 @@
             "syntax": "ecmascript",
             "jsx": true
         },
-        "target": "es5",
-        "loose": false,
         "minify": {
-            "compress": false,
-            "mangle": false
+            "format": {
+                "comments": false
+            }
         }
     },
     "module": {
         "type": "es6"
-    },
-    "minify": false,
-    "isModule": true
+    }
 }

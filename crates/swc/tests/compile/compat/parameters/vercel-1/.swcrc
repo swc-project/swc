@@ -7,12 +7,5 @@
       "chrome": "120"
     }
   },
-  "isModule": "unknown",
-  "jsc": {
-    "externalHelpers": true,
-    "parser": {
-      "syntax": "ecmascript"
-    },
-    "preserveAllComments": false
-  }
+  "isModule": "unknown"
 }

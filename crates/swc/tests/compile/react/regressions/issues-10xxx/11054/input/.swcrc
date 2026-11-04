@@ -1,7 +1,5 @@
 {
-  "minify": false,
   "jsc": {
-    "externalHelpers": true,
     "parser": {
       "tsx": true,
       "syntax": "typescript",
@@ -18,7 +16,6 @@
       "decoratorMetadata": true,
       "useDefineForClassFields": false,
       "react": {
-        "development": false,
         "refresh": false,
         "runtime": "automatic"
       }

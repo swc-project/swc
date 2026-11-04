@@ -12,10 +12,6 @@
   },
   "isModule": "unknown",
   "jsc": {
-    "externalHelpers": true,
-    "parser": {
-      "syntax": "ecmascript"
-    },
     "preserveAllComments": true
   }
 }

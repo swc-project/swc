@@ -3,8 +3,7 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": true,
-            "dynamicImport": true
+            "tsx": true
         },
         "transform": {
             "react": {
@@ -15,12 +14,12 @@
         "target": "es2019",
         "keepClassNames": true,
         "minify": {
-            "compress": false
+            "format": {
+                "comments": false
+            }
         }
     },
-    "isModule": true,
     "module": {
         "type": "es6"
-    },
-    "minify": false
+    }
 }

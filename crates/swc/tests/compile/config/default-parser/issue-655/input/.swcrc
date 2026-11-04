@@ -1,10 +1,7 @@
 [
     {
         "jsc": {
-            "externalHelpers": false,
-            "parser": {
-                "syntax": "ecmascript"
-            }
+            "externalHelpers": false
         },
         "exclude": "\\.tsx?$"
     },

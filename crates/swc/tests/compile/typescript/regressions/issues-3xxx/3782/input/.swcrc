@@ -1,8 +1,7 @@
 {
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "dynamicImport": true
+            "syntax": "typescript"
         },
         "transform": {
             "legacyDecorator": true,
@@ -15,8 +14,6 @@
     "module": {
         "type": "commonjs",
         "strict": true,
-        "strictMode": true,
-        "lazy": false,
         "noInterop": true
     },
     "sourceMaps": true,

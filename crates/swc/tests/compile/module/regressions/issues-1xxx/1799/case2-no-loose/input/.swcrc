@@ -8,18 +8,9 @@
         "parser": {
             "syntax": "ecmascript",
             "jsx": true,
-            "dynamicImport": true,
-            "privateMethod": false,
-            "functionBind": false,
-            "exportDefaultFrom": true,
-            "exportNamespaceFrom": true,
-            "decorators": false,
-            "decoratorsBeforeExport": false,
-            "topLevelAwait": false,
-            "importMeta": false
+            "exportDefaultFrom": true
         },
         "target": "es2015",
-        "externalHelpers": true,
         "keepClassNames": true
     },
     "module": {

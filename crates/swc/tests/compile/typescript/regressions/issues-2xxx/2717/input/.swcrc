@@ -1,9 +1,7 @@
 {
     "jsc": {
-        "externalHelpers": true,
         "parser": {
-            "syntax": "typescript",
-            "tsx": false
+            "syntax": "typescript"
         },
         "minify": {
             "compress": true,

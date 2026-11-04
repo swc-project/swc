@@ -3,9 +3,6 @@
         "parser": {
             "syntax": "typescript"
         },
-        "target": "es2022",
-        "transform": {
-            "useDefineForClassFields": true
-        }
+        "target": "es2022"
     }
 }

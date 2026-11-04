@@ -1,10 +1,8 @@
 {
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "tsx": false
-        },
-        "target": "es5"
+            "syntax": "typescript"
+        }
     },
     "module": {
         "type": "es6"

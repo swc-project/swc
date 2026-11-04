@@ -1,11 +1,7 @@
 {
     "jsc": {
-        "parser": {
-            "syntax": "ecmascript"
-        },
         "target": "es2021",
         "loose": true,
-        "externalHelpers": true,
         "keepClassNames": true
     },
     "module": {

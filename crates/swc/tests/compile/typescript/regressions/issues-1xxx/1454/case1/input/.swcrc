@@ -5,9 +5,7 @@
         "target": "es2018",
         "parser": {
             "syntax": "typescript",
-            "tsx": false,
-            "decorators": true,
-            "dynamicImport": true
+            "decorators": true
         },
         "transform": {
             "legacyDecorator": true,
@@ -17,8 +15,6 @@
     "module": {
         "type": "commonjs",
         "strict": true,
-        "strictMode": false,
-        "lazy": false,
-        "noInterop": false
+        "strictMode": false
     }
 }

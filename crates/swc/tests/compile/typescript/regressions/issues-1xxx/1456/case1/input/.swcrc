@@ -2,7 +2,6 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": false,
             "decorators": true
         },
         "transform": {

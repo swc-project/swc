@@ -16,6 +16,5 @@
     "module": {
         "type": "commonjs"
     },
-    "minify": false,
     "sourceMaps": "inline"
 }

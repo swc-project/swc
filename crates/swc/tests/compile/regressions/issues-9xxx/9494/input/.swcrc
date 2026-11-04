@@ -1,9 +1,1 @@
-{
-    "jsc": {
-        "parser": {
-            "syntax": "ecmascript"
-        },
-        "externalHelpers": true,
-        "target": "es5"
-    }
-}
+{}

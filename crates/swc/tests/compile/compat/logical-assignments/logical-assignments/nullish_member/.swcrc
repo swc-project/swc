@@ -9,7 +9,6 @@
   },
   "isModule": "unknown",
   "jsc": {
-    "externalHelpers": true,
     "parser": {
       "syntax": "typescript"
     },

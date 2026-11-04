@@ -4,13 +4,9 @@
         "parser": {
             "syntax": "typescript",
             "decorators": true,
-            "dynamicImport": true,
-            "dts": true,
-            "tsx": false
+            "dts": true
         },
-        "target": "es5",
         "baseUrl": "./",
-        "preserveAllComments": false,
         "experimental": {
             "emitIsolatedDts": true
         },
@@ -21,16 +17,10 @@
             "@tests/*": [
                 "tests/*"
             ]
-        },
-        "loose": false
+        }
     },
     "module": {
         "type": "commonjs",
-        "strict": true,
-        "strictMode": true,
-        "lazy": false,
-        "noInterop": false
-    },
-    "minify": false,
-    "isModule": true
+        "strict": true
+    }
 }

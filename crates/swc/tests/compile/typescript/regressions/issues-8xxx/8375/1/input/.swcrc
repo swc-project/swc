@@ -1,9 +1,6 @@
 {
     "jsc": {
         "keepClassNames": true,
-        "output": {
-            "preamble": ""
-        },
         "parser": {
             "syntax": "typescript"
         },
@@ -14,22 +11,9 @@
             ]
         },
         "preserveAllComments": true,
-        "target": "es2022",
-        "transform": {
-            "decoratorMetadata": false,
-            "legacyDecorator": false
-        }
+        "target": "es2022"
     },
-    "minify": false,
     "module": {
-        "allowTopLevelThis": false,
-        "ignoreDynamic": false,
-        "lazy": false,
-        "noInterop": false,
-        "preserveImportMeta": false,
-        "resolveFully": false,
-        "strict": false,
-        "strictMode": true,
         "type": "commonjs"
     }
 }

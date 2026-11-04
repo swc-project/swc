@@ -1,7 +1,5 @@
 {
-  "isModule": true,
   "jsc": {
-    "externalHelpers": true,
     "parser": {
       "jsx": true,
       "syntax": "ecmascript"
@@ -11,8 +9,6 @@
     "transform": {
       "react": {
         "importSource": "@emotion/react",
-        "pragma": "React.createElement",
-        "pragmaFrag": "React.Fragment",
         "runtime": "automatic"
       }
     }

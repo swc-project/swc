@@ -2,23 +2,17 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": true,
-            "dynamicImport": false,
-            "decorators": false
+            "tsx": true
         },
         "transform": {
             "legacyDecorator": true,
             "decoratorMetadata": true
         },
-        "target": "es5",
-        "loose": false,
-        "externalHelpers": true,
         "minify": {
             "compress": true,
             "mangle": true
         }
     },
     "minify": true,
-    "sourceMaps": true,
-    "inlineSourcesContent": true
+    "sourceMaps": true
 }

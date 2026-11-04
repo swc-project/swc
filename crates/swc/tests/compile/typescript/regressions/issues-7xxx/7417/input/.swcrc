@@ -3,10 +3,7 @@
     "jsc": {
         "target": "es2022",
         "parser": {
-            "dynamicImport": true,
-            "syntax": "typescript",
-            "tsx": false,
-            "decorators": false
+            "syntax": "typescript"
         },
         "baseUrl": ".",
         "paths": {

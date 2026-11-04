@@ -1,15 +1,10 @@
 {
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "tsx": false,
-            "decorators": false,
-            "dynamicImport": true
+            "syntax": "typescript"
         },
-        "loose": true,
-        "externalHelpers": true
+        "loose": true
     },
-    "minify": false,
     "env": {
         "mode": "entry",
         "coreJs": 3

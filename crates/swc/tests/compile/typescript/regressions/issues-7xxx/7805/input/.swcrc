@@ -1,14 +1,9 @@
 {
     "jsc": {
         "parser": {
-            "syntax": "typescript",
-            "tsx": false
+            "syntax": "typescript"
         },
-        "externalHelpers": true,
-        "loose": false,
         "minify": {
-            "compress": false,
-            "mangle": false,
             "format": {
                 "asciiOnly": true
             }
@@ -16,7 +11,5 @@
     },
     "module": {
         "type": "es6"
-    },
-    "minify": false,
-    "isModule": true
+    }
 }

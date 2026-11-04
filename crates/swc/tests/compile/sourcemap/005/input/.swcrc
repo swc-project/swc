@@ -1,6 +1,5 @@
 {
     "sourceMaps": true,
-    "inlineSourcesContent": true,
     "jsc": {
         "transform": {
             "hidden": {

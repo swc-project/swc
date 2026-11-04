@@ -2,18 +2,16 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": false,
             "decorators": true
         },
         "target": "es2022",
-        "loose": false,
         "minify": {
-            "compress": false,
-            "mangle": false
+            "format": {
+                "comments": false
+            }
         }
     },
     "module": {
-        "type": "es6",
-    },
-    "minify": false
+        "type": "es6"
+    }
 }

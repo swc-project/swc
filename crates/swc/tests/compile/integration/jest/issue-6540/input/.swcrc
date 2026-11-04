@@ -2,8 +2,6 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": false,
-            "dynamicImport": true,
             "decorators": true
         },
         "transform": {
@@ -12,10 +10,7 @@
                 "jest": true
             }
         },
-        "target": "es2016",
-        "loose": false,
-        "externalHelpers": true,
-        "keepClassNames": false
+        "target": "es2016"
     },
     "module": {
         "type": "commonjs"

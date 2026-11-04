@@ -2,16 +2,11 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": false,
-            "decorators": true,
-            "dynamicImport": false
+            "decorators": true
         }
     },
     "module": {
         "type": "commonjs",
-        "strict": false,
-        "strictMode": false,
-        "lazy": false,
-        "noInterop": false
+        "strictMode": false
     }
 }

@@ -7,19 +7,11 @@
         },
         "target": "es2022",
         "transform": {
-            "decoratorMetadata": true,
-            "react": {}
-        },
-        "externalHelpers": true,
-        "loose": false,
-        "minify": {
-            "compress": false,
-            "mangle": false
+            "decoratorMetadata": true
         }
     },
     "module": {
         "type": "es6"
     },
-    "minify": false,
     "isModule": "unknown"
 }

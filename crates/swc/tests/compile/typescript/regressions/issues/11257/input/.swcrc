@@ -4,8 +4,7 @@
             "syntax": "typescript"
         },
         "minify": {
-            "compress": true,
-            "mangle": false
+            "compress": true
         }
     },
     "minify": true

@@ -9,10 +9,8 @@
         "parser": {
             "syntax": "typescript",
             "tsx": true,
-            "dts": true,
-            "dynamicImport": true
-        },
-        "externalHelpers": true
+            "dts": true
+        }
     },
     "module": {
         "type": "es6"

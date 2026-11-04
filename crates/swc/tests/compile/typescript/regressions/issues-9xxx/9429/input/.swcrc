@@ -5,16 +5,9 @@
       "tsx": true,
       "decorators": true
     },
-    "target": "es2022",
-    "loose": false,
-    "minify": {
-      "compress": false,
-      "mangle": false
-    }
+    "target": "es2022"
   },
   "module": {
     "type": "es6"
-  },
-  "minify": false,
-  "isModule": true
+  }
 }

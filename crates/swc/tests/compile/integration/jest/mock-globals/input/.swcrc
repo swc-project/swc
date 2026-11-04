@@ -3,8 +3,7 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": true,
-            "dynamicImport": true
+            "tsx": true
         },
         "transform": {
             "react": {
@@ -15,9 +14,7 @@
         "target": "es2021",
         "keepClassNames": true
     },
-    "isModule": true,
     "module": {
-        "type": "commonjs",
-        "ignoreDynamic": false
+        "type": "commonjs"
     }
 }

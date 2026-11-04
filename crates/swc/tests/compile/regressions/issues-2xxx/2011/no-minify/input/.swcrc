@@ -1,5 +1,4 @@
 {
-    "sourceMaps": false,
     "jsc": {
         "loose": true,
         "parser": {

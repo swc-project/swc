@@ -2,9 +2,7 @@
     "jsc": {
         "parser": {
             "syntax": "typescript",
-            "tsx": false,
-            "decorators": true,
-            "dynamicImport": false
+            "decorators": true
         },
         "transform": {
             "legacyDecorator": true,
@@ -13,10 +11,6 @@
         "target": "es2016"
     },
     "module": {
-        "type": "commonjs",
-        "strict": false,
-        "strictMode": true,
-        "lazy": false,
-        "noInterop": false
+        "type": "commonjs"
     }
 }

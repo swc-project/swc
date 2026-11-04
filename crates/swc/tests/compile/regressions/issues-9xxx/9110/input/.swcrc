@@ -1,31 +1,23 @@
 {
     "module": {
-        "type": "es6",
-        "strictMode": true,
-        "noInterop": false
+        "type": "es6"
     },
     "jsc": {
-        "externalHelpers": true,
         "target": "es2017",
         "parser": {
             "syntax": "typescript",
             "tsx": true,
-            "decorators": true,
-            "dynamicImport": true
+            "decorators": true
         },
         "transform": {
             "legacyDecorator": true,
-            "decoratorMetadata": false,
             "react": {
                 "throwIfNamespace": false,
                 "useBuiltins": false,
-                "pragma": "React.createElement",
-                "pragmaFrag": "React.Fragment",
                 "importSource": "react",
                 "runtime": "automatic"
             }
         },
-        "keepClassNames": true,
-        "paths": {},
+        "keepClassNames": true
     }
 }

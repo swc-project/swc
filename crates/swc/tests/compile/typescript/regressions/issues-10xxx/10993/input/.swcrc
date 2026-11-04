@@ -3,11 +3,9 @@
         "parser": {
             "syntax": "typescript"
         },
-        "target": "esnext",
-        "loose": false
+        "target": "esnext"
     },
     "module": {
         "type": "es6"
-    },
-    "isModule": true
+    }
 }

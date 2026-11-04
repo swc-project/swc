@@ -1,9 +1,6 @@
 {
     "sourceMaps": "inline",
     "jsc": {
-        "target": "es2021",
-        "parser": {
-            "syntax": "ecmascript"
-        }
+        "target": "es2021"
     }
 }
