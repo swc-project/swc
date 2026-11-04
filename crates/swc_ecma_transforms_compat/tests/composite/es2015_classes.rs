@@ -2030,8 +2030,6 @@ enum CasePipeline {
     ResolverClassPropertiesEs2015TypescriptResolver,
     #[serde(rename = "classes-constant-super")]
     ClassesConstantSuper,
-    #[serde(rename = "classes-no-class-calls")]
-    ClassesNoClassCalls,
     #[serde(rename = "classes-set-class-methods")]
     ClassesSetClassMethods,
     #[serde(rename = "classes-super-is-callable-constructor")]
@@ -2043,7 +2041,6 @@ enum CasePipeline {
 #[testing::fixture("tests/composite/classes/classes-arrow/**/input.js")]
 #[testing::fixture("tests/composite/classes/classes-block-scoping/**/input.js")]
 #[testing::fixture("tests/composite/classes/classes-constant-super/**/input.js")]
-#[testing::fixture("tests/composite/classes/classes-no-class-calls/**/input.js")]
 #[testing::fixture("tests/composite/classes/classes-set-class-methods/**/input.js")]
 #[testing::fixture("tests/composite/classes/classes-super-is-callable-constructor/**/input.js")]
 #[testing::fixture(
@@ -2096,10 +2093,6 @@ fn composite_fixture(input: std::path::PathBuf) {
                 }),
                 CasePipeline::ClassesConstantSuper => Box::new(classes(Config {
                     constant_super: true,
-                    ..Default::default()
-                })),
-                CasePipeline::ClassesNoClassCalls => Box::new(classes(Config {
-                    no_class_calls: true,
                     ..Default::default()
                 })),
                 CasePipeline::ClassesSetClassMethods => Box::new(classes(Config {

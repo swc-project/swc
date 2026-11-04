@@ -31,8 +31,6 @@ mod es2015_classes;
 mod es2015_computed_props;
 #[path = "composite/es2015_destructuring.rs"]
 mod es2015_destructuring;
-#[path = "composite/es2015_duplicated_keys.rs"]
-mod es2015_duplicated_keys;
 #[path = "composite/es2015_for_of.rs"]
 mod es2015_for_of;
 #[path = "composite/es2015_generator.rs"]

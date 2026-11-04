@@ -557,8 +557,6 @@ fn fixture(input: PathBuf) {
 /// Named transform pipelines for the composite output fixtures.
 #[derive(Clone, Copy, serde::Deserialize)]
 enum CasePipeline {
-    #[serde(rename = "destructuring")]
-    Destructuring,
     #[serde(rename = "destructuring-loose")]
     DestructuringLoose,
     #[serde(rename = "resolver-spread-parameters-destructuring-block-scoping-object-rest-spread")]
@@ -582,7 +580,6 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/destructuring/destructuring/**/input.js")]
 #[testing::fixture("tests/composite/destructuring/destructuring-loose/**/input.js")]
 #[testing::fixture(
     "tests/composite/destructuring/destructuring-spread-block-scoping-object-rest-spread/**/input.\
@@ -621,7 +618,6 @@ fn composite_fixture(input: std::path::PathBuf) {
         &|t| -> Box<dyn swc_ecma_ast::Pass> {
             let _ = &t;
             match pipeline {
-            CasePipeline::Destructuring => Box::new(destructuring (Config { loose : false })),
             CasePipeline::DestructuringLoose => Box::new(destructuring (Config { loose : true })),
             CasePipeline::ResolverSpreadParametersDestructuringBlockScopingObjectRestSpread => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , spread (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (Default :: default ()) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
             CasePipeline::ResolverEs2015 => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , es2015 (unresolved_mark , Some (t . comments . clone ()) , Default :: default () ,) ,) }),

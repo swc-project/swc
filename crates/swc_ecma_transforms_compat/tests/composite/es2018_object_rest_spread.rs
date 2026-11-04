@@ -2013,20 +2013,11 @@ fn fixture(input: PathBuf) {
 /// Named transform pipelines for the composite output fixtures.
 #[derive(Clone, Copy, serde::Deserialize)]
 enum CasePipeline {
-    #[serde(rename = "object-rest-spread")]
-    Default,
     #[serde(rename = "object-rest-spread-spread")]
     WithSpread,
-    #[serde(rename = "object-rest-spread-no-symbol-set-property-pure-getters")]
-    NoSymbolSetPropertyPureGetters,
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/object-rest-spread/object-rest-spread/**/input.js")]
-#[testing::fixture(
-    "tests/composite/object-rest-spread/object-rest-spread-no-symbol-set-property-pure-getters/**/\
-     input.js"
-)]
 #[testing::fixture("tests/composite/object-rest-spread/object-rest-spread-spread/**/input.js")]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
@@ -2035,16 +2026,10 @@ fn composite_fixture(input: std::path::PathBuf) {
         &|t| -> Box<dyn swc_ecma_ast::Pass> {
             let _ = &t;
             match pipeline {
-                CasePipeline::Default => Box::new(tr(Default::default())),
                 CasePipeline::WithSpread => Box::new((
                     tr(Default::default()),
                     spread(Default::default(), Mark::new()),
                 )),
-                CasePipeline::NoSymbolSetPropertyPureGetters => Box::new(tr(Config {
-                    no_symbol: true,
-                    set_property: true,
-                    pure_getters: true,
-                })),
             }
         },
         &input,

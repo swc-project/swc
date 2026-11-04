@@ -259,8 +259,6 @@ impl VisitMut for TsHygiene {
 /// Named transform pipelines for the composite output fixtures.
 #[derive(Clone, Copy, serde::Deserialize)]
 enum CasePipeline {
-    #[serde(rename = "block-scoping")]
-    BlockScoping,
     #[serde(rename = "resolver-es2015")]
     ResolverEs2015,
     #[serde(rename = "es2015-fresh-mark")]
@@ -273,7 +271,6 @@ enum CasePipeline {
 #[testing::fixture(
     "tests/composite/block-scoping/async-to-generator-es2015-fresh-mark/**/input.js"
 )]
-#[testing::fixture("tests/composite/block-scoping/block-scoping/**/input.js")]
 #[testing::fixture("tests/composite/block-scoping/es2015-fresh-mark/**/input.js")]
 #[testing::fixture("tests/composite/block-scoping/resolver-es2015/**/input.js")]
 fn composite_fixture(input: std::path::PathBuf) {
@@ -283,7 +280,6 @@ fn composite_fixture(input: std::path::PathBuf) {
         &|t| -> Box<dyn swc_ecma_ast::Pass> {
             let _ = &t;
             match pipeline {
-                CasePipeline::BlockScoping => Box::new(block_scoping(Mark::new())),
                 CasePipeline::ResolverEs2015 => Box::new({
                     let Tester { comments, .. } = t;
                     {

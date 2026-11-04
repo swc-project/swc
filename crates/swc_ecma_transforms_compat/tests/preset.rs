@@ -117,7 +117,14 @@ fn fixture(input: PathBuf) {
             assert!(
                 matches!(
                     feature,
-                    Feature::ArrowFunctions
+                    Feature::TemplateLiterals
+                        | Feature::ComputedProperties
+                        | Feature::DuplicateKeys
+                        | Feature::ObjectRestSpread
+                        | Feature::NullishCoalescing
+                        | Feature::LogicalAssignmentOperators
+                        | Feature::OptionalChaining
+                        | Feature::ArrowFunctions
                         | Feature::Classes
                         | Feature::ClassProperties
                         | Feature::ForOf

@@ -328,28 +328,3 @@ fn fixture_loose(input: PathBuf) {
         Default::default(),
     );
 }
-
-/// Named transform pipelines for the composite output fixtures.
-#[derive(Clone, Copy, serde::Deserialize)]
-enum CasePipeline {
-    #[serde(rename = "resolver-optional-chaining")]
-    ResolverOptionalChaining,
-}
-
-/// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/optional-chaining/resolver-optional-chaining/**/input.js")]
-fn composite_fixture(input: std::path::PathBuf) {
-    let pipeline: CasePipeline = crate::case_pipeline(&input);
-    swc_ecma_transforms_testing::test_fixture(
-        syntax(),
-        &|t| -> Box<dyn swc_ecma_ast::Pass> {
-            let _ = &t;
-            match pipeline {
-                CasePipeline::ResolverOptionalChaining => Box::new(tr(Default::default())),
-            }
-        },
-        &input,
-        &input.with_file_name("output.js"),
-        Default::default(),
-    );
-}

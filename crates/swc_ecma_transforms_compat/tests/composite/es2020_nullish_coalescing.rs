@@ -78,15 +78,10 @@ compare_stdout!(
 enum CasePipeline {
     #[serde(rename = "nullish-coalescing")]
     NullishCoalescing,
-    #[serde(rename = "nullish-coalescing-no-document-all")]
-    NullishCoalescingNoDocumentAll,
 }
 
 /// Compares each input with its original output using its configured pipeline.
 #[testing::fixture("tests/composite/nullish-coalescing/nullish-coalescing/**/input.js")]
-#[testing::fixture(
-    "tests/composite/nullish-coalescing/nullish-coalescing-no-document-all/**/input.js"
-)]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
     swc_ecma_transforms_testing::test_fixture(
@@ -95,9 +90,6 @@ fn composite_fixture(input: std::path::PathBuf) {
             let _ = &t;
             match pipeline {
                 CasePipeline::NullishCoalescing => Box::new(tr(Default::default())),
-                CasePipeline::NullishCoalescingNoDocumentAll => Box::new(tr(Config {
-                    no_document_all: true,
-                })),
             }
         },
         &input,

@@ -65,28 +65,3 @@ test_exec!(
     expect(gets).toBe(4);
     expect(key).toBe(1);"
 );
-
-/// Named transform pipelines for the composite output fixtures.
-#[derive(Clone, Copy, serde::Deserialize)]
-enum CasePipeline {
-    #[serde(rename = "logical-assignments")]
-    LogicalAssignments,
-}
-
-/// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/logical-assignments/logical-assignments/**/input.js")]
-fn composite_fixture(input: std::path::PathBuf) {
-    let pipeline: CasePipeline = crate::case_pipeline(&input);
-    swc_ecma_transforms_testing::test_fixture(
-        syntax(),
-        &|t| -> Box<dyn swc_ecma_ast::Pass> {
-            let _ = &t;
-            match pipeline {
-                CasePipeline::LogicalAssignments => Box::new(tr()),
-            }
-        },
-        &input,
-        &input.with_file_name("output.js"),
-        Default::default(),
-    );
-}

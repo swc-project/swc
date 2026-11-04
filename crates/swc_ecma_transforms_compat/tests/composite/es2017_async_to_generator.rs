@@ -921,10 +921,6 @@ enum CasePipeline {
         rename = "resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer"
     )]
     ResolverRemoveParensArrowParametersDestructuringFunctionNameAsyncFixer,
-    #[serde(rename = "async-to-generator")]
-    AsyncToGenerator,
-    #[serde(rename = "async-to-generator-arrow")]
-    AsyncToGeneratorArrow,
     #[serde(rename = "resolver-async-to-generator-parameters-destructuring")]
     ResolverAsyncToGeneratorParametersDestructuring,
     #[serde(rename = "async-to-generator-generator-fresh-mark")]
@@ -932,8 +928,6 @@ enum CasePipeline {
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/async-to-generator/async-to-generator/**/input.js")]
-#[testing::fixture("tests/composite/async-to-generator/async-to-generator-arrow/**/input.js")]
 #[testing::fixture(
     "tests/composite/async-to-generator/async-to-generator-generator-fresh-mark/**/input.js"
 )]
@@ -953,8 +947,6 @@ fn composite_fixture(input: std::path::PathBuf) {
             let _ = &t;
             match pipeline {
             CasePipeline::ResolverRemoveParensArrowParametersDestructuringFunctionNameAsyncFixer => Box::new(tr ()),
-            CasePipeline::AsyncToGenerator => Box::new(async_to_generator (Default :: default () , Mark :: new ())),
-            CasePipeline::AsyncToGeneratorArrow => Box::new({ let unresolved_mark = Mark :: new () ; (async_to_generator (Default :: default () , unresolved_mark) , arrow (unresolved_mark) ,) }),
             CasePipeline::ResolverAsyncToGeneratorParametersDestructuring => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , async_to_generator (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (destructuring :: Config { loose : false }) ,) }),
             CasePipeline::AsyncToGeneratorGeneratorFreshMark => Box::new({ let unresolved_mark = Mark :: fresh (Mark :: root ()) ; (async_to_generator (Default :: default () , unresolved_mark) , generator (unresolved_mark , t . comments . clone ()) ,) }),
             }
