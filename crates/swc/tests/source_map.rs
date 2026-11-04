@@ -151,9 +151,9 @@ fn issue_706() {
 
 // These integration, TypeScript, and minifier fixtures were not part of the
 // original map validation suite. Their snapshots are still checked by the
-// preset runner.
+// compile runner.
 #[testing::fixture(
-    "tests/preset/**/*.map",
+    "tests/compile/**/*.map",
     exclude(
         "[/\\\\]integration[/\\\\]vercel[/\\\\]",
         "[/\\\\]integration[/\\\\]deno-unit[/\\\\]",

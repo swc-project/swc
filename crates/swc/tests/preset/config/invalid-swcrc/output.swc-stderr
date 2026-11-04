@@ -1,5 +1,0 @@
-failed to read .swcrc file for input file at `$DIR/tests/preset/config/invalid-swcrc/input/foo.js`
-Caused by:
-failed to deserialize .swcrc (json) file: unmatched data: 0:0
-Caused by:
-unknown field `js`, expected one of `env`, `test`, `exclude`, `jsc`, `module`, `minify`, `inputSourceMap`, `sourceMaps`, `sourceMapIgnoreList`, `inlineSourcesContent`, `emitSourceMapColumns`, `error`, `isModule`, `$schema`
