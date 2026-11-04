@@ -1,0 +1,3 @@
+{
+    "pipeline": "resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer"
+}

@@ -48,10 +48,14 @@ swc_ecma_utils           = { version = "36.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "30.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-par-core   = { workspace = true, features = ["chili"] }
+par-core = { workspace = true, features = ["chili"] }
 serde_json = { workspace = true }
+swc_ecma_ast = { version = "30.0.1", path = "../swc_ecma_ast", features = [
+  "serde-impl",
+] }
 
 swc_ecma_parser = { version = "47.0.0", path = "../swc_ecma_parser" }
+swc_ecma_preset_env = { version = "67.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms_base = { version = "51.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
