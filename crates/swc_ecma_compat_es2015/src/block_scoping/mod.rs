@@ -12,7 +12,8 @@ use swc_ecma_utils::{
     ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
+    noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_mut_pass, Visit,
+    VisitMut, VisitMutWith, VisitWith,
 };
 
 mod vars;
@@ -683,8 +684,11 @@ impl FlowHelper<'_> {
 impl VisitMut for FlowHelper<'_> {
     noop_visit_mut_type!(fail);
 
-    /// noop
-    fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
+    /// Control flow inside a nested arrow function is not ours to rewrite, but
+    /// it can still reassign a loop variable, so collect those writes.
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        n.visit_with(&mut NestedMutationFinder { helper: self });
+    }
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
@@ -745,8 +749,10 @@ impl VisitMut for FlowHelper<'_> {
         self.in_nested_loop = old;
     }
 
-    /// noop
-    fn visit_mut_function(&mut self, _f: &mut Function) {}
+    /// See [`FlowHelper::visit_mut_arrow_expr`].
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        f.visit_with(&mut NestedMutationFinder { helper: self });
+    }
 
     fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
         self.inner_label.insert(l.label.sym.clone());
@@ -869,6 +875,40 @@ impl VisitMut for FlowHelper<'_> {
         e.visit_mut_children_with(self);
 
         self.has_yield = true;
+    }
+}
+
+/// Finds loop variables reassigned inside a function nested in the loop body.
+///
+/// The value has to be written back to the outer variable after each
+/// iteration, the same as for a write directly in the loop body.
+struct NestedMutationFinder<'a, 'b> {
+    helper: &'a mut FlowHelper<'b>,
+}
+
+impl Visit for NestedMutationFinder<'_, '_> {
+    noop_visit_type!(fail);
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        match &n.left {
+            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => self.helper.check(i.to_id()),
+            AssignTarget::Pat(p) => {
+                for id in find_pat_ids::<_, Id>(p) {
+                    self.helper.check(id);
+                }
+            }
+            _ => {}
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if let Expr::Ident(i) = &*n.arg {
+            self.helper.check(i.to_id());
+        }
+
+        n.visit_children_with(self);
     }
 }
 
