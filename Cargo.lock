@@ -626,9 +626,9 @@ dependencies = [
 
 [[package]]
 name = "browserslist-data"
-version = "0.3.1"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "58f90c231428ed81dbb8f39dcc14021335c3cc4f46ffdffde278638ca832b579"
+checksum = "38e7aab54f4c30d9207d4084ef87c26f676b134c9c2a5b9c69ad8300cbef8d89"
 dependencies = [
  "ahash 0.8.12",
  "chrono",
@@ -637,9 +637,9 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.21.2"
+version = "0.22.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8ca3b73a7c87da0bcca071227be2c28527af6ecd927060a1d75beef8bc4868b8"
+checksum = "54a5fb31a5b30a7b7dd92a1fbeb0e33a43dde96a2b7ea3b8eaf1db0a4d1ad423"
 dependencies = [
  "ahash 0.8.12",
  "browserslist-data",
