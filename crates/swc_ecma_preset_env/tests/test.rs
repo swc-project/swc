@@ -20,7 +20,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Syntax};
 use swc_ecma_preset_env::{transform_from_env, Config, FeatureOrModule, Mode, Targets, Version};
-use swc_ecma_transforms::{fixer, helpers};
+use swc_ecma_transforms_base::{fixer::fixer, helpers};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{visit_mut_pass, VisitMut};
 use testing::{NormalizedOutput, Tester};

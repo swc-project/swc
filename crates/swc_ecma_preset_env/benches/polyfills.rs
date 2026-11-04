@@ -3,7 +3,7 @@ use swc_common::{comments::SingleThreadedComments, FileName, Mark};
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_preset_env::{transform_from_env, Config};
-use swc_ecma_transforms::helpers::{Helpers, HELPERS};
+use swc_ecma_transforms_base::helpers::{Helpers, HELPERS};
 
 fn run(b: &mut Bencher, src: &str, config: Config) {
     let _ = ::testing::run_test(false, |cm, handler| {

@@ -45,7 +45,11 @@ swc_ecma_utils = { version = "36.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "30.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen            = { version = "33.0.0", path = "../swc_ecma_codegen/" }
-swc_ecma_transforms_compat  = { version = "59.0.0", path = "../swc_ecma_transforms_compat/" }
+swc_ecma_ast = { version = "30.0.1", path = "../swc_ecma_ast", features = [
+  "serde-impl",
+] }
+swc_ecma_codegen = { version = "33.0.0", path = "../swc_ecma_codegen/" }
+swc_ecma_preset_env = { version = "67.0.0", path = "../swc_ecma_preset_env" }
+swc_ecma_transforms_compat = { version = "59.0.0", path = "../swc_ecma_transforms_compat/" }
 swc_ecma_transforms_testing = { version = "55.0.0", path = "../swc_ecma_transforms_testing" }
-testing                     = { version = "28.0.1", path = "../testing" }
+testing = { version = "28.0.1", path = "../testing" }

@@ -15,14 +15,12 @@ use serde::Deserialize;
 use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, pass::Optional, FromVariant, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms::{
-    compat::{
-        bugfixes,
-        class_fields_use_set::class_fields_use_set,
-        es2015::{self, generator::generator},
-        es2020, es2022,
-    },
-    Assumptions,
+use swc_ecma_transforms_base::assumptions::Assumptions;
+use swc_ecma_transforms_compat::{
+    bugfixes,
+    class_fields_use_set::class_fields_use_set,
+    es2015::{self, generator::generator},
+    es2020, es2022,
 };
 use swc_ecma_utils::{prepend_stmts, ExprFactory};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith, VisitWith};

@@ -7,9 +7,7 @@ use serde::Deserialize;
 use swc_common::Mark;
 use swc_ecma_ast::{EsVersion, Pass};
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
-use swc_ecma_preset_env::{
-    transform_from_env, transform_from_es_version, Config, Feature, FeatureOrModule, Targets,
-};
+use swc_ecma_preset_env::{transform_from_env, transform_from_es_version, Config};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 
@@ -18,7 +16,7 @@ use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 #[serde(default, rename_all = "camelCase")]
 struct Options {
     jsc: JscOptions,
-    env: Option<EnvOptions>,
+    env: Option<Config>,
     is_module: Option<bool>,
 }
 
@@ -68,15 +66,6 @@ impl From<ParserOptions> for Syntax {
     }
 }
 
-#[derive(Default, Deserialize)]
-#[serde(default, rename_all = "camelCase")]
-struct EnvOptions {
-    targets: Option<Targets>,
-    include: Vec<Feature>,
-    exclude: Vec<Feature>,
-    loose: bool,
-}
-
 /// Inherit top-level options up to, and including, the preset directory.
 fn options(input: &Path) -> Options {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/preset");
@@ -112,38 +101,6 @@ fn fixture(input: PathBuf) {
         Some(EsVersion::Es3),
         "the fixture runner does not support the es3 target"
     );
-    if let Some(env) = &options.env {
-        for feature in env.include.iter().chain(&env.exclude) {
-            assert!(
-                matches!(
-                    feature,
-                    Feature::Regenerator
-                        | Feature::PrivatePropertyInObject
-                        | Feature::ObjectSuper
-                        | Feature::FunctionName
-                        | Feature::ClassStaticBlock
-                        | Feature::TemplateLiterals
-                        | Feature::ComputedProperties
-                        | Feature::DuplicateKeys
-                        | Feature::ObjectRestSpread
-                        | Feature::NullishCoalescing
-                        | Feature::LogicalAssignmentOperators
-                        | Feature::OptionalChaining
-                        | Feature::ArrowFunctions
-                        | Feature::Classes
-                        | Feature::ClassProperties
-                        | Feature::ForOf
-                        | Feature::Spread
-                        | Feature::ShorthandProperties
-                        | Feature::Parameters
-                        | Feature::Destructuring
-                        | Feature::BlockScoping
-                        | Feature::AsyncToGenerator
-                ),
-                "unsupported env feature in preset fixture"
-            );
-        }
-    }
     let syntax = options.jsc.parser.map(Syntax::from).unwrap_or_default();
     let assumptions = options.jsc.assumptions.unwrap_or_else(|| {
         if options.jsc.loose {
@@ -158,27 +115,10 @@ fn fixture(input: PathBuf) {
             let unresolved = Mark::new();
             let top_level = Mark::new();
             let pass: Box<dyn Pass> = if let Some(env) = &options.env {
-                let config = Config {
-                    targets: env.targets.clone(),
-                    include: env
-                        .include
-                        .iter()
-                        .copied()
-                        .map(FeatureOrModule::Feature)
-                        .collect(),
-                    exclude: env
-                        .exclude
-                        .iter()
-                        .copied()
-                        .map(FeatureOrModule::Feature)
-                        .collect(),
-                    loose: env.loose,
-                    ..Default::default()
-                };
                 Box::new(transform_from_env(
                     unresolved,
                     Some(t.comments.clone()),
-                    config.into(),
+                    env.clone().into(),
                     assumptions,
                 ))
             } else {
@@ -203,9 +143,7 @@ fn fixture(input: PathBuf) {
 
 #[test]
 fn options_validate_supported_fields() {
-    assert!(
-        serde_json::from_str::<Options>(r#"{"env": {"include": ["not-a-transform"]}}"#).is_err()
-    );
+    assert!(serde_json::from_str::<Options>(r#"{"env": {"include": [123]}}"#).is_err());
     let options: Options =
         serde_json::from_str(r#"{"jsc": {"parser": {"syntax": "typescript", "tsx": true}}}"#)
             .unwrap();

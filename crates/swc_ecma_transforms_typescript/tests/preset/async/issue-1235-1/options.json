@@ -13,7 +13,7 @@
     },
     "env": {
         "targets": {
-            "chrome": "120"
+            "node": "18"
         },
         "include": ["transform-async-to-generator"]
     }

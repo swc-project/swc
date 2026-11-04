@@ -1,0 +1,15 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": ["transform-classes", "transform-arrow-functions"]
+    },
+    "jsc": {
+        "transform": {
+            "react": {
+                "runtime": "classic"
+            }
+        }
+    }
+}

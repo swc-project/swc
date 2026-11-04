@@ -36,10 +36,14 @@ swc_ecma_visit            = { version = "30.0.0", path = "../swc_ecma_visit" }
 codspeed-criterion-compat = { workspace = true }
 
 serde_json = { workspace = true }
+swc_ecma_ast = { version = "30.0.1", path = "../swc_ecma_ast", features = [
+  "serde-impl",
+] }
 swc_ecma_codegen = { version = "33.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "47.0.0", path = "../swc_ecma_parser", features = [
   "flow",
 ] }
+swc_ecma_preset_env = { version = "67.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms_compat = { version = "59.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_proposal = { version = "51.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing = { version = "55.0.0", path = "../swc_ecma_transforms_testing" }

@@ -2,6 +2,7 @@
     "jsc": {
         "transform": {
             "noEmptyExport": true
-        }
+        },
+        "target": "esnext"
     }
 }

@@ -1,0 +1,10 @@
+{
+    "isModule": false,
+    "jsc": {
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        }
+    }
+}
