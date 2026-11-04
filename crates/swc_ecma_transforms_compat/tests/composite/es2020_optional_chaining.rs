@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2020::{optional_chaining, optional_chaining::Config},
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture};
 
 fn tr(c: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
@@ -146,20 +146,6 @@ expect(() => {
 "#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    simple_1,
-    include_str!("inline-inputs/es2020_optional_chaining/simple_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    simple_2,
-    include_str!("inline-inputs/es2020_optional_chaining/simple_2/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -179,13 +165,6 @@ test_exec!(
 
   expect(obj?.a?.b?.c()).toBe(2)
   "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    pr_2791,
-    include_str!("inline-inputs/es2020_optional_chaining/pr_2791/input.js")
 );
 
 test_exec!(
@@ -341,6 +320,31 @@ fn fixture_loose(input: PathBuf) {
         },
         &input,
         &output,
+        Default::default(),
+    );
+}
+
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "resolver-optional-chaining")]
+    ResolverOptionalChaining,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/optional-chaining/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::ResolverOptionalChaining => Box::new(tr(Default::default())),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
         Default::default(),
     );
 }

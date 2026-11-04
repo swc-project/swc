@@ -5,7 +5,6 @@ use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::generator::generator;
-use swc_ecma_transforms_testing::test;
 
 fn syntax() -> Syntax {
     Syntax::default()
@@ -20,16 +19,27 @@ fn tr(_: ()) -> impl Pass {
     )
 }
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    sparse_array_leading_hole,
-    include_str!("inline-inputs/es2015_generator_sparse_array/sparse_array_leading_hole/input.js")
-);
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "resolver-generator-noop-comments")]
+    ResolverGeneratorNoopComments,
+}
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    sparse_array_middle_hole,
-    include_str!("inline-inputs/es2015_generator_sparse_array/sparse_array_middle_hole/input.js")
-);
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/generator/sparse-array/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::ResolverGeneratorNoopComments => Box::new(tr(Default::default())),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}

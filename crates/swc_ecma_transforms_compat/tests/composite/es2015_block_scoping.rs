@@ -9,7 +9,7 @@ use swc_ecma_transforms_compat::{
     es2015::{block_scoping, for_of::for_of},
     es2017::async_to_generator,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture, Tester};
 use swc_ecma_visit::{visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith};
 
 fn tr() -> impl Pass {
@@ -19,20 +19,6 @@ fn tr() -> impl Pass {
         block_scoping(unresolved_mark),
     )
 }
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    for_loop,
-    include_str!("inline-inputs/es2015_block_scoping/for_loop/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    for_let_loop,
-    include_str!("inline-inputs/es2015_block_scoping/for_let_loop/input.js")
-);
 
 test_exec!(
     ::swc_ecma_parser::Syntax::default(),
@@ -77,20 +63,6 @@ for (let i of [1, 3, 5, 7, 9]) {
 expect(functions[0]()).toBe(1);
 expect(functions[1]()).toBe(3);
 "
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    issue_662,
-    include_str!("inline-inputs/es2015_block_scoping/issue_662/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    issue_686,
-    include_str!("inline-inputs/es2015_block_scoping/issue_686/input.js")
 );
 
 test_exec!(
@@ -138,84 +110,6 @@ expect(foo()).toBe(false);
 "
 );
 
-test!(
-    Syntax::default(),
-    |Tester { comments, .. }| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default()),
-        )
-    },
-    issue_1022_1,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1022_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |Tester { comments, .. }| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default()),
-        )
-    },
-    issue_1022_2,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1022_2/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |Tester { comments, .. }| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default()),
-        )
-    },
-    issue_1022_3,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1022_3/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::es2015(mark, Some(comments.clone()), Default::default())
-    },
-    issue_1021_1,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1021_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::es2015(mark, Some(comments.clone()), Default::default())
-    },
-    issue_1036_1,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1036_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), mark),
-            es2015::es2015(mark, Some(comments.clone()), Default::default()),
-        )
-    },
-    issue_1036_2,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1036_2/input.js")
-);
-
 test_exec!(
     Syntax::default(),
     |Tester { comments, .. }| {
@@ -238,43 +132,6 @@ test_exec!(
         "
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    issue_1231_1,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1231_1/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    issue_1415_1,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1415_1/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |Tester { comments, .. }| {
-        let mark = Mark::new();
-        (
-            resolver(mark, Mark::new(), false),
-            es2015::es2015(mark, Some(comments.clone()), Default::default()),
-        )
-    },
-    arguments_loop,
-    include_str!("inline-inputs/es2015_block_scoping/arguments_loop/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::es2015(mark, Some(comments.clone()), Default::default())
-    },
-    arguments_loop_member,
-    include_str!("inline-inputs/es2015_block_scoping/arguments_loop_member/input.js")
-);
-
 compare_stdout!(
     ::swc_ecma_parser::Syntax::default(),
     |Tester { comments, .. }| {
@@ -294,55 +151,6 @@ compare_stdout!(
 
     test(1, 2, 3);
     "
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::es2015(mark, Some(comments.clone()), Default::default())
-    },
-    arguments_function,
-    include_str!("inline-inputs/es2015_block_scoping/arguments_function/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    issue_2027_1,
-    include_str!("inline-inputs/es2015_block_scoping/issue_2027_1/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |t| {
-        let mark = Mark::fresh(Mark::root());
-
-        es2015(mark, Some(t.comments.clone()), Default::default())
-    },
-    issue_2027_2,
-    include_str!("inline-inputs/es2015_block_scoping/issue_2027_2/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    issue_2998_2,
-    include_str!("inline-inputs/es2015_block_scoping/issue_2998_2/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    issue_4196,
-    include_str!("inline-inputs/es2015_block_scoping/issue_4196/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| block_scoping(Mark::new()),
-    labeled_break,
-    include_str!("inline-inputs/es2015_block_scoping/labeled_break/input.js")
 );
 
 test_exec!(
@@ -438,4 +246,67 @@ impl VisitMut for TsHygiene {
     fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
         q.left.visit_mut_with(self);
     }
+}
+
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "block-scoping")]
+    BlockScoping,
+    #[serde(rename = "resolver-es2015")]
+    ResolverEs2015,
+    #[serde(rename = "es2015-fresh-mark")]
+    Es2015FreshMark,
+    #[serde(rename = "async-to-generator-es2015-fresh-mark")]
+    AsyncToGeneratorEs2015FreshMark,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/block-scoping/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        swc_ecma_parser::Syntax::default(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::BlockScoping => Box::new(block_scoping(Mark::new())),
+                CasePipeline::ResolverEs2015 => Box::new({
+                    let Tester { comments, .. } = t;
+                    {
+                        let unresolved_mark = Mark::new();
+                        let top_level_mark = Mark::new();
+                        (
+                            resolver(unresolved_mark, top_level_mark, false),
+                            es2015::es2015(
+                                unresolved_mark,
+                                Some(comments.clone()),
+                                Default::default(),
+                            ),
+                        )
+                    }
+                }),
+                CasePipeline::Es2015FreshMark => Box::new({
+                    let Tester { comments, .. } = t;
+                    {
+                        let mark = Mark::fresh(Mark::root());
+                        es2015::es2015(mark, Some(comments.clone()), Default::default())
+                    }
+                }),
+                CasePipeline::AsyncToGeneratorEs2015FreshMark => Box::new({
+                    let Tester { comments, .. } = t;
+                    {
+                        let mark = Mark::fresh(Mark::root());
+                        (
+                            async_to_generator(Default::default(), mark),
+                            es2015::es2015(mark, Some(comments.clone()), Default::default()),
+                        )
+                    }
+                }),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
 }

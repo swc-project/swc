@@ -12,7 +12,7 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture};
 use swc_ecma_visit::{fold_pass, Fold, FoldWith};
 
 struct ParenRemover;
@@ -53,83 +53,6 @@ fn tr() -> impl Pass {
         fixer(None),
     )
 }
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_216,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_216/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    async_arrow_in_method,
-    include_str!("inline-inputs/es2017_async_to_generator/async_arrow_in_method/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    async_default_arguments,
-    include_str!("inline-inputs/es2017_async_to_generator/async_default_arguments/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    async_iife,
-    include_str!("inline-inputs/es2017_async_to_generator/async_iife/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    r#async,
-    include_str!("inline-inputs/es2017_async_to_generator/r#async/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    deeply_nested_asyncs,
-    include_str!("inline-inputs/es2017_async_to_generator/deeply_nested_asyncs/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    expression,
-    include_str!("inline-inputs/es2017_async_to_generator/expression/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    named_expression,
-    include_str!("inline-inputs/es2017_async_to_generator/named_expression/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    no_parameters_and_no_id,
-    include_str!("inline-inputs/es2017_async_to_generator/no_parameters_and_no_id/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_method_with_arrows,
-    include_str!("inline-inputs/es2017_async_to_generator/object_method_with_arrows/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_method_with_super,
-    include_str!("inline-inputs/es2017_async_to_generator/object_method_with_super/input.js")
-);
 
 test_exec!(
     syntax(),
@@ -258,34 +181,6 @@ let c = new Class();
 c.x = 1;
 return c.method();
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_method,
-    include_str!("inline-inputs/es2017_async_to_generator/object_method/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    babel_parameters,
-    include_str!("inline-inputs/es2017_async_to_generator/babel_parameters/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statement,
-    include_str!("inline-inputs/es2017_async_to_generator/statement/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_319,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_319/input.js")
 );
 
 test_exec!(
@@ -418,104 +313,24 @@ return (new A()).print();"
 //);
 
 // bluebird_coroutines_named_expression
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_named_expression,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/bluebird_coroutines_named_expression/input.js"
-    )
-);
 
 // export_async_lone_export
-test!(
-    // TODO: Enable this test after implementing es6 module pass.
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_async_lone_export,
-    include_str!("inline-inputs/es2017_async_to_generator/export_async_lone_export/input.js")
-);
 
 // bluebird_coroutines_arrow_function
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_arrow_function,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/bluebird_coroutines_arrow_function/input.js"
-    )
-);
 
 // regression_t6882
 
 // regression_t7194
-test!(
-    // Optimization
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            arrow(unresolved_mark),
-        )
-    },
-    regression_t7194,
-    include_str!("inline-inputs/es2017_async_to_generator/regression_t7194/input.js")
-);
 
 // async_to_generator_shadowed_promise
 
 // async_to_generator_object_method_with_arrows
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_object_method_with_arrows,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_object_method_with_arrows/\
-         input.js"
-    )
-);
 
 // async_to_generator_object_method
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_object_method,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_object_method/input.js"
-    )
-);
 
 // bluebird_coroutines_class
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_class,
-    include_str!("inline-inputs/es2017_async_to_generator/bluebird_coroutines_class/input.js")
-);
 
 // async_to_generator_async_iife_with_regenerator
-test!(
-    ignore,
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            //regenerator(),
-            arrow(unresolved_mark),
-        )
-    },
-    async_to_generator_async_iife_with_regenerator,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_async_iife_with_regenerator/\
-         input.js"
-    )
-);
 
 //// regression_gh_6923
 //test!(syntax(),|_| tr("{
@@ -586,14 +401,6 @@ test!(
 //"#);
 
 // async_to_generator_named_expression
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_named_expression,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_named_expression/input.js"
-    )
-);
 
 //// async_to_generator_async_iife_with_regenerator_spec
 //test!(
@@ -689,112 +496,26 @@ test!(
 //);
 
 // async_to_generator_async_arrow_in_method
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_async_arrow_in_method,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_async_arrow_in_method/input.js"
-    )
-);
 
 // bluebird_coroutines_statement
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_statement,
-    include_str!("inline-inputs/es2017_async_to_generator/bluebird_coroutines_statement/input.js")
-);
 
 // regression_4943
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(destructuring::Config { loose: false }),
-        )
-    },
-    regression_4943,
-    include_str!("inline-inputs/es2017_async_to_generator/regression_4943/input.js")
-);
 
 // export_async_default_arrow_export
-test!(
-    // TODO: Enable this test after implementing es6 module pass.
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_async_default_arrow_export,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/export_async_default_arrow_export/input.js"
-    )
-);
 
 // async_to_generator_function_arity
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_function_arity,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_function_arity/input.js"
-    )
-);
 
 // async_to_generator_object_method_with_super
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_object_method_with_super_caching,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/\
-         async_to_generator_object_method_with_super_caching/input.js"
-    )
-);
 
 // export_async_default_export
-test!(
-    // TODO: Enable this test after implementing es6 module pass.
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_async_default_export,
-    include_str!("inline-inputs/es2017_async_to_generator/export_async_default_export/input.js")
-);
 
 // async_to_generator_async
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_async,
-    include_str!("inline-inputs/es2017_async_to_generator/async_to_generator_async/input.js")
-);
 
 // regression_8783
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    regression_8783,
-    include_str!("inline-inputs/es2017_async_to_generator/regression_8783/input.js")
-);
 
 // async_to_generator_deeply_nested_asyncs
 
 // export_async_import_and_export
-test!(
-    // TODO: Enable this test after implementing es6 module pass.
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_async_import_and_export,
-    include_str!("inline-inputs/es2017_async_to_generator/export_async_import_and_export/input.js")
-);
 
 // async_to_generator_shadowed_promise_nested
 
@@ -803,12 +524,6 @@ test!(
 // export_async
 
 // regression_4599
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    regression_4599,
-    include_str!("inline-inputs/es2017_async_to_generator/regression_4599/input.js")
-);
 
 // regression_4943_exec
 test_exec!(
@@ -858,39 +573,14 @@ return main.then(() => {
 );
 
 // bluebird_coroutines_expression
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_expression,
-    include_str!("inline-inputs/es2017_async_to_generator/bluebird_coroutines_expression/input.js")
-);
 
 // async_to_generator_expression
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_expression,
-    include_str!("inline-inputs/es2017_async_to_generator/async_to_generator_expression/input.js")
-);
 
 // async_to_generator_statement
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_statement,
-    include_str!("inline-inputs/es2017_async_to_generator/async_to_generator_statement/input.js")
-);
 
 // async_to_generator_shadowed_promise_import
 
 // async_to_generator_parameters
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_parameters,
-    include_str!("inline-inputs/es2017_async_to_generator/async_to_generator_parameters/input.js")
-);
 
 // async_to_generator
 
@@ -908,19 +598,6 @@ async function foo() {}
 );
 
 // async_to_generator_parameters
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_600,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_600/input.js")
-);
-
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1036_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1036_1/input.js")
-);
 
 test_exec!(
     syntax(),
@@ -936,27 +613,6 @@ test_exec!(
       expect(x).toEqual([2, 4, 6])
     })
   "
-);
-
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1216_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1216_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1125_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1125_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1341_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1341_1/input.js")
 );
 
 test_exec!(
@@ -989,13 +645,6 @@ test_exec!(
     "
 );
 
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1341_2,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1341_2/input.js")
-);
-
 test_exec!(
     Syntax::default(),
     |_| {
@@ -1020,13 +669,6 @@ test_exec!(
   const a = new A();
   expect(a.foo()).resolves.toEqual('a1')
   "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1455_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1455_1/input.js")
 );
 
 test_exec!(
@@ -1063,47 +705,6 @@ test_exec!(
   }
   return obj.method().then((res) => expect(res).toBe(5))
 "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1722_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1722_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1721_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1721_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1721_2_async_generator,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1721_2_async_generator/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1684_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1684_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_1684_2,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_1684_2/input.js")
 );
 
 test_exec!(
@@ -1195,19 +796,6 @@ expect(tmp.fun()).resolves.toEqual({ foo: 'bar' });
 "
 );
 
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_2402_2,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_2402_2/input.js")
-);
-
 test_exec!(
     Syntax::default(),
     |_| async_to_generator(Default::default(), Mark::new()),
@@ -1240,45 +828,6 @@ expect(myclass.init(2)).resolves.toEqual(true);
 "
 );
 
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_2305_2,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_2305_2/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_2677_1,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_2677_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_2677_2,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_2677_2/input.js")
-);
-
 test_exec!(
     Syntax::default(),
     |_| async_to_generator(Default::default(), Mark::new()),
@@ -1300,125 +849,6 @@ A.prototype.doTest = async function() {
 const a = new A();
 expect(a.doTest()).resolves.toEqual(3);
 "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_1,
-    include_str!("inline-inputs/es2017_async_to_generator/function_length_issue_3135_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_2,
-    include_str!("inline-inputs/es2017_async_to_generator/function_length_issue_3135_2/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_3,
-    include_str!("inline-inputs/es2017_async_to_generator/function_length_issue_3135_3/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_4,
-    include_str!("inline-inputs/es2017_async_to_generator/function_length_issue_3135_4/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_5,
-    include_str!("inline-inputs/es2017_async_to_generator/function_length_issue_3135_5/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_6,
-    include_str!("inline-inputs/es2017_async_to_generator/function_length_issue_3135_6/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_7,
-    include_str!("inline-inputs/es2017_async_to_generator/function_length_issue_3135_7/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_wrap_this,
-    include_str!("inline-inputs/es2017_async_to_generator/async_wrap_this/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_default_async_nested_1,
-    include_str!("inline-inputs/es2017_async_to_generator/export_default_async_nested_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_default_async_nested_2,
-    include_str!("inline-inputs/es2017_async_to_generator/export_default_async_nested_2/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_with_optional_params,
-    include_str!("inline-inputs/es2017_async_to_generator/async_with_optional_params/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    super_field_update,
-    include_str!("inline-inputs/es2017_async_to_generator/super_field_update/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    microbundle_835,
-    include_str!("inline-inputs/es2017_async_to_generator/microbundle_835/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    super_update,
-    include_str!("inline-inputs/es2017_async_to_generator/super_update/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_with_optional_params_2,
-    include_str!("inline-inputs/es2017_async_to_generator/async_with_optional_params_2/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_4208,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_4208/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_8452,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_8452/input.js")
 );
 
 #[testing::fixture("tests/composite/async-to-generator/**/input.js")]
@@ -1479,5 +909,44 @@ fn exec_regenerator(input: PathBuf) {
             )
         },
         &input,
+    );
+}
+
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(
+        rename = "resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer"
+    )]
+    ResolverRemoveParensArrowParametersDestructuringFunctionNameAsyncFixer,
+    #[serde(rename = "async-to-generator")]
+    AsyncToGenerator,
+    #[serde(rename = "async-to-generator-arrow")]
+    AsyncToGeneratorArrow,
+    #[serde(rename = "resolver-async-to-generator-parameters-destructuring")]
+    ResolverAsyncToGeneratorParametersDestructuring,
+    #[serde(rename = "async-to-generator-generator-fresh-mark")]
+    AsyncToGeneratorGeneratorFreshMark,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/async-to-generator/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+            CasePipeline::ResolverRemoveParensArrowParametersDestructuringFunctionNameAsyncFixer => Box::new(tr ()),
+            CasePipeline::AsyncToGenerator => Box::new(async_to_generator (Default :: default () , Mark :: new ())),
+            CasePipeline::AsyncToGeneratorArrow => Box::new({ let unresolved_mark = Mark :: new () ; (async_to_generator (Default :: default () , unresolved_mark) , arrow (unresolved_mark) ,) }),
+            CasePipeline::ResolverAsyncToGeneratorParametersDestructuring => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , async_to_generator (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (destructuring :: Config { loose : false }) ,) }),
+            CasePipeline::AsyncToGeneratorGeneratorFreshMark => Box::new({ let unresolved_mark = Mark :: fresh (Mark :: root ()) ; (async_to_generator (Default :: default () , unresolved_mark) , generator (unresolved_mark , t . comments . clone ()) ,) }),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
     );
 }

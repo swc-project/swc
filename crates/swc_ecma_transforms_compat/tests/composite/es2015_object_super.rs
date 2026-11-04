@@ -3,7 +3,6 @@ use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{function_name, object_super, shorthand};
-use swc_ecma_transforms_testing::test;
 
 fn syntax() -> Syntax {
     ::swc_ecma_parser::Syntax::default()
@@ -21,51 +20,27 @@ fn tr() -> impl Pass {
     )
 }
 
-test!(
-    syntax(),
-    |_| tr(),
-    get_semantics_data_defined_on_parent,
-    include_str!("inline-inputs/es2015_object_super/get_semantics_data_defined_on_parent/input.js")
-);
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "resolver-object-super-shorthand-function-name")]
+    ResolverObjectSuperShorthandFunctionName,
+}
 
-test!(
-    syntax(),
-    |_| tr(),
-    set_semantics_data_defined_on_parent,
-    include_str!("inline-inputs/es2015_object_super/set_semantics_data_defined_on_parent/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    nested_object_super_property_in_key,
-    include_str!("inline-inputs/es2015_object_super/nested_object_super_property_in_key/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    super_increment_postfix,
-    include_str!("inline-inputs/es2015_object_super/super_increment_postfix/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    super_increment_postfix2,
-    include_str!("inline-inputs/es2015_object_super/super_increment_postfix2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    super_increment_prefix,
-    include_str!("inline-inputs/es2015_object_super/super_increment_prefix/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    nested_object,
-    include_str!("inline-inputs/es2015_object_super/nested_object/input.js")
-);
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/object-super/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::ResolverObjectSuperShorthandFunctionName => Box::new(tr()),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}

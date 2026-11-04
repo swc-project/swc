@@ -15,7 +15,7 @@ use swc_ecma_transforms_compat::{
     es2020::optional_chaining,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec, Tester};
 
 fn syntax() -> Syntax {
     Syntax::Es(Default::default())
@@ -50,13 +50,6 @@ fn tr(_: &Tester) -> impl Pass {
     )
 }
 
-test!(
-    syntax(),
-    |t| tr(t),
-    public_static_infer_name,
-    include_str!("inline-inputs/es2022_class_properties/public_static_infer_name/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -81,43 +74,6 @@ expect(test[1]).toBe(o);
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    public_instance_computed,
-    include_str!("inline-inputs/es2022_class_properties/public_instance_computed/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_super_statement,
-    include_str!("inline-inputs/es2022_class_properties/public_super_statement/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            function_name(),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    private_class_method,
-    include_str!("inline-inputs/es2022_class_properties/private_class_method/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_foobar,
-    include_str!("inline-inputs/es2022_class_properties/private_foobar/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -140,13 +96,6 @@ expect(test[0]).toBe(f);
 expect(test[1]).toBe(o);
 
 "#
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_derived_multiple_supers,
-    include_str!("inline-inputs/es2022_class_properties/public_derived_multiple_supers/input.js")
 );
 
 test_exec!(
@@ -233,27 +182,6 @@ expect(f.test()).toBe(4);
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    public_regression_t6719,
-    include_str!("inline-inputs/es2022_class_properties/public_regression_t6719/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_super_with_collision,
-    include_str!("inline-inputs/es2022_class_properties/public_super_with_collision/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_call,
-    include_str!("inline-inputs/es2022_class_properties/public_call/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -274,34 +202,6 @@ function test(x) {
 test('foo');
 
 "#
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_declaration_order,
-    include_str!("inline-inputs/es2022_class_properties/private_declaration_order/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    nested_class_super_call_in_key,
-    include_str!("inline-inputs/es2022_class_properties/nested_class_super_call_in_key/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_instance_undefined,
-    include_str!("inline-inputs/es2022_class_properties/public_instance_undefined/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_derived_multiple_supers,
-    include_str!("inline-inputs/es2022_class_properties/private_derived_multiple_supers/input.js")
 );
 
 test_exec!(
@@ -331,27 +231,6 @@ expect(f.test()).toBe("bar")
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    public_regression_t2983,
-    include_str!("inline-inputs/es2022_class_properties/public_regression_t2983/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_static,
-    include_str!("inline-inputs/es2022_class_properties/public_static/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_instance_undefined,
-    include_str!("inline-inputs/es2022_class_properties/private_instance_undefined/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -367,48 +246,6 @@ expect(() => {
 }).toThrow();
 
 "#
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_update,
-    include_str!("inline-inputs/es2022_class_properties/public_update/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_super_call,
-    include_str!("inline-inputs/es2022_class_properties/public_super_call/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_constructor_collision,
-    include_str!("inline-inputs/es2022_class_properties/private_constructor_collision/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_constructor_collision,
-    include_str!("inline-inputs/es2022_class_properties/public_constructor_collision/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_computed,
-    include_str!("inline-inputs/es2022_class_properties/public_computed/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_assignment,
-    include_str!("inline-inputs/es2022_class_properties/public_assignment/input.js")
 );
 
 test_exec!(
@@ -650,34 +487,6 @@ expect(new Outer().hello).toBe('hello');
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    private_super_statement,
-    include_str!("inline-inputs/es2022_class_properties/private_super_statement/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_private_in_derived,
-    include_str!("inline-inputs/es2022_class_properties/private_private_in_derived/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_update,
-    include_str!("inline-inputs/es2022_class_properties/private_update/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_super_expression,
-    include_str!("inline-inputs/es2022_class_properties/public_super_expression/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -792,45 +601,6 @@ expect(results[7]).toBe(4);
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    public_extracted_this,
-    include_str!("inline-inputs/es2022_class_properties/public_extracted_this/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_derived,
-    include_str!("inline-inputs/es2022_class_properties/private_derived/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_super_call,
-    include_str!("inline-inputs/es2022_class_properties/private_super_call/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_reference_in_other_property,
-    include_str!(
-        "inline-inputs/es2022_class_properties/private_reference_in_other_property/input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    nested_class_super_property_in_key,
-    include_str!(
-        "inline-inputs/es2022_class_properties/nested_class_super_property_in_key/input.js"
-    )
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -891,20 +661,6 @@ expect(() => {
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    public_numeric,
-    include_str!("inline-inputs/es2022_class_properties/public_numeric/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_assignment,
-    include_str!("inline-inputs/es2022_class_properties/private_assignment/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -931,27 +687,6 @@ expect("bar" in f).toBe(false);
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    public_static_export,
-    include_str!("inline-inputs/es2022_class_properties/public_static_export/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_multiple,
-    include_str!("inline-inputs/es2022_class_properties/private_multiple/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_derived,
-    include_str!("inline-inputs/es2022_class_properties/public_derived/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -967,13 +702,6 @@ expect(Foo.num).toBeUndefined();
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    public_instance,
-    include_str!("inline-inputs/es2022_class_properties/public_instance/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -986,20 +714,6 @@ expect(() => {
 }).toThrow();
 
 "#
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_non_block_arrow_func,
-    include_str!("inline-inputs/es2022_class_properties/public_non_block_arrow_func/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    public_static_undefined,
-    include_str!("inline-inputs/es2022_class_properties/public_static_undefined/input.js")
 );
 
 test_exec!(
@@ -1032,13 +746,6 @@ expect(() => {
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    private_call,
-    include_str!("inline-inputs/es2022_class_properties/private_call/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -1068,13 +775,6 @@ expect(b.foo()).toBe("foo");
 expect(b.bar()).toBe("bar");
 
 "#
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_extracted_this,
-    include_str!("inline-inputs/es2022_class_properties/private_extracted_this/input.js")
 );
 
 test_exec!(
@@ -1219,20 +919,6 @@ expect(results[7]).toBe(4);
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    private_static_call,
-    include_str!("inline-inputs/es2022_class_properties/private_static_call/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    private_super_expression,
-    include_str!("inline-inputs/es2022_class_properties/private_super_expression/input.js")
-);
-
 test_exec!(
     syntax(),
     |t| tr(t),
@@ -1280,156 +966,17 @@ expect(f.test()).toBe(1);
 "#
 );
 
-test!(
-    syntax(),
-    |t| tr(t),
-    custom_instance_update,
-    include_str!("inline-inputs/es2022_class_properties/custom_instance_update/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    custom_static_update,
-    include_str!("inline-inputs/es2022_class_properties/custom_static_update/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-        )
-    },
-    issue_342,
-    include_str!("inline-inputs/es2022_class_properties/issue_342/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(unresolved_mark),
-        )
-    },
-    issue_443,
-    include_str!("inline-inputs/es2022_class_properties/issue_443/input.js")
-);
-
 // public_regression_t7364
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new()),
-        )
-    },
-    public_regression_t7364,
-    include_str!("inline-inputs/es2022_class_properties/public_regression_t7364/input.js")
-);
 
 // private_regression_t6719
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_regression_t6719,
-    include_str!("inline-inputs/es2022_class_properties/private_regression_t6719/input.js")
-);
 
 // private_reevaluated
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_reevaluated,
-    include_str!("inline-inputs/es2022_class_properties/private_reevaluated/input.js")
-);
 
 // private_static
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_static,
-    include_str!("inline-inputs/es2022_class_properties/private_static/input.js")
-);
 
 // private_destructuring_object_pattern_1
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_destructuring_object_pattern_1,
-    include_str!(
-        "inline-inputs/es2022_class_properties/private_destructuring_object_pattern_1/input.js"
-    )
-);
 
 // private_static_inherited
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_static_inherited,
-    include_str!("inline-inputs/es2022_class_properties/private_static_inherited/input.js")
-);
 
 // private_destructuring_object_pattern_1_exec
 test_exec!(
@@ -1467,96 +1014,14 @@ expect(foo.z).toBe('bar');
 );
 
 // private_static_undefined
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_static_undefined,
-    include_str!("inline-inputs/es2022_class_properties/private_static_undefined/input.js")
-);
 
 // private_destructuring_array_pattern
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_destructuring_array_pattern,
-    include_str!(
-        "inline-inputs/es2022_class_properties/private_destructuring_array_pattern/input.js"
-    )
-);
 
 // private_regression_t2983
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_regression_t2983,
-    include_str!("inline-inputs/es2022_class_properties/private_regression_t2983/input.js")
-);
 
 // private_regression_t7364
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), unresolved_mark),
-            block_scoping(unresolved_mark),
-        )
-    },
-    private_regression_t7364,
-    include_str!("inline-inputs/es2022_class_properties/private_regression_t7364/input.js")
-);
 
 // private_destructuring_array_pattern_1
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_destructuring_array_pattern_1,
-    include_str!(
-        "inline-inputs/es2022_class_properties/private_destructuring_array_pattern_1/input.js"
-    )
-);
 
 // regression_8882_exec
 test_exec!(
@@ -1667,189 +1132,18 @@ expect(() => new Derived(foo)).toThrow()
 );
 
 // private_static_export
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_static_export,
-    include_str!("inline-inputs/es2022_class_properties/private_static_export/input.js")
-);
 
 // static_property_tdz_edgest_case
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-        )
-    },
-    static_property_tdz_edgest_case,
-    include_str!("inline-inputs/es2022_class_properties/static_property_tdz_edgest_case/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-        )
-    },
-    static_property_tdz_false_alarm,
-    include_str!("inline-inputs/es2022_class_properties/static_property_tdz_false_alarm/input.js")
-);
 
 // regression_6153
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            arrow(Mark::new()),
-        )
-    },
-    regression_6153,
-    include_str!("inline-inputs/es2022_class_properties/regression_6153/input.js")
-);
 
 // regression_7371
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            arrow(unresolved_mark),
-        )
-    },
-    regression_7371,
-    include_str!("inline-inputs/es2022_class_properties/regression_7371/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    private_optional_chain_call,
-    include_str!("inline-inputs/es2022_class_properties/private_optional_chain_call/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    private_optional_chain_member,
-    include_str!("inline-inputs/es2022_class_properties/private_optional_chain_member/input.js")
-);
 
 // private_canonical
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_canonical,
-    include_str!("inline-inputs/es2022_class_properties/private_canonical/input.js")
-);
 
 // regression_8882
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    regression_8882,
-    include_str!("inline-inputs/es2022_class_properties/regression_8882/input.js")
-);
 
 // private_destructuring_array_pattern_3
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_destructuring_array_pattern_3,
-    include_str!(
-        "inline-inputs/es2022_class_properties/private_destructuring_array_pattern_3/input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    staic_private_destructuring_array_pattern,
-    include_str!(
-        "inline-inputs/es2022_class_properties/staic_private_destructuring_array_pattern/input.js"
-    )
-);
 
 // public_static_super_exec
 test_exec!(
@@ -1885,57 +1179,10 @@ expect(getPropA()).toBe(1);
 );
 
 // private_destructuring_array_pattern_2
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_destructuring_array_pattern_2,
-    include_str!(
-        "inline-inputs/es2022_class_properties/private_destructuring_array_pattern_2/input.js"
-    )
-);
 
 // private_non_block_arrow_func
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_non_block_arrow_func,
-    include_str!("inline-inputs/es2022_class_properties/private_non_block_arrow_func/input.js")
-);
 
 // regression_8110
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    regression_8110,
-    include_str!("inline-inputs/es2022_class_properties/regression_8110/input.js")
-);
 
 // public_computed_without_block_exec
 test_exec!(
@@ -1960,124 +1207,20 @@ expect(instance.foo).toBe(2);
 );
 
 // private_instance
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            exponentiation(),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_instance,
-    include_str!("inline-inputs/es2022_class_properties/private_instance/input.js")
-);
 
 // static_property_tdz_general
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-        )
-    },
-    static_property_tdz_general,
-    include_str!("inline-inputs/es2022_class_properties/static_property_tdz_general/input.js")
-);
 
 // public_native_classes
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    public_native_classes,
-    include_str!("inline-inputs/es2022_class_properties/public_native_classes/input.js")
-);
 
 // public_arrow_static_this_without_transform
-test!(
-    // Emitting class properties is not supported yet.
-    syntax(),
-    |_| arrow(Mark::new()),
-    public_arrow_static_this_without_transform,
-    include_str!(
-        "inline-inputs/es2022_class_properties/public_arrow_static_this_without_transform/input.js"
-    )
-);
 
 // private_static_infer_name
-test!(
-    // Seems useless, while being hard to implement.
-    ignore,
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_static_infer_name,
-    include_str!("inline-inputs/es2022_class_properties/private_static_infer_name/input.js")
-);
 
 // regression_7951
 
 // private_native_classes
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            block_scoping(Mark::new()),
-        )
-    },
-    private_native_classes,
-    include_str!("inline-inputs/es2022_class_properties/private_native_classes/input.js")
-);
 
 // public_computed_without_block
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    public_computed_without_block,
-    include_str!("inline-inputs/es2022_class_properties/public_computed_without_block/input.js")
-);
 
 // private_destructuring_array_pattern_2_exec
 test_exec!(
@@ -2113,22 +1256,6 @@ expect(foo.getClient()).toEqual(['bar', 'baz', 'quu']);
 );
 
 // public_static_super
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            classes(Default::default()),
-            block_scoping(Mark::new()),
-        )
-    },
-    public_static_super,
-    include_str!("inline-inputs/es2022_class_properties/public_static_super/input.js")
-);
 
 // private_destructuring_array_pattern_exec
 test_exec!(
@@ -2195,234 +1322,6 @@ expect(foo.x).toBe(1);
 expect(foo.y).toBe('bar');
 
 "#
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1306_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_1306_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1306_2,
-    include_str!("inline-inputs/es2022_class_properties/issue_1306_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1333_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_1333_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1333_2,
-    include_str!("inline-inputs/es2022_class_properties/issue_1333_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1333_3,
-    include_str!("inline-inputs/es2022_class_properties/issue_1333_3/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1333_4,
-    include_str!("inline-inputs/es2022_class_properties/issue_1333_4/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1333_5,
-    include_str!("inline-inputs/es2022_class_properties/issue_1333_5/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1333_6,
-    include_str!("inline-inputs/es2022_class_properties/issue_1333_6/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1660_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_1660_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_3055_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_3055_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_3618,
-    include_str!("inline-inputs/es2022_class_properties/issue_3618/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new()),
-        )
-    },
-    issue_1694_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_1694_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new()),
-        )
-    },
-    issue_1694_2,
-    include_str!("inline-inputs/es2022_class_properties/issue_1694_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            async_to_generator(Default::default(), Mark::new()),
-        )
-    },
-    issue_1702_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_1702_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1711_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_1711_1/input.js")
 );
 
 test_exec!(
@@ -2540,179 +1439,6 @@ expect(() => new Foo()).not.toThrow();
 "
 );
 
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1742_3,
-    include_str!("inline-inputs/es2022_class_properties/issue_1742_3/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1869_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_1869_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_1869_2,
-    include_str!("inline-inputs/es2022_class_properties/issue_1869_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_2021_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_2021_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_3229_1,
-    include_str!("inline-inputs/es2022_class_properties/issue_3229_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_3229_2,
-    include_str!("inline-inputs/es2022_class_properties/issue_3229_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_3368,
-    include_str!("inline-inputs/es2022_class_properties/issue_3368/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    nested_class_in_arrow,
-    include_str!("inline-inputs/es2022_class_properties/nested_class_in_arrow/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_2481,
-    include_str!("inline-inputs/es2022_class_properties/issue_2481/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_4473,
-    include_str!("inline-inputs/es2022_class_properties/issue_4473/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    no_document_all: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    private_optional_chain_member_loose,
-    include_str!(
-        "inline-inputs/es2022_class_properties/private_optional_chain_member_loose/input.js"
-    )
-);
-
 test_exec!(
     syntax(),
     |_| {
@@ -2773,121 +1499,6 @@ expect(inst[9]).toBe(15);
 "#
 );
 
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    set_public_fields: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    set_public_fields_computed,
-    include_str!("inline-inputs/es2022_class_properties/set_public_fields_computed/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    set_public_fields: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    set_public_constructor_collision,
-    include_str!("inline-inputs/es2022_class_properties/set_public_constructor_collision/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    set_public_fields: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    set_public_static_undefined,
-    include_str!("inline-inputs/es2022_class_properties/set_public_static_undefined/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    private_as_properties: true,
-                    set_public_fields: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    loose_update,
-    include_str!("inline-inputs/es2022_class_properties/loose_update/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    set_only_getter,
-    include_str!("inline-inputs/es2022_class_properties/set_only_getter/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    get_only_setter,
-    include_str!("inline-inputs/es2022_class_properties/get_only_setter/input.js")
-);
-
 #[testing::fixture("tests/composite/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();
@@ -2906,70 +1517,90 @@ fn exec(input: PathBuf) {
     );
 }
 
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_6305,
-    include_str!("inline-inputs/es2022_class_properties/issue_6305/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark),
-            optional_chaining(Default::default(), unresolved_mark),
-        )
-    },
-    issue_8003,
-    include_str!("inline-inputs/es2022_class_properties/issue_8003/input.js")
-);
-
 // Test for issue 11422: nested arrow functions should preserve `this` context
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
 
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark),
-            arrow(unresolved_mark),
-            classes(Default::default()),
-            block_scoping(unresolved_mark),
-        )
-    },
-    issue_11422,
-    include_str!("inline-inputs/es2022_class_properties/issue_11422/input.js")
-);
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "function-name-class-properties-classes-block-scoping-optional-es3")]
+    FunctionNameClassPropertiesClassesBlockScopingOptionalEs3,
+    #[serde(rename = "resolver-function-name-class-properties")]
+    ResolverFunctionNameClassProperties,
+    #[serde(rename = "resolver-class-properties-classes")]
+    ResolverClassPropertiesClasses,
+    #[serde(rename = "resolver-class-properties-block-scoping")]
+    ResolverClassPropertiesBlockScoping,
+    #[serde(rename = "resolver-class-properties-async-to-generator-typescript-resolver")]
+    ResolverClassPropertiesAsyncToGeneratorTypescriptResolver,
+    #[serde(rename = "resolver-class-properties-block-scoping-typescript-resolver")]
+    ResolverClassPropertiesBlockScopingTypescriptResolver,
+    #[serde(rename = "resolver-class-properties-classes-block-scoping-typescript-resolver")]
+    ResolverClassPropertiesClassesBlockScopingTypescriptResolver,
+    #[serde(
+        rename = "resolver-class-properties-async-to-generator-block-scoping-typescript-resolver"
+    )]
+    ResolverClassPropertiesAsyncToGeneratorBlockScopingTypescriptResolver,
+    #[serde(rename = "resolver-class-properties-classes-typescript-resolver")]
+    ResolverClassPropertiesClassesTypescriptResolver,
+    #[serde(rename = "resolver-class-properties-arrow-typescript-resolver-new-arrow-mark")]
+    ResolverClassPropertiesArrowTypescriptResolverNewArrowMark,
+    #[serde(rename = "resolver-class-properties-arrow-typescript-resolver-shared-arrow-mark")]
+    ResolverClassPropertiesArrowTypescriptResolverSharedArrowMark,
+    #[serde(rename = "resolver-class-properties-typescript-resolver")]
+    ResolverClassPropertiesTypescriptResolver,
+    #[serde(
+        rename = "resolver-class-properties-exponentiation-classes-block-scoping-typescript-resolver"
+    )]
+    ResolverClassPropertiesExponentiationClassesBlockScopingTypescriptResolver,
+    #[serde(rename = "arrow-new-arrow-mark")]
+    ArrowNewArrowMark,
+    #[serde(rename = "resolver-class-properties-async-to-generator")]
+    ResolverClassPropertiesAsyncToGenerator,
+    #[serde(rename = "resolver-class-properties-no-document-all")]
+    ResolverClassPropertiesNoDocumentAll,
+    #[serde(rename = "resolver-class-properties-set-public-fields")]
+    ResolverClassPropertiesSetPublicFields,
+    #[serde(rename = "resolver-class-properties-set-public-fields-private-as-properties")]
+    ResolverClassPropertiesSetPublicFieldsPrivateAsProperties,
+    #[serde(rename = "resolver-class-properties-optional-chaining")]
+    ResolverClassPropertiesOptionalChaining,
+    #[serde(rename = "resolver-class-properties-arrow-classes-block-scoping-shared-arrow-mark")]
+    ResolverClassPropertiesArrowClassesBlockScopingSharedArrowMark,
+}
 
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark),
-            arrow(unresolved_mark),
-            classes(Default::default()),
-            block_scoping(unresolved_mark),
-        )
-    },
-    issue_11422_a,
-    include_str!("inline-inputs/es2022_class_properties/issue_11422_a/input.js")
-);
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/class-properties/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+            CasePipeline::FunctionNameClassPropertiesClassesBlockScopingOptionalEs3 => Box::new(tr (t)),
+            CasePipeline::ResolverFunctionNameClassProperties => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , function_name () , class_properties (Default :: default () , unresolved_mark) ,) }),
+            CasePipeline::ResolverClassPropertiesClasses => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , classes (Default :: default ()) ,) }),
+            CasePipeline::ResolverClassPropertiesBlockScoping => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , block_scoping (unresolved_mark) ,) }),
+            CasePipeline::ResolverClassPropertiesAsyncToGeneratorTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , async_to_generator (Default :: default () , Mark :: new ()) ,) }),
+            CasePipeline::ResolverClassPropertiesBlockScopingTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , block_scoping (Mark :: new ()) ,) }),
+            CasePipeline::ResolverClassPropertiesClassesBlockScopingTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , classes (Default :: default ()) , block_scoping (Mark :: new ()) ,) }),
+            CasePipeline::ResolverClassPropertiesAsyncToGeneratorBlockScopingTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , async_to_generator (Default :: default () , unresolved_mark) , block_scoping (unresolved_mark) ,) }),
+            CasePipeline::ResolverClassPropertiesClassesTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , classes (Default :: default ()) ,) }),
+            CasePipeline::ResolverClassPropertiesArrowTypescriptResolverNewArrowMark => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , arrow (Mark :: new ()) ,) }),
+            CasePipeline::ResolverClassPropertiesArrowTypescriptResolverSharedArrowMark => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , arrow (unresolved_mark) ,) }),
+            CasePipeline::ResolverClassPropertiesTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) ,) }),
+            CasePipeline::ResolverClassPropertiesExponentiationClassesBlockScopingTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , exponentiation () , classes (Default :: default ()) , block_scoping (Mark :: new ()) ,) }),
+            CasePipeline::ArrowNewArrowMark => Box::new(arrow (Mark :: new ())),
+            CasePipeline::ResolverClassPropertiesAsyncToGenerator => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , async_to_generator (Default :: default () , Mark :: new ()) ,) }),
+            CasePipeline::ResolverClassPropertiesNoDocumentAll => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (class_properties :: Config { no_document_all : true , .. Default :: default () } , unresolved_mark ,) ,) }),
+            CasePipeline::ResolverClassPropertiesSetPublicFields => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (class_properties :: Config { set_public_fields : true , .. Default :: default () } , unresolved_mark ,) ,) }),
+            CasePipeline::ResolverClassPropertiesSetPublicFieldsPrivateAsProperties => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (class_properties :: Config { private_as_properties : true , set_public_fields : true , .. Default :: default () } , unresolved_mark ,) ,) }),
+            CasePipeline::ResolverClassPropertiesOptionalChaining => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , optional_chaining (Default :: default () , unresolved_mark) ,) }),
+            CasePipeline::ResolverClassPropertiesArrowClassesBlockScopingSharedArrowMark => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , arrow (unresolved_mark) , classes (Default :: default ()) , block_scoping (unresolved_mark) ,) }),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}

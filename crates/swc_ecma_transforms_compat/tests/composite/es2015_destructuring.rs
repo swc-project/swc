@@ -13,7 +13,7 @@ use swc_ecma_transforms_compat::{
     },
     es2018::object_rest_spread,
 };
-use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{test_exec, test_fixture};
 
 fn syntax() -> Syntax {
     Default::default()
@@ -25,53 +25,6 @@ fn tr() -> impl Pass {
         destructuring(Config { loose: true }),
     )
 }
-
-test!(
-    syntax(),
-    |_| destructuring(Config { loose: false }),
-    need_to_array,
-    include_str!("inline-inputs/es2015_destructuring/need_to_array/input.js")
-);
-
-test!(
-    syntax(),
-    |_| destructuring(Config { loose: true }),
-    need_to_array_loose,
-    include_str!("inline-inputs/es2015_destructuring/need_to_array_loose/input.js")
-);
-
-test!(
-    syntax(),
-    |_| destructuring(Config { loose: false }),
-    issue_2841,
-    include_str!("inline-inputs/es2015_destructuring/issue_2841/input.js")
-);
-
-test!(
-    syntax(),
-    |_| destructuring(Config { loose: true }),
-    issue_2841_loose,
-    include_str!("inline-inputs/es2015_destructuring/issue_2841_loose/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    issue_1948,
-    include_str!("inline-inputs/es2015_destructuring/issue_1948/input.js")
-);
 
 test_exec!(
     syntax(),
@@ -173,25 +126,6 @@ var [...xs] = f();
 expect(xs).toEqual([0, 1, 2]);"#
 );
 
-test!(
-    syntax(),
-    |t| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            es2015(
-                unresolved_mark,
-                Some(t.comments.clone()),
-                Default::default(),
-            ),
-        )
-    },
-    issue_404_2,
-    include_str!("inline-inputs/es2015_destructuring/issue_404_2/input.js")
-);
-
 // destructuring_function_key_with_object_rest_spread
 test_exec!(
     syntax(),
@@ -210,70 +144,12 @@ expect(rest).toEqual({});
 );
 
 // regression_8528
-test!(
-    syntax(),
-    |_| destructuring(Default::default()),
-    regression_8528,
-    include_str!("inline-inputs/es2015_destructuring/regression_8528/input.js")
-);
 
 // destructuring_for_of
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        (
-            spread(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_for_of,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_for_of/input.js")
-);
 
 // destructuring_object_basic
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_object_basic,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_object_basic/input.js")
-);
 
 // destructuring_assignment_arrow_function_block
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_assignment_arrow_function_block,
-    include_str!(
-        "inline-inputs/es2015_destructuring/destructuring_assignment_arrow_function_block/input.js"
-    )
-);
 
 // destructuring_non_iterable
 test_exec!(
@@ -536,89 +412,12 @@ expect(f2({a: 1})).toEqual([1, 1, 1]);
 //);
 
 // destructuring_parameters
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_parameters,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_parameters/input.js")
-);
 
 // destructuring_array_unpack_optimisation
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_array_unpack_optimisation,
-    include_str!(
-        "inline-inputs/es2015_destructuring/destructuring_array_unpack_optimisation/input.js"
-    )
-);
 
 // destructuring_known_array
-test!(
-    // We will use constant propagation instead of optimizing in each pass
-    ignore,
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_known_array,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_known_array/input.js")
-);
 
 // destructuring_es7_object_rest
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            object_rest_spread(Default::default()),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_es7_object_rest,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_es7_object_rest/input.js")
-);
 
 // destructuring_const
 test_exec!(
@@ -636,181 +435,22 @@ expect(oldCourses).toEqual([]);
 );
 
 // destructuring_assignment_expression_pattern
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            object_rest_spread(Default::default()),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-        )
-    },
-    destructuring_assignment_expression_pattern,
-    include_str!(
-        "inline-inputs/es2015_destructuring/destructuring_assignment_expression_pattern/input.js"
-    )
-);
 
 // destructuring_object_advanced
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            object_rest_spread(Default::default()),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-        )
-    },
-    destructuring_object_advanced,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_object_advanced/input.js")
-);
 
 // destructuring_spread
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            object_rest_spread(Default::default()),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-        )
-    },
-    destructuring_spread,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_spread/input.js")
-);
 
 // destructuring_mixed
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            object_rest_spread(Default::default()),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-        )
-    },
-    destructuring_mixed,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_mixed/input.js")
-);
 
 // destructuring_assignment_statement
-test!(
-    syntax(),
-    |_| (
-        destructuring(Default::default()),
-        spread(Default::default(), Mark::new()),
-        block_scoping(Mark::new()),
-        object_rest_spread(Default::default())
-    ),
-    destructuring_assignment_statement_no_loose,
-    include_str!(
-        "inline-inputs/es2015_destructuring/destructuring_assignment_statement_no_loose/input.js"
-    )
-);
 
 // destructuring_assignment_statement_loose
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        (
-            destructuring(Config { loose: true }),
-            spread(Default::default(), unresolved_mark),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_assignment_statement,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_assignment_statement/input.js")
-);
 
 // destructuring_array
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_array,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_array/input.js")
-);
 
 // destructuring_assignment_arrow_function_no_block
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_assignment_arrow_function_no_block,
-    include_str!(
-        "inline-inputs/es2015_destructuring/destructuring_assignment_arrow_function_no_block/\
-         input.js"
-    )
-);
 
 // destructuring_issue_9834
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            object_rest_spread(Default::default()),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_issue_9834,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_issue_9834/input.js")
-);
 
 // destructuring_number_key_with_object_rest_spread
 test_exec!(
@@ -836,56 +476,10 @@ expect(rest).toEqual({ 2: "b", 3: "c" });
 );
 
 // destructuring_for_in
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        (
-            spread(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_for_in,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_for_in/input.js")
-);
 
 // destructuring_for_in_loose
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        (
-            spread(Default::default(), unresolved_mark),
-            destructuring(Config { loose: true }),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_for_in_loose,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_for_in_loose/input.js")
-);
 
 // destructuring_issue_5744
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-            block_scoping(unresolved_mark),
-            object_rest_spread(Default::default()),
-        )
-    },
-    destructuring_issue_5744,
-    include_str!("inline-inputs/es2015_destructuring/destructuring_issue_5744/input.js")
-);
 
 // destructuring_spread_generator
 test_exec!(
@@ -956,4 +550,58 @@ fn fixture(input: PathBuf) {
         &output,
         Default::default(),
     )
+}
+
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "destructuring")]
+    Destructuring,
+    #[serde(rename = "destructuring-loose")]
+    DestructuringLoose,
+    #[serde(rename = "resolver-spread-parameters-destructuring-block-scoping-object-rest-spread")]
+    ResolverSpreadParametersDestructuringBlockScopingObjectRestSpread,
+    #[serde(rename = "resolver-es2015")]
+    ResolverEs2015,
+    #[serde(rename = "spread-destructuring-block-scoping-object-rest-spread")]
+    SpreadDestructuringBlockScopingObjectRestSpread,
+    #[serde(
+        rename = "resolver-object-rest-spread-spread-parameters-destructuring-block-scoping-object-rest-spread"
+    )]
+    ResolverObjectRestSpreadSpreadParametersDestructuringBlockScopingObjectRestSpread,
+    #[serde(rename = "resolver-object-rest-spread-spread-parameters-destructuring-block-scoping")]
+    ResolverObjectRestSpreadSpreadParametersDestructuringBlockScoping,
+    #[serde(rename = "destructuring-spread-block-scoping-object-rest-spread")]
+    DestructuringSpreadBlockScopingObjectRestSpread,
+    #[serde(rename = "destructuring-spread-block-scoping-object-rest-spread-loose")]
+    DestructuringSpreadBlockScopingObjectRestSpreadLoose,
+    #[serde(rename = "spread-destructuring-block-scoping-object-rest-spread-loose")]
+    SpreadDestructuringBlockScopingObjectRestSpreadLoose,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/destructuring/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+            CasePipeline::Destructuring => Box::new(destructuring (Config { loose : false })),
+            CasePipeline::DestructuringLoose => Box::new(destructuring (Config { loose : true })),
+            CasePipeline::ResolverSpreadParametersDestructuringBlockScopingObjectRestSpread => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , spread (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (Default :: default ()) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
+            CasePipeline::ResolverEs2015 => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , es2015 (unresolved_mark , Some (t . comments . clone ()) , Default :: default () ,) ,) }),
+            CasePipeline::SpreadDestructuringBlockScopingObjectRestSpread => Box::new({ let unresolved_mark = Mark :: new () ; (spread (Default :: default () , unresolved_mark) , destructuring (Default :: default ()) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
+            CasePipeline::ResolverObjectRestSpreadSpreadParametersDestructuringBlockScopingObjectRestSpread => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , object_rest_spread (Default :: default ()) , spread (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (Default :: default ()) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
+            CasePipeline::ResolverObjectRestSpreadSpreadParametersDestructuringBlockScoping => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , object_rest_spread (Default :: default ()) , spread (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (Default :: default ()) , block_scoping (unresolved_mark) ,) }),
+            CasePipeline::DestructuringSpreadBlockScopingObjectRestSpread => Box::new((destructuring (Default :: default ()) , spread (Default :: default () , Mark :: new ()) , block_scoping (Mark :: new ()) , object_rest_spread (Default :: default ()))),
+            CasePipeline::DestructuringSpreadBlockScopingObjectRestSpreadLoose => Box::new({ let unresolved_mark = Mark :: new () ; (destructuring (Config { loose : true }) , spread (Default :: default () , unresolved_mark) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
+            CasePipeline::SpreadDestructuringBlockScopingObjectRestSpreadLoose => Box::new({ let unresolved_mark = Mark :: new () ; (spread (Default :: default () , unresolved_mark) , destructuring (Config { loose : true }) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
 }

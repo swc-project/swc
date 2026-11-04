@@ -10,7 +10,7 @@ use swc_ecma_transforms_compat::{
     },
     es2017::async_to_generator,
 };
-use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{test_exec, test_fixture};
 
 fn syntax() -> Syntax {
     Default::default()
@@ -77,13 +77,6 @@ function foo(a = bar, ...b) {
 foo(1, 2, 3);"#
 );
 
-test!(
-    syntax(),
-    |_| (classes(Default::default()), tr(Default::default())),
-    default_iife_4253,
-    include_str!("inline-inputs/es2015_parameters/default_iife_4253/input.js")
-);
-
 test_exec!(
     ignore,
     syntax(),
@@ -99,13 +92,6 @@ test_exec!(
 
 expect(new Ref().id).toBe(1);
 expect(new Ref().id).toBe(2);"#
-);
-
-test!(
-    syntax(),
-    |_| (classes(Default::default()), tr(Default::default())),
-    default_iife_self,
-    include_str!("inline-inputs/es2015_parameters/default_iife_self/input.js")
 );
 
 test_exec!(
@@ -175,24 +161,6 @@ function f2(a, ...rest) {
 expect(f2(1, 2)).toBeUndefined();"#
 );
 
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            arrow(unresolved_mark),
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(destructuring::Config { loose: false }),
-            block_scoping(unresolved_mark),
-        )
-    },
-    rest_binding_deoptimisation,
-    include_str!("inline-inputs/es2015_parameters/rest_binding_deoptimisation/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -205,17 +173,6 @@ expect(length()).toBe(0);
 expect(length(1)).toBe(0);
 expect(length(1, 2)).toBe(0);
 expect(length(1, 2, 3)).toBe(1);"#
-);
-
-test!(
-    syntax(),
-    |_| (
-        tr(Default::default()),
-        classes(Default::default()),
-        spread(Default::default(), Mark::new())
-    ),
-    rest_nested_iife,
-    include_str!("inline-inputs/es2015_parameters/rest_nested_iife/input.js")
 );
 
 test_exec!(
@@ -231,46 +188,8 @@ expect(foo(1, 2, 3)).toEqual(3);"#
 );
 
 // parameters_rest_async_arrow_functions
-test!(
-    // See https://github.com/swc-project/swc/issues/490
-    ignore,
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default(), unresolved_mark),
-            arrow(unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    parameters_rest_async_arrow_functions_1,
-    include_str!(
-        "inline-inputs/es2015_parameters/parameters_rest_async_arrow_functions_1/input.js"
-    )
-);
 
 // parameters_rest_async_arrow_functions
-test!(
-    // See https://github.com/swc-project/swc/issues/490
-    ignore,
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default(), unresolved_mark),
-            arrow(unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    parameters_rest_async_arrow_functions_2,
-    include_str!(
-        "inline-inputs/es2015_parameters/parameters_rest_async_arrow_functions_2/input.js"
-    )
-);
 
 // regression_6057_simple
 
@@ -456,6 +375,67 @@ fn fixture(input: PathBuf) {
         },
         &input,
         &output,
+        Default::default(),
+    );
+}
+
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "classes-resolver-parameters-destructuring-block-scoping")]
+    ClassesResolverParametersDestructuringBlockScoping,
+    #[serde(rename = "arrow-resolver-parameters-destructuring-block-scoping")]
+    ArrowResolverParametersDestructuringBlockScoping,
+    #[serde(rename = "resolver-parameters-destructuring-block-scoping-classes-spread")]
+    ResolverParametersDestructuringBlockScopingClassesSpread,
+    #[serde(rename = "resolver-async-to-generator-arrow-parameters")]
+    ResolverAsyncToGeneratorArrowParameters,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/parameters/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::ClassesResolverParametersDestructuringBlockScoping => {
+                    Box::new((classes(Default::default()), tr(Default::default())))
+                }
+                CasePipeline::ArrowResolverParametersDestructuringBlockScoping => Box::new({
+                    let unresolved_mark = Mark::new();
+                    let top_level_mark = Mark::new();
+                    (
+                        arrow(unresolved_mark),
+                        resolver(unresolved_mark, top_level_mark, false),
+                        parameters(Default::default(), unresolved_mark),
+                        destructuring(destructuring::Config { loose: false }),
+                        block_scoping(unresolved_mark),
+                    )
+                }),
+                CasePipeline::ResolverParametersDestructuringBlockScopingClassesSpread => {
+                    Box::new((
+                        tr(Default::default()),
+                        classes(Default::default()),
+                        spread(Default::default(), Mark::new()),
+                    ))
+                }
+                CasePipeline::ResolverAsyncToGeneratorArrowParameters => Box::new({
+                    let unresolved_mark = Mark::new();
+                    let top_level_mark = Mark::new();
+                    (
+                        resolver(unresolved_mark, top_level_mark, false),
+                        async_to_generator(Default::default(), unresolved_mark),
+                        arrow(unresolved_mark),
+                        parameters(Default::default(), unresolved_mark),
+                    )
+                }),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
         Default::default(),
     );
 }

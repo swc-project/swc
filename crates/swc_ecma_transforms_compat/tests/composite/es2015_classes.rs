@@ -10,7 +10,7 @@ use swc_ecma_transforms_compat::{
     es2016, es2017, es2018, es2022,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture, Tester};
 
 fn syntax() -> Syntax {
     Syntax::default()
@@ -29,34 +29,6 @@ fn spec_tr(_: &Tester) -> impl Pass {
         block_scoping(unresolved_mark),
     )
 }
-
-test!(
-    syntax(),
-    |t| tr(t),
-    bigint_literial_methods,
-    include_str!("inline-inputs/es2015_classes/bigint_literial_methods/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    issue_189,
-    include_str!("inline-inputs/es2015_classes/issue_189/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    custom_singleton,
-    include_str!("inline-inputs/es2015_classes/custom_singleton/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    custom_native,
-    include_str!("inline-inputs/es2015_classes/custom_native/input.js")
-);
 
 test_exec!(
     syntax(),
@@ -149,69 +121,24 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_statement
 
 // get_set_set_semantics_getter_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_set_semantics_getter_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_set_semantics_getter_defined_on_parent/input.js"
-    )
-);
 
 // spec_derived_constructor_must_call_super
 
 // get_set_get_semantics_data_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_get_semantics_data_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_get_semantics_data_defined_on_parent/input.js"
-    )
-);
 
 // extend_builtins_spec
 
 // spec_super_reference_before_in_lambda_2
 
 // regression_8499
-test!(
-    syntax(),
-    |t| tr(t),
-    regression_8499,
-    include_str!("inline-inputs/es2015_classes/regression_8499/input.js")
-);
 
 // regression_5817
-test!(
-    syntax(),
-    |t| (tr(t), arrow(Mark::new())),
-    regression_5817,
-    include_str!("inline-inputs/es2015_classes/regression_5817/input.js")
-);
 
 // spec_super_reference_before_in_lambda_3
 
 // get_set_set_semantics_not_defined_on_parent_setter_on_obj
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_set_semantics_not_defined_on_parent_setter_on_obj,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_set_semantics_not_defined_on_parent_setter_on_obj/\
-         input.js"
-    )
-);
 
 // get_set_get_semantics_setter_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_get_semantics_setter_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_get_semantics_setter_defined_on_parent/input.js"
-    )
-);
 
 // spec_this_not_allowed_before_super_in_derived_classes_4
 
@@ -224,22 +151,8 @@ test!(
 // spec_instance_getter_and_setter
 
 // regression_2941
-test!(
-    // Module
-    ignore,
-    syntax(),
-    |t| tr(t),
-    regression_2941,
-    include_str!("inline-inputs/es2015_classes/regression_2941/input.js")
-);
 
 // regression_t2494
-test!(
-    syntax(),
-    |t| tr(t),
-    regression_t2494,
-    include_str!("inline-inputs/es2015_classes/regression_t2494/input.js")
-);
 
 // spec_inferred_expression_name
 
@@ -277,28 +190,12 @@ expect(constructor).toBe(CustomElement);
 // spec_default_super
 
 // get_set_get_semantics_getter_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_get_semantics_getter_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_get_semantics_getter_defined_on_parent/input.js"
-    )
-);
 
 // spec
 
 // spec_this_not_allowed_before_super_in_derived_classes
 
 // get_set_call_semantics_getter_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_call_semantics_getter_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_call_semantics_getter_defined_on_parent/input.js"
-    )
-);
 
 // spec_derived_constructor_must_call_super_4_exec
 test_exec!(
@@ -324,26 +221,12 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // spec_export_default
 
 // get_set_call_semantics_data_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_call_semantics_data_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_call_semantics_data_defined_on_parent/input.js"
-    )
-);
 
 // spec_static
 
 // regression_t6755
 
 // get_set_memoized_update
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_memoized_update,
-    include_str!("inline-inputs/es2015_classes/get_set_memoized_update/input.js")
-);
 
 // spec_nested_class_super_property_in_key
 
@@ -436,25 +319,8 @@ new Foo();
 // extend_builtins_shadowed
 
 // get_set_set_semantics_data_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_set_semantics_data_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_set_semantics_data_defined_on_parent/input.js"
-    )
-);
 
 // get_set_set_semantics_not_defined_on_parent_getter_on_obj
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_set_semantics_not_defined_on_parent_getter_on_obj,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_set_semantics_not_defined_on_parent_getter_on_obj/\
-         input.js"
-    )
-);
 
 // get_set
 
@@ -529,26 +395,12 @@ expect(() => {
 // regression_2694
 
 // regression_5769
-test!(
-    syntax(),
-    |t| tr(t),
-    regression_5769,
-    include_str!("inline-inputs/es2015_classes/regression_5769/input.js")
-);
 
 // spec_super_function_fallback
 
 // regression_t7537
 
 // regression_3028
-test!(
-    // Module
-    ignore,
-    syntax(),
-    |t| tr(t),
-    regression_3028,
-    include_str!("inline-inputs/es2015_classes/regression_3028/input.js")
-);
 
 // spec_super_illegal_non_constructor_call
 
@@ -557,15 +409,6 @@ test!(
 // spec_nested_object_super_call_in_key
 
 // get_set_set_semantics_not_defined_on_parent_not_on_obj
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_set_semantics_not_defined_on_parent_not_on_obj,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_set_semantics_not_defined_on_parent_not_on_obj/\
-         input.js"
-    )
-);
 
 // spec_derived_constructor_no_super_return_falsy
 
@@ -582,24 +425,10 @@ test!(
 // spec_derived_constructor_no_super_return_object
 
 // regression_t6750
-test!(
-    // Module
-    ignore,
-    syntax(),
-    |t| tr(t),
-    regression_t6750,
-    include_str!("inline-inputs/es2015_classes/regression_t6750/input.js")
-);
 
 // spec_instance_method
 
 // regression_t2997
-test!(
-    syntax(),
-    |t| tr(t),
-    regression_t2997,
-    include_str!("inline-inputs/es2015_classes/regression_t2997/input.js")
-);
 
 // spec_constructor_binding_collision
 
@@ -612,14 +441,6 @@ test!(
 // extend_builtins_builtin_objects_throw_when_wrapped
 
 // regression_2663
-test!(
-    // Module
-    ignore,
-    syntax(),
-    |t| tr(t),
-    regression_2663,
-    include_str!("inline-inputs/es2015_classes/regression_2663/input.js")
-);
 
 // get_set_set_semantics_setter_defined_on_parent_exec
 test_exec!(
@@ -742,32 +563,10 @@ expect(new Outer().hello()).toBe('hello');
 );
 
 // regression_t6712
-test!(
-    syntax(),
-    |t| tr(t),
-    regression_t6712,
-    include_str!("inline-inputs/es2015_classes/regression_t6712/input.js")
-);
 
 // get_set_set_semantics_setter_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_set_semantics_setter_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_set_semantics_setter_defined_on_parent/input.js"
-    )
-);
 
 // get_set_call_semantics_not_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_call_semantics_not_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_call_semantics_not_defined_on_parent/input.js"
-    )
-);
 
 // spec_derived_constructor_must_call_super_2_exec
 test_exec!(
@@ -791,13 +590,6 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // exec_declaration
 
 // spec_nested_object_super_property_in_key
-
-test!(
-    syntax(),
-    |t| tr(t),
-    nested_this_in_key,
-    include_str!("inline-inputs/es2015_classes/nested_this_in_key/input.js")
-);
 
 // get_set_set_semantics_not_defined_on_parent_setter_on_obj_exec
 test_exec!(
@@ -871,14 +663,6 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 );
 
 // get_set_call_semantics_setter_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_call_semantics_setter_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_call_semantics_setter_defined_on_parent/input.js"
-    )
-);
 
 // spec_super_class
 
@@ -944,23 +728,8 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 );
 
 // get_set_set_semantics_not_defined_on_parent_data_on_obj
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_set_semantics_not_defined_on_parent_data_on_obj,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_set_semantics_not_defined_on_parent_data_on_obj/\
-         input.js"
-    )
-);
 
 // get_set_memoized_assign
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_memoized_assign,
-    include_str!("inline-inputs/es2015_classes/get_set_memoized_assign/input.js")
-);
 
 // spec_nested_class_super_property_in_key_exec
 test_exec!(
@@ -1103,14 +872,6 @@ new Foo();
 // regression
 
 // get_set_get_semantics_not_defined_on_parent
-test!(
-    syntax(),
-    |t| tr(t),
-    get_set_get_semantics_not_defined_on_parent,
-    include_str!(
-        "inline-inputs/es2015_classes/get_set_get_semantics_not_defined_on_parent/input.js"
-    )
-);
 
 // extend_builtins_super_called
 
@@ -1290,14 +1051,6 @@ expect(obj.test).toBe(2);
 );
 
 // extend_builtins_shadowed
-test!(
-    // Cost is too high while being useless
-    ignore,
-    syntax(),
-    |t| tr(t),
-    extend_builtins_shadowed,
-    include_str!("inline-inputs/es2015_classes/extend_builtins_shadowed/input.js")
-);
 
 //// regression_2694
 //test!(
@@ -1822,14 +1575,6 @@ expect(obj.get()).toBeUndefined();
 );
 
 // regression_t7010
-test!(
-    // TODO: Unignore this
-    ignore,
-    syntax(),
-    |t| (tr(t), block_scoping(Mark::new())),
-    regression_t7010,
-    include_str!("inline-inputs/es2015_classes/regression_t7010/input.js")
-);
 
 //// regression_2941
 //test!(
@@ -2187,27 +1932,6 @@ expect(obj.anotherMethod()).toBe(2);
 "#
 );
 
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    issue_1490_1,
-    include_str!("inline-inputs/es2015_classes/issue_1490_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    issue_1490_2,
-    include_str!("inline-inputs/es2015_classes/issue_1490_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    super_binding,
-    include_str!("inline-inputs/es2015_classes/super_binding/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| classes(Default::default()),
@@ -2222,152 +1946,6 @@ test_exec!(
   Foo = 3;
   expect(new Test().foo()).toBe(3);
   "
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    issue_1617_1,
-    include_str!("inline-inputs/es2015_classes/issue_1617_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    issue_1617_2,
-    include_str!("inline-inputs/es2015_classes/issue_1617_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    issue_1660_1,
-    include_str!("inline-inputs/es2015_classes/issue_1660_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    constructor_super_update,
-    include_str!("inline-inputs/es2015_classes/constructor_super_update/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    prefix_super_update,
-    include_str!("inline-inputs/es2015_classes/prefix_super_update/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    issue_1660_2,
-    include_str!("inline-inputs/es2015_classes/issue_1660_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Default::default()),
-    issue_1660_3,
-    include_str!("inline-inputs/es2015_classes/issue_1660_3/input.js")
-);
-
-test!(
-    syntax(),
-    |t| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            es2022::es2022(Default::default(), unresolved_mark),
-            es2018::es2018(Default::default()),
-            es2017::es2017(Default::default(), unresolved_mark),
-            es2016::es2016(),
-            es2015::es2015(
-                unresolved_mark,
-                Some(t.comments.clone()),
-                Default::default(),
-            ),
-        )
-    },
-    issue_1660_4,
-    include_str!("inline-inputs/es2015_classes/issue_1660_4/input.js")
-);
-
-test!(
-    syntax(),
-    |t| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            es2015::es2015(
-                unresolved_mark,
-                Some(t.comments.clone()),
-                Default::default(),
-            ),
-        )
-    },
-    issue_1660_5,
-    include_str!("inline-inputs/es2015_classes/issue_1660_5/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    issue_1838,
-    include_str!("inline-inputs/es2015_classes/issue_1838/input.js")
-);
-
-test!(
-    syntax(),
-    |t| tr(t),
-    issue_1799_1,
-    include_str!("inline-inputs/es2015_classes/issue_1799_1/input.js")
-);
-
-test!(
-    syntax(),
-    |t| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            es2015::es2015(
-                unresolved_mark,
-                Some(t.comments.clone()),
-                Default::default(),
-            ),
-        )
-    },
-    issue_1959_1,
-    include_str!("inline-inputs/es2015_classes/issue_1959_1/input.js")
-);
-
-test!(
-    syntax(),
-    |t| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            class_properties(Default::default(), unresolved_mark),
-            es2015::es2015(
-                unresolved_mark,
-                Some(t.comments.clone()),
-                Default::default(),
-            ),
-        )
-    },
-    issue_1959_2,
-    include_str!("inline-inputs/es2015_classes/issue_1959_2/input.js")
 );
 
 #[testing::fixture("tests/composite/classes/**/exec.js")]
@@ -2411,153 +1989,6 @@ fn fixture(input: PathBuf) {
     );
 }
 
-test!(
-    syntax(),
-    |_| classes(Config {
-        constant_super: true,
-        ..Default::default()
-    }),
-    constant_super_class,
-    include_str!("inline-inputs/es2015_classes/constant_super_class/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        constant_super: true,
-        ..Default::default()
-    }),
-    constant_super_property,
-    include_str!("inline-inputs/es2015_classes/constant_super_property/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        constant_super: true,
-        ..Default::default()
-    }),
-    constant_super_call,
-    include_str!("inline-inputs/es2015_classes/constant_super_call/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        constant_super: true,
-        ..Default::default()
-    }),
-    constant_super_default,
-    include_str!("inline-inputs/es2015_classes/constant_super_default/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        constant_super: true,
-        ..Default::default()
-    }),
-    constant_super_update,
-    include_str!("inline-inputs/es2015_classes/constant_super_update/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        no_class_calls: true,
-        ..Default::default()
-    }),
-    no_class_call,
-    include_str!("inline-inputs/es2015_classes/no_class_call/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        no_class_calls: true,
-        ..Default::default()
-    }),
-    no_class_call_constructor,
-    include_str!("inline-inputs/es2015_classes/no_class_call_constructor/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        no_class_calls: true,
-        ..Default::default()
-    }),
-    no_class_call_super,
-    include_str!("inline-inputs/es2015_classes/no_class_call_super/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        set_class_methods: true,
-        ..Default::default()
-    }),
-    set_method_literal_key,
-    include_str!("inline-inputs/es2015_classes/set_method_literal_key/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        set_class_methods: true,
-        ..Default::default()
-    }),
-    set_method_static,
-    include_str!("inline-inputs/es2015_classes/set_method_static/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        set_class_methods: true,
-        ..Default::default()
-    }),
-    set_method_getter_setter,
-    include_str!("inline-inputs/es2015_classes/set_method_getter_setter/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        super_is_callable_constructor: true,
-        ..Default::default()
-    }),
-    super_callable,
-    include_str!("inline-inputs/es2015_classes/super_callable/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        super_is_callable_constructor: true,
-        ..Default::default()
-    }),
-    super_callable_super,
-    include_str!("inline-inputs/es2015_classes/super_callable_super/input.js")
-);
-
-test!(
-    syntax(),
-    |_| classes(Config {
-        super_is_callable_constructor: true,
-        ..Default::default()
-    }),
-    issue_3943,
-    include_str!("inline-inputs/es2015_classes/issue_3943/input.js")
-);
-
-test!(
-    syntax(),
-    |_| (classes(Default::default()), block_scoping(Mark::new())),
-    issue_5102,
-    include_str!("inline-inputs/es2015_classes/issue_5102/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| classes(Config {
@@ -2581,3 +2012,93 @@ class Subclass extends Superclass {
 expect(() => new Subclass().doStuff()).not.toThrowError()
 "
 );
+
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "classes")]
+    Classes,
+    #[serde(rename = "classes-arrow")]
+    ClassesArrow,
+    #[serde(rename = "classes-block-scoping")]
+    ClassesBlockScoping,
+    #[serde(rename = "resolver-es2022-es2018-es2017-es2016-es2015-typescript-resolver")]
+    ResolverEs2022Es2018Es2017Es2016Es2015TypescriptResolver,
+    #[serde(rename = "resolver-class-properties-es2015-typescript-resolver")]
+    ResolverClassPropertiesEs2015TypescriptResolver,
+    #[serde(rename = "classes-constant-super")]
+    ClassesConstantSuper,
+    #[serde(rename = "classes-no-class-calls")]
+    ClassesNoClassCalls,
+    #[serde(rename = "classes-set-class-methods")]
+    ClassesSetClassMethods,
+    #[serde(rename = "classes-super-is-callable-constructor")]
+    ClassesSuperIsCallableConstructor,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/classes/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::Classes => Box::new(tr(t)),
+                CasePipeline::ClassesArrow => Box::new((tr(t), arrow(Mark::new()))),
+                CasePipeline::ClassesBlockScoping => Box::new((tr(t), block_scoping(Mark::new()))),
+                CasePipeline::ResolverEs2022Es2018Es2017Es2016Es2015TypescriptResolver => {
+                    Box::new({
+                        let unresolved_mark = Mark::new();
+                        let top_level_mark = Mark::new();
+                        (
+                            resolver(unresolved_mark, top_level_mark, true),
+                            es2022::es2022(Default::default(), unresolved_mark),
+                            es2018::es2018(Default::default()),
+                            es2017::es2017(Default::default(), unresolved_mark),
+                            es2016::es2016(),
+                            es2015::es2015(
+                                unresolved_mark,
+                                Some(t.comments.clone()),
+                                Default::default(),
+                            ),
+                        )
+                    })
+                }
+                CasePipeline::ResolverClassPropertiesEs2015TypescriptResolver => Box::new({
+                    let unresolved_mark = Mark::new();
+                    let top_level_mark = Mark::new();
+                    (
+                        resolver(unresolved_mark, top_level_mark, true),
+                        class_properties(Default::default(), unresolved_mark),
+                        es2015::es2015(
+                            unresolved_mark,
+                            Some(t.comments.clone()),
+                            Default::default(),
+                        ),
+                    )
+                }),
+                CasePipeline::ClassesConstantSuper => Box::new(classes(Config {
+                    constant_super: true,
+                    ..Default::default()
+                })),
+                CasePipeline::ClassesNoClassCalls => Box::new(classes(Config {
+                    no_class_calls: true,
+                    ..Default::default()
+                })),
+                CasePipeline::ClassesSetClassMethods => Box::new(classes(Config {
+                    set_class_methods: true,
+                    ..Default::default()
+                })),
+                CasePipeline::ClassesSuperIsCallableConstructor => Box::new(classes(Config {
+                    super_is_callable_constructor: true,
+                    ..Default::default()
+                })),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}

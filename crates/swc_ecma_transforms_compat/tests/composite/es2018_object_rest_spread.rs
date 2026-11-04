@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2015::{self, spread},
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture};
 
 fn syntax() -> Syntax {
     Syntax::default()
@@ -18,56 +18,8 @@ fn tr(c: Config) -> impl Pass {
     object_rest_spread(c)
 }
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_233,
-    include_str!("inline-inputs/es2018_object_rest_spread/issue_233/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_239,
-    include_str!("inline-inputs/es2018_object_rest_spread/issue_239/input.js")
-);
-
 // object rest spread pass should not touch rest in parameters and spread in
 // args.
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_227,
-    include_str!("inline-inputs/es2018_object_rest_spread/issue_227/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_162,
-    include_str!("inline-inputs/es2018_object_rest_spread/issue_162/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_181,
-    include_str!("inline-inputs/es2018_object_rest_spread/issue_181/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_function_array,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_function_array/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_var_basic,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_var_basic/input.js")
-);
 
 test_exec!(
     syntax(),
@@ -107,37 +59,6 @@ try {
 }"#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_assignment_expression,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_assignment_expression/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_catch_clause,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_catch_clause/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_export,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_export/input.js")
-);
-
-test!(
-    syntax(),
-    |_| (
-        tr(Default::default()),
-        spread(Default::default(), Mark::new())
-    ),
-    rest_for_x,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_for_x/input.js")
-);
-
 test_exec!(
     ignore,
     syntax(),
@@ -168,28 +89,6 @@ expect(z).toBe("zee");
 "#
 );
 
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_impure_computed,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_impure_computed/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_2,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_nested_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_computed_key,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_nested_computed_key/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -206,13 +105,6 @@ a({})
 expect(c).toEqual({})
 expect(d).toEqual({})
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_default_value,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_nested_default_value/input.js")
 );
 
 test_exec!(
@@ -242,20 +134,6 @@ var { a: { ...bar }, b: { ...baz }, ...foo } = obj;
 
 expect(result).toBe("barbazfoo");
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_order,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_nested_order/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_1,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_nested_1/input.js")
 );
 
 test_exec!(
@@ -321,14 +199,6 @@ expect(dy).toBe("sy");
 "#
 );
 
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_non_string_computed,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_non_string_computed/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -354,35 +224,6 @@ const { [sym]: dst, ...noSym } = src;
 expect(dst).toBe("symbol");
 expect(noSym.a).toBe("string");
 expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);"#
-);
-
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_symbol,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_symbol/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_variable_destructuring_1,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_variable_destructuring_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_variable_destructuring_2,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_variable_destructuring_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_variable_destructuring_3,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_variable_destructuring_3/input.js")
 );
 
 test_exec!(
@@ -415,27 +256,6 @@ expect(b).toBe(1);
 expect(arrayRest).toEqual([2, 3, 4]);
 expect(objectRest).toEqual({d: 'oyez'})
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_with_array_rest,
-    include_str!("inline-inputs/es2018_object_rest_spread/rest_with_array_rest/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    spread_assignment,
-    include_str!("inline-inputs/es2018_object_rest_spread/spread_assignment/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    object_spread_expression,
-    include_str!("inline-inputs/es2018_object_rest_spread/object_spread_expression/input.js")
 );
 
 test_exec!(
@@ -487,20 +307,7 @@ expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(false);
 "#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    spread_variable_declaration,
-    include_str!("inline-inputs/es2018_object_rest_spread/spread_variable_declaration/input.js")
-);
-
 // object_spread_assignment
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    object_spread_assignment,
-    include_str!("inline-inputs/es2018_object_rest_spread/object_spread_assignment/input.js")
-);
 
 //// regression_gh_7304
 //test!(syntax(),|_| tr("{
@@ -877,12 +684,6 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //"#);
 
 // regression_gh_5151
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_gh_5151,
-    include_str!("inline-inputs/es2018_object_rest_spread/regression_gh_5151/input.js")
-);
 
 // object_rest_parameters
 //test!(syntax(),|_| tr("{
@@ -1104,12 +905,6 @@ test!(
 //"#);
 
 // regression_gh_7388
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_gh_7388,
-    include_str!("inline-inputs/es2018_object_rest_spread/regression_gh_7388/input.js")
-);
 
 // object_rest_impure_computed_exec
 
@@ -1488,14 +1283,6 @@ expect(log).toEqual([1]);
 //"#);
 
 // object_spread_variable_declaration
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    object_spread_variable_declaration,
-    include_str!(
-        "inline-inputs/es2018_object_rest_spread/object_spread_variable_declaration/input.js"
-    )
-);
 
 //// object_rest_nested_array
 //test!(syntax(),|_| tr("{
@@ -1895,36 +1682,6 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //"#);
 
 // regression_gh_4904
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_gh_4904,
-    include_str!("inline-inputs/es2018_object_rest_spread/regression_gh_4904/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    no_symbol_rest_assignment_expression,
-    include_str!(
-        "inline-inputs/es2018_object_rest_spread/no_symbol_rest_assignment_expression/input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    no_symbol_computed,
-    include_str!("inline-inputs/es2018_object_rest_spread/no_symbol_computed/input.js")
-);
 
 test_exec!(
     syntax(),
@@ -1943,50 +1700,6 @@ expect(a).toBe(1);
 expect(r.b).toBe(2);
 expect(sym in r).toBe(false);
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    no_symbol_rest_nested,
-    include_str!("inline-inputs/es2018_object_rest_spread/no_symbol_rest_nested/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    no_symbol_var_declaration,
-    include_str!("inline-inputs/es2018_object_rest_spread/no_symbol_var_declaration/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    set_property_assignment,
-    include_str!("inline-inputs/es2018_object_rest_spread/set_property_assignment/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    set_property_expression,
-    include_str!("inline-inputs/es2018_object_rest_spread/set_property_expression/input.js")
 );
 
 test_exec!(
@@ -2083,20 +1796,6 @@ const o2 = { ...o };
 // Loose will do o2.__proto__ = []
 expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(true);
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    statements_for_of_dstr_obj_rest_to_property,
-    include_str!(
-        "inline-inputs/es2018_object_rest_spread/statements_for_of_dstr_obj_rest_to_property/\
-         input.js"
-    )
 );
 
 test_exec!(
@@ -2307,4 +2006,42 @@ fn fixture(input: PathBuf) {
         &output,
         Default::default(),
     )
+}
+
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "object-rest-spread")]
+    Default,
+    #[serde(rename = "object-rest-spread-spread")]
+    WithSpread,
+    #[serde(rename = "object-rest-spread-no-symbol-set-property-pure-getters")]
+    NoSymbolSetPropertyPureGetters,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/object-rest-spread/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::Default => Box::new(tr(Default::default())),
+                CasePipeline::WithSpread => Box::new((
+                    tr(Default::default()),
+                    spread(Default::default(), Mark::new()),
+                )),
+                CasePipeline::NoSymbolSetPropertyPureGetters => Box::new(tr(Config {
+                    no_symbol: true,
+                    set_property: true,
+                    pure_getters: true,
+                })),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
 }

@@ -11,7 +11,7 @@ use swc_ecma_transforms_compat::{
     es2015, es2015::generator::generator, es2016, es2017, es2017::async_to_generator, es2018,
     es2021, es2022,
 };
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::test_exec;
 
 fn syntax() -> Syntax {
     Syntax::default()
@@ -37,12 +37,6 @@ fn tr_with_async() -> impl Pass {
 }
 
 // computed_properties_example
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    computed_properties_example,
-    include_str!("inline-inputs/es2015_generator/computed_properties_example/input.js")
-);
 
 // class_argument_scope_example
 test_exec!(
@@ -96,13 +90,6 @@ expect(test.iter().next().value).toBe(test);
 //
 //"#
 //);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    empty_fn_decl_1,
-    include_str!("inline-inputs/es2015_generator/empty_fn_decl_1/input.js")
-);
 
 test_exec!(
     syntax(),
@@ -978,12 +965,6 @@ test_exec!(
 );
 
 // test interop between export and regenerator
-test!(
-    syntax(),
-    |t| generator(Mark::new(), t.comments.clone()),
-    issue_831_3,
-    include_str!("inline-inputs/es2015_generator/issue_831_3/input.js")
-);
 
 test_exec!(
     syntax(),
@@ -1040,13 +1021,6 @@ test_exec!(
     "
 );
 
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    issue_1036_2,
-    include_str!("inline-inputs/es2015_generator/issue_1036_2/input.js")
-);
-
 test_exec!(
     Syntax::default(),
     |_| tr(()),
@@ -1081,15 +1055,6 @@ test_exec!(
     "
 );
 
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    hoist_function_in_generator_issue_2556_1,
-    include_str!(
-        "inline-inputs/es2015_generator/hoist_function_in_generator_issue_2556_1/input.js"
-    )
-);
-
 test_exec!(
     Syntax::default(),
     |_| tr_with_async(),
@@ -1114,13 +1079,6 @@ return foo()
         expect(x).toEqual(3);
     });
 "
-);
-
-test!(
-    Syntax::default(),
-    |_| tr_with_async(),
-    hoist_function_in_async_issue_2556_4,
-    include_str!("inline-inputs/es2015_generator/hoist_function_in_async_issue_2556_4/input.js")
 );
 
 test_exec!(
@@ -1201,13 +1159,6 @@ return main().then((results) => {
 "#
 );
 
-test!(
-    Syntax::default(),
-    |_| tr_with_async(),
-    hoist_function_in_async_issue_2556_6,
-    include_str!("inline-inputs/es2015_generator/hoist_function_in_async_issue_2556_6/input.js")
-);
-
 test_exec!(
     Syntax::default(),
     |_| tr_with_async(),
@@ -1227,98 +1178,6 @@ return foo(1)
         expect(result).toBe(3);
     });
 "#
-);
-
-test!(
-    Syntax::default(),
-    |_| tr_with_async(),
-    hoist_function_in_async_issue_2556_8,
-    include_str!("inline-inputs/es2015_generator/hoist_function_in_async_issue_2556_8/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    issue_1125_2,
-    include_str!("inline-inputs/es2015_generator/issue_1125_2/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    issue_1125_3,
-    include_str!("inline-inputs/es2015_generator/issue_1125_3/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    issue_1125_4,
-    include_str!("inline-inputs/es2015_generator/issue_1125_4/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| tr_with_async(),
-    issue_1799_1,
-    include_str!("inline-inputs/es2015_generator/issue_1799_1/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), mark),
-            es2015::<SingleThreadedComments>(mark, None, Default::default()),
-        )
-    },
-    issue_1799_2,
-    include_str!("inline-inputs/es2015_generator/issue_1799_2/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), mark),
-            es2016(),
-            es2015::<SingleThreadedComments>(mark, None, Default::default()),
-        )
-    },
-    issue_1799_3,
-    include_str!("inline-inputs/es2015_generator/issue_1799_3/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            es2022(Default::default(), unresolved_mark),
-            es2021(),
-            es2018(Default::default()),
-            es2017(Default::default(), unresolved_mark),
-            es2016(),
-            es2015::<SingleThreadedComments>(unresolved_mark, None, Default::default()),
-        )
-    },
-    issue_1799_5,
-    include_str!("inline-inputs/es2015_generator/issue_1799_5/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::<SingleThreadedComments>(mark, None, Default::default())
-    },
-    issue_2024_1,
-    include_str!("inline-inputs/es2015_generator/issue_2024_1/input.js")
 );
 
 test_exec!(
@@ -1367,12 +1226,79 @@ test_exec!(
     "
 );
 
-test!(
-    Syntax::default(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::<SingleThreadedComments>(mark, None, Default::default())
-    },
-    issue_7809,
-    include_str!("inline-inputs/es2015_generator/issue_7809/input.js")
-);
+/// Named transform pipelines for the composite output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "resolver-generator-noop-comments")]
+    ResolverGeneratorNoopComments,
+    #[serde(rename = "generator")]
+    Generator,
+    #[serde(rename = "resolver-async-generator-noop-comments")]
+    ResolverAsyncGeneratorNoopComments,
+    #[serde(rename = "async-to-generator-es2015-fresh-mark")]
+    AsyncToGeneratorEs2015FreshMark,
+    #[serde(rename = "async-to-generator-es2016-es2015-fresh-mark")]
+    AsyncToGeneratorEs2016Es2015FreshMark,
+    #[serde(rename = "resolver-es2022-es2021-es2018-es2017-es2016-es2015-typescript-resolver")]
+    ResolverEs2022Es2021Es2018Es2017Es2016Es2015TypescriptResolver,
+    #[serde(rename = "es2015-fresh-mark")]
+    Es2015FreshMark,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/composite/cases/generator/standard/**/input.js")]
+fn composite_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = crate::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::ResolverGeneratorNoopComments => Box::new(tr(Default::default())),
+                CasePipeline::Generator => Box::new(generator(Mark::new(), t.comments.clone())),
+                CasePipeline::ResolverAsyncGeneratorNoopComments => Box::new(tr_with_async()),
+                CasePipeline::AsyncToGeneratorEs2015FreshMark => Box::new({
+                    let mark = Mark::fresh(Mark::root());
+                    (
+                        async_to_generator(Default::default(), mark),
+                        es2015::<SingleThreadedComments>(mark, None, Default::default()),
+                    )
+                }),
+                CasePipeline::AsyncToGeneratorEs2016Es2015FreshMark => Box::new({
+                    let mark = Mark::fresh(Mark::root());
+                    (
+                        async_to_generator(Default::default(), mark),
+                        es2016(),
+                        es2015::<SingleThreadedComments>(mark, None, Default::default()),
+                    )
+                }),
+                CasePipeline::ResolverEs2022Es2021Es2018Es2017Es2016Es2015TypescriptResolver => {
+                    Box::new({
+                        let unresolved_mark = Mark::new();
+                        let top_level_mark = Mark::new();
+                        (
+                            resolver(unresolved_mark, top_level_mark, true),
+                            es2022(Default::default(), unresolved_mark),
+                            es2021(),
+                            es2018(Default::default()),
+                            es2017(Default::default(), unresolved_mark),
+                            es2016(),
+                            es2015::<SingleThreadedComments>(
+                                unresolved_mark,
+                                None,
+                                Default::default(),
+                            ),
+                        )
+                    })
+                }
+                CasePipeline::Es2015FreshMark => Box::new({
+                    let mark = Mark::fresh(Mark::root());
+                    es2015::<SingleThreadedComments>(mark, None, Default::default())
+                }),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}
