@@ -1,0 +1,7 @@
+{
+    "decorators": true,
+    "useDefineForClassFields": true,
+    "typescript": {
+        "noEmptyExport": true
+    }
+}
