@@ -149,7 +149,15 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/*.map")]
+// These integration and TypeScript fixtures were not part of the original map
+// validation suite. Their snapshots are still checked by the preset runner.
+#[testing::fixture(
+    "tests/preset/**/*.map",
+    exclude(
+        "[/\\\\]integration[/\\\\]vercel[/\\\\]",
+        "[/\\\\]typescript[/\\\\]rewrite-"
+    )
+)]
 fn validate_map(map_file: PathBuf) {
     let content = fs::read_to_string(map_file).unwrap();
     if content.is_empty() {
