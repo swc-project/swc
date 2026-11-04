@@ -921,8 +921,6 @@ enum CasePipeline {
         rename = "resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer"
     )]
     ResolverRemoveParensArrowParametersDestructuringFunctionNameAsyncFixer,
-    #[serde(rename = "resolver-async-to-generator-parameters-destructuring")]
-    ResolverAsyncToGeneratorParametersDestructuring,
     #[serde(rename = "async-to-generator-generator-fresh-mark")]
     AsyncToGeneratorGeneratorFreshMark,
 }
@@ -930,10 +928,6 @@ enum CasePipeline {
 /// Compares each input with its original output using its configured pipeline.
 #[testing::fixture(
     "tests/composite/async-to-generator/async-to-generator-generator-fresh-mark/**/input.js"
-)]
-#[testing::fixture(
-    "tests/composite/async-to-generator/resolver-async-to-generator-parameters-destructuring/**/\
-     input.js"
 )]
 #[testing::fixture(
     "tests/composite/async-to-generator/\
@@ -947,7 +941,6 @@ fn composite_fixture(input: std::path::PathBuf) {
             let _ = &t;
             match pipeline {
             CasePipeline::ResolverRemoveParensArrowParametersDestructuringFunctionNameAsyncFixer => Box::new(tr ()),
-            CasePipeline::ResolverAsyncToGeneratorParametersDestructuring => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , async_to_generator (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (destructuring :: Config { loose : false }) ,) }),
             CasePipeline::AsyncToGeneratorGeneratorFreshMark => Box::new({ let unresolved_mark = Mark :: fresh (Mark :: root ()) ; (async_to_generator (Default :: default () , unresolved_mark) , generator (unresolved_mark , t . comments . clone ()) ,) }),
             }
         },

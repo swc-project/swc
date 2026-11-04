@@ -19,8 +19,6 @@ fn case_pipeline<P: serde::de::DeserializeOwned>(input: &std::path::Path) -> P {
     options.pipeline
 }
 
-#[path = "composite/class_fields_use_set.rs"]
-mod class_fields_use_set;
 #[path = "composite/es2015_arrow.rs"]
 mod es2015_arrow;
 #[path = "composite/es2015_block_scoping.rs"]
@@ -39,8 +37,6 @@ mod es2015_generator;
 mod es2015_generator_sparse_array;
 #[path = "composite/es2015_new_target.rs"]
 mod es2015_new_target;
-#[path = "composite/es2015_object_super.rs"]
-mod es2015_object_super;
 #[path = "composite/es2015_parameters.rs"]
 mod es2015_parameters;
 #[path = "composite/es2015_spread.rs"]
@@ -61,5 +57,3 @@ mod es2021_logcal_assignments;
 mod es2022_class_properties;
 #[path = "composite/es2022_private_in_object.rs"]
 mod es2022_private_in_object;
-#[path = "composite/es2022_static_blocks.rs"]
-mod es2022_static_blocks;

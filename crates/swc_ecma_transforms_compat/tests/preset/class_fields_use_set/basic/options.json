@@ -1,0 +1,14 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": []
+    },
+    "jsc": {
+        "assumptions": {
+            "setPublicClassFields": true,
+            "pureGetters": true
+        }
+    }
+}

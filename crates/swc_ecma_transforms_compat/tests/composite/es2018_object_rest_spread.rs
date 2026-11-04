@@ -5,10 +5,10 @@ use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
-    es2015::{self, spread},
+    es2015,
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
-use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec};
 
 fn syntax() -> Syntax {
     Syntax::default()
@@ -1946,7 +1946,7 @@ compare_stdout!(
         )
     },
     issue_12339_array_rest,
-    include_str!("object-rest-spread/issue-12339/input.js")
+    include_str!("../preset/object-rest-spread/resolver/issue-12339/input.js")
 );
 
 // Check both the object-rest pass and its composition with ES2015 lowering.
@@ -1988,52 +1988,3 @@ fn exec_es2015(input: PathBuf) {
 
 // Pipeline directories have their own runner; update this exclusion when adding
 // one.
-#[testing::fixture("tests/composite/object-rest-spread/**/input.js", exclude("/composite/object-rest-spread/(object-rest-spread|object-rest-spread-no-symbol-set-property-pure-getters|object-rest-spread-spread)/"))]
-fn fixture(input: PathBuf) {
-    let parent = input.parent().unwrap();
-
-    let output = parent.join("output.js");
-    test_fixture(
-        Syntax::Es(Default::default()),
-        &|_| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                object_rest_spread(Default::default()),
-            )
-        },
-        &input,
-        &output,
-        Default::default(),
-    )
-}
-
-/// Named transform pipelines for the composite output fixtures.
-#[derive(Clone, Copy, serde::Deserialize)]
-enum CasePipeline {
-    #[serde(rename = "object-rest-spread-spread")]
-    WithSpread,
-}
-
-/// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/object-rest-spread/object-rest-spread-spread/**/input.js")]
-fn composite_fixture(input: std::path::PathBuf) {
-    let pipeline: CasePipeline = crate::case_pipeline(&input);
-    swc_ecma_transforms_testing::test_fixture(
-        syntax(),
-        &|t| -> Box<dyn swc_ecma_ast::Pass> {
-            let _ = &t;
-            match pipeline {
-                CasePipeline::WithSpread => Box::new((
-                    tr(Default::default()),
-                    spread(Default::default(), Mark::new()),
-                )),
-            }
-        },
-        &input,
-        &input.with_file_name("output.js"),
-        Default::default(),
-    );
-}

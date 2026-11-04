@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "transform": {
+            "noEmptyExport": true,
+            "useDefineForClassFields": false
+        },
+        "assumptions": {
+            "pureGetters": true
+        }
+    }
+}

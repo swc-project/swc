@@ -261,38 +261,6 @@ fn exec(input: PathBuf) {
     );
 }
 
-// Pipeline directories have their own runner; update this exclusion when adding
-// one.
-#[testing::fixture(
-    "tests/composite/optional-chaining/**/input.js",
-    exclude("/composite/optional-chaining/(resolver-optional-chaining)/")
-)]
-fn fixture(input: PathBuf) {
-    let output = input.with_file_name("output.js");
-
-    test_fixture(
-        Default::default(),
-        &|_| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                class_properties(
-                    swc_ecma_transforms_compat::es2022::class_properties::Config {
-                        private_as_properties: false,
-                        ..Default::default()
-                    },
-                    unresolved_mark,
-                ),
-                optional_chaining(Default::default(), unresolved_mark),
-            )
-        },
-        &input,
-        &output,
-        Default::default(),
-    );
-}
-
 #[testing::fixture("tests/composite/optional-chaining-loose/**/input.js")]
 fn fixture_loose(input: PathBuf) {
     let output = input.with_file_name("output.js");

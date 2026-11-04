@@ -144,14 +144,11 @@ fn exec_es2015(input: PathBuf) {
 /// Named transform pipelines for the composite output fixtures.
 #[derive(Clone, Copy, serde::Deserialize)]
 enum CasePipeline {
-    #[serde(rename = "for-of")]
-    ForOf,
     #[serde(rename = "for-of-assume-array")]
     ForOfAssumeArray,
 }
 
 /// Compares each input with its original output using its configured pipeline.
-#[testing::fixture("tests/composite/for-of/for-of/**/input.js")]
 #[testing::fixture("tests/composite/for-of/for-of-assume-array/**/input.js")]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
@@ -160,7 +157,6 @@ fn composite_fixture(input: std::path::PathBuf) {
         &|t| -> Box<dyn swc_ecma_ast::Pass> {
             let _ = &t;
             match pipeline {
-                CasePipeline::ForOf => Box::new(for_of(Default::default())),
                 CasePipeline::ForOfAssumeArray => Box::new(for_of(Config {
                     assume_array: true,
                     ..Default::default()

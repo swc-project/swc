@@ -12,7 +12,6 @@ use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
     es2016::exponentiation,
     es2017::async_to_generator,
-    es2020::optional_chaining,
     es2022::class_properties,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test_exec, Tester};
@@ -1526,10 +1525,6 @@ enum CasePipeline {
     FunctionNameClassPropertiesClassesBlockScopingOptionalEs3,
     #[serde(rename = "resolver-function-name-class-properties")]
     ResolverFunctionNameClassProperties,
-    #[serde(rename = "resolver-class-properties-classes")]
-    ResolverClassPropertiesClasses,
-    #[serde(rename = "resolver-class-properties-block-scoping")]
-    ResolverClassPropertiesBlockScoping,
     #[serde(rename = "resolver-class-properties-async-to-generator-typescript-resolver")]
     ResolverClassPropertiesAsyncToGeneratorTypescriptResolver,
     #[serde(rename = "resolver-class-properties-block-scoping-typescript-resolver")]
@@ -1556,14 +1551,10 @@ enum CasePipeline {
     ArrowNewArrowMark,
     #[serde(rename = "resolver-class-properties-async-to-generator")]
     ResolverClassPropertiesAsyncToGenerator,
-    #[serde(rename = "resolver-class-properties-no-document-all")]
-    ResolverClassPropertiesNoDocumentAll,
     #[serde(rename = "resolver-class-properties-set-public-fields")]
     ResolverClassPropertiesSetPublicFields,
     #[serde(rename = "resolver-class-properties-set-public-fields-private-as-properties")]
     ResolverClassPropertiesSetPublicFieldsPrivateAsProperties,
-    #[serde(rename = "resolver-class-properties-optional-chaining")]
-    ResolverClassPropertiesOptionalChaining,
     #[serde(rename = "resolver-class-properties-arrow-classes-block-scoping-shared-arrow-mark")]
     ResolverClassPropertiesArrowClassesBlockScopingSharedArrowMark,
 }
@@ -1598,14 +1589,8 @@ enum CasePipeline {
      resolver-class-properties-async-to-generator-typescript-resolver/**/input.js"
 )]
 #[testing::fixture(
-    "tests/composite/class-properties/resolver-class-properties-block-scoping/**/input.js"
-)]
-#[testing::fixture(
     "tests/composite/class-properties/resolver-class-properties-block-scoping-typescript-resolver/\
      **/input.js"
-)]
-#[testing::fixture(
-    "tests/composite/class-properties/resolver-class-properties-classes/**/input.js"
 )]
 #[testing::fixture(
     "tests/composite/class-properties/\
@@ -1619,12 +1604,6 @@ enum CasePipeline {
     "tests/composite/class-properties/\
      resolver-class-properties-exponentiation-classes-block-scoping-typescript-resolver/**/input.\
      js"
-)]
-#[testing::fixture(
-    "tests/composite/class-properties/resolver-class-properties-no-document-all/**/input.js"
-)]
-#[testing::fixture(
-    "tests/composite/class-properties/resolver-class-properties-optional-chaining/**/input.js"
 )]
 #[testing::fixture(
     "tests/composite/class-properties/resolver-class-properties-set-public-fields/**/input.js"
@@ -1648,8 +1627,6 @@ fn composite_fixture(input: std::path::PathBuf) {
             match pipeline {
             CasePipeline::FunctionNameClassPropertiesClassesBlockScopingOptionalEs3 => Box::new(tr (t)),
             CasePipeline::ResolverFunctionNameClassProperties => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , function_name () , class_properties (Default :: default () , unresolved_mark) ,) }),
-            CasePipeline::ResolverClassPropertiesClasses => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , classes (Default :: default ()) ,) }),
-            CasePipeline::ResolverClassPropertiesBlockScoping => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , block_scoping (unresolved_mark) ,) }),
             CasePipeline::ResolverClassPropertiesAsyncToGeneratorTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , async_to_generator (Default :: default () , Mark :: new ()) ,) }),
             CasePipeline::ResolverClassPropertiesBlockScopingTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , block_scoping (Mark :: new ()) ,) }),
             CasePipeline::ResolverClassPropertiesClassesBlockScopingTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , classes (Default :: default ()) , block_scoping (Mark :: new ()) ,) }),
@@ -1661,10 +1638,8 @@ fn composite_fixture(input: std::path::PathBuf) {
             CasePipeline::ResolverClassPropertiesExponentiationClassesBlockScopingTypescriptResolver => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , true) , class_properties (Default :: default () , unresolved_mark) , exponentiation () , classes (Default :: default ()) , block_scoping (Mark :: new ()) ,) }),
             CasePipeline::ArrowNewArrowMark => Box::new(arrow (Mark :: new ())),
             CasePipeline::ResolverClassPropertiesAsyncToGenerator => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , async_to_generator (Default :: default () , Mark :: new ()) ,) }),
-            CasePipeline::ResolverClassPropertiesNoDocumentAll => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (class_properties :: Config { no_document_all : true , .. Default :: default () } , unresolved_mark ,) ,) }),
             CasePipeline::ResolverClassPropertiesSetPublicFields => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (class_properties :: Config { set_public_fields : true , .. Default :: default () } , unresolved_mark ,) ,) }),
             CasePipeline::ResolverClassPropertiesSetPublicFieldsPrivateAsProperties => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (class_properties :: Config { private_as_properties : true , set_public_fields : true , .. Default :: default () } , unresolved_mark ,) ,) }),
-            CasePipeline::ResolverClassPropertiesOptionalChaining => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , optional_chaining (Default :: default () , unresolved_mark) ,) }),
             CasePipeline::ResolverClassPropertiesArrowClassesBlockScopingSharedArrowMark => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , class_properties (Default :: default () , unresolved_mark) , arrow (unresolved_mark) , classes (Default :: default ()) , block_scoping (unresolved_mark) ,) }),
             }
         },
