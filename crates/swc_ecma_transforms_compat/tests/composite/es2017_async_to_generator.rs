@@ -54,15 +54,6 @@ fn tr() -> impl Pass {
     )
 }
 
-fn with_resolver() -> impl Pass {
-    let unresolved = Mark::new();
-    let top_level = Mark::new();
-    (
-        resolver(unresolved, top_level, false),
-        async_to_generator(Default::default(), unresolved),
-    )
-}
-
 test!(
     syntax(),
     |_| tr(),
@@ -476,16 +467,6 @@ test!(
 );
 
 // async_to_generator_shadowed_promise
-test!(
-    // TODO: Unignore this
-    ignore,
-    syntax(),
-    |_| with_resolver(),
-    async_to_generator_shadowed_promise,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_shadowed_promise/input.js"
-    )
-);
 
 // async_to_generator_object_method_with_arrows
 test!(
@@ -804,14 +785,6 @@ test!(
 );
 
 // async_to_generator_deeply_nested_asyncs
-test!(
-    syntax(),
-    |_| with_resolver(),
-    async_to_generator_deeply_nested_asyncs,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_deeply_nested_asyncs/input.js"
-    )
-);
 
 // export_async_import_and_export
 test!(
@@ -824,17 +797,6 @@ test!(
 );
 
 // async_to_generator_shadowed_promise_nested
-test!(
-    // TODO: Unignore this
-    ignore,
-    syntax(),
-    |_| with_resolver(),
-    async_to_generator_shadowed_promise_nested,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_shadowed_promise_nested/input.\
-         js"
-    )
-);
 
 // bluebird_coroutines
 
@@ -921,17 +883,6 @@ test!(
 );
 
 // async_to_generator_shadowed_promise_import
-test!(
-    // TODO: Unignore this
-    ignore,
-    syntax(),
-    |_| with_resolver(),
-    async_to_generator_shadowed_promise_import,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_to_generator_shadowed_promise_import/input.\
-         js"
-    )
-);
 
 // async_to_generator_parameters
 test!(
@@ -1409,22 +1360,6 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| with_resolver(),
-    async_wrap_arguments,
-    include_str!("inline-inputs/es2017_async_to_generator/async_wrap_arguments/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| with_resolver(),
-    async_wrap_super_and_new_target,
-    include_str!(
-        "inline-inputs/es2017_async_to_generator/async_wrap_super_and_new_target/input.js"
-    )
-);
-
-test!(
-    Syntax::default(),
     |_| async_to_generator(Default::default(), Mark::new()),
     export_default_async_nested_1,
     include_str!("inline-inputs/es2017_async_to_generator/export_default_async_nested_1/input.js")
@@ -1442,13 +1377,6 @@ test!(
     |_| async_to_generator(Default::default(), Mark::new()),
     async_with_optional_params,
     include_str!("inline-inputs/es2017_async_to_generator/async_with_optional_params/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| with_resolver(),
-    issue_2895,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_2895/input.js")
 );
 
 test!(
@@ -1491,13 +1419,6 @@ test!(
     |_| async_to_generator(Default::default(), Mark::new()),
     issue_8452,
     include_str!("inline-inputs/es2017_async_to_generator/issue_8452/input.js")
-);
-
-test!(
-    Syntax::default(),
-    |_| with_resolver(),
-    issue_9432,
-    include_str!("inline-inputs/es2017_async_to_generator/issue_9432/input.js")
 );
 
 #[testing::fixture("tests/composite/async-to-generator/**/input.js")]

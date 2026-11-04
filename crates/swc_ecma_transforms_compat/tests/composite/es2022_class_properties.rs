@@ -1303,21 +1303,6 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    issue_308,
-    include_str!("inline-inputs/es2022_class_properties/issue_308/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark),
             classes(Default::default()),
         )
     },
@@ -2058,20 +2043,6 @@ test!(
 );
 
 // regression_7951
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Default::default(), unresolved_mark),
-        )
-    },
-    regression_7951,
-    include_str!("inline-inputs/es2022_class_properties/regression_7951/input.js")
-);
 
 // private_native_classes
 test!(
@@ -2729,48 +2700,6 @@ test!(
             resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 class_properties::Config {
-                    constant_super: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    constant_super_complex_super,
-    include_str!("inline-inputs/es2022_class_properties/constant_super_complex_super/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    constant_super: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    constant_super_field,
-    include_str!("inline-inputs/es2022_class_properties/constant_super_field/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
                     no_document_all: true,
                     ..Default::default()
                 },
@@ -2918,71 +2847,6 @@ test!(
             class_properties(
                 class_properties::Config {
                     private_as_properties: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    private_as_properties_basic,
-    include_str!("inline-inputs/es2022_class_properties/private_as_properties_basic/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    private_as_properties: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    private_as_properties_static,
-    include_str!("inline-inputs/es2022_class_properties/private_as_properties_static/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    private_as_properties: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    private_as_properties_getter_only,
-    include_str!(
-        "inline-inputs/es2022_class_properties/private_as_properties_getter_only/input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    private_as_properties: true,
                     set_public_fields: true,
                     ..Default::default()
                 },
@@ -3022,27 +2886,6 @@ test!(
     },
     get_only_setter,
     include_str!("inline-inputs/es2022_class_properties/get_only_setter/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            class_properties(
-                class_properties::Config {
-                    private_as_properties: true,
-                    ..Default::default()
-                },
-                unresolved_mark,
-            ),
-        )
-    },
-    loose_keyword_method,
-    include_str!("inline-inputs/es2022_class_properties/loose_keyword_method/input.js")
 );
 
 #[testing::fixture("tests/composite/classes/**/exec.js")]

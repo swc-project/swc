@@ -1586,16 +1586,6 @@ test!(
     include_str!("inline-inputs/es2015_classes/issue_454_followup_2/input.js")
 );
 
-test!(
-    syntax(),
-    |_| (
-        resolver(Mark::new(), Mark::new(), false),
-        classes(Default::default())
-    ),
-    duplicate_ident,
-    include_str!("inline-inputs/es2015_classes/duplicate_ident/input.js")
-);
-
 // extend_builtins_shadowed
 test!(
     // Cost is too high while being useless

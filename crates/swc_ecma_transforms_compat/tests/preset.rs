@@ -70,6 +70,30 @@ fn fixture(input: PathBuf) {
         options.env.is_none() || options.jsc.target.is_none(),
         "env and jsc.target are mutually exclusive"
     );
+    assert_ne!(
+        options.jsc.target,
+        Some(EsVersion::Es3),
+        "the fixture runner does not support the es3 target"
+    );
+    if let Some(env) = &options.env {
+        for feature in env.include.iter().chain(&env.exclude) {
+            assert!(
+                matches!(
+                    feature,
+                    Feature::ArrowFunctions
+                        | Feature::Classes
+                        | Feature::ClassProperties
+                        | Feature::ForOf
+                        | Feature::ShorthandProperties
+                        | Feature::Parameters
+                        | Feature::Destructuring
+                        | Feature::BlockScoping
+                        | Feature::AsyncToGenerator
+                ),
+                "unsupported env feature in preset fixture"
+            );
+        }
+    }
     let syntax = options.jsc.parser.unwrap_or_default();
     let assumptions = options.jsc.assumptions.unwrap_or_else(|| {
         if options.jsc.loose {
@@ -125,4 +149,16 @@ fn fixture(input: PathBuf) {
             ..Default::default()
         },
     );
+}
+
+#[test]
+fn options_reject_unsupported_fields() {
+    for source in [
+        r#"{"unknown": true}"#,
+        r#"{"jsc": {"unknown": true}}"#,
+        r#"{"env": {"unknown": true}}"#,
+        r#"{"env": {"include": ["not-a-transform"]}}"#,
+    ] {
+        assert!(serde_json::from_str::<Options>(source).is_err(), "{source}");
+    }
 }

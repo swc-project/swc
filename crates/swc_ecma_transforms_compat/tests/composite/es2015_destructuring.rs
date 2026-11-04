@@ -28,20 +28,6 @@ fn tr() -> impl Pass {
 
 test!(
     syntax(),
-    |_| tr(),
-    issue_2819,
-    include_str!("inline-inputs/es2015_destructuring/issue_2819/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_2821,
-    include_str!("inline-inputs/es2015_destructuring/issue_2821/input.js")
-);
-
-test!(
-    syntax(),
     |_| destructuring(Config { loose: false }),
     need_to_array,
     include_str!("inline-inputs/es2015_destructuring/need_to_array/input.js")
@@ -70,13 +56,6 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(),
-    issue_169,
-    include_str!("inline-inputs/es2015_destructuring/issue_169/input.js")
-);
-
-test!(
-    syntax(),
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -92,97 +71,6 @@ test!(
     },
     issue_1948,
     include_str!("inline-inputs/es2015_destructuring/issue_1948/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_260_01,
-    include_str!("inline-inputs/es2015_destructuring/issue_260_01/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array_pat_assign_prop_binding,
-    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array_pat_assign_prop_binding_2,
-    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array_pat_assign_prop_binding_3,
-    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_3/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array_pat_assign_prop_binding_4,
-    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_4/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array_pat_assign_prop_binding_5,
-    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_5/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array_pat_assign_prop_binding_6,
-    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_6/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array_pat_assign_prop_binding_7,
-    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_7/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_260_02,
-    include_str!("inline-inputs/es2015_destructuring/issue_260_02/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_pat_assign_prop,
-    include_str!("inline-inputs/es2015_destructuring/object_pat_assign_prop/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_pat_assign_prop_2,
-    include_str!("inline-inputs/es2015_destructuring/object_pat_assign_prop_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_pat_assign_prop_binding,
-    include_str!("inline-inputs/es2015_destructuring/object_pat_assign_prop_binding/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_pat_assign_prop_binding_2,
-    include_str!("inline-inputs/es2015_destructuring/object_pat_assign_prop_binding_2/input.js")
 );
 
 test_exec!(
@@ -203,15 +91,6 @@ expect(y).toBe("d");
 "#
 );
 
-test!(
-    syntax(),
-    |_| tr(),
-    object_pat_assign_prop_binding_isseu_2850,
-    include_str!(
-        "inline-inputs/es2015_destructuring/object_pat_assign_prop_binding_isseu_2850/input.js"
-    )
-);
-
 test_exec!(
     syntax(),
     |_| tr(),
@@ -223,55 +102,6 @@ expect(obj).toEqual({ foo: 24, bar: 45 });
 expect(foo).toBe(24);
 expect(x).toBe(45);
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    obj_assign_pat,
-    include_str!("inline-inputs/es2015_destructuring/obj_assign_pat/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    obj_assign_expr,
-    include_str!("inline-inputs/es2015_destructuring/obj_assign_expr/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array1,
-    include_str!("inline-inputs/es2015_destructuring/array1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    array2,
-    include_str!("inline-inputs/es2015_destructuring/array2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    assign_expr_completion_record,
-    include_str!("inline-inputs/es2015_destructuring/assign_expr_completion_record/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    assign_expr_pat,
-    include_str!("inline-inputs/es2015_destructuring/assign_expr_pat/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    assign_expr,
-    include_str!("inline-inputs/es2015_destructuring/assign_expr/input.js")
 );
 
 test_exec!(
@@ -286,79 +116,6 @@ expect(c).toBe(3);
 expect(d).toBe(4);"#
 );
 
-test!(
-    syntax(),
-    |_| tr(),
-    empty,
-    include_str!("inline-inputs/es2015_destructuring/empty/input.js")
-);
-
-test!(
-    ignore,
-    syntax(),
-    |_| tr(),
-    es7_object_rest_builtins,
-    include_str!("inline-inputs/es2015_destructuring/es7_object_rest_builtins/input.js")
-);
-
-test!(
-    ignore,
-    syntax(),
-    |_| tr(),
-    es7_object_rest,
-    include_str!("inline-inputs/es2015_destructuring/es7_object_rest/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    export_variable_issue_2858_1,
-    include_str!("inline-inputs/es2015_destructuring/export_variable_issue_2858_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    export_variable_issue_2858_2,
-    include_str!("inline-inputs/es2015_destructuring/export_variable_issue_2858_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    export_variable_issue_2858_3,
-    include_str!("inline-inputs/es2015_destructuring/export_variable_issue_2858_3/input.js")
-);
-
-test!(
-    ignore,
-    syntax(),
-    |_| tr(),
-    export_variable,
-    include_str!("inline-inputs/es2015_destructuring/export_variable/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    for_in,
-    include_str!("inline-inputs/es2015_destructuring/for_in/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    for_let,
-    include_str!("inline-inputs/es2015_destructuring/for_let/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    for_of,
-    include_str!("inline-inputs/es2015_destructuring/for_of/input.js")
-);
-
 test_exec!(
     ignore,
     syntax(),
@@ -368,13 +125,6 @@ test_exec!(
 
 expect(a).toBe("a");
 expect(rest).toEqual({});"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    babel_issue_3081,
-    include_str!("inline-inputs/es2015_destructuring/babel_issue_3081/input.js")
 );
 
 test_exec!(
@@ -390,49 +140,6 @@ const arr = [1, 2, 3];
 assign(arr, 1, 42);
 
 expect(arr).toEqual([1, 2, 3]);"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    babel_issue_5628,
-    include_str!("inline-inputs/es2015_destructuring/babel_issue_5628/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    babel_issue_5744,
-    include_str!("inline-inputs/es2015_destructuring/babel_issue_5744/input.js")
-);
-
-test!(
-    ignore,
-    syntax(),
-    |_| tr(),
-    babel_issue_6373,
-    include_str!("inline-inputs/es2015_destructuring/babel_issue_6373/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    known_array,
-    include_str!("inline-inputs/es2015_destructuring/known_array/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    member_expr,
-    include_str!("inline-inputs/es2015_destructuring/member_expr/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    multiple,
-    include_str!("inline-inputs/es2015_destructuring/multiple/input.js")
 );
 
 test_exec!(
@@ -468,41 +175,6 @@ expect(xs).toEqual([0, 1, 2]);"#
 
 test!(
     syntax(),
-    |_| tr(),
-    spread_test,
-    include_str!("inline-inputs/es2015_destructuring/spread_test/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_311,
-    include_str!("inline-inputs/es2015_destructuring/issue_311/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_317,
-    include_str!("inline-inputs/es2015_destructuring/issue_317/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_336,
-    include_str!("inline-inputs/es2015_destructuring/issue_336/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_404_1,
-    include_str!("inline-inputs/es2015_destructuring/issue_404_1/input.js")
-);
-
-test!(
-    syntax(),
     |t| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -518,13 +190,6 @@ test!(
     },
     issue_404_2,
     include_str!("inline-inputs/es2015_destructuring/issue_404_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_404_3,
-    include_str!("inline-inputs/es2015_destructuring/issue_404_3/input.js")
 );
 
 // destructuring_function_key_with_object_rest_spread
@@ -1249,173 +914,6 @@ var [...xs] = f();
 expect(xs).toEqual([0, 1, 2]);
 
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    custom_call,
-    include_str!("inline-inputs/es2015_destructuring/custom_call/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_1477_1,
-    include_str!("inline-inputs/es2015_destructuring/issue_1477_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_1477_2,
-    include_str!("inline-inputs/es2015_destructuring/issue_1477_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_1477_3,
-    include_str!("inline-inputs/es2015_destructuring/issue_1477_3/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_1477_4,
-    include_str!("inline-inputs/es2015_destructuring/issue_1477_4/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    next_001,
-    include_str!("inline-inputs/es2015_destructuring/next_001/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    next_002,
-    include_str!("inline-inputs/es2015_destructuring/next_002/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_3315_1,
-    include_str!("inline-inputs/es2015_destructuring/issue_3315_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_3315_2,
-    include_str!("inline-inputs/es2015_destructuring/issue_3315_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statements_let_dstr_ary_ptrn_elem_id_init_hole,
-    include_str!(
-        "inline-inputs/es2015_destructuring/statements_let_dstr_ary_ptrn_elem_id_init_hole/input.\
-         js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statements_let_dstr_ary_ptrn_elem_id_init_hole_2,
-    include_str!(
-        "inline-inputs/es2015_destructuring/statements_let_dstr_ary_ptrn_elem_id_init_hole_2/\
-         input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statements_const_dstr_ary_ptrn_elem_id_init_hole,
-    include_str!(
-        "inline-inputs/es2015_destructuring/statements_const_dstr_ary_ptrn_elem_id_init_hole/\
-         input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statements_const_dstr_ary_ptrn_elem_id_init_hole_2,
-    include_str!(
-        "inline-inputs/es2015_destructuring/statements_const_dstr_ary_ptrn_elem_id_init_hole_2/\
-         input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statements_const_dstr_ary_ptrn_elem_id_init_hole_3,
-    include_str!(
-        "inline-inputs/es2015_destructuring/statements_const_dstr_ary_ptrn_elem_id_init_hole_3/\
-         input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statements_const_dstr_ary_ptrn_elem_id_init_hole_4,
-    include_str!(
-        "inline-inputs/es2015_destructuring/statements_const_dstr_ary_ptrn_elem_id_init_hole_4/\
-         input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    for_const_dstr_ary_ptrn_elem_id_init_hole,
-    include_str!(
-        "inline-inputs/es2015_destructuring/for_const_dstr_ary_ptrn_elem_id_init_hole/input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statements_const_id_init_hole,
-    include_str!("inline-inputs/es2015_destructuring/statements_const_id_init_hole/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statements_let_id_init_hole,
-    include_str!("inline-inputs/es2015_destructuring/statements_let_id_init_hole/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_6304,
-    include_str!("inline-inputs/es2015_destructuring/issue_6304/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_6304_1,
-    include_str!("inline-inputs/es2015_destructuring/issue_6304_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_6304_2,
-    include_str!("inline-inputs/es2015_destructuring/issue_6304_2/input.js")
 );
 
 test_exec!(

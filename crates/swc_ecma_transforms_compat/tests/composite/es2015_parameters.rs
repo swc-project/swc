@@ -28,41 +28,6 @@ fn tr(c: Config) -> impl Pass {
     )
 }
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_254,
-    include_str!("inline-inputs/es2015_parameters/issue_254/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_227,
-    include_str!("inline-inputs/es2015_parameters/issue_227/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_169,
-    include_str!("inline-inputs/es2015_parameters/issue_169/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    babel_6057_simple,
-    include_str!("inline-inputs/es2015_parameters/babel_6057_simple/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_before_last,
-    include_str!("inline-inputs/es2015_parameters/default_before_last/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -95,14 +60,6 @@ test_exec!(
     r#"function f(a, b = a, c = b) { return c; }
 
 expect(3).toBe(f(3));"#
-);
-
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    default_eval,
-    include_str!("inline-inputs/es2015_parameters/default_eval/input.js")
 );
 
 test_exec!(
@@ -164,41 +121,6 @@ test_exec!(
 expect(new Ref().ref).toBe(Ref);"#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_multiple,
-    include_str!("inline-inputs/es2015_parameters/default_multiple/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_rest_mix,
-    include_str!("inline-inputs/es2015_parameters/default_rest_mix/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_rest_1,
-    include_str!("inline-inputs/es2015_parameters/default_rest_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_rest_2,
-    include_str!("inline-inputs/es2015_parameters/default_rest_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_rest_3,
-    include_str!("inline-inputs/es2015_parameters/default_rest_3/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -220,20 +142,6 @@ function rest3(b = a, ...a) {
 rest3(undefined, 2)"#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_setter_noexec,
-    include_str!("inline-inputs/es2015_parameters/default_setter_noexec/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_setter_complex,
-    include_str!("inline-inputs/es2015_parameters/default_setter_complex/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -247,50 +155,6 @@ const obj = {
 obj.field = void 0;
 
 expect(obj.num).toBe(defaultValue);"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_single,
-    include_str!("inline-inputs/es2015_parameters/default_single/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    destructuring_rest,
-    include_str!("inline-inputs/es2015_parameters/destructuring_rest/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_4333,
-    include_str!("inline-inputs/es2015_parameters/regression_4333/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_4348,
-    include_str!("inline-inputs/es2015_parameters/regression_4348/input.js")
-);
-
-test!(
-    ignore,
-    syntax(),
-    // type
-    |_| tr(Default::default()),
-    regression_4634,
-    include_str!("inline-inputs/es2015_parameters/regression_4634/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_5787,
-    include_str!("inline-inputs/es2015_parameters/regression_5787/input.js")
 );
 
 test_exec!(
@@ -313,30 +177,6 @@ expect(f2(1, 2)).toBeUndefined();"#
 
 test!(
     syntax(),
-    |_| tr(Default::default()),
-    rest_args_deoptimiazation,
-    include_str!("inline-inputs/es2015_parameters/rest_args_deoptimiazation/input.js")
-);
-
-test!(
-    // Stage 0
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_arrow_fn,
-    include_str!("inline-inputs/es2015_parameters/rest_arrow_fn/input.js")
-);
-
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_async_arrow_fn,
-    include_str!("inline-inputs/es2015_parameters/rest_async_arrow_fn/input.js")
-);
-
-test!(
-    syntax(),
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -351,24 +191,6 @@ test!(
     },
     rest_binding_deoptimisation,
     include_str!("inline-inputs/es2015_parameters/rest_binding_deoptimisation/input.js")
-);
-
-test!(
-    // optimization is not implemented
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_deepest_common_ancestor_earliest_child,
-    include_str!(
-        "inline-inputs/es2015_parameters/rest_deepest_common_ancestor_earliest_child/input.js"
-    )
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_length,
-    include_str!("inline-inputs/es2015_parameters/rest_length/input.js")
 );
 
 test_exec!(
@@ -386,40 +208,6 @@ expect(length(1, 2, 3)).toBe(1);"#
 );
 
 test!(
-    // optimisation is not implemented
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_member_expression_deoptimisation,
-    include_str!("inline-inputs/es2015_parameters/rest_member_expression_deoptimisation/input.js")
-);
-
-test!(
-    // optimisation is not implemented
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_member_expression_optimisation,
-    include_str!("inline-inputs/es2015_parameters/rest_member_expression_optimisation/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_multiple,
-    include_str!("inline-inputs/es2015_parameters/rest_multiple/input.js")
-);
-
-test!(
-    // optimisation is not implemented
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_5656,
-    include_str!("inline-inputs/es2015_parameters/rest_nested_5656/input.js")
-);
-
-test!(
     syntax(),
     |_| (
         tr(Default::default()),
@@ -428,13 +216,6 @@ test!(
     ),
     rest_nested_iife,
     include_str!("inline-inputs/es2015_parameters/rest_nested_iife/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_patterns,
-    include_str!("inline-inputs/es2015_parameters/rest_patterns/input.js")
 );
 
 test_exec!(
@@ -447,15 +228,6 @@ function foo(...{ length }) {
 }
 
 expect(foo(1, 2, 3)).toEqual(3);"#
-);
-
-test!(
-    // optimisation is not implemented
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_spread_optimisation,
-    include_str!("inline-inputs/es2015_parameters/rest_spread_optimisation/input.js")
 );
 
 // parameters_rest_async_arrow_functions
@@ -501,19 +273,6 @@ test!(
 );
 
 // regression_6057_simple
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    regression_6057_simple,
-    include_str!("inline-inputs/es2015_parameters/regression_6057_simple/input.js")
-);
 
 // parameters_regression_4333
 test!(
@@ -546,34 +305,6 @@ test!(
     include_str!("inline-inputs/es2015_parameters/issue_760/input.js")
 );
 
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    rest_in_top_level_arrow_1,
-    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    issue_12084,
-    include_str!("inline-inputs/es2015_parameters/issue_12084/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| {
@@ -602,122 +333,6 @@ class Scope {
 expect(Scope.module(1, 2)).toEqual([1, 2]);
 expect(new Scope().instance(3, 4)).toEqual([3, 4]);
 "#
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    rest_in_top_level_arrow_2,
-    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_2/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    rest_in_top_level_arrow_3,
-    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_3/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    rest_in_top_level_arrow_4,
-    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_4/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    rest_in_top_level_arrow_nested_1,
-    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_nested_1/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_2825,
-    include_str!("inline-inputs/es2015_parameters/issue_2825/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_2811,
-    include_str!("inline-inputs/es2015_parameters/issue_2811/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    issue_3471,
-    include_str!("inline-inputs/es2015_parameters/issue_3471/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-        )
-    },
-    issue_3569,
-    include_str!("inline-inputs/es2015_parameters/issue_3569/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        ignore_function_length: true
-    }),
-    fn_len_complex_assign,
-    include_str!("inline-inputs/es2015_parameters/fn_len_complex_assign/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        ignore_function_length: true
-    }),
-    fn_len_default_array_destructuring,
-    include_str!("inline-inputs/es2015_parameters/fn_len_default_array_destructuring/input.js")
 );
 
 test_exec!(
@@ -792,15 +407,6 @@ test_exec!(
     expect(new Ref().ref).toBe(Ref);"
 );
 
-test!(
-    syntax(),
-    |_| tr(Config {
-        ignore_function_length: true
-    }),
-    fn_len_default_multiple,
-    include_str!("inline-inputs/es2015_parameters/fn_len_default_multiple/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Config {
@@ -828,15 +434,6 @@ test_exec!(
     expect(sum({arr:[1,2]})).toBe(3);"
 );
 
-test!(
-    syntax(),
-    |_| tr(Config {
-        ignore_function_length: true
-    }),
-    fn_len_rest_mix,
-    include_str!("inline-inputs/es2015_parameters/fn_len_rest_mix/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Config {
@@ -860,24 +457,6 @@ test_exec!(
     rest3(undefined, 2)"
 );
 
-test!(
-    syntax(),
-    |_| tr(Config {
-        ignore_function_length: true
-    }),
-    fn_len_default_single,
-    include_str!("inline-inputs/es2015_parameters/fn_len_default_single/input.js")
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        ignore_function_length: true
-    }),
-    fn_len_destructing_rest,
-    include_str!("inline-inputs/es2015_parameters/fn_len_destructing_rest/input.js")
-);
-
 test_exec!(
     syntax(),
     |_| tr(Config {
@@ -889,15 +468,6 @@ test_exec!(
     }
 
     expect(t()).toBe(3);"
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        ignore_function_length: true
-    }),
-    issue_5030,
-    include_str!("inline-inputs/es2015_parameters/issue_5030/input.js")
 );
 
 #[testing::fixture("tests/composite/parameters/**/input.js")]
