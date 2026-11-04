@@ -1,0 +1,47 @@
+{
+  "mappings": "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",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertThrows",
+    "assertThrowsAsync",
+    "perms",
+    "read",
+    "realPathSyncSuccess",
+    "incompletePath",
+    "realPath",
+    "Deno",
+    "realPathSync",
+    "build",
+    "os",
+    "startsWith",
+    "test",
+    "endsWith",
+    "ignore",
+    "write",
+    "realPathSyncSymlink",
+    "testDir",
+    "makeTempDirSync",
+    "target",
+    "symlink",
+    "mkdirSync",
+    "symlinkSync",
+    "targetPath",
+    "realPathSyncPerm",
+    "errors",
+    "PermissionDenied",
+    "realPathSyncNotFound",
+    "NotFound",
+    "realPathSuccess",
+    "realPathSymlink",
+    "realPathPerm",
+    "realPathNotFound"
+  ],
+  "sources": [
+    "../input/real_path_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport {\n    unitTest,\n    assert,\n    assertThrows,\n    assertThrowsAsync,\n} from \"./test_util.ts\";\n\nunitTest({ perms: { read: true } }, function realPathSyncSuccess(): void {\n    const incompletePath = \"cli/tests/fixture.json\";\n    const realPath = Deno.realPathSync(incompletePath);\n    if (Deno.build.os !== \"windows\") {\n        assert(realPath.startsWith(\"/\"));\n    } else {\n        assert(/^[A-Z]/.test(realPath));\n    }\n    assert(realPath.endsWith(incompletePath));\n});\n\nunitTest(\n    {\n        ignore: Deno.build.os === \"windows\",\n        perms: { read: true, write: true },\n    },\n    function realPathSyncSymlink(): void {\n        const testDir = Deno.makeTempDirSync();\n        const target = testDir + \"/target\";\n        const symlink = testDir + \"/symln\";\n        Deno.mkdirSync(target);\n        Deno.symlinkSync(target, symlink);\n        const targetPath = Deno.realPathSync(symlink);\n        assert(targetPath.startsWith(\"/\"));\n        assert(targetPath.endsWith(\"/target\"));\n    }\n);\n\nunitTest({ perms: { read: false } }, function realPathSyncPerm(): void {\n    assertThrows(() => {\n        Deno.realPathSync(\"some_file\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest({ perms: { read: true } }, function realPathSyncNotFound(): void {\n    assertThrows(() => {\n        Deno.realPathSync(\"bad_filename\");\n    }, Deno.errors.NotFound);\n});\n\nunitTest(\n    { perms: { read: true } },\n    async function realPathSuccess(): Promise<void> {\n        const incompletePath = \"cli/tests/fixture.json\";\n        const realPath = await Deno.realPath(incompletePath);\n        if (Deno.build.os !== \"windows\") {\n            assert(realPath.startsWith(\"/\"));\n        } else {\n            assert(/^[A-Z]/.test(realPath));\n        }\n        assert(realPath.endsWith(incompletePath));\n    }\n);\n\nunitTest(\n    {\n        ignore: Deno.build.os === \"windows\",\n        perms: { read: true, write: true },\n    },\n    async function realPathSymlink(): Promise<void> {\n        const testDir = Deno.makeTempDirSync();\n        const target = testDir + \"/target\";\n        const symlink = testDir + \"/symln\";\n        Deno.mkdirSync(target);\n        Deno.symlinkSync(target, symlink);\n        const targetPath = await Deno.realPath(symlink);\n        assert(targetPath.startsWith(\"/\"));\n        assert(targetPath.endsWith(\"/target\"));\n    }\n);\n\nunitTest(\n    { perms: { read: false } },\n    async function realPathPerm(): Promise<void> {\n        await assertThrowsAsync(async () => {\n            await Deno.realPath(\"some_file\");\n        }, Deno.errors.PermissionDenied);\n    }\n);\n\nunitTest(\n    { perms: { read: true } },\n    async function realPathNotFound(): Promise<void> {\n        await assertThrowsAsync(async () => {\n            await Deno.realPath(\"bad_filename\");\n        }, Deno.errors.NotFound);\n    }\n);\n"
+  ],
+  "version": 3
+}

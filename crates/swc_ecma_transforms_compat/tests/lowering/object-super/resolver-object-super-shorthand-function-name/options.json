@@ -1,0 +1,12 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": [
+            "transform-object-super",
+            "transform-shorthand-properties",
+            "transform-function-name"
+        ]
+    }
+}

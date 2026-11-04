@@ -1,0 +1,15 @@
+{
+    "module": {
+        "type": "commonjs"
+    },
+    "jsc": {
+        "target": "es2018",
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "transform": {
+            "decoratorMetadata": true
+        }
+    }
+}

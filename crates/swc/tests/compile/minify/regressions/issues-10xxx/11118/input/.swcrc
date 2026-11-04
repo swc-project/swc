@@ -1,0 +1,8 @@
+{
+  "jsc": {
+    "loose": true
+  },
+  "module": {
+    "type": "es6"
+  }
+}

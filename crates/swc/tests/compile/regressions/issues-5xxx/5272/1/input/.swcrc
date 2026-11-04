@@ -1,0 +1,17 @@
+{
+    "sourceMaps": true,
+    "module": {
+        "type": "commonjs",
+        "strictMode": false
+    },
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        }
+    },
+}

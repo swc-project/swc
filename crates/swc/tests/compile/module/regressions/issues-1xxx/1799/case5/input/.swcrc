@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "target": "es2021",
+        "loose": true,
+        "keepClassNames": true
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

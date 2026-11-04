@@ -1,0 +1,46 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SACIA,QAAQ,EACRC,MAAM,EACNC,YAAY,EACZC,YAAY,EACZC,iBAAiB,EACjBC,qBAAqB,QAClB,iBAAiB;AAExB,SAASC,kBAAkBC,KAAsB;IAC7C,IAAIC,UAAU;QAET,kCAAA,2BAAA;;QAAL,QAAK,YAAeD,0BAAf,SAAA,6BAAA,QAAA,yBAAA,iCAAsB;YAAtB,IAAME,QAAN;YACD,IAAIA,MAAMC,IAAI,KAAK,UAAU;gBACzBT,OAAOQ,MAAME,WAAW;gBACxBH;YACJ;QACJ;;QALK;QAAA;;;iBAAA,6BAAA;gBAAA;;;gBAAA;sBAAA;;;;IAOLN,aAAaM,SAAS;AAC1B;AAEAR,SAAS;IAAEY,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASC;IACzC,IAAMP,QAAS,qBAAGQ,KAAKC,WAAW,CAAC;IACnCV,kBAAkBC;AACtB;AAEAP,SAAS;IAAEY,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASI;IACzC,IAAMV,QAAS,qBAAGQ,KAAKC,WAAW,CAACX,sBAAsB;IACzDC,kBAAkBC;AACtB;AAEAP,SAAS;IAAEY,OAAO;QAAEC,MAAM;IAAM;AAAE,GAAG,SAASK;IAC1Cf,aAAa;QACTY,KAAKC,WAAW,CAAC;IACrB,GAAGD,KAAKI,MAAM,CAACC,gBAAgB;AACnC;AAEApB,SAAS;IAAEY,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASQ;IACzClB,aAAa;QACTY,KAAKC,WAAW,CAAC;IACrB,GAAGM;AACP;AAEAtB,SAAS;IAAEY,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASU;IACzCpB,aAAa;QACTY,KAAKC,WAAW,CAAC;IACrB,GAAGD,KAAKI,MAAM,CAACK,QAAQ;AAC3B;AAEAxB,SACI;IAAEY,OAAO;QAAEC,MAAM;IAAK;AAAE,GACxB,SAAeY;;YACLlB,+FACWmB;;;;oBADXnB;;;;;;;;;;gDACuBQ,KAAKY,OAAO,CAAC;;;;;;;;;;;;;oBAAzBD;oBACbnB,MAAMqB,IAAI,CAACF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;oBAEfpB,kBAAkBC;;;;;;IACtB;;AAGJP,SACI;IAAEY,OAAO;QAAEC,MAAM;IAAK;AAAE,GACxB,SAAegB;;YACLtB,+FACWmB;;;;oBADXnB;;;;;;;;;;gDACuBQ,KAAKY,OAAO,CACrCtB,sBAAsB;;;;;;;;;;;;;oBADTqB;oBAGbnB,MAAMqB,IAAI,CAACF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;oBAEfpB,kBAAkBC;;;;;;IACtB;;AAGJP,SACI;IAAEY,OAAO;QAAEC,MAAM;IAAM;AAAE,GACzB,SAAeiB;;;;;oBACX;;wBAAM1B,kBAAkB;;;;;4CACpB;;gDAAMW,KAAKY,OAAO,CAAC,SAAS,CAACI,OAAOC,aAAa,CAAC,GAAGC,IAAI;;;4CAAzD;;;;;;4BACJ;2BAAGlB,KAAKI,MAAM,CAACC,gBAAgB;;;oBAF/B;;;;;;IAGJ",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "assertThrows",
+    "assertThrowsAsync",
+    "pathToAbsoluteFileUrl",
+    "assertSameContent",
+    "files",
+    "counter",
+    "entry",
+    "name",
+    "isDirectory",
+    "perms",
+    "read",
+    "readDirSyncSuccess",
+    "Deno",
+    "readDirSync",
+    "readDirSyncWithUrl",
+    "readDirSyncPerm",
+    "errors",
+    "PermissionDenied",
+    "readDirSyncNotDir",
+    "Error",
+    "readDirSyncNotFound",
+    "NotFound",
+    "readDirSuccess",
+    "dirEntry",
+    "readDir",
+    "push",
+    "readDirWithUrl",
+    "readDirPerm",
+    "Symbol",
+    "asyncIterator",
+    "next"
+  ],
+  "sources": [
+    "../input/read_dir_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport {\n    unitTest,\n    assert,\n    assertEquals,\n    assertThrows,\n    assertThrowsAsync,\n    pathToAbsoluteFileUrl,\n} from \"./test_util.ts\";\n\nfunction assertSameContent(files: Deno.DirEntry[]): void {\n    let counter = 0;\n\n    for (const entry of files) {\n        if (entry.name === \"subdir\") {\n            assert(entry.isDirectory);\n            counter++;\n        }\n    }\n\n    assertEquals(counter, 1);\n}\n\nunitTest({ perms: { read: true } }, function readDirSyncSuccess(): void {\n    const files = [...Deno.readDirSync(\"cli/tests/\")];\n    assertSameContent(files);\n});\n\nunitTest({ perms: { read: true } }, function readDirSyncWithUrl(): void {\n    const files = [...Deno.readDirSync(pathToAbsoluteFileUrl(\"cli/tests\"))];\n    assertSameContent(files);\n});\n\nunitTest({ perms: { read: false } }, function readDirSyncPerm(): void {\n    assertThrows(() => {\n        Deno.readDirSync(\"tests/\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest({ perms: { read: true } }, function readDirSyncNotDir(): void {\n    assertThrows(() => {\n        Deno.readDirSync(\"cli/tests/fixture.json\");\n    }, Error);\n});\n\nunitTest({ perms: { read: true } }, function readDirSyncNotFound(): void {\n    assertThrows(() => {\n        Deno.readDirSync(\"bad_dir_name\");\n    }, Deno.errors.NotFound);\n});\n\nunitTest(\n    { perms: { read: true } },\n    async function readDirSuccess(): Promise<void> {\n        const files = [];\n        for await (const dirEntry of Deno.readDir(\"cli/tests/\")) {\n            files.push(dirEntry);\n        }\n        assertSameContent(files);\n    }\n);\n\nunitTest(\n    { perms: { read: true } },\n    async function readDirWithUrl(): Promise<void> {\n        const files = [];\n        for await (const dirEntry of Deno.readDir(\n            pathToAbsoluteFileUrl(\"cli/tests\")\n        )) {\n            files.push(dirEntry);\n        }\n        assertSameContent(files);\n    }\n);\n\nunitTest(\n    { perms: { read: false } },\n    async function readDirPerm(): Promise<void> {\n        await assertThrowsAsync(async () => {\n            await Deno.readDir(\"tests/\")[Symbol.asyncIterator]().next();\n        }, Deno.errors.PermissionDenied);\n    }\n);\n"
+  ],
+  "version": 3
+}

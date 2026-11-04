@@ -1,0 +1,28 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,QAAQ,iBAAiB;AAExDD,SAAS,SAASE;IACd,IAAMC,OAAO;IACb,IAAMC,SAAS;QAAEC,SAAS;IAAQ;IAClC,IAAMC,kBAAkB;QACpBC,SAAS;QACTC,YAAY;QACZJ,QAAAA;IACJ;IACA,IAAMK,QAAQ,IAAIC,YAAYP,MAAMG;IAEpCL,aAAaQ,MAAMF,OAAO,EAAE;IAC5BN,aAAaQ,MAAMD,UAAU,EAAE;IAC/BP,aAAaQ,MAAME,aAAa,EAAE;IAClCV,aAAaQ,MAAML,MAAM,EAAEA;IAC3BH,aAAaQ,MAAMG,SAAS,EAAE;IAC9BX,aAAaQ,MAAMI,MAAM,EAAE;IAC3BZ,aAAaQ,MAAMN,IAAI,EAAEA;AAC7B;AAEAH,SAAS,SAASc;IACd,IAAMX,OAAO;IACb,IAAMM,QAAQ,IAAIC,YAAYP,MAAM,CAAC;IACrCF,aAAaQ,MAAMM,QAAQ,IAAI;AACnC",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "customEventInitializedWithDetail",
+    "type",
+    "detail",
+    "message",
+    "customEventInit",
+    "bubbles",
+    "cancelable",
+    "event",
+    "CustomEvent",
+    "currentTarget",
+    "isTrusted",
+    "target",
+    "toStringShouldBeWebCompatibility",
+    "toString"
+  ],
+  "sources": [
+    "../input/custom_event_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertEquals } from \"./test_util.ts\";\n\nunitTest(function customEventInitializedWithDetail(): void {\n    const type = \"touchstart\";\n    const detail = { message: \"hello\" };\n    const customEventInit = {\n        bubbles: true,\n        cancelable: true,\n        detail,\n    } as CustomEventInit;\n    const event = new CustomEvent(type, customEventInit);\n\n    assertEquals(event.bubbles, true);\n    assertEquals(event.cancelable, true);\n    assertEquals(event.currentTarget, null);\n    assertEquals(event.detail, detail);\n    assertEquals(event.isTrusted, false);\n    assertEquals(event.target, null);\n    assertEquals(event.type, type);\n});\n\nunitTest(function toStringShouldBeWebCompatibility(): void {\n    const type = \"touchstart\";\n    const event = new CustomEvent(type, {});\n    assertEquals(event.toString(), \"[object CustomEvent]\");\n});\n"
+  ],
+  "version": 3
+}

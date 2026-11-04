@@ -1,0 +1,30 @@
+[
+    {
+        "env": {
+            "targets": {
+                "node": "12.19.0"
+            }
+        },
+        "jsc": {
+            "parser": {
+                "syntax": "typescript"
+            }
+        },
+        "module": {
+            "type": "commonjs"
+        },
+        "sourceMaps": true,
+        "test": ".*.ts$"
+    },
+    {
+        "env": {
+            "targets": {
+                "node": "12.19.0"
+            }
+        },
+        "module": {
+            "type": "commonjs"
+        },
+        "test": ".*.js$"
+    }
+]

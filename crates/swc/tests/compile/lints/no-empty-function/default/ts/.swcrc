@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "lints": {
+            "noEmptyFunction": [
+                "error"
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

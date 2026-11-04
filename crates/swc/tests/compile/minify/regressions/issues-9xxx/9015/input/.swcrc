@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "target": "es2015",
+        "minify": {
+            "mangle": true
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": true,
+    "isModule": false
+}

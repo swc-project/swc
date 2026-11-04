@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "loose": true
+    },
+    "env": {
+        "mode": "entry",
+        "coreJs": 3
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

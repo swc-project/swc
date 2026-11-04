@@ -1,0 +1,19 @@
+{
+  "env": {
+    "include": [],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "pureGetters": true
+    },
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "preserveAllComments": true
+  }
+}

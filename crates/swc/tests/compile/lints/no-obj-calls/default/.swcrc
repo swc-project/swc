@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "lints": {
+            "no-obj-calls": [
+                "error"
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

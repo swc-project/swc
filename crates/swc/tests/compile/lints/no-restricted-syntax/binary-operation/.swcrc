@@ -1,0 +1,21 @@
+{
+    "jsc": {
+        "lints": {
+            "noRestrictedSyntax": [
+                "error",
+                {
+                    "BinaryExpression": [
+                        {
+                            "message": "no 'in' expression",
+                            "operator": "in"
+                        }
+                    ]
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

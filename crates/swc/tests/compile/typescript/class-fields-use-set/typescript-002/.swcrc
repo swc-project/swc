@@ -1,0 +1,16 @@
+{
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "pureGetters": true
+    },
+    "parser": {
+      "syntax": "typescript"
+    },
+    "preserveAllComments": true,
+    "target": "esnext",
+    "transform": {
+      "useDefineForClassFields": false
+    }
+  }
+}

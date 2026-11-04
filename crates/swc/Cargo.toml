@@ -76,9 +76,7 @@ indexmap      = { workspace = true, features = ["serde"] }
 jsonc-parser  = { workspace = true, features = ["serde"] }
 once_cell     = { workspace = true }
 par-core      = { workspace = true }
-par-iter      = { workspace = true }
 parking_lot   = { workspace = true }
-regex         = { workspace = true }
 rustc-hash    = { workspace = true }
 serde         = { workspace = true, features = ["derive"] }
 serde_json    = { workspace = true }
@@ -153,6 +151,7 @@ ansi_term                 = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
+regex                     = { workspace = true }
 tempfile                  = { workspace = true }
 walkdir                   = { workspace = true }
 

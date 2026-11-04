@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "parser": {
+            "tsx": true,
+            "syntax": "typescript"
+        },
+        "preserveAllComments": true,
+        "minify": {
+            "compress": true
+        }
+    }
+}

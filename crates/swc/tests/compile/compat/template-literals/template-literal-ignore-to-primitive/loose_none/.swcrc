@@ -1,0 +1,17 @@
+{
+  "env": {
+    "include": [
+      "transform-template-literals"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "ignoreToPrimitiveHint": true
+    },
+    "preserveAllComments": true
+  }
+}

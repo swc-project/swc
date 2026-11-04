@@ -1,0 +1,17 @@
+  x no 'in' expression
+   ,-[$DIR/tests/compile/lints/no-restricted-syntax/binary-operation/input/input.js:1:1]
+ 1 | 'a' in { a: 10 };
+   : ^^^^^^^^^^^^^^^^
+ 2 | 
+ 3 | 
+ 4 | () => {
+   `----
+  x no 'in' expression
+   ,-[$DIR/tests/compile/lints/no-restricted-syntax/binary-operation/input/input.js:6:1]
+ 3 | 
+ 4 | () => {
+ 5 |     // nested
+ 6 |     if ('a' in { a: 10 }) {}
+   :         ^^^^^^^^^^^^^^^^
+ 7 | }
+   `----

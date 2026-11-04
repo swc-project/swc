@@ -1,0 +1,22 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "minify": {
+            "compress": {
+                "dead_code": false,
+                "reduce_funcs": false,
+                "reduce_vars": false
+            },
+            "module": true
+        },
+        "target": "es2022"
+    },
+    "minify": true,
+    "isModule": false,
+    "module": {
+        "type": "commonjs"
+    },
+}

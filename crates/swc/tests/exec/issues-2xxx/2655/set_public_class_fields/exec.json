@@ -1,0 +1,9 @@
+{
+    "reference": {
+        "jsc": {
+            "transform": {
+                "useDefineForClassFields": false
+            }
+        }
+    }
+}

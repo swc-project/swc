@@ -1,0 +1,13 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": ["transform-template-literals"]
+    },
+    "jsc": {
+        "assumptions": {
+            "mutableTemplateObject": true
+        }
+    }
+}

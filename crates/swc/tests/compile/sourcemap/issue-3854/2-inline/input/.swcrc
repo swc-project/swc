@@ -1,0 +1,18 @@
+{
+    "test": ".*.ts$",
+    "jsc": {
+        "target": "es2020",
+        "parser": {
+            "syntax": "typescript"
+        },
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "sourceMaps": "inline"
+}

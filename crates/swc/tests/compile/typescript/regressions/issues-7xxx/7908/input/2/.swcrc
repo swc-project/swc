@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2022",
+        "experimental": {
+            "keepImportAttributes": true
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

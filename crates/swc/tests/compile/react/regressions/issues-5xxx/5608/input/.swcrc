@@ -1,0 +1,17 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "functionBind": true,
+            "exportDefaultFrom": true,
+            "decorators": true,
+            "decoratorsBeforeExport": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "react": {
+                "runtime": "automatic"
+            }
+        }
+    }
+}

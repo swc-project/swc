@@ -1,0 +1,15 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": ["transform-object-rest-spread"]
+    },
+    "jsc": {
+        "assumptions": {
+            "objectRestNoSymbols": true,
+            "setSpreadProperties": true,
+            "pureGetters": true
+        }
+    }
+}

@@ -1,0 +1,5 @@
+  x no 'for-in' expression
+   ,-[$DIR/tests/compile/lints/no-restricted-syntax/for-in-expr/input/input.js:1:1]
+ 1 | for (var x in {}) {}
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----

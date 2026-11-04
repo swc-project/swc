@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "minify": {
+            "format": {
+                "comments": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

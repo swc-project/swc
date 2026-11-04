@@ -1,0 +1,45 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,SACIA,MAAM,EACNC,YAAY,EACZC,WAAW,EACXC,QAAQ,EACRC,WAAW,QACR,iBAAiB;AAExB,IAAMC,wBAAwB,IAAIC,OAC9B,kLAIA;AAGJH,SAAS,SAAeI;;YACdC,KACAC,KAIGC;;;;oBALHF,MAAM,IAAIG,WAAW;oBACrBF,MAAM;;;;;;;;;oBAER;;wBAAMG,KAAKC,IAAI,CAACJ,KAAKD;;;oBAArB;oBACAJ;;;;;;oBACKM;oBACLR,YAAYQ,MAAMI,KAAK,EAAET;;;;;;;;;;;IAEjC;;AAUAF,SAAS,SAASY;IACd,IAAMC,WAAWJ,KAAKK,IAAI,CAACC,GAAG,EAAE,CAAC,UAAU;IAC3C,IAAMC,MAAMP,KAAKK,IAAI,CAACG,IAAI,CAACJ,UAAU,IAAIL,WAAW;QAAC;QAAG;QAAG;QAAG;QAAG;KAAE;IACnE,IAAMU,SAASF,IAAIG,KAAK,CAAC,GAAG;IAC5B,IAAMC,QAAQ,IAAIC,WACdH,OAAOI,MAAM,EACbJ,OAAOK,UAAU,EACjBL,OAAOM,UAAU,GAAG;IAExB,IAAMC,MAAML,KAAK,CAAC,EAAE;IACpB,IAAMM,UAAU,IAAIC,cAAcC,MAAM,CAACZ,IAAIG,KAAK,CAAC,KAAKU,IAAI;IAC5DhC,OAAO4B,MAAM;IACb3B,aAAa4B,SAAS;AAC1B",
+  "names": [
+    "assert",
+    "assertEquals",
+    "assertMatch",
+    "unitTest",
+    "unreachable",
+    "readErrorStackPattern",
+    "RegExp",
+    "sendAsyncStackTrace",
+    "buf",
+    "rid",
+    "error",
+    "Uint8Array",
+    "Deno",
+    "read",
+    "stack",
+    "malformedMinimalControlBuffer",
+    "readOpId",
+    "core",
+    "ops",
+    "res",
+    "send",
+    "header",
+    "slice",
+    "buf32",
+    "Int32Array",
+    "buffer",
+    "byteOffset",
+    "byteLength",
+    "arg",
+    "message",
+    "TextDecoder",
+    "decode",
+    "trim"
+  ],
+  "sources": [
+    "../input/dispatch_minimal_test.ts"
+  ],
+  "sourcesContent": [
+    "import {\n    assert,\n    assertEquals,\n    assertMatch,\n    unitTest,\n    unreachable,\n} from \"./test_util.ts\";\n\nconst readErrorStackPattern = new RegExp(\n    `^.*\n    at unwrapResponse \\\\(.*dispatch_minimal\\\\.ts:.*\\\\)\n    at Object.sendAsyncMinimal \\\\(.*dispatch_minimal\\\\.ts:.*\\\\)\n    at async Object\\\\.read \\\\(.*io\\\\.ts:.*\\\\).*$`,\n    \"ms\"\n);\n\nunitTest(async function sendAsyncStackTrace(): Promise<void> {\n    const buf = new Uint8Array(10);\n    const rid = 10;\n    try {\n        await Deno.read(rid, buf);\n        unreachable();\n    } catch (error) {\n        assertMatch(error.stack, readErrorStackPattern);\n    }\n});\n\ndeclare global {\n    // eslint-disable-next-line @typescript-eslint/no-namespace\n    namespace Deno {\n        // eslint-disable-next-line @typescript-eslint/no-explicit-any\n        var core: any; // eslint-disable-line no-var\n    }\n}\n\nunitTest(function malformedMinimalControlBuffer(): void {\n    const readOpId = Deno.core.ops()[\"op_read\"];\n    const res = Deno.core.send(readOpId, new Uint8Array([1, 2, 3, 4, 5]));\n    const header = res.slice(0, 12);\n    const buf32 = new Int32Array(\n        header.buffer,\n        header.byteOffset,\n        header.byteLength / 4\n    );\n    const arg = buf32[1];\n    const message = new TextDecoder().decode(res.slice(12)).trim();\n    assert(arg < 0);\n    assertEquals(message, \"Unparsable control buffer\");\n});\n"
+  ],
+  "version": 3
+}

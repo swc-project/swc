@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "lints": {
-            "preferRegexLiterals": ["error", {
-                "disallowRedundantWrapping": true
-            }]
-        }
-    }
-}

@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "minify": {
+            "format": {
+                "ascii_only": true
+            }
+        },
+    },
+    "module": {
+        "type": "es6"
+    }
+}

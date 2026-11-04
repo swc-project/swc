@@ -1,0 +1,16 @@
+  x `Symbol` cannot be called as a constructor
+   ,-[$DIR/tests/compile/lints/no-new-symbol/default/input/input.js:1:1]
+ 1 | new Symbol();
+   : ^^^^^^^^^^^^
+ 2 | 
+ 3 | new A(new Symbol())
+   `----
+  x `Symbol` cannot be called as a constructor
+   ,-[$DIR/tests/compile/lints/no-new-symbol/default/input/input.js:3:1]
+ 1 | new Symbol();
+ 2 | 
+ 3 | new A(new Symbol())
+   :       ^^^^^^^^^^^^
+ 4 | 
+ 5 | Symbol()
+   `----

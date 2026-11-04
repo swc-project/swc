@@ -1,0 +1,8 @@
+  x Expression expected
+   ,-[$DIR/tests/compile/flow/strip/input/enum_defaulted.js:1:1]
+ 1 | enum Status {
+   : ^^^^
+ 2 |   Idle,
+ 3 |   Busy = "busy",
+ 4 |   Done,
+   `----

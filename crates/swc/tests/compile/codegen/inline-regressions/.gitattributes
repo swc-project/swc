@@ -1,0 +1,4 @@
+# These fixtures test CRLF normalization inside a template literal.
+issue-1549/input/input.js -text
+deno-10282-1/input/input.js -text
+deno-10282-2/input/input.js -text

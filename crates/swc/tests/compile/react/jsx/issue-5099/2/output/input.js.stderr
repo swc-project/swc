@@ -1,0 +1,7 @@
+  x Runtime must be either `classic` or `automatic`.
+   ,-[$DIR/tests/compile/react/jsx/issue-5099/2/input/input.js:1:1]
+ 1 | /** @jsxRuntime typo */
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | 
+ 3 | <></>;
+   `----

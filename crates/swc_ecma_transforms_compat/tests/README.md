@@ -1,28 +1,31 @@
-# Compat tests
+# Compat transform tests
 
-`preset.rs` runs the SWC compat preset after the resolver. Its fixtures live in
-`preset/<behavior>/`, with `input.js` and `output.js`. `options.json` accepts a
-subset of `.swcrc`: `jsc.parser`, `jsc.target`, `jsc.assumptions`, `jsc.loose`,
-`isModule` (boolean), and `env.targets`, `env.include`, `env.exclude`, and
-`env.loose`. The parser subset supports `syntax`, `jsx` or `tsx`, and `decorators`. The ES3
-target and unlisted env features are rejected. `env` and
-`jsc.target` are mutually exclusive. Unspecified settings use SWC defaults.
-The parser setting selects syntax; this runner does not strip TypeScript.
+Compiler end-to-end snapshots configured with `.swcrc` live in
+`../../swc/tests/compile/compat/` and run through `swc`'s shared `compile.rs`.
+New cases combining passes also belong there whenever compiler configuration
+can express their assertions.
 
-Options are inherited by top-level key from the nearest `options.json`, stopping
-at `tests/preset`; nested objects are not merged. Unsupported fields are
-rejected. The hidden fixture directories preserve tests that were ignored before
-the migration. Some of these tests have no expected output, as before.
+The remaining tests exercise the transform API directly:
 
-`composite.rs` includes the modules in `composite/` for tests requiring a
-specific pass order, custom AST handling, runtime assertions, or a flow that the
-preset cannot express. Output fixtures are grouped by behavior and pipeline in
-`composite/<behavior>/<pipeline>/<case>/`; each pipeline directory has an
-`options.json` selecting a named pipeline, and each case contains `input.js` and
-its original `output.js`. Hidden case directories preserve ignored tests; those
-that had no expected output still have none. The same runtime input can be used
-by multiple pipelines.
+- `lowering.rs` runs helper-free compat lowering after the resolver. Fixtures in
+  `lowering/<behavior>/` use `input.js`, `output.js`, and `.swcrc`-shaped
+  `options.json`. The runner consumes its documented parser, target, assumptions,
+  and env subset, without injecting helpers or stripping TypeScript. Options
+  inherit by top-level key up to `tests/lowering`; nearer nested objects replace
+  the whole parent object. Other fields do not affect this API pipeline.
+- `es20xx_<feature>.rs` groups standalone pass, pass-order, custom AST, and runtime
+  checks by feature. Fixtures live directly under `tests/<behavior>/`. Named
+  pipeline groups use an `options.json` read by `common::case_pipeline`; this
+  selection does not inherit. Broader fixture globs exclude named groups so each
+  intended snapshot runs once. Keep runtime inputs used by multiple runners.
 
-Run `cargo test -p swc_ecma_transforms_compat` without `UPDATE` to verify
-existing outputs. Use `UPDATE=1` only when an expected output change is
-intentional, review its diff, and rerun without `UPDATE`.
+Preserve snapshot text and every assertion when moving fixtures. Some snapshots
+need no helper, while others intentionally assert helper references without
+injection; the latter are not equivalent to the compiler's external or inline
+helpers. Custom hygiene/cooked-string operations and multiple-output mode checks
+also remain transform API tests. Hidden directories retain ignored cases,
+including cases without an expected output.
+
+Run `cargo test -p swc_ecma_transforms_compat` without `UPDATE` to verify existing
+outputs. Use `UPDATE=1` only for intentional snapshot changes, review the diff,
+and rerun without `UPDATE`. Enable `es3` when checking its gated coverage.

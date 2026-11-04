@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "minify": {
+            "format": {
+                "comments": "all"
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "env": {
+        "targets": "supports async-functions"
+    }
+}

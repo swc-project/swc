@@ -1,0 +1,15 @@
+{
+  "env": {
+    "include": [
+      "transform-class-properties",
+      "transform-optional-chaining"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "preserveAllComments": true
+  }
+}

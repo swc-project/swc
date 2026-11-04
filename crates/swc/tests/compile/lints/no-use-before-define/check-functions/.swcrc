@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "noUseBeforeDefine": [
+                "error",
+                {
+                    "functions": true
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

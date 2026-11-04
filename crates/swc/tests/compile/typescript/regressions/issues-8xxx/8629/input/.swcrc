@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "target": "es2015",
+        "transform": {
+            "decoratorVersion": "2022-03"
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

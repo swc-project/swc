@@ -1,6 +1,0 @@
-{
-  "development": true,
-  "refresh": {
-    "emitFullSignatures": true
-  }
-}

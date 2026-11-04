@@ -1,0 +1,48 @@
+{
+  "mappings": "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",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "assertThrows",
+    "assertThrowsAsync",
+    "perms",
+    "read",
+    "write",
+    "ftruncateSyncSuccess",
+    "filename",
+    "Deno",
+    "makeTempDirSync",
+    "file",
+    "openSync",
+    "create",
+    "ftruncateSync",
+    "rid",
+    "readFileSync",
+    "byteLength",
+    "close",
+    "removeSync",
+    "ftruncateSuccess",
+    "open",
+    "ftruncate",
+    "readFile",
+    "remove",
+    "truncateSyncSuccess",
+    "writeFileSync",
+    "Uint8Array",
+    "truncateSync",
+    "truncateSuccess",
+    "writeFile",
+    "truncate",
+    "truncateSyncPerm",
+    "errors",
+    "PermissionDenied",
+    "truncatePerm"
+  ],
+  "sources": [
+    "../input/truncate_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport {\n    unitTest,\n    assertEquals,\n    assertThrows,\n    assertThrowsAsync,\n} from \"./test_util.ts\";\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function ftruncateSyncSuccess(): void {\n        const filename = Deno.makeTempDirSync() + \"/test_ftruncateSync.txt\";\n        const file = Deno.openSync(filename, {\n            create: true,\n            read: true,\n            write: true,\n        });\n\n        Deno.ftruncateSync(file.rid, 20);\n        assertEquals(Deno.readFileSync(filename).byteLength, 20);\n        Deno.ftruncateSync(file.rid, 5);\n        assertEquals(Deno.readFileSync(filename).byteLength, 5);\n        Deno.ftruncateSync(file.rid, -5);\n        assertEquals(Deno.readFileSync(filename).byteLength, 0);\n\n        Deno.close(file.rid);\n        Deno.removeSync(filename);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function ftruncateSuccess(): Promise<void> {\n        const filename = Deno.makeTempDirSync() + \"/test_ftruncate.txt\";\n        const file = await Deno.open(filename, {\n            create: true,\n            read: true,\n            write: true,\n        });\n\n        await Deno.ftruncate(file.rid, 20);\n        assertEquals((await Deno.readFile(filename)).byteLength, 20);\n        await Deno.ftruncate(file.rid, 5);\n        assertEquals((await Deno.readFile(filename)).byteLength, 5);\n        await Deno.ftruncate(file.rid, -5);\n        assertEquals((await Deno.readFile(filename)).byteLength, 0);\n\n        Deno.close(file.rid);\n        await Deno.remove(filename);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function truncateSyncSuccess(): void {\n        const filename = Deno.makeTempDirSync() + \"/test_truncateSync.txt\";\n        Deno.writeFileSync(filename, new Uint8Array(5));\n        Deno.truncateSync(filename, 20);\n        assertEquals(Deno.readFileSync(filename).byteLength, 20);\n        Deno.truncateSync(filename, 5);\n        assertEquals(Deno.readFileSync(filename).byteLength, 5);\n        Deno.truncateSync(filename, -5);\n        assertEquals(Deno.readFileSync(filename).byteLength, 0);\n        Deno.removeSync(filename);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function truncateSuccess(): Promise<void> {\n        const filename = Deno.makeTempDirSync() + \"/test_truncate.txt\";\n        await Deno.writeFile(filename, new Uint8Array(5));\n        await Deno.truncate(filename, 20);\n        assertEquals((await Deno.readFile(filename)).byteLength, 20);\n        await Deno.truncate(filename, 5);\n        assertEquals((await Deno.readFile(filename)).byteLength, 5);\n        await Deno.truncate(filename, -5);\n        assertEquals((await Deno.readFile(filename)).byteLength, 0);\n        await Deno.remove(filename);\n    }\n);\n\nunitTest({ perms: { write: false } }, function truncateSyncPerm(): void {\n    assertThrows(() => {\n        Deno.truncateSync(\"/test_truncateSyncPermission.txt\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest(\n    { perms: { write: false } },\n    async function truncatePerm(): Promise<void> {\n        await assertThrowsAsync(async () => {\n            await Deno.truncate(\"/test_truncatePermission.txt\");\n        }, Deno.errors.PermissionDenied);\n    }\n);\n"
+  ],
+  "version": 3
+}

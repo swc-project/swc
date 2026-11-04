@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "target": "ES2018",
+        "lints": {
+            "preferObjectSpread": [
+                "error"
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

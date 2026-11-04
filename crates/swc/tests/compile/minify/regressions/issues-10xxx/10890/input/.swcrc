@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "decorators": true,
+            "autoAccessors": true
+        },
+        "target": "es2024"
+    },
+    "module": {
+        "type": "es6"
+    }
+}

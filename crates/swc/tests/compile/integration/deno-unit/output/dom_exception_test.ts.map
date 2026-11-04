@@ -1,0 +1,20 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,EAAEC,MAAM,QAAQ,iBAAiB;AAEhEF,SAAS,SAASG;IACd,IAAMC,KAAK,IAAIC,aAAa,OAAO;IACnCH,OAAOE;IACPH,aAAaG,GAAGE,OAAO,EAAE;IACzBL,aAAaG,GAAGG,IAAI,EAAE;AAC1B",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "assert",
+    "testDomError",
+    "de",
+    "DOMException",
+    "message",
+    "name"
+  ],
+  "sources": [
+    "../input/dom_exception_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertEquals, assert } from \"./test_util.ts\";\n\nunitTest(function testDomError() {\n    const de = new DOMException(\"foo\", \"bar\");\n    assert(de);\n    assertEquals(de.message, \"foo\");\n    assertEquals(de.name, \"bar\");\n});\n"
+  ],
+  "version": 3
+}

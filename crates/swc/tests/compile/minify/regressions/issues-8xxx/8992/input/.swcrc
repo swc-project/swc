@@ -1,0 +1,13 @@
+{
+    "module": {
+        "type": "es6"
+    },
+    "isModule": false,
+    "jsc": {
+        "minify": {
+            "format": {
+                "comments": false
+            }
+        }
+    }
+}

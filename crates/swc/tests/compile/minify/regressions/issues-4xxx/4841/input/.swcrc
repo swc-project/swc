@@ -1,0 +1,24 @@
+{
+    "jsc": {
+        "target": "es2021",
+        "minify": {
+            "compress": {
+                "defaults": false,
+                "if_return": true,
+                "inline": 0,
+                "keep_fargs": false,
+                "passes": 1,
+                "sequences": false,
+                "top_retain": [],
+                "toplevel": false
+            },
+            "mangle": true
+        },
+        "transform": {
+            "legacyDecorator": true
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

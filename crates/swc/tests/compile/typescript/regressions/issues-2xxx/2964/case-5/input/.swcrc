@@ -1,0 +1,18 @@
+{
+    "module": {
+        "type": "commonjs"
+    },
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "useBuiltins": false
+            }
+        },
+        "target": "es2015",
+        "preserveAllComments": true
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "target": "es2015",
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "exportDefaultFrom": true
+        },
+        "externalHelpers": false
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

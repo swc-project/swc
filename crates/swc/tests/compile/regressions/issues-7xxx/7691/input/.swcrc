@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        },
+        "target": "es3"
+    },
+    "module": {
+        "type": "es6"
+    }
+}

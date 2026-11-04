@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "lints": {
+            "no-bitwise": [
+                "error",
+                {
+                    "allow": [
+                        "^",
+                        "^="
+                    ],
+                    "int32Hint": true
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

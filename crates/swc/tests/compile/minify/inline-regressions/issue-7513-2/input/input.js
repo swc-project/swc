@@ -1,0 +1,1 @@
+export const cachedTextDecoder = { ignoreBOM: true, fatal: true };

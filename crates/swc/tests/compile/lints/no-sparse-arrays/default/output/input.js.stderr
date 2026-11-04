@@ -1,0 +1,17 @@
+  x Unexpected comma in middle of array
+   ,-[$DIR/tests/compile/lints/no-sparse-arrays/default/input/input.js:1:1]
+ 1 | var a = [,];
+   :         ^^^
+ 2 | var a = [1, , 2];
+ 3 | 
+ 4 | var a = [1, 2,];
+   `----
+  x Unexpected comma in middle of array
+   ,-[$DIR/tests/compile/lints/no-sparse-arrays/default/input/input.js:2:1]
+ 1 | var a = [,];
+ 2 | var a = [1, , 2];
+   :         ^^^^^^^^
+ 3 | 
+ 4 | var a = [1, 2,];
+ 5 | var a = [1, 2];
+   `----

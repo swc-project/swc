@@ -1,0 +1,11 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "target": "es2024"
+  },
+  "module": {
+    "type": "es6"
+  }
+}

@@ -1,7 +1,0 @@
-{
-    "jsc": {
-        "lints": {
-            "noDebugger": ["error"]
-        }
-    }
-}

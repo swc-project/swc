@@ -1,0 +1,24 @@
+{
+  "mappings": "AAAA,SAASA,YAAY,EAAEC,YAAY,EAAEC,QAAQ,QAAQ,iBAAiB;AAEtE,yFAAyF;AACzF,IAAM,AAAEC,cAAgBC,IAAI,CAACA,KAAKC,QAAQ,CAAC,CAAnCF;AAERD,SACI;IAAEI,QAAQF,KAAKG,KAAK,CAACC,EAAE,KAAK;AAAU,GACtC,SAASC;IACLR,aACIE,YAAY,IAAIO,IAAI,4BACpB;IAEJT,aACIE,YAAY,IAAIO,IAAI,yBACpB;IAEJV,aAAa;eACTG,YAAY,IAAIO,IAAI;;AAE5B;AAGJR,SACI;IAAEI,QAAQF,KAAKG,KAAK,CAACC,EAAE,KAAK;AAAU,GACtC,SAASG;IACLV,aACIE,YAAY,IAAIO,IAAI,6BACpB;IAEJT,aACIE,YAAY,IAAIO,IAAI,4BACpB;IAEJV,aAAa;eACTG,YAAY,IAAIO,IAAI;;AAExB;;;;;;;SAOC,GACL",
+  "names": [
+    "assertThrows",
+    "assertEquals",
+    "unitTest",
+    "pathFromURL",
+    "Deno",
+    "internal",
+    "ignore",
+    "build",
+    "os",
+    "pathFromURLPosix",
+    "URL",
+    "pathFromURLWin32"
+  ],
+  "sources": [
+    "../input/path_from_url_test.ts"
+  ],
+  "sourcesContent": [
+    "import { assertThrows, assertEquals, unitTest } from \"./test_util.ts\";\n\n// @ts-expect-error TypeScript (as of 3.7) does not support indexing namespaces by symbol\nconst { pathFromURL } = Deno[Deno.internal];\n\nunitTest(\n    { ignore: Deno.build.os === \"windows\" },\n    function pathFromURLPosix(): void {\n        assertEquals(\n            pathFromURL(new URL(\"file:///test/directory\")),\n            \"/test/directory\"\n        );\n        assertEquals(\n            pathFromURL(new URL(\"file:///space_ .txt\")),\n            \"/space_ .txt\"\n        );\n        assertThrows(() =>\n            pathFromURL(new URL(\"https://deno.land/welcome.ts\"))\n        );\n    }\n);\n\nunitTest(\n    { ignore: Deno.build.os !== \"windows\" },\n    function pathFromURLWin32(): void {\n        assertEquals(\n            pathFromURL(new URL(\"file:///c:/windows/test\")),\n            \"c:\\\\windows\\\\test\"\n        );\n        assertEquals(\n            pathFromURL(new URL(\"file:///c:/space_ .txt\")),\n            \"c:\\\\space_ .txt\"\n        );\n        assertThrows(() =>\n            pathFromURL(new URL(\"https://deno.land/welcome.ts\"))\n        );\n        /* TODO(ry) Add tests for these situations\n         * ampersand_&.tx                 file:///D:/weird_names/ampersand_&.txt\n         * at_@.txt                       file:///D:/weird_names/at_@.txt\n         * emoji_🙃.txt                   file:///D:/weird_names/emoji_%F0%9F%99%83.txt\n         * percent_%.txt                  file:///D:/weird_names/percent_%25.txt\n         * pound_#.txt                    file:///D:/weird_names/pound_%23.txt\n         * swapped_surrogate_pair_��.txt  file:///D:/weird_names/swapped_surrogate_pair_%EF%BF%BD%EF%BF%BD.txt\n         */\n    }\n);\n"
+  ],
+  "version": 3
+}

@@ -1,0 +1,29 @@
+  x Unexpected alert
+   ,-[$DIR/tests/compile/lints/no-alert/this/input/input.js:1:1]
+ 1 | this.alert();
+   : ^^^^^^^^^^^^
+ 2 | 
+ 3 | class X {
+ 4 |     constructor(x) {
+   `----
+  x Unexpected alert
+    ,-[$DIR/tests/compile/lints/no-alert/this/input/input.js:33:1]
+ 30 |     },
+ 31 |     c: () => {
+ 32 |         // should fail
+ 33 |         this.alert();
+    :         ^^^^^^^^^^^^
+ 34 |     },
+ 35 |     e: {
+ 36 |         a() {
+    `----
+  x Unexpected alert
+    ,-[$DIR/tests/compile/lints/no-alert/this/input/input.js:48:1]
+ 45 | function f1() {
+ 46 |     const x = () => {
+ 47 |         // should fail
+ 48 |         this.alert();
+    :         ^^^^^^^^^^^^
+ 49 |     }
+ 50 | }
+    `----

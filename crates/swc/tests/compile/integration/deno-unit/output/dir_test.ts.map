@@ -1,0 +1,38 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,EAAEC,YAAY,EAAEC,YAAY,QAAQ,iBAAiB;AAE9EH,SAAS;IAAEI,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASC;IACzCL,OAAOM,KAAKC,GAAG,MAAM;AACzB;AAEAR,SACI;IAAEI,OAAO;QAAEC,MAAM;QAAMI,OAAO;IAAK;AAAE,GACrC,SAASC;IACL,IAAMC,aAAaJ,KAAKC,GAAG;IAC3B,IAAMI,OAAOL,KAAKM,eAAe;IACjCN,KAAKO,KAAK,CAACF;IACX,IAAMG,UAAUR,KAAKC,GAAG;IACxB,IAAID,KAAKS,KAAK,CAACC,EAAE,KAAK,UAAU;QAC5Bf,aAAaa,SAAS,aAAaH;IACvC,OAAO;QACHV,aAAaa,SAASH;IAC1B;IACAL,KAAKO,KAAK,CAACH;AACf;AAGJX,SAAS;IAAEI,OAAO;QAAEC,MAAM;QAAMI,OAAO;IAAK;AAAE,GAAG,SAASS;IACtD,oEAAoE;IACpE,IAAI;QAAC;QAAS;KAAS,CAACC,QAAQ,CAACZ,KAAKS,KAAK,CAACC,EAAE,GAAG;QAC7C,IAAMN,aAAaJ,KAAKC,GAAG;QAC3B,IAAMI,OAAOL,KAAKM,eAAe;QACjCN,KAAKO,KAAK,CAACF;QACXL,KAAKa,UAAU,CAACR;QAChB,IAAI;YACAT,aAAa;gBACTI,KAAKC,GAAG;YACZ,GAAGD,KAAKc,MAAM,CAACC,QAAQ;QAC3B,SAAU;YACNf,KAAKO,KAAK,CAACH;QACf;IACJ;AACJ;AAEAX,SAAS;IAAEI,OAAO;QAAEC,MAAM;IAAM;AAAE,GAAG,SAASkB;IAC1CpB,aACI;QACII,KAAKC,GAAG;IACZ,GACAD,KAAKc,MAAM,CAACG,gBAAgB,EAC5B;AAER;AAEAxB,SACI;IAAEI,OAAO;QAAEC,MAAM;QAAMI,OAAO;IAAK;AAAE,GACrC,SAASgB;IACL,IAAMb,OAAOL,KAAKM,eAAe,KAAK;IACtCV,aAAa;QACTI,KAAKO,KAAK,CAACF;IACf,GAAGL,KAAKc,MAAM,CAACC,QAAQ;AAC3B",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "assertThrows",
+    "perms",
+    "read",
+    "dirCwdNotNull",
+    "Deno",
+    "cwd",
+    "write",
+    "dirCwdChdirSuccess",
+    "initialdir",
+    "path",
+    "makeTempDirSync",
+    "chdir",
+    "current",
+    "build",
+    "os",
+    "dirCwdError",
+    "includes",
+    "removeSync",
+    "errors",
+    "NotFound",
+    "dirCwdPermError",
+    "PermissionDenied",
+    "dirChdirError"
+  ],
+  "sources": [
+    "../input/dir_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert, assertEquals, assertThrows } from \"./test_util.ts\";\n\nunitTest({ perms: { read: true } }, function dirCwdNotNull(): void {\n    assert(Deno.cwd() != null);\n});\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function dirCwdChdirSuccess(): void {\n        const initialdir = Deno.cwd();\n        const path = Deno.makeTempDirSync();\n        Deno.chdir(path);\n        const current = Deno.cwd();\n        if (Deno.build.os === \"darwin\") {\n            assertEquals(current, \"/private\" + path);\n        } else {\n            assertEquals(current, path);\n        }\n        Deno.chdir(initialdir);\n    }\n);\n\nunitTest({ perms: { read: true, write: true } }, function dirCwdError(): void {\n    // excluding windows since it throws resource busy, while removeSync\n    if ([\"linux\", \"darwin\"].includes(Deno.build.os)) {\n        const initialdir = Deno.cwd();\n        const path = Deno.makeTempDirSync();\n        Deno.chdir(path);\n        Deno.removeSync(path);\n        try {\n            assertThrows(() => {\n                Deno.cwd();\n            }, Deno.errors.NotFound);\n        } finally {\n            Deno.chdir(initialdir);\n        }\n    }\n});\n\nunitTest({ perms: { read: false } }, function dirCwdPermError(): void {\n    assertThrows(\n        () => {\n            Deno.cwd();\n        },\n        Deno.errors.PermissionDenied,\n        \"read access to <CWD>, run again with the --allow-read flag\"\n    );\n});\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function dirChdirError(): void {\n        const path = Deno.makeTempDirSync() + \"test\";\n        assertThrows(() => {\n            Deno.chdir(path);\n        }, Deno.errors.NotFound);\n    }\n);\n"
+  ],
+  "version": 3
+}

@@ -1,0 +1,27 @@
+{
+  "mappings": ";;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,QAAQ,iBAAiB;AAElD,sDAAsD;AAEtDD,SAAS;IAAEE,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASC;IACzC,wDAAwD;IACxD,IAAMC,IAAIC,KAAKC,QAAQ,CAAC;IACxBN,OAAO,CAACK,KAAKF,MAAM,CAACC,EAAEG,GAAG;IACzBH,EAAEI,KAAK;AACX;AAEAT,SAAS,SAASU;IACd,IAAIC,SAAS;IACb,IAAI;QACA,sBAAsB;QACtBL,KAAKF,MAAM,CAAC;IAChB,EAAE,OAAOQ,GAAG;QACRD,SAAS;QACTV,OAAOW,AAAC,YAADA,GAAaN,KAAKO,MAAM,CAACC,WAAW;IAC/C;IACAb,OAAOU;AACX",
+  "names": [
+    "unitTest",
+    "assert",
+    "perms",
+    "read",
+    "isatty",
+    "f",
+    "Deno",
+    "openSync",
+    "rid",
+    "close",
+    "isattyError",
+    "caught",
+    "e",
+    "errors",
+    "BadResource"
+  ],
+  "sources": [
+    "../input/tty_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert } from \"./test_util.ts\";\n\n// Note tests for Deno.setRaw is in integration tests.\n\nunitTest({ perms: { read: true } }, function isatty(): void {\n    // CI not under TTY, so cannot test stdin/stdout/stderr.\n    const f = Deno.openSync(\"cli/tests/hello.txt\");\n    assert(!Deno.isatty(f.rid));\n    f.close();\n});\n\nunitTest(function isattyError(): void {\n    let caught = false;\n    try {\n        // Absurdly large rid.\n        Deno.isatty(0x7fffffff);\n    } catch (e) {\n        caught = true;\n        assert(e instanceof Deno.errors.BadResource);\n    }\n    assert(caught);\n});\n"
+  ],
+  "version": 3
+}

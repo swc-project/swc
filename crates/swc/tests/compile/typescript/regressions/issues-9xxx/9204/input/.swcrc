@@ -1,0 +1,28 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "target": "es2022",
+        "minify": {
+            "compress": {
+                "arguments": true,
+                "booleans_as_integers": true,
+                "dead_code": false,
+                "drop_console": true,
+                "expression": true,
+                "hoist_funs": true,
+                "hoist_vars": true,
+                "join_vars": false,
+                "keep_classnames": true,
+                "keep_infinity": true,
+                "negate_iife": false,
+                "reduce_vars": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

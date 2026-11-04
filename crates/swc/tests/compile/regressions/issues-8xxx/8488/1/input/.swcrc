@@ -1,0 +1,16 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic",
+        "useBuiltins": true
+      }
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}

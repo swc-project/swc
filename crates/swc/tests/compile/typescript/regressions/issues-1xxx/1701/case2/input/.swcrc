@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "transform": null,
+        "target": "es2015",
+        "loose": true
+    }
+}

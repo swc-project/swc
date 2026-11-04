@@ -1,0 +1,14 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "dts": false,
+      "noEarlyErrors": false,
+      "disallowAmbiguousJSXLike": false
+    },
+    "externalHelpers": false
+  },
+  "inputSourceMap": false,
+  "inlineSourcesContent": false
+}

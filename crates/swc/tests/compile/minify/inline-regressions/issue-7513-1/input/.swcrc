@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "minify": {
+            "mangle": true
+        }
+    },
+    "minify": true
+}

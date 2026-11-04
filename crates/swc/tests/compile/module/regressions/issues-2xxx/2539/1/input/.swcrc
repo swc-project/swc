@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "loose": true,
+        "target": "es2021"
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

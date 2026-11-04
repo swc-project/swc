@@ -1,0 +1,8 @@
+  x Assignment to function parameter 'a'
+   ,-[$DIR/tests/compile/lints/no-param-reassign/allow-modification-for-names/input/input.js:2:1]
+ 1 | function f(a, b) {
+ 2 |     a = 1;
+   :     ^
+ 3 |     b = 1;
+ 4 | }
+   `----

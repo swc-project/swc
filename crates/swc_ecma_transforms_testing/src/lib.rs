@@ -822,6 +822,46 @@ where
         .unwrap_or_else(|err| panic!("failed to deserialize options.json: {err}\n{value:?}"))
 }
 
+/// Reads fixture configuration, inheriting missing options from parent
+/// directories up to and including `root`. Objects below `option_depth` are
+/// replaced whole.
+pub fn parse_swcrc_options<T: DeserializeOwned>(dir: &Path, root: &Path, option_depth: usize) -> T {
+    fn inherit(child: &mut serde_json::Value, parent: serde_json::Value, depth: usize) {
+        if let (serde_json::Value::Object(child), serde_json::Value::Object(parent)) =
+            (child, parent)
+        {
+            for (key, value) in parent {
+                match child.entry(key) {
+                    serde_json::map::Entry::Vacant(entry) => {
+                        entry.insert(value);
+                    }
+                    serde_json::map::Entry::Occupied(mut entry) if depth > 0 => {
+                        inherit(entry.get_mut(), value, depth - 1);
+                    }
+                    serde_json::map::Entry::Occupied(_) => {}
+                }
+            }
+        }
+    }
+
+    let mut merged = serde_json::json!({});
+    let mut current = dir;
+    loop {
+        let file = current.join("options.json");
+        if file.exists() {
+            let source = read_to_string(&file).expect("failed to read fixture options");
+            let options = serde_json::from_str(&source)
+                .unwrap_or_else(|err| panic!("invalid options at {}: {err}", file.display()));
+            inherit(&mut merged, options, option_depth);
+        }
+        if current == root {
+            break;
+        }
+        current = current.parent().expect("fixture is outside preset root");
+    }
+    serde_json::from_value(merged).expect("invalid preset fixture options")
+}
+
 /// Config for [test_fixture]. See [test_fixture] for documentation.
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct FixtureTestConfig {

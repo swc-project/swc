@@ -1,0 +1,20 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "baseUrl": "./",
+        "target": "es2021",
+        "keepClassNames": true
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

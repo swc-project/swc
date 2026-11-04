@@ -1,0 +1,1 @@
+const someValue = 'test'  ?? 'default value';

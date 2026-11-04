@@ -1,0 +1,17 @@
+{
+  "env": {
+    "include": [
+      "transform-shorthand-properties"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "parser": {
+      "jsx": true,
+      "syntax": "ecmascript"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "transform": {
+            "useDefineForClassFields": false,
+            "legacyDecorator": true,
+            "decoratorMetadata": true,
+            "optimizer": {
+                "globals": {
+                    "vars": {
+                        "__DEBUG__": "true"
+                    }
+                }
+            }
+        }
+    }
+}

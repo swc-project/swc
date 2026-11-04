@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "transform": {
+            "optimizer": {
+                "globals": {
+                    "vars": {}
+                }
+            }
+        },
+        "loose": true,
+        "target": "es2021"
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

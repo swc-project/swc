@@ -1,0 +1,11 @@
+{
+  "env": {
+    "include": [
+      "transform-parameters"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown"
+}

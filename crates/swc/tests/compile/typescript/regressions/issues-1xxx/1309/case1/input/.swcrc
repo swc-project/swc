@@ -1,0 +1,17 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        },
+        "target": "es2016"
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "sourceMaps": true
+}

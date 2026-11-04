@@ -1,0 +1,20 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,QAAQ,iBAAiB;AAElDD,SAAS,SAASE;IACd,yDAAyD;IACzD,6CAA6C;IAC7C,IAAqBC,cAAAA,KAAKC,KAAK,EAAvBC,OAAaF,YAAbE,MAAMC,KAAOH,YAAPG;IACdL,OAAOI,KAAKE,MAAM,GAAG;IACrBN,OAAOK,OAAO,YAAYA,OAAO,aAAaA,OAAO;AACzD",
+  "names": [
+    "unitTest",
+    "assert",
+    "buildInfo",
+    "Deno",
+    "build",
+    "arch",
+    "os",
+    "length"
+  ],
+  "sources": [
+    "../input/build_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert } from \"./test_util.ts\";\n\nunitTest(function buildInfo(): void {\n    // Deno.build is injected by rollup at compile time. Here\n    // we check it has been properly transformed.\n    const { arch, os } = Deno.build;\n    assert(arch.length > 0);\n    assert(os === \"darwin\" || os === \"windows\" || os === \"linux\");\n});\n"
+  ],
+  "version": 3
+}
