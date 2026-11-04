@@ -1,3 +1,9 @@
 {
-  "importSource": "foo"
+    "jsc": {
+        "transform": {
+            "react": {
+                "importSource": "foo"
+            }
+        }
+    }
 }

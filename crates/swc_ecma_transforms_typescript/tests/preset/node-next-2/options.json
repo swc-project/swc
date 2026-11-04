@@ -1,4 +1,8 @@
 {
-    "noEmptyExport": false,
-    "importExportAssignConfig": "NodeNext"
+    "jsc": {
+        "transform": {
+            "noEmptyExport": false,
+            "importExportAssignConfig": "NodeNext"
+        }
+    }
 }

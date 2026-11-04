@@ -1,4 +1,10 @@
 {
-  "pragma": "h",
-  "runtime": "classic"
+    "jsc": {
+        "transform": {
+            "react": {
+                "pragma": "h",
+                "runtime": "classic"
+            }
+        }
+    }
 }

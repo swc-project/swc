@@ -1,15 +1,34 @@
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
+use serde::Deserialize;
 use swc_common::Mark;
 use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_react::{react, Options};
-use swc_ecma_transforms_testing::{parse_options, test_fixture, FixtureTestConfig};
+use swc_ecma_transforms_testing::{parse_swcrc_options, test_fixture, FixtureTestConfig};
+
+#[derive(Default, Deserialize)]
+#[serde(default)]
+struct Swcrc {
+    jsc: Jsc,
+}
+#[derive(Default, Deserialize)]
+#[serde(default)]
+struct Jsc {
+    transform: Transform,
+}
+#[derive(Default, Deserialize)]
+#[serde(default)]
+struct Transform {
+    react: Options,
+}
 
 /// Runs a React preset fixture using the `jsc.transform.react` options.
 #[testing::fixture("tests/preset/**/input.js")]
 fn fixture(input: PathBuf) {
-    let options: Options = parse_options(input.parent().unwrap());
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/preset");
+    let options: Swcrc = parse_swcrc_options(input.parent().unwrap(), &root, 3);
+    let options = options.jsc.transform.react;
     let output = if input.with_file_name("output.js").exists() {
         input.with_file_name("output.js")
     } else {

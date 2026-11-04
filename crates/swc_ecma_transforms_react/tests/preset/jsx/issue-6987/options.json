@@ -1,6 +1,12 @@
 {
-  "runtime": "automatic",
-  "importSource": "@emotion/react",
-  "pragma": "React.createElement",
-  "pragmaFrag": "React.Fragment"
+    "jsc": {
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "importSource": "@emotion/react",
+                "pragma": "React.createElement",
+                "pragmaFrag": "React.Fragment"
+            }
+        }
+    }
 }

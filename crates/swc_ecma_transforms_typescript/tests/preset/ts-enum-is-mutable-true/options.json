@@ -1,4 +1,14 @@
 {
-    "noEmptyExport": false,
-    "tsEnumIsMutable": true
+    "jsc": {
+        "transform": {
+            "noEmptyExport": false,
+            "tsEnumIsMutable": true
+        },
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "importAttributes": true
+        }
+    },
+    "sourceMaps": true
 }

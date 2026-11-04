@@ -1,3 +1,15 @@
 {
-  "runtime": "classic"
+    "jsc": {
+        "transform": {
+            "react": {
+                "runtime": "classic"
+            }
+        },
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "importAttributes": true
+        }
+    },
+    "sourceMaps": true
 }

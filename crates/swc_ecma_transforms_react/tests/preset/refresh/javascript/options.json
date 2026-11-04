@@ -1,6 +1,12 @@
 {
-  "development": true,
-  "refresh": {
-    "emitFullSignatures": true
-  }
+    "jsc": {
+        "transform": {
+            "react": {
+                "development": true,
+                "refresh": {
+                    "emitFullSignatures": true
+                }
+            }
+        }
+    }
 }

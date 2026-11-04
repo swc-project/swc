@@ -1,3 +1,9 @@
 {
-  "development": true
+    "jsc": {
+        "transform": {
+            "react": {
+                "development": true
+            }
+        }
+    }
 }

@@ -1,4 +1,10 @@
 {
-  "pragma": "h",
-  "throwIfNamespace": false
+    "jsc": {
+        "transform": {
+            "react": {
+                "pragma": "h",
+                "throwIfNamespace": false
+            }
+        }
+    }
 }

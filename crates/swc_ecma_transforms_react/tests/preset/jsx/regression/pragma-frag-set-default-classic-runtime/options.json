@@ -1,3 +1,9 @@
 {
-  "runtime": "classic"
+    "jsc": {
+        "transform": {
+            "react": {
+                "runtime": "classic"
+            }
+        }
+    }
 }

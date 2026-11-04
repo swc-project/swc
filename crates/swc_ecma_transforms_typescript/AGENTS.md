@@ -11,7 +11,7 @@
 ### Preset fixtures
 
 - `tests/preset` fixtures run through `tests/preset.rs` with TypeScript
-  transform options in `options.json`.
+  transform options under `jsc.transform` in `.swcrc`-shaped `options.json` files. Fields specific to the TypeScript test runner are supported there as well. Nested options inherit from parent directories up to `tests/preset`.
 - Place fixtures needing combined transforms, other parser settings, or runtime
   assertions under `tests/composite` and run them through `tests/composite.rs`.
   Keep semantic and parser correctness assertions in their dedicated modules.

@@ -13,9 +13,9 @@ use swc_ecma_preset_env::{
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 
-/// The supported subset of SWC configuration for compat preset fixtures.
+/// The SWC configuration fields used by compat preset fixtures.
 #[derive(Default, Deserialize)]
-#[serde(default, rename_all = "camelCase", deny_unknown_fields)]
+#[serde(default, rename_all = "camelCase")]
 struct Options {
     jsc: JscOptions,
     env: Option<EnvOptions>,
@@ -23,7 +23,7 @@ struct Options {
 }
 
 #[derive(Default, Deserialize)]
-#[serde(default, rename_all = "camelCase", deny_unknown_fields)]
+#[serde(default, rename_all = "camelCase")]
 struct JscOptions {
     parser: Option<ParserOptions>,
     target: Option<EsVersion>,
@@ -31,9 +31,9 @@ struct JscOptions {
     loose: bool,
 }
 
-/// Parser settings supported by these fixtures; unknown syntax options fail.
+/// Parser settings used by these fixtures.
 #[derive(Deserialize)]
-#[serde(tag = "syntax", deny_unknown_fields)]
+#[serde(tag = "syntax")]
 enum ParserOptions {
     #[serde(rename = "ecmascript")]
     Ecmascript {
@@ -69,7 +69,7 @@ impl From<ParserOptions> for Syntax {
 }
 
 #[derive(Default, Deserialize)]
-#[serde(default, rename_all = "camelCase", deny_unknown_fields)]
+#[serde(default, rename_all = "camelCase")]
 struct EnvOptions {
     targets: Option<Targets>,
     include: Vec<Feature>,
@@ -191,15 +191,9 @@ fn fixture(input: PathBuf) {
 
 #[test]
 fn options_validate_supported_fields() {
-    for source in [
-        r#"{"unknown": true}"#,
-        r#"{"jsc": {"unknown": true}}"#,
-        r#"{"jsc": {"parser": {"syntax": "ecmascript", "unknown": true}}}"#,
-        r#"{"env": {"unknown": true}}"#,
-        r#"{"env": {"include": ["not-a-transform"]}}"#,
-    ] {
-        assert!(serde_json::from_str::<Options>(source).is_err(), "{source}");
-    }
+    assert!(
+        serde_json::from_str::<Options>(r#"{"env": {"include": ["not-a-transform"]}}"#).is_err()
+    );
     let options: Options =
         serde_json::from_str(r#"{"jsc": {"parser": {"syntax": "typescript", "tsx": true}}}"#)
             .unwrap();

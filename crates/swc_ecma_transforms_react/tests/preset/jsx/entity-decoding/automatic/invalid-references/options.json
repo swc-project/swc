@@ -1,3 +1,9 @@
 {
-  "runtime": "automatic"
+    "jsc": {
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        }
+    }
 }

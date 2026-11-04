@@ -1,3 +1,9 @@
 {
-  "throwIfNamespace": false
+    "jsc": {
+        "transform": {
+            "react": {
+                "throwIfNamespace": false
+            }
+        }
+    }
 }

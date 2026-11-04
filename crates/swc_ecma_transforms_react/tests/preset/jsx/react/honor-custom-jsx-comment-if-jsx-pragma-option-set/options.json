@@ -1,3 +1,9 @@
 {
-  "pragma": "foo.bar"
+    "jsc": {
+        "transform": {
+            "react": {
+                "pragma": "foo.bar"
+            }
+        }
+    }
 }
