@@ -1,0 +1,50 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,EAAEC,YAAY,QAAQ,iBAAiB;AAEhE,4EAA4E;AAC5E,SAASC;IACL,IAAMC,aAAaC,OAAO;QAErBD,cAAAA;IADL,IAAA,AAAME,OAAN,SAAMA,KAIEC,IAAkE;;gCAJpED;QACF,uBAACF,aAAc,IAAII;YAKV,kCAAA,2BAAA;;YAAL,QAAK,YAAsBD,yBAAtB,SAAA,6BAAA,QAAA,yBAAA,iCAA4B;gBAA5B,mCAAA,iBAAOE,sBAAKC;gBACb,IAAI,CAACN,WAAW,CAACO,GAAG,CAACF,KAAKC;YAC9B;;YAFK;YAAA;;;qBAAA,6BAAA;oBAAA;;;oBAAA;0BAAA;;;;;IAMb,OAAO;QACHJ,MAAAA;QACA,4EAA4E;QAC5E,uCAAuC;QACvC,yFAAyF;QACzFM,aAAaC,IAAI,CAACA,KAAKC,QAAQ,CAAC,CAACC,gBAAgB,CAACT,MAAMF;IAC5D;AACJ;AAEAJ,SAAS,SAASgB;IACd,IAA8Bb,SAAAA,SAAtBS,cAAsBT,OAAtBS,aAAaN,OAASH,OAATG;IAErB,IAAMW,UAAmC;QACrC;YAAC;YAAO;SAAE;QACV;YAAC;YAAO;SAAE;KACb;IAED,IAAMC,cAAc,IAAIN,YAAYK;IAEpCf,aAAaiB,MAAMC,IAAI,CAACF,YAAYG,OAAO,KAAKJ;IAChDf,aAAaiB,MAAMC,IAAI,CAACF,YAAYI,MAAM,KAAK;QAAC;QAAG;KAAE;IACrDpB,aAAaiB,MAAMC,IAAI,CAACF,YAAYK,IAAI,KAAK;QAAC;QAAO;KAAM;IAE3D,IAAIC,SAAkC,EAAE;QACnC,kCAAA,2BAAA;;QAAL,QAAK,YAAsBN,gCAAtB,SAAA,6BAAA,QAAA,yBAAA,iCAAmC;YAAnC,mCAAA,iBAAOT,sBAAKC;YACbT,OAAOQ,OAAO;YACdR,OAAOS,SAAS;YAChBc,OAAOC,IAAI,CAAC;gBAAChB;gBAAKC;aAAM;QAC5B;;QAJK;QAAA;;;iBAAA,6BAAA;gBAAA;;;gBAAA;sBAAA;;;;IAKLR,aAAae,SAASO;IAEtBA,SAAS,EAAE;IACX,IAAME,QAAQ,CAAC;IACf,SAASC,SAELjB,KAAa,EACbD,GAAW,EACXmB,MAA0B;QAE1B1B,aAAa0B,QAAQV;QACrBjB,OAAOQ,OAAO;QACdR,OAAOS,SAAS;QAChBT,OAAO,IAAI,KAAKyB;QAChBF,OAAOC,IAAI,CAAC;YAAChB;YAAKC;SAAM;IAC5B;IACAQ,YAAYW,OAAO,CAACF,UAAUD;IAC9BxB,aAAae,SAASO;IAEtBtB,aAAaU,YAAYkB,IAAI,EAAExB,KAAKwB,IAAI;AAC5C;AAEA9B,SAAS,SAAS+B;IACd,IAAM,AAAEnB,cAAgBT,QAAhBS;IAER,IAAMM,cAAc,IAAIN,YAAY;QAAC;YAAC;YAAO;SAAE;KAAC;IAEhD,8DAA8D;IAC9D,SAASoB,WAAWC,OAAY,EAAEC,QAAa;QAC3C,SAASP;YACLzB,aAAa,IAAI,EAAEgC;QACvB;QACAhB,YAAYW,OAAO,CAACF,UAAUM;IAClC;IAEAD,WAAW,GAAGG,OAAO;IACrBH,WAAW,IAAIG,OAAO;IACtBH,WAAW,MAAMI;IACjBJ,WAAWK,WAAWD;AAC1B",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "setup",
+    "dataSymbol",
+    "Symbol",
+    "Base",
+    "data",
+    "Map",
+    "key",
+    "value",
+    "set",
+    "DomIterable",
+    "Deno",
+    "internal",
+    "DomIterableMixin",
+    "testDomIterable",
+    "fixture",
+    "domIterable",
+    "Array",
+    "from",
+    "entries",
+    "values",
+    "keys",
+    "result",
+    "push",
+    "scope",
+    "callback",
+    "parent",
+    "forEach",
+    "name",
+    "testDomIterableScope",
+    "checkScope",
+    "thisArg",
+    "expected",
+    "Object",
+    "window",
+    "undefined"
+  ],
+  "sources": [
+    "../input/dom_iterable_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert, assertEquals } from \"./test_util.ts\";\n\n// eslint-disable-next-line @typescript-eslint/explicit-function-return-type\nfunction setup() {\n    const dataSymbol = Symbol(\"data symbol\");\n    class Base {\n        [dataSymbol] = new Map<string, number>();\n\n        constructor(\n            data: Array<[string, number]> | IterableIterator<[string, number]>\n        ) {\n            for (const [key, value] of data) {\n                this[dataSymbol].set(key, value);\n            }\n        }\n    }\n\n    return {\n        Base,\n        // This is using an internal API we don't want published as types, so having\n        // to cast to any to \"trick\" TypeScript\n        // @ts-expect-error TypeScript (as of 3.7) does not support indexing namespaces by symbol\n        DomIterable: Deno[Deno.internal].DomIterableMixin(Base, dataSymbol),\n    };\n}\n\nunitTest(function testDomIterable(): void {\n    const { DomIterable, Base } = setup();\n\n    const fixture: Array<[string, number]> = [\n        [\"foo\", 1],\n        [\"bar\", 2],\n    ];\n\n    const domIterable = new DomIterable(fixture);\n\n    assertEquals(Array.from(domIterable.entries()), fixture);\n    assertEquals(Array.from(domIterable.values()), [1, 2]);\n    assertEquals(Array.from(domIterable.keys()), [\"foo\", \"bar\"]);\n\n    let result: Array<[string, number]> = [];\n    for (const [key, value] of domIterable) {\n        assert(key != null);\n        assert(value != null);\n        result.push([key, value]);\n    }\n    assertEquals(fixture, result);\n\n    result = [];\n    const scope = {};\n    function callback(\n        this: typeof scope,\n        value: number,\n        key: string,\n        parent: typeof domIterable\n    ): void {\n        assertEquals(parent, domIterable);\n        assert(key != null);\n        assert(value != null);\n        assert(this === scope);\n        result.push([key, value]);\n    }\n    domIterable.forEach(callback, scope);\n    assertEquals(fixture, result);\n\n    assertEquals(DomIterable.name, Base.name);\n});\n\nunitTest(function testDomIterableScope(): void {\n    const { DomIterable } = setup();\n\n    const domIterable = new DomIterable([[\"foo\", 1]]);\n\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    function checkScope(thisArg: any, expected: any): void {\n        function callback(this: typeof thisArg): void {\n            assertEquals(this, expected);\n        }\n        domIterable.forEach(callback, thisArg);\n    }\n\n    checkScope(0, Object(0));\n    checkScope(\"\", Object(\"\"));\n    checkScope(null, window);\n    checkScope(undefined, window);\n});\n"
+  ],
+  "version": 3
+}

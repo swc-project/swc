@@ -1,0 +1,14 @@
+{
+  "mappings": "AAGAA,QAAQC,GAAG,CAAC",
+  "names": [
+    "console",
+    "log"
+  ],
+  "sources": [
+    "../input/input.js"
+  ],
+  "sourcesContent": [
+    "/*!\n * @license MIT\n */\nconsole.log(\"default\");\n"
+  ],
+  "version": 3
+}

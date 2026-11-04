@@ -1,0 +1,31 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,QAAQ,iBAAiB;AAExDD,SAAS,SAAeE;;YACdC;;;;oBAAQ;;wBAAMC,KAAKC,KAAK,CAACC,IAAI,CAAC,IAAIC,WAAW;;;oBAA7CJ,QAAQ;oBACdF,aAAaE,OAAO;;;;;;IACxB;;AAEAH,SAAS,SAASQ;IACd,IAAML,QAAQC,KAAKC,KAAK,CAACI,QAAQ,CAAC,IAAIF,WAAW;IACjDN,aAAaE,OAAO;AACxB;AAEAH,SAAS,SAAeU;;YACdC;;;;oBAAW;;wBAAMP,KAAKQ,MAAM,CAACC,KAAK,CAAC,IAAIN,WAAW;;;oBAAlDI,WAAW;oBACjBV,aAAaU,UAAU;;;;;;IAC3B;;AAEAX,SAAS,SAASc;IACd,IAAMH,WAAWP,KAAKQ,MAAM,CAACG,SAAS,CAAC,IAAIR,WAAW;IACtDN,aAAaU,UAAU;AAC3B;AAEAX,SAAS,SAAegB;;YACdL;;;;oBAAW;;wBAAMP,KAAKa,MAAM,CAACJ,KAAK,CAAC,IAAIN,WAAW;;;oBAAlDI,WAAW;oBACjBV,aAAaU,UAAU;;;;;;IAC3B;;AAEAX,SAAS,SAASkB;IACd,IAAMP,WAAWP,KAAKa,MAAM,CAACF,SAAS,CAAC,IAAIR,WAAW;IACtDN,aAAaU,UAAU;AAC3B",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "stdioStdinRead",
+    "nread",
+    "Deno",
+    "stdin",
+    "read",
+    "Uint8Array",
+    "stdioStdinReadSync",
+    "readSync",
+    "stdioStdoutWrite",
+    "nwritten",
+    "stdout",
+    "write",
+    "stdioStdoutWriteSync",
+    "writeSync",
+    "stdioStderrWrite",
+    "stderr",
+    "stdioStderrWriteSync"
+  ],
+  "sources": [
+    "../input/stdio_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertEquals } from \"./test_util.ts\";\n\nunitTest(async function stdioStdinRead() {\n    const nread = await Deno.stdin.read(new Uint8Array(0));\n    assertEquals(nread, 0);\n});\n\nunitTest(function stdioStdinReadSync() {\n    const nread = Deno.stdin.readSync(new Uint8Array(0));\n    assertEquals(nread, 0);\n});\n\nunitTest(async function stdioStdoutWrite() {\n    const nwritten = await Deno.stdout.write(new Uint8Array(0));\n    assertEquals(nwritten, 0);\n});\n\nunitTest(function stdioStdoutWriteSync() {\n    const nwritten = Deno.stdout.writeSync(new Uint8Array(0));\n    assertEquals(nwritten, 0);\n});\n\nunitTest(async function stdioStderrWrite() {\n    const nwritten = await Deno.stderr.write(new Uint8Array(0));\n    assertEquals(nwritten, 0);\n});\n\nunitTest(function stdioStderrWriteSync() {\n    const nwritten = Deno.stderr.writeSync(new Uint8Array(0));\n    assertEquals(nwritten, 0);\n});\n"
+  ],
+  "version": 3
+}

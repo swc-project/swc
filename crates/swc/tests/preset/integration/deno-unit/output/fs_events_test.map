@@ -1,0 +1,45 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,EAAEC,YAAY,QAAQ,iBAAiB;AAEhE,6CAA6C;AAE7CF,SAAS;IAAEG,OAAO;QAAEC,MAAM;IAAM;AAAE,GAAG,SAASC;IAC1CH,aAAa;QACTI,KAAKC,OAAO,CAAC;IACjB,GAAGD,KAAKE,MAAM,CAACC,gBAAgB;AACnC;AAEAT,SAAS;IAAEG,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASM;IACzC,IAAIJ,KAAKK,KAAK,CAACC,EAAE,KAAK,WAAW;QAC7BV,aACI;YACII,KAAKC,OAAO,CAAC;QACjB,GACAM,OACA;IAER,OAAO;QACHX,aAAa;YACTI,KAAKC,OAAO,CAAC;QACjB,GAAGD,KAAKE,MAAM,CAACM,QAAQ;IAC3B;AACJ;AAEA,SAAeC,aACXC,IAAyC;;YAEnCC,gGACWC;;;;oBADXD;;;;;;;;;;gDACoBD;;;;;;;;;;;;;oBAATE;oBACbD,OAAOE,IAAI,CAACD;oBACZ,IAAID,OAAOG,MAAM,GAAG,GAAG;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;oBAE3B;;wBAAOH;;;;IACX;;AAEAjB,SACI;IAAEG,OAAO;QAAEC,MAAM;QAAMiB,OAAO;IAAK;AAAE,GACrC,SAAeC;;YACLC,SACAP,MAGAQ,eAGAC,OACAC,OAKAT;;;;oBAbU;;wBAAMX,KAAKqB,WAAW;;;oBAAhCJ,UAAU;oBACVP,OAAOV,KAAKC,OAAO,CAACgB;oBAE1B,wCAAwC;oBAClCC,gBAAgBT,aAAaC;oBAEnC,yCAAyC;oBACnCS,QAAQF,UAAU;oBAClBG,QAAQH,UAAU;oBACxBjB,KAAKsB,aAAa,CAACH,OAAO,IAAII;wBAAY;wBAAG;wBAAG;;oBAChDvB,KAAKsB,aAAa,CAACF,OAAO,IAAIG;wBAAY;wBAAG;wBAAG;;oBAGjC;;wBAAML;;;oBAAfP,SAAS;oBACfhB,OAAOgB,OAAOG,MAAM,IAAI;oBACxBnB,OAAOgB,MAAM,CAAC,EAAE,CAACa,IAAI,IAAI;oBACzB7B,OAAOgB,MAAM,CAAC,EAAE,CAACc,KAAK,CAAC,EAAE,CAACC,QAAQ,CAACT;oBACnCtB,OAAOgB,MAAM,CAAC,EAAE,CAACa,IAAI,IAAI,YAAYb,MAAM,CAAC,EAAE,CAACa,IAAI,IAAI;oBACvD7B,OAAOgB,MAAM,CAAC,EAAE,CAACc,KAAK,CAAC,EAAE,CAACC,QAAQ,CAACT;;;;;;IACvC",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertThrows",
+    "perms",
+    "read",
+    "watchFsPermissions",
+    "Deno",
+    "watchFs",
+    "errors",
+    "PermissionDenied",
+    "watchFsInvalidPath",
+    "build",
+    "os",
+    "Error",
+    "NotFound",
+    "getTwoEvents",
+    "iter",
+    "events",
+    "event",
+    "push",
+    "length",
+    "write",
+    "watchFsBasic",
+    "testDir",
+    "eventsPromise",
+    "file1",
+    "file2",
+    "makeTempDir",
+    "writeFileSync",
+    "Uint8Array",
+    "kind",
+    "paths",
+    "includes"
+  ],
+  "sources": [
+    "../input/fs_events_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2019 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert, assertThrows } from \"./test_util.ts\";\n\n// TODO(ry) Add more tests to specify format.\n\nunitTest({ perms: { read: false } }, function watchFsPermissions() {\n    assertThrows(() => {\n        Deno.watchFs(\".\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest({ perms: { read: true } }, function watchFsInvalidPath() {\n    if (Deno.build.os === \"windows\") {\n        assertThrows(\n            () => {\n                Deno.watchFs(\"non-existent.file\");\n            },\n            Error,\n            \"Input watch path is neither a file nor a directory\"\n        );\n    } else {\n        assertThrows(() => {\n            Deno.watchFs(\"non-existent.file\");\n        }, Deno.errors.NotFound);\n    }\n});\n\nasync function getTwoEvents(\n    iter: AsyncIterableIterator<Deno.FsEvent>\n): Promise<Deno.FsEvent[]> {\n    const events = [];\n    for await (const event of iter) {\n        events.push(event);\n        if (events.length > 2) break;\n    }\n    return events;\n}\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function watchFsBasic(): Promise<void> {\n        const testDir = await Deno.makeTempDir();\n        const iter = Deno.watchFs(testDir);\n\n        // Asynchronously capture two fs events.\n        const eventsPromise = getTwoEvents(iter);\n\n        // Make some random file system activity.\n        const file1 = testDir + \"/file1.txt\";\n        const file2 = testDir + \"/file2.txt\";\n        Deno.writeFileSync(file1, new Uint8Array([0, 1, 2]));\n        Deno.writeFileSync(file2, new Uint8Array([0, 1, 2]));\n\n        // We should have gotten two fs events.\n        const events = await eventsPromise;\n        assert(events.length >= 2);\n        assert(events[0].kind == \"create\");\n        assert(events[0].paths[0].includes(testDir));\n        assert(events[1].kind == \"create\" || events[1].kind == \"modify\");\n        assert(events[1].paths[0].includes(testDir));\n    }\n);\n"
+  ],
+  "version": 3
+}

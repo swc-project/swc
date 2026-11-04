@@ -1,0 +1,23 @@
+{
+  "isModule": "unknown",
+  "minify": true,
+  "sourceMaps": true,
+  "inlineSourcesContent": true,
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true,
+      "decorators": true,
+      "decoratorsBeforeExport": true,
+      "importAttributes": true
+    },
+    "externalHelpers": false,
+    "minify": {
+      "compress": false,
+      "mangle": false,
+      "format": {
+        "comments": false
+      }
+    }
+  }
+}

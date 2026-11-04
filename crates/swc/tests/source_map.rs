@@ -156,6 +156,7 @@ fn issue_706() {
     "tests/preset/**/*.map",
     exclude(
         "[/\\\\]integration[/\\\\]vercel[/\\\\]",
+        "[/\\\\]integration[/\\\\]deno-unit[/\\\\]",
         "[/\\\\]typescript[/\\\\]rewrite-",
         "[/\\\\]minify[/\\\\]api[/\\\\]"
     )

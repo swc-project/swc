@@ -1,0 +1,45 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SACIA,QAAQ,EACRC,MAAM,EACNC,YAAY,EACZC,YAAY,EACZC,iBAAiB,EACjBC,qBAAqB,QAClB,iBAAiB;AAExBL,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASC;IACzC,IAAMC,OAAOC,KAAKC,YAAY,CAAC;IAC/BV,OAAOQ,KAAKG,UAAU,GAAG;IACzB,IAAMC,UAAU,IAAIC,YAAY;IAChC,IAAMC,OAAOF,QAAQG,MAAM,CAACP;IAC5B,IAAMQ,MAAMC,KAAKC,KAAK,CAACJ;IACvBb,aAAae,IAAIG,IAAI,EAAE;AAC3B;AAEApB,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASc;IACzC,IAAMZ,OAAOC,KAAKC,YAAY,CAC1BN,sBAAsB;IAE1BJ,OAAOQ,KAAKG,UAAU,GAAG;IACzB,IAAMC,UAAU,IAAIC,YAAY;IAChC,IAAMC,OAAOF,QAAQG,MAAM,CAACP;IAC5B,IAAMQ,MAAMC,KAAKC,KAAK,CAACJ;IACvBb,aAAae,IAAIG,IAAI,EAAE;AAC3B;AAEApB,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAM;AAAE,GAAG,SAASe;IAC1CnB,aAAa;QACTO,KAAKC,YAAY,CAAC;IACtB,GAAGD,KAAKa,MAAM,CAACC,gBAAgB;AACnC;AAEAxB,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASkB;IACzCtB,aAAa;QACTO,KAAKC,YAAY,CAAC;IACtB,GAAGD,KAAKa,MAAM,CAACG,QAAQ;AAC3B;AAEA1B,SACI;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GACxB,SAAeoB;;YACLlB,MAIAI,SACAE,MACAE;;;;oBANO;;wBAAMP,KAAKkB,QAAQ,CAC5BvB,sBAAsB;;;oBADpBI,OAAO;oBAGbR,OAAOQ,KAAKG,UAAU,GAAG;oBACnBC,UAAU,IAAIC,YAAY;oBAC1BC,OAAOF,QAAQG,MAAM,CAACP;oBACtBQ,MAAMC,KAAKC,KAAK,CAACJ;oBACvBb,aAAae,IAAIG,IAAI,EAAE;;;;;;IAC3B;;AAGJpB,SACI;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GACxB,SAAesB;;YACLpB,MAEAI,SACAE,MACAE;;;;oBAJO;;wBAAMP,KAAKkB,QAAQ,CAAC;;;oBAA3BnB,OAAO;oBACbR,OAAOQ,KAAKG,UAAU,GAAG;oBACnBC,UAAU,IAAIC,YAAY;oBAC1BC,OAAOF,QAAQG,MAAM,CAACP;oBACtBQ,MAAMC,KAAKC,KAAK,CAACJ;oBACvBb,aAAae,IAAIG,IAAI,EAAE;;;;;;IAC3B;;AAGJpB,SACI;IAAEM,OAAO;QAAEC,MAAM;IAAM;AAAE,GACzB,SAAeuB;;;;;oBACX;;wBAAM1B,kBAAkB;;;;;4CACpB;;gDAAMM,KAAKkB,QAAQ,CAAC;;;4CAApB;;;;;;4BACJ;2BAAGlB,KAAKa,MAAM,CAACC,gBAAgB;;;oBAF/B;;;;;;IAGJ;;AAGJxB,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASwB;IACzC,IAAK,IAAIC,IAAI,GAAGA,IAAI,KAAKA,IAAK;QAC1BtB,KAAKC,YAAY,CAAC;IACtB;AACJ",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "assertThrows",
+    "assertThrowsAsync",
+    "pathToAbsoluteFileUrl",
+    "perms",
+    "read",
+    "readFileSyncSuccess",
+    "data",
+    "Deno",
+    "readFileSync",
+    "byteLength",
+    "decoder",
+    "TextDecoder",
+    "json",
+    "decode",
+    "pkg",
+    "JSON",
+    "parse",
+    "name",
+    "readFileSyncUrl",
+    "readFileSyncPerm",
+    "errors",
+    "PermissionDenied",
+    "readFileSyncNotFound",
+    "NotFound",
+    "readFileUrl",
+    "readFile",
+    "readFileSuccess",
+    "readFilePerm",
+    "readFileSyncLoop",
+    "i"
+  ],
+  "sources": [
+    "../input/read_file_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport {\n    unitTest,\n    assert,\n    assertEquals,\n    assertThrows,\n    assertThrowsAsync,\n    pathToAbsoluteFileUrl,\n} from \"./test_util.ts\";\n\nunitTest({ perms: { read: true } }, function readFileSyncSuccess(): void {\n    const data = Deno.readFileSync(\"cli/tests/fixture.json\");\n    assert(data.byteLength > 0);\n    const decoder = new TextDecoder(\"utf-8\");\n    const json = decoder.decode(data);\n    const pkg = JSON.parse(json);\n    assertEquals(pkg.name, \"deno\");\n});\n\nunitTest({ perms: { read: true } }, function readFileSyncUrl(): void {\n    const data = Deno.readFileSync(\n        pathToAbsoluteFileUrl(\"cli/tests/fixture.json\")\n    );\n    assert(data.byteLength > 0);\n    const decoder = new TextDecoder(\"utf-8\");\n    const json = decoder.decode(data);\n    const pkg = JSON.parse(json);\n    assertEquals(pkg.name, \"deno\");\n});\n\nunitTest({ perms: { read: false } }, function readFileSyncPerm(): void {\n    assertThrows(() => {\n        Deno.readFileSync(\"cli/tests/fixture.json\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest({ perms: { read: true } }, function readFileSyncNotFound(): void {\n    assertThrows(() => {\n        Deno.readFileSync(\"bad_filename\");\n    }, Deno.errors.NotFound);\n});\n\nunitTest(\n    { perms: { read: true } },\n    async function readFileUrl(): Promise<void> {\n        const data = await Deno.readFile(\n            pathToAbsoluteFileUrl(\"cli/tests/fixture.json\")\n        );\n        assert(data.byteLength > 0);\n        const decoder = new TextDecoder(\"utf-8\");\n        const json = decoder.decode(data);\n        const pkg = JSON.parse(json);\n        assertEquals(pkg.name, \"deno\");\n    }\n);\n\nunitTest(\n    { perms: { read: true } },\n    async function readFileSuccess(): Promise<void> {\n        const data = await Deno.readFile(\"cli/tests/fixture.json\");\n        assert(data.byteLength > 0);\n        const decoder = new TextDecoder(\"utf-8\");\n        const json = decoder.decode(data);\n        const pkg = JSON.parse(json);\n        assertEquals(pkg.name, \"deno\");\n    }\n);\n\nunitTest(\n    { perms: { read: false } },\n    async function readFilePerm(): Promise<void> {\n        await assertThrowsAsync(async () => {\n            await Deno.readFile(\"cli/tests/fixture.json\");\n        }, Deno.errors.PermissionDenied);\n    }\n);\n\nunitTest({ perms: { read: true } }, function readFileSyncLoop(): void {\n    for (let i = 0; i < 256; i++) {\n        Deno.readFileSync(\"cli/tests/fixture.json\");\n    }\n});\n"
+  ],
+  "version": 3
+}

@@ -1,0 +1,39 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SACIA,QAAQ,EACRC,YAAY,EACZC,YAAY,EACZC,iBAAiB,QACd,iBAAiB;AAExBH,SACI;IAAEI,OAAO;QAAEC,OAAO;QAAMC,MAAM;IAAK;AAAE,GACrC,SAASC;IACL,IAAMC,UAAUC,KAAKC,eAAe;IACpC,IAAMC,SACFH,UAAWC,CAAAA,KAAKG,KAAK,CAACC,EAAE,IAAI,YAAY,aAAa,SAAQ;IACjE,IAAMC,UACFN,UAAWC,CAAAA,KAAKG,KAAK,CAACC,EAAE,IAAI,YAAY,cAAc,UAAS;IACnEJ,KAAKM,SAAS,CAACJ;IACfF,KAAKO,WAAW,CAACL,QAAQG;IACzB,IAAMG,aAAaR,KAAKS,YAAY,CAACJ;IACrCb,aAAagB,YAAYN;AAC7B;AAGJX,SAAS;IAAEI,OAAO;QAAEE,MAAM;IAAM;AAAE,GAAG,SAASa;IAC1CjB,aAAa;QACTO,KAAKS,YAAY,CAAC;IACtB,GAAGT,KAAKW,MAAM,CAACC,gBAAgB;AACnC;AAEArB,SAAS;IAAEI,OAAO;QAAEE,MAAM;IAAK;AAAE,GAAG,SAASgB;IACzCpB,aAAa;QACTO,KAAKS,YAAY,CAAC;IACtB,GAAGT,KAAKW,MAAM,CAACG,QAAQ;AAC3B;AAEAvB,SACI;IAAEI,OAAO;QAAEC,OAAO;QAAMC,MAAM;IAAK;AAAE,GACrC,SAAekB;;YACLhB,SACAG,QAEAG,SAIAG;;;;oBAPAT,UAAUC,KAAKC,eAAe;oBAC9BC,SACFH,UAAWC,CAAAA,KAAKG,KAAK,CAACC,EAAE,IAAI,YAAY,aAAa,SAAQ;oBAC3DC,UACFN,UAAWC,CAAAA,KAAKG,KAAK,CAACC,EAAE,IAAI,YAAY,cAAc,UAAS;oBACnEJ,KAAKM,SAAS,CAACJ;oBACfF,KAAKO,WAAW,CAACL,QAAQG;oBACN;;wBAAML,KAAKgB,QAAQ,CAACX;;;oBAAjCG,aAAa;oBACnBhB,aAAagB,YAAYN;;;;;;IAC7B;;AAGJX,SACI;IAAEI,OAAO;QAAEE,MAAM;IAAM;AAAE,GACzB,SAAeoB;;;;;oBACX;;wBAAMvB,kBAAkB;;;;;4CACpB;;gDAAMM,KAAKgB,QAAQ,CAAC;;;4CAApB;;;;;;4BACJ;2BAAGhB,KAAKW,MAAM,CAACC,gBAAgB;;;oBAF/B;;;;;;IAGJ",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "assertThrows",
+    "assertThrowsAsync",
+    "perms",
+    "write",
+    "read",
+    "readLinkSyncSuccess",
+    "testDir",
+    "Deno",
+    "makeTempDirSync",
+    "target",
+    "build",
+    "os",
+    "symlink",
+    "mkdirSync",
+    "symlinkSync",
+    "targetPath",
+    "readLinkSync",
+    "readLinkSyncPerm",
+    "errors",
+    "PermissionDenied",
+    "readLinkSyncNotFound",
+    "NotFound",
+    "readLinkSuccess",
+    "readLink",
+    "readLinkPerm"
+  ],
+  "sources": [
+    "../input/read_link_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport {\n    unitTest,\n    assertEquals,\n    assertThrows,\n    assertThrowsAsync,\n} from \"./test_util.ts\";\n\nunitTest(\n    { perms: { write: true, read: true } },\n    function readLinkSyncSuccess(): void {\n        const testDir = Deno.makeTempDirSync();\n        const target =\n            testDir + (Deno.build.os == \"windows\" ? \"\\\\target\" : \"/target\");\n        const symlink =\n            testDir + (Deno.build.os == \"windows\" ? \"\\\\symlink\" : \"/symlink\");\n        Deno.mkdirSync(target);\n        Deno.symlinkSync(target, symlink);\n        const targetPath = Deno.readLinkSync(symlink);\n        assertEquals(targetPath, target);\n    }\n);\n\nunitTest({ perms: { read: false } }, function readLinkSyncPerm(): void {\n    assertThrows(() => {\n        Deno.readLinkSync(\"/symlink\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest({ perms: { read: true } }, function readLinkSyncNotFound(): void {\n    assertThrows(() => {\n        Deno.readLinkSync(\"bad_filename\");\n    }, Deno.errors.NotFound);\n});\n\nunitTest(\n    { perms: { write: true, read: true } },\n    async function readLinkSuccess(): Promise<void> {\n        const testDir = Deno.makeTempDirSync();\n        const target =\n            testDir + (Deno.build.os == \"windows\" ? \"\\\\target\" : \"/target\");\n        const symlink =\n            testDir + (Deno.build.os == \"windows\" ? \"\\\\symlink\" : \"/symlink\");\n        Deno.mkdirSync(target);\n        Deno.symlinkSync(target, symlink);\n        const targetPath = await Deno.readLink(symlink);\n        assertEquals(targetPath, target);\n    }\n);\n\nunitTest(\n    { perms: { read: false } },\n    async function readLinkPerm(): Promise<void> {\n        await assertThrowsAsync(async () => {\n            await Deno.readLink(\"/symlink\");\n        }, Deno.errors.PermissionDenied);\n    }\n);\n"
+  ],
+  "version": 3
+}

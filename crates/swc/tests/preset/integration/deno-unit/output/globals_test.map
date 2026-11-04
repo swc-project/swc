@@ -1,0 +1,48 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,QAAQ,iBAAiB;AAElDD,SAAS,SAASE;IACdD,OAAOE,cAAc;AACzB;AAEAH,SAAS,SAASI;IACdH,OAAOI,UAAU;AACrB;AAEAL,SAAS,SAASM;IACdL,OAAOM,QAAQ;AACnB;AAEAP,SAAS,SAASQ;IACdP,OAAOI,OAAOA,MAAM,KAAKA;AAC7B;AAEAL,SAAS,SAASS;IACdR,OAAOI,OAAOE,IAAI,KAAKF;AAC3B;AAEAL,SAAS,SAASU;IACdT,OAAOE,eAAeE;AAC1B;AAEAL,SAAS,SAASW;IACdV,OAAOE,eAAeI;AAC1B;AAEAP,SAAS,SAASY;IACdX,OAAOY,QAAQ;AACnB;AAEAb,SAAS,SAASc;IACdb,OAAOY,SAASR,OAAOQ,IAAI;AAC/B;AAEAb,SAAS,SAASe;IACdd,OAAOe,OAAOC,QAAQ,CAACJ;AAC3B;AAEAb,SAAS,SAASkB;IACdjB,OAAO,OAAOkB,YAAYC,OAAO,KAAK;AAC1C;AAUA,iBAAiB,GAEjBpB,SAAS,SAASqB;IACd,IAAMC,WAAWjB,OAAOQ,IAAI;IAC5B,IAAI;QACA,8DAA8D;QAC7DA,OAAe;IACpB,EAAE,eAAM;IACJ,OAAO;IACX;IACAZ,OAAOqB,aAAaT;IACpB,IAAI;QACA,8DAA8D;QAC7DR,OAAeQ,IAAI,GAAG;IAC3B,EAAE,eAAM;IACJ,OAAO;IACX;IACAZ,OAAOqB,aAAaT;IACpB,IAAI;QACA,OAAOR,OAAOQ,IAAI;IACtB,EAAE,eAAM;IACJ,OAAO;IACX;IACAZ,OAAOqB,aAAaT;IAEpB,IAAM,AAAEU,WAAaV,KAAbU;IACR,IAAI;QACA,8DAA8D;QAC7DV,KAAaU,QAAQ,GAAG;IAC7B,EAAE,eAAM;IACJ,OAAO;IACX;IACAtB,OAAOsB,aAAaV,KAAKU,QAAQ;IACjC,IAAI;QACA,OAAOlB,OAAOQ,IAAI,CAACU,QAAQ;IAC/B,EAAE,eAAM;IACJ,OAAO;IACX;IACAtB,OAAOsB,aAAaV,KAAKU,QAAQ;IAEjC,IAAM,AAAEC,QAAUX,KAAKY,IAAI,CAAnBD;IACR,IAAI;QACAX,KAAKY,IAAI,CAACD,KAAK,GAAG;IACtB,EAAE,eAAM;IACJ,OAAO;IACX;IACAvB,OAAOuB,UAAUX,KAAKY,IAAI,CAACD,KAAK;IAChC,IAAI;QACA,OAAOX,KAAKY,IAAI,CAACD,KAAK;IAC1B,EAAE,eAAM;IACJ,OAAO;IACX;IACAvB,OAAOuB,UAAUX,KAAKY,IAAI,CAACD,KAAK;AACpC;AAEAxB,SAAS,SAAe0B;;YAChBC,UACAC,UACAC,eACEC,IAMAC;;;;oBAPFF,gBAAgB;oBACdC,KAAK,IAAIE,QAAQ,SAACC;wBACpBN,WAAW;4BACPE,gBAAgB;4BAChBI;wBACJ;oBACJ;oBACMF,KAAK,IAAIC,QAAQ,SAACC;wBACpBL,WAAW;4BACP3B,OAAO4B;4BACPI;wBACJ;oBACJ;oBACA5B,OAAO6B,cAAc,CAACP;oBACtBQ,WAAWP,UAAW;oBACtB;;wBAAME;;;oBAAN;oBACA;;wBAAMC;;;oBAAN;;;;;;IACJ",
+  "names": [
+    "unitTest",
+    "assert",
+    "globalThisExists",
+    "globalThis",
+    "windowExists",
+    "window",
+    "selfExists",
+    "self",
+    "windowWindowExists",
+    "windowSelfExists",
+    "globalThisEqualsWindow",
+    "globalThisEqualsSelf",
+    "DenoNamespaceExists",
+    "Deno",
+    "DenoNamespaceEqualsWindowDeno",
+    "DenoNamespaceIsFrozen",
+    "Object",
+    "isFrozen",
+    "webAssemblyExists",
+    "WebAssembly",
+    "compile",
+    "DenoNamespaceImmutable",
+    "denoCopy",
+    "readFile",
+    "print",
+    "core",
+    "windowQueueMicrotask",
+    "resolve1",
+    "resolve2",
+    "microtaskDone",
+    "p1",
+    "p2",
+    "Promise",
+    "res",
+    "queueMicrotask",
+    "setTimeout"
+  ],
+  "sources": [
+    "../input/globals_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert } from \"./test_util.ts\";\n\nunitTest(function globalThisExists(): void {\n    assert(globalThis != null);\n});\n\nunitTest(function windowExists(): void {\n    assert(window != null);\n});\n\nunitTest(function selfExists(): void {\n    assert(self != null);\n});\n\nunitTest(function windowWindowExists(): void {\n    assert(window.window === window);\n});\n\nunitTest(function windowSelfExists(): void {\n    assert(window.self === window);\n});\n\nunitTest(function globalThisEqualsWindow(): void {\n    assert(globalThis === window);\n});\n\nunitTest(function globalThisEqualsSelf(): void {\n    assert(globalThis === self);\n});\n\nunitTest(function DenoNamespaceExists(): void {\n    assert(Deno != null);\n});\n\nunitTest(function DenoNamespaceEqualsWindowDeno(): void {\n    assert(Deno === window.Deno);\n});\n\nunitTest(function DenoNamespaceIsFrozen(): void {\n    assert(Object.isFrozen(Deno));\n});\n\nunitTest(function webAssemblyExists(): void {\n    assert(typeof WebAssembly.compile === \"function\");\n});\n\n/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-explicit-any,no-var */\ndeclare global {\n    // deno-lint-ignore no-namespace\n    namespace Deno {\n        // deno-lint-ignore no-explicit-any\n        var core: any;\n    }\n}\n/* eslint-enable */\n\nunitTest(function DenoNamespaceImmutable(): void {\n    const denoCopy = window.Deno;\n    try {\n        // eslint-disable-next-line @typescript-eslint/no-explicit-any\n        (Deno as any) = 1;\n    } catch {\n        // pass\n    }\n    assert(denoCopy === Deno);\n    try {\n        // eslint-disable-next-line @typescript-eslint/no-explicit-any\n        (window as any).Deno = 1;\n    } catch {\n        // pass\n    }\n    assert(denoCopy === Deno);\n    try {\n        delete window.Deno;\n    } catch {\n        // pass\n    }\n    assert(denoCopy === Deno);\n\n    const { readFile } = Deno;\n    try {\n        // eslint-disable-next-line @typescript-eslint/no-explicit-any\n        (Deno as any).readFile = 1;\n    } catch {\n        // pass\n    }\n    assert(readFile === Deno.readFile);\n    try {\n        delete window.Deno.readFile;\n    } catch {\n        // pass\n    }\n    assert(readFile === Deno.readFile);\n\n    const { print } = Deno.core;\n    try {\n        Deno.core.print = 1;\n    } catch {\n        // pass\n    }\n    assert(print === Deno.core.print);\n    try {\n        delete Deno.core.print;\n    } catch {\n        // pass\n    }\n    assert(print === Deno.core.print);\n});\n\nunitTest(async function windowQueueMicrotask(): Promise<void> {\n    let resolve1: () => void | undefined;\n    let resolve2: () => void | undefined;\n    let microtaskDone = false;\n    const p1 = new Promise((res): void => {\n        resolve1 = (): void => {\n            microtaskDone = true;\n            res();\n        };\n    });\n    const p2 = new Promise((res): void => {\n        resolve2 = (): void => {\n            assert(microtaskDone);\n            res();\n        };\n    });\n    window.queueMicrotask(resolve1!);\n    setTimeout(resolve2!, 0);\n    await p1;\n    await p2;\n});\n"
+  ],
+  "version": 3
+}

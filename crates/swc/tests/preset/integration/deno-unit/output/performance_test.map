@@ -1,0 +1,25 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,EAAEC,gBAAgB,QAAQ,iBAAiB;AAEpEF,SACI;IAAEG,OAAO;QAAEC,QAAQ;IAAM;AAAE,GAC3B,SAAeC;;YACLC,YACAC;;;;oBADAD,aAAaJ;oBACbK,QAAQC,YAAYC,GAAG;oBAC7BC,WAAW;wBACP,IAAMC,MAAMH,YAAYC,GAAG;wBAC3BR,OAAOU,MAAMJ,SAAS;wBACtBD,WAAWM,OAAO;oBACtB,GAAG;oBACH;;wBAAMN;;;oBAAN;;;;;;IACJ",
+  "names": [
+    "unitTest",
+    "assert",
+    "createResolvable",
+    "perms",
+    "hrtime",
+    "performanceNow",
+    "resolvable",
+    "start",
+    "performance",
+    "now",
+    "setTimeout",
+    "end",
+    "resolve"
+  ],
+  "sources": [
+    "../input/performance_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert, createResolvable } from \"./test_util.ts\";\n\nunitTest(\n    { perms: { hrtime: false } },\n    async function performanceNow(): Promise<void> {\n        const resolvable = createResolvable();\n        const start = performance.now();\n        setTimeout((): void => {\n            const end = performance.now();\n            assert(end - start >= 10);\n            resolvable.resolve();\n        }, 10);\n        await resolvable;\n    }\n);\n"
+  ],
+  "version": 3
+}

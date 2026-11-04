@@ -1,0 +1,25 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,QAAQ,iBAAiB;AAElDD,SAAS,SAAeE;;YAChBC,QAIKC;;;;oBAJLD,SAAS;;;;;;;;;oBAET,8DAA8D;oBAC9D;;wBAAME,KAAKC,WAAW,CAACC,KAAK,CAAC;4BAAEC,MAAM;wBAAa;;;oBAAlD;;;;;;oBACKJ;oBACLD,SAAS;oBACTF,OAAOG,AAAC,YAADA,GAAaK;;;;;;oBAEpBR,OAAOE;;;;;;;;;;IAEf;;AAEAH,SAAS,SAAeU;;YAChBP,QAGKC;;;;oBAHLD,SAAS;;;;;;;;;oBAET;;wBAAME,KAAKC,WAAW,CAACC,KAAK,CAAC;4BAAEC,MAAM;4BAAOG,KAAK;wBAAI;;;oBAArD;;;;;;oBACKP;oBACLD,SAAS;oBACTF,OAAOG,AAAC,YAADA,GAAaQ;;;;;;oBAEpBX,OAAOE;;;;;;;;;;IAEf",
+  "names": [
+    "unitTest",
+    "assert",
+    "permissionInvalidName",
+    "thrown",
+    "e",
+    "Deno",
+    "permissions",
+    "query",
+    "name",
+    "Error",
+    "permissionNetInvalidUrl",
+    "url",
+    "URIError"
+  ],
+  "sources": [
+    "../input/permissions_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert } from \"./test_util.ts\";\n\nunitTest(async function permissionInvalidName(): Promise<void> {\n    let thrown = false;\n    try {\n        // eslint-disable-next-line @typescript-eslint/no-explicit-any\n        await Deno.permissions.query({ name: \"foo\" as any });\n    } catch (e) {\n        thrown = true;\n        assert(e instanceof Error);\n    } finally {\n        assert(thrown);\n    }\n});\n\nunitTest(async function permissionNetInvalidUrl(): Promise<void> {\n    let thrown = false;\n    try {\n        await Deno.permissions.query({ name: \"net\", url: \":\" });\n    } catch (e) {\n        thrown = true;\n        assert(e instanceof URIError);\n    } finally {\n        assert(thrown);\n    }\n});\n"
+  ],
+  "version": 3
+}
