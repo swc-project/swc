@@ -1724,10 +1724,6 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
             for_each_id_ref_in_class(&c.class, op);
         }
 
-        Expr::Fn(f) => {
-            for_each_id_ref_in_fn(&f.function, op);
-        }
-
         Expr::Seq(s) => {
             for_each_id_ref_in_expr(s.exprs.last().unwrap(), op);
         }
@@ -1755,13 +1751,13 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                         for_each_id_ref_in_expr(&p.value, op);
                     }
                     Prop::Getter(p) => {
-                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
+                        for_each_id_ref_in_prop_function(&p.key, op);
                     }
                     Prop::Setter(p) => {
-                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
+                        for_each_id_ref_in_prop_function(&p.key, op);
                     }
                     Prop::Method(p) => {
-                        for_each_id_ref_in_prop_function(&p.key, &p.function, op);
+                        for_each_id_ref_in_prop_function(&p.key, op);
                     }
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
@@ -1792,12 +1788,9 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
 
         ClassMember::Method(m) => {
             for_each_id_ref_in_prop_name(&m.key, op);
-            for_each_id_ref_in_fn(&m.function, op);
         }
 
-        ClassMember::PrivateMethod(m) => {
-            for_each_id_ref_in_fn(&m.function, op);
-        }
+        ClassMember::PrivateMethod(_) => {}
 
         ClassMember::ClassProp(m) => {
             for_each_id_ref_in_prop_name(&m.key, op);
@@ -1835,13 +1828,8 @@ fn for_each_id_ref_in_prop_name(p: &PropName, op: &mut impl FnMut(&Ident)) {
     }
 }
 
-fn for_each_id_ref_in_prop_function(
-    key: &PropName,
-    function: &Function,
-    op: &mut impl FnMut(&Ident),
-) {
+fn for_each_id_ref_in_prop_function(key: &PropName, op: &mut impl FnMut(&Ident)) {
     for_each_id_ref_in_prop_name(key, op);
-    for_each_id_ref_in_fn(function, op);
 }
 
 fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
@@ -1887,12 +1875,6 @@ fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
         }
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
-    }
-}
-
-fn for_each_id_ref_in_fn(f: &Function, op: &mut impl FnMut(&Ident)) {
-    for p in &f.params {
-        for_each_id_ref_in_pat(&p.pat, op);
     }
 }
 
