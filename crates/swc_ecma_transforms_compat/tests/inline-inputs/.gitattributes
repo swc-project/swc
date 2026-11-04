@@ -1,0 +1,2 @@
+# Preserve the carriage return in this template literal test input.
+es2015_template_literals/issue_1549_1/input.js -text
