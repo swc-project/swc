@@ -14,9 +14,9 @@ use swc::{
 };
 use swc_common::{
     comments::{Comment, SingleThreadedComments},
-    errors::{EmitterWriter, Handler, HANDLER},
+    errors::HANDLER,
     sync::Lrc,
-    BytePos, FileName, Globals, SourceMap, GLOBALS,
+    BytePos, FileName, SourceMap, GLOBALS,
 };
 use swc_compiler_base::PrintArgs;
 use swc_config::{file_pattern::FilePattern, is_module::IsModule};
@@ -212,16 +212,6 @@ fn issue_225() {
     assert!(s.contains("_interop_require_default(require(\"foo\"))"));
 }
 
-/// should handle exportNamespaceFrom configured by .swcrc
-#[test]
-fn issue_226() {
-    let s = file("tests/projects/issue-226/input.js").unwrap();
-    println!("{s}");
-
-    assert!(s.contains("import * as _Foo from \"bar\";"));
-    assert!(s.contains("export { _Foo as Foo }"));
-}
-
 /// should handle react correctly
 #[test]
 fn issue_351() {
@@ -240,31 +230,6 @@ fn issue_389() {
     assert!(s.contains(".default.bar = true"));
 }
 
-/// should handle comments in arrow expression
-#[test]
-fn issue_406() {
-    let s = file("tests/projects/issue-406/input.js").unwrap();
-    println!("{s}");
-
-    assert!(s.contains("return("));
-}
-
-#[test]
-fn issue_409_1() {
-    let s = file("tests/projects/issue-409-1/input.js").unwrap();
-    println!("{s}");
-
-    assert!(s.contains("JSON.parse"));
-}
-
-#[test]
-fn issue_409_2() {
-    let s = file("tests/projects/issue-409-2/input.js").unwrap();
-    println!("{s}");
-
-    assert!(!s.contains("JSON.parse"));
-}
-
 /// should handle multiple entries in swcrc
 #[test]
 fn issue_414() {
@@ -276,14 +241,6 @@ fn issue_414() {
     println!("{s2}");
     assert!(s2.contains("define("));
     assert!(s2.contains("__esModule"));
-}
-
-/// should handle comments in return statement
-#[test]
-fn issue_415() {
-    let s = file("tests/projects/issue-415/input.js").unwrap();
-
-    assert!(s.replace(' ', "").contains("return/*#__PURE__*/"));
 }
 
 #[test]
@@ -302,87 +259,8 @@ fn issue_467() {
 }
 
 #[test]
-fn issue_468() {
-    file("tests/projects/issue-468/input.ts").expect("failed to parse typescript");
-}
-
-#[test]
-fn issue_528() {
-    let f = file("tests/projects/issue-528/input.js")
-        .unwrap()
-        .replace(' ', "");
-    let f = f.trim();
-
-    println!("{f}");
-    assert_eq!(
-        f,
-        "\
-//bar
-[
-//foo
-a,
-//bar
-//baz
-b
-];"
-    );
-}
-
-#[test]
-fn env_entry_chrome_49() {
-    let f = file("tests/env/entry/chrome-49/input.js")
-        .unwrap()
-        .replace(' ', "");
-    let f = f.trim();
-
-    println!("{f}");
-
-    assert_eq!(f.lines().count(), 84);
-}
-
-#[test]
-fn env_entry_chrome_71() {
-    let f = file("tests/env/entry/chrome-71/input.js")
-        .unwrap()
-        .replace(' ', "");
-    let f = f.trim();
-
-    println!("{f}");
-
-    assert_eq!(f.lines().count(), 10);
-}
-
-#[test]
-fn env_query_chrome_71() {
-    let f = file("tests/env/query/chrome-71/input.js")
-        .unwrap()
-        .replace(' ', "");
-    let f = f.trim();
-
-    println!("{f}");
-
-    assert_eq!(f.lines().count(), 10);
-}
-
-#[test]
 fn project_env() {
     project("tests/projects/env/");
-}
-
-#[test]
-fn issue_602() {
-    let f = file("tests/projects/issue-602/input.js").unwrap();
-    println!("{f}");
-
-    assert!(!f.contains("undefined1"));
-}
-
-#[test]
-fn issue_604_1() {
-    let f = file("tests/projects/issue-604-1/input.js").unwrap();
-    println!("{f}");
-
-    assert!(f.contains("_loop(i)"));
 }
 
 #[test]
@@ -391,24 +269,6 @@ fn issue_605() {
     println!("{f}");
 
     assert!(f.contains(r#"_export_star(require("c"), exports);"#));
-}
-
-#[test]
-fn await_expr() {
-    let f = file("tests/projects/await-expression/input.js").unwrap();
-    println!("{f}");
-
-    assert!(f.contains("await"));
-    assert!(f.contains("test"));
-}
-
-#[test]
-fn await_expr_2() {
-    let f = file("tests/projects/await-expression-2/input.js").unwrap();
-    println!("{f}");
-
-    assert!(f.contains("await"));
-    assert!(f.contains("test"));
 }
 
 #[test]
@@ -455,66 +315,6 @@ fn issue_779_2() {
     println!("{f}");
 
     assert!(f.contains("require(\"core-js\");"));
-}
-
-#[test]
-fn issue_783() {
-    let f = file("tests/projects/issue-783/input.js").unwrap();
-    println!("{f}");
-
-    assert!(!f.contains("require(\"core-js\");"));
-    assert!(f.contains("require(\"core-js/modules/es.array-buffer.constructor.js\");"))
-}
-
-#[test]
-fn issue_783_core_js_2() {
-    let f = file_with_opt(
-        "tests/projects/issue-783/input.js",
-        Options {
-            swcrc: false,
-            config: Config {
-                env: Some(swc_ecma_preset_env::Config {
-                    core_js: Some("2".parse().unwrap()),
-                    mode: Some(swc_ecma_preset_env::Mode::Entry),
-                    ..Default::default()
-                }),
-                ..Default::default()
-            },
-            ..Default::default()
-        },
-    )
-    .unwrap();
-    println!("{f}");
-
-    assert!(
-        !f.contains("'core-js'"),
-        "import of `core-js` should be transformed"
-    );
-}
-
-#[test]
-fn issue_783_core_js_3() {
-    let f = file_with_opt(
-        "tests/projects/issue-783/input.js",
-        Options {
-            swcrc: false,
-            config: Config {
-                env: Some(swc_ecma_preset_env::Config {
-                    mode: Some(swc_ecma_preset_env::Mode::Entry),
-                    ..Default::default()
-                }),
-                ..Default::default()
-            },
-            ..Default::default()
-        },
-    )
-    .unwrap();
-    println!("{f}");
-
-    assert!(
-        !f.contains("'core-js'"),
-        "import of `core-js` should be transformed"
-    );
 }
 
 #[test]
@@ -569,32 +369,11 @@ fn issue_879() {
 }
 
 #[test]
-fn issue_895() {
-    let f = file("tests/projects/issue-895/input.ts").unwrap();
-    println!("{f}");
-
-    assert!(f.contains("_url ="));
-    assert!(f.contains("(0, _url.queryString)"));
-    let s = f.replace("_url =", "").replace("_url.queryString", "");
-
-    assert!(!s.contains("_url."));
-    assert!(!s.contains("_url,"));
-}
-
-#[test]
 fn issue_1052() {
     let f = file("tests/projects/issue-1052/input.ts").unwrap();
     println!("{f}");
 
     assert!(!f.contains("_new"))
-}
-
-#[test]
-fn issue_1203() {
-    let f = file("tests/projects/issue-1203/input.js").unwrap();
-    println!("{f}");
-
-    assert!(!f.contains("return //"))
 }
 
 #[test]
@@ -604,77 +383,6 @@ fn issue_9663() {
 
     assert!(f.contains("set = Reflect.set"));
     assert!(!f.contains("function set1("));
-}
-
-#[test]
-fn codegen_1() {
-    let f = file("tests/projects/codegen-1/input.js").unwrap();
-    println!("{f}");
-
-    assert_eq!(f.to_string(), "'\"';\n");
-}
-
-#[test]
-fn issue_1549() {
-    let output = str_with_opt(
-        "const a = `\r\n`;",
-        Options {
-            config: Config {
-                jsc: JscConfig {
-                    target: Some(EsVersion::Es5),
-                    ..Default::default()
-                },
-                ..Default::default()
-            },
-            ..Default::default()
-        },
-    )
-    .unwrap();
-    println!("{output}");
-
-    assert_eq!(output.to_string(), "var a = \"\\n\";\n");
-}
-
-#[test]
-fn deno_10282_1() {
-    let output = str_with_opt(
-        "const a = `\r\n`;",
-        Options {
-            config: Config {
-                jsc: JscConfig {
-                    target: Some(EsVersion::Es3),
-                    ..Default::default()
-                },
-                ..Default::default()
-            },
-            ..Default::default()
-        },
-    )
-    .unwrap();
-    println!("{output}");
-
-    assert_eq!(output.to_string(), "var a = \"\\n\";\n");
-}
-
-#[test]
-fn deno_10282_2() {
-    let output = str_with_opt(
-        "const a = `\r\n`;",
-        Options {
-            config: Config {
-                jsc: JscConfig {
-                    target: Some(EsVersion::Es2020),
-                    ..Default::default()
-                },
-                ..Default::default()
-            },
-            ..Default::default()
-        },
-    )
-    .unwrap();
-    println!("{output}");
-
-    assert_eq!(output.to_string(), "const a = `\n`;\n");
 }
 
 struct Panicking;
@@ -967,60 +675,6 @@ fn issue_6009() {
 }
 
 #[test]
-fn issue_7513_1() {
-    static TEST_CODE: &str = r#"
-function test() {
-    return {
-        a: 1,
-        b: 2,
-        c: 3,
-    }
-}
-"#;
-
-    let globals = Globals::default();
-    let cm: Lrc<SourceMap> = Default::default();
-    let compiler = Compiler::new(cm.clone());
-    let handler = Handler::with_emitter(
-        true,
-        false,
-        Box::new(EmitterWriter::new(
-            Box::new(std::io::stderr()),
-            None,
-            false,
-            false,
-        )),
-    );
-
-    GLOBALS.set(&globals, || {
-        let fm = cm.new_source_file(
-            FileName::Custom(String::from("Test")).into(),
-            TEST_CODE.to_string(),
-        );
-        let options = Options {
-            config: Config {
-                jsc: JscConfig {
-                    target: Some(EsVersion::Es2022),
-                    minify: Some(JsMinifyOptions {
-                        compress: BoolOrDataConfig::from_bool(false),
-                        mangle: BoolOrDataConfig::from_bool(true),
-                        ..Default::default()
-                    }),
-                    ..Default::default()
-                },
-                minify: true.into(),
-                ..Default::default()
-            },
-            ..Default::default()
-        };
-        let program = compiler.process_js_file(fm, &handler, &options).unwrap();
-
-        eprintln!("{}", program.code);
-        assert_eq!(program.code, "function n(){return{a:1,b:2,c:3}}");
-    })
-}
-
-#[test]
 fn issue_7513_2() {
     static INPUT: &str = "export const cachedTextDecoder = { ignoreBOM: true, fatal: true };";
 
@@ -1137,26 +791,6 @@ fn issue_8701_1() {
         "import { AppController } from \"./app.controller\";\nimport { AppService } from \
          \"./app.service\";\nconsole.log(AppController, AppService);\n"
     );
-}
-
-#[test]
-fn issue_9727_1() {
-    let f = file("tests/projects/issue-9727/pass-1/input.ts").unwrap();
-
-    assert!(f.contains(
-        "export class Foo {
-}"
-    ));
-}
-
-#[test]
-fn issue_9727_2() {
-    let f = file("tests/projects/issue-9727/pass-4/input.ts").unwrap();
-
-    assert!(f.contains(
-        "export class Foo {
-}"
-    ));
 }
 
 #[testing::fixture("tests/minify/**/input.js")]

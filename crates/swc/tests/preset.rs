@@ -73,9 +73,20 @@ fn fixture(input_dir: PathBuf) {
                 },
             ) {
                 Ok(v) => {
-                    NormalizedOutput::from(v.code)
-                        .compare_to_file(output_dir.join(rel_path))
-                        .unwrap();
+                    let output_path = output_dir.join(rel_path);
+                    let mut raw_path = output_path.as_os_str().to_os_string();
+                    raw_path.push(".raw");
+                    let raw_path = PathBuf::from(raw_path);
+                    if raw_path.is_file() {
+                        assert!(!output_path.exists(), "fixture has two output snapshots");
+                        NormalizedOutput::new_raw(v.code)
+                            .compare_to_file(raw_path)
+                            .unwrap();
+                    } else {
+                        NormalizedOutput::from(v.code)
+                            .compare_to_file(output_path)
+                            .unwrap();
+                    }
 
                     let _ = create_dir_all(output_dir.join(rel_path).parent().unwrap());
 

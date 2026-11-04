@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "minify": {
+            "compress": false,
+            "mangle": true
+        }
+    },
+    "minify": true
+}
