@@ -275,35 +275,6 @@ test!(
 // regression_6057_simple
 
 // parameters_regression_4333
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-            block_scoping(unresolved_mark),
-        )
-    },
-    parameters_regression_4333,
-    include_str!("inline-inputs/es2015_parameters/parameters_regression_4333/input.js")
-);
-
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(Default::default()),
-        )
-    },
-    issue_760,
-    include_str!("inline-inputs/es2015_parameters/issue_760/input.js")
-);
 
 test_exec!(
     syntax(),

@@ -121,6 +121,7 @@ fn fixture(input: PathBuf) {
                         | Feature::Classes
                         | Feature::ClassProperties
                         | Feature::ForOf
+                        | Feature::Spread
                         | Feature::ShorthandProperties
                         | Feature::Parameters
                         | Feature::Destructuring

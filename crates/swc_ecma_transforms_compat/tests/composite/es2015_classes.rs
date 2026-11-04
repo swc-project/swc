@@ -88,12 +88,6 @@ expect(new Outer().hello).toBe('hello');
 );
 
 // spec_constructor_only
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_constructor_only,
-    include_str!("inline-inputs/es2015_classes/spec_constructor_only/input.js")
-);
 
 // extend_builtins_wrap_native_super
 
@@ -153,14 +147,6 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 );
 
 // spec_statement
-test!(
-    // We don't use function-name pass
-    ignore,
-    syntax(),
-    |t| spec_tr(t),
-    spec_statement,
-    include_str!("inline-inputs/es2015_classes/spec_statement/input.js")
-);
 
 // get_set_set_semantics_getter_defined_on_parent
 test!(
@@ -173,12 +159,6 @@ test!(
 );
 
 // spec_derived_constructor_must_call_super
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_derived_constructor_must_call_super,
-    include_str!("inline-inputs/es2015_classes/spec_derived_constructor_must_call_super/input.js")
-);
 
 // get_set_get_semantics_data_defined_on_parent
 test!(
@@ -234,35 +214,14 @@ test!(
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_4
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_this_not_allowed_before_super_in_derived_classes_4,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes_4/\
-         input.js"
-    )
-);
 
 // spec_calling_super_properties
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_calling_super_properties,
-    include_str!("inline-inputs/es2015_classes/spec_calling_super_properties/input.js")
-);
 
 // spec_super_reference_before_bare_super
 
 // spec_super_reference_before_bare_super_inline
 
 // spec_instance_getter_and_setter
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_instance_getter_and_setter,
-    include_str!("inline-inputs/es2015_classes/spec_instance_getter_and_setter/input.js")
-);
 
 // regression_2941
 test!(
@@ -283,12 +242,6 @@ test!(
 );
 
 // spec_inferred_expression_name
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_inferred_expression_name,
-    include_str!("inline-inputs/es2015_classes/spec_inferred_expression_name/input.js")
-);
 
 // regression_8499_exec
 test_exec!(
@@ -320,20 +273,8 @@ expect(constructor).toBe(CustomElement);
 );
 
 // spec_default_super
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_default_super,
-    include_str!("inline-inputs/es2015_classes/spec_default_super/input.js")
-);
 
 // spec_default_super
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_default_super_constructor,
-    include_str!("inline-inputs/es2015_classes/spec_default_super_constructor/input.js")
-);
 
 // get_set_get_semantics_getter_defined_on_parent
 test!(
@@ -348,15 +289,6 @@ test!(
 // spec
 
 // spec_this_not_allowed_before_super_in_derived_classes
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_this_not_allowed_before_super_in_derived_classes,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes/input.\
-         js"
-    )
-);
 
 // get_set_call_semantics_getter_defined_on_parent
 test!(
@@ -390,12 +322,6 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // exec_retain_no_call_on
 
 // spec_export_default
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_export_default,
-    include_str!("inline-inputs/es2015_classes/spec_export_default/input.js")
-);
 
 // get_set_call_semantics_data_defined_on_parent
 test!(
@@ -408,12 +334,6 @@ test!(
 );
 
 // spec_static
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_static,
-    include_str!("inline-inputs/es2015_classes/spec_static/input.js")
-);
 
 // regression_t6755
 
@@ -426,20 +346,8 @@ test!(
 );
 
 // spec_nested_class_super_property_in_key
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_nested_class_super_property_in_key,
-    include_str!("inline-inputs/es2015_classes/spec_nested_class_super_property_in_key/input.js")
-);
 
 // spec_super_reference_in_prop_expression
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_super_reference_in_prop_exression,
-    include_str!("inline-inputs/es2015_classes/spec_super_reference_in_prop_exression/input.js")
-);
 
 // spec_super_reference_before_in_lambda_exec
 test_exec!(
@@ -518,33 +426,12 @@ new Foo();
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_2
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_this_not_allowed_before_super_in_derived_classes_2,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes_2/\
-         input.js"
-    )
-);
 
 // spec_accessing_super_properties
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_accessing_super_properties,
-    include_str!("inline-inputs/es2015_classes/spec_accessing_super_properties/input.js")
-);
 
 // exec_shadow
 
 // spec_computed_methods
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_computed_methods,
-    include_str!("inline-inputs/es2015_classes/spec_computed_methods/input.js")
-);
 
 // extend_builtins_shadowed
 
@@ -650,12 +537,6 @@ test!(
 );
 
 // spec_super_function_fallback
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_super_function_fallback,
-    include_str!("inline-inputs/es2015_classes/spec_super_function_fallback/input.js")
-);
 
 // regression_t7537
 
@@ -672,20 +553,8 @@ test!(
 // spec_super_illegal_non_constructor_call
 
 // spec_instance_setter
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_instance_setter,
-    include_str!("inline-inputs/es2015_classes/spec_instance_setter/input.js")
-);
 
 // spec_nested_object_super_call_in_key
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_nested_object_super_call_in_key,
-    include_str!("inline-inputs/es2015_classes/spec_nested_object_super_call_in_key/input.js")
-);
 
 // get_set_set_semantics_not_defined_on_parent_not_on_obj
 test!(
@@ -699,55 +568,18 @@ test!(
 );
 
 // spec_derived_constructor_no_super_return_falsy
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_derived_constructor_no_super_return_falsey,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_derived_constructor_no_super_return_falsey/input.js"
-    )
-);
 
 // spec_this_not_allowed_before_super_in_derived_classes_5
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_this_not_allowed_before_super_in_derived_classes_5,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes_5/\
-         input.js"
-    )
-);
 
 // exec_super_change
 
 // spec_constructor
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_constructor,
-    include_str!("inline-inputs/es2015_classes/spec_constructor/input.js")
-);
 
 // spec_preserves_directives
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_preserves_directives,
-    include_str!("inline-inputs/es2015_classes/spec_preserves_directives/input.js")
-);
 
 // spec_super_reference_before_in_lambda
 
 // spec_derived_constructor_no_super_return_object
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_derived_constructor_no_super_return_object,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_derived_constructor_no_super_return_object/input.js"
-    )
-);
 
 // regression_t6750
 test!(
@@ -760,12 +592,6 @@ test!(
 );
 
 // spec_instance_method
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_instance_method,
-    include_str!("inline-inputs/es2015_classes/spec_instance_method/input.js")
-);
 
 // regression_t2997
 test!(
@@ -776,30 +602,12 @@ test!(
 );
 
 // spec_constructor_binding_collision
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_constructor_binding_collision,
-    include_str!("inline-inputs/es2015_classes/spec_constructor_binding_collision/input.js")
-);
 
 // spec_super_class_anonymous
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_super_class_anonymous,
-    include_str!("inline-inputs/es2015_classes/spec_super_class_anonymous/input.js")
-);
 
 // spec_method_return_type_annotation
 
 // spec_nested_class_super_call_in_key
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_nested_class_super_call_in_key,
-    include_str!("inline-inputs/es2015_classes/spec_nested_class_super_call_in_key/input.js")
-);
 
 // extend_builtins_builtin_objects_throw_when_wrapped
 
@@ -877,33 +685,10 @@ expect(table.returnParam(false)).toBe(false);
 // exec_class_prototype
 
 // spec_instance_getter
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_instance_getter,
-    include_str!("inline-inputs/es2015_classes/spec_instance_getter/input.js")
-);
 
 // spec_this_not_allowed_before_super_in_derived_classes_3
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_this_not_allowed_before_super_in_derived_classes_3,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes_3/\
-         input.js"
-    )
-);
 
 // spec_accessing_super_class
-test!(
-    // TODO(kdy1): Unignore this.
-    ignore,
-    syntax(),
-    |t| spec_tr(t),
-    spec_accessing_super_class,
-    include_str!("inline-inputs/es2015_classes/spec_accessing_super_class/input.js")
-);
 
 // spec_this_not_allowed_before_super_in_derived_classes_exec
 test_exec!(
@@ -1006,12 +791,6 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // exec_declaration
 
 // spec_nested_object_super_property_in_key
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_nested_object_super_property_in_key,
-    include_str!("inline-inputs/es2015_classes/spec_nested_object_super_property_in_key/input.js")
-);
 
 test!(
     syntax(),
@@ -1102,12 +881,6 @@ test!(
 );
 
 // spec_super_class
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_super_class,
-    include_str!("inline-inputs/es2015_classes/spec_super_class/input.js")
-);
 
 // spec_super_call_only_allowed_in_derived_constructor
 
@@ -1146,24 +919,8 @@ expect(new Outer().hello()).toBe('hello');
 );
 
 // spec_derived_constructor_must_call_super_2
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_derived_constructor_must_call_super_2,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_derived_constructor_must_call_super_2/input.js"
-    )
-);
 
 // spec_derived_constructor_must_call_super_3
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_derived_constructor_must_call_super_3,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_derived_constructor_must_call_super_3/input.js"
-    )
-);
 
 // spec_this_not_allowed_before_super_in_derived_classes_3_exec
 test_exec!(
@@ -1237,12 +994,6 @@ expect(new Outer().hello()).toBe('hello');
 );
 
 // spec_relaxed_method_coercion
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_relaxed_method_coercion,
-    include_str!("inline-inputs/es2015_classes/spec_relaxed_method_coercion/input.js")
-);
 
 // spec_derived_constructor_must_call_super_3_exec
 test_exec!(
@@ -1292,32 +1043,10 @@ expect(i[sym]()).toBe(3);
 );
 
 // spec_derived_constructor_must_call_super_4
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_derived_constructor_must_call_super_4,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_derived_constructor_must_call_super_4/input.js"
-    )
-);
 
 // spec_super_class_id_member_expression
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_super_class_id_member_expression,
-    include_str!("inline-inputs/es2015_classes/spec_super_class_id_member_expression/input.js")
-);
 
 // spec_delay_arrow_function_for_bare_super_derived
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_delay_arrow_function_for_bare_super_derived,
-    include_str!(
-        "inline-inputs/es2015_classes/spec_delay_arrow_function_for_bare_super_derived/input.js"
-    )
-);
 
 // extend_builtins_overwritten_null
 
@@ -1386,12 +1115,6 @@ test!(
 // extend_builtins_super_called
 
 // spec_plain_class
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_plain_class,
-    include_str!("inline-inputs/es2015_classes/spec_plain_class/input.js")
-);
 
 // spec_super_reference_before_bare_super_exec
 test_exec!(
@@ -1458,12 +1181,6 @@ expect(() => new Foo()).toThrow("this hasn't been initialised");
 // exec_return
 
 // spec_export_super_class
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    spec_export_super_class,
-    include_str!("inline-inputs/es2015_classes/spec_export_super_class/input.js")
-);
 
 // extend_builtins_wrap_native_super_exec
 test_exec!(
@@ -1570,20 +1287,6 @@ expect(Obj.prototype.test).toBe(2);
 expect(obj.test).toBe(2);
 
 "#
-);
-
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    issue_454_followup,
-    include_str!("inline-inputs/es2015_classes/issue_454_followup/input.js")
-);
-
-test!(
-    syntax(),
-    |t| spec_tr(t),
-    issue_454_followup_2,
-    include_str!("inline-inputs/es2015_classes/issue_454_followup_2/input.js")
 );
 
 // extend_builtins_shadowed

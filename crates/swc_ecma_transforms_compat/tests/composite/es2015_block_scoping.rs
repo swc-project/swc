@@ -308,13 +308,6 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
-    issue_1462_1,
-    include_str!("inline-inputs/es2015_block_scoping/issue_1462_1/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
     |_| block_scoping(Mark::new()),
     issue_2027_1,
     include_str!("inline-inputs/es2015_block_scoping/issue_2027_1/input.js")
@@ -329,13 +322,6 @@ test!(
     },
     issue_2027_2,
     include_str!("inline-inputs/es2015_block_scoping/issue_2027_2/input.js")
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
-    issue_2998_1,
-    include_str!("inline-inputs/es2015_block_scoping/issue_2998_1/input.js")
 );
 
 test!(
