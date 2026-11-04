@@ -567,8 +567,6 @@ enum CasePipeline {
         rename = "resolver-object-rest-spread-spread-parameters-destructuring-block-scoping-object-rest-spread"
     )]
     ResolverObjectRestSpreadSpreadParametersDestructuringBlockScopingObjectRestSpread,
-    #[serde(rename = "resolver-object-rest-spread-spread-parameters-destructuring-block-scoping")]
-    ResolverObjectRestSpreadSpreadParametersDestructuringBlockScoping,
     #[serde(rename = "destructuring-spread-block-scoping-object-rest-spread")]
     DestructuringSpreadBlockScopingObjectRestSpread,
     #[serde(rename = "destructuring-spread-block-scoping-object-rest-spread-loose")]
@@ -587,10 +585,6 @@ enum CasePipeline {
      input.js"
 )]
 #[testing::fixture("tests/composite/destructuring/resolver-es2015/**/input.js")]
-#[testing::fixture(
-    "tests/composite/destructuring/\
-     resolver-object-rest-spread-spread-parameters-destructuring-block-scoping/**/input.js"
-)]
 #[testing::fixture(
     "tests/composite/destructuring/\
      resolver-object-rest-spread-spread-parameters-destructuring-block-scoping-object-rest-spread/\
@@ -619,7 +613,6 @@ fn composite_fixture(input: std::path::PathBuf) {
             CasePipeline::ResolverEs2015 => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , es2015 (unresolved_mark , Some (t . comments . clone ()) , Default :: default () ,) ,) }),
             CasePipeline::SpreadDestructuringBlockScopingObjectRestSpread => Box::new({ let unresolved_mark = Mark :: new () ; (spread (Default :: default () , unresolved_mark) , destructuring (Default :: default ()) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
             CasePipeline::ResolverObjectRestSpreadSpreadParametersDestructuringBlockScopingObjectRestSpread => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , object_rest_spread (Default :: default ()) , spread (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (Default :: default ()) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
-            CasePipeline::ResolverObjectRestSpreadSpreadParametersDestructuringBlockScoping => Box::new({ let unresolved_mark = Mark :: new () ; let top_level_mark = Mark :: new () ; (resolver (unresolved_mark , top_level_mark , false) , object_rest_spread (Default :: default ()) , spread (Default :: default () , unresolved_mark) , parameters (Default :: default () , unresolved_mark) , destructuring (Default :: default ()) , block_scoping (unresolved_mark) ,) }),
             CasePipeline::DestructuringSpreadBlockScopingObjectRestSpread => Box::new((destructuring (Default :: default ()) , spread (Default :: default () , Mark :: new ()) , block_scoping (Mark :: new ()) , object_rest_spread (Default :: default ()))),
             CasePipeline::DestructuringSpreadBlockScopingObjectRestSpreadLoose => Box::new({ let unresolved_mark = Mark :: new () ; (destructuring (Config { loose : true }) , spread (Default :: default () , unresolved_mark) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),
             CasePipeline::SpreadDestructuringBlockScopingObjectRestSpreadLoose => Box::new({ let unresolved_mark = Mark :: new () ; (spread (Default :: default () , unresolved_mark) , destructuring (Config { loose : true }) , block_scoping (unresolved_mark) , object_rest_spread (Default :: default ()) ,) }),

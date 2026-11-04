@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "transform": {
+            "noEmptyExport": true
+        },
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "assumptions": {
+            "pureGetters": true
+        }
+    },
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": ["transform-optional-chaining"]
+    }
+}

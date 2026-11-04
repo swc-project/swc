@@ -57,6 +57,7 @@ fn fixture(input: PathBuf) {
         &output,
         FixtureTestConfig {
             module: Some(true),
+            allow_error: output.with_extension("stderr").is_file(),
             ..Default::default()
         },
     );

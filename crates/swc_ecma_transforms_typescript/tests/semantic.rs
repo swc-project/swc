@@ -82,7 +82,9 @@ fn spanless_output(input: &std::path::Path) -> PathBuf {
     }
 }
 
-#[testing::fixture("tests/composite/enum-semantics/body-identity/**/input.ts")]
+#[testing::fixture(
+    "tests/preset/class-properties/standard/enum-semantics/body-identity/**/input.ts"
+)]
 fn snapshot_without_spans(input: PathBuf) {
     test_fixture(
         Syntax::Typescript(TsSyntax::default()),
@@ -101,8 +103,12 @@ impl VisitMut for IdenticalSpans {
     }
 }
 
-#[testing::fixture("tests/composite/enum-semantics/body-identity/member-order/input.ts")]
-#[testing::fixture("tests/composite/enum-semantics/body-identity/availability/**/input.ts")]
+#[testing::fixture(
+    "tests/preset/class-properties/standard/enum-semantics/body-identity/member-order/input.ts"
+)]
+#[testing::fixture(
+    "tests/preset/class-properties/standard/enum-semantics/body-identity/availability/**/input.ts"
+)]
 fn snapshot_with_identical_spans(input: PathBuf) {
     test_fixture(
         Syntax::Typescript(TsSyntax::default()),
@@ -146,7 +152,9 @@ impl VisitMut for ReversedSpans {
     }
 }
 
-#[testing::fixture("tests/composite/enum-semantics/body-identity/availability/**/input.ts")]
+#[testing::fixture(
+    "tests/preset/class-properties/standard/enum-semantics/body-identity/availability/**/input.ts"
+)]
 fn snapshot_with_reversed_spans(input: PathBuf) {
     test_fixture(
         Syntax::Typescript(TsSyntax::default()),

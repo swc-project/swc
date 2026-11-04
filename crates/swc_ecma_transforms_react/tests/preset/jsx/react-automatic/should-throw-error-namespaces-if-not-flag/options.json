@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "transform": {
+            "react": {
+                "throwIfNamespace": true,
+                "runtime": "automatic"
+            }
+        }
+    }
+}

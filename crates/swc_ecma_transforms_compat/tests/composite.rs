@@ -33,8 +33,6 @@ mod es2015_destructuring;
 mod es2015_for_of;
 #[path = "composite/es2015_generator.rs"]
 mod es2015_generator;
-#[path = "composite/es2015_generator_sparse_array.rs"]
-mod es2015_generator_sparse_array;
 #[path = "composite/es2015_new_target.rs"]
 mod es2015_new_target;
 #[path = "composite/es2015_parameters.rs"]

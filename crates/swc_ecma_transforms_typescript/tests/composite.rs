@@ -7,9 +7,6 @@ use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     class_fields_use_set::class_fields_use_set,
-    es2015::{block_scoping, destructuring, parameters},
-    es2017::async_to_generator,
-    es2020::{nullish_coalescing, optional_chaining},
     es2022::{class_properties, static_blocks},
 };
 use swc_ecma_transforms_proposal::decorators;
@@ -33,14 +30,8 @@ struct Options {
 enum Pipeline {
     #[default]
     Strip,
-    Tsx,
     TsxOnly,
-    Parameters,
     LegacyDecorators,
-    Decorators,
-    Async,
-    OptionalChaining,
-    Nullish,
 }
 
 /// Runs fixtures requiring parser settings or transforms outside the TypeScript
@@ -87,18 +78,6 @@ fn pipeline(t: &Tester, options: &Options) -> Box<dyn Pass> {
         )
     };
     match options.pipeline {
-        Pipeline::Parameters => Box::new((
-            resolver(unresolved, top_level, true),
-            strip(),
-            parameters(
-                parameters::Config {
-                    ignore_function_length: true,
-                },
-                unresolved,
-            ),
-            destructuring(destructuring::Config { loose: false }),
-            block_scoping(unresolved),
-        )),
         Pipeline::LegacyDecorators => Box::new((
             decorators(decorators::Config {
                 legacy: true,
@@ -106,18 +85,6 @@ fn pipeline(t: &Tester, options: &Options) -> Box<dyn Pass> {
             }),
             strip(),
         )),
-        Pipeline::Decorators => Box::new((decorators(Default::default()), strip())),
-        Pipeline::Async => Box::new((
-            resolver(unresolved, top_level, true),
-            typescript(config, unresolved, top_level),
-            async_to_generator(Default::default(), unresolved),
-        )),
-        Pipeline::OptionalChaining => Box::new((
-            resolver(unresolved, top_level, true),
-            typescript(config, unresolved, top_level),
-            optional_chaining(Default::default(), unresolved),
-        )),
-        Pipeline::Nullish => Box::new((strip(), nullish_coalescing(Default::default()))),
         Pipeline::TsxOnly => Box::new((
             resolver(unresolved, top_level, false),
             tsx(
@@ -127,24 +94,6 @@ fn pipeline(t: &Tester, options: &Options) -> Box<dyn Pass> {
                 t.comments.clone(),
                 unresolved,
                 top_level,
-            ),
-        )),
-        Pipeline::Tsx => Box::new((
-            resolver(unresolved, top_level, false),
-            tsx(
-                t.cm.clone(),
-                config,
-                TsxConfig::default(),
-                t.comments.clone(),
-                unresolved,
-                top_level,
-            ),
-            jsx(
-                t.cm.clone(),
-                Some(t.comments.clone()),
-                Default::default(),
-                top_level,
-                unresolved,
             ),
         )),
         Pipeline::Strip => {

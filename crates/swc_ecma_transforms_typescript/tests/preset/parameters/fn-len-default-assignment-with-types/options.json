@@ -1,0 +1,26 @@
+{
+    "jsc": {
+        "transform": {
+            "noEmptyExport": true,
+            "useDefineForClassFields": false
+        },
+        "parser": {
+            "syntax": "typescript",
+            "decorators": false
+        },
+        "assumptions": {
+            "pureGetters": true,
+            "ignoreFunctionLength": true
+        }
+    },
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": [
+            "transform-parameters",
+            "transform-destructuring",
+            "transform-block-scoping"
+        ]
+    }
+}

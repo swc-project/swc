@@ -117,7 +117,8 @@ fn fixture(input: PathBuf) {
             assert!(
                 matches!(
                     feature,
-                    Feature::PrivatePropertyInObject
+                    Feature::Regenerator
+                        | Feature::PrivatePropertyInObject
                         | Feature::ObjectSuper
                         | Feature::FunctionName
                         | Feature::ClassStaticBlock

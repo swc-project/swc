@@ -1229,12 +1229,6 @@ test_exec!(
 /// Named transform pipelines for the composite output fixtures.
 #[derive(Clone, Copy, serde::Deserialize)]
 enum CasePipeline {
-    #[serde(rename = "resolver-generator-noop-comments")]
-    ResolverGeneratorNoopComments,
-    #[serde(rename = "generator")]
-    Generator,
-    #[serde(rename = "resolver-async-generator-noop-comments")]
-    ResolverAsyncGeneratorNoopComments,
     #[serde(rename = "async-to-generator-es2015-fresh-mark")]
     AsyncToGeneratorEs2015FreshMark,
     #[serde(rename = "async-to-generator-es2016-es2015-fresh-mark")]
@@ -1253,16 +1247,9 @@ enum CasePipeline {
     "tests/composite/generator/standard/async-to-generator-es2016-es2015-fresh-mark/**/input.js"
 )]
 #[testing::fixture("tests/composite/generator/standard/es2015-fresh-mark/**/input.js")]
-#[testing::fixture("tests/composite/generator/standard/generator/**/input.js")]
-#[testing::fixture(
-    "tests/composite/generator/standard/resolver-async-generator-noop-comments/**/input.js"
-)]
 #[testing::fixture(
     "tests/composite/generator/standard/\
      resolver-es2022-es2021-es2018-es2017-es2016-es2015-typescript-resolver/**/input.js"
-)]
-#[testing::fixture(
-    "tests/composite/generator/standard/resolver-generator-noop-comments/**/input.js"
 )]
 fn composite_fixture(input: std::path::PathBuf) {
     let pipeline: CasePipeline = crate::case_pipeline(&input);
@@ -1271,9 +1258,6 @@ fn composite_fixture(input: std::path::PathBuf) {
         &|t| -> Box<dyn swc_ecma_ast::Pass> {
             let _ = &t;
             match pipeline {
-                CasePipeline::ResolverGeneratorNoopComments => Box::new(tr(Default::default())),
-                CasePipeline::Generator => Box::new(generator(Mark::new(), t.comments.clone())),
-                CasePipeline::ResolverAsyncGeneratorNoopComments => Box::new(tr_with_async()),
                 CasePipeline::AsyncToGeneratorEs2015FreshMark => Box::new({
                     let mark = Mark::fresh(Mark::root());
                     (
