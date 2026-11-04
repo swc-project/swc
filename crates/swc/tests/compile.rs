@@ -36,6 +36,8 @@ fn fixture(input_dir: PathBuf) {
     {
         let tests = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/compile");
         let react_compiler = tests.join("options/react-compiler");
+        // Match canonical fixture paths, including verbatim Windows prefixes.
+        let react_compiler = react_compiler.canonicalize().unwrap();
         if input_dir.starts_with(react_compiler) {
             return;
         }
