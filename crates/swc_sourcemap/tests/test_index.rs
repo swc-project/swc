@@ -205,3 +205,42 @@ fn test_flatten_indexed_sourcemap_with_ignore_list() {
         vec![1]
     );
 }
+
+#[test]
+fn test_lazy_flatten_optional_sources_content() {
+    let input: serde_json::Value =
+        serde_json::from_slice(include_bytes!("fixtures/lazy/optional-sources-content.map"))
+            .unwrap();
+    for contents in [
+        None,
+        Some(serde_json::json!([])),
+        Some(serde_json::json!([null])),
+        Some(serde_json::json!(["let a = 1"])),
+        Some(serde_json::json!([null, null])),
+        Some(serde_json::json!(["let a = 1", "let b = 2"])),
+    ] {
+        let mut input = input.clone();
+        if let Some(contents) = contents {
+            input["sections"][0]["map"]["sourcesContent"] = contents;
+        }
+        let input = serde_json::to_vec(&input).unwrap();
+        let expected = SourceMapIndex::from_slice(&input)
+            .unwrap()
+            .flatten()
+            .unwrap();
+        let flattened = swc_sourcemap::lazy::decode(&input)
+            .unwrap()
+            .into_source_map()
+            .unwrap()
+            .into_raw_sourcemap();
+        let actual = serde_json::to_value(flattened).unwrap();
+        let mut expected_bytes = Vec::new();
+        expected.to_writer(&mut expected_bytes).unwrap();
+        let expected: serde_json::Value = serde_json::from_slice(&expected_bytes).unwrap();
+        assert_eq!(actual, expected);
+        assert_eq!(
+            actual["sources"],
+            serde_json::json!(["a.js", "b.js", "c.js"])
+        );
+    }
+}

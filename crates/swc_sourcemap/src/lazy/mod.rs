@@ -532,20 +532,18 @@ impl<'a> SourceMapIndex<'a> {
             };
 
             let sources = map.sources.into_data();
-            let source_contents = map.sources_content.into_data();
+            let mut source_contents = map.sources_content.into_data().into_iter();
             let ignore_list = map.ignore_list.unwrap_or_default().into_data();
 
             let mut src_id_map = Vec::<u32>::with_capacity(sources.len());
 
-            for (original_id, (source, contents)) in
-                sources.into_iter().zip(source_contents).enumerate()
-            {
+            for (original_id, source) in sources.into_iter().enumerate() {
                 debug_assert_eq!(original_id, src_id_map.len());
                 let src_id = builder.add_source(source.assert_raw_value());
 
                 src_id_map.push(src_id);
 
-                if let Some(contents) = contents {
+                if let Some(contents) = source_contents.next().flatten() {
                     builder.set_source_contents(src_id, Some(contents.assert_raw_value()));
                 }
             }
