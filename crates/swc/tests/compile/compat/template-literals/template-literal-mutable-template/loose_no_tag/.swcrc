@@ -1,0 +1,18 @@
+{
+  "env": {
+    "include": [
+      "transform-template-literals"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "mutableTemplateObject": true
+    },
+    "externalHelpers": true,
+    "preserveAllComments": true
+  }
+}

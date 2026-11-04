@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "transform": {
-            "react": {
-                "pragma": "dom"
-            }
-        }
-    }
-}

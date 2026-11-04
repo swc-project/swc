@@ -1,0 +1,19 @@
+{
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "pureGetters": true
+    },
+    "externalHelpers": true,
+    "parser": {
+      "decorators": false,
+      "syntax": "typescript",
+      "tsx": false
+    },
+    "preserveAllComments": true,
+    "target": "esnext",
+    "transform": {
+      "useDefineForClassFields": false
+    }
+  }
+}

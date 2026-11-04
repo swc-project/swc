@@ -1,0 +1,20 @@
+{
+  "isModule": true,
+  "jsc": {
+    "externalHelpers": true,
+    "parser": {
+      "jsx": true,
+      "syntax": "ecmascript"
+    },
+    "preserveAllComments": true,
+    "target": "esnext",
+    "transform": {
+      "react": {
+        "importSource": "@emotion/react",
+        "pragma": "React.createElement",
+        "pragmaFrag": "React.Fragment",
+        "runtime": "automatic"
+      }
+    }
+  }
+}

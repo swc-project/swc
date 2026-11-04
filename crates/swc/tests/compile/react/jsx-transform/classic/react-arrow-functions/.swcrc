@@ -1,0 +1,23 @@
+{
+  "env": {
+    "include": [
+      "transform-classes",
+      "transform-arrow-functions"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": true,
+  "jsc": {
+    "externalHelpers": true,
+    "parser": {
+      "jsx": true,
+      "syntax": "ecmascript"
+    },
+    "preserveAllComments": true,
+    "transform": {
+      "react": {}
+    }
+  }
+}

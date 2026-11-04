@@ -50,3 +50,16 @@ API. Where that API emitted ES5 text without lowering newer syntax, their config
 use modern environment targets with the default print target to preserve both
 behaviors. Tests that extract comments remain in the minifier API suite because
 the compiler pipeline does not expose comment extraction through `.swcrc`.
+
+Migrated transform fixtures keep their effective options in complete `.swcrc`
+files. Fields ignored by the former API harness, such as `sourceMaps`, do not
+implicitly enable new outputs. Fixtures depending on internal-only options,
+helper references without injection, standalone passes, or custom AST operations
+remain in the corresponding transform crate.
+
+To assert emitted code together with compiler diagnostics, pair an ordinary
+code snapshot with `output/input.js.stderr`. The same compiler invocation must
+emit both. Diagnostics use the transform snapshots' reporting style and the
+compiler's normal source filenames. Both code and diagnostics are compared with
+their ordinary text snapshots. Cases asserting failure without emitted code
+continue to use `output.swc-stderr`.

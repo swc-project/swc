@@ -1,0 +1,27 @@
+{
+  "env": {
+    "include": [
+      "transform-class-static-block",
+      "transform-class-properties"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "pureGetters": true
+    },
+    "externalHelpers": true,
+    "parser": {
+      "decorators": false,
+      "syntax": "typescript",
+      "tsx": false
+    },
+    "preserveAllComments": true,
+    "transform": {
+      "useDefineForClassFields": false
+    }
+  }
+}

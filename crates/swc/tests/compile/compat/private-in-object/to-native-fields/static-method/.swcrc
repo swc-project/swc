@@ -1,0 +1,15 @@
+{
+  "env": {
+    "include": [
+      "transform-private-property-in-object"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "externalHelpers": true,
+    "preserveAllComments": true
+  }
+}

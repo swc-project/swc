@@ -1,0 +1,16 @@
+{
+  "env": {
+    "include": [
+      "transform-parameters",
+      "transform-block-scoping"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "externalHelpers": true,
+    "preserveAllComments": true
+  }
+}

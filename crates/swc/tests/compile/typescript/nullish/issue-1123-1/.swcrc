@@ -1,0 +1,26 @@
+{
+  "env": {
+    "include": [
+      "transform-nullish-coalescing-operator"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "pureGetters": true
+    },
+    "externalHelpers": true,
+    "parser": {
+      "decorators": false,
+      "syntax": "typescript",
+      "tsx": false
+    },
+    "preserveAllComments": true,
+    "transform": {
+      "useDefineForClassFields": false
+    }
+  }
+}

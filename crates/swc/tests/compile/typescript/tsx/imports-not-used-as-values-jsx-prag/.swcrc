@@ -1,0 +1,24 @@
+{
+  "env": {
+    "include": [],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "pureGetters": true
+    },
+    "externalHelpers": true,
+    "parser": {
+      "decorators": false,
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "preserveAllComments": true,
+    "transform": {
+      "useDefineForClassFields": true
+    }
+  }
+}

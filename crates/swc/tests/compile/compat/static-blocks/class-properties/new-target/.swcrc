@@ -1,0 +1,16 @@
+{
+  "env": {
+    "include": [
+      "transform-class-static-block",
+      "transform-class-properties"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "externalHelpers": true,
+    "preserveAllComments": true
+  }
+}

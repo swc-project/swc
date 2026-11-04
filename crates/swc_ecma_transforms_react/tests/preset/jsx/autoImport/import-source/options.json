@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "transform": {
-            "react": {
-                "importSource": "foo"
-            }
-        }
-    }
-}

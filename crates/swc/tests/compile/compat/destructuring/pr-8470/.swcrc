@@ -1,0 +1,19 @@
+{
+  "env": {
+    "include": [
+      "transform-object-rest-spread",
+      "transform-destructuring"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "externalHelpers": true,
+    "parser": {
+      "syntax": "ecmascript"
+    },
+    "preserveAllComments": true
+  }
+}

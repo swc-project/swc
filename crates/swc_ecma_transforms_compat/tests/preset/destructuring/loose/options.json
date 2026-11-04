@@ -1,9 +1,0 @@
-{
-    "env": {
-        "targets": {
-            "chrome": "120"
-        },
-        "include": ["transform-destructuring"],
-        "loose": true
-    }
-}

@@ -1,33 +1,21 @@
-### Fixture Test Guide
+# Test Design
 
-- For every behavior that can be expressed by this crate's preset runner,
-  add a preset fixture, including when the behavior also has a composite or
-  specialized test. Keep those tests when they cover additional execution
-  semantics or assertions.
-- Read `tests/README.md` and the relevant runner before adding or moving tests.
-  Preserve the existing behavior categories and verify the parser, pass order,
-  configuration, assertions, feature conditions, and ignored status.
-- Use `tests/preset/<behavior>/<case>/input.js` and `output.js` when the actual
-  compat preset and the supported `.swcrc` subset reproduce the intended test
-  pipeline. Check `tests/preset.rs` for supported fields and defaults. Its
-  `options.json` inheritance stops at `tests/preset` and merges top-level keys
-  only; a nearer nested object replaces the entire parent object.
-- Use `tests/composite/<behavior>/<pipeline>/<case>/input.js` and `output.js`
-  when the original pipeline cannot be represented by the preset. Select a
-  named pipeline with `options.json` in the pipeline directory, and implement
-  it in the corresponding module under `tests/composite/`. The composite runner
-  reads that directory's options directly; it does not inherit parent options.
-- Register each new composite pipeline directory with the relevant
-  `#[testing::fixture]` runner. If an existing broader fixture glob also matches
-  it, update that runner's `exclude` pattern so each intended test runs exactly
-  once. Do not choose pipelines by matching individual test names.
-- Keep runtime assertions and specialized AST, diagnostic, and execution
-  checks in their appropriate runners. Preserve ignored tests using hidden
-  fixture directories where the fixture harness is used, and retain all
-  existing checks when fixtures are shared by multiple runners.
-- Before running tests, initialize submodules with
-  `git submodule update --init --recursive`. Verify existing outputs first with
-  `cargo test -p swc_ecma_transforms_compat` without `UPDATE`. If expected
-  outputs intentionally need regeneration, use
-  `UPDATE=1 cargo test -p swc_ecma_transforms_compat`, review the changes, and
-  rerun the same crate test without `UPDATE`.
+- Put end-to-end cases expressible with `.swcrc` in
+  `../swc/tests/compile/compat/<feature>/`: `input/` + full `.swcrc` → `output/`.
+  Combinations of transforms use the same compiler pipeline. Runtime compiler
+  cases belong in `../swc/tests/exec/`.
+- Keep direct transform API checks here when compiler configuration cannot
+  preserve their assertions. `lowering.rs` retains helper-free compat snapshots;
+  `es20xx_<feature>.rs` covers standalone passes, specific pass orders, custom AST
+  handling, and execution assertions. See `tests/README.md` and the matching
+  runner for configuration and fixture conventions.
+- Prefer fixtures over inline tests. Register each intended pipeline once;
+  update broader globs' exclusions when adding a narrower runner. Preserve shared
+  runtime fixtures exercised by multiple pipelines, hidden ignored cases, feature
+  gates, diagnostics, and all existing assertions during migration.
+- Do not add another local end-to-end compiler harness or a dependency on `swc`.
+
+Initialize submodules before testing. Update intentional snapshots with
+`UPDATE=1 cargo test -p swc_ecma_transforms_compat`, review the diff, then rerun
+without `UPDATE`. Run relevant `es3` coverage when changing gated tests, and
+`cargo test -p swc --test compile` when changing shared compiler fixtures.

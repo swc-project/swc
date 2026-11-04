@@ -1,0 +1,21 @@
+{
+  "env": {
+    "include": [
+      "transform-destructuring",
+      "transform-block-scoping",
+      "transform-parameters",
+      "transform-arrow-functions"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "externalHelpers": true,
+    "parser": {
+      "syntax": "ecmascript"
+    },
+    "preserveAllComments": true
+  }
+}

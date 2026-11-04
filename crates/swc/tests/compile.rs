@@ -67,6 +67,8 @@ fn fixture(input_dir: PathBuf) {
         let rel_path = entry.path().strip_prefix(&input_dir).unwrap();
         let output_path = output_dir.join(rel_path);
         let raw_path = with_suffix(&output_path, ".raw");
+        let combined_diagnostics_path = with_suffix(&output_path, ".stderr");
+        let expect_code_and_diagnostics = combined_diagnostics_path.is_file();
         let expected_diagnostics = if expect_failure {
             Some(diagnostics_path.clone())
         } else {
@@ -74,6 +76,7 @@ fn fixture(input_dir: PathBuf) {
             path.is_file().then_some(path)
         };
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+        let mut emitted_code = None;
         let result = GLOBALS.set(&Default::default(), || {
             try_with_handler(
                 cm.clone(),
@@ -98,7 +101,7 @@ fn fixture(input_dir: PathBuf) {
                     options.config.jsc.external_helpers.merge(true.into());
                     // Let process_js_file load the full configuration as usual;
                     // some source-map settings are read before options merge.
-                    match c.process_js_file(fm, handler, &options) {
+                    let result = match c.process_js_file(fm, handler, &options) {
                         // Let the compiler reject excluded inputs instead of
                         // skipping them before compilation. Their empty output
                         // is checked against the same snapshot paths below.
@@ -111,14 +114,27 @@ fn fixture(input_dir: PathBuf) {
                         }
                         Err(err) if format!("{err:?}").contains("not matched") => Ok(None),
                         result => result.map(Some),
+                    };
+                    // The diagnostic wrapper returns an error even when the
+                    // compiler emitted code. Keep both observations for cases
+                    // that intentionally assert code alongside diagnostics.
+                    if expect_code_and_diagnostics {
+                        if let Ok(Some(output)) = &result {
+                            assert!(output.map.is_none() && output.output.is_none());
+                            emitted_code = Some(output.code.clone());
+                        }
                     }
+                    result
                 },
             )
         });
 
         match result {
             Ok(Some(v)) => {
-                assert!(!expect_failure, "expected compilation to fail");
+                assert!(
+                    !expect_failure && !expect_code_and_diagnostics,
+                    "expected compilation to emit diagnostics"
+                );
                 if raw_path.is_file() {
                     assert!(!output_path.exists(), "fixture has two output snapshots");
                     NormalizedOutput::new_raw(v.code)
@@ -167,7 +183,10 @@ fn fixture(input_dir: PathBuf) {
                 }
             }
             Ok(None) => {
-                assert!(!expect_failure, "expected compilation to fail");
+                assert!(
+                    !expect_failure && !expect_code_and_diagnostics,
+                    "expected compilation to emit diagnostics"
+                );
                 // Missing snapshots already mean empty output. Compare every
                 // output kind so exclusion cannot leave stale expectations.
                 for path in [
@@ -181,6 +200,25 @@ fn fixture(input_dir: PathBuf) {
                 }
             }
             Err(err) => {
+                if expect_code_and_diagnostics {
+                    assert!(!expect_failure, "fixture has two diagnostic expectations");
+                    let code =
+                        emitted_code.expect("expected code to be emitted alongside diagnostics");
+                    NormalizedOutput::from(code)
+                        .compare_to_file(&output_path)
+                        .unwrap();
+                    let report =
+                        GraphicalReportHandler::default().with_theme(GraphicalTheme::none());
+                    let diagnostic = err
+                        .diagnostics()
+                        .iter()
+                        .map(|diagnostic| diagnostic.to_pretty_string(&cm, false, &report))
+                        .collect::<String>();
+                    NormalizedOutput::from(diagnostic)
+                        .compare_to_file(&combined_diagnostics_path)
+                        .unwrap();
+                    continue;
+                }
                 let path = expected_diagnostics.unwrap_or_else(|| {
                     panic!(
                         "unexpected compilation error for {}:\n{err}",

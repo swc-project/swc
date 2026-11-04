@@ -1,0 +1,18 @@
+{
+  "env": {
+    "include": [
+      "transform-for-of"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "iterableIsArray": true
+    },
+    "externalHelpers": true,
+    "preserveAllComments": true
+  }
+}

@@ -1,8 +1,0 @@
-{
-    "env": {
-        "targets": {
-            "chrome": "120"
-        },
-        "include": ["transform-for-of"]
-    }
-}

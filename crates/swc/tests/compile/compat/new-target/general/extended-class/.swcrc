@@ -1,0 +1,18 @@
+{
+  "env": {
+    "include": [
+      "transform-new-target"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "externalHelpers": true,
+    "parser": {
+      "syntax": "ecmascript"
+    },
+    "preserveAllComments": true
+  }
+}

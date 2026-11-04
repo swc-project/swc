@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "transform": {
-            "react": {
-                "throwIfNamespace": false
-            }
-        }
-    }
-}
