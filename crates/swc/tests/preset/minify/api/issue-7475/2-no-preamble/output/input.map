@@ -1,0 +1,15 @@
+{
+  "mappings": "AAAA,SAASA,MACLC,QAAQC,GAAG,CAAC,MAChB,CAEAF",
+  "names": [
+    "foo",
+    "console",
+    "log"
+  ],
+  "sources": [
+    "../input/input.js"
+  ],
+  "sourcesContent": [
+    "function foo() {\n    console.log('Foo')\n}\n\nfoo()"
+  ],
+  "version": 3
+}

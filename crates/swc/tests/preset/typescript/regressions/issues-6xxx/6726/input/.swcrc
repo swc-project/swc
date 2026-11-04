@@ -9,7 +9,7 @@
         },
         "target": "es2024",
         "loose": false,
-        "externalHelpers": false,
+        "externalHelpers": true,
         "keepClassNames": false
     },
     "minify": true,

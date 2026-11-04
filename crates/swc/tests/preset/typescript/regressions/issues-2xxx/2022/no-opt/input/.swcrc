@@ -9,7 +9,7 @@
         "transform": null,
         "target": "es5",
         "loose": false,
-        "externalHelpers": false,
+        "externalHelpers": true,
         "keepClassNames": false
     }
 }

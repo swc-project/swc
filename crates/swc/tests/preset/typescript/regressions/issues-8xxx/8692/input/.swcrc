@@ -1,7 +1,7 @@
 {
     "$schema": "http://json.schemastore.org/swcrc",
     "jsc": {
-        "externalHelpers": false,
+        "externalHelpers": true,
         "parser": {
             "syntax": "typescript",
             "tsx": false,

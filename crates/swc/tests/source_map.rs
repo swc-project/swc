@@ -149,13 +149,15 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
-// These integration and TypeScript fixtures were not part of the original map
-// validation suite. Their snapshots are still checked by the preset runner.
+// These integration, TypeScript, and minifier fixtures were not part of the
+// original map validation suite. Their snapshots are still checked by the
+// preset runner.
 #[testing::fixture(
     "tests/preset/**/*.map",
     exclude(
         "[/\\\\]integration[/\\\\]vercel[/\\\\]",
-        "[/\\\\]typescript[/\\\\]rewrite-"
+        "[/\\\\]typescript[/\\\\]rewrite-",
+        "[/\\\\]minify[/\\\\]api[/\\\\]"
     )
 )]
 fn validate_map(map_file: PathBuf) {

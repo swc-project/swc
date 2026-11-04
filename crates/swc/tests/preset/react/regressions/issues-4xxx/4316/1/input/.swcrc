@@ -7,7 +7,7 @@
         "noInterop": false
     },
     "jsc": {
-        "externalHelpers": false,
+        "externalHelpers": true,
         "parser": {
             "syntax": "typescript",
             "tsx": true

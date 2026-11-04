@@ -3,7 +3,7 @@
         "parser": {
             "syntax": "ecmascript"
         },
-        "externalHelpers": false,
+        "externalHelpers": true,
         "target": "es5"
     }
 }

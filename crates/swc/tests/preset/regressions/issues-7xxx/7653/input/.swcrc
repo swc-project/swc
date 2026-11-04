@@ -7,7 +7,7 @@
         "transform": null,
         "target": "es5",
         "loose": true,
-        "externalHelpers": false,
+        "externalHelpers": true,
         "keepClassNames": false,
     },
     "minify": true,

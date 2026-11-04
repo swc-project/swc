@@ -10,7 +10,7 @@
         "transform": null,
         "target": "es2017",
         "loose": false,
-        "externalHelpers": false,
+        "externalHelpers": true,
         "keepClassNames": false,
         "minify": {
             "compress": {

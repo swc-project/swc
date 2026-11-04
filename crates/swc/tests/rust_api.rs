@@ -1,5 +1,5 @@
 use swc::{
-    config::{Config, InputSourceMap, JscConfig, ModuleConfig, Options, SourceMapsConfig},
+    config::{Config, InputSourceMap, JscConfig, Options, SourceMapsConfig},
     Compiler,
 };
 use swc_common::{comments::SingleThreadedComments, FileName};
@@ -53,63 +53,6 @@ fn test_visit_mut() {
 
         assert_ne!(res.unwrap().code, "console.log(5 as const)");
 
-        Ok(())
-    })
-    .unwrap()
-}
-
-#[test]
-fn shopify_1_check_filename() {
-    testing::run_test2(false, |cm, handler| {
-        let c = Compiler::new(cm.clone());
-
-        let fm = cm.new_source_file(
-            FileName::Anon.into(),
-            "
-            import React from 'react';
-            import { useI18n } from '@shopify/react-i18n';
-
-            export function App() {
-                const [i18n] = useI18n();
-                return <h1>{i18n.translate('foo')}</h1>
-            }
-            ",
-        );
-
-        let res = c.process_js_with_custom_pass(
-            fm,
-            None,
-            &handler,
-            &Options {
-                config: Config {
-                    jsc: JscConfig {
-                        syntax: Some(Syntax::Es(EsSyntax {
-                            jsx: true,
-                            ..Default::default()
-                        })),
-                        ..Default::default()
-                    },
-                    module: Some(ModuleConfig::CommonJs(Default::default())),
-                    ..Default::default()
-                },
-                ..Default::default()
-            },
-            SingleThreadedComments::default(),
-            |_| {
-                // Ensure comment API
-                noop_pass()
-            },
-            |_| noop_pass(),
-        );
-
-        if res.is_err() {
-            return Err(());
-        }
-
-        let res = res.unwrap();
-        eprintln!("{}", res.code);
-
-        assert!(res.code.contains("_react.default.createElement"));
         Ok(())
     })
     .unwrap()

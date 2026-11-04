@@ -5,7 +5,7 @@
         "noInterop": false
     },
     "jsc": {
-        "externalHelpers": false,
+        "externalHelpers": true,
         "target": "es2017",
         "parser": {
             "syntax": "typescript",

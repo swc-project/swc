@@ -1,15 +1,22 @@
-use std::{fs::create_dir_all, path::PathBuf};
-
-use swc::{
-    config::{Config, JscConfig, Options},
-    try_with_handler, Compiler, HandlerOpts,
+use std::{
+    fs::create_dir_all,
+    path::{Path, PathBuf},
 };
+
+use swc::{config::Options, try_with_handler, Compiler, HandlerOpts};
 use swc_common::{errors::ColorConfig, sync::Lrc, FilePathMapping, SourceMap, GLOBALS};
+use swc_config::merge::Merge;
 use swc_error_reporters::{
     handler::to_pretty_handler, GraphicalReportHandler, GraphicalTheme, ToPrettyDiagnostic,
 };
 use testing::NormalizedOutput;
 use walkdir::WalkDir;
+
+fn with_suffix(path: &Path, suffix: &str) -> PathBuf {
+    let mut path = path.as_os_str().to_os_string();
+    path.push(suffix);
+    PathBuf::from(path)
+}
 
 /// Compiles each input with its inherited `.swcrc` and verifies every output.
 #[testing::fixture("tests/preset/**/input/")]
@@ -51,6 +58,8 @@ fn fixture(input_dir: PathBuf) {
         println!("File: {}", entry.path().display());
 
         let rel_path = entry.path().strip_prefix(&input_dir).unwrap();
+        let output_path = output_dir.join(rel_path);
+        let raw_path = with_suffix(&output_path, ".raw");
         let expected_diagnostics = if expect_failure {
             Some(diagnostics_path.clone())
         } else {
@@ -68,22 +77,31 @@ fn fixture(input_dir: PathBuf) {
                 |handler| {
                     let c = Compiler::new(cm.clone());
                     let fm = cm.load_file(entry.path()).expect("failed to load file");
-                    match c.process_js_file(
-                        fm,
-                        handler,
-                        &Options {
-                            swcrc: true,
-                            output_path: Some(output_dir.join(entry.file_name())),
-                            config: Config {
-                                jsc: JscConfig {
-                                    external_helpers: true.into(),
-                                    ..Default::default()
-                                },
-                                ..Default::default()
-                            },
-                            ..Default::default()
-                        },
-                    ) {
+                    let mut options = Options {
+                        swcrc: true,
+                        output_path: Some(output_dir.join(entry.file_name())),
+                        ..Default::default()
+                    };
+                    let config = c.read_config(&options, &fm.name)?;
+                    // Keep the historical default while honoring explicit
+                    // helper settings and configuration selection in `.swcrc`.
+                    if let Some(config) = config {
+                        options.config.jsc.external_helpers = config.jsc.external_helpers;
+                    }
+                    options.config.jsc.external_helpers.merge(true.into());
+                    // Let process_js_file load the full configuration as usual;
+                    // some source-map settings are read before options merge.
+                    match c.process_js_file(fm, handler, &options) {
+                        // Let the compiler reject excluded inputs instead of
+                        // skipping them before compilation. Their empty output
+                        // is checked against the same snapshot paths below.
+                        Err(err)
+                            if err
+                                .to_string()
+                                .contains("cannot process file because it's ignored by .swcrc") =>
+                        {
+                            Ok(None)
+                        }
                         Err(err) if format!("{err:?}").contains("not matched") => Ok(None),
                         result => result.map(Some),
                     }
@@ -94,10 +112,6 @@ fn fixture(input_dir: PathBuf) {
         match result {
             Ok(Some(v)) => {
                 assert!(!expect_failure, "expected compilation to fail");
-                let output_path = output_dir.join(rel_path);
-                let mut raw_path = output_path.as_os_str().to_os_string();
-                raw_path.push(".raw");
-                let raw_path = PathBuf::from(raw_path);
                 if raw_path.is_file() {
                     assert!(!output_path.exists(), "fixture has two output snapshots");
                     NormalizedOutput::new_raw(v.code)
@@ -147,8 +161,25 @@ fn fixture(input_dir: PathBuf) {
             }
             Ok(None) => {
                 assert!(!expect_failure, "expected compilation to fail");
+                // Missing snapshots already mean empty output. Compare every
+                // output kind so exclusion cannot leave stale expectations.
+                for path in [
+                    output_path.clone(),
+                    raw_path,
+                    output_dir.join(rel_path.with_extension("map").file_name().unwrap()),
+                    output_path.with_extension("d.ts"),
+                    output_path.with_extension("extra.json"),
+                ] {
+                    NormalizedOutput::default().compare_to_file(path).unwrap();
+                }
             }
             Err(err) => {
+                let path = expected_diagnostics.unwrap_or_else(|| {
+                    panic!(
+                        "unexpected compilation error for {}:\n{err}",
+                        entry.path().display()
+                    )
+                });
                 // Preserve both existing snapshot formats without changing the
                 // compiler options or its diagnostic collection.
                 let report = if expect_failure {
@@ -156,17 +187,21 @@ fn fixture(input_dir: PathBuf) {
                 } else {
                     GraphicalReportHandler::default().with_theme(GraphicalTheme::none())
                 };
-                let diagnostic = err
-                    .diagnostics()
-                    .iter()
-                    .map(|diagnostic| diagnostic.to_pretty_string(&cm, expect_failure, &report))
-                    .collect::<String>();
-                let path = expected_diagnostics.unwrap_or_else(|| {
-                    panic!(
-                        "unexpected compilation error for {}:\n{err}",
-                        entry.path().display()
-                    )
-                });
+                let diagnostic = if err.diagnostics().is_empty() {
+                    // Configuration errors can fail before emitting a source
+                    // diagnostic. Preserve their complete error chain too.
+                    err.to_pretty_error()
+                        .chain()
+                        .map(ToString::to_string)
+                        .filter(|message| !message.is_empty())
+                        .collect::<Vec<_>>()
+                        .join("\nCaused by:\n")
+                } else {
+                    err.diagnostics()
+                        .iter()
+                        .map(|diagnostic| diagnostic.to_pretty_string(&cm, expect_failure, &report))
+                        .collect::<String>()
+                };
                 NormalizedOutput::from(diagnostic)
                     .compare_to_file(path)
                     .unwrap();

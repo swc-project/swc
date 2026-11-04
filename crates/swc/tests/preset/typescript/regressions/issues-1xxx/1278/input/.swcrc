@@ -6,7 +6,7 @@
             "decorators": true,
             "dynamicImport": false
         },
-        "externalHelpers": false,
+        "externalHelpers": true,
         "target": "es2020",
         "loose": true,
         "transform": {

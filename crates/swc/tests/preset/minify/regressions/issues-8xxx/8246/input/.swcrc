@@ -7,7 +7,7 @@
         "transform": null,
         "target": "es2015",
         "loose": true,
-        "externalHelpers": false,
+        "externalHelpers": true,
         "minify": {
             "mangle": {
                 "toplevel": false,

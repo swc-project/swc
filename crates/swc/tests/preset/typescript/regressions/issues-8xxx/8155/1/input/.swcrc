@@ -13,7 +13,7 @@
             "compress": true
         },
         "loose": false,
-        "externalHelpers": false
+        "externalHelpers": true
     },
     "isModule": true
 }

@@ -1,0 +1,23 @@
+{
+    "isModule": "unknown",
+    "minify": true,
+    "sourceMaps": true,
+    "inlineSourcesContent": true,
+    "jsc": {
+        "target": "esnext",
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "decorators": true,
+            "decoratorsBeforeExport": true,
+            "importAttributes": true
+        },
+        "minify": {
+            "compress": true,
+            "mangle": true
+        },
+        "output": {
+            "preamble": ""
+        }
+    }
+}

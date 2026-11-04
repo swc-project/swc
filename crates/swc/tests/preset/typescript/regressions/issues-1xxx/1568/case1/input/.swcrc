@@ -7,7 +7,7 @@
             "dynamicImport": true
         },
         "loose": true,
-        "externalHelpers": false
+        "externalHelpers": true
     },
     "minify": false,
     "env": {

@@ -15,7 +15,7 @@
         },
         "target": "es2022",
         "loose": true,
-        "externalHelpers": false,
+        "externalHelpers": true,
         "keepClassNames": false,
         "minify": {
             "compress": {

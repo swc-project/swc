@@ -1,0 +1,34 @@
+{
+    "isModule": "unknown",
+    "minify": true,
+    "sourceMaps": true,
+    "inlineSourcesContent": true,
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "decorators": true,
+            "decoratorsBeforeExport": true,
+            "importAttributes": true
+        },
+        "minify": {
+            "compress": {
+                "negate_iife": false,
+                "sequences": 30
+            },
+            "mangle": {
+                "safari10": true
+            }
+        },
+        "output": {
+            "preamble": "",
+            "sourceMapUrl": "input.map"
+        }
+    },
+    "inputSourceMap": "{\"version\": 3, \"sources\": [\"input-preprocess.js\"], \"sourcesContent\": [\"const a = {a\\u00f3b: '\\u00f3'}\\n\\nconsole.log(a)\"], \"names\": [\"console\", \"log\", \"a\\u00f3b\"], \"mappings\": \"AAEAA,QAAQC,GAAG,CAFD;IAACC,UAAK;AAAG\"}",
+    "env": {
+        "targets": {
+            "chrome": "120"
+        }
+    }
+}

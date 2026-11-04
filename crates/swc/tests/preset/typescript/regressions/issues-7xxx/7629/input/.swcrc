@@ -9,7 +9,7 @@
             "compress": false,
             "mangle": false
         },
-        "externalHelpers": false
+        "externalHelpers": true
     },
     "module": {
         "type": "es6"

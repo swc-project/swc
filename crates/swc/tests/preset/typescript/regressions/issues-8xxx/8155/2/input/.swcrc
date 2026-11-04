@@ -10,7 +10,7 @@
         },
         "target": "es2016",
         "loose": false,
-        "externalHelpers": false
+        "externalHelpers": true
     },
     "isModule": true
 }

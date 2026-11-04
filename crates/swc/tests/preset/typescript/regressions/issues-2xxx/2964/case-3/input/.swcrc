@@ -24,7 +24,7 @@
         },
         "target": "es2015",
         "loose": false,
-        "externalHelpers": false,
+        "externalHelpers": true,
         "keepClassNames": false,
         "preserveAllComments": true
     },
