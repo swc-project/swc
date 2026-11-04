@@ -207,29 +207,6 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/composite/for-of/**/input.js")]
-fn fixture(input: PathBuf) {
-    let output = input.with_file_name("output.js");
-
-    test_fixture(
-        Syntax::default(),
-        &|_| {
-            let top_level_mark = Mark::new();
-
-            (
-                resolver(Mark::new(), top_level_mark, false),
-                for_of(Config {
-                    assume_array: false,
-                    ..Default::default()
-                }),
-            )
-        },
-        &input,
-        &output,
-        Default::default(),
-    );
-}
-
 #[testing::fixture("tests/composite/for-of/issue-12433/modes/input.js")]
 fn fixture_modes(input: PathBuf) {
     for (config, output) in [

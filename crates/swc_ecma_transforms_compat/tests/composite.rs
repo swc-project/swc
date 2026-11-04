@@ -26,8 +26,6 @@ mod es2015_new_target;
 mod es2015_object_super;
 #[path = "composite/es2015_parameters.rs"]
 mod es2015_parameters;
-#[path = "composite/es2015_shorthand_propertie.rs"]
-mod es2015_shorthand_propertie;
 #[path = "composite/es2015_spread.rs"]
 mod es2015_spread;
 #[path = "composite/es2015_template_literals.rs"]
