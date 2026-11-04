@@ -5660,7 +5660,6 @@ dependencies = [
  "napi-derive",
  "once_cell",
  "par-core",
- "par-iter",
  "parking_lot",
  "regex",
  "rustc-hash 2.1.1",
