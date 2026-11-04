@@ -1,0 +1,8 @@
+$DIR/tests/srcmap/stacktrace/deno-10014/input/index.js:10
+        throw new Error("Hello");
+        ^
+Error: Hello
+    at t ($DIR/tests/srcmap/stacktrace/deno-10014/input/index.js:10:15)
+    at t ($DIR/tests/srcmap/stacktrace/deno-10014/input/index.js:12:5)
+    at a ($DIR/tests/srcmap/stacktrace/deno-10014/input/index.js:2:5)
+    at <anonymous> ($DIR/tests/srcmap/stacktrace/deno-10014/input/index.js:14:1)

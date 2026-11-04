@@ -1,10 +1,11 @@
 # Compiler execution fixtures
 
-`tests/exec.rs` runs compiler, Babel, and native async fixtures through the same
-pipeline. Each `exec.js`, `exec.mjs`, or `exec.ts` is the input. The runner loads
-its complete `.swcrc` once through the compiler's configuration loader, compiles
-the input for each configuration in the execution matrix, and executes the
-emitted code with Node. No generated code snapshot is required.
+`tests/exec.rs` runs compiler, Babel, TypeScript semantic, and native async
+fixtures through the same pipeline. Each `exec.js`, `exec.mjs`, or `exec.ts` is
+the input. The runner loads its complete `.swcrc` once through the compiler's
+configuration loader, compiles the input for each configuration in the execution
+matrix, and executes the emitted code with Node. No generated code snapshot is
+required.
 
 The default matrix covers ten targets, from ESNext through ES5, combined with
 minification, external helpers, and inline source maps enabled and disabled:

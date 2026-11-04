@@ -285,7 +285,8 @@ fn create_matrix(entry: &Path, config: &ExecConfig, swcrc: Option<&Config>) -> V
         .collect::<Vec<_>>()
 }
 
-/// Executes every configuration and compares it with the reference stdout.
+/// Executes compiler, Babel, TypeScript semantic, and native async fixtures,
+/// comparing every configuration with the reference stdout.
 #[testing::fixture("tests/exec/**/exec.js")]
 #[testing::fixture("tests/exec/**/exec.mjs")]
 #[testing::fixture("tests/exec/**/exec.ts")]

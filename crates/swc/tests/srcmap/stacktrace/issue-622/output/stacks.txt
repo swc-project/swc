@@ -1,0 +1,14 @@
+$DIR/tests/srcmap/stacktrace/issue-622/input/index.js:3
+        throw call();
+        ^
+ReferenceError: call is not defined
+    at foo ($DIR/tests/srcmap/stacktrace/issue-622/input/index.js:3:9)
+    at step ($DIR/tests/srcmap/stacktrace/issue-622/input/_exec.js:110:23)
+    at <anonymous> ($DIR/tests/srcmap/stacktrace/issue-622/input/_exec.js:51:20)
+    at asyncGeneratorStep ($DIR/tests/srcmap/stacktrace/issue-622/input/_exec.js:4:28)
+    at _next ($DIR/tests/srcmap/stacktrace/issue-622/input/_exec.js:19:17)
+    at $DIR/tests/srcmap/stacktrace/issue-622/input/_exec.js:24:13
+    at new Promise (<anonymous>)
+    at $DIR/tests/srcmap/stacktrace/issue-622/input/_exec.js:16:16
+    at foo ($DIR/tests/srcmap/stacktrace/issue-622/input/index.js:6:1)
+    at <anonymous> ($DIR/tests/srcmap/stacktrace/issue-622/input/index.js:9:1)
