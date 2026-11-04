@@ -6,7 +6,7 @@ use std::{
 use serde::Deserialize;
 use swc_common::Mark;
 use swc_ecma_ast::{EsVersion, Pass};
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_preset_env::{
     transform_from_env, transform_from_es_version, Config, Feature, FeatureOrModule, Targets,
 };
@@ -25,10 +25,47 @@ struct Options {
 #[derive(Default, Deserialize)]
 #[serde(default, rename_all = "camelCase", deny_unknown_fields)]
 struct JscOptions {
-    parser: Option<Syntax>,
+    parser: Option<ParserOptions>,
     target: Option<EsVersion>,
     assumptions: Option<Assumptions>,
     loose: bool,
+}
+
+/// Parser settings supported by these fixtures; unknown syntax options fail.
+#[derive(Deserialize)]
+#[serde(tag = "syntax", deny_unknown_fields)]
+enum ParserOptions {
+    #[serde(rename = "ecmascript")]
+    Ecmascript {
+        #[serde(default)]
+        jsx: bool,
+        #[serde(default)]
+        decorators: bool,
+    },
+    #[serde(rename = "typescript")]
+    Typescript {
+        #[serde(default)]
+        tsx: bool,
+        #[serde(default)]
+        decorators: bool,
+    },
+}
+
+impl From<ParserOptions> for Syntax {
+    fn from(options: ParserOptions) -> Self {
+        match options {
+            ParserOptions::Ecmascript { jsx, decorators } => Syntax::Es(EsSyntax {
+                jsx,
+                decorators,
+                ..Default::default()
+            }),
+            ParserOptions::Typescript { tsx, decorators } => Syntax::Typescript(TsSyntax {
+                tsx,
+                decorators,
+                ..Default::default()
+            }),
+        }
+    }
 }
 
 #[derive(Default, Deserialize)]
@@ -94,7 +131,7 @@ fn fixture(input: PathBuf) {
             );
         }
     }
-    let syntax = options.jsc.parser.unwrap_or_default();
+    let syntax = options.jsc.parser.map(Syntax::from).unwrap_or_default();
     let assumptions = options.jsc.assumptions.unwrap_or_else(|| {
         if options.jsc.loose {
             Assumptions::all()
@@ -152,13 +189,21 @@ fn fixture(input: PathBuf) {
 }
 
 #[test]
-fn options_reject_unsupported_fields() {
+fn options_validate_supported_fields() {
     for source in [
         r#"{"unknown": true}"#,
         r#"{"jsc": {"unknown": true}}"#,
+        r#"{"jsc": {"parser": {"syntax": "ecmascript", "unknown": true}}}"#,
         r#"{"env": {"unknown": true}}"#,
         r#"{"env": {"include": ["not-a-transform"]}}"#,
     ] {
         assert!(serde_json::from_str::<Options>(source).is_err(), "{source}");
     }
+    let options: Options =
+        serde_json::from_str(r#"{"jsc": {"parser": {"syntax": "typescript", "tsx": true}}}"#)
+            .unwrap();
+    assert!(matches!(
+        options.jsc.parser.map(Syntax::from),
+        Some(Syntax::Typescript(TsSyntax { tsx: true, .. }))
+    ));
 }

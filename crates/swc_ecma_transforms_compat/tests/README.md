@@ -4,7 +4,8 @@
 `preset/<behavior>/`, with `input.js` and `output.js`. `options.json` accepts a
 subset of `.swcrc`: `jsc.parser`, `jsc.target`, `jsc.assumptions`, `jsc.loose`,
 `isModule` (boolean), and `env.targets`, `env.include`, `env.exclude`, and
-`env.loose`. The ES3 target and unlisted env features are rejected. `env` and
+`env.loose`. The parser subset supports `syntax`, `jsx` or `tsx`, and `decorators`. The ES3
+target and unlisted env features are rejected. `env` and
 `jsc.target` are mutually exclusive. Unspecified settings use SWC defaults.
 The parser setting selects syntax; this runner does not strip TypeScript.
 
