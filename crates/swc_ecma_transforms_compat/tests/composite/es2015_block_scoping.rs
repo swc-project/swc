@@ -373,7 +373,7 @@ expect(expected).toEqual([10,10,10,10,10]);
 "
 );
 
-#[testing::fixture("tests/block-scoping/**/exec.js")]
+#[testing::fixture("tests/composite/block-scoping/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(
@@ -405,7 +405,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/block-scoping/**/input.js")]
+#[testing::fixture("tests/composite/block-scoping/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 

@@ -1500,7 +1500,7 @@ test!(
     include_str!("inline-inputs/es2017_async_to_generator/issue_9432/input.js")
 );
 
-#[testing::fixture("tests/async-to-generator/**/input.js")]
+#[testing::fixture("tests/composite/async-to-generator/**/input.js")]
 fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),
@@ -1520,7 +1520,7 @@ fn fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/async-to-generator/**/exec.js")]
+#[testing::fixture("tests/composite/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(
@@ -1539,7 +1539,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/async-to-generator/**/exec.js")]
+#[testing::fixture("tests/composite/async-to-generator/**/exec.js")]
 fn exec_regenerator(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(

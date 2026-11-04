@@ -23,7 +23,7 @@ enum PluginConfig {
     Name(String),
 }
 
-#[testing::fixture("tests/private-in-object/**/input.js")]
+#[testing::fixture("tests/composite/private-in-object/**/input.js")]
 fn fixture(input: PathBuf) {
     let parent = input.parent().unwrap();
 

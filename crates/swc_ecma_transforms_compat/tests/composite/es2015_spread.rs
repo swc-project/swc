@@ -6,7 +6,7 @@ use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::{block_scoping, destructuring, parameters, spread};
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
 
-#[testing::fixture("tests/spread/**/exec.js")]
+#[testing::fixture("tests/composite/spread/**/exec.js")]
 fn exec(input: PathBuf) {
     compare_stdout(
         syntax(),

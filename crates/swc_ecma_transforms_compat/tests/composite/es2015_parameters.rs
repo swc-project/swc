@@ -900,7 +900,7 @@ test!(
     include_str!("inline-inputs/es2015_parameters/issue_5030/input.js")
 );
 
-#[testing::fixture("tests/parameters/**/input.js")]
+#[testing::fixture("tests/composite/parameters/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 

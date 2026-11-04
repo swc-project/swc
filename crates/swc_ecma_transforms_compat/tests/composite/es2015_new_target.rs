@@ -68,7 +68,7 @@ fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
     pass
 }
 
-#[testing::fixture("tests/new-target/**/exec.js")]
+#[testing::fixture("tests/composite/new-target/**/exec.js")]
 fn exec(input: PathBuf) {
     let options: TestOptions = parse_options(&input);
     let input = read_to_string(&input).unwrap();
@@ -93,7 +93,7 @@ enum PluginConfig {
     Name(String),
 }
 
-#[testing::fixture("tests/new-target/**/input.js")]
+#[testing::fixture("tests/composite/new-target/**/input.js")]
 fn fixture(input: PathBuf) {
     let options: TestOptions = parse_options(&input);
 

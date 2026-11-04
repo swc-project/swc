@@ -7,7 +7,7 @@ use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2022::{class_properties, static_blocks};
 use swc_ecma_transforms_testing::test_fixture;
 
-#[testing::fixture("tests/static-blocks/**/input.js")]
+#[testing::fixture("tests/composite/static-blocks/**/input.js")]
 fn fixture(input: PathBuf) {
     let parent = input.parent().unwrap();
 

@@ -5,7 +5,7 @@ use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::shorthand;
 use swc_ecma_transforms_testing::test_fixture;
 
-#[testing::fixture("tests/shorthand_properties/**/input.js")]
+#[testing::fixture("tests/composite/shorthand_properties/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 

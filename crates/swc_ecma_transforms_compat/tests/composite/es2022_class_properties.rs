@@ -3045,7 +3045,7 @@ test!(
     include_str!("inline-inputs/es2022_class_properties/loose_keyword_method/input.js")
 );
 
-#[testing::fixture("tests/classes/**/exec.js")]
+#[testing::fixture("tests/composite/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();
     compare_stdout(
@@ -3063,7 +3063,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/class-properties/**/input.js")]
+#[testing::fixture("tests/composite/class-properties/**/input.js")]
 fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),

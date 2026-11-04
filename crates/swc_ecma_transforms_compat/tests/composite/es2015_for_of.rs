@@ -186,7 +186,7 @@ test!(
     include_str!("inline-inputs/es2015_for_of/regression_if_label_3858/input.js")
 );
 
-#[testing::fixture("tests/for-of/**/exec.js")]
+#[testing::fixture("tests/composite/for-of/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(input).unwrap();
 
@@ -207,7 +207,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/for-of/**/input.js")]
+#[testing::fixture("tests/composite/for-of/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
@@ -230,7 +230,7 @@ fn fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/for-of/issue-12433/modes/input.js")]
+#[testing::fixture("tests/composite/for-of/issue-12433/modes/input.js")]
 fn fixture_modes(input: PathBuf) {
     for (config, output) in [
         (
@@ -258,7 +258,7 @@ fn fixture_modes(input: PathBuf) {
     }
 }
 
-#[testing::fixture("tests/for-of/issue-12433/modes/exec.js")]
+#[testing::fixture("tests/composite/for-of/issue-12433/modes/exec.js")]
 fn exec_modes(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     for config in [
@@ -279,7 +279,7 @@ fn exec_modes(input: PathBuf) {
     }
 }
 
-#[testing::fixture("tests/for-of/**/exec.js")]
+#[testing::fixture("tests/composite/for-of/**/exec.js")]
 fn exec_es2015(input: PathBuf) {
     let input = read_to_string(input).unwrap();
 

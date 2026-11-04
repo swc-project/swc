@@ -700,7 +700,7 @@ impl VisitMut for ClearCooked {
     }
 }
 
-#[testing::fixture("tests/template-literals/missing-cooked/**/input.js")]
+#[testing::fixture("tests/composite/template-literals/missing-cooked/**/input.js")]
 fn missing_cooked(input: PathBuf) {
     let output = input.with_file_name("output.js");
     test_fixture(

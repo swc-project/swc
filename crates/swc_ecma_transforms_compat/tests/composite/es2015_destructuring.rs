@@ -1437,7 +1437,7 @@ test_exec!(
     "#
 );
 
-#[testing::fixture("tests/destructuring/**/input.js")]
+#[testing::fixture("tests/composite/destructuring/**/input.js")]
 fn fixture(input: PathBuf) {
     let parent = input.parent().unwrap();
 

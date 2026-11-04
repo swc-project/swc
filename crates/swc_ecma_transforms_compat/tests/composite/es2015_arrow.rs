@@ -52,7 +52,7 @@ compare_stdout!(
     "
 );
 
-#[testing::fixture("tests/arrow/**/input.js")]
+#[testing::fixture("tests/composite/arrow/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 

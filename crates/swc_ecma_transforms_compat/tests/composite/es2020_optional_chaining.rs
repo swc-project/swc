@@ -258,7 +258,7 @@ class Foo {
 "#
 );
 
-#[testing::fixture("tests/optional-chaining/**/exec.js")]
+#[testing::fixture("tests/composite/optional-chaining/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();
 
@@ -282,7 +282,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/optional-chaining/**/input.js")]
+#[testing::fixture("tests/composite/optional-chaining/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
@@ -309,7 +309,7 @@ fn fixture(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/optional-chaining-loose/**/input.js")]
+#[testing::fixture("tests/composite/optional-chaining-loose/**/input.js")]
 fn fixture_loose(input: PathBuf) {
     let output = input.with_file_name("output.js");
 

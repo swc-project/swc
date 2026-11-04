@@ -2251,7 +2251,7 @@ compare_stdout!(
 );
 
 // Check both the object-rest pass and its composition with ES2015 lowering.
-#[testing::fixture("tests/object-rest-spread/**/exec.js")]
+#[testing::fixture("tests/composite/object-rest-spread/**/exec.js")]
 fn exec(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(
@@ -2266,7 +2266,7 @@ fn exec(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/object-rest-spread/**/exec.js")]
+#[testing::fixture("tests/composite/object-rest-spread/**/exec.js")]
 fn exec_es2015(input: PathBuf) {
     let input = read_to_string(input).unwrap();
     compare_stdout(
@@ -2287,7 +2287,7 @@ fn exec_es2015(input: PathBuf) {
     );
 }
 
-#[testing::fixture("tests/object-rest-spread/**/input.js")]
+#[testing::fixture("tests/composite/object-rest-spread/**/input.js")]
 fn fixture(input: PathBuf) {
     let parent = input.parent().unwrap();
 
