@@ -34,48 +34,28 @@ test!(
     syntax(),
     |t| tr(t),
     bigint_literial_methods,
-    "
-class Foo {
-  1n() {}
-  get 2n() {}
-  set 3n(x) {}
-}
-"
+    include_str!("inline-inputs/es2015_classes/bigint_literial_methods/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     issue_189,
-    r#"
-class HomePage extends React.Component {}
-"#
+    include_str!("inline-inputs/es2015_classes/issue_189/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     custom_singleton,
-    r#"
-let singleton;
-class Sub extends Foo {
-  constructor() {
-    if (singleton) {
-      return singleton;
-    }
-    singleton = super();
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/custom_singleton/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     custom_native,
-    r#"
-    class List extends Array {}
-"#
+    include_str!("inline-inputs/es2015_classes/custom_native/input.js")
 );
 
 test_exec!(
@@ -112,13 +92,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_constructor_only,
-    r#"
-class Foo {
-    constructor() {
-
-    }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/spec_constructor_only/input.js")
 );
 
 // extend_builtins_wrap_native_super
@@ -185,26 +159,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_statement,
-    r#"
-var BaseView = class BaseView {
-  constructor() {
-    this.autoRender = true;
-  }
-}
-
-var BaseView = class {
-  constructor() {
-    this.autoRender = true;
-  }
-}
-
-var BaseView = class {
-  foo() {
-    this.autoRender = true;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_statement/input.js")
 );
 
 // get_set_set_semantics_getter_defined_on_parent
@@ -212,36 +167,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_set_semantics_getter_defined_on_parent,
-    r#"
-
-class Base {
-  get test() {
-    return 1;
-  }
-};
-
-class Obj extends Base {
-  set() {
-    return super.test = 3;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(() => {
-  // this requires helpers to be in file (not external), so they
-  // are in "strict" mode code.
-  obj.set();
-}).toThrow();
-expect(Base.prototype.test).toBe(1);
-expect(Obj.prototype.test).toBe(2);
-expect(obj.test).toBe(2);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_set_semantics_getter_defined_on_parent/input.js"
+    )
 );
 
 // spec_derived_constructor_must_call_super
@@ -249,14 +177,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_derived_constructor_must_call_super,
-    r#"
-class Foo extends Bar {
-  constructor() {
-
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_derived_constructor_must_call_super/input.js")
 );
 
 // get_set_get_semantics_data_defined_on_parent
@@ -264,24 +185,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_get_semantics_data_defined_on_parent,
-    r#"
-
-class Base {
-}
-Base.prototype.test = 1;
-
-class Obj extends Base {
-  get() {
-    return super.test;
-  }
-}
-Obj.prototype.test = 2;
-
-const obj = new Obj();
-expect(obj.test).toBe(2);
-expect(obj.get()).toBe(1);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_get_semantics_data_defined_on_parent/input.js"
+    )
 );
 
 // extend_builtins_spec
@@ -293,26 +199,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_8499,
-    r#"
-// Pretend that `Reflect.construct` isn't supported.
-this.Reflect = undefined;
-
-this.HTMLElement = function() {
-  // Here, `this.HTMLElement` is this function, not the original HTMLElement
-  // constructor. `this.constructor` should be this function too, but isn't.
-  constructor = this.constructor;
-};
-
-var constructor;
-
-class CustomElement extends HTMLElement {};
-new CustomElement();
-
-expect(constructor).toBe(CustomElement);
-
-
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_8499/input.js")
 );
 
 // regression_5817
@@ -320,17 +207,7 @@ test!(
     syntax(),
     |t| (tr(t), arrow(Mark::new())),
     regression_5817,
-    r#"
-class A extends B {
-  constructor() {
-    super();
-
-    this.arrow1 = (x) => { return x; };
-    this.arrow2 = (x) => x;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_5817/input.js")
 );
 
 // spec_super_reference_before_in_lambda_3
@@ -340,31 +217,10 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_set_semantics_not_defined_on_parent_setter_on_obj,
-    r#"
-
-class Base {
-}
-
-let value = 2;
-class Obj extends Base {
-  set test(v) {
-    expect(this).toBe(obj);
-    value = v;
-  }
-
-  set() {
-    return super.test = 3;
-  }
-}
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(Base.prototype.test).toBeUndefined();
-expect(Obj.prototype.test).toBeUndefined();
-expect(value).toBe(2);
-expect(obj.test).toBe(3);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_set_semantics_not_defined_on_parent_setter_on_obj/\
+         input.js"
+    )
 );
 
 // get_set_get_semantics_setter_defined_on_parent
@@ -372,30 +228,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_get_semantics_setter_defined_on_parent,
-    r#"
-
-class Base {
-  set test(v) {
-    throw new Error("called");
-  }
-}
-
-class Obj extends Base {
-  get() {
-    return super.test;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.test).toBe(2);
-expect(obj.get()).toBeUndefined();
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_get_semantics_setter_defined_on_parent/input.js"
+    )
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_4
@@ -403,16 +238,10 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_this_not_allowed_before_super_in_derived_classes_4,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    const fn = () => this;
-    super();
-    fn();
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes_4/\
+         input.js"
+    )
 );
 
 // spec_calling_super_properties
@@ -420,20 +249,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_calling_super_properties,
-    r#"
-class Test extends Foo {
-  constructor() {
-    super();
-    super.test.whatever();
-    super.test();
-  }
-
-  static test() {
-    return super.wow();
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_calling_super_properties/input.js")
 );
 
 // spec_super_reference_before_bare_super
@@ -445,17 +261,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_instance_getter_and_setter,
-    r#"
-class Test {
-  get test() {
-    return 5 + 5;
-  }
-  set test(val) {
-    this._test = val;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_instance_getter_and_setter/input.js")
 );
 
 // regression_2941
@@ -465,10 +271,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_2941,
-    r#"
-export default class {}
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_2941/input.js")
 );
 
 // regression_t2494
@@ -476,12 +279,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_t2494,
-    r#"
-var x = {
-  Foo: class extends Foo {}
-};
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_t2494/input.js")
 );
 
 // spec_inferred_expression_name
@@ -489,10 +287,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_inferred_expression_name,
-    r#"
-var o = { foo: class foo {} };
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_inferred_expression_name/input.js")
 );
 
 // regression_8499_exec
@@ -529,26 +324,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_default_super,
-    r#"
-class Test {
-  constructor() {
-    return super.constructor;
-  }
-
-  static test() {
-    return super.constructor;
-  }
-}
-
-// Instances
-expect(Object.getPrototypeOf(Test.prototype)).toBe(Object.prototype);
-expect(new Test()).toBe(Object);
-
-// Static
-expect(Object.getPrototypeOf(Test)).toBe(Function.prototype);
-expect(Test.test()).toBe(Function);
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_default_super/input.js")
 );
 
 // spec_default_super
@@ -556,13 +332,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_default_super_constructor,
-    r#"
-class Test {
-  constructor() {
-    return super.constructor;
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/spec_default_super_constructor/input.js")
 );
 
 // get_set_get_semantics_getter_defined_on_parent
@@ -570,31 +340,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_get_semantics_getter_defined_on_parent,
-    r#"
-
-class Base {
-  get test() {
-    expect(this).toBe(obj);
-    return 1;
-  }
-}
-
-class Obj extends Base {
-  get() {
-    return super.test;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.test).toBe(2);
-expect(obj.get()).toBe(1);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_get_semantics_getter_defined_on_parent/input.js"
+    )
 );
 
 // spec
@@ -604,15 +352,10 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_this_not_allowed_before_super_in_derived_classes,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    this.foo = "bar";
-    super();
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes/input.\
+         js"
+    )
 );
 
 // get_set_call_semantics_getter_defined_on_parent
@@ -620,36 +363,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_call_semantics_getter_defined_on_parent,
-    r#"
-
-class Base {
-  get test() {
-    expect(this).toBe(obj);
-    return function(...args) {
-      expect(this).toBe(obj);
-      expect(args).toEqual([1, 2, 3]);
-      return 1;
-    };
-  }
-}
-
-class Obj extends Base {
-  call() {
-    super.test(1, 2, 3);
-    super.test(1, ...[2, 3]);
-    super.test(...[1, 2, 3]);
-    return super.test(...arguments);
-  }
-
-  test() {
-    throw new Error("called");
-  }
-}
-
-const obj = new Obj();
-expect(obj.call(1, 2, 3)).toBe(1);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_call_semantics_getter_defined_on_parent/input.js"
+    )
 );
 
 // spec_derived_constructor_must_call_super_4_exec
@@ -678,10 +394,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_export_default,
-    r#"
-export default class Foo {}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_export_default/input.js")
 );
 
 // get_set_call_semantics_data_defined_on_parent
@@ -689,33 +402,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_call_semantics_data_defined_on_parent,
-    r#"
-
-class Base {
-  test(...args) {
-    expect(this).toBe(obj);
-    expect(args).toEqual([1, 2, 3]);
-    return 1;
-  }
-}
-
-class Obj extends Base {
-  call() {
-    super.test(1, 2, 3);
-    super.test(1, ...[2, 3]);
-    super.test(...[1, 2, 3]);
-    return super.test(...arguments);
-  }
-
-  test() {
-    throw new Error("called");
-  }
-}
-
-const obj = new Obj();
-expect(obj.call(1, 2, 3)).toBe(1);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_call_semantics_data_defined_on_parent/input.js"
+    )
 );
 
 // spec_static
@@ -723,22 +412,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_static,
-    r#"
-class A {
-  static a() {
-
-  }
-
-  static get b(){
-
-  }
-
-  static set b(b){
-
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_static/input.js")
 );
 
 // regression_t6755
@@ -748,50 +422,7 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_memoized_update,
-    r#"
-
-class Base {}
-Object.defineProperty(Base.prototype, 0, {
-  value: 0,
-  writable: true,
-  configurable: true,
-});
-Object.defineProperty(Base.prototype, 1, {
-  value: 1,
-  writable: true,
-  configurable: true,
-});
-
-let i = 0;
-const proper = {
-  get prop() {
-    return i++;
-  },
-};
-
-class Obj extends Base {
-  update() {
-    super[proper.prop]++;
-  }
-
-  update2() {
-    super[i]++;
-  }
-}
-
-const obj = new Obj();
-
-obj.update();
-expect(i).toBe(1);
-expect(obj[0]).toBe(1);
-expect(obj[1]).toBe(1);
-
-obj.update2();
-expect(i).toBe(1);
-expect(obj[0]).toBe(1);
-expect(obj[1]).toBe(2);
-
-"#
+    include_str!("inline-inputs/es2015_classes/get_set_memoized_update/input.js")
 );
 
 // spec_nested_class_super_property_in_key
@@ -799,30 +430,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_nested_class_super_property_in_key,
-    r#"
-
-class Hello {
-  toString() {
-    return 'hello';
-  }
-}
-
-class Outer extends Hello {
-  constructor() {
-    super();
-    class Inner {
-      [super.toString()]() {
-        return 'hello';
-      }
-    }
-
-    return new Inner();
-  }
-}
-
-expect(new Outer().hello()).toBe('hello');
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_nested_class_super_property_in_key/input.js")
 );
 
 // spec_super_reference_in_prop_expression
@@ -830,13 +438,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_super_reference_in_prop_exression,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    super[super().method]();
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/spec_super_reference_in_prop_exression/input.js")
 );
 
 // spec_super_reference_before_in_lambda_exec
@@ -920,14 +522,10 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_this_not_allowed_before_super_in_derived_classes_2,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    super(this);
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes_2/\
+         input.js"
+    )
 );
 
 // spec_accessing_super_properties
@@ -935,16 +533,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_accessing_super_properties,
-    r#"
-class Test extends Foo {
-  constructor() {
-    super();
-    super.test;
-    super.test.whatever;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_accessing_super_properties/input.js")
 );
 
 // exec_shadow
@@ -954,15 +543,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_computed_methods,
-    r#"
-class Foo {
-  foo() {}
-  "foo"() {}
-  [bar]() {}
-  [bar + "foo"]() {}
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_computed_methods/input.js")
 );
 
 // extend_builtins_shadowed
@@ -972,34 +553,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_set_semantics_data_defined_on_parent,
-    r#"
-
-class Base  {
-}
-Object.defineProperty(Base.prototype, 'test', {
-  value: 1,
-  writable: true,
-  configurable: true,
-});
-
-class Obj extends Base {
-  set() {
-    return super.test = 3;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(Base.prototype.test).toBe(1);
-expect(Obj.prototype.test).toBe(2);
-expect(obj.test).toBe(3);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_set_semantics_data_defined_on_parent/input.js"
+    )
 );
 
 // get_set_set_semantics_not_defined_on_parent_getter_on_obj
@@ -1007,26 +563,10 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_set_semantics_not_defined_on_parent_getter_on_obj,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  get test() { }
-
-  set() {
-    return super.test = 3;
-  }
-}
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(Base.prototype.test).toBeUndefined();
-expect(Obj.prototype.test).toBeUndefined();
-expect(obj.test).toBe(3);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_set_semantics_not_defined_on_parent_getter_on_obj/\
+         input.js"
+    )
 );
 
 // get_set
@@ -1106,31 +646,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_5769,
-    r#"
-class Point {
-  getX() {
-    expect(this.x).toBe(3); // C
-  }
-}
-
-class ColorPoint extends Point {
-  constructor() {
-    super();
-    this.x = 2;
-    super.x = 3;
-    expect(this.x).toBe(3);   // A
-    expect(super.x).toBeUndefined();  // B
-  }
-
-  m() {
-    this.getX();
-  }
-}
-
-const cp = new ColorPoint();
-cp.m();
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_5769/input.js")
 );
 
 // spec_super_function_fallback
@@ -1138,14 +654,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_super_function_fallback,
-    r#"
-class Test {
-  constructor() {
-    super.hasOwnProperty("test");
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_super_function_fallback/input.js")
 );
 
 // regression_t7537
@@ -1157,25 +666,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_3028,
-    r#"
-class b {
-}
-
-class a1 extends b {
-  constructor() {
-    super();
-    this.x = () => this;
-  }
-}
-
-export default class a2 extends b {
-  constructor() {
-    super();
-    this.x = () => this;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_3028/input.js")
 );
 
 // spec_super_illegal_non_constructor_call
@@ -1185,14 +676,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_instance_setter,
-    r#"
-class Test {
-  set test(val) {
-  this._test = val;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_instance_setter/input.js")
 );
 
 // spec_nested_object_super_call_in_key
@@ -1200,33 +684,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_nested_object_super_call_in_key,
-    r#"
-
-class Hello {
-  constructor() {
-    return {
-      toString() {
-        return 'hello';
-      },
-    };
-  }
-}
-
-class Outer extends Hello {
-  constructor() {
-    const Inner = {
-      [super()]() {
-        return 'hello';
-      },
-    };
-
-    return Inner;
-  }
-}
-
-expect(new Outer().hello()).toBe('hello');
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_nested_object_super_call_in_key/input.js")
 );
 
 // get_set_set_semantics_not_defined_on_parent_not_on_obj
@@ -1234,24 +692,10 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_set_semantics_not_defined_on_parent_not_on_obj,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  set() {
-    return super.test = 3;
-  }
-}
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(Base.prototype.test).toBeUndefined();
-expect(Obj.prototype.test).toBeUndefined();
-expect(obj.test).toBe(3);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_set_semantics_not_defined_on_parent_not_on_obj/\
+         input.js"
+    )
 );
 
 // spec_derived_constructor_no_super_return_falsy
@@ -1259,14 +703,9 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_derived_constructor_no_super_return_falsey,
-    r#"
-class Child extends Base {
-    constructor(){
-        return false;
-    }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_derived_constructor_no_super_return_falsey/input.js"
+    )
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_5
@@ -1274,14 +713,10 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_this_not_allowed_before_super_in_derived_classes_5,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    Foo[this];
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes_5/\
+         input.js"
+    )
 );
 
 // exec_super_change
@@ -1291,30 +726,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_constructor,
-    r#"
-class Test {
-  constructor() {
-    this.state = "test";
-  }
-}
-
-class Foo extends Bar {
-  constructor() {
-    super();
-    this.state = "test";
-  }
-}
-
-class ConstructorScoping {
-  constructor(){
-    let bar;
-    {
-      let bar;
-    }
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_constructor/input.js")
 );
 
 // spec_preserves_directives
@@ -1322,31 +734,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_preserves_directives,
-    r#"
-class MyCtrl {
-  constructor(a) {
-    "any directive prologue";
-    foo;
-  }
-}
-
-class MyCtrl2 {
-  constructor(a) {
-    "a";
-    "b";
-    foo;
-  }
-}
-
-class MyCtrl3 {
-  constructor(a) {
-    "a";
-    foo;
-    "b";
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_preserves_directives/input.js")
 );
 
 // spec_super_reference_before_in_lambda
@@ -1356,14 +744,9 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_derived_constructor_no_super_return_object,
-    r#"
-class Child extends Base {
-    constructor(){
-        return {};
-    }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_derived_constructor_no_super_return_object/input.js"
+    )
 );
 
 // regression_t6750
@@ -1373,15 +756,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_t6750,
-    r#"
-export default function() {
-  return class Select {
-    query(query) {
-    }
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_t6750/input.js")
 );
 
 // spec_instance_method
@@ -1389,14 +764,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_instance_method,
-    r#"
-class Test {
-  test() {
-  return 5 + 5;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_instance_method/input.js")
 );
 
 // regression_t2997
@@ -1404,16 +772,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_t2997,
-    r#"
-class A {}
-
-class B extends A {
-  constructor() {
-    return super();
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_t2997/input.js")
 );
 
 // spec_constructor_binding_collision
@@ -1421,16 +780,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_constructor_binding_collision,
-    r#"
-class Example {
-  constructor() {
-    var Example;
-  }
-}
-
-var t = new Example();
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_constructor_binding_collision/input.js")
 );
 
 // spec_super_class_anonymous
@@ -1438,28 +788,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_super_class_anonymous,
-    r#"
-class TestEmpty extends (class {}) {
-}
-
-class TestConstructorOnly extends (class { constructor() {} }) {
-}
-
-class TestMethodOnly extends (class { method() {} }) {
-}
-
-class TestConstructorAndMethod extends (class {
-  constructor() {}
-  method() {}
-}) {
-}
-
-class TestMultipleMethods extends (class {
-  m1() {}
-  m2() {}
-}) {}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_super_class_anonymous/input.js")
 );
 
 // spec_method_return_type_annotation
@@ -1469,33 +798,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_nested_class_super_call_in_key,
-    r#"
-
-class Hello {
-  constructor() {
-    return {
-      toString() {
-        return 'hello';
-      },
-    };
-  }
-}
-
-class Outer extends Hello {
-  constructor() {
-    class Inner {
-      [super()]() {
-        return 'hello';
-      }
-    }
-
-    return new Inner();
-  }
-}
-
-expect(new Outer().hello()).toBe('hello');
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_nested_class_super_call_in_key/input.js")
 );
 
 // extend_builtins_builtin_objects_throw_when_wrapped
@@ -1507,32 +810,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_2663,
-    r#"
-import net from 'net';
-import { EventEmitter } from 'events';
-import BinarySerializer from './helpers/binary-serializer';
-// import ...
-
-export default class Connection extends EventEmitter {
-    constructor(endpoint, joinKey, joinData, roomId) {
-        super();
-
-        this.isConnected = false;
-        this.roomId = roomId;
-
-        // ...
-    }
-
-    send(message) {
-        this.sock.write(BinarySerializer.serializeMessage(message));
-    }
-
-    disconnect() {
-        this.sock.close();
-    }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_2663/input.js")
 );
 
 // get_set_set_semantics_setter_defined_on_parent_exec
@@ -1603,14 +881,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_instance_getter,
-    r#"
-class Test {
-  get test() {
-  return 5 + 5;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_instance_getter/input.js")
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_3
@@ -1618,16 +889,10 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_this_not_allowed_before_super_in_derived_classes_3,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    const fn = () => this;
-    fn();
-    super();
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_this_not_allowed_before_super_in_derived_classes_3/\
+         input.js"
+    )
 );
 
 // spec_accessing_super_class
@@ -1637,34 +902,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_accessing_super_class,
-    r#"
-class Test extends Foo {
-  constructor() {
-    woops.super.test();
-    super();
-    super.test();
-
-    super(...arguments);
-    super("test" ...arguments);
-
-    super.test(...arguments);
-    super.test("test" ...arguments);
-  }
-
-  test() {
-    super.test();
-    super.test(...arguments);
-    super.test("test" ...arguments);
-  }
-
-  static foo() {
-    super.foo();
-    super.foo(...arguments);
-    super.foo("test" ...arguments);
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_accessing_super_class/input.js")
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_exec
@@ -1723,14 +961,7 @@ test!(
     syntax(),
     |t| tr(t),
     regression_t6712,
-    r#"
-class A {
-  foo() {
-    const foo = 2;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_t6712/input.js")
 );
 
 // get_set_set_semantics_setter_defined_on_parent
@@ -1738,34 +969,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_set_semantics_setter_defined_on_parent,
-    r#"
-
-let value = 1;
-class Base {
-  set test(v) {
-    value = v;
-  }
-}
-
-class Obj extends Base {
-  set() {
-    return super.test = 3;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(value).toBe(3);
-expect(Base.prototype.test).toBeUndefined();
-expect(Obj.prototype.test).toBe(2);
-expect(obj.test).toBe(2);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_set_semantics_setter_defined_on_parent/input.js"
+    )
 );
 
 // get_set_call_semantics_not_defined_on_parent
@@ -1773,30 +979,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_call_semantics_not_defined_on_parent,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  call() {
-    return super.test();
-  }
-
-  test() {
-    throw new Error("gobbledygook");
-  }
-}
-
-const obj = new Obj();
-expect(() => {
-  obj.call();
-
-  // Asser that this throws, but that it's not
-  // Obj.p.test's error that is thrown
-}).toThrowError(TypeError)
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_call_semantics_not_defined_on_parent/input.js"
+    )
 );
 
 // spec_derived_constructor_must_call_super_2_exec
@@ -1825,53 +1010,14 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_nested_object_super_property_in_key,
-    r#"
-
-class Hello {
-  toString() {
-    return 'hello';
-  }
-}
-
-class Outer extends Hello {
-  constructor() {
-    super();
-    const Inner = {
-      [super.toString()]() {
-        return 'hello';
-      },
-    };
-
-    return Inner;
-  }
-}
-
-expect(new Outer().hello()).toBe('hello');
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_nested_object_super_property_in_key/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     nested_this_in_key,
-    r#"
-class Outer extends B {
-  constructor() {
-    class Inner {
-      [this]() {
-        return 'hello';
-      }
-    }
-
-    function foo() {
-      return this;
-    }
-
-    return new Inner();
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/nested_this_in_key/input.js")
 );
 
 // get_set_set_semantics_not_defined_on_parent_setter_on_obj_exec
@@ -1950,33 +1096,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_call_semantics_setter_defined_on_parent,
-    r#"
-
-class Base {
-  set test(v) {
-    throw new Error("gobbledygook");
-  }
-}
-
-class Obj extends Base {
-  call() {
-    return super.test();
-  }
-
-  test() {
-    throw new Error("gobbledygook");
-  }
-}
-
-const obj = new Obj();
-expect(() => {
-  obj.call();
-
-  // Assert that this throws, but that it's not
-  // a gobbledygook error that is thrown
-}).toThrowError(TypeError)
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_call_semantics_setter_defined_on_parent/input.js"
+    )
 );
 
 // spec_super_class
@@ -1984,10 +1106,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_super_class,
-    r#"
-class Test extends Foo { }
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_super_class/input.js")
 );
 
 // spec_super_call_only_allowed_in_derived_constructor
@@ -2031,14 +1150,9 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_derived_constructor_must_call_super_2,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    if (eval("false")) super();
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_derived_constructor_must_call_super_2/input.js"
+    )
 );
 
 // spec_derived_constructor_must_call_super_3
@@ -2046,15 +1160,9 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_derived_constructor_must_call_super_3,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    const fn = () => super();
-    fn();
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_derived_constructor_must_call_super_3/input.js"
+    )
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_3_exec
@@ -2083,29 +1191,10 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_set_semantics_not_defined_on_parent_data_on_obj,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  set() {
-    return super.test = 3;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.set()).toBe(3);
-expect(Base.prototype.test).toBeUndefined();
-expect(Obj.prototype.test).toBe(2);
-expect(obj.test).toBe(3);
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_set_semantics_not_defined_on_parent_data_on_obj/\
+         input.js"
+    )
 );
 
 // get_set_memoized_assign
@@ -2113,50 +1202,7 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_memoized_assign,
-    r#"
-
-class Base {}
-Object.defineProperty(Base.prototype, 0, {
-  value: 0,
-  writable: true,
-  configurable: true,
-});
-Object.defineProperty(Base.prototype, 1, {
-  value: 1,
-  writable: true,
-  configurable: true,
-});
-
-let i = 0;
-const proper = {
-  get prop() {
-    return i++;
-  },
-};
-
-class Obj extends Base {
-  assign() {
-    super[proper.prop] += 1;
-  }
-
-  assign2() {
-    super[i] += 1;
-  }
-}
-
-const obj = new Obj();
-
-obj.assign();
-expect(i).toBe(1);
-expect(obj[0]).toBe(1);
-expect(obj[1]).toBe(1);
-
-obj.assign2();
-expect(i).toBe(1);
-expect(obj[0]).toBe(1);
-expect(obj[1]).toBe(2);
-
-"#
+    include_str!("inline-inputs/es2015_classes/get_set_memoized_assign/input.js")
 );
 
 // spec_nested_class_super_property_in_key_exec
@@ -2195,15 +1241,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_relaxed_method_coercion,
-    r#"
-// #1649
-
-class Foo {
-  [Symbol()]() {}
-  [Symbol()]() {}
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_relaxed_method_coercion/input.js")
 );
 
 // spec_derived_constructor_must_call_super_3_exec
@@ -2258,14 +1296,9 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_derived_constructor_must_call_super_4,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    const fn = () => super();
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_derived_constructor_must_call_super_4/input.js"
+    )
 );
 
 // spec_super_class_id_member_expression
@@ -2273,16 +1306,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_super_class_id_member_expression,
-    r#"
-class BaseController extends Chaplin.Controller {
-
-}
-
-class BaseController2 extends Chaplin.Controller.Another {
-
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_super_class_id_member_expression/input.js")
 );
 
 // spec_delay_arrow_function_for_bare_super_derived
@@ -2290,16 +1314,9 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_delay_arrow_function_for_bare_super_derived,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    super(() => {
-      this.test;
-    });
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/spec_delay_arrow_function_for_bare_super_derived/input.js"
+    )
 );
 
 // extend_builtins_overwritten_null
@@ -2361,27 +1378,9 @@ test!(
     syntax(),
     |t| tr(t),
     get_set_get_semantics_not_defined_on_parent,
-    r#"
-
-class Base {
-}
-
-class Obj extends Base {
-  get() {
-    return super.test;
-  }
-}
-Object.defineProperty(Obj.prototype, 'test', {
-  value: 2,
-  writable: true,
-  configurable: true,
-});
-
-const obj = new Obj();
-expect(obj.test).toBe(2);
-expect(obj.get()).toBeUndefined();
-
-"#
+    include_str!(
+        "inline-inputs/es2015_classes/get_set_get_semantics_not_defined_on_parent/input.js"
+    )
 );
 
 // extend_builtins_super_called
@@ -2391,10 +1390,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_plain_class,
-    r#"
-class Test { }
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_plain_class/input.js")
 );
 
 // spec_super_reference_before_bare_super_exec
@@ -2466,10 +1462,7 @@ test!(
     syntax(),
     |t| spec_tr(t),
     spec_export_super_class,
-    r#"
-export default class extends A {}
-
-"#
+    include_str!("inline-inputs/es2015_classes/spec_export_super_class/input.js")
 );
 
 // extend_builtins_wrap_native_super_exec
@@ -2583,21 +1576,14 @@ test!(
     syntax(),
     |t| spec_tr(t),
     issue_454_followup,
-    "if (true){
-    class Foo extends Bar { }
-}"
+    include_str!("inline-inputs/es2015_classes/issue_454_followup/input.js")
 );
 
 test!(
     syntax(),
     |t| spec_tr(t),
     issue_454_followup_2,
-    "function broken(x, ...foo) {
-  if (true) {
-    class Foo extends Bar { }
-    return hello(...foo)
-  }
-}"
+    include_str!("inline-inputs/es2015_classes/issue_454_followup_2/input.js")
 );
 
 test!(
@@ -2607,14 +1593,7 @@ test!(
         classes(Default::default())
     ),
     duplicate_ident,
-    r#"
-class Foo extends Bar {
-  constructor() {
-    var Foo = 123;
-    console.log(Foo)
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/duplicate_ident/input.js")
 );
 
 // extend_builtins_shadowed
@@ -2624,11 +1603,7 @@ test!(
     syntax(),
     |t| tr(t),
     extend_builtins_shadowed,
-    r#"
-class Array {}
-
-class List extends Array {}
-"#
+    include_str!("inline-inputs/es2015_classes/extend_builtins_shadowed/input.js")
 );
 
 //// regression_2694
@@ -3160,17 +2135,7 @@ test!(
     syntax(),
     |t| (tr(t), block_scoping(Mark::new())),
     regression_t7010,
-    r#"
-class Foo {
-  constructor(val){
-    this._val = val;
-  }
-  foo2(){
-    return foo2(this._val);
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_classes/regression_t7010/input.js")
 );
 
 //// regression_2941
@@ -3533,40 +2498,21 @@ test!(
     syntax(),
     |_| classes(Default::default()),
     issue_1490_1,
-    "
-    class ColouredCanvasElement extends CanvasElement {
-      createFacets(hidden) {
-        hidden = super.createFacets(hidden);
-      }
-    }
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1490_1/input.js")
 );
 
 test!(
     syntax(),
     |_| classes(Default::default()),
     issue_1490_2,
-    "
-  class ColouredCanvasElement extends CanvasElement {
-    createFacets(hidden) {
-      super.createFacets(hidden);
-    }
-  }
-  "
+    include_str!("inline-inputs/es2015_classes/issue_1490_2/input.js")
 );
 
 test!(
     syntax(),
     |_| classes(Default::default()),
     super_binding,
-    "
-  class Foo {}
-  class Test extends Foo {
-    foo() {
-      console.log(Foo)
-    }
-  }
-  "
+    include_str!("inline-inputs/es2015_classes/super_binding/input.js")
 );
 
 test_exec!(
@@ -3589,84 +2535,49 @@ test!(
     syntax(),
     |_| classes(Default::default()),
     issue_1617_1,
-    "
-    class A extends B {
-      foo() {
-        super.foo(), bar();
-      }
-    }
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1617_1/input.js")
 );
 
 test!(
     syntax(),
     |_| classes(Default::default()),
     issue_1617_2,
-    "
-  class A extends B {
-    foo() {
-      super.foo();
-    }
-  }
-  "
+    include_str!("inline-inputs/es2015_classes/issue_1617_2/input.js")
 );
 
 test!(
     syntax(),
     |_| classes(Default::default()),
     issue_1660_1,
-    "
-    class A {
-
-    }
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1660_1/input.js")
 );
 
 test!(
     syntax(),
     |_| classes(Default::default()),
     constructor_super_update,
-    "
-class A extends B {
-  constructor() {
-    super.foo ++;
-    super.bar += 123;
-    super[baz] --;
-    super[quz] -= 456;
-  }
-}
-  "
+    include_str!("inline-inputs/es2015_classes/constructor_super_update/input.js")
 );
 
 test!(
     syntax(),
     |_| classes(Default::default()),
     prefix_super_update,
-    "
-class A extends B {
-  foo() {
-    --super[baz];
-  }
-}
-"
+    include_str!("inline-inputs/es2015_classes/prefix_super_update/input.js")
 );
 
 test!(
     syntax(),
     |_| classes(Default::default()),
     issue_1660_2,
-    "
-    const foo = class {run(){}};
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1660_2/input.js")
 );
 
 test!(
     syntax(),
     |_| classes(Default::default()),
     issue_1660_3,
-    "
-    console.log(class { run() { } });
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1660_3/input.js")
 );
 
 test!(
@@ -3689,9 +2600,7 @@ test!(
         )
     },
     issue_1660_4,
-    "
-  console.log(class { run() { } });
-  "
+    include_str!("inline-inputs/es2015_classes/issue_1660_4/input.js")
 );
 
 test!(
@@ -3711,31 +2620,21 @@ test!(
         )
     },
     issue_1660_5,
-    "
-    console.log(class { run() { } });
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1660_5/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     issue_1838,
-    r#"
-    class Foo {
-      let() {}
-    }
-"#
+    include_str!("inline-inputs/es2015_classes/issue_1838/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     issue_1799_1,
-    "
-    export default function Foo() {
-      return call(async (e) => { await doSomething(); })
-    }
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1799_1/input.js")
 );
 
 test!(
@@ -3755,13 +2654,7 @@ test!(
         )
     },
     issue_1959_1,
-    "
-    class Extended extends Base {
-      getNext() {
-        return super.getNext(114514) + 114514
-      }
-    }
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1959_1/input.js")
 );
 
 test!(
@@ -3781,13 +2674,7 @@ test!(
         )
     },
     issue_1959_2,
-    "
-    class Extended extends Base {
-      getNext() {
-        return super.getNext(114514)
-      }
-    }
-    "
+    include_str!("inline-inputs/es2015_classes/issue_1959_2/input.js")
 );
 
 #[testing::fixture("tests/classes/**/exec.js")]
@@ -3838,21 +2725,7 @@ test!(
         ..Default::default()
     }),
     constant_super_class,
-    r#"
-class Test extends Foo {
-  constructor() {
-    woops.super.test();
-    super();
-    super.test();
-
-    super(...arguments);
-    super("test", ...arguments);
-
-    super.test(...arguments);
-    super.test("test", ...arguments);
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/constant_super_class/input.js")
 );
 
 test!(
@@ -3862,15 +2735,7 @@ test!(
         ..Default::default()
     }),
     constant_super_property,
-    r#"
-class Test extends Foo {
-  constructor() {
-    super();
-    super.test;
-    super.test.whatever;
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/constant_super_property/input.js")
 );
 
 test!(
@@ -3880,19 +2745,7 @@ test!(
         ..Default::default()
     }),
     constant_super_call,
-    r#"
-class Test extends Foo {
-  constructor() {
-    super();
-    super.test.whatever();
-    super.test();
-  }
-
-  static test() {
-    return super.wow();
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/constant_super_call/input.js")
 );
 
 test!(
@@ -3902,18 +2755,7 @@ test!(
         ..Default::default()
     }),
     constant_super_default,
-    r#"
-class Test {
-  constructor() {
-    super.hasOwnProperty("test");
-    return super.constructor;
-  }
-
-  static test() {
-    return super.constructor;
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/constant_super_default/input.js")
 );
 
 test!(
@@ -3923,16 +2765,7 @@ test!(
         ..Default::default()
     }),
     constant_super_update,
-    r#"
-class A extends B {
-  constructor() {
-    super.foo ++;
-    super.bar += 123;
-    super[baz] --;
-    super[quz] -= 456
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/constant_super_update/input.js")
 );
 
 test!(
@@ -3942,7 +2775,7 @@ test!(
         ..Default::default()
     }),
     no_class_call,
-    "class A {}"
+    include_str!("inline-inputs/es2015_classes/no_class_call/input.js")
 );
 
 test!(
@@ -3952,19 +2785,7 @@ test!(
         ..Default::default()
     }),
     no_class_call_constructor,
-    r#"
-class A {
-  constructor() {
-    console.log('a');
-  }
-}
-
-class B {
-  b() {
-    console.log('b');
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/no_class_call_constructor/input.js")
 );
 
 test!(
@@ -3974,16 +2795,7 @@ test!(
         ..Default::default()
     }),
     no_class_call_super,
-    r#"
-class B {}
-
-class A extends B {
-  constructor(track) {
-    if (track !== undefined) super(track);
-    else super();
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/no_class_call_super/input.js")
 );
 
 test!(
@@ -3993,12 +2805,7 @@ test!(
         ..Default::default()
     }),
     set_method_literal_key,
-    r#"
-class Foo {
-  "bar"() {
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/set_method_literal_key/input.js")
 );
 
 test!(
@@ -4008,13 +2815,7 @@ test!(
         ..Default::default()
     }),
     set_method_static,
-    r#"
-class Test {
-  a() {}
-  static b() {}
-  c() {}
-}
-"#
+    include_str!("inline-inputs/es2015_classes/set_method_static/input.js")
 );
 
 test!(
@@ -4024,15 +2825,7 @@ test!(
         ..Default::default()
     }),
     set_method_getter_setter,
-    r#"
-class Test extends Foo {
-  "foo"() {}
-
-  get foo() {}
-
-  set foo(a) {}
-}
-"#
+    include_str!("inline-inputs/es2015_classes/set_method_getter_setter/input.js")
 );
 
 test!(
@@ -4042,11 +2835,7 @@ test!(
         ..Default::default()
     }),
     super_callable,
-    r#"
-class BaseController extends Chaplin.Controller { }
-
-class BaseController2 extends Chaplin.Controller.Another { }
-"#
+    include_str!("inline-inputs/es2015_classes/super_callable/input.js")
 );
 
 test!(
@@ -4056,7 +2845,7 @@ test!(
         ..Default::default()
     }),
     super_callable_super,
-    r#"class Test extends Foo { }"#
+    include_str!("inline-inputs/es2015_classes/super_callable_super/input.js")
 );
 
 test!(
@@ -4066,26 +2855,14 @@ test!(
         ..Default::default()
     }),
     issue_3943,
-    r#"
-class Thing extends B {
-  constructor(n) {
-    super()
-    this.name = n
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_classes/issue_3943/input.js")
 );
 
 test!(
     syntax(),
     |_| (classes(Default::default()), block_scoping(Mark::new())),
     issue_5102,
-    r#"
-let C = class {}
-D = class {}
-C ||= class /* C */ {}; 
-D ??= class /* D */ {}; 
-"#
+    include_str!("inline-inputs/es2015_classes/issue_5102/input.js")
 );
 
 test_exec!(

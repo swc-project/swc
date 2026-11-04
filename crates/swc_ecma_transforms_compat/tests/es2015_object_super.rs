@@ -25,131 +25,47 @@ test!(
     syntax(),
     |_| tr(),
     get_semantics_data_defined_on_parent,
-    r#"
-    const Base = {
-        test: 1,
-    };
-      
-    const obj = {
-        test: 2,
-
-        get() {
-            return super.test;
-        },
-    };
-    Object.setPrototypeOf(obj, Base);"#
+    include_str!("inline-inputs/es2015_object_super/get_semantics_data_defined_on_parent/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     set_semantics_data_defined_on_parent,
-    r#"
-    const Base = {
-        test: 1,
-    };
-      
-    const obj = {
-        test: 2,
-      
-        set() {
-            return super.test = 3;
-        },
-    };
-    Object.setPrototypeOf(obj, Base);"#
+    include_str!("inline-inputs/es2015_object_super/set_semantics_data_defined_on_parent/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     nested_object_super_property_in_key,
-    r#"
-    const Hello = {
-        toString() {
-            return 'hello';
-        }
-    };
-      
-    const Outer = {
-        constructor() {
-            const Inner = {
-                [super.toString()]() {
-                    return 'hello';
-                },
-            };
-      
-        return Inner;
-        }
-    };
-    Object.setPrototypeOf(Outer, Hello);"#
+    include_str!("inline-inputs/es2015_object_super/nested_object_super_property_in_key/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     super_increment_postfix,
-    r#"var Base = {
-        test: "1"
-    };
-      
-    var obj = {
-        bar() {
-            return super.test++;
-        }
-      };
-    Object.setPrototypeOf(obj, Base);"#
+    include_str!("inline-inputs/es2015_object_super/super_increment_postfix/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     super_increment_postfix2,
-    r#"var Base = {
-        test: "1"
-    };
-      
-    var obj = {
-        bar() {
-            return super[test]++;
-        }
-      };
-    Object.setPrototypeOf(obj, Base);"#
+    include_str!("inline-inputs/es2015_object_super/super_increment_postfix2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     super_increment_prefix,
-    r#"var Base = {
-        test: "1"
-    };
-      
-    var obj = {
-        bar() {
-            return ++super.test;
-        }
-    };
-    Object.setPrototypeOf(obj, Base);"#
+    include_str!("inline-inputs/es2015_object_super/super_increment_prefix/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     nested_object,
-    r#"
-function f0() {
-}
-f0.prototype = {
-    name: 'Nicholas',
-    age: 29,
-    job: 'Software Engineer',
-    sayName() {
-        v0[args](1, {
-            v9: v7 => super.v3(v27),
-            foo: a,
-            done: 'a'
-        });
-    }
-};
-"#
+    include_str!("inline-inputs/es2015_object_super/nested_object/input.js")
 );

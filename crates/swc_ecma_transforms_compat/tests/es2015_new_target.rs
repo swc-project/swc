@@ -111,14 +111,5 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| (classes(Default::default()), new_target()),
     issue_6259,
-    r#"
-(() => {
-  var SomeError = class extends Error {
-    constructor(issues) {
-      super();
-      const actualProto = new.target.prototype;
-    }
-  }
-})();
-"#
+    include_str!("inline-inputs/es2015_new_target/issue_6259/input.js")
 );

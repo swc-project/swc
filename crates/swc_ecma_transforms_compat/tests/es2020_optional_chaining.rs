@@ -146,9 +146,19 @@ expect(() => {
 "#
 );
 
-test!(syntax(), |_| tr(Default::default()), simple_1, "obj?.a");
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    simple_1,
+    include_str!("inline-inputs/es2020_optional_chaining/simple_1/input.js")
+);
 
-test!(syntax(), |_| tr(Default::default()), simple_2, "obj?.a?.b");
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    simple_2,
+    include_str!("inline-inputs/es2020_optional_chaining/simple_2/input.js")
+);
 
 test_exec!(
     syntax(),
@@ -175,7 +185,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     pr_2791,
-    r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#
+    include_str!("inline-inputs/es2020_optional_chaining/pr_2791/input.js")
 );
 
 test_exec!(

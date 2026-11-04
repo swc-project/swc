@@ -17,52 +17,35 @@ test!(
     syntax(),
     |_| for_of(Default::default()),
     spec_let,
-    r#"for (let i of arr) {
-
-}"#
+    include_str!("inline-inputs/es2015_for_of/spec_let/input.js")
 );
 
 test!(
     syntax(),
     |_| for_of(Default::default()),
     spec_member_expr,
-    r#"for (obj.prop of arr) {
-
-}"#
+    include_str!("inline-inputs/es2015_for_of/spec_member_expr/input.js")
 );
 
 test!(
     syntax(),
     |_| for_of(Default::default()),
     spec_multiple,
-    r#"for (var i of arr) {
-
-}
-
-for (var i of numbers) {
-
-}
-"#
+    include_str!("inline-inputs/es2015_for_of/spec_multiple/input.js")
 );
 
 test!(
     syntax(),
     |_| for_of(Default::default()),
     spec_nested_label_for_of,
-    r#"b: for (let c of d()) {
-  for (let e of f()) {
-    continue b;
-  }
-}"#
+    include_str!("inline-inputs/es2015_for_of/spec_nested_label_for_of/input.js")
 );
 
 test!(
     syntax(),
     |_| for_of(Default::default()),
     spec_var,
-    r#"for (var i of arr) {
-
-}"#
+    include_str!("inline-inputs/es2015_for_of/spec_var/input.js")
 );
 
 // for_of_as_array_for_of
@@ -73,14 +56,7 @@ test!(
         ..Default::default()
     }),
     for_of_as_array_for_of,
-    r#"
-let elm;
-
-for (elm of array) {
-  console.log(elm);
-}
-
-"#
+    include_str!("inline-inputs/es2015_for_of/for_of_as_array_for_of/input.js")
 );
 
 // for_of_as_array_for_of_array_pattern
@@ -91,13 +67,7 @@ test!(
         ..Default::default()
     }),
     for_of_as_array_for_of_array_pattern,
-    r#"
-let elm;
-for ([elm] of array) {
-  console.log(elm);
-}
-
-"#
+    include_str!("inline-inputs/es2015_for_of/for_of_as_array_for_of_array_pattern/input.js")
 );
 
 // regression_redeclare_array_8913
@@ -108,14 +78,7 @@ test!(
         ..Default::default()
     }),
     regression_redeclare_array_8913,
-    r#"
-function f(...t) {
-  for (let o of t) {
-    const t = o;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2015_for_of/regression_redeclare_array_8913/input.js")
 );
 
 // for_of_as_array_for_of_declaration_array_pattern
@@ -126,12 +89,9 @@ test!(
         ..Default::default()
     }),
     for_of_as_array_for_of_declaration_array_pattern,
-    r#"
-for (const [elm] of array) {
-  console.log(elm);
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2015_for_of/for_of_as_array_for_of_declaration_array_pattern/input.js"
+    )
 );
 
 test!(
@@ -141,11 +101,7 @@ test!(
         ..Default::default()
     }),
     for_of_as_array_for_of_expression,
-    r#"
-let i;
-for (i of items) i;
-
-"#
+    include_str!("inline-inputs/es2015_for_of/for_of_as_array_for_of_expression/input.js")
 );
 
 // for_of_as_array_for_of_declaration
@@ -156,12 +112,7 @@ test!(
         ..Default::default()
     }),
     for_of_as_array_for_of_declaration,
-    r#"
-for (const elm of array) {
-  console.log(elm);
-}
-
-"#
+    include_str!("inline-inputs/es2015_for_of/for_of_as_array_for_of_declaration/input.js")
 );
 
 // regression_scope_9696
@@ -191,14 +142,7 @@ test!(
         ..Default::default()
     }),
     for_of_as_array_for_of_static_declaration,
-    r#"
-const array = [];
-
-for (const elm of array) {
-  console.log(elm);
-}
-
-"#
+    include_str!("inline-inputs/es2015_for_of/for_of_as_array_for_of_static_declaration/input.js")
 );
 
 // for_of_as_array_for_of_static
@@ -209,15 +153,7 @@ test!(
         ..Default::default()
     }),
     for_of_as_array_for_of_static,
-    r#"
-const array = [];
-let elm;
-
-for (elm of array) {
-  console.log(elm);
-}
-
-"#
+    include_str!("inline-inputs/es2015_for_of/for_of_as_array_for_of_static/input.js")
 );
 
 // for_of_as_array_for_of_import_es2015
@@ -228,14 +164,7 @@ test!(
         ..Default::default()
     }),
     for_of_as_array_for_of_import_es2015,
-    r#"
-import { array } from "foo";
-
-for (const elm of array) {
-  console.log(elm);
-}
-
-"#
+    include_str!("inline-inputs/es2015_for_of/for_of_as_array_for_of_import_es2015/input.js")
 );
 
 // regression_label_object_with_comment_4995
@@ -243,13 +172,7 @@ test!(
     syntax(),
     |_| for_of(Default::default()),
     regression_label_object_with_comment_4995,
-    r#"
-myLabel: //woops
-for (let a of b) {
-  continue myLabel;
-}
-
-"#
+    include_str!("inline-inputs/es2015_for_of/regression_label_object_with_comment_4995/input.js")
 );
 
 // regression_if_label_3858
@@ -260,13 +183,7 @@ test!(
         ..Default::default()
     }),
     regression_if_label_3858,
-    r#"
-if ( true )
-  loop: for (let ch of []) {
-  }
-
-
-"#
+    include_str!("inline-inputs/es2015_for_of/regression_if_label_3858/input.js")
 );
 
 #[testing::fixture("tests/for-of/**/exec.js")]

@@ -30,59 +30,49 @@ test!(
     syntax(),
     |_| tr(),
     issue_2819,
-    r#"const [first, , third] = ["red", "yellow", "green"]"#
+    include_str!("inline-inputs/es2015_destructuring/issue_2819/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_2821,
-    r#"const [x, y, ...z] = [1];"#
+    include_str!("inline-inputs/es2015_destructuring/issue_2821/input.js")
 );
 
 test!(
     syntax(),
     |_| destructuring(Config { loose: false }),
     need_to_array,
-    r#"const [x, y, ...z] = o;"#
+    include_str!("inline-inputs/es2015_destructuring/need_to_array/input.js")
 );
 
 test!(
     syntax(),
     |_| destructuring(Config { loose: true }),
     need_to_array_loose,
-    r#"const [x, y, ...z] = o;"#
+    include_str!("inline-inputs/es2015_destructuring/need_to_array_loose/input.js")
 );
 
 test!(
     syntax(),
     |_| destructuring(Config { loose: false }),
     issue_2841,
-    r#"function foo(a,b)
-    {
-        [a,b,...restParam] = arguments;
-    }"#
+    include_str!("inline-inputs/es2015_destructuring/issue_2841/input.js")
 );
 
 test!(
     syntax(),
     |_| destructuring(Config { loose: true }),
     issue_2841_loose,
-    r#"function foo(a,b)
-    {
-        [a,b,...restParam] = arguments;
-    }"#
+    include_str!("inline-inputs/es2015_destructuring/issue_2841_loose/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_169,
-    "export class Foo {
-	func(a, b = Date.now()) {
-		return {a};
-	}
-}"
+    include_str!("inline-inputs/es2015_destructuring/issue_169/input.js")
 );
 
 test!(
@@ -101,110 +91,98 @@ test!(
         )
     },
     issue_1948,
-    "
-    const fn2 = (arg1, {opt1, opt2}, arg2, {opt3, opt4}, ...arg3) => {
-        console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
-    };
-
-    function fn3(arg1, {opt1, opt2}, arg2, {opt3, opt4}, ...arg3) {
-        console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
-    };
-
-    class cls {
-        fn4(arg1, {opt1, opt2}, arg2, {opt3, opt4}, ...arg3) {
-            console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
-        }
-
-        fn5(arg1, arg2) {
-            console.log(arg1, arg2);
-        }
-    }"
+    include_str!("inline-inputs/es2015_destructuring/issue_1948/input.js")
 );
 
-test!(syntax(), |_| tr(), issue_260_01, "[code = 1] = []");
+test!(
+    syntax(),
+    |_| tr(),
+    issue_260_01,
+    include_str!("inline-inputs/es2015_destructuring/issue_260_01/input.js")
+);
 
 test!(
     syntax(),
     |_| tr(),
     array_pat_assign_prop_binding,
-    "[code = 1] = [1]"
+    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     array_pat_assign_prop_binding_2,
-    "[foo = 1, bar = 2] = [3];"
+    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     array_pat_assign_prop_binding_3,
-    "[foo = 1, bar = 2] = [3, 4];"
+    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_3/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     array_pat_assign_prop_binding_4,
-    "const [foo = 1] = [2];"
+    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_4/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     array_pat_assign_prop_binding_5,
-    "const [foo = 1, bar] = [2, 3];"
+    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_5/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     array_pat_assign_prop_binding_6,
-    "const [foo = 1] = [];"
+    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_6/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     array_pat_assign_prop_binding_7,
-    "const [foo = 1] = [1, 2];"
+    include_str!("inline-inputs/es2015_destructuring/array_pat_assign_prop_binding_7/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_260_02,
-    "[code = 1, ...rest] = [];"
+    include_str!("inline-inputs/es2015_destructuring/issue_260_02/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     object_pat_assign_prop,
-    "({code = 1} = {})"
+    include_str!("inline-inputs/es2015_destructuring/object_pat_assign_prop/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     object_pat_assign_prop_2,
-    "const {code = 1} = {}"
+    include_str!("inline-inputs/es2015_destructuring/object_pat_assign_prop_2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     object_pat_assign_prop_binding,
-    "({foo: bar = 1} = {})"
+    include_str!("inline-inputs/es2015_destructuring/object_pat_assign_prop_binding/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     object_pat_assign_prop_binding_2,
-    "const {foo: bar = 1} = {}"
+    include_str!("inline-inputs/es2015_destructuring/object_pat_assign_prop_binding_2/input.js")
 );
 
 test_exec!(
@@ -229,7 +207,9 @@ test!(
     syntax(),
     |_| tr(),
     object_pat_assign_prop_binding_isseu_2850,
-    "const obj = { foo = 123, bar: x = 123 } = { foo: 24, bar: 45 };"
+    include_str!(
+        "inline-inputs/es2015_destructuring/object_pat_assign_prop_binding_isseu_2850/input.js"
+    )
 );
 
 test_exec!(
@@ -245,51 +225,53 @@ expect(x).toBe(45);
 "#
 );
 
-test!(syntax(), |_| tr(), obj_assign_pat, r#"let { a = 1 } = foo"#);
+test!(
+    syntax(),
+    |_| tr(),
+    obj_assign_pat,
+    include_str!("inline-inputs/es2015_destructuring/obj_assign_pat/input.js")
+);
 
 test!(
     syntax(),
     |_| tr(),
     obj_assign_expr,
-    r#"let a;
-[{ a = 1 }] = foo"#
+    include_str!("inline-inputs/es2015_destructuring/obj_assign_expr/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     array1,
-    r#"var [a, [b], [c]] = ["hello", [" ", "junk"], ["world"]];"#
+    include_str!("inline-inputs/es2015_destructuring/array1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     array2,
-    r#"[a, [b], [c]] = ["hello", [" ", "junk"], ["world"]];"#
+    include_str!("inline-inputs/es2015_destructuring/array2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     assign_expr_completion_record,
-    r#"var x, y;
-[x, y] = [1, 2];"#
+    include_str!("inline-inputs/es2015_destructuring/assign_expr_completion_record/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     assign_expr_pat,
-    r#"var z = {};
-var { x: { y } = {} } = z;"#
+    include_str!("inline-inputs/es2015_destructuring/assign_expr_pat/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     assign_expr,
-    r#"console.log([x] = [123]);"#
+    include_str!("inline-inputs/es2015_destructuring/assign_expr/input.js")
 );
 
 test_exec!(
@@ -308,7 +290,7 @@ test!(
     syntax(),
     |_| tr(),
     empty,
-    r#"var [, a, [b], [c], d] = ["foo", "hello", [" ", "junk"], ["world"]];"#
+    include_str!("inline-inputs/es2015_destructuring/empty/input.js")
 );
 
 test!(
@@ -316,13 +298,7 @@ test!(
     syntax(),
     |_| tr(),
     es7_object_rest_builtins,
-    r#"var z = {};
-var { ...x } = z;
-var { x, ...y } = z;
-var { [x]: x, ...y } = z;
-(function({ x, ...y }) { });
-
-({ x, y, ...z } = o);"#
+    include_str!("inline-inputs/es2015_destructuring/es7_object_rest_builtins/input.js")
 );
 
 test!(
@@ -330,40 +306,28 @@ test!(
     syntax(),
     |_| tr(),
     es7_object_rest,
-    r#"var z = {};
-var { ...x } = z;
-var { x, ...y } = z;
-var { [x]: x, ...y } = z;
-(function({ x, ...y }) { });
-
-({ x, y, ...z } = o);"#
+    include_str!("inline-inputs/es2015_destructuring/es7_object_rest/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     export_variable_issue_2858_1,
-    r#"export const { a: a2, b: b2 } = { a: 1, b: 2 };"#
+    include_str!("inline-inputs/es2015_destructuring/export_variable_issue_2858_1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     export_variable_issue_2858_2,
-    r#"export const { a: b } = { a: 1 }"#
+    include_str!("inline-inputs/es2015_destructuring/export_variable_issue_2858_2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     export_variable_issue_2858_3,
-    r#"
-export const {
-    a: a1,
-    b: b1,
-    b: { c: c1 },
-} = { a: 1, b: { c: 1 } };
-"#
+    include_str!("inline-inputs/es2015_destructuring/export_variable_issue_2858_3/input.js")
 );
 
 test!(
@@ -371,32 +335,28 @@ test!(
     syntax(),
     |_| tr(),
     export_variable,
-    r#"export let {a, b, c: {d, e: {f = 4}}} = {};"#
+    include_str!("inline-inputs/es2015_destructuring/export_variable/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     for_in,
-    r#"for (var [name, value] in obj) {
-  print("Name: " + name + " Value: " + value);
-}"#
+    include_str!("inline-inputs/es2015_destructuring/for_in/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     for_let,
-    r#"for (let [ i, n ] = range; ; ) {}"#
+    include_str!("inline-inputs/es2015_destructuring/for_let/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     for_of,
-    r#"for (var [ name, before, after ] of test.expectation.registers) {
-
-}"#
+    include_str!("inline-inputs/es2015_destructuring/for_of/input.js")
 );
 
 test_exec!(
@@ -414,10 +374,7 @@ test!(
     syntax(),
     |_| tr(),
     babel_issue_3081,
-    r#"let list = [1, 2, 3, 4];
-for (let i = 0, { length } = list; i < length; i++) {
-  list[i];
-}"#
+    include_str!("inline-inputs/es2015_destructuring/babel_issue_3081/input.js")
 );
 
 test_exec!(
@@ -439,20 +396,14 @@ test!(
     syntax(),
     |_| tr(),
     babel_issue_5628,
-    r#"
-(function () {
-  let q;
-  let w;
-  let e;
-  if (true) [q, w, e] = [1, 2, 3].map(()=>123);
-})();"#
+    include_str!("inline-inputs/es2015_destructuring/babel_issue_5628/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     babel_issue_5744,
-    r#"if (true) [a, b] = [b, a];"#
+    include_str!("inline-inputs/es2015_destructuring/babel_issue_5744/input.js")
 );
 
 test!(
@@ -460,33 +411,28 @@ test!(
     syntax(),
     |_| tr(),
     babel_issue_6373,
-    r#"import { NestedObjects } from "./some-module"
-
-const { Foo, Bar } = NestedObjects"#
+    include_str!("inline-inputs/es2015_destructuring/babel_issue_6373/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     known_array,
-    r#"var z = [];
-var [x, ...y] = z;"#
+    include_str!("inline-inputs/es2015_destructuring/known_array/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     member_expr,
-    r#"[foo.foo, foo.bar] = [1, 2];"#
+    include_str!("inline-inputs/es2015_destructuring/member_expr/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     multiple,
-    r#"var coords = [1, 2];
-var { x, y } = coords,
-    foo = "bar";"#
+    include_str!("inline-inputs/es2015_destructuring/multiple/input.js")
 );
 
 test_exec!(
@@ -524,64 +470,35 @@ test!(
     syntax(),
     |_| tr(),
     spread_test,
-    r#"function isSorted([x, y, ...wow]) {
-  if (!zs.length) return true
-  if (y > x) return isSorted(zs)
-  return false
-}"#
+    include_str!("inline-inputs/es2015_destructuring/spread_test/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_311,
-    "const Foo = 'foo';
-
-const bar = {
-  [Foo]: {
-    qux: 'baz'
-  }
-};
-
-const {
-  [Foo]: {
-    qux
-  }
-} = bar;"
+    include_str!("inline-inputs/es2015_destructuring/issue_311/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_317,
-    "export const [
-    A,
-    B,
-    C
-] = [1,2,3];
-
-export const [
-    E,
-    D,
-    F
-] = [4,5,6];"
+    include_str!("inline-inputs/es2015_destructuring/issue_317/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_336,
-    "const { 'foo-bar': fooBar } = baz;"
+    include_str!("inline-inputs/es2015_destructuring/issue_336/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_404_1,
-    "function foo(bar) {
-  const { foo } = bar;
-  return foo;
-}"
+    include_str!("inline-inputs/es2015_destructuring/issue_404_1/input.js")
 );
 
 test!(
@@ -600,20 +517,14 @@ test!(
         )
     },
     issue_404_2,
-    "function foo(bar) {
-  const { foo } = bar;
-  return foo;
-}"
+    include_str!("inline-inputs/es2015_destructuring/issue_404_2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_404_3,
-    "function foo(bar) {
-    var { foo: foo1  } = bar;
-    return foo1;
-}"
+    include_str!("inline-inputs/es2015_destructuring/issue_404_3/input.js")
 );
 
 // destructuring_function_key_with_object_rest_spread
@@ -638,13 +549,7 @@ test!(
     syntax(),
     |_| destructuring(Default::default()),
     regression_8528,
-    r#"
-function isBetween(x, a, b) {
-  if (a > b) [a, b] = [b, a];
-  return x > a && x < b;
-}
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/regression_8528/input.js")
 );
 
 // destructuring_for_of
@@ -660,16 +565,7 @@ test!(
         )
     },
     destructuring_for_of,
-    r#"
-for (var [ name, before, after ] of test.expectation.registers) {
-
-}
-
-for ([ name, before, after ] of test.expectation.registers) {
-
-}
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_for_of/input.js")
 );
 
 // destructuring_object_basic
@@ -689,11 +585,7 @@ test!(
         )
     },
     destructuring_object_basic,
-    r#"
-var coords = [1, 2];
-var { x, y } = coords;
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_object_basic/input.js")
 );
 
 // destructuring_assignment_arrow_function_block
@@ -713,10 +605,9 @@ test!(
         )
     },
     destructuring_assignment_arrow_function_block,
-    r#"
-() => { [a, b] = [1, 2] }
-
-"#
+    include_str!(
+        "inline-inputs/es2015_destructuring/destructuring_assignment_arrow_function_block/input.js"
+    )
 );
 
 // destructuring_non_iterable
@@ -996,24 +887,7 @@ test!(
         )
     },
     destructuring_parameters,
-    r#"
-function somethingAdvanced({topLeft: {x: x1, y: y1} = {}, bottomRight: {x: x2, y: y2} = {}}, p2, p3){
-
-}
-
-function unpackObject({title: title, author: author}) {
-  return title + " " + author;
-}
-
-console.log(unpackObject({title: "title", author: "author"}));
-
-var unpackArray = function ([a, b, c], [x, y, z]) {
-  return a+b+c;
-};
-
-console.log(unpackArray(["hello", " ", "world"], [1, 2, 3]));
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_parameters/input.js")
 );
 
 // destructuring_array_unpack_optimisation
@@ -1033,26 +907,9 @@ test!(
         )
     },
     destructuring_array_unpack_optimisation,
-    r#"
-    var [a, b] = [1, 2];
-    var [[a, b]] = [[1, 2]];
-    var [a, b, ...c] = [1, 2, 3, 4];
-    var [[a, b, ...c]] = [[1, 2, 3, 4]];
-
-    var [a, b] = [1, 2, 3];
-    var [[a, b]] = [[1, 2, 3]];
-    var [a, b] = [a, b];
-    [a[0], a[1]] = [a[1], a[0]];
-    var [a, b] = [...foo, bar];
-    var [a, b] = [foo(), bar];
-    var [a, b] = [clazz.foo(), bar];
-    var [a, b] = [clazz.foo, bar];
-    var [a, b] = [, 2];
-    [a, b] = [1, 2];
-    [a, b] = [, 2];
-    ; // Avoid completion record special case
-
-    "#
+    include_str!(
+        "inline-inputs/es2015_destructuring/destructuring_array_unpack_optimisation/input.js"
+    )
 );
 
 // destructuring_known_array
@@ -1074,11 +931,7 @@ test!(
         )
     },
     destructuring_known_array,
-    r#"
-var z = [];
-var [x, ...y] = z;
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_known_array/input.js")
 );
 
 // destructuring_es7_object_rest
@@ -1099,16 +952,7 @@ test!(
         )
     },
     destructuring_es7_object_rest,
-    r#"
-var z = {};
-var { ...x } = z;
-var { x, ...y } = z;
-var { [x]: x, ...y } = z;
-(function({ x, ...y }) { });
-
-({ x, y, ...z } = o);
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_es7_object_rest/input.js")
 );
 
 // destructuring_const
@@ -1143,11 +987,9 @@ test!(
         )
     },
     destructuring_assignment_expression_pattern,
-    r#"
-var z = {};
-var { x: { y } = {} } = z;
-
-"#
+    include_str!(
+        "inline-inputs/es2015_destructuring/destructuring_assignment_expression_pattern/input.js"
+    )
 );
 
 // destructuring_object_advanced
@@ -1167,12 +1009,7 @@ test!(
         )
     },
     destructuring_object_advanced,
-    r#"
-var rect = {};
-var {topLeft: {x: x1, y: y1}, bottomRight: {x: x2, y: y2}} = rect;
-var { 3: foo, 5: bar } = [0, 1, 2, 3, 4, 5, 6];
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_object_advanced/input.js")
 );
 
 // destructuring_spread
@@ -1192,14 +1029,7 @@ test!(
         )
     },
     destructuring_spread,
-    r#"
-function isSorted([x, y, ...wow]) {
-  if (!zs.length) return true
-  if (y > x) return isSorted(zs)
-  return false
-}
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_spread/input.js")
 );
 
 // destructuring_mixed
@@ -1219,11 +1049,7 @@ test!(
         )
     },
     destructuring_mixed,
-    r#"
-var rect = {};
-var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_mixed/input.js")
 );
 
 // destructuring_assignment_statement
@@ -1236,9 +1062,9 @@ test!(
         object_rest_spread(Default::default())
     ),
     destructuring_assignment_statement_no_loose,
-    r#"
-[a, b] = f();
-"#
+    include_str!(
+        "inline-inputs/es2015_destructuring/destructuring_assignment_statement_no_loose/input.js"
+    )
 );
 
 // destructuring_assignment_statement_loose
@@ -1254,9 +1080,7 @@ test!(
         )
     },
     destructuring_assignment_statement,
-    r#"
-[a, b] = f();
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_assignment_statement/input.js")
 );
 
 // destructuring_array
@@ -1276,11 +1100,7 @@ test!(
         )
     },
     destructuring_array,
-    r#"
-var [a, [b], [c]] = ["hello", [" ", "junk"], ["world"]];
-[a, [b], [c]] = ["hello", [" ", "junk"], ["world"]];
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_array/input.js")
 );
 
 // destructuring_assignment_arrow_function_no_block
@@ -1300,10 +1120,10 @@ test!(
         )
     },
     destructuring_assignment_arrow_function_no_block,
-    r#"
-() => [a, b] = [1, 2]
-
-"#
+    include_str!(
+        "inline-inputs/es2015_destructuring/destructuring_assignment_arrow_function_no_block/\
+         input.js"
+    )
 );
 
 // destructuring_issue_9834
@@ -1324,19 +1144,7 @@ test!(
         )
     },
     destructuring_issue_9834,
-    r#"
-const input = {};
-
-const {
-  given_name: givenName,
-  'last_name': lastName,
-  [`country`]: country,
-  [prefix + 'state']: state,
-  [`${prefix}consents`]: consents,
-  ...rest
-} = input;
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_issue_9834/input.js")
 );
 
 // destructuring_number_key_with_object_rest_spread
@@ -1375,16 +1183,7 @@ test!(
         )
     },
     destructuring_for_in,
-    r#"
-for (var [name, value] in obj) {
-  print("Name: " + name + " Value: " + value);
-}
-
-for ([name, value] in obj) {
-  print("Name: " + name + " Value: " + value);
-}
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_for_in/input.js")
 );
 
 // destructuring_for_in_loose
@@ -1400,16 +1199,7 @@ test!(
         )
     },
     destructuring_for_in_loose,
-    r#"
-for (var [name, value] in obj) {
-  print("Name: " + name + " Value: " + value);
-}
-
-for ([name, value] in obj) {
-  print("Name: " + name + " Value: " + value);
-}
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_for_in_loose/input.js")
 );
 
 // destructuring_issue_5744
@@ -1429,10 +1219,7 @@ test!(
         )
     },
     destructuring_issue_5744,
-    r#"
-if (true) [a, b] = [b, a];
-
-"#
+    include_str!("inline-inputs/es2015_destructuring/destructuring_issue_5744/input.js")
 );
 
 // destructuring_spread_generator
@@ -1464,186 +1251,172 @@ expect(xs).toEqual([0, 1, 2]);
 "#
 );
 
-test!(syntax(), |_| tr(), custom_call, "foo([a, b] = [1, 2])");
+test!(
+    syntax(),
+    |_| tr(),
+    custom_call,
+    include_str!("inline-inputs/es2015_destructuring/custom_call/input.js")
+);
 
 test!(
     syntax(),
     |_| tr(),
     issue_1477_1,
-    "
-    const [ { a: a_ = 1 } ] = b
-    "
+    include_str!("inline-inputs/es2015_destructuring/issue_1477_1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_1477_2,
-    "
-    async function f(a, b) {
-        const [ { a: a_ = 1 } ] = JSON.parse(b)
-      }
-    "
+    include_str!("inline-inputs/es2015_destructuring/issue_1477_2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_1477_3,
-    "
-    const [ a = 1 ] = b
-    "
+    include_str!("inline-inputs/es2015_destructuring/issue_1477_3/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_1477_4,
-    "
-    [ a = 1 ] = b
-    "
+    include_str!("inline-inputs/es2015_destructuring/issue_1477_4/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     next_001,
-    "
-    const { NODE_ENV }= process.env;
-    "
+    include_str!("inline-inputs/es2015_destructuring/next_001/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     next_002,
-    "
-    ({ NODE_ENV }= process.env);
-    "
+    include_str!("inline-inputs/es2015_destructuring/next_002/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_3315_1,
-    "\
-    var baz = 1;
-    ({ foo: bar = baz } = {});
-    "
+    include_str!("inline-inputs/es2015_destructuring/issue_3315_1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_3315_2,
-    "\
-    var baz = 1;
-    [bar = baz] = [];    
-    "
+    include_str!("inline-inputs/es2015_destructuring/issue_3315_2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     statements_let_dstr_ary_ptrn_elem_id_init_hole,
-    "\
-    let [x = 23] = [,];
-
-    assert.sameValue(x, 23);
-    "
+    include_str!(
+        "inline-inputs/es2015_destructuring/statements_let_dstr_ary_ptrn_elem_id_init_hole/input.\
+         js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(),
     statements_let_dstr_ary_ptrn_elem_id_init_hole_2,
-    "\
-    let y = [x = 23] = [,];
-    "
+    include_str!(
+        "inline-inputs/es2015_destructuring/statements_let_dstr_ary_ptrn_elem_id_init_hole_2/\
+         input.js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(),
     statements_const_dstr_ary_ptrn_elem_id_init_hole,
-    "\
-    const [x = 23] = [,];
-
-    assert.sameValue(x, 23);
-    "
+    include_str!(
+        "inline-inputs/es2015_destructuring/statements_const_dstr_ary_ptrn_elem_id_init_hole/\
+         input.js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(),
     statements_const_dstr_ary_ptrn_elem_id_init_hole_2,
-    "const [x = 23, y = 42] = [,,];"
+    include_str!(
+        "inline-inputs/es2015_destructuring/statements_const_dstr_ary_ptrn_elem_id_init_hole_2/\
+         input.js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(),
     statements_const_dstr_ary_ptrn_elem_id_init_hole_3,
-    "const [x = 23, y] = [, 42];"
+    include_str!(
+        "inline-inputs/es2015_destructuring/statements_const_dstr_ary_ptrn_elem_id_init_hole_3/\
+         input.js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(),
     statements_const_dstr_ary_ptrn_elem_id_init_hole_4,
-    "\
-    function* foo() {
-        yield 1;
-        yield 2;
-      }
-      
-      let bar = foo();
-      
-      const [x = bar.next().value, y] = [, bar.next().value];
-      console.log(x, y);
-      "
+    include_str!(
+        "inline-inputs/es2015_destructuring/statements_const_dstr_ary_ptrn_elem_id_init_hole_4/\
+         input.js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(),
     for_const_dstr_ary_ptrn_elem_id_init_hole,
-    "\
-    var iterCount = 0;
-
-    for (const [x = 23] = [,]; iterCount < 1; ) {
-      assert.sameValue(x, 23);
-      // another statement
-    
-      iterCount += 1;
-    }
-    
-    assert.sameValue(iterCount, 1, 'Iteration occurred as expected');
-    "
+    include_str!(
+        "inline-inputs/es2015_destructuring/for_const_dstr_ary_ptrn_elem_id_init_hole/input.js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(),
     statements_const_id_init_hole,
-    "\
-    const [x] = [,];
-    const [y] = [,], [z] = [,]
-    "
+    include_str!("inline-inputs/es2015_destructuring/statements_const_id_init_hole/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     statements_let_id_init_hole,
-    "let [x] = [,];"
+    include_str!("inline-inputs/es2015_destructuring/statements_let_id_init_hole/input.js")
 );
 
-test!(syntax(), |_| tr(), issue_6304, "let [] = [];");
+test!(
+    syntax(),
+    |_| tr(),
+    issue_6304,
+    include_str!("inline-inputs/es2015_destructuring/issue_6304/input.js")
+);
 
-test!(syntax(), |_| tr(), issue_6304_1, "let [] = [,];");
+test!(
+    syntax(),
+    |_| tr(),
+    issue_6304_1,
+    include_str!("inline-inputs/es2015_destructuring/issue_6304_1/input.js")
+);
 
-test!(syntax(), |_| tr(), issue_6304_2, "let [] = [...[1, 2, 3]];");
+test!(
+    syntax(),
+    |_| tr(),
+    issue_6304_2,
+    include_str!("inline-inputs/es2015_destructuring/issue_6304_2/input.js")
+);
 
 test_exec!(
     syntax(),

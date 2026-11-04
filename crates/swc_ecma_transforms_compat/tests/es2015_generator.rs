@@ -41,14 +41,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     computed_properties_example,
-    r#"
-var o = {
-  *foo() {
-    return "foo";
-  }
-};
-
-"#
+    include_str!("inline-inputs/es2015_generator/computed_properties_example/input.js")
 );
 
 // class_argument_scope_example
@@ -108,8 +101,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     empty_fn_decl_1,
-    "function* foo(a,b,c){}
-"
+    include_str!("inline-inputs/es2015_generator/empty_fn_decl_1/input.js")
 );
 
 test_exec!(
@@ -990,9 +982,7 @@ test!(
     syntax(),
     |t| generator(Mark::new(), t.comments.clone()),
     issue_831_3,
-    "export function* myGenerator() {
-        yield* [1,2,3];
-    }"
+    include_str!("inline-inputs/es2015_generator/issue_831_3/input.js")
 );
 
 test_exec!(
@@ -1054,15 +1044,7 @@ test!(
     Syntax::default(),
     |_| tr(()),
     issue_1036_2,
-    "
-    const x = function*() {
-        return Promise.all([[1], [2], [3]].map(
-            function*([a]) {
-                Promise.resolve().then(() => a * 2)
-            })
-        )
-    }
-    "
+    include_str!("inline-inputs/es2015_generator/issue_1036_2/input.js")
 );
 
 test_exec!(
@@ -1103,12 +1085,9 @@ test!(
     Syntax::default(),
     |_| tr(()),
     hoist_function_in_generator_issue_2556_1,
-    r#"
-function* foo() {
-    return bar;
-    function bar() { }
-}
-"#
+    include_str!(
+        "inline-inputs/es2015_generator/hoist_function_in_generator_issue_2556_1/input.js"
+    )
 );
 
 test_exec!(
@@ -1141,20 +1120,7 @@ test!(
     Syntax::default(),
     |_| tr_with_async(),
     hoist_function_in_async_issue_2556_4,
-    r#"
-function requester() {
-	return pureRequester
-  
-    async function pureRequester() {
-      	await refreshThenRequest()
-        return true;
-        
-        async function refreshThenRequest() {
-        
-        }
-    }
-}
-"#
+    include_str!("inline-inputs/es2015_generator/hoist_function_in_async_issue_2556_4/input.js")
 );
 
 test_exec!(
@@ -1239,19 +1205,7 @@ test!(
     Syntax::default(),
     |_| tr_with_async(),
     hoist_function_in_async_issue_2556_6,
-    r#"
-async function foo(a) {
-    return bar1;
-
-    async function bar1(b) {
-        return a + b;
-    }
-}
-
-foo(1)
-    .then((t) => t(2))
-    .then(console.log);
-"#
+    include_str!("inline-inputs/es2015_generator/hoist_function_in_async_issue_2556_6/input.js")
 );
 
 test_exec!(
@@ -1279,88 +1233,35 @@ test!(
     Syntax::default(),
     |_| tr_with_async(),
     hoist_function_in_async_issue_2556_8,
-    r#"
-var fib = function fib() {
-    return 42;
-};
-async function init() {
-    return fib;
-
-    async function fib(n) {
-        if (n <= 1) {
-            return n;
-        }
-        const x = await fib(n - 1);
-        const y = await fib(n - 2);
-        return x + y;
-    }
-}
-"#
+    include_str!("inline-inputs/es2015_generator/hoist_function_in_async_issue_2556_8/input.js")
 );
 
 test!(
     Syntax::default(),
     |_| tr(()),
     issue_1125_2,
-    "
-    function _test() {
-        _test = _async_to_generator(function* () {
-            try {
-            yield 1;
-            } finally {
-            console.log(2);
-            }
-        });
-        return _test.apply(this, arguments);
-    }
-
-    function test() {
-        return _test.apply(this, arguments);
-    }
-
-    test();
-    "
+    include_str!("inline-inputs/es2015_generator/issue_1125_2/input.js")
 );
 
 test!(
     Syntax::default(),
     |_| tr(()),
     issue_1125_3,
-    "
-    function* foo() {
-        try {
-            yield 1;
-        } finally {
-            console.log(2);
-        }
-    }
-    "
+    include_str!("inline-inputs/es2015_generator/issue_1125_3/input.js")
 );
 
 test!(
     Syntax::default(),
     |_| tr(()),
     issue_1125_4,
-    "
-    function* foo() {
-        try {
-            yield 1;
-        } catch(e) {
-            console.log(2);
-        }
-    }
-    "
+    include_str!("inline-inputs/es2015_generator/issue_1125_4/input.js")
 );
 
 test!(
     Syntax::default(),
     |_| tr_with_async(),
     issue_1799_1,
-    "
-    export default function Foo() {
-        return call(async (e) => { await doSomething(); })
-    }
-    "
+    include_str!("inline-inputs/es2015_generator/issue_1799_1/input.js")
 );
 
 test!(
@@ -1373,11 +1274,7 @@ test!(
         )
     },
     issue_1799_2,
-    "
-    export default function Foo() {
-        return call(async (e) => { await doSomething(); })
-    }
-    "
+    include_str!("inline-inputs/es2015_generator/issue_1799_2/input.js")
 );
 
 test!(
@@ -1391,11 +1288,7 @@ test!(
         )
     },
     issue_1799_3,
-    "
-    export default function Foo() {
-        return call(async (e) => { await doSomething(); })
-    }
-    "
+    include_str!("inline-inputs/es2015_generator/issue_1799_3/input.js")
 );
 
 test!(
@@ -1415,11 +1308,7 @@ test!(
         )
     },
     issue_1799_5,
-    "
-    export default function Foo() {
-        return call(async (e) => { await doSomething(); })
-    }
-    "
+    include_str!("inline-inputs/es2015_generator/issue_1799_5/input.js")
 );
 
 test!(
@@ -1429,13 +1318,7 @@ test!(
         es2015::<SingleThreadedComments>(mark, None, Default::default())
     },
     issue_2024_1,
-    "
-    _async_to_generator(function*() {
-        const sleep = ()=>new Promise((resolve)=>setTimeout(()=>resolve(undefined), 500));
-        const result = (yield sleep()) || 'fallback';
-        console.log(result);
-    })();
-    "
+    include_str!("inline-inputs/es2015_generator/issue_2024_1/input.js")
 );
 
 test_exec!(
@@ -1491,15 +1374,5 @@ test!(
         es2015::<SingleThreadedComments>(mark, None, Default::default())
     },
     issue_7809,
-    r#"
-    function a(fn) {
-        return _a.apply(this, arguments);
-    }
-    function _a() {
-        _a = _async_to_generator(function*(fn) {
-            (yield fn()).a = 1;
-        });
-        return _a.apply(this, arguments);
-    }    
-    "#
+    include_str!("inline-inputs/es2015_generator/issue_7809/input.js")
 );

@@ -1,0 +1,1 @@
+const [first, , third] = ["red", "yellow", "green"]

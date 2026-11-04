@@ -32,46 +32,35 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     issue_254,
-    "export const someFunction = (update = false, action = {}) => {}"
+    include_str!("inline-inputs/es2015_parameters/issue_254/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_227,
-    "export default function fn1(...args) {
-  fn2(...args);
-}"
+    include_str!("inline-inputs/es2015_parameters/issue_227/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_169,
-    r#"
-class Foo {
-	func(a, b = Date.now()) {
-		return {a};
-	}
-}
-"#
+    include_str!("inline-inputs/es2015_parameters/issue_169/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     babel_6057_simple,
-    r#"const a = 'bar';
-function foo(...a) {
-  return a;
-}"#
+    include_str!("inline-inputs/es2015_parameters/babel_6057_simple/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     default_before_last,
-    r#"function foo({x,y} = "foo", b) {}"#
+    include_str!("inline-inputs/es2015_parameters/default_before_last/input.js")
 );
 
 test_exec!(
@@ -113,12 +102,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_eval,
-    r#"let x = "outside";
-function outer(a = () => eval("x")) {
-  let x = "inside";
-  return a();
-}
-outer();"#
+    include_str!("inline-inputs/es2015_parameters/default_eval/input.js")
 );
 
 test_exec!(
@@ -140,12 +124,7 @@ test!(
     syntax(),
     |_| (classes(Default::default()), tr(Default::default())),
     default_iife_4253,
-    r#"class Ref {
-  constructor(id = ++Ref.nextID) {
-    this.id = id
-  }
-}
-Ref.nextID = 0"#
+    include_str!("inline-inputs/es2015_parameters/default_iife_4253/input.js")
 );
 
 test_exec!(
@@ -169,17 +148,7 @@ test!(
     syntax(),
     |_| (classes(Default::default()), tr(Default::default())),
     default_iife_self,
-    r#"class Ref {
-  constructor(ref = Ref) {
-    this.ref = ref
-  }
-}
-
-class X {
-  constructor(x = foo) {
-    this.x = x
-  }
-}"#
+    include_str!("inline-inputs/es2015_parameters/default_iife_self/input.js")
 );
 
 test_exec!(
@@ -199,58 +168,35 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_multiple,
-    r#"var t = function (e = "foo", f = 5) {
-  return e + " bar " + f;
-};
-
-var a = function (e, f = 5) {
-  return e + " bar " + f;
-};"#
+    include_str!("inline-inputs/es2015_parameters/default_multiple/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     default_rest_mix,
-    r#"function fn(
-  a1,
-  a2 = 4,
-  {a3, a4},
-  a5,
-  {a6, a7} = {}) {}"#
+    include_str!("inline-inputs/es2015_parameters/default_rest_mix/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     default_rest_1,
-    r#"const a = 1;
-function rest(b = a, ...a) {
-  expect(b).toBe(1);
-}
-rest(undefined, 2)"#
+    include_str!("inline-inputs/es2015_parameters/default_rest_1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     default_rest_2,
-    r#"const a = 1;
-  function rest2(b = a, ...a) {
-  expect(a[0]).toBe(2);
-}
-rest2(undefined, 2);"#
+    include_str!("inline-inputs/es2015_parameters/default_rest_2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     default_rest_3,
-    r#"const a = 1;
-    function rest3(b = a, ...a) {
-  expect(a).toHaveLength(1);
-}
-rest3(undefined, 2)"#
+    include_str!("inline-inputs/es2015_parameters/default_rest_3/input.js")
 );
 
 test_exec!(
@@ -278,25 +224,14 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_setter_noexec,
-    r#"const obj = {
-  set field(num = 1) {
-    this.num = num;
-  }
-};"#
+    include_str!("inline-inputs/es2015_parameters/default_setter_noexec/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     default_setter_complex,
-    r#"const obj = {
-set obj({ a, b } = {}) {
-  this.num = { a, b };
-},
-set arr([x, y] = []) {
-  this.num = { x, y }
-}
-};"#
+    include_str!("inline-inputs/es2015_parameters/default_setter_complex/input.js")
 );
 
 test_exec!(
@@ -318,39 +253,28 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_single,
-    r#"var t = function (f = "foo") {
-  return f + " bar";
-};"#
+    include_str!("inline-inputs/es2015_parameters/default_single/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     destructuring_rest,
-    r#"// #3861
-function t(x = "default", { a, b }, ...args) {
-  console.log(x, a, b, args);
-}"#
+    include_str!("inline-inputs/es2015_parameters/destructuring_rest/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     regression_4333,
-    r#"const args = 'bar';
-function foo(...args) {
-  return args;
-}"#
+    include_str!("inline-inputs/es2015_parameters/regression_4333/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     regression_4348,
-    r#"function first(...values) {
-  var index = 0;
-  return values[index++];
-}"#
+    include_str!("inline-inputs/es2015_parameters/regression_4348/input.js")
 );
 
 test!(
@@ -359,28 +283,14 @@ test!(
     // type
     |_| tr(Default::default()),
     regression_4634,
-    r#"let oneOf = (...nodes) => {
-  if (nodes.length === 1) {
-    return nodes[0];
-  }
-  return ((new OneOfNode(nodes)): any)
-}"#
+    include_str!("inline-inputs/es2015_parameters/regression_4634/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     regression_5787,
-    r#"function f(a, ...rest) {
-  let b = rest[rest.length - 3];
-  let c = rest[rest.length - 2];
-  let d = rest[rest.length - 1];
-  return [a, b, c, d];
-}
-
-function f(a, ...rest) {
-  return rest[-1];
-}"#
+    include_str!("inline-inputs/es2015_parameters/regression_5787/input.js")
 );
 
 test_exec!(
@@ -405,9 +315,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_args_deoptimiazation,
-    r#"function x (...rest) {
-  arguments;
-}"#
+    include_str!("inline-inputs/es2015_parameters/rest_args_deoptimiazation/input.js")
 );
 
 test!(
@@ -416,42 +324,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_arrow_fn,
-    r#"var concat = (...arrs) => {
-  var x = arrs[0];
-  var y = arrs[1];
-};
-
-var somefun = function () {
-  let get2ndArg = (a, b, ...args) => {
-    var _b = args[0];
-    let somef = (x, y, z, ...args2) => {
-      var _a = args2[0];
-    };
-    let somefg = (c, d, e, f, ...args3) => {
-      var _a = args3[0];
-    };
-    var _d = args[1];
-  };
-  let get3rdArg = (...args) => args[2];
-}
-
-function demo1(...args) {
-  return (i) => {
-    return args[i+0];
-  };
-}
-
-var x = (...rest) => {
-  if (noNeedToWork) return 0;
-  return rest;
-};
-
-var innerclassproperties = (...args) => (
-  class {
-    static args = args;
-    args = args;
-  }
-);"#
+    include_str!("inline-inputs/es2015_parameters/rest_arrow_fn/input.js")
 );
 
 test!(
@@ -459,15 +332,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_async_arrow_fn,
-    r#"var concat = async (...arrs) => {
-  var x = arrs[0];
-  var y = arrs[1];
-};
-
-var x = async (...rest) => {
-  if (noNeedToWork) return 0;
-  return rest;
-};"#
+    include_str!("inline-inputs/es2015_parameters/rest_async_arrow_fn/input.js")
 );
 
 test!(
@@ -485,8 +350,7 @@ test!(
         )
     },
     rest_binding_deoptimisation,
-    r#"const deepAssign = (...args) => args = [];
-"#
+    include_str!("inline-inputs/es2015_parameters/rest_binding_deoptimisation/input.js")
 );
 
 test!(
@@ -495,96 +359,16 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_deepest_common_ancestor_earliest_child,
-    r#"// single reference
-function r(...rest){
-  if (noNeedToWork) return 0;
-  return rest;
-}
-
-// multiple references
-function r(...rest){
-  if (noNeedToWork) return 0;
-
-  rest;
-  rest;
-}
-
-// multiple nested references
-function r(...rest){
-  if (noNeedToWork) return 0;
-
-  if (true) {
-    return rest;
-  } else {
-    return rest;
-  }
-}
-
-// deeply nested
-function r(...rest){
-  if (true) {
-    if (true) {
-      return rest;
-    } else {
-      return rest;
-    }
-  }
-}
-
-// nested reference with root reference
-function r(...rest){
-  if (noNeedToWork) return 0;
-
-  if (lol) rest;
-  rest;
-}
-
-// nested functions
-function a(...args) {
-  return function() {
-    function b() {}
-
-    console.log("Shouldn't args be from a's scope?" args);
-  };
-}
-
-// loop
-function runQueue(queue, ...args) {
-  for (let i = 0; i < queue.length; i++) {
-    queue[i](...args)
-  }
-}
-
-// nested loop
-function runQueue(queue, ...args) {
-  if (foo) {
-    for (let i = 0; i < queue.length; i++) {
-      queue[i](...args)
-    }
-  }
-}
-
-function r(...rest){
-  if (noNeedToWork) return 0;
-  [rest[0]] = x;
-  return rest;
-}"#
+    include_str!(
+        "inline-inputs/es2015_parameters/rest_deepest_common_ancestor_earliest_child/input.js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     rest_length,
-    r#"var t = function (f, ...items) {
-  items[0];
-  items[items.length - 1];
-};
-
-function t(f, ...items) {
-  items;
-  items[0];
-  items[items.length - 1];
-}"#
+    include_str!("inline-inputs/es2015_parameters/rest_length/input.js")
 );
 
 test_exec!(
@@ -607,30 +391,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_member_expression_deoptimisation,
-    r#"var t = function (...items) {
-  var x = items[0];
-  var y = items[1];
-}
-
-function t(...items) {
-  var x = items[0];
-  var y = items[1];
-}
-
-function t(...items) {
-  var a = [];
-  for (var i = 0; i < items.length; i++) {
-    a.push(i);
-  }
-  return a;
-}
-
-// https://github.com/babel/babel/pull/2833#issuecomment-166039291
-function t(...items) {
-  for (let i = 0; i < items.length; i++) {
-    return items[i];
-  }
-}"#
+    include_str!("inline-inputs/es2015_parameters/rest_member_expression_deoptimisation/input.js")
 );
 
 test!(
@@ -639,55 +400,14 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_member_expression_optimisation,
-    r#"var t = function (...items) {
-  var x = items[0];
-  var y = items[1];
-}
-
-function t(...items) {
-  var x = items[0];
-  var y = items[1];
-}
-
-function t(...items) {
-  var a = [];
-  for (var i = 0; i < items.length; i++) {
-    a.push(i);
-  }
-  return a;
-}
-
-// https://github.com/babel/babel/pull/2833#issuecomment-166039291
-function t(...items) {
-  for (let i = 0; i < items.length; i++) {
-    return items[i];
-  }
-}"#
+    include_str!("inline-inputs/es2015_parameters/rest_member_expression_optimisation/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     rest_multiple,
-    r#"var t = function (f, ...items) {
-    var x = f;
-    x = items[0];
-    x = items[1];
-};
-
-function t(f, ...items) {
-    var x = f;
-    x = items[0];
-    x = items[1];
-}
-
-function u(f, g, ...items) {
-    var x = f;
-    var y = g;
-    x[12] = items[0];
-    y.prop = items[1];
-    var z = items[2] | 0 || 12;
-}"#
+    include_str!("inline-inputs/es2015_parameters/rest_multiple/input.js")
 );
 
 test!(
@@ -696,28 +416,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_nested_5656,
-    r#"function a(...args) {
-  const foo = (...list) => bar(...list);
-  foo(...args);
-}
-
-function b(...args) {
-  const foo = (...args) => bar(...args);
-  foo(...args);
-}
-
-function c(...args) {
-  const foo = (...args) => bar(...args);
-  foo([]);
-}
-
-function d(thing, ...args) {
-  const foo = (...args) => bar(...args);
-  {
-    let args = thing;
-    foo(thing);
-  }
-}"#
+    include_str!("inline-inputs/es2015_parameters/rest_nested_5656/input.js")
 );
 
 test!(
@@ -728,19 +427,14 @@ test!(
         spread(Default::default(), Mark::new())
     ),
     rest_nested_iife,
-    r#"function broken(x, ...foo) {
-  if (true) {
-    class Foo extends Bar { }
-    return hello(...foo)
-  }
-}"#
+    include_str!("inline-inputs/es2015_parameters/rest_nested_iife/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     rest_patterns,
-    r#"function foo(...[a]) {}"#
+    include_str!("inline-inputs/es2015_parameters/rest_patterns/input.js")
 );
 
 test_exec!(
@@ -761,26 +455,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_spread_optimisation,
-    r#"// optimisation
-
-function foo(...bar) {
-  foo(...bar);
-}
-
-// deoptimisation
-
-function foo(a, ...b) {
-  foo(...b);
-}
-
-function foo(...b) {
-  foo(1, ...b);
-}
-
-function foo(...args){
-  args.pop()
-  foo(...args);
-}"#
+    include_str!("inline-inputs/es2015_parameters/rest_spread_optimisation/input.js")
 );
 
 // parameters_rest_async_arrow_functions
@@ -799,12 +474,9 @@ test!(
         )
     },
     parameters_rest_async_arrow_functions_1,
-    r#"
-var concat = async (...arrs) => {
-  var x = arrs[0];
-  var y = arrs[1];
-};
-"#
+    include_str!(
+        "inline-inputs/es2015_parameters/parameters_rest_async_arrow_functions_1/input.js"
+    )
 );
 
 // parameters_rest_async_arrow_functions
@@ -823,13 +495,9 @@ test!(
         )
     },
     parameters_rest_async_arrow_functions_2,
-    r#"
-var x = async (...rest) => {
-  if (noNeedToWork) return 0;
-  return rest;
-};
-
-"#
+    include_str!(
+        "inline-inputs/es2015_parameters/parameters_rest_async_arrow_functions_2/input.js"
+    )
 );
 
 // regression_6057_simple
@@ -844,14 +512,7 @@ test!(
         )
     },
     regression_6057_simple,
-    r#"
-const a = 'bar';
-function foo(...a) {
-  return a;
-}
-
-
-"#
+    include_str!("inline-inputs/es2015_parameters/regression_6057_simple/input.js")
 );
 
 // parameters_regression_4333
@@ -867,13 +528,7 @@ test!(
         )
     },
     parameters_regression_4333,
-    r#"
-const args = 'bar';
-function foo(...args) {
-  return args;
-}
-
-"#
+    include_str!("inline-inputs/es2015_parameters/parameters_regression_4333/input.js")
 );
 
 test!(
@@ -888,9 +543,7 @@ test!(
         )
     },
     issue_760,
-    "const initialState = 'foo'
-export default function reducer(state = initialState, action = {}) {
-}"
+    include_str!("inline-inputs/es2015_parameters/issue_760/input.js")
 );
 
 test!(
@@ -904,11 +557,7 @@ test!(
         )
     },
     rest_in_top_level_arrow_1,
-    "
-    const arrow = (...args) => {
-      console.log(args);
-    }
-    "
+    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_1/input.js")
 );
 
 test!(
@@ -922,20 +571,7 @@ test!(
         )
     },
     issue_12084,
-    r#"
-class Scope {
-  static units(defs) {
-    return defs;
-  }
-
-  static module = ((...defs) => this.units(defs));
-  instance = ((...defs) => this.units(defs));
-
-  units(defs) {
-    return defs;
-  }
-}
-"#
+    include_str!("inline-inputs/es2015_parameters/issue_12084/input.js")
 );
 
 test_exec!(
@@ -979,11 +615,7 @@ test!(
         )
     },
     rest_in_top_level_arrow_2,
-    "
-    const arrow = () => (...args) => {
-      console.log(args);
-    }
-    "
+    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_2/input.js")
 );
 
 test!(
@@ -997,11 +629,7 @@ test!(
         )
     },
     rest_in_top_level_arrow_3,
-    "
-    const arrow = () => (...args) => {
-      console.log(this, args);
-    }
-    "
+    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_3/input.js")
 );
 
 test!(
@@ -1015,11 +643,7 @@ test!(
         )
     },
     rest_in_top_level_arrow_4,
-    "
-    const arrow = () => (this, (...args) => {
-      console.log(this, args);
-    })
-    "
+    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_4/input.js")
 );
 
 test!(
@@ -1033,41 +657,21 @@ test!(
         )
     },
     rest_in_top_level_arrow_nested_1,
-    "
-    const arrow = (...args) => (this, () => (...args) => {
-      console.log(this, args);
-    })
-    "
+    include_str!("inline-inputs/es2015_parameters/rest_in_top_level_arrow_nested_1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_2825,
-    "
-const foo = (...rest) => console.log(this, rest)
-const bar = () => this
-  "
+    include_str!("inline-inputs/es2015_parameters/issue_2825/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_2811,
-    "
-class Foo extends (function(){}) {
-constructor(){
-  var foo = (...rest) => [rest, this];
-
-  if (true){
-      console.log(super(), foo());
-  } else {
-      super();
-      console.log(foo());
-  }
-}
-}
-"
+    include_str!("inline-inputs/es2015_parameters/issue_2811/input.js")
 );
 
 test!(
@@ -1081,13 +685,7 @@ test!(
         )
     },
     issue_3471,
-    "
-class A {
-  a = 1 + ((...a) => a)
-  b = (...b) => b + this
-  static c = (c = 123) => c + this
-}
-  "
+    include_str!("inline-inputs/es2015_parameters/issue_3471/input.js")
 );
 
 test!(
@@ -1101,16 +699,7 @@ test!(
         )
     },
     issue_3569,
-    "
-export class TableView extends React.Component {
-  constructor(props){
-    super(props);
-    this.getSearchForm = (innerWidth = 0)=>{
-      this.getProps();
-    };
-  }
-}
-"
+    include_str!("inline-inputs/es2015_parameters/issue_3569/input.js")
 );
 
 test!(
@@ -1119,7 +708,7 @@ test!(
         ignore_function_length: true
     }),
     fn_len_complex_assign,
-    "function test({a: b} = {}) {}"
+    include_str!("inline-inputs/es2015_parameters/fn_len_complex_assign/input.js")
 );
 
 test!(
@@ -1128,7 +717,7 @@ test!(
         ignore_function_length: true
     }),
     fn_len_default_array_destructuring,
-    "function t([,,a] = [1,2,3]) { return a }"
+    include_str!("inline-inputs/es2015_parameters/fn_len_default_array_destructuring/input.js")
 );
 
 test_exec!(
@@ -1209,14 +798,7 @@ test!(
         ignore_function_length: true
     }),
     fn_len_default_multiple,
-    r#"
-    var t = function (e = "foo", f = 5) {
-      return e + " bar " + f;
-    };
-
-    var a = function (e, f = 5) {
-      return e + " bar " + f;
-    };"#
+    include_str!("inline-inputs/es2015_parameters/fn_len_default_multiple/input.js")
 );
 
 test_exec!(
@@ -1252,15 +834,7 @@ test!(
         ignore_function_length: true
     }),
     fn_len_rest_mix,
-    r#"
-    function fn(
-      a1,
-      a2 = 4,
-      {a3, a4},
-      a5,
-      {a6, a7} = {}) {
-
-    }"#
+    include_str!("inline-inputs/es2015_parameters/fn_len_rest_mix/input.js")
 );
 
 test_exec!(
@@ -1292,10 +866,7 @@ test!(
         ignore_function_length: true
     }),
     fn_len_default_single,
-    r#"
-    var t = function (f = "foo") {
-      return f + " bar";
-    };"#
+    include_str!("inline-inputs/es2015_parameters/fn_len_default_single/input.js")
 );
 
 test!(
@@ -1304,10 +875,7 @@ test!(
         ignore_function_length: true
     }),
     fn_len_destructing_rest,
-    r#"
-    function t(x = "default", { a, b }, ...args) {
-      console.log(x, a, b, args);
-    }"#
+    include_str!("inline-inputs/es2015_parameters/fn_len_destructing_rest/input.js")
 );
 
 test_exec!(
@@ -1329,10 +897,7 @@ test!(
         ignore_function_length: true
     }),
     issue_5030,
-    r#"
-    let v0 = (Array, Int8Array, ...Int32Array) => (NaN + Infinity) * Int32Array.length;
-    console.log(v0(1, 2, 'hello', true, 7));
-  "#
+    include_str!("inline-inputs/es2015_parameters/issue_5030/input.js")
 );
 
 #[testing::fixture("tests/parameters/**/input.js")]

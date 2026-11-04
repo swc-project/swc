@@ -15,47 +15,42 @@ test!(
     syntax(),
     |_| tr(),
     logical_ident,
-    "
-    a ||= b
-    a &&= b
-    "
+    include_str!("inline-inputs/es2021_logcal_assignments/logical_ident/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     logical_member,
-    r#"
-    a.b ||= b
-    a.b &&= b
-    "#
+    include_str!("inline-inputs/es2021_logcal_assignments/logical_member/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(),
     logical_super,
-    "
-    class Foo {
-        method() {
-            return super.f ||= b
-        }
-    }
-    "
+    include_str!("inline-inputs/es2021_logcal_assignments/logical_super/input.js")
 );
 
-test!(syntax(), |_| tr(), nullish_ident, "a ??= b");
+test!(
+    syntax(),
+    |_| tr(),
+    nullish_ident,
+    include_str!("inline-inputs/es2021_logcal_assignments/nullish_ident/input.js")
+);
 
-test!(syntax(), |_| tr(), nullish_member, "a.b ??= b");
+test!(
+    syntax(),
+    |_| tr(),
+    nullish_member,
+    include_str!("inline-inputs/es2021_logcal_assignments/nullish_member/input.js")
+);
 
 test!(
     syntax(),
     |_| tr(),
     issue_7169,
-    "function myFunc(options) {
-      options.context ||= {}
-      const closure = function() {}
-    }"
+    include_str!("inline-inputs/es2021_logcal_assignments/issue_7169/input.js")
 );
 
 test_exec!(

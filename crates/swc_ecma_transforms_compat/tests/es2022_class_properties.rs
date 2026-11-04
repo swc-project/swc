@@ -54,12 +54,7 @@ test!(
     syntax(),
     |t| tr(t),
     public_static_infer_name,
-    r#"
-var Foo = class {
-  static num = 0;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_static_infer_name/input.js")
 );
 
 test_exec!(
@@ -90,38 +85,14 @@ test!(
     syntax(),
     |t| tr(t),
     public_instance_computed,
-    r#"
-function test(x) {
-  class F {
-    [x] = 1;
-    constructor() {}
-  }
-
-  x = 'deadbeef';
-  expect(new F().foo).toBe(1);
-  x = 'wrong';
-  expect(new F().foo).toBe(1);
-}
-
-test('foo');
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_instance_computed/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_super_statement,
-    r#"
-class Foo extends Bar {
-  bar = "foo";
-
-  constructor() {
-    super();
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_super_statement/input.js")
 );
 
 test!(
@@ -137,29 +108,14 @@ test!(
         )
     },
     private_class_method,
-    r#"
-class Foo {
-    #foo () {}
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_class_method/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_foobar,
-    r#"
-class Child extends Parent {
-  constructor() {
-    super();
-  }
-
-  #scopedFunctionWithThis = () => {
-    this.name = {};
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_foobar/input.js")
 );
 
 test_exec!(
@@ -190,20 +146,7 @@ test!(
     syntax(),
     |t| tr(t),
     public_derived_multiple_supers,
-    r#"
-class Foo extends Bar {
-  bar = "foo";
-
-  constructor() {
-    if (condition) {
-      super();
-    } else {
-      super();
-    }
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_derived_multiple_supers/input.js")
 );
 
 test_exec!(
@@ -294,57 +237,21 @@ test!(
     syntax(),
     |t| tr(t),
     public_regression_t6719,
-    r#"
-function withContext(ComposedComponent) {
-    return class WithContext extends Component {
-
-        static propTypes = {
-            context: PropTypes.shape(
-                {
-                    addCss: PropTypes.func,
-                    setTitle: PropTypes.func,
-                    setMeta: PropTypes.func,
-                }
-            ),
-        };
-    };
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_regression_t6719/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_super_with_collision,
-    r#"
-class A {
-  force = force;
-  foo = super.method();
-
-  constructor(force) {}
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_super_with_collision/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_call,
-    r#"
-class Foo {
-  foo = function() {
-    return this;
-  }
-
-  test(other) {
-    this.foo();
-    other.obj.foo();
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_call/input.js")
 );
 
 test_exec!(
@@ -373,80 +280,28 @@ test!(
     syntax(),
     |t| tr(t),
     private_declaration_order,
-    r#"
-class C {
-  y = this.#x;
-  #x;
-}
-
-expect(() => {
-  new C();
-}).toThrow();
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_declaration_order/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     nested_class_super_call_in_key,
-    r#"
-
-class Hello {
-  constructor() {
-    return {
-      toString() {
-        return 'hello';
-      },
-    };
-  }
-}
-
-class Outer extends Hello {
-  constructor() {
-    class Inner {
-      [super()] = "hello";
-    }
-
-    return new Inner();
-  }
-}
-
-expect(new Outer().hello).toBe('hello');
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/nested_class_super_call_in_key/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_instance_undefined,
-    r#"
-class Foo {
-  bar;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_instance_undefined/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_derived_multiple_supers,
-    r#"
-class Foo extends Bar {
-  #bar = "foo";
-
-  constructor() {
-    if (condition) {
-      super();
-    } else {
-      super();
-    }
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_derived_multiple_supers/input.js")
 );
 
 test_exec!(
@@ -480,40 +335,21 @@ test!(
     syntax(),
     |t| tr(t),
     public_regression_t2983,
-    r#"
-call(class {
-  static test = true
-});
-
-export default class {
-  static test = true
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_regression_t2983/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_static,
-    r#"
-class Foo {
-  static bar = "foo";
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_static/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_instance_undefined,
-    r#"
-class Foo {
-  #bar;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_instance_undefined/input.js")
 );
 
 test_exec!(
@@ -537,130 +373,42 @@ test!(
     syntax(),
     |t| tr(t),
     public_update,
-    r#"
-class Foo {
-  foo = 0;
-
-  test(other) {
-    this.foo++;
-    ++this.foo;
-    other.obj.foo++;
-    ++other.obj.foo;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_update/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_super_call,
-    r#"
-class A {
-  foo() {
-    return "bar";
-  }
-}
-
-class B extends A {
-  foo = super.foo();
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_super_call/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_constructor_collision,
-    r#"
-var foo = "bar";
-
-class Foo {
-  #bar = foo;
-
-  constructor() {
-    var foo = "foo";
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_constructor_collision/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_constructor_collision,
-    r#"
-var foo = "bar";
-
-class Foo {
-  bar = foo;
-  static bar = baz;
-
-  constructor() {
-    var foo = "foo";
-    var baz = "baz";
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_constructor_collision/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_computed,
-    r#"
-const foo = "foo";
-const bar = () => {};
-const four = 4;
-
-class MyClass {
-  static [one()] = "test";
-  static [2 * 4 + 7] = "247";
-  static [2 * four + 7] = "247";
-  static [2 * four + seven] = "247";
-  [null] = "null";
-  [undefined] = "undefined";
-  [void 0] = "void 0";
-  get ["whatever"]() {}
-  set ["whatever"](value) {}
-  get [computed()]() {}
-  set [computed()](value) {}
-  ["test" + one]() {}
-  static [10]() {}
-  [/regex/] = "regex";
-  [foo] = "foo";
-  [bar] = "bar";
-  [baz] = "baz";
-  [`template`] = "template";
-  [`template${expression}`] = "template-with-expression";
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_computed/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_assignment,
-    r#"
-class Foo {
-  foo = 0;
-
-  test(other) {
-    this.foo++;
-    this.foo += 1;
-    this.foo = 2;
-    other.obj.foo++;
-    other.obj.foo += 1;
-    other.obj.foo = 2;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_assignment/input.js")
 );
 
 test_exec!(
@@ -906,68 +654,28 @@ test!(
     syntax(),
     |t| tr(t),
     private_super_statement,
-    r#"
-class Foo extends Bar {
-  #bar = "foo";
-
-  constructor() {
-    super();
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_super_statement/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_private_in_derived,
-    r#"
-class Outer {
-  #outer;
-
-  constructor() {
-    class Test extends this.#outer {
-    }
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_private_in_derived/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_update,
-    r#"
-class Foo {
-  #foo = 0;
-
-  test(other) {
-    this.#foo++;
-    ++this.#foo;
-    other.obj.#foo++;
-    ++other.obj.#foo;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_update/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_super_expression,
-    r#"
-class Foo extends Bar {
-  bar = "foo";
-
-  constructor() {
-    foo(super());
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_super_expression/input.js")
 );
 
 test_exec!(
@@ -1088,96 +796,39 @@ test!(
     syntax(),
     |t| tr(t),
     public_extracted_this,
-    r#"
-var foo = "bar";
-
-class Foo {
-  bar = this;
-  baz = foo;
-
-  constructor(foo) {
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_extracted_this/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_derived,
-    r#"
-class Foo {
-  #prop = "foo";
-}
-
-class Bar extends Foo {
-  #prop = "bar";
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_derived/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_super_call,
-    r#"
-class A {
-  foo() {
-    return "bar";
-  }
-}
-
-class B extends A {
-  #foo = super.foo();
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_super_call/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_reference_in_other_property,
-    r#"
-class Foo {
-  one = this.#private;
-  #two = this.#private;
-  #private = 0;
-  three = this.#private;
-  #four = this.#private;
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/private_reference_in_other_property/input.js"
+    )
 );
 
 test!(
     syntax(),
     |t| tr(t),
     nested_class_super_property_in_key,
-    r#"
-
-class Hello {
-  toString() {
-    return 'hello';
-  }
-}
-
-class Outer extends Hello {
-  constructor() {
-    super();
-    class Inner {
-      [super.toString()] = 'hello';
-    }
-
-    return new Inner();
-  }
-}
-
-expect(new Outer().hello).toBe('hello');
-
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/nested_class_super_property_in_key/input.js"
+    )
 );
 
 test_exec!(
@@ -1244,32 +895,14 @@ test!(
     syntax(),
     |t| tr(t),
     public_numeric,
-    r#"
-class Foo {
-  0 = "foo";
-  1 = "bar";
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_numeric/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_assignment,
-    r#"
-class Foo {
-  #foo = 0;
-
-  test(other) {
-    this.#foo += 1;
-    this.#foo = 2;
-    other.obj.#foo += 1;
-    other.obj.#foo = 2;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_assignment/input.js")
 );
 
 test_exec!(
@@ -1302,41 +935,21 @@ test!(
     syntax(),
     |t| tr(t),
     public_static_export,
-    r#"
-export class MyClass {
-  static property = value;
-}
-
-export default class MyClass2 {
-  static property = value;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_static_export/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_multiple,
-    r#"
-class Foo {
-  #x = 0;
-  #y = this.#x;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_multiple/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_derived,
-    r#"
-class Foo extends Bar {
-  bar = "foo";
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_derived/input.js")
 );
 
 test_exec!(
@@ -1358,12 +971,7 @@ test!(
     syntax(),
     |t| tr(t),
     public_instance,
-    r#"
-class Foo {
-  bar = "foo";
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_instance/input.js")
 );
 
 test_exec!(
@@ -1384,32 +992,14 @@ test!(
     syntax(),
     |t| tr(t),
     public_non_block_arrow_func,
-    r#"
-export default param =>
-  class App {
-    static props = {
-      prop1: 'prop1',
-      prop2: 'prop2'
-    }
-
-    getParam() {
-      return param;
-    }
-  }
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_non_block_arrow_func/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     public_static_undefined,
-    r#"
-class Foo {
-  static bar;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_static_undefined/input.js")
 );
 
 test_exec!(
@@ -1446,19 +1036,7 @@ test!(
     syntax(),
     |t| tr(t),
     private_call,
-    r#"
-class Foo {
-  #foo = function() {
-    return this;
-  }
-
-  test(other) {
-    this.#foo();
-    other.obj.#foo();
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_call/input.js")
 );
 
 test_exec!(
@@ -1496,18 +1074,7 @@ test!(
     syntax(),
     |t| tr(t),
     private_extracted_this,
-    r#"
-var foo = "bar";
-
-class Foo {
-  #bar = this;
-  #baz = foo;
-
-  constructor(foo) {
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_extracted_this/input.js")
 );
 
 test_exec!(
@@ -1656,35 +1223,14 @@ test!(
     syntax(),
     |t| tr(t),
     private_static_call,
-    r#"
-class Foo {
-  static #foo = function(x) {
-    return x;
-  }
-
-  test(x) {
-    return Foo.#foo(x);
-  }
-}
-
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_static_call/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     private_super_expression,
-    r#"
-class Foo extends Bar {
-  #bar = "foo";
-
-  constructor() {
-    foo(super());
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_super_expression/input.js")
 );
 
 test_exec!(
@@ -1738,32 +1284,14 @@ test!(
     syntax(),
     |t| tr(t),
     custom_instance_update,
-    "
-class Foo {
-    #x = 0;
-
-    test() {
-        this.#x++;
-        ++this.#x;
-    }
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/custom_instance_update/input.js")
 );
 
 test!(
     syntax(),
     |t| tr(t),
     custom_static_update,
-    "
-class Foo {
-    static #x = 0;
-
-    test() {
-        Foo.#x++;
-        ++Foo.#x;
-    }
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/custom_static_update/input.js")
 );
 
 test!(
@@ -1778,16 +1306,7 @@ test!(
         )
     },
     issue_308,
-    "function bar(props) {}
-class Foo {
-  constructor() {
-    super();
-    bar();
-  }
-  onBar = () => {
-    bar();
-  };
-}"
+    include_str!("inline-inputs/es2022_class_properties/issue_308/input.js")
 );
 
 test!(
@@ -1803,15 +1322,7 @@ test!(
         )
     },
     issue_342,
-    "class Foo {
-  constructor(bar) {
-    this._bar = bar;
-  }
-
-  qux = {
-    frob: (bar) => {},
-  };
-}"
+    include_str!("inline-inputs/es2022_class_properties/issue_342/input.js")
 );
 
 test!(
@@ -1827,17 +1338,7 @@ test!(
         )
     },
     issue_443,
-    "
-const MODE = 1;
-
-class foo {
-  static MODE = MODE;
-
-  constructor() {
-    this.mode = MODE;
-  }
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/issue_443/input.js")
 );
 
 // public_regression_t7364
@@ -1854,26 +1355,7 @@ test!(
         )
     },
     public_regression_t7364,
-    r#"
-class MyClass {
-  myAsyncMethod = async () => {
-    console.log(this);
-  }
-}
-
-(class MyClass2 {
-  myAsyncMethod = async () => {
-    console.log(this);
-  }
-})
-
-export default class MyClass3 {
-  myAsyncMethod = async () => {
-    console.log(this);
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_regression_t7364/input.js")
 );
 
 // private_regression_t6719
@@ -1890,23 +1372,7 @@ test!(
         )
     },
     private_regression_t6719,
-    r#"
-function withContext(ComposedComponent) {
-    return class WithContext extends Component {
-
-        static #propTypes = {
-            context: PropTypes.shape(
-                {
-                    addCss: PropTypes.func,
-                    setTitle: PropTypes.func,
-                    setMeta: PropTypes.func,
-                }
-            ),
-        };
-    };
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_regression_t6719/input.js")
 );
 
 // private_reevaluated
@@ -1923,31 +1389,7 @@ test!(
         )
     },
     private_reevaluated,
-    r#"
-function classFactory() {
-  return class Foo {
-    #foo = "foo";
-    static #bar = "bar";
-
-    instance() {
-      return this.#foo;
-    }
-
-    static() {
-      return Foo.#bar;
-    }
-
-    static instance(inst) {
-      return inst.#foo;
-    }
-
-    static static() {
-      return Foo.#bar;
-    }
-  };
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_reevaluated/input.js")
 );
 
 // private_static
@@ -1964,24 +1406,7 @@ test!(
         )
     },
     private_static,
-    r#"
-class Foo {
-  static #bar = "foo";
-
-  static test() {
-    return Foo.#bar;
-  }
-
-  test() {
-    return Foo.#bar;
-  }
-}
-
-expect("bar" in Foo).toBe(false)
-expect(Foo.test()).toBe("foo")
-expect(Foo.test()).toBe("foo")
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_static/input.js")
 );
 
 // private_destructuring_object_pattern_1
@@ -1999,16 +1424,9 @@ test!(
         )
     },
     private_destructuring_object_pattern_1,
-    r#"
-class Foo {
-  #client
-
-  constructor(props) {
-    this.#client = 'foo';
-    ({ x: this.x = this.#client, y: this.#client, z: this.z = this.#client } = props)
-  }
-}
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/private_destructuring_object_pattern_1/input.js"
+    )
 );
 
 // private_static_inherited
@@ -2025,38 +1443,7 @@ test!(
         )
     },
     private_static_inherited,
-    r#"
-class Base {
-  static #foo = 1;
-
-  static getThis() {
-    return this.#foo;
-  }
-
-  static updateThis(val) {
-    return (this.#foo = val);
-  }
-
-  static getClass() {
-    return Base.#foo;
-  }
-
-  static updateClass(val) {
-    return (Base.#foo = val);
-  }
-}
-
-class Sub1 extends Base {
-  static #foo = 2;
-
-  static update(val) {
-    return (this.#foo = val);
-  }
-}
-
-class Sub2 extends Base {}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_static_inherited/input.js")
 );
 
 // private_destructuring_object_pattern_1_exec
@@ -2108,20 +1495,7 @@ test!(
         )
     },
     private_static_undefined,
-    r#"
-class Foo {
-  static #bar;
-
-  static test() {
-    return Foo.#bar;
-  }
-
-  test() {
-    return Foo.#bar;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_static_undefined/input.js")
 );
 
 // private_destructuring_array_pattern
@@ -2139,16 +1513,9 @@ test!(
         )
     },
     private_destructuring_array_pattern,
-    r#"
-class Foo {
-  #client
-
-  constructor(props) {
-    ([this.#client] = props);
-  }
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/private_destructuring_array_pattern/input.js"
+    )
 );
 
 // private_regression_t2983
@@ -2165,16 +1532,7 @@ test!(
         )
     },
     private_regression_t2983,
-    r#"
-call(class {
-  static #test = true
-});
-
-export default class {
-  static #test = true
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_regression_t2983/input.js")
 );
 
 // private_regression_t7364
@@ -2192,26 +1550,7 @@ test!(
         )
     },
     private_regression_t7364,
-    r#"
-class MyClass {
-  #myAsyncMethod = async () => {
-    console.log(this);
-  }
-}
-
-(class MyClass2 {
-  #myAsyncMethod = async () => {
-    console.log(this);
-  }
-})
-
-export default class MyClass3 {
-  #myAsyncMethod = async () => {
-    console.log(this);
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_regression_t7364/input.js")
 );
 
 // private_destructuring_array_pattern_1
@@ -2229,16 +1568,9 @@ test!(
         )
     },
     private_destructuring_array_pattern_1,
-    r#"
-class Foo {
-  #client
-
-  constructor(props) {
-    this.#client = 1;
-    ([this.x = this.#client, this.#client, this.y = this.#client] = props);
-  }
-}
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/private_destructuring_array_pattern_1/input.js"
+    )
 );
 
 // regression_8882_exec
@@ -2363,16 +1695,7 @@ test!(
         )
     },
     private_static_export,
-    r#"
-export class MyClass {
-  static #property = value;
-}
-
-export default class MyClass2 {
-  static #property = value;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_static_export/input.js")
 );
 
 // static_property_tdz_edgest_case
@@ -2389,12 +1712,7 @@ test!(
         )
     },
     static_property_tdz_edgest_case,
-    r#"
-class A {
-  static [{ x: A || 0 }.x];
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/static_property_tdz_edgest_case/input.js")
 );
 
 test!(
@@ -2410,11 +1728,7 @@ test!(
         )
     },
     static_property_tdz_false_alarm,
-    r#"
-class A {
-static A = 123;
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/static_property_tdz_false_alarm/input.js")
 );
 
 // regression_6153
@@ -2431,37 +1745,7 @@ test!(
         )
     },
     regression_6153,
-    r#"
-() => {
-  class Foo {
-    fn = () => console.log(this);
-    static fn = () => console.log(this);
-  }
-};
-
-() => class Bar {
-  fn = () => console.log(this);
-  static fn = () => console.log(this);
-};
-
-() => {
-  class Baz {
-    fn = () => console.log(this);
-    force = force
-    static fn = () => console.log(this);
-
-    constructor(force) {}
-  }
-};
-
-var qux = function() {
-  class Qux {
-    fn = () => console.log(this);
-    static fn = () => console.log(this);
-  }
-}.bind(this)
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/regression_6153/input.js")
 );
 
 // regression_7371
@@ -2478,108 +1762,7 @@ test!(
         )
     },
     regression_7371,
-    r#"
-"use strict";
-class C {
-}
-
-class A extends C {
-  field = 1;
-
-  constructor() {
-    super();
-
-    class B extends C {
-      constructor() {
-        super();
-
-        expect(this.field).toBeUndefined();
-      }
-    }
-
-    expect(this.field).toBe(1)
-
-    new B();
-  }
-}
-
-new A();
-
-class Obj {
-  constructor() {
-    return {};
-  }
-}
-
-// ensure superClass is still transformed
-class SuperClass extends Obj {
-  field = 1;
-
-  constructor() {
-    class B extends (super(), Obj) {
-      constructor() {
-        super();
-
-        expect(this.field).toBeUndefined()
-      }
-    }
-
-    expect(this.field).toBe(1)
-
-    new B();
-  }
-}
-
-new SuperClass();
-
-// ensure ComputedKey Method is still transformed
-class ComputedMethod extends Obj {
-  field = 1;
-
-  constructor() {
-    class B extends Obj {
-      constructor() {
-        super();
-
-        expect(this.field).toBeUndefined()
-      }
-
-      [super()]() { }
-    }
-
-    expect(this.field).toBe(1)
-
-    new B();
-  }
-}
-
-new ComputedMethod();
-
-
-// ensure ComputedKey Field is still transformed
-class ComputedField extends Obj {
-  field = 1;
-
-  constructor() {
-    class B extends Obj {
-      constructor() {
-        super();
-
-        expect(this.field).toBeUndefined()
-      }
-
-      [super()] = 1;
-    }
-
-    expect(this.field).toBe(1)
-
-    new B();
-  }
-}
-
-new ComputedField();
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/regression_7371/input.js")
 );
 
 test!(
@@ -2594,15 +1777,7 @@ test!(
         )
     },
     private_optional_chain_call,
-    r#"
-class A {
-    #fieldFunc;
-    x = 1;
-    test() {
-        this.#fieldFunc?.();
-    }
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_optional_chain_call/input.js")
 );
 
 test!(
@@ -2617,14 +1792,7 @@ test!(
         )
     },
     private_optional_chain_member,
-    r#"
-class MyClass {
-  #a
-  foo(o) {
-    o?.#a
-  }
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_optional_chain_member/input.js")
 );
 
 // private_canonical
@@ -2642,29 +1810,7 @@ test!(
         )
     },
     private_canonical,
-    r#"
-class Point {
-    #x;
-    #y;
-
-    constructor(x = 0, y = 0) {
-        this.#x = +x;
-        this.#y = +y;
-    }
-
-    get x() { return this.#x }
-    set x(value) { this.#x = +value }
-
-    get y() { return this.#y }
-    set y(value) { this.#y = +value }
-
-    equals(p) { return this.#x === p.#x && this.#y === p.#y }
-
-    toString() { return `Point<${ this.#x },${ this.#y }>` }
-
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_canonical/input.js")
 );
 
 // regression_8882
@@ -2680,29 +1826,7 @@ test!(
         )
     },
     regression_8882,
-    r#"
-const classes = [];
-for(let i = 0; i <= 10; ++i){
-    classes.push(function() {
-        class A{
-             getBar() {
-                return _class_private_field_get(this, _bar);
-            }
-            constructor(){
-                _define_property(this, i, `computed field ${i}`);
-                _bar.set(this, {
-                    writable: true,
-                    value: `private field ${i}`
-                });
-            }
-        }
-        _define_property(A, 'foo', `static field ${i}`);
-        var _bar = new WeakMap();
-        return A;
-    }());
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/regression_8882/input.js")
 );
 
 // private_destructuring_array_pattern_3
@@ -2720,15 +1844,9 @@ test!(
         )
     },
     private_destructuring_array_pattern_3,
-    r#"
-class Foo {
-  #client
-
-  constructor(props) {
-    ([this.#client = 5] = props);
-  }
-}
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/private_destructuring_array_pattern_3/input.js"
+    )
 );
 
 test!(
@@ -2743,14 +1861,9 @@ test!(
         )
     },
     staic_private_destructuring_array_pattern,
-    r#"
-class A {
-  #a = 123
-  foo() {
-    [a().#a] = []
-  }
-}
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/staic_private_destructuring_array_pattern/input.js"
+    )
 );
 
 // public_static_super_exec
@@ -2801,15 +1914,9 @@ test!(
         )
     },
     private_destructuring_array_pattern_2,
-    r#"
-class Foo {
-  #client
-
-  constructor(props) {
-    ([x, ...this.#client] = props);
-  }
-}
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/private_destructuring_array_pattern_2/input.js"
+    )
 );
 
 // private_non_block_arrow_func
@@ -2826,20 +1933,7 @@ test!(
         )
     },
     private_non_block_arrow_func,
-    r#"
-export default param =>
-  class App {
-    static #props = {
-      prop1: 'prop1',
-      prop2: 'prop2'
-    }
-
-    getParam() {
-      return param;
-    }
-  }
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_non_block_arrow_func/input.js")
 );
 
 // regression_8110
@@ -2855,14 +1949,7 @@ test!(
         )
     },
     regression_8110,
-    r#"
-const field = Symbol('field');
-
-class A {
-  [field] = 10;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/regression_8110/input.js")
 );
 
 // public_computed_without_block_exec
@@ -2903,12 +1990,7 @@ test!(
         )
     },
     private_instance,
-    r#"
-class Foo {
-  #bar = "foo";
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_instance/input.js")
 );
 
 // static_property_tdz_general
@@ -2925,12 +2007,7 @@ test!(
         )
     },
     static_property_tdz_general,
-    r#"
-class C {
-  static [C + 3] = 3;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/static_property_tdz_general/input.js")
 );
 
 // public_native_classes
@@ -2947,13 +2024,7 @@ test!(
         )
     },
     public_native_classes,
-    r#"
-class Foo {
-  static foo = "foo";
-  bar = "bar";
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_native_classes/input.js")
 );
 
 // public_arrow_static_this_without_transform
@@ -2962,12 +2033,9 @@ test!(
     syntax(),
     |_| arrow(Mark::new()),
     public_arrow_static_this_without_transform,
-    r#"
-class Foo {
-  static fn = () => console.log(this);
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/public_arrow_static_this_without_transform/input.js"
+    )
 );
 
 // private_static_infer_name
@@ -2986,12 +2054,7 @@ test!(
         )
     },
     private_static_infer_name,
-    r#"
-var Foo = class {
-  static #num = 0;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_static_infer_name/input.js")
 );
 
 // regression_7951
@@ -3007,14 +2070,7 @@ test!(
         )
     },
     regression_7951,
-    r#"
-export class Foo extends Bar {
-  static foo = {};
-
-  test = args;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/regression_7951/input.js")
 );
 
 // private_native_classes
@@ -3031,21 +2087,7 @@ test!(
         )
     },
     private_native_classes,
-    r#"
-class Foo {
-  static #foo = "foo";
-  #bar = "bar";
-
-  static test() {
-    return Foo.#foo;
-  }
-
-  test() {
-    return this.#bar;
-  }
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_native_classes/input.js")
 );
 
 // public_computed_without_block
@@ -3063,10 +2105,7 @@ test!(
         )
     },
     public_computed_without_block,
-    r#"
-const createClass = (k) => class { [k()] = 2 };
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_computed_without_block/input.js")
 );
 
 // private_destructuring_array_pattern_2_exec
@@ -3117,18 +2156,7 @@ test!(
         )
     },
     public_static_super,
-    r#"
-class A {
-  static prop = 1;
-}
-
-class B extends A {
-  static prop = 2;
-  static propA = super.prop;
-  static getPropA = () => super.prop;
-}
-
-"#
+    include_str!("inline-inputs/es2022_class_properties/public_static_super/input.js")
 );
 
 // private_destructuring_array_pattern_exec
@@ -3210,19 +2238,7 @@ test!(
         )
     },
     issue_1306_1,
-    r#"
-  class Animal {
-    #name;
-
-    constructor(name) {
-      this.#name = name
-    }
-
-    noise() {
-      return this.#name
-    }
-  }
-"#
+    include_str!("inline-inputs/es2022_class_properties/issue_1306_1/input.js")
 );
 
 test!(
@@ -3237,19 +2253,7 @@ test!(
         )
     },
     issue_1306_2,
-    r#"
-class Animal {
-  #name;
-
-  constructor(name) {
-    this.#name = name
-  }
-
-  noise() {
-    return this.#name.toUpperCase()
-  }
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/issue_1306_2/input.js")
 );
 
 test!(
@@ -3264,15 +2268,7 @@ test!(
         )
     },
     issue_1333_1,
-    "
-  class Foo {
-    #ws;
-    #ws2;
-    get connected() {
-        return this.#ws2 && this.#ws.readyState === _ws1.default.OPEN;
-    }
-  }
-  "
+    include_str!("inline-inputs/es2022_class_properties/issue_1333_1/input.js")
 );
 
 test!(
@@ -3287,95 +2283,7 @@ test!(
         )
     },
     issue_1333_2,
-    "
-  class Test {
-    #ws;
-    #serialization;
-    #seq;
-
-    _packet(raw) {
-        /** @type {DiscordPacket} */
-        let pak;
-        try {
-            pak = this.#serialization.decode(raw);
-            this.manager.emit(ClientEvent.RAW_PACKET, pak, this);
-        } catch (e) {
-            this.manager.client.emit(ClientEvent.SHARD_ERROR, e, this);
-            return;
-        }
-
-        switch (pak.t) {
-            case 'READY':
-                this.emit(ShardEvent.READY);
-
-                this.session.id = pak.d.session_id;
-                this.expectedGuilds = new Set(pak.d.guilds.map((g) => g.id));
-                this.status = Status.WAITING_FOR_GUILDS;
-
-                this.heartbeat.acked = true;
-                this.heartbeat.new('ready');
-                break;
-            case 'RESUMED':
-                /**
-                * Emitted when a shards connection has been resumed.
-                * @event Shard#resumed
-                */
-                this.emit(ShardEvent.RESUMED);
-
-                this.status = Status.READY;
-                this.heartbeat.acked = true;
-                this.heartbeat.new('resumed');
-                break;
-        }
-
-        if (pak.s !== null) {
-            if (this.#seq !== -1 && pak.s > this.#seq + 1) {
-                this._debug(`Non-consecutive sequence [${this.#seq} => ${pak.s}]`);
-            }
-
-            this.#seq = pak.s;
-        }
-
-        switch (pak.op) {
-            case GatewayOp.HELLO:
-                this.heartbeat.delay = pak.d.heartbeat_interval;
-                this.session.hello();
-                break;
-            case GatewayOp.RECONNECT:
-                this._debug('Gateway asked us to reconnect.');
-                this.destroy({ code: 4000 });
-                break;
-            case GatewayOp.INVALID_SESSION:
-                this._debug(`Invalid Session: Resumable => ${pak.d}`);
-                if (pak.d) {
-                    this.session.resume();
-                    break;
-                }
-
-                this.#seq = -1;
-                this.session.reset();
-                this.status = Status.RECONNECTING;
-
-                this.emit(ShardEvent.INVALID_SESSION);
-                break;
-            case GatewayOp.HEARTBEAT:
-                this.heartbeat.new('requested');
-                break;
-            case GatewayOp.HEARTBEAT_ACK:
-                this.heartbeat.ack();
-                break;
-            default:
-                if (
-                    this.status === Status.WAITING_FOR_GUILDS &&
-                    pak.t === 'GUILD_CREATE'
-                ) {
-                    this.expectedGuilds.delete(pak.d.id);
-                    this._checkReady();
-                }
-        }
-    }
-  }
-  "
+    include_str!("inline-inputs/es2022_class_properties/issue_1333_2/input.js")
 );
 
 test!(
@@ -3390,29 +2298,7 @@ test!(
         )
     },
     issue_1333_3,
-    "
-    class Test {
-      #ws;
-      #serialization;
-
-      _packet(raw) {
-        /** @type {DiscordPacket} */
-        let pak;
-        try {
-            pak = this.#serialization.decode(raw);
-            this.manager.emit(ClientEvent.RAW_PACKET, pak, this);
-        } catch (e) {
-            this.manager.client.emit(ClientEvent.SHARD_ERROR, e, this);
-            return;
-        }
-
-        switch (pak.t) {
-            case 'READY':
-            case 'RESUMED':
-        }
-      }
-    }
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1333_3/input.js")
 );
 
 test!(
@@ -3427,22 +2313,7 @@ test!(
         )
     },
     issue_1333_4,
-    "
-  class Test {
-    #ws;
-    #serialization;
-
-    _packet(raw) {
-      /** @type {DiscordPacket} */
-      let pak;
-      try {
-          pak = this.#serialization.decode(raw);
-      } catch (e) {
-          return;
-      }
-    }
-  }
-  "
+    include_str!("inline-inputs/es2022_class_properties/issue_1333_4/input.js")
 );
 
 test!(
@@ -3457,14 +2328,7 @@ test!(
         )
     },
     issue_1333_5,
-    "
-    class Test {
-      #serialization;
-      _packet(raw) {
-        pak = this.#serialization.decode(raw);
-      }
-    }
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1333_5/input.js")
 );
 
 test!(
@@ -3479,14 +2343,7 @@ test!(
         )
     },
     issue_1333_6,
-    "
-    class Test {
-      #serialization;
-      _packet(raw) {
-        this.#serialization.decode(raw);
-      }
-    }
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1333_6/input.js")
 );
 
 test!(
@@ -3501,9 +2358,7 @@ test!(
         )
     },
     issue_1660_1,
-    "
-    console.log(class { run() { } });
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1660_1/input.js")
 );
 
 test!(
@@ -3518,20 +2373,7 @@ test!(
         )
     },
     issue_3055_1,
-    "
-export class Node {
-    foo() {
-        this.#bar(this);
-    }
-
-    #bar(parent) {
-        parent.#baz(this);
-        parent.baz.#baz(this);
-    }
-
-    #baz(child) { }
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/issue_3055_1/input.js")
 );
 
 test!(
@@ -3546,14 +2388,7 @@ test!(
         )
     },
     issue_3618,
-    "
-class MyClass {
-  get #a() {}
-  set #a(x) {}
-  static get #b() {}
-  static set #b(x) {}
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/issue_3618/input.js")
 );
 
 test!(
@@ -3569,16 +2404,7 @@ test!(
         )
     },
     issue_1694_1,
-    "
-    class MyClass {
-        #get() {
-            return 1
-        }
-        constructor() {
-            this.#get(foo);
-        }
-    }
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1694_1/input.js")
 );
 
 test!(
@@ -3594,16 +2420,7 @@ test!(
         )
     },
     issue_1694_2,
-    "
-class MyClass {
-    static #get() {
-        return 1
-    }
-    constructor() {
-        MyClass.#get(foo);
-    }
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/issue_1694_2/input.js")
 );
 
 test!(
@@ -3619,24 +2436,7 @@ test!(
         )
     },
     issue_1702_1,
-    "
-    class Foo {
-      #y;
-      static #z = 3;
-
-      constructor() {
-        this.x = 1;
-        this.#y = 2;
-        this.#sssss();
-      }
-
-      #sssss() {
-        console.log(this.x, this.#y, Foo.#z);
-      }
-    }
-
-    const instance = new Foo();
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1702_1/input.js")
 );
 
 test!(
@@ -3651,18 +2451,7 @@ test!(
         )
     },
     issue_1711_1,
-    "
-    class Foo {
-      #value() {
-        return 1;
-      }
-      // #value = 1;
-
-      get(target) {
-        return target.#value;
-      }
-    }
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1711_1/input.js")
 );
 
 test_exec!(
@@ -3792,24 +2581,7 @@ test!(
         )
     },
     issue_1742_3,
-    "
-    class Foo {
-      #tag() {
-        return this;
-      }
-
-      #tag2 = this.#tag;
-
-      constructor() {
-        const receiver = this.#tag`tagged template`;
-        expect(receiver).toBe(this);
-
-        const receiver2 = this.#tag2`tagged template`;
-        expect(receiver2).toBe(this);
-      }
-    }
-    new Foo();
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1742_3/input.js")
 );
 
 test!(
@@ -3824,19 +2596,7 @@ test!(
         )
     },
     issue_1869_1,
-    "
-    class TestClass {
-        static Something = 'hello';
-
-        static SomeProperties = {
-            firstProp: TestClass.Something,
-        };
-    }
-
-    function someClassDecorator(c) {
-        return c;
-    }
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1869_1/input.js")
 );
 
 test!(
@@ -3851,18 +2611,7 @@ test!(
         )
     },
     issue_1869_2,
-    "
-    var _class;
-    let TestClass = _class = someClassDecorator((_class = class TestClass {
-        static Something = 'hello';
-        static SomeProperties = {
-            firstProp: TestClass.Something
-        };
-    }) || _class) || _class;
-    function someClassDecorator(c) {
-        return c;
-    }
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_1869_2/input.js")
 );
 
 test!(
@@ -3877,15 +2626,7 @@ test!(
         )
     },
     issue_2021_1,
-    "
-    class Item extends Component {
-      constructor(props) {
-        super(props);
-      }
-
-      input = this.props.item;
-    }
-    "
+    include_str!("inline-inputs/es2022_class_properties/issue_2021_1/input.js")
 );
 
 test!(
@@ -3900,16 +2641,7 @@ test!(
         )
     },
     issue_3229_1,
-    "
-class A {
-  #D;
-  B() {
-    1;
-    C.#D++;
-    E(function() {});
-  }
-}
-  "
+    include_str!("inline-inputs/es2022_class_properties/issue_3229_1/input.js")
 );
 
 test!(
@@ -3924,17 +2656,7 @@ test!(
         )
     },
     issue_3229_2,
-    "
-class A {
-    #b;
-    foo() {
-        A.#b += 123
-        class B {
-            foo() {}
-        }
-    }
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/issue_3229_2/input.js")
 );
 
 test!(
@@ -3949,20 +2671,7 @@ test!(
         )
     },
     issue_3368,
-    "
-class A {
-  #a = 'fff'
-  static #b = 123
-  foo() {
-    return class B {
-      bar() {
-        console.log(this.#a, this.#b, this.#bar)
-      }
-    }
-  }
-  #bar() {}
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/issue_3368/input.js")
 );
 
 test!(
@@ -3977,16 +2686,7 @@ test!(
         )
     },
     nested_class_in_arrow,
-    "
-const a = () => class {
-  a = 123
-  foo() {
-    return class B {
-      b = 456
-    }
-  }
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/nested_class_in_arrow/input.js")
 );
 
 test!(
@@ -4001,14 +2701,7 @@ test!(
         )
     },
     issue_2481,
-    "
-class Foo {
-    static #prop1 = 42;
-    static #prop2 = (() => {
-        console.log(this.#prop1);
-    })();
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/issue_2481/input.js")
 );
 
 test!(
@@ -4023,18 +2716,7 @@ test!(
         )
     },
     issue_4473,
-    "
-var test1 = class X {
-  [Symbol.toStringTag]() {}
-}
-
-function a() {
-  const b = class Y {
-    x() {
-    }
-  }
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/issue_4473/input.js")
 );
 
 test!(
@@ -4055,11 +2737,7 @@ test!(
         )
     },
     constant_super_complex_super,
-    "
-class A extends class B {} {
-  static x = super.x;
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/constant_super_complex_super/input.js")
 );
 
 test!(
@@ -4080,12 +2758,7 @@ test!(
         )
     },
     constant_super_field,
-    "
-class A extends B {
-  foo = super.bar;
-  static foo = super.bar;
-}
-"
+    include_str!("inline-inputs/es2022_class_properties/constant_super_field/input.js")
 );
 
 test!(
@@ -4106,14 +2779,9 @@ test!(
         )
     },
     private_optional_chain_member_loose,
-    r#"
-class MyClass {
-  #a
-  foo(o) {
-    o?.#a
-  }
-}
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/private_optional_chain_member_loose/input.js"
+    )
 );
 
 test_exec!(
@@ -4194,33 +2862,7 @@ test!(
         )
     },
     set_public_fields_computed,
-    r#"
-const foo = "foo";
-const bar = () => {};
-const four = 4;
-
-class MyClass {
-  static [one()] = "test";
-  static [2 * 4 + 7] = "247";
-  static [2 * four + 7] = "247";
-  static [2 * four + seven] = "247";
-  [null] = "null";
-  [undefined] = "undefined";
-  [void 0] = "void 0";
-  get ["whatever"]() {}
-  set ["whatever"](value) {}
-  get [computed()]() {}
-  set [computed()](value) {}
-  ["test" + one]() {}
-  static [10]() {}
-  [/regex/] = "regex";
-  [foo] = "foo";
-  [bar] = "bar";
-  [baz] = "baz";
-  [`template`] = "template";
-  [`template${expression}`] = "template-with-expression";
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/set_public_fields_computed/input.js")
 );
 
 test!(
@@ -4241,19 +2883,7 @@ test!(
         )
     },
     set_public_constructor_collision,
-    r#"
-var foo = "bar";
-
-class Foo {
-  bar = foo;
-  static bar = baz;
-
-  constructor() {
-    var foo = "foo";
-    var baz = "baz";
-  }
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/set_public_constructor_collision/input.js")
 );
 
 test!(
@@ -4274,11 +2904,7 @@ test!(
         )
     },
     set_public_static_undefined,
-    r#"
-class Foo {
-  static bar;
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/set_public_static_undefined/input.js")
 );
 
 test!(
@@ -4299,31 +2925,7 @@ test!(
         )
     },
     private_as_properties_basic,
-    r#"
-class Cl {
-  #privateField = "top secret string";
-
-  constructor() {
-    this.publicField = "not secret string";
-  }
-
-  get #privateFieldValue() {
-    return this.#privateField;
-  }
-
-  set #privateFieldValue(newValue) {
-    this.#privateField = newValue;
-  }
-
-  publicGetPrivateField() {
-    return this.#privateFieldValue;
-  }
-
-  publicSetPrivateField(newValue) {
-    this.#privateFieldValue = newValue;
-  }
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_as_properties_basic/input.js")
 );
 
 test!(
@@ -4344,13 +2946,7 @@ test!(
         )
     },
     private_as_properties_static,
-    r#"
-class Cl {
-  static #foo() {};
-  static #f = 123;
-  static get #bar() {};
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/private_as_properties_static/input.js")
 );
 
 test!(
@@ -4371,20 +2967,9 @@ test!(
         )
     },
     private_as_properties_getter_only,
-    r#"
-class Cl {
-  #privateField = 0;
-
-  get #privateFieldValue() {
-    return this.#privateField;
-  }
-
-  constructor() {
-    this.#privateFieldValue = 1;
-    ([this.#privateFieldValue] = [1]);
-  }
-}
-"#
+    include_str!(
+        "inline-inputs/es2022_class_properties/private_as_properties_getter_only/input.js"
+    )
 );
 
 test!(
@@ -4406,55 +2991,7 @@ test!(
         )
     },
     loose_update,
-    r#"
-class Cl {
-  #privateField = "top secret string";
-
-  constructor() {
-    this.publicField = "not secret string";
-  }
-
-  get #privateFieldValue() {
-    return this.#privateField;
-  }
-
-  set #privateFieldValue(newValue) {
-    this.#privateField = newValue;
-  }
-
-  publicGetPrivateField() {
-    return this.#privateFieldValue;
-  }
-
-  publicSetPrivateField(newValue) {
-    this.#privateFieldValue = newValue;
-  }
-
-  get publicFieldValue() {
-    return this.publicField;
-  }
-
-  set publicFieldValue(newValue) {
-    this.publicField = newValue;
-  }
-
-  testUpdates() {
-    this.#privateField = 0;
-    this.publicField = 0;
-    this.#privateFieldValue = this.#privateFieldValue++;
-    this.publicFieldValue = this.publicFieldValue++;
-
-    ++this.#privateFieldValue;
-    ++this.publicFieldValue;
-
-    this.#privateFieldValue += 1;
-    this.publicFieldValue += 1;
-
-    this.#privateFieldValue = -(this.#privateFieldValue ** this.#privateFieldValue);
-    this.publicFieldValue = -(this.publicFieldValue ** this.publicFieldValue);
-  }
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/loose_update/input.js")
 );
 
 test!(
@@ -4469,28 +3006,7 @@ test!(
         )
     },
     set_only_getter,
-    r#"
-class Cl {
-  #privateField = 0;
-  counter = 0;
-
-  get #privateFieldValue() {
-    return this.#privateField;
-  }
-
-  get self() {
-    this.counter++;
-    return this;
-  }
-
-  constructor() {
-    this.self.#privateFieldValue = 1;
-    ([this.self.#privateFieldValue] = [1]);
-  }
-}
-
-const cl = new Cl();
-"#
+    include_str!("inline-inputs/es2022_class_properties/set_only_getter/input.js")
 );
 
 test!(
@@ -4505,19 +3021,7 @@ test!(
         )
     },
     get_only_setter,
-    r#"
-class Cl {
-  #privateField = 0;
-
-  set #privateFieldValue(newValue) {
-    this.#privateField = newValue;
-  }
-
-  constructor() {
-    this.publicField = this.#privateFieldValue;
-  }
-}
-"#
+    include_str!("inline-inputs/es2022_class_properties/get_only_setter/input.js")
 );
 
 test!(
@@ -4538,25 +3042,7 @@ test!(
         )
     },
     loose_keyword_method,
-    r##"
-class TestCls{
-    foo(){
-        this.#bar()    
-        this.#switch()    
-    }
-    #switch(){
-        console.log("#switch called")
-    }
-
-    #bar(){
-        console.log("#bar called")
-    }
-}
-export {TestCls}
-
-let a = new TestCls
-a.foo()
-"##
+    include_str!("inline-inputs/es2022_class_properties/loose_keyword_method/input.js")
 );
 
 #[testing::fixture("tests/classes/**/exec.js")]
@@ -4608,7 +3094,7 @@ test!(
         )
     },
     issue_6305,
-    "class x { static #x = super.x = 0 }"
+    include_str!("inline-inputs/es2022_class_properties/issue_6305/input.js")
 );
 
 test!(
@@ -4624,15 +3110,7 @@ test!(
         )
     },
     issue_8003,
-    "
-class Foo {
-  #priv
-  search() {
-    this.#priv?.()
-  }
-}
-
-console.log(new Foo().search())"
+    include_str!("inline-inputs/es2022_class_properties/issue_8003/input.js")
 );
 
 // Test for issue 11422: nested arrow functions should preserve `this` context
@@ -4651,23 +3129,7 @@ test!(
         )
     },
     issue_11422,
-    r#"
-class Sub {
-
-}
-
-class Test extends Sub {
-  isWaitContentRender = false
-  renderOverlay = async () => {
-    (() => {
-      return this;
-    })()
-  }
-}
-
-const test = new Test()
-const render = test.renderOverlay
-"#
+    include_str!("inline-inputs/es2022_class_properties/issue_11422/input.js")
 );
 
 test!(
@@ -4685,21 +3147,5 @@ test!(
         )
     },
     issue_11422_a,
-    r#"
-class Sub {}
-
-class Test extends Sub {
-  isWaitContentRender = false;
-  renderOverlay = async () => {
-    (() => {
-      console.log(this, "__123___");
-    })();
-  };
-}
-
-const test = new Test();
-const render = test.renderOverlay;
-
-render();
-"#
+    include_str!("inline-inputs/es2022_class_properties/issue_11422_a/input.js")
 );

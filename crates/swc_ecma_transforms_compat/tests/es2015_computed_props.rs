@@ -17,51 +17,28 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     issue_210,
-    "
-const b = {[a]: 1}
-export const c = {[a]: 1}
-"
+    include_str!("inline-inputs/es2015_computed_props/issue_210/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     big_int,
-    "
-const b = {1n: 1, [x]: 'x', 2n: 2}
-"
+    include_str!("inline-inputs/es2015_computed_props/big_int/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     accessors,
-    r#"var obj = {
-  get [foobar]() {
-    return "foobar";
-  },
-  set [foobar](x) {
-    console.log(x);
-  },
-  get test() {
-    return "regular getter after computed property";
-  },
-  set "test"(x) {
-    console.log(x);
-  }
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/accessors/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(()),
     issue_2680,
-    r#"
-const obj = {
-    get [1]() {}
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/issue_2680/input.js")
 );
 
 test_exec!(
@@ -110,95 +87,56 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(()),
     issue_2680_4,
-    r#"
-const obj = {
-  foo() {
-      const obj2 = {
-          get [1]() {
-              return 42;
-          },
-      };
-      return obj2;
-  },
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/issue_2680_4/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     argument,
-    r#"foo({
-  [bar]: "foobar"
-});"#
+    include_str!("inline-inputs/es2015_computed_props/argument/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     assignment,
-    r#"foo = {
-  [bar]: "foobar"
-};"#
+    include_str!("inline-inputs/es2015_computed_props/assignment/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     method,
-    r#"var obj = {
-  [foobar]() {
-    return "foobar";
-  },
-  test() {
-    return "regular method after computed property";
-  }
-};"#
+    include_str!("inline-inputs/es2015_computed_props/method/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     mixed,
-    r#"var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo",
-  foo: "foo",
-  bar: "bar",
-};"#
+    include_str!("inline-inputs/es2015_computed_props/mixed/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     multiple,
-    r#"var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo"
-};"#
+    include_str!("inline-inputs/es2015_computed_props/multiple/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     single,
-    r#"var obj = {
-  ["x" + foo]: "heh"
-};"#
+    include_str!("inline-inputs/es2015_computed_props/single/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     symbol,
-    r#"var k = Symbol();
-var foo = {
-  [Symbol.iterator]: "foobar",
-  get [k]() {
-    return k;
-  }
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/symbol/input.js")
 );
 
 test_exec!(
@@ -222,78 +160,35 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     this,
-    r#"var obj = {
-  ["x" + foo.bar]: "heh",
-};"#
+    include_str!("inline-inputs/es2015_computed_props/this/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     issue_315_1,
-    "
-({
-  foo: {
-    bar: null,
-    [baz]: null
-  },
-
-  [bon]: {
-    flab: null
-  }
-});
-
-export function corge() {}
-"
+    include_str!("inline-inputs/es2015_computed_props/issue_315_1/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     issue_315_2,
-    "
-export function corge() {}
-"
+    include_str!("inline-inputs/es2015_computed_props/issue_315_2/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     issue_315_3,
-    "
-export function corge() {}
-
-({
-  foo: {
-    bar: null,
-    [baz]: null
-  },
-
-  [bon]: {
-    flab: null
-  }
-});
-"
+    include_str!("inline-inputs/es2015_computed_props/issue_315_3/input.js")
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| computed_properties(Default::default()),
     issue_315_4,
-    "
-export class Foo {}
-
-({
-  foo: {
-    bar: null,
-    [baz]: null
-  },
-
-  [bon]: {
-    flab: null
-  }
-});
-"
+    include_str!("inline-inputs/es2015_computed_props/issue_315_4/input.js")
 );
 
 // spec_mixed
@@ -301,15 +196,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_mixed,
-    r#"
-var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo",
-  foo: "foo",
-  bar: "bar",
-};
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_mixed/input.js")
 );
 
 // spec_single
@@ -317,12 +204,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_single,
-    r#"
-var obj = {
-  ["x" + foo]: "heh"
-};
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_single/input.js")
 );
 
 // spec
@@ -332,12 +214,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     regression_7144,
-    r#"
-export default {
-  [a]: b,
-  [c]: d
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/regression_7144/input.js")
 );
 
 // spec_multiple
@@ -345,13 +222,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_multiple,
-    r#"
-var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo",
-};
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_multiple/input.js")
 );
 
 // spec_this
@@ -359,12 +230,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_this,
-    r#"
-var obj = {
-  ["x" + foo.bar]: "heh"
-};
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_this/input.js")
 );
 
 // spec_method
@@ -372,17 +238,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_method,
-    r#"
-var obj = {
-  [foobar]() {
-    return "foobar";
-  },
-  test() {
-    return "regular method after computed property";
-  }
-};
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_method/input.js")
 );
 
 // spec_assignment
@@ -390,12 +246,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_assignment,
-    r#"
-foo = {
-  [bar]: "foobar"
-};
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_assignment/input.js")
 );
 
 // spec_argument
@@ -403,12 +254,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_argument,
-    r#"
-foo({
-  [bar]: "foobar"
-});
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_argument/input.js")
 );
 
 // spec_two
@@ -416,13 +262,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_two,
-    r#"
-var obj = {
-  first: "first",
-  ["second"]: "second"
-};
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_two/input.js")
 );
 
 // spec_variable
@@ -430,12 +270,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spec_variable,
-    r#"
-var foo = {
-  [bar]: "foobar"
-};
-
-"#
+    include_str!("inline-inputs/es2015_computed_props/spec_variable/input.js")
 );
 
 // spec_symbol_exec
@@ -462,132 +297,77 @@ test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_assignment,
-    r#"
-foo = {
-  [bar]: "foobar"
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_assignment/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_argument,
-    r#"
-foo({
-  [bar]: "foobar"
-});
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_argument/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_coerce,
-    r#"
-var obj = {
-  foo: "bar",
-  [bar]: "foo"
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_coerce/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_method,
-    r#"
-var obj = {
-  [foobar]() {
-    return "foobar";
-  },
-  test() {
-    return "regular method after computed property";
-  }
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_method/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_mixed,
-    r#"
-var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo",
-  foo: "foo",
-  bar: "bar",
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_mixed/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_multiple,
-    r#"
-var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo",
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_multiple/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_single,
-    r#"
-var obj = {
-  ["x" + foo]: "heh"
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_single/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_this,
-    r#"
-var obj = {
-  ["x" + foo.bar]: "heh"
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_this/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_two,
-    r#"
-var obj = {
-  first: "first",
-  [second]: "second"
-}
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_two/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_variable,
-    r#"
-var foo = {
-  [bar]: "foobar",
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_variable/input.js")
 );
 
 test!(
     syntax(),
     |_| computed_properties(Config { loose: true }),
     loose_str_lit,
-    r#"
-var foo = {
-["213"]: "foobar",
-};
-"#
+    include_str!("inline-inputs/es2015_computed_props/loose_str_lit/input.js")
 );
 
 test_exec!(

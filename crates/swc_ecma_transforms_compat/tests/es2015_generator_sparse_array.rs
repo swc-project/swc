@@ -24,20 +24,12 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     sparse_array_leading_hole,
-    r#"
-function* gen() {
-    yield [, 'hello'];
-}
-"#
+    include_str!("inline-inputs/es2015_generator_sparse_array/sparse_array_leading_hole/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     sparse_array_middle_hole,
-    r#"
-function* gen() {
-    yield ['start', , 'end'];
-}
-"#
+    include_str!("inline-inputs/es2015_generator_sparse_array/sparse_array_middle_hole/input.js")
 );

@@ -42,28 +42,28 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     escape_quotes,
-    r#"var t = `'${foo}' "${bar}"`;"#
+    include_str!("inline-inputs/es2015_template_literals/escape_quotes/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     multiple,
-    r#"var foo = `test ${foo} ${bar}`;"#
+    include_str!("inline-inputs/es2015_template_literals/multiple/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     none,
-    r#"var foo = `test`;"#
+    include_str!("inline-inputs/es2015_template_literals/none/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     only,
-    r#"var foo = `${test}`;"#
+    include_str!("inline-inputs/es2015_template_literals/only/input.js")
 );
 
 test_exec!(
@@ -124,14 +124,14 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     single,
-    r#"var foo = `test ${foo}`;"#
+    include_str!("inline-inputs/es2015_template_literals/single/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     statement,
-    r#"var foo = `test ${foo + bar}`;"#
+    include_str!("inline-inputs/es2015_template_literals/statement/input.js")
 );
 
 test_exec!(
@@ -147,17 +147,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     template_revision,
-    r"tag`\unicode and \u{55}`;
-tag`\01`;
-tag`\xg${0}right`;
-tag`left${0}\xg`;
-tag`left${0}\xg${1}right`;
-tag`left${0}\u000g${1}right`;
-tag`left${0}\u{-0}${1}right`;
-function a() {
-  var undefined = 4;
-  tag`\01`;
-}"
+    include_str!("inline-inputs/es2015_template_literals/template_revision/input.js")
 );
 
 // default_order_exec
@@ -197,10 +187,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_only,
-    r#"
-var foo = `${test}`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_only/input.js")
 );
 
 // default_single
@@ -208,10 +195,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_single,
-    r#"
-var foo = `test ${foo}`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_single/input.js")
 );
 
 // default_statement
@@ -219,10 +203,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_statement,
-    r#"
-var foo = `test ${foo + bar}`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_statement/input.js")
 );
 
 // default_expression_first
@@ -230,18 +211,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_expression_first,
-    r#"
-var foo = 5;
-var bar = 10;
-var baz = 15;
-
-var example = `${"a"}`;
-var example2 = `${1}`;
-var example3 = 1 + `${foo}${bar}${baz}`;
-var example4 = 1 + `${foo}bar${baz}`;
-var example5 = `${""}`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_expression_first/input.js")
 );
 
 // default_literals
@@ -249,10 +219,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_literals,
-    r#"
-var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_literals/input.js")
 );
 
 // default_multiline
@@ -260,12 +227,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_multiline,
-    r#"
-var o = `wow
-this is
-actually multiline!`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_multiline/input.js")
 );
 
 // default_template_revision
@@ -275,22 +237,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_template_revision,
-    r"
-tag`\unicode and \u{55}`;
-
-tag`\01`;
-tag`\xg${0}right`;
-tag`left${0}\xg`;
-tag`left${0}\xg${1}right`;
-tag`left${0}\u000g${1}right`;
-tag`left${0}\u{-0}${1}right`;
-
-function a() {
-  var undefined = 4;
-  tag`\01`;
-}
-
-"
+    include_str!("inline-inputs/es2015_template_literals/default_template_revision/input.js")
 );
 
 // default_order2_exec
@@ -352,10 +299,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_functions,
-    r#"
-var foo = `test ${_.test(foo)} ${bar}`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_functions/input.js")
 );
 
 // default_none
@@ -363,10 +307,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_none,
-    r#"
-var foo = `test`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_none/input.js")
 );
 
 // default_symbol_exec
@@ -387,24 +328,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_cache_revision,
-    r#"
-var tag = v => v;
-
-function foo() {
-  return tag`some template`;
-}
-function bar() {
-  return tag`some template`;
-}
-expect(foo()).toBe(foo());
-expect(foo()).toEqual(["some template"]);
-
-expect(bar()).toBe(bar());
-expect(bar()).toEqual(["some template"]);
-
-expect(bar()).not.toBe(foo());
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_cache_revision/input.js")
 );
 
 // default_tag
@@ -412,12 +336,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_tag,
-    r"
-var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
-var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
-var bar = bar`wow\naB${ 42 } ${_.baz()}`;
-
-"
+    include_str!("inline-inputs/es2015_template_literals/default_tag/input.js")
 );
 
 // default_simple_tag
@@ -425,175 +344,126 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_simple_tag,
-    r#"
-var foo = tag`wow`;
-var bar = tag`first${1}second`;
-
-"#
+    include_str!("inline-inputs/es2015_template_literals/default_simple_tag/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_598_1,
-    "
-  export function foo() {
-    console.log(i18n`Hello World`);
-    console.log(i18n`Nobody will ever see this.`);
-  }
-"
+    include_str!("inline-inputs/es2015_template_literals/issue_598_1/input.js")
 );
 
-test!(syntax(), |_| tr(Default::default()), codegen_01, "`\"`");
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_01,
+    include_str!("inline-inputs/es2015_template_literals/codegen_01/input.js")
+);
 
-test!(syntax(), |_| tr(Default::default()), codegen_02, "`\"\"`");
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_02,
+    include_str!("inline-inputs/es2015_template_literals/codegen_02/input.js")
+);
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_03,
-    "`\"${foo}`"
+    include_str!("inline-inputs/es2015_template_literals/codegen_03/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_04,
-    "`\"${foo}\"`"
+    include_str!("inline-inputs/es2015_template_literals/codegen_04/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_05,
-    "`\"\"${foo}\"\"`"
+    include_str!("inline-inputs/es2015_template_literals/codegen_05/input.js")
 );
 
-test!(syntax(), |_| tr(Default::default()), codegen_06, "\"``\"");
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    codegen_06,
+    include_str!("inline-inputs/es2015_template_literals/codegen_06/input.js")
+);
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_07,
-    r#"`The ${argumentName} has unexpected type of "`"#
+    include_str!("inline-inputs/es2015_template_literals/codegen_07/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_08,
-    r#"`". Expected argument to be an object with the following `"#
+    include_str!("inline-inputs/es2015_template_literals/codegen_08/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_09,
-    r#"`keys: "${reducerKeys.join('" "')}"`"#
+    include_str!("inline-inputs/es2015_template_literals/codegen_09/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_10,
-    r#"`The ${argumentName} has unexpected type of "` +
-  matchType +
-  `". Expected argument to be an object with the following ` +
-  `keys: "${reducerKeys.join('" "')}"`"#
+    include_str!("inline-inputs/es2015_template_literals/codegen_10/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_1280,
-    "
-    const myVar = T`'Hello'`;
-    "
+    include_str!("inline-inputs/es2015_template_literals/issue_1280/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_1488_1,
-    "
-    `\\``
-    "
+    include_str!("inline-inputs/es2015_template_literals/issue_1488_1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_1549_1,
-    "const a = `\r\n`;"
+    include_str!("inline-inputs/es2015_template_literals/issue_1549_1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_1549_2,
-    "const a = \"\\r\\n\";"
+    include_str!("inline-inputs/es2015_template_literals/issue_1549_2/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_1742_1,
-    "
-    function foo() {
-      return this;
-    }
-    foo`template`
-    "
+    include_str!("inline-inputs/es2015_template_literals/issue_1742_1/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     preserve_comment,
-    r#"
-import { useState } from 'react';
-import './index.css';
-
-export const AppPage = () => {
-  const [active, setActive] = useState(false);
-
-  const case1 = async () => {
-    // error case
-    const module = await import(
-      /* webpackChunkName: "a/en" */
-     `./message/en.json`
-    );
-    return module;
-  };
-
-  const case2 = async () => {
-    const locale = 'zh';
-    const module = await import(
-      /* webpackChunkName: "b/zh" */
-      `./message/${locale}.json`
-    );
-    return module;
-  };
-
-  const case3 = async () => {
-    const module = await import(
-      /* webpackChunkName: "c/cn" */
-      './message/cn.json'
-    );
-    return module;
-  };
-
-  const case4 = async () => {
-    const module = await import(
-      /* webpackChunkName: "d/ja" */
-      "./message/ja.json"
-    );
-    return module;
-  };
-
-  return;
-};
-    "#
+    include_str!("inline-inputs/es2015_template_literals/preserve_comment/input.js")
 );
 
 test_exec!(
@@ -617,7 +487,7 @@ test!(
         mutable_template: false
     }),
     loose_escape_quotes,
-    r#"var t = `'${foo}' "${bar}"`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_escape_quotes/input.js")
 );
 
 test!(
@@ -627,16 +497,7 @@ test!(
         mutable_template: false
     }),
     loose_expression_first,
-    r#"
-var foo = 5;
-var bar = 10;
-var baz = 15;
-
-var example = `${"a"}`;
-var example2 = `${1}`;
-var example3 = 1 + `${foo}${bar}${baz}`;
-var example4 = 1 + `${foo}bar${baz}`;
-var example5 = `${""}`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_expression_first/input.js")
 );
 
 test!(
@@ -646,7 +507,7 @@ test!(
         mutable_template: false
     }),
     loose_function,
-    r#"var foo = `test ${_.test(foo)} ${bar}`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_function/input.js")
 );
 
 test!(
@@ -656,7 +517,7 @@ test!(
         mutable_template: false
     }),
     loose_literals,
-    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_literals/input.js")
 );
 
 test!(
@@ -666,11 +527,7 @@ test!(
         mutable_template: false
     }),
     loose_multi_line,
-    r#"
-var o = `wow
-this is
-actually multiline!`;
-    "#
+    include_str!("inline-inputs/es2015_template_literals/loose_multi_line/input.js")
 );
 
 test!(
@@ -680,7 +537,7 @@ test!(
         mutable_template: false
     }),
     loose_multiple,
-    r#"var foo = `test ${foo} ${bar}`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_multiple/input.js")
 );
 
 test!(
@@ -690,7 +547,7 @@ test!(
         mutable_template: false
     }),
     loose_none,
-    r#"var foo = `test`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_none/input.js")
 );
 
 test!(
@@ -700,7 +557,7 @@ test!(
         mutable_template: false
     }),
     loose_only,
-    r#"var foo = `${test}`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_only/input.js")
 );
 
 test!(
@@ -710,7 +567,7 @@ test!(
         mutable_template: false
     }),
     loose_single,
-    r#"var foo = `test ${foo}`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_single/input.js")
 );
 
 test!(
@@ -720,7 +577,7 @@ test!(
         mutable_template: false
     }),
     loose_statement,
-    r#"var foo = `test ${foo + bar}`;"#
+    include_str!("inline-inputs/es2015_template_literals/loose_statement/input.js")
 );
 
 test_exec!(
@@ -807,7 +664,7 @@ test!(
         mutable_template: true
     }),
     loose_no_tag,
-    "`foo ${bar} baz`;"
+    include_str!("inline-inputs/es2015_template_literals/loose_no_tag/input.js")
 );
 
 test!(
@@ -817,11 +674,7 @@ test!(
         mutable_template: true
     }),
     loose_tag,
-    r"
-var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
-var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
-var bar = bar`wow\naB${ 42 } ${_.baz()}`;
-    "
+    include_str!("inline-inputs/es2015_template_literals/loose_tag/input.js")
 );
 
 test!(
@@ -830,17 +683,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     loose_template_revision,
-    r"tag`\unicode and \u{55}`;
-tag`\01`;
-tag`\xg${0}right`;
-tag`left${0}\xg`;
-tag`left${0}\xg${1}right`;
-tag`left${0}\u000g${1}right`;
-tag`left${0}\u{-0}${1}right`;
-function a() {
-var undefined = 4;
-tag`\01`;
-}"
+    include_str!("inline-inputs/es2015_template_literals/loose_template_revision/input.js")
 );
 
 /// Models plugins that synthesize ordinary templates with only raw text.

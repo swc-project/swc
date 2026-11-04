@@ -42,63 +42,46 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     transform_in_default,
-    r#"
- function foo(foo, qux = foo.bar ?? "qux") {}
-"#
+    include_str!("inline-inputs/es2020_nullish_coalescing/transform_in_default/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     transform_in_function,
-    r#"
-
-function foo(opts) {
-  var foo = opts.foo ?? "default";
-}
-"#
+    include_str!("inline-inputs/es2020_nullish_coalescing/transform_in_function/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     transform_static_refs_in_default,
-    r#"
-
-function foo(foo, bar = foo ?? "bar") {}
-
-"#
+    include_str!(
+        "inline-inputs/es2020_nullish_coalescing/transform_static_refs_in_default/input.js"
+    )
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     transform_static_refs_in_function,
-    r#"
-function foo() {
-  var foo = this ?? {};
-}
-
-"#
+    include_str!(
+        "inline-inputs/es2020_nullish_coalescing/transform_static_refs_in_function/input.js"
+    )
 );
 
 test!(
     Default::default(),
     |_| tr(Default::default()),
     assign_01,
-    "
-    a ??= b;
-    "
+    include_str!("inline-inputs/es2020_nullish_coalescing/assign_01/input.js")
 );
 
 test!(
     Default::default(),
     |_| tr(Default::default()),
     issue_1570_1,
-    "
-    const a = {}
-    a.b ??= '1'
-    "
+    include_str!("inline-inputs/es2020_nullish_coalescing/issue_1570_1/input.js")
 );
 
 test_exec!(
@@ -118,37 +101,21 @@ test!(
         no_document_all: true
     }),
     loose,
-    r#"
-function foo(opts) {
-    var foo = opts.foo ?? "default";
-}
-"#
+    include_str!("inline-inputs/es2020_nullish_coalescing/loose/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_6328,
-    "switch ( 0 ) { case 0 ?? 0 : }"
+    include_str!("inline-inputs/es2020_nullish_coalescing/issue_6328/input.js")
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_7290,
-    "
-    var filter = clone(initialFilter)
-
-    filter.start_point ??= {
-        location: null,
-        radius: null
-    }
-    
-    filter.end_point ??= {
-        location: null,
-        radius: null
-    }
-    "
+    include_str!("inline-inputs/es2020_nullish_coalescing/issue_7290/input.js")
 );
 
 compare_stdout!(
