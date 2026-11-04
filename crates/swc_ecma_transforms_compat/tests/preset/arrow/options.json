@@ -1,0 +1,6 @@
+{
+    "env": {
+        "targets": { "chrome": "120" },
+        "include": ["transform-arrow-functions"]
+    }
+}
