@@ -1,5 +1,9 @@
 ### Fixture Test Guide
 
+- For every behavior that can be expressed by this crate's preset runner,
+  add a preset fixture, including when the behavior also has a composite or
+  specialized test. Keep those tests when they cover additional execution
+  semantics or assertions.
 - Read `tests/README.md` and the relevant runner before adding or moving tests.
   Preserve the existing behavior categories and verify the parser, pass order,
   configuration, assertions, feature conditions, and ignored status.

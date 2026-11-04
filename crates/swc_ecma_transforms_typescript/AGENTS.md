@@ -1,6 +1,10 @@
 ### Fixture Test Addition Guide
 
-- Preferred fixture roots in this crate: tests/composite, ../swc_ecma_parser/tests/tsc, ../swc_ecma_parser/tests/typescript.
+- For every behavior that can be expressed by this crate's preset runner,
+  add a preset fixture, including when the behavior also has a composite or
+  specialized test. Keep those tests when they cover additional execution
+  semantics or assertions.
+- Preferred fixture roots in this crate: tests/preset, tests/composite, ../swc_ecma_parser/tests/tsc, ../swc_ecma_parser/tests/typescript.
 - Update generated fixture outputs with: UPDATE=1 cargo test -p swc_ecma_transforms_typescript.
 - Verify without UPDATE before finishing: cargo test -p swc_ecma_transforms_typescript.
 
