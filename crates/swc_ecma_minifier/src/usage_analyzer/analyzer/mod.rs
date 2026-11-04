@@ -538,7 +538,7 @@ where
         }
 
         if let Callee::Expr(callee) = &n.callee {
-            for_each_id_ref_in_expr(callee, &mut |i| {
+            for_each_id_ref_in_callee(callee, &mut |i| {
                 self.data.var_or_default(i.to_id()).mark_used_as_callee();
             });
 
@@ -1700,6 +1700,39 @@ fn for_each_id_ref_in_member_obj(e: &Expr, op: &mut impl FnMut(&Ident)) {
             }
         }
         _ => for_each_id_ref_in_expr(e, op),
+    }
+}
+
+/// Calls `op` for each identifier that can be the function invoked by a call
+/// with `e` as its callee.
+///
+/// - `a` => `a`
+/// - `a ? b : c` => `b`, `c`
+/// - `(0, a)` => `a`
+///
+/// Unlike [for_each_id_ref_in_expr], this does not visit identifiers in the
+/// parameters of a function expression callee. In
+/// `(function (g = f) { return g })()`, `f` is a value of a default parameter,
+/// not a callee. Marking it as a callee lets the single-use function inliner
+/// move `f` into the default initializer, where it is recreated on each call.
+fn for_each_id_ref_in_callee(e: &Expr, op: &mut impl FnMut(&Ident)) {
+    match e {
+        Expr::Ident(i) => op(i),
+        Expr::Paren(p) => {
+            for_each_id_ref_in_callee(&p.expr, op);
+        }
+        Expr::Cond(c) => {
+            for_each_id_ref_in_callee(&c.cons, op);
+            for_each_id_ref_in_callee(&c.alt, op);
+        }
+        Expr::Bin(b @ BinExpr { op: bin_op, .. }) if bin_op.may_short_circuit() => {
+            for_each_id_ref_in_callee(&b.left, op);
+            for_each_id_ref_in_callee(&b.right, op);
+        }
+        Expr::Seq(s) => {
+            for_each_id_ref_in_callee(s.exprs.last().unwrap(), op);
+        }
+        _ => {}
     }
 }
 
