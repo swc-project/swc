@@ -1,0 +1,5 @@
+  x A tuple member cannot be both optional and rest.
+   ,-[$DIR/tests/typescript-errors/types/tuple-optional-rest-invalid/input.ts:1:1]
+ 1 | type T = [number?, ...rest?: string[]];
+   :                    ^^^^^^^^^
+   `----

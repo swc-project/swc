@@ -2995,13 +2995,20 @@
                 value: !0
             });
             let common_1 = __importDefault(__webpack_require__(9499));
-            async function deepHash(data) {
+            exports.default = async function deepHash(data) {
                 if (Array.isArray(data)) {
                     let tag = common_1.default.utils.concatBuffers([
                         common_1.default.utils.stringToBuffer("list"),
                         common_1.default.utils.stringToBuffer(data.length.toString())
                     ]);
-                    return await deepHashChunks(data, await common_1.default.crypto.hash(tag, "SHA-384"));
+                    return await async function deepHashChunks(chunks, acc) {
+                        if (chunks.length < 1) return acc;
+                        let hashPair = common_1.default.utils.concatBuffers([
+                            acc,
+                            await deepHash(chunks[0])
+                        ]), newAcc = await common_1.default.crypto.hash(hashPair, "SHA-384");
+                        return await deepHashChunks(chunks.slice(1), newAcc);
+                    }(data, await common_1.default.crypto.hash(tag, "SHA-384"));
                 }
                 let tag = common_1.default.utils.concatBuffers([
                     common_1.default.utils.stringToBuffer("blob"),
@@ -3011,16 +3018,7 @@
                     await common_1.default.crypto.hash(data, "SHA-384")
                 ]);
                 return await common_1.default.crypto.hash(taggedHash, "SHA-384");
-            }
-            async function deepHashChunks(chunks, acc) {
-                if (chunks.length < 1) return acc;
-                let hashPair = common_1.default.utils.concatBuffers([
-                    acc,
-                    await deepHash(chunks[0])
-                ]), newAcc = await common_1.default.crypto.hash(hashPair, "SHA-384");
-                return await deepHashChunks(chunks.slice(1), newAcc);
-            }
-            exports.default = deepHash;
+            };
         //# sourceMappingURL=deepHash.js.map
         /***/ },
         /***/ 2990: /***/ function(__unused_webpack_module, exports) {
@@ -3114,7 +3112,20 @@
                 if (nodes.length < 2) // console.log("Root layer", root);
                 return nodes[0];
                 let nextLayer = [];
-                for(let i = 0; i < nodes.length; i += 2)nextLayer.push(await hashBranch(nodes[i], nodes[i + 1]));
+                for(let i = 0; i < nodes.length; i += 2)nextLayer.push(await async function(left, right) {
+                    return right ? {
+                        type: "branch",
+                        id: await hash([
+                            await hash(left.id),
+                            await hash(right.id),
+                            await hash(intToBuffer(left.maxByteRange))
+                        ]),
+                        byteRange: left.maxByteRange,
+                        maxByteRange: right.maxByteRange,
+                        leftChild: left,
+                        rightChild: right
+                    } : left;
+                }(nodes[i], nodes[i + 1]));
                 // console.log("Layer", nextLayer);
                 return buildLayers(nextLayer, level + 1);
             }
@@ -3155,20 +3166,6 @@
                     Array.isArray(item) ? flat.push(...arrayFlatten(item)) : flat.push(item);
                 }), flat;
             }
-            async function hashBranch(left, right) {
-                return right ? {
-                    type: "branch",
-                    id: await hash([
-                        await hash(left.id),
-                        await hash(right.id),
-                        await hash(intToBuffer(left.maxByteRange))
-                    ]),
-                    byteRange: left.maxByteRange,
-                    maxByteRange: right.maxByteRange,
-                    leftChild: left,
-                    rightChild: right
-                } : left;
-            }
             async function hash(data) {
                 return Array.isArray(data) && (data = common_1.default.utils.concatBuffers(data)), new Uint8Array(await common_1.default.crypto.hash(data));
             }
@@ -3184,43 +3181,6 @@
                 let value = 0;
                 for(var i = 0; i < buffer.length; i++)value *= 256, value += buffer[i];
                 return value;
-            }
-            async function validatePath(id, dest, leftBound, rightBound, path) {
-                if (rightBound <= 0) return !1;
-                if (dest >= rightBound) return validatePath(id, 0, rightBound - 1, rightBound, path);
-                if (dest < 0) return validatePath(id, 0, 0, rightBound, path);
-                if (64 == path.length) {
-                    let pathData = path.slice(0, 32), endOffsetBuffer = path.slice(pathData.length, pathData.length + 32), pathDataHash = await hash([
-                        await hash(pathData),
-                        await hash(endOffsetBuffer)
-                    ]);
-                    return !!(0, exports.arrayCompare)(id, pathDataHash) && {
-                        offset: rightBound - 1,
-                        leftBound: leftBound,
-                        rightBound: rightBound,
-                        chunkSize: rightBound - leftBound
-                    };
-                }
-                let left = path.slice(0, 32), right = path.slice(left.length, left.length + 32), offsetBuffer = path.slice(left.length + right.length, left.length + right.length + 32), offset = bufferToInt(offsetBuffer), remainder = path.slice(left.length + right.length + offsetBuffer.length), pathHash = await hash([
-                    await hash(left),
-                    await hash(right),
-                    await hash(offsetBuffer)
-                ]);
-                return !!(0, exports.arrayCompare)(id, pathHash) && (dest < offset ? await validatePath(left, dest, leftBound, Math.min(rightBound, offset), remainder) : await validatePath(right, dest, Math.max(leftBound, offset), rightBound, remainder));
-            }
-            /**
- * Inspect an arweave chunk proof.
- * Takes proof, parses, reads and displays the values for console logging.
- * One proof section per line
- * Format: left,right,offset => hash
- */ async function debug(proof, output = "") {
-                if (proof.byteLength < 1) return output;
-                let left = proof.slice(0, 32), right = proof.slice(left.length, left.length + 32), offsetBuffer = proof.slice(left.length + right.length, left.length + right.length + 32), offset = bufferToInt(offsetBuffer), remainder = proof.slice(left.length + right.length + offsetBuffer.length), pathHash = await hash([
-                    await hash(left),
-                    await hash(right),
-                    await hash(offsetBuffer)
-                ]);
-                return debug(remainder, `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
             }
             exports.MAX_CHUNK_SIZE = 262144, exports.MIN_CHUNK_SIZE = 32768, exports.chunkData = chunkData, exports.generateLeaves = generateLeaves, exports.computeRootHash = /**
  * Builds an arweave merkle tree and gets the root hash for the given input.
@@ -3242,7 +3202,42 @@
                     chunks,
                     proofs
                 };
-            }, exports.buildLayers = buildLayers, exports.generateProofs = generateProofs, exports.arrayFlatten = arrayFlatten, exports.intToBuffer = intToBuffer, exports.bufferToInt = bufferToInt, exports.arrayCompare = (a, b)=>a.every((value, index)=>b[index] === value), exports.validatePath = validatePath, exports.debug = debug;
+            }, exports.buildLayers = buildLayers, exports.generateProofs = generateProofs, exports.arrayFlatten = arrayFlatten, exports.intToBuffer = intToBuffer, exports.bufferToInt = bufferToInt, exports.arrayCompare = (a, b)=>a.every((value, index)=>b[index] === value), exports.validatePath = async function validatePath(id, dest, leftBound, rightBound, path) {
+                if (rightBound <= 0) return !1;
+                if (dest >= rightBound) return validatePath(id, 0, rightBound - 1, rightBound, path);
+                if (dest < 0) return validatePath(id, 0, 0, rightBound, path);
+                if (64 == path.length) {
+                    let pathData = path.slice(0, 32), endOffsetBuffer = path.slice(pathData.length, pathData.length + 32), pathDataHash = await hash([
+                        await hash(pathData),
+                        await hash(endOffsetBuffer)
+                    ]);
+                    return !!(0, exports.arrayCompare)(id, pathDataHash) && {
+                        offset: rightBound - 1,
+                        leftBound: leftBound,
+                        rightBound: rightBound,
+                        chunkSize: rightBound - leftBound
+                    };
+                }
+                let left = path.slice(0, 32), right = path.slice(left.length, left.length + 32), offsetBuffer = path.slice(left.length + right.length, left.length + right.length + 32), offset = bufferToInt(offsetBuffer), remainder = path.slice(left.length + right.length + offsetBuffer.length), pathHash = await hash([
+                    await hash(left),
+                    await hash(right),
+                    await hash(offsetBuffer)
+                ]);
+                return !!(0, exports.arrayCompare)(id, pathHash) && (dest < offset ? await validatePath(left, dest, leftBound, Math.min(rightBound, offset), remainder) : await validatePath(right, dest, Math.max(leftBound, offset), rightBound, remainder));
+            }, exports.debug = /**
+ * Inspect an arweave chunk proof.
+ * Takes proof, parses, reads and displays the values for console logging.
+ * One proof section per line
+ * Format: left,right,offset => hash
+ */ async function debug(proof, output = "") {
+                if (proof.byteLength < 1) return output;
+                let left = proof.slice(0, 32), right = proof.slice(left.length, left.length + 32), offsetBuffer = proof.slice(left.length + right.length, left.length + right.length + 32), offset = bufferToInt(offsetBuffer), remainder = proof.slice(left.length + right.length + offsetBuffer.length), pathHash = await hash([
+                    await hash(left),
+                    await hash(right),
+                    await hash(offsetBuffer)
+                ]);
+                return debug(remainder, `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
+            };
         //# sourceMappingURL=merkle.js.map
         /***/ },
         /***/ 4107: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
@@ -4584,13 +4579,20 @@
                 value: !0
             });
             let common_1 = __webpack_require__(536);
-            async function deepHash(data) {
+            exports.default = async function deepHash(data) {
                 if (Array.isArray(data)) {
                     let tag = common_1.default.utils.concatBuffers([
                         common_1.default.utils.stringToBuffer("list"),
                         common_1.default.utils.stringToBuffer(data.length.toString())
                     ]);
-                    return await deepHashChunks(data, await common_1.default.crypto.hash(tag, "SHA-384"));
+                    return await async function deepHashChunks(chunks, acc) {
+                        if (chunks.length < 1) return acc;
+                        let hashPair = common_1.default.utils.concatBuffers([
+                            acc,
+                            await deepHash(chunks[0])
+                        ]), newAcc = await common_1.default.crypto.hash(hashPair, "SHA-384");
+                        return await deepHashChunks(chunks.slice(1), newAcc);
+                    }(data, await common_1.default.crypto.hash(tag, "SHA-384"));
                 }
                 let tag = common_1.default.utils.concatBuffers([
                     common_1.default.utils.stringToBuffer("blob"),
@@ -4600,16 +4602,7 @@
                     await common_1.default.crypto.hash(data, "SHA-384")
                 ]);
                 return await common_1.default.crypto.hash(taggedHash, "SHA-384");
-            }
-            async function deepHashChunks(chunks, acc) {
-                if (chunks.length < 1) return acc;
-                let hashPair = common_1.default.utils.concatBuffers([
-                    acc,
-                    await deepHash(chunks[0])
-                ]), newAcc = await common_1.default.crypto.hash(hashPair, "SHA-384");
-                return await deepHashChunks(chunks.slice(1), newAcc);
-            }
-            exports.default = deepHash;
+            };
         //# sourceMappingURL=deepHash.js.map
         /***/ },
         /***/ 5498: /***/ function(__unused_webpack_module, exports) {
@@ -4699,7 +4692,20 @@
                 if (nodes.length < 2) // console.log("Root layer", root);
                 return nodes[0];
                 let nextLayer = [];
-                for(let i = 0; i < nodes.length; i += 2)nextLayer.push(await hashBranch(nodes[i], nodes[i + 1]));
+                for(let i = 0; i < nodes.length; i += 2)nextLayer.push(await async function(left, right) {
+                    return right ? {
+                        type: "branch",
+                        id: await hash([
+                            await hash(left.id),
+                            await hash(right.id),
+                            await hash(intToBuffer(left.maxByteRange))
+                        ]),
+                        byteRange: left.maxByteRange,
+                        maxByteRange: right.maxByteRange,
+                        leftChild: left,
+                        rightChild: right
+                    } : left;
+                }(nodes[i], nodes[i + 1]));
                 // console.log("Layer", nextLayer);
                 return buildLayers(nextLayer, level + 1);
             }
@@ -4740,20 +4746,6 @@
                     Array.isArray(item) ? flat.push(...arrayFlatten(item)) : flat.push(item);
                 }), flat;
             }
-            async function hashBranch(left, right) {
-                return right ? {
-                    type: "branch",
-                    id: await hash([
-                        await hash(left.id),
-                        await hash(right.id),
-                        await hash(intToBuffer(left.maxByteRange))
-                    ]),
-                    byteRange: left.maxByteRange,
-                    maxByteRange: right.maxByteRange,
-                    leftChild: left,
-                    rightChild: right
-                } : left;
-            }
             async function hash(data) {
                 return Array.isArray(data) && (data = common_1.default.utils.concatBuffers(data)), new Uint8Array(await common_1.default.crypto.hash(data));
             }
@@ -4769,43 +4761,6 @@
                 let value = 0;
                 for(var i = 0; i < buffer.length; i++)value *= 256, value += buffer[i];
                 return value;
-            }
-            async function validatePath(id, dest, leftBound, rightBound, path) {
-                if (rightBound <= 0) return !1;
-                if (dest >= rightBound) return validatePath(id, 0, rightBound - 1, rightBound, path);
-                if (dest < 0) return validatePath(id, 0, 0, rightBound, path);
-                if (64 == path.length) {
-                    let pathData = path.slice(0, 32), endOffsetBuffer = path.slice(pathData.length, pathData.length + 32), pathDataHash = await hash([
-                        await hash(pathData),
-                        await hash(endOffsetBuffer)
-                    ]);
-                    return !!(0, exports.arrayCompare)(id, pathDataHash) && {
-                        offset: rightBound - 1,
-                        leftBound: leftBound,
-                        rightBound: rightBound,
-                        chunkSize: rightBound - leftBound
-                    };
-                }
-                let left = path.slice(0, 32), right = path.slice(left.length, left.length + 32), offsetBuffer = path.slice(left.length + right.length, left.length + right.length + 32), offset = bufferToInt(offsetBuffer), remainder = path.slice(left.length + right.length + offsetBuffer.length), pathHash = await hash([
-                    await hash(left),
-                    await hash(right),
-                    await hash(offsetBuffer)
-                ]);
-                return !!(0, exports.arrayCompare)(id, pathHash) && (dest < offset ? await validatePath(left, dest, leftBound, Math.min(rightBound, offset), remainder) : await validatePath(right, dest, Math.max(leftBound, offset), rightBound, remainder));
-            }
-            /**
- * Inspect an arweave chunk proof.
- * Takes proof, parses, reads and displays the values for console logging.
- * One proof section per line
- * Format: left,right,offset => hash
- */ async function debug(proof, output = "") {
-                if (proof.byteLength < 1) return output;
-                let left = proof.slice(0, 32), right = proof.slice(left.length, left.length + 32), offsetBuffer = proof.slice(left.length + right.length, left.length + right.length + 32), offset = bufferToInt(offsetBuffer), remainder = proof.slice(left.length + right.length + offsetBuffer.length), pathHash = await hash([
-                    await hash(left),
-                    await hash(right),
-                    await hash(offsetBuffer)
-                ]);
-                return debug(remainder, `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
             }
             exports.MAX_CHUNK_SIZE = 262144, exports.MIN_CHUNK_SIZE = 32768, exports.chunkData = chunkData, exports.generateLeaves = generateLeaves, exports.computeRootHash = /**
  * Builds an arweave merkle tree and gets the root hash for the given input.
@@ -4827,7 +4782,42 @@
                     chunks,
                     proofs
                 };
-            }, exports.buildLayers = buildLayers, exports.generateProofs = generateProofs, exports.arrayFlatten = arrayFlatten, exports.intToBuffer = intToBuffer, exports.bufferToInt = bufferToInt, exports.arrayCompare = (a, b)=>a.every((value, index)=>b[index] === value), exports.validatePath = validatePath, exports.debug = debug;
+            }, exports.buildLayers = buildLayers, exports.generateProofs = generateProofs, exports.arrayFlatten = arrayFlatten, exports.intToBuffer = intToBuffer, exports.bufferToInt = bufferToInt, exports.arrayCompare = (a, b)=>a.every((value, index)=>b[index] === value), exports.validatePath = async function validatePath(id, dest, leftBound, rightBound, path) {
+                if (rightBound <= 0) return !1;
+                if (dest >= rightBound) return validatePath(id, 0, rightBound - 1, rightBound, path);
+                if (dest < 0) return validatePath(id, 0, 0, rightBound, path);
+                if (64 == path.length) {
+                    let pathData = path.slice(0, 32), endOffsetBuffer = path.slice(pathData.length, pathData.length + 32), pathDataHash = await hash([
+                        await hash(pathData),
+                        await hash(endOffsetBuffer)
+                    ]);
+                    return !!(0, exports.arrayCompare)(id, pathDataHash) && {
+                        offset: rightBound - 1,
+                        leftBound: leftBound,
+                        rightBound: rightBound,
+                        chunkSize: rightBound - leftBound
+                    };
+                }
+                let left = path.slice(0, 32), right = path.slice(left.length, left.length + 32), offsetBuffer = path.slice(left.length + right.length, left.length + right.length + 32), offset = bufferToInt(offsetBuffer), remainder = path.slice(left.length + right.length + offsetBuffer.length), pathHash = await hash([
+                    await hash(left),
+                    await hash(right),
+                    await hash(offsetBuffer)
+                ]);
+                return !!(0, exports.arrayCompare)(id, pathHash) && (dest < offset ? await validatePath(left, dest, leftBound, Math.min(rightBound, offset), remainder) : await validatePath(right, dest, Math.max(leftBound, offset), rightBound, remainder));
+            }, exports.debug = /**
+ * Inspect an arweave chunk proof.
+ * Takes proof, parses, reads and displays the values for console logging.
+ * One proof section per line
+ * Format: left,right,offset => hash
+ */ async function debug(proof, output = "") {
+                if (proof.byteLength < 1) return output;
+                let left = proof.slice(0, 32), right = proof.slice(left.length, left.length + 32), offsetBuffer = proof.slice(left.length + right.length, left.length + right.length + 32), offset = bufferToInt(offsetBuffer), remainder = proof.slice(left.length + right.length + offsetBuffer.length), pathHash = await hash([
+                    await hash(left),
+                    await hash(right),
+                    await hash(offsetBuffer)
+                ]);
+                return debug(remainder, `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
+            };
         //# sourceMappingURL=merkle.js.map
         /***/ },
         /***/ 1246: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
@@ -22271,9 +22261,6 @@
                     }), reader.addEventListener('error', reject), reader.readAsArrayBuffer(blob);
                 });
             }
-            async function readBlobAsUint8Array(blob) {
-                return new Uint8Array(await readBlobAsArrayBuffer(blob));
-            }
             function isBlob(v) {
                 return "u" > typeof Blob && v instanceof Blob;
             }
@@ -22675,23 +22662,22 @@ function _get9(dt, pos) {
             function makeWorkerAvailable(worker) {
                 availableWorkers.push(worker), processWaitingForWorkerQueue();
             }
-            async function getAvailableWorker() {
-                if (0 === availableWorkers.length && numWorkers < config.numWorkers) {
-                    ++numWorkers; // see comment at numWorkers declaration
-                    try {
-                        let worker = await workerHelper.createWorker(config.workerURL);
-                        workers.push(worker), availableWorkers.push(worker), workerHelper.addEventListener(worker, handleResult);
-                    } catch (e) {
-                        // set this global out-of-band (needs refactor)
-                        canUseWorkers = !1;
-                    }
-                }
-                return availableWorkers.pop();
-            }
             async function processWaitingForWorkerQueue() {
                 if (0 !== waitingForWorkerQueue.length) {
                     if (config.useWorkers && canUseWorkers) {
-                        let worker = await getAvailableWorker();
+                        let worker = await async function() {
+                            if (0 === availableWorkers.length && numWorkers < config.numWorkers) {
+                                ++numWorkers; // see comment at numWorkers declaration
+                                try {
+                                    let worker = await workerHelper.createWorker(config.workerURL);
+                                    workers.push(worker), availableWorkers.push(worker), workerHelper.addEventListener(worker, handleResult);
+                                } catch (e) {
+                                    // set this global out-of-band (needs refactor)
+                                    canUseWorkers = !1;
+                                }
+                            }
+                            return availableWorkers.pop();
+                        }();
                         // canUseWorkers might have been set out-of-band (need refactor)
                         if (canUseWorkers) {
                             if (worker) {
@@ -22735,7 +22721,9 @@ function _get9(dt, pos) {
                     // are pending requests.
                     for(; waitingForWorkerQueue.length;){
                         let { src, uncompressedSize, type, resolve } = waitingForWorkerQueue.shift(), data = src;
-                        isBlob(src) && (data = await readBlobAsUint8Array(src)), // @param {Uint8Array} src
+                        isBlob(src) && (data = await async function(blob) {
+                            return new Uint8Array(await readBlobAsArrayBuffer(blob));
+                        }(src)), // @param {Uint8Array} src
                         // @param {number} uncompressedSize
                         // @param {string} [type] mime-type
                         // @returns {ArrayBuffer|Blob} ArrayBuffer if type is falsy or Blob otherwise.
@@ -22864,10 +22852,6 @@ function _get9(dt, pos) {
             function clearArray(arr) {
                 arr.splice(0, arr.length);
             }
-            async function cleanup() {
-                for (let worker of workers)await workerHelper.terminate(worker);
-                clearArray(workers), clearArray(availableWorkers), clearArray(waitingForWorkerQueue), currentlyProcessingIdToRequestMap.clear(), numWorkers = 0, canUseWorkers = !0;
-            }
             class ZipEntry {
                 constructor(reader, rawEntry){
                     var date, time;
@@ -22875,11 +22859,45 @@ function _get9(dt, pos) {
                 }
                 // returns a promise that returns a Blob for this entry
                 async blob(type = 'application/octet-stream') {
-                    return await readEntryDataAsBlob(this._reader, this._rawEntry, type);
+                    return await async function(reader, rawEntry, type) {
+                        let { decompress, fileDataStart } = await readEntryDataHeader(reader, rawEntry);
+                        if (!decompress) {
+                            let typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize, type);
+                            return isBlob(typedArrayOrBlob) ? typedArrayOrBlob : new Blob([
+                                isSharedArrayBuffer(typedArrayOrBlob.buffer) ? new Uint8Array(typedArrayOrBlob) : typedArrayOrBlob
+                            ], {
+                                type
+                            });
+                        }
+                        // Here's the issue with this mess (should refactor?)
+                        // if the source is a blob then we really want to pass a blob to inflateRawAsync to avoid a large
+                        // copy if we're going to a worker.
+                        let typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize);
+                        return await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize, type);
+                    }(this._reader, this._rawEntry, type);
                 }
                 // returns a promise that returns an ArrayBuffer for this entry
                 async arrayBuffer() {
-                    return await readEntryDataAsArrayBuffer(this._reader, this._rawEntry);
+                    return await async function(reader, rawEntry) {
+                        let { decompress, fileDataStart } = await readEntryDataHeader(reader, rawEntry);
+                        if (!decompress) {
+                            let dataView = await readAs(reader, fileDataStart, rawEntry.compressedSize);
+                            // make copy?
+                            //
+                            // 1. The source is a Blob/file. In this case we'll get back TypedArray we can just hand to the user
+                            // 2. The source is a TypedArray. In this case we'll get back TypedArray that is a view into a larger buffer
+                            //    but because ultimately this is used to return an ArrayBuffer to `someEntry.arrayBuffer()`
+                            //    we need to return copy since we need the `ArrayBuffer`, not the TypedArray to exactly match the data.
+                            //    Note: We could add another API function `bytes()` or something that returned a `Uint8Array`
+                            //    instead of an `ArrayBuffer`. This would let us skip a copy here. But this case only happens for uncompressed
+                            //    data. That seems like a rare enough case that adding a new API is not worth it? Or is it? A zip of jpegs or mp3s
+                            //    might not be compressed. For now that's a TBD.
+                            return 0 === dataView.byteOffset && dataView.byteLength === dataView.buffer.byteLength ? dataView.buffer : dataView.slice().buffer;
+                        }
+                        // see comment in readEntryDateAsBlob
+                        let typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize);
+                        return await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize);
+                    }(this._reader, this._rawEntry);
                 }
                 // returns text, assumes the text is valid utf8. If you want more options decode arrayBuffer yourself
                 async text() {
@@ -22943,46 +22961,6 @@ function _get9(dt, pos) {
       ? utf8Decoder.decode(uint8View)
       : decodeCP437(uint8View);
   */ }
-            async function findEndOfCentralDirector(reader, totalLength) {
-                let size = Math.min(65557, totalLength), readStart = totalLength - size, data = await readAs(reader, readStart, size);
-                for(let i = size - 22; i >= 0; --i){
-                    if (0x06054b50 !== getUint32LE(data, i)) continue;
-                    // 0 - End of central directory signature
-                    let eocdr = new Uint8Array(data.buffer, data.byteOffset + i, data.byteLength - i), diskNumber = getUint16LE(eocdr, 4);
-                    if (0 !== diskNumber) throw Error(`multi-volume zip files are not supported. This is volume: ${diskNumber}`);
-                    // 6 - Disk where central directory starts
-                    // 8 - Number of central directory records on this disk
-                    // 10 - Total number of central directory records
-                    let entryCount = getUint16LE(eocdr, 10), centralDirectorySize = getUint32LE(eocdr, 12), centralDirectoryOffset = getUint32LE(eocdr, 16), commentLength = getUint16LE(eocdr, 20), expectedCommentLength = eocdr.length - 22;
-                    if (commentLength !== expectedCommentLength) throw Error(`invalid comment length. expected: ${expectedCommentLength}, actual: ${commentLength}`);
-                    // 22 - Comment
-                    // the encoding is always cp437.
-                    let commentBytes = new Uint8Array(eocdr.buffer, eocdr.byteOffset + 22, commentLength), comment = decodeBuffer(commentBytes);
-                    if (0xffff === entryCount || 0xffffffff === centralDirectoryOffset) return await readZip64CentralDirectory(reader, readStart + i, comment, commentBytes);
-                    return await readEntries(reader, centralDirectoryOffset, centralDirectorySize, entryCount, comment, commentBytes);
-                }
-                throw Error('could not find end of central directory. maybe not zip file');
-            }
-            async function readZip64CentralDirectory(reader, offset, comment, commentBytes) {
-                let eocdl = await readAs(reader, offset - 20, 20);
-                // 0 - zip64 end of central dir locator signature
-                if (0x07064b50 !== getUint32LE(eocdl, 0)) throw Error('invalid zip64 end of central directory locator signature');
-                // 4 - number of the disk with the start of the zip64 end of central directory
-                // 8 - relative offset of the zip64 end of central directory record
-                let zip64EocdrOffset = getUint64LE(eocdl, 8), zip64Eocdr = await readAs(reader, zip64EocdrOffset, 56);
-                // 0 - zip64 end of central dir signature                           4 bytes  (0x06064b50)
-                if (0x06064b50 !== getUint32LE(zip64Eocdr, 0)) throw Error('invalid zip64 end of central directory record signature');
-                // 4 - size of zip64 end of central directory record                8 bytes
-                // 12 - version made by                                             2 bytes
-                // 14 - version needed to extract                                   2 bytes
-                // 16 - number of this disk                                         4 bytes
-                // 20 - number of the disk with the start of the central directory  4 bytes
-                // 24 - total number of entries in the central directory on this disk         8 bytes
-                // 32 - total number of entries in the central directory            8 bytes
-                let entryCount = getUint64LE(zip64Eocdr, 32), centralDirectorySize = getUint64LE(zip64Eocdr, 40);
-                // 56 - zip64 extensible data sector                                (variable size)
-                return readEntries(reader, getUint64LE(zip64Eocdr, 48), centralDirectorySize, entryCount, comment, commentBytes);
-            }
             async function readEntries(reader, centralDirectoryOffset, centralDirectorySize, rawEntryCount, comment, commentBytes) {
                 let readEntryCursor = 0, allEntriesBuffer = await readAs(reader, centralDirectoryOffset, centralDirectorySize), rawEntries = [];
                 for(let e = 0; e < rawEntryCount; ++e){
@@ -23111,42 +23089,6 @@ function _get9(dt, pos) {
                     fileDataStart: localFileHeaderEnd
                 };
             }
-            async function readEntryDataAsArrayBuffer(reader, rawEntry) {
-                let { decompress, fileDataStart } = await readEntryDataHeader(reader, rawEntry);
-                if (!decompress) {
-                    let dataView = await readAs(reader, fileDataStart, rawEntry.compressedSize);
-                    // make copy?
-                    //
-                    // 1. The source is a Blob/file. In this case we'll get back TypedArray we can just hand to the user
-                    // 2. The source is a TypedArray. In this case we'll get back TypedArray that is a view into a larger buffer
-                    //    but because ultimately this is used to return an ArrayBuffer to `someEntry.arrayBuffer()`
-                    //    we need to return copy since we need the `ArrayBuffer`, not the TypedArray to exactly match the data.
-                    //    Note: We could add another API function `bytes()` or something that returned a `Uint8Array`
-                    //    instead of an `ArrayBuffer`. This would let us skip a copy here. But this case only happens for uncompressed
-                    //    data. That seems like a rare enough case that adding a new API is not worth it? Or is it? A zip of jpegs or mp3s
-                    //    might not be compressed. For now that's a TBD.
-                    return 0 === dataView.byteOffset && dataView.byteLength === dataView.buffer.byteLength ? dataView.buffer : dataView.slice().buffer;
-                }
-                // see comment in readEntryDateAsBlob
-                let typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize);
-                return await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize);
-            }
-            async function readEntryDataAsBlob(reader, rawEntry, type) {
-                let { decompress, fileDataStart } = await readEntryDataHeader(reader, rawEntry);
-                if (!decompress) {
-                    let typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize, type);
-                    return isBlob(typedArrayOrBlob) ? typedArrayOrBlob : new Blob([
-                        isSharedArrayBuffer(typedArrayOrBlob.buffer) ? new Uint8Array(typedArrayOrBlob) : typedArrayOrBlob
-                    ], {
-                        type
-                    });
-                }
-                // Here's the issue with this mess (should refactor?)
-                // if the source is a blob then we really want to pass a blob to inflateRawAsync to avoid a large
-                // copy if we're going to a worker.
-                let typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize);
-                return await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize, type);
-            }
             function setOptions$1(options) {
                 config.workerURL = options.workerURL || config.workerURL, options.workerURL && (config.useWorkers = !0), config.useWorkers = void 0 !== options.useWorkers ? options.useWorkers : config.useWorkers, config.numWorkers = options.numWorkers || config.numWorkers;
             }
@@ -23163,7 +23105,45 @@ function _get9(dt, pos) {
                 else throw Error('unsupported source type');
                 let totalLength = await reader.getLength();
                 if (totalLength > Number.MAX_SAFE_INTEGER) throw Error(`file too large. size: ${totalLength}. Only file sizes up 4503599627370496 bytes are supported`);
-                return await findEndOfCentralDirector(reader, totalLength);
+                return await async function(reader, totalLength) {
+                    let size = Math.min(65557, totalLength), readStart = totalLength - size, data = await readAs(reader, readStart, size);
+                    for(let i = size - 22; i >= 0; --i){
+                        if (0x06054b50 !== getUint32LE(data, i)) continue;
+                        // 0 - End of central directory signature
+                        let eocdr = new Uint8Array(data.buffer, data.byteOffset + i, data.byteLength - i), diskNumber = getUint16LE(eocdr, 4);
+                        if (0 !== diskNumber) throw Error(`multi-volume zip files are not supported. This is volume: ${diskNumber}`);
+                        // 6 - Disk where central directory starts
+                        // 8 - Number of central directory records on this disk
+                        // 10 - Total number of central directory records
+                        let entryCount = getUint16LE(eocdr, 10), centralDirectorySize = getUint32LE(eocdr, 12), centralDirectoryOffset = getUint32LE(eocdr, 16), commentLength = getUint16LE(eocdr, 20), expectedCommentLength = eocdr.length - 22;
+                        if (commentLength !== expectedCommentLength) throw Error(`invalid comment length. expected: ${expectedCommentLength}, actual: ${commentLength}`);
+                        // 22 - Comment
+                        // the encoding is always cp437.
+                        let commentBytes = new Uint8Array(eocdr.buffer, eocdr.byteOffset + 22, commentLength), comment = decodeBuffer(commentBytes);
+                        if (0xffff === entryCount || 0xffffffff === centralDirectoryOffset) return await async function(reader, offset, comment, commentBytes) {
+                            let eocdl = await readAs(reader, offset - 20, 20);
+                            // 0 - zip64 end of central dir locator signature
+                            if (0x07064b50 !== getUint32LE(eocdl, 0)) throw Error('invalid zip64 end of central directory locator signature');
+                            // 4 - number of the disk with the start of the zip64 end of central directory
+                            // 8 - relative offset of the zip64 end of central directory record
+                            let zip64EocdrOffset = getUint64LE(eocdl, 8), zip64Eocdr = await readAs(reader, zip64EocdrOffset, 56);
+                            // 0 - zip64 end of central dir signature                           4 bytes  (0x06064b50)
+                            if (0x06064b50 !== getUint32LE(zip64Eocdr, 0)) throw Error('invalid zip64 end of central directory record signature');
+                            // 4 - size of zip64 end of central directory record                8 bytes
+                            // 12 - version made by                                             2 bytes
+                            // 14 - version needed to extract                                   2 bytes
+                            // 16 - number of this disk                                         4 bytes
+                            // 20 - number of the disk with the start of the central directory  4 bytes
+                            // 24 - total number of entries in the central directory on this disk         8 bytes
+                            // 32 - total number of entries in the central directory            8 bytes
+                            let entryCount = getUint64LE(zip64Eocdr, 32), centralDirectorySize = getUint64LE(zip64Eocdr, 40);
+                            // 56 - zip64 extensible data sector                                (variable size)
+                            return readEntries(reader, getUint64LE(zip64Eocdr, 48), centralDirectorySize, entryCount, comment, commentBytes);
+                        }(reader, readStart + i, comment, commentBytes);
+                        return await readEntries(reader, centralDirectoryOffset, centralDirectorySize, entryCount, comment, commentBytes);
+                    }
+                    throw Error('could not find end of central directory. maybe not zip file');
+                }(reader, totalLength);
             }
             // If the names are not utf8 you should use unzipitRaw
             async function unzip(source) {
@@ -23177,7 +23157,10 @@ function _get9(dt, pos) {
                 };
             }
             function cleanup$1() {
-                cleanup();
+                !async function() {
+                    for (let worker of workers)await workerHelper.terminate(worker);
+                    clearArray(workers), clearArray(availableWorkers), clearArray(waitingForWorkerQueue), currentlyProcessingIdToRequestMap.clear(), numWorkers = 0, canUseWorkers = !0;
+                }();
             }
         /***/ },
         /***/ 384: /***/ function(module) {

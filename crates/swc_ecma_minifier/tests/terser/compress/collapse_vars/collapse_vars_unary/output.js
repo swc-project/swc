@@ -1,5 +1,5 @@
 function f0(o, p) {
-    return o[p], !0;
+    return o[p], !1;
 }
 function f1(n) {
     return n > +!!n;

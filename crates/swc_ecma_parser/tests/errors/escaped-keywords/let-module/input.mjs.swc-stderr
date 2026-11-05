@@ -1,0 +1,10 @@
+  x Unexpected escape sequence in reserved word: let
+   ,-[$DIR/tests/errors/escaped-keywords/let-module/input.mjs:1:1]
+ 1 | l\u0065t[x] = 1;
+   : ^^^^^^^^
+   `----
+  x `let` cannot be used as an identifier in strict mode
+   ,-[$DIR/tests/errors/escaped-keywords/let-module/input.mjs:1:1]
+ 1 | l\u0065t[x] = 1;
+   : ^^^^^^^^
+   `----

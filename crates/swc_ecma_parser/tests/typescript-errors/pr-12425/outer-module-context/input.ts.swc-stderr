@@ -1,0 +1,6 @@
+  x `await` cannot be used as an identifier in an async context
+   ,-[$DIR/tests/typescript-errors/pr-12425/outer-module-context/input.ts:3:1]
+ 2 | declare module "m" { import type { X } from "n"; }
+ 3 | var await = 1;
+   :     ^^^^^
+   `----

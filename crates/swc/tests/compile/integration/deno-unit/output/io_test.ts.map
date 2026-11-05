@@ -1,0 +1,50 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,QAAQ,iBAAiB;AAExD,IAAMC,mBAAmB,KAAK;AAI9B,SAASC,OAAOC,CAAS,EAAEC,KAAa;IACpCJ,aAAaG,EAAEE,MAAM,EAAE;IACvB,IAAMC,MAAM,IAAIC,WAAWH;IAC3BE,IAAIE,IAAI,CAACL,EAAEM,UAAU,CAAC;IACtB,OAAOH;AACX;AAEA,SAASI,QAAQC,GAAgB;IAC7B,IAAMC,MAAW;QACbC,OAAO;IACX;IAEA,IAAMC,OAAOH,IAAII,IAAI,CAACC,IAAI,CAACL;IAE3BA,IAAII,IAAI,GAAG,SAACE;QACRL,IAAIC,KAAK;QACT,OAAOC,KAAKG;IAChB;IAEA,OAAOL;AACX;AAEAb,SAAS,SAAemB;;YACdC,QACAC,QACAC,OAEAC,SAEAC;;;;oBANAJ,SAASjB,OAAO,KAAKD;oBACrBmB,SAAS,IAAII,KAAKC,MAAM,CAACN,OAAOO,MAAM;oBACtCL,QAAQ,IAAIG,KAAKC,MAAM;oBAEvBH,UAAUZ,QAAQU;oBAEd;;wBAAMI,KAAKG,IAAI,CAACP,QAAQC;;;oBAA5BE,IAAI;oBAEVvB,aAAauB,GAAGJ,OAAOd,MAAM;oBAC7BL,aAAaqB,MAAMhB,MAAM,EAAEc,OAAOd,MAAM;oBACxCL,aAAasB,QAAQT,KAAK,EAAE,IAAI,uDAAuD;;;;;;IAC3F;;AAEAd,SAAS,SAAe6B;;YACdC,SACAV,QACAC,QACAC,OAEAC,SAEAC;;;;oBAPAM,UAAU;oBACVV,SAASjB,OAAO,KAAKD;oBACrBmB,SAAS,IAAII,KAAKC,MAAM,CAACN,OAAOO,MAAM;oBACtCL,QAAQ,IAAIG,KAAKC,MAAM;oBAEvBH,UAAUZ,QAAQU;oBAEd;;wBAAMI,KAAKG,IAAI,CAACP,QAAQC,OAAO;4BAAEQ,SAAAA;wBAAQ;;;oBAA7CN,IAAI;oBAEVvB,aAAauB,GAAGJ,OAAOd,MAAM;oBAC7BL,aAAaqB,MAAMhB,MAAM,EAAEc,OAAOd,MAAM;oBACxCL,aAAasB,QAAQT,KAAK,EAAEZ,mBAAmB4B,UAAU;;;;;;IAC7D;;AAEA9B,SAAS;IAAE+B,OAAO;QAAET,OAAO;IAAK;AAAE,GAAG,SAAeU;;YAC1CC,UAEAH,SACAV,QACAC,QACAC,OAEAE;;;;oBAPAS,WAAW;oBACjB,4CAA4C;oBACtCH,UAAU,KAAK;oBACfV,SAASjB,OAAO,KAAK2B;oBACrBT,SAAS,IAAII,KAAKC,MAAM,CAACN,OAAOO,MAAM;oBAC9B;;wBAAMF,KAAKS,IAAI,CAACD,UAAU;4BAAEX,OAAO;4BAAMa,QAAQ;wBAAK;;;oBAA9Db,QAAQ;oBAEJ;;wBAAMG,KAAKG,IAAI,CAACP,QAAQC,OAAO;4BAAEQ,SAAAA;wBAAQ;;;oBAA7CN,IAAI;oBAEVvB,aAAauB,GAAGJ,OAAOd,MAAM;oBAE7BgB,MAAMc,KAAK;oBACX;;wBAAMX,KAAKY,MAAM,CAACJ;;;oBAAlB;;;;;;IACJ",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "DEFAULT_BUF_SIZE",
+    "repeat",
+    "c",
+    "bytes",
+    "length",
+    "ui8",
+    "Uint8Array",
+    "fill",
+    "charCodeAt",
+    "spyRead",
+    "obj",
+    "spy",
+    "calls",
+    "orig",
+    "read",
+    "bind",
+    "p",
+    "copyWithDefaultBufferSize",
+    "xBytes",
+    "reader",
+    "write",
+    "readSpy",
+    "n",
+    "Deno",
+    "Buffer",
+    "buffer",
+    "copy",
+    "copyWithCustomBufferSize",
+    "bufSize",
+    "perms",
+    "copyBufferToFile",
+    "filePath",
+    "open",
+    "create",
+    "close",
+    "remove"
+  ],
+  "sources": [
+    "../input/io_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertEquals } from \"./test_util.ts\";\n\nconst DEFAULT_BUF_SIZE = 32 * 1024;\n\ntype Spy = { calls: number };\n\nfunction repeat(c: string, bytes: number): Uint8Array {\n    assertEquals(c.length, 1);\n    const ui8 = new Uint8Array(bytes);\n    ui8.fill(c.charCodeAt(0));\n    return ui8;\n}\n\nfunction spyRead(obj: Deno.Buffer): Spy {\n    const spy: Spy = {\n        calls: 0,\n    };\n\n    const orig = obj.read.bind(obj);\n\n    obj.read = (p: Uint8Array): Promise<number | null> => {\n        spy.calls++;\n        return orig(p);\n    };\n\n    return spy;\n}\n\nunitTest(async function copyWithDefaultBufferSize() {\n    const xBytes = repeat(\"b\", DEFAULT_BUF_SIZE);\n    const reader = new Deno.Buffer(xBytes.buffer as ArrayBuffer);\n    const write = new Deno.Buffer();\n\n    const readSpy = spyRead(reader);\n\n    const n = await Deno.copy(reader, write);\n\n    assertEquals(n, xBytes.length);\n    assertEquals(write.length, xBytes.length);\n    assertEquals(readSpy.calls, 2); // read with DEFAULT_BUF_SIZE bytes + read with 0 bytes\n});\n\nunitTest(async function copyWithCustomBufferSize() {\n    const bufSize = 1024;\n    const xBytes = repeat(\"b\", DEFAULT_BUF_SIZE);\n    const reader = new Deno.Buffer(xBytes.buffer as ArrayBuffer);\n    const write = new Deno.Buffer();\n\n    const readSpy = spyRead(reader);\n\n    const n = await Deno.copy(reader, write, { bufSize });\n\n    assertEquals(n, xBytes.length);\n    assertEquals(write.length, xBytes.length);\n    assertEquals(readSpy.calls, DEFAULT_BUF_SIZE / bufSize + 1);\n});\n\nunitTest({ perms: { write: true } }, async function copyBufferToFile() {\n    const filePath = \"test-file.txt\";\n    // bigger than max File possible buffer 16kb\n    const bufSize = 32 * 1024;\n    const xBytes = repeat(\"b\", bufSize);\n    const reader = new Deno.Buffer(xBytes.buffer as ArrayBuffer);\n    const write = await Deno.open(filePath, { write: true, create: true });\n\n    const n = await Deno.copy(reader, write, { bufSize });\n\n    assertEquals(n, xBytes.length);\n\n    write.close();\n    await Deno.remove(filePath);\n});\n"
+  ],
+  "version": 3
+}

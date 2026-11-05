@@ -1,0 +1,2 @@
+type T = string;
+run();

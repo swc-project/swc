@@ -1,0 +1,13 @@
+{
+  "isModule": "unknown",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "preserveAllComments": true,
+    "target": "esnext"
+  },
+  "module": {
+    "type": "nodenext"
+  }
+}

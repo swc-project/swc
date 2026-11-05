@@ -20,6 +20,10 @@ fn parse_script(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Resu
     with_parser(cm, handler, file_name, |p| p.parse_script())
 }
 
+fn parse_program(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Program, ()> {
+    with_parser(cm, handler, file_name, |p| p.parse_program())
+}
+
 fn with_parser<F, Ret>(
     cm: Lrc<SourceMap>,
     handler: &Handler,
@@ -79,11 +83,15 @@ where
 #[testing::fixture("tests/errors/**/*.tsx")]
 fn error(entry: PathBuf) {
     let input = read_to_string(&entry).unwrap();
+    let file_name = entry.to_string_lossy();
+    let is_program = file_name.ends_with(".program.js") || file_name.ends_with(".program.ts");
 
     let is_module = entry
         .extension()
         .map(|ext| ext != "cjs")
-        .unwrap_or_default();
+        .unwrap_or_default()
+        // TypeScript Script fixtures exercise lexical container boundaries.
+        && !file_name.ends_with(".script.ts");
 
     eprintln!(
         "\n\n========== Running error reporting test \nSource:\n{}\n",
@@ -97,7 +105,9 @@ fn error(entry: PathBuf) {
         }
 
         // Parse source
-        if is_module {
+        if is_program {
+            parse_program(cm.clone(), handler, &entry);
+        } else if is_module {
             parse_module(cm.clone(), handler, &entry);
         } else {
             parse_script(cm.clone(), handler, &entry);

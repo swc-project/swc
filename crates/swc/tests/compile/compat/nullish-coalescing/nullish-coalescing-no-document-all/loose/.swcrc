@@ -1,0 +1,17 @@
+{
+  "env": {
+    "include": [
+      "transform-nullish-coalescing-operator"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "noDocumentAll": true
+    },
+    "preserveAllComments": true
+  }
+}

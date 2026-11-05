@@ -1,0 +1,6 @@
+  x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+   ,-[$DIR/tests/typescript-errors/pr-12425/outer-strict-context/input.ts:3:1]
+ 2 | declare module "m" { import type { X } from "n"; }
+ 3 | var eval = 1;
+   :     ^^^^
+   `----

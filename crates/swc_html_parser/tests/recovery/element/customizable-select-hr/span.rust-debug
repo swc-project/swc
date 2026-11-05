@@ -1,0 +1,97 @@
+  x Document
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   : ^^^^^^^^^^^^^^^
+   `----
+  x DocumentType
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   : ^^^^^^^^^^^^^^^
+   `----
+  x Child
+  x Element
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                      ^^^
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                      ^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                         ^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                         ^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                             ^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                             ^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                                     ^^^
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                                     ^^^
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                                                 ^
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/customizable-select-hr/input.html:1:1]
+ 1 | <!doctype html><select><option><span>one<hr><option>two</select>
+   :                                                                 ^
+   `----

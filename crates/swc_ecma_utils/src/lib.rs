@@ -62,6 +62,8 @@ mod node_ignore_span;
 pub mod number;
 pub mod stack_size;
 pub mod str;
+#[doc(hidden)]
+pub mod ts_bindings;
 pub use node_ignore_span::NodeIgnoringSpan;
 
 // TODO: remove
@@ -623,7 +625,16 @@ pub trait StmtExt {
                 Stmt::Decl(decl) => match decl {
                     Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
                     Decl::Fn(_) => !ctx.in_strict,
-                    Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
+                    Decl::Var(var_decl) => {
+                        var_decl.kind == VarDeclKind::Var
+                            || var_decl.decls.iter().any(|decl| {
+                                decl.init
+                                    .as_ref()
+                                    .map(|init| init.may_have_side_effects(ctx))
+                                    .unwrap_or(false)
+                                    || !decl.name.is_ident()
+                            })
+                    }
                     _ => false,
                 },
                 Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
@@ -737,8 +748,9 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
+    #[deprecated(note = "please use `is_array` in `Expr` directly")]
     fn is_array_lit(&self) -> bool {
-        is_array_lit(self.as_expr())
+        self.as_expr().is_array()
     }
 
     /// Checks if `self` is `NaN`.
@@ -827,6 +839,11 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
+    fn is_pure_new_callee(&self, ctx: ExprCtx) -> bool {
+        is_pure_new_callee(self.as_expr(), ctx)
+    }
+
+    #[inline(always)]
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
         may_have_side_effects(self.as_expr(), ctx)
     }
@@ -857,14 +874,14 @@ pub fn class_has_side_effect(expr_ctx: ExprCtx, c: &Class) -> bool {
                 }
 
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
             }
             ClassMember::PrivateProp(p) => {
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
@@ -1751,6 +1768,17 @@ where
     node.visit_with(&mut v);
 }
 
+/// Finds binding identifiers in a TypeScript signature parameter, ignoring
+/// expressions and type annotations. The ordinary binding visitor skips the
+/// erased `TsFnParam` wrapper, so enter its binding pattern directly.
+pub fn for_each_ts_fn_param_binding_ident<F>(node: &TsFnParam, op: F)
+where
+    F: for<'a> FnMut(&'a BindingIdent),
+{
+    let mut v = BindingIdentifierVisitor { op };
+    node.visit_children_with(&mut v);
+}
+
 impl<F> Visit for BindingIdentifierVisitor<F>
 where
     F: for<'a> FnMut(&'a BindingIdent),
@@ -1948,16 +1976,7 @@ impl ExprCtx {
             Expr::MetaProp(_) => to.push(Box::new(expr)),
 
             Expr::Call(_) => to.push(Box::new(expr)),
-            Expr::New(e) => {
-                // Known constructors
-                if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
-                    if *sym == "Date" && e.args.is_empty() {
-                        return;
-                    }
-                }
-
-                to.push(e.into())
-            }
+            Expr::New(e) => to.push(e.into()),
             Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
 
             // We are at here because we could not determine value of test.
@@ -2553,6 +2572,9 @@ pub trait QueryRef {
     fn query_ref(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
+    /// Rewrites an assignment, update, or deletion target while preserving
+    /// its identity as a reference rather than substituting its stored value.
+    /// A replacement must remain assignable, such as an identifier or member.
     fn query_lhs(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
@@ -2581,6 +2603,30 @@ impl<T> RefRewriter<T>
 where
     T: QueryRef,
 {
+    /// Rewrites the target itself with the write query. Its receiver and
+    /// computed key are ordinary reads and keep using the read query.
+    fn visit_mut_reference(&mut self, mut expression: &mut Expr) {
+        loop {
+            expression = match expression {
+                Expr::Paren(ParenExpr { expr, .. })
+                | Expr::TsAs(TsAsExpr { expr, .. })
+                | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+                | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+                | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+                | Expr::TsInstantiation(TsInstantiation { expr, .. })
+                | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => expr,
+                _ => break,
+            };
+        }
+        if let Expr::Ident(ident) = expression {
+            if let Some(replacement) = self.query.query_lhs(ident) {
+                *expression = *replacement;
+            }
+        } else {
+            expression.visit_mut_children_with(self);
+        }
+    }
+
     pub fn exit_prop(&mut self, n: &mut Prop) {
         if let Prop::Shorthand(shorthand) = n {
             if let Some(expr) = self.query.query_ref(shorthand) {
@@ -2595,7 +2641,7 @@ where
 
     pub fn exit_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(id) = n {
-            if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
+            if let Some(expr) = self.query.query_lhs(&id.id) {
                 *n = expr.into();
             }
         }
@@ -2611,8 +2657,10 @@ where
 
     pub fn exit_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
         if let SimpleAssignTarget::Ident(ref_ident) = n {
-            if let Some(expr) = self.query.query_lhs(&ref_ident.clone().into()) {
-                *n = expr.try_into().unwrap();
+            if let Some(expr) = self.query.query_lhs(&ref_ident.id) {
+                *n = expr
+                    .try_into()
+                    .expect("write query must produce a simple assignment target");
             }
         };
     }
@@ -2645,7 +2693,10 @@ where
                 let value = value
                     .take()
                     .map(|default_value| {
-                        let left = expr.clone().try_into().unwrap();
+                        let left = expr
+                            .clone()
+                            .try_into()
+                            .expect("write query must produce an assignment target");
                         Box::new(default_value.make_assign_to(op!("="), left))
                     })
                     .unwrap_or(expr);
@@ -2687,8 +2738,12 @@ where
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
-        n.visit_mut_children_with(self);
-        self.exit_pat(n);
+        if let Pat::Expr(expression) = n {
+            self.visit_mut_reference(expression);
+        } else {
+            n.visit_mut_children_with(self);
+            self.exit_pat(n);
+        }
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -2696,9 +2751,33 @@ where
         self.exit_expr(n);
     }
 
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        self.visit_mut_reference(&mut n.arg);
+    }
+
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if n.op == UnaryOp::Delete {
+            self.visit_mut_reference(&mut n.arg);
+        } else {
+            n.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
-        n.visit_mut_children_with(self);
-        self.exit_simple_assign_target(n);
+        match n {
+            SimpleAssignTarget::Paren(ParenExpr { expr, .. })
+            | SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+            | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+            | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+            | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
+                self.visit_mut_reference(expr);
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+                self.exit_simple_assign_target(n);
+            }
+        }
     }
 
     fn visit_mut_callee(&mut self, n: &mut Callee) {
@@ -2810,10 +2889,6 @@ fn is_str(expr: &Expr) -> bool {
         Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
         _ => false,
     }
-}
-
-fn is_array_lit(expr: &Expr) -> bool {
-    matches!(*expr, Expr::Array(..))
 }
 
 fn is_nan(expr: &Expr) -> bool {
@@ -3349,9 +3424,11 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             ..
         }) if &**length == "length" => match &**obj {
             Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
-            Expr::Ident(Ident { sym: arguments, .. }) if &**arguments == "arguments" => {
-                Known(Type::Num)
-            }
+            Expr::Ident(Ident {
+                sym: arguments,
+                ctxt,
+                ..
+            }) if &**arguments == "arguments" && *ctxt == ctx.unresolved_ctxt => Known(Type::Num),
             _ => Unknown,
         },
 
@@ -3424,9 +3501,9 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             Unknown
         }
 
-        Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
-            "undefined" => UndefinedType,
-            "NaN" | "Infinity" => NumberType,
+        Expr::Ident(Ident { sym, ctxt, .. }) => Known(match &**sym {
+            "undefined" if *ctxt == ctx.unresolved_ctxt => UndefinedType,
+            "NaN" | "Infinity" if *ctxt == ctx.unresolved_ctxt => NumberType,
             _ => return Unknown,
         }),
 
@@ -3561,8 +3638,6 @@ fn is_pure_member_callee(obj: &Expr, prop: &MemberProp, ctx: ExprCtx) -> bool {
 
 fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
-        Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == "Date",
-
         Expr::Member(MemberExpr { obj, prop, .. }) => is_pure_member_callee(obj, prop, ctx),
 
         Expr::Fn(FnExpr { function: f, .. })
@@ -3583,9 +3658,12 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
 /// - But `new (class {})()` can be pure if the class has no side effects
 fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
-        // An empty function expression is also pure for `new`
+        // Only an empty non-async, non-generator function expression is pure for `new`.
+        // Async and generator functions are not constructible, so `new` throws.
         Expr::Fn(FnExpr { function: f, .. })
-            if f.params.iter().all(|p| p.pat.is_ident())
+            if !f.is_async
+                && !f.is_generator
+                && f.params.iter().all(|p| p.pat.is_ident())
                 && f.body.is_some()
                 && f.body.as_ref().unwrap().stmts.is_empty() =>
         {
@@ -3616,6 +3694,9 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                 match member {
                     ClassMember::ClassProp(p) if !p.is_static => return false,
                     ClassMember::PrivateProp(p) if !p.is_static => return false,
+                    // Auto-accessor initializers run when the instance is constructed,
+                    // just like instance field initializers.
+                    ClassMember::AutoAccessor(p) if !p.is_static => return false,
                     _ => {}
                 }
             }
@@ -3623,6 +3704,14 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
             // Check constructor - must be empty or not present
             for member in &class.body {
                 if let ClassMember::Constructor(ctor) = member {
+                    if !ctor
+                        .params
+                        .iter()
+                        .all(|param| param.as_param().is_some_and(|param| param.pat.is_ident()))
+                    {
+                        return false;
+                    }
+
                     if let Some(body) = &ctor.body {
                         if !body.stmts.is_empty() {
                             return false;
@@ -3785,7 +3874,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::New(NewExpr { callee, args, .. }) if is_pure_new_callee(callee, ctx) => args
             .iter()
             .flatten()
-            .any(|arg| arg.expr.may_have_side_effects(ctx)),
+            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx)),
 
         Expr::New(_) => true,
 
@@ -3793,9 +3882,9 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             callee: Callee::Expr(callee),
             ref args,
             ..
-        }) if callee.is_pure_callee(ctx) => {
-            args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
-        }
+        }) if callee.is_pure_callee(ctx) => args
+            .iter()
+            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx)),
         Expr::OptChain(OptChainExpr { base, .. })
             if matches!(&**base, OptChainBase::Call(..))
                 && OptChainBase::as_call(base)
@@ -3807,7 +3896,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                 .unwrap()
                 .args
                 .iter()
-                .any(|arg| arg.expr.may_have_side_effects(ctx))
+                .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx))
         }
 
         Expr::Call(_) | Expr::OptChain(..) => true,

@@ -1,0 +1,131 @@
+[
+    {
+        "source": "const value = \"unfinished",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 5
+            },
+            {
+                "kind": "identifier",
+                "start": 6,
+                "end": 11
+            },
+            {
+                "kind": "punctuator",
+                "start": 12,
+                "end": 13
+            }
+        ]
+    },
+    {
+        "source": "let x = 1; /* unfinished",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 3
+            },
+            {
+                "kind": "identifier",
+                "start": 4,
+                "end": 5
+            },
+            {
+                "kind": "punctuator",
+                "start": 6,
+                "end": 7
+            },
+            {
+                "kind": "number",
+                "start": 8,
+                "end": 9
+            },
+            {
+                "kind": "punctuator",
+                "start": 9,
+                "end": 10
+            }
+        ]
+    },
+    {
+        "source": "function f(",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 8
+            },
+            {
+                "kind": "identifier",
+                "start": 9,
+                "end": 10
+            },
+            {
+                "kind": "punctuator",
+                "start": 10,
+                "end": 11
+            }
+        ]
+    },
+    {
+        "source": "`unfinished",
+        "expected": []
+    },
+    {
+        "source": "let x = `a${value",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 3
+            },
+            {
+                "kind": "identifier",
+                "start": 4,
+                "end": 5
+            },
+            {
+                "kind": "punctuator",
+                "start": 6,
+                "end": 7
+            },
+            {
+                "kind": "template",
+                "start": 8,
+                "end": 10
+            },
+            {
+                "kind": "punctuator",
+                "start": 10,
+                "end": 12
+            },
+            {
+                "kind": "identifier",
+                "start": 12,
+                "end": 17
+            }
+        ]
+    },
+    {
+        "source": "let x = /unfinished",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 3
+            },
+            {
+                "kind": "identifier",
+                "start": 4,
+                "end": 5
+            },
+            {
+                "kind": "punctuator",
+                "start": 6,
+                "end": 7
+            }
+        ]
+    }
+]

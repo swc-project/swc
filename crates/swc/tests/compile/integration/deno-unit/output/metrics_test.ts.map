@@ -1,0 +1,41 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,QAAQ,iBAAiB;AAElDD,SAAS,SAAeE;;YACdC,IAWAC,SAGAC;;;;oBAdAF,KAAKG,KAAKJ,OAAO;oBACvBD,OAAOE,GAAGI,aAAa,GAAG;oBAC1BN,OAAOE,GAAGK,iBAAiB,GAAG;oBAC9BP,OAAOE,GAAGM,YAAY,GAAG;oBACzBR,OAAOE,GAAGO,gBAAgB,GAAG;oBAC7BT,OAAOE,GAAGQ,gBAAgB,GAAG;oBAC7BV,OAAOE,GAAGS,aAAa,IAAI;oBAC3BX,OAAOE,GAAGU,aAAa,GAAG;oBAE1B,uEAAuE;oBACvE,oBAAoB;oBACdT,UAAU,IAAIU;wBAAY;wBAAI;wBAAI;wBAAM,YAAY;oBAC1D;;wBAAMR,KAAKS,MAAM,CAACC,KAAK,CAACZ;;;oBAAxB;oBAEMC,KAAKC,KAAKJ,OAAO;oBACvBD,OAAOI,GAAGE,aAAa,GAAGJ,GAAGI,aAAa;oBAC1CN,OAAOI,GAAGG,iBAAiB,GAAGL,GAAGK,iBAAiB;oBAClDP,OAAOI,GAAGY,kBAAkB,GAAGd,GAAGc,kBAAkB;oBACpDhB,OAAOI,GAAGI,YAAY,GAAGN,GAAGM,YAAY;oBACxCR,OAAOI,GAAGK,gBAAgB,GAAGP,GAAGO,gBAAgB;oBAChDT,OAAOI,GAAGa,iBAAiB,GAAGf,GAAGe,iBAAiB;oBAClDjB,OAAOI,GAAGM,gBAAgB,GAAGR,GAAGQ,gBAAgB;oBAChDV,OAAOI,GAAGO,aAAa,IAAIT,GAAGS,aAAa,GAAGR,QAAQe,UAAU;oBAChElB,OAAOI,GAAGQ,aAAa,GAAGV,GAAGU,aAAa;;;;;;IAC9C;;AAEAb,SACI;IAAEoB,OAAO;QAAEJ,OAAO;IAAK;AAAE,GACzB,SAASK;IACL,IAAMC,WAAWhB,KAAKiB,eAAe,KAAK;IAE1C,IAAMC,OAAO,IAAIV,WAAW;QAAC;QAAI;QAAI;KAAG;IACxCR,KAAKmB,aAAa,CAACH,UAAUE,MAAM;QAAEE,MAAM;IAAM;IAEjD,IAAMxB,UAAUI,KAAKJ,OAAO;IAC5BD,OAAOC,QAAQK,aAAa,KAAKL,QAAQO,YAAY;IACrDR,OAAOC,QAAQM,iBAAiB,KAAKN,QAAQQ,gBAAgB;AACjE;AAGJV,SACI;IAAEoB,OAAO;QAAEJ,OAAO;IAAK;AAAE,GACzB,SAAeW;;YACLL,UAEAE,MAGAtB;;;;oBALAoB,WAAWhB,KAAKiB,eAAe,KAAK;oBAEpCC,OAAO,IAAIV;wBAAY;wBAAI;wBAAI;;oBACrC;;wBAAMR,KAAKsB,SAAS,CAACN,UAAUE,MAAM;4BAAEE,MAAM;wBAAM;;;oBAAnD;oBAEMxB,UAAUI,KAAKJ,OAAO;oBAC5BD,OAAOC,QAAQK,aAAa,KAAKL,QAAQO,YAAY;oBACrDR,OAAOC,QAAQM,iBAAiB,KAAKN,QAAQQ,gBAAgB;oBAC7DT,OAAOC,QAAQe,kBAAkB,KAAKf,QAAQgB,iBAAiB;;;;;;IACnE",
+  "names": [
+    "unitTest",
+    "assert",
+    "metrics",
+    "m1",
+    "dataMsg",
+    "m2",
+    "Deno",
+    "opsDispatched",
+    "opsDispatchedSync",
+    "opsCompleted",
+    "opsCompletedSync",
+    "bytesSentControl",
+    "bytesSentData",
+    "bytesReceived",
+    "Uint8Array",
+    "stdout",
+    "write",
+    "opsDispatchedAsync",
+    "opsCompletedAsync",
+    "byteLength",
+    "perms",
+    "metricsUpdatedIfNoResponseSync",
+    "filename",
+    "makeTempDirSync",
+    "data",
+    "writeFileSync",
+    "mode",
+    "metricsUpdatedIfNoResponseAsync",
+    "writeFile"
+  ],
+  "sources": [
+    "../input/metrics_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert } from \"./test_util.ts\";\n\nunitTest(async function metrics(): Promise<void> {\n    const m1 = Deno.metrics();\n    assert(m1.opsDispatched > 0);\n    assert(m1.opsDispatchedSync > 0);\n    assert(m1.opsCompleted > 0);\n    assert(m1.opsCompletedSync > 0);\n    assert(m1.bytesSentControl > 0);\n    assert(m1.bytesSentData >= 0);\n    assert(m1.bytesReceived > 0);\n\n    // Write to stdout to ensure a \"data\" message gets sent instead of just\n    // control messages.\n    const dataMsg = new Uint8Array([13, 13, 13]); // \"\\r\\r\\r\",\n    await Deno.stdout.write(dataMsg);\n\n    const m2 = Deno.metrics();\n    assert(m2.opsDispatched > m1.opsDispatched);\n    assert(m2.opsDispatchedSync > m1.opsDispatchedSync);\n    assert(m2.opsDispatchedAsync > m1.opsDispatchedAsync);\n    assert(m2.opsCompleted > m1.opsCompleted);\n    assert(m2.opsCompletedSync > m1.opsCompletedSync);\n    assert(m2.opsCompletedAsync > m1.opsCompletedAsync);\n    assert(m2.bytesSentControl > m1.bytesSentControl);\n    assert(m2.bytesSentData >= m1.bytesSentData + dataMsg.byteLength);\n    assert(m2.bytesReceived > m1.bytesReceived);\n});\n\nunitTest(\n    { perms: { write: true } },\n    function metricsUpdatedIfNoResponseSync(): void {\n        const filename = Deno.makeTempDirSync() + \"/test.txt\";\n\n        const data = new Uint8Array([41, 42, 43]);\n        Deno.writeFileSync(filename, data, { mode: 0o666 });\n\n        const metrics = Deno.metrics();\n        assert(metrics.opsDispatched === metrics.opsCompleted);\n        assert(metrics.opsDispatchedSync === metrics.opsCompletedSync);\n    }\n);\n\nunitTest(\n    { perms: { write: true } },\n    async function metricsUpdatedIfNoResponseAsync(): Promise<void> {\n        const filename = Deno.makeTempDirSync() + \"/test.txt\";\n\n        const data = new Uint8Array([41, 42, 43]);\n        await Deno.writeFile(filename, data, { mode: 0o666 });\n\n        const metrics = Deno.metrics();\n        assert(metrics.opsDispatched === metrics.opsCompleted);\n        assert(metrics.opsDispatchedSync === metrics.opsCompletedSync);\n        assert(metrics.opsDispatchedAsync === metrics.opsCompletedAsync);\n    }\n);\n"
+  ],
+  "version": 3
+}

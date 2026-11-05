@@ -62,6 +62,5 @@ mod retain;
 mod semantic;
 mod shared;
 mod transform;
-mod ts_enum;
 pub mod typescript;
 mod utils;

@@ -17,14 +17,14 @@ exports[`transform > in strip-only mode > should not emit 'Caused by: failed to 
 
 exports[`transform > in strip-only mode > should remove declare enum 1`] = `
 {
-  "code": "                   ",
+  "code": ";                  ",
   "map": undefined,
 }
 `;
 
 exports[`transform > in strip-only mode > should remove declare enum 2`] = `
 {
-  "code": "                  
+  "code": ";                 
                      
                  ",
   "map": undefined,
@@ -33,7 +33,7 @@ exports[`transform > in strip-only mode > should remove declare enum 2`] = `
 
 exports[`transform > in strip-only mode > should remove declare enum 3`] = `
 {
-  "code": "                  
+  "code": ";                 
                           
                       
                      ",

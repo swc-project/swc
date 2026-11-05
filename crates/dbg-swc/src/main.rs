@@ -3,7 +3,7 @@ use std::str::FromStr;
 use std::{env, path::PathBuf, sync::Arc};
 
 use anyhow::{bail, Error, Result};
-use clap::{StructOpt, Subcommand};
+use clap::{Parser, Subcommand};
 use es::EsCommand;
 use swc_common::{
     errors::{ColorConfig, HANDLER},

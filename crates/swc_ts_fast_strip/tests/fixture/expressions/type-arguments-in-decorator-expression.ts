@@ -1,0 +1,2 @@
+@decorate<Type>
+class C {}

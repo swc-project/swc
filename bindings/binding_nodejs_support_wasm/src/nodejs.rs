@@ -6,12 +6,9 @@
 use serde::Serialize;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, SourceMap, Span, Spanned};
 use swc_ecma_ast::{
-    ArrowExpr, ArrowFunctionBody, AssignExpr, AssignTarget, AssignTargetPat, BindingIdent,
-    BlockStmt, CallExpr, Callee, CatchClause, Class, ClassDecl, Decl, DefaultDecl, EsVersion,
-    ExportSpecifier, Expr, FnDecl, Function, FunctionBody, ImportDecl, ImportSpecifier,
-    MetaPropExpr, MetaPropKind, Module, ModuleDecl, ModuleExportName, ModuleItem, NamedExport,
-    ObjectLit, ObjectPatProp, Pat, Prop, SimpleAssignTarget, Stmt, UpdateExpr, VarDecl,
-    VarDeclKind,
+    CallExpr, Callee, Decl, DefaultDecl, EsVersion, ExportSpecifier, Expr, ImportDecl,
+    ImportSpecifier, MetaPropExpr, MetaPropKind, Module, ModuleDecl, ModuleExportName, ModuleItem,
+    NamedExport, ObjectLit,
 };
 use swc_ecma_parser::{
     error::{Error as ParseError, SyntaxError},
@@ -20,6 +17,15 @@ use swc_ecma_parser::{
     EsSyntax, Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_visit::{Visit, VisitWith};
+
+mod awaits;
+mod position;
+mod tokenize;
+
+#[cfg(test)]
+mod fixtures;
+
+pub use self::{awaits::find_top_level_awaits, tokenize::tokenize};
 
 const DYNAMIC_IMPORT_NAME: &str = "__nodeREPLDynamicImport";
 
@@ -68,13 +74,6 @@ pub fn transform_module_syntax(code: String) -> ModuleSyntaxTransformOutput {
             edits: &mut transform.edits,
             replaced_ranges: &replaced_ranges,
         });
-        module.visit_with(&mut ImportBindingReferenceCollector {
-            code: &code,
-            edits: &mut transform.edits,
-            replaced_ranges: &replaced_ranges,
-            bindings: &transform.import_bindings,
-            scopes: vec![Vec::new()],
-        });
 
         if transform.edits.is_empty() && transform.hoisted.is_empty() {
             return ModuleSyntaxTransformOutput {
@@ -107,7 +106,7 @@ pub fn get_first_expression(code: String, start_column: u32) -> String {
     let mut paren_level = 0u32;
     let mut member_bracket_depth = 0u32;
 
-    for token in tokenize(&code) {
+    for token in lex_tokens(&code) {
         if token.token == Token::Eof {
             break;
         }
@@ -288,8 +287,6 @@ struct ModuleSyntaxTransform<'a> {
     code: &'a str,
     edits: Vec<Edit>,
     hoisted: Vec<String>,
-    import_bindings: Vec<ImportBinding>,
-    import_namespace_count: u32,
 }
 
 impl<'a> ModuleSyntaxTransform<'a> {
@@ -298,8 +295,6 @@ impl<'a> ModuleSyntaxTransform<'a> {
             code,
             edits: Vec::new(),
             hoisted: Vec::new(),
-            import_bindings: Vec::new(),
-            import_namespace_count: 0,
         }
     }
 
@@ -398,7 +393,7 @@ impl<'a> ModuleSyntaxTransform<'a> {
         ));
     }
 
-    fn import_decl_to_script(&mut self, node: &ImportDecl) -> Option<String> {
+    fn import_decl_to_script(&self, node: &ImportDecl) -> Option<String> {
         let specifier = node.src.value.to_string_lossy();
         let with = node.with.as_deref();
 
@@ -444,40 +439,37 @@ impl<'a> ModuleSyntaxTransform<'a> {
             return None;
         }
 
-        let namespace_name = namespace_name.unwrap_or_else(|| self.fresh_import_namespace_name());
-        let out = format!(
-            "const {namespace_name} = await {};",
-            await_import(self.code, &specifier, with, &required_exports)
-        );
-
-        if let Some(default_name) = default_name {
-            self.import_bindings.push(ImportBinding {
-                local: default_name,
-                namespace: namespace_name.clone(),
-                export_name: "default".to_string(),
-            });
-        }
-
-        for (local, export_name) in named {
-            self.import_bindings.push(ImportBinding {
-                local,
-                namespace: namespace_name.clone(),
-                export_name,
-            });
-        }
-
-        Some(out)
-    }
-
-    fn fresh_import_namespace_name(&mut self) -> String {
-        loop {
-            let candidate = format!("__nodeREPLImport{}", self.import_namespace_count);
-            self.import_namespace_count += 1;
-
-            if !self.code.contains(&candidate) {
-                return candidate;
+        let import = await_import(self.code, &specifier, with, &required_exports);
+        if let Some(namespace_name) = namespace_name {
+            let mut out = format!("const {namespace_name} = await {import};");
+            if let Some(default_name) = default_name {
+                out.push_str(&format!(
+                    " const {default_name} = {namespace_name}.default;"
+                ));
             }
+            return Some(out);
         }
+
+        // Declare the user's bindings so subsequent REPL inputs can access them.
+        // Like Node's REPL transform, these capture the initial export values;
+        // namespace imports still refer to the live module namespace object.
+        let mut bindings = Vec::with_capacity(named.len() + usize::from(default_name.is_some()));
+        if let Some(default_name) = default_name {
+            bindings.push(format!("default: {default_name}"));
+        }
+        for (local, imported) in named {
+            // Quote arbitrary export names while keeping ordinary names readable.
+            let key = if is_identifier_name(&imported) {
+                imported
+            } else {
+                json_string(&imported)
+            };
+            bindings.push(format!("{key}: {local}"));
+        }
+        Some(format!(
+            "const {{ {} }} = await {import};",
+            bindings.join(", ")
+        ))
     }
 
     fn unwrap_default_declaration(
@@ -667,13 +659,6 @@ struct Edit {
     text: String,
 }
 
-#[derive(Debug)]
-struct ImportBinding {
-    local: String,
-    namespace: String,
-    export_name: String,
-}
-
 fn push_span_edit(edits: &mut Vec<Edit>, code: &str, span: Span, text: String) {
     if let Some((start, end)) = span_range(span) {
         push_range_edit(edits, code, start, end, text);
@@ -779,373 +764,14 @@ impl Visit for ModuleFeatureCollector<'_, '_> {
     }
 }
 
-struct ImportBindingReferenceCollector<'a, 'b> {
-    code: &'a str,
-    edits: &'b mut Vec<Edit>,
-    replaced_ranges: &'b [(usize, usize)],
-    bindings: &'b [ImportBinding],
-    scopes: Vec<Vec<String>>,
-}
-
-impl Visit for ImportBindingReferenceCollector<'_, '_> {
-    fn visit_assign_expr(&mut self, node: &AssignExpr) {
-        if self.import_binding_for_assign_target(&node.left).is_some() {
-            self.replace_expression_with_import_assignment_error(node.span);
-            return;
-        }
-
-        node.visit_children_with(self);
-    }
-
-    fn visit_update_expr(&mut self, node: &UpdateExpr) {
-        if let Expr::Ident(ident) = &*node.arg {
-            if self.binding_for_unshadowed(ident.sym.as_ref()).is_some() {
-                self.replace_expression_with_import_assignment_error(node.span);
-                return;
-            }
-        }
-
-        node.visit_children_with(self);
-    }
-
-    fn visit_function(&mut self, node: &Function) {
-        let shadowed = function_scope_shadowed_bindings(node, self.bindings);
-        self.with_scope(shadowed, |this| node.visit_children_with(this));
-    }
-
-    fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
-        let shadowed = arrow_scope_shadowed_bindings(node, self.bindings);
-        self.with_scope(shadowed, |this| node.visit_children_with(this));
-    }
-
-    fn visit_block_stmt(&mut self, node: &BlockStmt) {
-        let shadowed = direct_block_shadowed_bindings(node, self.bindings);
-        self.with_scope(shadowed, |this| node.visit_children_with(this));
-    }
-
-    fn visit_catch_clause(&mut self, node: &CatchClause) {
-        let mut shadowed = Vec::new();
-        if let Some(param) = &node.param {
-            collect_shadowed_pat_bindings(&mut shadowed, param, self.bindings);
-        }
-
-        self.with_scope(shadowed, |this| node.visit_children_with(this));
-    }
-
-    fn visit_expr(&mut self, node: &Expr) {
-        if let Expr::Ident(ident) = node {
-            self.replace_identifier(ident.span, ident.sym.as_ref());
-            return;
-        }
-
-        node.visit_children_with(self);
-    }
-
-    fn visit_prop(&mut self, node: &Prop) {
-        if let Prop::Shorthand(ident) = node {
-            if let Some(binding) = self.binding_for_unshadowed(ident.sym.as_ref()) {
-                if let Some((start, end)) = span_range(ident.span) {
-                    if !range_is_replaced(self.replaced_ranges, start, end) {
-                        let access = import_binding_access(binding);
-                        self.edits.push(Edit {
-                            start,
-                            end,
-                            text: format!("{}: {access}", ident.sym),
-                        });
-                    }
-                }
-            }
-            return;
-        }
-
-        node.visit_children_with(self);
-    }
-}
-
-impl ImportBindingReferenceCollector<'_, '_> {
-    fn replace_identifier(&mut self, span: Span, local: &str) {
-        let Some(binding) = self.binding_for_unshadowed(local) else {
-            return;
-        };
-
-        let Some((start, end)) = span_range(span) else {
-            return;
-        };
-
-        if range_is_replaced(self.replaced_ranges, start, end) {
-            return;
-        }
-
-        if !self.code.get(start..end).is_some_and(|text| text == local) {
-            return;
-        }
-
-        self.edits.push(Edit {
-            start,
-            end,
-            text: import_binding_access(binding),
-        });
-    }
-
-    fn binding_for(&self, local: &str) -> Option<&ImportBinding> {
-        self.bindings.iter().find(|binding| binding.local == local)
-    }
-
-    fn binding_for_unshadowed(&self, local: &str) -> Option<&ImportBinding> {
-        if self.is_shadowed(local) {
-            return None;
-        }
-
-        self.binding_for(local)
-    }
-
-    fn import_binding_for_assign_target(&self, target: &AssignTarget) -> Option<&ImportBinding> {
-        match target {
-            AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) => {
-                self.binding_for_unshadowed(ident.id.sym.as_ref())
-            }
-            AssignTarget::Pat(pat) => self.import_binding_for_assign_target_pat(pat),
-            _ => None,
-        }
-    }
-
-    fn import_binding_for_assign_target_pat(
-        &self,
-        target: &AssignTargetPat,
-    ) -> Option<&ImportBinding> {
-        match target {
-            AssignTargetPat::Array(array) => array
-                .elems
-                .iter()
-                .flatten()
-                .find_map(|pat| self.import_binding_for_pat(pat)),
-            AssignTargetPat::Object(object) => object.props.iter().find_map(|prop| match prop {
-                ObjectPatProp::KeyValue(prop) => self.import_binding_for_pat(&prop.value),
-                ObjectPatProp::Assign(prop) => {
-                    self.binding_for_unshadowed(prop.key.id.sym.as_ref())
-                }
-                ObjectPatProp::Rest(prop) => self.import_binding_for_pat(&prop.arg),
-            }),
-            AssignTargetPat::Invalid(..) => None,
-        }
-    }
-
-    fn import_binding_for_pat(&self, pat: &Pat) -> Option<&ImportBinding> {
-        match pat {
-            Pat::Ident(ident) => self.binding_for_unshadowed(ident.id.sym.as_ref()),
-            Pat::Array(array) => array
-                .elems
-                .iter()
-                .flatten()
-                .find_map(|pat| self.import_binding_for_pat(pat)),
-            Pat::Rest(rest) => self.import_binding_for_pat(&rest.arg),
-            Pat::Object(object) => object.props.iter().find_map(|prop| match prop {
-                ObjectPatProp::KeyValue(prop) => self.import_binding_for_pat(&prop.value),
-                ObjectPatProp::Assign(prop) => {
-                    self.binding_for_unshadowed(prop.key.id.sym.as_ref())
-                }
-                ObjectPatProp::Rest(prop) => self.import_binding_for_pat(&prop.arg),
-            }),
-            Pat::Assign(assign) => self.import_binding_for_pat(&assign.left),
-            Pat::Invalid(..) | Pat::Expr(..) => None,
-        }
-    }
-
-    fn replace_expression_with_import_assignment_error(&mut self, span: Span) {
-        let Some((start, end)) = span_range(span) else {
-            return;
-        };
-
-        if range_is_replaced(self.replaced_ranges, start, end) {
-            return;
-        }
-
-        self.edits.push(Edit {
-            start,
-            end,
-            text: import_assignment_error_expression(),
-        });
-    }
-
-    fn with_scope(&mut self, shadowed: Vec<String>, op: impl FnOnce(&mut Self)) {
-        self.scopes.push(shadowed);
-        op(self);
-        self.scopes.pop();
-    }
-
-    fn is_shadowed(&self, local: &str) -> bool {
-        self.scopes
-            .iter()
-            .rev()
-            .any(|scope| scope.iter().any(|name| name == local))
-    }
-}
-
-fn function_scope_shadowed_bindings(node: &Function, bindings: &[ImportBinding]) -> Vec<String> {
-    let mut shadowed = Vec::new();
-    for param in &node.params {
-        collect_shadowed_pat_bindings(&mut shadowed, &param.pat, bindings);
-    }
-    if let Some(body) = &node.body {
-        collect_function_var_shadowed_bindings(&mut shadowed, body, bindings);
-    }
-    shadowed
-}
-
-fn arrow_scope_shadowed_bindings(node: &ArrowExpr, bindings: &[ImportBinding]) -> Vec<String> {
-    let mut shadowed = Vec::new();
-    for param in &node.params {
-        collect_shadowed_pat_bindings(&mut shadowed, param, bindings);
-    }
-    if let ArrowFunctionBody::FunctionBody(body) = &*node.body {
-        collect_function_var_shadowed_bindings(&mut shadowed, body, bindings);
-    }
-    shadowed
-}
-
-fn collect_function_var_shadowed_bindings(
-    out: &mut Vec<String>,
-    body: &FunctionBody,
-    bindings: &[ImportBinding],
-) {
-    let mut collector = FunctionScopedVarCollector {
-        bindings,
-        shadowed: out,
-    };
-    body.visit_with(&mut collector);
-}
-
-struct FunctionScopedVarCollector<'a, 'b> {
-    bindings: &'a [ImportBinding],
-    shadowed: &'b mut Vec<String>,
-}
-
-impl Visit for FunctionScopedVarCollector<'_, '_> {
-    fn visit_var_decl(&mut self, node: &VarDecl) {
-        if node.kind == VarDeclKind::Var {
-            collect_shadowed_var_decl_bindings(self.shadowed, node, self.bindings);
-        }
-    }
-
-    fn visit_function(&mut self, _: &Function) {}
-
-    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
-
-    fn visit_class(&mut self, _: &Class) {}
-}
-
-fn direct_block_shadowed_bindings(node: &BlockStmt, bindings: &[ImportBinding]) -> Vec<String> {
-    let mut shadowed = Vec::new();
-
-    for stmt in &node.stmts {
-        if let Stmt::Decl(decl) = stmt {
-            collect_shadowed_decl_bindings(&mut shadowed, decl, bindings);
-        }
-    }
-
-    shadowed
-}
-
-fn collect_shadowed_decl_bindings(out: &mut Vec<String>, decl: &Decl, bindings: &[ImportBinding]) {
-    match decl {
-        Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-            push_shadowed_ident_binding(out, ident.sym.as_ref(), bindings);
-        }
-        Decl::Var(var) => {
-            collect_shadowed_var_decl_bindings(out, var, bindings);
-        }
-        Decl::Using(using) => {
-            for declarator in &using.decls {
-                collect_shadowed_pat_bindings(out, &declarator.name, bindings);
-            }
-        }
-        Decl::TsInterface(..) | Decl::TsTypeAlias(..) | Decl::TsEnum(..) | Decl::TsModule(..) => {}
-    }
-}
-
-fn collect_shadowed_var_decl_bindings(
-    out: &mut Vec<String>,
-    decl: &VarDecl,
-    bindings: &[ImportBinding],
-) {
-    for declarator in &decl.decls {
-        collect_shadowed_pat_bindings(out, &declarator.name, bindings);
-    }
-}
-
-fn collect_shadowed_pat_bindings(out: &mut Vec<String>, pat: &Pat, bindings: &[ImportBinding]) {
-    match pat {
-        Pat::Ident(ident) => push_shadowed_binding_ident(out, ident, bindings),
-        Pat::Array(array) => {
-            for elem in array.elems.iter().flatten() {
-                collect_shadowed_pat_bindings(out, elem, bindings);
-            }
-        }
-        Pat::Rest(rest) => collect_shadowed_pat_bindings(out, &rest.arg, bindings),
-        Pat::Object(object) => {
-            for prop in &object.props {
-                match prop {
-                    ObjectPatProp::KeyValue(prop) => {
-                        collect_shadowed_pat_bindings(out, &prop.value, bindings);
-                    }
-                    ObjectPatProp::Assign(prop) => {
-                        push_shadowed_binding_ident(out, &prop.key, bindings);
-                    }
-                    ObjectPatProp::Rest(prop) => {
-                        collect_shadowed_pat_bindings(out, &prop.arg, bindings);
-                    }
-                }
-            }
-        }
-        Pat::Assign(assign) => collect_shadowed_pat_bindings(out, &assign.left, bindings),
-        Pat::Invalid(..) | Pat::Expr(..) => {}
-    }
-}
-
-fn push_shadowed_binding_ident(
-    out: &mut Vec<String>,
-    ident: &BindingIdent,
-    bindings: &[ImportBinding],
-) {
-    push_shadowed_ident_binding(out, ident.id.sym.as_ref(), bindings);
-}
-
-fn push_shadowed_ident_binding(out: &mut Vec<String>, local: &str, bindings: &[ImportBinding]) {
-    if bindings.iter().any(|binding| binding.local == local)
-        && !out.iter().any(|name| name == local)
-    {
-        out.push(local.to_string());
-    }
-}
-
 fn range_is_replaced(replaced_ranges: &[(usize, usize)], start: usize, end: usize) -> bool {
     replaced_ranges
         .iter()
         .any(|(replace_start, replace_end)| start >= *replace_start && end <= *replace_end)
 }
 
-fn import_binding_access(binding: &ImportBinding) -> String {
-    format!(
-        "{}{}",
-        binding.namespace,
-        export_property_access(&binding.export_name)
-    )
-}
-
-fn export_property_access(export_name: &str) -> String {
-    if is_identifier_name(export_name) {
-        format!(".{export_name}")
-    } else {
-        format!("[{}]", json_string(export_name))
-    }
-}
-
 fn import_meta_error_expression() -> String {
     "(() => { throw new SyntaxError(\"Cannot use import.meta outside a module\"); })()".to_string()
-}
-
-fn import_assignment_error_expression() -> String {
-    "(() => { throw new TypeError(\"Assignment to constant variable.\"); })()".to_string()
 }
 
 fn is_identifier_name(value: &str) -> bool {
@@ -1233,7 +859,7 @@ fn parses_as_program(code: &str) -> bool {
     matches!(parse_program_result(code), ParseOutcome::Valid)
 }
 
-fn tokenize(code: &str) -> Vec<TokenAndSpan> {
+fn lex_tokens(code: &str) -> Vec<TokenAndSpan> {
     let cm = Lrc::new(SourceMap::default());
     let fm = cm.new_source_file(FileName::Anon.into(), code.to_string());
     let comments = SingleThreadedComments::default();
@@ -1268,7 +894,7 @@ fn is_recoverable_parse_error(code: &str, error: &ParseError) -> bool {
             true
         }
         SyntaxError::UnterminatedStrLit => has_trailing_line_continuation(code),
-        SyntaxError::Expected(_, got) => got == "<eof>",
+        SyntaxError::Expected(_, got) | SyntaxError::Unexpected { got, .. } => got == "<eof>",
         _ => false,
     }
 }
@@ -1387,14 +1013,14 @@ mod tests {
         assert_eq!(
             transform_module_syntax("import fs from \"node:fs\";".into()).code,
             format!(
-                "const __nodeREPLImport0 = await {};",
+                "const {{ default: fs }} = await {};",
                 validated_import("node:fs", &["default"])
             )
         );
         assert_eq!(
             transform_module_syntax("import { readFile as rf } from \"node:fs\";".into()).code,
             format!(
-                "const __nodeREPLImport0 = await {};",
+                "const {{ readFile: rf }} = await {};",
                 validated_import("node:fs", &["readFile"])
             )
         );
@@ -1402,35 +1028,35 @@ mod tests {
             transform_module_syntax("import { readFile as rf } from \"node:fs\";\nrf();".into())
                 .code,
             format!(
-                "const __nodeREPLImport0 = await {};\n__nodeREPLImport0.readFile();",
+                "const {{ readFile: rf }} = await {};\nrf();",
                 validated_import("node:fs", &["readFile"])
             )
         );
         assert_eq!(
             transform_module_syntax("import def, * as ns from \"mod\";".into()).code,
             format!(
-                "const ns = await {};",
+                "const ns = await {}; const def = ns.default;",
                 validated_import("mod", &["default"])
             )
         );
         assert_eq!(
             transform_module_syntax("import def, * as ns from \"mod\";\ndef; ns;".into()).code,
             format!(
-                "const ns = await {};\nns.default; ns;",
+                "const ns = await {}; const def = ns.default;\ndef; ns;",
                 validated_import("mod", &["default"])
             )
         );
         assert_eq!(
             transform_module_syntax("import { \"a-b\" as c } from \"mod\";".into()).code,
             format!(
-                "const __nodeREPLImport0 = await {};",
+                "const {{ \"a-b\": c }} = await {};",
                 validated_import("mod", &["a-b"])
             )
         );
         assert_eq!(
             transform_module_syntax("import { \"a-b\" as c } from \"mod\";\nc;".into()).code,
             format!(
-                "const __nodeREPLImport0 = await {};\n__nodeREPLImport0[\"a-b\"];",
+                "const {{ \"a-b\": c }} = await {};\nc;",
                 validated_import("mod", &["a-b"])
             )
         );
@@ -1440,7 +1066,7 @@ mod tests {
             )
             .code,
             format!(
-                "const __nodeREPLImport0 = await {};",
+                "const {{ default: data }} = await {};",
                 validated_import_with_options(
                     "./data.json",
                     Some("{ with: { type: \"json\" } }"),
@@ -1452,8 +1078,7 @@ mod tests {
             transform_module_syntax("console.log(typeof fs);\nimport fs from \"node:fs\";".into())
                 .code,
             format!(
-                "const __nodeREPLImport0 = await {};\nconsole.log(typeof \
-                 __nodeREPLImport0.default);\n",
+                "const {{ default: fs }} = await {};\nconsole.log(typeof fs);\n",
                 validated_import("node:fs", &["default"])
             )
         );
@@ -1532,8 +1157,7 @@ mod tests {
         assert_eq!(
             transform_module_syntax("import { spec } from \"m\";\nimport(spec);".into()).code,
             format!(
-                "const __nodeREPLImport0 = await \
-                 {};\n__nodeREPLDynamicImport(__nodeREPLImport0.spec);",
+                "const {{ spec: spec }} = await {};\n__nodeREPLDynamicImport(spec);",
                 validated_import("m", &["spec"])
             )
         );
@@ -1544,8 +1168,7 @@ mod tests {
             )
             .code,
             format!(
-                "const __nodeREPLImport0 = await {};\nfunction f(x) {{ return x; \
-                 }}\n__nodeREPLImport0.x;",
+                "const {{ x: x }} = await {};\nfunction f(x) {{ return x; }}\nx;",
                 validated_import("m", &["x"])
             )
         );
@@ -1554,7 +1177,7 @@ mod tests {
             transform_module_syntax("import { x } from \"m\";\n{ const x = 1; x; }\nx;".into())
                 .code,
             format!(
-                "const __nodeREPLImport0 = await {};\n{{ const x = 1; x; }}\n__nodeREPLImport0.x;",
+                "const {{ x: x }} = await {};\n{{ const x = 1; x; }}\nx;",
                 validated_import("m", &["x"])
             )
         );
@@ -1563,8 +1186,7 @@ mod tests {
             transform_module_syntax("import { x } from \"m\";\ntry {} catch (x) { x; }\nx;".into())
                 .code,
             format!(
-                "const __nodeREPLImport0 = await {};\ntry {{}} catch (x) {{ x; \
-                 }}\n__nodeREPLImport0.x;",
+                "const {{ x: x }} = await {};\ntry {{}} catch (x) {{ x; }}\nx;",
                 validated_import("m", &["x"])
             )
         );
@@ -1576,8 +1198,8 @@ mod tests {
             )
             .code,
             format!(
-                "const __nodeREPLImport0 = await {};\nfunction f(){{ if (ok) {{ var x = 1; }} \
-                 return x; }}\n__nodeREPLImport0.x;",
+                "const {{ x: x }} = await {};\nfunction f(){{ if (ok) {{ var x = 1; }} return x; \
+                 }}\nx;",
                 validated_import("m", &["x"])
             )
         );
@@ -1586,8 +1208,7 @@ mod tests {
             transform_module_syntax("import { readFile } from \"node:fs\";\nreadFile = 1;".into())
                 .code,
             format!(
-                "const __nodeREPLImport0 = await {};\n(() => {{ throw new TypeError(\"Assignment \
-                 to constant variable.\"); }})();",
+                "const {{ readFile: readFile }} = await {};\nreadFile = 1;",
                 validated_import("node:fs", &["readFile"])
             )
         );
@@ -1598,8 +1219,7 @@ mod tests {
             )
             .code,
             format!(
-                "const __nodeREPLImport0 = await {};\n((() => {{ throw new TypeError(\"Assignment \
-                 to constant variable.\"); }})());",
+                "const {{ readFile: readFile }} = await {};\n({{ readFile }} = obj);",
                 validated_import("node:fs", &["readFile"])
             )
         );
@@ -1608,8 +1228,7 @@ mod tests {
             transform_module_syntax("import { readFile } from \"node:fs\";\nreadFile++;".into())
                 .code,
             format!(
-                "const __nodeREPLImport0 = await {};\n(() => {{ throw new TypeError(\"Assignment \
-                 to constant variable.\"); }})();",
+                "const {{ readFile: readFile }} = await {};\nreadFile++;",
                 validated_import("node:fs", &["readFile"])
             )
         );
@@ -1643,8 +1262,8 @@ mod tests {
             "#!/usr/bin/env node\nimport fs from \"node:fs\";\nfs.readFile;".into(),
         )
         .code;
-        assert!(hashbang.starts_with("#!/usr/bin/env node\nconst __nodeREPLImport0 = await "));
-        assert!(hashbang.contains("\n__nodeREPLImport0.default.readFile;"));
+        assert!(hashbang.starts_with("#!/usr/bin/env node\nconst { default: fs } = await "));
+        assert!(hashbang.contains("\nfs.readFile;"));
 
         assert_eq!(
             transform_module_syntax("foo()\nimport \"x\";\n[1].forEach(bar)".into()).code,
@@ -1658,7 +1277,7 @@ mod tests {
             transform_module_syntax("import fs from \"node:fs\";\nconst x: number = 1;".into())
                 .code,
             format!(
-                "const __nodeREPLImport0 = await {};\nconst x: number = 1;",
+                "const {{ default: fs }} = await {};\nconst x: number = 1;",
                 validated_import("node:fs", &["default"])
             )
         );

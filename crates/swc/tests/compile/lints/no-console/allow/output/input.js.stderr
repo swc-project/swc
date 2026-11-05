@@ -1,0 +1,7 @@
+  x Unexpected console statement
+   ,-[$DIR/tests/compile/lints/no-console/allow/input/input.js:1:1]
+ 1 | console.log('restricted');
+   : ^^^^^^^^^^^
+ 2 | 
+ 3 | console.warn('allowed');
+   `----

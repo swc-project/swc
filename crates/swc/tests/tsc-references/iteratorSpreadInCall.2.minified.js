@@ -10,4 +10,6 @@ class SymbolIterator {
         return this;
     }
 }
-new SymbolIterator;
+[
+    ...new SymbolIterator
+];

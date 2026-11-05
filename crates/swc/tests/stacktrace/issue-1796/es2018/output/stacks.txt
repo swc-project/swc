@@ -1,9 +1,0 @@
-$DIR/tests/stacktrace/issue-1796/es2018/input/index.js:3
-        throw new Error('Boom');
-        ^
-
-
-Error: Boom
-    at <anonymous> ($DIR/tests/stacktrace/issue-1796/es2018/input/index.js:3:15)
-    at Error ($DIR/tests/stacktrace/issue-1796/es2018/input/index.js:4:5)
-    at Object.<anonymous> ($DIR/tests/stacktrace/issue-1796/es2018/input/index.js:5:1)

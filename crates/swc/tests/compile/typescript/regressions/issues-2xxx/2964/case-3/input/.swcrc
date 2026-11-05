@@ -1,0 +1,20 @@
+{
+    "module": {
+        "type": "commonjs"
+    },
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "transform": {
+            "react": {
+                "useBuiltins": false
+            },
+            "hidden": {
+                "jest": true
+            }
+        },
+        "target": "es2015",
+        "preserveAllComments": true
+    }
+}

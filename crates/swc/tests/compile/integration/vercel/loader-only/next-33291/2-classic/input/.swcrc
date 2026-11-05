@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "useBuiltins": true,
+                "development": true
+            }
+        }
+    }
+}

@@ -29,6 +29,13 @@ pub enum Resolver {
 }
 
 impl Resolver {
+    pub(crate) fn base(&self) -> Option<&FileName> {
+        match self {
+            Self::Real { base, .. } => Some(base),
+            Self::Default => None,
+        }
+    }
+
     pub(crate) fn resolve(&self, src: Atom) -> Atom {
         match self {
             Self::Real { resolver, base } => resolver

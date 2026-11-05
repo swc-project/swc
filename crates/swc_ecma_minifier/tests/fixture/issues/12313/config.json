@@ -1,0 +1,8 @@
+{
+    "defaults": false,
+    "global_defs": {
+        "obj[\"flag\"]": 1,
+        "obj.flag": 1,
+        "KEY": "flag"
+    }
+}

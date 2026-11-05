@@ -1,0 +1,11 @@
+{
+    "env": {
+        "mode": "entry",
+        "targets": [
+            "last 3 versions"
+        ]
+    },
+    "jsc": {
+        "externalHelpers": false
+    }
+}

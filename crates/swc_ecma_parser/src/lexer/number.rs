@@ -17,70 +17,90 @@ pub(super) fn parse_integer<const RADIX: u8>(s: &str) -> f64 {
 
     if RADIX == 10 {
         parse_integer_from_dec(s)
-    } else if RADIX == 16 {
-        parse_integer_from_hex(s)
-    } else if RADIX == 2 {
-        parse_integer_from_bin(s)
-    } else if RADIX == 8 {
-        parse_integer_from_oct(s)
     } else {
-        unreachable!()
+        parse_integer_radix::<RADIX>(s)
     }
 }
 
-fn parse_integer_from_hex(s: &str) -> f64 {
-    debug_assert!(s.chars().all(|c| c.is_ascii_hexdigit()));
-    const MAX_FAST_INT_LEN: usize = MAX_SAFE_INT.ilog(16) as usize;
-    if s.len() > MAX_FAST_INT_LEN {
-        // Hex digit character representations:
-        //   b'0'==0x30, b'1'==0x31 ... b'9'==0x39  → low nibble: 0x0-0x9
-        //   b'A'==0x41, b'B'==0x42 ... b'F'==0x46  → low nibble: 0x1-0x6
-        //   b'a'==0x61, b'b'==0x62 ... b'f'==0x66  → low nibble: 0x1-0x6
-        //
-        // Conversion requires only the low 4 bits:
-        //   digit_char & 0x0F gives base value:
-        //     - For '0'-'9': direct value (0-9)
-        //     - For 'A'-'F'/'a'-'f': offset base (1-6)
-        //   Add 9 for alphabetic chars: (low_nibble + 9) → 0xA-0xF
-        //
-        // Example: (b'A' & 0x0f) + 9 == 0x1 + 9 == 0xA
-        s.as_bytes().iter().fold(0f64, |res, &cur| {
-            res.mul_add(
-                16.,
-                if cur < b'A' {
-                    cur & 0xf
-                } else {
-                    (cur & 0xf) + 9
-                } as f64,
-            )
-        })
+fn parse_integer_radix<const RADIX: u8>(s: &str) -> f64 {
+    debug_assert!(s.chars().all(|c| c.is_digit(RADIX as u32)));
+
+    // Accumulate integers that fit in u64 exactly, then round only once.
+    let max_fast_len = (u64::BITS / RADIX.trailing_zeros()) as usize;
+    if s.len() <= max_fast_len {
+        u64::from_str_radix(s, RADIX as u32).unwrap() as f64
     } else {
-        u64::from_str_radix(s, 16).unwrap() as f64
+        parse_radix_slow::<RADIX>(s)
     }
 }
 
-fn parse_integer_from_bin(s: &str) -> f64 {
-    debug_assert!(s.chars().all(|c| c == '0' || c == '1'));
-    const MAX_FAST_INT_LEN: usize = MAX_SAFE_INT.ilog2() as usize;
-    if s.len() > MAX_FAST_INT_LEN {
-        s.as_bytes().iter().fold(0f64, |res, &cur| {
-            res.mul_add(2., if cur == b'0' { 0. } else { 1. })
-        })
-    } else {
-        u64::from_str_radix(s, 2).unwrap() as f64
-    }
-}
+#[cold]
+#[inline(never)]
+fn parse_radix_slow<const RADIX: u8>(raw: &str) -> f64 {
+    debug_assert!(RADIX.is_power_of_two());
 
-fn parse_integer_from_oct(s: &str) -> f64 {
-    debug_assert!(s.chars().all(|c| matches!(c, '0'..='7')));
-    const MAX_FAST_INT_LEN: usize = MAX_SAFE_INT.ilog(8) as usize;
-    if s.len() > MAX_FAST_INT_LEN {
-        s.as_bytes()
+    // These radices encode an integer as fixed-width bit groups. Retain its
+    // leading significand plus guard and sticky bits, then round exactly once.
+    const SIGNIFICAND_BITS: usize = f64::MANTISSA_DIGITS as usize;
+    const MAX_EXPONENT: usize = f64::MAX_EXP as usize - 1;
+    const EXPONENT_BIAS: u64 = 1023;
+
+    let raw = raw.trim_start_matches('0');
+    if raw.is_empty() {
+        return 0.0;
+    }
+
+    let bits_per_digit = RADIX.trailing_zeros() as usize;
+    // Bound the length before multiplication, including inputs larger than usize
+    // can represent in bits. One leading digit may use fewer bits than the rest.
+    if raw.len() > (MAX_EXPONENT + 1) / bits_per_digit + 1 {
+        return f64::INFINITY;
+    }
+    let first = raw.as_bytes()[0];
+    let first = if RADIX == 16 && first >= b'A' {
+        (first & 15) + 9
+    } else {
+        first & 15
+    };
+    let first_bits = (u8::BITS - first.leading_zeros()) as usize;
+    let bit_length = (raw.len() - 1) * bits_per_digit + first_bits;
+    if bit_length > MAX_EXPONENT + 1 {
+        return f64::INFINITY;
+    }
+    if bit_length <= SIGNIFICAND_BITS {
+        return u64::from_str_radix(raw, RADIX as u32).unwrap() as f64;
+    }
+
+    // Read enough whole digits for the significand and guard bit. Any extra
+    // bits in that prefix and all remaining digits contribute to the sticky bit.
+    let prefix_len = 1 + (SIGNIFICAND_BITS + 1 - first_bits).div_ceil(bits_per_digit);
+    let prefix = u64::from_str_radix(&raw[..prefix_len], RADIX as u32).unwrap();
+    let prefix_bits = first_bits + (prefix_len - 1) * bits_per_digit;
+    let discarded_bits = prefix_bits - SIGNIFICAND_BITS;
+    let mut significand = prefix >> discarded_bits;
+    let guard_mask = 1_u64 << (discarded_bits - 1);
+    let guard = prefix & guard_mask != 0;
+    let sticky = prefix & (guard_mask - 1) != 0
+        || raw.as_bytes()[prefix_len..]
             .iter()
-            .fold(0f64, |res, &cur| res.mul_add(8., (cur - b'0') as f64))
-    } else {
-        u64::from_str_radix(s, 8).unwrap() as f64
+            .any(|&byte| byte != b'0');
+
+    let round_up = guard && (sticky || significand & 1 != 0);
+    let mut exponent = bit_length - 1;
+    if round_up {
+        significand += 1;
+        if significand == 1 << SIGNIFICAND_BITS {
+            significand >>= 1;
+            exponent += 1;
+        }
     }
+    if exponent > MAX_EXPONENT {
+        return f64::INFINITY;
+    }
+
+    let exponent = exponent as u64 + EXPONENT_BIAS;
+    let fraction_mask = (1_u64 << (SIGNIFICAND_BITS - 1)) - 1;
+    f64::from_bits((exponent << (SIGNIFICAND_BITS - 1)) | (significand & fraction_mask))
 }
 
 fn parse_integer_from_dec(s: &str) -> f64 {

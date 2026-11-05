@@ -177,12 +177,26 @@ enum AcornLiteralValue {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+pub struct LiteralExtra<T> {
+    pub raw: Atom,
+    pub raw_value: T,
+}
+
+pub type StringLiteralExtra = LiteralExtra<Wtf8Atom>;
+pub type NumericLiteralExtra = LiteralExtra<f64>;
+pub type BigIntLiteralExtra = LiteralExtra<String>;
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(tag = "type")]
 pub struct StringLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     pub value: Wtf8Atom,
+    #[serde(default)]
     pub raw: Atom,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extra: Option<StringLiteralExtra>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -191,6 +205,8 @@ pub struct NumericLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     pub value: f64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extra: Option<NumericLiteralExtra>,
 }
 
 /// Deprecated. Use NumericLiteral instead.
@@ -319,6 +335,8 @@ pub struct BigIntLiteral {
     pub value: String,
     #[serde(default)]
     pub raw: Atom,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extra: Option<BigIntLiteralExtra>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]

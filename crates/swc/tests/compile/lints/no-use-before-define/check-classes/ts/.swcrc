@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "lints": {
+            "noUseBeforeDefine": [
+                "error",
+                {
+                    "classes": true
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

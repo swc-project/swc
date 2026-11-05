@@ -1,0 +1,5 @@
+  x Expected ident
+   ,-[$DIR/tests/errors/async-arrow-param-function-name/reference-before-function.cjs:1:1]
+ 1 | async (x = await, y = function await() {}) => {};
+   :            ^^^^^
+   `----

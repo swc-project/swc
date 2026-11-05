@@ -2,6 +2,7 @@ use std::borrow::Borrow;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, BitCtx, Optimizer};
@@ -43,7 +44,8 @@ impl Optimizer<'_> {
             let usage = self.data.vars.get(&name.to_id())?;
             if usage.mutated()
                 || usage.flags.intersects(
-                    VarUsageInfoFlags::USED_ABOVE_DECL
+                    VarUsageInfoFlags::INLINE_PREVENTED
+                        .union(VarUsageInfoFlags::USED_ABOVE_DECL)
                         .union(VarUsageInfoFlags::USED_AS_REF)
                         .union(VarUsageInfoFlags::USED_AS_ARG)
                         .union(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY)
@@ -53,6 +55,12 @@ impl Optimizer<'_> {
                 log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);
                 return None;
             }
+
+            // `callee_count` is tracked for the object, not for each property. Once
+            // properties are hoisted, all replacements lose the original object
+            // receiver, so every property must be safe in callee position if any
+            // property is called.
+            let may_be_callee = usage.callee_count != 0;
 
             if usage.accessed_props.is_empty() {
                 log_abort!(
@@ -90,7 +98,7 @@ impl Optimizer<'_> {
 
                     match &**prop {
                         Prop::KeyValue(p) => {
-                            if !is_expr_fine_for_hoist_props(&p.value) {
+                            if !is_expr_fine_for_hoist_props(&p.value, may_be_callee) {
                                 return None;
                             }
 
@@ -109,6 +117,10 @@ impl Optimizer<'_> {
                             }
                         }
                         Prop::Shorthand(p) => {
+                            if may_be_callee {
+                                return None;
+                            }
+
                             if let Some(v) = unknown_used_props.get_mut(p.sym.borrow()) {
                                 *v = 0;
                             }
@@ -233,19 +245,34 @@ impl Optimizer<'_> {
     }
 }
 
-fn is_expr_fine_for_hoist_props(value: &Expr) -> bool {
+fn is_expr_fine_for_hoist_props(value: &Expr, may_be_callee: bool) -> bool {
     match value {
-        Expr::Ident(..) | Expr::Lit(..) | Expr::Arrow(..) | Expr::Class(..) => true,
+        // We do not track fixed values for every identifier, so detaching an
+        // identifier from an object may change the `this` received by the callee.
+        Expr::Ident(..) => !may_be_callee,
 
-        Expr::Fn(f) => !contains_this_expr(&f.function.body),
+        Expr::Lit(..) | Expr::Class(..) => true,
 
+        // Arrows keep their lexical `this` when detached from an object.
+        Expr::Arrow(..) => true,
+
+        Expr::Fn(f) => {
+            // Parameter initializers run with the call receiver too, so checking
+            // only the body can miss receiver-sensitive default values.
+            !contains_this_expr(&f.function.params)
+                && !contains_this_expr(&f.function.body)
+                && (!may_be_callee || !contains_eval(&f.function, false))
+        }
+
+        // Expressions nested in these containers cannot receive the original
+        // object's receiver, so do not propagate `may_be_callee` into them.
         Expr::Unary(u) => match u.op {
-            op!("void") | op!("typeof") | op!("!") => is_expr_fine_for_hoist_props(&u.arg),
+            op!("void") | op!("typeof") | op!("!") => is_expr_fine_for_hoist_props(&u.arg, false),
             _ => false,
         },
 
         Expr::Array(a) => a.elems.iter().all(|elem| match elem {
-            Some(elem) => elem.spread.is_none() && is_expr_fine_for_hoist_props(&elem.expr),
+            Some(elem) => elem.spread.is_none() && is_expr_fine_for_hoist_props(&elem.expr, false),
             None => true,
         }),
 
@@ -253,7 +280,7 @@ fn is_expr_fine_for_hoist_props(value: &Expr) -> bool {
             PropOrSpread::Spread(_) => false,
             PropOrSpread::Prop(p) => match &**p {
                 Prop::Shorthand(..) => true,
-                Prop::KeyValue(p) => is_expr_fine_for_hoist_props(&p.value),
+                Prop::KeyValue(p) => is_expr_fine_for_hoist_props(&p.value, false),
                 _ => false,
             },
             #[cfg(swc_ast_unknown)]
@@ -274,7 +301,11 @@ impl Optimizer<'_> {
         if self
             .ctx
             .bit_ctx
-            .intersects(BitCtx::IsUpdateArg | BitCtx::IsCallee | BitCtx::IsExactLhsOfAssign)
+            .intersects(BitCtx::IsUpdateArg | BitCtx::IsExactLhsOfAssign)
+            || self.ctx.bit_ctx.contains(BitCtx::IsCallee)
+                && (!self.options.hoist_props
+                    || !self.ctx.bit_ctx.contains(BitCtx::IsCallCallee)
+                    || self.ctx.bit_ctx.contains(BitCtx::IsNoInlineCallee))
         {
             return;
         }
@@ -350,13 +381,30 @@ impl Optimizer<'_> {
             return;
         }
 
-        for prop in &obj.props {
+        for (idx, prop) in obj.props.iter().enumerate() {
             match prop {
                 PropOrSpread::Spread(_) => {}
                 PropOrSpread::Prop(p) => match &**p {
                     Prop::Shorthand(_) => {}
                     Prop::KeyValue(p) => {
                         if prop_name_eq(&p.key, &key.sym) {
+                            if self.ctx.bit_ctx.contains(BitCtx::IsCallee)
+                                && !is_expr_fine_for_hoist_props(&p.value, true)
+                            {
+                                return;
+                            }
+
+                            // A later spread can replace this property even if reading the
+                            // spread itself has no observable side effect. Do not detach the
+                            // earlier callee unless it remains the property's final value.
+                            if self.ctx.bit_ctx.contains(BitCtx::IsCallee)
+                                && obj.props[idx + 1..]
+                                    .iter()
+                                    .any(|prop| matches!(prop, PropOrSpread::Spread(_)))
+                            {
+                                return;
+                            }
+
                             report_change!(
                                 "properties: Inlining a key-value property `{}`",
                                 key.sym

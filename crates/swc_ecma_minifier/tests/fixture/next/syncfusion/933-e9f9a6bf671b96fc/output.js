@@ -9726,10 +9726,10 @@
  * @private
  */ function getZindexPartial(element) {
                 for(// upto body traversal
-                var parent = element.parentElement, parentZindex = []; parent;)if ('BODY' !== parent.tagName) {
+                var parent = element.parentElement, parentZindex = []; parent && 'BODY' !== parent.tagName;){
                     var index = document.defaultView.getComputedStyle(parent, null).getPropertyValue('z-index'), position = document.defaultView.getComputedStyle(parent, null).getPropertyValue('position');
                     'auto' !== index && 'static' !== position && parentZindex.push(index), parent = parent.parentElement;
-                } else break;
+                }
                 for(var childrenZindex = [], i = 0; i < document.body.children.length; i++)if (!element.isEqualNode(document.body.children[i])) {
                     var index = document.defaultView.getComputedStyle(document.body.children[i], null).getPropertyValue('z-index'), position = document.defaultView.getComputedStyle(document.body.children[i], null).getPropertyValue('position');
                     'auto' !== index && 'static' !== position && childrenZindex.push(index);
@@ -19102,8 +19102,7 @@
                     return element.lastElementChild ? 'BR' === element.lastElementChild.tagName ? element.lastElementChild.previousElementSibling ? element.lastElementChild.previousElementSibling : element : element.lastElementChild : element;
                 }, HtmlEditor.prototype.getRootBlockNode = function(rangeBlockNode) {
                     // eslint-disable-next-line
-                    for(; rangeBlockNode && this.parent && this.parent.inputElement !== rangeBlockNode;)if (rangeBlockNode.parentElement === this.parent.inputElement) break;
-                    else rangeBlockNode = rangeBlockNode.parentElement;
+                    for(; rangeBlockNode && this.parent && this.parent.inputElement !== rangeBlockNode && rangeBlockNode.parentElement !== this.parent.inputElement;)rangeBlockNode = rangeBlockNode.parentElement;
                     return rangeBlockNode;
                 }, HtmlEditor.prototype.getRangeLiNode = function(rangeLiNode) {
                     for(var node = rangeLiNode.parentElement; node !== this.parent.inputElement && (1 !== node.nodeType || 'LI' !== node.tagName);)node = node.parentElement;

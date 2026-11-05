@@ -1,0 +1,388 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 190
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 11
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 12,
+        "end": 50
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 22,
+          "end": 29
+        },
+        "ctxt": 0,
+        "value": "Invalid",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [
+        {
+          "type": "TsExpressionWithTypeArguments",
+          "span": {
+            "start": 38,
+            "end": 47
+          },
+          "expression": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 38,
+              "end": 47
+            },
+            "expression": {
+              "type": "TsInstantiation",
+              "span": {
+                "start": 39,
+                "end": 46
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 39,
+                  "end": 43
+                },
+                "ctxt": 0,
+                "value": "Base",
+                "optional": false
+              },
+              "typeArguments": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 43,
+                  "end": 46
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 44,
+                      "end": 45
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 44,
+                        "end": 45
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
+            }
+          },
+          "typeArguments": null
+        }
+      ],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 48,
+          "end": 50
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 57,
+          "end": 68
+        },
+        "ctxt": 0,
+        "value": "InvalidImpl",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 51,
+        "end": 92
+      },
+      "ctxt": 0,
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": [
+        {
+          "type": "TsExpressionWithTypeArguments",
+          "span": {
+            "start": 80,
+            "end": 89
+          },
+          "expression": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 80,
+              "end": 89
+            },
+            "expression": {
+              "type": "TsInstantiation",
+              "span": {
+                "start": 81,
+                "end": 88
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 81,
+                  "end": 85
+                },
+                "ctxt": 0,
+                "value": "Base",
+                "optional": false
+              },
+              "typeArguments": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 85,
+                  "end": 88
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 86,
+                      "end": 87
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 86,
+                        "end": 87
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
+            }
+          },
+          "typeArguments": null
+        }
+      ]
+    },
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 93,
+        "end": 140
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 103,
+          "end": 111
+        },
+        "ctxt": 0,
+        "value": "Computed",
+        "optional": false
+      },
+      "declare": false,
+      "typeParams": null,
+      "extends": [
+        {
+          "type": "TsExpressionWithTypeArguments",
+          "span": {
+            "start": 120,
+            "end": 137
+          },
+          "expression": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 120,
+              "end": 134
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 120,
+                "end": 129
+              },
+              "ctxt": 0,
+              "value": "namespace",
+              "optional": false
+            },
+            "property": {
+              "type": "Computed",
+              "span": {
+                "start": 129,
+                "end": 134
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 130,
+                  "end": 133
+                },
+                "ctxt": 0,
+                "value": "key",
+                "optional": false
+              }
+            }
+          },
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 134,
+              "end": 137
+            },
+            "params": [
+              {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 135,
+                  "end": 136
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 135,
+                    "end": 136
+                  },
+                  "ctxt": 0,
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            ]
+          }
+        }
+      ],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 138,
+          "end": 140
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 147,
+          "end": 158
+        },
+        "ctxt": 0,
+        "value": "FactoryImpl",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 141,
+        "end": 190
+      },
+      "ctxt": 0,
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": [
+        {
+          "type": "TsExpressionWithTypeArguments",
+          "span": {
+            "start": 170,
+            "end": 187
+          },
+          "expression": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 170,
+              "end": 184
+            },
+            "object": {
+              "type": "CallExpression",
+              "span": {
+                "start": 170,
+                "end": 179
+              },
+              "ctxt": 0,
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 170,
+                  "end": 177
+                },
+                "ctxt": 0,
+                "value": "factory",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 180,
+                "end": 184
+              },
+              "value": "Type"
+            }
+          },
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 184,
+              "end": 187
+            },
+            "params": [
+              {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 185,
+                  "end": 186
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 185,
+                    "end": 186
+                  },
+                  "ctxt": 0,
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

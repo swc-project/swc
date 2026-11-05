@@ -1,0 +1,10 @@
+{
+    "sourceMaps": true,
+    "jsc": {
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        }
+    }
+}

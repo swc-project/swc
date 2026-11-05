@@ -1,0 +1,995 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 887
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 11
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 12,
+        "end": 887
+      },
+      "declare": false,
+      "global": false,
+      "namespace": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 22,
+          "end": 23
+        },
+        "ctxt": 0,
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 24,
+          "end": 887
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 30,
+              "end": 67
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 36,
+                  "end": 66
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 36,
+                    "end": 45
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitAsIn",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 48,
+                    "end": 66
+                  },
+                  "operator": "in",
+                  "left": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 48,
+                      "end": 56
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 54,
+                        "end": 56
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 60,
+                      "end": 66
+                    },
+                    "ctxt": 0,
+                    "value": "values",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 72,
+              "end": 123
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 78,
+                  "end": 122
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 78,
+                    "end": 94
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitSatisfiesIn",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 97,
+                    "end": 122
+                  },
+                  "operator": "in",
+                  "left": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 97,
+                      "end": 112
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 103,
+                        "end": 112
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 116,
+                      "end": 122
+                    },
+                    "ctxt": 0,
+                    "value": "values",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 128,
+              "end": 186
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 134,
+                  "end": 185
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 134,
+                    "end": 151
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitAsInstanceof",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 154,
+                    "end": 185
+                  },
+                  "operator": "instanceof",
+                  "left": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 154,
+                      "end": 162
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 160,
+                        "end": 162
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 174,
+                      "end": 185
+                    },
+                    "ctxt": 0,
+                    "value": "Constructor",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 191,
+              "end": 263
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 197,
+                  "end": 262
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 197,
+                    "end": 221
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitSatisfiesInstanceof",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 224,
+                    "end": 262
+                  },
+                  "operator": "instanceof",
+                  "left": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 224,
+                      "end": 239
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 230,
+                        "end": 239
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 251,
+                      "end": 262
+                    },
+                    "ctxt": 0,
+                    "value": "Constructor",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 268,
+              "end": 305
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 274,
+                  "end": 304
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 274,
+                    "end": 283
+                  },
+                  "ctxt": 0,
+                  "value": "YieldAsIn",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 286,
+                    "end": 304
+                  },
+                  "argument": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 292,
+                      "end": 304
+                    },
+                    "operator": "in",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 292,
+                        "end": 294
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 298,
+                        "end": 304
+                      },
+                      "ctxt": 0,
+                      "value": "values",
+                      "optional": false
+                    }
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 310,
+              "end": 361
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 316,
+                  "end": 360
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 316,
+                    "end": 332
+                  },
+                  "ctxt": 0,
+                  "value": "YieldSatisfiesIn",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 335,
+                    "end": 360
+                  },
+                  "argument": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 341,
+                      "end": 360
+                    },
+                    "operator": "in",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 341,
+                        "end": 350
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 354,
+                        "end": 360
+                      },
+                      "ctxt": 0,
+                      "value": "values",
+                      "optional": false
+                    }
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 366,
+              "end": 424
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 372,
+                  "end": 423
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 372,
+                    "end": 389
+                  },
+                  "ctxt": 0,
+                  "value": "YieldAsInstanceof",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 392,
+                    "end": 423
+                  },
+                  "argument": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 398,
+                      "end": 423
+                    },
+                    "operator": "instanceof",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 398,
+                        "end": 400
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 412,
+                        "end": 423
+                      },
+                      "ctxt": 0,
+                      "value": "Constructor",
+                      "optional": false
+                    }
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 429,
+              "end": 501
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 435,
+                  "end": 500
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 435,
+                    "end": 459
+                  },
+                  "ctxt": 0,
+                  "value": "YieldSatisfiesInstanceof",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 462,
+                    "end": 500
+                  },
+                  "argument": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 468,
+                      "end": 500
+                    },
+                    "operator": "instanceof",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 468,
+                        "end": 477
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 489,
+                        "end": 500
+                      },
+                      "ctxt": 0,
+                      "value": "Constructor",
+                      "optional": false
+                    }
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 506,
+              "end": 562
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 512,
+                  "end": 561
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 512,
+                    "end": 526
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitAsComment",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 529,
+                    "end": 561
+                  },
+                  "operator": "in",
+                  "left": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 529,
+                      "end": 537
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 535,
+                        "end": 537
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 555,
+                      "end": 561
+                    },
+                    "ctxt": 0,
+                    "value": "values",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 567,
+              "end": 650
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 573,
+                  "end": 649
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 573,
+                    "end": 594
+                  },
+                  "ctxt": 0,
+                  "value": "YieldSatisfiesComment",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 597,
+                    "end": 649
+                  },
+                  "argument": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 603,
+                      "end": 649
+                    },
+                    "operator": "instanceof",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 603,
+                        "end": 612
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 638,
+                        "end": 649
+                      },
+                      "ctxt": 0,
+                      "value": "Constructor",
+                      "optional": false
+                    }
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 655,
+              "end": 712
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 661,
+                  "end": 711
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 661,
+                    "end": 682
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitSatisfiesUnicode",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 685,
+                    "end": 711
+                  },
+                  "operator": "in",
+                  "left": {
+                    "type": "AwaitExpression",
+                    "span": {
+                      "start": 685,
+                      "end": 700
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 691,
+                        "end": 700
+                      },
+                      "ctxt": 0,
+                      "value": "satisfies",
+                      "optional": false
+                    }
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 705,
+                      "end": 711
+                    },
+                    "ctxt": 0,
+                    "value": "values",
+                    "optional": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 717,
+              "end": 773
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 723,
+                  "end": 772
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 723,
+                    "end": 737
+                  },
+                  "ctxt": 0,
+                  "value": "YieldAsUnicode",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "YieldExpression",
+                  "span": {
+                    "start": 740,
+                    "end": 772
+                  },
+                  "argument": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 746,
+                      "end": 772
+                    },
+                    "operator": "instanceof",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 746,
+                        "end": 748
+                      },
+                      "ctxt": 0,
+                      "value": "as",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 761,
+                        "end": 772
+                      },
+                      "ctxt": 0,
+                      "value": "Constructor",
+                      "optional": false
+                    }
+                  },
+                  "delegate": false
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 778,
+              "end": 822
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 784,
+                  "end": 821
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 784,
+                    "end": 798
+                  },
+                  "ctxt": 0,
+                  "value": "AwaitAsGrouped",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 801,
+                    "end": 821
+                  },
+                  "expression": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 802,
+                      "end": 820
+                    },
+                    "operator": "in",
+                    "left": {
+                      "type": "AwaitExpression",
+                      "span": {
+                        "start": 802,
+                        "end": 810
+                      },
+                      "argument": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 808,
+                          "end": 810
+                        },
+                        "ctxt": 0,
+                        "value": "as",
+                        "optional": false
+                      }
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 814,
+                        "end": 820
+                      },
+                      "ctxt": 0,
+                      "value": "values",
+                      "optional": false
+                    }
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 827,
+              "end": 885
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 833,
+                  "end": 884
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 833,
+                    "end": 854
+                  },
+                  "ctxt": 0,
+                  "value": "YieldSatisfiesGrouped",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 857,
+                    "end": 884
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 858,
+                      "end": 883
+                    },
+                    "argument": {
+                      "type": "BinaryExpression",
+                      "span": {
+                        "start": 864,
+                        "end": 883
+                      },
+                      "operator": "in",
+                      "left": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 864,
+                          "end": 873
+                        },
+                        "ctxt": 0,
+                        "value": "satisfies",
+                        "optional": false
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 877,
+                          "end": 883
+                        },
+                        "ctxt": 0,
+                        "value": "values",
+                        "optional": false
+                      }
+                    },
+                    "delegate": false
+                  }
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

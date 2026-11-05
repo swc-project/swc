@@ -1,0 +1,7 @@
+  x Unexpected token `=>`. Expected a pattern
+   ,-[$DIR/tests/flow-errors/issue-12389-leading-pipe/missing-statement.js:3:1]
+ 2 | match (kind) {
+ 3 |   | => {}
+   :     ^^
+ 4 | }
+   `----

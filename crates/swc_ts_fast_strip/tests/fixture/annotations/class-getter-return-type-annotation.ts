@@ -1,0 +1,1 @@
+class C { get value(): Type { return input; } }

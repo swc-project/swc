@@ -1,0 +1,1 @@
+let value: Box<Item> = input;

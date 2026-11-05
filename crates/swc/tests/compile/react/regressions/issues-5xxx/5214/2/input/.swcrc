@@ -1,0 +1,23 @@
+{
+    "jsc": {
+        "paths": {
+            "~/*": [
+                "./src/*"
+            ]
+        },
+        "baseUrl": "./",
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "decorators": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

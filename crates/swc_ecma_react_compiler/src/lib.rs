@@ -12,6 +12,7 @@ pub mod fast_check;
 mod prefilter;
 mod preserved_ast;
 mod source_type;
+mod stack;
 
 #[cfg(test)]
 mod tests;
@@ -76,6 +77,9 @@ pub struct LintResult {
 
 /// Transform a pre-parsed program. `program` is `None` when nothing was
 /// compiled.
+///
+/// Infer and annotation modes skip programs without JSX, plausible hook calls,
+/// or opt-in directives before building scopes or converting the AST.
 #[must_use]
 pub fn transform(
     program: &Program,
@@ -84,6 +88,16 @@ pub fn transform(
     comments: Option<&SingleThreadedComments>,
     options: PluginOptions,
 ) -> TransformResult {
+    if matches!(options.compilation_mode.as_str(), "infer" | "annotation")
+        && !fast_check::is_required(program)
+    {
+        return TransformResult {
+            program: None,
+            diagnostics: vec![],
+            events: vec![],
+        };
+    }
+
     if has_resource_management_declarations(program) {
         return TransformResult {
             program: None,
@@ -92,6 +106,18 @@ pub fn transform(
         };
     }
 
+    stack::with_compiler_stack(|| {
+        transform_with_stack(program, source_type, source_text, comments, options)
+    })
+}
+
+fn transform_with_stack(
+    program: &Program,
+    source_type: SourceType,
+    source_text: &str,
+    comments: Option<&SingleThreadedComments>,
+    options: PluginOptions,
+) -> TransformResult {
     let source_type = source_type.with_module(matches!(program, Program::Module(_)));
     let scope_info = SemanticBuilder::with_source_type(source_type).build(program);
     let ConvertResult {

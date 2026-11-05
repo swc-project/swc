@@ -1,0 +1,1 @@
+namespace N { export import type Alias = Namespace.Member; }

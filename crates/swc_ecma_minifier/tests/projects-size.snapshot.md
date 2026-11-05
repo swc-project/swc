@@ -1,6 +1,6 @@
 | File | Original Size | Compressed Size | Gzipped Size |
 | --- | --- | --- | --- |
-| angular-1.2.5.js | 757.44 KiB | 101.90 KiB | 37.18 KiB |
+| angular-1.2.5.js | 757.44 KiB | 102.00 KiB | 37.21 KiB |
 | backbone-1.1.0.js | 59.77 KiB | 18.29 KiB | 6.29 KiB |
 | jquery-1.9.1.js | 309.61 KiB | 90.76 KiB | 32.09 KiB |
 | jquery.mobile-1.4.2.js | 534.38 KiB | 191.24 KiB | 52.60 KiB |

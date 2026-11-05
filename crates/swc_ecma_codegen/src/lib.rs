@@ -26,7 +26,10 @@ use self::{
 };
 use crate::{
     scope_helpers::{for_each_param_binding, for_each_pat_binding},
-    util::EndsWithAlphaNum,
+    util::{
+        leading_regex, starts_with_lt, starts_with_regex, type_starts_with_lt, EndsWithAlphaNum,
+        EndsWithTypeScriptToken, TrailingToken,
+    },
 };
 
 #[macro_use]
@@ -43,6 +46,7 @@ mod object;
 mod pat;
 mod scope_helpers;
 mod stmt;
+mod template;
 #[cfg(test)]
 mod tests;
 pub mod text_writer;
@@ -170,7 +174,9 @@ impl Deref for CowStr<'_> {
     }
 }
 
-static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> = Lazy::new(|| regex::Regex::new(r"\\n|\n").unwrap());
+// Consume other escapes too, so an escaped backslash cannot start a newline.
+static NEW_LINE_TPL_REGEX: Lazy<regex::Regex> =
+    Lazy::new(|| regex::Regex::new(r"(\\(?:n|x0[aA]|u000[aA]|u\{0*[aA]\}|\n)|\n)|\\.").unwrap());
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
@@ -295,10 +301,14 @@ where
         }
 
         if let Some(ref args) = node.args {
-            if !(self.cfg.minify && args.is_empty() && should_ignore_empty_args) {
-                punct!(self, "(");
-                self.emit_expr_or_spreads(node.span(), args, ListFormat::NewExpressionArguments)?;
-                punct!(self, ")");
+            // A generic constructor needs `()` to keep its type arguments distinct
+            // from following relational, shift, or unary operators.
+            let omit_args = self.cfg.minify
+                && args.is_empty()
+                && should_ignore_empty_args
+                && node.type_args.is_none();
+            if !omit_args {
+                self.emit_arguments(node.span(), args, ListFormat::NewExpressionArguments)?;
             }
         }
 
@@ -358,17 +368,23 @@ where
         let need_pre_space = if self.cfg.minify {
             if is_kwd_op {
                 node.left.ends_with_alpha_num()
-            } else {
+            } else if matches!(node.op, op!("==") | op!("===")) {
+                // Keep postfix `!` and type argument `>` from becoming `!=` or `>=`.
+                node.left.trailing_token().is_some()
+            } else if matches!(node.op, op!(">") | op!(">>") | op!(">>>") | op!(">=")) {
+                // Inspect the suffix only when the operator can merge with it.
                 // space is mandatory to avoid outputting -->
                 match *node.left {
                     Expr::Update(UpdateExpr {
                         prefix: false, op, ..
-                    }) => matches!(
-                        (op, node.op),
-                        (op!("--"), op!(">") | op!(">>") | op!(">>>") | op!(">="))
+                    }) => op == op!("--"),
+                    _ => matches!(
+                        node.left.trailing_token(),
+                        Some(TrailingToken::TypeArgumentClose)
                     ),
-                    _ => false,
                 }
+            } else {
+                false
             }
         } else {
             is_kwd_op
@@ -390,10 +406,25 @@ where
             } else if node.op == op!("/") {
                 let span = node.right.span();
 
+                // A leading comment or a regular expression literal right after
+                // `/` would start a comment.
                 span.is_pure()
                     || self
                         .comments
                         .is_some_and(|comments| comments.has_leading(span.lo))
+                    || starts_with_regex(&node.right)
+            } else if self.cfg.inline_script
+                && matches!(node.op, op!("<") | op!("<<"))
+                && leading_regex(&node.right).is_some_and(|regex| {
+                    regex
+                        .exp
+                        .as_bytes()
+                        .get(..6)
+                        .is_some_and(|prefix| prefix.eq_ignore_ascii_case(b"script"))
+                })
+            {
+                // The operator and the opening slash must not form `</script`.
+                true
             } else {
                 require_space_before_rhs(&node.right, &node.op)
             }
@@ -411,6 +442,36 @@ where
         }
         self.emit_expr_with_precedence(&node.right, ExprPrecedence::for_binary_right(node.op))?;
 
+        Ok(())
+    }
+
+    /// Emits a type parameter declaration with the caller's comma rules.
+    fn emit_ts_type_param_decl(&mut self, node: &TsTypeParamDecl, format: ListFormat) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+        punct!(self, "<");
+        self.emit_list(node.span, Some(&node.params), format)?;
+        punct!(self, ">");
+        Ok(())
+    }
+
+    /// Keep adjacent type argument and generic function openers from becoming
+    /// `<<`.
+    #[inline]
+    fn emit_ts_type_arguments(
+        &mut self,
+        node: &TsTypeParamInstantiation,
+        format: ListFormat,
+    ) -> Result {
+        punct!(self, "<");
+        if node
+            .params
+            .first()
+            .is_some_and(|ty| type_starts_with_lt(ty))
+        {
+            space!(self);
+        }
+        self.emit_list(node.span, Some(&node.params), format)?;
+        punct!(self, ">");
         Ok(())
     }
 
@@ -465,13 +526,25 @@ where
         Ok(())
     }
 
-    fn emit_expr_or_spreads(
+    /// Emits a parenthesized argument list, batching an empty pair without
+    /// invoking the list printer.
+    #[inline]
+    fn emit_arguments(
         &mut self,
         parent_node: Span,
         nodes: &[ExprOrSpread],
         format: ListFormat,
     ) -> Result {
-        self.emit_list(parent_node, Some(nodes), format)
+        if nodes.is_empty() {
+            // The opening parenthesis commits pending semicolons for the pair.
+            self.wr.write_punct(None, "()", true)?;
+            return Ok(());
+        }
+
+        punct!(self, "(");
+        self.emit_list(parent_node, Some(nodes), format)?;
+        punct!(self, ")");
+        Ok(())
     }
 
     fn emit_ident_like(&mut self, span: Span, sym: &Atom, optional: bool) -> Result {
@@ -1144,73 +1217,9 @@ fn get_template_element_from_raw(
     ascii_only: bool,
     reduce_escaped_newline: bool,
 ) -> String {
-    fn read_escaped(
-        radix: u32,
-        len: Option<usize>,
-        buf: &mut String,
-        iter: impl Iterator<Item = char>,
-    ) {
-        let mut v = 0;
-        let mut pending = None;
-
-        for (i, c) in iter.enumerate() {
-            if let Some(len) = len {
-                if i == len {
-                    pending = Some(c);
-                    break;
-                }
-            }
-
-            match c.to_digit(radix) {
-                None => {
-                    pending = Some(c);
-                    break;
-                }
-                Some(d) => {
-                    v = v * radix + d;
-                }
-            }
-        }
-
-        match radix {
-            16 => {
-                match v {
-                    0 => match pending {
-                        Some('1'..='9') => write!(buf, "\\x00").unwrap(),
-                        _ => write!(buf, "\\0").unwrap(),
-                    },
-                    1..=15 => write!(buf, "\\x0{v:x}").unwrap(),
-                    // '\x20'..='\x7e'
-                    32..=126 => {
-                        let c = char::from_u32(v);
-
-                        match c {
-                            Some(c) => write!(buf, "{c}").unwrap(),
-                            _ => {
-                                unreachable!()
-                            }
-                        }
-                    }
-                    // '\x10'..='\x1f'
-                    // '\u{7f}'..='\u{ff}'
-                    _ => {
-                        write!(buf, "\\x{v:x}").unwrap();
-                    }
-                }
-            }
-
-            _ => unreachable!(),
-        }
-
-        if let Some(pending) = pending {
-            buf.push(pending);
-        }
-    }
-
     let mut buf = String::with_capacity(s.len());
     let mut iter = s.chars().peekable();
-
-    let mut is_dollar_prev = false;
+    let mut null_escape_end = None;
 
     while let Some(c) = iter.next() {
         let unescape = match c {
@@ -1227,33 +1236,33 @@ fn get_template_element_from_raw(
                         }
                     }
                     't' => Some('\t'),
-                    'x' => {
-                        read_escaped(16, Some(2), &mut buf, &mut iter);
-
-                        None
-                    }
-                    // TODO handle `\u1111` and `\u{1111}` too
+                    'x' | 'u' => match if c == 'x' {
+                        template::decode_hex_escape(&mut iter)
+                    } else {
+                        template::decode_unicode_escape(&mut iter, ascii_only)
+                    } {
+                        Some(c @ ('\\' | '`')) => {
+                            // Decoded delimiters must not become template syntax or escapes.
+                            buf.push('\\');
+                            Some(c)
+                        }
+                        Some('\n') if !reduce_escaped_newline => {
+                            buf.push_str("\\n");
+                            None
+                        }
+                        Some(c) => Some(c),
+                        None => {
+                            buf.push('\\');
+                            buf.push(c);
+                            None
+                        }
+                    },
                     // Source - https://github.com/eslint/eslint/blob/main/lib/rules/no-useless-escape.js
                     '\u{2028}' | '\u{2029}' => None,
-                    // `\t` and `\h` are special cases, because they can be replaced on real
-                    // characters `\xXX` can be replaced on character
-                    '\\' | 'r' | 'v' | 'b' | 'f' | 'u' | '\r' | '\n' | '`' | '0'..='7' => {
+                    '0' => Some('\0'),
+                    '\\' | 'r' | 'v' | 'b' | 'f' | '\r' | '\n' | '`' | '1'..='7' => {
                         buf.push('\\');
                         buf.push(c);
-
-                        None
-                    }
-                    '$' if iter.peek() == Some(&'{') => {
-                        buf.push('\\');
-                        buf.push('$');
-
-                        None
-                    }
-                    '{' if is_dollar_prev => {
-                        buf.push('\\');
-                        buf.push('{');
-
-                        is_dollar_prev = false;
 
                         None
                     }
@@ -1265,27 +1274,33 @@ fn get_template_element_from_raw(
         };
 
         match unescape {
-            Some(c @ '$') => {
-                is_dollar_prev = true;
-
-                buf.push(c);
+            Some('{') if buf.ends_with('$') => {
+                // Adjacent decoded characters must not introduce an interpolation.
+                buf.push_str("\\{");
             }
             Some('\x00') => {
-                let next = iter.peek();
-
-                match next {
-                    Some('1'..='9') => buf.push_str("\\x00"),
-                    _ => buf.push_str("\\0"),
-                }
+                buf.push_str("\\0");
+                null_escape_end = Some(buf.len());
+            }
+            Some(c @ '0'..='9') if null_escape_end == Some(buf.len()) => {
+                // Decide after decoding the next character: an escaped digit or a
+                // removed line continuation can otherwise turn \0 into an octal escape.
+                buf.truncate(buf.len() - 2);
+                buf.push_str("\\x00");
+                buf.push(c);
             }
             // Octal doesn't supported in template literals, except in tagged templates, but
             // we don't use this for tagged templates, they are printing as is
             Some('\u{0008}') => buf.push_str("\\b"),
             Some('\u{000c}') => buf.push_str("\\f"),
             Some('\n') => buf.push('\n'),
-            // `\r` is impossible here, because it was removed on parser stage
+            // A decoded carriage return must not be normalized to a line feed.
+            Some('\r') => buf.push_str("\\r"),
             Some('\u{000b}') => buf.push_str("\\v"),
             Some('\t') => buf.push('\t'),
+            Some(c @ '\x01'..='\x1f') => {
+                let _ = write!(buf, "\\x{:02x}", c as u8);
+            }
             // Print `"` and `'` without quotes
             Some(c @ '\x20'..='\x7e') => {
                 buf.push(c);
@@ -1302,7 +1317,6 @@ fn get_template_element_from_raw(
             Some('\u{FEFF}') => {
                 buf.push_str("\\uFEFF");
             }
-            // TODO(kdy1): Surrogate pairs
             Some(c) => {
                 if !ascii_only || c.is_ascii() {
                     buf.push(c);
@@ -1506,7 +1520,27 @@ fn handle_invalid_unicodes(s: &str) -> Cow<'_, str> {
     Cow::Owned(s.replace("\\\0", "\\"))
 }
 
-fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
+fn require_space_before_rhs(mut rhs: &Expr, op: &BinaryOp) -> bool {
+    // A word token cannot merge with a symbolic operator.
+    if matches!(rhs, Expr::Ident(..)) {
+        return false;
+    }
+
+    // Only these operators can merge with an expression's first token. Avoid
+    // walking the left edge when the operator already provides a boundary.
+    if !matches!(*op, op!(bin, "+") | op!(bin, "-") | op!("<") | op!("<<")) {
+        return false;
+    }
+
+    while let Expr::Bin(BinExpr { left, .. }) = rhs {
+        rhs = left;
+    }
+
+    // `<` followed by a type assertion or JSX would become a shift operator.
+    if *op == op!("<") && starts_with_lt(rhs) {
+        return true;
+    }
+
     match rhs {
         Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() && *op == op!(bin, "-") => true,
 
@@ -1534,8 +1568,6 @@ fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
             (op, unary),
             (op!(bin, "-"), op!(unary, "-")) | (op!(bin, "+"), op!(unary, "+"))
         ),
-
-        Expr::Bin(BinExpr { left, .. }) => require_space_before_rhs(left, op),
 
         _ => false,
     }
@@ -1813,13 +1845,15 @@ impl MacroNode for OptChainExpr {
                     punct!(emitter, "?.");
                 }
 
-                punct!(emitter, "(");
-                emitter.emit_expr_or_spreads(
+                if let Some(type_args) = &e.type_args {
+                    emit!(type_args);
+                }
+
+                emitter.emit_arguments(
                     self.span(),
                     &e.args,
                     ListFormat::CallExpressionArguments,
                 )?;
-                punct!(emitter, ")");
             }
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
@@ -1855,13 +1889,7 @@ impl MacroNode for CallExpr {
             emit!(type_args);
         }
 
-        punct!(emitter, "(");
-        emitter.emit_expr_or_spreads(
-            self.span(),
-            &self.args,
-            ListFormat::CallExpressionArguments,
-        )?;
-        punct!(emitter, ")");
+        emitter.emit_arguments(self.span(), &self.args, ListFormat::CallExpressionArguments)?;
 
         // srcmap!(emitter, self, false);
 
@@ -2000,13 +2028,32 @@ impl MacroNode for ArrowExpr {
             punct!(emitter, "*")
         }
 
+        // TypeScript annotations, optional parameters, and generic arrows require
+        // a parenthesized parameter list even with a single identifier.
         let parens = !emitter.cfg.minify
+            || self.type_params.is_some()
+            || self.return_type.is_some()
             || match self.params.as_slice() {
-                [Pat::Ident(i)] => emitter.has_trailing_comment(i.span),
+                [Pat::Ident(i)] => {
+                    i.type_ann.is_some() || i.id.optional || emitter.has_trailing_comment(i.span)
+                }
                 _ => true,
             };
 
-        emit!(self.type_params);
+        if let Some(type_params) = &self.type_params {
+            // The emitter has no TSX mode. Disambiguate single unconstrained
+            // generic arrows in both TypeScript and TSX instead of emitting JSX.
+            let needs_comma = matches!(
+                type_params.params.as_slice(),
+                [param] if param.constraint.is_none() && param.default.is_none()
+            );
+            let format = if needs_comma {
+                ListFormat::TypeParameters | ListFormat::ForceTrailingComma
+            } else {
+                ListFormat::TypeParameters
+            };
+            emitter.emit_ts_type_param_decl(type_params, format)?;
+        }
 
         if parens {
             punct!(emitter, "(");
@@ -2084,7 +2131,12 @@ impl MacroNode for AssignExpr {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emit!(self.left);
-        formatting_space!(emitter);
+        if emitter.cfg.minify && self.op == op!("=") && self.left.trailing_token().is_some() {
+            // Keep postfix `!` and type argument `>` from becoming `!=` or `>=`.
+            space!(emitter);
+        } else {
+            formatting_space!(emitter);
+        }
         operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
         emit!(self.right);
@@ -2292,14 +2344,24 @@ impl MacroNode for TplElement {
                 emitter.cfg.ascii_only,
                 emitter.cfg.reduce_escaped_newline,
             );
+            // Decoding escapes can introduce HTML script terminators or comment
+            // markers, so protect the emitted text after the transformation.
+            let v = if emitter.cfg.inline_script {
+                lit::escape_inline_script(&v)
+            } else {
+                CowStr::Borrowed(&v)
+            };
             let span = self.span();
 
             let mut last_offset_gen = 0;
             let mut last_offset_origin = 0;
-            for ((offset_gen, _), mat) in v
-                .match_indices('\n')
-                .zip(NEW_LINE_TPL_REGEX.find_iter(&raw))
-            {
+            let reduce_escaped_newline = emitter.cfg.reduce_escaped_newline;
+            for ((offset_gen, _), mat) in v.match_indices('\n').zip(
+                NEW_LINE_TPL_REGEX
+                    .captures_iter(&raw)
+                    .filter_map(|c| c.get(1))
+                    .filter(|m| reduce_escaped_newline || m.as_str().ends_with('\n')),
+            ) {
                 // If the string starts with a newline char, then adding a mark is redundant.
                 // This catches both "no newlines" and "newline after several chars".
                 if offset_gen != 0 {

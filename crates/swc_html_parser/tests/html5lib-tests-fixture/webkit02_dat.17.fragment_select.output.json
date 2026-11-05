@@ -14,7 +14,21 @@
       "tagName": "option",
       "namespace": "http://www.w3.org/1999/xhtml",
       "attributes": [],
-      "children": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 9,
+            "end": 33
+          },
+          "tagName": "xh<optgroup",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null,
+          "isSelfClosing": false
+        }
+      ],
       "content": null,
       "isSelfClosing": false
     }

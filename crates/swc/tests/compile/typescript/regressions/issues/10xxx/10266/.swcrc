@@ -1,0 +1,21 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "minify": {
+      "format": {
+        "comments": false
+      }
+    }
+  },
+  "module": {
+    "type": "commonjs"
+  },
+  "env": {
+    "targets": {
+      "ie": "8"
+    }
+  }
+}

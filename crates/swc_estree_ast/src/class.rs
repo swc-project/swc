@@ -220,6 +220,8 @@ pub struct ClassPrivateProperty {
     pub value: Option<Box<Expression>>,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
+    #[serde(default)]
+    pub computed: bool,
     #[serde(default, rename = "static")]
     pub static_any: Value,
     #[serde(default)]

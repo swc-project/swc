@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 57
+    "end": 168
   },
   "body": [
     {
@@ -153,6 +153,245 @@
       "async": false,
       "typeParameters": null,
       "returnType": null
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 59,
+        "end": 105
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 64,
+          "end": 73
+        },
+        "ctxt": 0,
+        "value": "MixedRest",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTupleType",
+        "span": {
+          "start": 76,
+          "end": 104
+        },
+        "elemTypes": [
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 77,
+              "end": 84
+            },
+            "label": null,
+            "ty": {
+              "type": "TsOptionalType",
+              "span": {
+                "start": 77,
+                "end": 84
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 77,
+                  "end": 83
+                },
+                "kind": "number"
+              }
+            }
+          },
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 86,
+              "end": 103
+            },
+            "label": {
+              "type": "RestElement",
+              "span": {
+                "start": 86,
+                "end": 94
+              },
+              "rest": {
+                "start": 86,
+                "end": 89
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 89,
+                  "end": 93
+                },
+                "ctxt": 0,
+                "value": "rest",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "typeAnnotation": null
+            },
+            "ty": {
+              "type": "TsArrayType",
+              "span": {
+                "start": 95,
+                "end": 103
+              },
+              "elemType": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 95,
+                  "end": 101
+                },
+                "kind": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 106,
+        "end": 168
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 111,
+          "end": 122
+        },
+        "ctxt": 0,
+        "value": "GenericRest",
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 122,
+          "end": 143
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 123,
+              "end": 142
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 123,
+                "end": 124
+              },
+              "ctxt": 0,
+              "value": "T",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": {
+              "type": "TsArrayType",
+              "span": {
+                "start": 133,
+                "end": 142
+              },
+              "elemType": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 133,
+                  "end": 140
+                },
+                "kind": "unknown"
+              }
+            },
+            "default": null
+          }
+        ]
+      },
+      "typeAnnotation": {
+        "type": "TsTupleType",
+        "span": {
+          "start": 146,
+          "end": 167
+        },
+        "elemTypes": [
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 147,
+              "end": 154
+            },
+            "label": null,
+            "ty": {
+              "type": "TsOptionalType",
+              "span": {
+                "start": 147,
+                "end": 154
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 147,
+                  "end": 153
+                },
+                "kind": "number"
+              }
+            }
+          },
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 156,
+              "end": 166
+            },
+            "label": {
+              "type": "RestElement",
+              "span": {
+                "start": 156,
+                "end": 164
+              },
+              "rest": {
+                "start": 156,
+                "end": 159
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 159,
+                  "end": 163
+                },
+                "ctxt": 0,
+                "value": "rest",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "typeAnnotation": null
+            },
+            "ty": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 165,
+                "end": 166
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 165,
+                  "end": 166
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        ]
+      }
     }
   ],
   "interpreter": null

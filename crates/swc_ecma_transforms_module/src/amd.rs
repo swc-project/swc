@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 
+use pathdiff::diff_paths;
 use regex::Regex;
 use rustc_hash::FxHashSet;
 use serde::{Deserialize, Serialize};
@@ -41,6 +42,9 @@ pub struct Config {
     #[serde(default)]
     pub module_id: Option<String>,
 
+    #[serde(default)]
+    pub module_root: Option<String>,
+
     #[serde(flatten, default)]
     pub config: InnerConfig,
 }
@@ -61,10 +65,15 @@ pub fn amd<C>(
 where
     C: Comments,
 {
-    let Config { module_id, config } = config;
+    let Config {
+        module_id,
+        module_root,
+        config,
+    } = config;
 
     visit_mut_pass(Amd {
         module_id,
+        module_root,
         config,
         unresolved_mark,
         resolver,
@@ -92,6 +101,7 @@ where
     C: Comments,
 {
     module_id: Option<String>,
+    module_root: Option<String>,
     config: InnerConfig,
     unresolved_mark: Mark,
     resolver: Resolver,
@@ -116,6 +126,53 @@ where
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.module_id.is_none() {
             self.module_id = self.get_amd_module_id_from_comments(n.span);
+        }
+
+        if self.module_id.is_none() {
+            if let Some(module_root) = &self.module_root {
+                if let Some(swc_common::FileName::Real(file_path)) = self.resolver.base() {
+                    let module_root_path = std::path::Path::new(module_root);
+                    let mut relative_path = diff_paths(file_path, module_root_path);
+
+                    let needs_canonicalization = match &relative_path {
+                        None => true,
+                        Some(p) => p.is_absolute() || p.starts_with(".."),
+                    };
+
+                    if needs_canonicalization {
+                        let canonical_module_root = module_root_path
+                            .canonicalize()
+                            .unwrap_or_else(|_| module_root_path.to_path_buf());
+                        let canonical_file_path = file_path
+                            .canonicalize()
+                            .unwrap_or_else(|_| file_path.to_path_buf());
+
+                        if let Some(canonical_relative) =
+                            diff_paths(&canonical_file_path, &canonical_module_root)
+                        {
+                            let use_canonical = match &relative_path {
+                                None => true,
+                                Some(orig) => {
+                                    orig.is_absolute()
+                                        || !canonical_relative.starts_with("..")
+                                        || canonical_relative.components().count()
+                                            < orig.components().count()
+                                }
+                            };
+
+                            if use_canonical {
+                                relative_path = Some(canonical_relative);
+                            }
+                        }
+                    }
+
+                    if let Some(relative_path) = relative_path {
+                        if let Some(stem) = relative_path.with_extension("").to_str() {
+                            self.module_id = Some(stem.replace('\\', "/"));
+                        }
+                    }
+                }
+            }
         }
 
         if !self.config.allow_top_level_this {

@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "minify": {
+            "format": {
+                "asciiOnly": true
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

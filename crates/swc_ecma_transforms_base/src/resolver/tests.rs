@@ -95,7 +95,8 @@ fn test_mark_for() {
             .current
             .declared_symbols
             .insert(atom!("bar"), DeclKind::Var);
-        assert_eq!(folder3.mark_for_ref(&atom!("bar")), Some(mark3));
+        assert!(matches!(folder3.scope_for_ref(&atom!("bar")),
+            Some(ReferenceScope::Declared(scope)) if scope.mark == mark3));
 
         let mut folder4 = Resolver::new(
             Scope::new(ScopeKind::Block, mark4, Some(&folder3.current)),
@@ -110,8 +111,10 @@ fn test_mark_for() {
             .declared_symbols
             .insert(atom!("foo"), DeclKind::Var);
 
-        assert_eq!(folder4.mark_for_ref(&atom!("foo")), Some(mark4));
-        assert_eq!(folder4.mark_for_ref(&atom!("bar")), Some(mark3));
+        assert!(matches!(folder4.scope_for_ref(&atom!("foo")),
+            Some(ReferenceScope::Declared(scope)) if scope.mark == mark4));
+        assert!(matches!(folder4.scope_for_ref(&atom!("bar")),
+            Some(ReferenceScope::Declared(scope)) if scope.mark == mark3));
         Ok(())
     })
     .unwrap();

@@ -1,0 +1,108 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 141,
+    "end": 205
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 156,
+          "end": 160
+        },
+        "ctxt": 0,
+        "value": "test",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 141,
+        "end": 205
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 163,
+          "end": 205
+        },
+        "stmts": [
+          {
+            "type": "ForOfStatement",
+            "span": {
+              "start": 167,
+              "end": 202
+            },
+            "await": true,
+            "left": {
+              "type": "UsingDeclaration",
+              "span": {
+                "start": 178,
+                "end": 192
+              },
+              "isAwait": true,
+              "decls": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 178,
+                    "end": 192
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 190,
+                      "end": 192
+                    },
+                    "ctxt": 0,
+                    "value": "of",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": null,
+                  "definite": false
+                }
+              ]
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 196,
+                "end": 198
+              },
+              "ctxt": 0,
+              "value": "of",
+              "optional": false
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 200,
+                "end": 202
+              },
+              "ctxt": 0,
+              "stmts": []
+            }
+          },
+          {
+            "type": "EmptyStatement",
+            "span": {
+              "start": 202,
+              "end": 203
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

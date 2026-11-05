@@ -23,7 +23,7 @@ use swc_common::{
 };
 use swc_ecma_ast as swc;
 
-use crate::preserved_ast::PreservedAst;
+use crate::{preserved_ast::PreservedAst, stack::with_expression_stack};
 
 pub struct ConvertResult {
     pub file: File,
@@ -615,6 +615,10 @@ impl<'a> ConvertCtx<'a> {
     // ===== Expressions =====
 
     fn convert_expr(&self, expr: &swc::Expr) -> Expression {
+        with_expression_stack(|| self.convert_expr_inner(expr))
+    }
+
+    fn convert_expr_inner(&self, expr: &swc::Expr) -> Expression {
         match expr {
             swc::Expr::Lit(lit) => match lit {
                 swc::Lit::Str(s) => Expression::StringLiteral(StringLiteral {
@@ -763,7 +767,7 @@ impl<'a> ConvertCtx<'a> {
                 let (property, computed) = self.convert_member_prop(&m.prop);
                 Expression::OptionalMemberExpression(OptionalMemberExpression {
                     base: self.make_base_node(chain.span),
-                    object: Box::new(self.convert_expr_in_chain(&m.obj)),
+                    object: Box::new(self.convert_expr(&m.obj)),
                     property: Box::new(property),
                     computed,
                     optional: chain.optional,
@@ -776,7 +780,7 @@ impl<'a> ConvertCtx<'a> {
 
                 Expression::OptionalCallExpression(OptionalCallExpression {
                     base: self.make_base_node(chain.span),
-                    callee: Box::new(self.convert_expr_in_chain(&call.callee)),
+                    callee: Box::new(self.convert_expr(&call.callee)),
                     arguments: call
                         .args
                         .iter()
@@ -791,19 +795,6 @@ impl<'a> ConvertCtx<'a> {
                 })
             }
         }
-    }
-
-    fn convert_expr_in_chain(&self, expr: &swc::Expr) -> Expression {
-        if Self::expr_contains_optional(expr) {
-            if let swc::Expr::OptChain(chain) = expr {
-                return self.convert_opt_chain_expr(chain);
-            }
-        }
-        self.convert_expr(expr)
-    }
-
-    fn expr_contains_optional(expr: &swc::Expr) -> bool {
-        matches!(expr, swc::Expr::OptChain(_))
     }
 
     fn convert_member_expr(&self, member: &swc::MemberExpr) -> MemberExpression {

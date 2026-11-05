@@ -1,0 +1,5 @@
+  x Expected ';', got '<<'
+   ,-[$DIR/tests/typescript-errors/type-query-lookahead/fused-generic-function/input.ts:1:1]
+ 1 | type Query = typeof f<<T>() => T>;
+   :                      ^^
+   `----

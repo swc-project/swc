@@ -1,5 +1,6 @@
 use std::{num::FpCategory, ops::RangeInclusive};
 
+use num_bigint::BigUint;
 use radix_fmt::Radix;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned};
@@ -675,7 +676,10 @@ impl Pure<'_> {
 
         if &*method.sym == "toExponential" {
             if first_arg.is_none() {
-                let value = f64_to_exponential(num.value).into();
+                let Some(value) = f64_to_exponential(num.value) else {
+                    return;
+                };
+                let value = value.into();
 
                 self.changed = true;
                 report_change!(
@@ -703,7 +707,11 @@ impl Pure<'_> {
                         return;
                     };
 
-                    f64_to_exponential_with_precision(num.value, usize::from(p)).into()
+                    let Some(value) = f64_to_exponential_with_precision(num.value, usize::from(p))
+                    else {
+                        return;
+                    };
+                    value.into()
                 } else {
                     // 4. If x is not finite, return Number::toString(x, 10).
                     num.value.to_js_string().into()
@@ -758,6 +766,13 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_opt_chain(&mut self, e: &mut Expr) {
+        // Folding a nested continuation independently loses whether an earlier
+        // optional continuation short-circuited. Evaluate the full chain from
+        // its root so a required continuation can still preserve its throw.
+        if self.ctx.contains(Ctx::IN_OPT_CHAIN) {
+            return;
+        }
+
         let opt = match e {
             Expr::OptChain(e) => e,
             _ => return,
@@ -765,8 +780,9 @@ impl Pure<'_> {
 
         match &mut *opt.base {
             OptChainBase::Member(MemberExpr { span, obj, .. }) => {
-                //
-                if is_pure_undefined_or_null(self.expr_ctx, obj) {
+                if (opt.optional && is_pure_undefined_or_null(self.expr_ctx, obj))
+                    || self.is_opt_chain_short_circuited(obj)
+                {
                     self.changed = true;
                     report_change!(
                         "evaluate: Reduced an optional chaining operation because object is \
@@ -778,7 +794,9 @@ impl Pure<'_> {
             }
 
             OptChainBase::Call(OptCall { span, callee, .. }) => {
-                if is_pure_undefined_or_null(self.expr_ctx, callee) {
+                if (opt.optional && is_pure_undefined_or_null(self.expr_ctx, callee))
+                    || self.is_opt_chain_short_circuited(callee)
+                {
                     self.changed = true;
                     report_change!(
                         "evaluate: Reduced a call expression with optional chaining operation \
@@ -791,6 +809,24 @@ impl Pure<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
+    }
+
+    /// Returns whether an earlier continuation of an optional chain has
+    /// definitely short-circuited to `undefined`.
+    fn is_opt_chain_short_circuited(&self, expr: &Expr) -> bool {
+        let Expr::OptChain(opt) = expr else {
+            return false;
+        };
+
+        let base = match &*opt.base {
+            OptChainBase::Member(member) => &*member.obj,
+            OptChainBase::Call(call) => &*call.callee,
+            #[cfg(swc_ast_unknown)]
+            _ => return false,
+        };
+
+        (opt.optional && is_pure_undefined_or_null(self.expr_ctx, base))
+            || self.is_opt_chain_short_circuited(base)
     }
 
     pub(super) fn eval_trivial_values_in_expr(&mut self, seq: &mut SeqExpr) {
@@ -900,6 +936,12 @@ impl Pure<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
+        // These methods ignore their arguments, but evaluating an argument can
+        // still throw or iterate a spread. Fold only calls without arguments.
+        if matches!(&*method, "toLowerCase" | "toUpperCase") && !call.args.is_empty() {
+            return;
+        }
+
         let new_val = match &*method {
             "toLowerCase" => s.value.to_lowercase(),
             "toUpperCase" => s.value.to_uppercase(),
@@ -997,9 +1039,10 @@ impl Pure<'_> {
                         None => {
                             self.changed = true;
                             report_change!(
-                                "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
+                                "evaluate: Evaluated `codePointAt` of a string literal as \
+                                 `undefined`",
                             );
-                            *e = make_number(e.span(), f64::NAN)
+                            *e = *Expr::undefined(call.span)
                         }
                     }
                 }
@@ -1017,6 +1060,49 @@ impl Pure<'_> {
         })
         .into();
     }
+}
+
+/// Returns the exact base-10 digits and decimal exponent of a nonzero positive
+/// `f64`.
+fn f64_to_decimal_digits(value: f64) -> (String, i32) {
+    debug_assert!(value.is_finite() && value > 0.0);
+
+    const FRACTION_MASK: u64 = (1 << 52) - 1;
+
+    let bits = value.to_bits();
+    let exponent_bits = ((bits >> 52) & 0x7ff) as i32;
+    let fraction = bits & FRACTION_MASK;
+    let (significand, binary_exponent) = if exponent_bits == 0 {
+        (fraction, -1074)
+    } else {
+        (fraction | (1 << 52), exponent_bits - 1023 - 52)
+    };
+
+    let mut coefficient = BigUint::from(significand);
+    let decimal_scale = if binary_exponent >= 0 {
+        coefficient <<= binary_exponent as usize;
+        0
+    } else {
+        let mut power = (-binary_exponent) as u32;
+        let mut factor = BigUint::from(5_u8);
+
+        while power != 0 {
+            if power & 1 != 0 {
+                coefficient *= &factor;
+            }
+            power >>= 1;
+            if power != 0 {
+                factor = &factor * &factor;
+            }
+        }
+
+        -binary_exponent
+    };
+
+    let digits = coefficient.to_str_radix(10);
+    let exponent = digits.len() as i32 - decimal_scale - 1;
+
+    (digits, exponent)
 }
 
 // Code from boa
@@ -1048,19 +1134,10 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
         e = 0;
     // 10
     } else {
-        // Due to f64 limitations, this part differs a bit from the spec,
-        // but has the same effect. It manipulates the string constructed
-        // by `format`: digits with an optional dot between two of them.
-        m = format!("{x:.100}");
-
-        // a: getting an exponent
-        e = flt_str_to_exp(&m);
-        // b: getting relevant digits only
-        if e < 0 {
-            m = m.split_off((1 - e) as usize);
-        } else if let Some(n) = m.find('.') {
-            m.remove(n);
-        }
+        // Use the exact decimal expansion of the binary float. A fixed-size decimal
+        // intermediate can round through an arbitrary carry chain before the requested
+        // precision is applied, which changes the result of `Number#toPrecision`.
+        (m, e) = f64_to_decimal_digits(x);
         // impl: having exactly `precision` digits in `suffix`
         if round_to_precision(&mut m, precision) {
             e += 1;
@@ -1106,25 +1183,6 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
 
     // 14
     s + &*m
-}
-
-fn flt_str_to_exp(flt: &str) -> i32 {
-    let mut non_zero_encountered = false;
-    let mut dot_encountered = false;
-    for (i, c) in flt.chars().enumerate() {
-        if c == '.' {
-            if non_zero_encountered {
-                return (i as i32) - 1;
-            }
-            dot_encountered = true;
-        } else if c != '0' {
-            if dot_encountered {
-                return 1 - (i as i32);
-            }
-            non_zero_encountered = true;
-        }
-    }
-    (flt.len() as i32) - 1
 }
 
 fn round_to_precision(digits: &mut String, precision: usize) -> bool {
@@ -1177,34 +1235,186 @@ fn round_to_precision(digits: &mut String, precision: usize) -> bool {
     }
 }
 
-/// Helper function that formats a float as a ES6-style exponential number
-/// string.
-fn f64_to_exponential(n: f64) -> String {
+/// Formats a finite float as an ECMAScript exponential number string.
+///
+/// `Number::toExponential` omits the sign of both zero values. For all other
+/// values, the omitted-precision form uses the shortest ECMAScript decimal
+/// representation rather than Rust's formatter, whose rounding rules differ.
+fn f64_to_exponential(n: f64) -> Option<String> {
     if !n.is_finite() {
-        return n.to_js_string();
+        return Some(n.to_js_string());
     }
 
-    match n.abs() {
-        x if x >= 1.0 || x == 0.0 => format!("{n:e}").replace('e', "e+"),
-        _ => format!("{n:e}"),
-    }
+    decimal_to_exponential(&n.to_js_string(), None)
 }
 
-/// Helper function that formats a float as a ES6-style exponential number
-/// string with a given precision.
-// We can't use the same approach as in `f64_to_exponential`
-// because in cases like (0.999).toExponential(0) the result will be 1e0.
-// Instead we get the index of 'e', and if the next character is not '-'
-// we insert the plus sign
-fn f64_to_exponential_with_precision(n: f64, prec: usize) -> String {
+/// Formats a finite float as an ECMAScript exponential number string with
+/// `prec` digits after the decimal point.
+///
+/// The formatter performs ECMAScript's decimal half-tie rounding: when two
+/// candidate decimal integers are equally close, it chooses the larger one.
+/// It rounds the exact binary representation instead of using a fixed-decimal
+/// intermediate, whose final-place rounding can carry into the target digit.
+fn f64_to_exponential_with_precision(n: f64, prec: usize) -> Option<String> {
     if !n.is_finite() {
-        return n.to_js_string();
+        return Some(n.to_js_string());
     }
 
-    let mut res = format!("{n:.prec$e}");
-    let idx = res.find('e').expect("'e' not found in exponential string");
-    if res.as_bytes()[idx + 1] != b'-' {
-        res.insert(idx + 1, '+');
+    if n == 0.0 {
+        return Some(if prec == 0 {
+            "0e+0".into()
+        } else {
+            format!("0.{}e+0", "0".repeat(prec))
+        });
     }
-    res
+
+    let negative = n.is_sign_negative();
+    let (_, mut exponent) = decimal_parts(&n.abs().to_js_string())?;
+    let bits = n.abs().to_bits();
+    let ieee_mantissa = bits & ((1 << 52) - 1);
+    let ieee_exponent = ((bits >> 52) & 0x7ff) as i32;
+    let (mantissa, binary_exponent) = if ieee_exponent == 0 {
+        (ieee_mantissa, 1 - 1023 - 52)
+    } else {
+        (ieee_mantissa | (1 << 52), ieee_exponent - 1023 - 52)
+    };
+
+    // Compute round(abs(n) * 10^(prec - exponent)) using the exact binary
+    // significand. This is the integer `m` from Number::toExponential.
+    let decimal_shift = prec as i32 - exponent;
+    let binary_shift = binary_exponent + decimal_shift;
+    let mut numerator = BigUint::from(mantissa);
+    let mut denominator = BigUint::from(1u8);
+
+    if decimal_shift >= 0 {
+        numerator *= BigUint::from(5u8).pow(decimal_shift as u32);
+    } else {
+        denominator *= BigUint::from(5u8).pow(decimal_shift.unsigned_abs());
+    }
+
+    if binary_shift >= 0 {
+        numerator <<= binary_shift as usize;
+    } else {
+        denominator <<= binary_shift.unsigned_abs() as usize;
+    }
+
+    let mut rounded = &numerator / &denominator;
+    let remainder = numerator % denominator.clone();
+    if remainder * 2u8 >= denominator {
+        rounded += 1u8;
+    }
+
+    let mut digits = rounded.to_string();
+    let significant_digits = prec + 1;
+    if digits.len() == significant_digits + 1 {
+        // Rounding 9.99... up changes the exponent and contributes one
+        // trailing zero that is not part of the requested precision.
+        if !digits.ends_with('0') {
+            return None;
+        }
+        digits.pop();
+        exponent += 1;
+    }
+    if digits.len() != significant_digits {
+        return None;
+    }
+
+    let mut value = String::with_capacity(digits.len() + 6);
+    if negative {
+        value.push('-');
+    }
+    value.push(digits.remove(0));
+    if !digits.is_empty() {
+        value.push('.');
+        value.push_str(&digits);
+    }
+    value.push('e');
+    if exponent >= 0 {
+        value.push('+');
+    }
+    value.push_str(&exponent.to_string());
+
+    Some(value)
+}
+
+/// Parses an ECMAScript decimal string into its significant digits and base-10
+/// exponent. The returned digits preserve trailing zeroes, which are required
+/// by explicit `fractionDigits` formatting.
+fn decimal_parts(value: &str) -> Option<(String, i32)> {
+    let value = value.strip_prefix('-').unwrap_or(value);
+    let (coefficient, exponent) = match value.split_once(['e', 'E']) {
+        Some((coefficient, exponent)) => (coefficient, exponent.parse::<i32>().ok()?),
+        None => (value, 0),
+    };
+
+    let (integer, fraction) = match coefficient.split_once('.') {
+        Some((integer, fraction)) => (integer, fraction),
+        None => (coefficient, ""),
+    };
+
+    if integer.is_empty()
+        || !integer.bytes().all(|byte| byte.is_ascii_digit())
+        || !fraction.bytes().all(|byte| byte.is_ascii_digit())
+    {
+        return None;
+    }
+
+    let decimal_index = integer.len() as i32;
+    let mut digits = String::with_capacity(integer.len() + fraction.len());
+    digits.push_str(integer);
+    digits.push_str(fraction);
+
+    let first_non_zero = digits.bytes().position(|byte| byte != b'0');
+    let Some(first_non_zero) = first_non_zero else {
+        return Some((String::new(), 0));
+    };
+
+    let exponent = exponent + decimal_index - first_non_zero as i32 - 1;
+    Some((digits.split_off(first_non_zero), exponent))
+}
+
+/// Converts a decimal string produced by ECMAScript-compatible formatting into
+/// the canonical notation required by `Number::toExponential`.
+fn decimal_to_exponential(value: &str, fraction_digits: Option<usize>) -> Option<String> {
+    let negative = value.starts_with('-');
+    let (mut digits, exponent) = decimal_parts(value)?;
+
+    if digits.is_empty() {
+        let fraction_digits = fraction_digits.unwrap_or(0);
+        return Some(if fraction_digits == 0 {
+            "0e+0".into()
+        } else {
+            format!("0.{}e+0", "0".repeat(fraction_digits))
+        });
+    }
+
+    match fraction_digits {
+        Some(fraction_digits) => {
+            if digits.len() != fraction_digits + 1 {
+                return None;
+            }
+        }
+        None => {
+            while digits.ends_with('0') {
+                digits.pop();
+            }
+        }
+    }
+
+    let mut result = String::with_capacity(digits.len() + 5);
+    if negative {
+        result.push('-');
+    }
+    result.push(digits.remove(0));
+    if !digits.is_empty() {
+        result.push('.');
+        result.push_str(&digits);
+    }
+    result.push('e');
+    if exponent >= 0 {
+        result.push('+');
+    }
+    result.push_str(&exponent.to_string());
+
+    Some(result)
 }

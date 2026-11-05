@@ -1,0 +1,2 @@
+while(ok);
+after();

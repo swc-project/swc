@@ -175,7 +175,9 @@ impl From<hstr::Atom> for Atom {
 impl From<Atom> for hstr::Wtf8Atom {
     #[inline(always)]
     fn from(s: Atom) -> Self {
-        hstr::Wtf8Atom::from(&*s)
+        // UTF-8 is valid WTF-8. Transfer the owned backing atom rather than
+        // looking up its text in the global store again.
+        hstr::Wtf8Atom::from(s.0)
     }
 }
 

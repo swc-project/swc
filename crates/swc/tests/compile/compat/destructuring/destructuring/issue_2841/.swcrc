@@ -1,0 +1,14 @@
+{
+  "env": {
+    "include": [
+      "transform-destructuring"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "preserveAllComments": true
+  }
+}

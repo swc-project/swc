@@ -1,0 +1,6 @@
+{
+    "sourceMaps": "inline",
+    "jsc": {
+        "target": "es2021"
+    }
+}

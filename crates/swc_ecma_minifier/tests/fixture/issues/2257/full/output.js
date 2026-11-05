@@ -15907,7 +15907,7 @@
                                     ib(c, d);
                                     break;
                                 case "select":
-                                    a = c._wrapperState.wasMultiple, c._wrapperState.wasMultiple = !!d.multiple, null != (f = d.value) ? fb(c, !!d.multiple, f, !1) : !!d.multiple !== a && (null != d.defaultValue ? fb(c, !!d.multiple, d.defaultValue, !0) : fb(c, !!d.multiple, d.multiple ? [] : "", !1));
+                                    a = c._wrapperState.wasMultiple, c._wrapperState.wasMultiple = !!d.multiple, null != (f = d.value) ? fb(c, !!d.multiple, f, !1) : a !== !!d.multiple && (null != d.defaultValue ? fb(c, !!d.multiple, d.defaultValue, !0) : fb(c, !!d.multiple, d.multiple ? [] : "", !1));
                             }
                         }
                     }

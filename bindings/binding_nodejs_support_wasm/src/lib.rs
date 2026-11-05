@@ -31,7 +31,26 @@ export declare function transformModuleSyntax(src: string | Uint8Array): ModuleS
 export declare function getFirstExpression(src: string | Uint8Array, startColumn: number): string;
 export declare function isValidSyntax(src: string | Uint8Array): boolean;
 export declare function isRecoverableError(src: string | Uint8Array): boolean;
+export declare function tokenize(src: string | Uint8Array): Token[];
+export declare function findTopLevelAwaits(src: string | Uint8Array): TopLevelAwaitLocation[];
 export type { Options, TransformOutput };
+
+export type TokenKind = "keyword" | "identifier" | "number" | "bigint" | "string" | "template" | "regexp" | "comment" | "punctuator";
+
+export interface Token {
+    kind: TokenKind;
+    /** Zero-based UTF-16 offset, inclusive. */
+    start: number;
+    /** Zero-based UTF-16 offset, exclusive. */
+    end: number;
+}
+
+export interface TopLevelAwaitLocation {
+    /** One-based line number. */
+    line: number;
+    /** Zero-based UTF-16 column. */
+    column: number;
+}
 
 export interface ModuleSyntaxTransformOutput {
     code: string;
@@ -89,6 +108,24 @@ pub fn is_recoverable_error(input: JsValue) -> Result<bool, JsValue> {
     let input = coerce_input(input)?;
 
     Ok(nodejs::is_recoverable_error(input))
+}
+
+/// Returns compact tokens for syntax highlighting, including a partial prefix
+/// when the input is incomplete or invalid.
+#[wasm_bindgen(skip_typescript)]
+pub fn tokenize(input: JsValue) -> Result<JsValue, JsValue> {
+    let input = coerce_input(input)?;
+    Ok(serde_wasm_bindgen::to_value(&nodejs::tokenize(&input))?)
+}
+
+/// Returns module-scope await locations in source order using Acorn
+/// coordinates.
+#[wasm_bindgen(js_name = "findTopLevelAwaits", skip_typescript)]
+pub fn find_top_level_awaits(input: JsValue) -> Result<JsValue, JsValue> {
+    let input = coerce_input(input)?;
+    Ok(serde_wasm_bindgen::to_value(
+        &nodejs::find_top_level_awaits(&input),
+    )?)
 }
 
 fn coerce_input(input: JsValue) -> Result<String, JsValue> {

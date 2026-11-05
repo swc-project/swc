@@ -883,11 +883,13 @@ impl Optimizer<'_> {
                         }
                         Mergable::FnDecl(..) => continue,
                         Mergable::Drop => {
-                            if self.drop_mergable_seq(a)? {
-                                changed = true;
-                                merge_seq_cache.invalidate(a_idx);
-                                merge_seq_cache.invalidate(b_idx);
-                                break;
+                            if let Mergable::Expr(a) = a {
+                                if self.optimize_last_expr_before_termination(a) {
+                                    changed = true;
+                                    merge_seq_cache.invalidate(a_idx);
+                                    merge_seq_cache.invalidate(b_idx);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -1040,16 +1042,6 @@ impl Optimizer<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
-    }
-
-    fn drop_mergable_seq(&mut self, a: &mut Mergable) -> Result<bool, ()> {
-        if let Mergable::Expr(a) = a {
-            if self.optimize_last_expr_before_termination(a) {
-                return Ok(true);
-            }
-        }
-
-        Ok(false)
     }
 
     fn is_simple_assign_target_skippable_for_seq(
@@ -1288,6 +1280,12 @@ impl Optimizer<'_> {
 
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if elem.spread.is_some() {
+                        log_abort!("array spread");
+                        return false;
+                    }
+
                     if !self.is_skippable_for_seq(a, &elem.expr) {
                         log_abort!("array element");
                         return false;
@@ -1351,7 +1349,7 @@ impl Optimizer<'_> {
 
             Expr::Update(..) => false,
             Expr::SuperProp(..) => false,
-            Expr::Class(_) => e.may_have_side_effects(self.ctx.expr_ctx),
+            Expr::Class(_) => !e.may_have_side_effects(self.ctx.expr_ctx),
 
             Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
             Expr::Unary(e) => self.is_skippable_for_seq(a, &e.arg),
@@ -1813,6 +1811,11 @@ impl Optimizer<'_> {
                         return Ok(true);
                     }
 
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if elem.spread.is_some() {
+                        break;
+                    }
+
                     if !self.is_skippable_for_seq(Some(a), &elem.expr) {
                         // To preserve side-effects, we need to abort.
                         break;
@@ -1874,6 +1877,11 @@ impl Optimizer<'_> {
                         return Ok(true);
                     }
 
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if arg.spread.is_some() {
+                        return Ok(false);
+                    }
+
                     if !self.is_skippable_for_seq(Some(a), &arg.expr) {
                         return Ok(false);
                     }
@@ -1896,6 +1904,11 @@ impl Optimizer<'_> {
                     trace_op!("seq: Try arg of super");
                     if self.merge_sequential_expr(a, &mut arg.expr)? {
                         return Ok(true);
+                    }
+
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if arg.spread.is_some() {
+                        return Ok(false);
                     }
 
                     if !self.is_skippable_for_seq(Some(a), &arg.expr) {
@@ -1926,6 +1939,12 @@ impl Optimizer<'_> {
 
                         if self.merge_sequential_expr(a, &mut arg.expr)? {
                             return Ok(true);
+                        }
+
+                        // Spreading reads the contents of the iterable, which `a` may have
+                        // modified.
+                        if arg.spread.is_some() {
+                            return Ok(false);
                         }
 
                         if !self.is_skippable_for_seq(Some(a), &arg.expr) {
@@ -2785,14 +2804,44 @@ impl MergeSequenceCache {
     }
 }
 
-/// Returns true for trivial bool/numeric literals
+/// Largest initializer, in AST nodes, that [is_trivial_lit] accepts.
+///
+/// The sequential inliner copies a trivial initializer into every use instead
+/// of moving it. Copies cascade: once the copy lands in the initializer of
+/// another variable, that initializer may become trivial and get copied too. A
+/// variable built from two earlier ones (`const c = 1 + a + b`) receives both
+/// of their expressions, so without a bound the copied expressions grow like
+/// the Fibonacci numbers along a chain of such declarations, and so do the time
+/// and memory spent on them. Real-world cascades, such as `24 * 60 * 60 * 1000`
+/// built from a chain of time constants, stay far below this bound.
+const TRIVIAL_LIT_MAX_NODES: usize = 16;
+
+/// Returns true for trivial bool/numeric literals, and for small expressions
+/// that combine them with `!` and binary operators (at most
+/// [TRIVIAL_LIT_MAX_NODES] nodes).
 pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
+    remaining_trivial_lit_budget(e, TRIVIAL_LIT_MAX_NODES).is_some()
+}
+
+/// Returns the budget left after visiting `e`, or [None] when `e` is not a
+/// trivial literal or has more nodes than `budget`. The walk stops as soon as
+/// the budget runs out, so it never visits more than [TRIVIAL_LIT_MAX_NODES]
+/// nodes.
+fn remaining_trivial_lit_budget(e: &Expr, budget: usize) -> Option<usize> {
+    let budget = budget.checked_sub(1)?;
+
     match e {
-        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => true,
-        Expr::Paren(e) => is_trivial_lit(&e.expr),
-        Expr::Bin(e) => is_trivial_lit(&e.left) && is_trivial_lit(&e.right),
-        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_trivial_lit(&e.arg),
-        _ => false,
+        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => Some(budget),
+        Expr::Paren(e) => remaining_trivial_lit_budget(&e.expr, budget),
+        // The right operand only gets the budget the left operand did not use, so
+        // this bounds the total number of nodes rather than the depth.
+        Expr::Bin(e) => {
+            remaining_trivial_lit_budget(&e.right, remaining_trivial_lit_budget(&e.left, budget)?)
+        }
+        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => {
+            remaining_trivial_lit_budget(&e.arg, budget)
+        }
+        _ => None,
     }
 }
 

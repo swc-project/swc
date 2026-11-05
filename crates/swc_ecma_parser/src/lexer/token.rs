@@ -13,7 +13,7 @@ use crate::{
 
 #[derive(Debug, Clone)]
 pub enum TokenValue {
-    /// unknown ident, jsx name and shebang
+    /// Unknown identifiers, escaped keyword spellings, JSX names, and shebangs.
     Word(Atom),
     Template(LexResult<Wtf8Atom>),
     // string
@@ -375,11 +375,7 @@ impl<'a> Token {
 
     #[inline(always)]
     pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
-        if self == Token::Ident {
-            let value = buffer.get_token_value();
-            let Some(TokenValue::Word(word)) = value else {
-                unreachable!("{:#?}", value)
-            };
+        if let Some(TokenValue::Word(word)) = buffer.get_token_value() {
             return word.clone();
         }
 
@@ -390,9 +386,7 @@ impl<'a> Token {
 
     #[inline(always)]
     pub fn take_known_ident<I: Tokens>(self, buffer: &Buffer<I>) -> Atom {
-        let span = buffer.cur.span;
-        let atom = Atom::new(buffer.iter.read_string(span));
-        atom
+        self.take_word(buffer)
     }
 
     #[inline(always)]
@@ -437,12 +431,8 @@ impl Token {
     pub const fn is_reserved(self, ctx: Context) -> bool {
         match self {
             Token::Let | Token::Static => ctx.contains(Context::Strict),
-            Token::Await => {
-                ctx.contains(Context::InAsync)
-                    || ctx.contains(Context::InStaticBlock)
-                    || ctx.contains(Context::Strict)
-            }
-            Token::Yield => ctx.contains(Context::InGenerator) || ctx.contains(Context::Strict),
+            Token::Await => ctx.contains(Context::Module),
+            Token::Yield => ctx.contains(Context::Strict),
 
             Token::Null
             | Token::True

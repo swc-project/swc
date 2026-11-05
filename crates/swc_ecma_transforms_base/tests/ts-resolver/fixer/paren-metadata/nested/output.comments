@@ -1,0 +1,164 @@
+Source, remove_only=false:
+leading BytePos(118) -> BytePos(119)
+trailing BytePos(132) -> BytePos(131)
+leading BytePos(80) -> BytePos(81)
+trailing BytePos(102) -> BytePos(101)
+leading BytePos(27) -> BytePos(28)
+trailing BytePos(48) -> BytePos(33)
+leading BytePos(14) -> BytePos(15)
+trailing BytePos(56) -> BytePos(55)
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(28): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(119): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Source, remove_only=true:
+leading BytePos(119) -> BytePos(120)
+trailing BytePos(131) -> BytePos(130)
+leading BytePos(118) -> BytePos(119)
+trailing BytePos(132) -> BytePos(131)
+leading BytePos(81) -> BytePos(96)
+trailing BytePos(101) -> BytePos(100)
+leading BytePos(80) -> BytePos(81)
+trailing BytePos(102) -> BytePos(101)
+leading BytePos(27) -> BytePos(28)
+trailing BytePos(48) -> BytePos(33)
+leading BytePos(15) -> BytePos(27)
+trailing BytePos(54) -> BytePos(53)
+leading BytePos(14) -> BytePos(15)
+trailing BytePos(56) -> BytePos(55)
+leading BytePos(13) -> BytePos(14)
+trailing BytePos(62) -> BytePos(61)
+leading at BytePos(14): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(28): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(119): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Duplicated, remove_only=false:
+leading BytePos(118) -> BytePos(119)
+trailing BytePos(132) -> BytePos(131)
+leading BytePos(80) -> BytePos(81)
+trailing BytePos(102) -> BytePos(101)
+leading BytePos(27) -> BytePos(28)
+trailing BytePos(48) -> BytePos(33)
+leading BytePos(14) -> BytePos(15)
+trailing BytePos(56) -> BytePos(55)
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(28): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(119): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Duplicated, remove_only=true:
+leading BytePos(119) -> BytePos(120)
+trailing BytePos(131) -> BytePos(130)
+leading BytePos(118) -> BytePos(119)
+trailing BytePos(132) -> BytePos(131)
+leading BytePos(81) -> BytePos(96)
+trailing BytePos(101) -> BytePos(100)
+leading BytePos(80) -> BytePos(81)
+trailing BytePos(102) -> BytePos(101)
+leading BytePos(27) -> BytePos(28)
+trailing BytePos(48) -> BytePos(33)
+leading BytePos(15) -> BytePos(27)
+trailing BytePos(54) -> BytePos(53)
+leading BytePos(14) -> BytePos(15)
+trailing BytePos(56) -> BytePos(55)
+leading BytePos(13) -> BytePos(14)
+trailing BytePos(62) -> BytePos(61)
+leading at BytePos(14): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(28): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(119): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Dummy, remove_only=false:
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(27): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(118): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Dummy, remove_only=true:
+leading BytePos(0) -> BytePos(0)
+trailing BytePos(0) -> BytePos(0)
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(27): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(118): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Shared, remove_only=false:
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(27): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(118): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Shared, remove_only=true:
+leading BytePos(1) -> BytePos(1)
+trailing BytePos(2) -> BytePos(2)
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(27): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(118): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Pure, remove_only=false:
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(27): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(118): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Pure, remove_only=true:
+leading BytePos(4294967294) -> BytePos(4294967294)
+trailing BytePos(4294967294) -> BytePos(4294967294)
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(27): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(118): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Mixed, remove_only=false:
+leading BytePos(4294967294) -> BytePos(1)
+trailing BytePos(4294967294) -> BytePos(2)
+leading BytePos(4294967294) -> BytePos(28)
+trailing BytePos(4294967294) -> BytePos(33)
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(27): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(118): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+
+Mixed, remove_only=true:
+leading BytePos(4294967294) -> BytePos(4294967294)
+trailing BytePos(4294967294) -> BytePos(4294967294)
+leading BytePos(4294967294) -> BytePos(1)
+trailing BytePos(4294967294) -> BytePos(2)
+leading BytePos(4294967294) -> BytePos(28)
+trailing BytePos(4294967294) -> BytePos(33)
+leading BytePos(0) -> BytePos(27)
+trailing BytePos(0) -> BytePos(53)
+leading BytePos(0) -> BytePos(0)
+trailing BytePos(0) -> BytePos(0)
+leading at BytePos(13): [Comment { kind: Block, span: 1..12, text: " outer " }]
+leading at BytePos(27): [Comment { kind: Block, span: 16..26, text: " cast " }]
+leading at BytePos(96): [Comment { kind: Block, span: 82..95, text: " generic " }]
+leading at BytePos(118): [Comment { kind: Block, span: 105..117, text: " update " }]
+trailing at BytePos(33): [Comment { kind: Block, span: 34..47, text: " operand " }]
+trailing at BytePos(63): [Comment { kind: Block, span: 64..78, text: " trailing " }]
+

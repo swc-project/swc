@@ -1,0 +1,23 @@
+# name|overflowuid|uid_map rows separated by semicolons|result
+single-user|65534|1000 1000 1|trusted
+initial-namespace|65534|0 0 4294967295|rejected
+multiple-unmapped|65534|1000 65534 1;2000 3000 10|trusted
+multiple-mapped|65534|1000 1000 1;65534 2000 1|rejected
+range-start|65534|65534 1000 2|rejected
+range-last|65534|65533 1000 2|rejected
+range-end-exclusive|65534|65533 1000 1|trusted
+range-above|65534|65535 1000 1|trusted
+empty-map|65534||rejected
+missing-field|65534|1000 1000|rejected
+extra-field|65534|1000 1000 1 2|rejected
+invalid-number|65534|invalid 1000 1|rejected
+zero-length|65534|1000 1000 0|rejected
+inside-overflow|65534|4294967294 0 2|rejected
+outside-overflow|65534|0 4294967294 2|rejected
+malformed-after-valid|65534|1000 1000 1;invalid|rejected
+malformed-after-mapped|65534|65534 1000 1;invalid|rejected
+empty-row|65534|1000 1000 1;;2000 2000 1|rejected
+invalid-overflow|invalid|1000 1000 1|rejected
+empty-overflow||1000 1000 1|rejected
+oversized-overflow|4294967296|1000 1000 1|rejected
+reserved-overflow|4294967295|1000 1000 1|rejected

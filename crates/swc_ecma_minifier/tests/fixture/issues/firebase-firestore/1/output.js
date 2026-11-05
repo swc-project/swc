@@ -6535,11 +6535,6 @@
                 });
             }
             /**
-                 * Toggles the network state when the client gains or loses its primary lease.
-                 */ async function Do(t, e) {
-                e ? (t.Wr.delete(2 /* IsSecondary */ ), await ro(t)) : e || (t.Wr.add(2 /* IsSecondary */ ), await oo(t), t.Hr.set("Unknown" /* Unknown */ ));
-            }
-            /**
                  * If not yet initialized, registers the WatchStream and its network state
                  * callback with `remoteStoreImpl`. Returns the existing stream if one is
                  * already available.
@@ -6850,25 +6845,6 @@
                 constructor(){
                     this.queries = new ji((t)=>Re(t), Ae), this.onlineState = "Unknown", this.so = new Set();
                 }
-            }
-            async function Bo(t, e) {
-                let s = e.query, i = !1, r = t.queries.get(s);
-                if (r || (i = !0, r = new Mo()), i) try {
-                    r.no = await t.onListen(s);
-                } catch (t) {
-                    let n = ko(t, `Initialization of query '${be(e.query)}' failed`);
-                    return void e.onError(n);
-                }
-                t.queries.set(s, r), r.listeners.push(e), // Run global snapshot listeners if a consistent snapshot has been emitted.
-                e.io(t.onlineState), r.no && e.ro(r.no) && jo(t);
-            }
-            async function Uo(t, e) {
-                let s = e.query, i = !1, r = t.queries.get(s);
-                if (r) {
-                    let t = r.listeners.indexOf(e);
-                    t >= 0 && (r.listeners.splice(t, 1), i = 0 === r.listeners.length);
-                }
-                if (i) return t.queries.delete(s), t.onUnlisten(s);
             }
             function qo(t, e) {
                 let s = !1;
@@ -7285,32 +7261,31 @@
                         let s = t1.Un.get(t.targetId);
                         return (null === s || t.snapshotVersion.compareTo(s.snapshotVersion) > 0) && (t1.Un = t1.Un.insert(t.targetId, t), t1.qn.set(e1, t.targetId)), t;
                     })), r = n.sharedClientState.addLocalQueryTarget(t.targetId);
-                    s = t.targetId, i = await sc(n, e, s, "current" === r), n.isPrimaryClient && co(n.remoteStore, t);
-                }
-                return i;
-            }
-            /**
+                    s = t.targetId, i = await /**
                  * Registers a view for a previously unknown query and computes its initial
                  * snapshot.
-                 */ async function sc(t, e, n, s) {
-                // PORTING NOTE: On Web only, we inject the code that registers new Limbo
-                // targets based on view changes. This allows us to only depend on Limbo
-                // changes when user code includes queries.
-                t.Wo = (e, n, s)=>(async function(t, e, n, s) {
-                        let i = e.view.bo(n);
-                        i.Ln && // The query has a limit and some docs were removed, so we need
-                        // to re-run the query against the local store to make sure we
-                        // didn't lose any good docs that had been past the limit.
-                        (i = await yr(t.localStore, e.query, /* usePreviousResults= */ !1).then(({ documents: t })=>e.view.bo(t, i)));
-                        let r = s && s.targetChanges.get(e.targetId), o = e.view.applyChanges(i, /* updateLimboDocuments= */ t.isPrimaryClient, r);
-                        return mc(t, e.targetId, o.Do), o.snapshot;
-                    })(t, e, n, s);
-                let i = await yr(t.localStore, e, /* usePreviousResults= */ !0), r = new Xo(e, i.Gn), o = r.bo(i.documents), c = Dn.createSynthesizedTargetChangeForCurrentChange(n, s && "Offline" /* Offline */  !== t.onlineState), a = r.applyChanges(o, /* updateLimboDocuments= */ t.isPrimaryClient, c);
-                mc(t, n, a.Do);
-                let u = new Zo(e, n, r);
-                return t.Oo.set(e, u), t.Fo.has(n) ? t.Fo.get(n).push(e) : t.Fo.set(n, [
-                    e
-                ]), a.snapshot;
+                 */ async function(t, e, n, s) {
+                        // PORTING NOTE: On Web only, we inject the code that registers new Limbo
+                        // targets based on view changes. This allows us to only depend on Limbo
+                        // changes when user code includes queries.
+                        t.Wo = (e, n, s)=>(async function(t, e, n, s) {
+                                let i = e.view.bo(n);
+                                i.Ln && // The query has a limit and some docs were removed, so we need
+                                // to re-run the query against the local store to make sure we
+                                // didn't lose any good docs that had been past the limit.
+                                (i = await yr(t.localStore, e.query, /* usePreviousResults= */ !1).then(({ documents: t })=>e.view.bo(t, i)));
+                                let r = s && s.targetChanges.get(e.targetId), o = e.view.applyChanges(i, /* updateLimboDocuments= */ t.isPrimaryClient, r);
+                                return mc(t, e.targetId, o.Do), o.snapshot;
+                            })(t, e, n, s);
+                        let i = await yr(t.localStore, e, /* usePreviousResults= */ !0), r = new Xo(e, i.Gn), o = r.bo(i.documents), c = Dn.createSynthesizedTargetChangeForCurrentChange(n, s && "Offline" /* Offline */  !== t.onlineState), a = r.applyChanges(o, /* updateLimboDocuments= */ t.isPrimaryClient, c);
+                        mc(t, n, a.Do);
+                        let u = new Zo(e, n, r);
+                        return t.Oo.set(e, u), t.Fo.has(n) ? t.Fo.get(n).push(e) : t.Fo.set(n, [
+                            e
+                        ]), a.snapshot;
+                    }(n, e, s, "current" === r), n.isPrimaryClient && co(n.remoteStore, t);
+                }
+                return i;
             }
             /** Stops listening to the query. */ async function ic(t, e) {
                 let s = t.Oo.get(e), i = t.Fo.get(s.targetId);
@@ -7565,7 +7540,11 @@
                  * network.
                  */ class Fc {
                 async initialize(t, e) {
-                    this.localStore || (this.localStore = t.localStore, this.sharedClientState = t.sharedClientState, this.datastore = this.createDatastore(e), this.remoteStore = this.createRemoteStore(e), this.eventManager = this.createEventManager(e), this.syncEngine = this.createSyncEngine(e, /* startAsPrimary=*/ !t.synchronizeTabs), this.sharedClientState.onlineStateHandler = (t)=>cc(this.syncEngine, t, 1 /* SharedClientState */ ), this.remoteStore.remoteSyncer.handleCredentialChange = Tc.bind(null, this.syncEngine), await Do(this.remoteStore, this.syncEngine.isPrimaryClient));
+                    this.localStore || (this.localStore = t.localStore, this.sharedClientState = t.sharedClientState, this.datastore = this.createDatastore(e), this.remoteStore = this.createRemoteStore(e), this.eventManager = this.createEventManager(e), this.syncEngine = this.createSyncEngine(e, /* startAsPrimary=*/ !t.synchronizeTabs), this.sharedClientState.onlineStateHandler = (t)=>cc(this.syncEngine, t, 1 /* SharedClientState */ ), this.remoteStore.remoteSyncer.handleCredentialChange = Tc.bind(null, this.syncEngine), await /**
+                 * Toggles the network state when the client gains or loses its primary lease.
+                 */ async function(t, e) {
+                        e ? (t.Wr.delete(2 /* IsSecondary */ ), await ro(t)) : e || (t.Wr.add(2 /* IsSecondary */ ), await oo(t), t.Hr.set("Unknown" /* Unknown */ ));
+                    }(this.remoteStore, this.syncEngine.isPrimaryClient));
                 }
                 createEventManager(t) {
                     return new Lo();
@@ -7713,44 +7692,6 @@
                         }
                     }), t.promise;
                 }
-            }
-            async function jc(t, e) {
-                t.asyncQueue.verifyOperationInProgress(), $("FirestoreClient", "Initializing OfflineComponentProvider");
-                let n = await t.getConfiguration();
-                await e.initialize(n);
-                let s = n.initialUser;
-                t.setCredentialChangeListener(async (t)=>{
-                    s.isEqual(t) || (await hr(e.localStore, t), s = t);
-                }), // When a user calls clearPersistence() in one client, all other clients
-                // need to be terminated to allow the delete to succeed.
-                e.persistence.setDatabaseDeletedListener(()=>t.terminate()), t.offlineComponents = e;
-            }
-            async function Qc(t, e) {
-                t.asyncQueue.verifyOperationInProgress();
-                let n = await Wc(t);
-                $("FirestoreClient", "Initializing OnlineComponentProvider");
-                let s = await t.getConfiguration();
-                await e.initialize(n, s), // The CredentialChangeListener of the online component provider takes
-                // precedence over the offline component provider.
-                t.setCredentialChangeListener((t)=>(async function(t, e) {
-                        t.asyncQueue.verifyOperationInProgress(), $("RemoteStore", "RemoteStore received new credentials");
-                        let s = wo(t);
-                        // Tear down and re-create our network streams. This will ensure we get a
-                        // fresh auth token for the new user and re-fill the write pipeline with
-                        // new mutations from the LocalStore (since mutations are per-user).
-                        t.Wr.add(3 /* CredentialChange */ ), await oo(t), s && // Don't set the network status to Unknown if we are offline.
-                        t.Hr.set("Unknown" /* Unknown */ ), await t.remoteSyncer.handleCredentialChange(e), t.Wr.delete(3 /* CredentialChange */ ), await ro(t);
-                    })(e.remoteStore, t)), t.onlineComponents = e;
-            }
-            async function Wc(t) {
-                return t.offlineComponents || ($("FirestoreClient", "Using default OfflineComponentProvider"), await jc(t, new kc())), t.offlineComponents;
-            }
-            async function Gc(t) {
-                return t.onlineComponents || ($("FirestoreClient", "Using default OnlineComponentProvider"), await Qc(t, new Fc())), t.onlineComponents;
-            }
-            async function Xc(t) {
-                let e = await Gc(t), n = e.eventManager;
-                return n.onListen = nc.bind(null, e.syncEngine), n.onUnlisten = ic.bind(null, e.syncEngine), n;
             }
             class ua {
                 /**
@@ -8970,17 +8911,67 @@
                     return t.asyncQueue.enqueueAndForget(async ()=>{
                         var t1, e1;
                         let o;
-                        return t1 = await Xc(t), e1 = t.asyncQueue, o = new Qo(e, new Lc({
+                        return t1 = await async function(t) {
+                            let e = await async function(t) {
+                                return t.onlineComponents || ($("FirestoreClient", "Using default OnlineComponentProvider"), await async function(t, e) {
+                                    t.asyncQueue.verifyOperationInProgress();
+                                    let n = await async function(t) {
+                                        return t.offlineComponents || ($("FirestoreClient", "Using default OfflineComponentProvider"), await async function(t, e) {
+                                            t.asyncQueue.verifyOperationInProgress(), $("FirestoreClient", "Initializing OfflineComponentProvider");
+                                            let n = await t.getConfiguration();
+                                            await e.initialize(n);
+                                            let s = n.initialUser;
+                                            t.setCredentialChangeListener(async (t)=>{
+                                                s.isEqual(t) || (await hr(e.localStore, t), s = t);
+                                            }), // When a user calls clearPersistence() in one client, all other clients
+                                            // need to be terminated to allow the delete to succeed.
+                                            e.persistence.setDatabaseDeletedListener(()=>t.terminate()), t.offlineComponents = e;
+                                        }(t, new kc())), t.offlineComponents;
+                                    }(t);
+                                    $("FirestoreClient", "Initializing OnlineComponentProvider");
+                                    let s = await t.getConfiguration();
+                                    await e.initialize(n, s), // The CredentialChangeListener of the online component provider takes
+                                    // precedence over the offline component provider.
+                                    t.setCredentialChangeListener((t)=>(async function(t, e) {
+                                            t.asyncQueue.verifyOperationInProgress(), $("RemoteStore", "RemoteStore received new credentials");
+                                            let s = wo(t);
+                                            // Tear down and re-create our network streams. This will ensure we get a
+                                            // fresh auth token for the new user and re-fill the write pipeline with
+                                            // new mutations from the LocalStore (since mutations are per-user).
+                                            t.Wr.add(3 /* CredentialChange */ ), await oo(t), s && // Don't set the network status to Unknown if we are offline.
+                                            t.Hr.set("Unknown" /* Unknown */ ), await t.remoteSyncer.handleCredentialChange(e), t.Wr.delete(3 /* CredentialChange */ ), await ro(t);
+                                        })(e.remoteStore, t)), t.onlineComponents = e;
+                                }(t, new Fc())), t.onlineComponents;
+                            }(t), n = e.eventManager;
+                            return n.onListen = nc.bind(null, e.syncEngine), n.onUnlisten = ic.bind(null, e.syncEngine), n;
+                        }(t), e1 = t.asyncQueue, o = new Qo(e, new Lc({
                             next: (n1)=>{
                                 // Remove query first before passing event to user to avoid
                                 // user actions affecting the now stale query.
-                                e1.enqueueAndForget(()=>Uo(t1, o)), n1.fromCache && "server" === n.source ? s.reject(new j(K.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : s.resolve(n1);
+                                e1.enqueueAndForget(()=>(async function(t, e) {
+                                        let s = e.query, i = !1, r = t.queries.get(s);
+                                        if (r) {
+                                            let t = r.listeners.indexOf(e);
+                                            t >= 0 && (r.listeners.splice(t, 1), i = 0 === r.listeners.length);
+                                        }
+                                        if (i) return t.queries.delete(s), t.onUnlisten(s);
+                                    })(t1, o)), n1.fromCache && "server" === n.source ? s.reject(new j(K.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : s.resolve(n1);
                             },
                             error: (t)=>s.reject(t)
                         }), {
                             includeMetadataChanges: !0,
                             fo: !0
-                        }), Bo(t1, o);
+                        }), async function(t, e) {
+                            let s = e.query, i = !1, r = t.queries.get(s);
+                            if (r || (i = !0, r = new Mo()), i) try {
+                                r.no = await t.onListen(s);
+                            } catch (t) {
+                                let n = ko(t, `Initialization of query '${be(e.query)}' failed`);
+                                return void e.onError(n);
+                            }
+                            t.queries.set(s, r), r.listeners.push(e), // Run global snapshot listeners if a consistent snapshot has been emitted.
+                            e.io(t.onlineState), r.no && e.ro(r.no) && jo(t);
+                        }(t1, o);
                     }), s.promise;
                 })(n, t._query).then((n)=>new xu(e, s, t, n)));
             }

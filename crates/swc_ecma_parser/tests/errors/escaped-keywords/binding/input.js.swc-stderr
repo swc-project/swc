@@ -1,0 +1,5 @@
+  x Expected ident
+   ,-[$DIR/tests/errors/escaped-keywords/binding/input.js:1:1]
+ 1 | const br\u0065ak = 42;
+   :       ^^^^^^^^^^
+   `----

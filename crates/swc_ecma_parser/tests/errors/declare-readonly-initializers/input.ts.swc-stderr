@@ -1,0 +1,63 @@
+  x An implementation cannot be declared in ambient contexts
+   ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:3:1]
+ 2 | class C {
+ 3 |     declare mutable = "test";
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     declare readonly annotated: string = "test";
+   `----
+  x An implementation cannot be declared in ambient contexts
+   ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:4:1]
+ 3 |     declare mutable = "test";
+ 4 |     declare readonly annotated: string = "test";
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |     declare readonly binary = 1 + 2;
+   `----
+  x An implementation cannot be declared in ambient contexts
+   ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:5:1]
+ 4 |     declare readonly annotated: string = "test";
+ 5 |     declare readonly binary = 1 + 2;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     declare readonly call = String(1);
+   `----
+  x An implementation cannot be declared in ambient contexts
+   ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:6:1]
+ 5 |     declare readonly binary = 1 + 2;
+ 6 |     declare readonly call = String(1);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |     declare readonly object = {};
+   `----
+  x An implementation cannot be declared in ambient contexts
+   ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:7:1]
+ 6 |     declare readonly call = String(1);
+ 7 |     declare readonly object = {};
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     declare readonly positive = +1;
+   `----
+  x An implementation cannot be declared in ambient contexts
+   ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:8:1]
+ 7 |     declare readonly object = {};
+ 8 |     declare readonly positive = +1;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 |     declare readonly parenthesized = (1);
+   `----
+  x An implementation cannot be declared in ambient contexts
+    ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:9:1]
+  8 |     declare readonly positive = +1;
+  9 |     declare readonly parenthesized = (1);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 |     declare readonly template = `${1}`;
+    `----
+  x An implementation cannot be declared in ambient contexts
+    ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:10:1]
+  9 |     declare readonly parenthesized = (1);
+ 10 |     declare readonly template = `${1}`;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |     declare readonly computed = E["A" + ""];
+    `----
+  x An implementation cannot be declared in ambient contexts
+    ,-[$DIR/tests/errors/declare-readonly-initializers/input.ts:11:1]
+ 10 |     declare readonly template = `${1}`;
+ 11 |     declare readonly computed = E["A" + ""];
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 | }
+    `----

@@ -2,22 +2,27 @@ use std::ops::Deref;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
-use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
+use swc_common::{util::take::Take, EqIgnoreSpan, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_ident_ref, contains_this_expr, find_pat_ids,
-    ExprExt, Remapper,
+    class_has_side_effect, collect_decls, contains_ident_ref, find_pat_ids, ExprExt, Remapper,
 };
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
     compress::{
-        optimize::{util::is_valid_for_lhs, BitCtx},
-        util::contains_super,
+        optimize::{
+            util::{is_valid_for_lhs, may_inline_arrow},
+            BitCtx,
+        },
+        util::is_pure_undefined,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
-    usage_analyzer::alias::{collect_infects_from, AliasConfig},
+    usage_analyzer::{
+        alias::{collect_infects_from, AliasConfig},
+        analyzer::storage::Storage,
+    },
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
     },
@@ -41,7 +46,7 @@ impl Optimizer<'_> {
             self.may_remove_ident(ident)
         );
 
-        if let Some(scope) = self.data.get_scope(self.ctx.var_scope) {
+        if let Some(scope) = self.data.get_scope(ident.ctxt) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -52,11 +57,8 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Expr::Arrow(ArrowExpr { body, .. }) = init {
-            if contains_super(body) {
-                return;
-            }
-            if contains_this_expr(body) {
+        if let Expr::Arrow(a) = init {
+            if !may_inline_arrow(a) {
                 return;
             }
         }
@@ -67,18 +69,14 @@ impl Optimizer<'_> {
                 return;
             }
 
-            let used_arguments = self
-                .data
-                .get_scope(self.ctx.var_scope)
-                .unwrap()
-                .contains(ScopeData::USED_ARGUMENTS);
-
-            if used_arguments
-                && usage
-                    .flags
-                    .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-            {
-                return;
+            if let Some(scope) = self.data.get_scope(ident.ctxt) {
+                if scope.contains(ScopeData::USED_ARGUMENTS)
+                    && usage
+                        .flags
+                        .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                {
+                    return;
+                }
             }
 
             if usage
@@ -406,23 +404,6 @@ impl Optimizer<'_> {
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr { function: f, .. })
-                        if matches!(
-                            &**f,
-                            Function { is_async: true, .. }
-                                | Function {
-                                    is_generator: true,
-                                    ..
-                                }
-                        ) =>
-                    {
-                        return
-                    }
-                    Expr::Arrow(ArrowExpr { is_async: true, .. })
-                    | Expr::Arrow(ArrowExpr {
-                        is_generator: true, ..
-                    }) => return,
-
                     Expr::Lit(Lit::Regex(..)) => {
                         if !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                             || usage
@@ -442,11 +423,17 @@ impl Optimizer<'_> {
 
                     Expr::Lit(..) => {}
 
-                    Expr::Fn(_) | Expr::Arrow(..) if !usage.can_inline_fn_once() => {
-                        return;
-                    }
+                    Expr::Fn(_) | Expr::Arrow(..) => {
+                        let is_generator = match init {
+                            Expr::Arrow(ArrowExpr { is_generator, .. }) => *is_generator,
+                            Expr::Fn(FnExpr { function, .. }) => function.is_generator,
+                            _ => unreachable!(),
+                        };
 
-                    Expr::Fn(_) | Expr::Arrow(_) => {}
+                        if !usage.can_inline_fn_once(is_generator) {
+                            return;
+                        }
+                    }
 
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
@@ -568,6 +555,156 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Records a variable declared without an initializer, if the variable is
+    /// never assigned.
+    ///
+    /// Every read of such a variable evaluates to `undefined`, even inside
+    /// closures. [Optimizer::inline_undefined_var] replaces the references
+    /// that can fold, and the unused-variable pass removes the declaration
+    /// after all references are gone.
+    ///
+    /// See https://github.com/swc-project/swc/issues/12643
+    pub(super) fn store_uninitialized_var_for_inlining(&mut self, ident: &Ident) {
+        if self.options.inline == 0 && !self.options.reduce_vars {
+            return;
+        }
+
+        // `var arguments;` in a non-arrow function refers to the arguments object.
+        if ident.sym == "arguments" {
+            return;
+        }
+
+        if let Some(scope) = self.data.get_scope(ident.ctxt) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
+        }
+
+        let Some(usage) = self.data.vars.get(&ident.to_id()) else {
+            return;
+        };
+
+        if usage.ref_count == 0
+            || usage.assign_count != 0
+            || usage.declared_count != 1
+            || usage.property_mutation_count != 0
+            || !matches!(usage.var_kind, Some(VarDeclKind::Let | VarDeclKind::Var))
+            || !usage.flags.contains(VarUsageInfoFlags::DECLARED)
+            || usage.flags.intersects(
+                VarUsageInfoFlags::INLINE_PREVENTED
+                    .union(VarUsageInfoFlags::REASSIGNED)
+                    .union(VarUsageInfoFlags::VAR_INITIALIZED)
+                    // Reading a `let` binding above its declaration throws.
+                    .union(VarUsageInfoFlags::USED_ABOVE_DECL)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                    .union(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FOR_INIT),
+            )
+        {
+            return;
+        }
+
+        // Top-level variables of a script may be assigned by other scripts.
+        if !self.may_remove_ident(ident) {
+            return;
+        }
+
+        report_change!(
+            "inline: Decided to treat never-assigned variable '{}{:?}' as `void 0`",
+            ident.sym,
+            ident.ctxt
+        );
+
+        self.mode.store(ident.to_id(), &Expr::undefined(ident.span));
+        self.vars.undefined_vars.insert(ident.to_id());
+    }
+
+    /// Returns `true` if `e` is a reference to a variable recorded by
+    /// [Optimizer::store_uninitialized_var_for_inlining].
+    pub(super) fn is_undefined_var(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => {
+                !self.vars.undefined_vars.is_empty()
+                    && self.vars.undefined_vars.contains(&i.to_id())
+            }
+            _ => false,
+        }
+    }
+
+    /// Replaces `e` with `void 0` if it is a reference to a never-assigned
+    /// variable.
+    ///
+    /// Callers invoke this only at positions where `undefined` lets the
+    /// enclosing expression fold, such as a condition or a comparison with a
+    /// constant.
+    pub(super) fn inline_undefined_var(&mut self, e: &mut Expr) {
+        if !self.is_undefined_var(e) {
+            return;
+        }
+
+        report_change!(
+            "inline: Replacing never-assigned variable `{}` with `void 0`",
+            crate::debug::dump(&*e, false)
+        );
+        self.changed = true;
+        *e = *Expr::undefined(e.span());
+    }
+
+    /// Replaces never-assigned variables in the operands of `n` where the
+    /// result can fold.
+    ///
+    /// - The left operand of `&&`, `||` and `??` decides the result.
+    /// - An equality comparison folds if the other operand is constant.
+    pub(super) fn inline_undefined_vars_in_bin_expr(&mut self, n: &mut BinExpr) {
+        if self.vars.undefined_vars.is_empty() {
+            return;
+        }
+
+        match n.op {
+            op!("&&") | op!("||") | op!("??") => self.inline_undefined_var(&mut n.left),
+            op!("==") | op!("!=") | op!("===") | op!("!==") => {
+                let is_const = |this: &Self, e: &Expr| {
+                    e.is_lit()
+                        || is_pure_undefined(this.ctx.expr_ctx, e)
+                        || this.is_undefined_var(e)
+                };
+
+                if is_const(self, &n.left) && is_const(self, &n.right) {
+                    self.inline_undefined_var(&mut n.left);
+                    self.inline_undefined_var(&mut n.right);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Replaces never-assigned variables in `e` where the result can fold.
+    ///
+    /// - The test of a conditional expression decides the branch.
+    /// - An optional chain on `undefined` short-circuits.
+    pub(super) fn inline_undefined_vars_in_expr(&mut self, e: &mut Expr) {
+        if self.vars.undefined_vars.is_empty() {
+            return;
+        }
+
+        match e {
+            Expr::Cond(c) => self.inline_undefined_var(&mut c.test),
+            Expr::OptChain(OptChainExpr {
+                optional: true,
+                base,
+                ..
+            }) => match &mut **base {
+                OptChainBase::Member(m) => self.inline_undefined_var(&mut m.obj),
+                OptChainBase::Call(c) => self.inline_undefined_var(&mut c.callee),
+                #[cfg(swc_ast_unknown)]
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
     /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(
         &self,
@@ -584,17 +721,28 @@ impl Optimizer<'_> {
             0
         } as usize;
         let cost_limit = 3 + param_cost + func_body_cost;
+        let inline_cost = |expr: &Expr| {
+            let mut cost = expr.size(self.ctx.expr_ctx.unresolved_ctxt);
+            if let Expr::Object(obj) = expr {
+                // Substitution can expand `{ x }` to `{ x: value }`. Count at
+                // least the colon and a one-character value before copying it.
+                cost += 2 * obj
+                    .props
+                    .iter()
+                    .filter(|prop| {
+                        matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::Shorthand(..)))
+                    })
+                    .count();
+            }
+            cost
+        };
 
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
-                Stmt::Expr(ExprStmt { expr, .. })
-                    if expr.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
-                {
-                    return true
-                }
+                Stmt::Expr(ExprStmt { expr, .. }) if inline_cost(expr) < cost_limit => return true,
 
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. })
-                    if arg.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
+                    if inline_cost(arg) < cost_limit =>
                 {
                     return true
                 }
@@ -640,12 +788,8 @@ impl Optimizer<'_> {
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
         let i = match &*decl {
             Decl::Class(v) => &v.ident,
-            Decl::Fn(f) => {
-                if f.function.is_async {
-                    return;
-                }
-                &f.ident
-            }
+            Decl::Fn(f) => &f.ident,
+
             _ => return,
         };
 
@@ -675,7 +819,7 @@ impl Optimizer<'_> {
 
         let id = i.to_id();
 
-        if let Some(scope) = self.data.get_scope(self.ctx.var_scope) {
+        if let Some(scope) = self.data.get_scope(id.1) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -709,7 +853,12 @@ impl Optimizer<'_> {
             // Inline very simple functions.
             self.vars.inline_with_multi_replacer(decl);
             match decl {
-                Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
+                Decl::Fn(f)
+                    if self.options.inline >= 2
+                        && f.ident.sym != *"arguments"
+                        && !f.function.is_async
+                        && !f.function.is_generator =>
+                {
                     if let Some(body) = &f.function.body {
                         if !usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                             // only callees can be inlined multiple times
@@ -722,6 +871,14 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
+                            if let Some(scope) = self.data.get_scope(f.function.ctxt) {
+                                if scope
+                                    .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::IS_ARROW))
+                                {
+                                    return;
+                                }
+                            }
+
                             for (idx, param) in f.function.params.iter().enumerate() {
                                 match &param.pat {
                                     Pat::Rest(..) => return,
@@ -812,10 +969,14 @@ impl Optimizer<'_> {
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && usage.can_inline_fn_once()
                 && (match decl {
-                    Decl::Class(..) => !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL),
-                    Decl::Fn(..) => true,
+                    Decl::Class(..) => {
+                        !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL)
+                            && usage.can_inline_fn_once(false)
+                    }
+                    Decl::Fn(FnDecl { function, .. }) => {
+                        usage.can_inline_fn_once(function.is_generator)
+                    }
                     _ => false,
                 })
             {
@@ -957,6 +1118,12 @@ impl Optimizer<'_> {
                 remap.insert(id, new_ctxt);
             }
 
+            for (from, to) in cache.into_iter() {
+                if let Some(scope) = self.data.get_scope(from) {
+                    *self.data.scope(to) = *scope
+                }
+            }
+
             let mut value = value.clone();
             if !remap.is_empty() {
                 let mut remapper = Remapper::new(&remap);
@@ -997,7 +1164,7 @@ impl Optimizer<'_> {
 }
 
 fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> Option<u8> {
-    if e.is_async {
+    if e.is_async || e.is_generator {
         return None;
     }
 

@@ -1,0 +1,21 @@
+{
+  "env": {
+    "include": [
+      "transform-optional-chaining"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "pureGetters": true
+    },
+    "parser": {
+      "decorators": true,
+      "syntax": "typescript"
+    },
+    "preserveAllComments": true
+  }
+}

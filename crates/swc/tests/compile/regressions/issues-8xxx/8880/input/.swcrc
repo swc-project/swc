@@ -1,0 +1,31 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "transform": {
+            "legacyDecorator": true,
+        },
+        "target": "es2017",
+        "minify": {
+            "compress": {
+                "booleans": false,
+                "join_vars": false,
+                "loops": false,
+                "negate_iife": false,
+                "properties": false,
+                "reduce_funcs": false,
+                "reduce_vars": false,
+                "switches": false,
+                "typeofs": false,
+                "unused": false,
+                "const_to_let": false,
+                "sequences": false,
+                "passes": 2,
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

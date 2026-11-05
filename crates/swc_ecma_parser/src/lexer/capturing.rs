@@ -89,6 +89,12 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.read_string(span)
     }
 
+    fn rescan_type_gt(&mut self, span: Span) -> TokenAndSpan {
+        let token = self.inner.rescan_type_gt(span);
+        self.capture(token);
+        token
+    }
+
     fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx);
     }

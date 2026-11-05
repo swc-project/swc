@@ -1,0 +1,7 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/enum-review-lookahead-escaped/await-satisfies.ts:2:1]
+ 1 | enum E {
+ 2 |     A = a\u0077ait satisfies,
+   :         ^^^^^^^^^^
+ 3 | }
+   `----

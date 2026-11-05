@@ -1,0 +1,266 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 65,
+    "end": 1496
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 65,
+        "end": 83
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 65,
+          "end": 82
+        },
+        "value": 1.441151880758559e17,
+        "raw": "0x200000000000011"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 84,
+        "end": 106
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 84,
+          "end": 105
+        },
+        "value": 7.205759403792795e16,
+        "raw": "0o4000000000000000011"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 107,
+        "end": 165
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 107,
+          "end": 164
+        },
+        "value": 1.8014398509481988e16,
+        "raw": "0b1000000000000000000000000000000000000000000000000000011"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 166,
+        "end": 187
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 166,
+          "end": 186
+        },
+        "value": 7.205759403792795e16,
+        "raw": "04000000000000000011"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 240,
+        "end": 260
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 240,
+          "end": 259
+        },
+        "value": 1.8446744073709556e19,
+        "raw": "0x10000000000000801"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 261,
+        "end": 286
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 261,
+          "end": 285
+        },
+        "value": 1.8446744073709556e19,
+        "raw": "0o2000000000000000004001"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 287,
+        "end": 355
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 287,
+          "end": 354
+        },
+        "value": 1.8446744073709556e19,
+        "raw": "0b10000000000000000000000000000000000000000000000000000100000000001"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 428,
+        "end": 448
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 428,
+          "end": 447
+        },
+        "value": 1.8446744073709552e19,
+        "raw": "0x10000000000000800"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 449,
+        "end": 469
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 449,
+          "end": 468
+        },
+        "value": 1.844674407370956e19,
+        "raw": "0x10000000000001800"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 470,
+        "end": 490
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 470,
+          "end": 489
+        },
+        "value": 2.9514790517935283e20,
+        "raw": "0xfffffffffffffc000"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 554,
+        "end": 589
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 554,
+          "end": 588
+        },
+        "value": 1.441151880758559e17,
+        "raw": "0x00000000000000000200000000000011"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 590,
+        "end": 617
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 590,
+          "end": 616
+        },
+        "value": 0.0,
+        "raw": "0x000000000000000000000000"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 618,
+        "end": 639
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 618,
+          "end": 638
+        },
+        "value": 1.441151880758559e17,
+        "raw": "0X2000_0000_0000_011"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 715,
+        "end": 974
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 715,
+          "end": 973
+        },
+        "value": 1.7976931348623157e308,
+        "raw": "0xfffffffffffff800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 976,
+        "end": 1235
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 976,
+          "end": 1234
+        },
+        "value": 1.7976931348623157e308,
+        "raw": "0xfffffffffffffbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1237,
+        "end": 1496
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 1237,
+          "end": 1495
+        },
+        "value": null,
+        "raw": "0xfffffffffffffc00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      }
+    }
+  ],
+  "interpreter": null
+}

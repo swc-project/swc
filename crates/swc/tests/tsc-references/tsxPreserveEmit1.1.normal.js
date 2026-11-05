@@ -23,7 +23,7 @@ define([
     (function(M) {})(M || (M = {}));
     (function(M) {
         // Should emit 'M.X' in both opening and closing tags
-        var y = /*#__PURE__*/ React.createElement(X, null);
+        var y = /*#__PURE__*/ React.createElement(M.X, null);
     })(M || (M = {}));
     var M;
 });

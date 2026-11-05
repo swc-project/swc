@@ -1,0 +1,2 @@
+# Preserve the raw CR and CRLF sequences exercised by this fixture.
+line-endings.js -text whitespace=cr-at-eol

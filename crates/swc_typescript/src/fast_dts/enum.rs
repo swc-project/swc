@@ -9,7 +9,10 @@ use swc_ecma_ast::{
 };
 use swc_ecma_utils::number::{JsNumber, ToJsString};
 
-use super::{util::ast_ext::MemberPropExt, FastDts};
+use super::{
+    util::ast_ext::{tpl_element_value, MemberPropExt},
+    FastDts,
+};
 
 #[derive(Debug, Clone)]
 enum ConstantValue {
@@ -98,13 +101,13 @@ impl FastDts {
             },
             Expr::Tpl(template) => {
                 let mut quasis = template.quasis.iter();
-                let first = quasis.next()?.cooked.as_ref()?;
-                let mut value = Wtf8Buf::from(first);
+                let first = tpl_element_value(quasis.next()?);
+                let mut value = Wtf8Buf::from(first.as_ref());
 
                 for (expr, quasi) in template.exprs.iter().zip(quasis) {
                     self.evaluate(expr, enum_name, prev_members)?
                         .push_to(&mut value);
-                    value.push_wtf8(quasi.cooked.as_ref()?);
+                    value.push_wtf8(&tpl_element_value(quasi));
                 }
 
                 Some(ConstantValue::String(Wtf8Atom::from(&*value)))
@@ -133,7 +136,7 @@ impl FastDts {
                 let ident = member.obj.as_ident()?;
                 if &ident.sym == enum_name {
                     let name = member.prop.static_name()?;
-                    prev_members.get(name).cloned()
+                    prev_members.get(name.as_ref()).cloned()
                 } else {
                     None
                 }
@@ -143,7 +146,7 @@ impl FastDts {
                 let ident = member.obj.as_ident()?;
                 if &ident.sym == enum_name {
                     let name = member.prop.static_name()?;
-                    prev_members.get(name).cloned()
+                    prev_members.get(name.as_ref()).cloned()
                 } else {
                     None
                 }

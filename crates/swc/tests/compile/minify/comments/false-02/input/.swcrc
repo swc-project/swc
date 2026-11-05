@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "transform": {
+            "optimizer": {
+                "simplify": true,
+            }
+        },
+        "minify": {
+            "format": {
+                "comments": true
+            },
+            "compress": true
+        },
+    }
+}

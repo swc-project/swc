@@ -50,13 +50,36 @@
               "attributes": [],
               "children": [
                 {
+                  "type": "Element",
+                  "span": {
+                    "start": 9,
+                    "end": 23
+                  },
+                  "tagName": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 14,
+                        "end": 17
+                      },
+                      "data": "foo",
+                      "raw": "foo"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
                   "type": "Text",
                   "span": {
-                    "start": 14,
+                    "start": 23,
                     "end": 26
                   },
-                  "data": "foobar",
-                  "raw": "foobar"
+                  "data": "bar",
+                  "raw": "bar"
                 }
               ],
               "content": null,
@@ -75,25 +98,26 @@
               "type": "Element",
               "span": {
                 "start": 36,
-                "end": 44
+                "end": 52
               },
               "tagName": "select",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [],
-              "content": null,
-              "isSelfClosing": false
-            },
-            {
-              "type": "Element",
-              "span": {
-                "start": 44,
-                "end": 52
-              },
-              "tagName": "keygen",
-              "namespace": "http://www.w3.org/1999/xhtml",
-              "attributes": [],
-              "children": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 44,
+                    "end": 52
+                  },
+                  "tagName": "keygen",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
               "content": null,
               "isSelfClosing": false
             }

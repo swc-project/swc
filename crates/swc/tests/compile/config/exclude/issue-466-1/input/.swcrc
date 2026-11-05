@@ -1,0 +1,9 @@
+{
+    "exclude": "invalid.ts$",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "externalHelpers": false
+    }
+}

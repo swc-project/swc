@@ -1,0 +1,12 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": [
+            "transform-parameters",
+            "transform-destructuring",
+            "transform-block-scoping"
+        ]
+    }
+}

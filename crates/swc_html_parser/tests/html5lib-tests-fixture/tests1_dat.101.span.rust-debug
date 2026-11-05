@@ -18,6 +18,16 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.101.html:1:1]
  1 | <select><b><option><select><option></b></select>
+   :         ^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.101.html:1:1]
+ 1 | <select><b><option><select><option></b></select>
+   :         ^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.101.html:1:1]
+ 1 | <select><b><option><select><option></b></select>
    :            ^^^^^^^^
    `----
   x Element
@@ -28,10 +38,20 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.101.html:1:1]
  1 | <select><b><option><select><option></b></select>
-   :                            ^^^^^^^^^^^^^^^^^^^^^
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.101.html:1:1]
  1 | <select><b><option><select><option></b></select>
-   :                            ^^^^^^^^^^^^^^^^^^^^^
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.101.html:1:1]
+ 1 | <select><b><option><select><option></b></select>
+   :                            ^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.101.html:1:1]
+ 1 | <select><b><option><select><option></b></select>
+   :                            ^^^^^^^^
    `----

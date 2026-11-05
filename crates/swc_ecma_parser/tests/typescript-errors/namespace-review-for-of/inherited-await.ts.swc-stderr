@@ -1,0 +1,5 @@
+  x Expected ';', got ')'
+   ,-[$DIR/tests/typescript-errors/namespace-review-for-of/inherited-await.ts:1:1]
+ 1 | async function f() { namespace N { for (await of [1]) {} } }
+   :                                                     ^
+   `----

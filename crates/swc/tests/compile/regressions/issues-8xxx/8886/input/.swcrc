@@ -1,0 +1,26 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "transform": {
+            "react": {
+                "development": true,
+                "runtime": "automatic"
+            }
+        },
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false,
+                "const_to_let": false,
+                "passes": 99
+            },
+            "mangle": {
+                "toplevel": false
+            },
+            "inlineSourcesContent": false
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+}

@@ -1,5 +1,5 @@
-//! Utility transform to add `var` or `let` declarations to top of statement
-//! blocks.
+//! Utility transform to add `var` or `let` declarations after directives in
+//! statement blocks.
 //!
 //! `VarDeclarationsStore` contains a stack of `Declarators`, each comprising
 //! 2 x `Vec<VarDeclarator>` (1 for `var`s, 1 for `let`s).
@@ -7,7 +7,7 @@
 //!
 //! `VarDeclarations` transform pushes an empty entry onto this stack when
 //! entering a statement block, and when exiting the block, writes `var` / `let`
-//! statements to top of block.
+//! statements after the block's directive prologue.
 //!
 //! Other transforms can add declarators to the store by calling methods of
 //! `VarDeclarationsStore`:
@@ -17,17 +17,18 @@
 //! ctx.var_declarations.insert_let(ident, Some(init), ctx);
 //! ```
 
-use std::{mem, ptr};
+use std::ptr;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_utils::StmtLikeInjector;
 
 use crate::TraverseCtx;
 
 /// Transform that maintains the stack of `Vec<VarDeclarator>`s, and adds a
-/// `var` statement to top of a statement block if another transform has
-/// requested that.
+/// `var` statement after directives in a statement block if another transform
+/// has requested that.
 ///
 /// Must run after all other transforms.
 #[derive(Debug, Default)]
@@ -163,11 +164,7 @@ impl VarDeclarations {
             return;
         }
 
-        let original = mem::take(&mut block.stmts);
-        let mut stmts = Vec::with_capacity(declarations.len() + original.len());
-        stmts.extend(declarations);
-        stmts.extend(original);
-        block.stmts = stmts;
+        block.stmts.prepend_stmts(declarations);
     }
 }
 
@@ -270,45 +267,18 @@ impl VarDeclarationsStore {
 
     fn insert_into_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         if let Some((var_statement, let_statement)) = self.get_var_statement() {
-            let mut new_stmts = Vec::with_capacity(stmts.len() + 2);
-
-            match (var_statement, let_statement) {
-                (Some(var_statement), Some(let_statement)) => {
-                    // Insert `var` and `let` statements
-                    new_stmts.push(var_statement);
-                    new_stmts.push(let_statement);
-                }
-                (Some(statement), None) | (None, Some(statement)) => {
-                    // Insert `var` or `let` statement
-                    new_stmts.push(statement);
-                }
-                (None, None) => return,
-            }
-
-            new_stmts.append(stmts);
-            *stmts = new_stmts;
+            stmts.prepend_stmts(var_statement.into_iter().chain(let_statement));
         }
     }
 
     fn insert_into_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         if let Some((var_statement, let_statement)) = self.get_var_statement() {
-            let mut new_items = Vec::with_capacity(items.len() + 2);
-
-            match (var_statement, let_statement) {
-                (Some(var_statement), Some(let_statement)) => {
-                    // Insert `var` and `let` statements
-                    new_items.push(ModuleItem::Stmt(var_statement));
-                    new_items.push(ModuleItem::Stmt(let_statement));
-                }
-                (Some(statement), None) | (None, Some(statement)) => {
-                    // Insert `var` or `let` statement
-                    new_items.push(ModuleItem::Stmt(statement));
-                }
-                (None, None) => return,
-            }
-
-            new_items.append(items);
-            *items = new_items;
+            items.prepend_stmts(
+                var_statement
+                    .into_iter()
+                    .chain(let_statement)
+                    .map(ModuleItem::Stmt),
+            );
         }
     }
 

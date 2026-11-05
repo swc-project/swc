@@ -120,12 +120,46 @@
       ]
     },
     {
-      "type": "TsInterfaceDeclaration",
+      "type": "ExpressionStatement",
       "span": {
         "start": 55,
-        "end": 218
+        "end": 62
       },
-      "id": {
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 55,
+          "end": 62
+        },
+        "ctxt": 0,
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 110,
+        "end": 119
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 110,
+          "end": 119
+        },
+        "ctxt": 0,
+        "value": "interface",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 167,
+        "end": 168
+      },
+      "expression": {
         "type": "Identifier",
         "span": {
           "start": 167,
@@ -134,18 +168,16 @@
         "ctxt": 0,
         "value": "I",
         "optional": false
-      },
-      "declare": true,
-      "typeParams": null,
-      "extends": [],
-      "body": {
-        "type": "TsInterfaceBody",
-        "span": {
-          "start": 216,
-          "end": 218
-        },
-        "body": []
       }
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 216,
+        "end": 218
+      },
+      "ctxt": 0,
+      "stmts": []
     }
   ],
   "interpreter": null

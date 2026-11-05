@@ -1,0 +1,6 @@
+  x `await` cannot be used as an identifier in an async context
+   ,-[$DIR/tests/errors/await-identifier/module/input.mjs:1:1]
+ 1 | var await;
+   :     ^^^^^
+ 2 | await = 1;
+   `----

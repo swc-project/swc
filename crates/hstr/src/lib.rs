@@ -267,6 +267,7 @@ impl Atom {
         get_hash!(self)
     }
 
+    #[inline]
     fn as_str(&self) -> &str {
         match self.tag() {
             DYNAMIC_TAG => unsafe {

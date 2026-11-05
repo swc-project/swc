@@ -1190,6 +1190,7 @@ export interface UmdConfig extends BaseModuleConfig {
 export interface AmdConfig extends BaseModuleConfig {
   type: "amd";
   moduleId?: string;
+  moduleRoot?: string;
 }
 export interface SystemjsConfig {
   type: "systemjs";

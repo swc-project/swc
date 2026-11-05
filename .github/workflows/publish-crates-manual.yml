@@ -5,10 +5,6 @@ env:
   # 7 GiB by default on GitHub, setting to 6 GiB
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
   NODE_OPTIONS: --max-old-space-size=6144
-  GIT_AUTHOR_NAME: "SWC Bot"
-  GIT_AUTHOR_EMAIL: "bot@swc.rs"
-  GIT_COMMITTER_NAME: "SWC Bot"
-  GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
 permissions: {}
 
@@ -27,7 +23,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -37,9 +33,11 @@ jobs:
         with:
           cache: "false"
 
-      - uses: dtolnay/rust-toolchain@4360b52568e2003a75bf9bc1d59f33a8e3fc893c # stable
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
         with:
-          toolchain: nightly-2025-05-06
+          toolchain: nightly-2026-04-10
+          # The pre-push hook runs cargo fmt with the repository toolchain.
+          components: rustfmt
 
       - name: Install cargo-edit
         uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
@@ -51,14 +49,21 @@ jobs:
         with:
           tool: git-cliff@2.8.0
 
-      - uses: webfactory/ssh-agent@a6f90b1f127823b31d4d4a8d96047790581349bd # v0.9.1
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: bot-token
         with:
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+          client-id: ${{ vars.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
+
+      - uses: ./.github/actions/configure-bot-git
+        with:
+          token: ${{ steps.bot-token.outputs.token }}
+          app-slug: ${{ steps.bot-token.outputs.app-slug }}
 
       - name: Publish crates
         run: |
           set -eux
-          git remote set-url origin "git@github.com:${{ github.repository }}.git"
           git pull --ff-only origin main
           cargo bump
           git push origin main

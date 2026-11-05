@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "keepClassNames": true,
+        "parser": {
+            "syntax": "typescript"
+        },
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "src/*"
+            ]
+        },
+        "preserveAllComments": true,
+        "target": "es2022"
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

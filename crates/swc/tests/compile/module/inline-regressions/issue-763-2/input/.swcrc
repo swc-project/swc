@@ -1,0 +1,31 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "numericSeparator": false,
+            "classPrivateProperty": false,
+            "optionalChaining": true,
+            "nullishCoalescing": true,
+            "decorators": true,
+            "decoratorsBeforeExport": true
+        },
+        "target": "es2015",
+        "transform": {
+            "react": {
+                "useBuiltins": false
+            },
+            "optimizer": {
+                "globals": {
+                    "vars": {
+                        "__DEBUG__": "true"
+                    }
+                }
+            }
+        },
+        "externalHelpers": false
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

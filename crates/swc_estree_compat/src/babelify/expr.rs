@@ -5,9 +5,10 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     ArrayLit, ArrowExpr, ArrowFunctionBody, AssignExpr, AssignTarget, AssignTargetPat, AwaitExpr,
     BinExpr, BinaryOp, CallExpr, Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Ident,
-    Import, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, ParenExpr,
-    PropOrSpread, SeqExpr, SimpleAssignTarget, SpreadElement, Super, SuperProp, SuperPropExpr,
-    TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
+    Import, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit,
+    OptChainBase, OptChainExpr, ParenExpr, PropOrSpread, SeqExpr, SimpleAssignTarget,
+    SpreadElement, Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement,
+    UnaryExpr, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
     flavor::Flavor, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
@@ -15,6 +16,7 @@ use swc_estree_ast::{
     Callee as BabelCallee, ClassExpression, ConditionalExpression, Expression, FunctionExpression,
     Import as BabelImport, LVal, Literal, LogicalExpression, MemberExprProp, MemberExpression,
     MetaProperty, NewExpression, ObjectExprProp, ObjectExpression, ObjectKey, ObjectMember,
+    OptionalCallExpression, OptionalMemberExprProp, OptionalMemberExpression,
     ParenthesizedExpression, PrivateName, SequenceExpression, SpreadElement as BabelSpreadElement,
     Super as BabelSuper, TaggedTemplateExprTypeParams, TaggedTemplateExpression, TemplateElVal,
     TemplateElement, TemplateLiteral, TemplateLiteralExpr, ThisExpression, UnaryExpression,
@@ -163,10 +165,7 @@ impl Babelify for Expr {
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
-            Expr::OptChain(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
-                &self
-            ),
+            Expr::OptChain(o) => ExprOutput::Expr(Box::alloc().init(o.babelify(ctx))),
             Expr::Invalid(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
@@ -778,14 +777,127 @@ impl Babelify for AssignTargetPat {
     }
 }
 
-// NOTE: OptChainExpr does not appear to have an official Babel AST node yet.
+impl Babelify for OptChainExpr {
+    type Output = Expression;
 
-// #[ast_node("OptionalChainingExpression")]
-// #[derive(Eq, Hash, EqIgnoreSpan)]
-// #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-// pub struct OptChainExpr {
-//     pub span: Span,
-//     pub question_dot_token: Span,
-//     pub expr: Box<Expr>,
-// }
-//
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match *self.base {
+            OptChainBase::Member(m) => {
+                let computed = matches!(m.prop, MemberProp::Computed(_));
+                let property = match m.prop {
+                    MemberProp::Ident(i) => {
+                        OptionalMemberExprProp::Id(Ident::from(i).babelify(ctx))
+                    }
+                    MemberProp::PrivateName(p) => OptionalMemberExprProp::Id(p.babelify(ctx).id),
+                    MemberProp::Computed(c) => {
+                        OptionalMemberExprProp::Expr(Box::alloc().init(c.babelify(ctx)))
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                };
+                Expression::OptionalMember(OptionalMemberExpression {
+                    base: ctx.base(self.span),
+                    object: Box::alloc().init(m.obj.babelify(ctx).into()),
+                    property,
+                    computed,
+                    optional: self.optional,
+                })
+            }
+            OptChainBase::Call(c) => {
+                let arguments = c
+                    .args
+                    .into_iter()
+                    .map(|arg| arg.babelify(ctx).into())
+                    .collect();
+                let type_parameters = c.type_args.map(|t| t.babelify(ctx));
+                Expression::OptionalCall(OptionalCallExpression {
+                    base: ctx.base(self.span),
+                    callee: Box::alloc().init(c.callee.babelify(ctx).into()),
+                    arguments,
+                    optional: self.optional,
+                    type_arguments: None,
+                    type_parameters,
+                })
+            }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::atom;
+    use swc_common::{sync::Lrc, FileName, SourceMap, DUMMY_SP};
+    use swc_ecma_ast::{
+        Expr, Ident, IdentName, MemberExpr, MemberProp, OptCall, OptChainBase, OptChainExpr,
+    };
+    use swc_estree_ast as estree;
+    use swc_node_comments::SwcComments;
+
+    use crate::babelify::{Babelify, Context};
+
+    fn test_ctx() -> Context {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), String::new());
+        Context {
+            fm,
+            cm,
+            comments: SwcComments::default(),
+        }
+    }
+
+    #[test]
+    fn test_opt_chain_member() {
+        let ctx = test_ctx();
+        let opt_member = Expr::OptChain(OptChainExpr {
+            span: DUMMY_SP,
+            optional: true,
+            base: Box::new(OptChainBase::Member(MemberExpr {
+                span: DUMMY_SP,
+                obj: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("a"), DUMMY_SP))),
+                prop: MemberProp::Ident(IdentName::new(atom!("b"), DUMMY_SP)),
+            })),
+        });
+
+        let expr = opt_member.babelify(&ctx);
+        match expr {
+            super::ExprOutput::Expr(expr) => match *expr {
+                estree::Expression::OptionalMember(om) => {
+                    assert!(om.optional);
+                    assert!(!om.computed);
+                }
+                _ => panic!("Expected Expression::OptionalMember"),
+            },
+            _ => panic!("Expected ExprOutput::Expr"),
+        }
+    }
+
+    #[test]
+    fn test_opt_chain_call() {
+        let ctx = test_ctx();
+        let opt_call = Expr::OptChain(OptChainExpr {
+            span: DUMMY_SP,
+            optional: true,
+            base: Box::new(OptChainBase::Call(OptCall {
+                span: DUMMY_SP,
+                callee: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("fn"), DUMMY_SP))),
+                args: vec![],
+                type_args: None,
+                ctxt: Default::default(),
+            })),
+        });
+
+        let expr = opt_call.babelify(&ctx);
+        match expr {
+            super::ExprOutput::Expr(expr) => match *expr {
+                estree::Expression::OptionalCall(oc) => {
+                    assert!(oc.optional);
+                    assert!(oc.arguments.is_empty());
+                }
+                _ => panic!("Expected Expression::OptionalCall"),
+            },
+            _ => panic!("Expected ExprOutput::Expr"),
+        }
+    }
+}

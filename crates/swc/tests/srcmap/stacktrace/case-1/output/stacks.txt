@@ -1,0 +1,6 @@
+$DIR/tests/srcmap/stacktrace/case-1/input/index.js:5
+        throw new Error('Boom')
+        ^
+Error: Boom
+    at <anonymous> ($DIR/tests/srcmap/stacktrace/case-1/input/index.js:5:15)
+    at <anonymous> ($DIR/tests/srcmap/stacktrace/case-1/input/index.js:6:5)

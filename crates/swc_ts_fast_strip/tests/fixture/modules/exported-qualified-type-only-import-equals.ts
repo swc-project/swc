@@ -1,0 +1,1 @@
+export import type Alias = Namespace.Member;

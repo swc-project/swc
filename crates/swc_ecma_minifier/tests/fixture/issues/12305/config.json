@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "unused": true,
+    "hoist_props": false,
+    "module": false
+}

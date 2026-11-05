@@ -1,0 +1,1 @@
+class C { readonly value = 1; }

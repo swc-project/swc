@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/enum-review-for-of/escaped-for-await.ts:1:1]
+ 1 | enum E { A = (() => { for a\u0077ait (value of [1]) {} })() }
+   :                           ^^^^^^^^^^
+   `----

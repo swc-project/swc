@@ -61,27 +61,6 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
     }
 }
 
-fn may_evaluate_to_nullish(expr_ctx: ExprCtx, expr: &Expr) -> bool {
-    if is_pure_undefined(expr_ctx, expr) || matches!(expr, Expr::Lit(Lit::Null(..))) {
-        return true;
-    }
-
-    match expr {
-        Expr::Paren(ParenExpr { expr, .. }) => may_evaluate_to_nullish(expr_ctx, expr),
-        Expr::Seq(SeqExpr { exprs, .. }) => match exprs.last() {
-            Some(last) => may_evaluate_to_nullish(expr_ctx, last),
-            None => false,
-        },
-        Expr::Cond(CondExpr { cons, alt, .. }) => {
-            may_evaluate_to_nullish(expr_ctx, cons) || may_evaluate_to_nullish(expr_ctx, alt)
-        }
-        _ => matches!(
-            expr.get_type(expr_ctx),
-            Value::Known(Type::Undefined | Type::Null) | Value::Unknown
-        ),
-    }
-}
-
 fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
     let mut exprs = Vec::new();
 
@@ -123,7 +102,7 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 
 #[derive(Debug)]
 enum GroupType<'a> {
-    Literals(Vec<&'a ExprOrSpread>),
+    Literals(Vec<Option<&'a ExprOrSpread>>),
     Expression(&'a ExprOrSpread),
 }
 
@@ -786,11 +765,14 @@ impl Pure<'_> {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
 
-            for elem in elems.iter().flatten() {
-                let is_literal = match &*elem.expr {
-                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                    e if is_pure_undefined(self.expr_ctx, e) => true,
-                    _ => false,
+            for elem in elems.iter() {
+                let is_literal = match elem {
+                    None => true,
+                    Some(elem) => match &*elem.expr {
+                        Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                        e if is_pure_undefined(self.expr_ctx, e) => true,
+                        _ => false,
+                    },
                 };
 
                 if is_literal {
@@ -825,21 +807,26 @@ impl Pure<'_> {
         let mut groups = Vec::new();
         let mut current_group = Vec::new();
 
-        for elem in elems.iter().flatten() {
-            let is_literal = match &*elem.expr {
-                Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                e if is_pure_undefined(self.expr_ctx, e) => true,
-                _ => false,
+        for elem in elems.iter() {
+            let is_literal = match elem {
+                None => true,
+                Some(elem) => match &*elem.expr {
+                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                    e if is_pure_undefined(self.expr_ctx, e) => true,
+                    _ => false,
+                },
             };
 
             if is_literal {
-                current_group.push(elem);
+                // An elision is an empty join element, so it must stay in the
+                // group to preserve its surrounding separator positions.
+                current_group.push(elem.as_ref());
             } else {
                 if !current_group.is_empty() {
                     groups.push(GroupType::Literals(current_group));
                     current_group = Vec::new();
                 }
-                groups.push(GroupType::Expression(elem));
+                groups.push(GroupType::Expression(elem.as_ref().unwrap()));
             }
         }
 
@@ -859,9 +846,10 @@ impl Pure<'_> {
             if !self.options.unsafe_passes
                 && groups.iter().any(|group| match group {
                     GroupType::Literals(_) => false,
-                    GroupType::Expression(expr) => {
-                        may_evaluate_to_nullish(self.expr_ctx, &expr.expr)
-                    }
+                    GroupType::Expression(expr) => matches!(
+                        &expr.expr.get_type(self.expr_ctx,),
+                        Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                    ),
                 })
             {
                 return None;
@@ -872,30 +860,27 @@ impl Pure<'_> {
 
             // Only add empty string prefix when the first element is a non-string
             // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion
+            // literal early enough to provide coercion.
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
-                    // Check if the first expression is already a string concatenation
                     let first_needs_coercion = match &*first_expr.expr {
                         Expr::Bin(BinExpr {
                             op: op!(bin, "+"), ..
-                        }) => false, // Already string concat
-                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
-                        Expr::Call(_call) => {
-                            // Function calls may return any type and need string coercion
-                            true
+                        }) => {
+                            // `+` is only already a string concatenation when its
+                            // result is proven to be a string. Otherwise adjacent
+                            // join elements could be added numerically first.
+                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
                         }
-                        _ => true, // Other expressions need string coercion
+                        Expr::Lit(Lit::Str(..)) => false,
+                        Expr::Call(..) => true,
+                        _ => true,
                     };
 
-                    // If the first element needs coercion, check if the second element is a string
-                    // literal that can provide the coercion
+                    // A following literal provides the string coercion for the
+                    // first element before the next dynamic element is evaluated.
                     if first_needs_coercion {
-                        match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will */
-                            // provide coercion
-                            _ => true, // No string literal to provide coercion
-                        }
+                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
                     } else {
                         false
                     }
@@ -916,6 +901,10 @@ impl Pure<'_> {
                     GroupType::Literals(literals) => {
                         let mut joined = Wtf8Buf::new();
                         for literal in literals.iter() {
+                            let Some(literal) = literal else {
+                                continue;
+                            };
+
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
                                 Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
@@ -971,6 +960,10 @@ impl Pure<'_> {
                             if idx > 0 {
                                 joined.push_wtf8(separator);
                             }
+
+                            let Some(literal) = literal else {
+                                continue;
+                            };
 
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
@@ -1150,6 +1143,13 @@ impl Pure<'_> {
 
     /// Array() -> []
     fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        // Literal array spreads are expanded before this optimization. Any
+        // remaining spread has unknown runtime arity, so it may expand to one
+        // numeric argument and invoke Array's length-constructor behavior.
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return None;
+        }
+
         if args.len() == 1 {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
@@ -1495,13 +1495,17 @@ impl Pure<'_> {
         let mut cur_cooked = Wtf8Buf::default();
         let mut first = true;
 
-        for elem in elems.take().into_iter().flatten() {
+        for elem in elems.take() {
             if first {
                 first = false;
             } else {
                 cur_raw.push_str(&convert_str_value_to_tpl_raw(sep));
                 cur_cooked.push_wtf8(sep);
             }
+
+            let Some(elem) = elem else {
+                continue;
+            };
 
             match *elem.expr {
                 Expr::Tpl(mut tpl) => {
@@ -1590,17 +1594,68 @@ impl Pure<'_> {
                     false
                 };
 
-                let b = s
-                    .finalizer
-                    .as_mut()
-                    .map(|s| self.drop_return_value(&mut s.stmts))
-                    .unwrap_or_default();
+                if let Some(s) = &mut s.finalizer {
+                    // A finalizer return overrides the pending completion, so only its value can
+                    // be removed when the IIFE result is ignored.
+                    for stmt in &mut s.stmts {
+                        self.ignore_return_value_of_return_stmt(
+                            stmt,
+                            DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                .union(DropOpts::DROP_NUMBER)
+                                .union(DropOpts::DROP_STR_LIT),
+                        );
+                    }
+                }
 
-                a || b
+                a
             }
 
             _ => false,
         }
+    }
+
+    fn make_ignored_arg_expr(
+        &mut self,
+        span: Span,
+        args: impl Iterator<Item = ExprOrSpread>,
+    ) -> Option<Expr> {
+        let mut exprs = args
+            .filter_map(|mut e| {
+                if e.spread.is_some() {
+                    Some(e)
+                } else {
+                    self.ignore_return_value(
+                        &mut e.expr,
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
+                    );
+
+                    if let Expr::Invalid(..) = &*e.expr {
+                        None
+                    } else {
+                        Some(e)
+                    }
+                }
+            })
+            .collect::<Vec<_>>();
+
+        if exprs.is_empty() {
+            return None;
+        }
+        if exprs.len() == 1 && exprs[0].spread.is_none() {
+            let mut new = *exprs.remove(0).expr;
+            new.set_span(span);
+            return Some(new);
+        }
+
+        Some(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: exprs.into_iter().map(Some).collect(),
+            }
+            .into(),
+        )
     }
 
     fn make_ignored_expr(
@@ -1724,8 +1779,7 @@ impl Pure<'_> {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new =
-                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter());
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -1740,8 +1794,7 @@ impl Pure<'_> {
                 report_change!("ignore_return_value: Dropping a pure call (callee is pure)");
                 self.changed = true;
 
-                let new =
-                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter());
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -1759,43 +1812,6 @@ impl Pure<'_> {
                 return;
             }
 
-            Expr::New(NewExpr {
-                callee,
-                span,
-                ctxt,
-                args,
-                ..
-            }) if callee.is_pure_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
-                report_change!("ignore_return_value: Dropping a pure call");
-                self.changed = true;
-
-                let new = self.make_ignored_expr(
-                    *span,
-                    args.take().into_iter().flatten().map(|arg| arg.expr),
-                );
-
-                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
-                return;
-            }
-
-            _ => {}
-        }
-
-        match e {
-            Expr::Call(CallExpr {
-                span,
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) if callee.is_pure_callee(self.expr_ctx) => {
-                self.changed = true;
-                report_change!("Dropping pure call as callee is pure");
-                *e = self
-                    .make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr))
-                    .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                return;
-            }
-
             Expr::TaggedTpl(TaggedTpl {
                 span,
                 tag: callee,
@@ -1809,7 +1825,24 @@ impl Pure<'_> {
                     .unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
             }
-            _ => (),
+
+            Expr::New(NewExpr {
+                callee,
+                span,
+                ctxt,
+                args,
+                ..
+            }) if callee.is_pure_new_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
+                report_change!("ignore_return_value: Dropping a pure call");
+                self.changed = true;
+
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter().flatten());
+
+                *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
+            _ => {}
         }
 
         if self.options.conditionals || self.options.expr {
@@ -2210,7 +2243,7 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 ..
             }) if callee.is_fn_expr() => match &mut **callee {
-                Expr::Fn(callee) => {
+                Expr::Fn(callee) if !callee.function.is_async => {
                     if callee.ident.is_none() {
                         if let Some(body) = &mut callee.function.body {
                             if self.options.side_effects {
@@ -2219,6 +2252,8 @@ impl Pure<'_> {
                         }
                     }
                 }
+
+                Expr::Fn(..) => {}
 
                 _ => {
                     unreachable!()
@@ -2235,7 +2270,7 @@ impl Pure<'_> {
             }) = e
             {
                 match &mut **callee {
-                    Expr::Fn(callee) => {
+                    Expr::Fn(callee) if !callee.function.is_async => {
                         if let Some(body) = &mut callee.function.body {
                             if let Some(ident) = &callee.ident {
                                 if IdentUsageFinder::find(ident, body) {
@@ -2248,7 +2283,7 @@ impl Pure<'_> {
                             }
                         }
                     }
-                    Expr::Arrow(callee) => match &mut *callee.body {
+                    Expr::Arrow(callee) if !callee.is_async => match &mut *callee.body {
                         ArrowFunctionBody::FunctionBody(body) => {
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);
@@ -2272,14 +2307,49 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
+                // Map and Set synchronously consume their iterable argument. Keeping only the
+                // argument expression would skip observable iterator acquisition and iteration.
+                // Construction without arguments or with a nullish first argument does not
+                // consume an iterable and is still pure.
                 Expr::New(NewExpr {
                     span, callee, args, ..
-                }) if callee.is_one_of_global_ref_to(
-                    self.expr_ctx,
-                    &[
-                        "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
-                    ],
-                ) =>
+                }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"])
+                    // Spreading consumes an iterator. Extracting only `arg.expr` would create
+                    // the iterator but skip its observable iteration, including errors thrown
+                    // by the iterator.
+                    && !args.iter().flatten().any(|arg| arg.spread.is_some())
+                    && args
+                        .as_deref()
+                        .and_then(|arg| arg.first())
+                        .map(|arg| {
+                            arg.spread.is_none()
+                                && (matches!(
+                                    &arg.expr.get_type(self.expr_ctx,),
+                                    Value::Known(Type::Null | Type::Undefined)
+                                ) || is_valid_map_set_init(&arg.expr, self.expr_ctx, callee))
+                        })
+                        .unwrap_or(true) =>
+                {
+                    report_change!("Dropping a pure new expression");
+
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(
+                            *span,
+                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                        )
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    return;
+                }
+
+                Expr::New(NewExpr {
+                    span, callee, args, ..
+                }) if self.options.pristine_globals
+                    && (callee.is_one_of_global_ref_to(
+                        self.expr_ctx,
+                        &["Object", "Date", "Boolean", "Number", "String", "Error"],
+                    ) || callee.is_one_of_global_ref_to(self.expr_ctx, ARRAY_CTOR))
+                    && !args.iter().flatten().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure new expression");
 
@@ -2301,13 +2371,13 @@ impl Pure<'_> {
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
                     &["Array", "Object", "Boolean", "Number"],
-                ) =>
+                ) && !args.iter().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure call expression");
 
                     self.changed = true;
                     *e = self
-                        .make_ignored_expr(*span, args.iter_mut().map(|arg| arg.expr.take()))
+                        .make_ignored_arg_expr(*span, args.take().into_iter())
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
@@ -2324,49 +2394,18 @@ impl Pure<'_> {
                 Expr::Object(..) => {}
 
                 Expr::Array(arr) => {
-                    if arr.elems.iter().any(|e| match e {
-                        Some(ExprOrSpread {
-                            spread: Some(..), ..
-                        }) => true,
-                        _ => false,
-                    }) {
-                        *e = ArrayLit {
-                            elems: arr
-                                .elems
-                                .take()
-                                .into_iter()
-                                .flatten()
-                                .filter_map(|mut e| {
-                                    if e.spread.is_some() {
-                                        return Some(e);
-                                    }
-
-                                    self.ignore_return_value(
-                                        &mut e.expr,
-                                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
-                                            .union(DropOpts::DROP_NUMBER)
-                                            .union(DropOpts::DROP_STR_LIT),
-                                    );
-                                    if e.expr.is_invalid() {
-                                        return None;
-                                    }
-
-                                    Some(ExprOrSpread {
-                                        spread: None,
-                                        expr: e.expr,
-                                    })
-                                })
-                                .map(Some)
-                                .collect(),
-                            ..*arr
-                        }
-                        .into();
+                    if arr
+                        .elems
+                        .iter()
+                        .any(|e| e.as_ref().and_then(|e| e.spread).is_some())
+                    {
+                        *e = self
+                            .make_ignored_arg_expr(arr.span, arr.elems.take().into_iter().flatten())
+                            .unwrap_or_default();
                         return;
                     }
 
                     let mut exprs = Vec::new();
-
-                    //
 
                     for ExprOrSpread { mut expr, .. } in arr.elems.take().into_iter().flatten() {
                         self.ignore_return_value(
@@ -2508,6 +2547,20 @@ impl Pure<'_> {
                 report_change!("Removing null from lhs of ??");
                 self.changed = true;
                 *e = r.take();
+            }
+            _ if is_pure_undefined(self.expr_ctx, l) => {
+                report_change!("Removing undefined from lhs of ??");
+                self.changed = true;
+                // `(void 0 ?? obj.method)()` must not receive `obj` as `this`.
+                *e = if r.directness_matters() {
+                    SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: vec![0.into(), Box::new(r.take())],
+                    }
+                    .into()
+                } else {
+                    r.take()
+                };
             }
             Expr::Lit(Lit::Num(..))
             | Expr::Lit(Lit::Str(..))
@@ -2689,5 +2742,68 @@ fn is_block_scoped_stmt(s: &Stmt) -> bool {
         }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
         _ => false,
+    }
+}
+
+static ARRAY_CTOR: &[&str] = &[
+    "Array",
+    "Int16Array",
+    "Int32Array",
+    "Int8Array",
+    "Float32Array",
+    "Float64Array",
+    "Uint16Array",
+    "Uint32Array",
+    "Uint8Array",
+    "Uint8ClampedArray",
+];
+
+fn is_valid_map_set_init(expr: &Expr, ctx: ExprCtx, callee: &Expr) -> bool {
+    let is_map = callee.is_global_ref_to(ctx, "Map");
+
+    fn is_array_like(expr: &Expr, ctx: ExprCtx) -> bool {
+        match expr {
+            Expr::Array(..) => true,
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                ..
+            })
+            | Expr::New(NewExpr { callee: e, .. })
+                if e.is_one_of_global_ref_to(ctx, ARRAY_CTOR) =>
+            {
+                true
+            }
+            _ => false,
+        }
+    }
+
+    if is_map {
+        match expr {
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().all(|e| {
+                e.as_ref()
+                    .map(|e| e.spread.is_none() && is_array_like(&e.expr, ctx))
+                    .unwrap_or(false)
+            }),
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                args,
+                ..
+            })
+            | Expr::New(NewExpr {
+                callee: e,
+                args: Some(args),
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => args
+                .iter()
+                .all(|a| a.spread.is_none() && is_array_like(&a.expr, ctx)),
+            Expr::New(NewExpr {
+                callee: e,
+                args: None,
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => true,
+            _ => false,
+        }
+    } else {
+        is_array_like(expr, ctx)
     }
 }

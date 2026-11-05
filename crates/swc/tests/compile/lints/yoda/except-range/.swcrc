@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "yoda": [
+                "error",
+                {
+                    "exceptRange": true
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

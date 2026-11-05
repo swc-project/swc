@@ -17,25 +17,54 @@ concurrency:
 permissions: {}
 
 jobs:
+  contributor-policy:
+    name: Check contributor
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      allowed: ${{ steps.policy.outputs.allowed }}
+    steps:
+      # The gate must use the policy on the default branch, not PR changes.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: .contributor-policy
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/contributors.yml
+            /.github/actions/contributor-policy/
+
+      - uses: ./.contributor-policy/.github/actions/contributor-policy
+        id: policy
+        with:
+          token: ${{ github.token }}
+
   measure-binary-size:
     name: Measure Binary Size
+    needs: contributor-policy
+    if: ${{ !cancelled() && (github.event_name != 'pull_request' || needs.contributor-policy.outputs.allowed == 'true') }}
     runs-on: ubuntu-latest
     # No special permissions needed - this workflow only reads and uploads artifacts
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@4360b52568e2003a75bf9bc1d59f33a8e3fc893c # stable
+        uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
+        with:
+          toolchain: stable
 
       - name: Setup Node.js
         uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: "20"
+          node-version: "24"
           install-dependencies: "false"
 
       - name: Install wasm-pack
@@ -45,7 +74,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Save pnpm cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
         with:
           path: ${{ steps.setup-node.outputs.pnpm-store-path }}
@@ -78,7 +107,7 @@ jobs:
         run: cat size_report.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload size report
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: size-report
           path: size_report.md

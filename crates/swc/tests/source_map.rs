@@ -15,7 +15,7 @@ use swc::{
         Config, GlobalPassOption, InputSourceMap, IsModule, JscConfig, JscExperimental,
         ModuleConfig, OptimizerConfig, Options, SourceMapsConfig, TransformConfig,
     },
-    try_with_handler, Compiler,
+    try_with_handler, Compiler, TransformOutput,
 };
 use swc_common::{sync::Lrc, FileName, SourceMap, GLOBALS};
 use swc_ecma_parser::Syntax;
@@ -48,7 +48,9 @@ fn file(f: &str, config: Config) -> Result<(), StdErr> {
         let js_path = path.parent().unwrap().join("index.g.js");
         std::fs::write(&js_path, s.code.as_bytes()).unwrap();
 
-        let map_path = path.parent().unwrap().join("index.js.map");
+        // Name the map after the generated file. `index.js.map` would be read as
+        // the input source map of `index.js` when the test runs again.
+        let map_path = path.parent().unwrap().join("index.g.js.map");
         std::fs::write(&map_path, s.map.unwrap().as_bytes()).unwrap();
 
         let output = Command::new("node")
@@ -147,7 +149,18 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/*.map")]
+// These integration, TypeScript, and minifier fixtures were not part of the
+// original map validation suite. Their snapshots are still checked by the
+// compile runner.
+#[testing::fixture(
+    "tests/compile/**/*.map",
+    exclude(
+        "[/\\\\]integration[/\\\\]vercel[/\\\\]",
+        "[/\\\\]integration[/\\\\]deno-unit[/\\\\]",
+        "[/\\\\]typescript[/\\\\]rewrite-",
+        "[/\\\\]minify[/\\\\]api[/\\\\]"
+    )
+)]
 fn validate_map(map_file: PathBuf) {
     let content = fs::read_to_string(map_file).unwrap();
     if content.is_empty() {
@@ -158,7 +171,7 @@ fn validate_map(map_file: PathBuf) {
 }
 
 #[cfg(not(target_os = "windows"))]
-#[testing::fixture("tests/stacktrace/**/input/")]
+#[testing::fixture("tests/srcmap/stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
     let output_dir = dir.join("output");
@@ -253,12 +266,25 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     let stderr = String::from_utf8_lossy(&output.stderr);
 
     eprintln!("\n\n\nStderr: {stderr}\n\n\n");
+
+    // Normalize differences between Node.js versions:
     //
+    // - Node.js 20 and 22 print two blank lines between the source line and the
+    //   error message, but Node.js 24 and later print one.
+    // - Node.js 22 prints frames of built-in modules other than `node:internal`,
+    //   such as `node:diagnostics_channel`.
+    // - Node.js 24 and later prefix some source-mapped function names with the
+    //   receiver type, for example `Object.console` instead of `console`.
     let stacks = stderr
         .lines()
         .filter(|s| {
-            !s.contains("node:internal") && !s.contains("node_modules") && !s.contains("Node.js v")
+            !s.trim().is_empty()
+                && !s.contains("node:internal")
+                && !s.contains("(node:")
+                && !s.contains("node_modules")
+                && !s.contains("Node.js v")
         })
+        .map(|s| s.replacen("    at Object.", "    at ", 1))
         .collect::<Vec<_>>();
 
     let stacks = stacks.join("\n");
@@ -672,4 +698,49 @@ fn define_source_map_is_stable_across_compilations() {
         first, second,
         "the same input produced two different source maps"
     );
+}
+
+fn compile_str(
+    filename: Lrc<FileName>,
+    content: &str,
+    options: Options,
+) -> Result<TransformOutput, StdErr> {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+
+        let fm = cm.new_source_file(filename, content.to_string());
+        let s = c.process_js_file(fm, &handler, &options);
+
+        match s {
+            Ok(v) => {
+                if handler.has_errors() {
+                    Err(())
+                } else {
+                    Ok(v)
+                }
+            }
+            Err(err) => panic!("Error: {err:?}"),
+        }
+    })
+}
+
+#[test]
+fn opt_source_file_name_1() {
+    let map = compile_str(
+        FileName::Real(PathBuf::from("not-unique.js")).into(),
+        "import Foo from 'foo';",
+        Options {
+            filename: "unique.js".into(),
+            source_file_name: Some("entry-foo".into()),
+            source_maps: Some(SourceMapsConfig::Bool(true)),
+            ..Default::default()
+        },
+    )
+    .unwrap()
+    .map
+    .unwrap();
+
+    println!("{map}");
+
+    assert!(map.contains("entry-foo"));
 }

@@ -1,0 +1,660 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 426
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 11,
+          "end": 28
+        },
+        "ctxt": 0,
+        "value": "generatorDefaults",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 29,
+            "end": 188
+          },
+          "decorators": [],
+          "pat": {
+            "type": "AssignmentPattern",
+            "span": {
+              "start": 29,
+              "end": 188
+            },
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 29,
+                "end": 34
+              },
+              "ctxt": 0,
+              "value": "value",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ClassExpression",
+              "identifier": null,
+              "span": {
+                "start": 37,
+                "end": 188
+              },
+              "ctxt": 0,
+              "decorators": [],
+              "body": [
+                {
+                  "type": "AutoAccessor",
+                  "span": {
+                    "start": 49,
+                    "end": 92
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 58,
+                      "end": 63
+                    },
+                    "value": "field"
+                  },
+                  "value": {
+                    "type": "FunctionExpression",
+                    "identifier": null,
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 66,
+                      "end": 91
+                    },
+                    "ctxt": 0,
+                    "body": {
+                      "type": "FunctionBody",
+                      "span": {
+                        "start": 79,
+                        "end": 91
+                      },
+                      "stmts": [
+                        {
+                          "type": "ExpressionStatement",
+                          "span": {
+                            "start": 81,
+                            "end": 89
+                          },
+                          "expression": {
+                            "type": "YieldExpression",
+                            "span": {
+                              "start": 81,
+                              "end": 88
+                            },
+                            "argument": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 87,
+                                "end": 88
+                              },
+                              "value": 1.0,
+                              "raw": "1"
+                            },
+                            "delegate": false
+                          }
+                        }
+                      ]
+                    },
+                    "generator": true,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": false,
+                  "decorators": [],
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOverride": false,
+                  "definite": false
+                },
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 97,
+                    "end": 139
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 105,
+                      "end": 110
+                    },
+                    "value": "other"
+                  },
+                  "value": {
+                    "type": "FunctionExpression",
+                    "identifier": null,
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 113,
+                      "end": 138
+                    },
+                    "ctxt": 0,
+                    "body": {
+                      "type": "FunctionBody",
+                      "span": {
+                        "start": 126,
+                        "end": 138
+                      },
+                      "stmts": [
+                        {
+                          "type": "ExpressionStatement",
+                          "span": {
+                            "start": 128,
+                            "end": 136
+                          },
+                          "expression": {
+                            "type": "YieldExpression",
+                            "span": {
+                              "start": 128,
+                              "end": 135
+                            },
+                            "argument": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 134,
+                                "end": 135
+                              },
+                              "value": 2.0,
+                              "raw": "2"
+                            },
+                            "delegate": false
+                          }
+                        }
+                      ]
+                    },
+                    "generator": true,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": false,
+                  "decorators": [],
+                  "accessibility": "private",
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                },
+                {
+                  "type": "StaticBlock",
+                  "span": {
+                    "start": 144,
+                    "end": 186
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 151,
+                      "end": 186
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "FunctionDeclaration",
+                        "identifier": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 163,
+                            "end": 169
+                          },
+                          "ctxt": 0,
+                          "value": "nested",
+                          "optional": false
+                        },
+                        "declare": false,
+                        "params": [],
+                        "decorators": [],
+                        "span": {
+                          "start": 153,
+                          "end": 184
+                        },
+                        "ctxt": 0,
+                        "body": {
+                          "type": "FunctionBody",
+                          "span": {
+                            "start": 172,
+                            "end": 184
+                          },
+                          "stmts": [
+                            {
+                              "type": "ExpressionStatement",
+                              "span": {
+                                "start": 174,
+                                "end": 182
+                              },
+                              "expression": {
+                                "type": "YieldExpression",
+                                "span": {
+                                  "start": 174,
+                                  "end": 181
+                                },
+                                "argument": {
+                                  "type": "NumericLiteral",
+                                  "span": {
+                                    "start": 180,
+                                    "end": 181
+                                  },
+                                  "value": 3.0,
+                                  "raw": "3"
+                                },
+                                "delegate": false
+                              }
+                            }
+                          ]
+                        },
+                        "generator": true,
+                        "async": false,
+                        "typeParameters": null,
+                        "returnType": null
+                      }
+                    ]
+                  }
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 206
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 190,
+          "end": 206
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 196,
+              "end": 204
+            },
+            "expression": {
+              "type": "YieldExpression",
+              "span": {
+                "start": 196,
+                "end": 203
+              },
+              "argument": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 202,
+                  "end": 203
+                },
+                "value": 4.0,
+                "raw": "4"
+              },
+              "delegate": false
+            }
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 222,
+          "end": 235
+        },
+        "ctxt": 0,
+        "value": "asyncDefaults",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 236,
+            "end": 408
+          },
+          "decorators": [],
+          "pat": {
+            "type": "AssignmentPattern",
+            "span": {
+              "start": 236,
+              "end": 408
+            },
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 236,
+                "end": 241
+              },
+              "ctxt": 0,
+              "value": "value",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ClassExpression",
+              "identifier": null,
+              "span": {
+                "start": 244,
+                "end": 408
+              },
+              "ctxt": 0,
+              "decorators": [],
+              "body": [
+                {
+                  "type": "AutoAccessor",
+                  "span": {
+                    "start": 256,
+                    "end": 283
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 265,
+                      "end": 270
+                    },
+                    "value": "field"
+                  },
+                  "value": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 273,
+                      "end": 282
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 273,
+                        "end": 278
+                      },
+                      "ctxt": 0,
+                      "value": "await",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 281,
+                        "end": 282
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    }
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": false,
+                  "decorators": [],
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOverride": false,
+                  "definite": false
+                },
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 288,
+                    "end": 324
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 296,
+                      "end": 301
+                    },
+                    "value": "other"
+                  },
+                  "value": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 304,
+                      "end": 323
+                    },
+                    "ctxt": 0,
+                    "params": [],
+                    "body": {
+                      "type": "AwaitExpression",
+                      "span": {
+                        "start": 316,
+                        "end": 323
+                      },
+                      "argument": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 322,
+                          "end": 323
+                        },
+                        "value": 2.0,
+                        "raw": "2"
+                      }
+                    },
+                    "async": true,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": false,
+                  "decorators": [],
+                  "accessibility": "private",
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                },
+                {
+                  "type": "ClassProperty",
+                  "span": {
+                    "start": 329,
+                    "end": 354
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 336,
+                      "end": 341
+                    },
+                    "value": "field"
+                  },
+                  "value": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 344,
+                      "end": 353
+                    },
+                    "operator": "+",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 344,
+                        "end": 349
+                      },
+                      "ctxt": 0,
+                      "value": "await",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 352,
+                        "end": 353
+                      },
+                      "value": 3.0,
+                      "raw": "3"
+                    }
+                  },
+                  "typeAnnotation": null,
+                  "isStatic": true,
+                  "decorators": [],
+                  "accessibility": null,
+                  "isAbstract": false,
+                  "isOptional": false,
+                  "isOverride": false,
+                  "readonly": false,
+                  "declare": false,
+                  "definite": false
+                },
+                {
+                  "type": "StaticBlock",
+                  "span": {
+                    "start": 359,
+                    "end": 406
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 366,
+                      "end": 406
+                    },
+                    "ctxt": 0,
+                    "stmts": [
+                      {
+                        "type": "FunctionDeclaration",
+                        "identifier": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 383,
+                            "end": 389
+                          },
+                          "ctxt": 0,
+                          "value": "nested",
+                          "optional": false
+                        },
+                        "declare": false,
+                        "params": [],
+                        "decorators": [],
+                        "span": {
+                          "start": 368,
+                          "end": 404
+                        },
+                        "ctxt": 0,
+                        "body": {
+                          "type": "FunctionBody",
+                          "span": {
+                            "start": 392,
+                            "end": 404
+                          },
+                          "stmts": [
+                            {
+                              "type": "ExpressionStatement",
+                              "span": {
+                                "start": 394,
+                                "end": 402
+                              },
+                              "expression": {
+                                "type": "AwaitExpression",
+                                "span": {
+                                  "start": 394,
+                                  "end": 401
+                                },
+                                "argument": {
+                                  "type": "NumericLiteral",
+                                  "span": {
+                                    "start": 400,
+                                    "end": 401
+                                  },
+                                  "value": 4.0,
+                                  "raw": "4"
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "generator": false,
+                        "async": true,
+                        "typeParameters": null,
+                        "returnType": null
+                      }
+                    ]
+                  }
+                }
+              ],
+              "superClass": null,
+              "isAbstract": false,
+              "typeParams": null,
+              "superTypeParams": null,
+              "implements": []
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 207,
+        "end": 426
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 410,
+          "end": 426
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 416,
+              "end": 424
+            },
+            "expression": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 416,
+                "end": 423
+              },
+              "argument": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 422,
+                  "end": 423
+                },
+                "value": 5.0,
+                "raw": "5"
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

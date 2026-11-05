@@ -1,0 +1,40 @@
+[
+    {
+        "source": "\"😀\"; await a;\r\n  await b;\r await c; await d;  await e;",
+        "expected": [
+            {
+                "line": 1,
+                "column": 6
+            },
+            {
+                "line": 2,
+                "column": 2
+            },
+            {
+                "line": 3,
+                "column": 1
+            },
+            {
+                "line": 4,
+                "column": 0
+            },
+            {
+                "line": 5,
+                "column": 1
+            }
+        ]
+    },
+    {
+        "source": "// 한글\n\t\"𐐀\"; await (await a);",
+        "expected": [
+            {
+                "line": 2,
+                "column": 7
+            },
+            {
+                "line": 2,
+                "column": 14
+            }
+        ]
+    }
+]

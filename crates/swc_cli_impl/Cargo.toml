@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_cli_impl"
 repository  = { workspace = true }
-version     = "77.0.0"
+version     = "83.0.0"
 
 [[bin]]
 name = "swc"
@@ -25,19 +25,19 @@ plugin = [
 ]
 
 [dependencies]
-anyhow             = { workspace = true }
-clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
-glob               = { workspace = true }
-notify             = { workspace = true }
-par-core           = { workspace = true, features = ["chili"] }
-par-iter           = { workspace = true }
-path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
-pathdiff           = { workspace = true }
-serde_json         = { workspace = true, features = ["unbounded_depth"] }
-tracing            = { workspace = true }
-walkdir            = { workspace = true }
+anyhow          = { workspace = true }
+clap            = { version = "4.0.0", features = ["derive", "wrap_help"] }
+glob            = { workspace = true }
+notify          = { workspace = true }
+par-core        = { workspace = true, features = ["chili"] }
+par-iter        = { workspace = true }
+path-absolutize = { workspace = true, features = ["fixed_workdir"] }
+pathdiff        = { workspace = true }
+serde_json      = { workspace = true, features = ["unbounded_depth"] }
+tracing         = { workspace = true }
+walkdir         = { workspace = true }
 
-swc_core = { version = "77.1.2", features = [
+swc_core = { version = "83.1.1", features = [
   "common_concurrent",
   "base_concurrent",
   "base_flow",
@@ -49,3 +49,4 @@ swc_core = { version = "77.1.2", features = [
 [dev-dependencies]
 assert_cmd = { workspace = true }
 assert_fs  = { workspace = true }
+base64     = { workspace = true }

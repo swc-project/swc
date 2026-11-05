@@ -1,0 +1,14 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": [
+            "transform-object-rest-spread",
+            "transform-spread",
+            "transform-parameters",
+            "transform-destructuring",
+            "transform-block-scoping"
+        ]
+    }
+}

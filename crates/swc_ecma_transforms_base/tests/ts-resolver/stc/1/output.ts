@@ -4,7 +4,7 @@ interface Mixin1__2 {
 abstract class AbstractBase__2 {
     abstract abstractBaseMethod(): void;
 }
-function Mixin2__2<TBase__4 extends abstract new(...args: any[]) => any>(baseClass__4: TBase__4) {
+function Mixin2__2<TBase__4 extends abstract new(...args__5: any[]) => any>(baseClass__4: TBase__4) {
     abstract class MixinClass__4 extends baseClass__4 implements Mixin1__2 {
         mixinMethod(): void {}
         static staticMixinMethod(): void {}

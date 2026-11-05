@@ -1,0 +1,27 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "importSource": "preact",
+                "development": true
+            }
+        },
+        "target": "es2022",
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false,
+                "passes": 2
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": true
+}

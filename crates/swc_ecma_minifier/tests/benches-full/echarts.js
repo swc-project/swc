@@ -8046,7 +8046,9 @@
         }, Model.prototype._doGet = function(pathArr, parentModel) {
             var obj = this.option;
             if (!pathArr) return obj;
-            for(var i = 0; i < pathArr.length && (!pathArr[i] || null != (obj = obj && 'object' == typeof obj ? obj[pathArr[i]] : null)); i++);
+            for(var i = 0; // Ignore empty
+            i < pathArr.length && (!pathArr[i] || null != (obj = obj && 'object' == typeof obj ? obj[pathArr[i]] : null)) // obj could be number/string/... (like 0)
+            ; i++);
             return null == obj && parentModel && (obj = parentModel._doGet(this.resolveParentPath(pathArr), parentModel.parentModel)), obj;
         }, Model;
     }(); // TODO Performance improvement?
@@ -44688,13 +44690,13 @@
                 itemStyle: style.itemStyle,
                 lineStyle: style.lineStyle
             }));
-            var formatter = legendModel.get('formatter'), content = name;
+            var textX = 'left' === itemAlign ? itemWidth + 5 : -5, formatter = legendModel.get('formatter'), content = name;
             'string' == typeof formatter && formatter ? content = formatter.replace('{name}', null != name ? name : '') : 'function' == typeof formatter && (content = formatter(name));
             var inactiveColor = itemModel.get('inactiveColor');
             itemGroup.add(new ZRText({
                 style: createTextStyle(textStyleModel, {
                     text: content,
-                    x: 'left' === itemAlign ? itemWidth + 5 : -5,
+                    x: textX,
                     y: itemHeight / 2,
                     fill: isSelected ? textStyleModel.getTextColor() : inactiveColor,
                     align: itemAlign,
@@ -46670,7 +46672,7 @@
                     this._updateInterval(handleIndex, vertex[1]), this._hideIndicator(), // before dispatch action.
                     this._updateView();
                 } // dragEnd do not dispatch action when realtime.
-                !this.visualMapModel.get('realtime') === isEnd && // jshint ignore:line
+                isEnd === !this.visualMapModel.get('realtime') && // jshint ignore:line
                 this.api.dispatchAction({
                     type: 'selectDataRange',
                     from: this.uid,

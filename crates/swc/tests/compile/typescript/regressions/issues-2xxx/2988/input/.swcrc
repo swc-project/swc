@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2021",
+        "minify": {
+            "mangle": {
+                "toplevel": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

@@ -1,0 +1,3 @@
+@decorate
+class C {
+}

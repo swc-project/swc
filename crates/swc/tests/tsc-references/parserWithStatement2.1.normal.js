@@ -11,3 +11,9 @@
 //!    : ^^^^
 //!  2 |   return;
 //!    `----
+//!   x Return statement is not allowed here
+//!    ,-[2:1]
+//!  1 | with (1)
+//!  2 |   return;
+//!    :   ^^^^^^^
+//!    `----

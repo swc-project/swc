@@ -71,6 +71,11 @@ impl MacroNode for Lit {
                 punct!(emitter, "/");
                 // Encode non-ASCII characters in regex pattern when ascii_only is enabled
                 let encoded_exp = encode_regex_for_ascii(&n.exp, emitter.cfg.ascii_only);
+                let encoded_exp = if emitter.cfg.inline_script {
+                    escape_inline_script_regex(&encoded_exp)
+                } else {
+                    CowStr::Borrowed(&encoded_exp)
+                };
                 emitter.wr.write_str(&encoded_exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
@@ -131,16 +136,12 @@ impl MacroNode for Str {
             }
         }
 
-        let (quote_char, mut value) = get_quoted_utf16(&self.value, emitter.cfg.ascii_only, target);
-
-        if emitter.cfg.inline_script {
-            value = CowStr::Owned(
-                replace_close_inline_script(&value)
-                    .replace("\x3c!--", "\\x3c!--")
-                    .replace("--\x3e", "--\\x3e")
-                    .into(),
-            );
-        }
+        let (quote_char, value) = get_quoted_utf16(&self.value, emitter.cfg.ascii_only, target);
+        let value = if emitter.cfg.inline_script {
+            escape_inline_script(&value)
+        } else {
+            CowStr::Borrowed(&value)
+        };
 
         let quote_str = [quote_char.as_byte()];
         let quote_str = unsafe {
@@ -218,7 +219,39 @@ impl MacroNode for Bool {
     }
 }
 
-pub fn replace_close_inline_script(raw: &str) -> CowStr<'_> {
+/// Escape HTML-sensitive sequences after JavaScript string escaping is
+/// complete. Borrow the input when no inline-script protection is needed.
+pub(crate) fn escape_inline_script(raw: &str) -> CowStr<'_> {
+    let value = replace_close_inline_script(raw);
+    if value.contains("<!--") || value.contains("-->") {
+        CowStr::Owned(
+            value
+                .replace("<!--", "\\x3c!--")
+                .replace("-->", "--\\x3e")
+                .into(),
+        )
+    } else {
+        value
+    }
+}
+
+/// Escape HTML markers without changing regex matching semantics. Escape `!`
+/// rather than `<` because `<` can already have an identity escape (`\<`).
+fn escape_inline_script_regex(raw: &str) -> CowStr<'_> {
+    let value = replace_close_inline_script(raw);
+    if value.contains("<!--") || value.contains("-->") {
+        CowStr::Owned(
+            value
+                .replace("<!--", "<\\x21--")
+                .replace("-->", "--\\x3e")
+                .into(),
+        )
+    } else {
+        value
+    }
+}
+
+fn replace_close_inline_script(raw: &str) -> CowStr<'_> {
     let chars = raw.as_bytes();
     let pattern_len = 8; // </script>
 
@@ -231,7 +264,7 @@ pub fn replace_close_inline_script(raw: &str) -> CowStr<'_> {
                 && chars[index + 1..index + pattern_len].eq_ignore_ascii_case(b"/script")
                 && matches!(
                     chars[index + pattern_len],
-                    b'>' | b' ' | b'\t' | b'\n' | b'\x0C' | b'\r'
+                    b'>' | b'/' | b' ' | b'\t' | b'\n' | b'\x0C' | b'\r'
                 )
         })
         .map(|(index, _)| index)

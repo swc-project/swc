@@ -1,0 +1,5 @@
+  x Expected ';', got ')'
+   ,-[$DIR/tests/typescript-errors/enum-review-for-of/generator-yield.ts:1:1]
+ 1 | enum E { A = (function* () { for (yield of [1]) {} })() }
+   :                                               ^
+   `----

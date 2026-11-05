@@ -1,0 +1,23 @@
+f<T> = other;
+f<T> += other;
+f<T> -= other;
+f<T> *= other;
+f<T> %= other;
+f<T> **= other;
+f<T> <<= other;
+f<T> |= other;
+f<T> &= other;
+f<T> ^= other;
+f<T> &&= other;
+f<T> ||= other;
+f<T> ??= other;
+f<T> += g<U> *= other;
+f<Foo<Bar<T>>> += other;
+factory().method<T> += other;
+object["method"]<T> += other;
+(f<T>) /= other;
+(f<T>) >>= other;
+(f<T>) >>>= other;
+f<T>
+/= other;
+f<T> /= pattern/;

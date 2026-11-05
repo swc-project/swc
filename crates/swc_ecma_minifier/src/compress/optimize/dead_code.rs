@@ -39,7 +39,11 @@ impl Optimizer<'_> {
         }
 
         // A return statement in a try block may not terminate function.
-        if self.ctx.bit_ctx.contains(BitCtx::InTryBlock) {
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::InTryCatchWithFinally.union(BitCtx::InTryBlock))
+        {
             return false;
         }
 
@@ -55,9 +59,7 @@ impl Optimizer<'_> {
                     .map(|var| {
                         var.flags.contains(
                             VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
-                        ) && !(self.data.used_arguments(self.ctx.scope)
-                            && var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM))
-                            && !var.flags.intersects(VarUsageInfoFlags::EXPORTED)
+                        ) && !var.flags.intersects(VarUsageInfoFlags::EXPORTED)
                     })
                     .unwrap_or(false)
                 {
@@ -87,9 +89,7 @@ impl Optimizer<'_> {
                         .map(|var| {
                             var.flags.contains(
                                 VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
-                            ) && !(self.data.used_arguments(self.ctx.scope)
-                                && var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM))
-                                && !var.flags.contains(VarUsageInfoFlags::EXPORTED)
+                            ) && !var.flags.contains(VarUsageInfoFlags::EXPORTED)
                         })
                         .unwrap_or(false)
                     {

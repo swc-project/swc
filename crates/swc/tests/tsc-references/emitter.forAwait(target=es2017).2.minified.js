@@ -1,5 +1,7 @@
 //// [file1.ts]
+import "@swc/helpers/_/_async_iterator";
 //// [file2.ts]
+import "@swc/helpers/_/_async_iterator";
 //// [file3.ts]
 import "@swc/helpers/_/_async_iterator";
 import "@swc/helpers/_/_await_async_generator";
@@ -9,6 +11,7 @@ import "@swc/helpers/_/_async_iterator";
 import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_wrap_async_generator";
 //// [file5.ts]
+import "@swc/helpers/_/_async_iterator";
 //// [file6.ts]
 import "@swc/helpers/_/_async_iterator";
 import "@swc/helpers/_/_await_async_generator";

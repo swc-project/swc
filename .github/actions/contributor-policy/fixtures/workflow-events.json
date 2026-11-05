@@ -1,0 +1,58 @@
+[
+  {
+    "name": "allowed PR",
+    "eventName": "pull_request",
+    "result": "success",
+    "allowed": "true",
+    "run": true,
+    "fail": false
+  },
+  {
+    "name": "denied PR",
+    "eventName": "pull_request",
+    "result": "success",
+    "allowed": "false",
+    "run": false,
+    "fail": true
+  },
+  {
+    "name": "failed policy",
+    "eventName": "pull_request",
+    "result": "failure",
+    "allowed": "",
+    "run": false,
+    "fail": true
+  },
+  {
+    "name": "cancelled policy",
+    "eventName": "pull_request",
+    "result": "cancelled",
+    "allowed": "",
+    "run": false,
+    "fail": true
+  },
+  {
+    "name": "push",
+    "eventName": "push",
+    "result": "skipped",
+    "allowed": "",
+    "run": true,
+    "fail": false
+  },
+  {
+    "name": "merge queue",
+    "eventName": "merge_group",
+    "result": "skipped",
+    "allowed": "",
+    "run": true,
+    "fail": false
+  },
+  {
+    "name": "manual run",
+    "eventName": "workflow_dispatch",
+    "result": "skipped",
+    "allowed": "",
+    "run": true,
+    "fail": false
+  }
+]

@@ -1,0 +1,8 @@
+  x no label statement
+   ,-[$DIR/tests/compile/lints/no-restricted-syntax/labeled-stmt/input/input.js:1:1]
+ 1 | ,-> loop1:
+ 2 | |   
+ 3 | |   while (true) {
+ 4 | |     continue loop1;
+ 5 | `-> }
+   `----

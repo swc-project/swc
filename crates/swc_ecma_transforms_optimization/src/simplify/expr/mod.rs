@@ -1028,7 +1028,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
             if let (Known(l), Known(r)) =
                 (left.as_pure_wtf8(expr_ctx), right.as_pure_wtf8(expr_ctx))
             {
-                if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
+                if left.is_str() || left.is_array() || right.is_str() || right.is_array() {
                     let mut l = l.into_owned();
 
                     l.push_wtf8(&r);
@@ -1250,7 +1250,13 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 right: left_rhs,
             }) = &mut **left
             {
-                if *left_op == op {
+                // Bitwise operators work on int32 values, so reassociating them
+                // is always exact. Floating-point multiplication is not
+                // associative, so `*` is reassociated only when the result is
+                // the same for every value of `left_lhs`.
+                if *left_op == op
+                    && (op != op!("*") || is_exact_mul_reassociation(expr_ctx, left_rhs, right))
+                {
                     if let Known(value) = perform_arithmetic_op(expr_ctx, op, left_rhs, right) {
                         let value_expr = Lit::Num(Number {
                             value,
@@ -1435,6 +1441,43 @@ fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
         value: val.into(),
     })
     .into();
+}
+
+/// Returns `true` if `(a * b) * c` and `a * (b * c)` evaluate to the same
+/// value for every number `a`.
+///
+/// Floating-point multiplication rounds after each step, so reassociation is
+/// generally not exact. For example, `365.2425 * 24 * 3600` is
+/// `31556951.999999996`, but `365.2425 * 86400` is `31556952`. See
+/// https://github.com/swc-project/swc/issues/12634
+///
+/// The reassociation is exact in these cases:
+///
+/// - `b` or `c` is `1` or `-1`. Multiplication by `-1` only negates the value,
+///   and rounding is symmetric around zero.
+/// - `b` and `c` are powers of two with a magnitude of at least `1`, and their
+///   product is finite. Scaling by such a power of two never rounds. It can
+///   only overflow, and the overflow then occurs in both forms.
+///
+/// Powers of two with a magnitude less than `1` are not accepted. They can
+/// round a subnormal intermediate result, and a mix with larger powers of two
+/// can overflow only in `(a * b) * c`.
+fn is_exact_mul_reassociation(expr_ctx: ExprCtx, b: &Expr, c: &Expr) -> bool {
+    /// Returns `true` if `v` is `±2^n` for some `n >= 0`.
+    fn is_pow2_at_least_one(v: f64) -> bool {
+        const MANTISSA_MASK: u64 = (1 << 52) - 1;
+
+        let v = v.abs();
+        v >= 1.0 && v.is_finite() && v.to_bits() & MANTISSA_MASK == 0
+    }
+
+    let (Known(b), Known(c)) = (b.as_pure_number(expr_ctx), c.as_pure_number(expr_ctx)) else {
+        return false;
+    };
+
+    b.abs() == 1.0
+        || c.abs() == 1.0
+        || (is_pow2_at_least_one(b) && is_pow2_at_least_one(c) && (b * c).is_finite())
 }
 
 /// Try to fold arithmetic binary operators

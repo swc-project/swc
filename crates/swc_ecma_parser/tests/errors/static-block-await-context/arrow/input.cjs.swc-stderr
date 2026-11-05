@@ -1,0 +1,5 @@
+  x Expected ident
+   ,-[$DIR/tests/errors/static-block-await-context/arrow/input.cjs:1:1]
+ 1 | class C { static { (await) => {}; } }
+   :                     ^^^^^
+   `----

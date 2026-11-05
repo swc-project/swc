@@ -1,0 +1,5 @@
+  x Type argument list cannot be empty.
+   ,-[$DIR/tests/typescript-errors/type-query-lookahead/empty-arguments-separated/input.ts:1:1]
+ 1 | type Q = typeof f< <T>() => X<>>;
+   :                              ^^
+   `----

@@ -1,0 +1,7 @@
+{
+    "jsc": {
+        "transform": {
+            "noEmptyExport": true
+        }
+    }
+}

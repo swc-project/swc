@@ -146,9 +146,8 @@ impl VisitMut for BrandCheckHandler<'_> {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
-pub(super) enum PrivateAccessType {
-    #[default]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+enum PrivateAccessType {
     Get,
     DestructureSet,
     Update,
@@ -157,7 +156,6 @@ pub(super) enum PrivateAccessType {
 pub(super) struct PrivateAccessVisitor<'a> {
     pub vars: Vec<VarDeclarator>,
     pub private: &'a PrivateRecord,
-    pub private_access_type: PrivateAccessType,
     pub c: Config,
     pub unresolved_mark: Mark,
 }
@@ -261,12 +259,16 @@ impl VisitMut for PrivateAccessVisitor<'_> {
         }
 
         match e {
-            Expr::Update(UpdateExpr { arg, .. }) if arg.is_member() => {
-                let old_access_type = self.private_access_type;
+            Expr::Update(UpdateExpr { arg, .. }) => {
+                let Expr::Member(member) = &mut **arg else {
+                    arg.visit_mut_with(self);
+                    return;
+                };
 
-                self.private_access_type = PrivateAccessType::Update;
-                arg.visit_mut_with(self);
-                self.private_access_type = old_access_type;
+                member.visit_mut_children_with(self);
+                **arg = self
+                    .convert_private_member(member, PrivateAccessType::Update, None)
+                    .0;
             }
 
             Expr::Assign(AssignExpr {
@@ -334,12 +336,14 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 let value = if *op == op!("=") {
                     right.take()
                 } else {
-                    let left = Box::new(self.visit_mut_private_get(&mut left, Some(var)).0);
+                    let left = self
+                        .convert_private_member(&mut left, PrivateAccessType::Get, Some(var))
+                        .0;
 
                     Box::new(
                         BinExpr {
                             span: DUMMY_SP,
-                            left,
+                            left: Box::new(left),
                             op: op.to_update().unwrap(),
                             right: right.take(),
                         }
@@ -395,11 +399,7 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 ..
             }) => {
                 right.visit_mut_with(self);
-                let old_access_type = self.private_access_type;
-
-                self.private_access_type = PrivateAccessType::DestructureSet;
                 left.visit_mut_with(self);
-                self.private_access_type = old_access_type;
             }
 
             // Actually this is a call and we should bind `this`.
@@ -408,7 +408,8 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 tag.visit_mut_with(self);
                 tpl.visit_mut_with(self);
 
-                let (expr, this) = self.visit_mut_private_get(&mut tag, None);
+                let (expr, this) =
+                    self.convert_private_member(&mut tag, PrivateAccessType::Get, None);
 
                 if let Some(this) = this {
                     *e = TaggedTpl {
@@ -445,7 +446,8 @@ impl VisitMut for PrivateAccessVisitor<'_> {
                 callee.visit_mut_with(self);
                 args.visit_mut_with(self);
 
-                let (expr, this) = self.visit_mut_private_get(&mut callee, None);
+                let (expr, this) =
+                    self.convert_private_member(&mut callee, PrivateAccessType::Get, None);
                 if let Some(this) = this {
                     *e = CallExpr {
                         span: *span,
@@ -467,7 +469,9 @@ impl VisitMut for PrivateAccessVisitor<'_> {
 
             Expr::Member(member_expr) => {
                 member_expr.visit_mut_children_with(self);
-                *e = self.visit_mut_private_get(member_expr, None).0;
+                *e = self
+                    .convert_private_member(member_expr, PrivateAccessType::Get, None)
+                    .0;
             }
 
             _ => e.visit_mut_children_with(self),
@@ -538,21 +542,24 @@ impl VisitMut for PrivateAccessVisitor<'_> {
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
-        if let Pat::Expr(expr) = &p {
-            if let Expr::Member(me) = &**expr {
-                if let MemberProp::PrivateName(..) = &me.prop {
-                    let old_access_type = self.private_access_type;
-                    self.private_access_type = PrivateAccessType::DestructureSet;
-                    p.visit_mut_children_with(self);
-                    self.private_access_type = old_access_type;
-
-                    return;
-                }
-            }
+        if self.c.private_as_properties {
+            p.visit_mut_children_with(self);
+            return;
         }
 
-        self.private_access_type = Default::default();
-        p.visit_mut_children_with(self);
+        let Pat::Expr(expr) = p else {
+            p.visit_mut_children_with(self);
+            return;
+        };
+        let Expr::Member(member) = &mut **expr else {
+            expr.visit_mut_with(self);
+            return;
+        };
+
+        member.visit_mut_children_with(self);
+        **expr = self
+            .convert_private_member(member, PrivateAccessType::DestructureSet, None)
+            .0;
     }
 }
 
@@ -565,7 +572,6 @@ pub(super) fn visit_private_in_expr(
     let mut priv_visitor = PrivateAccessVisitor {
         private,
         vars: Vec::new(),
-        private_access_type: Default::default(),
         c: config,
         unresolved_mark,
     };
@@ -576,13 +582,19 @@ pub(super) fn visit_private_in_expr(
 }
 
 impl PrivateAccessVisitor<'_> {
-    /// Returns `(expr, thisObject)`
+    /// Lowers a member whose child expressions have already been visited.
+    /// Child expressions retain their own access modes. `access_type` applies
+    /// only to this member.
     ///
-    ///   - `obj_alias`: If alias is already declared, this method will use
-    ///     `obj_alias` instead of declaring a new one.
-    fn visit_mut_private_get(
+    /// Returns the lowered expression and an optional receiver for calls.
+    /// Write accesses consume their receiver and return `None`.
+    ///
+    /// For read accesses, `obj_alias` reuses an already declared receiver
+    /// alias.
+    fn convert_private_member(
         &mut self,
         e: &mut MemberExpr,
+        access_type: PrivateAccessType,
         obj_alias: Option<Ident>,
     ) -> (Expr, Option<Expr>) {
         let is_alias_initialized = obj_alias.is_some();
@@ -615,7 +627,7 @@ impl PrivateAccessVisitor<'_> {
         );
 
         if kind.is_static {
-            match self.private_access_type {
+            match access_type {
                 PrivateAccessType::DestructureSet => {
                     let set = helper!(class_static_private_field_destructure);
 
@@ -623,16 +635,12 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![
-                                obj.clone().as_arg(),
-                                class_name.clone().as_arg(),
-                                ident.as_arg(),
-                            ],
+                            args: vec![obj.as_arg(), class_name.clone().as_arg(), ident.as_arg()],
                             ..Default::default()
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
-                        Some(*obj),
+                        None,
                     );
                 }
                 PrivateAccessType::Update => {
@@ -642,17 +650,13 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![
-                                obj.clone().as_arg(),
-                                class_name.clone().as_arg(),
-                                ident.as_arg(),
-                            ],
+                            args: vec![obj.as_arg(), class_name.clone().as_arg(), ident.as_arg()],
 
                             ..Default::default()
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
-                        Some(*obj),
+                        None,
                     );
                 }
                 _ => {}
@@ -690,7 +694,7 @@ impl PrivateAccessVisitor<'_> {
                 Some(class_name.clone().into()),
             )
         } else {
-            match self.private_access_type {
+            match access_type {
                 PrivateAccessType::DestructureSet => {
                     let set = helper!(class_private_field_destructure);
 
@@ -698,13 +702,13 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![obj.clone().as_arg(), ident.as_arg()],
+                            args: vec![obj.as_arg(), ident.as_arg()],
 
                             ..Default::default()
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
-                        Some(*obj),
+                        None,
                     )
                 }
                 PrivateAccessType::Update => {
@@ -714,13 +718,13 @@ impl PrivateAccessVisitor<'_> {
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
-                            args: vec![obj.clone().as_arg(), ident.as_arg()],
+                            args: vec![obj.as_arg(), ident.as_arg()],
 
                             ..Default::default()
                         }
                         .make_member(quote_ident!("value"))
                         .into(),
-                        Some(*obj),
+                        None,
                     )
                 }
 

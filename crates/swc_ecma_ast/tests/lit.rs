@@ -172,3 +172,23 @@ fn should_panic_octal_2() {
 fn should_panic_octal_7() {
     test_from_tpl_raw("\\7", "");
 }
+
+#[test]
+fn template_line_endings() {
+    test_from_tpl_raw("a\rb\r\nc\n", "a\nb\nc\n");
+    test_from_tpl_raw("a\\\rb\\\r\nc\\\nd", "abcd");
+    test_from_tpl_raw("\\r\\n", "\r\n");
+}
+
+#[test]
+fn braced_unicode_boundaries() {
+    test_from_tpl_raw("\\u{10FFFF}", "\u{10FFFF}");
+    test_from_tpl_raw("\\u{000000000041}", "A");
+}
+
+#[test]
+fn consecutive_unpaired_surrogates() {
+    test_from_tpl_raw("\\uD800\\uD801", "\\uD800\\uD801");
+    test_from_tpl_raw("\\uD800\\uD801x", "\\uD800\\uD801x");
+    test_from_tpl_raw("\\uD800\\uD801\\uDC00", "\\uD800\u{10400}");
+}

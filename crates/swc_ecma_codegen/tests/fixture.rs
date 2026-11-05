@@ -4,13 +4,14 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::comments::SingleThreadedComments;
+use swc_common::{comments::SingleThreadedComments, EqIgnoreSpan};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
     Emitter,
 };
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::{run_test2, NormalizedOutput};
 
 const fn true_by_default() -> bool {
@@ -19,14 +20,32 @@ const fn true_by_default() -> bool {
 
 #[derive(Deserialize)]
 struct TestConfig {
+    #[serde(default)]
+    ascii_only: bool,
+    #[serde(default)]
+    inline_script: bool,
+    #[serde(default)]
+    exec: bool,
+    #[serde(default)]
+    source_map: bool,
+    #[serde(default)]
+    check_ast: bool,
     #[serde(default = "true_by_default")]
     reduce_escaped_newline: bool,
+    #[serde(default = "true_by_default")]
+    tsx: bool,
 }
 
 impl Default for TestConfig {
     fn default() -> Self {
         TestConfig {
+            ascii_only: false,
+            inline_script: false,
+            exec: false,
+            source_map: false,
+            check_ast: false,
             reduce_escaped_newline: true,
+            tsx: true,
         }
     }
 }
@@ -61,25 +80,35 @@ fn run(input: &Path, minify: bool) {
         let fm = cm.load_file(input).unwrap();
         let comments = SingleThreadedComments::default();
 
+        let syntax = Syntax::Typescript(TsSyntax {
+            decorators: true,
+            tsx: config.tsx,
+            dts,
+            ..Default::default()
+        });
+        let mut errors = Vec::new();
         let m = parse_file_as_module(
             &fm,
-            Syntax::Typescript(TsSyntax {
-                decorators: true,
-                tsx: true,
-                dts,
-                ..Default::default()
-            }),
+            syntax,
             EsVersion::latest(),
             Some(&comments),
-            &mut Vec::new(),
+            &mut errors,
         )
         .expect("failed to parse input as a module");
+        if config.check_ast {
+            assert!(errors.is_empty(), "input has syntax errors: {errors:?}");
+        }
 
         let mut buf = Vec::new();
+        let mut source_map = Vec::new();
 
         {
-            let mut wr =
-                Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
+            let mut wr = Box::new(JsWriter::new(
+                cm.clone(),
+                "\n",
+                &mut buf,
+                config.source_map.then_some(&mut source_map),
+            )) as Box<dyn WriteJs>;
 
             if minify {
                 wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
@@ -88,8 +117,10 @@ fn run(input: &Path, minify: bool) {
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::Config::default()
                     .with_minify(minify)
+                    .with_ascii_only(config.ascii_only)
+                    .with_inline_script(config.inline_script)
                     .with_reduce_escaped_newline(config.reduce_escaped_newline),
-                cm,
+                cm: cm.clone(),
                 comments: Some(&comments),
                 wr,
             };
@@ -97,9 +128,56 @@ fn run(input: &Path, minify: bool) {
             emitter.emit_module(&m).unwrap();
         }
 
-        NormalizedOutput::from(String::from_utf8(buf).unwrap())
+        let code = String::from_utf8(buf).unwrap();
+        if config.check_ast {
+            let output_file = cm.new_source_file(swc_common::FileName::Anon.into(), code.clone());
+            let mut errors = Vec::new();
+            let actual =
+                parse_file_as_module(&output_file, syntax, EsVersion::latest(), None, &mut errors)
+                    .unwrap_or_else(|error| {
+                        panic!("generated code failed to parse: {error:?}\n{code}")
+                    });
+            assert!(errors.is_empty(), "output has syntax errors: {errors:?}");
+            assert!(
+                m.eq_ignore_span(&actual),
+                "generated code changed the AST in {}:\n{code}",
+                input.display(),
+            );
+        }
+        if config.inline_script {
+            let html_markers = regex::Regex::new(r"(?i:</script)[/>\t\n\x0c\r ]|<!--|-->").unwrap();
+            assert!(
+                !html_markers.is_match(&code),
+                "generated code contains HTML-sensitive inline-script sequences: {code}"
+            );
+        }
+        if config.exec {
+            let options = JsExecOptions {
+                cache: true,
+                ..Default::default()
+            };
+            let expected = exec_node_js(&fm.src, options.clone()).expect("failed to execute input");
+            let actual = exec_node_js(&code, options).expect("failed to execute output");
+            assert_eq!(
+                actual, expected,
+                "generated code changed the execution result"
+            );
+        }
+
+        NormalizedOutput::from(code)
             .compare_to_file(&output)
             .unwrap();
+
+        if config.source_map {
+            // Map zero-based generated line/column pairs to source byte positions.
+            let mappings = source_map
+                .iter()
+                .map(|(pos, loc)| format!("{}:{} -> {}\n", loc.line, loc.col, pos.0))
+                .collect::<String>();
+            NormalizedOutput::from(mappings)
+                .compare_to_file(output.with_extension("map"))
+                .unwrap();
+        }
 
         Ok(())
     })

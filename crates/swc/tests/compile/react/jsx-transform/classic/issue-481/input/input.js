@@ -1,0 +1,1 @@
+<span> {foo}</span>;

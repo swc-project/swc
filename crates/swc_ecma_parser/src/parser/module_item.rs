@@ -2,21 +2,49 @@ use swc_atoms::atom;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
-use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, Parser};
+use crate::{
+    error::SyntaxError,
+    input::Tokens,
+    lexer::Token,
+    parser::{BoundaryContext, StatementGrammar, TypeContext},
+    Context, PResult, Parser,
+};
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
-        self.do_inside_of_context(Context::TopLevel, |p| {
-            p.parse_stmt_like(true, handle_import_export)
+        self.do_inside_of_boundary_context(BoundaryContext::TopLevel, |p| {
+            p.parse_stmt_like(StatementGrammar::ModuleItem, handle_import_export)
         })
     }
 
+    /// Leaves a closing delimiter buffered so the container owns its
+    /// consumption.
     pub(crate) fn parse_module_item_block_body(
         &mut self,
         allow_directives: bool,
         end: Option<Token>,
     ) -> PResult<Vec<ModuleItem>> {
         self.parse_block_body(allow_directives, end, handle_import_export)
+    }
+
+    /// Parses attributes shared by imports and re-exports. Only the legacy
+    /// `assert` keyword has a no-line-terminator restriction before it.
+    fn parse_import_attributes(&mut self) -> PResult<Option<Box<ObjectLit>>> {
+        if !self.input().syntax().import_attributes() {
+            return Ok(None);
+        }
+
+        match self.input().cur() {
+            Token::With => {}
+            Token::Assert if !self.input().had_line_break_before_cur() => {}
+            _ => return Ok(None),
+        }
+        self.bump();
+
+        match self.parse_object_expr()? {
+            Expr::Object(v) => Ok(Some(Box::new(v))),
+            _ => unreachable!(),
+        }
     }
 
     /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`
@@ -29,17 +57,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             unexpected!(self, "a string literal")
         };
-        let with = if self.input().syntax().import_attributes()
-            && !self.input().had_line_break_before_cur()
-            && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-        {
-            match self.parse_object_expr()? {
-                Expr::Object(v) => Some(Box::new(v)),
-                _ => unreachable!(),
-            }
-        } else {
-            None
-        };
+        let with = self.parse_import_attributes()?;
         self.expect_general_semi()?;
         Ok((src, with))
     }
@@ -58,61 +76,61 @@ impl<I: Tokens> Parser<I> {
                 // `export { type as }`
                 // `export { type as as }`
                 // `export { type as as as }`
+                // These names may also be string ModuleExportNames.
                 if self.syntax().typescript()
                     && orig_token == Token::Type
-                    && self.input().cur().is_word()
+                    && (self.input().cur().is_word() || self.input().cur() == Token::Str)
                 {
                     let possibly_orig_token = self.input().cur();
-                    let possibly_orig = self.parse_ident_name().map(Ident::from)?;
+                    let possibly_orig = self.parse_module_export_name()?;
                     if possibly_orig_token == Token::As {
                         // `export { type as }`
-                        if !self.input().cur().is_word() {
+                        if !(self.input().cur().is_word() || self.input().cur() == Token::Str) {
                             if type_only {
                                 self.emit_err(orig_ident.span, SyntaxError::TS2207);
                             }
 
                             return Ok(ExportNamedSpecifier {
                                 span: self.span(start),
-                                orig: ModuleExportName::Ident(possibly_orig),
+                                orig: possibly_orig,
                                 exported: None,
                                 is_type_only: true,
                             });
                         }
 
                         let maybe_as_token = self.input().cur();
-                        let maybe_as = self.parse_ident_name().map(Ident::from)?;
+                        let maybe_as = self.parse_module_export_name()?;
                         if maybe_as_token == Token::As {
-                            if self.input().cur().is_word() {
+                            if self.input().cur().is_word() || self.input().cur() == Token::Str {
                                 // `export { type as as as }`
                                 // `export { type as as foo }`
-                                let exported = self.parse_ident_name().map(Ident::from)?;
+                                let exported = self.parse_module_export_name()?;
 
                                 if type_only {
                                     self.emit_err(orig_ident.span, SyntaxError::TS2207);
                                 }
 
-                                debug_assert!(start <= orig_ident.span.hi());
                                 return Ok(ExportNamedSpecifier {
-                                    span: Span::new_with_checked(start, orig_ident.span.hi()),
-                                    orig: ModuleExportName::Ident(possibly_orig),
-                                    exported: Some(ModuleExportName::Ident(exported)),
+                                    span: self.span(start),
+                                    orig: possibly_orig,
+                                    exported: Some(exported),
                                     is_type_only: true,
                                 });
                             } else {
                                 // `export { type as as }`
                                 return Ok(ExportNamedSpecifier {
-                                    span: Span::new_with_checked(start, orig_ident.span.hi()),
+                                    span: self.span(start),
                                     orig: ModuleExportName::Ident(orig_ident),
-                                    exported: Some(ModuleExportName::Ident(maybe_as)),
+                                    exported: Some(maybe_as),
                                     is_type_only: false,
                                 });
                             }
                         } else {
                             // `export { type as xxx }`
                             return Ok(ExportNamedSpecifier {
-                                span: Span::new_with_checked(start, orig_ident.span.hi()),
+                                span: self.span(start),
                                 orig: ModuleExportName::Ident(orig_ident),
-                                exported: Some(ModuleExportName::Ident(maybe_as)),
+                                exported: Some(maybe_as),
                                 is_type_only: false,
                             });
                         }
@@ -124,7 +142,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         is_type_only = true;
-                        ModuleExportName::Ident(possibly_orig)
+                        possibly_orig
                     }
                 } else {
                     ModuleExportName::Ident(orig_ident)
@@ -148,11 +166,11 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_imported_binding(&mut self) -> PResult<Ident> {
-        Ok(self
-            .do_outside_of_context(Context::InAsync.union(Context::InGenerator), |p| {
-                p.parse_binding_ident(false)
-            })?
-            .into())
+        // ImportedBinding : BindingIdentifier[~Yield, ~Await].
+        let binding = with_grammar_context!(self, [~Yield, ~Await], |p| {
+            p.parse_binding_ident(false)
+        })?;
+        Ok(binding.into())
     }
 
     fn parse_imported_default_binding(&mut self) -> PResult<Ident> {
@@ -161,6 +179,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`
     fn parse_import_specifier(&mut self, type_only: bool) -> PResult<ImportSpecifier> {
+        let mut escaped_keyword_error = self.input().escaped_keyword_error();
         let start = self.cur_pos();
         let orig_token = self.input().cur();
         match self.parse_module_export_name()? {
@@ -181,10 +200,14 @@ impl<I: Tokens> Parser<I> {
                         && orig_token == Token::TypeOf
                         && self.input().cur().is_word()
                     {
+                        let escaped_keyword_error = self.input().escaped_keyword_error();
                         let imported = self.parse_module_export_name()?;
                         let local = if self.input_mut().eat(Token::As) {
                             self.parse_binding_ident(false)?.into()
                         } else {
+                            if let Some(error) = escaped_keyword_error {
+                                self.emit_error(error);
+                            }
                             match &imported {
                                 ModuleExportName::Ident(i) => i.clone(),
                                 ModuleExportName::Str(s) => {
@@ -250,11 +273,12 @@ impl<I: Tokens> Parser<I> {
 
                     if self.input().cur().is_word() {
                         let possibly_orig_token = self.input().cur();
+                        escaped_keyword_error = self.input().escaped_keyword_error();
                         let possibly_orig_name = self.parse_ident_name().map(Ident::from)?;
                         if possibly_orig_token == Token::As {
                             // `import { type as } from 'mod'`
                             if !self.input().cur().is_word() {
-                                if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
+                                if self.word_is_reserved(&possibly_orig_name.sym) {
                                     syntax_error!(
                                         self,
                                         possibly_orig_name.span,
@@ -336,6 +360,10 @@ impl<I: Tokens> Parser<I> {
                     }));
                 }
 
+                if let Some(error) = escaped_keyword_error {
+                    self.emit_error(error);
+                }
+
                 // Handle difference between
                 //
                 // 'ImportedBinding'
@@ -343,7 +371,7 @@ impl<I: Tokens> Parser<I> {
                 if self.input().syntax().flow() && orig_name.sym == *"default" {
                     self.emit_err(orig_name.span, SyntaxError::TS1003);
                 }
-                if self.ctx().is_reserved_word(&orig_name.sym)
+                if self.word_is_reserved(&orig_name.sym)
                     && !(self.input().syntax().flow() && (type_only || is_type_only))
                 {
                     syntax_error!(self, orig_name.span, SyntaxError::ReservedWordInImport)
@@ -383,7 +411,9 @@ impl<I: Tokens> Parser<I> {
     }
 
     pub(crate) fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
-        if !self.ctx().contains(Context::Module) && self.ctx().contains(Context::TopLevel) {
+        if !self.ctx().contains(Context::Module)
+            && self.boundary_ctx().contains(BoundaryContext::TopLevel)
+        {
             // Switch to module mode
             let ctx = self.ctx() | Context::Module | Context::Strict;
             self.set_ctx(ctx);
@@ -449,8 +479,9 @@ impl<I: Tokens> Parser<I> {
             }
 
             if self.input_mut().eat(Token::Eq) {
-                // `export = x;`
-                let expr = self.parse_expr()?;
+                // TypeScript export expressions have their own Await grammar,
+                // including inside namespaces and ambient modules.
+                let expr = with_grammar_context!(self, [+In, ?Yield, +Await], Self::parse_expr)?;
                 self.expect_general_semi()?;
                 return Ok(TsExportAssignment {
                     span: self.span(start),
@@ -600,7 +631,11 @@ impl<I: Tokens> Parser<I> {
                     self.input().prev_span(),
                 ))
             } else {
-                let expr = self.allow_in_expr(Self::parse_assignment_expr)?;
+                let expr = if self.input().syntax().typescript() {
+                    with_grammar_context!(self, [+In, ?Yield, +Await], Self::parse_assignment_expr)?
+                } else {
+                    with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?
+                };
                 self.expect_general_semi()?;
                 return Ok(ExportDefaultExpr {
                     span: self.span(start),
@@ -905,17 +940,7 @@ impl<I: Tokens> Parser<I> {
         if self.input().cur() == Token::Str {
             self.enter_import_module_context();
             let src = Box::new(self.parse_str_lit());
-            let with = if self.input().syntax().import_attributes()
-                && !self.input().had_line_break_before_cur()
-                && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-            {
-                match self.parse_object_expr()? {
-                    Expr::Object(v) => Some(Box::new(v)),
-                    _ => unreachable!(),
-                }
-            } else {
-                None
-            };
+            let with = self.parse_import_attributes()?;
             self.eat_general_semi();
             return Ok(ImportDecl {
                 span: self.span(start),
@@ -1073,17 +1098,7 @@ impl<I: Tokens> Parser<I> {
             }
         };
 
-        let with = if self.input().syntax().import_attributes()
-            && !self.input().had_line_break_before_cur()
-            && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
-        {
-            match self.parse_object_expr()? {
-                Expr::Object(v) => Some(Box::new(v)),
-                _ => unreachable!(),
-            }
-        } else {
-            None
-        };
+        let with = self.parse_import_attributes()?;
 
         self.expect_general_semi()?;
 
@@ -1103,9 +1118,8 @@ fn handle_import_export<I: Tokens>(
     p: &mut Parser<I>,
     decorators: Vec<Decorator>,
 ) -> PResult<ModuleItem> {
-    if !p
-        .ctx()
-        .intersects(Context::TopLevel.union(Context::TsModuleBlock))
+    if !p.boundary_ctx().contains(BoundaryContext::TopLevel)
+        && !p.type_ctx().contains(TypeContext::TsModuleBlock)
     {
         syntax_error!(p, SyntaxError::NonTopLevelImportExport);
     }

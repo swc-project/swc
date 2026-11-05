@@ -1,0 +1,8 @@
+{
+    "defaults": false,
+    "loops": true,
+    "dead_code": false,
+    "evaluate": false,
+    "passes": 1,
+    "module": false
+}

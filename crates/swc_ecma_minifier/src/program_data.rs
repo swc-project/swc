@@ -164,7 +164,15 @@ impl VarUsageInfo {
         self.assign_count > 1 || self.property_mutation_count > 0
     }
 
-    pub(crate) fn can_inline_fn_once(&self) -> bool {
+    pub(crate) fn can_inline_fn_once(&self, is_generator: bool) -> bool {
+        if is_generator
+            && self
+                .flags
+                .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+        {
+            return false;
+        }
+
         (self.callee_count > 0
             || !self
                 .flags

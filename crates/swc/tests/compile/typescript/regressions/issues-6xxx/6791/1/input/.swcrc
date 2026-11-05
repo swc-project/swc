@@ -1,0 +1,21 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2022",
+        "minify": {
+            "compress": {
+                "hoist_vars": true,
+                "reduce_funcs": false,
+                "reduce_vars": false
+            },
+            "mangle": {
+                "toplevel": true
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

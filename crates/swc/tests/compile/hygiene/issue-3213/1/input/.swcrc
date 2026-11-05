@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "loose": true,
+        "keepClassNames": true,
+        "minify": {
+            "format": {
+                "comments": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

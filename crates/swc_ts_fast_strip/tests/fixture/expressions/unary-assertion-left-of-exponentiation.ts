@@ -1,0 +1,1 @@
+const value = -input as number ** 2;

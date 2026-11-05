@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "preferRegexLiterals": [
+                "error",
+                {
+                    "disallowRedundantWrapping": true
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

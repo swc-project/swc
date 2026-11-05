@@ -1,0 +1,6 @@
+{
+  "tsx": false,
+  "inline_script": true,
+  "source_map": true,
+  "check_ast": true
+}

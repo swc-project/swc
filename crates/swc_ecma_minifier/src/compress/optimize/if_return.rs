@@ -43,9 +43,27 @@ impl Optimizer<'_> {
             debug_assert_valid(&*stmt);
         }
 
-        if terminates || is_fn_body {
-            self.merge_if_returns_inner(stmts, !is_fn_body);
+        if !(terminates || is_fn_body) {
+            return;
         }
+
+        // The directive prologue of a function body must stay at the start of the
+        // body, otherwise it stops being a directive (e.g. `"use strict"` would be
+        // turned into a discarded `void "use strict"` operand of a sequence).
+        let prologue_len = if is_fn_body {
+            directive_prologue_len(stmts)
+        } else {
+            0
+        };
+
+        if prologue_len == 0 {
+            self.merge_if_returns_inner(stmts, !is_fn_body);
+            return;
+        }
+
+        let prologue = stmts.drain(..prologue_len).collect::<Vec<_>>();
+        self.merge_if_returns_inner(stmts, !is_fn_body);
+        stmts.splice(0..0, prologue);
     }
 
     #[allow(clippy::only_used_in_recursion)]
@@ -556,6 +574,20 @@ impl Optimizer<'_> {
             _ => false,
         }
     }
+}
+
+/// Returns the number of leading string literal expression statements, which
+/// form the directive prologue of a function body.
+fn directive_prologue_len(stmts: &[Stmt]) -> usize {
+    stmts
+        .iter()
+        .take_while(|stmt| {
+            matches!(
+                stmt,
+                Stmt::Expr(ExprStmt { expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..)))
+            )
+        })
+        .count()
 }
 
 fn get_rightmost_alt_of_cond(e: &mut CondExpr) -> &mut Expr {

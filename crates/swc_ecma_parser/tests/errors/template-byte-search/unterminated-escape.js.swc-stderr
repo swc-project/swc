@@ -1,0 +1,5 @@
+  x Unterminated template
+   ,-[$DIR/tests/errors/template-byte-search/unterminated-escape.js:1:1]
+ 1 | `abcdefghijklmnopqrstuvwxyz123456789abcdefghijklmnopqrstuvwxyz\
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

@@ -1,0 +1,41 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,SACIA,QAAQ,EACRC,MAAM,EACNC,YAAY,EACZC,YAAY,EACZC,iBAAiB,EACjBC,qBAAqB,QAClB,iBAAiB;AAExBL,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASC;IACzC,IAAMC,OAAOC,KAAKC,gBAAgB,CAAC;IACnCV,OAAOQ,KAAKG,MAAM,GAAG;IACrB,IAAMC,MAAMC,KAAKC,KAAK,CAACN;IACvBP,aAAaW,IAAIG,IAAI,EAAE;AAC3B;AAEAhB,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASU;IACzC,IAAMR,OAAOC,KAAKC,gBAAgB,CAC9BN,sBAAsB;IAE1BJ,OAAOQ,KAAKG,MAAM,GAAG;IACrB,IAAMC,MAAMC,KAAKC,KAAK,CAACN;IACvBP,aAAaW,IAAIG,IAAI,EAAE;AAC3B;AAEAhB,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAM;AAAE,GAAG,SAASW;IAC1Cf,aAAa;QACTO,KAAKC,gBAAgB,CAAC;IAC1B,GAAGD,KAAKS,MAAM,CAACC,gBAAgB;AACnC;AAEApB,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASc;IACzClB,aAAa;QACTO,KAAKC,gBAAgB,CAAC;IAC1B,GAAGD,KAAKS,MAAM,CAACG,QAAQ;AAC3B;AAEAtB,SACI;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GACxB,SAAegB;;YACLd,MAEAI;;;;oBAFO;;wBAAMH,KAAKc,YAAY,CAAC;;;oBAA/Bf,OAAO;oBACbR,OAAOQ,KAAKG,MAAM,GAAG;oBACfC,MAAMC,KAAKC,KAAK,CAACN;oBACvBP,aAAaW,IAAIG,IAAI,EAAE;;;;;;IAC3B;;AAGJhB,SACI;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GACxB,SAAekB;;YACLhB,MAIAI;;;;oBAJO;;wBAAMH,KAAKc,YAAY,CAChCnB,sBAAsB;;;oBADpBI,OAAO;oBAGbR,OAAOQ,KAAKG,MAAM,GAAG;oBACfC,MAAMC,KAAKC,KAAK,CAACN;oBACvBP,aAAaW,IAAIG,IAAI,EAAE;;;;;;IAC3B;;AAGJhB,SACI;IAAEM,OAAO;QAAEC,MAAM;IAAM;AAAE,GACzB,SAAemB;;;;;oBACX;;wBAAMtB,kBAAkB;;;;;4CACpB;;gDAAMM,KAAKc,YAAY,CAAC;;;4CAAxB;;;;;;4BACJ;2BAAGd,KAAKS,MAAM,CAACC,gBAAgB;;;oBAF/B;;;;;;IAGJ;;AAGJpB,SAAS;IAAEM,OAAO;QAAEC,MAAM;IAAK;AAAE,GAAG,SAASoB;IACzC,IAAK,IAAIC,IAAI,GAAGA,IAAI,KAAKA,IAAK;QAC1BlB,KAAKC,gBAAgB,CAAC;IAC1B;AACJ",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "assertThrows",
+    "assertThrowsAsync",
+    "pathToAbsoluteFileUrl",
+    "perms",
+    "read",
+    "readTextFileSyncSuccess",
+    "data",
+    "Deno",
+    "readTextFileSync",
+    "length",
+    "pkg",
+    "JSON",
+    "parse",
+    "name",
+    "readTextFileSyncByUrl",
+    "readTextFileSyncPerm",
+    "errors",
+    "PermissionDenied",
+    "readTextFileSyncNotFound",
+    "NotFound",
+    "readTextFileSuccess",
+    "readTextFile",
+    "readTextFileByUrl",
+    "readTextFilePerm",
+    "readTextFileSyncLoop",
+    "i"
+  ],
+  "sources": [
+    "../input/read_text_file_test.ts"
+  ],
+  "sourcesContent": [
+    "import {\n    unitTest,\n    assert,\n    assertEquals,\n    assertThrows,\n    assertThrowsAsync,\n    pathToAbsoluteFileUrl,\n} from \"./test_util.ts\";\n\nunitTest({ perms: { read: true } }, function readTextFileSyncSuccess(): void {\n    const data = Deno.readTextFileSync(\"cli/tests/fixture.json\");\n    assert(data.length > 0);\n    const pkg = JSON.parse(data);\n    assertEquals(pkg.name, \"deno\");\n});\n\nunitTest({ perms: { read: true } }, function readTextFileSyncByUrl(): void {\n    const data = Deno.readTextFileSync(\n        pathToAbsoluteFileUrl(\"cli/tests/fixture.json\")\n    );\n    assert(data.length > 0);\n    const pkg = JSON.parse(data);\n    assertEquals(pkg.name, \"deno\");\n});\n\nunitTest({ perms: { read: false } }, function readTextFileSyncPerm(): void {\n    assertThrows(() => {\n        Deno.readTextFileSync(\"cli/tests/fixture.json\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest({ perms: { read: true } }, function readTextFileSyncNotFound(): void {\n    assertThrows(() => {\n        Deno.readTextFileSync(\"bad_filename\");\n    }, Deno.errors.NotFound);\n});\n\nunitTest(\n    { perms: { read: true } },\n    async function readTextFileSuccess(): Promise<void> {\n        const data = await Deno.readTextFile(\"cli/tests/fixture.json\");\n        assert(data.length > 0);\n        const pkg = JSON.parse(data);\n        assertEquals(pkg.name, \"deno\");\n    }\n);\n\nunitTest(\n    { perms: { read: true } },\n    async function readTextFileByUrl(): Promise<void> {\n        const data = await Deno.readTextFile(\n            pathToAbsoluteFileUrl(\"cli/tests/fixture.json\")\n        );\n        assert(data.length > 0);\n        const pkg = JSON.parse(data);\n        assertEquals(pkg.name, \"deno\");\n    }\n);\n\nunitTest(\n    { perms: { read: false } },\n    async function readTextFilePerm(): Promise<void> {\n        await assertThrowsAsync(async () => {\n            await Deno.readTextFile(\"cli/tests/fixture.json\");\n        }, Deno.errors.PermissionDenied);\n    }\n);\n\nunitTest({ perms: { read: true } }, function readTextFileSyncLoop(): void {\n    for (let i = 0; i < 256; i++) {\n        Deno.readTextFileSync(\"cli/tests/fixture.json\");\n    }\n});\n"
+  ],
+  "version": 3
+}

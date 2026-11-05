@@ -1,0 +1,1482 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 396
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 36
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 1,
+          "end": 35
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 2
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ConditionalExpression",
+          "span": {
+            "start": 5,
+            "end": 31
+          },
+          "test": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6
+            },
+            "ctxt": 0,
+            "value": "b",
+            "optional": false
+          },
+          "consequent": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 9,
+              "end": 22
+            },
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 10,
+                "end": 21
+              },
+              "properties": [
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Computed",
+                    "span": {
+                      "start": 11,
+                      "end": 16
+                    },
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 12,
+                        "end": 15
+                      },
+                      "value": "m",
+                      "raw": "\"m\""
+                    }
+                  },
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 11,
+                    "end": 20
+                  },
+                  "ctxt": 0,
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 18,
+                      "end": 20
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            }
+          },
+          "alternate": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 25,
+              "end": 31
+            },
+            "ctxt": 0,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 25,
+                  "end": 26
+                },
+                "ctxt": 0,
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "Identifier",
+              "span": {
+                "start": 30,
+                "end": 31
+              },
+              "ctxt": 0,
+              "value": "d",
+              "optional": false
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 34,
+            "end": 35
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 37,
+        "end": 76
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 37,
+          "end": 75
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 37,
+            "end": 38
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ConditionalExpression",
+          "span": {
+            "start": 41,
+            "end": 71
+          },
+          "test": {
+            "type": "Identifier",
+            "span": {
+              "start": 41,
+              "end": 42
+            },
+            "ctxt": 0,
+            "value": "b",
+            "optional": false
+          },
+          "consequent": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 45,
+              "end": 62
+            },
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 46,
+                "end": 61
+              },
+              "properties": [
+                {
+                  "type": "SpreadElement",
+                  "spread": {
+                    "start": 47,
+                    "end": 50
+                  },
+                  "arguments": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 50,
+                      "end": 53
+                    },
+                    "ctxt": 0,
+                    "value": "obj",
+                    "optional": false
+                  }
+                },
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 55,
+                      "end": 56
+                    },
+                    "value": "m"
+                  },
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 55,
+                    "end": 60
+                  },
+                  "ctxt": 0,
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 58,
+                      "end": 60
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            }
+          },
+          "alternate": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 65,
+              "end": 71
+            },
+            "ctxt": 0,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 65,
+                  "end": 66
+                },
+                "ctxt": 0,
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "Identifier",
+              "span": {
+                "start": 70,
+                "end": 71
+              },
+              "ctxt": 0,
+              "value": "d",
+              "optional": false
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 74,
+            "end": 75
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 77,
+        "end": 129
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 77,
+          "end": 128
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 77,
+            "end": 78
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ConditionalExpression",
+          "span": {
+            "start": 81,
+            "end": 124
+          },
+          "test": {
+            "type": "Identifier",
+            "span": {
+              "start": 81,
+              "end": 82
+            },
+            "ctxt": 0,
+            "value": "b",
+            "optional": false
+          },
+          "consequent": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 85,
+              "end": 115
+            },
+            "expression": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 86,
+                "end": 114
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "ObjectExpression",
+                    "span": {
+                      "start": 87,
+                      "end": 106
+                    },
+                    "properties": [
+                      {
+                        "type": "GetterProperty",
+                        "span": {
+                          "start": 88,
+                          "end": 105
+                        },
+                        "key": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 92,
+                            "end": 93
+                          },
+                          "value": "m"
+                        },
+                        "function": {
+                          "params": [],
+                          "decorators": [],
+                          "span": {
+                            "start": 88,
+                            "end": 105
+                          },
+                          "ctxt": 0,
+                          "body": {
+                            "type": "FunctionBody",
+                            "span": {
+                              "start": 95,
+                              "end": 105
+                            },
+                            "stmts": [
+                              {
+                                "type": "ReturnStatement",
+                                "span": {
+                                  "start": 96,
+                                  "end": 104
+                                },
+                                "argument": {
+                                  "type": "NumericLiteral",
+                                  "span": {
+                                    "start": 103,
+                                    "end": 104
+                                  },
+                                  "value": 1.0,
+                                  "raw": "1"
+                                }
+                              }
+                            ]
+                          },
+                          "generator": false,
+                          "async": false,
+                          "typeParameters": null,
+                          "returnType": null
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "spread": {
+                    "start": 108,
+                    "end": 111
+                  },
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 111,
+                      "end": 113
+                    },
+                    "ctxt": 0,
+                    "value": "xs",
+                    "optional": false
+                  }
+                }
+              ]
+            }
+          },
+          "alternate": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 118,
+              "end": 124
+            },
+            "ctxt": 0,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 118,
+                  "end": 119
+                },
+                "ctxt": 0,
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "Identifier",
+              "span": {
+                "start": 123,
+                "end": 124
+              },
+              "ctxt": 0,
+              "value": "d",
+              "optional": false
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 127,
+            "end": 128
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 130,
+        "end": 177
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 130,
+          "end": 176
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 130,
+            "end": 131
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ConditionalExpression",
+          "span": {
+            "start": 134,
+            "end": 172
+          },
+          "test": {
+            "type": "Identifier",
+            "span": {
+              "start": 134,
+              "end": 135
+            },
+            "ctxt": 0,
+            "value": "b",
+            "optional": false
+          },
+          "consequent": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 138,
+              "end": 163
+            },
+            "expression": {
+              "type": "SequenceExpression",
+              "span": {
+                "start": 139,
+                "end": 162
+              },
+              "expressions": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 139,
+                    "end": 140
+                  },
+                  "ctxt": 0,
+                  "value": "x",
+                  "optional": false
+                },
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 142,
+                    "end": 143
+                  },
+                  "ctxt": 0,
+                  "value": "y",
+                  "optional": false
+                },
+                {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 145,
+                    "end": 162
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 146,
+                          "end": 147
+                        },
+                        "value": "z"
+                      },
+                      "value": {
+                        "type": "ObjectExpression",
+                        "span": {
+                          "start": 149,
+                          "end": 161
+                        },
+                        "properties": [
+                          {
+                            "type": "SetterProperty",
+                            "span": {
+                              "start": 150,
+                              "end": 160
+                            },
+                            "key": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 154,
+                                "end": 155
+                              },
+                              "value": "m"
+                            },
+                            "function": {
+                              "params": [
+                                {
+                                  "type": "Parameter",
+                                  "span": {
+                                    "start": 156,
+                                    "end": 157
+                                  },
+                                  "decorators": [],
+                                  "pat": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 156,
+                                      "end": 157
+                                    },
+                                    "ctxt": 0,
+                                    "value": "x",
+                                    "optional": false,
+                                    "typeAnnotation": null
+                                  }
+                                }
+                              ],
+                              "decorators": [],
+                              "span": {
+                                "start": 150,
+                                "end": 160
+                              },
+                              "ctxt": 0,
+                              "body": {
+                                "type": "FunctionBody",
+                                "span": {
+                                  "start": 158,
+                                  "end": 160
+                                },
+                                "stmts": []
+                              },
+                              "generator": false,
+                              "async": false,
+                              "typeParameters": null,
+                              "returnType": null
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "alternate": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 166,
+              "end": 172
+            },
+            "ctxt": 0,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 166,
+                  "end": 167
+                },
+                "ctxt": 0,
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "Identifier",
+              "span": {
+                "start": 171,
+                "end": 172
+              },
+              "ctxt": 0,
+              "value": "d",
+              "optional": false
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 175,
+            "end": 176
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 178,
+        "end": 228
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 178,
+          "end": 227
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 178,
+            "end": 179
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ConditionalExpression",
+          "span": {
+            "start": 182,
+            "end": 223
+          },
+          "test": {
+            "type": "Identifier",
+            "span": {
+              "start": 182,
+              "end": 183
+            },
+            "ctxt": 0,
+            "value": "b",
+            "optional": false
+          },
+          "consequent": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 186,
+              "end": 214
+            },
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 187,
+                "end": 213
+              },
+              "properties": [
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 188,
+                      "end": 189
+                    },
+                    "value": "m"
+                  },
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 188,
+                    "end": 212
+                  },
+                  "ctxt": 0,
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 191,
+                      "end": 212
+                    },
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
+                        "span": {
+                          "start": 192,
+                          "end": 211
+                        },
+                        "argument": {
+                          "type": "ArrowFunctionExpression",
+                          "span": {
+                            "start": 199,
+                            "end": 210
+                          },
+                          "ctxt": 0,
+                          "params": [
+                            {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 200,
+                                "end": 201
+                              },
+                              "ctxt": 0,
+                              "value": "x",
+                              "optional": false,
+                              "typeAnnotation": null
+                            }
+                          ],
+                          "body": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 209,
+                              "end": 210
+                            },
+                            "ctxt": 0,
+                            "value": "x",
+                            "optional": false
+                          },
+                          "async": false,
+                          "generator": false,
+                          "typeParameters": null,
+                          "returnType": {
+                            "type": "TsTypeAnnotation",
+                            "span": {
+                              "start": 202,
+                              "end": 205
+                            },
+                            "typeAnnotation": {
+                              "type": "TsTypeReference",
+                              "span": {
+                                "start": 204,
+                                "end": 205
+                              },
+                              "typeName": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 204,
+                                  "end": 205
+                                },
+                                "ctxt": 0,
+                                "value": "T",
+                                "optional": false
+                              },
+                              "typeParams": null
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            }
+          },
+          "alternate": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 217,
+              "end": 223
+            },
+            "ctxt": 0,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 217,
+                  "end": 218
+                },
+                "ctxt": 0,
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "Identifier",
+              "span": {
+                "start": 222,
+                "end": 223
+              },
+              "ctxt": 0,
+              "value": "d",
+              "optional": false
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 226,
+            "end": 227
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 229,
+        "end": 284
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 229,
+          "end": 283
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 229,
+            "end": 230
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ConditionalExpression",
+          "span": {
+            "start": 233,
+            "end": 279
+          },
+          "test": {
+            "type": "Identifier",
+            "span": {
+              "start": 233,
+              "end": 234
+            },
+            "ctxt": 0,
+            "value": "b",
+            "optional": false
+          },
+          "consequent": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 237,
+              "end": 246
+            },
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 238,
+                "end": 245
+              },
+              "properties": [
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 239,
+                      "end": 240
+                    },
+                    "value": "m"
+                  },
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 239,
+                    "end": 244
+                  },
+                  "ctxt": 0,
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 242,
+                      "end": 244
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            }
+          },
+          "alternate": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 249,
+              "end": 279
+            },
+            "ctxt": 0,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 249,
+                  "end": 250
+                },
+                "ctxt": 0,
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 254,
+                "end": 279
+              },
+              "expression": {
+                "type": "ObjectExpression",
+                "span": {
+                  "start": 255,
+                  "end": 278
+                },
+                "properties": [
+                  {
+                    "type": "GetterProperty",
+                    "span": {
+                      "start": 256,
+                      "end": 277
+                    },
+                    "key": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 260,
+                        "end": 265
+                      },
+                      "value": "value"
+                    },
+                    "function": {
+                      "params": [],
+                      "decorators": [],
+                      "span": {
+                        "start": 256,
+                        "end": 277
+                      },
+                      "ctxt": 0,
+                      "body": {
+                        "type": "FunctionBody",
+                        "span": {
+                          "start": 267,
+                          "end": 277
+                        },
+                        "stmts": [
+                          {
+                            "type": "ReturnStatement",
+                            "span": {
+                              "start": 268,
+                              "end": 276
+                            },
+                            "argument": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 275,
+                                "end": 276
+                              },
+                              "value": 1.0,
+                              "raw": "1"
+                            }
+                          }
+                        ]
+                      },
+                      "generator": false,
+                      "async": false,
+                      "typeParameters": null,
+                      "returnType": null
+                    }
+                  }
+                ]
+              }
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 282,
+            "end": 283
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 285,
+        "end": 322
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 285,
+          "end": 321
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 285,
+            "end": 286
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ConditionalExpression",
+          "span": {
+            "start": 289,
+            "end": 317
+          },
+          "test": {
+            "type": "Identifier",
+            "span": {
+              "start": 289,
+              "end": 290
+            },
+            "ctxt": 0,
+            "value": "b",
+            "optional": false
+          },
+          "consequent": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 293,
+              "end": 302
+            },
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 294,
+                "end": 301
+              },
+              "properties": [
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 295,
+                      "end": 296
+                    },
+                    "value": "m"
+                  },
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 295,
+                    "end": 300
+                  },
+                  "ctxt": 0,
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 298,
+                      "end": 300
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            }
+          },
+          "alternate": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 305,
+              "end": 317
+            },
+            "ctxt": 0,
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 311,
+                  "end": 312
+                },
+                "ctxt": 0,
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "Identifier",
+              "span": {
+                "start": 316,
+                "end": 317
+              },
+              "ctxt": 0,
+              "value": "d",
+              "optional": false
+            },
+            "async": true,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 320,
+            "end": 321
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 323,
+        "end": 352
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 323,
+          "end": 351
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 323,
+            "end": 324
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 327,
+            "end": 347
+          },
+          "ctxt": 0,
+          "params": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 328,
+                "end": 329
+              },
+              "ctxt": 0,
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            {
+              "type": "RestElement",
+              "span": {
+                "start": 334,
+                "end": 338
+              },
+              "rest": {
+                "start": 331,
+                "end": 334
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 334,
+                  "end": 338
+                },
+                "ctxt": 0,
+                "value": "rest",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "typeAnnotation": null
+            }
+          ],
+          "body": {
+            "type": "Identifier",
+            "span": {
+              "start": 346,
+              "end": 347
+            },
+            "ctxt": 0,
+            "value": "x",
+            "optional": false
+          },
+          "async": false,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 339,
+              "end": 342
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 341,
+                "end": 342
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 341,
+                  "end": 342
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 350,
+            "end": 351
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 353,
+        "end": 396
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 353,
+          "end": 395
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 353,
+            "end": 354
+          },
+          "ctxt": 0,
+          "value": "a",
+          "optional": false
+        },
+        "consequent": {
+          "type": "ArrowFunctionExpression",
+          "span": {
+            "start": 357,
+            "end": 391
+          },
+          "ctxt": 0,
+          "params": [
+            {
+              "type": "AssignmentPattern",
+              "span": {
+                "start": 364,
+                "end": 373
+              },
+              "left": {
+                "type": "ObjectPattern",
+                "span": {
+                  "start": 364,
+                  "end": 367
+                },
+                "properties": [
+                  {
+                    "type": "AssignmentPatternProperty",
+                    "span": {
+                      "start": 365,
+                      "end": 366
+                    },
+                    "key": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 365,
+                        "end": 366
+                      },
+                      "ctxt": 0,
+                      "value": "x",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "value": null
+                  }
+                ],
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 370,
+                  "end": 373
+                },
+                "ctxt": 0,
+                "value": "obj",
+                "optional": false
+              }
+            }
+          ],
+          "body": {
+            "type": "Identifier",
+            "span": {
+              "start": 390,
+              "end": 391
+            },
+            "ctxt": 0,
+            "value": "x",
+            "optional": false
+          },
+          "async": true,
+          "generator": false,
+          "typeParameters": null,
+          "returnType": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 374,
+              "end": 386
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 376,
+                "end": 386
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 376,
+                  "end": 383
+                },
+                "ctxt": 0,
+                "value": "Promise",
+                "optional": false
+              },
+              "typeParams": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 383,
+                  "end": 386
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 384,
+                      "end": 385
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 384,
+                        "end": 385
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 394,
+            "end": 395
+          },
+          "ctxt": 0,
+          "value": "e",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

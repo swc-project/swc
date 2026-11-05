@@ -66,7 +66,7 @@
     }
     {
         let _init_foo, _init_extra__init_foo;
-        "super() nested within another constructor should not be transformed";
+        ("super() nested within another constructor should not be transformed");
         let log = [];
         var ____private_foo_11 = /*#__PURE__*/ new WeakMap();
         class A extends B {
@@ -107,7 +107,7 @@
         expect(a.foo).toBe(142);
     }
     {
-        "super() not in decorated derived constructor should not be transformed: computed key";
+        ("super() not in decorated derived constructor should not be transformed: computed key");
         let log = [];
         new class Dummy extends B {
             constructor(){
@@ -152,7 +152,7 @@
         expect(log + "").toBe("5,6");
     }
     {
-        "super() in decorator expression within decorated derived constructor should be transformed: decorator expression";
+        ("super() in decorator expression within decorated derived constructor should be transformed: decorator expression");
         let log = [];
         const noop = ()=>(fn)=>fn;
         new class extends B {
@@ -202,7 +202,7 @@
     }
     {
         let _init_foo, _init_extra__init_foo;
-        "super() within decorated derived constructor should be transformed: computed key";
+        ("super() within decorated derived constructor should be transformed: computed key");
         let log = [];
         var ____private_foo_12 = /*#__PURE__*/ new WeakMap();
         class A extends B {
@@ -250,7 +250,7 @@
     }
     {
         let _init_foo, _init_extra__init_foo;
-        "super() within decorated derived constructor should be transformed: decorator expression";
+        ("super() within decorated derived constructor should be transformed: decorator expression");
         let log = [];
         const noop = ()=>(fn)=>fn;
         var ____private_foo_13 = /*#__PURE__*/ new WeakMap();

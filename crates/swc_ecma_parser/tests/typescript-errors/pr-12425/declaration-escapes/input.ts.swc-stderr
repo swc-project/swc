@@ -1,0 +1,56 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/pr-12425/declaration-escapes/input.ts:2:1]
+ 1 | async function f() {
+ 2 |     type aw\u0061it = number;
+   :          ^^^^^^^^^^
+ 3 |     interface aw\u0061it {}
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/pr-12425/declaration-escapes/input.ts:3:1]
+ 2 |     type aw\u0061it = number;
+ 3 |     interface aw\u0061it {}
+   :               ^^^^^^^^^^
+ 4 |     enum aw\u0061it { X }
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/pr-12425/declaration-escapes/input.ts:4:1]
+ 3 |     interface aw\u0061it {}
+ 4 |     enum aw\u0061it { X }
+   :          ^^^^^^^^^^
+ 5 |     type A<aw\u0061it> = number;
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/pr-12425/declaration-escapes/input.ts:5:1]
+ 4 |     enum aw\u0061it { X }
+ 5 |     type A<aw\u0061it> = number;
+   :            ^^^^^^^^^^
+ 6 | }
+   `----
+  x Unexpected escape sequence in reserved word: yield
+   ,-[$DIR/tests/typescript-errors/pr-12425/declaration-escapes/input.ts:8:1]
+ 7 | function* g() {
+ 8 |     type y\u0069eld = number;
+   :          ^^^^^^^^^^
+ 9 |     interface y\u0069eld {}
+   `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/typescript-errors/pr-12425/declaration-escapes/input.ts:9:1]
+  8 |     type y\u0069eld = number;
+  9 |     interface y\u0069eld {}
+    :               ^^^^^^^^^^
+ 10 |     enum y\u0069eld { X }
+    `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/typescript-errors/pr-12425/declaration-escapes/input.ts:10:1]
+  9 |     interface y\u0069eld {}
+ 10 |     enum y\u0069eld { X }
+    :          ^^^^^^^^^^
+ 11 |     type A<y\u0069eld> = number;
+    `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/typescript-errors/pr-12425/declaration-escapes/input.ts:11:1]
+ 10 |     enum y\u0069eld { X }
+ 11 |     type A<y\u0069eld> = number;
+    :            ^^^^^^^^^^
+ 12 | }
+    `----

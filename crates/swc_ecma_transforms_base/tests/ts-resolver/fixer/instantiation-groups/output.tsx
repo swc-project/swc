@@ -1,0 +1,10 @@
+export { };
+(left + f<T>) * other;
+left * (middle + f<T>) > other;
+left ** (middle + f<T>) - other;
+!(left + f<T>) + other;
+await (left + f<T>) - other;
+left + f<T> as U > other;
+left + f<T> satisfies U > other;
+f<T>() + other;
+f<T>().key + other;

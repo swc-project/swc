@@ -9,7 +9,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend_stmt, ExprCtx, ExprExt, ExprFactory, Hoister, IsEmpty,
-    StmtExt, StmtLike, Value::Known,
+    StmtExt, StmtLike, Type,
+    Value::{self, Known},
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -136,7 +137,13 @@ impl VisitMut for Remover {
                 right,
                 ..
             }) if match &*left {
-                AssignTargetPat::Object(obj) => obj.props.is_empty(),
+                AssignTargetPat::Object(obj) => {
+                    obj.props.is_empty()
+                        && !matches!(
+                            right.get_type(self.expr_ctx),
+                            Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                        )
+                }
                 _ => false,
             } =>
             {

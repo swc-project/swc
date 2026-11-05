@@ -1,19 +1,22 @@
 //// [awaitUsingDeclarationsInForOf.2.ts]
-//!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!    ,-[3:1]
-//!  1 | 
-//!  2 | async function main() {
-//!  3 |     for (await using of of []) {
-//!    :          ^^^^^^^^^^^
-//!  4 |     }
-//!  5 | }
-//!    `----
-//!   x Expression expected
-//!    ,-[3:1]
-//!  1 | 
-//!  2 | async function main() {
-//!  3 |     for (await using of of []) {
-//!    :                             ^
-//!  4 |     }
-//!  5 | }
-//!    `----
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+async function main() {
+    for (const _ of []){
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const of = _ts_add_disposable_resource(env, _, true);
+            {}
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
+        }
+    }
+}

@@ -747,8 +747,7 @@
                  * @param {number} type
                  * @return {string}
                  */ function(type) {
-                                    for(; character = peek();)if (character < 33) next();
-                                    else break;
+                                    for(; (character = peek()) && character < 33;)next();
                                     return token(type) > 2 || token(character) > 3 ? "" : " ";
                                 }(previous);
                                 break;
@@ -759,7 +758,8 @@
                  * @param {number} count
                  * @return {string}
                  */ function(index, count) {
-                                    for(var end; --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
+                                    for(var end; // not 0-9 A-F a-f
+                                    --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
                                     return end = position + (count < 6 && 32 == peek() && 32 == next()), Utility_substr(characters, index, end);
                                 }(position - 1, 7);
                                 continue;
@@ -773,9 +773,7 @@
                  * @param {number} index
                  * @return {number}
                  */ function(type, index) {
-                                            for(; next();)// //
-                                            if (type + character === 57) break;
-                                            else if (type + character === 84 && 47 === peek()) break;
+                                            for(; next() && type + character !== 57 && (type + character !== 84 || 47 !== peek()););
                                             return "/*" + Utility_substr(characters, index, position - 1) + "*" + Utility_from(47 === type ? type : next());
                                         }(next(), position), root, parent, COMMENT, Utility_from(character), Utility_substr(value1, 2, -2), 0), declarations);
                                         break;

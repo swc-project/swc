@@ -22,7 +22,7 @@ use swc_common::{
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
-use swc_ecma_parser::{parse_file_as_expr, Syntax};
+use swc_ecma_parser::{jsx::decode_jsx_entity, parse_file_as_expr, Syntax};
 use swc_ecma_utils::{
     drop_span, prepend_stmt, private_ident, quote_ident, str::is_line_terminator, ExprFactory,
     StmtLike,
@@ -1606,368 +1606,34 @@ fn jsx_text_to_str_with_raw(value: &Wtf8Atom, raw: &Atom) -> Wtf8Atom {
 ///
 /// Returns a Vec<bool> where true means the character at that index was from an
 /// entity.
-fn build_entity_mask(value: &Wtf8Atom, raw: &str) -> Vec<bool> {
-    let cp = value.as_wtf8().code_points();
-    let mut mask = vec![false; cp.count()];
-    let mut value_char_idx = 0;
-    let mut raw_chars = raw.chars().peekable();
+fn build_entity_mask(value: &Wtf8Atom, mut raw: &str) -> Vec<bool> {
+    let mut mask = Vec::with_capacity(value.as_wtf8().code_points().count());
+    let mut previous_is_lead_surrogate = false;
 
-    while let Some(raw_c) = raw_chars.next() {
-        if raw_c == '&' {
-            let mut entity = raw_chars.clone();
-            let mut s = String::new();
-            let mut consumed = 0;
-            let mut has_prev_result = false;
-            let mut entity_code_points = 0;
-
-            for _ in 0..20 {
-                let Some(c) = entity.next() else {
-                    break;
-                };
-                consumed += 1;
-
-                if c != ';' {
-                    s.push(c);
-                    continue;
-                }
-
-                if let Some(result) = parse_jsx_numeric_entity(&s) {
-                    if (0xd800..=0xdfff).contains(&result) {
-                        if result < 0xdc00 {
-                            if has_prev_result {
-                                entity_code_points += 1;
-                            }
-
-                            if entity.next() == Some('&') && entity.next() == Some('#') {
-                                consumed += 2;
-                                has_prev_result = true;
-                                s.clear();
-                                s.push('#');
-                                continue;
-                            }
-
-                            entity_code_points += 1;
-                            break;
-                        } else if has_prev_result {
-                            entity_code_points += 1;
-                            break;
-                        }
-                    }
-
-                    if has_prev_result {
-                        entity_code_points += 1;
-                    }
-                    entity_code_points += 1;
-                    break;
-                } else if is_known_html_entity(&s) {
-                    entity_code_points += 1;
-                    break;
-                } else {
-                    break;
-                }
-            }
-
-            if entity_code_points != 0 {
-                raw_chars.by_ref().take(consumed).count();
-
-                let end = value_char_idx + entity_code_points;
-                let mask_end = mask.len().min(end);
-                mask[value_char_idx..mask_end].fill(true);
-                value_char_idx = end;
-            } else {
-                value_char_idx += 1;
-            }
+    while let Some(raw_char) = raw.chars().next() {
+        let entity = if raw_char == '&' {
+            decode_jsx_entity(raw)
         } else {
-            // Regular character
-            value_char_idx += 1;
+            None
+        };
+        let Some((code_point, len)) = entity else {
+            raw = &raw[raw_char.len_utf8()..];
+            mask.push(false);
+            previous_is_lead_surrogate = false;
+            continue;
+        };
+        raw = &raw[len..];
+        let code_point_value = code_point.to_u32();
+
+        // Wtf8Buf::push folds an adjacent surrogate pair into one code point.
+        // Both halves come from entities because raw text is valid UTF-8.
+        if !previous_is_lead_surrogate || !matches!(code_point_value, 0xdc00..=0xdfff) {
+            mask.push(true);
         }
+        previous_is_lead_surrogate = matches!(code_point_value, 0xd800..=0xdbff);
     }
 
     mask
-}
-
-fn parse_jsx_numeric_entity(s: &str) -> Option<u32> {
-    if let Some(stripped) = s.strip_prefix('#') {
-        if let Some(hex) = stripped
-            .strip_prefix('x')
-            .or_else(|| stripped.strip_prefix('X'))
-        {
-            if !hex.is_empty() && hex.chars().all(|c| c.is_ascii_hexdigit()) {
-                u32::from_str_radix(hex, 16).ok().filter(|&v| v <= 0x10ffff)
-            } else {
-                None
-            }
-        } else if !stripped.is_empty() && stripped.chars().all(|c| c.is_ascii_digit()) {
-            stripped.parse::<u32>().ok().filter(|&v| v <= 0x10ffff)
-        } else {
-            None
-        }
-    } else {
-        None
-    }
-}
-
-/// Check if name is a known HTML entity
-fn is_known_html_entity(name: &str) -> bool {
-    // Common HTML entities that decode to whitespace or other characters
-    // This list matches the entities defined in swc_ecma_lexer jsx.rs xhtml!
-    // macro
-    matches!(
-        name,
-        "nbsp"
-            | "iexcl"
-            | "cent"
-            | "pound"
-            | "curren"
-            | "yen"
-            | "brvbar"
-            | "sect"
-            | "uml"
-            | "copy"
-            | "ordf"
-            | "laquo"
-            | "not"
-            | "shy"
-            | "reg"
-            | "macr"
-            | "deg"
-            | "plusmn"
-            | "sup2"
-            | "sup3"
-            | "acute"
-            | "micro"
-            | "para"
-            | "middot"
-            | "cedil"
-            | "sup1"
-            | "ordm"
-            | "raquo"
-            | "frac14"
-            | "frac12"
-            | "frac34"
-            | "iquest"
-            | "Agrave"
-            | "Aacute"
-            | "Acirc"
-            | "Atilde"
-            | "Auml"
-            | "Aring"
-            | "AElig"
-            | "Ccedil"
-            | "Egrave"
-            | "Eacute"
-            | "Ecirc"
-            | "Euml"
-            | "Igrave"
-            | "Iacute"
-            | "Icirc"
-            | "Iuml"
-            | "ETH"
-            | "Ntilde"
-            | "Ograve"
-            | "Oacute"
-            | "Ocirc"
-            | "Otilde"
-            | "Ouml"
-            | "times"
-            | "Oslash"
-            | "Ugrave"
-            | "Uacute"
-            | "Ucirc"
-            | "Uuml"
-            | "Yacute"
-            | "THORN"
-            | "szlig"
-            | "agrave"
-            | "aacute"
-            | "acirc"
-            | "atilde"
-            | "auml"
-            | "aring"
-            | "aelig"
-            | "ccedil"
-            | "egrave"
-            | "eacute"
-            | "ecirc"
-            | "euml"
-            | "igrave"
-            | "iacute"
-            | "icirc"
-            | "iuml"
-            | "eth"
-            | "ntilde"
-            | "ograve"
-            | "oacute"
-            | "ocirc"
-            | "otilde"
-            | "ouml"
-            | "divide"
-            | "oslash"
-            | "ugrave"
-            | "uacute"
-            | "ucirc"
-            | "uuml"
-            | "yacute"
-            | "thorn"
-            | "yuml"
-            | "OElig"
-            | "oelig"
-            | "Scaron"
-            | "scaron"
-            | "Yuml"
-            | "fnof"
-            | "circ"
-            | "tilde"
-            | "Alpha"
-            | "Beta"
-            | "Gamma"
-            | "Delta"
-            | "Epsilon"
-            | "Zeta"
-            | "Eta"
-            | "Theta"
-            | "Iota"
-            | "Kappa"
-            | "Lambda"
-            | "Mu"
-            | "Nu"
-            | "Xi"
-            | "Omicron"
-            | "Pi"
-            | "Rho"
-            | "Sigma"
-            | "Tau"
-            | "Upsilon"
-            | "Phi"
-            | "Chi"
-            | "Psi"
-            | "Omega"
-            | "alpha"
-            | "beta"
-            | "gamma"
-            | "delta"
-            | "epsilon"
-            | "zeta"
-            | "eta"
-            | "theta"
-            | "iota"
-            | "kappa"
-            | "lambda"
-            | "mu"
-            | "nu"
-            | "xi"
-            | "omicron"
-            | "pi"
-            | "rho"
-            | "sigmaf"
-            | "sigma"
-            | "tau"
-            | "upsilon"
-            | "phi"
-            | "chi"
-            | "psi"
-            | "omega"
-            | "thetasym"
-            | "upsih"
-            | "piv"
-            | "ensp"
-            | "emsp"
-            | "thinsp"
-            | "zwnj"
-            | "zwj"
-            | "lrm"
-            | "rlm"
-            | "ndash"
-            | "mdash"
-            | "lsquo"
-            | "rsquo"
-            | "sbquo"
-            | "ldquo"
-            | "rdquo"
-            | "bdquo"
-            | "dagger"
-            | "Dagger"
-            | "bull"
-            | "hellip"
-            | "permil"
-            | "prime"
-            | "Prime"
-            | "lsaquo"
-            | "rsaquo"
-            | "oline"
-            | "frasl"
-            | "euro"
-            | "image"
-            | "weierp"
-            | "real"
-            | "trade"
-            | "alefsym"
-            | "larr"
-            | "uarr"
-            | "rarr"
-            | "darr"
-            | "harr"
-            | "crarr"
-            | "lArr"
-            | "uArr"
-            | "rArr"
-            | "dArr"
-            | "hArr"
-            | "forall"
-            | "part"
-            | "exist"
-            | "empty"
-            | "nabla"
-            | "isin"
-            | "notin"
-            | "ni"
-            | "prod"
-            | "sum"
-            | "minus"
-            | "lowast"
-            | "radic"
-            | "prop"
-            | "infin"
-            | "ang"
-            | "and"
-            | "or"
-            | "cap"
-            | "cup"
-            | "int"
-            | "there4"
-            | "sim"
-            | "cong"
-            | "asymp"
-            | "ne"
-            | "equiv"
-            | "le"
-            | "ge"
-            | "sub"
-            | "sup"
-            | "nsub"
-            | "sube"
-            | "supe"
-            | "oplus"
-            | "otimes"
-            | "perp"
-            | "sdot"
-            | "lceil"
-            | "rceil"
-            | "lfloor"
-            | "rfloor"
-            | "lang"
-            | "rang"
-            | "loz"
-            | "spades"
-            | "clubs"
-            | "hearts"
-            | "diams"
-            | "quot"
-            | "amp"
-            | "apos"
-            | "lt"
-            | "gt"
-    )
 }
 
 /// JSX text processing with entity mask - preserves whitespace from HTML

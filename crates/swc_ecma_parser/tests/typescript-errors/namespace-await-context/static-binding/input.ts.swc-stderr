@@ -1,0 +1,7 @@
+  x Expected ident
+   ,-[$DIR/tests/typescript-errors/namespace-await-context/static-binding/input.ts:4:1]
+ 3 |     const await = 1;
+ 4 |     class C { static { const await = 2; } }
+   :                              ^^^^^
+ 5 | }
+   `----

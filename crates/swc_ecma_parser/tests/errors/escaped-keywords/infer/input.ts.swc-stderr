@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: break
+   ,-[$DIR/tests/errors/escaped-keywords/infer/input.ts:1:1]
+ 1 | type T<U> = U extends infer br\u0065ak ? number : never;
+   :                             ^^^^^^^^^^
+   `----

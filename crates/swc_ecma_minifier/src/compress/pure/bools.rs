@@ -216,13 +216,13 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        negate(self.expr_ctx, e, true, is_ret_val_ignored);
-        negate(self.expr_ctx, e, false, is_ret_val_ignored);
+    pub(super) fn negate_twice(&mut self, e: &mut Expr, return_ignored: bool) {
+        negate(self.expr_ctx, e, true, return_ignored);
+        negate(self.expr_ctx, e, false, return_ignored);
     }
 
-    pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
-        negate(self.expr_ctx, e, in_bool_ctx, is_ret_val_ignored)
+    pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, return_ignored: bool) {
+        negate(self.expr_ctx, e, in_bool_ctx, return_ignored)
     }
 
     pub(super) fn optimize_negate_eq(&mut self, e: &mut Expr) {
@@ -415,7 +415,15 @@ impl Pure<'_> {
 
             e if is_pure_undefined(self.expr_ctx, e) => true,
 
-            Expr::Ident(i) => i.ctxt != self.expr_ctx.unresolved_ctxt,
+            // Deleting a declared binding is false in sloppy mode. Keep unresolved
+            // identifiers untouched because they may refer to a deletable global property.
+            Expr::Ident(i) if i.ctxt != self.expr_ctx.unresolved_ctxt => {
+                self.changed = true;
+                let span = delete.arg.span();
+                report_change!("booleans: Compressing `delete` => false");
+                *e = make_bool(span, false);
+                return;
+            }
 
             // NaN
             Expr::Bin(BinExpr {
@@ -691,20 +699,24 @@ impl Pure<'_> {
 
             (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
-            (Expr::Ident(..), Expr::Lit(..))
-            | (
+            (
                 Expr::Ident(..) | Expr::Member(..),
                 Expr::Unary(UnaryExpr {
                     op: op!("void") | op!("!"),
+                    arg,
                     ..
                 }),
             )
             | (
                 Expr::This(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
+                    op: op!("void"),
+                    arg,
+                    ..
                 }),
-            )
+            ) if !arg.may_have_side_effects(self.expr_ctx) => true,
+
+            (Expr::Ident(..), Expr::Lit(..))
             | (Expr::Unary(..), Expr::Lit(..))
             | (Expr::Tpl(..), Expr::Lit(..)) => true,
             _ => false,

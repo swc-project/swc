@@ -1,0 +1,50 @@
+[
+  {
+    "name": "main push with skipped policy",
+    "policyResult": "skipped",
+    "listResult": "success",
+    "run": true
+  },
+  {
+    "name": "allowed PR",
+    "policyResult": "success",
+    "listResult": "success",
+    "run": true
+  },
+  {
+    "name": "denied PR",
+    "policyResult": "success",
+    "listResult": "skipped",
+    "run": false
+  },
+  {
+    "name": "failed policy",
+    "policyResult": "failure",
+    "listResult": "skipped",
+    "run": false
+  },
+  {
+    "name": "cancelled policy",
+    "policyResult": "cancelled",
+    "listResult": "skipped",
+    "run": false
+  },
+  {
+    "name": "failed crate listing",
+    "policyResult": "skipped",
+    "listResult": "failure",
+    "run": false
+  },
+  {
+    "name": "cancelled crate listing",
+    "policyResult": "skipped",
+    "listResult": "cancelled",
+    "run": false
+  },
+  {
+    "name": "skipped crate listing for maintenance push",
+    "policyResult": "skipped",
+    "listResult": "skipped",
+    "run": false
+  }
+]

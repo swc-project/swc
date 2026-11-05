@@ -1,0 +1,16 @@
+const loneHigh = /*#__PURE__*/ React.createElement("div", null, "\uD800  text");
+const loneLow = /*#__PURE__*/ React.createElement("div", null, "\uDC00  text");
+const hexPair = /*#__PURE__*/ React.createElement("div", null, "🦀  text");
+const decimalPair = /*#__PURE__*/ React.createElement("div", null, "🦀  text");
+const mixedPair = /*#__PURE__*/ React.createElement("div", null, "🦀  text");
+const repeatedHigh = /*#__PURE__*/ React.createElement("div", null, "\uD800\uD801  text");
+const highBeforePair = /*#__PURE__*/ React.createElement("div", null, "\uD800𐐀  text");
+const reversedPair = /*#__PURE__*/ React.createElement("div", null, "\uDC00\uD800  text");
+const pairBeforeHigh = /*#__PURE__*/ React.createElement("div", null, "🦀\uD800  text");
+const namedBetweenHalves = /*#__PURE__*/ React.createElement("div", null, "\uD800&\uDC00  text");
+const textBetweenHalves = /*#__PURE__*/ React.createElement("div", null, "\uD800a\uDC00  text");
+const beforeOutOfRange = /*#__PURE__*/ React.createElement("div", null, "\uD800&#x110000;  text");
+const beforeEmptyDecimal = /*#__PURE__*/ React.createElement("div", null, "\uD800&#;  text");
+const beforeEmptyHex = /*#__PURE__*/ React.createElement("div", null, "\uD800&#x;  text");
+const longHighPair = /*#__PURE__*/ React.createElement("div", null, "🦀  text");
+const longLowPair = /*#__PURE__*/ React.createElement("div", null, "🦀  text");

@@ -1,0 +1,51 @@
+{
+  "mappings": ";;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,EAAEC,YAAY,QAAQ,iBAAiB;AAEhE,8DAA8D;AAC9D,SAASC,kBAAkBC,IAAW,EAAEC,YAAoB;IACxD,IAAMC,OAAO,IAAIC,KAAKH,MAAM;IAC5BH,OAAOK,AAAI,YAAJA,MAAgBC;IACvBL,aAAaI,KAAKE,IAAI,EAAE;IACxBN,aAAaI,KAAKG,IAAI,EAAEJ;IACxBH,aAAaI,KAAKI,IAAI,EAAE;AAC5B;AAEAV,SAAS,SAASW;IACdR,kBAAkB,EAAE,EAAE;AAC1B;AAEAH,SAAS,SAASY;IACdT,kBAAkB;QAAC;KAAO,EAAE;AAChC;AAEAH,SAAS,SAASa;IACdV,kBAAkB;QAAC;KAAW,EAAE;AACpC;AAEAH,SAAS,SAASc;IACdX,kBAAkB;QAAC,IAAIY,OAAO;KAAiB,EAAE;AACrD;AAEAf,SAAS,SAASgB;IACdb,kBAAkB;QAAC,IAAIc;KAAO,EAAE;AACpC;AAEAjB,SAAS,SAASkB;IACdf,kBAAkB;QAAC,IAAIc,KAAK;YAAC;SAAO;KAAE,EAAE;AAC5C;AAEAjB,SAAS,SAASmB;IACdhB,kBAAkB;QAAC,IAAII,KAAK,EAAE,EAAE;KAAa,EAAE;AACnD;AAEAP,SAAS,SAASoB;IACdjB,kBAAkB;QAAC,IAAII,KAAK;YAAC;SAAO,EAAE;KAAa,EAAE;AACzD;AAEAP,SAAS,SAASqB;IACdlB,kBAAkB;QAAC,IAAImB,YAAY;KAAG,EAAE;AAC5C;AAEAtB,SAAS,SAASuB;IACdpB,kBAAkB;QAAC,IAAIqB,WAAW;YAAC;YAAM;YAAM;YAAM;SAAK;KAAE,EAAE;AAClE;AAEAxB,SAAS,SAASyB;IACdtB,kBACI;QACI;QACA,IAAIc,KAAK;YAAC;SAAO;QACjB,IAAIA;QACJ,IAAIO,WAAW;YAAC;YAAM;SAAK;QAC3B,IAAIE,YAAY;YAAC;SAAO;QACxB,IAAIC,YAAY;YAAC;SAAW;KAC/B,EACD;AAER;AAEA3B,SAAS,SAAS4B;IACdzB,kBAAkB;QAAC;KAAG,EAAE;AAC5B;AAEAH,SAAS,SAAS6B;IACd1B,kBAAkB;QAAC;YAAC;YAAG;YAAG;SAAE;KAAC,EAAE;AACnC;AAEAH,SAAS,SAAS8B;IACd,oBAAoB;IACpB3B,kBAAkB;QAAC,CAAC;KAAE,EAAE;AAC5B;AAEA,8DAA8D;AAC9D,SAAS4B,mBAAmBC,IAAS,EAAEC,gBAAwB;IAC3D,IAAM3B,OAAO,IAAIC,KAAK;QAAC;KAAO,EAAEyB;IAChC/B,OAAOK,AAAI,YAAJA,MAAgBC;IACvBL,aAAaI,KAAKE,IAAI,EAAEyB;AAC5B;AAEAjC,SAAS,SAASkC;IACdH,mBAAmB,SAAS;AAChC;AAEA/B,SAAS,SAASmC;IACdJ,mBAAmB,aAAa;AACpC;AAEA/B,SAAS,SAASoC;IACdL,mBAAmB,MAAM;AAC7B;AAEA/B,SAAS,SAASqC;IACdN,mBAAmB,GAAG;AAC1B;AAEA/B,SAAS,SAASsC;IACdP,mBAAmB,IAAI;AAC3B",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "testFirstArgument",
+    "arg1",
+    "expectedSize",
+    "file",
+    "File",
+    "name",
+    "size",
+    "type",
+    "fileEmptyFileBits",
+    "fileStringFileBits",
+    "fileUnicodeStringFileBits",
+    "fileStringObjectFileBits",
+    "String",
+    "fileEmptyBlobFileBits",
+    "Blob",
+    "fileBlobFileBits",
+    "fileEmptyFileFileBits",
+    "fileFileFileBits",
+    "fileArrayBufferFileBits",
+    "ArrayBuffer",
+    "fileTypedArrayFileBits",
+    "Uint8Array",
+    "fileVariousFileBits",
+    "Uint16Array",
+    "Uint32Array",
+    "fileNumberInFileBits",
+    "fileArrayInFileBits",
+    "fileObjectInFileBits",
+    "testSecondArgument",
+    "arg2",
+    "expectedFileName",
+    "fileUsingFileName",
+    "fileUsingSpecialCharacterInFileName",
+    "fileUsingNullFileName",
+    "fileUsingNumberFileName",
+    "fileUsingEmptyStringFileName"
+  ],
+  "sources": [
+    "../input/file_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert, assertEquals } from \"./test_util.ts\";\n\n// eslint-disable-next-line @typescript-eslint/no-explicit-any\nfunction testFirstArgument(arg1: any[], expectedSize: number): void {\n    const file = new File(arg1, \"name\");\n    assert(file instanceof File);\n    assertEquals(file.name, \"name\");\n    assertEquals(file.size, expectedSize);\n    assertEquals(file.type, \"\");\n}\n\nunitTest(function fileEmptyFileBits(): void {\n    testFirstArgument([], 0);\n});\n\nunitTest(function fileStringFileBits(): void {\n    testFirstArgument([\"bits\"], 4);\n});\n\nunitTest(function fileUnicodeStringFileBits(): void {\n    testFirstArgument([\"𝓽𝓮𝔁𝓽\"], 16);\n});\n\nunitTest(function fileStringObjectFileBits(): void {\n    testFirstArgument([new String(\"string object\")], 13);\n});\n\nunitTest(function fileEmptyBlobFileBits(): void {\n    testFirstArgument([new Blob()], 0);\n});\n\nunitTest(function fileBlobFileBits(): void {\n    testFirstArgument([new Blob([\"bits\"])], 4);\n});\n\nunitTest(function fileEmptyFileFileBits(): void {\n    testFirstArgument([new File([], \"world.txt\")], 0);\n});\n\nunitTest(function fileFileFileBits(): void {\n    testFirstArgument([new File([\"bits\"], \"world.txt\")], 4);\n});\n\nunitTest(function fileArrayBufferFileBits(): void {\n    testFirstArgument([new ArrayBuffer(8)], 8);\n});\n\nunitTest(function fileTypedArrayFileBits(): void {\n    testFirstArgument([new Uint8Array([0x50, 0x41, 0x53, 0x53])], 4);\n});\n\nunitTest(function fileVariousFileBits(): void {\n    testFirstArgument(\n        [\n            \"bits\",\n            new Blob([\"bits\"]),\n            new Blob(),\n            new Uint8Array([0x50, 0x41]),\n            new Uint16Array([0x5353]),\n            new Uint32Array([0x53534150]),\n        ],\n        16\n    );\n});\n\nunitTest(function fileNumberInFileBits(): void {\n    testFirstArgument([12], 2);\n});\n\nunitTest(function fileArrayInFileBits(): void {\n    testFirstArgument([[1, 2, 3]], 5);\n});\n\nunitTest(function fileObjectInFileBits(): void {\n    // \"[object Object]\"\n    testFirstArgument([{}], 15);\n});\n\n// eslint-disable-next-line @typescript-eslint/no-explicit-any\nfunction testSecondArgument(arg2: any, expectedFileName: string): void {\n    const file = new File([\"bits\"], arg2);\n    assert(file instanceof File);\n    assertEquals(file.name, expectedFileName);\n}\n\nunitTest(function fileUsingFileName(): void {\n    testSecondArgument(\"dummy\", \"dummy\");\n});\n\nunitTest(function fileUsingSpecialCharacterInFileName(): void {\n    testSecondArgument(\"dummy/foo\", \"dummy:foo\");\n});\n\nunitTest(function fileUsingNullFileName(): void {\n    testSecondArgument(null, \"null\");\n});\n\nunitTest(function fileUsingNumberFileName(): void {\n    testSecondArgument(1, \"1\");\n});\n\nunitTest(function fileUsingEmptyStringFileName(): void {\n    testSecondArgument(\"\", \"\");\n});\n"
+  ],
+  "version": 3
+}

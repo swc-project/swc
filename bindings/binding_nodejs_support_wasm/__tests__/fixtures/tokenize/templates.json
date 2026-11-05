@@ -1,0 +1,207 @@
+[
+    {
+        "source": "const s = `hi ${name} ${`nested ${1}`}!`;",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 5
+            },
+            {
+                "kind": "identifier",
+                "start": 6,
+                "end": 7
+            },
+            {
+                "kind": "punctuator",
+                "start": 8,
+                "end": 9
+            },
+            {
+                "kind": "template",
+                "start": 10,
+                "end": 14
+            },
+            {
+                "kind": "punctuator",
+                "start": 14,
+                "end": 16
+            },
+            {
+                "kind": "identifier",
+                "start": 16,
+                "end": 20
+            },
+            {
+                "kind": "punctuator",
+                "start": 20,
+                "end": 21
+            },
+            {
+                "kind": "template",
+                "start": 21,
+                "end": 22
+            },
+            {
+                "kind": "punctuator",
+                "start": 22,
+                "end": 24
+            },
+            {
+                "kind": "template",
+                "start": 24,
+                "end": 32
+            },
+            {
+                "kind": "punctuator",
+                "start": 32,
+                "end": 34
+            },
+            {
+                "kind": "number",
+                "start": 34,
+                "end": 35
+            },
+            {
+                "kind": "punctuator",
+                "start": 35,
+                "end": 36
+            },
+            {
+                "kind": "template",
+                "start": 36,
+                "end": 37
+            },
+            {
+                "kind": "punctuator",
+                "start": 37,
+                "end": 38
+            },
+            {
+                "kind": "template",
+                "start": 38,
+                "end": 40
+            },
+            {
+                "kind": "punctuator",
+                "start": 40,
+                "end": 41
+            }
+        ]
+    },
+    {
+        "source": "`a\\`b`; `😀${/x/.test(x)}${2}`",
+        "expected": [
+            {
+                "kind": "template",
+                "start": 0,
+                "end": 6
+            },
+            {
+                "kind": "punctuator",
+                "start": 6,
+                "end": 7
+            },
+            {
+                "kind": "template",
+                "start": 8,
+                "end": 11
+            },
+            {
+                "kind": "punctuator",
+                "start": 11,
+                "end": 13
+            },
+            {
+                "kind": "regexp",
+                "start": 13,
+                "end": 16
+            },
+            {
+                "kind": "punctuator",
+                "start": 16,
+                "end": 17
+            },
+            {
+                "kind": "identifier",
+                "start": 17,
+                "end": 21
+            },
+            {
+                "kind": "punctuator",
+                "start": 21,
+                "end": 22
+            },
+            {
+                "kind": "identifier",
+                "start": 22,
+                "end": 23
+            },
+            {
+                "kind": "punctuator",
+                "start": 23,
+                "end": 24
+            },
+            {
+                "kind": "punctuator",
+                "start": 24,
+                "end": 25
+            },
+            {
+                "kind": "punctuator",
+                "start": 25,
+                "end": 27
+            },
+            {
+                "kind": "number",
+                "start": 27,
+                "end": 28
+            },
+            {
+                "kind": "punctuator",
+                "start": 28,
+                "end": 29
+            },
+            {
+                "kind": "template",
+                "start": 29,
+                "end": 30
+            }
+        ]
+    },
+    {
+        "source": "`a${/* comment */ x}`",
+        "expected": [
+            {
+                "kind": "template",
+                "start": 0,
+                "end": 2
+            },
+            {
+                "kind": "punctuator",
+                "start": 2,
+                "end": 4
+            },
+            {
+                "kind": "comment",
+                "start": 4,
+                "end": 17
+            },
+            {
+                "kind": "identifier",
+                "start": 18,
+                "end": 19
+            },
+            {
+                "kind": "punctuator",
+                "start": 19,
+                "end": 20
+            },
+            {
+                "kind": "template",
+                "start": 20,
+                "end": 21
+            }
+        ]
+    }
+]

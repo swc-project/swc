@@ -12,6 +12,10 @@ use swc_ecma_visit::VisitMutWith;
 
 use crate::TraverseCtx;
 
+mod loop_head_scope;
+
+use self::loop_head_scope::LoopHeadScope;
+
 pub fn hook(
     transform_async_to_generator: bool,
     transform_async_generator_functions: bool,
@@ -31,10 +35,21 @@ pub fn hook(
     }
 }
 
+/// Selects the suspension expression used while lowering a `for await` loop.
+#[derive(Clone, Copy, Debug)]
+enum AwaitForMode {
+    NativeAsync,
+    Generator,
+    AsyncGenerator,
+}
+
 #[derive(Default, Clone, Debug)]
 struct FnState {
     should_transform: bool,
     is_generator: bool,
+    is_arrow: bool,
+    /// The iterator operation form required by this function's output.
+    await_for_mode: Option<AwaitForMode>,
     use_this: bool,
     use_arguments: bool,
     use_super: bool,
@@ -149,20 +164,36 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             self.fn_state_stack.push(prev);
         }
 
+        let should_transform = function.is_async
+            && if function.is_generator {
+                self.transform_async_generator_functions
+            } else {
+                self.transform_async_to_generator
+            };
+        let await_for_mode = if should_transform {
+            Some(if function.is_generator {
+                AwaitForMode::AsyncGenerator
+            } else {
+                AwaitForMode::Generator
+            })
+        } else if function.is_async && self.transform_async_generator_functions {
+            Some(AwaitForMode::NativeAsync)
+        } else {
+            None
+        };
+
         self.fn_state = Some(FnState {
-            should_transform: function.is_async
-                && if function.is_generator {
-                    self.transform_async_generator_functions
-                } else {
-                    self.transform_async_to_generator
-                },
+            should_transform,
             is_generator: function.is_generator,
+            await_for_mode,
             ..Default::default()
         });
     }
 
     fn exit_arrow_expr(&mut self, arrow_expr: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
-        if !arrow_expr.is_async || !self.transform_async_to_generator {
+        if !arrow_expr.is_async
+            || !(self.transform_async_to_generator || self.transform_async_generator_functions)
+        {
             return;
         }
 
@@ -171,18 +202,24 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
         let fn_state = self.fn_state.take().unwrap();
 
-        // Restore the previous fn_state from stack
+        // Restore the previous fn_state from stack. Preserved async arrows still
+        // capture lexical references from a parent that may be transformed.
         let parent_fn_state = self.fn_state_stack.pop();
 
-        // `this`/`arguments`/`super` are inherited from the parent function
-        // If arrow is in a constructor and uses `this`, we need to propagate it
-        // to use the _this variable pattern at the constructor level
-        if let Some(out_fn_state) = &parent_fn_state {
-            let mut updated = out_fn_state.clone();
-            updated.use_this |= fn_state.use_this;
-            updated.use_arguments |= fn_state.use_arguments;
-            updated.use_super |= fn_state.use_super;
-            self.fn_state = Some(updated);
+        if let Some(mut parent_fn_state) = parent_fn_state {
+            if fn_state.should_transform
+                || parent_fn_state.should_transform
+                || parent_fn_state.is_arrow
+            {
+                parent_fn_state.use_this |= fn_state.use_this;
+                parent_fn_state.use_arguments |= fn_state.use_arguments;
+                parent_fn_state.use_super |= fn_state.use_super;
+            }
+            self.fn_state = Some(parent_fn_state);
+        }
+
+        if !fn_state.should_transform {
+            return;
         }
 
         let mut stmts = vec![];
@@ -238,7 +275,9 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn enter_arrow_expr(&mut self, arrow_expr: &mut ArrowExpr, _ctx: &mut TraverseCtx) {
-        if !arrow_expr.is_async || !self.transform_async_to_generator {
+        if !arrow_expr.is_async
+            || !(self.transform_async_to_generator || self.transform_async_generator_functions)
+        {
             return;
         }
 
@@ -254,8 +293,14 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
 
         self.fn_state = Some(FnState {
-            should_transform: true,
+            should_transform: self.transform_async_to_generator,
             is_generator: false,
+            is_arrow: true,
+            await_for_mode: Some(if self.transform_async_to_generator {
+                AwaitForMode::Generator
+            } else {
+                AwaitForMode::NativeAsync
+            }),
             in_constructor,
             ..Default::default()
         });
@@ -322,24 +367,20 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     }
 
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
-        let Some(
-            fn_state @ FnState {
-                should_transform: true,
-                ..
-            },
-        ) = &mut self.fn_state
-        else {
+        let Some(fn_state) = &mut self.fn_state else {
             return;
         };
 
         match expr {
-            Expr::This(..) => {
+            Expr::This(..) if fn_state.should_transform || fn_state.is_arrow => {
                 fn_state.use_this = true;
             }
-            Expr::Ident(Ident { sym, .. }) if sym == "arguments" => {
+            Expr::Ident(Ident { sym, .. })
+                if sym == "arguments" && (fn_state.should_transform || fn_state.is_arrow) =>
+            {
                 fn_state.use_arguments = true;
             }
-            Expr::Await(AwaitExpr { arg, span }) => {
+            Expr::Await(AwaitExpr { arg, span }) if fn_state.should_transform => {
                 *expr = if fn_state.is_generator {
                     let callee = helper!(await_async_generator);
                     let arg = CallExpr {
@@ -367,7 +408,7 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
                 span,
                 arg: Some(arg),
                 delegate: true,
-            }) => {
+            }) if fn_state.should_transform => {
                 let async_iter =
                     helper_expr!(async_iterator).as_call(DUMMY_SP, vec![arg.take().as_arg()]);
 
@@ -387,14 +428,20 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         }
     }
 
+    fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
+        if matches!(stmt, Stmt::Labeled(..)) {
+            if let Some(mode) = self.fn_state.as_ref().and_then(|s| s.await_for_mode) {
+                // A label must stay attached to the generated iteration statement.
+                handle_await_for(stmt, mode, self.unresolved_ctxt);
+            }
+        }
+    }
+
     fn exit_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
-        if let Some(FnState {
-            should_transform: true,
-            is_generator,
-            ..
-        }) = self.fn_state
-        {
-            handle_await_for(stmt, is_generator);
+        if let Some(mode) = self.fn_state.as_ref().and_then(|s| s.await_for_mode) {
+            if matches!(stmt, Stmt::ForOf(..)) {
+                handle_await_for(stmt, mode, self.unresolved_ctxt);
+            }
         }
     }
 
@@ -480,14 +527,29 @@ fn could_potentially_throw(param: &[Param], unresolved_ctxt: SyntaxContext) -> b
 }
 
 #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
-fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
-    let s = match stmt {
+fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: SyntaxContext) {
+    let mut labels = Vec::new();
+    let mut body = &mut *stmt;
+    while let Stmt::Labeled(labeled) = body {
+        labels.push((labeled.span, labeled.label.clone()));
+        body = &mut labeled.body;
+    }
+
+    let mut s = match body {
         Stmt::ForOf(s @ ForOfStmt { is_await: true, .. }) => s.take(),
         _ => return,
+    };
+    let loop_head_scope = if matches!(mode, AwaitForMode::NativeAsync) {
+        LoopHeadScope::new(&mut s)
+    } else {
+        None
     };
 
     let value = private_ident!("_value");
     let iterator = private_ident!("_iterator");
+    let next_method = matches!(mode, AwaitForMode::NativeAsync).then(|| private_ident!("_next"));
+    let return_method =
+        matches!(mode, AwaitForMode::NativeAsync).then(|| private_ident!("_return"));
     let iterator_error = private_ident!("_iteratorError");
     let step = private_ident!("_step");
     let did_iteration_error = private_ident!("_didIteratorError");
@@ -502,6 +564,77 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         };
 
         let mut for_loop_body = Vec::new();
+        if matches!(mode, AwaitForMode::NativeAsync) {
+            // Validate the awaited iterator result before accessing its properties.
+            let iter_next: Expr = CallExpr {
+                span: DUMMY_SP,
+                callee: quote_ident!(unresolved_ctxt, "Reflect")
+                    .make_member(quote_ident!("apply"))
+                    .as_callee(),
+                args: vec![
+                    next_method.as_ref().unwrap().clone().as_arg(),
+                    iterator.clone().as_arg(),
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![],
+                    }
+                    .as_arg(),
+                ],
+                ..Default::default()
+            }
+            .into();
+            for_loop_body.push(
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: step.clone().into(),
+                        right: await_iteration(iter_next, mode).into(),
+                    }
+                    .into(),
+                }
+                .into(),
+            );
+
+            for_loop_body.push(check_iterator_object(&step, unresolved_ctxt));
+
+            for_loop_body.push(
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: iterator_abrupt_completion.clone().into(),
+                        right: UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!("!"),
+                            arg: step.clone().make_member(quote_ident!("done")).into(),
+                        }
+                        .into(),
+                    }
+                    .into(),
+                }
+                .into(),
+            );
+            for_loop_body.push(
+                IfStmt {
+                    span: DUMMY_SP,
+                    test: UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("!"),
+                        arg: iterator_abrupt_completion.clone().into(),
+                    }
+                    .into(),
+                    cons: Box::new(Stmt::Break(BreakStmt {
+                        span: DUMMY_SP,
+                        label: None,
+                    })),
+                    alt: None,
+                }
+                .into(),
+            );
+        }
         {
             // let value = _step.value;
             let value_var = VarDeclarator {
@@ -534,7 +667,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 for_loop_body.push(
                     VarDecl {
                         span: DUMMY_SP,
-                        kind: VarDeclKind::Const,
+                        kind: v.kind,
                         declare: false,
                         decls: vec![var_decl],
                         ..Default::default()
@@ -573,9 +706,10 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             ..Default::default()
         };
 
+        let mut try_stmts = Vec::new();
         let mut init_var_decls = Vec::new();
         // _iterator = _async_iterator(lol())
-        init_var_decls.push(VarDeclarator {
+        let iterator_decl = VarDeclarator {
             span: DUMMY_SP,
             name: iterator.clone().into(),
             init: {
@@ -592,7 +726,36 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 )
             },
             definite: false,
-        });
+        };
+        if matches!(mode, AwaitForMode::NativeAsync) {
+            // GetIterator rejects a primitive before reading its `next` method.
+            // Keep acquisition inside the try block so no close is attempted
+            // if either acquisition or validation fails.
+            if let Some(loop_head_scope) = loop_head_scope {
+                loop_head_scope.init_iterator(iterator_decl, &mut try_stmts);
+            } else {
+                try_stmts.push(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vec![iterator_decl],
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
+            try_stmts.push(check_iterator_object(&iterator, unresolved_ctxt));
+        } else {
+            init_var_decls.push(iterator_decl);
+        }
+        if let Some(next_method) = next_method {
+            init_var_decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: next_method.into(),
+                init: Some(iterator.clone().make_member(quote_ident!("next")).into()),
+                definite: false,
+            });
+        }
         init_var_decls.push(VarDeclarator {
             span: DUMMY_SP,
             name: step.clone().into(),
@@ -600,7 +763,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             definite: false,
         });
 
-        let for_stmt = ForStmt {
+        let mut for_stmt: Stmt = ForStmt {
             span: s.span,
             // var _iterator = _async_iterator(lol()), _step;
             init: Some(
@@ -614,7 +777,9 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 .into(),
             ),
             // _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done
-            test: {
+            test: if matches!(mode, AwaitForMode::NativeAsync) {
+                None
+            } else {
                 let iter_next = iterator.clone().make_member(quote_ident!("next"));
                 let iter_next = CallExpr {
                     span: DUMMY_SP,
@@ -623,28 +788,11 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     ..Default::default()
                 };
 
-                let yield_arg = if is_async_generator {
-                    CallExpr {
-                        span: DUMMY_SP,
-                        callee: helper!(await_async_generator),
-                        args: vec![iter_next.as_arg()],
-                        ..Default::default()
-                    }
-                    .into()
-                } else {
-                    iter_next.into()
-                };
-
                 let assign_to_step: Expr = AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: step.into(),
-                    right: YieldExpr {
-                        span: DUMMY_SP,
-                        arg: Some(yield_arg),
-                        delegate: false,
-                    }
-                    .into(),
+                    left: step.clone().into(),
+                    right: await_iteration(iter_next.into(), mode).into(),
                 }
                 .into();
 
@@ -681,9 +829,19 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         }
         .into();
 
+        for (span, label) in labels.into_iter().rev() {
+            for_stmt = LabeledStmt {
+                span,
+                label,
+                body: Box::new(for_stmt),
+            }
+            .into();
+        }
+
+        try_stmts.push(for_stmt);
         BlockStmt {
             span: body_span,
-            stmts: vec![for_stmt],
+            stmts: try_stmts,
             ..Default::default()
         }
     };
@@ -742,41 +900,76 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         }
         .into();
 
-        let iterator_return: Expr = CallExpr {
-            span: DUMMY_SP,
-            callee: iterator
+        // GetMethod reads `return` once. Reflect.apply preserves the receiver
+        // without consulting a method's own `call` or `apply` properties.
+        let return_callee = if return_method.is_some() {
+            quote_ident!(unresolved_ctxt, "Reflect")
+                .make_member(quote_ident!("apply"))
+                .as_callee()
+        } else {
+            iterator
                 .clone()
                 .make_member(quote_ident!("return"))
-                .as_callee(),
-            args: Vec::new(),
+                .as_callee()
+        };
+        let return_args = if let Some(return_method) = &return_method {
+            vec![
+                return_method.clone().as_arg(),
+                iterator.clone().as_arg(),
+                ArrayLit {
+                    span: DUMMY_SP,
+                    elems: vec![],
+                }
+                .as_arg(),
+            ]
+        } else {
+            vec![]
+        };
+        let iterator_return: Expr = CallExpr {
+            span: DUMMY_SP,
+            callee: return_callee,
+            args: return_args,
             ..Default::default()
         }
         .into();
 
-        // yield _iterator.return();
-        // or
-        // yield _awaitAsyncGenerator(_iterator.return());
-        let yield_stmt = ExprStmt {
-            span: DUMMY_SP,
-            expr: YieldExpr {
-                span: DUMMY_SP,
-                delegate: false,
-                arg: Some(if is_async_generator {
-                    CallExpr {
+        let awaited_return = await_iteration(iterator_return, mode);
+        let close_stmts = if matches!(mode, AwaitForMode::NativeAsync) {
+            // AsyncIteratorClose validates the awaited result even though its
+            // properties are unused. The inner finally preserves a body error.
+            vec![
+                ExprStmt {
+                    span: DUMMY_SP,
+                    expr: AssignExpr {
                         span: DUMMY_SP,
-                        callee: helper!(await_async_generator),
-                        args: vec![iterator_return.as_arg()],
-                        ..Default::default()
+                        op: op!("="),
+                        left: step.clone().into(),
+                        right: awaited_return.into(),
                     }
-                    .into()
-                } else {
-                    iterator_return.into()
-                }),
+                    .into(),
+                }
+                .into(),
+                check_iterator_object(&step, unresolved_ctxt),
+            ]
+        } else {
+            vec![ExprStmt {
+                span: DUMMY_SP,
+                expr: awaited_return.into(),
             }
-            .into(),
-        }
-        .into();
+            .into()]
+        };
 
+        let get_return = iterator.make_member(quote_ident!("return"));
+        let get_return = if let Some(return_method) = &return_method {
+            Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: return_method.clone().into(),
+                right: get_return.into(),
+            })
+        } else {
+            get_return.into()
+        };
         let conditional_yield = IfStmt {
             span: DUMMY_SP,
             // _iteratorAbruptCompletion && _iterator.return != null
@@ -790,7 +983,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     BinExpr {
                         span: DUMMY_SP,
                         op: op!("!="),
-                        left: iterator.make_member(quote_ident!("return")).into(),
+                        left: get_return.into(),
                         right: Null { span: DUMMY_SP }.into(),
                     }
                     .into(),
@@ -798,7 +991,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             }
             .into(),
             cons: Box::new(Stmt::Block(BlockStmt {
-                stmts: vec![yield_stmt],
+                stmts: close_stmts,
                 ..Default::default()
             })),
             alt: None,
@@ -832,32 +1025,41 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         finalizer: Some(finally_block),
     };
 
+    let mut decls = vec![
+        // var _iteratorAbruptCompletion = false;
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: iterator_abrupt_completion.into(),
+            init: Some(false.into()),
+            definite: false,
+        },
+        // var _didIteratorError = false;
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: did_iteration_error.into(),
+            init: Some(false.into()),
+            definite: false,
+        },
+        // var _iteratorError;
+        VarDeclarator {
+            span: DUMMY_SP,
+            name: iterator_error.into(),
+            init: None,
+            definite: false,
+        },
+    ];
+    if let Some(return_method) = return_method {
+        decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: return_method.into(),
+            init: None,
+            definite: false,
+        });
+    }
     let stmts = vec![
         VarDecl {
             kind: VarDeclKind::Var,
-            decls: vec![
-                // var _iteratorAbruptCompletion = false;
-                VarDeclarator {
-                    span: DUMMY_SP,
-                    name: iterator_abrupt_completion.into(),
-                    init: Some(false.into()),
-                    definite: false,
-                },
-                // var _didIteratorError = false;
-                VarDeclarator {
-                    span: DUMMY_SP,
-                    name: did_iteration_error.into(),
-                    init: Some(false.into()),
-                    definite: false,
-                },
-                // var _iteratorError;
-                VarDeclarator {
-                    span: DUMMY_SP,
-                    name: iterator_error.into(),
-                    init: None,
-                    definite: false,
-                },
-            ],
+            decls,
             ..Default::default()
         }
         .into(),
@@ -869,7 +1071,101 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         stmts,
         ..Default::default()
     }
+    .into();
+}
+
+/// Reject primitive iterator objects and operation results, accepting callable
+/// objects without accessing any user-defined properties.
+fn check_iterator_object(value: &Ident, unresolved_ctxt: SyntaxContext) -> Stmt {
+    let is_not_type = |kind| -> Expr {
+        BinExpr {
+            span: DUMMY_SP,
+            op: op!("!=="),
+            left: UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("typeof"),
+                arg: value.clone().into(),
+            }
+            .into(),
+            right: Str {
+                span: DUMMY_SP,
+                value: kind,
+                raw: None,
+            }
+            .into(),
+        }
+        .into()
+    };
+    let non_object = BinExpr {
+        span: DUMMY_SP,
+        op: op!("||"),
+        left: BinExpr {
+            span: DUMMY_SP,
+            op: op!("==="),
+            left: value.clone().into(),
+            right: Null { span: DUMMY_SP }.into(),
+        }
+        .into(),
+        right: BinExpr {
+            span: DUMMY_SP,
+            op: op!("&&"),
+            left: is_not_type("object".into()).into(),
+            right: is_not_type("function".into()).into(),
+        }
+        .into(),
+    };
+    IfStmt {
+        span: DUMMY_SP,
+        test: non_object.into(),
+        cons: Box::new(Stmt::Throw(ThrowStmt {
+            span: DUMMY_SP,
+            arg: NewExpr {
+                span: DUMMY_SP,
+                callee: quote_ident!(unresolved_ctxt, "TypeError").into(),
+                args: Some(vec![Str {
+                    span: DUMMY_SP,
+                    value: "Iterator result is not an object".into(),
+                    raw: None,
+                }
+                .as_arg()]),
+                ..Default::default()
+            }
+            .into(),
+        })),
+        alt: None,
+    }
     .into()
+}
+
+/// Wait for an async iterator operation using the surrounding function's form.
+fn await_iteration(expr: Expr, mode: AwaitForMode) -> Expr {
+    match mode {
+        AwaitForMode::NativeAsync => AwaitExpr {
+            span: DUMMY_SP,
+            arg: expr.into(),
+        }
+        .into(),
+        AwaitForMode::Generator => YieldExpr {
+            span: DUMMY_SP,
+            arg: Some(expr.into()),
+            delegate: false,
+        }
+        .into(),
+        AwaitForMode::AsyncGenerator => {
+            let arg = CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(await_async_generator),
+                args: vec![expr.as_arg()],
+                ..Default::default()
+            };
+            YieldExpr {
+                span: DUMMY_SP,
+                arg: Some(arg.into()),
+                delegate: false,
+            }
+            .into()
+        }
+    }
 }
 
 /// Replace all `this` expressions with the given identifier in a

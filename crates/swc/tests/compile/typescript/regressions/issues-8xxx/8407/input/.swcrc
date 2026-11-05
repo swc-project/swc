@@ -1,0 +1,17 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false
+            }
+        },
+        "target": "es2022"
+    },
+    "module": {
+        "type": "es6"
+    }
+}

@@ -1,0 +1,36 @@
+[package]
+name = "binding_native_addon"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+license = "Apache-2.0"
+publish = false
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+embedded-payload = []
+
+[dependencies]
+swc_native_addon = { path = "../../crates/swc_native_addon" }
+libloading = "=0.8.9"
+tracing = { version = "=0.1.44", default-features = false, features = ["std"] }
+
+[build-dependencies]
+swc_native_addon = { path = "../../crates/swc_native_addon" }
+tempfile = "=3.12.0"
+
+[dev-dependencies]
+tempfile = "=3.12.0"
+
+[package.metadata.cargo-shear]
+# The carrier imports the shared ACL fixture with #[path] from swc_native_addon.
+# cargo-shear does not scan that external source, which uses windows-sys.
+ignored = ["windows-sys"]
+
+[target.'cfg(windows)'.dev-dependencies]
+windows-sys = { version = "=0.52.0", features = [
+  "Win32_Foundation", "Win32_Security", "Win32_Security_Authorization",
+] }

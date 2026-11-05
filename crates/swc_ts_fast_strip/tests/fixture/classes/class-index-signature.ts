@@ -1,0 +1,1 @@
+class C { [key: string]: number; next = 1; }

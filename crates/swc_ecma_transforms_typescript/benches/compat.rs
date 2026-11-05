@@ -1,4 +1,6 @@
-use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use codspeed_criterion_compat::{
+    black_box, criterion_group, criterion_main, BatchSize, Bencher, Criterion,
+};
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Module, Pass, Program};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
@@ -37,15 +39,17 @@ where
             .apply(resolver(unresolved_mark, top_level_mark, true))
             .apply(strip(unresolved_mark, top_level_mark));
 
-        b.iter(|| {
-            let module = module.clone();
-
-            helpers::HELPERS.set(&Default::default(), || {
-                let tr = tr(unresolved_mark);
-
-                black_box(module.apply(tr));
-            });
-        });
+        // Prepare a fresh AST per iteration without timing its clone or final drop.
+        b.iter_batched_ref(
+            || module.clone(),
+            |module| {
+                helpers::HELPERS.set(&Default::default(), || {
+                    module.mutate(tr(unresolved_mark));
+                    black_box(module);
+                });
+            },
+            BatchSize::PerIteration,
+        );
 
         Ok(())
     });
@@ -80,13 +84,17 @@ fn common_typescript(b: &mut Bencher) {
             .apply(resolver(unresolved_mark, top_level_mark, true))
             .apply(strip(unresolved_mark, top_level_mark));
 
-        b.iter(|| {
-            let module = module.clone();
-
-            helpers::HELPERS.set(&Default::default(), || {
-                black_box(module.apply(strip(unresolved_mark, top_level_mark)));
-            });
-        });
+        // Keep the same transform-only timing boundary as the shared runner.
+        b.iter_batched_ref(
+            || module.clone(),
+            |module| {
+                helpers::HELPERS.set(&Default::default(), || {
+                    module.mutate(strip(unresolved_mark, top_level_mark));
+                    black_box(module);
+                });
+            },
+            BatchSize::PerIteration,
+        );
 
         Ok(())
     });

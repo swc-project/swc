@@ -253,19 +253,7 @@
             });
             // UNUSED EXPORTS: isLikely
             // EXTERNAL MODULE: ./node_modules/@videojs/vhs-utils/es/byte-helpers.js
-            var DESCRIPTORS, byte_helpers = __webpack_require__(562); // CONCATENATED MODULE: ./node_modules/@videojs/vhs-utils/es/codec-helpers.js
-            new Uint8Array([
-                // O, p, u, s
-                0x4f,
-                0x70,
-                0x75,
-                0x73,
-                0x48,
-                0x65,
-                0x61,
-                0x64
-            ]); // https://wiki.xiph.org/OggOpus
-            var normalizePath = function(path) {
+            var DESCRIPTORS, byte_helpers = __webpack_require__(562), normalizePath = function(path) {
                 return "string" == typeof path ? (0, byte_helpers /* stringToBytes */ .qX)(path) : path;
             }, parseDescriptors = function(bytes) {
                 bytes = (0, byte_helpers /* toUint8 */ .Ki)(bytes);
@@ -283,7 +271,7 @@
                     i += size + headerSize;
                 }
                 return results;
-            };
+            }; // CONCATENATED MODULE: ./node_modules/@videojs/vhs-utils/es/codec-helpers.js
             DESCRIPTORS = [
                 {
                     id: 0x03,

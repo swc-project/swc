@@ -51,19 +51,13 @@ impl VisitMut for GlobalDefs {
             return;
         }
 
-        match n {
-            Expr::Ident(i) if i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt => {
-                return;
-            }
-            Expr::Ident(..) => {}
-            Expr::Member(MemberExpr { obj, .. }) => {
-                if let Expr::Ident(i) = &**obj {
-                    if i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt {
-                        return;
-                    }
-                }
-            }
-            _ => {}
+        let has_local_root = match n.leftmost() {
+            Some(i) => i.ctxt != self.unresolved_ctxt && i.ctxt != self.top_level_ctxt,
+            None => false,
+        };
+        if has_local_root {
+            self.visit_mut_computed_props(n);
+            return;
         }
 
         if let Some((_, new)) = self
@@ -79,16 +73,39 @@ impl VisitMut for GlobalDefs {
     }
 
     fn visit_mut_update_expr(&mut self, e: &mut UpdateExpr) {
-        match &mut *e.arg {
+        self.visit_mut_computed_props(&mut e.arg);
+    }
+}
+
+impl GlobalDefs {
+    /// Visits computed property expressions without replacing a protected
+    /// member chain or its static property accesses.
+    fn visit_mut_computed_props(&mut self, expr: &mut Expr) {
+        match expr {
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                self.visit_mut_computed_props(obj);
+                if let MemberProp::Computed(prop) = prop {
+                    prop.expr.visit_mut_with(self);
+                }
+            }
+            Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
+                OptChainBase::Member(MemberExpr { obj, prop, .. }) => {
+                    self.visit_mut_computed_props(obj);
+                    if let MemberProp::Computed(prop) = prop {
+                        prop.expr.visit_mut_with(self);
+                    }
+                }
+                // Optional calls can be the root of a protected update target,
+                // e.g. `(getObject?.())[KEY]++`.
+                OptChainBase::Call(..) => expr.visit_mut_children_with(self),
+            },
             Expr::Ident(..) => {}
-
-            Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => {
-                // TODO: Check for `obj`
-            }
-
-            _ => {
-                e.arg.visit_mut_with(self);
-            }
+            Expr::Paren(ParenExpr { expr, .. }) => self.visit_mut_computed_props(expr),
+            // The root of an update target can be an arbitrary expression, such
+            // as `this`, a call, or an object literal. Walk its children so
+            // nested expressions can still use global definitions, but do not
+            // visit the root itself and replace the protected update target.
+            _ => expr.visit_mut_children_with(self),
         }
     }
 }

@@ -36,6 +36,9 @@ If you start working on an already-filed issue, post a comment on this issue to
 let people know that somebody is working it. Feel free to ask for comments if
 you are unsure about the solution you would like to submit.
 
+The pull request workflow below is for accounts that meet the
+[pull request requirements](#pull-requests).
+
 We use the "fork and pull" model [described here][development-models], where
 contributors push changes to their personal fork and create pull requests to
 bring those changes into the source repository. This process is partly
@@ -162,9 +165,42 @@ To revert the changes:
     git restore bindings/Cargo.toml bindings/Cargo.lock
     ```
 
-2. Update your overriden project's `package.json` to use the published version of `@swc/core`
+2. Update your overridden project's `package.json` to use the published version of `@swc/core`
 
 ## Pull requests
+
+SWC accepts pull requests from bot accounts, users with write access or higher
+to this repository, and contributors listed in
+[`.github/contributors.yml`](.github/contributors.yml). Next.js and Turbopack
+contributors share the `nextjs` group; React contributors use the `react` group.
+Individual and Rspack contributors have their own groups. Every group grants the
+same access, and usernames are compared case-insensitively. Organization
+membership and triage access alone do not grant an exception.
+
+Pull requests from other accounts are automatically closed with an explanation,
+and their CI builds and benchmarks are skipped. If your account does not meet the
+requirements above, please [open an issue][new-issues] describing the bug or
+proposed improvement instead of submitting a pull request.
+
+The policy is checked when a pull request is opened, reopened, or updated;
+existing pull requests are not scanned in bulk. Configuration errors and GitHub
+API failures stop the policy check and CI, without automatically closing the
+pull request.
+
+Maintainers should add usernames as YAML list entries in the appropriate group.
+For example, replace `individuals: []` with `individuals: [github-username]`.
+Changes to the policy must be merged into the default branch before they take
+effect; a pull request cannot authorize itself by editing the contributor list.
+Bots are recognized by GitHub's account type, not a username suffix. A machine
+account with the `User` type follows the same access rules as any other user.
+
+When deploying this policy, first merge the contributor action, configuration,
+and automatic closure workflow, then enable the CI gates after those files are
+available on the default branch. Populate and validate the external contributor
+list before changing **Settings > General > Features > Pull requests** from
+**Collaborators only** to **Everyone**. Until then, GitHub still restricts PR
+creation to repository writers. The existing approval policy for workflows from
+forks remains in effect even for allowlisted contributors.
 
 After the pull request is made, one of the SWC project developers will review your code.
 The review-process will make sure that the proposed changes are sound.

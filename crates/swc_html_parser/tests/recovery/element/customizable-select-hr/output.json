@@ -1,0 +1,158 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 66
+  },
+  "mode": "no-quirks",
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 1,
+        "end": 16
+      },
+      "name": "html",
+      "publicId": null,
+      "systemId": null,
+      "raw": "<!doctype html>"
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 0,
+        "end": 0
+      },
+      "tagName": "html",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 0
+          },
+          "tagName": "head",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [],
+          "content": null,
+          "isSelfClosing": false
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 0,
+            "end": 0
+          },
+          "tagName": "body",
+          "namespace": "http://www.w3.org/1999/xhtml",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Element",
+              "span": {
+                "start": 16,
+                "end": 65
+              },
+              "tagName": "select",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 24,
+                    "end": 56
+                  },
+                  "tagName": "option",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Element",
+                      "span": {
+                        "start": 32,
+                        "end": 56
+                      },
+                      "tagName": "span",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "attributes": [],
+                      "children": [
+                        {
+                          "type": "Text",
+                          "span": {
+                            "start": 38,
+                            "end": 41
+                          },
+                          "data": "one",
+                          "raw": "one"
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 41,
+                            "end": 45
+                          },
+                          "tagName": "hr",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [],
+                          "content": null,
+                          "isSelfClosing": false
+                        },
+                        {
+                          "type": "Element",
+                          "span": {
+                            "start": 45,
+                            "end": 56
+                          },
+                          "tagName": "option",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "attributes": [],
+                          "children": [
+                            {
+                              "type": "Text",
+                              "span": {
+                                "start": 53,
+                                "end": 56
+                              },
+                              "data": "two",
+                              "raw": "two"
+                            }
+                          ],
+                          "content": null,
+                          "isSelfClosing": false
+                        }
+                      ],
+                      "content": null,
+                      "isSelfClosing": false
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 65,
+                "end": 66
+              },
+              "data": "\n",
+              "raw": "\n"
+            }
+          ],
+          "content": null,
+          "isSelfClosing": false
+        }
+      ],
+      "content": null,
+      "isSelfClosing": false
+    }
+  ]
+}

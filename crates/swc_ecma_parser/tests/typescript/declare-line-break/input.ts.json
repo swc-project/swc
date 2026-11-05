@@ -1,0 +1,305 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 144
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 8
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 8
+        },
+        "ctxt": 0,
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 15,
+          "end": 16
+        },
+        "ctxt": 0,
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 9,
+        "end": 19
+      },
+      "ctxt": 0,
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 21,
+        "end": 28
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 21,
+          "end": 28
+        },
+        "ctxt": 0,
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 38,
+          "end": 39
+        },
+        "ctxt": 0,
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 29,
+        "end": 44
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 42,
+          "end": 44
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 46,
+        "end": 53
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 46,
+          "end": 53
+        },
+        "ctxt": 0,
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 54,
+        "end": 66
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 60,
+            "end": 65
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 60,
+              "end": 61
+            },
+            "ctxt": 0,
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 64,
+              "end": 65
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 68,
+        "end": 75
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 68,
+          "end": 75
+        },
+        "ctxt": 0,
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 76,
+        "end": 88
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 81,
+          "end": 82
+        },
+        "ctxt": 0,
+        "value": "E",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 85,
+            "end": 86
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 85,
+              "end": 86
+            },
+            "ctxt": 0,
+            "value": "A",
+            "optional": false
+          },
+          "init": null
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 90,
+        "end": 97
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 90,
+          "end": 97
+        },
+        "ctxt": 0,
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 104,
+        "end": 118
+      },
+      "declare": false,
+      "global": false,
+      "namespace": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 114,
+          "end": 115
+        },
+        "ctxt": 0,
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 116,
+          "end": 118
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 120,
+        "end": 127
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 120,
+          "end": 127
+        },
+        "ctxt": 0,
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 128,
+        "end": 144
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 133,
+          "end": 134
+        },
+        "ctxt": 0,
+        "value": "T",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 137,
+          "end": 143
+        },
+        "kind": "string"
+      }
+    }
+  ],
+  "interpreter": null
+}

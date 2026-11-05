@@ -1,5 +1,21 @@
-### Fixture Test Addition Guide
+# Test Design
 
-- Preferred fixture roots in this crate: tests/arrow, tests/async-to-generator, tests/block-scoping, tests/class-properties, tests/class_fields_use_set, tests/classes, tests/destructuring, tests/for-of, tests/new-target, tests/object-rest-spread, tests/optional-chaining, tests/optional-chaining-loose, tests/parameters, tests/private-in-object, tests/shorthand_properties, tests/static-blocks.
-- Update generated fixture outputs with: UPDATE=1 cargo test -p swc_ecma_transforms_compat.
-- Verify without UPDATE before finishing: cargo test -p swc_ecma_transforms_compat.
+- Put end-to-end cases expressible with `.swcrc` in
+  `../swc/tests/compile/compat/<feature>/`: `input/` + full `.swcrc` → `output/`.
+  Combinations of transforms use the same compiler pipeline. Runtime compiler
+  cases belong in `../swc/tests/exec/`.
+- Keep direct transform API checks here when compiler configuration cannot
+  preserve their assertions. `lowering.rs` retains helper-free compat snapshots;
+  `es20xx_<feature>.rs` covers standalone passes, specific pass orders, custom AST
+  handling, and execution assertions. See `tests/README.md` and the matching
+  runner for configuration and fixture conventions.
+- Prefer fixtures over inline tests. Register each intended pipeline once;
+  update broader globs' exclusions when adding a narrower runner. Preserve shared
+  runtime fixtures exercised by multiple pipelines, hidden ignored cases, feature
+  gates, diagnostics, and all existing assertions during migration.
+- Do not add another local end-to-end compiler harness or a dependency on `swc`.
+
+Initialize submodules before testing. Update intentional snapshots with
+`UPDATE=1 cargo test -p swc_ecma_transforms_compat`, review the diff, then rerun
+without `UPDATE`. Run relevant `es3` coverage when changing gated tests, and
+`cargo test -p swc --test compile` when changing shared compiler fixtures.

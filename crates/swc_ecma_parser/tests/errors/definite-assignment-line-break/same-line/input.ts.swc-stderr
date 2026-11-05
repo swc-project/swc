@@ -1,0 +1,5 @@
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/definite-assignment-line-break/same-line/input.ts:1:1]
+ 1 | let x!function () {};
+   :       ^^^^^^^^
+   `----

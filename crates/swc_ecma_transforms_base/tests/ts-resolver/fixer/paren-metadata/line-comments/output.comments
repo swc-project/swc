@@ -1,0 +1,160 @@
+Source, remove_only=false:
+leading BytePos(134) -> BytePos(135)
+trailing BytePos(141) -> BytePos(140)
+leading BytePos(132) -> BytePos(133)
+trailing BytePos(149) -> BytePos(148)
+leading BytePos(73) -> BytePos(74)
+trailing BytePos(81) -> BytePos(80)
+leading BytePos(17) -> BytePos(18)
+trailing BytePos(31) -> BytePos(30)
+leading at BytePos(18): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(74): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(133): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Source, remove_only=true:
+leading BytePos(134) -> BytePos(135)
+trailing BytePos(141) -> BytePos(140)
+leading BytePos(133) -> BytePos(134)
+trailing BytePos(147) -> BytePos(146)
+leading BytePos(132) -> BytePos(133)
+trailing BytePos(149) -> BytePos(148)
+leading BytePos(74) -> BytePos(75)
+trailing BytePos(80) -> BytePos(79)
+leading BytePos(73) -> BytePos(74)
+trailing BytePos(81) -> BytePos(80)
+leading BytePos(18) -> BytePos(19)
+trailing BytePos(30) -> BytePos(29)
+leading BytePos(17) -> BytePos(18)
+trailing BytePos(31) -> BytePos(30)
+leading at BytePos(18): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(74): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(133): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Duplicated, remove_only=false:
+leading BytePos(134) -> BytePos(135)
+trailing BytePos(141) -> BytePos(140)
+leading BytePos(132) -> BytePos(133)
+trailing BytePos(149) -> BytePos(148)
+leading BytePos(73) -> BytePos(74)
+trailing BytePos(81) -> BytePos(80)
+leading BytePos(17) -> BytePos(18)
+trailing BytePos(31) -> BytePos(30)
+leading at BytePos(18): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(74): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(133): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Duplicated, remove_only=true:
+leading BytePos(134) -> BytePos(135)
+trailing BytePos(141) -> BytePos(140)
+leading BytePos(133) -> BytePos(134)
+trailing BytePos(147) -> BytePos(146)
+leading BytePos(132) -> BytePos(133)
+trailing BytePos(149) -> BytePos(148)
+leading BytePos(74) -> BytePos(75)
+trailing BytePos(80) -> BytePos(79)
+leading BytePos(73) -> BytePos(74)
+trailing BytePos(81) -> BytePos(80)
+leading BytePos(18) -> BytePos(19)
+trailing BytePos(30) -> BytePos(29)
+leading BytePos(17) -> BytePos(18)
+trailing BytePos(31) -> BytePos(30)
+leading at BytePos(18): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(74): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(133): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Dummy, remove_only=false:
+leading at BytePos(17): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(73): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(132): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Dummy, remove_only=true:
+leading BytePos(0) -> BytePos(0)
+trailing BytePos(0) -> BytePos(0)
+leading at BytePos(17): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(73): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(132): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Shared, remove_only=false:
+leading at BytePos(17): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(73): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(132): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Shared, remove_only=true:
+leading BytePos(1) -> BytePos(1)
+trailing BytePos(2) -> BytePos(2)
+leading at BytePos(17): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(73): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(132): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Pure, remove_only=false:
+leading at BytePos(17): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(73): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(132): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Pure, remove_only=true:
+leading BytePos(4294967294) -> BytePos(4294967294)
+trailing BytePos(4294967294) -> BytePos(4294967294)
+leading at BytePos(17): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(73): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(132): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Mixed, remove_only=false:
+leading BytePos(1) -> BytePos(4294967294)
+trailing BytePos(2) -> BytePos(4294967294)
+leading BytePos(4294967294) -> BytePos(0)
+trailing BytePos(4294967294) -> BytePos(0)
+leading BytePos(4294967294) -> BytePos(74)
+trailing BytePos(4294967294) -> BytePos(80)
+leading at BytePos(17): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(73): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(132): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+
+Mixed, remove_only=true:
+leading BytePos(0) -> BytePos(134)
+trailing BytePos(0) -> BytePos(146)
+leading BytePos(1) -> BytePos(4294967294)
+trailing BytePos(2) -> BytePos(4294967294)
+leading BytePos(4294967294) -> BytePos(74)
+trailing BytePos(4294967294) -> BytePos(80)
+leading BytePos(4294967294) -> BytePos(0)
+trailing BytePos(4294967294) -> BytePos(0)
+leading at BytePos(17): [Comment { kind: Line, span: 1..16, text: " Cast operand" }]
+leading at BytePos(73): [Comment { kind: Line, span: 48..72, text: " Instantiation operand" }]
+leading at BytePos(132): [Comment { kind: Line, span: 107..131, text: " Nested update operand" }]
+trailing at BytePos(33): [Comment { kind: Line, span: 34..47, text: " After cast" }]
+trailing at BytePos(83): [Comment { kind: Line, span: 84..106, text: " After instantiation" }]
+trailing at BytePos(152): [Comment { kind: Line, span: 153..168, text: " After update" }]
+

@@ -54,6 +54,9 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
     with_parser(false, file, false, config_path, |p, _| {
         let program = if is_commonjs {
             p.parse_commonjs().map(Program::Script)?
+        } else if file_name.ends_with(".script.js") {
+            // Exercise explicit Script grammar independently of auto detection.
+            p.parse_script().map(Program::Script)?
         } else {
             p.parse_program()?
         };

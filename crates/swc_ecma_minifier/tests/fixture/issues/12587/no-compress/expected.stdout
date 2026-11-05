@@ -1,0 +1,11 @@
+hide a
+hide b
+1
+1
+1
+true
+true
+true
+ReferenceError
+ReferenceError
+ReferenceError

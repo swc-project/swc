@@ -1,19 +1,24 @@
 //// [awaitUsingDeclarationsInForAwaitOf.2.ts]
-//!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!    ,-[5:1]
-//!  2 | // https://github.com/microsoft/TypeScript/issues/55555
-//!  3 | 
-//!  4 | async function test() {
-//!  5 |   for await (await using of of of) {};
-//!    :              ^^^^^^^^^^^
-//!  6 | }
-//!    `----
-//!   x Expected ')', got 'of'
-//!    ,-[5:1]
-//!  2 | // https://github.com/microsoft/TypeScript/issues/55555
-//!  3 | 
-//!  4 | async function test() {
-//!  5 |   for await (await using of of of) {};
-//!    :                                ^^
-//!  6 | }
-//!    `----
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+// https://github.com/microsoft/TypeScript/issues/55555
+async function test() {
+    for await (const _ of of){
+        const env = {
+            stack: [],
+            error: void 0,
+            hasError: false
+        };
+        try {
+            const of = _ts_add_disposable_resource(env, _, true);
+            {}
+        } catch (e) {
+            env.error = e;
+            env.hasError = true;
+        } finally{
+            const result = _ts_dispose_resources(env);
+            if (result) await result;
+        }
+    }
+    ;
+}

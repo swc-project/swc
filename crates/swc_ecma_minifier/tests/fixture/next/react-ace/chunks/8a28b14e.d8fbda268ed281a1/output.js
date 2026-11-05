@@ -2492,8 +2492,7 @@
                         if (hasUBAT_S) {
                             for(i = 0; i < len; i++)if (6 == charTypes[i]) {
                                 levels[i] = dir;
-                                for(var j = i - 1; j >= 0; j--)if (8 == charTypes[j]) levels[j] = dir;
-                                else break;
+                                for(var j = i - 1; j >= 0 && 8 == charTypes[j]; j--)levels[j] = dir;
                             }
                         }
                     }(chars, levels, chars.length, textCharTypes);

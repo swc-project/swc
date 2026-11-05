@@ -6,10 +6,6 @@ env:
   # 7 GiB by default on GitHub, setting to 6 GiB
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
   NODE_OPTIONS: --max-old-space-size=6144
-  GIT_AUTHOR_NAME: "SWC Bot"
-  GIT_AUTHOR_EMAIL: "bot@swc.rs"
-  GIT_COMMITTER_NAME: "SWC Bot"
-  GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
 permissions: {}
 
@@ -35,23 +31,46 @@ on:
         required: false
         type: boolean
         default: false
+      verifySourceRef:
+        description: "Verify this exact commit SHA without creating tags or publishing (version must match its manifests)"
+        required: false
+        type: string
+        default: ""
 
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ inputs.verifySourceRef && format('native-verification-{0}', github.ref) || github.workflow }}
   cancel-in-progress: true
 
 jobs:
+  verify-native-source:
+    name: "Verify native release without publishing"
+    if: inputs.verifySourceRef != ''
+    # Reusable-workflow permissions are checked even for skipped publish jobs.
+    # skipPublishing disables those jobs and the source-ref guard enforces it.
+    permissions:
+      contents: write
+      id-token: write
+    uses: ./.github/workflows/publish-npm-package.yml
+    with:
+      buildType: "verification"
+      version: ${{ inputs.version }}
+      buildCli: true
+      skipBuild: false
+      publishWasm: false
+      skipPublishing: true
+      sourceRef: ${{ inputs.verifySourceRef }}
+
   determine-nightly-version:
     name: "Determine nightly version"
     runs-on: ubuntu-latest
     # Run only on main branch
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && inputs.verifySourceRef == ''
     permissions:
       contents: read
     outputs:
       version: ${{ steps.determine-nightly-version.outputs.version }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - uses: ./.github/actions/setup-node
@@ -73,25 +92,25 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: bot-token
+        if: inputs.skipBuild == false
+        with:
+          client-id: ${{ vars.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
       - uses: ./.github/actions/tag-git-release
         if: inputs.skipBuild == false
         with:
           version: ${{ needs.determine-nightly-version.outputs.version }}
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+          token: ${{ steps.bot-token.outputs.token }}
+          app-slug: ${{ steps.bot-token.outputs.app-slug }}
 
   publish-npm-nightly:
-    name: "Publish ${{ matrix.package }}@${{ needs.determine-nightly-version.outputs.version }}"
-    strategy:
-      fail-fast: false
-      matrix:
-        package:
-          - core
-          - html
-          - minifier
-          - react-compiler
+    name: "Publish ${{ needs.determine-nightly-version.outputs.version }}"
     needs:
       - git-tag-nightly
       - determine-nightly-version
@@ -101,11 +120,10 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     with:
       buildType: "nightly"
-      package: ${{ matrix.package }}
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
       skipBuild: ${{ inputs.skipBuild || false }}
-      publishWasm: ${{ matrix.package == 'core' }}
+      publishWasm: true
       skipPublishing: ${{ github.event_name == 'pull_request' }}
 
   run-ecosystem-ci-with-nightly:
@@ -134,14 +152,22 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: bot-token
+        if: inputs.skipBuild == false
+        with:
+          client-id: ${{ vars.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-contents: write
       - uses: ./.github/actions/tag-git-release
         if: inputs.skipBuild == false
         with:
           version: ${{ inputs.version }}
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+          token: ${{ steps.bot-token.outputs.token }}
+          app-slug: ${{ steps.bot-token.outputs.app-slug }}
 
   manage-milestone:
     name: "Manage milestone for ${{ inputs.version }}"
@@ -155,7 +181,7 @@ jobs:
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -171,15 +197,7 @@ jobs:
           npx ts-node .github/bot/src/milestone-manager.ts "$RELEASE_TAG"
 
   publish-npm-stable:
-    name: "Publish ${{ matrix.package }}@${{ inputs.version || 'stable' }} to npm"
-    strategy:
-      fail-fast: false
-      matrix:
-        package:
-          - core
-          - html
-          - minifier
-          - react-compiler
+    name: "Publish ${{ inputs.version || 'stable' }} to npm"
     needs:
       - run-ecosystem-ci-with-nightly
       - git-tag-stable
@@ -190,9 +208,8 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     with:
       buildType: "stable"
-      package: ${{ matrix.package }}
       version: ${{ inputs.version }}
       buildCli: true
       skipBuild: ${{ inputs.skipBuild || inputs.onlyNightly || false }}
-      publishWasm: ${{ matrix.package == 'core' }}
+      publishWasm: true
       skipPublishing: ${{ github.event_name == 'pull_request' }}

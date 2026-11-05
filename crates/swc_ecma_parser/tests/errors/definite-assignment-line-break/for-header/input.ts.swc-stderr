@@ -1,0 +1,6 @@
+  x Expected ';', got '!'
+   ,-[$DIR/tests/errors/definite-assignment-line-break/for-header/input.ts:2:1]
+ 1 | for (let x
+ 2 | !true;;) {}
+   : ^
+   `----

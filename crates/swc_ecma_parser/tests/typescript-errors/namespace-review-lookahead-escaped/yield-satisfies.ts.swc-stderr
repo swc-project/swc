@@ -1,0 +1,7 @@
+  x Unexpected escape sequence in reserved word: yield
+   ,-[$DIR/tests/typescript-errors/namespace-review-lookahead-escaped/yield-satisfies.ts:2:1]
+ 1 | namespace N {
+ 2 |     const A = y\u0069eld satisfies;
+   :               ^^^^^^^^^^
+ 3 | }
+   `----

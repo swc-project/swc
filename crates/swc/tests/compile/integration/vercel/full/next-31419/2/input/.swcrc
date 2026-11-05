@@ -1,0 +1,24 @@
+{
+    "jsc": {
+        "target": "es2015",
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "useBuiltins": true
+            }
+        },
+        "minify": {
+            "compress": {
+                "toplevel": true
+            },
+            "mangle": {
+                "toplevel": true
+            },
+            "toplevel": true
+        }
+    }
+}

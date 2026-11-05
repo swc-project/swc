@@ -1,0 +1,849 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 835
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 1,
+        "end": 835
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7
+        },
+        "ctxt": 0,
+        "value": "E",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 14,
+            "end": 49
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 23
+            },
+            "ctxt": 0,
+            "value": "AwaitAsIn",
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 26,
+              "end": 49
+            },
+            "operator": "in",
+            "left": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 26,
+                "end": 39
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 32,
+                  "end": 39
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              }
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 43,
+                "end": 49
+              },
+              "ctxt": 0,
+              "value": "values",
+              "optional": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 55,
+            "end": 104
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 55,
+              "end": 71
+            },
+            "ctxt": 0,
+            "value": "AwaitSatisfiesIn",
+            "optional": false
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 74,
+              "end": 104
+            },
+            "operator": "in",
+            "left": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 74,
+                "end": 94
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 80,
+                  "end": 94
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              }
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 98,
+                "end": 104
+              },
+              "ctxt": 0,
+              "value": "values",
+              "optional": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 110,
+            "end": 147
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 110,
+              "end": 121
+            },
+            "ctxt": 0,
+            "value": "AwaitAsType",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 124,
+              "end": 147
+            },
+            "expression": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 124,
+                "end": 137
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 130,
+                  "end": 137
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 141,
+                "end": 147
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 153,
+            "end": 211
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 153,
+              "end": 171
+            },
+            "ctxt": 0,
+            "value": "AwaitSatisfiesType",
+            "optional": false
+          },
+          "init": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 174,
+              "end": 211
+            },
+            "expression": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 174,
+                "end": 194
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 180,
+                  "end": 194
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 205,
+                "end": 211
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 217,
+            "end": 258
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 217,
+              "end": 232
+            },
+            "ctxt": 0,
+            "value": "AwaitAsExtended",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 235,
+              "end": 258
+            },
+            "expression": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 235,
+                "end": 248
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 241,
+                  "end": 248
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 252,
+                "end": 258
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 264,
+            "end": 326
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 264,
+              "end": 286
+            },
+            "ctxt": 0,
+            "value": "AwaitSatisfiesExtended",
+            "optional": false
+          },
+          "init": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 289,
+              "end": 326
+            },
+            "expression": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 289,
+                "end": 309
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 295,
+                  "end": 309
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 320,
+                "end": 326
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 332,
+            "end": 372
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 332,
+              "end": 346
+            },
+            "ctxt": 0,
+            "value": "AwaitAsLeading",
+            "optional": false
+          },
+          "init": {
+            "type": "TsAsExpression",
+            "span": {
+              "start": 349,
+              "end": 372
+            },
+            "expression": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 349,
+                "end": 362
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 355,
+                  "end": 362
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 366,
+                "end": 372
+              },
+              "kind": "number"
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 378,
+            "end": 420
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 378,
+              "end": 392
+            },
+            "ctxt": 0,
+            "value": "AwaitAsGrouped",
+            "optional": false
+          },
+          "init": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 395,
+              "end": 420
+            },
+            "expression": {
+              "type": "TsAsExpression",
+              "span": {
+                "start": 396,
+                "end": 419
+              },
+              "expression": {
+                "type": "AwaitExpression",
+                "span": {
+                  "start": 396,
+                  "end": 409
+                },
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 402,
+                    "end": 409
+                  },
+                  "ctxt": 0,
+                  "value": "as",
+                  "optional": false
+                }
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 413,
+                  "end": 419
+                },
+                "kind": "number"
+              }
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 426,
+            "end": 461
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 426,
+              "end": 435
+            },
+            "ctxt": 0,
+            "value": "YieldAsIn",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 438,
+              "end": 461
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 444,
+                "end": 461
+              },
+              "operator": "in",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 444,
+                  "end": 451
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 455,
+                  "end": 461
+                },
+                "ctxt": 0,
+                "value": "values",
+                "optional": false
+              }
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 467,
+            "end": 516
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 467,
+              "end": 483
+            },
+            "ctxt": 0,
+            "value": "YieldSatisfiesIn",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 486,
+              "end": 516
+            },
+            "argument": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 492,
+                "end": 516
+              },
+              "operator": "in",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 492,
+                  "end": 506
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 510,
+                  "end": 516
+                },
+                "ctxt": 0,
+                "value": "values",
+                "optional": false
+              }
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 522,
+            "end": 559
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 522,
+              "end": 533
+            },
+            "ctxt": 0,
+            "value": "YieldAsType",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 536,
+              "end": 559
+            },
+            "argument": {
+              "type": "TsAsExpression",
+              "span": {
+                "start": 542,
+                "end": 559
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 542,
+                  "end": 549
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 553,
+                  "end": 559
+                },
+                "kind": "number"
+              }
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 565,
+            "end": 623
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 565,
+              "end": 583
+            },
+            "ctxt": 0,
+            "value": "YieldSatisfiesType",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 586,
+              "end": 623
+            },
+            "argument": {
+              "type": "TsSatisfiesExpression",
+              "span": {
+                "start": 592,
+                "end": 623
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 592,
+                  "end": 606
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 617,
+                  "end": 623
+                },
+                "kind": "number"
+              }
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 629,
+            "end": 670
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 629,
+              "end": 644
+            },
+            "ctxt": 0,
+            "value": "YieldAsExtended",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 647,
+              "end": 670
+            },
+            "argument": {
+              "type": "TsAsExpression",
+              "span": {
+                "start": 653,
+                "end": 670
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 653,
+                  "end": 660
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 664,
+                  "end": 670
+                },
+                "kind": "number"
+              }
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 676,
+            "end": 738
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 676,
+              "end": 698
+            },
+            "ctxt": 0,
+            "value": "YieldSatisfiesExtended",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 701,
+              "end": 738
+            },
+            "argument": {
+              "type": "TsSatisfiesExpression",
+              "span": {
+                "start": 707,
+                "end": 738
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 707,
+                  "end": 721
+                },
+                "ctxt": 0,
+                "value": "satisfies",
+                "optional": false
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 732,
+                  "end": 738
+                },
+                "kind": "number"
+              }
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 744,
+            "end": 784
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 744,
+              "end": 758
+            },
+            "ctxt": 0,
+            "value": "YieldAsLeading",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 761,
+              "end": 784
+            },
+            "argument": {
+              "type": "TsAsExpression",
+              "span": {
+                "start": 767,
+                "end": 784
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 767,
+                  "end": 774
+                },
+                "ctxt": 0,
+                "value": "as",
+                "optional": false
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 778,
+                  "end": 784
+                },
+                "kind": "number"
+              }
+            },
+            "delegate": false
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 790,
+            "end": 832
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 790,
+              "end": 804
+            },
+            "ctxt": 0,
+            "value": "YieldAsGrouped",
+            "optional": false
+          },
+          "init": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 807,
+              "end": 832
+            },
+            "expression": {
+              "type": "YieldExpression",
+              "span": {
+                "start": 808,
+                "end": 831
+              },
+              "argument": {
+                "type": "TsAsExpression",
+                "span": {
+                  "start": 814,
+                  "end": 831
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 814,
+                    "end": 821
+                  },
+                  "ctxt": 0,
+                  "value": "as",
+                  "optional": false
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 825,
+                    "end": 831
+                  },
+                  "kind": "number"
+                }
+              },
+              "delegate": false
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

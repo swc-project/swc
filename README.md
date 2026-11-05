@@ -55,6 +55,12 @@ If you are using SWC from JavaScript, please refer to [docs on the website](http
 
 Check out the documentation [in the website](https://swc.rs/docs/installation/).
 
+Native npm packages use self-loading compressed addons on x64 and arm64 macOS,
+Windows MSVC, and Linux GNU/musl. The first load materializes the verified
+original addon; package names and JavaScript APIs stay the same. See
+[native addon carriers](https://github.com/swc-project/swc/blob/main/docs/native-addon-carriers.md)
+for the supported-target boundary and `SWC_NATIVE_BINDING_CACHE`.
+
 # Features
 
 Please see [comparison with babel](https://swc.rs/docs/migrating-from-babel).
@@ -76,6 +82,14 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
 [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSourceSupport)
 
 ## Sponsors
+
+<a href="https://codspeed.io/?utm_source=oss-sponsorship&utm_medium=swc-project">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://codspeed.io/codspeed-logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://codspeed.io/codspeed-logo-light.svg">
+    <img alt="CodSpeed logo" src="https://codspeed.io/codspeed-logo-light.svg" width="400">
+  </picture>
+</a>
 
 <p align="center">
   <a href="https://opencollective.com/swc">

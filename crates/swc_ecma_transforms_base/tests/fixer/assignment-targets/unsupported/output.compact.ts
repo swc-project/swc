@@ -1,0 +1,1 @@
+export{};(value as const)+=other;(0 as const)=other;(left+right)+=other;(condition?first:second)-=other;(call())+=other;(new Constructor)+=other;(1)+=other;({})+=other;([])+=other;(function(){})+=other;(class{})+=other;(()=>value)+=other;

@@ -1,0 +1,1 @@
+const object = { set value(input: number) {} };

@@ -1,0 +1,7 @@
+  x `await` cannot be used as an identifier in an async context
+   ,-[$DIR/tests/typescript-errors/namespace-await-context/async-binding/input.ts:4:1]
+ 3 |     const await = 1;
+ 4 |     async function f() { const await = 2; }
+   :                                ^^^^^
+ 5 | }
+   `----

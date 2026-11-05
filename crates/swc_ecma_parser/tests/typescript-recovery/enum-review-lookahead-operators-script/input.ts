@@ -1,0 +1,36 @@
+const await = 1;
+const yield = 1;
+const values = {};
+class C {}
+enum E {
+    AwaitAs = await as number,
+    YieldAs = yield as number,
+    AwaitSatisfies = await satisfies number,
+    YieldSatisfies = yield satisfies number,
+    AwaitConst = await as const,
+    YieldConst = yield as const,
+    AwaitIn = await in values,
+    YieldIn = yield in values,
+    AwaitInstanceof = await instanceof C,
+    YieldInstanceof = yield instanceof C,
+    AwaitLiteralType = await as 1,
+    YieldLiteralType = yield as 1,
+    AwaitTupleType = await as [number, string],
+    YieldTupleType = yield as [number, string],
+    AwaitFunctionType = await as (() => number),
+    YieldFunctionType = yield as (() => number),
+    AwaitTypeQuery = await as typeof values,
+    YieldTypeQuery = yield as typeof values,
+    EscapedAwaitAs = a\u0077ait as number,
+    EscapedYieldAs = y\u0069eld as number,
+    AwaitAsComment = await as /* type */ number,
+    AwaitAsUnicodeTrivia = await as number,
+    AwaitAsEscapedType = await as \u0043,
+    AwaitAsNegativeLiteral = await as -1,
+    AwaitAsUnion = await as | number | string,
+    YieldAsComment = yield as /* type */ number,
+    YieldAsUnicodeTrivia = yield as number,
+    YieldAsEscapedType = yield as \u0043,
+    YieldAsNegativeLiteral = yield as -1,
+    YieldAsUnion = yield as | number | string,
+}

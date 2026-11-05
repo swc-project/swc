@@ -1,0 +1,13 @@
+{
+    "module": {
+        "type": "commonjs",
+        "strictMode": false,
+        "noInterop": true
+    },
+    "jsc": {
+        "target": "es2015",
+        "parser": {
+            "syntax": "typescript"
+        }
+    }
+}

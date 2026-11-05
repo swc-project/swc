@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "testing_macros"
 repository    = { workspace = true }
-version       = "1.0.2"
+version       = "2.0.0"
 
 [features]
 # Skip generating fixtures so the editor becomes faster again

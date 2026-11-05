@@ -17,6 +17,8 @@ use crate::usage_analyzer::{
 
 mod ctx;
 pub mod storage;
+#[cfg(test)]
+mod tests;
 
 pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
 where
@@ -182,9 +184,7 @@ where
                 .store_param_count(Value::Unknown);
         }
 
-        if let Pat::Expr(e) = p {
-            self.mark_mutation_if_member(e.as_member());
-        }
+        self.mark_mutation_of_members_in_pat(p);
     }
 
     fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
@@ -225,9 +225,19 @@ where
 
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
-            for_each_id_ref_in_expr(&m.obj, &mut |id| {
+            for_each_id_ref_in_member_obj(&m.obj, &mut |id| {
                 self.data.mark_property_mutation(id.to_id())
             });
+        }
+    }
+
+    /// `o.n` in `[o.n] = arr` or `({ x: o.n } = obj)` mutates `o` just like
+    /// `o.n = v` does, but `find_pat_ids` does not report member targets.
+    fn mark_mutation_of_members_in_pat<N: VisitWith<MemberTargetsInPat>>(&mut self, n: &N) {
+        let mut v = MemberTargetsInPat::default();
+        n.visit_with(&mut v);
+        for id in v.objs {
+            self.data.mark_property_mutation(id);
         }
     }
 
@@ -245,6 +255,16 @@ where
         };
 
         self.data.var_or_default(id).store_param_count(arity);
+    }
+
+    /// Returns true when omitting an argument can evaluate or throw while
+    /// initializing this parameter.
+    fn has_observable_param_initialization(pat: &Pat) -> bool {
+        match pat {
+            Pat::Ident(..) => false,
+            Pat::Rest(rest) => Self::has_observable_param_initialization(&rest.arg),
+            _ => true,
+        }
     }
 
     fn store_arrow_arity(&mut self, id: Id, arrow: &ArrowExpr) {
@@ -352,6 +372,7 @@ where
                         n.right.get_type(self.expr_ctx),
                     )
                 }
+                self.mark_mutation_of_members_in_pat(p);
             }
             AssignTarget::Simple(e) => {
                 self.report_assign_expr_if_ident(
@@ -595,7 +616,7 @@ where
                     self.scope.mark_eval_called();
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
-                    for_each_id_ref_in_expr(&m.obj, &mut |id| {
+                    for_each_id_ref_in_member_obj(&m.obj, &mut |id| {
                         self.data.var_or_default(id.to_id()).mark_used_as_ref()
                     })
                 }
@@ -889,7 +910,13 @@ where
         self.with_ctx(ctx)
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
-        if n.function.body.is_empty() {
+        if n.function.body.is_empty()
+            && !n
+                .function
+                .params
+                .iter()
+                .any(|param| Self::has_observable_param_initialization(&param.pat))
+        {
             self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
         }
 
@@ -1116,7 +1143,7 @@ where
             c.visit_with(self);
         }
 
-        for_each_id_ref_in_expr(&e.obj, &mut |obj| {
+        for_each_id_ref_in_member_obj(&e.obj, &mut |obj| {
             let v = self.data.var_or_default(obj.to_id());
             v.mark_has_property_access();
 
@@ -1617,6 +1644,62 @@ where
     fn visit_with_stmt(&mut self, n: &WithStmt) {
         self.scope.mark_with_stmt();
         n.visit_children_with(self);
+    }
+}
+
+#[derive(Default)]
+struct MemberTargetsInPat {
+    objs: Vec<Id>,
+}
+
+impl Visit for MemberTargetsInPat {
+    noop_visit_type!();
+
+    // Default values and computed keys are not targets. The analyzer visits
+    // them itself, including any nested assignment.
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    fn visit_pat(&mut self, p: &Pat) {
+        if let Pat::Expr(e) = p {
+            if let Some(m) = e.as_member() {
+                for_each_id_ref_in_member_obj(&m.obj, &mut |id| self.objs.push(id.to_id()));
+            }
+            return;
+        }
+
+        p.visit_children_with(self);
+    }
+}
+
+/// Like [for_each_id_ref_in_expr], but for the object of a member expression.
+///
+/// The value of an assignment is what its target holds afterwards, so
+/// `(a = [])[0] = 1` and `(a = []).push(1)` access and mutate `a` just like
+/// `a[0] = 1` and `a.push(1)` do. Other passes produce this shape from
+/// `a = []; a[0] = 1`.
+/// Follow aliases on the right and in branches that can supply the object.
+fn for_each_id_ref_in_member_obj(e: &Expr, op: &mut impl FnMut(&Ident)) {
+    match e {
+        Expr::Paren(p) => for_each_id_ref_in_member_obj(&p.expr, op),
+        Expr::Seq(s) => for_each_id_ref_in_member_obj(s.exprs.last().unwrap(), op),
+        Expr::Cond(c) => {
+            for_each_id_ref_in_member_obj(&c.cons, op);
+            for_each_id_ref_in_member_obj(&c.alt, op);
+        }
+        Expr::Bin(b) if b.op.may_short_circuit() => {
+            for_each_id_ref_in_member_obj(&b.left, op);
+            for_each_id_ref_in_member_obj(&b.right, op);
+        }
+        Expr::Assign(a) => {
+            if let Some(i) = a.left.as_ident() {
+                op(&i.id);
+            }
+            // Arithmetic assignments produce a primitive, not an alias of the RHS.
+            if matches!(a.op, op!("=") | op!("&&=") | op!("||=") | op!("??=")) {
+                for_each_id_ref_in_member_obj(&a.right, op);
+            }
+        }
+        _ => for_each_id_ref_in_expr(e, op),
     }
 }
 

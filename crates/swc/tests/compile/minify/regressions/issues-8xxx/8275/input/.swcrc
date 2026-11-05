@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "minify": {
+            "compress": {
+                "pure_funcs": [
+                    "pure_html"
+                ]
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

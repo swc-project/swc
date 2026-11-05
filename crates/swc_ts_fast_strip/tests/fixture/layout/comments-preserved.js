@@ -1,0 +1,1 @@
+/* lead */ let value         = 1; // tail

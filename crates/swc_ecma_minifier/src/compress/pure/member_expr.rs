@@ -113,6 +113,8 @@ static STRING_SYMBOLS: phf::Set<&str> = phf_set!(
     "toWellFormed",
     "trim",
     "trimEnd",
+    "trimLeft",
+    "trimRight",
     "trimStart",
     "valueOf"
 );

@@ -1,0 +1,8 @@
+  x String must use doublequotes
+   ,-[$DIR/tests/compile/lints/quotes/valid-cases-double/input/input.js:2:1]
+ 1 | // prettier-ignore
+ 2 | var s = 'double quotes string';
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+ 3 | 
+ 4 | // valid cases
+   `----

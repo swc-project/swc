@@ -1,4 +1,5 @@
 use either::Either;
+use swc_atoms::wtf8::Wtf8Buf;
 
 use super::*;
 
@@ -8,7 +9,7 @@ impl Lexer<'_> {
 
         let start = self.input.cur_pos();
         let mut chunk_start = self.input.cur_pos();
-        let mut value = String::new();
+        let mut value = Wtf8Buf::new();
 
         loop {
             let cur = match self.input.cur() {
@@ -51,7 +52,7 @@ impl Lexer<'_> {
                         self.atoms.wtf8_atom(Wtf8::from_str(s))
                     } else {
                         value.push_str(s);
-                        self.atoms.wtf8_atom(Wtf8::from_str(&value))
+                        self.atoms.wtf8_atom(&*value)
                     };
 
                     let raw = {
@@ -94,9 +95,8 @@ impl Lexer<'_> {
                         self.input.slice(chunk_start, cur_pos)
                     });
 
-                    let jsx_entity = self.read_jsx_entity()?;
-
-                    value.push(jsx_entity.0);
+                    let jsx_entity = self.read_jsx_entity_code_point();
+                    value.push(jsx_entity);
                     chunk_start = self.input.cur_pos();
                 }
 
@@ -108,7 +108,7 @@ impl Lexer<'_> {
                         });
                         match self.read_jsx_new_line(true)? {
                             Either::Left(s) => value.push_str(s),
-                            Either::Right(c) => value.push(c),
+                            Either::Right(c) => value.push_char(c),
                         }
                         chunk_start = self.input.cur_pos();
                     } else {

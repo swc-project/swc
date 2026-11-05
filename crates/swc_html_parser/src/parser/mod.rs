@@ -3852,6 +3852,9 @@ where
                     // If the stack of open elements has a p element in button scope, then close a p
                     // element.
                     //
+                    // If a select element is in scope, generate implied end tags. If an option or
+                    // optgroup remains in scope, this is a parse error.
+                    //
                     // Insert an HTML element for the token. Immediately pop the current node off
                     // the stack of open elements.
                     //
@@ -3867,6 +3870,19 @@ where
 
                         if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
+                        }
+
+                        if self.open_elements_stack.has_in_scope("select") {
+                            self.open_elements_stack.generate_implied_end_tags();
+
+                            if self.open_elements_stack.has_in_scope("option")
+                                || self.open_elements_stack.has_in_scope("optgroup")
+                            {
+                                self.errors.push(Error::new(
+                                    token_and_info.span,
+                                    ErrorKind::UnclosedElementsOnStack,
+                                ));
+                            }
                         }
 
                         self.insert_html_element(token_and_info)?;
@@ -5745,7 +5761,8 @@ where
                     // current node from the stack of open elements.
                     //
                     // If the current node is an optgroup element, then pop that node from the stack
-                    // of open elements. Otherwise, this is a parse error; ignore the token.
+                    // of open elements. Otherwise, process the token using the rules for the "in
+                    // body" insertion mode, so that an optgroup can be closed through rich content.
                     Token::EndTag { tag_name, .. } if tag_name == "optgroup" => {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
@@ -5778,16 +5795,19 @@ where
 
                                 self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             }
-                            _ => self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::StrayEndTag(tag_name.clone()),
-                            )),
+                            _ => {
+                                self.process_token_using_rules(
+                                    token_and_info,
+                                    InsertionMode::InBody,
+                                )?;
+                            }
                         }
                     }
                     // An end tag whose tag name is "option"
                     //
                     // If the current node is an option element, then pop that node from the stack
-                    // of open elements. Otherwise, this is a parse error; ignore the token.
+                    // of open elements. Otherwise, process the token using the rules for the "in
+                    // body" insertion mode, so that an option can be closed through rich content.
                     Token::EndTag { tag_name, .. } if tag_name == "option" => {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
@@ -5795,10 +5815,12 @@ where
 
                                 self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             }
-                            _ => self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::StrayEndTag(tag_name.clone()),
-                            )),
+                            _ => {
+                                self.process_token_using_rules(
+                                    token_and_info,
+                                    InsertionMode::InBody,
+                                )?;
+                            }
                         }
                     }
                     // An end tag whose tag name is "select"
@@ -5856,7 +5878,7 @@ where
                             .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                     }
-                    // A start tag whose tag name is one of: "input", "keygen", "textarea"
+                    // A start tag whose tag name is "input"
                     //
                     // Parse error.
                     //
@@ -5871,9 +5893,7 @@ where
                     // Reset the insertion mode appropriately.
                     //
                     // Reprocess the token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(&**tag_name, "input" | "keygen" | "textarea") =>
-                    {
+                    Token::StartTag { tag_name, .. } if tag_name == "input" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StartTagWithSelectOpen(tag_name.clone()),
@@ -5910,24 +5930,11 @@ where
                     }
                     // Anything else
                     //
-                    // Parse error. Ignore the token.
-                    _ => match token {
-                        Token::StartTag { tag_name, .. } => {
-                            self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::StrayStartTag(tag_name.clone()),
-                            ));
-                        }
-                        Token::EndTag { tag_name, .. } => {
-                            self.errors.push(Error::new(
-                                token_and_info.span,
-                                ErrorKind::StrayEndTag(tag_name.clone()),
-                            ));
-                        }
-                        _ => {
-                            unreachable!()
-                        }
-                    },
+                    // Process the token using the rules for the "in body" insertion mode.
+                    // This preserves the button and rich option content of customizable selects.
+                    _ => {
+                        self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
+                    }
                 }
             }
             // The "in select in table" insertion mode

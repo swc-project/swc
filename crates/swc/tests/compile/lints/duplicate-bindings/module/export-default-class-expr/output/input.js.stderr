@@ -1,0 +1,9 @@
+  x the name `Foo` is defined multiple times
+   ,-[$DIR/tests/compile/lints/duplicate-bindings/module/export-default-class-expr/input/input.js:1:1]
+ 1 | export default class Foo{}
+   :                      ^|^
+   :                       `-- previous definition of `Foo` here
+ 2 | let Foo = 1; // error
+   :     ^|^
+   :      `-- `Foo` redefined here
+   `----

@@ -1,0 +1,522 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 241
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8
+        },
+        "ctxt": 0,
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 241
+      },
+      "ctxt": 0,
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 15,
+            "end": 38
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 16,
+              "end": 22
+            },
+            "value": "method"
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 15,
+              "end": 38
+            },
+            "ctxt": 0,
+            "body": {
+              "type": "FunctionBody",
+              "span": {
+                "start": 26,
+                "end": 38
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 28,
+                    "end": 36
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 28,
+                      "end": 35
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 34,
+                        "end": 35
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    },
+                    "delegate": false
+                  }
+                }
+              ]
+            },
+            "generator": true,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": true,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 43,
+            "end": 72
+          },
+          "key": {
+            "type": "Computed",
+            "span": {
+              "start": 44,
+              "end": 56
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 45,
+                "end": 55
+              },
+              "value": "computed",
+              "raw": "\"computed\""
+            }
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 43,
+              "end": 72
+            },
+            "ctxt": 0,
+            "body": {
+              "type": "FunctionBody",
+              "span": {
+                "start": 60,
+                "end": 72
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 62,
+                    "end": 70
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 62,
+                      "end": 69
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 68,
+                        "end": 69
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    },
+                    "delegate": false
+                  }
+                }
+              ]
+            },
+            "generator": true,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": true,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 77,
+            "end": 115
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 86,
+              "end": 99
+            },
+            "value": "privateMethod"
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 77,
+              "end": 115
+            },
+            "ctxt": 0,
+            "body": {
+              "type": "FunctionBody",
+              "span": {
+                "start": 103,
+                "end": 115
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 105,
+                    "end": 113
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 105,
+                      "end": 112
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 111,
+                        "end": 112
+                      },
+                      "value": 3.0,
+                      "raw": "3"
+                    },
+                    "delegate": false
+                  }
+                }
+              ]
+            },
+            "generator": true,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": "private",
+          "isAbstract": false,
+          "isOptional": true,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 120,
+            "end": 156
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 128,
+              "end": 140
+            },
+            "value": "staticMethod"
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 120,
+              "end": 156
+            },
+            "ctxt": 0,
+            "body": {
+              "type": "FunctionBody",
+              "span": {
+                "start": 144,
+                "end": 156
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 146,
+                    "end": 154
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 146,
+                      "end": 153
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 152,
+                        "end": 153
+                      },
+                      "value": 4.0,
+                      "raw": "4"
+                    },
+                    "delegate": false
+                  }
+                }
+              ]
+            },
+            "generator": true,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": true,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 161,
+            "end": 200
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 162,
+              "end": 169
+            },
+            "value": "generic"
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 174,
+                  "end": 182
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 174,
+                    "end": 179
+                  },
+                  "ctxt": 0,
+                  "value": "value",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 179,
+                      "end": 182
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 181,
+                        "end": 182
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 181,
+                          "end": 182
+                        },
+                        "ctxt": 0,
+                        "value": "T",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 161,
+              "end": 200
+            },
+            "ctxt": 0,
+            "body": {
+              "type": "FunctionBody",
+              "span": {
+                "start": 184,
+                "end": 200
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 186,
+                    "end": 198
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 186,
+                      "end": 197
+                    },
+                    "argument": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 192,
+                        "end": 197
+                      },
+                      "ctxt": 0,
+                      "value": "value",
+                      "optional": false
+                    },
+                    "delegate": false
+                  }
+                }
+              ]
+            },
+            "generator": true,
+            "async": false,
+            "typeParameters": {
+              "type": "TsTypeParameterDeclaration",
+              "span": {
+                "start": 170,
+                "end": 173
+              },
+              "parameters": [
+                {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 171,
+                    "end": 172
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 171,
+                      "end": 172
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "in": false,
+                  "out": false,
+                  "const": false,
+                  "constraint": null,
+                  "default": null
+                }
+              ]
+            },
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": true,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 205,
+            "end": 239
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 212,
+              "end": 223
+            },
+            "value": "asyncMethod"
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 205,
+              "end": 239
+            },
+            "ctxt": 0,
+            "body": {
+              "type": "FunctionBody",
+              "span": {
+                "start": 227,
+                "end": 239
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 229,
+                    "end": 237
+                  },
+                  "expression": {
+                    "type": "YieldExpression",
+                    "span": {
+                      "start": 229,
+                      "end": 236
+                    },
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 235,
+                        "end": 236
+                      },
+                      "value": 5.0,
+                      "raw": "5"
+                    },
+                    "delegate": false
+                  }
+                }
+              ]
+            },
+            "generator": true,
+            "async": true,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": true,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

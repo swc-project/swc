@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprFactory, StmtLike};
+use swc_ecma_utils::{ExprExt, ExprFactory, StmtLike};
 
 use super::Pure;
 use crate::compress::util::is_pure_undefined;
@@ -215,6 +215,18 @@ impl Pure<'_> {
             Expr::Assign(v @ AssignExpr { op: op!("="), .. }) => v,
             _ => return,
         };
+
+        // Assignment patterns evaluate their right-hand side before evaluating
+        // their targets. For simple targets, only identifiers have no evaluation
+        // to reorder; moving the conditional test sequence before a member target
+        // can change observable base or computed-key evaluation order.
+        if !matches!(
+            &assign.left,
+            AssignTarget::Pat(_) | AssignTarget::Simple(SimpleAssignTarget::Ident(..))
+        ) && assign.right.may_have_side_effects(self.expr_ctx)
+        {
+            return;
+        }
 
         let cond = match &mut *assign.right {
             Expr::Cond(v) => v,

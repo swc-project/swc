@@ -793,16 +793,19 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
         }
 
         let type_pred_start = p.input().cur_pos();
-        let has_type_pred_asserts = p.input().cur().is_asserts() && {
-            let ctx = p.ctx();
-            peek!(p).is_some_and(|peek| {
-                if peek.is_word() {
-                    !peek.is_reserved(ctx)
-                } else {
-                    false
-                }
-            })
-        };
+        // In TypeScript, `asserts` and its parameter must be on the same line.
+        let has_type_pred_asserts = p.input().cur().is_asserts()
+            && {
+                let ctx = p.ctx();
+                peek!(p).is_some_and(|peek| {
+                    if peek.is_word() {
+                        !peek.is_reserved(ctx)
+                    } else {
+                        false
+                    }
+                })
+            }
+            && (p.syntax().flow() || !p.input_mut().has_linebreak_between_cur_and_peeked());
 
         if has_type_pred_asserts {
             p.assert_and_bump(&P::Token::ASSERTS);
@@ -1525,6 +1528,14 @@ fn parse_ts_tuple_element_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleE
 
     let label = try_parse_ts_tuple_element_name(p);
 
+    // Validate the confirmed label outside speculative parsing.
+    if let Some(Pat::Rest(rest)) = &label {
+        let is_optional = matches!(rest.arg.as_ref(), Pat::Ident(ident) if ident.id.optional);
+        if is_optional && !p.input().syntax().flow() {
+            syntax_error!(p, rest.span, SyntaxError::TsOptionalRestElement);
+        }
+    }
+
     if p.input_mut().eat(&P::Token::DOTDOTDOT) {
         let type_ann = parse_ts_type(p)?;
         return Ok(TsTupleElement {
@@ -1571,22 +1582,22 @@ pub fn parse_ts_tuple_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleType>
         /* skipFirstToken */ false,
     )?;
 
-    // Validate the elementTypes to ensure:
-    //   No mandatory elements may follow optional elements
-    //   If there's a rest element, it must be at the end of the tuple
-
+    // No required elements may follow optional elements. Named elements store
+    // their optional/rest markers on the label instead of the type.
     let mut seen_optional_element = false;
 
     for elem in elems.iter() {
-        match *elem.ty {
-            TsType::TsRestType(..) => {}
-            TsType::TsOptionalType(..) => {
-                seen_optional_element = true;
-            }
-            _ if seen_optional_element => {
-                syntax_error!(p, p.span(start), SyntaxError::TsRequiredAfterOptional)
-            }
-            _ => {}
+        if matches!(&elem.label, Some(Pat::Rest(..))) || matches!(*elem.ty, TsType::TsRestType(..))
+        {
+            continue;
+        }
+
+        let is_optional = matches!(&elem.label, Some(Pat::Ident(ident)) if ident.id.optional)
+            || matches!(*elem.ty, TsType::TsOptionalType(..));
+        if is_optional {
+            seen_optional_element = true;
+        } else if seen_optional_element {
+            syntax_error!(p, p.span(start), SyntaxError::TsRequiredAfterOptional)
         }
     }
 
@@ -2435,7 +2446,10 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
         || cur.is_await()
         || cur.is_break()
     {
-        if p.input().is(&P::Token::ASSERTS) && peek!(p).is_some_and(|peek| peek.is_this()) {
+        if p.input().is(&P::Token::ASSERTS)
+            && peek!(p).is_some_and(|peek| peek.is_this())
+            && (p.syntax().flow() || !p.input_mut().has_linebreak_between_cur_and_peeked())
+        {
             p.bump();
             let this_keyword = parse_ts_this_type_node(p)?;
             return parse_ts_this_type_predicate(p, start, true, this_keyword)

@@ -1,0 +1,5 @@
+  x `yield` cannot be used as an identifier in strict mode
+   ,-[$DIR/tests/errors/class-initializer-context/yield-static-block-identifier/input.cjs:1:1]
+ 1 | function* f() { class C { static { let yield; } } }
+   :                                        ^^^^^
+   `----

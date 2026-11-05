@@ -1,0 +1,5 @@
+{
+    "defaults": false,
+    "passes": 1,
+    "hoist_vars": true
+}

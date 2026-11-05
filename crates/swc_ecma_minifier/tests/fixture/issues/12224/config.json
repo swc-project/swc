@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "unsafe": true,
+    "evaluate": true,
+    "module": false
+}

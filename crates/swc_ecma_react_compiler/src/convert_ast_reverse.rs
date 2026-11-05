@@ -23,7 +23,7 @@ use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast as swc;
 
-use crate::preserved_ast::PreservedAst;
+use crate::{preserved_ast::PreservedAst, stack::with_expression_stack};
 
 /// Convert with source text and preserved SWC nodes from the forward pass.
 pub fn convert_program_to_swc(file: &File, preserved_ast: PreservedAst) -> swc::Program {
@@ -604,6 +604,10 @@ impl ReverseCtx {
     // ===== Expressions =====
 
     fn convert_expression(&self, expr: &Expression) -> swc::Expr {
+        with_expression_stack(|| self.convert_expression_inner(expr))
+    }
+
+    fn convert_expression_inner(&self, expr: &Expression) -> swc::Expr {
         match expr {
             Expression::Identifier(id) => swc::Expr::Ident(self.convert_identifier(id)),
             Expression::StringLiteral(lit) => {

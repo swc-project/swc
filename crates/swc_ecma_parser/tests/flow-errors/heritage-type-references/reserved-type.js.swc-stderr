@@ -1,0 +1,5 @@
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/heritage-type-references/reserved-type.js:1:1]
+ 1 | class C implements string {}
+   :                    ^^^^^^
+   `----

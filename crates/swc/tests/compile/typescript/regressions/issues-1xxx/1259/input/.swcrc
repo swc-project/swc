@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        }
+    },
+    "module": {
+        "type": "commonjs",
+        "strictMode": false
+    }
+}

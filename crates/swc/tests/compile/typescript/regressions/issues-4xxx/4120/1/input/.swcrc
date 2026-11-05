@@ -1,0 +1,39 @@
+{
+    "sourceMaps": true,
+    "module": {
+        "type": "es6"
+    },
+    "env": {
+        "targets": "node 12"
+    },
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "minify": {
+            "compress": {
+                "computed_props": false,
+                "conditionals": false,
+                "dead_code": false,
+                "directives": false,
+                "reduce_funcs": false,
+                "reduce_vars": false,
+                "switches": false
+            },
+            "mangle": {
+                "toplevel": false
+            }
+        },
+        "paths": {
+            "@/*": [
+                "./*"
+            ],
+            "__shared-fixtures__/*": [
+                "./test/__shared-fixtures__/*"
+            ]
+        },
+        "baseUrl": "."
+    },
+    "minify": true
+}

@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        },
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "exportDefaultFrom": true
+        },
+        "target": "es2016",
+        "loose": true,
+        "keepClassNames": true
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

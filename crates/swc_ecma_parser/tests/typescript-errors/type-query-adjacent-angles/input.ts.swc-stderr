@@ -1,0 +1,5 @@
+  x Expected ';', got '<<'
+   ,-[$DIR/tests/typescript-errors/type-query-adjacent-angles/input.ts:1:1]
+ 1 | type Query = typeof f<<other;
+   :                      ^^
+   `----

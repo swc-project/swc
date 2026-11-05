@@ -1,0 +1,42 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,SAASA,MAAM,EAAEC,QAAQ,EAAEC,WAAW,EAAEC,WAAW,QAAQ,iBAAiB;AAE5E,IAAMC,wBAAwB,IAAIC,OAC9B,wKAIA;AAGJJ,SACI;IAAEK,OAAO;QAAEC,MAAM;IAAK;AAAE,GACxB,SAAeC;;;;;oBACX;;wBAAMC,KAAKC,IAAI,CAAC,mBACXC,IAAI,CAACR,aACLS,KAAK,CAAC,SAACC;4BACJX,YAAYW,MAAMC,KAAK,EAAEV;wBAC7B;;;oBAJJ;;;;;;IAKJ;;AAWJH,SAAS,SAASc;IACd,IAAMC,OAAOP,KAAKQ,IAAI,CAACC,GAAG,EAAE,CAAC,UAAU;IACvC,IAAMC,MAAMV,KAAKQ,IAAI,CAACG,IAAI,CAACJ,MAAM,IAAIK,WAAW;QAAC;QAAG;QAAG;QAAG;QAAG;KAAE;IAC/D,IAAMC,UAAU,IAAIC,cAAcC,MAAM,CAACL;IACzC,IAAMM,UAAUC,KAAKC,KAAK,CAACL;IAC3BtB,OAAO,CAACyB,QAAQG,EAAE;IAClB5B,OAAOyB,QAAQI,GAAG;AACtB",
+  "names": [
+    "assert",
+    "unitTest",
+    "assertMatch",
+    "unreachable",
+    "openErrorStackPattern",
+    "RegExp",
+    "perms",
+    "read",
+    "sendAsyncStackTrace",
+    "Deno",
+    "open",
+    "then",
+    "catch",
+    "error",
+    "stack",
+    "malformedJsonControlBuffer",
+    "opId",
+    "core",
+    "ops",
+    "res",
+    "send",
+    "Uint8Array",
+    "resText",
+    "TextDecoder",
+    "decode",
+    "resJson",
+    "JSON",
+    "parse",
+    "ok",
+    "err"
+  ],
+  "sources": [
+    "../input/dispatch_json_test.ts"
+  ],
+  "sourcesContent": [
+    "import { assert, unitTest, assertMatch, unreachable } from \"./test_util.ts\";\n\nconst openErrorStackPattern = new RegExp(\n    `^.*\n    at unwrapResponse \\\\(.*dispatch_json\\\\.ts:.*\\\\)\n    at Object.sendAsync \\\\(.*dispatch_json\\\\.ts:.*\\\\)\n    at async Object\\\\.open \\\\(.*files\\\\.ts:.*\\\\).*$`,\n    \"ms\"\n);\n\nunitTest(\n    { perms: { read: true } },\n    async function sendAsyncStackTrace(): Promise<void> {\n        await Deno.open(\"nonexistent.txt\")\n            .then(unreachable)\n            .catch((error): void => {\n                assertMatch(error.stack, openErrorStackPattern);\n            });\n    }\n);\n\ndeclare global {\n    // eslint-disable-next-line @typescript-eslint/no-namespace\n    namespace Deno {\n        // eslint-disable-next-line @typescript-eslint/no-explicit-any\n        var core: any; // eslint-disable-line no-var\n    }\n}\n\nunitTest(function malformedJsonControlBuffer(): void {\n    const opId = Deno.core.ops()[\"op_open\"];\n    const res = Deno.core.send(opId, new Uint8Array([1, 2, 3, 4, 5]));\n    const resText = new TextDecoder().decode(res);\n    const resJson = JSON.parse(resText);\n    assert(!resJson.ok);\n    assert(resJson.err);\n});\n"
+  ],
+  "version": 3
+}

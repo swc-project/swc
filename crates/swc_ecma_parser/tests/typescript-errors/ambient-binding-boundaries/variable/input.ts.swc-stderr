@@ -1,0 +1,5 @@
+  x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+   ,-[$DIR/tests/typescript-errors/ambient-binding-boundaries/variable/input.ts:1:1]
+ 1 | export {}; declare const eval: number;
+   :                          ^^^^
+   `----

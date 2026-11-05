@@ -1,0 +1,17 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "target": "es2022",
+        "minify": {
+            "format": {
+                "comments": false
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

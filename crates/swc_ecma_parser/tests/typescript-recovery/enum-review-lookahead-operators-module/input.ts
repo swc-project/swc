@@ -1,0 +1,17 @@
+enum E {
+    AwaitAs = await as number,
+    AwaitSatisfies = await satisfies number,
+    AwaitConst = await as const,
+    AwaitIn = await in values,
+    AwaitInstanceof = await instanceof C,
+    AwaitLiteralType = await as 1,
+    AwaitTupleType = await as [number, string],
+    AwaitFunctionType = await as (() => number),
+    AwaitTypeQuery = await as typeof values,
+    EscapedAwaitAs = a\u0077ait as number,
+    AwaitAsComment = await as /* type */ number,
+    AwaitAsUnicodeTrivia = await as number,
+    AwaitAsEscapedType = await as \u0043,
+    AwaitAsNegativeLiteral = await as -1,
+    AwaitAsUnion = await as | number | string,
+}

@@ -1,0 +1,37 @@
+{
+  "mappings": ";;;;;;AAAA,0EAA0E;AAC1E,SAASA,MAAM,EAAEC,QAAQ,QAAQ,iBAAiB;AAElDA,SAAS,SAASC;IACd,IAAMC,UAAiC;QACnC;YACIC,SAAS;YACTC,UAAUC,KAAKC,kBAAkB,CAACC,KAAK;YACvCC,YAAY;YACZC,YAAY;YACZC,oBAAoB;YACpBC,aAAa;YACbC,WAAW;YACXC,MAAM;QACV;KACH;IACD,IAAMC,MAAMT,KAAKU,iBAAiB,CAACb;IACnCH,OAAOe,IAAIE,QAAQ,CAAC;IACpBjB,OAAOe,IAAIE,QAAQ,CAAC;AACxB;AAEAhB,SAAS,SAASiB;IACd,IAAIC,SAAS;IACb,8DAA8D;IAC9D,IAAMC,MAAM;QAAC;YAAEC,OAAO;QAAI;KAAE;IAC5B,IAAI;QACAf,KAAKU,iBAAiB,CAACI;IAC3B,EAAE,OAAOE,GAAG;QACRtB,OAAOsB,AAAC,YAADA,GAAahB,KAAKiB,MAAM,CAACC,WAAW;QAC3CL,SAAS;IACb;IACAnB,OAAOmB;AACX",
+  "names": [
+    "assert",
+    "unitTest",
+    "formatDiagnosticBasic",
+    "fixture",
+    "message",
+    "category",
+    "Deno",
+    "DiagnosticCategory",
+    "Error",
+    "sourceLine",
+    "lineNumber",
+    "scriptResourceName",
+    "startColumn",
+    "endColumn",
+    "code",
+    "out",
+    "formatDiagnostics",
+    "includes",
+    "formatDiagnosticError",
+    "thrown",
+    "bad",
+    "hello",
+    "e",
+    "errors",
+    "InvalidData"
+  ],
+  "sources": [
+    "../input/format_error_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { assert, unitTest } from \"./test_util.ts\";\n\nunitTest(function formatDiagnosticBasic() {\n    const fixture: Deno.DiagnosticItem[] = [\n        {\n            message: \"Example error\",\n            category: Deno.DiagnosticCategory.Error,\n            sourceLine: \"abcdefghijklmnopqrstuv\",\n            lineNumber: 1000,\n            scriptResourceName: \"foo.ts\",\n            startColumn: 1,\n            endColumn: 2,\n            code: 4000,\n        },\n    ];\n    const out = Deno.formatDiagnostics(fixture);\n    assert(out.includes(\"Example error\"));\n    assert(out.includes(\"foo.ts\"));\n});\n\nunitTest(function formatDiagnosticError() {\n    let thrown = false;\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    const bad = [{ hello: 123 }] as any as Deno.DiagnosticItem[];\n    try {\n        Deno.formatDiagnostics(bad);\n    } catch (e) {\n        assert(e instanceof Deno.errors.InvalidData);\n        thrown = true;\n    }\n    assert(thrown);\n});\n"
+  ],
+  "version": 3
+}

@@ -1,0 +1,17 @@
+  x Unexpected 'debugger' statement
+   ,-[$DIR/tests/compile/lints/no-debugger/1/input/input.js:2:1]
+ 1 | function f() {
+ 2 |     debugger;
+   :     ^^^^^^^^^
+ 3 | }
+ 4 | 
+ 5 | debugger;
+   `----
+  x Unexpected 'debugger' statement
+   ,-[$DIR/tests/compile/lints/no-debugger/1/input/input.js:5:1]
+ 2 |     debugger;
+ 3 | }
+ 4 | 
+ 5 | debugger;
+   : ^^^^^^^^^
+   `----

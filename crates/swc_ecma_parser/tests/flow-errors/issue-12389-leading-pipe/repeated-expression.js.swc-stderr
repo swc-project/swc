@@ -1,0 +1,20 @@
+  x Expression expected
+   ,-[$DIR/tests/flow-errors/issue-12389-leading-pipe/repeated-expression.js:4:1]
+ 3 |   | | 'start' => true,
+ 4 | };
+   : ^
+   `----
+  x Expression expected
+   ,-[$DIR/tests/flow-errors/issue-12389-leading-pipe/repeated-expression.js:3:1]
+ 2 | const result = match (kind) {
+ 3 |   | | 'start' => true,
+   :     ^
+ 4 | };
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/flow-errors/issue-12389-leading-pipe/repeated-expression.js:3:1]
+ 2 | const result = match (kind) {
+ 3 |   | | 'start' => true,
+   :               ^^
+ 4 | };
+   `----

@@ -54,7 +54,7 @@ struct InfoMarker<'a> {
 }
 
 impl InfoMarker<'_> {
-    fn is_pure_callee(&self, callee: &Expr) -> bool {
+    fn is_pure_callee(&self, callee: &Expr, call_span: Span) -> bool {
         // A PURE annotation belongs to a call-like callee itself. It does not
         // make invoking the value returned by that expression pure as well.
         if matches!(callee, Expr::Call(_) | Expr::New(_) | Expr::TaggedTpl(_))
@@ -67,16 +67,10 @@ impl InfoMarker<'_> {
             return false;
         }
 
-        match callee {
-            Expr::Ident(callee) if self.pure_callee.contains(&callee.to_id()) => {
+        if let Expr::Ident(callee) = callee {
+            if self.pure_callee.contains(&callee.to_id()) {
                 return true;
             }
-
-            Expr::Seq(callee) if has_pure(self.comments, callee.span) => {
-                return true;
-            }
-            Expr::Ident(..) | Expr::Seq(..) => {}
-            _ => (),
         }
 
         if let Some(pure_fns) = &self.pure_funcs {
@@ -91,7 +85,12 @@ impl InfoMarker<'_> {
             }
         }
 
-        has_pure(self.comments, callee.span())
+        // `paren_remover` moves leading comments from a removed parenthesis to
+        // the inner expression, but the comment's own span still records its
+        // source location. Only promote a relocated PURE annotation when it
+        // originally preceded this call. An annotation inside the parentheses
+        // belongs to the callee and cannot make invoking its value pure.
+        has_pure_comment_before(self.comments, callee.span(), call_span.lo)
     }
 }
 
@@ -114,7 +113,7 @@ impl VisitMut for InfoMarker<'_> {
         // We check callee in some cases because we move comments
         // See https://github.com/swc-project/swc/issues/7241
         if match &n.callee {
-            Callee::Expr(e) => self.is_pure_callee(e),
+            Callee::Expr(e) => self.is_pure_callee(e, n.span),
             _ => false,
         } || has_pure(self.comments, n.span)
         {
@@ -187,7 +186,7 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
         n.visit_mut_children_with(self);
 
-        if has_pure(self.comments, n.span) || self.is_pure_callee(&n.tag) {
+        if has_pure(self.comments, n.span) || self.is_pure_callee(&n.tag, n.span) {
             if !n.span.is_dummy_ignoring_cmt() {
                 n.ctxt = n.ctxt.apply_mark(self.marks.pure);
             }
@@ -286,6 +285,43 @@ pub(super) fn has_noinline(comments: Option<&dyn Comments>, span: Span) -> bool 
 /// Check for `/*#__PURE__*/`
 pub(super) fn has_pure(comments: Option<&dyn Comments>, span: Span) -> bool {
     span.is_pure() || has_flag(comments, span, "PURE")
+}
+
+fn has_pure_comment_before(
+    comments: Option<&dyn Comments>,
+    span: Span,
+    owner_start: swc_common::BytePos,
+) -> bool {
+    // A synthetic PURE span assigns the annotation directly to this node, so
+    // there is no source comment whose ownership needs to be disambiguated.
+    if span.is_pure() {
+        return true;
+    }
+
+    if span.is_dummy_ignoring_cmt() {
+        return false;
+    }
+
+    find_comment(comments, span, |comment| {
+        !comment.span.is_dummy()
+            && comment.span.hi <= owner_start
+            && comment_has_flag(comment, "PURE")
+    })
+}
+
+fn comment_has_flag(comment: &Comment, text: &str) -> bool {
+    if comment.kind != CommentKind::Block {
+        return false;
+    }
+
+    comment.text.lines().any(|line| {
+        let line = line.trim_start_matches(['*', ' ']).trim();
+
+        line.len() == text.len() + 5
+            && (line.starts_with("#__") || line.starts_with("@__"))
+            && line.ends_with("__")
+            && text == &line[3..line.len() - 2]
+    })
 }
 
 fn find_comment<F>(comments: Option<&dyn Comments>, span: Span, mut op: F) -> bool

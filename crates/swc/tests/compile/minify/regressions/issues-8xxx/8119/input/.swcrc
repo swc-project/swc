@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false,
+                "passes": 2
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

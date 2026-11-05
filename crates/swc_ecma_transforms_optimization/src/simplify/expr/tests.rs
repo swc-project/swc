@@ -472,21 +472,6 @@ fn test_nan_comparison() {
 }
 
 #[test]
-fn test_object_comparison1() {
-    fold("!new Date()", "false");
-    fold("!!new Date()", "true");
-
-    fold("new Date() == null", "false");
-    fold("new Date() == undefined", "false");
-    fold("new Date() != null", "true");
-    fold("new Date() != undefined", "true");
-    fold("null == new Date()", "false");
-    fold("undefined == new Date()", "false");
-    fold("null != new Date()", "true");
-    fold("undefined != new Date()", "true");
-}
-
-#[test]
 fn test_unary_ops_1() {
     // These cases are handled by PeepholeRemoveDeadCode.
     fold_same("!foo()");
@@ -889,10 +874,44 @@ fn non_finite_arithmetic_results_are_number_literals() {
 fn test_fold_arithmetic2() {
     fold_same("x = y + 10 + 20");
     fold_same("x = y / 2 / 4");
-    fold("x = y * 2.25 * 3", "x = y * 6.75");
+    // Floating-point multiplication is not associative.
+    fold_same("x = y * 2.25 * 3");
     fold_same("z = x * y");
     fold_same("x = y * 5");
-    fold("x = y + (z * 24 * 60 * 60 * 1000)", "x = y + z * 86400000");
+    fold(
+        "x = y + (z * 24 * 60 * 60 * 1000)",
+        "x = y + z * 24 * 60 * 60 * 1000",
+    );
+}
+
+/// https://github.com/swc-project/swc/issues/12634
+#[test]
+fn test_fold_mul_reassociation() {
+    // `365.2425 * 24 * 3600` and `365.2425 * 86400` are different numbers.
+    fold_same("x = y * 24 * 60 * 60");
+    fold_same("x = y * 1000 * 60 * 60");
+    fold_same("x = y * 30.44 * 24");
+    // A power of two less than `1` can round a subnormal intermediate result.
+    fold_same("x = y * 0.5 * 0.5");
+    // `(y * 4) * 0.25` overflows for a large `y`, but `y * 1` does not.
+    fold_same("x = y * 4 * 0.25");
+    // `2 ** 1000 * 2 ** 1000` overflows, but `(y * 2 ** 1000) * 2 ** 1000` does
+    // not overflow for a small `y`.
+    fold_same("x = y * 2 ** 1000 * 2 ** 1000");
+
+    // Multiplication by `1` or `-1` never rounds.
+    fold("x = y * 1 * 2.25", "x = y * 2.25");
+    fold("x = y * 2.25 * 1", "x = y * 2.25");
+    fold("x = y * -1 * 2.25", "x = y * -2.25");
+    fold("x = y * 2.25 * -1", "x = y * -2.25");
+    // Multiplication by a power of two of at least `1` never rounds.
+    fold("x = y * 2 * 4", "x = y * 8");
+    fold("x = y * -2 * 1024", "x = y * -2048");
+
+    // Bitwise operators are associative.
+    fold("x = y & 7 & 3", "x = y & 3");
+    fold("x = y | 4 | 3", "x = y | 7");
+    fold("x = y ^ 5 ^ 3", "x = y ^ 6");
 }
 
 #[test]

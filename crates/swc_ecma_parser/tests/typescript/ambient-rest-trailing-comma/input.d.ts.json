@@ -1,0 +1,305 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 125
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 11
+        },
+        "ctxt": 0,
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 12,
+            "end": 29
+          },
+          "decorators": [],
+          "pat": {
+            "type": "RestElement",
+            "span": {
+              "start": 12,
+              "end": 29
+            },
+            "rest": {
+              "start": 12,
+              "end": 15
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 15,
+                "end": 19
+              },
+              "ctxt": 0,
+              "value": "args",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 19,
+                "end": 29
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 21,
+                  "end": 29
+                },
+                "elemType": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 21,
+                    "end": 27
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 38
+      },
+      "ctxt": 0,
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 31,
+          "end": 37
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 33,
+            "end": 37
+          },
+          "kind": "void"
+        }
+      }
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 45,
+          "end": 46
+        },
+        "ctxt": 0,
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 39,
+        "end": 125
+      },
+      "ctxt": 0,
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 53,
+            "end": 85
+          },
+          "ctxt": 0,
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 53,
+              "end": 64
+            },
+            "value": "constructor"
+          },
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 65,
+                "end": 82
+              },
+              "decorators": [],
+              "pat": {
+                "type": "RestElement",
+                "span": {
+                  "start": 65,
+                  "end": 82
+                },
+                "rest": {
+                  "start": 65,
+                  "end": 68
+                },
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 68,
+                    "end": 72
+                  },
+                  "ctxt": 0,
+                  "value": "args",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 72,
+                    "end": 82
+                  },
+                  "typeAnnotation": {
+                    "type": "TsArrayType",
+                    "span": {
+                      "start": 74,
+                      "end": 82
+                    },
+                    "elemType": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 74,
+                        "end": 80
+                      },
+                      "kind": "string"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "body": null,
+          "accessibility": null,
+          "isOptional": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 90,
+            "end": 123
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 90,
+              "end": 96
+            },
+            "value": "method"
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 97,
+                  "end": 114
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "RestElement",
+                  "span": {
+                    "start": 97,
+                    "end": 114
+                  },
+                  "rest": {
+                    "start": 97,
+                    "end": 100
+                  },
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 100,
+                      "end": 104
+                    },
+                    "ctxt": 0,
+                    "value": "args",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 104,
+                      "end": 114
+                    },
+                    "typeAnnotation": {
+                      "type": "TsArrayType",
+                      "span": {
+                        "start": 106,
+                        "end": 114
+                      },
+                      "elemType": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 106,
+                          "end": 112
+                        },
+                        "kind": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 90,
+              "end": 123
+            },
+            "ctxt": 0,
+            "body": null,
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 116,
+                "end": 122
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 118,
+                  "end": 122
+                },
+                "kind": "void"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

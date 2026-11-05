@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "target": "es2015",
+        "loose": true
+    },
+    "module": {
+        "type": "es6"
+    }
+}

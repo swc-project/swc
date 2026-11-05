@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier",
-    "version": "1.16.1",
+    "version": "1.16.21",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -66,8 +66,8 @@
     },
     "devDependencies": {
         "@napi-rs/cli": "^3.2.0",
-        "@types/node": "^20.7.1",
-        "cross-env": "^7.0.3",
+        "@types/node": "^24.0.0",
+        "cross-env": "^10.0.0",
         "typescript": "^5.2.2"
     }
 }

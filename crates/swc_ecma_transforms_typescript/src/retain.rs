@@ -1,14 +1,9 @@
 use swc_ecma_ast::*;
 
 /// Returns true if a module item should survive TS type-stripping.
-pub(crate) fn should_retain_module_item(module_item: &ModuleItem, in_namespace: bool) -> bool {
+pub(crate) fn should_retain_module_item(module_item: &ModuleItem) -> bool {
     match module_item {
         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
-            // Keep `export declare var` in namespace blocks for downstream transforms.
-            if in_namespace && export_decl.decl.is_var() {
-                return true;
-            }
-
             should_retain_decl(&export_decl.decl)
         }
         ModuleItem::Stmt(stmt) => should_retain_stmt(stmt),
@@ -48,14 +43,39 @@ impl IsConcrete for TsModuleDecl {
 
 impl IsConcrete for TsNamespaceBody {
     fn is_concrete(&self) -> bool {
-        match self {
-            Self::TsModuleBlock(ts_module_block) => {
-                ts_module_block.body.iter().any(|item| item.is_concrete())
-            }
-            Self::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl.body.is_concrete(),
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
+        namespace_body_is_concrete(self, &mut IsConcrete::is_concrete)
+    }
+}
+
+/// Apply the concrete-body rules with a caller-provided nested namespace query.
+/// This deliberately differs from runtime instantiation: private aliases and
+/// ambient value declarations still make a body concrete.
+pub(crate) fn namespace_body_is_concrete(
+    body: &TsNamespaceBody,
+    namespace_is_concrete: &mut impl FnMut(&TsModuleDecl) -> bool,
+) -> bool {
+    match body {
+        TsNamespaceBody::TsModuleBlock(ts_module_block) => {
+            ts_module_block.body.iter().any(|item| match item {
+                ModuleItem::Stmt(Stmt::Decl(declaration))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: declaration,
+                    ..
+                })) => match declaration {
+                    Decl::TsInterface(_) | Decl::TsTypeAlias(_) => false,
+                    Decl::TsModule(namespace) => namespace_is_concrete(namespace),
+                    // Value declarations instantiate the namespace even
+                    // when they are ambient or bodyless function signatures.
+                    _ => true,
+                },
+                _ => item.is_concrete(),
+            })
         }
+        TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => {
+            namespace_body_is_concrete(&ts_namespace_decl.body, namespace_is_concrete)
+        }
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 

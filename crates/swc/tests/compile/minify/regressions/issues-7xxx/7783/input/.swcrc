@@ -1,0 +1,22 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        },
+        "target": "es2015",
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false
+            },
+            "mangle": {
+                "toplevel": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": true
+}

@@ -1,7 +1,11 @@
 #![allow(clippy::redundant_clone)]
 #![allow(clippy::while_let_on_iterator)]
 
-use std::{fs, mem::take, path::PathBuf};
+use std::{
+    fs,
+    mem::take,
+    path::{Path, PathBuf},
+};
 
 use common::{document_span_visualizer, DomVisualizer};
 use rustc_hash::FxHashSet;
@@ -537,6 +541,20 @@ enum DocumentOrDocumentFragment {
     DocumentFragment(PResult<DocumentFragment>),
 }
 
+/// Use local expectations for cases whose pinned html5lib data predates
+/// customizable selects. The data-generated fixtures are overwritten during
+/// every full test run, so these expectations live outside that directory.
+fn modern_select_override(input: &Path, extension: &str) -> Option<PathBuf> {
+    let file_name = input.with_extension(extension).file_name()?.to_owned();
+    let path = input
+        .parent()?
+        .parent()?
+        .join("html5lib-tests-overrides")
+        .join(file_name);
+
+    path.exists().then_some(path)
+}
+
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
@@ -802,7 +820,16 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 errors.len()
             };
 
-            let expected_number_of_errors = contents.lines().count();
+            let expected_number_of_errors =
+                if let Some(path) = modern_select_override(&input, "error-count") {
+                    fs::read_to_string(path)
+                        .expect("failed to read modern select error count")
+                        .trim()
+                        .parse::<usize>()
+                        .expect("invalid modern select error count")
+                } else {
+                    contents.lines().count()
+                };
 
             assert_eq!(actual_number_of_errors, expected_number_of_errors);
         }
@@ -828,8 +855,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     indent: 0,
                 });
 
+                let dom_path = modern_select_override(&input, "dom.rust-debug")
+                    .unwrap_or_else(|| input.with_extension("dom.rust-debug"));
+
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(input.with_extension("dom.rust-debug"))
+                    .compare_to_file(dom_path)
                     .unwrap();
 
                 Ok(())
@@ -852,8 +882,11 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                     indent: 0,
                 });
 
+                let dom_path = modern_select_override(&input, "dom.rust-debug")
+                    .unwrap_or_else(|| input.with_extension("dom.rust-debug"));
+
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(input.with_extension("dom.rust-debug"))
+                    .compare_to_file(dom_path)
                     .unwrap();
 
                 Ok(())

@@ -1,0 +1,99 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 84,
+    "end": 148
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 99,
+          "end": 103
+        },
+        "ctxt": 0,
+        "value": "main",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 84,
+        "end": 148
+      },
+      "ctxt": 0,
+      "body": {
+        "type": "FunctionBody",
+        "span": {
+          "start": 106,
+          "end": 148
+        },
+        "stmts": [
+          {
+            "type": "ForOfStatement",
+            "span": {
+              "start": 112,
+              "end": 146
+            },
+            "await": false,
+            "left": {
+              "type": "UsingDeclaration",
+              "span": {
+                "start": 117,
+                "end": 131
+              },
+              "isAwait": true,
+              "decls": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 117,
+                    "end": 131
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 129,
+                      "end": 131
+                    },
+                    "ctxt": 0,
+                    "value": "of",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": null,
+                  "definite": false
+                }
+              ]
+            },
+            "right": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 135,
+                "end": 137
+              },
+              "elements": []
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 139,
+                "end": 146
+              },
+              "ctxt": 0,
+              "stmts": []
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

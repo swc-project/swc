@@ -68,12 +68,72 @@
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
  1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
-   :                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+   :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                  ^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                  ^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                     ^^^
    `----
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
  1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
-   :                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+   :                                                     ^^^
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                            ^^^^^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                            ^^^^^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                               ^^^
+   `----
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                               ^^^
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                                      ^^^^^^
+   `----
+  x Element
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                                      ^^^^^^
+   `----
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                                         ^^^
+   `----
+  x Text
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]
+ 1 | <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
+   :                                                                         ^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.16.html:1:1]

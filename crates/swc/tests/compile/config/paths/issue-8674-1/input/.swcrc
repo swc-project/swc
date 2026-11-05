@@ -1,0 +1,7 @@
+{
+  "exclude": "[/\\\\]src[/\\\\]",
+  "jsc": {
+    "externalHelpers": false,
+    "baseUrl": "."
+  }
+}

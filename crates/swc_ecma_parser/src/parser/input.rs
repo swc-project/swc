@@ -3,7 +3,7 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
-    error::Error,
+    error::{Error, SyntaxError},
     lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
@@ -42,9 +42,9 @@ pub trait Tokens: Clone {
     ///
     /// This errors should be dropped if it's not a module.
     ///
-    /// Implementor should check for if [Context].module, and buffer errors if
-    /// module is false. Also, implementors should move errors to the error
-    /// buffer on set_ctx if the parser mode become module mode.
+    /// Implementors should buffer the error unless [`Context::Module`] is set.
+    /// When `set_ctx` enables module mode, buffered module errors should be
+    /// moved to the main error buffer.
     fn add_module_mode_error(&mut self, error: Error);
 
     fn end_pos(&self) -> BytePos;
@@ -59,12 +59,13 @@ pub trait Tokens: Clone {
         false
     }
 
-    /// Saves the diagnostic buffer lengths for a whole-program retry.
+    /// Saves the diagnostic buffer lengths for speculative parsing or a
+    /// whole-program retry.
     fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
         (0, 0)
     }
 
-    /// Discards diagnostics emitted after a whole-program checkpoint.
+    /// Discards diagnostics emitted after a parser checkpoint.
     fn diagnostic_checkpoint_load(&mut self, _checkpoint: (usize, usize)) {}
 
     /// If the program was parsed as a script, this contains the module
@@ -99,6 +100,9 @@ pub trait Tokens: Clone {
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan;
     fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan;
+    /// Rewinds a compound greater-than operator to its first `>`, discarding
+    /// any diagnostics and buffered comments produced by later lookahead.
+    fn rescan_type_gt(&mut self, span: Span) -> TokenAndSpan;
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan;
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan;
     fn rescan_template_token(&mut self, start: BytePos, start_with_back_tick: bool)
@@ -333,7 +337,48 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(first_token);
     }
 
+    #[inline(always)]
+    pub(crate) fn has_escaped_keyword(&self) -> bool {
+        // Keyword tokens only carry a word value when their spelling has escapes.
+        (self.cur().is_keyword() || self.cur().is_known_ident())
+            && matches!(self.get_token_value(), Some(TokenValue::Word(_)))
+    }
+
+    #[inline(always)]
+    pub(crate) fn escaped_keyword_error(&self) -> Option<Error> {
+        if !self.has_escaped_keyword() {
+            return None;
+        }
+        let Some(TokenValue::Word(word)) = self.get_token_value() else {
+            return None;
+        };
+        if !self.cur().is_reserved(self.iter.ctx()) {
+            return None;
+        }
+        Some(Error::new(
+            self.cur.span,
+            SyntaxError::EscapeInReservedWord { word: word.clone() },
+        ))
+    }
+
+    #[inline]
     pub fn bump(&mut self) {
+        if self.has_escaped_keyword() {
+            self.report_escaped_keyword();
+        }
+        self.bump_without_escape_check();
+    }
+
+    #[cold]
+    #[inline(never)]
+    fn report_escaped_keyword(&mut self) {
+        if let Some(error) = self.escaped_keyword_error() {
+            self.iter.add_error(error);
+        }
+    }
+
+    /// IdentifierName permits escaped reserved words, unlike keyword syntax.
+    pub(crate) fn bump_without_escape_check(&mut self) {
         let next = if self.next.is_none() {
             self.iter.next_token()
         } else {
@@ -411,65 +456,20 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(token);
     }
 
-    pub fn merge_lt_gt(&mut self) {
-        debug_assert!(
-            self.is(Token::Lt) || self.is(Token::Gt),
-            "parser should only call merge_lt_gt when encountering Less token"
-        );
-        if self.peek().is_none() {
-            return;
+    /// Consumes one type-closing `>`. Rescanning is necessary because the
+    /// suffix may combine with following source, as in `>=>` becoming `=>`.
+    pub fn eat_type_gt(&mut self) -> bool {
+        if self.cur().should_rescan_into_gt_in_jsx() {
+            let had_line_break = self.cur.had_line_break;
+            let mut token = self.iter.rescan_type_gt(self.cur.span);
+            token.had_line_break = had_line_break;
+            self.next = None;
+            self.set_cur(token);
+        } else if self.cur() != Token::Gt {
+            return false;
         }
-        let span = self.cur_span();
-        let next = self.next().unwrap();
-        if span.hi != next.span().lo {
-            return;
-        }
-        let next = self.next_mut().take().unwrap();
-        let cur = self.get_cur();
-        let cur_token = cur.token;
-        let token = if cur_token == Token::Gt {
-            let next_token = next.token();
-            if next_token == Token::Gt {
-                // >>
-                Token::RShift
-            } else if next_token == Token::Eq {
-                // >=
-                Token::GtEq
-            } else if next_token == Token::RShift {
-                // >>>
-                Token::ZeroFillRShift
-            } else if next_token == Token::GtEq {
-                // >>=
-                Token::RShiftEq
-            } else if next_token == Token::RShiftEq {
-                // >>>=
-                Token::ZeroFillRShiftEq
-            } else {
-                self.set_next(Some(next));
-                return;
-            }
-        } else if cur_token == Token::Lt {
-            let next_token = next.token();
-            if next_token == Token::Lt {
-                // <<
-                Token::LShift
-            } else if next_token == Token::Eq {
-                // <=
-                Token::LtEq
-            } else if next_token == Token::LtEq {
-                // <<=
-                Token::LShiftEq
-            } else {
-                self.set_next(Some(next));
-                return;
-            }
-        } else {
-            self.set_next(Some(next));
-            return;
-        };
-        let span = span.with_hi(next.span().hi);
-        let token = TokenAndSpan::new(token, span, cur.had_line_break);
-        self.set_cur(token);
+        self.bump();
+        true
     }
 
     #[inline(always)]

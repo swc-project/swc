@@ -2935,8 +2935,7 @@ function(global, factory) {
     // Pop all selection events off the end of a history array. Stop at
     // a change event.
     function clearSelectionEvents(array) {
-        for(; array.length;)if (lst(array).ranges) array.pop();
-        else break;
+        for(; array.length && lst(array).ranges;)array.pop();
     }
     // Register a change in the history. Merges changes that are within
     // a single operation, or are close together with an origin that
@@ -3221,7 +3220,7 @@ function(global, factory) {
     function makeChangeFromHistory(doc, type, allowSelectionOnly) {
         var suppress = doc.cm && doc.cm.state.suppressEdits;
         if (!suppress || allowSelectionOnly) {
-            for(var event, hist = doc.history, selAfter = doc.sel, source = "undo" == type ? hist.done : hist.undone, dest = "undo" == type ? hist.undone : hist.done, i = 0; i < source.length && (event = source[i], allowSelectionOnly ? !event.ranges || event.equals(doc.sel) : event.ranges); i++);
+            for(var event, hist = doc.history, selAfter = doc.sel, source = "undo" == type ? hist.done : hist.undone, dest = "undo" == type ? hist.undone : hist.done, i = 0; i < source.length && (event = source[i], allowSelectionOnly ? !event.ranges || !!event.equals(doc.sel) : !!event.ranges); i++);
             if (i != source.length) {
                 for(hist.lastOrigin = hist.lastSelOrigin = null;;)if ((event = source.pop()).ranges) {
                     if (pushSelectionToHistory(event, dest), allowSelectionOnly && !event.equals(doc.sel)) return void setSelection(doc, event, {

@@ -99,6 +99,16 @@ impl VisitMut for RenameApplyVisitor<'_> {
         }
     }
 
+    /// Standalone lowercase tags are intrinsic strings, not binding references.
+    fn visit_mut_jsx_element_name(&mut self, name: &mut swc::JSXElementName) {
+        if let swc::JSXElementName::Ident(ident) = name {
+            if ident.sym.starts_with(|c: char| c.is_ascii_lowercase()) {
+                return;
+            }
+        }
+        name.visit_mut_children_with(self);
+    }
+
     /// Rename the JSX member object, never a static property name.
     fn visit_mut_jsx_member_expr(&mut self, member: &mut swc::JSXMemberExpr) {
         member.obj.visit_mut_with(self);

@@ -61,7 +61,7 @@ impl VisitMut for TemplateLiteral {
                         let s = quasis[0]
                             .cooked
                             .clone()
-                            .unwrap_or_else(|| quasis[0].raw.clone().into());
+                            .unwrap_or_else(|| Str::from_tpl_raw(&quasis[0]));
 
                         Str {
                             span: quasis[0].span,
@@ -92,14 +92,15 @@ impl VisitMut for TemplateLiteral {
                     let expr = if i % 2 == 0 {
                         // Quasis
                         match quasis.next() {
-                            Some(TplElement {
-                                span, cooked, raw, ..
-                            }) => {
-                                let s = cooked.clone().unwrap_or_else(|| raw.clone().into());
+                            Some(quasi) => {
+                                let s = quasi
+                                    .cooked
+                                    .clone()
+                                    .unwrap_or_else(|| Str::from_tpl_raw(quasi));
 
                                 Box::new(
                                     Lit::Str(Str {
-                                        span: *span,
+                                        span: quasi.span,
                                         value: s,
                                         raw: None,
                                     })
