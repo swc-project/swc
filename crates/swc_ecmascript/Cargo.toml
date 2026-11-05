@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecmascript"
 repository    = { workspace = true }
-version       = "75.0.0"
+version       = "76.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -45,7 +45,7 @@ swc_ecma_ast        = { version = "30.0.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen    = { version = "33.0.0", path = "../swc_ecma_codegen", optional = true }
 swc_ecma_minifier   = { version = "64.0.1", path = "../swc_ecma_minifier", optional = true }
 swc_ecma_parser     = { version = "47.0.0", path = "../swc_ecma_parser", optional = true, default-features = false }
-swc_ecma_preset_env = { version = "67.0.0", path = "../swc_ecma_preset_env", optional = true }
+swc_ecma_preset_env = { version = "68.0.0", path = "../swc_ecma_preset_env", optional = true }
 swc_ecma_quote      = { version = "47.0.0", path = "../swc_ecma_quote", optional = true }
 swc_ecma_transforms = { version = "65.0.0", path = "../swc_ecma_transforms", optional = true }
 swc_ecma_utils      = { version = "36.1.0", path = "../swc_ecma_utils", optional = true }

@@ -444,7 +444,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "81.0.0"
+version = "82.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -4267,7 +4267,7 @@ dependencies = [
 
 [[package]]
 name = "preset_env_base"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "anyhow",
  "browserslist-rs",
@@ -5644,7 +5644,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "81.0.2"
+version = "82.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5809,7 +5809,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.128.3"
+version = "0.129.0"
 dependencies = [
  "anyhow",
  "par-core",
@@ -5818,7 +5818,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "83.0.0"
+version = "84.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -5924,7 +5924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "83.1.1"
+version = "84.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5977,7 +5977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "33.0.0"
+version = "34.0.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -6116,7 +6116,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "33.0.0"
+version = "34.0.0"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -6547,7 +6547,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "67.0.0"
+version = "68.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6751,7 +6751,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "59.0.0"
+version = "59.0.1"
 dependencies = [
  "indexmap",
  "par-core",
@@ -6876,7 +6876,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "57.0.1"
+version = "57.0.2"
 dependencies = [
  "base64 0.22.1",
  "bytes-str",
@@ -6903,7 +6903,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "55.0.0"
+version = "55.1.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6927,7 +6927,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "57.0.2"
+version = "57.0.3"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
@@ -6985,7 +6985,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "75.0.0"
+version = "76.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -7230,7 +7230,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "82.0.0"
+version = "83.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
