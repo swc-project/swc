@@ -87,7 +87,13 @@ struct EnvOptions {
 
 /// Inherit top-level options up to, and including, the lowering directory.
 fn options(input: &Path) -> Options {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/compat-lowering");
+    // `testing::fixture` canonicalizes fixture paths, which adds a `\\?\`
+    // verbatim prefix on Windows. Canonicalize the root too, so the parent
+    // walk can detect it on every platform.
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/compat-lowering")
+        .canonicalize()
+        .expect("failed to canonicalize tests/compat-lowering");
     let mut merged = serde_json::Map::new();
     let mut dir = input.parent().unwrap();
     loop {
