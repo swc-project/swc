@@ -1946,7 +1946,10 @@ compare_stdout!(
         )
     },
     issue_12339_array_rest,
-    include_str!("lowering/object-rest-spread/resolver/issue-12339/input.js")
+    // Shared with the helper-free lowering suite in the `swc` crate.
+    include_str!(
+        "../../swc/tests/compat-lowering/object-rest-spread/resolver/issue-12339/input.js"
+    )
 );
 
 // Check both the object-rest pass and its composition with ES2015 lowering.
