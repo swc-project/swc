@@ -2769,6 +2769,33 @@ impl VisitMut for Optimizer<'_> {
         self.invoke_iife_in_seq_expr(n);
 
         self.merge_sequences_in_seq_expr(n);
+
+        if !self.options.reduce_vars || !self.options.side_effects {
+            return;
+        }
+
+        let Some((last, exprs)) = n.exprs.split_last_mut() else {
+            return;
+        };
+
+        // Do not expose an unresolved name as the direct operand of `typeof`.
+        // The local sequence cleanup cannot yet preserve that distinction.
+        if matches!(&**last, Expr::Ident(i) if i.ctxt == self.ctx.expr_ctx.unresolved_ctxt) {
+            return;
+        }
+
+        for expr in exprs {
+            // Unlike the local pure pass, this reducer can resolve an identifier
+            // to a known empty function and preserve its argument side effects.
+            if matches!(&**expr, Expr::Call(CallExpr { callee: Callee::Expr(callee), .. }) if callee.is_ident())
+            {
+                // Let the pure pass clean up the sequence while preserving
+                // indirect calls and other reference-sensitive contexts.
+                **expr = self
+                    .ignore_return_value(expr)
+                    .unwrap_or_else(|| make_number(DUMMY_SP, 0.0));
+            }
+        }
     }
 
     #[cfg_attr(

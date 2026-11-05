@@ -1,0 +1,6 @@
+unbound
+unbound
+unbound
+global
+[true,1]
+ReferenceError
