@@ -10,7 +10,10 @@ const DETECTION_INFRA_PATHS = new Set([
   ".github/workflows/CI.yml",
   "scripts/github/change-detection.mjs",
   "scripts/github/change-detection.test.mjs",
+  "scripts/github/check-publish-order.mjs",
   "scripts/github/detect-changes.mjs",
+  "scripts/github/publish-order.mjs",
+  "scripts/github/publish-order.test.mjs",
 ]);
 
 const CARGO_TEST_INFRA_PATHS = new Set([

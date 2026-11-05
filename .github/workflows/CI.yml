@@ -103,6 +103,7 @@ jobs:
         run: |
           node --test \
             ./scripts/github/change-detection.test.mjs \
+            ./scripts/github/publish-order.test.mjs \
             ./scripts/github/tag-npm-package.test.mjs
 
       - name: Install cargo-mono
@@ -230,6 +231,30 @@ jobs:
 
       - name: cargo-shear
         run: cargo shear --fix
+
+  publish-order:
+    name: Publish dependency order
+    needs:
+      - detect-changes
+    if: needs.detect-changes.outputs.rust_checks == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
+        with:
+          toolchain: nightly-2026-04-10
+
+      - name: Check publish dependency order
+        run: node ./scripts/github/check-publish-order.mjs
 
   cargo-check:
     name: Check
