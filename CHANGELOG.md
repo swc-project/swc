@@ -1,4 +1,93 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(ci)** Break the publish dependency cycle and guard it in CI ([#12681](https://github.com/swc-project/swc/issues/12681)) ([3ad7952](https://github.com/swc-project/swc/commit/3ad7952d41f6ee568ce1e7084a44e2b6aafa3752))
+
+
+- **(deps)** Update Wasmtime and zstd for security advisories ([#12638](https://github.com/swc-project/swc/issues/12638)) ([1e1266f](https://github.com/swc-project/swc/commit/1e1266fb24076781ecab0dac6830c967b2f18f55))
+
+
+- **(es/fixer)** Preserve the parentheses of string literal statements so they do not become directives ([#12633](https://github.com/swc-project/swc/issues/12633)) ([75848ac](https://github.com/swc-project/swc/commit/75848acc40ea51b8409ac57b97f2d7fbbc2a3bdd))
+
+
+- **(es/minifier)** Fold never-assigned variables in conditions ([#12650](https://github.com/swc-project/swc/issues/12650)) ([77429a4](https://github.com/swc-project/swc/commit/77429a48f4487bda076d4c30e3ac902c32b26add))
+
+
+- **(es/minifier)** Do not reassociate inexact float multiplications ([#12657](https://github.com/swc-project/swc/issues/12657)) ([5f28be2](https://github.com/swc-project/swc/commit/5f28be21eb862bb5112c69311ba5d1b6acec9008))
+
+
+- **(es/minifier)** Stop checking fn param for ref ([#12675](https://github.com/swc-project/swc/issues/12675)) ([811a2af](https://github.com/swc-project/swc/commit/811a2afd4da7b871b020d5b65ceb977e865a7d3c))
+
+
+- **(es/regexp)** Fix unicode property escape expansion for `v` and bare `\P{...}` ([#12651](https://github.com/swc-project/swc/issues/12651)) ([dcad8b9](https://github.com/swc-project/swc/commit/dcad8b976e4490582d40dfb446c995434e9c2e61))
+
+
+- **(es/typescript)** Fix merged namespace bindings and enum evaluation ([#12455](https://github.com/swc-project/swc/issues/12455)) ([c902730](https://github.com/swc-project/swc/commit/c90273048abcc904cf7cc3177fb10a0fd624c316))
+
+
+- **(es/typescript)** Move minified semantic tests to `swc` to break the publish dependency cycle ([#12663](https://github.com/swc-project/swc/issues/12663)) ([fd3d637](https://github.com/swc-project/swc/commit/fd3d637d99e6a64923143911bb942a3834128e55))
+
+
+- **(sourcemap)** Preserve sources without embedded content when flattening ([#12680](https://github.com/swc-project/swc/issues/12680)) ([c7661e6](https://github.com/swc-project/swc/commit/c7661e6694bbb857fbb5a65cbced7eef2ee9e900))
+
+
+- **(testing)** Ignore hidden ancestors of the workspace in `unignore_fixture` ([#12652](https://github.com/swc-project/swc/issues/12652)) ([42b480d](https://github.com/swc-project/swc/commit/42b480d55b0b7d1855b601b79053b5a7e393a5ed))
+
+### Miscellaneous Tasks
+
+
+
+- **(deps)** Update node.js to v26 ([#12645](https://github.com/swc-project/swc/issues/12645)) ([25a2c8e](https://github.com/swc-project/swc/commit/25a2c8e00c47d68aecff02b251d929b8207d3e7c))
+
+
+- **(es/preset-env)** Upgrade browserslist-rs to 0.22.0 ([#12678](https://github.com/swc-project/swc/issues/12678)) ([c5ad386](https://github.com/swc-project/swc/commit/c5ad386b65b9607a53c4626244c66d10bccbccaa))
+
+### Performance
+
+
+
+- **(es/transforms)** Avoid refcount contention on atom!("arguments") in renamer and DCE ([#12661](https://github.com/swc-project/swc/issues/12661)) ([92e96b8](https://github.com/swc-project/swc/commit/92e96b8141d35832df59d6fe493b5453f7a39c85))
+
+### Refactor
+
+
+
+- **(es/transforms/react)** Organize transform tests as fixtures ([#12662](https://github.com/swc-project/swc/issues/12662)) ([a8c949e](https://github.com/swc-project/swc/commit/a8c949e59bcf7929f4da5e4901d8ea1ae073f883))
+
+### Testing
+
+
+
+- **(compat)** Organize transform fixtures ([#12673](https://github.com/swc-project/swc/issues/12673)) ([141d766](https://github.com/swc-project/swc/commit/141d7660a43b771c65d994113a6e5930987b5e18))
+
+
+- **(swc)** Make the `issue_622` source map test rerunnable ([#12653](https://github.com/swc-project/swc/issues/12653)) ([df92140](https://github.com/swc-project/swc/commit/df92140f29834b85473ec3b4aabb614a74805503))
+
+
+- **(swc)** Keep `pnpm-lock.yaml` unchanged when exec tests install helpers ([#12655](https://github.com/swc-project/swc/issues/12655)) ([182578e](https://github.com/swc-project/swc/commit/182578ee568ce5609c3c4b55a77e4ab82fd3ae1f))
+
+
+- **(swc)** Make stack trace tests independent of the Node.js version ([#12654](https://github.com/swc-project/swc/issues/12654)) ([b8c7ce9](https://github.com/swc-project/swc/commit/b8c7ce9dc0763280fa7b2d48a1bbf9dfaf740678))
+
+
+- **(swc)** Unify compiler test pipelines and reorganize transform fixtures ([#12676](https://github.com/swc-project/swc/issues/12676)) ([07924c4](https://github.com/swc-project/swc/commit/07924c4ba13d6cf84c2d421e75d0241ade551b6f))
+
+
+- **(typescript)** Organize transform fixtures ([#12667](https://github.com/swc-project/swc/issues/12667)) ([f29153b](https://github.com/swc-project/swc/commit/f29153beb5d08c2f9fa2a99a8e674dc1b6138c24))
+
+### Ci
+
+
+
+- Migrate `swc-bot` credentials to the `swc-project-bot` GitHub App ([#12665](https://github.com/swc-project/swc/issues/12665)) ([0362db5](https://github.com/swc-project/swc/commit/0362db559699defdcac653a167bdd46c78b30d1b))
+
+
+- Allow LingyuCoder in the Rspack group ([#12685](https://github.com/swc-project/swc/issues/12685)) ([be15e4b](https://github.com/swc-project/swc/commit/be15e4b756b61c64c00f6bb4d03d71aae1cd2d2f))
+
 ## [1.16.21] - 2026-10-31
 
 ### Bug Fixes
@@ -2244,77 +2333,5 @@
 
 
 - **(es/minifier)** Prevent unsafe sequence merging in `super()` calls ([#11381](https://github.com/swc-project/swc/issues/11381)) ([eb02780](https://github.com/swc-project/swc/commit/eb02780a126cd70da830079fc54168d632d18a4d))
-
-
-- **(es/transformer)** Fix variable declaration for nullish coalescing in else-if branches ([#11384](https://github.com/swc-project/swc/issues/11384)) ([6746002](https://github.com/swc-project/swc/commit/67460026176cb97a5bfa59a439da59b70447e897))
-
-
-- **(es/transforms)** Update `_ts_rewrite_relative_import_extension` helper code ([#11382](https://github.com/swc-project/swc/issues/11382)) ([1ec444e](https://github.com/swc-project/swc/commit/1ec444e998fd1aff29b7e674254d1c95e2de2ba0))
-
-### Features
-
-
-
-- **(es/transformer)** Merge `private_properties_in_object` ([#11378](https://github.com/swc-project/swc/issues/11378)) ([769c9d2](https://github.com/swc-project/swc/commit/769c9d2938edab63a0f109fc1bf7cad3e40a4619))
-
-### Performance
-
-
-
-- **(es/minifier)** Optimize data structures of `ProgramData` ([#11374](https://github.com/swc-project/swc/issues/11374)) ([3639523](https://github.com/swc-project/swc/commit/36395237e7efff0698a2b575e0ad7822381437e3))
-
-### Refactor
-
-
-
-- **(es/transformer)** Port var injector ([#11383](https://github.com/swc-project/swc/issues/11383)) ([cfff553](https://github.com/swc-project/swc/commit/cfff5536ac0e5f9051e5a4bb650eac028c7e6067))
-
-## [1.15.6] - 2025-12-18
-
-### Bug Fixes
-
-
-
-- **(es/transformer)** Fix missing var declaration in nullish coalescing with spreads ([#11377](https://github.com/swc-project/swc/issues/11377)) ([686d154](https://github.com/swc-project/swc/commit/686d154c1e8aa45c16b45d8b0ed1a921fae5eb39))
-
-### Performance
-
-
-
-- **(es/parser)** Remove `raw`s in `TokenValue` ([#11373](https://github.com/swc-project/swc/issues/11373)) ([78a5327](https://github.com/swc-project/swc/commit/78a532726560738f363e812ec4940d0580140576))
-
-## [1.15.5] - 2025-12-15
-
-### Bug Fixes
-
-
-
-- **(es/parser)** Fix `bump` length ([#11372](https://github.com/swc-project/swc/issues/11372)) ([ec5c1bc](https://github.com/swc-project/swc/commit/ec5c1bc5bf23249fd7cbd786ab735f9abb4ed9cb))
-
-
-- **(es/transforms)** Adjust import rewriter pass before inject helpers pass ([#11371](https://github.com/swc-project/swc/issues/11371)) ([8516991](https://github.com/swc-project/swc/commit/8516991cb5316b1fbdc7d52daa6f64b9ca9e0f32))
-
-## [1.15.4] - 2025-12-13
-
-### Bug Fixes
-
-
-
-- **(es/transformer)** Fix pass order ([#11370](https://github.com/swc-project/swc/issues/11370)) ([373048a](https://github.com/swc-project/swc/commit/373048ae3e6ad0b344bc8aa298765a207289a861))
-
-### Features
-
-
-
-- **(es/minifier)** Optimize `typeof x == "undefined"` to `typeof x > "u"` ([#11367](https://github.com/swc-project/swc/issues/11367)) ([a5e144b](https://github.com/swc-project/swc/commit/a5e144bc6329431fcb4beb63b441627e7afce1fa))
-
-
-- **(es/transformer)** Merge `logical_assignment_operators` ([#11369](https://github.com/swc-project/swc/issues/11369)) ([94946fa](https://github.com/swc-project/swc/commit/94946fa40b972f86c8aa006b29a49307127bceeb))
-
-### Performance
-
-
-
-- **(es/compat)** Use merged transformer ([#11366](https://github.com/swc-project/swc/issues/11366)) ([c4a5e79](https://github.com/swc-project/swc/commit/c4a5e7989bf0bb943051c56d03f8121d921c9f13))
 
 <!-- generated by git-cliff -->
