@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_compat"
 repository    = { workspace = true }
-version       = "59.0.1"
+version       = "59.0.2"
 
 [lib]
 bench = false
@@ -48,7 +48,7 @@ swc_ecma_utils           = { version = "36.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit           = { version = "30.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-par-core = { workspace = true, features = ["chili"] }
+par-core   = { workspace = true, features = ["chili"] }
 serde_json = { workspace = true }
 
 swc_ecma_parser = { version = "47.0.0", path = "../swc_ecma_parser" }

@@ -5644,7 +5644,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "82.0.0"
+version = "82.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5925,7 +5925,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "84.0.0"
+version = "84.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6478,7 +6478,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "64.0.1"
+version = "64.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6752,7 +6752,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "59.0.1"
+version = "59.0.2"
 dependencies = [
  "indexmap",
  "par-core",
@@ -7371,7 +7371,7 @@ dependencies = [
 
 [[package]]
 name = "swc_sourcemap"
-version = "10.0.2"
+version = "10.0.3"
 dependencies = [
  "base64-simd 0.8.0",
  "bitvec",

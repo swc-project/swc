@@ -40,7 +40,7 @@ swc_ecma_codegen = { version = "33.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "47.0.0", path = "../swc_ecma_parser", features = [
   "flow",
 ] }
-swc_ecma_transforms_compat = { version = "59.0.1", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_compat = { version = "59.0.2", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_proposal = { version = "51.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing = { version = "55.1.0", path = "../swc_ecma_transforms_testing" }
 testing = { version = "28.0.1", path = "../testing" }
