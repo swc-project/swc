@@ -1108,14 +1108,18 @@ impl Optimizer<'_> {
             }
 
             Expr::Object(obj) => {
+                // Copying spread properties can invoke getters and throw even
+                // when evaluating the spread source itself has no side effects.
+                if obj.props.iter().any(|prop| prop.is_spread()) {
+                    return Some(e.take());
+                }
+
                 let mut exprs = Vec::new();
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
                     match prop {
-                        PropOrSpread::Spread(mut e) => {
-                            exprs.extend(self.ignore_return_value(&mut e.expr).map(Box::new));
-                        }
+                        PropOrSpread::Spread(_) => unreachable!("spreads are preserved above"),
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::KeyValue(KeyValueProp { key, mut value, .. }) => {
                                 match key {
@@ -1156,7 +1160,12 @@ impl Optimizer<'_> {
                                 );
                             }
 
-                            Prop::Shorthand(_) => {}
+                            Prop::Shorthand(ident) => {
+                                exprs.extend(
+                                    self.ignore_return_value(&mut Expr::Ident(ident))
+                                        .map(Box::new),
+                                );
+                            }
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         },
@@ -1212,6 +1221,13 @@ impl Optimizer<'_> {
                 }
                 return self.ignore_return_value(&mut expr.arg);
             }
+
+            // These operators can throw, and `instanceof` can invoke a custom
+            // Symbol.hasInstance method. Evaluating only their operands is not enough.
+            Expr::Bin(BinExpr {
+                op: op!("in") | op!("instanceof"),
+                ..
+            }) => return Some(e.take()),
 
             Expr::Bin(BinExpr {
                 span,
