@@ -4,8 +4,11 @@ inputs:
   version:
     description: "The version"
     required: true
-  ssh-private-key:
-    description: "The SSH private key"
+  token:
+    description: "GitHub App installation token with contents write access"
+    required: true
+  app-slug:
+    description: "GitHub App slug, used to derive the bot commit identity"
     required: true
 
 runs:
@@ -43,9 +46,10 @@ runs:
         version: "1.7"
         force: true
 
-    - uses: webfactory/ssh-agent@a6f90b1f127823b31d4d4a8d96047790581349bd # v0.9.1
+    - uses: ./.github/actions/configure-bot-git
       with:
-        ssh-private-key: ${{ inputs.ssh-private-key }}
+        token: ${{ inputs.token }}
+        app-slug: ${{ inputs.app-slug }}
 
     - name: Create git tag commit
       shell: bash
