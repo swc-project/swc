@@ -1,5 +1,10 @@
 //! Direct transform API snapshots whose assertions differ from the compiler
 //! pipeline.
+//!
+//! This suite lives in the `swc` crate because it needs both
+//! `swc_ecma_transforms_compat` and `swc_ecma_preset_env`. Keeping it in
+//! `swc_ecma_transforms_compat` would add a dev-dependency cycle that
+//! `cargo mono publish` rejects.
 
 use std::{
     fs,
@@ -82,7 +87,7 @@ struct EnvOptions {
 
 /// Inherit top-level options up to, and including, the lowering directory.
 fn options(input: &Path) -> Options {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/lowering");
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/compat-lowering");
     let mut merged = serde_json::Map::new();
     let mut dir = input.parent().unwrap();
     loop {
@@ -97,13 +102,15 @@ fn options(input: &Path) -> Options {
         if dir == root {
             break;
         }
-        dir = dir.parent().expect("fixture is outside tests/lowering");
+        dir = dir
+            .parent()
+            .expect("fixture is outside tests/compat-lowering");
     }
     serde_json::from_value(merged.into()).expect("invalid lowering fixture options")
 }
 
 /// Runs the same compat preset selected by SWC's target or env configuration.
-#[testing::fixture("tests/lowering/**/input.js")]
+#[testing::fixture("tests/compat-lowering/**/input.js")]
 fn fixture(input: PathBuf) {
     let options = options(&input);
     assert!(

@@ -7,17 +7,18 @@ can express their assertions.
 
 The remaining tests exercise the transform API directly:
 
-- `lowering.rs` runs helper-free compat lowering after the resolver. Fixtures in
-  `lowering/<behavior>/` use `input.js`, `output.js`, and `.swcrc`-shaped
-  `options.json`. The runner consumes its documented parser, target, assumptions,
-  and env subset, without injecting helpers or stripping TypeScript. Options
-  inherit by top-level key up to `tests/lowering`; nearer nested objects replace
-  the whole parent object. Other fields do not affect this API pipeline.
 - `es20xx_<feature>.rs` groups standalone pass, pass-order, custom AST, and runtime
   checks by feature. Fixtures live directly under `tests/<behavior>/`. Named
   pipeline groups use an `options.json` read by `common::case_pipeline`; this
   selection does not inherit. Broader fixture globs exclude named groups so each
   intended snapshot runs once. Keep runtime inputs used by multiple runners.
+- Helper-free compat preset snapshots use `../../swc/tests/compat_lowering.rs`.
+  They need `swc_ecma_preset_env`, which already depends on this crate, so they
+  stay in `swc` to avoid a publish dependency cycle. Fixtures in
+  `../../swc/tests/compat-lowering/<behavior>/` use `input.js`, `output.js`, and
+  `.swcrc`-shaped `options.json`. The runner consumes its documented parser,
+  target, assumptions, and env subset, without injecting helpers or stripping
+  TypeScript.
 
 Preserve snapshot text and every assertion when moving fixtures. Some snapshots
 need no helper, while others intentionally assert helper references without
