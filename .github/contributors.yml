@@ -32,6 +32,7 @@ groups:
   rspack:
     - chenjiahan
     - hardfist
+    - LingyuCoder
     - SyMind
   tsrx: # TSRX contributors; see #12120.
     - trueadm
