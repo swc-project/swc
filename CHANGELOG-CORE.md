@@ -2740,12 +2740,6 @@
 
 ## [swc_core@v53.0.0] - 2025-12-24
 
-### Bug Fixes
-
-
-
-- **(es/minifier)** Prevent unsafe sequence merging in `super()` calls ([#11381](https://github.com/swc-project/swc/issues/11381)) ([eb02780](https://github.com/swc-project/swc/commit/eb02780a126cd70da830079fc54168d632d18a4d))
-
 ### Features
 
 
