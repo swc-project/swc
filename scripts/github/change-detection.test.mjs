@@ -25,6 +25,15 @@ test("a nested fixture Cargo.lock does not run cargo-deny", () => {
   assert.equal(result.nodeTest, true);
 });
 
+test("a publish-order guard change runs the complete CI suite", () => {
+  const result = classifyChanges({
+    files: ["scripts/github/publish-order.mjs"],
+  });
+
+  assert.equal(result.rustChecks, true);
+  assert.equal(result.fullCargoTestMatrix, true);
+});
+
 test("a deny policy change only runs cargo-deny", () => {
   const result = classifyChanges({ files: ["deny.toml"] });
 
