@@ -95,6 +95,22 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    /// Returns true if `e` is an anonymous function, arrow function or class
+    /// whose `name` is inferred from the surrounding syntax (e.g. `var f =
+    /// ...`, `{ k: ... }`, `a ||= ...`) only when it is not wrapped in a
+    /// sequence expression, and the user asked to keep the corresponding names.
+    ///
+    /// Unwrapping `(0, function () {})` would make the function observe the
+    /// inferred name, which `keep_fnames` and `keep_classnames` promise to
+    /// preserve.
+    fn is_name_inference_sensitive(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Fn(FnExpr { ident: None, .. }) | Expr::Arrow(..) => self.options.keep_fnames,
+            Expr::Class(ClassExpr { ident: None, .. }) => self.options.keep_classnames,
+            _ => false,
+        }
+    }
+
     #[inline(always)]
     fn is_expr_leaf(e: &Expr) -> bool {
         matches!(
@@ -1303,7 +1319,14 @@ impl VisitMut for Pure<'_> {
 
         e.exprs.retain(|e| !e.is_invalid());
 
-        if !can_change_this && e.exprs.len() == 1 {
+        // Keep a `0` placeholder in front of the last expression if removing the
+        // sequence would change the semantics of the surrounding code:
+        //
+        //  - `this` of a call would change (`(0, a.b)()`).
+        //  - the inferred `name` of an anonymous function or class would change (`var f
+        //    = (0, function () {})`) and the user asked to keep names.
+        if e.exprs.len() == 1 && (!can_change_this || self.is_name_inference_sensitive(&e.exprs[0]))
+        {
             e.exprs.insert(0, 0.into());
         }
 
