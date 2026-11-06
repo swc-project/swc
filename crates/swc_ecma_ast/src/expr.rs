@@ -365,11 +365,16 @@ impl Expr {
     }
 
     /// Returns true for `eval` and member expressions, including optional-chain
-    /// member expressions such as `obj?.method`.
+    /// member expressions such as `obj?.method` and `super` property accesses
+    /// such as `super.method`.
+    ///
+    /// Wrapping such an expression in a sequence expression, e.g.
+    /// `(0, super.method)()`, changes the `this` value of the call (or turns a
+    /// direct `eval` into an indirect one), so the wrapper must be kept.
     pub fn directness_matters(&self) -> bool {
         self.is_ident_ref_to("eval")
             || match self {
-                Expr::Member(..) => true,
+                Expr::Member(..) | Expr::SuperProp(..) => true,
                 Expr::OptChain(e) => matches!(&*e.base, OptChainBase::Member(..)),
                 _ => false,
             }
