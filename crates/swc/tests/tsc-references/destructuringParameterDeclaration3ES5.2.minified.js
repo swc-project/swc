@@ -1,5 +1,4 @@
 //// [destructuringParameterDeclaration3ES5.ts]
-function a10([a, b, [[c]], ...x]) {}
 var E, array = [
     1,
     2,
@@ -19,7 +18,7 @@ var E, array = [
     ],
     !1,
     !0
-]), a10([
+]), function([a, b, [[c]], ...x]) {}([
     1,
     2,
     [
@@ -29,13 +28,13 @@ var E, array = [
     ],
     !1,
     !0
-]), a10([
+]), function([a, b, [[c]], ...x]) {}([
     1,
     2,
     3,
     !1,
     !0
-]), a10([
+]), function([a, b, [[c]], ...x]) {}([
     1,
     2
 ]), function([a, b, c, ...x]) {}([
