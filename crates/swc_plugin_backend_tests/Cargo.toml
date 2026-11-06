@@ -33,7 +33,7 @@ tracing                   = { workspace = true }
 swc_common = { version = "27.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "30.0.1", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast", features = [
   "encoding-impl",
 ] }
 swc_ecma_parser = { version = "47.0.0", path = "../swc_ecma_parser" }
