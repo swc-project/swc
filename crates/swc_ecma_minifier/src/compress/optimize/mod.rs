@@ -98,6 +98,7 @@ pub(super) fn optimizer<'a>(
         mode,
         functions: Default::default(),
         static_alias_state,
+        merging_var_init_idents: None,
     }
 }
 
@@ -260,6 +261,10 @@ struct Optimizer<'a> {
     /// State for static alias optimization (unsafe_hoist_static_method_alias
     /// and unsafe_hoist_global_objects_alias options).
     static_alias_state: &'a mut StaticAliasState,
+
+    /// While `merge_sequences_in_exprs` merges a declaration into a later
+    /// expression, the identifiers its initializer uses.
+    merging_var_init_idents: Option<FxHashSet<Id>>,
 }
 
 #[derive(Default)]

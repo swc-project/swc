@@ -741,10 +741,24 @@ impl Optimizer<'_> {
         loop {
             let mut changed = false;
             for a_idx in 0..exprs.len().saturating_sub(1) {
+                // Whether `a` itself can be moved past others, which doesn't depend on
+                // `b`. `a` only changes when the inner loop ends.
+                let mut a_skippable: Option<bool> = None;
                 for b_idx in (a_idx + 1)..exprs.len() {
                     let (a1, a2) = exprs.split_at_mut(a_idx + 1);
                     let a = a1.last_mut().unwrap();
                     let b = &mut a2[b_idx - a_idx - 1];
+
+                    // A declaration can only be merged into an expression that uses it.
+                    let skip_merge = match (&*a, &*b) {
+                        (Mergable::Var(_) | Mergable::FnDecl(_), Mergable::Var(bv)) => a
+                            .ident()
+                            .is_some_and(|id| !merge_seq_cache.is_ident_used_by(id, &**bv, b_idx)),
+                        (Mergable::Var(_) | Mergable::FnDecl(_), Mergable::Expr(be)) => a
+                            .ident()
+                            .is_some_and(|id| !merge_seq_cache.is_ident_used_by(id, &**be, b_idx)),
+                        _ => false,
+                    };
 
                     if self.options.unused && self.options.sequences() {
                         if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut *b) {
@@ -825,8 +839,9 @@ impl Optimizer<'_> {
                         Mergable::Var(b) => {
                             match b.init.as_deref_mut() {
                                 Some(b) => {
-                                    if !merge_seq_cache.is_top_retain(self, a, a_idx)
-                                        && self.merge_sequential_expr(a, b)?
+                                    if !skip_merge
+                                        && !merge_seq_cache.is_top_retain(self, a, a_idx)
+                                        && self.merge_sequential_expr_caching_a(a, b)?
                                     {
                                         changed = true;
                                         merge_seq_cache.invalidate(a_idx);
@@ -872,8 +887,9 @@ impl Optimizer<'_> {
                             }
                         }
                         Mergable::Expr(b) => {
-                            if !merge_seq_cache.is_top_retain(self, a, a_idx)
-                                && self.merge_sequential_expr(a, b)?
+                            if !skip_merge
+                                && !merge_seq_cache.is_top_retain(self, a, a_idx)
+                                && self.merge_sequential_expr_caching_a(a, b)?
                             {
                                 changed = true;
                                 merge_seq_cache.invalidate(a_idx);
@@ -912,33 +928,25 @@ impl Optimizer<'_> {
                     // at the code above, c cannot be shifted to `c` in `c || (b = a)`
                     //
 
-                    match a {
+                    let a_is_skippable = *a_skippable.get_or_insert_with(|| match &*a {
                         Mergable::Var(VarDeclarator {
                             init: Some(init), ..
-                        }) => {
-                            if !self.is_skippable_for_seq(None, init) {
-                                break;
-                            }
-                        }
+                        }) => self.is_skippable_for_seq(None, init),
                         Mergable::Expr(Expr::Assign(a)) => {
-                            if let Some(a) = a.left.as_simple() {
-                                if !self.is_simple_assign_target_skippable_for_seq(None, a) {
-                                    break;
-                                }
-                            }
-
-                            if !self.is_skippable_for_seq(None, &a.right) {
-                                break;
-                            }
+                            a.left.as_simple().is_none_or(|a| {
+                                self.is_simple_assign_target_skippable_for_seq(None, a)
+                            }) && self.is_skippable_for_seq(None, &a.right)
                         }
-
-                        _ => {}
+                        _ => true,
+                    });
+                    if !a_is_skippable {
+                        break;
                     }
 
                     match b {
                         Mergable::Var(e2) => {
-                            if let Some(e2) = &e2.init {
-                                if !self.is_skippable_for_seq(Some(a), e2) {
+                            if let Some(init) = &e2.init {
+                                if !merge_seq_cache.is_skippable(self, a, init, b_idx) {
                                     break;
                                 }
                             }
@@ -950,7 +958,7 @@ impl Optimizer<'_> {
                             }
                         }
                         Mergable::Expr(e2) => {
-                            if !self.is_skippable_for_seq(Some(a), e2) {
+                            if !merge_seq_cache.is_skippable(self, a, e2, b_idx) {
                                 break;
                             }
 
@@ -1067,7 +1075,11 @@ impl Optimizer<'_> {
         if let Some(a) = a {
             match a {
                 Mergable::Var(a) => {
-                    if is_ident_used_by(e, &a.init) {
+                    let used = match &self.merging_var_init_idents {
+                        Some(idents) => idents.contains(&e.to_id()),
+                        None => is_ident_used_by(e, &a.init),
+                    };
+                    if used {
                         log_abort!("ident used by a (var)");
                         return false;
                     }
@@ -1422,17 +1434,17 @@ impl Optimizer<'_> {
         };
         match a {
             Mergable::Expr(a) => {
-                let has_side_effect = match a {
-                    Expr::Assign(a) if a.is_simple_assign() => {
-                        a.right.may_have_side_effects(self.ctx.expr_ctx)
-                    }
-                    _ => a.may_have_side_effects(self.ctx.expr_ctx),
-                };
-                if has_side_effect
-                    && !usgae.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
+                // Check the flags before walking the expression.
+                if !usgae.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                     && (usgae.flags.intersects(
                         VarUsageInfoFlags::EXPORTED.union(VarUsageInfoFlags::REASSIGNED),
                     ))
+                    && match a {
+                        Expr::Assign(a) if a.is_simple_assign() => {
+                            a.right.may_have_side_effects(self.ctx.expr_ctx)
+                        }
+                        _ => a.may_have_side_effects(self.ctx.expr_ctx),
+                    }
                 {
                     log_abort!("a (expr) has side effect");
                     return false;
@@ -1440,11 +1452,12 @@ impl Optimizer<'_> {
             }
             Mergable::Var(a) => {
                 if let Some(init) = &a.init {
-                    if init.may_have_side_effects(self.ctx.expr_ctx)
-                        && !usgae.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
+                    // Check the flags before walking the initializer.
+                    if !usgae.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                         && (usgae.flags.intersects(
                             VarUsageInfoFlags::EXPORTED.union(VarUsageInfoFlags::REASSIGNED),
                         ))
+                        && init.may_have_side_effects(self.ctx.expr_ctx)
                     {
                         log_abort!("a (var) init has side effect");
                         return false;
@@ -1456,6 +1469,22 @@ impl Optimizer<'_> {
         }
 
         true
+    }
+
+    /// `merge_sequential_expr`, with the identifiers `a`'s initializer uses
+    /// if it's a declaration.
+    fn merge_sequential_expr_caching_a(
+        &mut self,
+        a: &mut Mergable,
+        b: &mut Expr,
+    ) -> Result<bool, ()> {
+        self.merging_var_init_idents = match a {
+            Mergable::Var(a) => Some(idents_used_by(&a.init)),
+            _ => None,
+        };
+        let result = self.merge_sequential_expr(a, b);
+        self.merging_var_init_idents = None;
+        result
     }
 
     /// Returns true if something is modified.
@@ -2758,6 +2787,10 @@ impl Mergable<'_> {
 struct MergeSequenceCache {
     ident_usage_cache: Vec<Option<FxHashSet<Id>>>,
     top_retain_cache: Vec<Option<bool>>,
+    /// Whether an expression that uses no identifiers is skippable, which then
+    /// doesn't depend on the expression being moved past it. `Some(None)`
+    /// if it uses identifiers.
+    skippable_ignoring_cache: Vec<Option<Option<bool>>>,
 }
 
 impl MergeSequenceCache {
@@ -2765,7 +2798,27 @@ impl MergeSequenceCache {
         Self {
             ident_usage_cache: vec![None; cap],
             top_retain_cache: vec![None; cap],
+            skippable_ignoring_cache: vec![None; cap],
         }
+    }
+
+    /// `optimizer.is_skippable_for_seq(Some(a), e)`, computed once for an `e`
+    /// that uses no identifiers.
+    fn is_skippable(
+        &mut self,
+        optimizer: &Optimizer,
+        a: &Mergable,
+        e: &Expr,
+        node_id: usize,
+    ) -> bool {
+        let cached = *self.skippable_ignoring_cache[node_id].get_or_insert_with(|| {
+            if idents_used_by(e).is_empty() {
+                Some(optimizer.is_skippable_for_seq(None, e))
+            } else {
+                None
+            }
+        });
+        cached.unwrap_or_else(|| optimizer.is_skippable_for_seq(Some(a), e))
     }
 
     fn is_ident_used_by<N: VisitWith<IdentUsageCollector>>(
@@ -2782,6 +2835,7 @@ impl MergeSequenceCache {
 
     fn invalidate(&mut self, node_id: usize) {
         self.ident_usage_cache[node_id] = None;
+        self.skippable_ignoring_cache[node_id] = None;
     }
 
     fn is_top_retain(&mut self, optimizer: &Optimizer, a: &Mergable, node_id: usize) -> bool {
