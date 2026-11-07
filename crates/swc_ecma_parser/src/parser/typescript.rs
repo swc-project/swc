@@ -4420,6 +4420,7 @@ impl<I: Tokens> Parser<I> {
             body: Some(body),
             global: false,
             namespace,
+            with: None,
         }))
     }
 
@@ -4440,6 +4441,16 @@ impl<I: Tokens> Parser<I> {
             unexpected!(self, "global or a string literal");
         };
 
+        // `declare module "*.txt" with { type: "text" } {}`
+        let with = if !global && self.input_mut().eat(Token::With) {
+            match self.parse_object_expr()? {
+                Expr::Object(v) => Some(Box::new(v)),
+                _ => unreachable!(),
+            }
+        } else {
+            None
+        };
+
         let body = if self.input().is(Token::LBrace) {
             Some(self.parse_ts_module_block().map(TsNamespaceBody::from)?)
         } else {
@@ -4454,6 +4465,7 @@ impl<I: Tokens> Parser<I> {
             global,
             body,
             namespace: false,
+            with,
         }))
     }
 
@@ -4788,6 +4800,7 @@ impl<I: Tokens> Parser<I> {
                             namespace: false,
                             id,
                             body,
+                            with: None,
                         }
                         .into(),
                     ))
