@@ -97,7 +97,7 @@ jobs:
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: "24"
+          node-version: "26"
 
       - name: Test GitHub scripts
         run: |
@@ -286,7 +286,7 @@ jobs:
 
       - uses: ./.github/actions/setup-node
         with:
-          node-version: "24"
+          node-version: "26"
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --all --all-targets
@@ -318,7 +318,7 @@ jobs:
 
       - uses: ./.github/actions/setup-node
         with:
-          node-version: "24"
+          node-version: "26"
 
       - name: Test
         run: |
@@ -383,7 +383,7 @@ jobs:
         id: setup-node
         if: matrix.settings.crate != '__noop__'
         with:
-          node-version: "20"
+          node-version: "26"
           install-dependencies: "false"
 
       # We explicitly do this to cache properly.
@@ -399,7 +399,7 @@ jobs:
         if: matrix.settings.crate != '__noop__' && matrix.settings.crate == 'swc_bundler'
         with:
           # The bundled fixtures use Deno 1 APIs, including the window global.
-          deno-version: v1.x
+          deno-version: 2.x
 
       - name: Install node dependencies
         if: matrix.settings.crate != '__noop__'
@@ -558,7 +558,7 @@ jobs:
       - uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: 24
+          node-version: 26
           install-dependencies: "false"
 
       - name: Set platform name
@@ -620,7 +620,7 @@ jobs:
       - uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: 24
+          node-version: 26
           install-dependencies: "false"
 
       - name: Prepare
@@ -660,7 +660,7 @@ jobs:
       - uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: 24
+          node-version: 26
           install-dependencies: "false"
 
       - name: Set platform name
