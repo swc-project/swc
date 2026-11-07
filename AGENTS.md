@@ -77,6 +77,10 @@
 -   If node bindings or integration paths are touched, run:
     -   `(cd packages/core && pnpm build:dev && pnpm test)`
 
+## Issues
+
+-   File issues found in bulk by static analysis of source code, or by similar methods, in [swc-project/swc-ai-issues](https://github.com/swc-project/swc-ai-issues). Do not file them in this repository.
+
 ## Compatibility rule
 
 -   Do not use unstable, nightly only features of rustc.
