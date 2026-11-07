@@ -6717,11 +6717,6 @@
         ]) : null;
         return updateEffectImpl(4, 2, imperativeHandleEffect.bind(null, create, ref), effectDeps);
     }
-    function mountDebugValue(value, formatterFn) {
-    // This hook is normally a no-op.
-    // The react-debug-hooks package injects its own implementation
-    // so that e.g. DevTools can display custom hook values.
-    }
     function mountCallback(callback, deps) {
         return mountWorkInProgressHook().memoizedState = [
             callback,
@@ -6973,7 +6968,7 @@
             }
         },
         useDebugValue: function(value, formatterFn) {
-            return currentHookNameInDev = "useDebugValue", mountHookTypesDev(), mountDebugValue();
+            return currentHookNameInDev = "useDebugValue", void mountHookTypesDev();
         },
         useDeferredValue: function(value) {
             return currentHookNameInDev = "useDeferredValue", mountHookTypesDev(), mountDeferredValue(value);
@@ -7041,7 +7036,7 @@
             }
         },
         useDebugValue: function(value, formatterFn) {
-            return currentHookNameInDev = "useDebugValue", updateHookTypesDev(), mountDebugValue();
+            return currentHookNameInDev = "useDebugValue", void updateHookTypesDev();
         },
         useDeferredValue: function(value) {
             return currentHookNameInDev = "useDeferredValue", updateHookTypesDev(), mountDeferredValue(value);
@@ -7109,7 +7104,7 @@
             }
         },
         useDebugValue: function(value, formatterFn) {
-            return currentHookNameInDev = "useDebugValue", updateHookTypesDev(), mountDebugValue();
+            return currentHookNameInDev = "useDebugValue", void updateHookTypesDev();
         },
         useDeferredValue: function(value) {
             return currentHookNameInDev = "useDeferredValue", updateHookTypesDev(), updateDeferredValue(value);
@@ -7177,7 +7172,7 @@
             }
         },
         useDebugValue: function(value, formatterFn) {
-            return currentHookNameInDev = "useDebugValue", updateHookTypesDev(), mountDebugValue();
+            return currentHookNameInDev = "useDebugValue", void updateHookTypesDev();
         },
         useDeferredValue: function(value) {
             return currentHookNameInDev = "useDeferredValue", updateHookTypesDev(), rerenderDeferredValue(value);
@@ -7245,7 +7240,7 @@
             }
         },
         useDebugValue: function(value, formatterFn) {
-            return currentHookNameInDev = "useDebugValue", warnInvalidHookAccess(), mountHookTypesDev(), mountDebugValue();
+            return currentHookNameInDev = "useDebugValue", warnInvalidHookAccess(), void mountHookTypesDev();
         },
         useDeferredValue: function(value) {
             return currentHookNameInDev = "useDeferredValue", warnInvalidHookAccess(), mountHookTypesDev(), mountDeferredValue(value);
@@ -7313,7 +7308,7 @@
             }
         },
         useDebugValue: function(value, formatterFn) {
-            return currentHookNameInDev = "useDebugValue", warnInvalidHookAccess(), updateHookTypesDev(), mountDebugValue();
+            return currentHookNameInDev = "useDebugValue", warnInvalidHookAccess(), void updateHookTypesDev();
         },
         useDeferredValue: function(value) {
             return currentHookNameInDev = "useDeferredValue", warnInvalidHookAccess(), updateHookTypesDev(), updateDeferredValue(value);
@@ -7381,7 +7376,7 @@
             }
         },
         useDebugValue: function(value, formatterFn) {
-            return currentHookNameInDev = "useDebugValue", warnInvalidHookAccess(), updateHookTypesDev(), mountDebugValue();
+            return currentHookNameInDev = "useDebugValue", warnInvalidHookAccess(), void updateHookTypesDev();
         },
         useDeferredValue: function(value) {
             return currentHookNameInDev = "useDeferredValue", warnInvalidHookAccess(), updateHookTypesDev(), rerenderDeferredValue(value);

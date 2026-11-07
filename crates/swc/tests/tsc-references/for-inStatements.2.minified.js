@@ -15,8 +15,7 @@ for(var x in [
     4,
     5
 ]);
-function fn() {}
-for(var x in fn());
+for(var x in void 0);
 for(var x in /[a-z]/);
 for(var x in new Date());
 for(var x in c || d);
