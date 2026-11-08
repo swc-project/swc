@@ -11,7 +11,7 @@ use anyhow::{anyhow, Context, Error};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use swc_atoms::Atom;
-use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -55,9 +55,10 @@ impl Resolver {
         let src = self.resolve(src);
 
         CallExpr {
-            span: DUMMY_SP,
+            span: src_span,
             callee: quote_ident!(
                 SyntaxContext::empty().apply_mark(unresolved_mark),
+                src_span,
                 "require"
             )
             .as_callee(),

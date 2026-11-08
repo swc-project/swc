@@ -363,6 +363,53 @@ fn issue_4112() {
 }
 
 #[test]
+fn issue_12611() {
+    let output = compile_str(
+        FileName::Real("input.js".into()).into(),
+        r#"// Example module
+import { value } from "./dependency.js";
+import { other } from "./other.js";
+console.log(value, other);"#,
+        Options {
+            swcrc: false,
+            source_maps: Some(SourceMapsConfig::Bool(true)),
+            config: Config {
+                module: Some(ModuleConfig::CommonJs(Default::default())),
+                emit_source_map_columns: true.into(),
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .expect("failed to process js file");
+    let map = swc_sourcemap::SourceMap::from_slice(output.map.unwrap().as_bytes())
+        .expect("failed to deserialize sourcemap");
+    let calls = output.code.match_indices("require(").collect::<Vec<_>>();
+    assert_eq!(calls.len(), 2);
+
+    for ((offset, _), (src_line, specifier)) in calls
+        .into_iter()
+        .zip([(1, "\"./dependency.js\""), (2, "\"./other.js\"")])
+    {
+        let specifier_offset = offset
+            + output.code[offset..]
+                .find(specifier)
+                .expect("failed to find module specifier");
+        for offset in [offset, specifier_offset] {
+            let prefix = &output.code[..offset];
+            let line = prefix.bytes().filter(|&b| b == b'\n').count() as u32;
+            let col = prefix.rsplit('\n').next().unwrap().len() as u32;
+            let token = map.lookup_token(line, col).expect("failed to find token");
+            // A lower-bound token before the callee does not map the call itself.
+            assert_eq!(token.get_dst_line(), line);
+            assert_eq!(token.get_dst_col(), col);
+            assert_eq!(token.get_src_line(), src_line);
+            assert_eq!(token.get_src_col(), 22);
+        }
+    }
+}
+
+#[test]
 fn should_work_with_emit_source_map_columns() {
     Tester::new().print_errors(|cm, handler| {
         let c = Compiler::new(cm.clone());
