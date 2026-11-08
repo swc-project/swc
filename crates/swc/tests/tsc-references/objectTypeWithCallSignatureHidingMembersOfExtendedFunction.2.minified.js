@@ -1,3 +1,2 @@
 //// [objectTypeWithCallSignatureHidingMembersOfExtendedFunction.ts]
-var i, x;
-i.apply, i.call, i.arguments, i.data, i.hm, x.apply, x.call, x.arguments, x.data, x.hm;
+(void 0).apply, (void 0).call, (void 0).arguments, (void 0).data, (void 0).hm, (void 0).apply, (void 0).call, (void 0).arguments, (void 0).data, (void 0).hm;

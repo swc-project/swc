@@ -14,7 +14,7 @@ define([
             return MainButton;
         }
     });
-    var obj3, obj0 = {
+    var obj0 = {
         to: "world"
     };
     function MainButton(props) {
@@ -26,7 +26,7 @@ define([
         to: "10000"
     }, {
         onClick: function() {}
-    }), _object_spread_props._(_object_spread._({}, obj3), {
+    }), _object_spread_props._(_object_spread._({}, void 0), {
         to: !0
     }), _object_spread._({
         onClick: function(e) {}

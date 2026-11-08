@@ -1,3 +1,3 @@
 //// [twoMergedInterfacesWithDifferingOverloads2.ts]
-var a, G, a1;
-a(), a(1), a(1, 2), G || (G = {}), a1(), a1(!0), a1(!0, 2), a1(1, !0);
+var G;
+(void 0)(), (void 0)(1), (void 0)(1, 2), G || (G = {}), (void 0)(), (void 0)(!0), (void 0)(!0, 2), (void 0)(1, !0);

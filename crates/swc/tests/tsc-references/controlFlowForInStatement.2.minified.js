@@ -1,3 +1,2 @@
 //// [controlFlowForInStatement.ts]
-var obj;
-for(var y in obj);
+for(var y in void 0);

@@ -1,6 +1,5 @@
 //// [typeGuardFunctionGenerics.ts]
-var a;
 import "@swc/helpers/_/_call_super";
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_inherits";
-funA(isB), funB(retC, a) && a.propC, funC(isB), funD(isC, a) && a.propC, funE(isB, 1);
+funA(isB), funB(retC, void 0) && (void 0).propC, funC(isB), funD(isC, void 0) && (void 0).propC, funE(isB, 1);

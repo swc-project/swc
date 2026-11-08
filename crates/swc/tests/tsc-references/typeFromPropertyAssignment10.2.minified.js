@@ -14,5 +14,4 @@ Outer.app.Application = function() {
     this.view = new Outer.app.SomeView();
 };
 //// [main.js]
-var x;
-new Outer.app.Application(), new Outer.app.Inner().y, x.y, Outer.app.statische(101);
+new Outer.app.Application(), new Outer.app.Inner().y, (void 0).y, Outer.app.statische(101);

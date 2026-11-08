@@ -1,3 +1,2 @@
 //// [typeGuardRedundancy.ts]
-var x;
-x.toFixed, x.toFixed, x.toFixed, x.toFixed;
+(void 0).toFixed, (void 0).toFixed, (void 0).toFixed, (void 0).toFixed;

@@ -1,5 +1,5 @@
 //// [callWithSpread.ts]
-var _foo_apply, _foo_apply1, _foo_apply2, _foo_apply3, _xa_, _xa_1, _xa_2, a, obj, xa;
+var _foo_apply, _foo_apply1, _foo_apply2, _foo_apply3, _xa_, _xa_1, _xa_2;
 import "@swc/helpers/_/_call_super";
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_get";
@@ -12,70 +12,70 @@ function foo(x, y) {
 foo(1, 2, "abc"), foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a))), foo.apply(void 0, [
+].concat(_to_consumable_array(void 0))), foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a), [
+].concat(_to_consumable_array(void 0), [
     "abc"
-])), obj.foo(1, 2, "abc"), obj.foo.apply(obj, [
+])), (void 0).foo(1, 2, "abc"), (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a))), obj.foo.apply(obj, [
+].concat(_to_consumable_array(void 0))), (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a), [
+].concat(_to_consumable_array(void 0), [
     "abc"
-])), obj.foo.apply(obj, [
+])), (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_foo_apply = obj.foo.apply(obj, [
+].concat(_to_consumable_array(void 0))).foo(1, 2, "abc"), (_foo_apply = (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_foo_apply, [
+].concat(_to_consumable_array(void 0)))).foo.apply(_foo_apply, [
     1,
     2
-].concat(_to_consumable_array(a))), (_foo_apply1 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(void 0))), (_foo_apply1 = (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_foo_apply1, [
+].concat(_to_consumable_array(void 0)))).foo.apply(_foo_apply1, [
     1,
     2
-].concat(_to_consumable_array(a), [
+].concat(_to_consumable_array(void 0), [
     "abc"
-])), obj.foo(1, 2, "abc"), obj.foo.apply(obj, [
+])), (void 0).foo(1, 2, "abc"), (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a))), obj.foo.apply(obj, [
+].concat(_to_consumable_array(void 0))), (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a), [
+].concat(_to_consumable_array(void 0), [
     "abc"
-])), obj.foo.apply(obj, [
+])), (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_foo_apply2 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(void 0))).foo(1, 2, "abc"), (_foo_apply2 = (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_foo_apply2, [
+].concat(_to_consumable_array(void 0)))).foo.apply(_foo_apply2, [
     1,
     2
-].concat(_to_consumable_array(a))), (_foo_apply3 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(void 0))), (_foo_apply3 = (void 0).foo.apply(void 0, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_foo_apply3, [
+].concat(_to_consumable_array(void 0)))).foo.apply(_foo_apply3, [
     1,
     2
-].concat(_to_consumable_array(a), [
+].concat(_to_consumable_array(void 0), [
     "abc"
-])), xa[1].foo(1, 2, "abc"), (_xa_ = xa[1]).foo.apply(_xa_, [
+])), (void 0)[1].foo(1, 2, "abc"), (_xa_ = (void 0)[1]).foo.apply(_xa_, [
     1,
     2
-].concat(_to_consumable_array(a))), (_xa_1 = xa[1]).foo.apply(_xa_1, [
+].concat(_to_consumable_array(void 0))), (_xa_1 = (void 0)[1]).foo.apply(_xa_1, [
     1,
     2
-].concat(_to_consumable_array(a), [
+].concat(_to_consumable_array(void 0), [
     "abc"
-])), (_xa_2 = xa[1]).foo.apply(_xa_2, [
+])), (_xa_2 = (void 0)[1]).foo.apply(_xa_2, [
     1,
     2,
     "abc"

@@ -1,3 +1,3 @@
 //// [commaOperatorWithSecondOperandAnyType.ts]
-var NUMBER, x;
-++NUMBER, x("any"), x.doSomeThing(), ++NUMBER, x("any"), x.doSomeThing();
+var NUMBER;
+++NUMBER, (void 0)("any"), (void 0).doSomeThing(), ++NUMBER, (void 0)("any"), (void 0).doSomeThing();

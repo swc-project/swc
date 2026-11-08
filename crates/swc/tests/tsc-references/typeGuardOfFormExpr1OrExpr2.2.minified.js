@@ -1,4 +1,4 @@
 //// [typeGuardOfFormExpr1OrExpr2.ts]
-var strOrNumOrBool, numOrBool;
+var numOrBool;
 import "@swc/helpers/_/_class_call_check";
-numOrBool !== strOrNumOrBool || (numOrBool = strOrNumOrBool);
+void 0 !== numOrBool || (numOrBool = void 0);

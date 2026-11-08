@@ -1,5 +1,4 @@
 //// [iteratorSpreadInArray7.ts]
-var array;
 class SymbolIterator {
     next() {
         return {
@@ -11,6 +10,6 @@ class SymbolIterator {
         return this;
     }
 }
-array.concat([
+(void 0).concat([
     ...new SymbolIterator
 ]);

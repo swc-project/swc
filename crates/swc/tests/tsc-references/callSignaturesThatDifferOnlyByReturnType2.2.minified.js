@@ -1,3 +1,2 @@
 //// [callSignaturesThatDifferOnlyByReturnType2.ts]
-var x;
-x.foo(1), x.foo('');
+(void 0).foo(1), (void 0).foo('');

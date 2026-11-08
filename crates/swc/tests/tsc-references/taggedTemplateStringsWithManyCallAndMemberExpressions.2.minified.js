@@ -1,5 +1,4 @@
 //// [taggedTemplateStringsWithManyCallAndMemberExpressions.ts]
-var f;
 import { _ as _tagged_template_literal } from "@swc/helpers/_/_tagged_template_literal";
 function _templateObject() {
     var data = _tagged_template_literal([
@@ -10,4 +9,4 @@ function _templateObject() {
         return data;
     }, data;
 }
-new new new (f(_templateObject(), 0)).member("hello")(42);
+new new new ((void 0)(_templateObject(), 0)).member("hello")(42);

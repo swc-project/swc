@@ -1,6 +1,6 @@
 //// [genericCallTypeArgumentInference.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var i, c = new (/*#__PURE__*/ function() {
+var c = new (/*#__PURE__*/ function() {
     function C(t, u) {
         _class_call_check(this, C), this.t = t, this.u = u;
     }
@@ -17,4 +17,4 @@ var i, c = new (/*#__PURE__*/ function() {
         return t;
     }, _proto.foo6 = function() {}, _proto.foo7 = function(u) {}, _proto.foo8 = function() {}, C;
 }())('', 1);
-c.foo('', 1), c.foo2('', 1), c.foo3(!0, 1), c.foo4('', !0), c.foo5(!0, 1), c.foo6(), c.foo7(''), c.foo8(), i.foo('', 1), i.foo2('', 1), i.foo3(!0, 1), i.foo4('', !0), i.foo5(!0, 1), i.foo6(), i.foo7(''), i.foo8();
+c.foo('', 1), c.foo2('', 1), c.foo3(!0, 1), c.foo4('', !0), c.foo5(!0, 1), c.foo6(), c.foo7(''), c.foo8(), (void 0).foo('', 1), (void 0).foo2('', 1), (void 0).foo3(!0, 1), (void 0).foo4('', !0), (void 0).foo5(!0, 1), (void 0).foo6(), (void 0).foo7(''), (void 0).foo8();

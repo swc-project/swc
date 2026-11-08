@@ -1,4 +1,3 @@
 //// [interfaceExtendingClassWithPrivates.ts]
-var i;
 import "@swc/helpers/_/_class_call_check";
-i.y, i.x;
+(void 0).y, (void 0).x;

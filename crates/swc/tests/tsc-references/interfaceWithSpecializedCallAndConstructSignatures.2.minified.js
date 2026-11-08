@@ -1,3 +1,2 @@
 //// [interfaceWithSpecializedCallAndConstructSignatures.ts]
-var f;
-f('a'), f('A'), new f('a'), new f('A');
+(void 0)('a'), (void 0)('A'), new (void 0)('a'), new (void 0)('A');

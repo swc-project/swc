@@ -1,3 +1,2 @@
 //// [commaOperatorWithSecondOperandStringType.ts]
-var NUMBER;
-NUMBER.toString(), NUMBER.toString();
+(void 0).toString(), (void 0).toString();

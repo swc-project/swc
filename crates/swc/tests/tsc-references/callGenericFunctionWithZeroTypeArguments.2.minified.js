@@ -1,18 +1,17 @@
 //// [callGenericFunctionWithZeroTypeArguments.ts]
-var f3, i, i2;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-f3(1), new (/*#__PURE__*/ function() {
+(void 0)(1), new (/*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
     return C.prototype.f = function(x) {
         return null;
     }, C;
-}())().f(1), i.f(1), new (/*#__PURE__*/ function() {
+}())().f(1), (void 0).f(1), new (/*#__PURE__*/ function() {
     function C2() {
         _class_call_check(this, C2);
     }
     return C2.prototype.f = function(x) {
         return null;
     }, C2;
-}())().f(1), i2.f(1);
+}())().f(1), (void 0).f(1);

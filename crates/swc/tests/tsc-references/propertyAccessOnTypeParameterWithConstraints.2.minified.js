@@ -1,12 +1,11 @@
 //// [propertyAccessOnTypeParameterWithConstraints.ts]
-var i, a, x;
+var x;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 new (/*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
     return C.prototype.f = function() {
-        var x;
-        return x.getDate() + x.getDate();
+        return (void 0).getDate() + (void 0).getDate();
     }, C;
-}())().f(), i.foo.getDate(), i.foo.getDate(), a().getDate(), a().getDate(), (x = new Date()).getDate(), x.getDate();
+}())().f(), (void 0).foo.getDate(), (void 0).foo.getDate(), (void 0)().getDate(), (void 0)().getDate(), (x = new Date()).getDate(), x.getDate();

@@ -1,3 +1,2 @@
 //// [commaOperatorWithSecondOperandNumberType.ts]
-var STRING;
-STRING.trim(), STRING.trim();
+(void 0).trim(), (void 0).trim();

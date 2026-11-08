@@ -1,4 +1,3 @@
 //// [instanceofOperatorWithAny.ts]
-var a;
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-_instanceof(a, a);
+_instanceof(void 0, void 0);

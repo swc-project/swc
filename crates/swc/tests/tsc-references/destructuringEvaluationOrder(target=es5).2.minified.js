@@ -7,8 +7,8 @@ import { _ as _to_array } from "@swc/helpers/_/_to_array";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
 var trace = [], order = function(n) {
     return trace.push(n);
-}, tmp = void 0;
-(void 0 === tmp ? order(0) : tmp)[order(1)];
+};
+order(0)[order(1)];
 var tmp1 = {};
 (void 0 === tmp1 ? order(0) : tmp1)[order(1)];
 var _ref3 = {}, _key = order(0), tmp2 = _ref3[_key];

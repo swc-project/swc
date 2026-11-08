@@ -1,10 +1,10 @@
 //// [typeOfThisInInstanceMember2.ts]
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_create_class";
-var c, r = c.x;
-c.x.x.x;
-var r2 = c.y, r3 = c.foo();
-c.z, [
+var r = (void 0).x;
+(void 0).x.x.x;
+var r2 = (void 0).y, r3 = (void 0).foo();
+(void 0).z, [
     r,
     r2,
     r3

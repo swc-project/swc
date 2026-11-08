@@ -1,3 +1,2 @@
 //// [intersectionTypeMembers.ts]
-var abc, xyz, f;
-abc.a = "hello", abc.b = "hello", abc.c = "hello", xyz.x.a = "hello", xyz.x.b = "hello", xyz.x.c = "hello", f("hello"), f(42);
+(void 0).a = "hello", (void 0).b = "hello", (void 0).c = "hello", (void 0).x.a = "hello", (void 0).x.b = "hello", (void 0).x.c = "hello", (void 0)("hello"), (void 0)(42);

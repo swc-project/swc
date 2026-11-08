@@ -1,3 +1,2 @@
 //// [assignmentCompatWithConstructSignaturesWithOptionalParameters.ts]
-var b;
-b.a, b.a2, b.a3, b.a4, b.a5, b.a6, b.a, b.a2, b.a3, b.a4, b.a5, b.a6, b.a, b.a2, b.a3, b.a4, b.a5, b.a6, b.a, b.a2, b.a3, b.a4, b.a5, b.a6, b.a, b.a2, b.a3, b.a4, b.a5, b.a6;
+(void 0).a, (void 0).a2, (void 0).a3, (void 0).a4, (void 0).a5, (void 0).a6, (void 0).a, (void 0).a2, (void 0).a3, (void 0).a4, (void 0).a5, (void 0).a6, (void 0).a, (void 0).a2, (void 0).a3, (void 0).a4, (void 0).a5, (void 0).a6, (void 0).a, (void 0).a2, (void 0).a3, (void 0).a4, (void 0).a5, (void 0).a6, (void 0).a, (void 0).a2, (void 0).a3, (void 0).a4, (void 0).a5, (void 0).a6;

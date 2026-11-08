@@ -1,3 +1,3 @@
 //// [compoundExponentiationAssignmentLHSIsReference.ts]
-var value, x1, x3;
-x1 = Math.pow(x1, value), x3.a = Math.pow(x3.a, value), x3.a = Math.pow(x3.a, value), x1 = Math.pow(x1, value), x3.a = Math.pow(x3.a, value), x3.a = Math.pow(x3.a, value);
+var x1;
+x1 = Math.pow(x1, void 0), (void 0).a = Math.pow((void 0).a, void 0), (void 0).a = Math.pow((void 0).a, void 0), x1 = Math.pow(x1, void 0), (void 0).a = Math.pow((void 0).a, void 0), (void 0).a = Math.pow((void 0).a, void 0);

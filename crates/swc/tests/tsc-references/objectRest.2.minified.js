@@ -1,5 +1,4 @@
 //// [objectRest.ts]
-let nestedrest, complex;
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
@@ -32,20 +31,20 @@ var { d: renamed } = o2;
 _object_without_properties(o2, [
     "d"
 ]);
-var { x, n1: _ref4 } = nestedrest, { y, n2: _ref5 } = _ref4, { z, n3: _ref6 } = _ref5, {} = _ref6;
-_extends({}, _ref6), _object_without_properties(nestedrest, [
+var { x, n1: _ref4 } = void 0, { y, n2: _ref5 } = _ref4, { z, n3: _ref6 } = _ref5, {} = _ref6;
+_extends({}, _ref6), _object_without_properties(void 0, [
     "x",
     "n1"
 ]);
-var { x: _ref7 } = complex, { ka } = _ref7, { y: other } = (_object_without_properties(_ref7, [
+var { x: _ref7 } = void 0, { ka } = _ref7, { y: other } = void _object_without_properties(_ref7, [
     "ka"
-]), complex);
-_object_without_properties(complex, [
+]);
+_object_without_properties(void 0, [
     "x",
     "y"
-]), ({ x: _ref1 } = complex), ({ ka } = _ref1), _object_without_properties(_ref1, [
+]), ({ x: _ref1 } = void 0), ({ ka } = _ref1), _object_without_properties(_ref1, [
     "ka"
-]), ({ y: other } = complex), _object_without_properties(complex, [
+]), ({ y: other } = void 0), _object_without_properties(void 0, [
     "x",
     "y"
 ]);

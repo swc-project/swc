@@ -3,7 +3,7 @@ import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-var b, crate, RoyalGuard = /*#__PURE__*/ function() {
+var RoyalGuard = /*#__PURE__*/ function() {
     function RoyalGuard() {
         _class_call_check(this, RoyalGuard);
     }
@@ -24,7 +24,7 @@ var b, crate, RoyalGuard = /*#__PURE__*/ function() {
     }
     return _inherits(FollowerGuard, RoyalGuard), FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard();
-a.isLeader() ? a.lead() : a.isFollower() && a.follow(), b.isLeader() ? b.lead() : b.isFollower() && b.follow(), a.isLeader();
+a.isLeader() ? a.lead() : a.isFollower() && a.follow(), (void 0).isLeader() ? (void 0).lead() : (void 0).isFollower() && (void 0).follow(), a.isLeader();
 var ArrowGuard = function ArrowGuard() {
     var _this = this;
     _class_call_check(this, ArrowGuard), this.isElite = function() {
@@ -43,7 +43,7 @@ var ArrowGuard = function ArrowGuard() {
     }
     return _inherits(ArrowMedic, ArrowGuard), ArrowMedic.prototype.heal = function() {}, ArrowMedic;
 }(ArrowGuard), guard = new ArrowGuard();
-guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
+guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), (void 0).isSundries() ? (void 0).contents.broken = !0 : (void 0).isSupplies() && ((void 0).contents.spoiled = !0), a.isFollower = (void 0).isFollower, a.isLeader = (void 0).isLeader;
 var MimicGuard = /*#__PURE__*/ function() {
     function MimicGuard() {
         _class_call_check(this, MimicGuard);

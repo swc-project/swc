@@ -2,7 +2,7 @@
 import "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_inherits";
-var b, d1, d2, i, c = new (/*#__PURE__*/ function() {
+var c = new (/*#__PURE__*/ function() {
     function C(t, u) {
         _class_call_check(this, C), this.t = t, this.u = u;
     }
@@ -18,5 +18,5 @@ var b, d1, d2, i, c = new (/*#__PURE__*/ function() {
     }, _proto.foo5 = function(t, u) {
         return t;
     }, _proto.foo6 = function() {}, _proto.foo7 = function(u) {}, _proto.foo8 = function() {}, C;
-}())(b, d1);
-c.foo(d1, d2), c.foo2(b, d2), c.foo3(d1, d1), c.foo4(d1, d2), c.foo5(d1, d2), c.foo5(d2, d2), c.foo6(), c.foo7(d1), c.foo8(), i.foo(d1, d2), i.foo2(b, d2), i.foo3(d1, d1), i.foo4(d1, d2), i.foo5(d1, d2), i.foo5(d2, d2), i.foo6(), i.foo7(d1), i.foo8();
+}())(void 0, void 0);
+c.foo(void 0, void 0), c.foo2(void 0, void 0), c.foo3(void 0, void 0), c.foo4(void 0, void 0), c.foo5(void 0, void 0), c.foo5(void 0, void 0), c.foo6(), c.foo7(void 0), c.foo8(), (void 0).foo(void 0, void 0), (void 0).foo2(void 0, void 0), (void 0).foo3(void 0, void 0), (void 0).foo4(void 0, void 0), (void 0).foo5(void 0, void 0), (void 0).foo5(void 0, void 0), (void 0).foo6(), (void 0).foo7(void 0), (void 0).foo8();

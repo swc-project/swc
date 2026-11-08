@@ -1,3 +1,2 @@
 //// [propertyAccessStringIndexSignature.ts]
-var flags, empty;
-flags.b, flags.f, flags.isNotNecessarilyNeverFalse, flags['this is fine'], empty.nope, empty["that's ok"];
+(void 0).b, (void 0).f, (void 0).isNotNecessarilyNeverFalse, (void 0)['this is fine'], (void 0).nope, (void 0)["that's ok"];

@@ -1,6 +1,6 @@
 //// [destructuringObjectAssignmentPatternWithNestedSpread.ts]
-let a, b, d;
-({ x: { a, ...b } = d } = {
+let a, b;
+({ x: { a, ...b } } = {
     x: {
         a: 1,
         y: 2

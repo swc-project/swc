@@ -9,7 +9,7 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var defaultObj, obj = {
+    var obj = {
         yy: 10,
         yy1: "hello"
     }, obj1 = {
@@ -21,7 +21,7 @@ define([
     }), OneThing, _object_spread_props._(_object_spread._({}, obj1), {
         yy: 10000,
         yy1: "true"
-    }), OneThing, _object_spread._(_object_spread_props._(_object_spread._({}, defaultObj), {
+    }), OneThing, _object_spread._(_object_spread_props._(_object_spread._({}, void 0), {
         yy: !0
     }), obj), OneThing, OneThing, OneThing, _object_spread_props._(_object_spread._({}, {
         yy: 500,

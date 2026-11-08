@@ -1,3 +1,2 @@
 //// [unionTypeReduction.ts]
-var i3;
-(void 0)(), i3();
+(void 0)(), (void 0)();

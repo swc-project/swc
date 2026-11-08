@@ -1,3 +1,2 @@
 //// [objectTypeWithCallSignatureHidingMembersOfFunction.ts]
-var i, x;
-i.apply, i.call, i.arguments, x.apply, x.call, x.arguments;
+(void 0).apply, (void 0).call, (void 0).arguments, (void 0).apply, (void 0).call, (void 0).arguments;

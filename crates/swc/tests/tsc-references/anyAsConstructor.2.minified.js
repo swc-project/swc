@@ -1,3 +1,2 @@
 //// [anyAsConstructor.ts]
-var x;
-new x(), new x('hello'), new x(x), new x(x);
+new (void 0)(), new (void 0)('hello'), new (void 0)(void 0), new (void 0)(void 0);
