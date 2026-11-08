@@ -8525,7 +8525,7 @@
      *
      * '[BigNumber Error] Exponent not an integer: {n}'
      */ P.exponentiatedBy = P.pow = function(n, m) {
-                        var half, isModExp, i, k, more, nIsBig, nIsNeg, nIsOdd, y, x = this;
+                        var half, isModExp, i, k, nIsBig, nIsNeg, nIsOdd, y, x = this;
                         // Allow NaN and ±Infinity, but not other non-integers.
                         if ((n = new BigNumber(n)).c && !n.isInteger()) throw Error(bignumberError + 'Exponent not an integer: ' + valueOf(n));
                         // If x is NaN, ±Infinity, ±0 or ±1, or n is ±Infinity, NaN or ±0.
@@ -8564,7 +8564,7 @@
                             }
                             x = x.times(x), k ? x.c && x.c.length > k && (x.c.length = k) : isModExp && (x = x.mod(m));
                         }
-                        return isModExp ? y : (nIsNeg && (y = ONE.div(y)), m ? y.mod(m) : k ? round(y, POW_PRECISION, ROUNDING_MODE, more) : y);
+                        return isModExp ? y : (nIsNeg && (y = ONE.div(y)), m ? y.mod(m) : k ? round(y, POW_PRECISION, ROUNDING_MODE, void 0) : y);
                     }, /*
      * Return a new BigNumber whose value is the value of this BigNumber rounded to an integer
      * using rounding mode rm, or ROUNDING_MODE if rm is omitted.
@@ -14440,7 +14440,7 @@
         /***/ },
         /***/ 210: /***/ function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var undefined, $SyntaxError = SyntaxError, $Function = Function, $TypeError = TypeError, getEvalledConstructor = function(expressionSyntax) {
+            var $SyntaxError = SyntaxError, $Function = Function, $TypeError = TypeError, getEvalledConstructor = function(expressionSyntax) {
                 try {
                     return $Function('"use strict"; return (' + expressionSyntax + ').constructor;')();
                 } catch (e) {}
@@ -14466,20 +14466,20 @@
                 }
             }() : throwTypeError, hasSymbols = __webpack_require__(1405)(), getProto = Object.getPrototypeOf || function(x) {
                 return x.__proto__;
-            }, needsEval = {}, TypedArray = "u" < typeof Uint8Array ? undefined : getProto(Uint8Array), INTRINSICS = {
-                '%AggregateError%': "u" < typeof AggregateError ? undefined : AggregateError,
+            }, needsEval = {}, TypedArray = "u" < typeof Uint8Array ? void 0 : getProto(Uint8Array), INTRINSICS = {
+                '%AggregateError%': "u" < typeof AggregateError ? void 0 : AggregateError,
                 '%Array%': Array,
-                '%ArrayBuffer%': "u" < typeof ArrayBuffer ? undefined : ArrayBuffer,
-                '%ArrayIteratorPrototype%': hasSymbols ? getProto([][Symbol.iterator]()) : undefined,
-                '%AsyncFromSyncIteratorPrototype%': undefined,
+                '%ArrayBuffer%': "u" < typeof ArrayBuffer ? void 0 : ArrayBuffer,
+                '%ArrayIteratorPrototype%': hasSymbols ? getProto([][Symbol.iterator]()) : void 0,
+                '%AsyncFromSyncIteratorPrototype%': void 0,
                 '%AsyncFunction%': needsEval,
                 '%AsyncGenerator%': needsEval,
                 '%AsyncGeneratorFunction%': needsEval,
                 '%AsyncIteratorPrototype%': needsEval,
-                '%Atomics%': "u" < typeof Atomics ? undefined : Atomics,
-                '%BigInt%': "u" < typeof BigInt ? undefined : BigInt,
+                '%Atomics%': "u" < typeof Atomics ? void 0 : Atomics,
+                '%BigInt%': "u" < typeof BigInt ? void 0 : BigInt,
                 '%Boolean%': Boolean,
-                '%DataView%': "u" < typeof DataView ? undefined : DataView,
+                '%DataView%': "u" < typeof DataView ? void 0 : DataView,
                 '%Date%': Date,
                 '%decodeURI%': decodeURI,
                 '%decodeURIComponent%': decodeURIComponent,
@@ -14488,49 +14488,49 @@
                 '%Error%': Error,
                 '%eval%': eval,
                 '%EvalError%': EvalError,
-                '%Float32Array%': "u" < typeof Float32Array ? undefined : Float32Array,
-                '%Float64Array%': "u" < typeof Float64Array ? undefined : Float64Array,
-                '%FinalizationRegistry%': "u" < typeof FinalizationRegistry ? undefined : FinalizationRegistry,
+                '%Float32Array%': "u" < typeof Float32Array ? void 0 : Float32Array,
+                '%Float64Array%': "u" < typeof Float64Array ? void 0 : Float64Array,
+                '%FinalizationRegistry%': "u" < typeof FinalizationRegistry ? void 0 : FinalizationRegistry,
                 '%Function%': $Function,
                 '%GeneratorFunction%': needsEval,
-                '%Int8Array%': "u" < typeof Int8Array ? undefined : Int8Array,
-                '%Int16Array%': "u" < typeof Int16Array ? undefined : Int16Array,
-                '%Int32Array%': "u" < typeof Int32Array ? undefined : Int32Array,
+                '%Int8Array%': "u" < typeof Int8Array ? void 0 : Int8Array,
+                '%Int16Array%': "u" < typeof Int16Array ? void 0 : Int16Array,
+                '%Int32Array%': "u" < typeof Int32Array ? void 0 : Int32Array,
                 '%isFinite%': isFinite,
                 '%isNaN%': isNaN,
-                '%IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined,
-                '%JSON%': 'object' == typeof JSON ? JSON : undefined,
-                '%Map%': "u" < typeof Map ? undefined : Map,
-                '%MapIteratorPrototype%': "u" > typeof Map && hasSymbols ? getProto(new Map()[Symbol.iterator]()) : undefined,
+                '%IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : void 0,
+                '%JSON%': 'object' == typeof JSON ? JSON : void 0,
+                '%Map%': "u" < typeof Map ? void 0 : Map,
+                '%MapIteratorPrototype%': "u" > typeof Map && hasSymbols ? getProto(new Map()[Symbol.iterator]()) : void 0,
                 '%Math%': Math,
                 '%Number%': Number,
                 '%Object%': Object,
                 '%parseFloat%': parseFloat,
                 '%parseInt%': parseInt,
-                '%Promise%': "u" < typeof Promise ? undefined : Promise,
-                '%Proxy%': "u" < typeof Proxy ? undefined : Proxy,
+                '%Promise%': "u" < typeof Promise ? void 0 : Promise,
+                '%Proxy%': "u" < typeof Proxy ? void 0 : Proxy,
                 '%RangeError%': RangeError,
                 '%ReferenceError%': ReferenceError,
-                '%Reflect%': "u" < typeof Reflect ? undefined : Reflect,
+                '%Reflect%': "u" < typeof Reflect ? void 0 : Reflect,
                 '%RegExp%': RegExp,
-                '%Set%': "u" < typeof Set ? undefined : Set,
-                '%SetIteratorPrototype%': "u" > typeof Set && hasSymbols ? getProto(new Set()[Symbol.iterator]()) : undefined,
-                '%SharedArrayBuffer%': "u" < typeof SharedArrayBuffer ? undefined : SharedArrayBuffer,
+                '%Set%': "u" < typeof Set ? void 0 : Set,
+                '%SetIteratorPrototype%': "u" > typeof Set && hasSymbols ? getProto(new Set()[Symbol.iterator]()) : void 0,
+                '%SharedArrayBuffer%': "u" < typeof SharedArrayBuffer ? void 0 : SharedArrayBuffer,
                 '%String%': String,
-                '%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
-                '%Symbol%': hasSymbols ? Symbol : undefined,
+                '%StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : void 0,
+                '%Symbol%': hasSymbols ? Symbol : void 0,
                 '%SyntaxError%': $SyntaxError,
                 '%ThrowTypeError%': ThrowTypeError,
                 '%TypedArray%': TypedArray,
                 '%TypeError%': $TypeError,
-                '%Uint8Array%': "u" < typeof Uint8Array ? undefined : Uint8Array,
-                '%Uint8ClampedArray%': "u" < typeof Uint8ClampedArray ? undefined : Uint8ClampedArray,
-                '%Uint16Array%': "u" < typeof Uint16Array ? undefined : Uint16Array,
-                '%Uint32Array%': "u" < typeof Uint32Array ? undefined : Uint32Array,
+                '%Uint8Array%': "u" < typeof Uint8Array ? void 0 : Uint8Array,
+                '%Uint8ClampedArray%': "u" < typeof Uint8ClampedArray ? void 0 : Uint8ClampedArray,
+                '%Uint16Array%': "u" < typeof Uint16Array ? void 0 : Uint16Array,
+                '%Uint32Array%': "u" < typeof Uint32Array ? void 0 : Uint32Array,
                 '%URIError%': URIError,
-                '%WeakMap%': "u" < typeof WeakMap ? undefined : WeakMap,
-                '%WeakRef%': "u" < typeof WeakRef ? undefined : WeakRef,
-                '%WeakSet%': "u" < typeof WeakSet ? undefined : WeakSet
+                '%WeakMap%': "u" < typeof WeakMap ? void 0 : WeakMap,
+                '%WeakRef%': "u" < typeof WeakRef ? void 0 : WeakRef,
+                '%WeakSet%': "u" < typeof WeakSet ? void 0 : WeakSet
             }, doEval = function doEval(name) {
                 var value;
                 if ('%AsyncFunction%' === name) value = getEvalledConstructor('async function () {}');

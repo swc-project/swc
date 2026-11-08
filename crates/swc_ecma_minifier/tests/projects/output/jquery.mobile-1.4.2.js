@@ -4752,7 +4752,7 @@
             if ("overlay" === this.menuType) return this.close(), !1;
         },
         build: function() {
-            var selectId, popupId, dialogId, label, thisPage, isMultiple, menuId, themeAttr, overlayTheme, overlayThemeAttr, dividerThemeAttr, menuPage, listbox, list, header, headerTitle, menuPageContent, menuPageClose, headerClose, self, o = this.options;
+            var selectId, popupId, dialogId, label, thisPage, isMultiple, menuId, themeAttr, overlayTheme, overlayThemeAttr, dividerThemeAttr, menuPage, listbox, list, header, headerTitle, headerClose, self, o = this.options;
             return o.nativeMenu ? this._super() : (self = this, popupId = (selectId = this.selectId) + "-listbox", dialogId = selectId + "-dialog", label = this.label, thisPage = this.element.closest(".ui-page"), isMultiple = this.element[0].multiple, menuId = selectId + "-menu", themeAttr = o.theme ? " data-" + jQuery.mobile.ns + "theme='" + o.theme + "'" : "", overlayThemeAttr = (overlayTheme = o.overlayTheme || o.theme || null) ? " data-" + jQuery.mobile.ns + "overlay-theme='" + overlayTheme + "'" : "", dividerThemeAttr = o.dividerTheme && isMultiple ? " data-" + jQuery.mobile.ns + "divider-theme='" + o.dividerTheme + "'" : "", menuPage = jQuery("<div data-" + jQuery.mobile.ns + "role='dialog' class='ui-selectmenu' id='" + dialogId + "'" + themeAttr + overlayThemeAttr + "><div data-" + jQuery.mobile.ns + "role='header'><div class='ui-title'>" + label.getEncodedText() + "</div></div><div data-" + jQuery.mobile.ns + "role='content'></div></div>"), listbox = jQuery("<div id='" + popupId + "' class='ui-selectmenu'></div>").insertAfter(this.select).popup({
                 theme: o.overlayTheme
             }), list = jQuery("<ul class='ui-selectmenu-list' id='" + menuId + "' role='listbox' aria-labelledby='" + this.buttonId + "'" + themeAttr + dividerThemeAttr + "></ul>").appendTo(listbox), header = jQuery("<div class='ui-header ui-bar-" + (o.theme ? o.theme : "inherit") + "'></div>").prependTo(listbox), headerTitle = jQuery("<h1 class='ui-title'></h1>").appendTo(header), this.isMultiple && (headerClose = jQuery("<a>", {
@@ -4775,8 +4775,8 @@
                 header: header,
                 headerTitle: headerTitle,
                 headerClose: headerClose,
-                menuPageContent: menuPageContent,
-                menuPageClose: menuPageClose,
+                menuPageContent: void 0,
+                menuPageClose: void 0,
                 placeholder: ""
             }), // Create list from select, update state
             this.refresh(), void 0 === this._origTabIndex && // Map undefined to false, because this._origTabIndex === undefined
@@ -5064,14 +5064,14 @@
             backBtnText: "Back"
         },
         _create: function() {
-            var leftbtn, rightbtn, role = this.element.is(":jqmData(role='header')") ? "header" : "footer", page = this.element.closest(".ui-page");
+            var role = this.element.is(":jqmData(role='header')") ? "header" : "footer", page = this.element.closest(".ui-page");
             0 === page.length && (page = !1, this._on(this.document, {
                 pageshow: "refresh"
             })), jQuery.extend(this, {
                 role: role,
                 page: page,
-                leftbtn: leftbtn,
-                rightbtn: rightbtn
+                leftbtn: void 0,
+                rightbtn: void 0
             }), this.element.attr("role", "header" === role ? "banner" : "contentinfo").addClass("ui-" + role), this.refresh(), this._setOptions(this.options);
         },
         _setOptions: function(o) {

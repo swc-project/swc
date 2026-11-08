@@ -9275,16 +9275,16 @@
                     }, this.update = function(config) {
                         if (config) {
                             for(var key in this.config = config, this.i = 0, this.markers){
-                                var html, marker = this.markers[key];
+                                var marker = this.markers[key];
                                 if (!marker.range) {
-                                    marker.update(html, this, this.session, config);
+                                    marker.update(void 0, this, this.session, config);
                                     continue;
                                 }
                                 var range = marker.range.clipRows(config.firstRow, config.lastRow);
                                 if (!range.isEmpty()) if (range = range.toScreenRange(this.session), marker.renderer) {
                                     var top = this.$getTop(range.start.row, config), left = this.$padding + range.start.column * config.characterWidth;
-                                    marker.renderer(html, range, left, top, config);
-                                } else "fullLine" == marker.type ? this.drawFullLineMarker(html, range, marker.clazz, config) : "screenLine" == marker.type ? this.drawScreenLineMarker(html, range, marker.clazz, config) : range.isMultiLine() ? "text" == marker.type ? this.drawTextMarker(html, range, marker.clazz, config) : this.drawMultiLineMarker(html, range, marker.clazz, config) : this.drawSingleLineMarker(html, range, marker.clazz + " ace_start ace_br15", config);
+                                    marker.renderer(void 0, range, left, top, config);
+                                } else "fullLine" == marker.type ? this.drawFullLineMarker(void 0, range, marker.clazz, config) : "screenLine" == marker.type ? this.drawScreenLineMarker(void 0, range, marker.clazz, config) : range.isMultiLine() ? "text" == marker.type ? this.drawTextMarker(void 0, range, marker.clazz, config) : this.drawMultiLineMarker(void 0, range, marker.clazz, config) : this.drawSingleLineMarker(void 0, range, marker.clazz + " ace_start ace_br15", config);
                             }
                             if (-1 != this.i) for(; this.i < this.element.childElementCount;)this.element.removeChild(this.element.lastChild);
                         }

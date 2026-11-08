@@ -3331,7 +3331,7 @@
         }
     }
     function handleEventsForInputEventPolyfill(domEventName, target, targetInst) {
-        if ("focusin" === domEventName) // In IE9, propertychange fires for most input events but is buggy and
+        "focusin" === domEventName ? (// In IE9, propertychange fires for most input events but is buggy and
         // doesn't fire when text is deleted, but conveniently, selectionchange
         // appears to fire in all of the remaining cases so we catch those and
         // forward the event if the value has changed
@@ -3341,8 +3341,7 @@
         //
         // stopWatching() should be a noop here but we call it just in case we
         // missed a blur event somehow.
-        stopWatchingForValueChange(), activeElement = target, activeElementInst = targetInst, activeElement.attachEvent("onpropertychange", handlePropertyChange);
-        else "focusout" === domEventName && stopWatchingForValueChange();
+        stopWatchingForValueChange(), activeElement = target, activeElementInst = targetInst, activeElement.attachEvent("onpropertychange", handlePropertyChange)) : "focusout" === domEventName && stopWatchingForValueChange();
     } // For IE8 and IE9.
     function getTargetInstForInputEventPolyfill(domEventName, targetInst) {
         if ("selectionchange" === domEventName || "keyup" === domEventName || "keydown" === domEventName) // On the selectionchange event, the target is just document which isn't
@@ -4100,7 +4099,7 @@
                             } else // Moving to a node from outside the window.
                             from = null, to = targetInst;
                             if (from !== to) {
-                                var dispatchQueue1, leaveEvent, enterEvent, from1, to1, common, SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
+                                var enterEvent, from1, to1, common, SyntheticEventCtor = SyntheticMouseEvent, leaveEventType = "onMouseLeave", enterEventType = "onMouseEnter", eventTypePrefix = "mouse";
                                 ("pointerout" === domEventName || "pointerover" === domEventName) && (SyntheticEventCtor = SyntheticPointerEvent, leaveEventType = "onPointerLeave", enterEventType = "onPointerEnter", eventTypePrefix = "pointer");
                                 var fromNode = null == from ? win : getNodeFromInstance(from), toNode = null == to ? win : getNodeFromInstance(to), leave = new SyntheticEventCtor(leaveEventType, eventTypePrefix + "leave", from, nativeEvent, nativeEventTarget);
                                 leave.target = fromNode, leave.relatedTarget = toNode;
@@ -4109,7 +4108,7 @@
                                     var enterEvent1 = new SyntheticEventCtor(enterEventType, eventTypePrefix + "enter", to, nativeEvent, nativeEventTarget);
                                     enterEvent1.target = toNode, enterEvent1.relatedTarget = fromNode, enter = enterEvent1;
                                 }
-                                dispatchQueue1 = dispatchQueue, leaveEvent = leave, enterEvent = enter, from1 = from, to1 = to, common = from1 && to1 ? /**
+                                enterEvent = enter, from1 = from, to1 = to, common = from1 && to1 ? /**
    * Return the lowest common ancestor of A and B, or null if they are in
    * different trees.
    */ function(instA, instB) {
@@ -4125,7 +4124,7 @@
                                         nodeA = getParent(nodeA), nodeB = getParent(nodeB);
                                     }
                                     return null;
-                                }(from1, to1) : null, null !== from1 && accumulateEnterLeaveListenersForEvent(dispatchQueue1, leaveEvent, from1, common, !1), null !== to1 && null !== enterEvent && accumulateEnterLeaveListenersForEvent(dispatchQueue1, enterEvent, to1, common, !0);
+                                }(from1, to1) : null, null !== from1 && accumulateEnterLeaveListenersForEvent(dispatchQueue, leave, from1, common, !1), null !== to1 && null !== enterEvent && accumulateEnterLeaveListenersForEvent(dispatchQueue, enterEvent, to1, common, !0);
                             }
                         }
                     }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), /**
@@ -8418,7 +8417,7 @@
                     if (popHydrationState(workInProgress)) // TODO: Move this and createInstance step into the beginPhase
                     // to consolidate.
                     {
-                        instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, hostContext = currentHostContext, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props1 = props, node[internalPropsKey] = props1, workInProgress.updateQueue = updatePayload = function(domElement, tag, rawProps, parentNamespace) {
+                        instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, instance[internalInstanceKey] = workInProgress, instance[internalPropsKey] = props, workInProgress.updateQueue = updatePayload = function(domElement, tag, rawProps, parentNamespace) {
                             switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
                                     listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
@@ -8618,11 +8617,11 @@
                                     trapClickOnNonInteractiveElement(domElement);
                             }
                             return updatePayload;
-                        }(instance, type1, props, hostContext.namespace), (null !== updatePayload || 0) && // If changes to the hydrated node need to be applied at the
+                        }(instance, type1, props, currentHostContext.namespace), (null !== updatePayload || 0) && // If changes to the hydrated node need to be applied at the
                         // commit-phase we mark this as such.
                         markUpdate(workInProgress);
                     } else {
-                        var instance, type1, props, hostContext, hostInst, node, props1, updatePayload, instance1 = function(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
+                        var instance, type1, props, updatePayload, instance1 = function(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
                             if (validateDOMNesting(type, null, hostContext.ancestorInfo), "string" == typeof props.children || "number" == typeof props.children) {
                                 var hostInst, node, props1, string = "" + props.children, ownAncestorInfo = updatedAncestorInfo(hostContext.ancestorInfo, type);
                                 validateDOMNesting(null, string, ownAncestorInfo);
@@ -8769,7 +8768,7 @@
                     updateHostText$1(current, workInProgress, oldText, newProps);
                 } else {
                     if ("string" != typeof newProps && null === workInProgress.stateNode) throw Error("We must have new props for new mounts. This error is likely caused by a bug in React. Please file an issue.");
-                    var hostInst1, textNode, _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
+                    var textNode, _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
                     if (popHydrationState(workInProgress)) (function(fiber) {
                         var hostInst, textInstance = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (hostInst = fiber, textInstance[internalInstanceKey] = hostInst, textInstance.nodeValue !== textContent);
                         if (shouldUpdate) {
@@ -8788,9 +8787,7 @@
                         }
                         return shouldUpdate;
                     })(workInProgress) && markUpdate(workInProgress);
-                    else {
-                        validateDOMNesting(null, newProps, _currentHostContext.ancestorInfo), hostInst1 = workInProgress, (textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(newProps))[internalInstanceKey] = hostInst1, workInProgress.stateNode = textNode;
-                    }
+                    else validateDOMNesting(null, newProps, _currentHostContext.ancestorInfo), (textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(newProps))[internalInstanceKey] = workInProgress, workInProgress.stateNode = textNode;
                 }
                 return null;
             case 13:
@@ -9165,10 +9162,10 @@
         }
         var inst = fiber.stateNode;
         return null !== inst && "function" == typeof inst.componentDidCatch ? update.callback = function() {
-            markFailedErrorBoundaryForHotReloading(fiber), "function" != typeof getDerivedStateFromError && (instance = this, null === legacyErrorBoundariesThatAlreadyFailed ? legacyErrorBoundariesThatAlreadyFailed = new Set([
-                instance
-            ]) : legacyErrorBoundariesThatAlreadyFailed.add(instance), logCapturedError(fiber, errorInfo));
-            var instance, error$1 = errorInfo.value, stack = errorInfo.stack;
+            markFailedErrorBoundaryForHotReloading(fiber), "function" != typeof getDerivedStateFromError && (null === legacyErrorBoundariesThatAlreadyFailed ? legacyErrorBoundariesThatAlreadyFailed = new Set([
+                this
+            ]) : legacyErrorBoundariesThatAlreadyFailed.add(this), logCapturedError(fiber, errorInfo));
+            var error$1 = errorInfo.value, stack = errorInfo.stack;
             this.componentDidCatch(error$1, {
                 componentStack: null !== stack ? stack : ""
             }), "function" == typeof getDerivedStateFromError || (1 & fiber.lanes) != 0 || error("%s: Error boundaries should implement getDerivedStateFromError(). In that method, return a state update to display an error message or fallback UI.", getComponentName(fiber.type) || "Unknown");
@@ -9444,8 +9441,8 @@
                 var finishedWork1, instance = finishedWork.stateNode;
                 if (null != instance) {
                     // Commit the work prepared earlier.
-                    var node, props, newProps = finishedWork.memoizedProps, oldProps = null !== current ? current.memoizedProps : newProps, type = finishedWork.type, updatePayload = finishedWork.updateQueue; // For hydration we reuse the update path but we treat the oldProps
-                    finishedWork.updateQueue = null, null !== updatePayload && (node = instance, props = newProps, node[internalPropsKey] = props, function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
+                    var newProps = finishedWork.memoizedProps, oldProps = null !== current ? current.memoizedProps : newProps, type = finishedWork.type, updatePayload = finishedWork.updateQueue; // For hydration we reuse the update path but we treat the oldProps
+                    finishedWork.updateQueue = null, null !== updatePayload && (instance[internalPropsKey] = newProps, function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
                         "input" === tag && "radio" === nextRawProps.type && null != nextRawProps.name && updateChecked(domElement, nextRawProps), isCustomComponent(tag, lastRawProps);
                         // TODO: Handle wasCustomComponentTag
                         for(var wasMultiple, value, isCustomComponentTag = isCustomComponent(tag, nextRawProps), i = 0; i < updatePayload.length; i += 2){
@@ -10346,7 +10343,7 @@
                     else if (outerNode.compareDocumentPosition) return !!(16 & outerNode.compareDocumentPosition(innerNode));
                     else return !1;
                 }(node.ownerDocument.documentElement, node)) {
-                    null !== priorSelectionRange && hasSelectionCapabilities(priorFocusedElem) && (input = priorFocusedElem, start = (offsets = priorSelectionRange).start, void 0 === (end = offsets.end) && (end = start), "selectionStart" in input ? (input.selectionStart = start, input.selectionEnd = Math.min(end, input.value.length)) : /**
+                    null !== priorSelectionRange && hasSelectionCapabilities(priorFocusedElem) && (start = (offsets = priorSelectionRange).start, void 0 === (end = offsets.end) && (end = start), "selectionStart" in priorFocusedElem ? (priorFocusedElem.selectionStart = start, priorFocusedElem.selectionEnd = Math.min(end, priorFocusedElem.value.length)) : /**
    * In modern non-IE browsers, we can support both forward and backward
    * selections.
    *
@@ -10375,8 +10372,8 @@
                                 range.setStart(startMarker.node, startMarker.offset), selection.removeAllRanges(), start > end ? (selection.addRange(range), selection.extend(endMarker.node, endMarker.offset)) : (range.setEnd(endMarker.node, endMarker.offset), selection.addRange(range));
                             }
                         }
-                    }(input, offsets)); // Focusing a node can change the scroll position, which is undesirable
-                    for(var input, offsets, start, end, ancestors = [], ancestor = priorFocusedElem; ancestor = ancestor.parentNode;)1 === ancestor.nodeType && ancestors.push({
+                    }(priorFocusedElem, offsets)); // Focusing a node can change the scroll position, which is undesirable
+                    for(var offsets, start, end, ancestors = [], ancestor = priorFocusedElem; ancestor = ancestor.parentNode;)1 === ancestor.nodeType && ancestors.push({
                         element: ancestor,
                         left: ancestor.scrollLeft,
                         top: ancestor.scrollTop
@@ -10568,8 +10565,8 @@
                             if (null !== lastEffect) {
                                 var firstEffect = lastEffect.next, effect = firstEffect;
                                 do {
-                                    var fiber, effect1, _effect = effect, next = _effect.next, tag = _effect.tag;
-                                    (4 & tag) != 0 && (1 & tag) != 0 && (enqueuePendingPassiveHookEffectUnmount(finishedWork, effect), fiber = finishedWork, effect1 = effect, pendingPassiveHookEffectsMount.push(effect1, fiber), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+                                    var effect1, _effect = effect, next = _effect.next, tag = _effect.tag;
+                                    (4 & tag) != 0 && (1 & tag) != 0 && (enqueuePendingPassiveHookEffectUnmount(finishedWork, effect), effect1 = effect, pendingPassiveHookEffectsMount.push(effect1, finishedWork), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
                                         return flushPassiveEffects(), null;
                                     }))), effect = next;
                                 }while (effect !== firstEffect)

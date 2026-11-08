@@ -6666,7 +6666,7 @@
             }
         }, innerOpts.applyTransform = function(m) {
             !function(path, m) {
-                var cmd, nPoint, i, j, k, p, data = path.data, len = path.len(), M = CMD$2.M, C = CMD$2.C, L = CMD$2.L, R = CMD$2.R, A = CMD$2.A, Q = CMD$2.Q;
+                var cmd, nPoint, i, j, k, data = path.data, len = path.len(), M = CMD$2.M, C = CMD$2.C, L = CMD$2.L, R = CMD$2.R, A = CMD$2.A, Q = CMD$2.Q;
                 for(i = 0, j = 0; i < len;){
                     switch(cmd = data[i++], j = i, nPoint = 0, cmd){
                         case M:
@@ -6684,7 +6684,7 @@
                             data[i] *= sx, data[i++] += x, data[i] *= sy, data[i++] += y, data[i++] *= sx, data[i++] *= sy, data[i++] += angle, data[i++] += angle, i += 2, j = i;
                             break;
                         case R:
-                            p[0] = data[i++], p[1] = data[i++], applyTransform(p, p, m), data[j++] = p[0], data[j++] = p[1], p[0] += data[i++], p[1] += data[i++], applyTransform(p, p, m), data[j++] = p[0], data[j++] = p[1];
+                            (void 0)[0] = data[i++], (void 0)[1] = data[i++], applyTransform(void 0, void 0, m), data[j++] = (void 0)[0], data[j++] = (void 0)[1], (void 0)[0] += data[i++], (void 0)[1] += data[i++], applyTransform(void 0, void 0, m), data[j++] = (void 0)[0], data[j++] = (void 0)[1];
                     }
                     for(k = 0; k < nPoint; k++){
                         var p_1 = points[k];
@@ -32325,12 +32325,12 @@
             var iterations = 0 !== filter(nodes, function(node) {
                 return 0 === node.getLayout().value;
             }).length ? 0 : seriesModel.get('layoutIterations');
-            /**
+            orient = seriesModel.get('orient'), /**
      * Compute the x-position for each node.
      *
      * Here we use Kahn algorithm to detect cycle when we traverse
      * the node to computer the initial x position.
-     */ (function(nodes, edges, nodeWidth, width, height, orient, nodeAlign) {
+     */ function(nodes, edges, nodeWidth, width, height, orient, nodeAlign) {
                 for(var kx, remainEdges = [], indegreeArr = [], zeroIndegrees = [], nextTargetNode = [], x = 0, i = 0; i < edges.length; i++)remainEdges[i] = 1;
                 for(var i = 0; i < nodes.length; i++)indegreeArr[i] = nodes[i].inEdges.length, 0 === indegreeArr[i] && zeroIndegrees.push(nodes[i]);
                 // horizontal(if orient === 'horizontal') or vertical(if orient === 'vertical')
@@ -32391,7 +32391,7 @@
                         x: nodeDepth
                     }, !0);
                 });
-            })(nodes, edges, nodeWidth, width, height, orient = seriesModel.get('orient'), seriesModel.get('nodeAlign')), /**
+            }(nodes, edges, nodeWidth, width, height, orient, seriesModel.get('nodeAlign')), /**
      * Using Gauss-Seidel iterations method to compute the node depth(y-position)
      *
      * @param nodes  node of sankey view
@@ -37356,7 +37356,7 @@
                         });
                         each(inner$b(zr).records, function(record) {
                             record && cb(record, e, dis.dispatchAction);
-                        }), pendings1 = dis.pendings, showLen = pendings1.showTip.length, hideLen = pendings1.hideTip.length, showLen ? actuallyPayload = pendings1.showTip[showLen - 1] : hideLen && (actuallyPayload = pendings1.hideTip[hideLen - 1]), actuallyPayload && (actuallyPayload.dispatchAction = null, api.dispatchAction(actuallyPayload));
+                        }), showLen = (pendings1 = dis.pendings).showTip.length, hideLen = pendings1.hideTip.length, showLen ? actuallyPayload = pendings1.showTip[showLen - 1] : hideLen && (actuallyPayload = pendings1.hideTip[hideLen - 1]), actuallyPayload && (actuallyPayload.dispatchAction = null, api.dispatchAction(actuallyPayload));
                     });
                 }
             }(zr, api), (inner$b(zr).records[key] || (inner$b(zr).records[key] = {})).handler = handler;
@@ -39602,7 +39602,7 @@
                     } else existList[index] = newElOptCopy;
                     else 'replace' === $action ? existList[index] = newElOptCopy : 'remove' === $action && // null will be cleaned later.
                     existElOption && (existList[index] = null);
-                }(existList, index, newElOption), existItem = existList[index], existItem && (existItem.hv = newElOption.hv = [
+                }(existList, index, newElOption), (existItem = existList[index]) && (existItem.hv = newElOption.hv = [
                     isSetLoc(newElOption, [
                         'left',
                         'right'

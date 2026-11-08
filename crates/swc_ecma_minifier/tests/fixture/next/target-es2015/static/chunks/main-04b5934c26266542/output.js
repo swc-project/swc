@@ -2092,8 +2092,8 @@ You should only use "next/router" on the client side of your app.
                             router: _this
                         }), buildCancellationError();
                         try {
-                            let props, { page: Component, styleSheets } = yield _this.fetchComponent("/_error"), routeInfo = {
-                                props,
+                            let { page: Component, styleSheets } = yield _this.fetchComponent("/_error"), routeInfo = {
+                                props: void 0,
                                 Component,
                                 styleSheets,
                                 err,
@@ -2445,7 +2445,7 @@ You should only use "next/router" on the client side of your app.
                 constructor(pathname1, query1, as1, { initialProps, pageLoader, App, wrapApp, Component, err, subscription, isFallback, locale, locales, defaultLocale, domainLocales, isPreview }){
                     // Server Data Cache
                     this.sdc = {}, this.isFirstPopStateEvent = !0, this._key = createKey(), this.onPopState = (e)=>{
-                        let forcedScroll, { isFirstPopStateEvent } = this;
+                        let { isFirstPopStateEvent } = this;
                         this.isFirstPopStateEvent = !1;
                         let state = e.state;
                         if (!state) {
@@ -2478,7 +2478,7 @@ You should only use "next/router" on the client side of your app.
                             locale: options.locale || this.defaultLocale,
                             // @ts-ignore internal value not exposed on types
                             _h: 0
-                        }), forcedScroll);
+                        }), void 0);
                     };
                     // represents the current component key
                     let route = _removeTrailingSlash.removeTrailingSlash(pathname1);

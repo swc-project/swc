@@ -1,4 +1,4 @@
-let installed, counter, sentinel;
+let installed, counter;
 globalThis.process = (value)=>value;
 export function install(next) {
     installed = next;
@@ -11,5 +11,5 @@ export function sites(value) {
     console.log("no hook"), console.log(value), console.log(!0, !1), console.log(value, value, void 0), console.log(void 0);
 }
 export function read(value) {
-    return value === sentinel;
+    return void 0 === value;
 }

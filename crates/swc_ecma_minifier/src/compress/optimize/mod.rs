@@ -3445,15 +3445,26 @@ impl VisitMut for Optimizer<'_> {
 
         if let VarDeclarator {
             name: Pat::Ident(id),
-            init: Some(init),
+            init,
             definite: false,
             ..
         } = var
         {
-            self.store_var_for_inlining(&mut id.id, init, false);
+            if let Some(init) = init {
+                self.store_var_for_inlining(&mut id.id, init, false);
 
-            if init.is_invalid() {
-                var.init = None
+                if init.is_invalid() {
+                    var.init = None
+                }
+            } else {
+                if let Some(usage) = self.data.vars.get(&id.id.to_id()) {
+                    if !usage.flags.intersects(VarUsageInfoFlags::VAR_INITIALIZED)
+                        && usage.assign_count == 0
+                    {
+                        let mut undef = Expr::undefined(DUMMY_SP);
+                        self.store_var_for_inlining(&mut id.id, &mut undef, false);
+                    }
+                }
             }
 
             // Dummy check.
