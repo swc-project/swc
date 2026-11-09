@@ -58,7 +58,7 @@ bitflags::bitflags! {
         const DECLARED_AS_FN_DECL       = 1 << 3;
         const DECLARED_AS_FN_EXPR       = 1 << 4;
         const DECLARED_AS_FOR_INIT      = 1 << 5;
-        /// The variable itself may be assigned again, including by another module.
+        /// The variable itself is reassigned in the current module.
         const REASSIGNED                = 1 << 6;
         const HAS_PROPERTY_ACCESS       = 1 << 7;
         const EXPORTED                  = 1 << 8;
@@ -90,6 +90,9 @@ bitflags::bitflags! {
 
         /// The variable is declared without initializer.
         const LAZY_INIT                 = 1 << 25;
+
+        /// The binding's value may be changed by another module.
+        const EXTERNALLY_MUTABLE        = 1 << 26;
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -157,6 +160,12 @@ impl Default for VarUsageInfo {
 impl VarUsageInfo {
     pub(crate) fn is_infected(&self) -> bool {
         !self.infects_to.is_empty()
+    }
+
+    /// Whether the binding's value may change after initialization.
+    pub(crate) fn may_change(&self) -> bool {
+        self.flags
+            .intersects(VarUsageInfoFlags::REASSIGNED | VarUsageInfoFlags::EXTERNALLY_MUTABLE)
     }
 
     /// The variable itself or a property of it is modified.
@@ -301,6 +310,7 @@ impl Storage for ProgramData {
                     let var_info_flags = var_info.flags;
                     let e_flags = &mut e.flags;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::EXTERNALLY_MUTABLE;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
@@ -692,7 +702,7 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_as_externally_mutable(&mut self) {
         // External writes are invisible to assignment counts and scope analysis.
-        self.flags.insert(VarUsageInfoFlags::REASSIGNED);
+        self.flags.insert(VarUsageInfoFlags::EXTERNALLY_MUTABLE);
         self.flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
     }
 
