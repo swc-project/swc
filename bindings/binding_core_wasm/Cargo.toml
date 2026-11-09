@@ -44,6 +44,7 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_visit",
   "ecma_helpers_inline",
   "ecma_lints",
+  "base_isolated_dts",
   "base_module",
   "base_react_compiler",
 ] }
