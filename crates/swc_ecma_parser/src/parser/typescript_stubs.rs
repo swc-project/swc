@@ -12,6 +12,28 @@ use swc_ecma_ast::*;
 use crate::{input::Tokens, lexer::Token, PResult, Parser};
 
 impl<I: Tokens> Parser<I> {
+    pub(super) fn can_follow_ts_instantiation(&mut self) -> bool {
+        false
+    }
+
+    pub(super) fn try_parse_arrow<T>(
+        &mut self,
+        _is_async: bool,
+        _params_start: Option<BytePos>,
+        _trailing_comma: Option<Span>,
+        _parse: impl FnOnce(&mut Self) -> PResult<Option<T>>,
+    ) -> Option<T> {
+        None
+    }
+
+    pub(super) fn try_parse_ts_speculation<T>(
+        &mut self,
+        _kind: super::TsSpeculationKind,
+        _op: impl FnOnce(&mut Self) -> PResult<Option<T>>,
+    ) -> Option<T> {
+        None
+    }
+
     pub(super) fn is_flow_reserved_type_name(_name: &str) -> bool {
         false
     }
@@ -91,10 +113,6 @@ impl<I: Tokens> Parser<I> {
         unreachable!(
             "parse_ts_type_or_type_predicate_ann should not be called without typescript feature"
         )
-    }
-
-    pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
-        None
     }
 
     pub(crate) fn try_parse_ts_type_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {

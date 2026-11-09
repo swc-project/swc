@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 144
+    "end": 191
   },
   "body": [
     {
@@ -359,6 +359,114 @@
             "span": {
               "start": 132,
               "end": 143
+            },
+            "kind": "undefined"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 145,
+        "end": 191
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 150,
+          "end": 166
+        },
+        "ctxt": 0,
+        "value": "GroupedParameter",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 169,
+          "end": 190
+        },
+        "types": [
+          {
+            "type": "TsFunctionType",
+            "span": {
+              "start": 170,
+              "end": 190
+            },
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 171,
+                  "end": 171
+                },
+                "ctxt": 0,
+                "value": "__flow_anon_param_0",
+                "optional": false,
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 171,
+                    "end": 181
+                  },
+                  "typeAnnotation": {
+                    "type": "TsArrayType",
+                    "span": {
+                      "start": 171,
+                      "end": 181
+                    },
+                    "elemType": {
+                      "type": "TsParenthesizedType",
+                      "span": {
+                        "start": 171,
+                        "end": 179
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 172,
+                          "end": 178
+                        },
+                        "kind": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "typeParams": null,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 183,
+                "end": 190
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 186,
+                  "end": 190
+                },
+                "kind": "void"
+              }
+            }
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 169,
+              "end": 190
+            },
+            "kind": "null"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 169,
+              "end": 190
             },
             "kind": "undefined"
           }

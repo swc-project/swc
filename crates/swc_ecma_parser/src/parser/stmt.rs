@@ -398,17 +398,6 @@ impl<I: Tokens> Parser<I> {
     /// expressions.
     pub(super) fn parse_for_head_with_await(&mut self, is_await: bool) -> PResult<TempForHead> {
         let cur = self.input().cur();
-        #[cfg(feature = "typescript")]
-        if self.type_ctx().contains(TypeContext::TsContainerBody)
-            && ((cur == Token::Await && !self.includes_await_expr())
-                || (cur == Token::Yield && !self.includes_yield_expr()))
-            && self.input_mut().peek() == Some(Token::Of)
-        {
-            if let Some(head) = self.try_parse_ts_container_for_of_head() {
-                return Ok(head);
-            }
-        }
-
         if cur == Token::Const
             || cur == Token::Var
             || (self.input().is(Token::Let)
@@ -471,8 +460,32 @@ impl<I: Tokens> Parser<I> {
             return self.parse_normal_for_head(None);
         }
 
+        self.parse_for_with_expression(is_await)
+    }
+
+    fn parse_for_with_expression(&mut self, is_await: bool) -> PResult<TempForHead> {
+        #[cfg(feature = "typescript")]
+        if self.type_ctx().contains(TypeContext::TsContainerBody)
+            && ((self.input().is(Token::Await) && !self.includes_await_expr())
+                || (self.input().is(Token::Yield) && !self.includes_yield_expr()))
+            && self.input_mut().peek() == Some(Token::Of)
+        {
+            let literal_of = self
+                .input
+                .next
+                .as_ref()
+                .is_some_and(|next| next.value.is_none());
+            // Preserve ordinary-loop recovery only when a delimiter proves
+            // it. An inconclusive lexical scan commits to the for-of grammar
+            // without speculatively parsing its RHS.
+            if literal_of && !self.is_ordinary_for_head() {
+                let ident = self.parse_ident(true, true)?;
+                return self.parse_for_each_head(ForHead::Pat(Box::new(Pat::Ident(ident.into()))));
+            }
+        }
+
         let start = self.cur_pos();
-        let init = with_grammar_context!(self, [~In, ?Yield, ?Await], Self::parse_for_head_prefix)?;
+        let init = with_grammar_context!(self, [~In, ?Yield, ?Await], Self::parse_expr)?;
 
         let mut is_using_decl = false;
         let mut is_await_using_decl = false;
@@ -562,29 +575,6 @@ impl<I: Tokens> Parser<I> {
 
         let init = self.verify_expr(init)?;
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
-    }
-
-    /// Resolve the identifier/keyword ambiguity at the loop head itself.
-    /// A complete for-of head keeps the parsed RHS and its diagnostics; an
-    /// ordinary for initializer or nested expression can recover `await of`
-    /// and `yield of` with `of` as the operand.
-    #[cfg(feature = "typescript")]
-    #[cold]
-    #[inline(never)]
-    fn try_parse_ts_container_for_of_head(&mut self) -> Option<TempForHead> {
-        let checkpoint = self.checkpoint_save();
-        let result = (|| {
-            let ident = self.parse_ident(true, true)?;
-            let left = ForHead::Pat(Box::new(Pat::Ident(ident.into())));
-            self.parse_for_each_head(left)
-        })();
-        match result {
-            Ok(head) if self.input().is(Token::RParen) => Some(head),
-            _ => {
-                self.checkpoint_load(checkpoint);
-                None
-            }
-        }
     }
 
     fn parse_for_stmt(&mut self) -> PResult<Stmt> {
@@ -954,33 +944,36 @@ impl<I: Tokens> Parser<I> {
                         ));
                     }
                 }
+                let labels_before = p.state().labels.len();
                 p.state_mut().labels.push(l.sym.clone());
 
-                let body = Box::new(if p.input().is(Token::Function) {
-                    let f = p.parse_fn_decl(Vec::new())?;
-                    if let Decl::Fn(FnDecl { function, .. }) = &f {
-                        if p.ctx().contains(Context::Strict) {
-                            p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
+                let body = (|| {
+                    if p.input().is(Token::Function) {
+                        let f = p.parse_fn_decl(Vec::new())?;
+                        if let Decl::Fn(FnDecl { function, .. }) = &f {
+                            if p.ctx().contains(Context::Strict) {
+                                p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
+                            }
+                            if function.is_generator || function.is_async {
+                                p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
+                            }
                         }
-                        if function.is_generator || function.is_async {
-                            p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
-                        }
-                    }
 
-                    f.into()
-                } else {
-                    p.do_outside_of_boundary_context(BoundaryContext::TopLevel, Self::parse_stmt)?
-                });
+                        Ok(f.into())
+                    } else {
+                        p.do_outside_of_boundary_context(
+                            BoundaryContext::TopLevel,
+                            Self::parse_stmt,
+                        )
+                    }
+                })();
+                // Labels belong to this statement even when its body fails
+                // inside a speculative class static block.
+                p.state_mut().labels.truncate(labels_before);
+                let body = Box::new(body?);
 
                 for err in errors {
                     p.emit_error(err);
-                }
-
-                {
-                    let pos = p.state().labels.iter().position(|v| v == &l.sym);
-                    if let Some(pos) = pos {
-                        p.state_mut().labels.remove(pos);
-                    }
                 }
 
                 Ok(LabeledStmt {

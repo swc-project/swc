@@ -65,6 +65,7 @@ pub enum SyntaxError {
     GetterSetterCannotBeOptional,
     GetterParam,
     SetterParam,
+    SetterReturnType,
 
     TopLevelAwaitInScript,
 
@@ -584,6 +585,9 @@ impl SyntaxError {
             }
             SyntaxError::GetterParam => "A `get` accessor cannot have parameters".into(),
             SyntaxError::SetterParam => "A `set` accessor must have exactly one parameter".into(),
+            SyntaxError::SetterReturnType => {
+                "A `set` accessor cannot have a return type annotation".into()
+            }
             SyntaxError::RestPatInSetter => "Rest pattern is not allowed in setter".into(),
 
             SyntaxError::GeneratorConstructor => "A constructor cannot be generator".into(),
