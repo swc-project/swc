@@ -15,7 +15,7 @@ use glob::Pattern;
 use par_iter::prelude::*;
 use path_absolutize::Absolutize;
 use pathdiff::diff_paths;
-use paths::{resolve_output_path, resolve_source_file_name};
+use paths::{resolve_declaration_path, resolve_output_path, resolve_source_file_name};
 use swc_core::{
     base::{
         config::{
@@ -375,10 +375,6 @@ fn resolve_source_map_path(output_file_path: &Path) -> PathBuf {
     };
 
     output_file_path.with_extension(extension)
-}
-
-fn resolve_declaration_path(output_file_path: &Path) -> PathBuf {
-    output_file_path.with_extension("d.ts")
 }
 
 fn remove_file_if_exists(path: &Path) -> anyhow::Result<()> {
@@ -844,7 +840,7 @@ impl CompileOptions {
 
                 if let Some(dts_code) = extra.remove("__swc_isolated_declarations__") {
                     if buf_dts.is_none() {
-                        let dts_file_path = single_out_file.with_extension("d.ts");
+                        let dts_file_path = resolve_declaration_path(single_out_file);
                         buf_dts = Some(File::create(dts_file_path)?);
                     }
 
@@ -1086,7 +1082,7 @@ impl CompileOptions {
     fn out_file_output_paths(&self, single_out_file: &Path) -> Vec<PathBuf> {
         let mut paths = vec![
             single_out_file.to_path_buf(),
-            single_out_file.with_extension("d.ts"),
+            resolve_declaration_path(single_out_file),
         ];
 
         if let Some(source_map_target) = &self.source_map_target {
@@ -1104,7 +1100,7 @@ impl CompileOptions {
         if let Some(source_map_target) = &self.source_map_target {
             remove_file_if_exists(Path::new(source_map_target))?;
         }
-        remove_file_if_exists(&single_out_file.with_extension("d.ts"))?;
+        remove_file_if_exists(&resolve_declaration_path(single_out_file))?;
         Ok(())
     }
 
