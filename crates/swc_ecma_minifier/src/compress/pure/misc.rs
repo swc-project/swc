@@ -1433,36 +1433,36 @@ impl Pure<'_> {
         }
     }
 
-    /// Removes last return statement. This should be callled only if the return
-    /// value of function is ignored.
+    /// Simplifies and removes a tail return when the function result is
+    /// ignored. Leave other return arguments for
+    /// `ignore_return_value_of_return_stmt` so nested IIFEs are not
+    /// recursively simplified twice.
     ///
     /// Returns true if something is modified.
     fn drop_return_value(&mut self, stmts: &mut Vec<Stmt>) -> bool {
-        for s in stmts.iter_mut() {
-            if let Stmt::Return(ReturnStmt {
-                arg: arg @ Some(..),
-                ..
-            }) = s
-            {
-                self.ignore_return_value(
-                    arg.as_deref_mut().unwrap(),
-                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
-                        .union(DropOpts::DROP_NUMBER)
-                        .union(DropOpts::DROP_STR_LIT),
-                );
+        let Some(last) = stmts.last_mut() else {
+            return false;
+        };
 
-                if let Some(Expr::Invalid(..)) = arg.as_deref() {
-                    self.changed = true;
-                    *arg = None;
-                }
+        if let Stmt::Return(ReturnStmt {
+            arg: arg @ Some(..),
+            ..
+        }) = last
+        {
+            self.ignore_return_value(
+                arg.as_deref_mut().unwrap(),
+                DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                    .union(DropOpts::DROP_NUMBER)
+                    .union(DropOpts::DROP_STR_LIT),
+            );
+
+            if let Some(Expr::Invalid(..)) = arg.as_deref() {
+                self.changed = true;
+                *arg = None;
             }
         }
 
-        if let Some(last) = stmts.last_mut() {
-            self.drop_return_value_of_stmt(last)
-        } else {
-            false
-        }
+        self.drop_return_value_of_stmt(last)
     }
 
     fn compress_array_join_as_tpl(
@@ -2399,9 +2399,9 @@ impl Pure<'_> {
                         .iter()
                         .any(|e| e.as_ref().and_then(|e| e.spread).is_some())
                     {
-                        *e = self
-                            .make_ignored_arg_expr(arr.span, arr.elems.take().into_iter().flatten())
-                            .unwrap_or_default();
+                        // The earlier array arm already reduced ordinary elements and removed
+                        // holes. Keep the array to consume the spread iterators, without
+                        // recursively reducing its elements a second time.
                         return;
                     }
 
