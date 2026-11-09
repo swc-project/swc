@@ -1091,14 +1091,17 @@ where
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
-        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false)
+            .mark_as_externally_mutable();
     }
 
     fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier) {
-        self.declare_decl(&n.local, Some(Value::Unknown), None, false);
+        self.declare_decl(&n.local, Some(Value::Unknown), None, false)
+            .mark_as_externally_mutable();
     }
 
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
+        // A namespace object's identity is stable even when its exports change.
         self.declare_decl(&n.local, Some(Value::Unknown), None, false);
     }
 

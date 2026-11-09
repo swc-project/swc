@@ -58,7 +58,7 @@ bitflags::bitflags! {
         const DECLARED_AS_FN_DECL       = 1 << 3;
         const DECLARED_AS_FN_EXPR       = 1 << 4;
         const DECLARED_AS_FOR_INIT      = 1 << 5;
-        /// The variable itself is assigned after reference.
+        /// The variable itself may be assigned again, including by another module.
         const REASSIGNED                = 1 << 6;
         const HAS_PROPERTY_ACCESS       = 1 << 7;
         const EXPORTED                  = 1 << 8;
@@ -688,6 +688,13 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_as_exported(&mut self) {
         self.flags.insert(VarUsageInfoFlags::EXPORTED);
+    }
+
+    fn mark_as_externally_mutable(&mut self) {
+        // External writes are invisible to assignment counts and scope analysis.
+        self.flags.insert(VarUsageInfoFlags::REASSIGNED);
+        self.flags
+            .remove(VarUsageInfoFlags::IS_FN_LOCAL | VarUsageInfoFlags::ASSIGNED_FN_LOCAL);
     }
 
     fn mark_initialized_with_safe_value(&mut self) {
