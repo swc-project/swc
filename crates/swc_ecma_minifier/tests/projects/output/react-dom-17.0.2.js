@@ -3932,7 +3932,7 @@
             }
         }(function() {
             var targetInst, nativeEventTarget, dispatchQueue;
-            return targetInst = ancestorInst, nativeEventTarget = getEventTarget(nativeEvent), void (!function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags) {
+            targetInst = ancestorInst, nativeEventTarget = getEventTarget(nativeEvent), !function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags) {
                 // event's native "bubble" phase, which means that we're
                 // not in the capture phase. That's because we emulate
                 // the capture phase here still. This is a trade-off,
@@ -4305,7 +4305,7 @@
                     }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget);
                 }
             } // List of events that need to be individually attached to media elements.
-            (dispatchQueue = [], domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), processDispatchQueue(dispatchQueue, eventSystemFlags));
+            (dispatchQueue = [], domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), processDispatchQueue(dispatchQueue, eventSystemFlags);
         });
     }
     function createDispatchListener(instance, listener, currentTarget) {

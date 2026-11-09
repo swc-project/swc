@@ -5100,7 +5100,7 @@
                         }
                     }, this.restoreRange = function(range) {
                         var anchor;
-                        return anchor = this.start, void (restorePoint(range.start, anchor), restorePoint(range.end, anchor));
+                        anchor = this.start, restorePoint(range.start, anchor), restorePoint(range.end, anchor);
                     };
                 }).call(Fold.prototype);
             }), ace.define("ace/edit_session/folding", [
