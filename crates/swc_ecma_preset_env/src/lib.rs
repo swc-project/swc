@@ -88,6 +88,8 @@ where
 
         t.dot_all_regex = !caniuse(Feature::DotAllRegex);
         t.named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
+        t.duplicate_named_capturing_groups_regex =
+            !caniuse(Feature::DuplicateNamedCapturingGroupsRegex);
         t.sticky_regex = !caniuse(Feature::StickyRegex);
         t.unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
         t.unicode_regex = !caniuse(Feature::UnicodeRegex);
