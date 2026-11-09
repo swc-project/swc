@@ -693,8 +693,7 @@ impl VarDataLike for VarUsageInfo {
     fn mark_as_externally_mutable(&mut self) {
         // External writes are invisible to assignment counts and scope analysis.
         self.flags.insert(VarUsageInfoFlags::REASSIGNED);
-        self.flags
-            .remove(VarUsageInfoFlags::IS_FN_LOCAL | VarUsageInfoFlags::ASSIGNED_FN_LOCAL);
+        self.flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
     }
 
     fn mark_initialized_with_safe_value(&mut self) {
