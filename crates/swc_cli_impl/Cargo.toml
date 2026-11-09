@@ -41,6 +41,7 @@ swc_core = { version = "84.0.2", features = [
   "common_concurrent",
   "base_concurrent",
   "base_flow",
+  "base_isolated_dts",
   "base_module",
   "base_react_compiler",
   "ecma_helpers_inline",
