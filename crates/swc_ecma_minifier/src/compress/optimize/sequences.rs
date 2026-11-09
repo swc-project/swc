@@ -933,7 +933,8 @@ impl Optimizer<'_> {
                             init: Some(init), ..
                         }) => self.is_skippable_for_seq(None, init),
                         Mergable::Expr(Expr::Assign(a)) => {
-                            a.left.as_simple().is_none_or(|a| {
+                            // `Option::is_none_or` is newer than this crate's MSRV.
+                            a.left.as_simple().map_or(true, |a| {
                                 self.is_simple_assign_target_skippable_for_seq(None, a)
                             }) && self.is_skippable_for_seq(None, &a.right)
                         }
