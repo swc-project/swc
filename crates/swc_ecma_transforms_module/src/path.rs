@@ -353,6 +353,17 @@ where
             } else {
                 target = absolute_path(self.config.base_dir.as_deref(), &target)?;
             }
+        } else if target.is_absolute() {
+            // A target anchored at `jsc.baseUrl` (e.g. from `jsc.paths` that points
+            // to a missing file) may contain `..` components, and so may the input
+            // filename. `diff_paths` does not resolve them lexically, so clean both
+            // paths first.
+            if target.components().any(|c| c == Component::ParentDir) {
+                target = target.clean();
+            }
+            if base.components().any(|c| c == Component::ParentDir) {
+                base = Cow::Owned(base.to_path_buf().clean());
+            }
         }
 
         #[cfg(windows)]
