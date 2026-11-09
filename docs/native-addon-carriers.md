@@ -13,6 +13,33 @@ Standalone `swc` executables and WASM packages are not compressed by this step.
 | Linux GNU  | x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu   | armv7-unknown-linux-gnueabihf, powerpc64le-unknown-linux-gnu, s390x-unknown-linux-gnu |
 | Linux musl | x86_64-unknown-linux-musl, aarch64-unknown-linux-musl | —                                                                                     |
 
+## Measuring package and runtime storage
+
+Report these measurements separately when evaluating compression:
+
+- npm tarball bytes measure the compressed download.
+- Installed carrier bytes measure the native file shipped in the package.
+- Runtime storage includes the installed file and every retained decoded cache
+  image. Measure this after the first load and after a subsequent process loads
+  the same installation.
+
+A smaller carrier does not guarantee smaller total runtime storage. On macOS,
+the current default keeps both the carrier and an uncompressed cache image.
+The [macOS startup measurements](native-addon-macos-startup.md) record this
+tradeoff alongside first-load and subsequent-load times. Their numbers describe
+one local core artifact, not every package or target.
+
+Logical file length and allocated storage are different measurements. Transparent
+filesystem compression preserves the logical bytes returned by reads. Use
+filesystem-appropriate allocated-storage tools, account for shared extents and
+hardlinks, and include cache files when reporting disk savings. Do not treat a
+compression flag alone as proof that the file occupies fewer physical bytes.
+
+Benchmark native loading with the same stripped and signed input, integrity
+checks, Node version, and filesystem. Codec throughput alone cannot establish
+startup performance. Report first-load, subsequent-process, and warm-cache
+measurements with storage results before changing the runtime compression policy.
+
 ## First load and cache
 
 The native carrier decodes the original stripped addon, verifies its length,
