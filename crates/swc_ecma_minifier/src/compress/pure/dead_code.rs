@@ -503,20 +503,21 @@ impl Pure<'_> {
     }
 
     pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {
-        if let Stmt::Return(r) = s {
-            if let Some(Expr::Unary(UnaryExpr {
-                span,
-                op: op!("void"),
-                arg,
-            })) = r.arg.as_deref_mut()
-            {
-                report_change!("unused: Removing `return void` in end of a function");
+        if let Stmt::Return(ReturnStmt {
+            arg: Some(arg),
+            span,
+            ..
+        }) = s
+        {
+            if let Value::Known(Type::Undefined) = arg.get_type(self.expr_ctx) {
+                report_change!("unused: Removing `return undefined` in end of a function");
+
                 self.changed = true;
-                *s = ExprStmt {
+
+                *s = Stmt::Expr(ExprStmt {
                     span: *span,
                     expr: arg.take(),
-                }
-                .into();
+                })
             }
         }
     }
