@@ -741,6 +741,10 @@ impl Optimizer<'_> {
         loop {
             let mut changed = false;
             for a_idx in 0..exprs.len().saturating_sub(1) {
+                if self.never_merges(&exprs[a_idx]) {
+                    continue;
+                }
+
                 for b_idx in (a_idx + 1)..exprs.len() {
                     let (a1, a2) = exprs.split_at_mut(a_idx + 1);
                     let a = a1.last_mut().unwrap();
@@ -987,6 +991,39 @@ impl Optimizer<'_> {
         }
 
         Ok(())
+    }
+
+    /// Whether `merge_sequences_in_exprs` can't do anything with `a`, so
+    /// needn't look at the expressions after it. A declaration is only merged
+    /// into a later expression by inlining it there, which
+    /// `replace_seq_assignment` only allows for some bindings, and only
+    /// dropped for a later declaration of the same name.
+    fn never_merges(&self, a: &Mergable) -> bool {
+        let (id, init) = match a {
+            Mergable::Var(a) => match &a.name {
+                Pat::Ident(name) => (name.to_id(), a.init.as_deref()),
+                _ => return true,
+            },
+            Mergable::FnDecl(a) => (a.ident.to_id(), None),
+            _ => return false,
+        };
+        let Some(usage) = self.data.vars.get(&id) else {
+            return false;
+        };
+        if usage.declared_count > 1 {
+            return false;
+        }
+        if usage.flags.intersects(
+            VarUsageInfoFlags::INLINE_PREVENTED.union(VarUsageInfoFlags::USED_RECURSIVELY),
+        ) {
+            return true;
+        }
+        let inlinable = usage.ref_count == 1
+            && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+            && usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL);
+        // A declaration's trivial literal value can be copied to a use.
+        let copyable = matches!(a, Mergable::Var(_)) && init.is_some_and(is_trivial_lit);
+        !inlinable && !copyable
     }
 
     fn is_pat_skippable_for_seq(&mut self, a: Option<&Mergable>, p: &Pat) -> bool {
