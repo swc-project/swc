@@ -4,6 +4,22 @@ use anyhow::Context;
 use path_absolutize::Absolutize;
 use pathdiff::diff_paths;
 
+/// Resolve the declaration file path that accompanies `output_file_path`.
+///
+/// This follows `tsc`: `.mjs` outputs get `.d.mts`, `.cjs` outputs get
+/// `.d.cts`, and every other output gets `.d.ts`. TypeScript resolves
+/// `import "./a.mjs"` to `a.d.mts` only, so a `.d.ts` next to an `.mjs` file
+/// would never be found by consumers.
+pub fn resolve_declaration_path(output_file_path: &Path) -> PathBuf {
+    let declaration_extension = match output_file_path.extension().and_then(|ext| ext.to_str()) {
+        Some("mjs") => "d.mts",
+        Some("cjs") => "d.cts",
+        _ => "d.ts",
+    };
+
+    output_file_path.with_extension(declaration_extension)
+}
+
 /// Resolve the output path for a compiled file or copied asset under `out_dir`.
 pub fn resolve_output_path(
     out_dir: &Path,
@@ -187,4 +203,32 @@ fn fallback_file_name(file_path: &Path) -> PathBuf {
 
 fn starts_with_parent_component(path: &Path) -> bool {
     matches!(path.components().next(), Some(Component::ParentDir))
+}
+
+#[cfg(test)]
+mod tests {
+    use std::path::Path;
+
+    use super::resolve_declaration_path;
+
+    #[test]
+    fn declaration_path_follows_output_extension() {
+        // Issue #12554: `tsc` pairs `.mjs` with `.d.mts` and `.cjs` with `.d.cts`.
+        for (output, expected) in [
+            ("dist/a.mjs", "dist/a.d.mts"),
+            ("dist/b.cjs", "dist/b.d.cts"),
+            ("dist/c.js", "dist/c.d.ts"),
+            ("dist/d.jsx", "dist/d.d.ts"),
+            ("dist/e", "dist/e.d.ts"),
+            // Only the last extension decides the declaration extension.
+            ("dist/f.min.mjs", "dist/f.min.d.mts"),
+            ("dist/g.mjs.js", "dist/g.mjs.d.ts"),
+        ] {
+            assert_eq!(
+                resolve_declaration_path(Path::new(output)),
+                Path::new(expected),
+                "declaration path for {output}"
+            );
+        }
+    }
 }
