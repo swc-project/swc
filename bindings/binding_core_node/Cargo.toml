@@ -60,6 +60,7 @@ swc_core = { path = "../../crates/swc_core", features = [
   "base_node",
   "base_concurrent",
   "base_flow",
+  "base_isolated_dts",
   "base_module",
   "base_react_compiler",
 ] }

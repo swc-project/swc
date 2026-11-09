@@ -1097,6 +1097,33 @@ fn issue_11717_out_file_same_directory() -> Result<()> {
     Ok(())
 }
 
+/// `jsc.experimental.emitIsolatedDts` must emit a `.d.ts` file next to the
+/// output file. This requires `swc_core/base_isolated_dts` to be enabled.
+#[test]
+fn issue_12556_emit_isolated_dts() -> Result<()> {
+    let sandbox = TempDir::new()?;
+    fs::write(sandbox.path().join("a.ts"), "export const a: number = 1;\n")?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--config-json")
+        .arg(r#"{"jsc":{"experimental":{"emitIsolatedDts":true}}}"#)
+        .arg("--out-file")
+        .arg("a.js")
+        .arg("a.ts");
+
+    cmd.assert().success();
+
+    let dts = fs::read_to_string(sandbox.path().join("a.d.ts"))?;
+    assert!(
+        dts.contains("export declare const a: number;"),
+        "a.d.ts should contain the declaration. Got: {dts}"
+    );
+
+    Ok(())
+}
+
 /// ln -s $a $b
 fn symlink(a: &Path, b: &Path) {
     #[cfg(unix)]

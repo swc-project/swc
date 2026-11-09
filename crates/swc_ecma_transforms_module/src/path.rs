@@ -11,7 +11,7 @@ use anyhow::{anyhow, Context, Error};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use swc_atoms::Atom;
-use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -54,10 +54,14 @@ impl Resolver {
     ) -> Expr {
         let src = self.resolve(src);
 
+        // Use the module specifier span for the call and the `require` callee, so
+        // that the generated source map points runtime frames of the call back to
+        // the original import. Otherwise only the string argument is mapped.
         CallExpr {
-            span: DUMMY_SP,
+            span: src_span,
             callee: quote_ident!(
                 SyntaxContext::empty().apply_mark(unresolved_mark),
+                src_span,
                 "require"
             )
             .as_callee(),

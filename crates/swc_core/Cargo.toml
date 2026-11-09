@@ -62,6 +62,9 @@ base            = ["__base"]
 base_concurrent = ["__base", "swc/concurrent"]
 # Enable flow parser support for compiler APIs exposed via `base`.
 base_flow = ["__base", "swc/flow"]
+# Enable isolated declaration (`.d.ts`) emit for compiler APIs exposed via `base`.
+# Required for `jsc.experimental.emitIsolatedDts` to have any effect.
+base_isolated_dts = ["__base", "swc/isolated-dts"]
 # Enable module transforms (CommonJS, AMD, UMD, SystemJS).
 # Bundlers typically don't need this as they handle module transforms themselves.
 base_module = ["__base", "swc/module"]
