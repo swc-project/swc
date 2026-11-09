@@ -2609,7 +2609,7 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::IsCallee, true)
+                // .with(BitCtx::IsCallee, true)
                 .with(BitCtx::IsExactLhsOfAssign, false)
                 .with(BitCtx::IsLhsOfAssign, false);
             n.callee.visit_mut_with(&mut *self.with_ctx(ctx));
