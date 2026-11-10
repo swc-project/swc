@@ -26,10 +26,25 @@ fn spec(file: PathBuf) {
     ));
     let config_path = file.parent().unwrap().join("config.json");
 
-    run_spec(&file, &output, &config_path);
+    run_spec(&file, &output, &config_path, false);
 }
 
-fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
+/// Fixtures that are valid only when parsed with `parse_module`.
+///
+/// These live outside `tests/flow` because `swc_ecma_transforms_typescript`
+/// reparses every `tests/flow` fixture with `parse_file_as_program`.
+#[testing::fixture("tests/flow-module/**/*.js")]
+fn module_spec(file: PathBuf) {
+    let output = file.parent().unwrap().join(format!(
+        "{}.json",
+        file.file_name().unwrap().to_string_lossy()
+    ));
+    let config_path = file.parent().unwrap().join("config.json");
+
+    run_spec(&file, &output, &config_path, true);
+}
+
+fn run_spec(file: &Path, output_json: &Path, config_path: &Path, is_module: bool) {
     let file_name = file
         .display()
         .to_string()
@@ -47,8 +62,7 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
     }
 
     with_parser(false, file, config_path, |p, _| {
-        // `*.module.js` fixtures are parsed with `parse_module`, like in `errors`.
-        let program = if file_name.ends_with(".module.js") {
+        let program = if is_module {
             p.parse_module().map(Program::Module)?
         } else {
             p.parse_program()?
