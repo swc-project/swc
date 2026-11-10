@@ -661,6 +661,8 @@ impl Token {
                 | Self::True
                 | Self::False
                 | Self::BackQuote
+                // `#x in o` (private brand check) starts an expression.
+                | Self::Hash
         ) || self.is_known_ident()
     }
 
