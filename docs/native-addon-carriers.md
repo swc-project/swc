@@ -105,7 +105,9 @@ first-load, subsequent-load, and disk-space comparison.
 ## Release verification
 
 The existing raw napi-rs build finishes first, including its final strip steps.
-The finalizer packs that exact input at zstd level 16, builds a carrier in a
+The finalizer packs that exact input at zstd level 22 for inputs of at least
+8 MiB, using long-distance matching, `HashLog(20)`, `SearchLog(8)`, and a window
+capped at 64 MiB. Smaller inputs retain level 16. It builds a carrier in a
 temporary location, finishes carrier strip/signing, and verifies the completed
 native image. Only then does a same-filesystem atomic operation replace the
 selected addon. Failure or a carrier at least as large as the raw input fails

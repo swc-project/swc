@@ -5,6 +5,7 @@ use std::{fs, io::Cursor};
 use sha2::{Digest, Sha512};
 use swc_native_addon::{
     format::{pack, Header, NativeTarget, Payload, HEADER_LEN, MAGIC, MAX_SIZE},
+    integrity::RuntimeIntegrity,
     ErrorKind,
 };
 
@@ -210,4 +211,98 @@ fn rejects_decoder_size_and_window_abuse() {
             .kind,
         ErrorKind::Compression
     );
+}
+
+#[test]
+fn large_payload_respects_decoder_window_and_integrity() {
+    let fixture = fs::read(support::fixture()).unwrap();
+    for line in include_str!("fixtures/decode-sizes.txt").lines() {
+        let size: usize = line.parse().unwrap();
+        let mut raw = fixture.clone();
+        raw.resize(size, 0);
+        let bytes = pack(&raw, target()).unwrap();
+        let payload = Payload::parse(&bytes).unwrap();
+        let mut decoded = Cursor::new(Vec::new());
+        payload.decode_into(&mut decoded).unwrap();
+        assert_eq!(decoded.get_ref(), &raw);
+        payload.header.verify(&mut decoded).unwrap();
+    }
+}
+
+#[test]
+fn decoder_roundtrips_full_history_and_legacy_window_fixtures() {
+    let mut raw = fs::read(support::fixture()).unwrap();
+    raw.resize(2 * 1024 * 1024 + 17, 0x5a);
+    for mode in include_str!("fixtures/decode-window-modes.txt").lines() {
+        let window_log = match mode {
+            "single" | "explicit" => 22,
+            "legacy" => 20,
+            _ => panic!("unknown frame fixture: {mode}"),
+        };
+        let mut compressor = zstd::bulk::Compressor::new(1).unwrap();
+        compressor
+            .set_parameter(zstd::zstd_safe::CParameter::WindowLog(window_log))
+            .unwrap();
+        let mut frame = compressor.compress(&raw).unwrap();
+        if mode == "explicit" {
+            // For this size the content-size field is four bytes in either
+            // form. Add an explicit window covering the complete output.
+            assert_eq!(frame[4] & 0xe0, 0xa0);
+            frame[4] &= !0x20;
+            frame.insert(5, ((window_log - 10) << 3) as u8);
+        }
+        assert_eq!(frame[4] & 0x20 != 0, mode == "single");
+        if mode != "single" {
+            assert_eq!(frame[5], ((window_log - 10) << 3) as u8);
+        }
+        let header = Header {
+            target: target(),
+            compressed_len: frame.len() as u64,
+            raw_len: raw.len() as u64,
+            digest: Sha512::digest(&raw).into(),
+        };
+        let bytes = [header.encode().to_vec(), frame].concat();
+        let mut payload = Payload::parse(&bytes).unwrap();
+        let mut decoded = Cursor::new(Vec::new());
+        payload.decode_into(&mut decoded).unwrap();
+        assert_eq!(decoded.get_ref(), &raw, "{mode} SHA-512");
+        payload.header.digest[0] ^= 1;
+        assert_eq!(
+            payload
+                .decode_into(&mut Cursor::new(Vec::new()))
+                .unwrap_err()
+                .kind,
+            ErrorKind::Integrity,
+            "{mode} SHA-512 corruption"
+        );
+        payload.header.digest[0] ^= 1;
+        let metadata = RuntimeIntegrity::from_raw(&header, &mut Cursor::new(&raw)).unwrap();
+        let mut invalid_metadata = metadata.encode();
+        let last = invalid_metadata.len() - 1;
+        invalid_metadata[last] ^= 1;
+        let runtime = Payload::parse(&bytes)
+            .unwrap()
+            .with_integrity(metadata)
+            .unwrap();
+        let mut decoded = Cursor::new(Vec::new());
+        runtime.decode_into(&mut decoded).unwrap();
+        assert_eq!(decoded.get_ref(), &raw, "{mode} BLAKE3");
+        let mut readonly = fs::File::open(support::fixture()).unwrap();
+        assert_eq!(
+            runtime.decode_into(&mut readonly).unwrap_err().kind,
+            ErrorKind::Cache,
+            "{mode} output write failure"
+        );
+        let invalid = payload
+            .with_integrity(RuntimeIntegrity::parse(&invalid_metadata).unwrap())
+            .unwrap();
+        assert_eq!(
+            invalid
+                .decode_into(&mut Cursor::new(Vec::new()))
+                .unwrap_err()
+                .kind,
+            ErrorKind::Integrity,
+            "{mode} BLAKE3 corruption"
+        );
+    }
 }

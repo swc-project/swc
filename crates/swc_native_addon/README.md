@@ -68,13 +68,22 @@ All integers are little-endian, independent of Rust layout and target byte order
 | 16 | 8 | Exact compressed frame length |
 | 24 | 8 | Exact raw addon length |
 | 32 | 64 | SHA-512 of the raw addon |
-| 96 | variable | One level-16 zstd frame |
+| 96 | variable | One zstd frame |
+
+The packer uses level 22 for raw addons of at least 8 MiB, with long-distance
+matching, `HashLog(20)`, `SearchLog(8)`, and a window capped at 64 MiB. Smaller
+addons retain level 16. The compression level is a build policy, not a new
+format version; existing version-1 frames remain readable.
 
 Both lengths must be nonzero and at most 2 GiB. The zstd frame must declare the
 same raw size and cannot use a dictionary, skippable frame, concatenated frames,
-or trailing bytes. Decoding bounds the window by the declared output size and
-streams through a fixed-size buffer; it never reserves the claimed raw size up
-front. Length, digest, and native magic validation finish before publication.
+or trailing bytes. Decoding bounds the window by the declared output size.
+For outputs of at most 64 MiB whose frame window covers the complete output,
+the decoder allocates the complete decoded image and reuses it as the history
+buffer. This 64 MiB cap applies to the output buffer, not total process memory.
+Larger outputs and legacy frames with smaller history windows retain streaming
+through a fixed-size output buffer rather than reserving the complete raw size.
+Length, digest, and native magic validation finish before publication.
 ELF/Mach-O magic is checked, and PE requires a bounded DOS offset and `PE\0\0`
 signature, not merely `MZ`. The OS loader remains responsible for complete image
 format, architecture, dynamic dependencies, and signing validation.
