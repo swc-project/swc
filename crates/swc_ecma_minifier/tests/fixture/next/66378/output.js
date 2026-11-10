@@ -4,20 +4,21 @@ import { varint } from "multiformats";
 import { decode, encode } from "multibase";
 import { secp256k1 } from "@noble/curves/secp256k1";
 import { p256 } from "@noble/curves/p256";
+let u8a_toString = toString, u8a_fromString = fromString, u8a_concat = concat;
 export function bytesToBase64url(b) {
-    return toString(b, 'base64url');
+    return u8a_toString(b, 'base64url');
 }
 export function base64ToBytes(s) {
-    return fromString(s.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, ''), 'base64url');
+    return u8a_fromString(s.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, ''), 'base64url');
 }
 export function bytesToBase64(b) {
-    return toString(b, 'base64pad');
+    return u8a_toString(b, 'base64pad');
 }
 export function base58ToBytes(s) {
-    return fromString(s, 'base58btc');
+    return u8a_fromString(s, 'base58btc');
 }
 export function bytesToBase58(b) {
-    return toString(b, 'base58btc');
+    return u8a_toString(b, 'base58btc');
 }
 export const SUPPORTED_PUBLIC_KEY_TYPES = {
     ES256: [
@@ -178,12 +179,12 @@ export const CODEC_TO_KEY_TYPE = {
  *
  * @public
  */ export function bytesToMultibase(b, base = 'base58btc', codec) {
-    if (!codec) return toString(encode(base, b), 'utf-8');
+    if (!codec) return u8a_toString(encode(base, b), 'utf-8');
     {
         let codecCode = 'string' == typeof codec ? supportedCodecs[codec] : codec, prefixLength = varint.encodingLength(codecCode), multicodecEncoding = new Uint8Array(prefixLength + b.length);
         return varint.encodeTo(codecCode, multicodecEncoding) // set prefix
         , multicodecEncoding.set(b, prefixLength) // add the original bytes
-        , toString(encode(base, multicodecEncoding), 'utf-8');
+        , u8a_toString(encode(base, multicodecEncoding), 'utf-8');
     }
 }
 /**
@@ -230,29 +231,29 @@ export function hexToBytes(s, minLength) {
         let paddedLength = Math.max(input.length, 2 * minLength);
         input = input.padStart(paddedLength, '00');
     }
-    return fromString(input.toLowerCase(), 'base16');
+    return u8a_fromString(input.toLowerCase(), 'base16');
 }
 export function encodeBase64url(s) {
-    return bytesToBase64url(fromString(s));
+    return bytesToBase64url(u8a_fromString(s));
 }
 export function decodeBase64url(s) {
-    return toString(base64ToBytes(s));
+    return u8a_toString(base64ToBytes(s));
 }
 export function bytesToHex(b) {
-    return toString(b, 'base16');
+    return u8a_toString(b, 'base16');
 }
 export function bytesToBigInt(b) {
-    return BigInt("0x" + toString(b, 'base16'));
+    return BigInt("0x" + u8a_toString(b, 'base16'));
 }
 export function bigintToBytes(n, minLength) {
     return hexToBytes(n.toString(16), minLength);
 }
 export function stringToBytes(s) {
-    return fromString(s, 'utf-8');
+    return u8a_fromString(s, 'utf-8');
 }
 export function toJose({ r, s, recoveryParam }, recoverable) {
     let jose = new Uint8Array(recoverable ? 65 : 64);
-    if (jose.set(fromString(r, 'base16'), 0), jose.set(fromString(s, 'base16'), 32), recoverable) {
+    if (jose.set(u8a_fromString(r, 'base16'), 0), jose.set(u8a_fromString(s, 'base16'), 32), recoverable) {
         if (void 0 === recoveryParam) throw Error('Signer did not return a recoveryParam');
         jose[64] = recoveryParam;
     }
@@ -268,7 +269,7 @@ export function fromJose(signature) {
     };
 }
 export function toSealed(ciphertext, tag) {
-    return concat([
+    return u8a_concat([
         base64ToBytes(ciphertext),
         tag ? base64ToBytes(tag) : new Uint8Array(0)
     ]);

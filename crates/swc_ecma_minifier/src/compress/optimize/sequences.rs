@@ -404,8 +404,7 @@ impl Optimizer<'_> {
                 })) => {
                     if let Some(id) = obj.as_ident() {
                         if let Some(usage) = self.data.vars.get(&id.to_id()) {
-                            id.ctxt != self.ctx.expr_ctx.unresolved_ctxt
-                                && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                            id.ctxt != self.ctx.expr_ctx.unresolved_ctxt && !usage.may_change()
                         } else {
                             false
                         }
@@ -1467,9 +1466,7 @@ impl Optimizer<'_> {
                 };
                 if has_side_effect
                     && !usgae.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
-                    && (usgae.flags.intersects(
-                        VarUsageInfoFlags::EXPORTED.union(VarUsageInfoFlags::REASSIGNED),
-                    ))
+                    && (usgae.flags.contains(VarUsageInfoFlags::EXPORTED) || usgae.may_change())
                 {
                     log_abort!("a (expr) has side effect");
                     return false;
@@ -1479,9 +1476,7 @@ impl Optimizer<'_> {
                 if let Some(init) = &a.init {
                     if init.may_have_side_effects(self.ctx.expr_ctx)
                         && !usgae.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
-                        && (usgae.flags.intersects(
-                            VarUsageInfoFlags::EXPORTED.union(VarUsageInfoFlags::REASSIGNED),
-                        ))
+                        && (usgae.flags.contains(VarUsageInfoFlags::EXPORTED) || usgae.may_change())
                     {
                         log_abort!("a (var) init has side effect");
                         return false;
@@ -1745,7 +1740,7 @@ impl Optimizer<'_> {
                                         && !usage
                                             .flags
                                             .contains(VarUsageInfoFlags::INLINE_PREVENTED)
-                                        && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                        && !usage.may_change()
                                         && !b_left.prop.is_computed()
                                     {
                                         match &*a {
