@@ -36,7 +36,7 @@ tracing    = { workspace = true }
 swc_atoms = { version = "10.0.1", path = "../swc_atoms" }
 swc_common = { version = "27.0.0", path = "../swc_common" }
 swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "47.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "47.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "51.0.1", path = "../swc_ecma_transforms_base" }
@@ -52,7 +52,7 @@ swc_ecma_transforms_base = { version = "51.0.1", path = "../swc_ecma_transforms_
   "inline-helpers",
 ] }
 swc_ecma_transforms_compat = { version = "59.0.2", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_module = { version = "58.0.0", path = "../swc_ecma_transforms_module" }
+swc_ecma_transforms_module = { version = "58.0.1", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_proposal = { version = "51.0.1", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_testing = { version = "55.1.0", path = "../swc_ecma_transforms_testing" }
 swc_ecma_transforms_typescript = { version = "57.0.3", path = "../swc_ecma_transforms_typescript" }
