@@ -665,7 +665,11 @@ impl<I: Tokens> Parser<I> {
                 if let Some(await_token) = await_token {
                     if self.is_await_forbidden_in_initializer() {
                         self.emit_err(await_token, SyntaxError::ExpectedIdent);
-                    } else if self.syntax().flow() && !self.includes_await_expr() {
+                    } else if self.syntax().flow()
+                        && !self.includes_await_expr()
+                        // Top-level await makes `for await` valid at the top level of a module.
+                        && !self.ctx().contains(Context::Module)
+                    {
                         self.emit_err(self.span(start), SyntaxError::AwaitForStmt);
                     }
                 }
