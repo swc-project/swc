@@ -1,5 +1,9 @@
 mod support;
 
+#[cfg(target_os = "linux")]
+#[path = "../src/replacement/btrfs.rs"]
+mod btrfs;
+
 use std::{fs, path::PathBuf};
 
 use swc_native_addon::{cache, format::Payload, replacement};
@@ -105,9 +109,18 @@ fn replacement_on_explicit_volume() {
     fs::write(&carrier, &bytes).unwrap();
     let cli = directory.path().join("swc");
     fs::write(&cli, b"CLI sentinel").unwrap();
+    #[cfg(target_os = "linux")]
+    let features_before = btrfs::incompat_flags(&fs::File::open(&carrier).unwrap())
+        .expect("read features from the Btrfs test volume");
     let mut temporary = replacement::try_replace(&payload, &carrier)
         .unwrap()
         .expect("the selected volume must support transparent self-replacement");
+    #[cfg(target_os = "linux")]
+    assert_eq!(
+        btrfs::incompat_flags(&fs::File::open(&carrier).unwrap()).unwrap(),
+        features_before,
+        "replacement must not enable filesystem features"
+    );
     assert_ne!(temporary.path(), carrier);
     assert_eq!(
         fs::read(&carrier).unwrap(),
