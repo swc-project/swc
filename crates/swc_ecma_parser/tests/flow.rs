@@ -47,7 +47,13 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
     }
 
     with_parser(false, file, config_path, |p, _| {
-        let program = p.parse_program()?.fold_with(&mut Normalizer {
+        // `*.module.js` fixtures are parsed with `parse_module`, like in `errors`.
+        let program = if file_name.ends_with(".module.js") {
+            p.parse_module().map(Program::Module)?
+        } else {
+            p.parse_program()?
+        }
+        .fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
         });
