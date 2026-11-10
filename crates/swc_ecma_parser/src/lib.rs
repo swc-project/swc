@@ -182,6 +182,7 @@ pub mod unstable {
     //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
     pub use crate::lexer::{
         capturing::Capturing,
+        state::TokenFlags,
         token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
     };
 }
