@@ -1,0 +1,7 @@
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/private-in-binary-right/input.js:4:1]
+ 3 |   static f(o) {
+ 4 |     return 1 + #x in o;
+   :                ^^
+ 5 |   }
+   `----
