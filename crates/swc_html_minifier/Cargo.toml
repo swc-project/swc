@@ -45,10 +45,10 @@ swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "33.0.0", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "64.0.3", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "64.0.4", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "47.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "47.0.1", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
 swc_ecma_transforms_base = { version = "51.0.1", path = "../swc_ecma_transforms_base" }

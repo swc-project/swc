@@ -2081,11 +2081,35 @@ impl<I: Tokens> Parser<I> {
         self.parse_member_expr_or_new_expr(true)
     }
 
+    /// Parses the operand of a binary expression.
+    ///
+    /// Flow rejects `#name` in expressions (matching Hermes), except for the
+    /// brand check `#name in obj`. Like Babel, `#name` is accepted in Flow mode
+    /// only as the direct left operand of an `in` that binds tighter than the
+    /// enclosing operator (`min_prec`). So `a || #x in o` is valid, while
+    /// `#x;`, `(#x) in o`, `-#x in o` and `1 + #x in o` still error.
+    /// Positions not handled here fall through to `parse_primary_expr`,
+    /// which rejects `#name` in Flow mode.
+    fn parse_unary_or_flow_private_in(&mut self, min_prec: u8) -> PResult<Box<Expr>> {
+        if !(self.input().syntax().flow() && self.input().cur() == Token::Hash) {
+            return self.parse_unary_expr();
+        }
+
+        let name = self.parse_private_name()?;
+        let is_brand_check = self.input().cur() == Token::In
+            && self.includes_in_expr()
+            && op!("in").precedence() > min_prec;
+        if !is_brand_check {
+            self.emit_err(name.span, SyntaxError::TS1003);
+        }
+        Ok(name.into())
+    }
+
     /// Name from spec: 'LogicalORExpression'
     pub(crate) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_bin_expr);
 
-        let left = match self.parse_unary_expr() {
+        let left = match self.parse_unary_or_flow_private_in(0) {
             Ok(v) => v,
             Err(err) => {
                 trace_cur!(self, parse_bin_expr__recovery_unary_err);
@@ -2295,7 +2319,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let right = {
-            let left_of_right = self.parse_unary_expr()?;
+            let left_of_right = self.parse_unary_or_flow_private_in(op_prec)?;
             self.parse_bin_op_recursively(
                 left_of_right,
                 if op == op!("**") {

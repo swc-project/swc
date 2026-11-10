@@ -226,8 +226,7 @@ impl Optimizer<'_> {
                             false
                         } else if let Some(u) = self.data.vars.get(&id.to_id()) {
                             let mut should_inline =
-                                !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                                    && u.flags.contains(VarUsageInfoFlags::DECLARED);
+                                !u.may_change() && u.flags.contains(VarUsageInfoFlags::DECLARED);
 
                             should_inline &=
                                 // Function declarations are hoisted
@@ -438,7 +437,7 @@ impl Optimizer<'_> {
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                                if v_usage.may_change() {
                                     return;
                                 }
                             }
@@ -451,7 +450,7 @@ impl Optimizer<'_> {
                         }
 
                         if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
-                            if init_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                            if init_usage.may_change()
                                 || !init_usage.flags.contains(VarUsageInfoFlags::DECLARED)
                             {
                                 return;
@@ -485,10 +484,10 @@ impl Optimizer<'_> {
                         for id in idents_used_by(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
                                 if v_usage.property_mutation_count > usage.property_mutation_count
-                                    || v_usage.flags.intersects(
-                                        VarUsageInfoFlags::HAS_PROPERTY_ACCESS
-                                            .union(VarUsageInfoFlags::REASSIGNED),
-                                    )
+                                    || v_usage.may_change()
+                                    || v_usage
+                                        .flags
+                                        .contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
                                 {
                                     return;
                                 }

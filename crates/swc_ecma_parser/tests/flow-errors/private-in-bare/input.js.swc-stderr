@@ -1,0 +1,7 @@
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/private-in-bare/input.js:4:1]
+ 3 |   static f() {
+ 4 |     #x;
+   :     ^^
+ 5 |   }
+   `----

@@ -9,7 +9,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 new (/*#__PURE__*/ function(SomeBaseClass) {
     function SomeDerivedClass() {
         var _this;
-        return _class_call_check(this, SomeDerivedClass), _get((_assert_this_initialized(_this = _call_super(this, SomeDerivedClass)), _get_prototype_of(SomeDerivedClass.prototype)), "func", _this).call(_this), _this;
+        return _class_call_check(this, SomeDerivedClass), _this = _call_super(this, SomeDerivedClass), _get((_assert_this_initialized(_this), _get_prototype_of(SomeDerivedClass.prototype)), "func", _this).call(_this), _this;
     }
     _inherits(SomeDerivedClass, SomeBaseClass);
     var _proto = SomeDerivedClass.prototype;

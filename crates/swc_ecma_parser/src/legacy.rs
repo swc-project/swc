@@ -391,7 +391,9 @@ pub mod token {
                 | Self::Regex
                 | Self::Num
                 | Self::BigInt
-                | Self::JSXTagStart => true,
+                | Self::JSXTagStart
+                // `#x in o` (private brand check) starts an expression.
+                | Self::Hash => true,
                 _ => false,
             }
         }

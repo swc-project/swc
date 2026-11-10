@@ -39,7 +39,7 @@ mod char_ext;
 mod comments_buffer;
 mod number;
 pub(crate) mod search;
-mod state;
+pub(crate) mod state;
 mod table;
 pub(crate) mod token;
 mod whitespace;
