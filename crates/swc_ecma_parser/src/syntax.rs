@@ -608,7 +608,7 @@ impl SyntaxFlags {
     /// `a<b>...` keeps its JavaScript meaning, e.g. `(a < b) > /re/`.
     #[cfg(not(feature = "flow"))]
     #[inline(always)]
-    pub const fn ts_instantiation_expr(&self) -> bool {
+    pub(crate) const fn ts_instantiation_expr(&self) -> bool {
         self.typescript()
     }
 
@@ -620,7 +620,7 @@ impl SyntaxFlags {
     /// `a<b>...` keeps its JavaScript meaning, e.g. `(a < b) > /re/`.
     #[cfg(feature = "flow")]
     #[inline(always)]
-    pub const fn ts_instantiation_expr(&self) -> bool {
+    pub(crate) const fn ts_instantiation_expr(&self) -> bool {
         self.typescript() && !self.flow()
     }
 
