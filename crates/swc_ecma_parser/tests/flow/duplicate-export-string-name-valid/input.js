@@ -1,0 +1,10 @@
+export {x1 as "foo-bar"} from "m";
+export {y1 as "foo_bar"} from "n";
+export * as "ns" from "m";
+export * as ns2 from "m";
+export {z as "\u0071ux"} from "m";
+export {w as quux} from "n";
+export {s1 as "\uD800"} from "m";
+export {s2 as "\uDC00"} from "n";
+export {"plain"} from "m";
+export {other as "Plain"} from "n";

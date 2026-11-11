@@ -1,0 +1,83 @@
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:2:1]
+ 1 | export const {a} = obj;
+ 2 | export {a};
+   :         ^
+ 3 | export const [b] = obj;
+   `----
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:4:1]
+ 3 | export const [b] = obj;
+ 4 | export {b};
+   :         ^
+ 5 | export const {...c} = obj;
+   `----
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:6:1]
+ 5 | export const {...c} = obj;
+ 6 | export {c};
+   :         ^
+ 7 | export const [...d] = obj;
+   `----
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:8:1]
+ 7 | export const [...d] = obj;
+ 8 | export {d};
+   :         ^
+ 9 | export const {x: [e]} = obj;
+   `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:10:1]
+  9 | export const {x: [e]} = obj;
+ 10 | export {e};
+    :         ^
+ 11 | export const {x: f = 1} = obj;
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:12:1]
+ 11 | export const {x: f = 1} = obj;
+ 12 | export {f};
+    :         ^
+ 13 | export {g};
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:14:1]
+ 13 | export {g};
+ 14 | export const {g} = obj;
+    :               ^
+ 15 | export const [, h] = obj;
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:16:1]
+ 15 | export const [, h] = obj;
+ 16 | export {h};
+    :         ^
+ 17 | export const {y: {z: [{i}]}} = obj;
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:18:1]
+ 17 | export const {y: {z: [{i}]}} = obj;
+ 18 | export {i};
+    :         ^
+ 19 | export const {j = 1} = obj;
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:20:1]
+ 19 | export const {j = 1} = obj;
+ 20 | export {j};
+    :         ^
+ 21 | export const [k = 1] = obj;
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:22:1]
+ 21 | export const [k = 1] = obj;
+ 22 | export {k};
+    :         ^
+ 23 | export let [l] = obj, {l2: l} = obj;
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-destructuring/input.module.js:23:1]
+ 22 | export {k};
+ 23 | export let [l] = obj, {l2: l} = obj;
+    :                            ^
+    `----

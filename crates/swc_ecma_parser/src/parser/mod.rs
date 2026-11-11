@@ -1,8 +1,10 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
+use std::borrow::Borrow;
+
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -1177,52 +1179,123 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    /// Reports an early error for every export name that is declared more
+    /// than once in `body`.
+    ///
+    /// Export names are compared by their decoded string values, so
+    /// `export { x as "foo" }`, `export { x as "f\u006fo" }` and
+    /// `export { x as foo }` all denote the same name. The values are compared
+    /// as WTF-8 because string export names may contain lone surrogates.
+    ///
+    /// The map borrows its keys from `body` to avoid cloning atoms.
     fn report_duplicate_exports(&mut self, body: &[ModuleItem]) {
-        let mut exported = FxHashMap::<Atom, Span>::default();
+        // `export default` has no name node in the AST to borrow from.
+        let default = Wtf8Atom::from(atom!("default"));
+        let mut exported = FxHashMap::<&Wtf8Atom, Span>::default();
         for item in body {
             let ModuleItem::ModuleDecl(module_decl) = item else {
                 continue;
             };
-            self.collect_exported_names(module_decl, &mut exported);
+            self.collect_exported_names(module_decl, &default, &mut exported);
         }
     }
 
-    fn record_exported_name(
+    fn record_exported_name<'a>(
         &mut self,
-        exported: &mut FxHashMap<Atom, Span>,
-        name: Atom,
+        exported: &mut FxHashMap<&'a Wtf8Atom, Span>,
+        name: &'a Wtf8Atom,
         span: Span,
     ) {
-        if exported.insert(name.clone(), span).is_some() {
+        if exported.insert(name, span).is_some() {
             self.emit_err(span, SyntaxError::TS1003);
         }
     }
 
-    fn collect_decl_exported_names(&mut self, decl: &Decl, exported: &mut FxHashMap<Atom, Span>) {
-        match decl {
-            Decl::Class(class_decl) => {
-                self.record_exported_name(
-                    exported,
-                    class_decl.ident.sym.clone(),
-                    class_decl.ident.span,
-                );
+    /// Records an identifier export name.
+    ///
+    /// UTF-8 is valid WTF-8 and [Atom] shares the representation, hash and
+    /// equality of [Wtf8Atom], so identifiers and string literals with the
+    /// same value collide in the map.
+    #[inline]
+    fn record_exported_ident<'a>(
+        &mut self,
+        exported: &mut FxHashMap<&'a Wtf8Atom, Span>,
+        ident: &'a Ident,
+    ) {
+        self.record_exported_name(exported, ident.sym.borrow(), ident.span);
+    }
+
+    fn record_exported_module_export_name<'a>(
+        &mut self,
+        exported: &mut FxHashMap<&'a Wtf8Atom, Span>,
+        name: &'a ModuleExportName,
+    ) {
+        match name {
+            ModuleExportName::Ident(ident) => self.record_exported_ident(exported, ident),
+            ModuleExportName::Str(str) => self.record_exported_name(exported, &str.value, str.span),
+            #[cfg(swc_ast_unknown)]
+            _ => {}
+        }
+    }
+
+    /// Records every name bound by the binding pattern `pat`.
+    ///
+    /// Only binding positions are visited; property keys and default values
+    /// do not introduce exported names.
+    fn collect_pat_exported_names<'a>(
+        &mut self,
+        pat: &'a Pat,
+        exported: &mut FxHashMap<&'a Wtf8Atom, Span>,
+    ) {
+        match pat {
+            Pat::Ident(ident) => self.record_exported_ident(exported, &ident.id),
+            Pat::Array(array) => {
+                for elem in array.elems.iter().flatten() {
+                    self.collect_pat_exported_names(elem, exported);
+                }
             }
-            Decl::Fn(fn_decl) => {
-                self.record_exported_name(exported, fn_decl.ident.sym.clone(), fn_decl.ident.span);
-            }
-            Decl::Var(var_decl) => {
-                for declarator in &var_decl.decls {
-                    if let Pat::Ident(ident) = &declarator.name {
-                        self.record_exported_name(exported, ident.id.sym.clone(), ident.id.span);
+            Pat::Rest(rest) => self.collect_pat_exported_names(&rest.arg, exported),
+            Pat::Object(object) => {
+                for prop in &object.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(key_value) => {
+                            self.collect_pat_exported_names(&key_value.value, exported);
+                        }
+                        ObjectPatProp::Assign(assign) => {
+                            self.record_exported_ident(exported, &assign.key.id);
+                        }
+                        ObjectPatProp::Rest(rest) => {
+                            self.collect_pat_exported_names(&rest.arg, exported);
+                        }
+                        #[cfg(swc_ast_unknown)]
+                        _ => {}
                     }
                 }
             }
-            Decl::TsEnum(enum_decl) => {
-                self.record_exported_name(exported, enum_decl.id.sym.clone(), enum_decl.id.span);
+            Pat::Assign(assign) => self.collect_pat_exported_names(&assign.left, exported),
+            Pat::Invalid(..) | Pat::Expr(..) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
+        }
+    }
+
+    fn collect_decl_exported_names<'a>(
+        &mut self,
+        decl: &'a Decl,
+        exported: &mut FxHashMap<&'a Wtf8Atom, Span>,
+    ) {
+        match decl {
+            Decl::Class(class_decl) => self.record_exported_ident(exported, &class_decl.ident),
+            Decl::Fn(fn_decl) => self.record_exported_ident(exported, &fn_decl.ident),
+            Decl::Var(var_decl) => {
+                for declarator in &var_decl.decls {
+                    self.collect_pat_exported_names(&declarator.name, exported);
+                }
             }
+            Decl::TsEnum(enum_decl) => self.record_exported_ident(exported, &enum_decl.id),
             Decl::TsModule(module_decl) => {
                 if let TsModuleName::Ident(ident) = &module_decl.id {
-                    self.record_exported_name(exported, ident.sym.clone(), ident.span);
+                    self.record_exported_ident(exported, ident);
                 }
             }
             Decl::TsInterface(..) | Decl::TsTypeAlias(..) | Decl::Using(..) => {}
@@ -1231,7 +1304,12 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn collect_exported_names(&mut self, decl: &ModuleDecl, exported: &mut FxHashMap<Atom, Span>) {
+    fn collect_exported_names<'a>(
+        &mut self,
+        decl: &'a ModuleDecl,
+        default: &'a Wtf8Atom,
+        exported: &mut FxHashMap<&'a Wtf8Atom, Span>,
+    ) {
         match decl {
             ModuleDecl::ExportDecl(export_decl) => {
                 self.collect_decl_exported_names(&export_decl.decl, exported);
@@ -1244,21 +1322,13 @@ impl<I: Tokens> Parser<I> {
                                 continue;
                             }
                             let export_name = named.exported.as_ref().unwrap_or(&named.orig);
-                            if let ModuleExportName::Ident(ident) = export_name {
-                                self.record_exported_name(exported, ident.sym.clone(), ident.span);
-                            }
+                            self.record_exported_module_export_name(exported, export_name);
                         }
                         ExportSpecifier::Default(default) => {
-                            self.record_exported_name(
-                                exported,
-                                default.exported.sym.clone(),
-                                default.exported.span,
-                            );
+                            self.record_exported_ident(exported, &default.exported);
                         }
                         ExportSpecifier::Namespace(namespace) => {
-                            if let ModuleExportName::Ident(ident) = &namespace.name {
-                                self.record_exported_name(exported, ident.sym.clone(), ident.span);
-                            }
+                            self.record_exported_module_export_name(exported, &namespace.name);
                         }
                         #[cfg(swc_ast_unknown)]
                         _ => {}
@@ -1266,10 +1336,10 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             ModuleDecl::ExportDefaultExpr(default_expr) => {
-                self.record_exported_name(exported, Atom::from("default"), default_expr.span);
+                self.record_exported_name(exported, default, default_expr.span);
             }
             ModuleDecl::ExportDefaultDecl(default_decl) => {
-                self.record_exported_name(exported, Atom::from("default"), default_decl.span);
+                self.record_exported_name(exported, default, default_decl.span);
             }
             ModuleDecl::ExportAll(..) => {}
             ModuleDecl::Import(..)

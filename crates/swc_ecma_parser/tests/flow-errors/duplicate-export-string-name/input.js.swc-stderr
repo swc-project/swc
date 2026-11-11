@@ -1,0 +1,76 @@
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:2:1]
+ 1 | export {x1 as "a"} from "m";
+ 2 | export {y1 as a} from "n";
+   :               ^
+ 3 | export {x2 as b} from "m";
+   `----
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:4:1]
+ 3 | export {x2 as b} from "m";
+ 4 | export {y2 as "b"} from "n";
+   :               ^^^
+ 5 | export {x3 as "c"} from "m";
+   `----
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:6:1]
+ 5 | export {x3 as "c"} from "m";
+ 6 | export {y3 as "c"} from "n";
+   :               ^^^
+ 7 | export * as "d" from "m";
+   `----
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:8:1]
+ 7 | export * as "d" from "m";
+ 8 | export {y4 as d} from "n";
+   :               ^
+ 9 | export * as "e" from "m";
+   `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:10:1]
+  9 | export * as "e" from "m";
+ 10 | export * as "e" from "n";
+    :             ^^^
+ 11 | export {x6 as "f\u006fo"} from "m";
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:12:1]
+ 11 | export {x6 as "f\u006fo"} from "m";
+ 12 | export {y6 as foo} from "n";
+    :               ^^^
+ 13 | export {"g"} from "m";
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:14:1]
+ 13 | export {"g"} from "m";
+ 14 | export {x7 as g} from "n";
+    :               ^
+ 15 | export {x8 as "foo-bar"} from "m";
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:16:1]
+ 15 | export {x8 as "foo-bar"} from "m";
+ 16 | export {y8 as "foo-bar"} from "n";
+    :               ^^^^^^^^^
+ 17 | export {x9 as "\uD800"} from "m";
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:18:1]
+ 17 | export {x9 as "\uD800"} from "m";
+ 18 | export {y9 as "\u{D800}"} from "n";
+    :               ^^^^^^^^^^
+ 19 | export {x10 as "default"} from "m";
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:20:1]
+ 19 | export {x10 as "default"} from "m";
+ 20 | export default 1;
+    : ^^^^^^^^^^^^^^^^^
+ 21 | export * as h from "m";
+    `----
+  x Expected an identifier
+    ,-[$DIR/tests/flow-errors/duplicate-export-string-name/input.js:22:1]
+ 21 | export * as h from "m";
+ 22 | export {y11 as "\x68"} from "n";
+    :                ^^^^^^
+    `----
