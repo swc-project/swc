@@ -307,7 +307,7 @@ impl<'a> Payload<'a> {
     pub fn decode_into(&self, output: &mut (impl Read + Write + Seek)) -> Result<()> {
         let mut hash = self.verifier()?;
         let window_log = (64 - self.header.raw_len.saturating_sub(1).leading_zeros()).max(10);
-        if self.compressed[4] & 0x20 == 0 {
+        let window_size = if self.compressed[4] & 0x20 == 0 {
             let descriptor = self.compressed[5];
             let base = 1_u64 << (10 + (descriptor >> 3));
             let window = base + (base / 8) * u64::from(descriptor & 7);
@@ -317,6 +317,43 @@ impl<'a> Payload<'a> {
                     "zstd window exceeds the bounded raw size",
                 ));
             }
+            window
+        } else {
+            self.header.raw_len
+        };
+        // When the frame already needs a full-image history window, let zstd
+        // use the output buffer as that history and avoid copying each block.
+        // Cap the allocation at 64 MiB; larger images and legacy small-window
+        // frames retain streaming instead of allocating their complete output.
+        if self.header.raw_len <= 64 * 1024 * 1024 && window_size >= self.header.raw_len {
+            let mut decoder = zstd::bulk::Decompressor::new()
+                .map_err(|e| Error::io(ErrorKind::Compression, "initialize zstd decoder", e))?;
+            decoder
+                .set_parameter(zstd::zstd_safe::DParameter::WindowLogMax(window_log))
+                .map_err(|e| Error::io(ErrorKind::Compression, "limit zstd window", e))?;
+            let buffer = decoder
+                .decompress(self.compressed, self.header.raw_len as usize)
+                .map_err(|e| Error::io(ErrorKind::Compression, "decompress native addon", e))?;
+            if buffer.len() as u64 != self.header.raw_len {
+                return Err(Error::new(
+                    ErrorKind::Integrity,
+                    "decoded addon length mismatch",
+                ));
+            }
+            // Preserve hashing granularity, including parallel hashing batches,
+            // while combining smaller writes directly from the decoded buffer.
+            let hash_chunk_len = hash.buffer_len(self.header.raw_len);
+            for batch in buffer.chunks(hash_chunk_len.max(256 * 1024)) {
+                for chunk in batch.chunks(hash_chunk_len) {
+                    hash.update(chunk);
+                }
+                output
+                    .write_all(batch)
+                    .map_err(|e| Error::io(ErrorKind::Cache, "write decoded addon", e))?;
+            }
+            hash.finish()?;
+            native_kind(output, self.header.raw_len)?;
+            return Ok(());
         }
         let mut decoder = zstd::stream::read::Decoder::with_buffer(self.compressed)
             .map_err(|e| Error::io(ErrorKind::Compression, "initialize zstd decoder", e))?
@@ -369,7 +406,31 @@ pub fn pack(raw: &[u8], target: NativeTarget) -> Result<Vec<u8>> {
         ));
     }
     native_target(&mut Cursor::new(raw), raw.len() as u64, target)?;
-    let compressed = zstd::bulk::compress(raw, COMPRESSION_LEVEL)
+    let large_input = raw.len() >= 8 * 1024 * 1024;
+    // Spend more release-time work on large payloads to reduce installed bytes.
+    // Small payloads retain the existing compression level.
+    let level = if large_input { 22 } else { COMPRESSION_LEVEL };
+    let mut compressor = zstd::bulk::Compressor::new(level)
+        .map_err(|e| Error::io(ErrorKind::Compression, "initialize native compressor", e))?;
+    // Large native images can repeat code and data beyond zstd's default
+    // search window. Cap it at 64 MiB and the decoder's existing size bound.
+    if large_input {
+        let window_log = (64 - (raw.len() as u64).saturating_sub(1).leading_zeros()).clamp(10, 26);
+        compressor
+            .set_parameter(zstd::zstd_safe::CParameter::EnableLongDistanceMatching(
+                true,
+            ))
+            .and_then(|()| {
+                compressor.set_parameter(zstd::zstd_safe::CParameter::WindowLog(window_log))
+            })
+            // Bound table memory and search work while retaining zstd's
+            // strongest matching strategy and the full configured window.
+            .and_then(|()| compressor.set_parameter(zstd::zstd_safe::CParameter::HashLog(20)))
+            .and_then(|()| compressor.set_parameter(zstd::zstd_safe::CParameter::SearchLog(8)))
+            .map_err(|e| Error::io(ErrorKind::Compression, "configure native compression", e))?;
+    }
+    let compressed = compressor
+        .compress(raw)
         .map_err(|e| Error::io(ErrorKind::Compression, "compress native addon", e))?;
     if compressed.len() as u64 > MAX_SIZE {
         return Err(Error::new(
