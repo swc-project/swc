@@ -3026,11 +3026,84 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseMappedType`
-    fn parse_ts_mapped_type(&mut self) -> PResult<TsMappedType> {
+    ///
+    /// In Flow, a mapped member is just one kind of object type member, so an
+    /// object type that starts with `{ [K in ...]` may continue with ordinary
+    /// properties, spreads, indexers or more mapped members. See
+    /// [`Self::parse_flow_object_type_starting_with_mapped_member`].
+    fn parse_ts_mapped_type(&mut self) -> PResult<TsType> {
         debug_assert!(self.input().syntax().typescript());
+
+        if self.input().syntax().flow() {
+            // Braces delimit every member type, so unparenthesized Flow function
+            // types are allowed inside them, as in `parse_ts_object_type_members`.
+            return self.do_outside_of_type_context(
+                TypeContext::DisallowFlowAnonFnType,
+                Self::parse_flow_object_type_starting_with_mapped_member,
+            );
+        }
 
         let start = self.cur_pos();
         expect!(self, Token::LBrace);
+        let mut mapped = self.parse_ts_mapped_type_member(start)?;
+        self.expect_general_semi()?;
+        expect!(self, Token::RBrace);
+        mapped.span = self.span(start);
+
+        Ok(mapped.into())
+    }
+
+    /// Parses a Flow object type whose first member is a mapped member.
+    ///
+    /// A lone mapped member keeps the TypeScript-compatible [`TsMappedType`]
+    /// representation (with an optional trailing `,` or `;`), so existing
+    /// consumers of `{ [K in keyof O]: T }` see no change. When more members
+    /// follow, the already parsed mapped member is lowered with
+    /// [`Self::make_flow_mapped_member`] and the remaining members are parsed
+    /// like any other inexact object type, producing a [`TsTypeLit`] that is
+    /// identical to the one produced when the mapped member is not first.
+    fn parse_flow_object_type_starting_with_mapped_member(&mut self) -> PResult<TsType> {
+        debug_assert!(self.input().syntax().flow());
+
+        let start = self.cur_pos();
+        expect!(self, Token::LBrace);
+        let member_start = self.cur_pos();
+        let mut mapped = self.parse_ts_mapped_type_member(member_start)?;
+        if !self.input_mut().eat(Token::Comma) {
+            self.expect_general_semi()?;
+        }
+
+        if self.input_mut().eat(Token::RBrace) {
+            mapped.span = self.span(start);
+            return Ok(mapped.into());
+        }
+
+        // Like the members parsed by `parse_ts_type_member`, the lowered member
+        // spans its separator.
+        mapped.span = self.span(member_start);
+        let mut members = Vec::with_capacity(8);
+        members.push(Self::make_flow_mapped_member(mapped));
+        while !self.is_ts_list_terminator(ParsingContext::TypeMembers) {
+            members.push(self.parse_ts_type_member()?);
+        }
+        self.check_flow_inexact_object_members(&members, false);
+        expect!(self, Token::RBrace);
+
+        Ok(TsTypeLit {
+            span: self.span(start),
+            members,
+        }
+        .into())
+    }
+
+    /// Parses a mapped type after its `{`, up to (but excluding) the member
+    /// separator: `[+-]readonly? [K in T as N] [+-]?: U`.
+    ///
+    /// The span of the returned node starts at `start` and ends at the value
+    /// type; callers adjust it to cover the delimiters they consume.
+    fn parse_ts_mapped_type_member(&mut self, start: BytePos) -> PResult<TsMappedType> {
+        debug_assert!(self.input().syntax().typescript());
+
         let mut readonly = None;
         let cur = self.input().cur();
         if cur == Token::Plus || cur == Token::Minus {
@@ -3054,27 +3127,8 @@ impl<I: Tokens> Parser<I> {
         };
         expect!(self, Token::RBracket);
 
-        let mut optional = None;
-        let cur = self.input().cur();
-        if cur == Token::Plus || cur == Token::Minus {
-            optional = Some(if cur == Token::Plus {
-                TruePlusMinus::Plus
-            } else {
-                TruePlusMinus::Minus
-            });
-            self.bump(); // +, -
-            expect!(self, Token::QuestionMark);
-        } else if self.input_mut().eat(Token::QuestionMark) {
-            optional = Some(TruePlusMinus::True);
-        }
-
+        let optional = self.parse_ts_mapped_type_optional()?;
         let type_ann = self.try_parse_ts_type()?;
-
-        if !(self.input().syntax().flow() && self.input_mut().eat(Token::Comma)) {
-            self.expect_general_semi()?;
-        }
-
-        expect!(self, Token::RBrace);
 
         Ok(TsMappedType {
             span: self.span(start),
@@ -3084,6 +3138,80 @@ impl<I: Tokens> Parser<I> {
             name_type,
             type_ann,
         })
+    }
+
+    /// Parses the optionality modifier that follows the `]` of a mapped type:
+    /// `?`, `+?` or `-?`. A sign must be followed by `?`.
+    fn parse_ts_mapped_type_optional(&mut self) -> PResult<Option<TruePlusMinus>> {
+        debug_assert!(self.input().syntax().typescript());
+
+        let cur = self.input().cur();
+        if cur == Token::Plus || cur == Token::Minus {
+            self.bump(); // +, -
+            expect!(self, Token::QuestionMark);
+            return Ok(Some(if cur == Token::Plus {
+                TruePlusMinus::Plus
+            } else {
+                TruePlusMinus::Minus
+            }));
+        }
+
+        Ok(self
+            .input_mut()
+            .eat(Token::QuestionMark)
+            .then_some(TruePlusMinus::True))
+    }
+
+    /// Lowers a Flow mapped member that shares an object type with other
+    /// members.
+    ///
+    /// [`TsTypeElement`] has no mapped-member variant, so the member is
+    /// represented as a synthetic `__flow_mapped` property, like the
+    /// `__flow_spread` property used for spreads. Its annotation is the mapped
+    /// type itself, which keeps the type parameter and the `+?`/`-?` modifier.
+    /// The property's `readonly` and `optional` flags mirror those modifiers
+    /// for consumers that only inspect property signatures: `?` and `+?` are
+    /// optional, while `-?` and no modifier are required.
+    fn make_flow_mapped_member(mapped: TsMappedType) -> TsTypeElement {
+        let span = mapped.span;
+        TsPropertySignature {
+            span,
+            computed: false,
+            readonly: matches!(
+                mapped.readonly,
+                Some(TruePlusMinus::True | TruePlusMinus::Plus)
+            ),
+            key: Box::new(Expr::Ident(Ident::new_no_ctxt(
+                atom!("__flow_mapped"),
+                span,
+            ))),
+            optional: matches!(
+                mapped.optional,
+                Some(TruePlusMinus::True | TruePlusMinus::Plus)
+            ),
+            type_ann: Some(Box::new(TsTypeAnn {
+                span,
+                type_ann: Box::new(TsType::TsMappedType(mapped)),
+            })),
+        }
+        .into()
+    }
+
+    /// Returns `true` if the parser is at `[K in` inside a Flow object type.
+    ///
+    /// Neither indexers (`[K: T]`, `[T]`) nor computed keys can contain an
+    /// identifier directly followed by `in`, so this commits to a mapped member
+    /// without speculative parsing.
+    fn is_flow_start_of_mapped_member(&mut self) -> bool {
+        debug_assert!(self.input().syntax().flow());
+
+        self.bump(); // [
+        if !self.is_ident_ref() {
+            return false;
+        }
+        self.bump();
+
+        self.input().is(Token::In)
     }
 
     /// `tsParseParenthesizedType`
@@ -3911,33 +4039,27 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.input().syntax().flow() && self.input().is(Token::LBracket) {
-            if let Some(mapped_member) = self.try_parse_ts(|p| {
-                let start = p.cur_pos();
-                expect!(p, Token::LBracket);
-                let _ = p.parse_ts_mapped_type_param()?;
-                expect!(p, Token::RBracket);
+        if self.input().syntax().flow()
+            && self.input().is(Token::LBracket)
+            && self.ts_look_ahead(Self::is_flow_start_of_mapped_member)
+        {
+            let start = self.cur_pos();
+            expect!(self, Token::LBracket);
+            let type_param = self.parse_ts_mapped_type_param()?;
+            expect!(self, Token::RBracket);
 
-                let optional = p.input_mut().eat(Token::QuestionMark);
-                let type_ann = Some(p.parse_ts_type_or_type_predicate_ann(Token::Colon)?);
-                p.parse_ts_type_member_semicolon()?;
+            let optional = self.parse_ts_mapped_type_optional()?;
+            let type_ann = self.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
+            self.parse_ts_type_member_semicolon()?;
 
-                Ok(Some(TsTypeElement::TsPropertySignature(
-                    TsPropertySignature {
-                        span: p.span(start),
-                        computed: false,
-                        readonly,
-                        key: Box::new(Expr::Ident(Ident::new_no_ctxt(
-                            atom!("__flow_mapped"),
-                            p.span(start),
-                        ))),
-                        optional,
-                        type_ann,
-                    },
-                )))
-            }) {
-                return Ok(mapped_member);
-            }
+            return Ok(Self::make_flow_mapped_member(TsMappedType {
+                span: self.span(start),
+                readonly: readonly.then_some(TruePlusMinus::True),
+                optional,
+                type_param,
+                name_type: None,
+                type_ann: Some(type_ann.type_ann),
+            }));
         }
 
         if self.input().syntax().flow() && self.input_mut().eat(Token::DotDotDot) {
@@ -3987,7 +4109,10 @@ impl<I: Tokens> Parser<I> {
             return Ok(idx.into());
         }
 
-        if let Some(v) = self.try_parse_ts(|p| {
+        // The accessor is parsed speculatively, which suppresses recoverable
+        // errors. A Flow setter with extra parameters is therefore reported
+        // only after the speculation succeeds, through the returned key span.
+        if let Some((v, extra_setter_params_key_span)) = self.try_parse_ts(|p| {
             let start = p.input().cur_pos();
 
             if readonly {
@@ -4010,19 +4135,26 @@ impl<I: Tokens> Parser<I> {
 
                 p.parse_ts_type_member_semicolon()?;
 
-                Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
-                    span: p.span(start),
-                    key,
-                    computed,
-                    type_ann,
-                })))
+                Ok(Some((
+                    TsTypeElement::TsGetterSignature(TsGetterSignature {
+                        span: p.span(start),
+                        key,
+                        computed,
+                        type_ann,
+                    }),
+                    None,
+                )))
             } else {
                 expect!(p, Token::LParen);
                 let params = p.parse_ts_binding_list_for_signature()?;
-                if params.is_empty() {
+                // `TsSetterSignature` holds a single parameter, so any extra
+                // parameter is dropped from the AST. Flow reports this like an
+                // object literal setter (`SyntaxError::SetterParam`).
+                let extra_params_key_span =
+                    (p.input().syntax().flow() && params.len() > 1).then(|| key.span());
+                let Some(param) = params.into_iter().next() else {
                     syntax_error!(p, SyntaxError::SetterParamRequired)
-                }
-                let param = params.into_iter().next().unwrap();
+                };
 
                 if p.input().syntax().flow() && p.input().is(Token::Colon) {
                     let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
@@ -4030,14 +4162,20 @@ impl<I: Tokens> Parser<I> {
 
                 p.parse_ts_type_member_semicolon()?;
 
-                Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
-                    span: p.span(start),
-                    key,
-                    computed,
-                    param,
-                })))
+                Ok(Some((
+                    TsTypeElement::TsSetterSignature(TsSetterSignature {
+                        span: p.span(start),
+                        key,
+                        computed,
+                        param,
+                    }),
+                    extra_params_key_span,
+                )))
             }
         }) {
+            if let Some(key_span) = extra_setter_params_key_span {
+                self.emit_err(key_span, SyntaxError::SetterParam);
+            }
             return Ok(v);
         }
 
@@ -4093,32 +4231,39 @@ impl<I: Tokens> Parser<I> {
         };
 
         if self.input().syntax().flow() {
-            let is_flow_inexact = |member: &TsTypeElement| {
-                matches!(
-                    member,
-                    TsTypeElement::TsPropertySignature(TsPropertySignature {
-                        computed: false,
-                        key,
-                        type_ann: None,
-                        ..
-                    }) if matches!(&**key, Expr::Ident(Ident { sym, .. }) if &**sym == "__flow_spread")
-                )
-            };
-
-            let inexact_positions = members
-                .iter()
-                .enumerate()
-                .filter_map(|(idx, member)| is_flow_inexact(member).then_some(idx))
-                .collect::<Vec<_>>();
-
-            if let Some(first_idx) = inexact_positions.first().copied() {
-                if exact || inexact_positions.len() > 1 || first_idx + 1 != members.len() {
-                    self.emit_err(members[first_idx].span(), SyntaxError::TS1003);
-                }
-            }
+            self.check_flow_inexact_object_members(&members, exact);
         }
         expect!(self, Token::RBrace);
         Ok(members)
+    }
+
+    /// Reports a misplaced Flow explicit-inexact marker (`...`), which may only
+    /// appear once, as the last member of an inexact object type.
+    fn check_flow_inexact_object_members(&mut self, members: &[TsTypeElement], exact: bool) {
+        debug_assert!(self.input().syntax().flow());
+
+        let is_flow_inexact = |member: &TsTypeElement| {
+            matches!(
+                member,
+                TsTypeElement::TsPropertySignature(TsPropertySignature {
+                    computed: false,
+                    key,
+                    type_ann: None,
+                    ..
+                }) if matches!(&**key, Expr::Ident(Ident { sym, .. }) if &**sym == "__flow_spread")
+            )
+        };
+
+        let mut inexact_positions = members
+            .iter()
+            .enumerate()
+            .filter_map(|(idx, member)| is_flow_inexact(member).then_some(idx));
+
+        if let Some(first_idx) = inexact_positions.next() {
+            if exact || inexact_positions.next().is_some() || first_idx + 1 != members.len() {
+                self.emit_err(members[first_idx].span(), SyntaxError::TS1003);
+            }
+        }
     }
 
     /// `tsParseTypeLiteral`
@@ -4718,7 +4863,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_ts_type_query();
         } else if cur == Token::LBrace {
             return if self.ts_look_ahead(Self::is_ts_start_of_mapped_type) {
-                self.parse_ts_mapped_type().map(TsType::from).map(Box::new)
+                self.parse_ts_mapped_type().map(Box::new)
             } else {
                 self.parse_ts_type_lit().map(TsType::from).map(Box::new)
             };

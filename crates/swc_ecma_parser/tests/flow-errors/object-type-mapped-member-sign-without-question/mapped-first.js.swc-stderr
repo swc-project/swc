@@ -1,0 +1,5 @@
+  x Expected '?', got ':'
+   ,-[$DIR/tests/flow-errors/object-type-mapped-member-sign-without-question/mapped-first.js:1:1]
+ 1 | type T = { [K in keyof O]+: T, foo: string };
+   :                           ^
+   `----
