@@ -81,18 +81,70 @@ fn flow_pragma_in_comment(comment: &str) -> Option<bool> {
     None
 }
 
+/// Returns `true` for characters that [`Lexer::skip_space`] skips as trivia:
+/// ECMAScript `WhiteSpace` (including U+FEFF at any position) and all four
+/// `LineTerminator`s.
+///
+/// This intentionally differs from [`char::is_whitespace`], which does not
+/// include U+FEFF or U+200B.
+#[cfg(feature = "flow")]
+#[inline]
+fn is_flow_pragma_trivia(c: char) -> bool {
+    matches!(c, ' ' | '\t' | '\u{b}' | '\u{c}' | '\r' | '\n')
+        || whitespace::is_irregular_whitespace(c)
+        || whitespace::is_irregular_line_terminator(c)
+}
+
+/// Returns the byte offset of the first ECMAScript line terminator (LF, CR,
+/// U+2028 or U+2029) in `s`, or `s.len()` if there is none.
+///
+/// This matches where [`Lexer::skip_line_comment`] and
+/// [`Lexer::read_shebang`] stop.
+#[cfg(feature = "flow")]
+#[inline]
+fn find_line_terminator(s: &str) -> usize {
+    let bytes = s.as_bytes();
+    let mut i = 0;
+    while i < bytes.len() {
+        match bytes[i] {
+            b'\n' | b'\r' => return i,
+            // U+2028 and U+2029 are encoded as `E2 80 A8` and `E2 80 A9`.
+            LS_OR_PS_FIRST
+                if bytes.get(i + 1) == Some(&0x80)
+                    && matches!(bytes.get(i + 2), Some(0xa8 | 0xa9)) =>
+            {
+                return i
+            }
+            _ => i += 1,
+        }
+    }
+    bytes.len()
+}
+
+/// Scans the leading trivia of `src` for a `@flow` / `@noflow` pragma.
+///
+/// This runs once in [`Lexer::new`], before tokenization, so it must agree
+/// with the real lexer about what leading trivia is:
+///
+/// - an interpreter directive (`#!...`) is skipped only at the very start of
+///   the input, like [`Lexer::read_shebang`];
+/// - whitespace is ECMAScript whitespace, including a U+FEFF at any position
+///   (see [`is_flow_pragma_trivia`]);
+/// - line comments end at any of the four ECMAScript line terminators.
+///
+/// Scanning stops at the first token that is not a comment, so pragmas after
+/// executable code are never recognized. The scan does not allocate.
 #[cfg(feature = "flow")]
 fn has_flow_pragma(mut src: &str) -> bool {
-    // Trim UTF-8 BOM.
-    if let Some(rest) = src.strip_prefix('\u{feff}') {
-        src = rest;
+    if let Some(rest) = src.strip_prefix("#!") {
+        src = &rest[find_line_terminator(rest)..];
     }
 
     loop {
-        src = src.trim_start_matches(char::is_whitespace);
+        src = src.trim_start_matches(is_flow_pragma_trivia);
 
         if let Some(rest) = src.strip_prefix("//") {
-            let end = rest.find('\n').unwrap_or(rest.len());
+            let end = find_line_terminator(rest);
             let comment = &rest[..end];
             if let Some(is_flow) = flow_pragma_in_comment(comment) {
                 return is_flow;

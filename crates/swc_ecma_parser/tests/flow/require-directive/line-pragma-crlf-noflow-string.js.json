@@ -1,0 +1,104 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 11,
+    "end": 59
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 11,
+        "end": 33
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 17,
+            "end": 32
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 20
+            },
+            "ctxt": 0,
+            "value": "tag",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 23,
+              "end": 32
+            },
+            "value": "@noflow",
+            "raw": "\"@noflow\""
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 35,
+        "end": 59
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 41,
+            "end": 58
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 41,
+              "end": 46
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 46,
+                "end": 54
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 48,
+                  "end": 54
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 57,
+              "end": 58
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

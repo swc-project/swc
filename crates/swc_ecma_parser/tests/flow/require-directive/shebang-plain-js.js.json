@@ -1,0 +1,50 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 37
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 21,
+        "end": 37
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 27,
+            "end": 36
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 27,
+              "end": 32
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 35,
+              "end": 36
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": "/usr/bin/env node"
+}

@@ -1,0 +1,10 @@
+  x 'const' declarations must be initialized
+   ,-[$DIR/tests/flow-errors/require-directive/line-comment-ps-flow-string.js:1:1]
+ 1 | // license const tag = "@flow"; const value: number = 1; 
+   :                                       ^^^^^
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/flow-errors/require-directive/line-comment-ps-flow-string.js:1:1]
+ 1 | // license const tag = "@flow"; const value: number = 1; 
+   :                                            ^
+   `----

@@ -1,0 +1,3 @@
+# Preserve the raw CR and CRLF line terminators exercised by these fixtures.
+*-cr-* -text whitespace=cr-at-eol
+*-crlf-* -text whitespace=cr-at-eol

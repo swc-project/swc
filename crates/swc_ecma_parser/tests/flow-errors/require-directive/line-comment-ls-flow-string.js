@@ -1,0 +1,1 @@
+// license const tag = "@flow"; const value: number = 1; 

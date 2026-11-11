@@ -1,0 +1,12 @@
+  x 'const' declarations must be initialized
+   ,-[$DIR/tests/flow-errors/require-directive/bom-pragma-after-code.js:2:1]
+ 1 | const a = 1;﻿/* @flow */
+ 2 | const value: number = 1;
+   :       ^^^^^
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/flow-errors/require-directive/bom-pragma-after-code.js:2:1]
+ 1 | const a = 1;﻿/* @flow */
+ 2 | const value: number = 1;
+   :            ^
+   `----

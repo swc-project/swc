@@ -1,0 +1,12 @@
+  x 'const' declarations must be initialized
+   ,-[$DIR/tests/flow-errors/require-directive/shebang-noflow.js:3:1]
+ 2 | // @noflow
+ 3 | const value: number = 1;
+   :       ^^^^^
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/flow-errors/require-directive/shebang-noflow.js:3:1]
+ 2 | // @noflow
+ 3 | const value: number = 1;
+   :            ^
+   `----
