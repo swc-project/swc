@@ -600,6 +600,30 @@ impl SyntaxFlags {
         self.typescript() && (!self.flow() || self.flow_enums())
     }
 
+    /// Whether type arguments may follow an expression without a call, as in
+    /// TypeScript instantiation expressions (`f<T>`, ``f<T>`tpl` ``).
+    ///
+    /// Flow has no instantiation expressions: outside `new`, type arguments
+    /// are valid only directly before call arguments (`f<T>()`). Any other
+    /// `a<b>...` keeps its JavaScript meaning, e.g. `(a < b) > /re/`.
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn ts_instantiation_expr(&self) -> bool {
+        self.typescript()
+    }
+
+    /// Whether type arguments may follow an expression without a call, as in
+    /// TypeScript instantiation expressions (`f<T>`, ``f<T>`tpl` ``).
+    ///
+    /// Flow has no instantiation expressions: outside `new`, type arguments
+    /// are valid only directly before call arguments (`f<T>()`). Any other
+    /// `a<b>...` keeps its JavaScript meaning, e.g. `(a < b) > /re/`.
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn ts_instantiation_expr(&self) -> bool {
+        self.typescript() && !self.flow()
+    }
+
     #[inline(always)]
     pub const fn types_like(&self) -> bool {
         self.typescript()

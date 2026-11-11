@@ -556,7 +556,9 @@ impl<I: Tokens> Parser<I> {
                 self.input().cur() != Token::LParen,
                 "parse_new_expr() should eat paren if it exists"
             );
-            return Ok(NewExpr { type_args, ..ne }.into());
+            // `type_args` is `None` here. Keep the type arguments of a Flow
+            // `new C<T>`, which `parse_new_expr()` stores on the expression.
+            return Ok(ne.into());
         }
         // 'CallExpr' rule contains 'MemberExpr (...)',
         // and 'MemberExpr' rule contains 'new MemberExpr (...)'
@@ -1375,6 +1377,11 @@ impl<I: Tokens> Parser<I> {
                         };
 
                         Ok(Some((Box::new(expr), true)))
+                    } else if !syntax.ts_instantiation_expr() {
+                        // Flow accepts type arguments here only before call arguments. Roll
+                        // back so that `f<T>`tpl`` and `a<b> = c` keep their JavaScript
+                        // meaning.
+                        unexpected!(p, "(")
                     } else if matches!(
                         cur,
                         Token::NoSubstitutionTemplateLiteral
@@ -1404,7 +1411,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let ts_instantiation = if syntax.typescript() && self.input().is(Token::Lt) {
+        let ts_instantiation = if syntax.ts_instantiation_expr() && self.input().is(Token::Lt) {
             self.try_parse_ts_type_args()
         } else {
             None
@@ -1432,7 +1439,7 @@ impl<I: Tokens> Parser<I> {
                 expr: prop,
             };
 
-            let type_args = if syntax.typescript() && self.input().is(Token::Lt) {
+            let type_args = if syntax.ts_instantiation_expr() && self.input().is(Token::Lt) {
                 self.try_parse_ts_type_args()
             } else {
                 None
@@ -1517,7 +1524,7 @@ impl<I: Tokens> Parser<I> {
             debug_assert_eq!(callee.span_lo(), span.lo());
             debug_assert_eq!(prop.span_hi(), span.hi());
 
-            let type_args = if syntax.typescript() && self.input().is(Token::Lt) {
+            let type_args = if syntax.ts_instantiation_expr() && self.input().is(Token::Lt) {
                 self.try_parse_ts_type_args()
             } else {
                 None
@@ -1993,7 +2000,10 @@ impl<I: Tokens> Parser<I> {
             } {
                 self.try_parse_ts(|p| {
                     let args = p.parse_ts_type_args_in_expr()?;
-                    if !p.input().is(Token::LParen) {
+                    // TypeScript gets `new C<T>;` from the instantiation expression `C<T>`.
+                    // Flow has no instantiation expressions, so it keeps the type arguments of
+                    // a `new` expression even without call arguments, like Babel and Hermes.
+                    if !p.input().is(Token::LParen) && p.input().syntax().ts_instantiation_expr() {
                         let span = p.input().cur_span();
                         let cur = p.input_mut().dump_cur();
                         syntax_error!(p, span, SyntaxError::Expected('('.to_string(), cur))
@@ -2049,7 +2059,7 @@ impl<I: Tokens> Parser<I> {
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
 
-        let type_args = if self.input().is(Token::Lt) && self.syntax().typescript() {
+        let type_args = if self.input().is(Token::Lt) && self.syntax().ts_instantiation_expr() {
             self.try_parse_ts_type_args()
         } else {
             None
