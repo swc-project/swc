@@ -1,0 +1,14 @@
+var a: ?number[];
+var b: (?number)[];
+var c: ?T[K];
+var d: (?T)[K];
+var e: ?number[][];
+var f: ?() => number[];
+var g: ?number | string;
+var h: ?(number)[];
+var i: ?(number[]);
+var j: ?(T[K]);
+var k: ?T[K][];
+var l: (?T)[K][];
+var m: ?number & string;
+var n: ?T?.[K];

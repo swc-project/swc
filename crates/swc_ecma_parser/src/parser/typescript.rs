@@ -529,6 +529,50 @@ impl<I: Tokens> Parser<I> {
         }))
     }
 
+    /// Parses a Flow inline interface type after its `interface` keyword.
+    ///
+    /// `interface { ... }` is represented as its body type literal. The AST has
+    /// no type node with a heritage list, so `interface extends A, B.C<T> { ...
+    /// }` is represented as the intersection `A & B.C<T> & { ... }`: the base
+    /// type references in source order, followed by the body. This keeps every
+    /// heritage name, its type arguments, and the body members.
+    fn parse_flow_inline_interface_type(&mut self, start: BytePos) -> PResult<TsType> {
+        if !self.input_mut().eat(Token::Extends) {
+            return self.parse_ts_type_lit().map(TsType::from);
+        }
+
+        let mut types = Vec::with_capacity(2);
+        loop {
+            // Like interface declaration heritage, a base is a (qualified) type
+            // name with optional type arguments.
+            let base_start = self.cur_pos();
+            let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
+            let type_params = if self.input().is(Token::Lt) {
+                Some(self.parse_ts_type_args()?)
+            } else {
+                None
+            };
+            types.push(Box::new(TsType::TsTypeRef(TsTypeRef {
+                span: self.span(base_start),
+                type_name,
+                type_params,
+            })));
+
+            if !self.input_mut().eat(Token::Comma) {
+                break;
+            }
+        }
+
+        types.push(Box::new(TsType::TsTypeLit(self.parse_ts_type_lit()?)));
+
+        Ok(TsType::TsUnionOrIntersectionType(
+            TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
+                span: self.span(start),
+                types,
+            }),
+        ))
+    }
+
     fn parse_flow_component_type(&mut self, start: BytePos) -> PResult<TsType> {
         let type_params = self.try_parse_ts_type_params(false, true)?;
         let component_params = self.parse_flow_component_params(false, false, true)?;
@@ -4469,9 +4513,11 @@ impl<I: Tokens> Parser<I> {
 
         let cur = self.input().cur();
         if self.input().syntax().flow() {
-            if cur == Token::Interface && peek!(self).is_some_and(|peek| peek == Token::LBrace) {
+            if cur == Token::Interface
+                && peek!(self).is_some_and(|peek| matches!(peek, Token::LBrace | Token::Extends))
+            {
                 self.bump();
-                return self.parse_ts_type_lit().map(TsType::from).map(Box::new);
+                return self.parse_flow_inline_interface_type(start).map(Box::new);
             }
 
             if let Some(render_ty) = self.try_parse_ts(|p| {
@@ -4655,8 +4701,13 @@ impl<I: Tokens> Parser<I> {
 
             // Flow's nullable type (`?T`) is represented as `T | null | undefined`.
             // Only use the non-conditional parser for actual function forms
-            // (`?() =>`, `?(x: T) =>`, `?(...A) =>`) so non-function grouped
-            // types keep their original precedence (`?(T)[]` etc.).
+            // (`?() =>`, `?(x: T) =>`, `?(...A) =>`).
+            //
+            // Otherwise the operand is a postfix type: `?` binds looser than
+            // `[]` and `[K]`, so `?T[]` is a nullable array and `?T[K]` is a
+            // nullable indexed access, while `(?T)[]` keeps the suffix outside
+            // the union. Stopping at the postfix level leaves `|` and `&` to
+            // the enclosing union/intersection parser.
             let is_nullable_fn_type = self.input().is(Token::LParen)
                 && self.ts_look_ahead(|p| {
                     p.try_parse_ts(|p| {
@@ -4677,7 +4728,7 @@ impl<I: Tokens> Parser<I> {
             let inner_type = if is_nullable_fn_type {
                 self.parse_ts_non_conditional_type()?
             } else {
-                self.parse_ts_non_array_type()?
+                self.parse_ts_array_type_or_higher(false)?
             };
             let span = self.span(start);
 

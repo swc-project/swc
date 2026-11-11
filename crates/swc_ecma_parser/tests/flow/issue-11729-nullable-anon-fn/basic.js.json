@@ -318,19 +318,19 @@
       },
       "typeParams": null,
       "typeAnnotation": {
-        "type": "TsArrayType",
+        "type": "TsUnionType",
         "span": {
           "start": 132,
           "end": 143
         },
-        "elemType": {
-          "type": "TsUnionType",
-          "span": {
-            "start": 132,
-            "end": 141
-          },
-          "types": [
-            {
+        "types": [
+          {
+            "type": "TsArrayType",
+            "span": {
+              "start": 133,
+              "end": 143
+            },
+            "elemType": {
               "type": "TsParenthesizedType",
               "span": {
                 "start": 133,
@@ -344,25 +344,25 @@
                 },
                 "kind": "string"
               }
-            },
-            {
-              "type": "TsKeywordType",
-              "span": {
-                "start": 132,
-                "end": 141
-              },
-              "kind": "null"
-            },
-            {
-              "type": "TsKeywordType",
-              "span": {
-                "start": 132,
-                "end": 141
-              },
-              "kind": "undefined"
             }
-          ]
-        }
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 132,
+              "end": 143
+            },
+            "kind": "null"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 132,
+              "end": 143
+            },
+            "kind": "undefined"
+          }
+        ]
       }
     }
   ],
