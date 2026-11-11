@@ -3202,11 +3202,14 @@ impl<I: Tokens> Parser<I> {
     /// Neither indexers (`[K: T]`, `[T]`) nor computed keys can contain an
     /// identifier directly followed by `in`, so this commits to a mapped member
     /// without speculative parsing.
+    ///
+    /// `K` is an IdentifierName, as in [`Self::parse_ts_mapped_type_param`], so
+    /// reserved words such as `in` are accepted (`[in in keyof O]: T`).
     fn is_flow_start_of_mapped_member(&mut self) -> bool {
         debug_assert!(self.input().syntax().flow());
 
         self.bump(); // [
-        if !self.is_ident_ref() {
+        if !self.input().cur().is_word() {
             return false;
         }
         self.bump();
