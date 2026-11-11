@@ -1,0 +1,5 @@
+  x Expression expected
+   ,-[$DIR/tests/flow-errors/type-args-without-call/instantiation.js:1:1]
+ 1 | x = a<b>;
+   :         ^
+   `----

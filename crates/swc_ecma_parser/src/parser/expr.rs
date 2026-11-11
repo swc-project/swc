@@ -1379,7 +1379,7 @@ impl<I: Tokens> Parser<I> {
                         Ok(Some((Box::new(expr), true)))
                     } else if !syntax.ts_instantiation_expr() {
                         // Flow accepts type arguments here only before call arguments. Roll
-                        // back so that `f<T>`tpl`` and `a<b> = c` keep their JavaScript
+                        // back so that ``f<T>`tpl` `` and `a<b>=c` keep their JavaScript
                         // meaning.
                         unexpected!(p, "(")
                     } else if matches!(
