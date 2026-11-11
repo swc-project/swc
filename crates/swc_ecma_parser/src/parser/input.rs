@@ -20,6 +20,13 @@ pub trait Tokens: Clone {
     fn syntax(&self) -> SyntaxFlags;
     fn target(&self) -> EsVersion;
 
+    /// Saves the lexer state needed to rewind to the current token.
+    ///
+    /// The checkpoint must capture every piece of per-token state, including
+    /// [`Tokens::token_flags`]. Parser speculation relies on
+    /// [`Tokens::checkpoint_load`] alone to restore them, so a stale flag
+    /// from a discarded token would otherwise be attributed to the restored
+    /// token.
     fn checkpoint_save(&self) -> Self::Checkpoint;
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
 

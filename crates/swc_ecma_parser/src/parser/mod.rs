@@ -57,6 +57,14 @@ use self::context::{
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
+/// Parser state saved before a speculative parse.
+///
+/// Everything a failed probe can change and the committed parse later reads
+/// must be restored here. This includes the program-classification flags: a
+/// discarded probe may parse syntax such as `await x` that never reaches the
+/// final AST, and keeping its evidence would misclassify an unambiguous
+/// Program. These flags are plain booleans, so tracking them adds only two
+/// byte copies to the lookahead hot paths.
 #[cfg(feature = "typescript")]
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
@@ -64,6 +72,8 @@ pub struct ParserCheckpoint<I: Tokens> {
     buffer_prev_span: Span,
     buffer_cur: TokenAndSpan,
     buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+    found_module_item: bool,
+    ambiguous_script_different_ast: bool,
     grammar_context: GrammarContext,
     boundary_context: BoundaryContext,
     syntax_context: SyntaxContext,
@@ -83,7 +93,6 @@ struct ProgramCheckpoint<I: Tokens> {
     ambiguous_script_different_ast: bool,
     program_parse_mode: ProgramParseMode,
     diagnostic_lengths: (usize, usize),
-    token_flags: crate::lexer::TokenFlags,
     grammar_context: GrammarContext,
     boundary_context: BoundaryContext,
     syntax_context: SyntaxContext,
@@ -179,7 +188,6 @@ impl<I: Tokens> Parser<I> {
             ambiguous_script_different_ast: self.ambiguous_script_different_ast,
             program_parse_mode: self.program_parse_mode,
             diagnostic_lengths: self.input.iter.diagnostic_checkpoint_save(),
-            token_flags: self.input.iter.token_flags(),
             grammar_context: self.grammar_context,
             boundary_context: self.boundary_context,
             syntax_context: self.syntax_context,
@@ -195,9 +203,6 @@ impl<I: Tokens> Parser<I> {
         self.input
             .iter
             .diagnostic_checkpoint_load(checkpoint.diagnostic_lengths);
-        self.input
-            .iter
-            .update_token_flags(|flags| *flags = checkpoint.token_flags);
         self.input.cur = checkpoint.buffer_cur;
         self.input.next = checkpoint.buffer_next;
         self.input.prev_span = checkpoint.buffer_prev_span;
@@ -216,7 +221,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    #[cfg(all(feature = "typescript", feature = "flow"))]
+    #[cfg(feature = "typescript")]
     fn checkpoint_save(&self) -> ParserCheckpoint<I> {
         ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
@@ -224,62 +229,38 @@ impl<I: Tokens> Parser<I> {
             buffer_cur: self.input.cur,
             buffer_next: self.input.next.clone(),
             buffer_prev_span: self.input.prev_span,
+            found_module_item: self.found_module_item,
+            ambiguous_script_different_ast: self.ambiguous_script_different_ast,
             grammar_context: self.grammar_context,
             boundary_context: self.boundary_context,
             syntax_context: self.syntax_context,
             statement_context: self.statement_context,
             type_context: self.type_context,
+            #[cfg(feature = "flow")]
             allow_super_call: self.allow_super_call,
         }
     }
 
-    #[cfg(all(feature = "typescript", not(feature = "flow")))]
-    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
-        ParserCheckpoint {
-            lexer: self.input.iter.checkpoint_save(),
-            diagnostic_lengths: self.input.iter.diagnostic_checkpoint_save(),
-            buffer_cur: self.input.cur,
-            buffer_next: self.input.next.clone(),
-            buffer_prev_span: self.input.prev_span,
-            grammar_context: self.grammar_context,
-            boundary_context: self.boundary_context,
-            syntax_context: self.syntax_context,
-            statement_context: self.statement_context,
-            type_context: self.type_context,
+    #[cfg(feature = "typescript")]
+    fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
+        self.input.iter.checkpoint_load(checkpoint.lexer);
+        self.input
+            .iter
+            .diagnostic_checkpoint_load(checkpoint.diagnostic_lengths);
+        self.input.cur = checkpoint.buffer_cur;
+        self.input.next = checkpoint.buffer_next;
+        self.input.prev_span = checkpoint.buffer_prev_span;
+        self.found_module_item = checkpoint.found_module_item;
+        self.ambiguous_script_different_ast = checkpoint.ambiguous_script_different_ast;
+        self.grammar_context = checkpoint.grammar_context;
+        self.boundary_context = checkpoint.boundary_context;
+        self.syntax_context = checkpoint.syntax_context;
+        self.statement_context = checkpoint.statement_context;
+        self.type_context = checkpoint.type_context;
+        #[cfg(feature = "flow")]
+        {
+            self.allow_super_call = checkpoint.allow_super_call;
         }
-    }
-
-    #[cfg(all(feature = "typescript", feature = "flow"))]
-    fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
-        self.input.iter.checkpoint_load(checkpoint.lexer);
-        self.input
-            .iter
-            .diagnostic_checkpoint_load(checkpoint.diagnostic_lengths);
-        self.input.cur = checkpoint.buffer_cur;
-        self.input.next = checkpoint.buffer_next;
-        self.input.prev_span = checkpoint.buffer_prev_span;
-        self.grammar_context = checkpoint.grammar_context;
-        self.boundary_context = checkpoint.boundary_context;
-        self.syntax_context = checkpoint.syntax_context;
-        self.statement_context = checkpoint.statement_context;
-        self.type_context = checkpoint.type_context;
-        self.allow_super_call = checkpoint.allow_super_call;
-    }
-
-    #[cfg(all(feature = "typescript", not(feature = "flow")))]
-    fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
-        self.input.iter.checkpoint_load(checkpoint.lexer);
-        self.input
-            .iter
-            .diagnostic_checkpoint_load(checkpoint.diagnostic_lengths);
-        self.input.cur = checkpoint.buffer_cur;
-        self.input.next = checkpoint.buffer_next;
-        self.input.prev_span = checkpoint.buffer_prev_span;
-        self.grammar_context = checkpoint.grammar_context;
-        self.boundary_context = checkpoint.boundary_context;
-        self.syntax_context = checkpoint.syntax_context;
-        self.statement_context = checkpoint.statement_context;
-        self.type_context = checkpoint.type_context;
     }
 
     #[cfg(feature = "flow")]

@@ -1,0 +1,122 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 49
+  },
+  "body": [
+    {
+      "type": "WithStatement",
+      "span": {
+        "start": 1,
+        "end": 14
+      },
+      "object": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 10
+        },
+        "ctxt": 0,
+        "value": "obj",
+        "optional": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 12,
+          "end": 14
+        },
+        "ctxt": 0,
+        "stmts": []
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 15,
+        "end": 49
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 21,
+            "end": 48
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 21,
+              "end": 25
+            },
+            "ctxt": 0,
+            "value": "view",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "JSXElement",
+            "span": {
+              "start": 28,
+              "end": 48
+            },
+            "opening": {
+              "type": "JSXOpeningElement",
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 29,
+                  "end": 30
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "span": {
+                "start": 28,
+                "end": 31
+              },
+              "attributes": [],
+              "selfClosing": false,
+              "typeArguments": null
+            },
+            "children": [
+              {
+                "type": "JSXText",
+                "span": {
+                  "start": 31,
+                  "end": 44
+                },
+                "value": "(await value)",
+                "raw": "(await value)"
+              }
+            ],
+            "closing": {
+              "type": "JSXClosingElement",
+              "span": {
+                "start": 44,
+                "end": 48
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 46,
+                  "end": 47
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

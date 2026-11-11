@@ -55,6 +55,10 @@ pub struct State {
 pub struct LexerCheckpoint {
     comments_buffer: CommentsBufferCheckpoint,
     state: State,
+    /// Flags of the most recently lexed token. They describe the same token as
+    /// `state`, so a rollback must restore them together; otherwise a failed
+    /// speculative parse leaves the flags of a discarded token behind.
+    token_flags: TokenFlags,
     ctx: Context,
     input_last_pos: BytePos,
 }
@@ -65,6 +69,7 @@ impl crate::input::Tokens for Lexer<'_> {
     fn checkpoint_save(&self) -> LexerCheckpoint {
         LexerCheckpoint {
             state: self.state.clone(),
+            token_flags: self.token_flags,
             ctx: self.ctx,
             input_last_pos: self.input.last_pos(),
             comments_buffer: self
@@ -77,6 +82,7 @@ impl crate::input::Tokens for Lexer<'_> {
 
     fn checkpoint_load(&mut self, checkpoint: LexerCheckpoint) {
         self.state = checkpoint.state;
+        self.token_flags = checkpoint.token_flags;
         self.ctx = checkpoint.ctx;
         unsafe { self.input.reset_to(checkpoint.input_last_pos) };
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {

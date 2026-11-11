@@ -1,0 +1,107 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 46
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 11
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 12,
+        "end": 46
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 18,
+            "end": 45
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 18,
+              "end": 22
+            },
+            "ctxt": 0,
+            "value": "view",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "JSXElement",
+            "span": {
+              "start": 25,
+              "end": 45
+            },
+            "opening": {
+              "type": "JSXOpeningElement",
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 26,
+                  "end": 27
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "span": {
+                "start": 25,
+                "end": 28
+              },
+              "attributes": [],
+              "selfClosing": false,
+              "typeArguments": null
+            },
+            "children": [
+              {
+                "type": "JSXText",
+                "span": {
+                  "start": 28,
+                  "end": 41
+                },
+                "value": "(await value)",
+                "raw": "(await value)"
+              }
+            ],
+            "closing": {
+              "type": "JSXClosingElement",
+              "span": {
+                "start": 41,
+                "end": 45
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 43,
+                  "end": 44
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

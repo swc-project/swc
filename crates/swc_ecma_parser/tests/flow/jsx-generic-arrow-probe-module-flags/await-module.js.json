@@ -1,0 +1,34 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 13
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 13
+      },
+      "expression": {
+        "type": "AwaitExpression",
+        "span": {
+          "start": 1,
+          "end": 12
+        },
+        "argument": {
+          "type": "Identifier",
+          "span": {
+            "start": 7,
+            "end": 12
+          },
+          "ctxt": 0,
+          "value": "value",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

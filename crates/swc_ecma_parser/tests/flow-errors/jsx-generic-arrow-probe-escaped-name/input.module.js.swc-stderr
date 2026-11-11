@@ -1,0 +1,5 @@
+  x Invalid unicode escape
+   ,-[$DIR/tests/flow-errors/jsx-generic-arrow-probe-escaped-name/input.module.js:1:1]
+ 1 | const view = <\u0054>a</T>;
+   :               ^^^^^^
+   `----
