@@ -645,16 +645,17 @@ impl<V> Operator<'_, V>
 where
     V: RenamedVariable,
 {
-    /// Returns `Ok(renamed_ident)` if ident should be renamed.
+    /// Returns `Ok(())` if the identifier's symbol changed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
         if let Some(new_id) = self.rename.get(&ident.to_id()) {
+            // Preserved class names still need their self-references rebound.
+            ident.ctxt = new_id.ctxt();
             let new_sym = new_id.atom();
 
             if ident.sym.eq(new_sym) {
                 return Err(());
             }
 
-            ident.ctxt = new_id.ctxt();
             ident.sym = new_sym.clone();
             return Ok(());
         }
