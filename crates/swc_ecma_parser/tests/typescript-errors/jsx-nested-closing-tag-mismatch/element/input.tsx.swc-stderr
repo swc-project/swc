@@ -1,0 +1,5 @@
+  x Expected corresponding JSX closing tag for <B>
+   ,-[$DIR/tests/typescript-errors/jsx-nested-closing-tag-mismatch/element/input.tsx:1:1]
+ 1 | const view = <A><B></C></A>;
+   :                      ^
+   `----
