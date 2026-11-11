@@ -28,9 +28,16 @@ fn with_suffix(path: &Path, suffix: &str) -> PathBuf {
 )]
 fn fixture(input_dir: PathBuf) {
     let _log = testing::init();
+    // Flow syntax is parsed only with the `flow` feature, so skip every
+    // `compile/flow/**` fixture when it is disabled.
     #[cfg(not(feature = "flow"))]
-    if input_dir.ends_with("flow/strip/input") {
-        return;
+    {
+        let flow = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/compile/flow");
+        // Match canonical fixture paths, including verbatim Windows prefixes.
+        let flow = flow.canonicalize().unwrap();
+        if input_dir.starts_with(flow) {
+            return;
+        }
     }
     #[cfg(not(feature = "react-compiler"))]
     {
