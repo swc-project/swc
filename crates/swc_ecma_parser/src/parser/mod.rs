@@ -1,8 +1,6 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use std::borrow::Borrow;
-
 use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
@@ -1222,7 +1220,11 @@ impl<I: Tokens> Parser<I> {
         exported: &mut FxHashMap<&'a Wtf8Atom, Span>,
         ident: &'a Ident,
     ) {
-        self.record_exported_name(exported, ident.sym.borrow(), ident.span);
+        self.record_exported_name(
+            exported,
+            std::borrow::Borrow::borrow(&ident.sym),
+            ident.span,
+        );
     }
 
     fn record_exported_module_export_name<'a>(
@@ -1232,7 +1234,7 @@ impl<I: Tokens> Parser<I> {
     ) {
         match name {
             ModuleExportName::Ident(ident) => self.record_exported_ident(exported, ident),
-            ModuleExportName::Str(str) => self.record_exported_name(exported, &str.value, str.span),
+            ModuleExportName::Str(s) => self.record_exported_name(exported, &s.value, s.span),
             #[cfg(swc_ast_unknown)]
             _ => {}
         }
