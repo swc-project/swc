@@ -1,0 +1,8 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "flow",
+      "enums": true
+    }
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 20,
+    "end": 96
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 35,
+        "end": 96
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 40,
+          "end": 46
+        },
+        "ctxt": 0,
+        "value": "Status",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 61,
+            "end": 78
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 61,
+              "end": 67
+            },
+            "ctxt": 0,
+            "value": "Active",
+            "optional": false
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 70,
+              "end": 78
+            },
+            "value": "active",
+            "raw": "'active'"
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 82,
+            "end": 93
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 82,
+              "end": 85
+            },
+            "ctxt": 0,
+            "value": "Off",
+            "optional": false
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 88,
+              "end": 93
+            },
+            "value": "off",
+            "raw": "'off'"
+          }
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 20,
+        "end": 34
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 40,
+            "end": 46
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 40,
+              "end": 46
+            },
+            "ctxt": 0,
+            "value": "Status",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 27,
+              "end": 34
+            },
+            "ctxt": 0,
+            "value": "default",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    }
+  ],
+  "interpreter": null
+}

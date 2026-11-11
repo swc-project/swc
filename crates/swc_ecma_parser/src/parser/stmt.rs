@@ -2345,11 +2345,13 @@ impl<I: Tokens> Parser<I> {
                     }
 
                     let stmt = p.parse_stmt_like(Type::GRAMMAR, &handle_import_export)?;
+                    p.push_flow_default_enum(stmts);
                     stmts.push(stmt);
                 }
             } else {
                 while p.input().cur() != Token::Eof {
                     let stmt = p.parse_stmt_like(Type::GRAMMAR, &handle_import_export)?;
+                    p.push_flow_default_enum(stmts);
                     stmts.push(stmt);
                 }
             }
@@ -2364,6 +2366,16 @@ impl<I: Tokens> Parser<I> {
         };
 
         Ok(stmts)
+    }
+
+    /// Pushes the enum declaration of a Flow `export default enum` item, if
+    /// the item that was just parsed is one. See
+    /// [`State::flow_default_enum`](super::state::State::flow_default_enum).
+    #[inline(always)]
+    fn push_flow_default_enum<Type: From<Stmt>>(&mut self, stmts: &mut Vec<Type>) {
+        if let Some(decl) = self.state_mut().flow_default_enum.take() {
+            stmts.push(Stmt::Decl(Decl::TsEnum(decl)).into());
+        }
     }
 }
 

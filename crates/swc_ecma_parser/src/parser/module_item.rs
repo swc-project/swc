@@ -1,5 +1,5 @@
 use swc_atoms::atom;
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
@@ -11,10 +11,25 @@ use crate::{
 };
 
 impl<I: Tokens> Parser<I> {
+    /// Parses one module item.
+    ///
+    /// A Flow `export default enum Name {}` needs two module items. This
+    /// method can return only one, so it returns the enum as
+    /// `export enum Name {}` and the default export is lost. Parse a module
+    /// to keep the default export.
     pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
-        self.do_inside_of_boundary_context(BoundaryContext::TopLevel, |p| {
+        let item = self.do_inside_of_boundary_context(BoundaryContext::TopLevel, |p| {
             p.parse_stmt_like(StatementGrammar::ModuleItem, handle_import_export)
-        })
+        })?;
+
+        match self.state_mut().flow_default_enum.take() {
+            Some(decl) => Ok(ExportDecl {
+                span: item.span(),
+                decl: Decl::TsEnum(decl),
+            }
+            .into()),
+            None => Ok(item),
+        }
     }
 
     /// Leaves a closing delimiter buffered so the container owns its
@@ -512,6 +527,8 @@ impl<I: Tokens> Parser<I> {
         let mut export_default = None;
 
         if !type_only && self.input_mut().eat(Token::Default) {
+            let default_span = self.input().prev_span();
+
             if self.input().is(Token::At) {
                 let start = self.cur_pos();
                 let after_decorators = self.parse_decorators(false)?;
@@ -612,8 +629,37 @@ impl<I: Tokens> Parser<I> {
                 self.assert_and_bump(Token::Enum);
                 let decl = self.parse_ts_enum_decl(enum_start, false)?;
 
-                // `export default enum` is valid in Flow, but SWC's default export decl AST
-                // variant does not model enum declarations.
+                if self.input().syntax().flow() {
+                    // `export default enum` is valid in Flow, but `DefaultDecl` has no
+                    // enum variant. Represent it as `enum Name {}` followed by
+                    // `export { Name as default }`, which keeps the default export
+                    // and does not export `Name`. The module item list inserts the
+                    // stored declaration before the export returned here.
+                    //
+                    // The export spans only `export default`. A span that includes
+                    // the enum body would make codegen copy the body's trailing comma
+                    // into the specifier list.
+                    let orig = decl.id.clone();
+                    self.state_mut().flow_default_enum = Some(decl);
+                    return Ok(NamedExport {
+                        span: Span::new_with_checked(start, default_span.hi),
+                        specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: orig.span,
+                            orig: ModuleExportName::Ident(orig),
+                            exported: Some(ModuleExportName::Ident(Ident::new_no_ctxt(
+                                atom!("default"),
+                                default_span,
+                            ))),
+                            is_type_only: false,
+                        })],
+                        src: None,
+                        type_only: false,
+                        with: None,
+                    }
+                    .into());
+                }
+
+                // Other syntaxes keep the previous named-export representation.
                 return Ok(ExportDecl {
                     span: self.span(start),
                     decl: Decl::TsEnum(decl),

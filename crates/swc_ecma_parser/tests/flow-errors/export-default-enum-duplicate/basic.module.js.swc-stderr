@@ -1,0 +1,6 @@
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/export-default-enum-duplicate/basic.module.js:2:1]
+ 1 | export default enum A {}
+ 2 | export default enum B {}
+   :        ^^^^^^^
+   `----

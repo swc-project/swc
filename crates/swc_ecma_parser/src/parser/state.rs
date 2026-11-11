@@ -3,6 +3,7 @@ use std::ops::{Deref, DerefMut};
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
+use swc_ecma_ast::TsEnumDecl;
 
 use crate::{input::Tokens, Parser};
 
@@ -22,6 +23,13 @@ pub struct State {
     pub collect_async_arrow_param_await: bool,
     /// Start position of an AST node and the span of its trailing comma.
     pub trailing_commas: FxHashMap<BytePos, Span>,
+    /// Enum declaration of the Flow `export default enum` item that was just
+    /// parsed.
+    ///
+    /// `DefaultDecl` has no enum variant, so the parser returns the item as
+    /// `export { Name as default }` and stores the declaration here. The
+    /// module item list then inserts the declaration before that export.
+    pub flow_default_enum: Option<Box<TsEnumDecl>>,
 }
 
 impl Default for State {
@@ -32,6 +40,7 @@ impl Default for State {
             pending_async_arrow_param_await: None,
             collect_async_arrow_param_await: false,
             trailing_commas: Default::default(),
+            flow_default_enum: None,
         }
     }
 }
