@@ -877,12 +877,36 @@
                   "type": "Identifier",
                   "span": {
                     "start": 563,
-                    "end": 573
+                    "end": 563
                   },
                   "ctxt": 0,
-                  "value": "MethodName",
+                  "value": "__flow_anon_param_1",
                   "optional": false,
-                  "typeAnnotation": null
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 563,
+                      "end": 573
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 563,
+                        "end": 573
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 563,
+                          "end": 573
+                        },
+                        "ctxt": 0,
+                        "value": "MethodName",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
                 }
               ],
               "typeParams": {
@@ -1080,12 +1104,36 @@
                   "type": "Identifier",
                   "span": {
                     "start": 683,
-                    "end": 693
+                    "end": 683
                   },
                   "ctxt": 0,
-                  "value": "MethodName",
+                  "value": "__flow_anon_param_1",
                   "optional": false,
-                  "typeAnnotation": null
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 683,
+                      "end": 693
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 683,
+                        "end": 693
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 683,
+                          "end": 693
+                        },
+                        "ctxt": 0,
+                        "value": "MethodName",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
                 }
               ],
               "typeParams": {

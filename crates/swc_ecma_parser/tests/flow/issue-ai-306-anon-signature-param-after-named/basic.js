@@ -1,0 +1,15 @@
+type Bare = (x: number, T) => void;
+type Qualified = (x: number, NS.T) => void;
+type ArrayOf = (x: number, T[]) => void;
+type Union = (x: number, T | U) => void;
+type Intersection = (x: number, T & U) => void;
+type Generic = (x: number, Array<T>) => void;
+type Optional = (x?: number, T) => void;
+type GenericNamed = <T>(x: T, T[], NS.T) => void;
+type Rest = (x: number, ...T) => void;
+type RestQualified = (x: number, ...NS.T) => void;
+type KeywordArray = (x: number, string[]) => void;
+type KeywordTypeof = (x: number, typeof x) => void;
+type Nullable = (x: number, ?T) => void;
+type Mixed = (T, x: number, U) => void;
+type Callable = { (x: number, T): void };
