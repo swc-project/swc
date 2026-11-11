@@ -1,0 +1,758 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 133
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 12
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 1,
+          "end": 11
+        },
+        "object": {
+          "type": "NewExpression",
+          "span": {
+            "start": 1,
+            "end": 9
+          },
+          "ctxt": 0,
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6
+            },
+            "ctxt": 0,
+            "value": "C",
+            "optional": false
+          },
+          "arguments": null,
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 6,
+              "end": 9
+            },
+            "params": [
+              {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 7,
+                  "end": 8
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 7,
+                    "end": 8
+                  },
+                  "ctxt": 0,
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            ]
+          }
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 10,
+            "end": 11
+          },
+          "value": "p"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 13,
+        "end": 26
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 13,
+          "end": 25
+        },
+        "object": {
+          "type": "NewExpression",
+          "span": {
+            "start": 13,
+            "end": 23
+          },
+          "ctxt": 0,
+          "callee": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 17,
+              "end": 20
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 17,
+                "end": 18
+              },
+              "ctxt": 0,
+              "value": "o",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 19,
+                "end": 20
+              },
+              "value": "C"
+            }
+          },
+          "arguments": null,
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 20,
+              "end": 23
+            },
+            "params": [
+              {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 21,
+                  "end": 22
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 21,
+                    "end": 22
+                  },
+                  "ctxt": 0,
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            ]
+          }
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 24,
+            "end": 25
+          },
+          "value": "p"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 27,
+        "end": 41
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 27,
+          "end": 40
+        },
+        "object": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 27,
+            "end": 38
+          },
+          "object": {
+            "type": "NewExpression",
+            "span": {
+              "start": 27,
+              "end": 35
+            },
+            "ctxt": 0,
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 31,
+                "end": 32
+              },
+              "ctxt": 0,
+              "value": "C",
+              "optional": false
+            },
+            "arguments": null,
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 32,
+                "end": 35
+              },
+              "params": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 33,
+                    "end": 34
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 33,
+                      "end": 34
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 35,
+              "end": 38
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 36,
+                "end": 37
+              },
+              "ctxt": 0,
+              "value": "k",
+              "optional": false
+            }
+          }
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 39,
+            "end": 40
+          },
+          "value": "q"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 42,
+        "end": 56
+      },
+      "expression": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 42,
+          "end": 55
+        },
+        "ctxt": 0,
+        "tag": {
+          "type": "NewExpression",
+          "span": {
+            "start": 42,
+            "end": 50
+          },
+          "ctxt": 0,
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 46,
+              "end": 47
+            },
+            "ctxt": 0,
+            "value": "C",
+            "optional": false
+          },
+          "arguments": null,
+          "typeArguments": {
+            "type": "TsTypeParameterInstantiation",
+            "span": {
+              "start": 47,
+              "end": 50
+            },
+            "params": [
+              {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 48,
+                  "end": 49
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 48,
+                    "end": 49
+                  },
+                  "ctxt": 0,
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            ]
+          }
+        },
+        "typeParameters": null,
+        "template": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 50,
+            "end": 55
+          },
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 51,
+                "end": 54
+              },
+              "tail": true,
+              "cooked": "tpl",
+              "raw": "tpl"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 57,
+        "end": 70
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 57,
+          "end": 69
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 57,
+            "end": 67
+          },
+          "object": {
+            "type": "NewExpression",
+            "span": {
+              "start": 57,
+              "end": 65
+            },
+            "ctxt": 0,
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 61,
+                "end": 62
+              },
+              "ctxt": 0,
+              "value": "C",
+              "optional": false
+            },
+            "arguments": null,
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 62,
+                "end": 65
+              },
+              "params": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 63,
+                    "end": 64
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 63,
+                      "end": 64
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 66,
+              "end": 67
+            },
+            "value": "p"
+          }
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 71,
+        "end": 87
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 71,
+          "end": 86
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 71,
+            "end": 81
+          },
+          "object": {
+            "type": "NewExpression",
+            "span": {
+              "start": 71,
+              "end": 79
+            },
+            "ctxt": 0,
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 75,
+                "end": 76
+              },
+              "ctxt": 0,
+              "value": "C",
+              "optional": false
+            },
+            "arguments": null,
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 76,
+                "end": 79
+              },
+              "params": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 77,
+                    "end": 78
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 77,
+                      "end": 78
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 80,
+              "end": 81
+            },
+            "value": "p"
+          }
+        },
+        "arguments": [],
+        "typeArguments": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 81,
+            "end": 84
+          },
+          "params": [
+            {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 82,
+                "end": 83
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 82,
+                  "end": 83
+                },
+                "ctxt": 0,
+                "value": "U",
+                "optional": false
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 88,
+        "end": 100
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 88,
+          "end": 99
+        },
+        "optional": true,
+        "base": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 88,
+            "end": 99
+          },
+          "object": {
+            "type": "NewExpression",
+            "span": {
+              "start": 88,
+              "end": 96
+            },
+            "ctxt": 0,
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 92,
+                "end": 93
+              },
+              "ctxt": 0,
+              "value": "C",
+              "optional": false
+            },
+            "arguments": null,
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 93,
+                "end": 96
+              },
+              "params": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 94,
+                    "end": 95
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 94,
+                      "end": 95
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 98,
+              "end": 99
+            },
+            "value": "p"
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 101,
+        "end": 116
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 101,
+          "end": 115
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 105,
+            "end": 115
+          },
+          "object": {
+            "type": "NewExpression",
+            "span": {
+              "start": 105,
+              "end": 113
+            },
+            "ctxt": 0,
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 109,
+                "end": 110
+              },
+              "ctxt": 0,
+              "value": "C",
+              "optional": false
+            },
+            "arguments": null,
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 110,
+                "end": 113
+              },
+              "params": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 111,
+                    "end": 112
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 111,
+                      "end": 112
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 114,
+              "end": 115
+            },
+            "value": "p"
+          }
+        },
+        "arguments": null,
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 117,
+        "end": 133
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 117,
+          "end": 132
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 117,
+            "end": 118
+          },
+          "ctxt": 0,
+          "value": "x",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 121,
+            "end": 132
+          },
+          "object": {
+            "type": "NewExpression",
+            "span": {
+              "start": 121,
+              "end": 129
+            },
+            "ctxt": 0,
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 125,
+                "end": 126
+              },
+              "ctxt": 0,
+              "value": "C",
+              "optional": false
+            },
+            "arguments": null,
+            "typeArguments": {
+              "type": "TsTypeParameterInstantiation",
+              "span": {
+                "start": 126,
+                "end": 129
+              },
+              "params": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 127,
+                    "end": 128
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 127,
+                      "end": 128
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              ]
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 131,
+              "end": 132
+            },
+            "value": "p"
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -2034,14 +2034,25 @@ impl<I: Tokens> Parser<I> {
 
             // Parsed with 'NewExpression' production.
 
-            return Ok(NewExpr {
+            // Only Flow keeps type arguments without call arguments (see above).
+            let has_flow_type_args = type_args.is_some();
+            let new_expr = NewExpr {
                 span: self.span(start),
                 callee,
                 args: None,
                 type_args,
                 ..Default::default()
             }
-            .into());
+            .into();
+
+            if has_flow_type_args {
+                // The type arguments end the callee, so a following member access or
+                // template applies to the `new` expression, like Babel:
+                // `new C<T>.p` is `(new C<T>).p`.
+                return self.parse_subscripts_expr::<false>(new_expr, true);
+            }
+
+            return Ok(new_expr);
         }
 
         if cur == Token::Super {
