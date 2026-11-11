@@ -533,9 +533,10 @@ impl<I: Tokens> Parser<I> {
     ///
     /// `interface { ... }` is represented as its body type literal. The AST has
     /// no type node with a heritage list, so `interface extends A, B.C<T> { ...
-    /// }` is represented as the intersection `A & B.C<T> & { ... }`: the base
-    /// type references in source order, followed by the body. This keeps every
-    /// heritage name, its type arguments, and the body members.
+    /// }` is represented as the parenthesized intersection `(A & B.C<T> & {
+    /// ... })`: the base type references in source order, followed by the
+    /// body. This keeps every heritage name, its type arguments, and the body
+    /// members.
     fn parse_flow_inline_interface_type(&mut self, start: BytePos) -> PResult<TsType> {
         if !self.input_mut().eat(Token::Extends) {
             return self.parse_ts_type_lit().map(TsType::from);
@@ -565,12 +566,17 @@ impl<I: Tokens> Parser<I> {
 
         types.push(Box::new(TsType::TsTypeLit(self.parse_ts_type_lit()?)));
 
-        Ok(TsType::TsUnionOrIntersectionType(
-            TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType {
-                span: self.span(start),
-                types,
-            }),
-        ))
+        let span = self.span(start);
+        // The source is a single primary type, so the synthesized intersection
+        // is wrapped in parentheses. Otherwise a following postfix or prefix
+        // operator (`interface extends A {}[]`, `keyof interface extends A {}`)
+        // would apply only to the body when the AST is printed.
+        Ok(TsType::TsParenthesizedType(TsParenthesizedType {
+            span,
+            type_ann: Box::new(TsType::TsUnionOrIntersectionType(
+                TsUnionOrIntersectionType::TsIntersectionType(TsIntersectionType { span, types }),
+            )),
+        }))
     }
 
     fn parse_flow_component_type(&mut self, start: BytePos) -> PResult<TsType> {
