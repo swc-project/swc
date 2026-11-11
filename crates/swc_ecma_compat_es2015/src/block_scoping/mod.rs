@@ -13,9 +13,13 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
+    VisitWith,
 };
 
+mod nested_mutation;
 mod vars;
+
+use self::nested_mutation::NestedMutationCollector;
 
 ///
 ///
@@ -672,6 +676,19 @@ impl FlowHelper<'_> {
         }
     }
 
+    /// Records writes to loop variables inside a nested function. See
+    /// [NestedMutationCollector].
+    fn collect_nested_mutations<T>(&mut self, node: &T)
+    where
+        T: for<'a, 'b> VisitWith<NestedMutationCollector<'a, 'b>>,
+    {
+        if self.all.is_empty() {
+            return;
+        }
+
+        node.visit_with(&mut NestedMutationCollector { flow: self });
+    }
+
     fn has_outer_label(&self, label: &Option<Ident>) -> bool {
         match label {
             Some(l) => !self.inner_label.contains(&l.sym),
@@ -683,8 +700,11 @@ impl FlowHelper<'_> {
 impl VisitMut for FlowHelper<'_> {
     noop_visit_mut_type!(fail);
 
-    /// noop
-    fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
+    /// Control flow inside an arrow function is not part of the loop body, but
+    /// a write to a captured loop variable must still be written back.
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        self.collect_nested_mutations(n);
+    }
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
@@ -745,8 +765,11 @@ impl VisitMut for FlowHelper<'_> {
         self.in_nested_loop = old;
     }
 
-    /// noop
-    fn visit_mut_function(&mut self, _f: &mut Function) {}
+    /// Control flow inside a function is not part of the loop body, but a write
+    /// to a captured loop variable must still be written back.
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        self.collect_nested_mutations(f);
+    }
 
     fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
         self.inner_label.insert(l.label.sym.clone());
