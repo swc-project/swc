@@ -25,6 +25,14 @@ pub struct RegExpOptions {
     pub lookbehind_assertion: bool,
     /// [Named capture groups in regular expressions](https://tc39.es/proposal-regexp-named-groups/)
     pub named_capturing_groups_regex: bool,
+    /// [Duplicate named capturing groups](https://github.com/tc39/proposal-duplicate-named-capturing-groups)
+    ///
+    /// Patterns that reuse a group name in different alternatives are
+    /// rewritten to indexed groups, and `_wrap_reg_exp` restores the
+    /// `groups` object. Patterns that refer to such a name with `\k<name>`
+    /// are left unchanged because the reference cannot be expressed with
+    /// indexed groups.
+    pub duplicate_named_capturing_groups_regex: bool,
     /// [RegExp.prototype.sticky](https://tc39.es/ecma262/multipage/text-processing.html#sec-get-regexp.prototype.sticky)
     pub sticky_regex: bool,
     /// [Unicode property escapes in regular expressions](https://tc39.es/proposal-regexp-unicode-property-escapes/)
@@ -42,6 +50,7 @@ impl RegExpOptions {
             || self.has_indices
             || self.lookbehind_assertion
             || self.named_capturing_groups_regex
+            || self.duplicate_named_capturing_groups_regex
             || self.sticky_regex
             || self.unicode_property_regex
             || self.unicode_regex
@@ -54,6 +63,7 @@ pub(crate) fn hook(options: RegExpOptions) -> Option<impl VisitMutHook<TraverseC
         || options.has_indices
         || options.lookbehind_assertion
         || options.named_capturing_groups_regex
+        || options.duplicate_named_capturing_groups_regex
         || options.sticky_regex
         || options.unicode_property_regex
         || options.unicode_regex
@@ -159,14 +169,19 @@ impl RegexpPass {
 
     /// Parse a regex pattern, extract named capturing groups, strip them,
     /// convert named backreferences to indexed ones, and return the stripped
-    /// pattern string along with the name-to-index mapping.
+    /// pattern string along with the name-to-indices mapping.
     ///
-    /// Returns `None` if parsing fails or if there are no named groups.
+    /// A name that is used by more than one group (allowed in different
+    /// alternatives) maps to several indices.
+    ///
+    /// Returns `None` if parsing fails, if the pattern does not contain a group
+    /// that an enabled option asks to lower, or if a `\k<name>` reference
+    /// points to a duplicated name.
     fn extract_and_strip_named_groups(
         &self,
         pattern: &str,
         flags: &str,
-    ) -> Option<(String, Vec<(Atom, u32)>)> {
+    ) -> Option<(String, Vec<(Atom, Vec<u32>)>)> {
         let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
             .parse()
             .ok()?;
@@ -180,8 +195,22 @@ impl RegexpPass {
             return None;
         }
 
+        let has_duplicates = mapping.iter().any(|(_, indices)| indices.len() > 1);
+        if !(self.options.named_capturing_groups_regex
+            || (self.options.duplicate_named_capturing_groups_regex && has_duplicates))
+        {
+            return None;
+        }
+
         // Second pass: strip names from groups and convert named references
-        strip_named_groups(&mut ast.body, &mapping);
+        let mut stripper = NamedGroupStripper {
+            mapping: &mapping,
+            unsupported: false,
+        };
+        stripper.strip_disjunction(&mut ast.body);
+        if stripper.unsupported {
+            return None;
+        }
 
         Some((ast.to_string(), mapping))
     }
@@ -201,20 +230,36 @@ impl RegexpPass {
     }
 
     /// Build an object expression for the group name-to-index mapping.
-    fn build_mapping_object(&self, mapping: Vec<(Atom, u32)>) -> Expr {
+    fn build_mapping_object(&self, mapping: Vec<(Atom, Vec<u32>)>) -> Expr {
         let props = mapping
             .into_iter()
-            .map(|(name, idx)| {
+            .map(|(name, indices)| {
+                let num = |idx: u32| {
+                    Expr::Lit(Lit::Num(Number {
+                        span: DUMMY_SP,
+                        value: idx as f64,
+                        raw: None,
+                    }))
+                };
+                // A unique name maps to a number, a duplicated one to an array
+                // of numbers. `_wrap_reg_exp` picks the participating group.
+                let value = match indices.as_slice() {
+                    [idx] => num(*idx),
+                    _ => Expr::Array(ArrayLit {
+                        span: DUMMY_SP,
+                        elems: indices
+                            .into_iter()
+                            .map(|idx| Some(num(idx).as_arg()))
+                            .collect(),
+                    }),
+                };
+
                 PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                     key: PropName::Ident(IdentName {
                         span: DUMMY_SP,
                         sym: name,
                     }),
-                    value: Box::new(Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: idx as f64,
-                        raw: None,
-                    }))),
+                    value: Box::new(value),
                 })))
             })
             .collect();
@@ -246,7 +291,10 @@ impl RegexpPass {
         match expr {
             Expr::Lit(Lit::Regex(regex)) => {
                 // Try named groups transform first
-                if self.options.named_capturing_groups_regex && regex.exp.contains("(?<") {
+                if (self.options.named_capturing_groups_regex
+                    || self.options.duplicate_named_capturing_groups_regex)
+                    && regex.exp.contains("(?<")
+                {
                     let original_exp = regex.exp.clone();
 
                     if let Some((stripped_exp, group_mapping)) =
@@ -357,11 +405,11 @@ impl RegexpPass {
 
 /// First pass: collect all named capturing groups and their 1-based indices.
 /// Groups are counted in left-to-right order by the position of their opening
-/// parenthesis.
+/// parenthesis. Groups that share a name are merged into one entry.
 fn collect_named_groups(
     disjunction: &Disjunction,
     counter: &mut u32,
-    mapping: &mut Vec<(Atom, u32)>,
+    mapping: &mut Vec<(Atom, Vec<u32>)>,
 ) {
     for alt in &disjunction.body {
         for term in &alt.body {
@@ -370,12 +418,15 @@ fn collect_named_groups(
     }
 }
 
-fn collect_named_groups_term(term: &Term, counter: &mut u32, mapping: &mut Vec<(Atom, u32)>) {
+fn collect_named_groups_term(term: &Term, counter: &mut u32, mapping: &mut Vec<(Atom, Vec<u32>)>) {
     match term {
         Term::CapturingGroup(g) => {
             *counter += 1;
             if let Some(name) = &g.name {
-                mapping.push((name.clone(), *counter));
+                match mapping.iter_mut().find(|(n, _)| n == name) {
+                    Some((_, indices)) => indices.push(*counter),
+                    None => mapping.push((name.clone(), vec![*counter])),
+                }
             }
             collect_named_groups(&g.body, counter, mapping);
         }
@@ -392,51 +443,52 @@ fn collect_named_groups_term(term: &Term, counter: &mut u32, mapping: &mut Vec<(
     }
 }
 
-/// Second pass: strip names from named groups and convert named references
+/// Second pass: strips names from named groups and converts named references
 /// to indexed references.
-fn strip_named_groups(disjunction: &mut Disjunction, mapping: &[(Atom, u32)]) {
-    for alt in &mut disjunction.body {
-        for term in &mut alt.body {
-            strip_named_groups_term(term, mapping);
-        }
-    }
+struct NamedGroupStripper<'a> {
+    mapping: &'a [(Atom, Vec<u32>)],
+    /// Set when a `\k<name>` reference targets a duplicated name. Such a
+    /// reference means "the group that took part in the match", which has no
+    /// indexed equivalent: `\1` and `\2` both match the empty string while
+    /// their group is unset. The whole transform is abandoned in that case.
+    unsupported: bool,
 }
 
-fn strip_named_groups_term(term: &mut Term, mapping: &[(Atom, u32)]) {
-    // Check if this is a NamedReference that needs conversion
-    let replacement = if let Term::NamedReference(nr) = &*term {
-        mapping.iter().find(|(n, _)| *n == nr.name).map(|(_, idx)| {
-            Term::IndexedReference(Box::new(IndexedReference {
-                span: nr.span,
-                index: *idx,
-            }))
-        })
-    } else {
-        None
-    };
-
-    if let Some(new_term) = replacement {
-        *term = new_term;
-        return;
+impl NamedGroupStripper<'_> {
+    fn strip_disjunction(&mut self, disjunction: &mut Disjunction) {
+        for alt in &mut disjunction.body {
+            for term in &mut alt.body {
+                self.strip_term(term);
+            }
+        }
     }
 
-    // Recurse into children
-    match term {
-        Term::CapturingGroup(g) => {
-            if g.name.is_some() {
-                g.name = None;
+    fn strip_term(&mut self, term: &mut Term) {
+        // Check if this is a NamedReference that needs conversion
+        if let Term::NamedReference(nr) = &*term {
+            match self.mapping.iter().find(|(n, _)| *n == nr.name) {
+                Some((_, indices)) if indices.len() == 1 => {
+                    *term = Term::IndexedReference(Box::new(IndexedReference {
+                        span: nr.span,
+                        index: indices[0],
+                    }));
+                }
+                Some(_) => self.unsupported = true,
+                None => {}
             }
-            strip_named_groups(&mut g.body, mapping);
+            return;
         }
-        Term::Quantifier(q) => {
-            strip_named_groups_term(&mut q.body, mapping);
+
+        // Recurse into children
+        match term {
+            Term::CapturingGroup(g) => {
+                g.name = None;
+                self.strip_disjunction(&mut g.body);
+            }
+            Term::Quantifier(q) => self.strip_term(&mut q.body),
+            Term::LookAroundAssertion(la) => self.strip_disjunction(&mut la.body),
+            Term::IgnoreGroup(ig) => self.strip_disjunction(&mut ig.body),
+            _ => {}
         }
-        Term::LookAroundAssertion(la) => {
-            strip_named_groups(&mut la.body, mapping);
-        }
-        Term::IgnoreGroup(ig) => {
-            strip_named_groups(&mut ig.body, mapping);
-        }
-        _ => {}
     }
 }
