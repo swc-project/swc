@@ -548,7 +548,8 @@ impl<I: Tokens> Parser<I> {
             // name with optional type arguments.
             let base_start = self.cur_pos();
             let type_name = self.parse_ts_entity_name(/* allow_reserved_words */ true)?;
-            let type_params = if self.input().is(Token::Lt) {
+            // `Base<<T>() => T>` lexes its adjacent opening angles as `<<`.
+            let type_params = if self.is_ts_type_args_start() {
                 Some(self.parse_ts_type_args()?)
             } else {
                 None
