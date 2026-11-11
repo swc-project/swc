@@ -44,6 +44,23 @@ fn module_spec(file: PathBuf) {
     run_spec(&file, &output, &config_path, true);
 }
 
+/// Fixtures that are valid only when `parse_program` classifies them as a
+/// Script, such as sources containing `with` statements.
+///
+/// These live outside `tests/flow` because `swc` compiles every `tests/flow`
+/// fixture with its default Module configuration, where Script-only syntax is
+/// rejected.
+#[testing::fixture("tests/flow-program/**/*.js")]
+fn program_spec(file: PathBuf) {
+    let output = file.parent().unwrap().join(format!(
+        "{}.json",
+        file.file_name().unwrap().to_string_lossy()
+    ));
+    let config_path = file.parent().unwrap().join("config.json");
+
+    run_spec(&file, &output, &config_path, false);
+}
+
 fn run_spec(file: &Path, output_json: &Path, config_path: &Path, is_module: bool) {
     let file_name = file
         .display()
