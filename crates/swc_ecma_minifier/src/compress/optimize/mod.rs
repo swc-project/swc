@@ -984,10 +984,15 @@ impl Optimizer<'_> {
                                 || m.obj.is_arrow()
                                 || m.obj.is_class())
                         {
+                            // Only a plain `=` in sloppy code ignores a getter-only property:
+                            // strict code throws and compound operators call the getter.
+                            let allow_getter =
+                                *op == op!("=") && !self.ctx.expr_ctx.in_strict && !self.is_module;
+
                             if self.should_preserve_property_access(
                                 &m.obj,
                                 PropertyAccessOpts {
-                                    allow_getter: true,
+                                    allow_getter,
                                     only_ident: false,
                                 },
                             ) {
@@ -995,8 +1000,21 @@ impl Optimizer<'_> {
                             } else {
                                 report_change!(
                                     "ignore_return_value: Dropping unused assign target: {}",
-                                    dump(&*expr, false)
+                                    dump(&*m, false)
                                 );
+
+                                if let MemberProp::Computed(key) = &mut m.prop {
+                                    if key.expr.may_have_side_effects(self.ctx.expr_ctx) {
+                                        return Some(
+                                            SeqExpr {
+                                                span: m.span,
+                                                exprs: vec![key.expr.take(), right.take()],
+                                            }
+                                            .into(),
+                                        );
+                                    }
+                                }
+
                                 return Some(*right.take());
                             }
                         }
