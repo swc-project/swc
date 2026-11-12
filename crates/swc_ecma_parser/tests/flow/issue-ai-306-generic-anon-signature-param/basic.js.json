@@ -1,0 +1,1739 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 461
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 1,
+        "end": 28
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 10
+        },
+        "ctxt": 0,
+        "value": "Bare",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 13,
+          "end": 27
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 17
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 17,
+                "end": 18
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 17,
+                  "end": 18
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 17,
+                    "end": 18
+                  },
+                  "ctxt": 0,
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 13,
+            "end": 16
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 14,
+                "end": 15
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 14,
+                  "end": 15
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 20,
+            "end": 27
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 23,
+              "end": 27
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 29,
+        "end": 64
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 34,
+          "end": 43
+        },
+        "ctxt": 0,
+        "value": "Qualified",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 46,
+          "end": 63
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 50,
+              "end": 50
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 50,
+                "end": 54
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 50,
+                  "end": 54
+                },
+                "typeName": {
+                  "type": "TsQualifiedName",
+                  "span": {
+                    "start": 50,
+                    "end": 54
+                  },
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 50,
+                      "end": 52
+                    },
+                    "ctxt": 0,
+                    "value": "NS",
+                    "optional": false
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 53,
+                      "end": 54
+                    },
+                    "value": "T"
+                  }
+                },
+                "typeParams": null
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 46,
+            "end": 49
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 47,
+                "end": 48
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 47,
+                  "end": 48
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 56,
+            "end": 63
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 59,
+              "end": 63
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 65,
+        "end": 97
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 70,
+          "end": 77
+        },
+        "ctxt": 0,
+        "value": "ArrayOf",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 80,
+          "end": 96
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 84,
+              "end": 84
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 84,
+                "end": 87
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 84,
+                  "end": 87
+                },
+                "elemType": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 84,
+                    "end": 85
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 84,
+                      "end": 85
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 80,
+            "end": 83
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 81,
+                "end": 82
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 81,
+                  "end": 82
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 89,
+            "end": 96
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 92,
+              "end": 96
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 98,
+        "end": 133
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 103,
+          "end": 108
+        },
+        "ctxt": 0,
+        "value": "Union",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 111,
+          "end": 132
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 118,
+              "end": 118
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 118,
+                "end": 123
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 118,
+                  "end": 123
+                },
+                "types": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 118,
+                      "end": 119
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 118,
+                        "end": 119
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  },
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 122,
+                      "end": 123
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 122,
+                        "end": 123
+                      },
+                      "ctxt": 0,
+                      "value": "U",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 111,
+            "end": 117
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 112,
+                "end": 113
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 112,
+                  "end": 113
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            },
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 115,
+                "end": 116
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 115,
+                  "end": 116
+                },
+                "ctxt": 0,
+                "value": "U",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 125,
+            "end": 132
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 128,
+              "end": 132
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 134,
+        "end": 176
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 139,
+          "end": 151
+        },
+        "ctxt": 0,
+        "value": "Intersection",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 154,
+          "end": 175
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 161,
+              "end": 161
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 161,
+                "end": 166
+              },
+              "typeAnnotation": {
+                "type": "TsIntersectionType",
+                "span": {
+                  "start": 161,
+                  "end": 166
+                },
+                "types": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 161,
+                      "end": 162
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 161,
+                        "end": 162
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  },
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 165,
+                      "end": 166
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 165,
+                        "end": 166
+                      },
+                      "ctxt": 0,
+                      "value": "U",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 154,
+            "end": 160
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 155,
+                "end": 156
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 155,
+                  "end": 156
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            },
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 158,
+                "end": 159
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 158,
+                  "end": 159
+                },
+                "ctxt": 0,
+                "value": "U",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 168,
+            "end": 175
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 171,
+              "end": 175
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 177,
+        "end": 214
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 182,
+          "end": 189
+        },
+        "ctxt": 0,
+        "value": "Generic",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 192,
+          "end": 213
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 196,
+              "end": 196
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 196,
+                "end": 204
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 196,
+                  "end": 204
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 196,
+                    "end": 201
+                  },
+                  "ctxt": 0,
+                  "value": "Array",
+                  "optional": false
+                },
+                "typeParams": {
+                  "type": "TsTypeParameterInstantiation",
+                  "span": {
+                    "start": 201,
+                    "end": 204
+                  },
+                  "params": [
+                    {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 202,
+                        "end": 203
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 202,
+                          "end": 203
+                        },
+                        "ctxt": 0,
+                        "value": "T",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 192,
+            "end": 195
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 193,
+                "end": 194
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 193,
+                  "end": 194
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 206,
+            "end": 213
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 209,
+              "end": 213
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 215,
+        "end": 254
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 220,
+          "end": 224
+        },
+        "ctxt": 0,
+        "value": "Many",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 227,
+          "end": 253
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 234,
+              "end": 234
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 234,
+                "end": 235
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 234,
+                  "end": 235
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 234,
+                    "end": 235
+                  },
+                  "ctxt": 0,
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          },
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 237,
+              "end": 237
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_1",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 237,
+                "end": 238
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 237,
+                  "end": 238
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 237,
+                    "end": 238
+                  },
+                  "ctxt": 0,
+                  "value": "U",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          },
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 240,
+              "end": 240
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_2",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 240,
+                "end": 244
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 240,
+                  "end": 244
+                },
+                "typeName": {
+                  "type": "TsQualifiedName",
+                  "span": {
+                    "start": 240,
+                    "end": 244
+                  },
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 240,
+                      "end": 242
+                    },
+                    "ctxt": 0,
+                    "value": "NS",
+                    "optional": false
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 243,
+                      "end": 244
+                    },
+                    "value": "T"
+                  }
+                },
+                "typeParams": null
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 227,
+            "end": 233
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 228,
+                "end": 229
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 228,
+                  "end": 229
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            },
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 231,
+                "end": 232
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 231,
+                  "end": 232
+                },
+                "ctxt": 0,
+                "value": "U",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 246,
+            "end": 253
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 249,
+              "end": 253
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 255,
+        "end": 285
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 260,
+          "end": 264
+        },
+        "ctxt": 0,
+        "value": "Rest",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 267,
+          "end": 284
+        },
+        "params": [
+          {
+            "type": "RestElement",
+            "span": {
+              "start": 271,
+              "end": 275
+            },
+            "rest": {
+              "start": 271,
+              "end": 274
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 271,
+                "end": 271
+              },
+              "ctxt": 0,
+              "value": "__flow_anon_param_0",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 274,
+                  "end": 275
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 274,
+                    "end": 275
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 274,
+                      "end": 275
+                    },
+                    "ctxt": 0,
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            },
+            "typeAnnotation": null
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 267,
+            "end": 270
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 268,
+                "end": 269
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 268,
+                  "end": 269
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 277,
+            "end": 284
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 280,
+              "end": 284
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 286,
+        "end": 328
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 291,
+          "end": 304
+        },
+        "ctxt": 0,
+        "value": "RestQualified",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 307,
+          "end": 327
+        },
+        "params": [
+          {
+            "type": "RestElement",
+            "span": {
+              "start": 311,
+              "end": 318
+            },
+            "rest": {
+              "start": 311,
+              "end": 314
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 311,
+                "end": 311
+              },
+              "ctxt": 0,
+              "value": "__flow_anon_param_0",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 314,
+                  "end": 318
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 314,
+                    "end": 318
+                  },
+                  "typeName": {
+                    "type": "TsQualifiedName",
+                    "span": {
+                      "start": 314,
+                      "end": 318
+                    },
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 314,
+                        "end": 316
+                      },
+                      "ctxt": 0,
+                      "value": "NS",
+                      "optional": false
+                    },
+                    "right": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 317,
+                        "end": 318
+                      },
+                      "value": "T"
+                    }
+                  },
+                  "typeParams": null
+                }
+              }
+            },
+            "typeAnnotation": null
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 307,
+            "end": 310
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 308,
+                "end": 309
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 308,
+                  "end": 309
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 320,
+            "end": 327
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 323,
+              "end": 327
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 329,
+        "end": 361
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 334,
+          "end": 342
+        },
+        "ctxt": 0,
+        "value": "Nullable",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 345,
+          "end": 360
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 349,
+              "end": 349
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 349,
+                "end": 351
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 349,
+                  "end": 351
+                },
+                "types": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 350,
+                      "end": 351
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 350,
+                        "end": 351
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 349,
+                      "end": 351
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 349,
+                      "end": 351
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 345,
+            "end": 348
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 346,
+                "end": 347
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 346,
+                  "end": 347
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 353,
+            "end": 360
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 356,
+              "end": 360
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 362,
+        "end": 409
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 367,
+          "end": 374
+        },
+        "ctxt": 0,
+        "value": "Keyword",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 377,
+          "end": 408
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 381,
+              "end": 381
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_0",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 381,
+                "end": 389
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 381,
+                  "end": 389
+                },
+                "elemType": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 381,
+                    "end": 387
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          },
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 391,
+              "end": 391
+            },
+            "ctxt": 0,
+            "value": "__flow_anon_param_1",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 391,
+                "end": 399
+              },
+              "typeAnnotation": {
+                "type": "TsTypeQuery",
+                "span": {
+                  "start": 391,
+                  "end": 399
+                },
+                "exprName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 398,
+                    "end": 399
+                  },
+                  "ctxt": 0,
+                  "value": "x",
+                  "optional": false
+                },
+                "typeArguments": null
+              }
+            }
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 377,
+            "end": 380
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 378,
+                "end": 379
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 378,
+                  "end": 379
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 401,
+            "end": 408
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 404,
+              "end": 408
+            },
+            "kind": "void"
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 427,
+          "end": 431
+        },
+        "ctxt": 0,
+        "value": "poly",
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 432,
+            "end": 438
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 432,
+              "end": 433
+            },
+            "ctxt": 0,
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 433,
+                "end": 438
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 435,
+                  "end": 438
+                },
+                "kind": "any"
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 410,
+        "end": 461
+      },
+      "ctxt": 0,
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 439,
+          "end": 460
+        },
+        "typeAnnotation": {
+          "type": "TsTypePredicate",
+          "span": {
+            "start": 441,
+            "end": 460
+          },
+          "asserts": false,
+          "paramName": {
+            "type": "Identifier",
+            "span": {
+              "start": 441,
+              "end": 442
+            },
+            "ctxt": 0,
+            "value": "x",
+            "optional": false
+          },
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 446,
+              "end": 460
+            },
+            "typeAnnotation": {
+              "type": "TsFunctionType",
+              "span": {
+                "start": 446,
+                "end": 460
+              },
+              "params": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 450,
+                    "end": 450
+                  },
+                  "ctxt": 0,
+                  "value": "__flow_anon_param_0",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 450,
+                      "end": 451
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 450,
+                        "end": 451
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 450,
+                          "end": 451
+                        },
+                        "ctxt": 0,
+                        "value": "T",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
+                }
+              ],
+              "typeParams": {
+                "type": "TsTypeParameterDeclaration",
+                "span": {
+                  "start": 446,
+                  "end": 449
+                },
+                "parameters": [
+                  {
+                    "type": "TsTypeParameter",
+                    "span": {
+                      "start": 447,
+                      "end": 448
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 447,
+                        "end": 448
+                      },
+                      "ctxt": 0,
+                      "value": "T",
+                      "optional": false
+                    },
+                    "in": false,
+                    "out": false,
+                    "const": false,
+                    "constraint": null,
+                    "default": null
+                  }
+                ]
+              },
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 453,
+                  "end": 460
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 456,
+                    "end": 460
+                  },
+                  "kind": "void"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

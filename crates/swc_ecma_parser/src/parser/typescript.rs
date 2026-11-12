@@ -35,6 +35,21 @@ enum UnionOrIntersection {
     Intersection,
 }
 
+/// How identifier-led parameters are classified when looking for an anonymous
+/// Flow signature parameter such as the `T` in `(x: number, T) => void`.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum FlowAnonParamWords {
+    /// Only generic references such as `Array<T>` start an anonymous type; a
+    /// bare word is left to the binding-pattern parser. Used for formal
+    /// parameters of `declare` signatures and for function-type lookahead,
+    /// where a word may still be a binding or a contextual keyword operand.
+    GenericOnly,
+    /// Any word that is not followed by `:`, `?`, or `=` starts an anonymous
+    /// type. Used by the shared Flow function-type signature parser, where
+    /// every parameter is either named or a type.
+    UnlessNamed,
+}
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum SignatureParsingMode {
     TSCallSignatureDeclaration,
@@ -2524,7 +2539,9 @@ impl<I: Tokens> Parser<I> {
 
         if self.is_flow_syntax()
             && self
-                .try_parse_ts(|p| p.try_parse_flow_anon_signature_param(0))
+                .try_parse_ts(|p| {
+                    p.try_parse_flow_anon_signature_param(0, FlowAnonParamWords::GenericOnly)
+                })
                 .is_some()
         {
             if self.input().is(Token::Comma) {
@@ -2788,11 +2805,18 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input().syntax().flow() && self.type_ctx().contains(TypeContext::InType) {
+            // Inside a Flow function type every parameter is either named
+            // (`name: T`, `name?: T`) or an anonymous type (`T`, `NS.T`, `T[]`,
+            // `T | U`, ...). A bare word is therefore a type here, matching the
+            // all-anonymous `(T) => U` fast path in `try_parse_flow_anon_fn_type`.
             let list = self.parse_parameter_list(|p, index| {
-                if p.flow_starts_like_anon_signature_param() {
-                    if let Some(param) =
-                        p.try_parse_ts(|p| p.try_parse_flow_anon_signature_param(index))
-                    {
+                if p.flow_starts_like_anon_signature_param(FlowAnonParamWords::UnlessNamed) {
+                    if let Some(param) = p.try_parse_ts(|p| {
+                        p.try_parse_flow_anon_signature_param(
+                            index,
+                            FlowAnonParamWords::UnlessNamed,
+                        )
+                    }) {
                         return Ok(param);
                     }
                 }
@@ -3466,8 +3490,25 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn flow_starts_like_anon_signature_param_type(&mut self) -> bool {
+    /// Returns `true` if the current token can start the type of an anonymous
+    /// Flow signature parameter.
+    ///
+    /// This is a cheap prefix filter evaluated before saving a speculative
+    /// checkpoint; `words` controls how identifier-led parameters are treated.
+    fn flow_starts_like_anon_signature_param_type(&mut self, words: FlowAnonParamWords) -> bool {
         let cur = self.input().cur();
+
+        if cur.is_word() {
+            // `name:`, `name?:`, `name?` and `name =` always introduce a named
+            // parameter, even when `name` is a type keyword such as `string`.
+            // Rejecting them here avoids a speculative type parse that would be
+            // discarded anyway.
+            if words == FlowAnonParamWords::UnlessNamed {
+                return !peek!(self).is_some_and(|peek| {
+                    matches!(peek, Token::Colon | Token::QuestionMark | Token::Eq)
+                });
+            }
+        }
 
         if matches!(
             cur,
@@ -3518,11 +3559,15 @@ impl<I: Tokens> Parser<I> {
 
     /// Reject named parameters before saving a speculative parser checkpoint.
     /// Rest parameters still need speculation after consuming the spread token.
-    fn flow_starts_like_anon_signature_param(&mut self) -> bool {
-        self.input().is(Token::DotDotDot) || self.flow_starts_like_anon_signature_param_type()
+    fn flow_starts_like_anon_signature_param(&mut self, words: FlowAnonParamWords) -> bool {
+        self.input().is(Token::DotDotDot) || self.flow_starts_like_anon_signature_param_type(words)
     }
 
-    fn try_parse_flow_anon_signature_param(&mut self, index: usize) -> PResult<Option<TsFnParam>> {
+    fn try_parse_flow_anon_signature_param(
+        &mut self,
+        index: usize,
+        words: FlowAnonParamWords,
+    ) -> PResult<Option<TsFnParam>> {
         if !self.input().syntax().flow() || !self.type_ctx().contains(TypeContext::InType) {
             return Ok(None);
         }
@@ -3534,7 +3579,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        if !self.flow_starts_like_anon_signature_param_type() {
+        if !self.flow_starts_like_anon_signature_param_type(words) {
             return Ok(None);
         }
 
@@ -3565,14 +3610,18 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        if !self.flow_starts_like_anon_signature_param() {
+        if !self.flow_starts_like_anon_signature_param(FlowAnonParamWords::GenericOnly) {
             return Ok(None);
         }
 
         // Flow declare signatures allow anonymous function type parameters where
         // normal formal parameters still require a binding pattern.
         Ok(self
-            .try_parse_ts(|p| p.in_type(|p| p.try_parse_flow_anon_signature_param(index)))
+            .try_parse_ts(|p| {
+                p.in_type(|p| {
+                    p.try_parse_flow_anon_signature_param(index, FlowAnonParamWords::GenericOnly)
+                })
+            })
             .map(Self::flow_anon_fn_param_to_pat))
     }
 

@@ -1,0 +1,95 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 25
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 1,
+        "end": 25
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7
+        },
+        "ctxt": 0,
+        "value": "F",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsFunctionType",
+        "span": {
+          "start": 10,
+          "end": 24
+        },
+        "params": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 15
+            },
+            "ctxt": 0,
+            "value": "T",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        ],
+        "typeParams": {
+          "type": "TsTypeParameterDeclaration",
+          "span": {
+            "start": 10,
+            "end": 13
+          },
+          "parameters": [
+            {
+              "type": "TsTypeParameter",
+              "span": {
+                "start": 11,
+                "end": 12
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 11,
+                  "end": 12
+                },
+                "ctxt": 0,
+                "value": "T",
+                "optional": false
+              },
+              "in": false,
+              "out": false,
+              "const": false,
+              "constraint": null,
+              "default": null
+            }
+          ]
+        },
+        "typeAnnotation": {
+          "type": "TsTypeAnnotation",
+          "span": {
+            "start": 17,
+            "end": 24
+          },
+          "typeAnnotation": {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 20,
+              "end": 24
+            },
+            "kind": "void"
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
