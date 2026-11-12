@@ -200,16 +200,24 @@ impl<I: Tokens> Parser<I> {
         Ok(JSXClosingFragment { span })
     }
 
-    pub(super) fn parse_jsx_children(&mut self) -> Vec<JSXElementChild> {
+    /// Parses JSX children until the closing tag (`</`) of the enclosing
+    /// element or fragment.
+    ///
+    /// `parse_jsx_child` returns `Ok(None)` for the closing-tag sentinel (or
+    /// EOF), which ends the list. Any error from a child (e.g. a mismatched
+    /// closing tag of a nested element) is propagated instead of being
+    /// treated as the end of the list, so the child is never silently
+    /// dropped from the AST.
+    pub(super) fn parse_jsx_children(&mut self) -> PResult<Vec<JSXElementChild>> {
         let mut list = Vec::with_capacity(8);
         loop {
             self.input_mut().rescan_jsx_token();
-            let Ok(Some(child)) = self.parse_jsx_child(self.input().get_cur().token) else {
+            let Some(child) = self.parse_jsx_child(self.input().get_cur().token)? else {
                 break;
             };
             list.push(child);
         }
-        list
+        Ok(list)
     }
 
     fn parse_jsx_child(&mut self, t: Token) -> PResult<Option<JSXElementChild>> {
@@ -275,9 +283,10 @@ impl<I: Tokens> Parser<I> {
                 })
             })),
             Token::JSXText => Ok(Some(JSXElementChild::JSXText(self.parse_jsx_text()))),
-            Token::Eof => {
-                unexpected!(self, "< (jsx tag start), jsx text or {")
-            }
+            // An unterminated child list ends at EOF. The caller's closing-tag
+            // parser then reports the missing `</`, which points at the actual
+            // problem (the enclosing element is never closed).
+            Token::Eof => Ok(None),
             _ => unreachable!(),
         }
     }
@@ -420,7 +429,7 @@ impl<I: Tokens> Parser<I> {
             let opening = JSXOpeningFragment {
                 span: self.span(start),
             };
-            let children = self.parse_jsx_children();
+            let children = self.parse_jsx_children()?;
             let closing = self.parse_jsx_closing_fragment(in_expr_context)?;
             let span = self.span(start);
             Ok(ParsedJSXElement::Fragment(JSXFragment {
@@ -458,7 +467,7 @@ impl<I: Tokens> Parser<I> {
 
                 // <xxxxx>xxxxx</xxxxx>
                 self.input_mut().scan_jsx_token();
-                let children = self.parse_jsx_children();
+                let children = self.parse_jsx_children()?;
                 let closing = self.parse_jsx_closing_element(in_expr_context, &opening.name)?;
                 let span = if in_expr_context {
                     Span::new_with_checked(start, self.last_pos())

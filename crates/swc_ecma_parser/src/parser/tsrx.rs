@@ -958,7 +958,7 @@ impl<I: Tokens> Parser<I> {
         let attrs = self.parse_jsx_attrs()?;
         let (children, self_closing) = if self.input().is(Token::Gt) {
             self.input_mut().scan_jsx_token();
-            let children = self.parse_jsx_children();
+            let children = self.parse_jsx_children()?;
             self.expect(Token::LessSlash)?;
             if !self.input().is(Token::LBrace) {
                 unexpected!(self, "a TSRX dynamic closing element name")
