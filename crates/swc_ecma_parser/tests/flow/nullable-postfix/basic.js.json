@@ -1,0 +1,1375 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 268
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 18
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 17
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6
+            },
+            "ctxt": 0,
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 6,
+                "end": 17
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 8,
+                  "end": 17
+                },
+                "types": [
+                  {
+                    "type": "TsArrayType",
+                    "span": {
+                      "start": 9,
+                      "end": 17
+                    },
+                    "elemType": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 9,
+                        "end": 15
+                      },
+                      "kind": "number"
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 8,
+                      "end": 17
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 8,
+                      "end": 17
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 19,
+        "end": 38
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 23,
+            "end": 37
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 23,
+              "end": 24
+            },
+            "ctxt": 0,
+            "value": "b",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 24,
+                "end": 37
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 26,
+                  "end": 37
+                },
+                "elemType": {
+                  "type": "TsParenthesizedType",
+                  "span": {
+                    "start": 26,
+                    "end": 35
+                  },
+                  "typeAnnotation": {
+                    "type": "TsUnionType",
+                    "span": {
+                      "start": 27,
+                      "end": 34
+                    },
+                    "types": [
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 28,
+                          "end": 34
+                        },
+                        "kind": "number"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 27,
+                          "end": 34
+                        },
+                        "kind": "null"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 27,
+                          "end": 34
+                        },
+                        "kind": "undefined"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 39,
+        "end": 52
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 43,
+            "end": 51
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 43,
+              "end": 44
+            },
+            "ctxt": 0,
+            "value": "c",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 44,
+                "end": 51
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 46,
+                  "end": 51
+                },
+                "types": [
+                  {
+                    "type": "TsIndexedAccessType",
+                    "span": {
+                      "start": 47,
+                      "end": 51
+                    },
+                    "readonly": false,
+                    "objectType": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 47,
+                        "end": 48
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 47,
+                          "end": 48
+                        },
+                        "ctxt": 0,
+                        "value": "T",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    },
+                    "indexType": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 49,
+                        "end": 50
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 49,
+                          "end": 50
+                        },
+                        "ctxt": 0,
+                        "value": "K",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 46,
+                      "end": 51
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 46,
+                      "end": 51
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 53,
+        "end": 68
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 57,
+            "end": 67
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 57,
+              "end": 58
+            },
+            "ctxt": 0,
+            "value": "d",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 58,
+                "end": 67
+              },
+              "typeAnnotation": {
+                "type": "TsIndexedAccessType",
+                "span": {
+                  "start": 60,
+                  "end": 67
+                },
+                "readonly": false,
+                "objectType": {
+                  "type": "TsParenthesizedType",
+                  "span": {
+                    "start": 60,
+                    "end": 64
+                  },
+                  "typeAnnotation": {
+                    "type": "TsUnionType",
+                    "span": {
+                      "start": 61,
+                      "end": 63
+                    },
+                    "types": [
+                      {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 62,
+                          "end": 63
+                        },
+                        "typeName": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 62,
+                            "end": 63
+                          },
+                          "ctxt": 0,
+                          "value": "T",
+                          "optional": false
+                        },
+                        "typeParams": null
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 61,
+                          "end": 63
+                        },
+                        "kind": "null"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 61,
+                          "end": 63
+                        },
+                        "kind": "undefined"
+                      }
+                    ]
+                  }
+                },
+                "indexType": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 65,
+                    "end": 66
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 65,
+                      "end": 66
+                    },
+                    "ctxt": 0,
+                    "value": "K",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 69,
+        "end": 88
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 73,
+            "end": 87
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 73,
+              "end": 74
+            },
+            "ctxt": 0,
+            "value": "e",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 74,
+                "end": 87
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 76,
+                  "end": 87
+                },
+                "types": [
+                  {
+                    "type": "TsArrayType",
+                    "span": {
+                      "start": 77,
+                      "end": 87
+                    },
+                    "elemType": {
+                      "type": "TsArrayType",
+                      "span": {
+                        "start": 77,
+                        "end": 85
+                      },
+                      "elemType": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 77,
+                          "end": 83
+                        },
+                        "kind": "number"
+                      }
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 76,
+                      "end": 87
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 76,
+                      "end": 87
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 89,
+        "end": 112
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 93,
+            "end": 111
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 93,
+              "end": 94
+            },
+            "ctxt": 0,
+            "value": "f",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 94,
+                "end": 111
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 96,
+                  "end": 111
+                },
+                "types": [
+                  {
+                    "type": "TsFunctionType",
+                    "span": {
+                      "start": 97,
+                      "end": 111
+                    },
+                    "params": [],
+                    "typeParams": null,
+                    "typeAnnotation": {
+                      "type": "TsTypeAnnotation",
+                      "span": {
+                        "start": 100,
+                        "end": 111
+                      },
+                      "typeAnnotation": {
+                        "type": "TsArrayType",
+                        "span": {
+                          "start": 103,
+                          "end": 111
+                        },
+                        "elemType": {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 103,
+                            "end": 109
+                          },
+                          "kind": "number"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 96,
+                      "end": 111
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 96,
+                      "end": 111
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 113,
+        "end": 137
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 117,
+            "end": 136
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 117,
+              "end": 118
+            },
+            "ctxt": 0,
+            "value": "g",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 118,
+                "end": 136
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 120,
+                  "end": 136
+                },
+                "types": [
+                  {
+                    "type": "TsUnionType",
+                    "span": {
+                      "start": 120,
+                      "end": 127
+                    },
+                    "types": [
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 121,
+                          "end": 127
+                        },
+                        "kind": "number"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 120,
+                          "end": 127
+                        },
+                        "kind": "null"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 120,
+                          "end": 127
+                        },
+                        "kind": "undefined"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 130,
+                      "end": 136
+                    },
+                    "kind": "string"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 138,
+        "end": 157
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 142,
+            "end": 156
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 142,
+              "end": 143
+            },
+            "ctxt": 0,
+            "value": "h",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 143,
+                "end": 156
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 145,
+                  "end": 156
+                },
+                "types": [
+                  {
+                    "type": "TsArrayType",
+                    "span": {
+                      "start": 146,
+                      "end": 156
+                    },
+                    "elemType": {
+                      "type": "TsParenthesizedType",
+                      "span": {
+                        "start": 146,
+                        "end": 154
+                      },
+                      "typeAnnotation": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 147,
+                          "end": 153
+                        },
+                        "kind": "number"
+                      }
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 145,
+                      "end": 156
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 145,
+                      "end": 156
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 158,
+        "end": 177
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 162,
+            "end": 176
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 162,
+              "end": 163
+            },
+            "ctxt": 0,
+            "value": "i",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 163,
+                "end": 176
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 165,
+                  "end": 176
+                },
+                "types": [
+                  {
+                    "type": "TsParenthesizedType",
+                    "span": {
+                      "start": 166,
+                      "end": 176
+                    },
+                    "typeAnnotation": {
+                      "type": "TsArrayType",
+                      "span": {
+                        "start": 167,
+                        "end": 175
+                      },
+                      "elemType": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 167,
+                          "end": 173
+                        },
+                        "kind": "number"
+                      }
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 165,
+                      "end": 176
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 165,
+                      "end": 176
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 178,
+        "end": 193
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 182,
+            "end": 192
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 182,
+              "end": 183
+            },
+            "ctxt": 0,
+            "value": "j",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 183,
+                "end": 192
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 185,
+                  "end": 192
+                },
+                "types": [
+                  {
+                    "type": "TsParenthesizedType",
+                    "span": {
+                      "start": 186,
+                      "end": 192
+                    },
+                    "typeAnnotation": {
+                      "type": "TsIndexedAccessType",
+                      "span": {
+                        "start": 187,
+                        "end": 191
+                      },
+                      "readonly": false,
+                      "objectType": {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 187,
+                          "end": 188
+                        },
+                        "typeName": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 187,
+                            "end": 188
+                          },
+                          "ctxt": 0,
+                          "value": "T",
+                          "optional": false
+                        },
+                        "typeParams": null
+                      },
+                      "indexType": {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 189,
+                          "end": 190
+                        },
+                        "typeName": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 189,
+                            "end": 190
+                          },
+                          "ctxt": 0,
+                          "value": "K",
+                          "optional": false
+                        },
+                        "typeParams": null
+                      }
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 185,
+                      "end": 192
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 185,
+                      "end": 192
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 194,
+        "end": 209
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 198,
+            "end": 208
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 198,
+              "end": 199
+            },
+            "ctxt": 0,
+            "value": "k",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 199,
+                "end": 208
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 201,
+                  "end": 208
+                },
+                "types": [
+                  {
+                    "type": "TsArrayType",
+                    "span": {
+                      "start": 202,
+                      "end": 208
+                    },
+                    "elemType": {
+                      "type": "TsIndexedAccessType",
+                      "span": {
+                        "start": 202,
+                        "end": 206
+                      },
+                      "readonly": false,
+                      "objectType": {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 202,
+                          "end": 203
+                        },
+                        "typeName": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 202,
+                            "end": 203
+                          },
+                          "ctxt": 0,
+                          "value": "T",
+                          "optional": false
+                        },
+                        "typeParams": null
+                      },
+                      "indexType": {
+                        "type": "TsTypeReference",
+                        "span": {
+                          "start": 204,
+                          "end": 205
+                        },
+                        "typeName": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 204,
+                            "end": 205
+                          },
+                          "ctxt": 0,
+                          "value": "K",
+                          "optional": false
+                        },
+                        "typeParams": null
+                      }
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 201,
+                      "end": 208
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 201,
+                      "end": 208
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 210,
+        "end": 227
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 214,
+            "end": 226
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 214,
+              "end": 215
+            },
+            "ctxt": 0,
+            "value": "l",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 215,
+                "end": 226
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 217,
+                  "end": 226
+                },
+                "elemType": {
+                  "type": "TsIndexedAccessType",
+                  "span": {
+                    "start": 217,
+                    "end": 224
+                  },
+                  "readonly": false,
+                  "objectType": {
+                    "type": "TsParenthesizedType",
+                    "span": {
+                      "start": 217,
+                      "end": 221
+                    },
+                    "typeAnnotation": {
+                      "type": "TsUnionType",
+                      "span": {
+                        "start": 218,
+                        "end": 220
+                      },
+                      "types": [
+                        {
+                          "type": "TsTypeReference",
+                          "span": {
+                            "start": 219,
+                            "end": 220
+                          },
+                          "typeName": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 219,
+                              "end": 220
+                            },
+                            "ctxt": 0,
+                            "value": "T",
+                            "optional": false
+                          },
+                          "typeParams": null
+                        },
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 218,
+                            "end": 220
+                          },
+                          "kind": "null"
+                        },
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 218,
+                            "end": 220
+                          },
+                          "kind": "undefined"
+                        }
+                      ]
+                    }
+                  },
+                  "indexType": {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 222,
+                      "end": 223
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 222,
+                        "end": 223
+                      },
+                      "ctxt": 0,
+                      "value": "K",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                }
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 228,
+        "end": 252
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 232,
+            "end": 251
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 232,
+              "end": 233
+            },
+            "ctxt": 0,
+            "value": "m",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 233,
+                "end": 251
+              },
+              "typeAnnotation": {
+                "type": "TsIntersectionType",
+                "span": {
+                  "start": 235,
+                  "end": 251
+                },
+                "types": [
+                  {
+                    "type": "TsUnionType",
+                    "span": {
+                      "start": 235,
+                      "end": 242
+                    },
+                    "types": [
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 236,
+                          "end": 242
+                        },
+                        "kind": "number"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 235,
+                          "end": 242
+                        },
+                        "kind": "null"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 235,
+                          "end": 242
+                        },
+                        "kind": "undefined"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 245,
+                      "end": 251
+                    },
+                    "kind": "string"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 253,
+        "end": 268
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 257,
+            "end": 267
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 257,
+              "end": 258
+            },
+            "ctxt": 0,
+            "value": "n",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 258,
+                "end": 267
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 260,
+                  "end": 267
+                },
+                "types": [
+                  {
+                    "type": "TsIndexedAccessType",
+                    "span": {
+                      "start": 261,
+                      "end": 267
+                    },
+                    "readonly": false,
+                    "objectType": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 261,
+                        "end": 262
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 261,
+                          "end": 262
+                        },
+                        "ctxt": 0,
+                        "value": "T",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    },
+                    "indexType": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 265,
+                        "end": 266
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 265,
+                          "end": 266
+                        },
+                        "ctxt": 0,
+                        "value": "K",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 260,
+                      "end": 267
+                    },
+                    "kind": "null"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 260,
+                      "end": 267
+                    },
+                    "kind": "undefined"
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
