@@ -466,14 +466,12 @@ where
         n.visit_mut_children_with(self);
 
         if let ObjectPatProp::Assign(p) = n {
-            let mut renamed = Ident::from(&p.key);
-            if self.rename_ident(&mut renamed).is_ok() {
-                if renamed.sym == p.key.sym {
-                    return;
-                }
-
+            // Rename in place so context-only updates keep the correct binding.
+            let key = Ident::from(&p.key);
+            if self.rename_ident(&mut p.key).is_ok() {
+                let renamed = p.key.take();
                 *n = KeyValuePatProp {
-                    key: PropName::Ident(p.key.take().into()),
+                    key: PropName::Ident(key.into()),
                     value: match p.value.take() {
                         Some(default_expr) => AssignPat {
                             span: p.span,
@@ -498,15 +496,12 @@ where
     fn visit_mut_prop(&mut self, prop: &mut Prop) {
         match prop {
             Prop::Shorthand(i) => {
-                let mut renamed = i.clone();
-                if self.rename_ident(&mut renamed).is_ok() {
-                    if renamed.sym == i.sym {
-                        return;
-                    }
-
+                // Keep context-only updates without expanding the shorthand.
+                let key = i.clone();
+                if self.rename_ident(i).is_ok() {
                     *prop = Prop::KeyValue(KeyValueProp {
-                        key: prop_name_from_ident(i.clone()),
-                        value: renamed.into(),
+                        key: prop_name_from_ident(key),
+                        value: i.take().into(),
                     })
                 }
             }
