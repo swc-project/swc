@@ -214,6 +214,49 @@ fn issue_11880_preserve_symlinks_uses_cwd_for_relative_input_filename() {
     assert_eq!(&*resolved, "../../apis/auth");
 }
 
+/// `jsc.paths` mapping to a missing file with a relative input filename and
+/// `jsc.preserveSymlinks`.
+///
+/// https://github.com/swc-project/swc/issues/12668
+#[test]
+fn issue_12668_preserve_symlinks_missing_paths_target_with_relative_input() {
+    let cwd = std::env::current_dir().unwrap();
+    let sandbox = tempfile::tempdir_in(&cwd).unwrap();
+    let root = sandbox.path();
+
+    // `src/modules` intentionally does not exist.
+    create_dir_all(root.join("src")).unwrap();
+    write(
+        root.join("src/index.ts"),
+        "import { moduleA } from '@modules/moduleA';\n",
+    )
+    .unwrap();
+
+    let relative_input = root
+        .join("src/index.ts")
+        .strip_prefix(&cwd)
+        .unwrap()
+        .to_path_buf();
+
+    for preserve_symlinks in [false, true] {
+        let resolver = paths_resolver_with_options(
+            &root.join("src"),
+            vec![("@modules/*".into(), vec!["./modules/*".into()])],
+            false,
+            preserve_symlinks,
+        );
+
+        let resolved = resolver
+            .resolve_import(&FileName::Real(relative_input.clone()), "@modules/moduleA")
+            .unwrap();
+
+        assert_eq!(
+            &*resolved, "./modules/moduleA",
+            "preserve_symlinks={preserve_symlinks}"
+        );
+    }
+}
+
 #[test]
 fn mixed_relative_target_cleans_absolute_base_path() {
     let cwd = std::env::current_dir().unwrap();

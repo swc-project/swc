@@ -280,15 +280,23 @@ where
                                  1",
                                 replaced, module_specifier
                             );
+                            let slug = replaced
+                                .split([std::path::MAIN_SEPARATOR, '/'])
+                                .next_back()
+                                .unwrap()
+                                .into();
+
+                            // `replaced` is relative to `baseUrl`, not to the process directory
+                            // or to `base`. Anchor it at `baseUrl` so that callers do not
+                            // reinterpret it relative to a (possibly relative) input filename.
+                            // `Path::join` keeps an absolute `replaced` as it is.
+                            //
+                            // Bare specifiers (e.g. a mapping to a package name) are anchored
+                            // as well; callers already treat such targets as paths under
+                            // `baseUrl` when the input filename is absolute.
                             return Ok(Resolution {
-                                slug: Some(
-                                    replaced
-                                        .split([std::path::MAIN_SEPARATOR, '/'])
-                                        .next_back()
-                                        .unwrap()
-                                        .into(),
-                                ),
-                                filename: FileName::Real(replaced.into()),
+                                slug: Some(slug),
+                                filename: FileName::Real(self.base_url.join(&replaced)),
                             });
                         }
                     }
