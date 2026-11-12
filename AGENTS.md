@@ -80,6 +80,16 @@
 ## Issues
 
 -   File issues found in bulk by static analysis of source code, or by similar methods, in [swc-project/swc-ai-issues](https://github.com/swc-project/swc-ai-issues). Do not file them in this repository.
+-   For each issue in `swc-project/swc-ai-issues`, set the `Priority` and `Effort` issue fields. These are GitHub issue fields of the `swc-project` organization, not labels. Set them with the `setIssueFieldValue` GraphQL mutation (for example, through `gh api graphql`).
+-   Select `Priority` by the probable impact of the bug on real users in real code. Do not select it by the theoretical severity of the bug.
+    -   `Urgent`: Common code triggers the bug, and the bug silently produces incorrect output, breaks runtime behavior, or crashes SWC. No practical workaround exists.
+    -   `High`: Realistic code triggers the bug, and the bug produces incorrect output or a build failure. A workaround is difficult.
+    -   `Medium`: Uncommon but valid code triggers the bug, or the bug produces a clear error that users can work around.
+    -   `Low`: Only rare, contrived, or invalid code triggers the bug, or the bug has little effect on users (for example, a wrong diagnostic message or a missed optimization).
+-   Select `Effort` by the estimated size of the fix.
+    -   `Low`: A small, local change in one place.
+    -   `Medium`: A change to multiple functions or files in one crate.
+    -   `High`: A change to multiple crates, a design change, or a change that needs a large investigation.
 
 ## Compatibility rule
 
