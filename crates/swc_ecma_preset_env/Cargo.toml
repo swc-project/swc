@@ -13,7 +13,7 @@ include = [
 license = { workspace = true }
 name = "swc_ecma_preset_env"
 repository = { workspace = true }
-version = "68.0.0"
+version = "68.0.1"
 
 [lib]
 bench = false
@@ -39,7 +39,7 @@ string_enum = { version = "1.0.2", path = "../string_enum" }
 swc_atoms = { version = "10.0.1", path = "../swc_atoms" }
 swc_common = { version = "27.0.0", path = "../swc_common" }
 swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast" }
-swc_ecma_transformer = { version = "23.0.1", path = "../swc_ecma_transformer" }
+swc_ecma_transformer = { version = "23.1.0", path = "../swc_ecma_transformer" }
 swc_ecma_transforms = { version = "65.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
   "proposal",
@@ -60,8 +60,8 @@ codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
 swc_ecma_codegen = { version = "33.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "47.0.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "51.0.1", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_parser = { version = "47.0.2", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "51.0.2", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_ecma_transforms_testing = { version = "55.1.0", path = "../swc_ecma_transforms_testing" }
