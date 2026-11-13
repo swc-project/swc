@@ -3913,7 +3913,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
 
         Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
             PropOrSpread::Prop(node) => match &**node {
-                Prop::Shorthand(..) => false,
+                Prop::Shorthand(i) => i.ctxt == ctx.unresolved_ctxt,
                 Prop::KeyValue(KeyValueProp { key, value }) => {
                     let k = match key {
                         PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
