@@ -3722,36 +3722,38 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         return true;
     };
 
-    match expr {
-        Expr::Ident(i) => {
-            if ctx.is_unresolved_ref_safe {
-                return false;
-            }
-
-            if i.ctxt == ctx.unresolved_ctxt {
-                !matches!(
-                    &*i.sym,
-                    "Infinity"
-                        | "NaN"
-                        | "Math"
-                        | "undefined"
-                        | "Object"
-                        | "Array"
-                        | "Date"
-                        | "Promise"
-                        | "Boolean"
-                        | "Number"
-                        | "String"
-                        | "BigInt"
-                        | "Error"
-                        | "RegExp"
-                        | "Function"
-                        | "document"
-                )
-            } else {
-                false
-            }
+    fn ident_may_have_side_effects(i: &Ident, ctx: ExprCtx) -> bool {
+        if ctx.is_unresolved_ref_safe {
+            return false;
         }
+
+        if i.ctxt == ctx.unresolved_ctxt {
+            !matches!(
+                &*i.sym,
+                "Infinity"
+                    | "NaN"
+                    | "Math"
+                    | "undefined"
+                    | "Object"
+                    | "Array"
+                    | "Date"
+                    | "Promise"
+                    | "Boolean"
+                    | "Number"
+                    | "String"
+                    | "BigInt"
+                    | "Error"
+                    | "RegExp"
+                    | "Function"
+                    | "document"
+            )
+        } else {
+            false
+        }
+    }
+
+    match expr {
+        Expr::Ident(i) => ident_may_have_side_effects(i, ctx),
 
         Expr::Lit(..) | Expr::This(..) | Expr::PrivateName(..) | Expr::TsConstAssertion(..) => {
             false
@@ -3903,7 +3905,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
 
         Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
             PropOrSpread::Prop(node) => match &**node {
-                Prop::Shorthand(i) => i.ctxt == ctx.unresolved_ctxt,
+                Prop::Shorthand(i) => ident_may_have_side_effects(i, ctx),
                 Prop::KeyValue(KeyValueProp { key, value }) => {
                     let k = match key {
                         PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
