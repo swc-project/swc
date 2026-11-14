@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA,IAAIA,EAAI,AAACC,CAAAA,EAAIC,GAAK,EAClB,IAAIC,EAAI,AAACF,CAAAA,EAAIG,GAAK",
+  "mappings": "AAAA,IAAIA,EAAI,AAACC,CAAAA,EAAIC,CAAC,EAAI,EAClB,IAAIC,EAAI,AAACF,CAAAA,EAAIG,CAAC,EAAI",
   "names": [
     "y",
     "x",
@@ -8,7 +8,7 @@
     "a"
   ],
   "sources": [
-    "$DIR/tests/minify/issue-12775/input.js"
+    "$DIR/tests/minify/issue-12775/paren/input.js"
   ],
   "sourcesContent": [
     "let y = (x - ε) * 2;\nlet z = (x - a) * 2;\n"

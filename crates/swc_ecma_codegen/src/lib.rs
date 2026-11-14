@@ -972,7 +972,23 @@ where
 
         self.emit_leading_comments_of_span(span, true)?;
 
-        srcmap!(self, span, false, true);
+        // A block from the parser ends with `}` after its last statement, so
+        // `span.hi - 1` is its `}`. `fixer` can wrap a statement in a block
+        // that reuses the span of the statement. Then `span.hi - 1` is a byte
+        // of that statement, and it can point into a multi-byte char. Map `}`
+        // of those blocks to `span.hi`, which is always a char boundary.
+        //
+        // A statement with a dummy span gives no information, so the block is
+        // treated as a parsed one.
+        let ends_after_stmts = stmts.last().map_or(true, |last| {
+            let last = last.span();
+            last.is_dummy() || last.hi < span.hi
+        });
+        if ends_after_stmts {
+            srcmap!(self, span, false, true);
+        } else {
+            srcmap!(self, span, false);
+        }
         punct!(self, "}");
 
         Ok(())
@@ -2565,12 +2581,19 @@ impl MacroNode for ParenExpr {
         punct!(emitter, "(");
         emit!(self.expr);
 
-        // Parens synthesized by passes such as `fixer` reuse the span of the
-        // wrapped expression. Then `span.hi - 1` is the last byte of that
-        // expression, not a `)`, and it can point into a multi-byte char.
-        // Map `)` only when the span ends after the wrapped expression.
-        if self.span.hi != self.expr.span().hi {
+        // A paren from the parser strictly encloses the wrapped expression, so
+        // `span.hi - 1` is its `)`. Parens synthesized by passes such as
+        // `fixer` or `wrap_with_paren` reuse the span of the wrapped
+        // expression (or keep it after the expression is replaced). Then
+        // `span.hi - 1` is a byte of that expression, and it can point into a
+        // multi-byte char. Map `)` of those parens to `span.hi`, which is
+        // always a char boundary and is the source `)` when `paren_remover`
+        // removed the original parens.
+        let expr_span = self.expr.span();
+        if self.span.lo < expr_span.lo && expr_span.hi < self.span.hi {
             srcmap!(emitter, self, false, true);
+        } else {
+            srcmap!(emitter, self, false);
         }
         punct!(emitter, ")");
 

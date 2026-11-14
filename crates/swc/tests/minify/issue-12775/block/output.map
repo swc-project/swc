@@ -1,0 +1,19 @@
+{
+  "mappings": "AAAA,OAAO,SAASA,EAAEC,CAAC,CAAEC,CAAC,CAAEC,CAAC,EACrB,GAAIF,EACA,CAAA,GAAIC,EAAG,MAAME,CAAC,MACXD,GACX,CACA,OAAO,SAASE,EAAEJ,CAAC,CAAEC,CAAC,CAAEC,CAAC,EACrB,GAAIF,EACA,CAAA,GAAIC,EAAG,MAAMI,CAAC,MACXH,GACX",
+  "names": [
+    "f",
+    "a",
+    "b",
+    "y",
+    "ε",
+    "g",
+    "x"
+  ],
+  "sources": [
+    "$DIR/tests/minify/issue-12775/block/input.js"
+  ],
+  "sourcesContent": [
+    "export function f(a, b, y) {\n    if (a) {\n        if (b) throw ε\n    } else y();\n}\nexport function g(a, b, y) {\n    if (a) {\n        if (b) throw x\n    } else y();\n}\n"
+  ],
+  "version": 3
+}
