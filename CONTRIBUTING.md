@@ -150,22 +150,14 @@ Run the patch script from the repo root, providing the path to your project as t
 
 The script will:
 
-- Add necessary patches to `bindings/Cargo.toml`
-- Update Cargo dependencies
-- Build the project
+- Build the project (`pnpm build:dev`)
 - Update your project's `package.json` to use the local `@swc/core`
 
 If `@swc/core` is not found in your project's dependencies, the script will provide instructions for adding it based on your package manager (yarn, npm, or pnpm).
 
-To revert the changes:
+The script does not modify any Cargo files in this repository.
 
-1. Restore the original Cargo files in this repository:
-
-    ```bash
-    git restore bindings/Cargo.toml bindings/Cargo.lock
-    ```
-
-2. Update your overridden project's `package.json` to use the published version of `@swc/core`
+To revert the changes, update your overridden project's `package.json` to use the published version of `@swc/core`.
 
 ## Pull requests
 
