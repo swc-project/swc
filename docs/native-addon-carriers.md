@@ -85,6 +85,12 @@ The helper's integrity is still verified before any attempt to execute it.
 
 On writable btrfs, the loader may atomically replace its installed
 carrier with the original addon under transparent filesystem compression.
+The extent rewrite tries zstd and lzo only if their incompatibility feature bits
+are already enabled on the filesystem, then falls back to zlib. It never enables
+new filesystem compression features that would prevent older kernels from
+mounting the volume. If the feature query is unsupported, it uses only zlib.
+Among eligible codecs, it retries when the kernel rejects a
+codec. Other I/O failures retain the carrier and use the verified cache.
 The current process loads a separate verified temporary image. Read-only,
 hardlinked, unsupported, or unsuitable installations use the cache. Windows
 keeps the carrier DLL in place and writes ordinary cache files to avoid NTFS
