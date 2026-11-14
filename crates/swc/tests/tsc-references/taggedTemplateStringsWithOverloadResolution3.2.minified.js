@@ -216,7 +216,6 @@ function _templateObject21() {
         return data;
     }, data;
 }
-function fn2() {}
 _templateObject(), _templateObject1();
-var d1 = fn2(_templateObject2()), d2 = fn2(_templateObject3());
+var d1 = void _templateObject2(), d2 = void _templateObject3();
 d1.foo(), d2(), _templateObject4(), _templateObject5(), _templateObject6(), _templateObject7(), _templateObject8(), _templateObject9(), _templateObject10(), _templateObject11(), _templateObject12(), _templateObject13(), _templateObject14(), _templateObject15(), _templateObject16(), _templateObject17(), _templateObject18(), _templateObject19(), _templateObject20(), _templateObject21();
