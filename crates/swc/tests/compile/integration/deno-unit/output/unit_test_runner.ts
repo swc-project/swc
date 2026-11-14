@@ -17,21 +17,30 @@ function _async_iterator(iterable) {
     throw new TypeError("Object is not async iterable");
 }
 function AsyncFromSyncIterator(s) {
+    function AsyncFromSyncIteratorClose(s) {
+        try {
+            var ret = s.return;
+            if (null != ret) ret.call(s);
+        } catch (e) {}
+    }
     function AsyncFromSyncIteratorContinuation(r, s) {
         if (Object(r) !== r) return Promise.reject(new TypeError(r + " is not an object."));
-        var done = r.done;
-        return Promise.resolve(r.value).then(function(value) {
+        var done = r.done, value = r.value, closeOnRejection = !done && s, wrapper;
+        try {
+            wrapper = Promise.resolve(value);
+        } catch (e) {
+            if (closeOnRejection) AsyncFromSyncIteratorClose(s);
+            return Promise.reject(e);
+        }
+        return wrapper.then(function(value) {
             return {
                 value: value,
                 done: done
             };
-        }, done || !s ? void 0 : function(error) {
-            try {
-                var ret = s.return;
-                if (null != ret) ret.call(s);
-            } catch (e) {}
+        }, closeOnRejection ? function(error) {
+            AsyncFromSyncIteratorClose(s);
             throw error;
-        });
+        } : void 0);
     }
     return AsyncFromSyncIterator = function(s) {
         this.s = s, this.n = s.next;

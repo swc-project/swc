@@ -680,6 +680,30 @@ try {
 expect(error.message).toBe("after boom");
 expect(log).toEqual(["finally false", "finally true"]);
 expect(await fromThrow.next()).toEqual({ value: undefined, done: true });
+
+// A yielded promise that cannot be resolved also closes the sync iterator.
+const constructorError = new Error("constructor");
+const badPromise = Promise.resolve(1);
+Object.defineProperty(badPromise, "constructor", {
+  get() {
+    throw constructorError;
+  },
+});
+function* yieldsBadPromise() {
+  try {
+    yield badPromise;
+  } finally {
+    log.push("finally bad promise");
+  }
+}
+error = undefined;
+try {
+  await delegate(yieldsBadPromise()).next();
+} catch (e) {
+  error = e;
+}
+expect(error).toBe(constructorError);
+expect(log).toEqual(["finally false", "finally true", "finally bad promise"]);
 "#
 );
 

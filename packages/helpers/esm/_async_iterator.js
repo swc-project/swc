@@ -8,27 +8,42 @@ function _async_iterator(iterable) {
     throw new TypeError("Object is not async iterable");
 }
 function AsyncFromSyncIterator(s) {
+    // Closes the sync iterator after a rejection. Errors from `return` are ignored,
+    // so that the original rejection reason is kept.
+    function AsyncFromSyncIteratorClose(s) {
+        try {
+            var ret = s.return;
+
+            if (null != ret) ret.call(s);
+        } catch (e) {}
+    }
+
     // `s` is the sync iterator to close when the value of an unfinished result rejects.
     // `return` does not pass it, as in the spec's `closeOnRejection`.
     function AsyncFromSyncIteratorContinuation(r, s) {
         if (Object(r) !== r) return Promise.reject(new TypeError(r + " is not an object."));
 
-        var done = r.done;
+        var done = r.done, value = r.value, closeOnRejection = !done && s, wrapper;
 
-        return Promise.resolve(r.value).then(
+        try {
+            wrapper = Promise.resolve(value);
+        } catch (e) {
+            if (closeOnRejection) AsyncFromSyncIteratorClose(s);
+
+            return Promise.reject(e);
+        }
+
+        return wrapper.then(
             function(value) {
                 return { value: value, done: done };
             },
-            done || !s ? void 0 : function(error) {
-                // Close the sync iterator and keep the original rejection reason.
-                try {
-                    var ret = s.return;
+            closeOnRejection
+                ? function(error) {
+                    AsyncFromSyncIteratorClose(s);
 
-                    if (null != ret) ret.call(s);
-                } catch (e) {}
-
-                throw error;
-            }
+                    throw error;
+                }
+                : void 0
         );
     }
 
