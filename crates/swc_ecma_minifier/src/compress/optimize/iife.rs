@@ -1022,7 +1022,16 @@ impl Optimizer<'_> {
                 .iter()
                 .flat_map(|case| case.cons.iter())
                 .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
-            _ => for_stmt,
+            // Other statements (`try`, `do-while`, `for`, `for-in`, `for-of`, `with`,
+            // labeled statements, ...) are not inspected statement by statement, but a `var`
+            // nested in them is hoisted to the function scope just like a top-level one.
+            // If the call is executed multiple times, inlining it would make all
+            // iterations share a single binding, which is observable by closures.
+            _ => {
+                for_stmt
+                    && !(self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
+                        && contains_var_decl(stmt))
+            }
         }
     }
 
@@ -1568,6 +1577,50 @@ impl Visit for DeclVisitor {
     fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
         if let VarDeclOrExpr::VarDecl(v) = node {
             self.count += v.decls.len()
+        }
+    }
+}
+
+/// Returns true if `stmt` contains a `var` declaration (including the ones in
+/// `for`, `for-in` and `for-of` heads) that is hoisted to the scope of the
+/// enclosing function.
+fn contains_var_decl(stmt: &Stmt) -> bool {
+    let mut v = VarDeclFinder { found: false };
+    stmt.visit_with(&mut v);
+    v.found
+}
+
+/// Finds `var` declarations hoisted to the current function scope.
+struct VarDeclFinder {
+    found: bool,
+}
+
+impl Visit for VarDeclFinder {
+    noop_visit_type!(fail);
+
+    /// A `var` declaration cannot appear in an expression, except in a
+    /// function body, which has its own scope.
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function) {}
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    /// Static blocks have their own var scope.
+    fn visit_static_block(&mut self, _: &StaticBlock) {}
+
+    fn visit_var_decl(&mut self, v: &VarDecl) {
+        if v.kind == VarDeclKind::Var {
+            self.found = true;
+        }
+    }
+
+    fn visit_stmt(&mut self, s: &Stmt) {
+        // Skip the remaining statements once a declaration is found.
+        if !self.found {
+            s.visit_children_with(self);
         }
     }
 }
