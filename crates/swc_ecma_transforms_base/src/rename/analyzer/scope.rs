@@ -26,6 +26,14 @@ pub(crate) struct Scope {
     pub(super) kind: ScopeKind,
     pub(super) data: ScopeData,
 
+    /// `true` if this scope holds only the own name of a named function or
+    /// class expression, e.g. `Map` in `var a = function Map() {}`.
+    ///
+    /// That name is visible only inside the expression, so an unresolved
+    /// identifier with the same name can conflict with it only if this scope
+    /// uses it. See [`Scope::uses_symbol`].
+    pub(super) is_expr_name: bool,
+
     pub(super) children: Vec<Scope>,
 }
 
@@ -170,7 +178,18 @@ impl Scope {
             loop {
                 let sym = renamer.new_name_for(&id, &mut n);
 
-                if preserved_symbols.contains(&sym)
+                // https://github.com/swc-project/swc/issues/12528
+                //
+                // The own name of a function or class expression cannot capture
+                // a reference outside of the expression, so a preserved symbol
+                // conflicts with it only if the expression uses that symbol.
+                //
+                // This is safe only in normal mode. In mangle mode,
+                // `preserved_symbols` also contains names assigned to other
+                // bindings, and those bindings are stored in `data.all` with
+                // their original symbols.
+                if (preserved_symbols.contains(&sym)
+                    && (!self.is_expr_name || self.uses_symbol(&sym, &id)))
                     || self.data.reserved_output_symbols.contains(&sym)
                 {
                     continue;
@@ -194,6 +213,18 @@ impl Scope {
                 }
             }
         }
+    }
+
+    /// Returns `true` if this scope or a child scope uses an identifier
+    /// named `symbol`, other than `except`.
+    ///
+    /// This is a linear scan, so call it only after a cheaper check has
+    /// found a possible conflict.
+    fn uses_symbol(&self, symbol: &Atom, except: &Id) -> bool {
+        self.data
+            .all
+            .iter()
+            .any(|used| used.0 == *symbol && used != except)
     }
 
     fn can_rename(&self, id: &Id, symbol: &Atom, reverse: &ReverseMap) -> bool {

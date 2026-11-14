@@ -114,6 +114,12 @@ impl Analyzer {
         self.enter_scope(ScopeKind::Block)
     }
 
+    /// Marks the current scope as the scope that holds only the own name of a
+    /// named function or class expression.
+    pub(super) fn mark_expr_name_scope(&mut self) {
+        self.scope.is_expr_name = true;
+    }
+
     pub(super) fn exit_scope(&mut self, mut v: Self) {
         std::mem::swap(self, &mut v);
         if !v.hoisted_vars.is_empty() {

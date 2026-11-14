@@ -988,6 +988,86 @@ fn fn_param_same_name() {
     );
 }
 
+/// The own name of a function expression is visible only inside the function,
+/// so an unresolved `Map` outside of it does not conflict with it.
+///
+/// https://github.com/swc-project/swc/issues/12528
+#[test]
+fn issue_12528_fn_expr_keeps_name_of_outer_global() {
+    test(
+        |tester| {
+            let global_mark = Mark::fresh(Mark::root());
+            let fn_mark = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "var a = Map, b = function Map() { return Map; };",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "Map",
+                    &[global_mark, fn_mark, fn_mark],
+                )]))])
+        },
+        "var a = Map, b = function Map() { return Map; };",
+    );
+}
+
+/// A function expression must still be renamed if its body uses an unresolved
+/// identifier with the same name, e.g. one injected by a transform.
+#[test]
+fn issue_12528_fn_expr_renamed_for_inner_global() {
+    test(
+        |tester| {
+            let global_mark = Mark::fresh(Mark::root());
+            let fn_mark = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "var a = Map, b = function Map() { return [Map, Map]; };",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "Map",
+                    &[global_mark, fn_mark, fn_mark, global_mark],
+                )]))])
+        },
+        "var a = Map, b = function Map1() { return [Map1, Map]; };",
+    );
+}
+
+/// The same rules apply to the own name of a class expression.
+#[test]
+fn issue_12528_class_expr() {
+    test(
+        |tester| {
+            let global_mark = Mark::fresh(Mark::root());
+            let class1_mark = Mark::fresh(Mark::root());
+            let class2_mark = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "var a = [URL, class URL { f() { return URL; } }, class URL { f() { return \
+                     [URL, URL]; } }];",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "URL",
+                    &[
+                        global_mark,
+                        class1_mark,
+                        class1_mark,
+                        class2_mark,
+                        class2_mark,
+                        global_mark,
+                    ],
+                )]))])
+        },
+        "var a = [URL, class URL { f() { return URL; } }, class URL1 { f() { return [URL1, URL]; \
+         } }];",
+    );
+}
+
 #[test]
 fn fn_param_same_name_in_arg() {
     test(

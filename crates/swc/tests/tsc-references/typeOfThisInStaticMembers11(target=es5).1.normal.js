@@ -26,7 +26,7 @@ var D = /*#__PURE__*/ function(C) {
     _create_class(D, null, [
         {
             key: "foo",
-            value: function foo1() {
+            value: function foo() {
                 return this.c + 1;
             }
         },
@@ -70,7 +70,7 @@ var DD = /*#__PURE__*/ function(CC) {
     _create_class(DD, null, [
         {
             key: "foo",
-            value: function foo1() {
+            value: function foo() {
                 return this.c + 1;
             }
         },

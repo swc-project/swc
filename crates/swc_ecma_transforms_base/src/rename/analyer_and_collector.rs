@@ -181,6 +181,9 @@ impl Visit for AnalyzerAndCollector {
     fn visit_class_expr(&mut self, node: &ClassExpr) {
         let old_analyzer = self.analyzer.enter_block_scope();
 
+        if node.ident.is_some() {
+            self.analyzer.mark_expr_name_scope();
+        }
         self.analyzer.handle_class_expr(node);
 
         node.visit_children_with(self);
@@ -307,6 +310,7 @@ impl Visit for AnalyzerAndCollector {
     fn visit_fn_expr(&mut self, node: &FnExpr) {
         if let Some(id) = &node.ident {
             let old_analyzer0 = self.analyzer.enter_fn_scope();
+            self.analyzer.mark_expr_name_scope();
             self.analyzer.add_decl(id.to_id(), true);
             let old_analyzer1 = self.analyzer.enter_fn_scope();
             // https://github.com/swc-project/swc/issues/6819

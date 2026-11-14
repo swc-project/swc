@@ -89,7 +89,7 @@ var _sliced_to_array = require("@swc/helpers/_/_sliced_to_array");
     }
 });
 (function() {
-    var foo1 = function foo1() {
+    var foo1 = function foo() {
         var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
         try {
             for(var _iterator = c5[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
@@ -114,7 +114,7 @@ var _sliced_to_array = require("@swc/helpers/_/_sliced_to_array");
     };
 });
 (function() {
-    var foo1 = function foo1() {
+    var foo1 = function foo() {
         var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
         try {
             for(var _iterator = c[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){

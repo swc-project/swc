@@ -6,6 +6,6 @@ var myObject = new CustomObject();
 var myObject = {};
 var foo = Object("foo");
 (function() {
-    var _$Object = function Object1() {};
+    var _$Object = function Object() {};
     new _$Object();
 });
