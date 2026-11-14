@@ -658,3 +658,33 @@ console.log(l.lookup(globalThis), l.name);";
         },
     )
 }
+
+/// Same as [issue_12770_synthesized_class_decl_name_is_reserved], for a named
+/// class expression.
+#[test]
+fn issue_12770_synthesized_class_expr_name_is_reserved() {
+    let src = "const cache = new WeakMap();
+const C = class o {
+    static lookup(key) {
+        return cache.get(key);
+    }
+};
+console.log(C.lookup(globalThis), C.name);";
+
+    let expected = "const t = new WeakMap();
+const n = class o {
+    static lookup(n) {
+        return t.get(n);
+    }
+};
+console.log(n.lookup(globalThis), n.name);";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            keep_class_names: true,
+            ..Default::default()
+        },
+    )
+}
