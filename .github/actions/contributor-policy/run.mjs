@@ -58,7 +58,7 @@ function assertState(pr) {
 }
 
 export const NO_NEW_CONTRIBUTORS_NOTE =
-  "Thank you for your interest in contributing to SWC. Reviews of pull requests from outside contributors take a large amount of maintainer time. Also, our repository guidelines tell us not to use code from forks or fixes suggested in comments. For these reasons, we do not add new accounts to the approved contributor list unless there are truly exceptional circumstances. We appreciate your understanding.";
+  "Thank you for your interest in contributing to SWC. We do not add new accounts to the approved contributor list unless there are truly exceptional circumstances, so please do not leave comments that ask us to add your account. Also, our repository guidelines tell us not to use code from forks or fixes linked in comments, and reviewing such code takes a large amount of maintainer time. Because of this, links to forks or fixes do not help the project, so please do not post them in issues or pull requests. We appreciate your understanding.";
 
 /** Build the comment posted before an unlisted author's PR is closed. */
 function notice(repository) {
