@@ -704,6 +704,53 @@ try {
 }
 expect(error).toBe(constructorError);
 expect(log).toEqual(["finally false", "finally true", "finally bad promise"]);
+
+// A rejected value does not close the sync iterator when the result is done,
+// or when the result comes from `return`.
+const doneError = new Error("done");
+const returnLog = [];
+error = undefined;
+try {
+  await delegate({
+    [Symbol.iterator]() {
+      return this;
+    },
+    next() {
+      return { value: Promise.reject(doneError), done: true };
+    },
+    return() {
+      returnLog.push("return");
+      return { done: true };
+    },
+  }).next();
+} catch (e) {
+  error = e;
+}
+expect(error).toBe(doneError);
+expect(returnLog).toEqual([]);
+
+const returnError = new Error("return");
+const fromReturn = delegate({
+  [Symbol.iterator]() {
+    return this;
+  },
+  next() {
+    return { value: 1, done: false };
+  },
+  return() {
+    returnLog.push("return");
+    return { value: Promise.reject(returnError), done: false };
+  },
+});
+await fromReturn.next();
+error = undefined;
+try {
+  await fromReturn.return();
+} catch (e) {
+  error = e;
+}
+expect(error).toBe(returnError);
+expect(returnLog).toEqual(["return"]);
 "#
 );
 
