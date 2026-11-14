@@ -1156,7 +1156,10 @@ impl Optimizer<'_> {
                                 );
                             }
 
-                            Prop::Shorthand(_) => {}
+                            Prop::Shorthand(i) => {
+                                let mut expr = Expr::Ident(i);
+                                exprs.extend(self.ignore_return_value(&mut expr).map(Box::new));
+                            }
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         },
