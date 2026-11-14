@@ -1,6 +1,6 @@
 use either::Either;
 use swc_atoms::atom;
-use swc_common::{ast_node, util::take::Take, BytePos, Span, Spanned};
+use swc_common::{ast_node, BytePos, Span, Spanned};
 
 use super::*;
 use crate::{
@@ -14,6 +14,39 @@ pub(crate) enum AssignTargetOrSpread {
     ExprOrSpread(ExprOrSpread),
     #[tag("*")]
     Pat(Pat),
+}
+
+/// Whether postfix parsing may consume a call or return its type arguments
+/// to the constructor which owns the following argument list.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub(super) enum LhsContext {
+    Expression,
+    Member,
+    NewCallee,
+}
+
+struct PostfixExpression {
+    expression: Box<Expr>,
+    type_arguments: Option<Box<TsTypeParamInstantiation>>,
+}
+
+impl From<Box<Expr>> for PostfixExpression {
+    fn from(expression: Box<Expr>) -> Self {
+        Self {
+            expression,
+            type_arguments: None,
+        }
+    }
+}
+
+enum PostfixStep {
+    Continue(Box<Expr>),
+    Finish(PostfixExpression),
+}
+
+enum TsPostfix {
+    AsyncArrow(Box<Expr>),
+    TypeArguments(Box<TsTypeParamInstantiation>),
 }
 
 fn await_binding_span(pat: &Pat) -> Option<Span> {
@@ -154,7 +187,7 @@ impl<I: Tokens> Parser<I> {
         {
             let start = self.input().cur_span();
             let res = self.do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
-                p.try_parse_ts(|p| {
+                p.try_parse_arrow(false, None, None, |p| {
                     let type_parameters = p.parse_ts_type_params(false, true)?;
 
                     // In TSX mode, type parameters that could be mistaken for JSX
@@ -216,7 +249,7 @@ impl<I: Tokens> Parser<I> {
         if cur == Token::Yield
             && (self.includes_yield_expr()
                 || (self.type_ctx().contains(TypeContext::TsContainerBody)
-                    && self.can_recover_ts_await_or_yield()))
+                    && self.can_recover_await_or_yield_expression()))
         {
             return self.parse_yield_expr();
         }
@@ -406,7 +439,7 @@ impl<I: Tokens> Parser<I> {
                             || (self.program_parse_mode == ProgramParseMode::None
                                 && self.boundary_ctx().contains(BoundaryContext::CanBeModule))))
                     || (self.type_ctx().contains(TypeContext::TsContainerBody)
-                        && self.can_recover_ts_await_or_yield());
+                        && self.can_recover_await_or_yield_expression());
 
                 if parses_await {
                     return self.parse_await_expr(None);
@@ -526,24 +559,11 @@ impl<I: Tokens> Parser<I> {
             return self.parse_dynamic_import_or_import_meta(start, false);
         }
 
-        let callee = self.parse_new_expr()?;
+        let PostfixExpression {
+            expression: callee,
+            type_arguments: type_args,
+        } = self.parse_member_expr_or_new_expr_inner(true, LhsContext::NewCallee)?;
         return_if_arrow!(self, callee);
-
-        let type_args = if self.input().syntax().typescript() && {
-            let cur = self.input().cur();
-            cur == Token::Lt || cur == Token::LShift
-        } {
-            self.try_parse_ts(|p| {
-                let type_args = p.parse_ts_type_args_in_expr()?;
-                if p.input().is(Token::LParen) {
-                    Ok(Some(type_args))
-                } else {
-                    Ok(None)
-                }
-            })
-        } else {
-            None
-        };
 
         if let Expr::New(ne @ NewExpr { args: None, .. }) = *callee {
             // If this is parsed using 'NewExpression' rule, just return it.
@@ -1254,9 +1274,24 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_subscripts_expr<const NO_COMPUTED: bool>(
         &mut self,
-        mut expr: Box<Expr>,
+        expr: Box<Expr>,
         no_call: bool,
     ) -> PResult<Box<Expr>> {
+        let context = if no_call {
+            LhsContext::Member
+        } else {
+            LhsContext::Expression
+        };
+        self.parse_postfix_chain::<NO_COMPUTED>(expr, context)
+            .map(|parsed| parsed.expression)
+    }
+
+    fn parse_postfix_chain<const NO_COMPUTED: bool>(
+        &mut self,
+        mut expr: Box<Expr>,
+        context: LhsContext,
+    ) -> PResult<PostfixExpression> {
+        let no_call = context != LhsContext::Expression;
         let cur = self.input().cur();
         if !matches!(
             cur,
@@ -1269,8 +1304,9 @@ impl<I: Tokens> Parser<I> {
                 | Token::BackQuote
                 | Token::Bang
                 | Token::Lt
+                | Token::LShift
         ) {
-            return Ok(expr);
+            return Ok(expr.into());
         }
 
         let syntax = self.input().syntax();
@@ -1280,22 +1316,23 @@ impl<I: Tokens> Parser<I> {
                 expr = match self
                     .parse_subscript_without_type_args::<NO_COMPUTED>(expr, no_call, syntax)?
                 {
-                    (expr, false) => return Ok(expr),
+                    (expr, false) => return Ok(expr.into()),
                     (expr, true) => expr,
                 }
             }
         } else {
             let start = expr.span_lo();
             loop {
-                expr = match self.parse_subscript::<NO_COMPUTED>(start, expr, no_call)? {
-                    (expr, false) => return Ok(expr),
-                    (expr, true) => expr,
+                expr = match self.parse_subscript::<NO_COMPUTED>(start, expr, context)? {
+                    PostfixStep::Continue(expr) => expr,
+                    PostfixStep::Finish(parsed) => return Ok(parsed),
                 }
             }
         }
     }
 
-    /// returned bool is true if this method should be called again.
+    /// Continue a postfix chain or return a constructor-owned type argument
+    /// list.
     #[cfg_attr(
         all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(skip_all)
@@ -1303,61 +1340,98 @@ impl<I: Tokens> Parser<I> {
     fn parse_subscript<const NO_COMPUTED: bool>(
         &mut self,
         start: BytePos,
-        mut callee: Box<Expr>,
-        no_call: bool,
-    ) -> PResult<(Box<Expr>, bool)> {
+        callee: Box<Expr>,
+        context: LhsContext,
+    ) -> PResult<PostfixStep> {
+        let no_call = context != LhsContext::Expression;
         trace_cur!(self, parse_subscript);
 
         let syntax = self.input().syntax();
 
         if !syntax.typescript() {
-            return self.parse_subscript_without_type_args::<NO_COMPUTED>(callee, no_call, syntax);
+            return self
+                .parse_subscript_without_type_args::<NO_COMPUTED>(callee, no_call, syntax)
+                .map(|(expr, again)| {
+                    if again {
+                        PostfixStep::Continue(expr)
+                    } else {
+                        PostfixStep::Finish(expr.into())
+                    }
+                });
         }
 
-        if syntax.typescript() {
-            if !self.input().had_line_break_before_cur() && self.input().is(Token::Bang) {
-                self.input_mut().set_expr_allowed(false);
-                self.assert_and_bump(Token::Bang);
+        if !self.input().had_line_break_before_cur() && self.input().is(Token::Bang) {
+            self.input_mut().set_expr_allowed(false);
+            self.assert_and_bump(Token::Bang);
 
-                let expr = Box::new(Expr::TsNonNull(TsNonNullExpr {
-                    span: self.span(start),
-                    expr: callee,
-                }));
+            let expr = Box::new(Expr::TsNonNull(TsNonNullExpr {
+                span: self.span(start),
+                expr: callee,
+            }));
 
-                return Ok((expr, true));
-            }
+            return Ok(PostfixStep::Continue(expr));
+        }
 
-            if self.input().is(Token::Lt) {
-                // tsTryParseAndCatch is expensive, so avoid if not necessary.
-                // There are number of things we are going to "maybe" parse, like type arguments
-                // on tagged template expressions. If any of them fail, walk it back and
-                // continue.
-
-                let result = self.try_parse_ts(|p| {
-                    if !no_call && p.at_possible_async(&callee) {
+        if matches!(self.input().cur(), Token::Lt | Token::LShift) {
+            let possible_async = !no_call && self.at_possible_async(&callee);
+            let result = self.try_parse_ts_speculation(
+                TsSpeculationKind::Postfix {
+                    context,
+                    possible_async,
+                },
+                |p| {
+                    if possible_async {
                         // Almost certainly this is a generic async function `async <T>() =>
                         // ... But it might be a call with a
                         // type argument `async<T>();`
                         let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
                         if let Some(async_arrow_fn) = async_arrow_fn {
-                            return Ok(Some((async_arrow_fn.into(), true)));
+                            return Ok(Some(TsPostfix::AsyncArrow(async_arrow_fn.into())));
                         }
                     }
 
                     let type_args = p.parse_ts_type_args_in_expr()?;
                     let cur = p.input().cur();
 
-                    if !no_call && cur == Token::LParen {
-                        // possibleAsync always false here, because we would have handled it
-                        // above. (won't be any undefined arguments)
-                        let args = p.parse_args(false)?;
+                    if (context != LhsContext::Member && cur == Token::LParen)
+                        || matches!(
+                            cur,
+                            Token::NoSubstitutionTemplateLiteral
+                                | Token::TemplateHead
+                                | Token::BackQuote
+                                | Token::Eq
+                                | Token::As
+                                | Token::Satisfies
+                        )
+                        || p.can_follow_ts_instantiation()
+                    {
+                        Ok(Some(TsPostfix::TypeArguments(type_args)))
+                    } else {
+                        Ok(None)
+                    }
+                },
+            );
 
+            match result {
+                Some(TsPostfix::AsyncArrow(expr)) => return Ok(PostfixStep::Continue(expr)),
+                Some(TsPostfix::TypeArguments(type_args)) => {
+                    let cur = self.input().cur();
+                    if context == LhsContext::NewCallee && cur == Token::LParen {
+                        return Ok(PostfixStep::Finish(PostfixExpression {
+                            expression: callee,
+                            type_arguments: Some(type_args),
+                        }));
+                    }
+                    if cur == Token::LParen {
+                        // Once the suffix is known to be a call, parse its
+                        // arguments exactly once, outside speculation.
+                        let args = self.parse_args(false)?;
                         let expr = if callee.is_opt_chain() {
                             Expr::OptChain(OptChainExpr {
-                                span: p.span(start),
+                                span: self.span(start),
                                 base: Box::new(OptChainBase::Call(OptCall {
-                                    span: p.span(start),
-                                    callee: callee.take(),
+                                    span: self.span(start),
+                                    callee,
                                     type_args: Some(type_args),
                                     args,
                                     ..Default::default()
@@ -1366,49 +1440,40 @@ impl<I: Tokens> Parser<I> {
                             })
                         } else {
                             Expr::Call(CallExpr {
-                                span: p.span(start),
-                                callee: Callee::Expr(callee.take()),
+                                span: self.span(start),
+                                callee: Callee::Expr(callee),
                                 type_args: Some(type_args),
                                 args,
                                 ..Default::default()
                             })
                         };
-
-                        Ok(Some((Box::new(expr), true)))
-                    } else if matches!(
+                        return Ok(PostfixStep::Continue(Box::new(expr)));
+                    }
+                    if matches!(
                         cur,
                         Token::NoSubstitutionTemplateLiteral
                             | Token::TemplateHead
                             | Token::BackQuote
                     ) {
-                        p.parse_tagged_tpl(callee.take(), Some(type_args))
-                            .map(|expr| (expr.into(), true))
-                            .map(Some)
-                    } else if matches!(cur, Token::Eq | Token::As | Token::Satisfies) {
-                        let expr = Expr::TsInstantiation(TsInstantiation {
-                            span: p.span(start),
-                            expr: callee.take(),
-                            type_args,
-                        });
-                        Ok(Some((Box::new(expr), false)))
-                    } else if no_call {
-                        unexpected!(p, "`")
-                    } else {
-                        unexpected!(p, "( or `")
+                        return self
+                            .parse_tagged_tpl(callee, Some(type_args))
+                            .map(|expr| PostfixStep::Continue(expr.into()));
                     }
-                });
-
-                if let Some(expr) = result {
-                    return Ok(expr);
+                    let expr = TsInstantiation {
+                        span: self.span(start),
+                        expr: callee,
+                        type_args,
+                    }
+                    .into();
+                    return Ok(if matches!(cur, Token::Eq | Token::As | Token::Satisfies) {
+                        PostfixStep::Finish(PostfixExpression::from(expr))
+                    } else {
+                        PostfixStep::Continue(expr)
+                    });
                 }
+                None => {}
             }
         }
-
-        let ts_instantiation = if syntax.typescript() && self.input().is(Token::Lt) {
-            self.try_parse_ts_type_args()
-        } else {
-            None
-        };
 
         let question_dot = if self.input().is(Token::QuestionMark)
             && peek!(self).is_some_and(|peek| peek == Token::Dot)
@@ -1432,12 +1497,6 @@ impl<I: Tokens> Parser<I> {
                 expr: prop,
             };
 
-            let type_args = if syntax.typescript() && self.input().is(Token::Lt) {
-                self.try_parse_ts_type_args()
-            } else {
-                None
-            };
-
             let is_opt_chain = unwrap_ts_non_null(&callee).is_opt_chain();
             let expr = MemberExpr {
                 span,
@@ -1455,16 +1514,7 @@ impl<I: Tokens> Parser<I> {
                 expr.into()
             };
 
-            let expr = if let Some(type_args) = type_args {
-                Expr::TsInstantiation(TsInstantiation {
-                    expr: Box::new(expr),
-                    type_args,
-                    span: self.span(start),
-                })
-            } else {
-                expr
-            };
-            return Ok((Box::new(expr), true));
+            return Ok(PostfixStep::Continue(Box::new(expr)));
         }
 
         let type_args = if syntax.typescript() && self.input().is(Token::Lt) && question_dot {
@@ -1488,7 +1538,7 @@ impl<I: Tokens> Parser<I> {
                         ..Default::default()
                     })),
                 };
-                Ok((Box::new(Expr::OptChain(expr)), true))
+                Ok(PostfixStep::Continue(Box::new(Expr::OptChain(expr))))
             } else {
                 let expr = CallExpr {
                     span: self.span(start),
@@ -1496,7 +1546,7 @@ impl<I: Tokens> Parser<I> {
                     args,
                     ..Default::default()
                 };
-                Ok((Box::new(Expr::Call(expr)), true))
+                Ok(PostfixStep::Continue(Box::new(Expr::Call(expr))))
             };
         }
 
@@ -1517,12 +1567,6 @@ impl<I: Tokens> Parser<I> {
             debug_assert_eq!(callee.span_lo(), span.lo());
             debug_assert_eq!(prop.span_hi(), span.hi());
 
-            let type_args = if syntax.typescript() && self.input().is(Token::Lt) {
-                self.try_parse_ts_type_args()
-            } else {
-                None
-            };
-
             let expr = MemberExpr {
                 span,
                 obj: callee,
@@ -1539,29 +1583,10 @@ impl<I: Tokens> Parser<I> {
                 expr.into()
             };
 
-            let expr = if let Some(type_args) = type_args {
-                Expr::TsInstantiation(TsInstantiation {
-                    expr: Box::new(expr),
-                    type_args,
-                    span: self.span(start),
-                })
-            } else {
-                expr
-            };
-
-            return Ok((Box::new(expr), true));
+            return Ok(PostfixStep::Continue(Box::new(expr)));
         }
 
-        let expr = if let Some(type_args) = ts_instantiation {
-            TsInstantiation {
-                expr: callee,
-                type_args,
-                span: self.span(start),
-            }
-            .into()
-        } else {
-            callee
-        };
+        let expr = callee;
 
         // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
         let cur = self.input().cur();
@@ -1573,10 +1598,10 @@ impl<I: Tokens> Parser<I> {
                 .do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
                     p.parse_tagged_tpl(expr, None)
                 })?;
-            return Ok((tpl.into(), true));
+            return Ok(PostfixStep::Continue(tpl.into()));
         }
 
-        Ok((expr, false))
+        Ok(PostfixStep::Finish(expr.into()))
     }
 
     #[inline(always)]
@@ -1927,6 +1952,15 @@ impl<I: Tokens> Parser<I> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
+        self.parse_member_expr_or_new_expr_inner(is_new_expr, LhsContext::Member)
+            .map(|parsed| parsed.expression)
+    }
+
+    fn parse_member_expr_or_new_expr_inner(
+        &mut self,
+        is_new_expr: bool,
+        context: LhsContext,
+    ) -> PResult<PostfixExpression> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
         let cur = self.input().cur();
@@ -1950,15 +1984,20 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(span, SyntaxError::InvalidNewTarget);
                     }
 
-                    return self.parse_subscripts_expr::<false>(expr, true);
+                    return self.parse_postfix_chain::<false>(expr, context);
                 }
 
                 unexpected!(self, "target")
             }
 
             // 'NewExpression' allows new call without paren.
-            let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
-            return_if_arrow!(self, callee);
+            let PostfixExpression {
+                expression: callee,
+                type_arguments: type_args,
+            } = self.parse_member_expr_or_new_expr_inner(is_new_expr, LhsContext::NewCallee)?;
+            if callee.is_arrow() {
+                return Ok(callee.into());
+            }
 
             if is_new_expr {
                 match *callee {
@@ -1987,23 +2026,6 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            let type_args = if self.input().syntax().typescript() && {
-                let cur = self.input().cur();
-                cur == Token::Lt || cur == Token::LShift
-            } {
-                self.try_parse_ts(|p| {
-                    let args = p.parse_ts_type_args_in_expr()?;
-                    if !p.input().is(Token::LParen) {
-                        let span = p.input().cur_span();
-                        let cur = p.input_mut().dump_cur();
-                        syntax_error!(p, span, SyntaxError::Expected('('.to_string(), cur))
-                    }
-                    Ok(Some(args))
-                })
-            } else {
-                None
-            };
-
             if !is_new_expr || self.input().is(Token::LParen) {
                 // Parsed with 'MemberExpression' production.
                 let args = self.parse_args(false).map(Some)?;
@@ -2019,19 +2041,20 @@ impl<I: Tokens> Parser<I> {
 
                 // We should parse subscripts for MemberExpression.
                 // Because it's left recursive.
-                return self.parse_subscripts_expr::<false>(new_expr, true);
+                return self.parse_postfix_chain::<false>(new_expr, context);
             }
 
             // Parsed with 'NewExpression' production.
 
-            return Ok(NewExpr {
+            let expression: Box<Expr> = NewExpr {
                 span: self.span(start),
                 callee,
                 args: None,
                 type_args,
                 ..Default::default()
             }
-            .into());
+            .into();
+            return Ok(expression.into());
         }
 
         if cur == Token::Super {
@@ -2040,38 +2063,24 @@ impl<I: Tokens> Parser<I> {
             let base = Callee::Super(Super {
                 span: self.span(start),
             });
-            return self.parse_subscripts(base, true, false);
+            return self.parse_subscripts(base, true, false).map(Into::into);
         } else if cur == Token::Import {
             self.bump();
             let start = self.input().prev_span().lo;
-            return self.parse_dynamic_import_or_import_meta(start, true);
+            return self
+                .parse_dynamic_import_or_import_meta(start, true)
+                .map(Into::into);
         }
         let obj = self.parse_primary_expr()?;
-        return_if_arrow!(self, obj);
-
-        let type_args = if self.input().is(Token::Lt) && self.syntax().typescript() {
-            self.try_parse_ts_type_args()
-        } else {
-            None
-        };
-        let obj = if let Some(type_args) = type_args {
-            trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
-            let start = obj.span_lo();
-            TsInstantiation {
-                expr: obj,
-                type_args,
-                span: self.span(start),
-            }
-            .into()
-        } else {
-            obj
-        };
-
-        self.parse_subscripts_expr::<false>(obj, true)
+        if obj.is_arrow() {
+            return Ok(obj.into());
+        }
+        self.parse_postfix_chain::<false>(obj, context)
     }
 
     /// Parse `NewExpression`.
     /// This includes `MemberExpression`.
+    #[cfg(any(feature = "typescript", test))]
     #[cfg_attr(
         all(debug_assertions, feature = "tracing-spans"),
         tracing::instrument(skip_all)
@@ -2381,7 +2390,7 @@ impl<I: Tokens> Parser<I> {
     /// identifier uses.
     #[cold]
     #[inline(never)]
-    fn can_recover_ts_await_or_yield(&mut self) -> bool {
+    fn can_recover_await_or_yield_expression(&mut self) -> bool {
         let Some(next) = self.input_mut().peek() else {
             return false;
         };
@@ -2391,7 +2400,7 @@ impl<I: Tokens> Parser<I> {
             return false;
         }
         if matches!(next, Token::In | Token::InstanceOf) {
-            // With Await/Yield disabled, these are valid relational operators.
+            // Preserve identifier interpretations before relational operators.
             return false;
         }
         if matches!(next, Token::As | Token::Satisfies) {
@@ -2528,10 +2537,6 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub(crate) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {
-        self.parse_expr()
-    }
-
     // Returns (args_or_pats, trailing_comma)
     #[cfg_attr(
         all(debug_assertions, feature = "tracing-spans"),
@@ -2584,7 +2589,7 @@ impl<I: Tokens> Parser<I> {
                     // production when this cover grammar starts with an identifier.
                     let mut expr = if self.input().is(Token::Yield)
                         && self.type_ctx().contains(TypeContext::TsContainerBody)
-                        && self.can_recover_ts_await_or_yield()
+                        && self.can_recover_await_or_yield_expression()
                     {
                         self.parse_yield_expr()?
                     } else {
@@ -2884,34 +2889,40 @@ impl<I: Tokens> Parser<I> {
         // to distinguish a return annotation from the conditional's colon.
         if self.syntax().typescript() && will_expect_colon_for_cond && self.input().is(Token::Colon)
         {
-            if let Some((params, return_type, body)) = self.try_parse_ts(|p| {
-                let return_type = if p.input().syntax().flow() {
-                    p.do_inside_of_type_context(TypeContext::DisallowFlowAnonFnType, |p| {
-                        p.parse_ts_type_or_type_predicate_ann(Token::Colon)
-                    })?
-                } else {
-                    p.parse_ts_type_or_type_predicate_ann(Token::Colon)?
-                };
+            if let Some((params, return_type, body)) = self.try_parse_arrow(
+                async_span.is_some(),
+                Some(expr_start),
+                trailing_comma,
+                |p| {
+                    let return_type = if p.input().syntax().flow() {
+                        p.do_inside_of_type_context(TypeContext::DisallowFlowAnonFnType, |p| {
+                            p.parse_ts_type_or_type_predicate_ann(Token::Colon)
+                        })?
+                    } else {
+                        p.parse_ts_type_or_type_predicate_ann(Token::Colon)?
+                    };
 
-                expect!(p, Token::Arrow);
+                    expect!(p, Token::Arrow);
 
-                // Conversion can fail and consumes its AST. Keep the original
-                // cover expressions available for the conditional fallback.
-                let params = p.parse_paren_items_as_params(paren_items.clone(), trailing_comma)?;
-                let body: Box<ArrowFunctionBody> = p.parse_fn_block_or_expr_body(
-                    FunctionKind::Arrow {
-                        is_async: async_span.is_some(),
-                    },
-                    params.is_simple_parameter_list(),
-                )?;
+                    // Conversion can fail and consumes its AST. Keep the original
+                    // cover expressions available for the conditional fallback.
+                    let params =
+                        p.parse_paren_items_as_params(paren_items.clone(), trailing_comma)?;
+                    let body: Box<ArrowFunctionBody> = p.parse_fn_block_or_expr_body(
+                        FunctionKind::Arrow {
+                            is_async: async_span.is_some(),
+                        },
+                        params.is_simple_parameter_list(),
+                    )?;
 
-                if !p.input().is(Token::Colon) {
-                    trace_cur!(p, parse_arrow_in_cond__fail);
-                    unexpected!(p, "fail")
-                }
+                    if !p.input().is(Token::Colon) {
+                        trace_cur!(p, parse_arrow_in_cond__fail);
+                        unexpected!(p, "fail")
+                    }
 
-                Ok(Some((params, return_type, body)))
-            }) {
+                    Ok(Some((params, return_type, body)))
+                },
+            ) {
                 self.record_await_in_arrow_params(&params);
                 self.emit_pending_async_arrow_param_await(pending_await);
                 return Ok(ArrowExpr {
@@ -2931,21 +2942,26 @@ impl<I: Tokens> Parser<I> {
             && self.input().syntax().typescript()
             && self.input().is(Token::Colon)
         {
-            self.try_parse_ts(|p| {
-                let return_type = if p.input().syntax().flow() {
-                    p.do_inside_of_type_context(TypeContext::DisallowFlowAnonFnType, |p| {
-                        p.parse_ts_type_or_type_predicate_ann(Token::Colon)
-                    })?
-                } else {
-                    p.parse_ts_type_or_type_predicate_ann(Token::Colon)?
-                };
+            self.try_parse_arrow(
+                async_span.is_some(),
+                Some(expr_start),
+                trailing_comma,
+                |p| {
+                    let return_type = if p.input().syntax().flow() {
+                        p.do_inside_of_type_context(TypeContext::DisallowFlowAnonFnType, |p| {
+                            p.parse_ts_type_or_type_predicate_ann(Token::Colon)
+                        })?
+                    } else {
+                        p.parse_ts_type_or_type_predicate_ann(Token::Colon)?
+                    };
 
-                if !p.input().is(Token::Arrow) {
-                    unexpected!(p, "fail")
-                }
+                    if !p.input().is(Token::Arrow) {
+                        unexpected!(p, "fail")
+                    }
 
-                Ok(Some(return_type))
-            })
+                    Ok(Some(return_type))
+                },
+            )
         } else {
             None
         };
