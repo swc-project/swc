@@ -624,3 +624,37 @@ console.log(e.F, e.G, e.I, e.K, e.L);";
         },
     )
 }
+
+/// `assert_mangled` does not run the resolver, so the class Id is treated as
+/// synthesized and is dropped from the preserved set (#9468). The renamer
+/// still emits the original name as the inner name of the class, so that name
+/// must not be assigned to `cache`.
+///
+/// See https://github.com/swc-project/swc/issues/12770
+#[test]
+fn issue_12770_synthesized_class_decl_name_is_reserved() {
+    let src = "const cache = new WeakMap();
+class o {
+    static lookup(key) {
+        return cache.get(key);
+    }
+}
+console.log(o.lookup(globalThis), o.name);";
+
+    let expected = "const t = new WeakMap();
+let l = class o {
+    static lookup(l) {
+        return t.get(l);
+    }
+};
+console.log(l.lookup(globalThis), l.name);";
+
+    assert_mangled(
+        src,
+        expected,
+        MangleOptions {
+            keep_class_names: true,
+            ..Default::default()
+        },
+    )
+}
