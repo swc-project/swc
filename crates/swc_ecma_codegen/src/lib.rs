@@ -983,13 +983,22 @@ where
         //
         // This is a heuristic on spans only. Statements with dummy spans give
         // no information, so a block that holds only those is treated as a
-        // parsed one. A parsed block that receives a statement moved from
-        // later in the file is treated as synthesized, so its `}` maps one
-        // char after the source `}`.
-        let ends_after_stmts = !stmts.iter().any(|stmt| {
-            let stmt = stmt.span();
-            !stmt.is_dummy() && stmt.hi >= span.hi
-        });
+        // parsed one. Transforms often fill parsed blocks with such
+        // statements, so this keeps their `}` exact. The cost is that a
+        // synthesized block whose own statements were all replaced by ones
+        // with dummy spans (for example, a minifier fake block whose original
+        // statement was dropped) still maps `}` to `span.hi - 1`. A parsed
+        // block that receives a statement moved from later in the file is
+        // treated as synthesized, so its `}` maps one char after the source
+        // `}`.
+        //
+        // The scan is skipped when no source map is generated, because
+        // `add_srcmap` does nothing then.
+        let ends_after_stmts = !self.wr.care_about_srcmap()
+            || !stmts.iter().any(|stmt| {
+                let stmt = stmt.span();
+                !stmt.is_dummy() && stmt.hi >= span.hi
+            });
         if ends_after_stmts {
             srcmap!(self, span, false, true);
         } else {
