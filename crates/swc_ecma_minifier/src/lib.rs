@@ -206,6 +206,7 @@ pub fn optimize(
             &mut n,
             mangle,
             preserved.preserved,
+            &preserved.kept_class_names,
             chars,
             extra.top_level_mark,
             extra.mangle_name_cache.clone(),

@@ -10,6 +10,11 @@ use crate::{option::MangleOptions, usage_analyzer::marks::Marks};
 pub(crate) struct PreversedIdents {
     pub preserved: FxHashSet<Id>,
     pub idents: Option<Vec<Atom>>,
+    /// Original names of class declarations that the renamer rewrites to
+    /// `let <mangled> = class <name> {}` because of `keep_classnames`.
+    ///
+    /// See [Preserver::kept_class_names].
+    pub kept_class_names: Vec<Atom>,
 }
 
 /// Returns `(preserved, unresolved)`
@@ -24,6 +29,7 @@ where
         in_top_level: false,
 
         idents: Vec::new(),
+        kept_class_names: Vec::new(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
     };
     n.visit_with(&mut v);
@@ -54,6 +60,7 @@ where
         } else {
             Some(idents)
         },
+        kept_class_names: v.kept_class_names,
     }
 }
 
@@ -66,6 +73,15 @@ pub(crate) struct Preserver<'a> {
     in_top_level: bool,
 
     idents: Vec<Id>,
+
+    /// With `keep_classnames`, the renamer keeps the original name of a class
+    /// declaration as the inner name of a class expression. That inner name is
+    /// bound inside the class body, so no mangled binding visible there may
+    /// use it. The outer binding itself is not preserved and can still be
+    /// mangled (see #12606), so its name must be reserved separately.
+    ///
+    /// See https://github.com/swc-project/swc/issues/12770
+    kept_class_names: Vec<Atom>,
     unresolved_ctx: SyntaxContext,
 }
 
@@ -129,6 +145,8 @@ impl Visit for Preserver<'_> {
             || self.is_reserved(&n.ident)
         {
             self.preserved.insert(n.ident.to_id());
+        } else if self.options.keep_class_names {
+            self.kept_class_names.push(n.ident.sym.clone());
         }
     }
 
