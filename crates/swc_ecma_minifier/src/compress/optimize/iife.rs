@@ -1,6 +1,7 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
@@ -1331,9 +1332,24 @@ impl Optimizer<'_> {
             return None;
         }
 
-        let mut decl = DeclVisitor { count: 0 };
+        let mut decl = DeclVisitor {
+            count: 0,
+            keep_fn_names: self.options.keep_fnames
+                || self.mangle_options.is_some_and(|v| v.keep_fn_names),
+            reserved: self.mangle_options.map_or(&[], |v| &v.reserved),
+            has_preserved_fn_name: false,
+        };
 
         body.visit_with(&mut decl);
+
+        // Inlining moves function declarations into the caller's scope. If
+        // their names are preserved, two inlined IIFEs can then declare the
+        // same name in one scope, and the later declaration replaces the
+        // earlier one.
+        if decl.has_preserved_fn_name {
+            log_abort!("iife: [x] Found a function declaration with a preserved name");
+            return None;
+        }
 
         if !self.may_add_ident() && decl.count > 0 {
             return None;
@@ -1533,11 +1549,18 @@ impl Visit for ReturnVisitor {
     }
 }
 
-pub struct DeclVisitor {
+pub struct DeclVisitor<'a> {
     count: usize,
+    /// `keep_fnames` of the compressor or the mangler.
+    keep_fn_names: bool,
+    /// `reserved` of the mangler.
+    reserved: &'a [Atom],
+    /// A function declaration keeps its name because of `keep_fn_names` or
+    /// `reserved`.
+    has_preserved_fn_name: bool,
 }
 
-impl Visit for DeclVisitor {
+impl Visit for DeclVisitor<'_> {
     noop_visit_type!(fail);
 
     /// Don't recurse into constructor
@@ -1556,7 +1579,14 @@ impl Visit for DeclVisitor {
 
     fn visit_decl(&mut self, d: &Decl) {
         self.count += match d {
-            Decl::Class(_) | Decl::Fn(_) => 1,
+            Decl::Fn(f) => {
+                if self.keep_fn_names || self.reserved.contains(&f.ident.sym) {
+                    self.has_preserved_fn_name = true;
+                }
+
+                1
+            }
+            Decl::Class(_) => 1,
             Decl::Var(var_decl) => var_decl.decls.len(),
             Decl::Using(using_decl) => using_decl.decls.len(),
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => 0,
