@@ -1,0 +1,6 @@
+{
+    "jsc": {
+        "target": "es2022"
+    },
+    "isModule": false
+}

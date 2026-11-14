@@ -15,7 +15,7 @@ function foo2() {
     alert();
 }
 function foo3() {
-    var _$alert = function alert1() {};
+    var _$alert = function alert() {};
 }
 alert();
 // currently unsupported
@@ -28,7 +28,7 @@ function foo4() {
 window.alert();
 function foo5() {
     _$alert();
-    var _$alert = function alert1() {};
+    var _$alert = function alert() {};
 }
 alert(function() {
     return alert("foo");
@@ -39,7 +39,7 @@ alert(function() {
     };
 })();
 (function() {
-    alert = function alert1() {};
+    alert = function alert() {};
 })();
 (function() {
     console.log(alert);

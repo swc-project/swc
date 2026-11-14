@@ -181,6 +181,9 @@ impl Visit for AnalyzerAndCollector {
     fn visit_class_expr(&mut self, node: &ClassExpr) {
         let old_analyzer = self.analyzer.enter_block_scope();
 
+        if node.ident.is_some() {
+            self.analyzer.mark_expr_name_scope();
+        }
         self.analyzer.handle_class_expr(node);
 
         node.visit_children_with(self);
@@ -307,6 +310,7 @@ impl Visit for AnalyzerAndCollector {
     fn visit_fn_expr(&mut self, node: &FnExpr) {
         if let Some(id) = &node.ident {
             let old_analyzer0 = self.analyzer.enter_fn_scope();
+            self.analyzer.mark_expr_name_scope();
             self.analyzer.add_decl(id.to_id(), true);
             let old_analyzer1 = self.analyzer.enter_fn_scope();
             // https://github.com/swc-project/swc/issues/6819
@@ -518,6 +522,27 @@ impl Visit for AnalyzerAndCollector {
 
     fn visit_ident(&mut self, id: &Ident) {
         self.id_collector.handle_ident(id);
+    }
+
+    /// A JSX element name like `Foo` in `<Foo />` is a reference, so record it
+    /// as a usage. Otherwise a binding could be renamed to the same name and
+    /// capture it.
+    fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
+        if let JSXElementName::Ident(i) = n {
+            self.analyzer.add_usage(i.to_id());
+        }
+
+        n.visit_children_with(self);
+    }
+
+    /// The object of a JSX member expression like `Foo` in `<Foo.Bar />` is a
+    /// reference, so record it as a usage.
+    fn visit_jsx_object(&mut self, n: &JSXObject) {
+        if let JSXObject::Ident(i) = n {
+            self.analyzer.add_usage(i.to_id());
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_named_export(&mut self, node: &NamedExport) {
