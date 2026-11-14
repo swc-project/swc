@@ -988,7 +988,6 @@ impl Optimizer<'_> {
                                 return false;
                             }
                         }
-
                         _ => return false,
                     }
                 }
