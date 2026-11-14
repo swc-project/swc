@@ -79,7 +79,8 @@
 
 ## Issues
 
--   File issues found in bulk by static analysis of source code, or by similar methods, in [swc-project/swc-ai-issues](https://github.com/swc-project/swc-ai-issues). Do not file them in this repository.
+-   File an issue in [swc-project/swc](https://github.com/swc-project/swc) only for a bug that someone actually encountered in real use. The issue must describe the situation in which the bug caused a problem (for example, which project or build broke, and how).
+-   File every other bug in [swc-project/swc-ai-issues](https://github.com/swc-project/swc-ai-issues). This includes bugs found by reading source code, by static analysis, by fuzzing, or by similar methods, alone or in bulk. Do not file them in `swc-project/swc`.
 -   For each issue in `swc-project/swc-ai-issues`, set the `Priority` and `Effort` issue fields. These are GitHub issue fields of the `swc-project` organization, not labels. Set them with the `setIssueFieldValue` GraphQL mutation (for example, through `gh api graphql`).
 -   Select `Priority` by the probable impact of the bug on real users in real code. Do not select it by the theoretical severity of the bug.
     -   `Urgent`: Common code triggers the bug, and the bug silently produces incorrect output, breaks runtime behavior, or crashes SWC. No practical workaround exists.
