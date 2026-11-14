@@ -742,6 +742,15 @@ impl MacroNode for TsModuleDecl {
             emit!(self.id);
         }
 
+        // Ambient module declarations only accept the `with` keyword, so
+        // `emit_assert_for_import_attributes` is intentionally ignored here.
+        if let Some(with) = &self.with {
+            formatting_space!(emitter);
+            keyword!(emitter, "with");
+            formatting_space!(emitter);
+            emit!(with);
+        }
+
         if let Some(mut body) = self.body.as_ref() {
             while let TsNamespaceBody::TsNamespaceDecl(decl) = body {
                 punct!(emitter, ".");
@@ -750,6 +759,10 @@ impl MacroNode for TsModuleDecl {
             }
             formatting_space!(emitter);
             emit!(body);
+        } else {
+            // `declare module "foo";` needs a terminator so that the next
+            // statement is not parsed as a part of this declaration.
+            semi!(emitter);
         }
         Ok(())
     }

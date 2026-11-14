@@ -362,7 +362,7 @@ export interface TerserMangleOptions {
     reserved?: string[];
 }
 
-export interface TerserManglePropertiesOptions { }
+export interface TerserManglePropertiesOptions {}
 
 /**
  * Programmatic options.
@@ -727,8 +727,8 @@ export interface JscConfig {
          * If this option is set, `minify.format.asciiOnly` will be ignored.
          * @default 'utf8'
          */
-        charset?: 'utf8' | 'ascii';
-    }
+        charset?: "utf8" | "ascii";
+    };
 }
 
 export type JscTarget =
@@ -1090,27 +1090,27 @@ export interface ReactConfig {
      * Enable fast refresh feature for React app
      */
     refresh?:
-    | boolean
-    | {
-        /**
-         * Identifier for the `react-refresh` register function.
-         *
-         * Defaults to `$RefreshReg$`
-         */
-        refreshReg?: string;
-        /**
-         * Identifier for the `react-refresh` signature function.
-         *
-         * Defaults to `$RefreshSig$`
-         */
-        refreshSig?: string;
-        /**
-         * Flag to emit full signatures.
-         *
-         * Defaults to `false`
-         */
-        emitFullSignatures?: boolean;
-    };
+        | boolean
+        | {
+              /**
+               * Identifier for the `react-refresh` register function.
+               *
+               * Defaults to `$RefreshReg$`
+               */
+              refreshReg?: string;
+              /**
+               * Identifier for the `react-refresh` signature function.
+               *
+               * Defaults to `$RefreshSig$`
+               */
+              refreshSig?: string;
+              /**
+               * Flag to emit full signatures.
+               *
+               * Defaults to `false`
+               */
+              emitFullSignatures?: boolean;
+          };
 
     /**
      * Decides which runtime to use when transforming JSX.
@@ -1412,7 +1412,7 @@ export interface Output {
     extractedComments?: string[];
 }
 
-export interface MatchPattern { }
+export interface MatchPattern {}
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -1644,7 +1644,7 @@ export type Expression =
     | OptionalChainingExpression
     | Invalid;
 
-interface ExpressionBase extends Node, HasSpan { }
+interface ExpressionBase extends Node, HasSpan {}
 
 export interface Identifier extends ExpressionBase {
     type: "Identifier";
@@ -3025,6 +3025,12 @@ export interface TsModuleDeclaration extends Node, HasSpan {
     global: boolean;
     id: TsModuleName;
     body?: TsNamespaceBody;
+    /**
+     * Import attributes of an ambient module declaration.
+     *
+     * `declare module "*.txt" with { type: "text" } {}`
+     */
+    with?: ObjectExpression;
 }
 
 /**
