@@ -14,7 +14,7 @@ pub(crate) struct PreversedIdents {
     /// `let <mangled> = class <name> {}` because of `keep_classnames`.
     ///
     /// See [Preserver::kept_class_names].
-    pub kept_class_names: Vec<Atom>,
+    pub kept_class_names: FxHashSet<Atom>,
 }
 
 /// Returns `(preserved, unresolved)`
@@ -29,7 +29,7 @@ where
         in_top_level: false,
 
         idents: Vec::new(),
-        kept_class_names: Vec::new(),
+        kept_class_names: Default::default(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
     };
     n.visit_with(&mut v);
@@ -81,7 +81,7 @@ pub(crate) struct Preserver<'a> {
     /// mangled (see #12606), so its name must be reserved separately.
     ///
     /// See https://github.com/swc-project/swc/issues/12770
-    kept_class_names: Vec<Atom>,
+    kept_class_names: FxHashSet<Atom>,
     unresolved_ctx: SyntaxContext,
 }
 
@@ -151,7 +151,7 @@ impl Visit for Preserver<'_> {
         // are dropped from `preserved` later (#9468), and their classes are
         // still rewritten with the original name.
         if self.options.keep_class_names {
-            self.kept_class_names.push(n.ident.sym.clone());
+            self.kept_class_names.insert(n.ident.sym.clone());
         }
     }
 

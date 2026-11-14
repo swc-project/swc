@@ -20,7 +20,7 @@ pub(crate) fn mangle_names(
     program: &mut Program,
     options: &MangleOptions,
     preserved: FxHashSet<Id>,
-    kept_class_names: &[Atom],
+    kept_class_names: &FxHashSet<Atom>,
     chars: Base54Chars,
     top_level_mark: Mark,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
@@ -60,7 +60,7 @@ struct ManglingRenamer<'a> {
     /// Names that the renamer emits as inner names of kept classes. They are
     /// never assigned to another binding. See
     /// https://github.com/swc-project/swc/issues/12770
-    kept_class_names: &'a [Atom],
+    kept_class_names: &'a FxHashSet<Atom>,
     cache: Option<RenameMap>,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
     reserved: &'a Vec<Atom>,
