@@ -953,50 +953,58 @@ impl Optimizer<'_> {
     }
 
     fn can_inline_fn_stmt(&self, stmt: &Stmt, for_stmt: bool) -> bool {
-        match stmt {
-            Stmt::Decl(Decl::Var(var)) => {
-                for decl in &var.decls {
-                    for id in find_pat_ids::<_, Id>(&decl.name) {
-                        if self.ident_reserved(&id.0) {
-                            log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
-                            return false;
-                        }
-                    }
-                }
+        let can_inline_fn_stmts = |stmts: &[Stmt]| {
+            stmts
+                .iter()
+                .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt))
+        };
 
-                if matches!(
-                    &**var,
-                    VarDecl {
-                        kind: VarDeclKind::Var | VarDeclKind::Let,
-                        ..
-                    }
-                ) {
-                    for decl in &var.decls {
-                        match &decl.name {
-                            Pat::Ident(id) if id.sym == "arguments" => return false,
-                            Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.to_id()) {
-                                    log_abort!(
-                                        "iife: [x] Cannot inline because pending inline of `{}`",
-                                        id.id
-                                    );
-                                    return false;
-                                }
-                            }
-
-                            _ => return false,
-                        }
-                    }
-
-                    if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+        let check_var = |var: &VarDecl| {
+            for decl in &var.decls {
+                for id in find_pat_ids::<_, Id>(&decl.name) {
+                    if self.ident_reserved(&id.0) {
+                        log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
                         return false;
                     }
-
-                    true
-                } else {
-                    for_stmt
                 }
             }
+
+            if matches!(
+                var,
+                VarDecl {
+                    kind: VarDeclKind::Var | VarDeclKind::Let,
+                    ..
+                }
+            ) {
+                for decl in &var.decls {
+                    match &decl.name {
+                        Pat::Ident(id) if id.sym == "arguments" => return false,
+                        Pat::Ident(id) => {
+                            if self.vars.has_pending_inline_for(&id.to_id()) {
+                                log_abort!(
+                                    "iife: [x] Cannot inline because pending inline of `{}`",
+                                    id.id
+                                );
+                                return false;
+                            }
+                        }
+
+                        _ => return false,
+                    }
+                }
+
+                if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+                    return false;
+                }
+
+                true
+            } else {
+                for_stmt
+            }
+        };
+
+        match stmt {
+            Stmt::Decl(Decl::Var(var)) => check_var(var),
 
             Stmt::Expr(_) => true,
 
@@ -1006,10 +1014,7 @@ impl Optimizer<'_> {
                 }
                 _ => true,
             },
-            Stmt::Block(b) => b
-                .stmts
-                .iter()
-                .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
+            Stmt::Block(b) => can_inline_fn_stmts(&b.stmts),
             Stmt::If(i) if for_stmt => {
                 self.can_inline_fn_stmt(&i.cons, for_stmt)
                     && i.alt
@@ -1022,16 +1027,48 @@ impl Optimizer<'_> {
                 .iter()
                 .flat_map(|case| case.cons.iter())
                 .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
-            // Other statements (`try`, `do-while`, `for`, `for-in`, `for-of`, `with`,
-            // labeled statements, ...) are not inspected statement by statement, but a `var`
-            // nested in them is hoisted to the function scope just like a top-level one.
-            // If the call is executed multiple times, inlining it would make all
-            // iterations share a single binding, which is observable by closures.
-            _ => {
-                for_stmt
-                    && !(self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
-                        && contains_var_decl(stmt))
+
+            Stmt::While(WhileStmt { body, .. }) | Stmt::DoWhile(DoWhileStmt { body, .. })
+                if for_stmt =>
+            {
+                self.can_inline_fn_stmt(body, for_stmt)
             }
+
+            Stmt::Try(t) if for_stmt => {
+                can_inline_fn_stmts(&t.block.stmts)
+                    && t.handler
+                        .as_ref()
+                        .map(|h| can_inline_fn_stmts(&h.body.stmts))
+                        .unwrap_or(true)
+                    && t.finalizer
+                        .as_ref()
+                        .map(|f| can_inline_fn_stmts(&f.stmts))
+                        .unwrap_or(true)
+            }
+
+            Stmt::For(ForStmt { init, body, .. }) if for_stmt => {
+                init.as_ref()
+                    .and_then(|i| i.as_var_decl())
+                    .map(|v| check_var(v))
+                    .unwrap_or(true)
+                    && self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            Stmt::ForIn(ForInStmt { left, body, .. })
+            | Stmt::ForOf(ForOfStmt { left, body, .. })
+                if for_stmt =>
+            {
+                left.as_var_decl().map(|v| check_var(v)).unwrap_or(true)
+                    && self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            Stmt::With(WithStmt { body, .. }) | Stmt::Labeled(LabeledStmt { body, .. })
+                if for_stmt =>
+            {
+                self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            _ => for_stmt,
         }
     }
 
@@ -1577,50 +1614,6 @@ impl Visit for DeclVisitor {
     fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
         if let VarDeclOrExpr::VarDecl(v) = node {
             self.count += v.decls.len()
-        }
-    }
-}
-
-/// Returns true if `stmt` contains a `var` declaration (including the ones in
-/// `for`, `for-in` and `for-of` heads) that is hoisted to the scope of the
-/// enclosing function.
-fn contains_var_decl(stmt: &Stmt) -> bool {
-    let mut v = VarDeclFinder { found: false };
-    stmt.visit_with(&mut v);
-    v.found
-}
-
-/// Finds `var` declarations hoisted to the current function scope.
-struct VarDeclFinder {
-    found: bool,
-}
-
-impl Visit for VarDeclFinder {
-    noop_visit_type!(fail);
-
-    /// A `var` declaration cannot appear in an expression, except in a
-    /// function body, which has its own scope.
-    fn visit_expr(&mut self, _: &Expr) {}
-
-    /// Don't recurse into fn
-    fn visit_function(&mut self, _: &Function) {}
-
-    /// Don't recurse into constructor
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    /// Static blocks have their own var scope.
-    fn visit_static_block(&mut self, _: &StaticBlock) {}
-
-    fn visit_var_decl(&mut self, v: &VarDecl) {
-        if v.kind == VarDeclKind::Var {
-            self.found = true;
-        }
-    }
-
-    fn visit_stmt(&mut self, s: &Stmt) {
-        // Skip the remaining statements once a declaration is found.
-        if !self.found {
-            s.visit_children_with(self);
         }
     }
 }
