@@ -241,6 +241,12 @@ impl Scope {
     /// `{ Map: function () { return eval("Map"); } }` the name `Map`, which
     /// must not capture a global `Map`.
     ///
+    /// This check is sound only if `data.all` contains every identifier
+    /// reference in the subtree. If a new kind of reference is added to the
+    /// AST, `AnalyzerAndCollector` must record it with `add_usage`, as it does
+    /// for JSX element names. Otherwise an expression name can silently
+    /// capture it.
+    ///
     /// This is a linear scan, so call it only after a cheaper check has
     /// found a possible conflict. It must be called before the child scopes
     /// are renamed, because it reads their queues.
