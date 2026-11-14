@@ -1,5 +1,9 @@
 // `yield*` over a sync iterable wraps it in an async-from-sync iterator, so
 // `throw()` on the outer async generator must reach the sync iterator's `throw`.
+//
+// This fixture compares with native output, so it covers only behavior that
+// every supported Node.js version implements. The missing-`throw` and
+// close-on-rejection cases are in `es2017_async_to_generator.rs`.
 function* syncWithThrow() {
     try {
         yield 1;
@@ -11,73 +15,13 @@ function* syncWithThrow() {
     }
 }
 
-function syncWithoutThrow() {
-    return {
-        [Symbol.iterator]() {
-            return this;
-        },
-        next() {
-            return { value: 1, done: false };
-        },
-        return() {
-            console.log("sync return called");
-            return { done: true };
-        },
-    };
-}
-
 async function* delegate(iterable) {
     yield* iterable;
 }
 
-async function check(label, iterable) {
-    const it = delegate(iterable);
-    console.log(label, JSON.stringify(await it.next()));
-    try {
-        console.log(label, JSON.stringify(await it.throw(new Error("boom"))));
-    } catch (e) {
-        console.log(label, "rejected", e instanceof TypeError, e.message === "boom");
-    }
-    console.log(label, JSON.stringify(await it.next()));
-}
-
-// When a yielded value rejects, the sync iterator is closed before the
-// rejection reaches the async generator.
-function* yieldsRejection(fromThrow) {
-    try {
-        if (fromThrow) {
-            try {
-                yield 1;
-            } catch (e) {
-                yield Promise.reject(new Error("rejected after " + e.message));
-            }
-        } else {
-            yield Promise.reject(new Error("rejected from next"));
-        }
-    } finally {
-        console.log("rejection finally", fromThrow);
-    }
-}
-
-async function checkRejection(fromThrow) {
-    const it = delegate(yieldsRejection(fromThrow));
-    try {
-        if (fromThrow) {
-            await it.next();
-            await it.throw(new Error("boom"));
-        } else {
-            await it.next();
-        }
-    } catch (e) {
-        console.log("rejection caught", e.message);
-    }
-    console.log("rejection", JSON.stringify(await it.next()));
-}
-
 (async () => {
-    await check("with throw", syncWithThrow());
-    await check("without throw", syncWithoutThrow());
-    await check("array", [1, 2]);
-    await checkRejection(false);
-    await checkRejection(true);
+    const it = delegate(syncWithThrow());
+    console.log(JSON.stringify(await it.next()));
+    console.log(JSON.stringify(await it.throw(new Error("boom"))));
+    console.log(JSON.stringify(await it.next()));
 })();

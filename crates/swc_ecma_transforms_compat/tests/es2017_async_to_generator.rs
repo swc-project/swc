@@ -550,6 +550,139 @@ return foo().then(() => {
 "#
 );
 
+// The following `_async_iterator` cases follow the current spec, but older
+// Node.js versions (such as Node.js 20, used by CI) behave differently
+// natively. Native-output fixtures cannot cover them, so they assert the
+// expected behavior of the transformed code directly.
+
+// issue_12745_missing_throw_exec
+test_exec!(
+    syntax(),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            resolver(unresolved_mark, Mark::new(), false),
+            async_to_generator(Default::default(), unresolved_mark),
+        )
+    },
+    issue_12745_missing_throw_exec,
+    r#"
+async function* delegate(iterable) {
+  yield* iterable;
+}
+
+async function throwInto(iterable) {
+  const it = delegate(iterable);
+  await it.next();
+  try {
+    await it.throw(new Error("boom"));
+  } catch (e) {
+    return { error: e, after: await it.next() };
+  }
+  throw new Error("should not resolve");
+}
+
+// Without `throw`, the sync iterator is closed and a TypeError is thrown.
+const log = [];
+const closed = await throwInto({
+  [Symbol.iterator]() {
+    return this;
+  },
+  next() {
+    return { value: 1, done: false };
+  },
+  return() {
+    log.push("return");
+    return { done: true };
+  },
+});
+expect(closed.error).toBeInstanceOf(TypeError);
+expect(log).toEqual(["return"]);
+expect(closed.after).toEqual({ value: undefined, done: true });
+
+// Without `throw` and `return`.
+const array = await throwInto([1, 2]);
+expect(array.error).toBeInstanceOf(TypeError);
+expect(array.after).toEqual({ value: undefined, done: true });
+
+// An error from `return` replaces the TypeError.
+const closeError = new Error("close");
+const throwingReturn = await throwInto({
+  [Symbol.iterator]() {
+    return this;
+  },
+  next() {
+    return { value: 1, done: false };
+  },
+  return() {
+    throw closeError;
+  },
+});
+expect(throwingReturn.error).toBe(closeError);
+"#
+);
+
+// issue_12745_close_on_rejection_exec
+test_exec!(
+    syntax(),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            resolver(unresolved_mark, Mark::new(), false),
+            async_to_generator(Default::default(), unresolved_mark),
+        )
+    },
+    issue_12745_close_on_rejection_exec,
+    r#"
+const log = [];
+
+function* yieldsRejection(fromThrow) {
+  try {
+    if (fromThrow) {
+      try {
+        yield 1;
+      } catch (e) {
+        yield Promise.reject(new Error("after " + e.message));
+      }
+    } else {
+      yield Promise.reject(new Error("from next"));
+    }
+  } finally {
+    log.push("finally " + fromThrow);
+  }
+}
+
+async function* delegate(iterable) {
+  yield* iterable;
+}
+
+// A rejected value from `next` closes the sync iterator before rejecting.
+const fromNext = delegate(yieldsRejection(false));
+let error;
+try {
+  await fromNext.next();
+} catch (e) {
+  error = e;
+}
+expect(error.message).toBe("from next");
+expect(log).toEqual(["finally false"]);
+expect(await fromNext.next()).toEqual({ value: undefined, done: true });
+
+// A rejected value from `throw` closes the sync iterator before rejecting.
+const fromThrow = delegate(yieldsRejection(true));
+await fromThrow.next();
+error = undefined;
+try {
+  await fromThrow.throw(new Error("boom"));
+} catch (e) {
+  error = e;
+}
+expect(error.message).toBe("after boom");
+expect(log).toEqual(["finally false", "finally true"]);
+expect(await fromThrow.next()).toEqual({ value: undefined, done: true });
+"#
+);
+
 // regression_8783_exec
 test_exec!(
     syntax(),
