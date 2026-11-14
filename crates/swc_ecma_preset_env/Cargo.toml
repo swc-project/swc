@@ -59,7 +59,7 @@ serde_json      = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
-swc_ecma_codegen = { version = "33.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "33.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "47.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "51.0.2", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
