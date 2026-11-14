@@ -24,6 +24,18 @@ function f() {
             }
             vs.push(() => w);
         })();
+        (function () {
+            for (var k in { [i]: 1 });
+            vs.push(() => k);
+        })();
+        (function () {
+            for (var m = i; m < i + 1; m++);
+            vs.push(() => m);
+        })();
+        (function () {
+            with ({}) var n = i;
+            vs.push(() => n);
+        })();
     }
 }
 f();
