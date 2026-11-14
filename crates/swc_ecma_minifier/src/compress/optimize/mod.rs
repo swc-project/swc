@@ -1051,12 +1051,11 @@ impl Optimizer<'_> {
             | Expr::TsAs(_) => return Some(e.take()),
 
             Expr::Array(arr) => {
-                if arr.elems.iter().any(|e| match e {
-                    Some(ExprOrSpread {
-                        spread: Some(..), ..
-                    }) => true,
-                    _ => false,
-                }) {
+                if arr
+                    .elems
+                    .iter()
+                    .any(|e| e.as_ref().map(|e| e.spread.is_some()).unwrap_or(false))
+                {
                     return Some(
                         ArrayLit {
                             elems: arr
@@ -1108,6 +1107,30 @@ impl Optimizer<'_> {
             }
 
             Expr::Object(obj) => {
+                if obj.props.iter().any(|p| p.is_spread()) {
+                    let props = obj
+                        .props
+                        .take()
+                        .into_iter()
+                        .filter_map(|p| match p {
+                            PropOrSpread::Spread(..) => Some(p),
+                            PropOrSpread::Prop(prop) => match *prop {
+                                Prop::Shorthand(_) => None,
+                                _ => Some(prop.into()),
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
+                            },
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
+                        })
+                        .collect();
+
+                    return Some(Expr::Object(ObjectLit {
+                        span: obj.span,
+                        props,
+                    }));
+                }
+
                 let mut exprs = Vec::new();
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an object literal");
@@ -1119,15 +1142,15 @@ impl Optimizer<'_> {
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::KeyValue(KeyValueProp { key, mut value, .. }) => {
                                 match key {
-                                    PropName::Ident(_) => {}
-                                    PropName::Str(_) => {}
-                                    PropName::Num(_) => {}
+                                    PropName::Ident(_)
+                                    | PropName::Str(_)
+                                    | PropName::Num(_)
+                                    | PropName::BigInt(_) => {}
                                     PropName::Computed(mut key) => {
                                         exprs.extend(
                                             self.ignore_return_value(&mut key.expr).map(Box::new),
                                         );
                                     }
-                                    PropName::BigInt(_) => {}
                                     #[cfg(swc_ast_unknown)]
                                     _ => panic!("unable to access unknown nodes"),
                                 }
@@ -1137,15 +1160,15 @@ impl Optimizer<'_> {
                             Prop::Getter(GetterProp { key, .. })
                             | Prop::Setter(SetterProp { key, .. })
                             | Prop::Method(MethodProp { key, .. }) => match key {
-                                PropName::Ident(_) => {}
-                                PropName::Str(_) => {}
-                                PropName::Num(_) => {}
+                                PropName::Ident(_)
+                                | PropName::Str(_)
+                                | PropName::Num(_)
+                                | PropName::BigInt(_) => {}
                                 PropName::Computed(mut key) => {
                                     exprs.extend(
                                         self.ignore_return_value(&mut key.expr).map(Box::new),
                                     );
                                 }
-                                PropName::BigInt(_) => {}
                                 #[cfg(swc_ast_unknown)]
                                 _ => panic!("unable to access unknown nodes"),
                             },
@@ -2265,23 +2288,15 @@ impl VisitMut for Optimizer<'_> {
             #[cfg(feature = "debug")]
             let start = dump(&n.expr, true);
 
-            // Fix https://github.com/swc-project/swc/issues/6422
-            let is_object_lit_with_spread = n
-                .expr
-                .as_object()
-                .map(|object_lit| object_lit.props.iter().any(|prop| prop.is_spread()))
-                .unwrap_or(false);
+            let expr = self.ignore_return_value(&mut n.expr);
+            n.expr = expr.map(Box::new).unwrap_or_else(|| {
+                report_change!("visit_mut_expr_stmt: Dropped an expression statement");
 
-            if !is_object_lit_with_spread {
-                let expr = self.ignore_return_value(&mut n.expr);
-                n.expr = expr.map(Box::new).unwrap_or_else(|| {
-                    report_change!("visit_mut_expr_stmt: Dropped an expression statement");
-                    #[cfg(feature = "debug")]
-                    dump_change_detail!("Removed {}", start);
+                #[cfg(feature = "debug")]
+                dump_change_detail!("Removed {}", start);
 
-                    Expr::undefined(DUMMY_SP)
-                });
-            }
+                Expr::undefined(DUMMY_SP)
+            });
         }
 
         self.normalize_expr(&mut n.expr);
