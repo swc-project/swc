@@ -988,7 +988,8 @@ impl Optimizer<'_> {
                                 return false;
                             }
                         }
-
+                        Pat::Object(o) if o.props.is_empty() => (),
+                        Pat::Array(a) if a.elems.is_empty() => (),
                         _ => return false,
                     }
                 }
