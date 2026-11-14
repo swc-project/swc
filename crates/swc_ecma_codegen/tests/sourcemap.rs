@@ -4,7 +4,7 @@ use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{
-    comments::SingleThreadedComments, source_map::SourceMapGenConfig, FileName, Spanned,
+    comments::SingleThreadedComments, source_map::SourceMapGenConfig, FileName, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::{BlockStmt, Decl, EsVersion, Expr, ParenExpr, Script, Stmt};
 use swc_ecma_codegen::{
@@ -645,6 +645,28 @@ fn issue_12775_synthesized_block() {
         let (code, map) = emit_with_source_map(&src, |script| {
             let block = if_block(script);
             block.span = block.stmts[0].span();
+        });
+        assert_eq!(src_of(&code, &map, '}'), (0, 23), "{code}");
+    }
+}
+
+/// https://github.com/swc-project/swc/issues/12775
+///
+/// The minifier can create a fake block with the span of a statement in it,
+/// and append statements with other spans after that statement. Its `}` maps
+/// to the end of that statement, not to its last byte, which can be inside a
+/// multi-byte char.
+#[test]
+fn issue_12775_synthesized_block_with_appended_stmt() {
+    for operand in ["ε", "a"] {
+        let src = format!("if (a) {{ if (b) throw {operand}\nc() }} else y();");
+        let (code, map) = emit_with_source_map(&src, |script| {
+            let block = if_block(script);
+            block.span = block.stmts[0].span();
+            let Stmt::Expr(appended) = &mut block.stmts[1] else {
+                unreachable!()
+            };
+            appended.span = DUMMY_SP;
         });
         assert_eq!(src_of(&code, &map, '}'), (0, 23), "{code}");
     }

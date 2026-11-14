@@ -972,17 +972,23 @@ where
 
         self.emit_leading_comments_of_span(span, true)?;
 
-        // A block from the parser ends with `}` after its last statement, so
-        // `span.hi - 1` is its `}`. `fixer` can wrap a statement in a block
-        // that reuses the span of the statement. Then `span.hi - 1` is a byte
-        // of that statement, and it can point into a multi-byte char. Map `}`
-        // of those blocks to `span.hi`, which is always a char boundary.
+        // A block from the parser ends with `}` after all of its statements,
+        // so `span.hi - 1` is its `}`. Some passes create a block that reuses
+        // the span of a statement in it: `fixer` wraps an `if` consequent or a
+        // function declaration, and the minifier creates a fake block that
+        // can also hold statements before and after that statement. Then
+        // `span.hi - 1` is a byte of that statement, and it can point into a
+        // multi-byte char. Map `}` of those blocks to `span.hi`, which is
+        // always a char boundary.
         //
-        // A statement with a dummy span gives no information, so the block is
-        // treated as a parsed one.
-        let ends_after_stmts = stmts.last().map_or(true, |last| {
-            let last = last.span();
-            last.is_dummy() || last.hi < span.hi
+        // This is a heuristic on spans only. Statements with dummy spans give
+        // no information, so a block that holds only those is treated as a
+        // parsed one. A parsed block that receives a statement moved from
+        // later in the file is treated as synthesized, so its `}` maps one
+        // char after the source `}`.
+        let ends_after_stmts = !stmts.iter().any(|stmt| {
+            let stmt = stmt.span();
+            !stmt.is_dummy() && stmt.hi >= span.hi
         });
         if ends_after_stmts {
             srcmap!(self, span, false, true);
@@ -2584,11 +2590,16 @@ impl MacroNode for ParenExpr {
         // A paren from the parser strictly encloses the wrapped expression, so
         // `span.hi - 1` is its `)`. Parens synthesized by passes such as
         // `fixer` or `wrap_with_paren` reuse the span of the wrapped
-        // expression (or keep it after the expression is replaced). Then
-        // `span.hi - 1` is a byte of that expression, and it can point into a
-        // multi-byte char. Map `)` of those parens to `span.hi`, which is
-        // always a char boundary and is the source `)` when `paren_remover`
-        // removed the original parens.
+        // expression. Then `span.hi - 1` is a byte of that expression, and it
+        // can point into a multi-byte char. Map `)` of those parens to
+        // `span.hi`, which is always a char boundary and is the source `)`
+        // when `paren_remover` removed the original parens.
+        //
+        // This is a heuristic on spans only. A wrapped expression with a dummy
+        // span gives no information, so the paren is treated as synthesized,
+        // and its `)` maps one char after the source `)` if it was parsed.
+        // A synthesized paren whose wrapped expression was later replaced by
+        // a node strictly inside the copied span is not detected.
         let expr_span = self.expr.span();
         if self.span.lo < expr_span.lo && expr_span.hi < self.span.hi {
             srcmap!(emitter, self, false, true);
