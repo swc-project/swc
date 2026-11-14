@@ -18,6 +18,17 @@ and unexpected behavior.
 
 You can open a new issue by following [this link][new-issues] and choosing one of the issue templates.
 
+### Where to file a bug
+
+-   File a bug in [swc-project/swc][issue-tracker] only if you actually
+    encountered it in real use. In the issue, describe the situation in which
+    the bug caused a problem. For example, tell us which project or build
+    broke, what you tried to do, and what went wrong.
+-   If you found a bug but did not encounter it in real use (for example, you
+    found it by reading the source code, by static analysis, by fuzzing, or
+    with an AI tool), file it in
+    [swc-project/swc-ai-issues][ai-issues] instead.
+
 ## Feature requests
 
 Please feel free to open an issue using the [feature request template][new-issues].
@@ -272,6 +283,7 @@ adding labels to triage issues:
 
 [gist]: https://gist.github.com/
 [new-issues]: https://github.com/swc-project/swc/issues/new/choose
+[ai-issues]: https://github.com/swc-project/swc-ai-issues
 [e-easy]: https://github.com/swc-project/swc/labels/E-easy
 [e-mentor]: https://github.com/swc-project/swc/labels/E-mentor
 [code of conduct]: https://www.rust-lang.org/conduct.html

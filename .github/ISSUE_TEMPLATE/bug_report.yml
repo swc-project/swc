@@ -12,6 +12,16 @@ body:
 
         Note that if you do not provide a minimal reproduction, the issue will be closed because the team cannot work on it.
         Please read https://antfu.me/posts/why-reproductions-are-required for details.
+
+        File an issue here only for a bug that you actually encountered in real use.
+        If you found a bug without encountering it (for example, by reading the source code, by static analysis, or with an AI tool), file it in https://github.com/swc-project/swc-ai-issues instead.
+    validations:
+      required: true
+  - type: textarea
+    id: encountered-situation
+    attributes:
+      label: How did you encounter this bug?
+      description: Describe the real situation in which this bug caused a problem. For example, tell us which project or build broke, what you tried to do, and what went wrong.
     validations:
       required: true
   - type: textarea
