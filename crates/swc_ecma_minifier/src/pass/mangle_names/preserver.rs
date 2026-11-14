@@ -77,7 +77,7 @@ pub(crate) struct Preserver<'a> {
     /// With `keep_classnames`, the renamer keeps the original name of a class
     /// declaration as the inner name of a class expression. That inner name is
     /// bound inside the class body, so no mangled binding visible there may
-    /// use it. The outer binding itself is not preserved and can still be
+    /// use it. The outer binding is usually not preserved and can still be
     /// mangled (see #12606), so its name must be reserved separately.
     ///
     /// See https://github.com/swc-project/swc/issues/12770
@@ -145,7 +145,12 @@ impl Visit for Preserver<'_> {
             || self.is_reserved(&n.ident)
         {
             self.preserved.insert(n.ident.to_id());
-        } else if self.options.keep_class_names {
+        }
+
+        // Record the name even if the Id was preserved above: synthesized Ids
+        // are dropped from `preserved` later (#9468), and their classes are
+        // still rewritten with the original name.
+        if self.options.keep_class_names {
             self.kept_class_names.push(n.ident.sym.clone());
         }
     }
