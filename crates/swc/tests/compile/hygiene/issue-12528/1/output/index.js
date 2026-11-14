@@ -8,3 +8,10 @@ var NativeSet = Set;
 var SetPolyfill = function Set(iterable) {
     if (!_instanceof._(this, Set)) return new Set(iterable);
 };
+// A direct `eval` can refer to the global `Map` through a string, so the name
+// that `function_name` infers must not be `Map`.
+var obj = {
+    Map: function Map1() {
+        return eval("Map");
+    }
+};

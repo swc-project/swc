@@ -1036,6 +1036,29 @@ fn issue_12528_fn_expr_renamed_for_inner_global() {
     );
 }
 
+/// A direct `eval` inside a function expression can refer to any name, so the
+/// function is renamed if its name is an unresolved name.
+#[test]
+fn issue_12528_fn_expr_renamed_for_inner_eval() {
+    test(
+        |tester| {
+            let global_mark = Mark::fresh(Mark::root());
+            let fn_mark = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "var a = Map, b = function Map() { return eval('Map'); };",
+                )?
+                .fold_with(&mut OnceMarker::new(&[
+                    ("Map", &[global_mark, fn_mark]),
+                    ("eval", &[global_mark]),
+                ]))])
+        },
+        "var a = Map, b = function Map1() { return eval('Map'); };",
+    );
+}
+
 /// Bindings declared inside a function expression get their names later and
 /// are renamed if they would capture the function, so they do not force a
 /// rename of the function itself.

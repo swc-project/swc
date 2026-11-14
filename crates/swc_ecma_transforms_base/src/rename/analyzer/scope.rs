@@ -235,6 +235,12 @@ impl Scope {
     /// capturing the binding of this scope. A preserved binding keeps its
     /// name, so it is always treated as a conflict.
     ///
+    /// If this scope or a child scope uses `eval`, this always returns `true`.
+    /// A direct `eval` can refer to any name through a string, which
+    /// `data.all` cannot record. For example, `function_name` gives
+    /// `{ Map: function () { return eval("Map"); } }` the name `Map`, which
+    /// must not capture a global `Map`.
+    ///
     /// This is a linear scan, so call it only after a cheaper check has
     /// found a possible conflict. It must be called before the child scopes
     /// are renamed, because it reads their queues.
@@ -249,11 +255,12 @@ impl Scope {
         R: Renamer,
     {
         self.data.all.iter().any(|used| {
-            used.0 == *symbol
-                && used != except
-                && (preserved.contains(used)
-                    || renamer.preserve_name(used)
-                    || !self.children.iter().any(|child| child.declares(used)))
+            used.0 == "eval"
+                || (used.0 == *symbol
+                    && used != except
+                    && (preserved.contains(used)
+                        || renamer.preserve_name(used)
+                        || !self.children.iter().any(|child| child.declares(used))))
         })
     }
 
