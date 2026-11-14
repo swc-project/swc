@@ -242,12 +242,18 @@ where
                 .extend(self.preserved.iter().map(|v| v.0.clone()));
         }
 
-        {
-            let extra_unresolved = self.renamer.unresolved_symbols();
+        // Names that the renamer must never assign. They are also added to
+        // `unresolved`, but normal mode needs them separately, because it
+        // allows the own name of a function or class expression to reuse an
+        // unresolved name. See #12528.
+        let reserved = self
+            .renamer
+            .unresolved_symbols()
+            .into_iter()
+            .collect::<FxHashSet<_>>();
 
-            if !extra_unresolved.is_empty() {
-                unresolved.to_mut().extend(extra_unresolved);
-            }
+        if !reserved.is_empty() {
+            unresolved.to_mut().extend(reserved.iter().cloned());
         }
 
         // When `eval` is present, per-unit maps must avoid the names already
@@ -281,6 +287,7 @@ where
                 &mut Default::default(),
                 &self.preserved,
                 &unresolved,
+                &reserved,
             );
         }
 

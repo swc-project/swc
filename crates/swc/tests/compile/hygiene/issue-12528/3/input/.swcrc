@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        },
+        "target": "es5",
+        "transform": {
+            "react": {
+                "runtime": "preserve"
+            }
+        }
+    },
+    "isModule": false
+}

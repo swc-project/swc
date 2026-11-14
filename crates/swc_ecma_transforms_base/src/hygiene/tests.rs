@@ -1036,6 +1036,75 @@ fn issue_12528_fn_expr_renamed_for_inner_global() {
     );
 }
 
+/// Bindings declared inside a function expression get their names later and
+/// are renamed if they would capture the function, so they do not force a
+/// rename of the function itself.
+#[test]
+fn issue_12528_fn_expr_ignores_inner_bindings() {
+    test(
+        |tester| {
+            let global_mark = Mark::fresh(Mark::root());
+            let outer_mark = Mark::fresh(Mark::root());
+            let param_mark = Mark::fresh(Mark::root());
+            let inner_mark = Mark::fresh(Mark::root());
+
+            Ok(vec![tester
+                .parse_stmt(
+                    "actual1.js",
+                    "var a = Map, b = function Map(Map) { return function Map() {}; };",
+                )?
+                .fold_with(&mut OnceMarker::new(&[(
+                    "Map",
+                    &[global_mark, outer_mark, param_mark, inner_mark],
+                )]))])
+        },
+        "var a = Map, b = function Map(Map1) { return function Map() {}; };",
+    );
+}
+
+/// Names from [`Renamer::unresolved_symbols`] are never assigned, even to the
+/// own name of a function expression.
+#[test]
+fn issue_12528_fn_expr_respects_renamer_unresolved_symbols() {
+    struct ReservingRenamer;
+
+    impl Renamer for ReservingRenamer {
+        type Target = Atom;
+
+        const MANGLE: bool = false;
+        const RESET_N: bool = true;
+
+        fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom {
+            HygieneRenamer.new_name_for(orig, n)
+        }
+
+        fn unresolved_symbols(&self) -> Vec<Atom> {
+            vec![atom!("Map")]
+        }
+    }
+
+    crate::tests::Tester::run(|tester| {
+        let mark = Mark::fresh(Mark::root());
+
+        let mut program = Program::Script(Script {
+            span: DUMMY_SP,
+            body: vec![tester
+                .parse_stmt("actual1.js", "var b = function Map() { return Map; };")?
+                .fold_with(&mut marker(&[("Map", mark)]))],
+            shebang: None,
+        });
+
+        program.visit_mut_with(&mut renamer(Default::default(), ReservingRenamer));
+
+        assert_eq!(
+            tester.print(&program).trim(),
+            "var b = function Map1() {\n    return Map1;\n};"
+        );
+
+        Ok(())
+    });
+}
+
 /// The same rules apply to the own name of a class expression.
 #[test]
 fn issue_12528_class_expr() {

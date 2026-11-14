@@ -31,7 +31,7 @@ pub(crate) struct Scope {
     ///
     /// That name is visible only inside the expression, so an unresolved
     /// identifier with the same name can conflict with it only if this scope
-    /// uses it. See [`Scope::uses_symbol`].
+    /// uses it. See [`Scope::captures_kept_name`].
     pub(super) is_expr_name: bool,
 
     pub(super) children: Vec<Scope>,
@@ -107,6 +107,9 @@ impl Scope {
         });
     }
 
+    /// `reserved_symbols` are names that must never be assigned, even to the
+    /// own name of a function or class expression. They are the names from
+    /// [`Renamer::unresolved_symbols`].
     pub(crate) fn rename_in_normal_mode<R, V>(
         &mut self,
         renamer: &R,
@@ -115,6 +118,7 @@ impl Scope {
         reverse: &mut ReverseMap,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
+        reserved_symbols: &FxHashSet<Atom>,
     ) where
         R: Renamer,
         V: RenamedVariable,
@@ -131,6 +135,7 @@ impl Scope {
             queue,
             preserved,
             preserved_symbols,
+            reserved_symbols,
         );
 
         for child in &mut self.children {
@@ -141,6 +146,7 @@ impl Scope {
                 reverse,
                 preserved,
                 preserved_symbols,
+                reserved_symbols,
             );
         }
     }
@@ -154,6 +160,7 @@ impl Scope {
         queue: FxIndexSet<Id>,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
+        reserved_symbols: &FxHashSet<Atom>,
     ) where
         R: Renamer,
         V: RenamedVariable,
@@ -182,14 +189,17 @@ impl Scope {
                 //
                 // The own name of a function or class expression cannot capture
                 // a reference outside of the expression, so a preserved symbol
-                // conflicts with it only if the expression uses that symbol.
+                // conflicts with it only if the expression uses an identifier
+                // with that symbol that keeps its name.
                 //
                 // This is safe only in normal mode. In mangle mode,
                 // `preserved_symbols` also contains names assigned to other
                 // bindings, and those bindings are stored in `data.all` with
                 // their original symbols.
                 if (preserved_symbols.contains(&sym)
-                    && (!self.is_expr_name || self.uses_symbol(&sym, &id)))
+                    && (!self.is_expr_name
+                        || reserved_symbols.contains(&sym)
+                        || self.captures_kept_name(renamer, &sym, &id, preserved)))
                     || self.data.reserved_output_symbols.contains(&sym)
                 {
                     continue;
@@ -215,16 +225,41 @@ impl Scope {
         }
     }
 
-    /// Returns `true` if this scope or a child scope uses an identifier
-    /// named `symbol`, other than `except`.
+    /// Returns `true` if a binding of this scope named `symbol` would capture
+    /// an identifier that keeps its name.
+    ///
+    /// Such an identifier is an identifier named `symbol`, other than
+    /// `except`, that this scope or a child scope uses, and that is not a
+    /// binding declared in a child scope. A binding declared in a child
+    /// scope gets its name later, and [`Scope::can_rename`] prevents it from
+    /// capturing the binding of this scope. A preserved binding keeps its
+    /// name, so it is always treated as a conflict.
     ///
     /// This is a linear scan, so call it only after a cheaper check has
-    /// found a possible conflict.
-    fn uses_symbol(&self, symbol: &Atom, except: &Id) -> bool {
-        self.data
-            .all
-            .iter()
-            .any(|used| used.0 == *symbol && used != except)
+    /// found a possible conflict. It must be called before the child scopes
+    /// are renamed, because it reads their queues.
+    fn captures_kept_name<R>(
+        &self,
+        renamer: &R,
+        symbol: &Atom,
+        except: &Id,
+        preserved: &FxHashSet<Id>,
+    ) -> bool
+    where
+        R: Renamer,
+    {
+        self.data.all.iter().any(|used| {
+            used.0 == *symbol
+                && used != except
+                && (preserved.contains(used)
+                    || renamer.preserve_name(used)
+                    || !self.children.iter().any(|child| child.declares(used)))
+        })
+    }
+
+    /// Returns `true` if this scope or a child scope will rename `id`.
+    fn declares(&self, id: &Id) -> bool {
+        self.data.queue.contains(id) || self.children.iter().any(|child| child.declares(id))
     }
 
     fn can_rename(&self, id: &Id, symbol: &Atom, reverse: &ReverseMap) -> bool {

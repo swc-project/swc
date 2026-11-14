@@ -524,6 +524,27 @@ impl Visit for AnalyzerAndCollector {
         self.id_collector.handle_ident(id);
     }
 
+    /// A JSX element name like `Foo` in `<Foo />` is a reference, so record it
+    /// as a usage. Otherwise a binding could be renamed to the same name and
+    /// capture it.
+    fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
+        if let JSXElementName::Ident(i) = n {
+            self.analyzer.add_usage(i.to_id());
+        }
+
+        n.visit_children_with(self);
+    }
+
+    /// The object of a JSX member expression like `Foo` in `<Foo.Bar />` is a
+    /// reference, so record it as a usage.
+    fn visit_jsx_object(&mut self, n: &JSXObject) {
+        if let JSXObject::Ident(i) = n {
+            self.analyzer.add_usage(i.to_id());
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_named_export(&mut self, node: &NamedExport) {
         let old_id_collector_stopped = self.id_collector.stopped;
         if node.src.is_some() {
