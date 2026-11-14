@@ -34,9 +34,23 @@ function AsyncFromSyncIterator(s) {
                 return void 0 === ret ? Promise.resolve({ value: value, done: !0 }) : AsyncFromSyncIteratorContinuation(ret.apply(this.s, arguments));
             },
             throw: function(value) {
-                var thr = this.s.return;
+                var thr = this.s.throw;
 
-                return void 0 === thr ? Promise.reject(value) : AsyncFromSyncIteratorContinuation(thr.apply(this.s, arguments));
+                if (null == thr) {
+                    // The sync iterator cannot handle `throw`, so close it before rejecting,
+                    // as `%AsyncFromSyncIteratorPrototype%.throw` does.
+                    var ret = this.s.return;
+
+                    if (null != ret) {
+                        var r = ret.call(this.s);
+
+                        if (Object(r) !== r) return Promise.reject(new TypeError(r + " is not an object."));
+                    }
+
+                    return Promise.reject(new TypeError("The iterator does not provide a 'throw' method"));
+                }
+
+                return AsyncFromSyncIteratorContinuation(thr.apply(this.s, arguments));
             }
         },
         new AsyncFromSyncIterator(s);
