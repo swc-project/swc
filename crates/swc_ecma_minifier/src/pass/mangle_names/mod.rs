@@ -20,6 +20,7 @@ pub(crate) fn mangle_names(
     program: &mut Program,
     options: &MangleOptions,
     preserved: FxHashSet<Id>,
+    kept_class_names: &FxHashSet<Atom>,
     chars: Base54Chars,
     top_level_mark: Mark,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
@@ -45,6 +46,7 @@ pub(crate) fn mangle_names(
         ManglingRenamer {
             chars,
             preserved: &preserved,
+            kept_class_names,
             cache,
             mangle_name_cache,
             reserved: &options.reserved,
@@ -55,6 +57,10 @@ pub(crate) fn mangle_names(
 struct ManglingRenamer<'a> {
     chars: Base54Chars,
     preserved: &'a FxHashSet<Id>,
+    /// Names that the renamer emits as inner names of kept classes. They are
+    /// never assigned to another binding. See
+    /// https://github.com/swc-project/swc/issues/12770
+    kept_class_names: &'a FxHashSet<Atom>,
     cache: Option<RenameMap>,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
     reserved: &'a Vec<Atom>,
@@ -85,6 +91,7 @@ impl<'a> Renamer for ManglingRenamer<'a> {
             .iter()
             .cloned()
             .chain(self.preserved.iter().map(|id| id.0.clone()))
+            .chain(self.kept_class_names.iter().cloned())
             .collect()
     }
 
