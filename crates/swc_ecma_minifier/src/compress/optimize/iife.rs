@@ -1584,45 +1584,49 @@ impl Visit for DeclVisitor {
 /// Returns true if `stmt` contains a `var` declaration (including the ones in
 /// `for`, `for-in` and `for-of` heads) that is hoisted to the scope of the
 /// enclosing function.
+///
+/// A `var` declaration can only appear in a statement position or in a loop
+/// head. An expression cannot contain one, except in a function body or a class
+/// static block, which have their own var scope. So walking the statement tree
+/// is enough, and a visitor is not needed.
 fn contains_var_decl(stmt: &Stmt) -> bool {
-    let mut v = VarDeclFinder { found: false };
-    stmt.visit_with(&mut v);
-    v.found
+    match stmt {
+        Stmt::Decl(Decl::Var(v)) => v.kind == VarDeclKind::Var,
+        Stmt::Block(b) => b.stmts.iter().any(contains_var_decl),
+        Stmt::If(i) => {
+            contains_var_decl(&i.cons) || i.alt.as_deref().is_some_and(contains_var_decl)
+        }
+        Stmt::Switch(s) => s
+            .cases
+            .iter()
+            .flat_map(|case| case.cons.iter())
+            .any(contains_var_decl),
+        Stmt::Try(t) => {
+            t.block.stmts.iter().any(contains_var_decl)
+                || t.handler
+                    .as_ref()
+                    .is_some_and(|h| h.body.stmts.iter().any(contains_var_decl))
+                || t.finalizer
+                    .as_ref()
+                    .is_some_and(|f| f.stmts.iter().any(contains_var_decl))
+        }
+        Stmt::While(w) => contains_var_decl(&w.body),
+        Stmt::DoWhile(d) => contains_var_decl(&d.body),
+        Stmt::For(f) => {
+            matches!(&f.init, Some(VarDeclOrExpr::VarDecl(v)) if v.kind == VarDeclKind::Var)
+                || contains_var_decl(&f.body)
+        }
+        Stmt::ForIn(f) => is_var_for_head(&f.left) || contains_var_decl(&f.body),
+        Stmt::ForOf(f) => is_var_for_head(&f.left) || contains_var_decl(&f.body),
+        Stmt::Labeled(l) => contains_var_decl(&l.body),
+        Stmt::With(w) => contains_var_decl(&w.body),
+        _ => false,
+    }
 }
 
-/// Finds `var` declarations hoisted to the current function scope.
-struct VarDeclFinder {
-    found: bool,
-}
-
-impl Visit for VarDeclFinder {
-    noop_visit_type!(fail);
-
-    /// A `var` declaration cannot appear in an expression, except in a
-    /// function body, which has its own scope.
-    fn visit_expr(&mut self, _: &Expr) {}
-
-    /// Don't recurse into fn
-    fn visit_function(&mut self, _: &Function) {}
-
-    /// Don't recurse into constructor
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    /// Static blocks have their own var scope.
-    fn visit_static_block(&mut self, _: &StaticBlock) {}
-
-    fn visit_var_decl(&mut self, v: &VarDecl) {
-        if v.kind == VarDeclKind::Var {
-            self.found = true;
-        }
-    }
-
-    fn visit_stmt(&mut self, s: &Stmt) {
-        // Skip the remaining statements once a declaration is found.
-        if !self.found {
-            s.visit_children_with(self);
-        }
-    }
+/// Returns true if `head` declares a `var`.
+fn is_var_for_head(head: &ForHead) -> bool {
+    matches!(head, ForHead::VarDecl(v) if v.kind == VarDeclKind::Var)
 }
 
 /// Enhanced IIFE invocation for sequence expressions
