@@ -41,8 +41,43 @@ async function check(label, iterable) {
     console.log(label, JSON.stringify(await it.next()));
 }
 
+// When a yielded value rejects, the sync iterator is closed before the
+// rejection reaches the async generator.
+function* yieldsRejection(fromThrow) {
+    try {
+        if (fromThrow) {
+            try {
+                yield 1;
+            } catch (e) {
+                yield Promise.reject(new Error("rejected after " + e.message));
+            }
+        } else {
+            yield Promise.reject(new Error("rejected from next"));
+        }
+    } finally {
+        console.log("rejection finally", fromThrow);
+    }
+}
+
+async function checkRejection(fromThrow) {
+    const it = delegate(yieldsRejection(fromThrow));
+    try {
+        if (fromThrow) {
+            await it.next();
+            await it.throw(new Error("boom"));
+        } else {
+            await it.next();
+        }
+    } catch (e) {
+        console.log("rejection caught", e.message);
+    }
+    console.log("rejection", JSON.stringify(await it.next()));
+}
+
 (async () => {
     await check("with throw", syncWithThrow());
     await check("without throw", syncWithoutThrow());
     await check("array", [1, 2]);
+    await checkRejection(false);
+    await checkRejection(true);
 })();

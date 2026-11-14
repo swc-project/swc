@@ -8,7 +8,7 @@ function _async_iterator(iterable) {
     throw new TypeError("Object is not async iterable");
 }
 function AsyncFromSyncIterator(s) {
-    function AsyncFromSyncIteratorContinuation(r) {
+    function AsyncFromSyncIteratorContinuation(r, s) {
         if (Object(r) !== r) return Promise.reject(new TypeError(r + " is not an object."));
         var done = r.done;
         return Promise.resolve(r.value).then(function(value) {
@@ -16,6 +16,12 @@ function AsyncFromSyncIterator(s) {
                 value: value,
                 done: done
             };
+        }, done || !s ? void 0 : function(error) {
+            try {
+                var ret = s.return;
+                if (null != ret) ret.call(s);
+            } catch (e) {}
+            throw error;
         });
     }
     return AsyncFromSyncIterator = function(s) {
@@ -24,7 +30,7 @@ function AsyncFromSyncIterator(s) {
         s: null,
         n: null,
         next: function() {
-            return AsyncFromSyncIteratorContinuation(this.n.apply(this.s, arguments));
+            return AsyncFromSyncIteratorContinuation(this.n.apply(this.s, arguments), this.s);
         },
         return: function(value) {
             var ret = this.s.return;
@@ -43,7 +49,7 @@ function AsyncFromSyncIterator(s) {
                 }
                 return Promise.reject(new TypeError("The iterator does not provide a 'throw' method"));
             }
-            return AsyncFromSyncIteratorContinuation(thr.apply(this.s, arguments));
+            return AsyncFromSyncIteratorContinuation(thr.apply(this.s, arguments), this.s);
         }
     }, new AsyncFromSyncIterator(s);
 }
