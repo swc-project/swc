@@ -43,7 +43,7 @@ function AsyncFromSyncIterator(s) {
                 return void 0 === ret ? Promise.resolve({ value: value, done: !0 }) : AsyncFromSyncIteratorContinuation(ret.apply(this.s, arguments));
             },
             throw: function(value) {
-                var thr = this.s.return;
+                var thr = this.s.throw;
 
                 return void 0 === thr ? Promise.reject(value) : AsyncFromSyncIteratorContinuation(thr.apply(this.s, arguments));
             }
