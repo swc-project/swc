@@ -1337,17 +1337,18 @@ impl Optimizer<'_> {
             keep_fn_names: self.options.keep_fnames
                 || self.mangle_options.is_some_and(|v| v.keep_fn_names),
             reserved: self.mangle_options.map_or(&[], |v| &v.reserved),
-            has_preserved_fn_name: false,
+            has_preserved_name: false,
         };
 
         body.visit_with(&mut decl);
 
-        // Inlining moves function declarations into the caller's scope. If
-        // their names are preserved, two inlined IIFEs can then declare the
-        // same name in one scope, and the later declaration replaces the
-        // earlier one.
-        if decl.has_preserved_fn_name {
-            log_abort!("iife: [x] Found a function declaration with a preserved name");
+        // Inlining moves function and class declarations into the caller's
+        // scope. If their names are preserved, two inlined IIFEs can then
+        // declare the same name in one scope. A later function declaration
+        // replaces the earlier one, and a second class declaration is a
+        // syntax error.
+        if decl.has_preserved_name {
+            log_abort!("iife: [x] Found a declaration with a preserved name");
             return None;
         }
 
@@ -1556,8 +1557,12 @@ pub struct DeclVisitor<'a> {
     /// `reserved` of the mangler.
     reserved: &'a [Atom],
     /// A function declaration keeps its name because of `keep_fn_names` or
+    /// `reserved`, or a class declaration keeps its name because of
     /// `reserved`.
-    has_preserved_fn_name: bool,
+    ///
+    /// `keep_classnames` is not checked: the renamer can still rename the
+    /// binding of a class and keep the name with a named class expression.
+    has_preserved_name: bool,
 }
 
 impl Visit for DeclVisitor<'_> {
@@ -1581,12 +1586,18 @@ impl Visit for DeclVisitor<'_> {
         self.count += match d {
             Decl::Fn(f) => {
                 if self.keep_fn_names || self.reserved.contains(&f.ident.sym) {
-                    self.has_preserved_fn_name = true;
+                    self.has_preserved_name = true;
                 }
 
                 1
             }
-            Decl::Class(_) => 1,
+            Decl::Class(c) => {
+                if self.reserved.contains(&c.ident.sym) {
+                    self.has_preserved_name = true;
+                }
+
+                1
+            }
             Decl::Var(var_decl) => var_decl.decls.len(),
             Decl::Using(using_decl) => using_decl.decls.len(),
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => 0,
