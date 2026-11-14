@@ -1,0 +1,17 @@
+{
+  "mappings": "AAAA,IAAIA,EAAI,AAACC,CAAAA,EAAIC,GAAK,EAClB,IAAIC,EAAI,AAACF,CAAAA,EAAIG,GAAK",
+  "names": [
+    "y",
+    "x",
+    "ε",
+    "z",
+    "a"
+  ],
+  "sources": [
+    "$DIR/tests/minify/issue-12775/input.js"
+  ],
+  "sourcesContent": [
+    "let y = (x - ε) * 2;\nlet z = (x - a) * 2;\n"
+  ],
+  "version": 3
+}

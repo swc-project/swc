@@ -2565,7 +2565,13 @@ impl MacroNode for ParenExpr {
         punct!(emitter, "(");
         emit!(self.expr);
 
-        srcmap!(emitter, self, false, true);
+        // Parens synthesized by passes such as `fixer` reuse the span of the
+        // wrapped expression. Then `span.hi - 1` is the last byte of that
+        // expression, not a `)`, and it can point into a multi-byte char.
+        // Map `)` only when the span ends after the wrapped expression.
+        if self.span.hi != self.expr.span().hi {
+            srcmap!(emitter, self, false, true);
+        }
         punct!(emitter, ")");
 
         Ok(())
