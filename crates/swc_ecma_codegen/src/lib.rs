@@ -972,7 +972,38 @@ where
 
         self.emit_leading_comments_of_span(span, true)?;
 
-        srcmap!(self, span, false, true);
+        // A block from the parser ends with `}` after all of its statements,
+        // so `span.hi - 1` is its `}`. Some passes create a block that reuses
+        // the span of a statement in it: `fixer` wraps an `if` consequent or a
+        // function declaration, and the minifier creates a fake block that
+        // can also hold statements before and after that statement. Then
+        // `span.hi - 1` is a byte of that statement, and it can point into a
+        // multi-byte char. Map `}` of those blocks to `span.hi`, which is
+        // always a char boundary.
+        //
+        // This is a heuristic on spans only. Statements with dummy spans give
+        // no information, so a block that holds only those is treated as a
+        // parsed one. Transforms often fill parsed blocks with such
+        // statements, so this keeps their `}` exact. The cost is that a
+        // synthesized block whose own statements were all replaced by ones
+        // with dummy spans (for example, a minifier fake block whose original
+        // statement was dropped) still maps `}` to `span.hi - 1`. A parsed
+        // block that receives a statement moved from later in the file is
+        // treated as synthesized, so its `}` maps one char after the source
+        // `}`.
+        //
+        // The scan is skipped when no source map is generated, because
+        // `add_srcmap` does nothing then.
+        let ends_after_stmts = !self.wr.care_about_srcmap()
+            || !stmts.iter().any(|stmt| {
+                let stmt = stmt.span();
+                !stmt.is_dummy() && stmt.hi >= span.hi
+            });
+        if ends_after_stmts {
+            srcmap!(self, span, false, true);
+        } else {
+            srcmap!(self, span, false);
+        }
         punct!(self, "}");
 
         Ok(())
@@ -2565,7 +2596,25 @@ impl MacroNode for ParenExpr {
         punct!(emitter, "(");
         emit!(self.expr);
 
-        srcmap!(emitter, self, false, true);
+        // A paren from the parser strictly encloses the wrapped expression, so
+        // `span.hi - 1` is its `)`. Parens synthesized by passes such as
+        // `fixer` or `wrap_with_paren` reuse the span of the wrapped
+        // expression. Then `span.hi - 1` is a byte of that expression, and it
+        // can point into a multi-byte char. Map `)` of those parens to
+        // `span.hi`, which is always a char boundary and is the source `)`
+        // when `paren_remover` removed the original parens.
+        //
+        // This is a heuristic on spans only. A wrapped expression with a dummy
+        // span gives no information, so the paren is treated as synthesized,
+        // and its `)` maps one char after the source `)` if it was parsed.
+        // A synthesized paren whose wrapped expression was later replaced by
+        // a node strictly inside the copied span is not detected.
+        let expr_span = self.expr.span();
+        if self.span.lo < expr_span.lo && expr_span.hi < self.span.hi {
+            srcmap!(emitter, self, false, true);
+        } else {
+            srcmap!(emitter, self, false);
+        }
         punct!(emitter, ")");
 
         Ok(())

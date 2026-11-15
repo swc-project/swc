@@ -1,6 +1,7 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
@@ -1022,7 +1023,16 @@ impl Optimizer<'_> {
                 .iter()
                 .flat_map(|case| case.cons.iter())
                 .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
-            _ => for_stmt,
+            // Other statements (`try`, `do-while`, `for`, `for-in`, `for-of`, `with`,
+            // labeled statements, ...) are not inspected statement by statement, but a `var`
+            // nested in them is hoisted to the function scope just like a top-level one.
+            // If the call is executed multiple times, inlining it would make all
+            // iterations share a single binding, which is observable by closures.
+            _ => {
+                for_stmt
+                    && !(self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
+                        && contains_var_decl(stmt))
+            }
         }
     }
 
@@ -1331,9 +1341,25 @@ impl Optimizer<'_> {
             return None;
         }
 
-        let mut decl = DeclVisitor { count: 0 };
+        let mut decl = DeclVisitor {
+            count: 0,
+            keep_fn_names: self.options.keep_fnames
+                || self.mangle_options.is_some_and(|v| v.keep_fn_names),
+            reserved: self.mangle_options.map_or(&[], |v| &v.reserved),
+            has_preserved_name: false,
+        };
 
         body.visit_with(&mut decl);
+
+        // Inlining moves function and class declarations into the caller's
+        // scope. If their names are preserved, two inlined IIFEs can then
+        // declare the same name in one scope. A later function declaration
+        // replaces the earlier one, and a second class declaration is a
+        // syntax error.
+        if decl.has_preserved_name {
+            log_abort!("iife: [x] Found a declaration with a preserved name");
+            return None;
+        }
 
         if !self.may_add_ident() && decl.count > 0 {
             return None;
@@ -1533,11 +1559,22 @@ impl Visit for ReturnVisitor {
     }
 }
 
-pub struct DeclVisitor {
+pub struct DeclVisitor<'a> {
     count: usize,
+    /// `keep_fnames` of the compressor or the mangler.
+    keep_fn_names: bool,
+    /// `reserved` of the mangler.
+    reserved: &'a [Atom],
+    /// A function declaration keeps its name because of `keep_fn_names` or
+    /// `reserved`, or a class declaration keeps its name because of
+    /// `reserved`.
+    ///
+    /// `keep_classnames` is not checked: the renamer can still rename the
+    /// binding of a class and keep the name with a named class expression.
+    has_preserved_name: bool,
 }
 
-impl Visit for DeclVisitor {
+impl Visit for DeclVisitor<'_> {
     noop_visit_type!(fail);
 
     /// Don't recurse into constructor
@@ -1556,7 +1593,20 @@ impl Visit for DeclVisitor {
 
     fn visit_decl(&mut self, d: &Decl) {
         self.count += match d {
-            Decl::Class(_) | Decl::Fn(_) => 1,
+            Decl::Fn(f) => {
+                if self.keep_fn_names || self.reserved.contains(&f.ident.sym) {
+                    self.has_preserved_name = true;
+                }
+
+                1
+            }
+            Decl::Class(c) => {
+                if self.reserved.contains(&c.ident.sym) {
+                    self.has_preserved_name = true;
+                }
+
+                1
+            }
             Decl::Var(var_decl) => var_decl.decls.len(),
             Decl::Using(using_decl) => using_decl.decls.len(),
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => 0,
@@ -1568,6 +1618,50 @@ impl Visit for DeclVisitor {
     fn visit_var_decl_or_expr(&mut self, node: &VarDeclOrExpr) {
         if let VarDeclOrExpr::VarDecl(v) = node {
             self.count += v.decls.len()
+        }
+    }
+}
+
+/// Returns true if `stmt` contains a `var` declaration (including the ones in
+/// `for`, `for-in` and `for-of` heads) that is hoisted to the scope of the
+/// enclosing function.
+fn contains_var_decl(stmt: &Stmt) -> bool {
+    let mut v = VarDeclFinder { found: false };
+    stmt.visit_with(&mut v);
+    v.found
+}
+
+/// Finds `var` declarations hoisted to the current function scope.
+struct VarDeclFinder {
+    found: bool,
+}
+
+impl Visit for VarDeclFinder {
+    noop_visit_type!(fail);
+
+    /// A `var` declaration cannot appear in an expression, except in a
+    /// function body, which has its own scope.
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function) {}
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    /// Static blocks have their own var scope.
+    fn visit_static_block(&mut self, _: &StaticBlock) {}
+
+    fn visit_var_decl(&mut self, v: &VarDecl) {
+        if v.kind == VarDeclKind::Var {
+            self.found = true;
+        }
+    }
+
+    fn visit_stmt(&mut self, s: &Stmt) {
+        // Skip the remaining statements once a declaration is found.
+        if !self.found {
+            s.visit_children_with(self);
         }
     }
 }

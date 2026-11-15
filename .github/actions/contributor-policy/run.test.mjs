@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { GitHubClient } from "./github.mjs";
-import { NOTICE_MARKER, runPolicy } from "./run.mjs";
+import { NO_NEW_CONTRIBUTORS_NOTE, NOTICE_MARKER, runPolicy } from "./run.mjs";
 
 const source = await readFile(
   new URL("fixtures/contributors.yml", import.meta.url),
@@ -67,6 +67,7 @@ test("closes a denied live author, not the event sender or stale payload author"
     commentBody.split("\n\n").at(-1),
     "Please [open an issue](https://github.com/swc-project/swc/issues/new/choose) describing the bug or proposed improvement instead of submitting a pull request."
   );
+  assert.equal(commentBody.split("\n\n").at(-2), NO_NEW_CONTRIBUTORS_NOTE);
   assert.doesNotMatch(
     commentBody,
     /contact an SWC maintainer|request inclusion|can be reopened|\.github\/contributors\.yml/

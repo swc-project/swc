@@ -74,9 +74,9 @@ new RegExp(prefix + "abc");
 RegExp("".concat(prefix, "abc"));
 new RegExp(String.raw(_templateObject1(), suffix));
 function f1() {
-    var _$RegExp = function RegExp1(a, b) {
+    var _$RegExp = function RegExp(a, b) {
         "use strict";
-        _class_call_check._(this, RegExp1);
+        _class_call_check._(this, RegExp);
     };
     new _$RegExp("a", "b");
 }

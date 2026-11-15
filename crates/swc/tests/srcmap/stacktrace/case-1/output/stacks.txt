@@ -3,4 +3,4 @@ $DIR/tests/srcmap/stacktrace/case-1/input/index.js:5
         ^
 Error: Boom
     at <anonymous> ($DIR/tests/srcmap/stacktrace/case-1/input/index.js:5:15)
-    at <anonymous> ($DIR/tests/srcmap/stacktrace/case-1/input/index.js:6:5)
+    at <anonymous> ($DIR/tests/srcmap/stacktrace/case-1/input/index.js:6:6)

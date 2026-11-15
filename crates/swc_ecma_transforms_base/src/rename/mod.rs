@@ -1,6 +1,6 @@
 use std::{borrow::Cow, collections::hash_map::Entry};
 
-use analyer_and_collector::AnalyzerAndCollector;
+use analyzer_and_collector::AnalyzerAndCollector;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
@@ -16,8 +16,8 @@ use self::renamer_single::{Send, Sync};
 use self::{analyzer::Analyzer, ops::Operator};
 use crate::hygiene::Config;
 
-mod analyer_and_collector;
 mod analyzer;
+mod analyzer_and_collector;
 mod eval;
 mod ops;
 
@@ -217,7 +217,7 @@ where
     where
         N: VisitWith<AnalyzerAndCollector>,
     {
-        let (mut scope, unresolved) = analyer_and_collector::analyzer_and_collect_unresolved(
+        let (mut scope, unresolved) = analyzer_and_collector::analyzer_and_collect_unresolved(
             node,
             has_eval,
             self.config.top_level_mark,
@@ -242,10 +242,19 @@ where
                 .extend(self.preserved.iter().map(|v| v.0.clone()));
         }
 
+        // Names that the renamer must never assign. They are added to
+        // `unresolved`. Normal mode also needs them as a separate set, because
+        // it allows the own name of a function or class expression to reuse an
+        // unresolved name. Mangle mode does not read the set, so it is built
+        // only in normal mode. See #12528.
+        let mut reserved = FxHashSet::default();
         {
             let extra_unresolved = self.renamer.unresolved_symbols();
 
             if !extra_unresolved.is_empty() {
+                if !R::MANGLE {
+                    reserved.extend(extra_unresolved.iter().cloned());
+                }
                 unresolved.to_mut().extend(extra_unresolved);
             }
         }
@@ -281,6 +290,7 @@ where
                 &mut Default::default(),
                 &self.preserved,
                 &unresolved,
+                &reserved,
             );
         }
 
