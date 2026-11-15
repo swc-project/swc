@@ -952,51 +952,56 @@ impl Optimizer<'_> {
         true
     }
 
-    fn can_inline_fn_stmt(&self, stmt: &Stmt, for_stmt: bool) -> bool {
-        match stmt {
-            Stmt::Decl(Decl::Var(var)) => {
-                for decl in &var.decls {
-                    for id in find_pat_ids::<_, Id>(&decl.name) {
-                        if self.ident_reserved(&id.0) {
-                            log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
+    /// Checks a declaration in the body of an IIFE. This includes the ones in
+    /// `for`, `for-in` and `for-of` heads, because a `var` there is hoisted to
+    /// the function scope too.
+    fn can_inline_var_decl(&self, var: &VarDecl, for_stmt: bool) -> bool {
+        for decl in &var.decls {
+            for id in find_pat_ids::<_, Id>(&decl.name) {
+                if self.ident_reserved(&id.0) {
+                    log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
+                    return false;
+                }
+            }
+        }
+
+        if matches!(
+            var,
+            VarDecl {
+                kind: VarDeclKind::Var | VarDeclKind::Let,
+                ..
+            }
+        ) {
+            for decl in &var.decls {
+                match &decl.name {
+                    Pat::Ident(id) if id.sym == "arguments" => return false,
+                    Pat::Ident(id) => {
+                        if self.vars.has_pending_inline_for(&id.to_id()) {
+                            log_abort!(
+                                "iife: [x] Cannot inline because pending inline of `{}`",
+                                id.id
+                            );
                             return false;
                         }
                     }
-                }
 
-                if matches!(
-                    &**var,
-                    VarDecl {
-                        kind: VarDeclKind::Var | VarDeclKind::Let,
-                        ..
-                    }
-                ) {
-                    for decl in &var.decls {
-                        match &decl.name {
-                            Pat::Ident(id) if id.sym == "arguments" => return false,
-                            Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.to_id()) {
-                                    log_abort!(
-                                        "iife: [x] Cannot inline because pending inline of `{}`",
-                                        id.id
-                                    );
-                                    return false;
-                                }
-                            }
-
-                            _ => return false,
-                        }
-                    }
-
-                    if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
-                        return false;
-                    }
-
-                    true
-                } else {
-                    for_stmt
+                    _ => return false,
                 }
             }
+
+            if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+                return false;
+            }
+
+            true
+        } else {
+            for_stmt
+        }
+    }
+
+    fn can_inline_fn_stmt(&self, stmt: &Stmt, for_stmt: bool) -> bool {
+        match stmt {
+            Stmt::Decl(Decl::Var(var)) => self.can_inline_var_decl(var, for_stmt),
 
             Stmt::Expr(_) => true,
 
@@ -1022,16 +1027,54 @@ impl Optimizer<'_> {
                 .iter()
                 .flat_map(|case| case.cons.iter())
                 .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
-            // Other statements (`try`, `do-while`, `for`, `for-in`, `for-of`, `with`,
-            // labeled statements, ...) are not inspected statement by statement, but a `var`
-            // nested in them is hoisted to the function scope just like a top-level one.
-            // If the call is executed multiple times, inlining it would make all
-            // iterations share a single binding, which is observable by closures.
-            _ => {
-                for_stmt
-                    && !(self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
-                        && contains_var_decl(stmt))
+            // A `var` nested in these statements is hoisted to the function scope
+            // just like a top-level one, so the declarations in them need the same
+            // checks.
+            Stmt::Try(t) if for_stmt => {
+                t.block
+                    .stmts
+                    .iter()
+                    .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt))
+                    && t.handler.as_ref().map_or(true, |h| {
+                        h.body
+                            .stmts
+                            .iter()
+                            .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt))
+                    })
+                    && t.finalizer.as_ref().map_or(true, |f| {
+                        f.stmts
+                            .iter()
+                            .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt))
+                    })
             }
+            Stmt::While(WhileStmt { body, .. })
+            | Stmt::DoWhile(DoWhileStmt { body, .. })
+            | Stmt::Labeled(LabeledStmt { body, .. })
+            | Stmt::With(WithStmt { body, .. })
+                if for_stmt =>
+            {
+                self.can_inline_fn_stmt(body, for_stmt)
+            }
+            Stmt::For(f) if for_stmt => {
+                let init_ok = match &f.init {
+                    Some(VarDeclOrExpr::VarDecl(var)) => self.can_inline_var_decl(var, for_stmt),
+                    _ => true,
+                };
+
+                init_ok && self.can_inline_fn_stmt(&f.body, for_stmt)
+            }
+            Stmt::ForIn(ForInStmt { left, body, .. })
+            | Stmt::ForOf(ForOfStmt { left, body, .. })
+                if for_stmt =>
+            {
+                let head_ok = match left {
+                    ForHead::VarDecl(var) => self.can_inline_var_decl(var, for_stmt),
+                    _ => true,
+                };
+
+                head_ok && self.can_inline_fn_stmt(body, for_stmt)
+            }
+            _ => for_stmt,
         }
     }
 
@@ -1579,54 +1622,6 @@ impl Visit for DeclVisitor {
             self.count += v.decls.len()
         }
     }
-}
-
-/// Returns true if `stmt` contains a `var` declaration (including the ones in
-/// `for`, `for-in` and `for-of` heads) that is hoisted to the scope of the
-/// enclosing function.
-///
-/// A `var` declaration can only appear in a statement position or in a loop
-/// head. An expression cannot contain one, except in a function body or a class
-/// static block, which have their own var scope. So walking the statement tree
-/// is enough, and a visitor is not needed.
-fn contains_var_decl(stmt: &Stmt) -> bool {
-    match stmt {
-        Stmt::Decl(Decl::Var(v)) => v.kind == VarDeclKind::Var,
-        Stmt::Block(b) => b.stmts.iter().any(contains_var_decl),
-        Stmt::If(i) => {
-            contains_var_decl(&i.cons) || i.alt.as_deref().is_some_and(contains_var_decl)
-        }
-        Stmt::Switch(s) => s
-            .cases
-            .iter()
-            .flat_map(|case| case.cons.iter())
-            .any(contains_var_decl),
-        Stmt::Try(t) => {
-            t.block.stmts.iter().any(contains_var_decl)
-                || t.handler
-                    .as_ref()
-                    .is_some_and(|h| h.body.stmts.iter().any(contains_var_decl))
-                || t.finalizer
-                    .as_ref()
-                    .is_some_and(|f| f.stmts.iter().any(contains_var_decl))
-        }
-        Stmt::While(w) => contains_var_decl(&w.body),
-        Stmt::DoWhile(d) => contains_var_decl(&d.body),
-        Stmt::For(f) => {
-            matches!(&f.init, Some(VarDeclOrExpr::VarDecl(v)) if v.kind == VarDeclKind::Var)
-                || contains_var_decl(&f.body)
-        }
-        Stmt::ForIn(f) => is_var_for_head(&f.left) || contains_var_decl(&f.body),
-        Stmt::ForOf(f) => is_var_for_head(&f.left) || contains_var_decl(&f.body),
-        Stmt::Labeled(l) => contains_var_decl(&l.body),
-        Stmt::With(w) => contains_var_decl(&w.body),
-        _ => false,
-    }
-}
-
-/// Returns true if `head` declares a `var`.
-fn is_var_for_head(head: &ForHead) -> bool {
-    matches!(head, ForHead::VarDecl(v) if v.kind == VarDeclKind::Var)
 }
 
 /// Enhanced IIFE invocation for sequence expressions
