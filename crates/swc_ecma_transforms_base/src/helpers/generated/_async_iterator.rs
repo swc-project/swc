@@ -17,13 +17,18 @@ pub const DEF: HelperDef = HelperDef {
     throw new TypeError("Object is not async iterable");
 }
 function AsyncFromSyncIterator(s) {
+    // Calls `fn` with `s` as `this`, like the spec's `Call`, even if `fn` has an own `call` property.
+    function AsyncFromSyncIteratorCall(fn, s) {
+        return Function.prototype.call.call(fn, s);
+    }
+
     // Closes the sync iterator after a rejection. Errors from `return` are ignored,
     // so that the original rejection reason is kept.
     function AsyncFromSyncIteratorClose(s) {
         try {
             var ret = s.return;
 
-            if (null != ret) ret.call(s);
+            if (null != ret) AsyncFromSyncIteratorCall(ret, s);
         } catch (e) {}
     }
 
@@ -83,7 +88,7 @@ function AsyncFromSyncIterator(s) {
                     var ret = this.s.return;
 
                     if (null != ret) {
-                        var r = ret.call(this.s);
+                        var r = AsyncFromSyncIteratorCall(ret, this.s);
 
                         if (Object(r) !== r) return Promise.reject(new TypeError(r + " is not an object."));
                     }

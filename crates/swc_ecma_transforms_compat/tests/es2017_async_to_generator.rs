@@ -619,6 +619,26 @@ const throwingReturn = await throwInto({
   },
 });
 expect(throwingReturn.error).toBe(closeError);
+
+// `return` is called even if it has an own `call` property.
+const shadowedLog = [];
+function shadowedReturn() {
+  shadowedLog.push("return");
+  return { done: true };
+}
+shadowedReturn.call = undefined;
+const shadowed = await throwInto({
+  [Symbol.iterator]() {
+    return this;
+  },
+  next() {
+    return { value: 1, done: false };
+  },
+  return: shadowedReturn,
+});
+expect(shadowed.error).toBeInstanceOf(TypeError);
+expect(shadowed.error.message).not.toMatch("call");
+expect(shadowedLog).toEqual(["return"]);
 "#
 );
 
@@ -751,6 +771,31 @@ try {
 }
 expect(error).toBe(returnError);
 expect(returnLog).toEqual(["return"]);
+
+// `return` is called even if it has an own `call` property.
+const rejectedError = new Error("rejected");
+const shadowedLog = [];
+function shadowedReturn() {
+  shadowedLog.push("return");
+  return { done: true };
+}
+shadowedReturn.call = undefined;
+error = undefined;
+try {
+  await delegate({
+    [Symbol.iterator]() {
+      return this;
+    },
+    next() {
+      return { value: Promise.reject(rejectedError), done: false };
+    },
+    return: shadowedReturn,
+  }).next();
+} catch (e) {
+  error = e;
+}
+expect(error).toBe(rejectedError);
+expect(shadowedLog).toEqual(["return"]);
 "#
 );
 
