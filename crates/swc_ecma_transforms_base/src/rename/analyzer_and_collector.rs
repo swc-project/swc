@@ -295,7 +295,7 @@ impl Visit for AnalyzerAndCollector {
         let old_analyzer = self.analyzer.enter_fn_scope();
 
         if !need_skip_analyzer_record && has_rest {
-            // self.analyer is different from above because we are in a function scope
+            // self.analyzer is different from above because we are in a function scope
             self.analyzer.add_usage(node.ident.to_id());
         }
 
