@@ -319,6 +319,7 @@ impl Optimizer<'_> {
                     flags,
                     ..
                 } = **usage;
+
                 let mut inc_usage = || {
                     for (i, _) in collect_infects_from(
                         &*init,
@@ -345,6 +346,14 @@ impl Optimizer<'_> {
                             u.ref_count += ref_count;
                             u.usage_count += usage_count;
                             u.property_mutation_count += property_mutation_count;
+                        }
+                    }
+
+                    if let Expr::Ident(i) = &*init {
+                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                            if !flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) {
+                                u.flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
+                            }
                         }
                     }
                 };
