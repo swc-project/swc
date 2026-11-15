@@ -14,7 +14,7 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, exec_tr, test_exec, test_fixture};
 use swc_ecma_visit::{fold_pass, Fold, FoldWith};
 
 struct ParenRemover;
@@ -798,6 +798,112 @@ expect(error).toBe(rejectedError);
 expect(shadowedLog).toEqual(["return"]);
 "#
 );
+
+/// Calls the `_async_iterator` helper directly. Generated code calls its
+/// methods only through `_async_generator_delegate` and `for await`, which turn
+/// synchronous errors into rejections, so the cases below cannot be observed
+/// through transformed code.
+#[test]
+fn issue_12745_direct_call_exec() {
+    let helper = include_str!("../../../packages/helpers/esm/_async_iterator.js")
+        .replace("export { _async_iterator as _ };", "");
+
+    exec_tr(
+        "issue_12745_direct_call_exec",
+        syntax(),
+        |_| noop_pass(),
+        &format!(
+            "{helper}\n{}",
+            r#"
+function syncIterator(methods) {
+  const it = {
+    [Symbol.iterator]() {
+      return this;
+    },
+    next() {
+      return { value: 1, done: false };
+    },
+  };
+  for (const key of Object.keys(methods)) {
+    Object.defineProperty(it, key, Object.getOwnPropertyDescriptor(methods, key));
+  }
+  return _async_iterator(it);
+}
+
+// Every method returns a promise, also when the sync iterator throws.
+async function rejection(fn) {
+  const promise = fn();
+  expect(promise).toBeInstanceOf(Promise);
+  try {
+    await promise;
+  } catch (e) {
+    return e;
+  }
+  throw new Error("should reject");
+}
+
+const error = new Error("sync");
+const thrower = () => {
+  throw error;
+};
+expect(await rejection(() => syncIterator({ next: thrower }).next())).toBe(error);
+expect(await rejection(() => syncIterator({ return: thrower }).return())).toBe(error);
+expect(await rejection(() => syncIterator({ throw: thrower }).throw())).toBe(error);
+expect(await rejection(() => syncIterator({ return: thrower }).throw())).toBe(error);
+expect(
+  await rejection(() =>
+    syncIterator({
+      get throw() {
+        throw error;
+      },
+    }).throw()
+  )
+).toBe(error);
+expect(
+  await rejection(() =>
+    syncIterator({
+      next() {
+        return {
+          get done() {
+            throw error;
+          },
+        };
+      },
+    }).next()
+  )
+).toBe(error);
+
+// A method that is not callable gives a TypeError.
+expect(await rejection(() => syncIterator({ return: 5 }).return())).toBeInstanceOf(TypeError);
+expect(await rejection(() => syncIterator({ throw: 5 }).throw())).toBeInstanceOf(TypeError);
+
+// `return: null` is treated like a missing method.
+expect(await syncIterator({ return: null }).return(5)).toEqual({ value: 5, done: true });
+
+// Own `call` and `apply` properties of the methods are not used.
+const log = [];
+function method(name, result) {
+  const fn = function () {
+    log.push([name, ...arguments]);
+    return result;
+  };
+  fn.call = fn.apply = thrower;
+  return fn;
+}
+const shadowed = syncIterator({
+  next: method("next", { value: 1, done: false }),
+  return: method("return", { value: 2, done: true }),
+  throw: method("throw", { value: 3, done: false }),
+});
+expect(await shadowed.next()).toEqual({ value: 1, done: false });
+expect(await shadowed.next("a")).toEqual({ value: 1, done: false });
+expect(await shadowed.throw("b")).toEqual({ value: 3, done: false });
+expect(await shadowed.return("c")).toEqual({ value: 2, done: true });
+expect(log).toEqual([["next"], ["next", "a"], ["throw", "b"], ["return", "c"]]);
+"#
+        ),
+    );
+}
 
 // regression_8783_exec
 test_exec!(
