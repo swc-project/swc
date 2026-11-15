@@ -546,7 +546,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         Indenter.GetIndentSizeFromIndentText = function GetIndentSizeFromIndentText(indentText, editorOptions) {
             return GetIndentSizeFromText(indentText, editorOptions, /*includeNonIndentChars:*/ false);
         };
-        Indenter.GetIndentSizeFromText = function GetIndentSizeFromText1(text, editorOptions, includeNonIndentChars) {
+        Indenter.GetIndentSizeFromText = function GetIndentSizeFromText(text, editorOptions, includeNonIndentChars) {
             var indentSize = 0;
             for(var i = 0; i < text.length; i++){
                 var c = text.charAt(i);

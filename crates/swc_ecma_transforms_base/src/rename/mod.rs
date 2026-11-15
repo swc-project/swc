@@ -242,10 +242,19 @@ where
                 .extend(self.preserved.iter().map(|v| v.0.clone()));
         }
 
+        // Names that the renamer must never assign. They are added to
+        // `unresolved`. Normal mode also needs them as a separate set, because
+        // it allows the own name of a function or class expression to reuse an
+        // unresolved name. Mangle mode does not read the set, so it is built
+        // only in normal mode. See #12528.
+        let mut reserved = FxHashSet::default();
         {
             let extra_unresolved = self.renamer.unresolved_symbols();
 
             if !extra_unresolved.is_empty() {
+                if !R::MANGLE {
+                    reserved.extend(extra_unresolved.iter().cloned());
+                }
                 unresolved.to_mut().extend(extra_unresolved);
             }
         }
@@ -281,6 +290,7 @@ where
                 &mut Default::default(),
                 &self.preserved,
                 &unresolved,
+                &reserved,
             );
         }
 
