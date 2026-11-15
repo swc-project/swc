@@ -1787,14 +1787,14 @@
             }
             function runHandlerOnContext(view, propName, pos, inside, event) {
                 if (-1 == inside) return !1;
-                for(var $pos = view.state.doc.resolve(inside), loop = function(i) {
-                    if (view.someProp(propName, function(f) {
-                        return i > $pos.depth ? f(view, pos, $pos.nodeAfter, $pos.before(i), event, !0) : f(view, pos, $pos.node(i), $pos.before(i), event, !1);
-                    })) return {
-                        v: !0
-                    };
-                }, i = $pos.depth + 1; i > 0; i--){
-                    var returned = loop(i);
+                for(var $pos = view.state.doc.resolve(inside), i = $pos.depth + 1; i > 0; i--){
+                    var returned = function(i) {
+                        if (view.someProp(propName, function(f) {
+                            return i > $pos.depth ? f(view, pos, $pos.nodeAfter, $pos.before(i), event, !0) : f(view, pos, $pos.node(i), $pos.before(i), event, !1);
+                        })) return {
+                            v: !0
+                        };
+                    }(i);
                     if (returned) return returned.v;
                 }
                 return !1;
