@@ -139,15 +139,13 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Arc;
-
-    use swc_common::SourceMap;
+    use swc_common::{sync::Lrc, SourceMap};
 
     use crate::text_writer::{basic_impl::JsWriter, BindingStorage, ScopeKind, WriteJs};
 
     #[test]
     fn forwards_scope_operations() {
-        let source_map = Arc::new(SourceMap::default());
+        let source_map = Lrc::new(SourceMap::default());
         let mut out = vec![];
         let mut scopes = vec![];
         {
