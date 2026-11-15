@@ -64,7 +64,7 @@ jobs:
         uses: ./.github/actions/setup-node
         id: setup-node
         with:
-          node-version: "24"
+          node-version: "26"
           install-dependencies: "false"
 
       - name: Install wasm-pack
