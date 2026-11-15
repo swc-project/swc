@@ -480,16 +480,14 @@ fn compute_line_starts_from_bytes(bytes: &[u8]) -> LineStart {
 
 #[cfg(test)]
 mod test {
-    use std::sync::Arc;
-
-    use swc_common::SourceMap;
+    use swc_common::{sync::Lrc, SourceMap};
 
     use super::{compute_line_starts_from_bytes, JsWriter};
     use crate::text_writer::{BindingStorage, ScopeKind, WriteJs};
 
     #[test]
     fn changes_indent_str() {
-        let source_map = Arc::new(SourceMap::default());
+        let source_map = Lrc::new(SourceMap::default());
         let mut output = Vec::new();
         let mut writer = JsWriter::new(source_map, "\n", &mut output, None);
         writer.set_indent_str("\t");
@@ -502,7 +500,7 @@ mod test {
 
     #[test]
     fn collects_scopes_and_bindings() {
-        let source_map = Arc::new(SourceMap::default());
+        let source_map = Lrc::new(SourceMap::default());
         let mut output = Vec::new();
         let mut scopes = vec![];
         let mut writer =
@@ -543,7 +541,7 @@ mod test {
 
     #[test]
     fn hoisted_binding_targets_nearest_hoist_scope() {
-        let source_map = Arc::new(SourceMap::default());
+        let source_map = Lrc::new(SourceMap::default());
         let mut output = Vec::new();
         let mut scopes = vec![];
         let mut writer =
@@ -579,7 +577,7 @@ mod test {
 
     #[test]
     fn deduplicates_scope_variables_by_name() {
-        let source_map = Arc::new(SourceMap::default());
+        let source_map = Lrc::new(SourceMap::default());
         let mut output = Vec::new();
         let mut scopes = vec![];
         let mut writer =
@@ -604,7 +602,7 @@ mod test {
 
     #[test]
     fn tracks_position_for_ascii_without_newline() {
-        let source_map = Arc::new(SourceMap::default());
+        let source_map = Lrc::new(SourceMap::default());
         let mut output = Vec::new();
         let mut srcmap = vec![];
         let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
@@ -617,7 +615,7 @@ mod test {
 
     #[test]
     fn tracks_position_for_crlf_and_unicode_tail() {
-        let source_map = Arc::new(SourceMap::default());
+        let source_map = Lrc::new(SourceMap::default());
         let mut output = Vec::new();
         let mut srcmap = vec![];
         let mut writer = JsWriter::new(source_map, "\n", &mut output, Some(&mut srcmap));
