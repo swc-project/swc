@@ -99,9 +99,10 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Test GitHub scripts
+      - name: Test repository scripts
         run: |
           node --test \
+            ./scripts/cargo/fix.test.mjs \
             ./scripts/github/change-detection.test.mjs \
             ./scripts/github/publish-order.test.mjs \
             ./scripts/github/tag-npm-package.test.mjs
@@ -177,7 +178,11 @@ jobs:
           toolchain: nightly-2026-04-10
           components: clippy
 
-      - run: cargo clippy --all --all-targets -- -D warnings
+      - uses: jdx/mr-boxington-action@88acf2bb50552c7c508cbac13e5f8c576b95b1de # v1.7.3
+        with:
+          version: "1.30.0"
+
+      - run: mbx clippy --all --all-targets -- -D warnings
 
   cargo-deny:
     name: Check license of dependencies

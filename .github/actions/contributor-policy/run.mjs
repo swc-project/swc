@@ -57,6 +57,10 @@ function assertState(pr) {
   }
 }
 
+export const NO_NEW_CONTRIBUTORS_NOTE =
+  "Thank you for your interest in contributing to SWC. This notice intentionally asks you to open an issue instead of contacting the maintainers. We do not add new accounts to the approved contributor list unless there are truly exceptional circumstances, so please do not leave comments or send messages that ask us to add your account. Also, our repository guidelines tell us not to use code from forks or fixes linked in comments, and reviewing such code takes a large amount of maintainer time. Because of this, links to forks or fixes do not help the project, so please do not post them in issues or pull requests. We appreciate your understanding.";
+
+/** Build the comment posted before an unlisted author's PR is closed. */
 function notice(repository) {
-  return `${NOTICE_MARKER}\n\nThis repository accepts pull requests from approved contributors, users with write access, and bot accounts. Your account is not currently on the approved contributor list, so this pull request is being closed automatically.\n\nPlease [open an issue](https://github.com/${repository}/issues/new/choose) describing the bug or proposed improvement instead of submitting a pull request.`;
+  return `${NOTICE_MARKER}\n\nThis repository accepts pull requests from approved contributors, users with write access, and bot accounts. Your account is not currently on the approved contributor list, so this pull request is being closed automatically.\n\n${NO_NEW_CONTRIBUTORS_NOTE}\n\nPlease [open an issue](https://github.com/${repository}/issues/new/choose) describing the bug or proposed improvement instead of submitting a pull request.`;
 }
