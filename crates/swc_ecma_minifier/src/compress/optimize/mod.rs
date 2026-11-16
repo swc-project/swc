@@ -1114,17 +1114,97 @@ impl Optimizer<'_> {
                         .into_iter()
                         .filter_map(|p| match p {
                             PropOrSpread::Spread(..) => Some(p),
-                            PropOrSpread::Prop(prop) => match &*prop {
+                            PropOrSpread::Prop(prop) => match *prop {
                                 Prop::Shorthand(i) => {
                                     let mut expr = Expr::Ident(i.clone());
 
                                     if self.ignore_return_value(&mut expr).is_some() {
-                                        Some(prop.into())
+                                        Some(Prop::Shorthand(i).into())
                                     } else {
                                         None
                                     }
                                 }
-                                _ => Some(prop.into()),
+                                Prop::KeyValue(KeyValueProp { key, mut value, .. }) => {
+                                    let key = match key {
+                                        PropName::Ident(_)
+                                        | PropName::Str(_)
+                                        | PropName::Num(_)
+                                        | PropName::BigInt(_) => None,
+                                        PropName::Computed(mut key) => {
+                                            self.ignore_return_value(&mut key.expr).map(Box::new)
+                                        }
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => panic!("unable to access unknown nodes"),
+                                    };
+
+                                    let value = self.ignore_return_value(&mut value).map(Box::new);
+
+                                    let mut exprs = Vec::new();
+                                    exprs.extend(key);
+                                    exprs.extend(value);
+
+                                    if !exprs.is_empty() {
+                                        Some(
+                                            Prop::KeyValue(KeyValueProp {
+                                                key: PropName::Num(Number {
+                                                    span: DUMMY_SP,
+                                                    value: 0.0,
+                                                    raw: None,
+                                                }),
+                                                value: Expr::Seq(SeqExpr {
+                                                    span: DUMMY_SP,
+                                                    exprs,
+                                                })
+                                                .into(),
+                                            })
+                                            .into(),
+                                        )
+                                    } else {
+                                        None
+                                    }
+                                }
+                                Prop::Getter(GetterProp { key, .. })
+                                | Prop::Setter(SetterProp { key, .. })
+                                | Prop::Method(MethodProp { key, .. }) => match key {
+                                    PropName::Ident(_)
+                                    | PropName::Str(_)
+                                    | PropName::Num(_)
+                                    | PropName::BigInt(_) => None,
+                                    PropName::Computed(mut key) => self
+                                        .ignore_return_value(&mut key.expr)
+                                        .map(Box::new)
+                                        .map(|key| {
+                                            Prop::KeyValue(KeyValueProp {
+                                                key: PropName::Num(Number {
+                                                    span: DUMMY_SP,
+                                                    value: 0.0,
+                                                    raw: None,
+                                                }),
+                                                value: key,
+                                            })
+                                            .into()
+                                        }),
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
+                                },
+
+                                Prop::Assign(mut prop) => {
+                                    let value =
+                                        self.ignore_return_value(&mut prop.value).map(Box::new);
+
+                                    if let Some(value) = value {
+                                        Some(
+                                            Prop::Assign(AssignProp {
+                                                span: prop.span,
+                                                key: prop.key,
+                                                value,
+                                            })
+                                            .into(),
+                                        )
+                                    } else {
+                                        None
+                                    }
+                                }
                                 #[cfg(swc_ast_unknown)]
                                 _ => panic!("unable to access unknown nodes"),
                             },

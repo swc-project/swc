@@ -510,7 +510,7 @@ impl Storage for ProgramData {
             v.assign_count += 1;
         }
 
-        // This is not delcared yet, so this is the first declaration.
+        // This is not declared yet, so this is the first declaration.
         if !v.flags.contains(VarUsageInfoFlags::DECLARED) {
             v.var_kind = kind;
             if ctx.in_decl_with_no_side_effect_for_member_access() {

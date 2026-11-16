@@ -121,8 +121,7 @@
                     _c: E
                 };
                 return (async ()=>{})({
-                    ...k,
-                    platform: R
+                    ...k
                 });
             };
             var et = {
@@ -170,13 +169,13 @@
                 ]), (0, A.useEffect)(()=>{}, [
                     N
                 ]);
-                let el = ()=>{}, ei = ()=>{}, ea = ({})=>{}, eu = (m)=>{
+                let el = ()=>{}, ei = ()=>{}, eu = ({})=>{}, ea = (m)=>{
                     if (!m) return;
                     let S = {
                         x: m.clientX,
                         y: m.clientY
                     };
-                    ea(S), Y.current = S;
+                    eu(S), Y.current = S;
                 }, es = (m)=>{
                     el(), y && ((m = y)=>{})();
                 }, ec = (S)=>{
@@ -218,7 +217,7 @@
                         listener: ed
                     }), g && R.push({
                         event: "mousemove",
-                        listener: eu
+                        listener: ea
                     }));
                     let A = ()=>{
                         J.current = !0;
@@ -281,9 +280,9 @@
                     r,
                     _
                 ]), (0, A.useEffect)(()=>{
-                    if (P) return void ea(P);
+                    if (P) return void eu(P);
                     if (g) {
-                        Y.current && ea(Y.current);
+                        Y.current && eu(Y.current);
                         return;
                     }
                     (async ({ elementReference: m = null, tooltipReference: S = null, tooltipArrowReference: h = null, place: E = "top", offset: k = 10, strategy: R = "absolute", middlewares: A = [
