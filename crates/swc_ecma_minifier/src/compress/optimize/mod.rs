@@ -1114,8 +1114,16 @@ impl Optimizer<'_> {
                         .into_iter()
                         .filter_map(|p| match p {
                             PropOrSpread::Spread(..) => Some(p),
-                            PropOrSpread::Prop(prop) => match *prop {
-                                Prop::Shorthand(_) => None,
+                            PropOrSpread::Prop(prop) => match &*prop {
+                                Prop::Shorthand(i) => {
+                                    let mut expr = Expr::Ident(i.clone());
+
+                                    if self.ignore_return_value(&mut expr).is_some() {
+                                        Some(prop.into())
+                                    } else {
+                                        None
+                                    }
+                                }
                                 _ => Some(prop.into()),
                                 #[cfg(swc_ast_unknown)]
                                 _ => panic!("unable to access unknown nodes"),
@@ -1136,8 +1144,8 @@ impl Optimizer<'_> {
                 report_change!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
                     match prop {
-                        PropOrSpread::Spread(mut e) => {
-                            exprs.extend(self.ignore_return_value(&mut e.expr).map(Box::new));
+                        PropOrSpread::Spread(_) => {
+                            unreachable!();
                         }
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::KeyValue(KeyValueProp { key, mut value, .. }) => {
