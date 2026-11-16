@@ -4,4 +4,4 @@ swc_ecma_minifier: patch
 swc_ecma_utils: patch
 ---
 
-fix(es/minifier): Preserve unresolved shorthand ident
+fix(es/minifier): Preserve unresolved shorthand property reads
