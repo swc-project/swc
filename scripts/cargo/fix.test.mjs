@@ -20,6 +20,7 @@ test("local builds install the pinned tool before applying workspace fixes", () 
     fixRust({
         root,
         env: { CI: "false", Path: "original" },
+        platform: "win32",
         exists: () => false,
         run: (...args) => {
             calls.push(args);
@@ -105,3 +106,32 @@ test("both native build commands run fixes before compilation", () => {
         );
     }
 });
+
+for (const platform of ["linux", "darwin", "win32"]) {
+    test(`${platform} uses the correct path variable`, () => {
+        const env =
+            platform === "win32"
+                ? { Path: "original" }
+                : { Path: "mixed", path: "lower", PATH: "original" };
+        const original = { ...env };
+        let actual;
+        fixRust({
+            root,
+            platform,
+            env,
+            exists: () => true,
+            run: (_, args, options) => {
+                actual = options.env;
+                return { status: 0 };
+            },
+        });
+        const bin = join(root, ".swc", "cargo-fixit", "0.1.17", "bin");
+        assert.deepEqual(actual, {
+            ...env,
+            ...(platform === "win32"
+                ? { Path: `${bin};original` }
+                : { PATH: `${bin}:original` }),
+        });
+        assert.deepEqual(env, original);
+    });
+}
