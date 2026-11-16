@@ -140,6 +140,10 @@ For running all tests, take the following steps:
 
     **TIP**: If you see errors while attempting to run the commands above, we usually do not run all tests at once. Instead, we run tests per package ([see below](#running-tests-per-package)), which you can use to verify your local setup.
 
+Local `pnpm build` and `pnpm build:dev` install cargo-fixit once and apply
+Clippy fixes before compiling. Review the source diff afterward. CI stays
+read-only and caches Clippy builds with Mr Boxington.
+
 ## Running tests per package
 
 While working on specific packages, individual tests can be run by specifying a package to the
