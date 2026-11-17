@@ -17,19 +17,10 @@ function _async_iterator(iterable) {
     throw new TypeError("Object is not async iterable");
 }
 function AsyncFromSyncIterator(s) {
-    function AsyncFromSyncIteratorCall(fn, s, args) {
-        return Function.prototype.apply.call(fn, s, args);
-    }
-    function AsyncFromSyncIteratorGetMethod(s, key) {
-        var fn = s[key];
-        if (null == fn) return;
-        if ("function" != typeof fn) throw new TypeError(key + " is not a function");
-        return fn;
-    }
     function AsyncFromSyncIteratorClose(s) {
         try {
-            var ret = AsyncFromSyncIteratorGetMethod(s, "return");
-            if (ret) AsyncFromSyncIteratorCall(ret, s);
+            var ret = s.return;
+            if (null != ret) ret.call(s);
         } catch (e) {}
     }
     function AsyncFromSyncIteratorContinuation(r, s) {
@@ -57,38 +48,26 @@ function AsyncFromSyncIterator(s) {
         s: null,
         n: null,
         next: function() {
-            try {
-                return AsyncFromSyncIteratorContinuation(AsyncFromSyncIteratorCall(this.n, this.s, arguments), this.s);
-            } catch (e) {
-                return Promise.reject(e);
-            }
+            return AsyncFromSyncIteratorContinuation(this.n.apply(this.s, arguments), this.s);
         },
         return: function(value) {
-            try {
-                var ret = AsyncFromSyncIteratorGetMethod(this.s, "return");
-                return void 0 === ret ? Promise.resolve({
-                    value: value,
-                    done: !0
-                }) : AsyncFromSyncIteratorContinuation(AsyncFromSyncIteratorCall(ret, this.s, arguments));
-            } catch (e) {
-                return Promise.reject(e);
-            }
+            var ret = this.s.return;
+            return void 0 === ret ? Promise.resolve({
+                value: value,
+                done: !0
+            }) : AsyncFromSyncIteratorContinuation(ret.apply(this.s, arguments));
         },
         throw: function(value) {
-            try {
-                var thr = AsyncFromSyncIteratorGetMethod(this.s, "throw");
-                if (void 0 === thr) {
-                    var ret = AsyncFromSyncIteratorGetMethod(this.s, "return");
-                    if (void 0 !== ret) {
-                        var r = AsyncFromSyncIteratorCall(ret, this.s);
-                        if (Object(r) !== r) return Promise.reject(new TypeError(r + " is not an object."));
-                    }
-                    return Promise.reject(new TypeError("The iterator does not provide a 'throw' method"));
+            var thr = this.s.throw;
+            if (null == thr) {
+                var ret = this.s.return;
+                if (null != ret) {
+                    var r = ret.call(this.s);
+                    if (Object(r) !== r) return Promise.reject(new TypeError(r + " is not an object."));
                 }
-                return AsyncFromSyncIteratorContinuation(AsyncFromSyncIteratorCall(thr, this.s, arguments), this.s);
-            } catch (e) {
-                return Promise.reject(e);
+                return Promise.reject(new TypeError("The iterator does not provide a 'throw' method"));
             }
+            return AsyncFromSyncIteratorContinuation(thr.apply(this.s, arguments), this.s);
         }
     }, new AsyncFromSyncIterator(s);
 }
