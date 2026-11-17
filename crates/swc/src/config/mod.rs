@@ -1893,6 +1893,12 @@ pub struct ReactCompilerConfig {
     #[serde(default)]
     pub is_dev: Option<bool>,
 
+    /// ESLint rules whose suppressions opt a function out of compilation.
+    ///
+    /// The compiler only looks for these suppressions when
+    /// `environment.validateExhaustiveMemoizationDependencies` or
+    /// `environment.validateHooksUsage` is disabled; with both enabled (the
+    /// default) it validates those rules itself and ignores the suppressions.
     #[serde(default)]
     pub eslint_suppression_rules: Option<Vec<String>>,
 
@@ -2100,6 +2106,24 @@ pub struct ReactCompilerEnvironmentConfig {
     /// `environment.enable_function_outlining` (default `true`).
     #[serde(default)]
     pub enable_function_outlining: Option<bool>,
+
+    /// Validate that the dependencies of manual memoization (`useMemo`,
+    /// `useCallback`) are exhaustive. Maps to the compiler's
+    /// `environment.validate_exhaustive_memoization_dependencies` (default
+    /// `true`).
+    ///
+    /// While this and `validate_hooks_usage` are both enabled, the compiler
+    /// ignores ESLint suppressions, so disabling either one makes
+    /// `eslintSuppressionRules` (or its default rules) take effect.
+    #[serde(default)]
+    pub validate_exhaustive_memoization_dependencies: Option<bool>,
+
+    /// Validate the Rules of Hooks. Maps to the compiler's
+    /// `environment.validate_hooks_usage` (default `true`). See
+    /// `validate_exhaustive_memoization_dependencies` for how it interacts
+    /// with ESLint suppressions.
+    #[serde(default)]
+    pub validate_hooks_usage: Option<bool>,
 }
 
 #[cfg(feature = "react-compiler")]
@@ -2113,6 +2137,17 @@ impl ReactCompilerEnvironmentConfig {
     fn apply_to(self, options: &mut swc_ecma_react_compiler::PluginOptions) {
         if let Some(enable_function_outlining) = self.enable_function_outlining {
             options.environment.enable_function_outlining = enable_function_outlining;
+        }
+        if let Some(validate_exhaustive_memoization_dependencies) =
+            self.validate_exhaustive_memoization_dependencies
+        {
+            options
+                .environment
+                .validate_exhaustive_memoization_dependencies =
+                validate_exhaustive_memoization_dependencies;
+        }
+        if let Some(validate_hooks_usage) = self.validate_hooks_usage {
+            options.environment.validate_hooks_usage = validate_hooks_usage;
         }
     }
 }
