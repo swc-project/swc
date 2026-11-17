@@ -1528,8 +1528,9 @@ fn is_discardable_class_default_member(member: &ClassMember) -> bool {
         ClassMember::Method(method) => !method.key.is_computed(),
         ClassMember::ClassProp(prop) => !prop.key.is_computed(),
         ClassMember::AutoAccessor(accessor) => {
-            // Static auto-accessor initializers run while evaluating the class,
-            // but the class-side-effect extractor cannot reconstruct them.
+            // Static auto-accessor initializers run while evaluating the class.
+            // `NonDiscardableDefaultVisitor::visit_class` does not check them,
+            // so keep a class default that has one.
             (!accessor.is_static || accessor.value.is_none())
                 && !matches!(&accessor.key, Key::Public(key) if key.is_computed())
         }
