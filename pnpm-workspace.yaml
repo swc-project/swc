@@ -1,10 +1,14 @@
 packages:
-  - ./.github/bot
-  - ./.github/swc-ecosystem-ci
-  - ./packages/*
-  - ./packages/core/scripts/npm/*
-  - ./packages/minifier/scripts/npm/*
-  - ./packages/html/scripts/npm/*
-  - ./packages/react-compiler/scripts/npm/*
-  - ./bindings/*
-  - ./bindings/binding_core_wasm/*
+    - ./scripts
+    - ./.github/bot
+    - ./.github/swc-ecosystem-ci
+    - ./packages/*
+    - ./packages/core/scripts/npm/*
+    - ./packages/minifier/scripts/npm/*
+    - ./packages/html/scripts/npm/*
+    - ./packages/react-compiler/scripts/npm/*
+    - ./bindings/*
+    - ./bindings/binding_core_wasm/*
+
+catalog:
+    smol-toml: ^1.9.1

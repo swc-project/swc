@@ -1,0 +1,7 @@
+{
+    "name": "@swc/scripts",
+    "private": true,
+    "devDependencies": {
+        "smol-toml": "catalog:"
+    }
+}

@@ -4,6 +4,12 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    smol-toml:
+      specifier: ^1.9.1
+      version: 1.9.1
+
 importers:
 
   .:
@@ -506,6 +512,12 @@ importers:
       typescript:
         specifier: ^5.2.2
         version: 5.5.4
+
+  scripts:
+    devDependencies:
+      smol-toml:
+        specifier: 'catalog:'
+        version: 1.9.1
 
 packages:
 

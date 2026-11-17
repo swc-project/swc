@@ -2,12 +2,12 @@
 
 import { spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { dirname, join } from "node:path";
+import path from "node:path";
+import { cargoFixitPaths, getEnvVar } from "./paths/cargo-fixit.mjs";
 import process from "node:process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = fileURLToPath(new URL("../../", import.meta.url));
-const VERSION = "0.1.17";
 
 /** Apply local Rust fixes before the native build; CI never edits sources. */
 export function fixRust({
@@ -19,12 +19,9 @@ export function fixRust({
 } = {}) {
     if (env.CI && env.CI !== "false" && env.CI !== "0") return;
 
-    const installRoot = join(root, ".swc", "cargo-fixit", VERSION);
-    const binary = join(
-        installRoot,
-        "bin",
-        platform === "win32" ? "cargo-fixit.exe" : "cargo-fixit",
-    );
+    const { version, installRoot, binPath } = cargoFixitPaths(root);
+    const binaryName = `cargo-fixit${platform === "win32" ? ".exe" : ""}`;
+    const binary = path.join(binPath, binaryName);
     const execute = (args, commandEnv = env) => {
         const result = run("cargo", args, {
             cwd: root,
@@ -44,22 +41,19 @@ export function fixRust({
             "install",
             "cargo-fixit",
             "--version",
-            VERSION,
+            version,
             "--locked",
             "--root",
             installRoot,
         ]);
     }
-    const pathKey =
-        (platform === "win32" &&
-            Object.keys(env).find((key) => key.toLowerCase() === "path")) ||
-        "PATH";
+    const { key: pathKey, value: currentPath } = getEnvVar(env, "PATH");
+    const commandEnv = { ...env };
+    commandEnv[pathKey] = `${binPath}${path.delimiter}${currentPath}`;
+
     execute(
         ["fixit", "--clippy", "--workspace", "--all-targets", "--allow-dirty"],
-        {
-            ...env,
-            [pathKey]: `${dirname(binary)}${platform === "win32" ? ";" : ":"}${env[pathKey] || ""}`,
-        },
+        commandEnv,
     );
 }
 

@@ -95,9 +95,13 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
 
-      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      - uses: ./.github/actions/setup-node
         with:
-          node-version: "24"
+          install-dependencies: false
+          cache: false
+
+      - name: Install script dependencies
+        run: pnpm install --filter @swc/scripts --frozen-lockfile --ignore-scripts
 
       - name: Test repository scripts
         run: |

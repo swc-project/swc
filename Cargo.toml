@@ -9,6 +9,9 @@ members = [
 ]
 resolver = "2"
 
+[workspace.metadata.cargo-fixit]
+version = "0.1.17"
+
 [workspace.package]
 edition    = "2021"
 license    = "Apache-2.0"
