@@ -256,6 +256,39 @@ pub(crate) fn extract_class_side_effect<'a>(
                     }
                 }
             }
+            ClassMember::AutoAccessor(AutoAccessor {
+                key,
+                value: initializer,
+                is_static,
+                ..
+            }) => {
+                if let Key::Public(PropName::Computed(key)) = key {
+                    if key.expr.may_have_side_effects(expr_ctx) {
+                        if refers_to_class(&key.expr) {
+                            return None;
+                        }
+
+                        res.push(&mut key.expr);
+                    }
+                }
+
+                // A static auto-accessor initializer runs while the class is
+                // evaluated, like a static property initializer.
+                if let Some(v) = initializer {
+                    if *is_static && v.may_have_side_effects(expr_ctx) {
+                        v.visit_with(&mut visitor);
+                        if visitor.found {
+                            return None;
+                        }
+
+                        if refers_to_class(v) {
+                            return None;
+                        }
+
+                        value.push(v);
+                    }
+                }
+            }
             ClassMember::PrivateProp(PrivateProp {
                 value: Some(v),
                 is_static: true,
