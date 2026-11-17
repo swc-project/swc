@@ -13,6 +13,7 @@ const VERSION = "0.1.17";
 export function fixRust({
     root = ROOT,
     env = process.env,
+    platform = process.platform,
     run = spawnSync,
     exists = existsSync,
 } = {}) {
@@ -22,7 +23,7 @@ export function fixRust({
     const binary = join(
         installRoot,
         "bin",
-        process.platform === "win32" ? "cargo-fixit.exe" : "cargo-fixit",
+        platform === "win32" ? "cargo-fixit.exe" : "cargo-fixit",
     );
     const execute = (args, commandEnv = env) => {
         const result = run("cargo", args, {
@@ -50,12 +51,14 @@ export function fixRust({
         ]);
     }
     const pathKey =
-        Object.keys(env).find((key) => key.toLowerCase() === "path") || "PATH";
+        (platform === "win32" &&
+            Object.keys(env).find((key) => key.toLowerCase() === "path")) ||
+        "PATH";
     execute(
         ["fixit", "--clippy", "--workspace", "--all-targets", "--allow-dirty"],
         {
             ...env,
-            [pathKey]: `${dirname(binary)}${process.platform === "win32" ? ";" : ":"}${env[pathKey] || ""}`,
+            [pathKey]: `${dirname(binary)}${platform === "win32" ? ";" : ":"}${env[pathKey] || ""}`,
         },
     );
 }

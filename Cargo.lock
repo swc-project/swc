@@ -5644,7 +5644,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "82.0.3"
+version = "82.0.4"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5925,7 +5925,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "84.1.1"
+version = "84.1.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6182,7 +6182,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "33.0.1"
+version = "33.0.2"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -6478,7 +6478,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "64.0.6"
+version = "64.0.7"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6695,7 +6695,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "65.0.0"
+version = "65.0.1"
 dependencies = [
  "par-core",
  "swc_common",
@@ -6715,7 +6715,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "51.0.2"
+version = "51.0.3"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -6951,7 +6951,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "36.1.0"
+version = "36.1.1"
 dependencies = [
  "dragonbox_ecma",
  "hashbrown 0.14.5",

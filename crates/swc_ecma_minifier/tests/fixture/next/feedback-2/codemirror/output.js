@@ -1247,11 +1247,11 @@ function(global, factory) {
         if (arr.length) {
             var list, args = Array.prototype.slice.call(arguments, 2);
             operationGroup ? list = operationGroup.delayedCallbacks : orphanDelayedCallbacks ? list = orphanDelayedCallbacks : (list = orphanDelayedCallbacks = [], setTimeout(fireOrphanDelayed, 0));
-            for(var loop = function(i) {
+            for(var i = 0; i < arr.length; ++i)!function(i) {
                 list.push(function() {
                     return arr[i].apply(null, args);
                 });
-            }, i = 0; i < arr.length; ++i)loop(i);
+            }(i);
         }
     }
     function fireOrphanDelayed() {
@@ -4142,8 +4142,8 @@ function(global, factory) {
                     };
                     makeChange(cm.doc, change), setSelectionReplaceHistory(cm.doc, simpleSelection(clipPos(cm.doc, pos), clipPos(cm.doc, changeEnd(change))));
                 })();
-            }, readTextFromFile = function(file, i) {
-                if (cm.options.allowDropFileTypes && -1 == indexOf(cm.options.allowDropFileTypes, file.type)) return void markAsReadAndPasteIfAllFilesAreRead();
+            }, i = 0; i < files.length; i++)!function(file, i) {
+                if (cm.options.allowDropFileTypes && -1 == indexOf(cm.options.allowDropFileTypes, file.type)) return markAsReadAndPasteIfAllFilesAreRead();
                 var reader = new FileReader();
                 reader.onerror = function() {
                     return markAsReadAndPasteIfAllFilesAreRead();
@@ -4151,7 +4151,7 @@ function(global, factory) {
                     var content = reader.result;
                     /[\x00-\x08\x0e-\x1f]{2}/.test(content) || (text[i] = content), markAsReadAndPasteIfAllFilesAreRead();
                 }, reader.readAsText(file);
-            }, i = 0; i < files.length; i++)readTextFromFile(files[i], i);
+            }(files[i], i);
             else {
                 // Normal drop
                 // Don't do a replace if the drop happened inside of the selected text.
