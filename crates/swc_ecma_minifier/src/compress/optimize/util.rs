@@ -183,8 +183,8 @@ pub(crate) fn extract_class_side_effect<'a>(
         found: false,
         private_ident: FxHashSet::default(),
         nested_class_depth: 0,
-        sloppy_unresolved_ctxt: (!expr_ctx.in_strict).then_some(expr_ctx.unresolved_ctxt),
         in_strict: expr_ctx.in_strict,
+        unresolved_ctxt: expr_ctx.unresolved_ctxt,
         in_outer_context: false,
     };
 
@@ -325,11 +325,9 @@ struct ClassEffectVisitor {
     found: bool,
     private_ident: FxHashSet<Atom>,
     nested_class_depth: usize,
-    /// The syntax context of unresolved identifiers, if the code around the
-    /// class is not strict.
-    sloppy_unresolved_ctxt: Option<SyntaxContext>,
     /// `true` if the code around the class is strict.
     in_strict: bool,
+    unresolved_ctxt: SyntaxContext,
     /// `true` while checking a heritage expression or a computed key. These
     /// use the `this` and `new.target` of the code around the class, so
     /// moving them out of the class keeps their meaning.
@@ -351,6 +349,38 @@ impl ClassEffectVisitor {
         }
 
         !class_ident.is_some_and(|id| IdentUsageFinder::find(id, e))
+    }
+
+    /// Returns `true` if code at the current position is strict in the class
+    /// body but sloppy after it is moved out of the class.
+    ///
+    /// A nested class stays strict when it is moved, so code in a nested class
+    /// is not affected.
+    fn in_moved_sloppy_code(&self) -> bool {
+        !self.in_strict && self.nested_class_depth == 0
+    }
+
+    /// Returns `true` if a write to `target` behaves differently when it is
+    /// moved out of the strict class body into sloppy code.
+    ///
+    /// In sloppy code, an assignment to an undeclared variable creates a
+    /// global instead of throwing, and a failed property write, for example on
+    /// a primitive, does nothing instead of throwing. A write to a declared
+    /// variable behaves the same in both modes.
+    fn is_strict_sensitive_target<N>(&self, target: &N) -> bool
+    where
+        N: VisitWith<StrictSensitiveTargetFinder>,
+    {
+        if !self.in_moved_sloppy_code() {
+            return false;
+        }
+
+        let mut finder = StrictSensitiveTargetFinder {
+            unresolved_ctxt: self.unresolved_ctxt,
+            found: false,
+        };
+        target.visit_with(&mut finder);
+        finder.found
     }
 
     /// Like [Self::can_extract], for a heritage expression or a computed key.
@@ -401,32 +431,45 @@ impl Visit for ClassEffectVisitor {
     }
 
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
-        if let Some(unresolved_ctxt) = self.sloppy_unresolved_ctxt {
-            // The class body is strict, so an assignment to an undeclared
-            // variable throws a `ReferenceError`. Moved into sloppy code, it
-            // creates a global variable instead.
-            let mut finder = UnresolvedBindingFinder {
-                unresolved_ctxt,
-                found: false,
-            };
-            n.left.visit_with(&mut finder);
-            if finder.found {
-                self.found = true;
-                return;
-            }
+        if self.is_strict_sensitive_target(&n.left) {
+            self.found = true;
+            return;
         }
 
         n.visit_children_with(self);
     }
 
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
-        if let Some(unresolved_ctxt) = self.sloppy_unresolved_ctxt {
-            // Like an assignment, an update of an undeclared variable throws
-            // only in strict code.
-            if matches!(&*n.arg, Expr::Ident(i) if i.ctxt == unresolved_ctxt) {
-                self.found = true;
-                return;
-            }
+        if self.is_strict_sensitive_target(&n.arg) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_unary_expr(&mut self, n: &UnaryExpr) {
+        if n.op == op!("delete") && self.in_moved_sloppy_code() {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        if matches!(&n.left, ForHead::Pat(pat) if self.is_strict_sensitive_target(pat)) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        if matches!(&n.left, ForHead::Pat(pat) if self.is_strict_sensitive_target(pat)) {
+            self.found = true;
+            return;
         }
 
         n.visit_children_with(self);
@@ -507,17 +550,29 @@ impl Visit for ClassEffectVisitor {
     }
 }
 
-/// Finds an assignment target that binds an unresolved identifier.
-struct UnresolvedBindingFinder {
+/// Finds a write target whose behavior depends on strict mode: an undeclared
+/// variable or a property.
+///
+/// It also visits default values in patterns, so a property read there is
+/// treated as a target too. This is conservative.
+struct StrictSensitiveTargetFinder {
     unresolved_ctxt: SyntaxContext,
     found: bool,
 }
 
-impl Visit for UnresolvedBindingFinder {
+impl Visit for StrictSensitiveTargetFinder {
     noop_visit_type!();
 
-    fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        self.found |= n.id.ctxt == self.unresolved_ctxt;
+    fn visit_ident(&mut self, n: &Ident) {
+        self.found |= n.ctxt == self.unresolved_ctxt;
+    }
+
+    fn visit_member_expr(&mut self, _: &MemberExpr) {
+        self.found = true;
+    }
+
+    fn visit_super_prop_expr(&mut self, _: &SuperPropExpr) {
+        self.found = true;
     }
 }
 
