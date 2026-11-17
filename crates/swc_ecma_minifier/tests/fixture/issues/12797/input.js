@@ -13,6 +13,22 @@ class E {
     static cache = new Map();
 }
 
+// A self mutation through a call or `new` argument in the class body does not
+// keep the class either.
+class J {
+    static set(x) {
+        Object.assign(J, x);
+    }
+    static cache = baz();
+}
+
+class K {
+    set(x) {
+        new Foo(K, x);
+    }
+    static cache = qux();
+}
+
 // The cases below must keep the class.
 
 class F {
@@ -37,3 +53,11 @@ class I {
     static cache = foo();
 }
 I.set(1);
+
+class L {
+    static set(x) {
+        L.value = x;
+    }
+    static cache = foo();
+}
+Object.assign(L, { value: 1 });

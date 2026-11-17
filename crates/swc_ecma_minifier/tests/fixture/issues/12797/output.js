@@ -1,4 +1,4 @@
-foo(), bar();
+foo(), bar(), baz(), qux();
 // The cases below must keep the class.
 class F {
     static set(x) {
@@ -25,3 +25,12 @@ class I {
     static cache = foo();
 }
 I.set(1);
+class L {
+    static set(x) {
+        L.value = x;
+    }
+    static cache = foo();
+}
+Object.assign(L, {
+    value: 1
+});
