@@ -356,6 +356,17 @@ impl Visit for ClassEffectVisitor {
         self.found = true;
     }
 
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
+        // `new.target` in a static initializer of this class, including one in
+        // an arrow function, is `undefined`. Outside the class it refers to the
+        // enclosing function's `new.target`, or it is a syntax error. A
+        // `new.target` in a nested class stays in that class when the
+        // initializer is moved.
+        if n.kind == MetaPropKind::NewTarget && self.nested_class_depth == 0 {
+            self.found = true;
+        }
+    }
+
     fn visit_prop(&mut self, n: &Prop) {
         n.visit_children_with(self);
 
