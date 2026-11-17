@@ -94,8 +94,13 @@ bitflags::bitflags! {
         /// The binding's value may be changed by another module.
         const EXTERNALLY_MUTABLE        = 1 << 26;
 
-        /// A property of the binding is mutated outside the body of the class
-        /// or function that the binding names.
+        /// A property of the binding is mutated at a position where a read of
+        /// the binding counts as a usage.
+        ///
+        /// A mutation is not counted here when it is in the body of the class or
+        /// function that the binding names, or in the side-effect-free
+        /// initializer of the variable `v` in `var v = ...`. The usage analyzer
+        /// also ignores reads of the binding at these positions.
         ///
         /// A self mutation such as `C.x = v` in a method of class `C` does not
         /// set this flag. Like a self read, it runs only after code outside the
