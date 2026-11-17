@@ -184,6 +184,8 @@ pub(crate) fn extract_class_side_effect<'a>(
         private_ident: FxHashSet::default(),
         nested_class_depth: 0,
         sloppy_unresolved_ctxt: (!expr_ctx.in_strict).then_some(expr_ctx.unresolved_ctxt),
+        in_strict: expr_ctx.in_strict,
+        in_outer_context: false,
     };
 
     for m in &mut c.body {
@@ -200,11 +202,12 @@ pub(crate) fn extract_class_side_effect<'a>(
 
     // A side-effecting heritage expression or computed key is kept in the
     // output, but it is moved out of the strict class body. Check it like a
-    // static initializer. The private names of the class are not in scope in
-    // the heritage expression, so checking them there is only conservative.
+    // static initializer, but in the context of the code around the class. The
+    // private names of the class are not in scope in the heritage expression,
+    // so checking them there is only conservative.
     if let Some(e) = &mut c.super_class {
         if e.may_have_side_effects(expr_ctx) {
-            if !visitor.can_extract(e, ident) {
+            if !visitor.can_extract_outer(e, ident) {
                 return None;
             }
 
@@ -219,7 +222,7 @@ pub(crate) fn extract_class_side_effect<'a>(
                 ..
             }) => {
                 if key.expr.may_have_side_effects(expr_ctx) {
-                    if !visitor.can_extract(&key.expr, ident) {
+                    if !visitor.can_extract_outer(&key.expr, ident) {
                         return None;
                     }
 
@@ -230,7 +233,7 @@ pub(crate) fn extract_class_side_effect<'a>(
             ClassMember::ClassProp(p) => {
                 if let PropName::Computed(key) = &mut p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
-                        if !visitor.can_extract(&key.expr, ident) {
+                        if !visitor.can_extract_outer(&key.expr, ident) {
                             return None;
                         }
 
@@ -256,7 +259,7 @@ pub(crate) fn extract_class_side_effect<'a>(
             }) => {
                 if let Key::Public(PropName::Computed(key)) = key {
                     if key.expr.may_have_side_effects(expr_ctx) {
-                        if !visitor.can_extract(&key.expr, ident) {
+                        if !visitor.can_extract_outer(&key.expr, ident) {
                             return None;
                         }
 
@@ -325,6 +328,12 @@ struct ClassEffectVisitor {
     /// The syntax context of unresolved identifiers, if the code around the
     /// class is not strict.
     sloppy_unresolved_ctxt: Option<SyntaxContext>,
+    /// `true` if the code around the class is strict.
+    in_strict: bool,
+    /// `true` while checking a heritage expression or a computed key. These
+    /// use the `this` and `new.target` of the code around the class, so
+    /// moving them out of the class keeps their meaning.
+    in_outer_context: bool,
 }
 
 impl ClassEffectVisitor {
@@ -342,6 +351,14 @@ impl ClassEffectVisitor {
         }
 
         !class_ident.is_some_and(|id| IdentUsageFinder::find(id, e))
+    }
+
+    /// Like [Self::can_extract], for a heritage expression or a computed key.
+    fn can_extract_outer(&mut self, e: &Expr, class_ident: Option<&Ident>) -> bool {
+        self.in_outer_context = true;
+        let can_extract = self.can_extract(e, class_ident);
+        self.in_outer_context = false;
+        can_extract
     }
 }
 
@@ -361,7 +378,11 @@ impl Visit for ClassEffectVisitor {
         // functions into the surrounding scope and can change their semantics.
         // Functions inside a nested class stay within that class when the
         // initializer is relocated, so their strictness is preserved.
-        if self.nested_class_depth == 0 {
+        //
+        // A function in a heritage expression or computed key keeps its
+        // meaning when the code around the class is strict, because it does
+        // not use the `this` of a static initializer.
+        if self.nested_class_depth == 0 && !(self.in_outer_context && self.in_strict) {
             self.found = true;
             return;
         }
@@ -412,7 +433,11 @@ impl Visit for ClassEffectVisitor {
     }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
-        self.found = true;
+        // A heritage expression or computed key uses the `this` of the code
+        // around the class.
+        if !self.in_outer_context {
+            self.found = true;
+        }
     }
 
     fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
@@ -425,7 +450,10 @@ impl Visit for ClassEffectVisitor {
         // visitor does not visit functions in a nested class, which have their
         // own `new.target`. A `new.target` in a field of a nested class also
         // has its own value, but it is rare, so it is rejected for simplicity.
-        if n.kind == MetaPropKind::NewTarget {
+        //
+        // A heritage expression or computed key uses the `new.target` of the
+        // code around the class, so it keeps its meaning when it is moved.
+        if n.kind == MetaPropKind::NewTarget && !self.in_outer_context {
             self.found = true;
         }
     }
