@@ -6,9 +6,9 @@ let result = 0;
             result = 1;
         }
     },
-    [assert.strictEqual(result, 1)]: null,
-    [result = 2]: null,
-    [assert.strictEqual(result, 2)]: null,
+    0: assert.strictEqual(result, 1),
+    0: result = 2,
+    0: assert.strictEqual(result, 2),
     ...{
         get prop () {
             result = 3;
