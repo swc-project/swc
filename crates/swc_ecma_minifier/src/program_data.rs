@@ -93,6 +93,16 @@ bitflags::bitflags! {
 
         /// The binding's value may be changed by another module.
         const EXTERNALLY_MUTABLE        = 1 << 26;
+
+        /// A property of the binding is mutated outside the body of the class
+        /// or function that the binding names.
+        ///
+        /// A self mutation such as `C.x = v` in a method of class `C` does not
+        /// set this flag. Like a self read, it runs only after code outside the
+        /// body gets a reference to `C`, so it does not keep an otherwise
+        /// unused declaration alive. [VarUsageInfo::property_mutation_count]
+        /// still counts self mutations.
+        const PROPERTY_MUTATED_OUTSIDE_SELF = 1 << 27;
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -311,6 +321,7 @@ impl Storage for ProgramData {
                     let e_flags = &mut e.flags;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXTERNALLY_MUTABLE;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
@@ -557,9 +568,13 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutation(&mut self, id: Id) {
+    fn mark_property_mutation(&mut self, id: Id, is_self_mutation: bool) {
         let e = self.vars.entry(id).or_default();
         e.property_mutation_count += 1;
+        if !is_self_mutation {
+            e.flags
+                .insert(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF);
+        }
 
         if e.infects_to.is_empty() {
             return;
@@ -576,6 +591,11 @@ impl Storage for ProgramData {
             let other = self.vars.entry(other).or_default();
 
             other.property_mutation_count += 1;
+            // The analyzer does not know whether this mutation site is in the
+            // body of the alias target, so treat it as an outside mutation.
+            other
+                .flags
+                .insert(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF);
         }
     }
 

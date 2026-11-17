@@ -627,11 +627,22 @@ impl Optimizer<'_> {
         match decl {
             Decl::Class(ClassDecl { ident, class, .. }) => {
                 // If it is not used, drop it.
+                //
+                // A property mutation in the class body, such as `C.x = v` in a
+                // method, does not keep the class. The method runs only if code
+                // outside the class gets a reference to `C`, and such a reference
+                // is counted in `usage_count`. A static initializer that refers to
+                // `C` is kept by `extract_class_side_effect`.
                 if self
                     .data
                     .vars
                     .get(&ident.to_id())
-                    .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
+                    .map(|v| {
+                        v.usage_count == 0
+                            && !v
+                                .flags
+                                .contains(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF)
+                    })
                     .unwrap_or(false)
                 {
                     let Some(side_effects) =
