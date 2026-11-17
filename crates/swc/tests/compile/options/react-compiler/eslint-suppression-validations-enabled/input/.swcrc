@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            },
+            "reactCompiler": {
+                "eslintSuppressionRules": ["react-hooks/exhaustive-deps"]
+            }
+        }
+    }
+}
