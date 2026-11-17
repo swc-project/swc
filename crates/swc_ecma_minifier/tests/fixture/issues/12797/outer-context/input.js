@@ -22,3 +22,23 @@ function f() {
 }
 
 new f();
+
+// `super` in a heritage expression or computed key also refers to the code
+// around the class, here the method `m`.
+class A extends Object {
+    static m() {
+        class E extends (foo(super.x), Object) {
+            static set(x) {
+                E.value = x;
+            }
+        }
+
+        class F {
+            static set(x) {
+                F.value = x;
+            }
+            [foo(super.y)]() {}
+        }
+    }
+}
+A.m();

@@ -336,8 +336,8 @@ struct ClassEffectVisitor<'d> {
     unresolved_ctxt: SyntaxContext,
     data: &'d ProgramData,
     /// `true` while checking a heritage expression or a computed key. These
-    /// use the `this` and `new.target` of the code around the class, so
-    /// moving them out of the class keeps their meaning.
+    /// use the `this`, `super` and `new.target` of the code around the class,
+    /// so moving them out of the class keeps their meaning.
     in_outer_context: bool,
 }
 
@@ -533,7 +533,11 @@ impl Visit for ClassEffectVisitor<'_> {
     }
 
     fn visit_super(&mut self, _: &Super) {
-        self.found = true;
+        // A heritage expression or computed key uses the `super` of the code
+        // around the class, like `this`.
+        if !self.in_outer_context {
+            self.found = true;
+        }
     }
 
     fn visit_private_name(&mut self, n: &PrivateName) {
