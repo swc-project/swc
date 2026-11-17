@@ -179,22 +179,6 @@ pub(crate) fn extract_class_side_effect<'a>(
     let mut res = Vec::new();
     let mut value = Vec::new();
 
-    // A side-effecting heritage expression or computed key is kept in the
-    // output, but the class binding is dropped. If the expression refers to the
-    // class, for example in a callback that it stores, the kept code would
-    // refer to a binding that no longer exists.
-    let refers_to_class = |e: &Expr| ident.is_some_and(|id| IdentUsageFinder::find(id, e));
-
-    if let Some(e) = &mut c.super_class {
-        if e.may_have_side_effects(expr_ctx) {
-            if refers_to_class(e) {
-                return None;
-            }
-
-            res.push(e);
-        }
-    }
-
     let mut visitor = ClassEffectVisitor {
         found: false,
         private_ident: FxHashSet::default(),
@@ -213,6 +197,20 @@ pub(crate) fn extract_class_side_effect<'a>(
         }
     }
 
+    // A side-effecting heritage expression or computed key is kept in the
+    // output, but it is moved out of the strict class body. Check it like a
+    // static initializer. The private names of the class are not in scope in
+    // the heritage expression, so checking them there is only conservative.
+    if let Some(e) = &mut c.super_class {
+        if e.may_have_side_effects(expr_ctx) {
+            if !visitor.can_extract(e, ident) {
+                return None;
+            }
+
+            res.push(e);
+        }
+    }
+
     for m in &mut c.body {
         match m {
             ClassMember::Method(ClassMethod {
@@ -220,7 +218,7 @@ pub(crate) fn extract_class_side_effect<'a>(
                 ..
             }) => {
                 if key.expr.may_have_side_effects(expr_ctx) {
-                    if refers_to_class(&key.expr) {
+                    if !visitor.can_extract(&key.expr, ident) {
                         return None;
                     }
 
@@ -231,7 +229,7 @@ pub(crate) fn extract_class_side_effect<'a>(
             ClassMember::ClassProp(p) => {
                 if let PropName::Computed(key) = &mut p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
-                        if refers_to_class(&key.expr) {
+                        if !visitor.can_extract(&key.expr, ident) {
                             return None;
                         }
 
@@ -241,15 +239,8 @@ pub(crate) fn extract_class_side_effect<'a>(
 
                 if let Some(v) = &mut p.value {
                     if p.is_static && v.may_have_side_effects(expr_ctx) {
-                        v.visit_with(&mut visitor);
-                        if visitor.found {
+                        if !visitor.can_extract(v, ident) {
                             return None;
-                        }
-
-                        if let Some(id) = ident {
-                            if IdentUsageFinder::find(id, v) {
-                                return None;
-                            }
                         }
 
                         value.push(v);
@@ -264,7 +255,7 @@ pub(crate) fn extract_class_side_effect<'a>(
             }) => {
                 if let Key::Public(PropName::Computed(key)) = key {
                     if key.expr.may_have_side_effects(expr_ctx) {
-                        if refers_to_class(&key.expr) {
+                        if !visitor.can_extract(&key.expr, ident) {
                             return None;
                         }
 
@@ -276,12 +267,7 @@ pub(crate) fn extract_class_side_effect<'a>(
                 // evaluated, like a static property initializer.
                 if let Some(v) = initializer {
                     if *is_static && v.may_have_side_effects(expr_ctx) {
-                        v.visit_with(&mut visitor);
-                        if visitor.found {
-                            return None;
-                        }
-
-                        if refers_to_class(v) {
+                        if !visitor.can_extract(v, ident) {
                             return None;
                         }
 
@@ -295,15 +281,8 @@ pub(crate) fn extract_class_side_effect<'a>(
                 ..
             }) => {
                 if v.may_have_side_effects(expr_ctx) {
-                    v.visit_with(&mut visitor);
-                    if visitor.found {
+                    if !visitor.can_extract(v, ident) {
                         return None;
-                    }
-
-                    if let Some(id) = ident {
-                        if IdentUsageFinder::find(id, v) {
-                            return None;
-                        }
                     }
 
                     value.push(v);
@@ -321,15 +300,8 @@ pub(crate) fn extract_class_side_effect<'a>(
                 };
 
                 if first.may_have_side_effects(expr_ctx) {
-                    first.visit_with(&mut visitor);
-                    if visitor.found {
+                    if !visitor.can_extract(first, ident) {
                         return None;
-                    }
-
-                    if let Some(id) = ident {
-                        if IdentUsageFinder::find(id, first) {
-                            return None;
-                        }
                     }
 
                     value.push(first);
@@ -349,6 +321,24 @@ struct ClassEffectVisitor {
     found: bool,
     private_ident: FxHashSet<Atom>,
     nested_class_depth: usize,
+}
+
+impl ClassEffectVisitor {
+    /// Returns `true` if `e` can be moved out of the class body when the class
+    /// is dropped.
+    ///
+    /// `e` must not contain code whose meaning depends on the class body, and
+    /// it must not refer to `class_ident`, which is dropped with the class.
+    /// For example, a callback that `e` stores could otherwise refer to the
+    /// dropped binding.
+    fn can_extract(&mut self, e: &Expr, class_ident: Option<&Ident>) -> bool {
+        e.visit_with(self);
+        if self.found {
+            return false;
+        }
+
+        !class_ident.is_some_and(|id| IdentUsageFinder::find(id, e))
+    }
 }
 
 impl Visit for ClassEffectVisitor {
