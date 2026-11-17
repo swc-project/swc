@@ -3744,15 +3744,15 @@
                         id: options.id || "vjs_track_" + _guid++,
                         kind: options.kind || "",
                         language: options.language || ""
-                    }, label = options.label || "", _loop = function(key) {
+                    }, label = options.label || "";
+                    for(var key in trackProps)!function(key) {
                         Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), key, {
                             get: function() {
                                 return trackProps[key];
                             },
                             set: function() {}
                         });
-                    };
-                    for(var key in trackProps)_loop(key);
+                    }(key);
                     return(/**
                      * @memberof Track
                      * @member {string} label
