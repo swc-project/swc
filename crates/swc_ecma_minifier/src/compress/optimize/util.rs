@@ -183,6 +183,7 @@ pub(crate) fn extract_class_side_effect<'a>(
         found: false,
         private_ident: FxHashSet::default(),
         nested_class_depth: 0,
+        sloppy_unresolved_ctxt: (!expr_ctx.in_strict).then_some(expr_ctx.unresolved_ctxt),
     };
 
     for m in &mut c.body {
@@ -321,6 +322,9 @@ struct ClassEffectVisitor {
     found: bool,
     private_ident: FxHashSet<Atom>,
     nested_class_depth: usize,
+    /// The syntax context of unresolved identifiers, if the code around the
+    /// class is not strict.
+    sloppy_unresolved_ctxt: Option<SyntaxContext>,
 }
 
 impl ClassEffectVisitor {
@@ -373,6 +377,38 @@ impl Visit for ClassEffectVisitor {
         n.visit_children_with(&mut visitor);
 
         self.found |= visitor.found;
+    }
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if let Some(unresolved_ctxt) = self.sloppy_unresolved_ctxt {
+            // The class body is strict, so an assignment to an undeclared
+            // variable throws a `ReferenceError`. Moved into sloppy code, it
+            // creates a global variable instead.
+            let mut finder = UnresolvedBindingFinder {
+                unresolved_ctxt,
+                found: false,
+            };
+            n.left.visit_with(&mut finder);
+            if finder.found {
+                self.found = true;
+                return;
+            }
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if let Some(unresolved_ctxt) = self.sloppy_unresolved_ctxt {
+            // Like an assignment, an update of an undeclared variable throws
+            // only in strict code.
+            if matches!(&*n.arg, Expr::Ident(i) if i.ctxt == unresolved_ctxt) {
+                self.found = true;
+                return;
+            }
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
@@ -440,6 +476,20 @@ impl Visit for ClassEffectVisitor {
         n.body.visit_with(self);
         self.nested_class_depth -= 1;
         self.private_ident = old_set;
+    }
+}
+
+/// Finds an assignment target that binds an unresolved identifier.
+struct UnresolvedBindingFinder {
+    unresolved_ctxt: SyntaxContext,
+    found: bool,
+}
+
+impl Visit for UnresolvedBindingFinder {
+    noop_visit_type!();
+
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
+        self.found |= n.id.ctxt == self.unresolved_ctxt;
     }
 }
 
