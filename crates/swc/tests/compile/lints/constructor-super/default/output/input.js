@@ -407,9 +407,9 @@ var V2 = /*#__PURE__*/ function(_B) {
         return _call_super._(this, V2);
     }
     return V2;
-}(function B1() {
+}(function B() {
     "use strict";
-    _class_call_check._(this, B1);
+    _class_call_check._(this, B);
 });
 var V3 = function V3() {
     "use strict";

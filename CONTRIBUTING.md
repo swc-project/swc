@@ -18,6 +18,17 @@ and unexpected behavior.
 
 You can open a new issue by following [this link][new-issues] and choosing one of the issue templates.
 
+### Where to file a bug
+
+-   File a bug in [swc-project/swc][issue-tracker] only if you actually
+    encountered it in real use. In the issue, describe the situation in which
+    the bug caused a problem. For example, tell us which project or build
+    broke, what you tried to do, and what went wrong.
+-   If you found a bug but did not encounter it in real use (for example, you
+    found it by reading the source code, by static analysis, by fuzzing, or
+    with an AI tool), file it in
+    [swc-project/swc-ai-issues][ai-issues] instead.
+
 ## Feature requests
 
 Please feel free to open an issue using the [feature request template][new-issues].
@@ -129,6 +140,10 @@ For running all tests, take the following steps:
 
     **TIP**: If you see errors while attempting to run the commands above, we usually do not run all tests at once. Instead, we run tests per package ([see below](#running-tests-per-package)), which you can use to verify your local setup.
 
+Local `pnpm build` and `pnpm build:dev` install cargo-fixit once and apply
+Clippy fixes before compiling. Review the source diff afterward. CI stays
+read-only and caches Clippy builds with Mr Boxington.
+
 ## Running tests per package
 
 While working on specific packages, individual tests can be run by specifying a package to the
@@ -150,22 +165,14 @@ Run the patch script from the repo root, providing the path to your project as t
 
 The script will:
 
-- Add necessary patches to `bindings/Cargo.toml`
-- Update Cargo dependencies
-- Build the project
+- Build the project (`pnpm build:dev`)
 - Update your project's `package.json` to use the local `@swc/core`
 
 If `@swc/core` is not found in your project's dependencies, the script will provide instructions for adding it based on your package manager (yarn, npm, or pnpm).
 
-To revert the changes:
+The script does not modify any Cargo files in this repository.
 
-1. Restore the original Cargo files in this repository:
-
-    ```bash
-    git restore bindings/Cargo.toml bindings/Cargo.lock
-    ```
-
-2. Update your overridden project's `package.json` to use the published version of `@swc/core`
+To revert the changes, update your overridden project's `package.json` to use the published version of `@swc/core`.
 
 ## Pull requests
 
@@ -280,6 +287,7 @@ adding labels to triage issues:
 
 [gist]: https://gist.github.com/
 [new-issues]: https://github.com/swc-project/swc/issues/new/choose
+[ai-issues]: https://github.com/swc-project/swc-ai-issues
 [e-easy]: https://github.com/swc-project/swc/labels/E-easy
 [e-mentor]: https://github.com/swc-project/swc/labels/E-mentor
 [code of conduct]: https://www.rust-lang.org/conduct.html

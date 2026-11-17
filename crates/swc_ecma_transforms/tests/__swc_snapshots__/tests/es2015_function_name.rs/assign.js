@@ -1,3 +1,3 @@
-number = function number1(x) {
+number = function number(x) {
     return x;
 };

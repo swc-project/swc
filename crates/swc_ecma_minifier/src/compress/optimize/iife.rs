@@ -1,6 +1,7 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, ExprFactory};
@@ -12,7 +13,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::util::may_inline_arrow,
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
-    util::{idents_captured_by, make_number},
+    util::make_number,
 };
 
 /// Methods related to the option `negate_iife`.
@@ -953,50 +954,57 @@ impl Optimizer<'_> {
     }
 
     fn can_inline_fn_stmt(&self, stmt: &Stmt, for_stmt: bool) -> bool {
-        match stmt {
-            Stmt::Decl(Decl::Var(var)) => {
-                for decl in &var.decls {
-                    for id in find_pat_ids::<_, Id>(&decl.name) {
-                        if self.ident_reserved(&id.0) {
-                            log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
-                            return false;
-                        }
-                    }
-                }
+        let can_inline_fn_stmts = |stmts: &[Stmt]| {
+            stmts
+                .iter()
+                .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt))
+        };
 
-                if matches!(
-                    &**var,
-                    VarDecl {
-                        kind: VarDeclKind::Var | VarDeclKind::Let,
-                        ..
-                    }
-                ) {
-                    for decl in &var.decls {
-                        match &decl.name {
-                            Pat::Ident(id) if id.sym == "arguments" => return false,
-                            Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.to_id()) {
-                                    log_abort!(
-                                        "iife: [x] Cannot inline because pending inline of `{}`",
-                                        id.id
-                                    );
-                                    return false;
-                                }
-                            }
-
-                            _ => return false,
-                        }
-                    }
-
-                    if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+        let check_var = |var: &VarDecl| {
+            for decl in &var.decls {
+                for id in find_pat_ids::<_, Id>(&decl.name) {
+                    if self.ident_reserved(&id.0) {
+                        log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
                         return false;
                     }
-
-                    true
-                } else {
-                    for_stmt
                 }
             }
+
+            if matches!(
+                var,
+                VarDecl {
+                    kind: VarDeclKind::Var | VarDeclKind::Let,
+                    ..
+                }
+            ) {
+                for decl in &var.decls {
+                    match &decl.name {
+                        Pat::Ident(id) if id.sym == "arguments" => return false,
+                        Pat::Ident(id) => {
+                            if self.vars.has_pending_inline_for(&id.to_id()) {
+                                log_abort!(
+                                    "iife: [x] Cannot inline because pending inline of `{}`",
+                                    id.id
+                                );
+                                return false;
+                            }
+                        }
+                        _ => return false,
+                    }
+                }
+
+                if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+                    return false;
+                }
+
+                true
+            } else {
+                for_stmt
+            }
+        };
+
+        match stmt {
+            Stmt::Decl(Decl::Var(var)) => check_var(var),
 
             Stmt::Expr(_) => true,
 
@@ -1006,10 +1014,7 @@ impl Optimizer<'_> {
                 }
                 _ => true,
             },
-            Stmt::Block(b) => b
-                .stmts
-                .iter()
-                .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
+            Stmt::Block(b) => can_inline_fn_stmts(&b.stmts),
             Stmt::If(i) if for_stmt => {
                 self.can_inline_fn_stmt(&i.cons, for_stmt)
                     && i.alt
@@ -1022,6 +1027,47 @@ impl Optimizer<'_> {
                 .iter()
                 .flat_map(|case| case.cons.iter())
                 .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
+
+            Stmt::While(WhileStmt { body, .. }) | Stmt::DoWhile(DoWhileStmt { body, .. })
+                if for_stmt =>
+            {
+                self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            Stmt::Try(t) if for_stmt => {
+                can_inline_fn_stmts(&t.block.stmts)
+                    && t.handler
+                        .as_ref()
+                        .map(|h| can_inline_fn_stmts(&h.body.stmts))
+                        .unwrap_or(true)
+                    && t.finalizer
+                        .as_ref()
+                        .map(|f| can_inline_fn_stmts(&f.stmts))
+                        .unwrap_or(true)
+            }
+
+            Stmt::For(ForStmt { init, body, .. }) if for_stmt => {
+                init.as_ref()
+                    .and_then(|i| i.as_var_decl())
+                    .map(|v| check_var(v))
+                    .unwrap_or(true)
+                    && self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            Stmt::ForIn(ForInStmt { left, body, .. })
+            | Stmt::ForOf(ForOfStmt { left, body, .. })
+                if for_stmt =>
+            {
+                left.as_var_decl().map(|v| check_var(v)).unwrap_or(true)
+                    && self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            Stmt::With(WithStmt { body, .. }) | Stmt::Labeled(LabeledStmt { body, .. })
+                if for_stmt =>
+            {
+                self.can_inline_fn_stmt(body, for_stmt)
+            }
+
             _ => for_stmt,
         }
     }
@@ -1062,10 +1108,14 @@ impl Optimizer<'_> {
 
         if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
             if param_ids.len() != 0 {
-                let captured = idents_captured_by(body);
-
                 for param in param_ids {
-                    if captured.contains(&param.to_id()) {
+                    if self
+                        .data
+                        .vars
+                        .get(&param.to_id())
+                        .map(|p| !p.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL))
+                        .unwrap_or(false)
+                    {
                         log_abort!(
                             "iife: [x] Cannot inline because of the capture of `{}`",
                             param
@@ -1331,9 +1381,25 @@ impl Optimizer<'_> {
             return None;
         }
 
-        let mut decl = DeclVisitor { count: 0 };
+        let mut decl = DeclVisitor {
+            count: 0,
+            keep_fn_names: self.options.keep_fnames
+                || self.mangle_options.is_some_and(|v| v.keep_fn_names),
+            reserved: self.mangle_options.map_or(&[], |v| &v.reserved),
+            has_preserved_name: false,
+        };
 
         body.visit_with(&mut decl);
+
+        // Inlining moves function and class declarations into the caller's
+        // scope. If their names are preserved, two inlined IIFEs can then
+        // declare the same name in one scope. A later function declaration
+        // replaces the earlier one, and a second class declaration is a
+        // syntax error.
+        if decl.has_preserved_name {
+            log_abort!("iife: [x] Found a declaration with a preserved name");
+            return None;
+        }
 
         if !self.may_add_ident() && decl.count > 0 {
             return None;
@@ -1533,11 +1599,22 @@ impl Visit for ReturnVisitor {
     }
 }
 
-pub struct DeclVisitor {
+pub struct DeclVisitor<'a> {
     count: usize,
+    /// `keep_fnames` of the compressor or the mangler.
+    keep_fn_names: bool,
+    /// `reserved` of the mangler.
+    reserved: &'a [Atom],
+    /// A function declaration keeps its name because of `keep_fn_names` or
+    /// `reserved`, or a class declaration keeps its name because of
+    /// `reserved`.
+    ///
+    /// `keep_classnames` is not checked: the renamer can still rename the
+    /// binding of a class and keep the name with a named class expression.
+    has_preserved_name: bool,
 }
 
-impl Visit for DeclVisitor {
+impl Visit for DeclVisitor<'_> {
     noop_visit_type!(fail);
 
     /// Don't recurse into constructor
@@ -1556,7 +1633,20 @@ impl Visit for DeclVisitor {
 
     fn visit_decl(&mut self, d: &Decl) {
         self.count += match d {
-            Decl::Class(_) | Decl::Fn(_) => 1,
+            Decl::Fn(f) => {
+                if self.keep_fn_names || self.reserved.contains(&f.ident.sym) {
+                    self.has_preserved_name = true;
+                }
+
+                1
+            }
+            Decl::Class(c) => {
+                if self.reserved.contains(&c.ident.sym) {
+                    self.has_preserved_name = true;
+                }
+
+                1
+            }
             Decl::Var(var_decl) => var_decl.decls.len(),
             Decl::Using(using_decl) => using_decl.decls.len(),
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => 0,

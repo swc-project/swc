@@ -16,14 +16,9 @@ if [ ! -d "$TARGET_DIR" ]; then
     exit 1
 fi
 
-# Add patch section to Cargo.toml
-echo '[patch.crates-io]' >> bindings/Cargo.toml
-./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-
-# Update cargo dependencies
-(cd bindings && cargo update -p swc_core -p swc_ts_fast_strip)
-
-# Build the project
+# Build the project.
+# The bindings are members of the root Cargo workspace and depend on the local
+# crates through path dependencies, so no `[patch.crates-io]` section is needed.
 pnpm build:dev
 
 # Check if package.json exists in target directory
@@ -51,11 +46,6 @@ if ! grep -q '"@swc/core"' "$TARGET_DIR/package.json"; then
     else
         echo -e "    Please add \033[33m@swc/core\033[0m to your devDependencies and install using your package manager"
     fi
-    echo
-    echo "Then run:"
-    echo
-    echo -e "    \033[32m$\033[0m cd $CURRENT_DIR"
-    echo -e "    \033[32m$\033[0m git restore bindings/Cargo.toml bindings/Cargo.lock"
     echo
     echo "After that, you can run this script again."
     exit 1

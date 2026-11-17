@@ -10,6 +10,11 @@ use crate::{option::MangleOptions, usage_analyzer::marks::Marks};
 pub(crate) struct PreversedIdents {
     pub preserved: FxHashSet<Id>,
     pub idents: Option<Vec<Atom>>,
+    /// Original names of classes that the renamer keeps as inner class names
+    /// because of `keep_classnames`.
+    ///
+    /// See [Preserver::kept_class_names].
+    pub kept_class_names: FxHashSet<Atom>,
 }
 
 /// Returns `(preserved, unresolved)`
@@ -24,6 +29,7 @@ where
         in_top_level: false,
 
         idents: Vec::new(),
+        kept_class_names: Default::default(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
     };
     n.visit_with(&mut v);
@@ -54,6 +60,7 @@ where
         } else {
             Some(idents)
         },
+        kept_class_names: v.kept_class_names,
     }
 }
 
@@ -66,6 +73,16 @@ pub(crate) struct Preserver<'a> {
     in_top_level: bool,
 
     idents: Vec<Id>,
+
+    /// With `keep_classnames`, the renamer keeps the original name of a class
+    /// declaration or a named class expression as the inner name of a class
+    /// expression. That inner name is bound inside the class body, so no
+    /// mangled binding visible there may use it. The outer binding of a class
+    /// declaration is usually not preserved and can still be mangled (see
+    /// #12606), so the name must be reserved separately.
+    ///
+    /// See https://github.com/swc-project/swc/issues/12770
+    kept_class_names: FxHashSet<Atom>,
     unresolved_ctx: SyntaxContext,
 }
 
@@ -130,6 +147,13 @@ impl Visit for Preserver<'_> {
         {
             self.preserved.insert(n.ident.to_id());
         }
+
+        // Record the name even if the Id was preserved above: synthesized Ids
+        // are dropped from `preserved` later (#9468), and their classes are
+        // still rewritten with the original name.
+        if self.options.keep_class_names {
+            self.kept_class_names.insert(n.ident.sym.clone());
+        }
     }
 
     fn visit_class_expr(&mut self, n: &ClassExpr) {
@@ -138,6 +162,9 @@ impl Visit for Preserver<'_> {
         if self.options.keep_class_names {
             if let Some(i) = &n.ident {
                 self.preserved.insert(i.to_id());
+                // Synthesized Ids are dropped from `preserved` later (#9468),
+                // but the renamer still emits the original name.
+                self.kept_class_names.insert(i.sym.clone());
             }
         }
     }

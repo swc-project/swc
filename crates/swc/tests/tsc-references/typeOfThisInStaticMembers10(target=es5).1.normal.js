@@ -22,7 +22,7 @@ var D = /*#__PURE__*/ function(C) {
         _class_call_check(this, D);
         return _call_super(this, D, arguments);
     }
-    D.foo = function foo1() {
+    D.foo = function foo() {
         return this.c + 1;
     };
     _create_class(D, null, [
@@ -63,7 +63,7 @@ var DD = /*#__PURE__*/ function(CC) {
         _class_call_check(this, DD);
         return _call_super(this, DD, arguments);
     }
-    DD.foo = function foo1() {
+    DD.foo = function foo() {
         return this.c + 1;
     };
     _create_class(DD, null, [

@@ -85,6 +85,10 @@ The helper's integrity is still verified before any attempt to execute it.
 
 On writable btrfs, the loader may atomically replace its installed
 carrier with the original addon under transparent filesystem compression.
+Compression tries zstd only when already enabled, then falls back to zlib,
+preserving older-kernel compatibility. Any failed feature query uses zlib.
+Only `EINVAL` retries compression with zlib; other compression errors retain
+the carrier and use the cache.
 The current process loads a separate verified temporary image. Read-only,
 hardlinked, unsupported, or unsuitable installations use the cache. Windows
 keeps the carrier DLL in place and writes ordinary cache files to avoid NTFS
