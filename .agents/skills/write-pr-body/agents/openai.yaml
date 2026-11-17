@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write PR Body"
+  short_description: "Write SWC PR bodies with verified issue references"
+  default_prompt: "Use $write-pr-body to write the body of the current SWC PR, following the PR template and adding Closes or Refs lines for issues found in swc-project/swc-ai-issues."
