@@ -20,7 +20,11 @@ use swc_ecma_visit::{
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::{compress::util::contains_super, HEAVY_TASK_PARALLELS};
+use crate::{
+    compress::util::contains_super,
+    program_data::{ProgramData, VarUsageInfoFlags},
+    HEAVY_TASK_PARALLELS,
+};
 
 #[cfg(test)]
 mod tests;
@@ -173,6 +177,7 @@ impl Drop for WithCtx<'_, '_> {
 
 pub(crate) fn extract_class_side_effect<'a>(
     expr_ctx: ExprCtx,
+    data: &ProgramData,
     ident: Option<&'a Ident>,
     c: &'a mut Class,
 ) -> Option<Vec<&'a mut Box<Expr>>> {
@@ -185,6 +190,7 @@ pub(crate) fn extract_class_side_effect<'a>(
         nested_class_depth: 0,
         in_strict: expr_ctx.in_strict,
         unresolved_ctxt: expr_ctx.unresolved_ctxt,
+        data,
         in_outer_context: false,
     };
 
@@ -321,20 +327,21 @@ pub(crate) fn extract_class_side_effect<'a>(
     Some(res)
 }
 
-struct ClassEffectVisitor {
+struct ClassEffectVisitor<'d> {
     found: bool,
     private_ident: FxHashSet<Atom>,
     nested_class_depth: usize,
     /// `true` if the code around the class is strict.
     in_strict: bool,
     unresolved_ctxt: SyntaxContext,
+    data: &'d ProgramData,
     /// `true` while checking a heritage expression or a computed key. These
     /// use the `this` and `new.target` of the code around the class, so
     /// moving them out of the class keeps their meaning.
     in_outer_context: bool,
 }
 
-impl ClassEffectVisitor {
+impl<'d> ClassEffectVisitor<'d> {
     /// Returns `true` if `e` can be moved out of the class body when the class
     /// is dropped.
     ///
@@ -365,11 +372,13 @@ impl ClassEffectVisitor {
     ///
     /// In sloppy code, an assignment to an undeclared variable creates a
     /// global instead of throwing, and a failed property write, for example on
-    /// a primitive, does nothing instead of throwing. A write to a declared
-    /// variable behaves the same in both modes.
+    /// a primitive, does nothing instead of throwing. The name of a named
+    /// function expression is immutable, so a write to it throws only in
+    /// strict code too. A write to another declared variable behaves the
+    /// same in both modes.
     fn is_strict_sensitive_target<N>(&self, target: &N) -> bool
     where
-        N: VisitWith<StrictSensitiveTargetFinder>,
+        N: VisitWith<StrictSensitiveTargetFinder<'d>>,
     {
         if !self.in_moved_sloppy_code() {
             return false;
@@ -377,6 +386,7 @@ impl ClassEffectVisitor {
 
         let mut finder = StrictSensitiveTargetFinder {
             unresolved_ctxt: self.unresolved_ctxt,
+            data: self.data,
             found: false,
         };
         target.visit_with(&mut finder);
@@ -392,7 +402,7 @@ impl ClassEffectVisitor {
     }
 }
 
-impl Visit for ClassEffectVisitor {
+impl Visit for ClassEffectVisitor<'_> {
     noop_visit_type!();
 
     fn visit_constructor(&mut self, n: &Constructor) {
@@ -562,20 +572,30 @@ impl Visit for ClassEffectVisitor {
 }
 
 /// Finds a write target whose behavior depends on strict mode: an undeclared
-/// variable or a property.
+/// variable, the name of a named function expression, or a property.
 ///
-/// It also visits default values in patterns, so a property read there is
-/// treated as a target too. This is conservative.
-struct StrictSensitiveTargetFinder {
+/// It also visits default values in patterns, so a read there is treated as
+/// a target too. This is conservative.
+struct StrictSensitiveTargetFinder<'d> {
     unresolved_ctxt: SyntaxContext,
+    data: &'d ProgramData,
     found: bool,
 }
 
-impl Visit for StrictSensitiveTargetFinder {
+impl Visit for StrictSensitiveTargetFinder<'_> {
     noop_visit_type!();
 
     fn visit_ident(&mut self, n: &Ident) {
-        self.found |= n.ctxt == self.unresolved_ctxt;
+        if self.found {
+            return;
+        }
+
+        self.found = n.ctxt == self.unresolved_ctxt
+            || self
+                .data
+                .vars
+                .get(&n.to_id())
+                .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR));
     }
 
     fn visit_member_expr(&mut self, _: &MemberExpr) {

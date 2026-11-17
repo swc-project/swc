@@ -743,6 +743,7 @@ impl Optimizer<'_> {
             Expr::Class(cls) => {
                 let Some(side_effects) = extract_class_side_effect(
                     self.ctx.expr_ctx,
+                    self.data,
                     cls.ident.as_ref(),
                     &mut cls.class,
                 ) else {

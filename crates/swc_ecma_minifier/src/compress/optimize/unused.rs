@@ -646,7 +646,7 @@ impl Optimizer<'_> {
                     .unwrap_or(false)
                 {
                     let Some(side_effects) =
-                        extract_class_side_effect(self.ctx.expr_ctx, Some(ident), class)
+                        extract_class_side_effect(self.ctx.expr_ctx, self.data, Some(ident), class)
                     else {
                         return;
                     };
