@@ -178,8 +178,19 @@ pub(crate) fn extract_class_side_effect<'a>(
 ) -> Option<Vec<&'a mut Box<Expr>>> {
     let mut res = Vec::new();
     let mut value = Vec::new();
+
+    // A side-effecting heritage expression or computed key is kept in the
+    // output, but the class binding is dropped. If the expression refers to the
+    // class, for example in a callback that it stores, the kept code would
+    // refer to a binding that no longer exists.
+    let refers_to_class = |e: &Expr| ident.is_some_and(|id| IdentUsageFinder::find(id, e));
+
     if let Some(e) = &mut c.super_class {
         if e.may_have_side_effects(expr_ctx) {
+            if refers_to_class(e) {
+                return None;
+            }
+
             res.push(e);
         }
     }
@@ -209,6 +220,10 @@ pub(crate) fn extract_class_side_effect<'a>(
                 ..
             }) => {
                 if key.expr.may_have_side_effects(expr_ctx) {
+                    if refers_to_class(&key.expr) {
+                        return None;
+                    }
+
                     res.push(&mut key.expr);
                 }
             }
@@ -216,6 +231,10 @@ pub(crate) fn extract_class_side_effect<'a>(
             ClassMember::ClassProp(p) => {
                 if let PropName::Computed(key) = &mut p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
+                        if refers_to_class(&key.expr) {
+                            return None;
+                        }
+
                         res.push(&mut key.expr);
                     }
                 }
