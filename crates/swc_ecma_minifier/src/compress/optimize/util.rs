@@ -395,8 +395,19 @@ impl ClassEffectVisitor {
 impl Visit for ClassEffectVisitor {
     noop_visit_type!();
 
-    /// Don't recurse into constructor
-    fn visit_constructor(&mut self, _: &Constructor) {}
+    fn visit_constructor(&mut self, n: &Constructor) {
+        // A constructor appears only in a nested class, and it runs only when
+        // that class is instantiated, so its effects are not checked. Like a
+        // method of a nested class, it can still use the private names of this
+        // class, which would be undeclared after the code is moved.
+        let mut visitor = PrivateNameUsageVisitor {
+            found: false,
+            private_ident: self.private_ident.clone(),
+        };
+        n.visit_children_with(&mut visitor);
+
+        self.found |= visitor.found;
+    }
 
     fn visit_function(&mut self, n: &Function) {
         if self.found {
