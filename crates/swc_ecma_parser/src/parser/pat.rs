@@ -958,17 +958,29 @@ impl<I: Tokens> Parser<I> {
     /// parameter grammar and list-wide binding validation remain with callers.
     pub(super) fn parse_parameter_list<T: ParameterListItem>(
         &mut self,
+        parse: impl FnMut(&mut Self, usize) -> PResult<T>,
+    ) -> PResult<Vec<T>> {
+        self.parse_parameter_list_with_first(None, parse)
+    }
+
+    /// Finish a list after a cover grammar has already parsed its first item.
+    pub(super) fn parse_parameter_list_with_first<T: ParameterListItem>(
+        &mut self,
+        mut first: Option<T>,
         mut parse: impl FnMut(&mut Self, usize) -> PResult<T>,
     ) -> PResult<Vec<T>> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 
-        while !self.input().is(Token::RParen) {
+        while first.is_some() || !self.input().is(Token::RParen) {
             if !rest_span.is_dummy() {
                 self.emit_err(rest_span, SyntaxError::TS1014);
             }
 
-            let param = parse(self, params.len())?;
+            let param = match first.take() {
+                Some(param) => param,
+                None => parse(self, params.len())?,
+            };
             let current_rest = param.rest_span();
             if let Some(span) = current_rest {
                 rest_span = span;

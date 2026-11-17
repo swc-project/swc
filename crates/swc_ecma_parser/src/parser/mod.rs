@@ -33,9 +33,12 @@ mod expr;
 mod ident;
 pub mod input;
 mod jsx;
+#[cfg(feature = "typescript")]
+mod lookahead;
 mod module_item;
 mod object;
 mod pat;
+mod speculation;
 mod state;
 mod stmt;
 #[cfg(test)]
@@ -50,9 +53,12 @@ mod util;
 #[cfg(feature = "verify")]
 mod verifier;
 
-use self::context::{
-    BoundaryContext, FunctionKind, GrammarContext, StatementContext, StatementGrammar,
-    SyntaxContext, TypeContext,
+use self::{
+    context::{
+        BoundaryContext, FunctionKind, GrammarContext, StatementContext, StatementGrammar,
+        SyntaxContext, TypeContext,
+    },
+    speculation::TsSpeculationKind,
 };
 
 pub type PResult<T> = Result<T, crate::error::Error>;
@@ -74,6 +80,8 @@ pub struct ParserCheckpoint<I: Tokens> {
 }
 
 struct ProgramCheckpoint<I: Tokens> {
+    #[cfg(feature = "typescript")]
+    ts_rejected_speculations: speculation::TsRejectedSpeculations,
     lexer: I::Checkpoint,
     buffer_prev_span: Span,
     buffer_cur: TokenAndSpan,
@@ -122,6 +130,14 @@ enum ProgramGrammar {
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
+    #[cfg(feature = "typescript")]
+    for_head_lookahead: lookahead::ForHeadLookahead,
+    #[cfg(feature = "typescript")]
+    computed_key_lookahead: lookahead::ComputedKeyLookahead<I>,
+    #[cfg(feature = "typescript")]
+    // Outside State and ordinary checkpoints: discarded nested work must
+    // survive both function-scope replacement and speculative rewinds.
+    ts_rejected_speculations: speculation::TsRejectedSpeculations,
     state: State,
     input: self::input::Buffer<I>,
     /// ECMAScript `[In]`, `[Yield]`, `[Await]`, and `[Return]` grammatical
@@ -170,6 +186,8 @@ impl<I: Tokens> Parser<I> {
 
     fn program_checkpoint_save(&self) -> ProgramCheckpoint<I> {
         ProgramCheckpoint {
+            #[cfg(feature = "typescript")]
+            ts_rejected_speculations: self.ts_rejected_speculations.clone(),
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
             buffer_next: self.input.next.clone(),
@@ -191,6 +209,11 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn program_checkpoint_load(&mut self, checkpoint: ProgramCheckpoint<I>) {
+        #[cfg(feature = "typescript")]
+        {
+            self.ts_rejected_speculations = checkpoint.ts_rejected_speculations;
+            self.computed_key_lookahead = Default::default();
+        }
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input
             .iter
@@ -351,6 +374,12 @@ impl<I: Tokens> Parser<I> {
 
         let start_pos = input.start_pos();
         let mut p = Parser {
+            #[cfg(feature = "typescript")]
+            for_head_lookahead: Default::default(),
+            #[cfg(feature = "typescript")]
+            computed_key_lookahead: Default::default(),
+            #[cfg(feature = "typescript")]
+            ts_rejected_speculations: Default::default(),
             state: Default::default(),
             input: crate::parser::input::Buffer::new(input),
             grammar_context,
@@ -1474,8 +1503,7 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::LBracket {
             self.bump();
             let inner_start = self.input().cur_pos();
-            let mut expr =
-                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
+            let mut expr = with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_computed_key_expression)?;
             if self.syntax().typescript() && self.input().is(Token::Comma) {
                 let mut exprs = vec![expr];
                 while self.input_mut().eat(Token::Comma) {
@@ -1503,6 +1531,24 @@ impl<I: Tokens> Parser<I> {
             )
         };
         Ok(v)
+    }
+
+    /// Share computed-key recognition across binding patterns and type members.
+    fn parse_computed_key_expression(&mut self) -> PResult<Box<Expr>> {
+        #[cfg(feature = "typescript")]
+        if self.computed_key_lookahead.active {
+            return self.parse_computed_key_lookahead(|p| {
+                let expression = p.parse_assignment_expr()?;
+                // A binding key requires one AssignmentExpression. In
+                // particular, an unparenthesized comma cannot prove a binding;
+                // do not parse its discarded tail during lookahead.
+                if !p.input().is(Token::RBracket) {
+                    unexpected!(p, "]");
+                }
+                Ok(expression)
+            });
+        }
+        self.parse_assignment_expr()
     }
 
     #[inline]
