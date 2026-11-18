@@ -46,7 +46,9 @@ swc_plugin_runner = { version = "35.0.0", path = "../swc_plugin_runner", feature
 swc_transform_common = { version = "21.0.0", path = "../swc_transform_common", default-features = false }
 testing = { version = "28.0.1", path = "../testing", default-features = false }
 
-swc_plugin_backend_wasmer = { version = "18.0", path = "../swc_plugin_backend_wasmer", default-features = false }
+swc_plugin_backend_wasmer = { version = "18.0", path = "../swc_plugin_backend_wasmer", default-features = false, features = [
+  "plugin_transform_host_native",
+] }
 swc_plugin_backend_wasmtime = { version = "18.0", path = "../swc_plugin_backend_wasmtime", default-features = false }
 
 [[bench]]
