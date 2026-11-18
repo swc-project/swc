@@ -23,22 +23,28 @@ use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast as swc;
 
-use crate::{preserved_ast::PreservedAst, stack::with_expression_stack};
+use crate::{line_index::LineIndex, preserved_ast::PreservedAst, stack::with_expression_stack};
 
-/// Convert with source text and preserved SWC nodes from the forward pass.
-pub fn convert_program_to_swc(file: &File, preserved_ast: PreservedAst) -> swc::Program {
-    let ctx = ReverseCtx::new(preserved_ast);
+/// Convert with the preserved SWC nodes and line table from the forward pass.
+pub fn convert_program_to_swc(
+    file: &File,
+    preserved_ast: PreservedAst,
+    line_index: &LineIndex,
+) -> swc::Program {
+    let ctx = ReverseCtx::new(preserved_ast, line_index);
     ctx.convert_program(&file.program)
 }
 
-struct ReverseCtx {
+struct ReverseCtx<'a> {
     preserved_ast: RefCell<PreservedAst>,
+    line_index: &'a LineIndex,
 }
 
-impl ReverseCtx {
-    fn new(preserved_ast: PreservedAst) -> Self {
+impl<'a> ReverseCtx<'a> {
+    fn new(preserved_ast: PreservedAst, line_index: &'a LineIndex) -> Self {
         Self {
             preserved_ast: RefCell::new(preserved_ast),
+            line_index,
         }
     }
 
@@ -102,12 +108,26 @@ impl ReverseCtx {
         Atom::from(s)
     }
 
+    /// Recovers the SWC span of a node.
+    ///
+    /// Nodes that came from the forward conversion carry `start`/`end`, which
+    /// are SWC byte positions. Nodes synthesized by the React Compiler's
+    /// codegen usually carry only `loc`, copied from the HIR place or
+    /// instruction they were generated from (often without `index`), so fall
+    /// back to it when `start`/`end` are absent.
     fn span_from_base(&self, base: &BaseNode) -> Span {
-        match (base.start, base.end) {
-            (Some(start), Some(end)) => Span::new(BytePos(start), BytePos(end)),
-            (Some(start), None) => Span::new(BytePos(start), BytePos(start)),
-            _ => DUMMY_SP,
-        }
+        let loc = base.loc.as_ref();
+        let lo = base
+            .start
+            .or_else(|| loc.and_then(|loc| self.line_index.byte_pos(&loc.start)));
+        let Some(lo) = lo else {
+            return DUMMY_SP;
+        };
+        let hi = base
+            .end
+            .or_else(|| loc.and_then(|loc| self.line_index.byte_pos(&loc.end)))
+            .unwrap_or(lo);
+        Span::new(BytePos(lo), BytePos(hi))
     }
 
     // ===== Program =====
@@ -2229,7 +2249,7 @@ impl ReverseCtx {
     }
 }
 
-impl ReverseCtx {
+impl ReverseCtx<'_> {
     // JSON reconstruction is only a fidelity fallback when no preserved SWC
     // shell is available for TypeScript metadata.
 
@@ -2537,9 +2557,7 @@ impl ReverseCtx {
     ) -> Option<Box<swc::TsTypeAnn>> {
         self.cold_convert_ts_type_annotation_from_raw_node(top_level_pattern_type_ann(pattern))
     }
-}
 
-impl ReverseCtx {
     #[cold]
     fn span_from_json(&self, value: &serde_json::Value) -> Span {
         let start = json_u64(value, "start");

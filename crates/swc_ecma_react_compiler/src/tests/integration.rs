@@ -22,7 +22,7 @@ use crate::{
 };
 
 fn convert_program_to_swc(file: &File) -> swc_ecma_ast::Program {
-    convert_program_to_swc_with_preserved_ast(file, Default::default())
+    convert_program_to_swc_with_preserved_ast(file, Default::default(), &Default::default())
 }
 
 fn convert_module(module: &swc_ecma_ast::Module, source_text: &str) -> File {
@@ -1808,7 +1808,11 @@ fn convert_ts_source(source: &str) -> crate::convert_ast::ConvertResult {
 fn round_trip_convert_result(result: crate::convert_ast::ConvertResult) -> swc_ecma_ast::Program {
     assert_file_serializes_to_json(&result.file);
 
-    convert_program_to_swc_with_preserved_ast(&result.file, result.preserved_ast)
+    convert_program_to_swc_with_preserved_ast(
+        &result.file,
+        result.preserved_ast,
+        &result.line_index,
+    )
 }
 
 /// TS module-interop statements (`import x = require(...)`, `export = x`,
@@ -1971,4 +1975,55 @@ fn emit_program(program: &swc_ecma_ast::Program) -> Result<String, String> {
     }
 
     String::from_utf8(buf).map_err(|err| format!("emitted output is not valid UTF-8: {err}"))
+}
+
+/// Codegen nodes that only carry a line/column `loc` (no `start`/`end` and no
+/// `loc.index`) still map back to real SWC spans. The
+/// `enableNameAnonymousFunctions` wrapper `{ "name": fn }["name"]` is one such
+/// node: it receives the function instruction's location.
+#[test]
+fn transform_named_anonymous_function_wrapper_has_source_span() {
+    use swc_common::Spanned;
+    use swc_ecma_visit::{Visit, VisitWith};
+
+    #[derive(Default)]
+    struct WrapperSpans(Vec<swc_common::Span>);
+
+    impl Visit for WrapperSpans {
+        fn visit_member_expr(&mut self, member: &swc_ecma_ast::MemberExpr) {
+            if member.obj.is_object() {
+                self.0.push(member.span());
+            }
+            member.visit_children_with(self);
+        }
+    }
+
+    let source = "function Component(props) {\n  const onClick = () => console.log(props.x);\n  \
+                  return <div onClick={onClick} />;\n}\n";
+    let mut options = default_options();
+    options.environment.enable_name_anonymous_functions = true;
+    let result = transform_source(
+        source,
+        Syntax::Es(EsSyntax {
+            jsx: true,
+            ..Default::default()
+        }),
+        options,
+    );
+    let program = result
+        .program
+        .unwrap_or_else(|| panic!("expected compiled output: {:#?}", result.diagnostics));
+
+    let mut spans = WrapperSpans::default();
+    program.visit_with(&mut spans);
+
+    let lo = source_pos(source, "() =>");
+    let hi = source_pos(source, ";\n  return");
+    assert_eq!(
+        spans.0,
+        vec![swc_common::Span::new(
+            swc_common::BytePos(lo),
+            swc_common::BytePos(hi)
+        )]
+    );
 }

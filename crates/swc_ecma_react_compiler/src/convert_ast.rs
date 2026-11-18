@@ -6,7 +6,7 @@
 use std::cell::RefCell;
 
 use react_compiler_ast::{
-    common::{BaseNode, Comment, CommentData, Position, RawNode, SourceLocation},
+    common::{BaseNode, Comment, CommentData, RawNode, SourceLocation},
     declarations::*,
     expressions::*,
     jsx::*,
@@ -23,11 +23,14 @@ use swc_common::{
 };
 use swc_ecma_ast as swc;
 
-use crate::{preserved_ast::PreservedAst, stack::with_expression_stack};
+use crate::{line_index::LineIndex, preserved_ast::PreservedAst, stack::with_expression_stack};
 
 pub struct ConvertResult {
     pub file: File,
     pub preserved_ast: PreservedAst,
+    /// Line table used to build every `loc`; the reverse converter needs it
+    /// to map compiler-generated locations back to SWC spans.
+    pub line_index: LineIndex,
 }
 
 /// Converts an SWC AST to the React compiler's Babel-compatible AST.
@@ -44,28 +47,22 @@ pub fn convert_program(
     ConvertResult {
         file,
         preserved_ast: ctx.preserved_ast.into_inner(),
+        line_index: ctx.line_index,
     }
 }
 
 struct ConvertCtx<'a> {
     source_text: &'a str,
-    line_offsets: Vec<u32>,
+    line_index: LineIndex,
     comments: Vec<Comment>,
     preserved_ast: RefCell<PreservedAst>,
 }
 
 impl<'a> ConvertCtx<'a> {
     fn new(source_text: &'a str) -> Self {
-        let mut line_offsets = vec![0u32];
-        for (i, ch) in source_text.char_indices() {
-            let next = i + ch.len_utf8();
-            if ch == '\n' {
-                line_offsets.push(next as u32);
-            }
-        }
         Self {
             source_text,
-            line_offsets,
+            line_index: LineIndex::new(source_text),
             comments: Default::default(),
             preserved_ast: Default::default(),
         }
@@ -91,33 +88,10 @@ impl<'a> ConvertCtx<'a> {
         }
     }
 
-    /// Converts a SWC span to a Babel-compatible position.
-    ///
-    /// SWC `BytePos` values are byte offsets and 1-based. Base node offsets
-    /// stay 1-based so scope keys can use `span.lo` directly, while `loc`
-    /// follows Babel's 1-based lines and 0-based columns/indices.
-    ///
-    /// Assumption: the React Compiler does not receive the original source text
-    /// from this bridge, so UTF-8 byte offsets are enough for `column` and
-    /// `index`. If that changes, switch these offsets to UTF-16 code units.
-    fn position(&self, offset: u32) -> Position {
-        let offset = offset.saturating_sub(1).min(self.source_text.len() as u32);
-        let line_idx = match self.line_offsets.binary_search(&offset) {
-            Ok(idx) => idx,
-            Err(idx) => idx.saturating_sub(1),
-        };
-        let line_start = self.line_offsets[line_idx];
-        Position {
-            line: line_idx as u32 + 1,
-            column: offset - line_start,
-            index: Some(offset),
-        }
-    }
-
     fn source_location(&self, span: Span) -> SourceLocation {
         SourceLocation {
-            start: self.position(span.lo.0),
-            end: self.position(span.hi.0),
+            start: self.line_index.position(span.lo.0),
+            end: self.line_index.position(span.hi.0),
             filename: None,
             identifier_name: None,
         }

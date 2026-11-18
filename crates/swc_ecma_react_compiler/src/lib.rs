@@ -9,6 +9,7 @@ mod convert_ast_reverse;
 mod convert_scope;
 pub mod diagnostics;
 pub mod fast_check;
+mod line_index;
 mod prefilter;
 mod preserved_ast;
 mod source_type;
@@ -123,6 +124,7 @@ fn transform_with_stack(
     let ConvertResult {
         file,
         preserved_ast,
+        line_index,
     } = convert_program(program, source_text, comments);
     let emit_success_error_diagnostics = options.no_emit;
     let result =
@@ -143,7 +145,7 @@ fn transform_with_stack(
 
     let rename_plan = build_rename_plan(&scope_info, &renames);
     let program = file.map(|file: react_compiler_ast::File| {
-        let mut compiled = convert_program_to_swc(&file, preserved_ast);
+        let mut compiled = convert_program_to_swc(&file, preserved_ast, &line_index);
         apply_renames(&mut compiled, &rename_plan);
         compiled
     });
