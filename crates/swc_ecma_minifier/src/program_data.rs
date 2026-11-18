@@ -93,6 +93,21 @@ bitflags::bitflags! {
 
         /// The binding's value may be changed by another module.
         const EXTERNALLY_MUTABLE        = 1 << 26;
+
+        /// A property of the binding is mutated at a position where a read of
+        /// the binding counts as a usage.
+        ///
+        /// A mutation is not counted here when it is in the body of the class or
+        /// function that the binding names, or in the side-effect-free
+        /// initializer of the variable `v` in `var v = ...`. The usage analyzer
+        /// also ignores reads of the binding at these positions.
+        ///
+        /// A self mutation such as `C.x = v` in a method of class `C` does not
+        /// set this flag. Like a self read, it runs only after code outside the
+        /// body gets a reference to `C`, so it does not keep an otherwise
+        /// unused declaration alive. [VarUsageInfo::property_mutation_count]
+        /// still counts self mutations.
+        const PROPERTY_MUTATED_OUTSIDE_SELF = 1 << 27;
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -270,7 +285,8 @@ impl Storage for ProgramData {
                         }
                     } else {
                         // If it is inited in some other child scope, but
-                        // referenced in current child scope
+                        // referenced in current child
+                        // scope
                         if !inited
                             && e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
                             && var_info.ref_count > 0
@@ -311,6 +327,7 @@ impl Storage for ProgramData {
                     let e_flags = &mut e.flags;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXTERNALLY_MUTABLE;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
@@ -510,7 +527,7 @@ impl Storage for ProgramData {
             v.assign_count += 1;
         }
 
-        // This is not delcared yet, so this is the first declaration.
+        // This is not declared yet, so this is the first declaration.
         if !v.flags.contains(VarUsageInfoFlags::DECLARED) {
             v.var_kind = kind;
             if ctx.in_decl_with_no_side_effect_for_member_access() {
@@ -557,9 +574,13 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutation(&mut self, id: Id) {
+    fn mark_property_mutation(&mut self, id: Id, is_self_mutation: bool) {
         let e = self.vars.entry(id).or_default();
         e.property_mutation_count += 1;
+        if !is_self_mutation {
+            e.flags
+                .insert(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF);
+        }
 
         if e.infects_to.is_empty() {
             return;
@@ -576,6 +597,11 @@ impl Storage for ProgramData {
             let other = self.vars.entry(other).or_default();
 
             other.property_mutation_count += 1;
+            // The analyzer does not know whether this mutation site is in the
+            // body of the alias target, so treat it as an outside mutation.
+            other
+                .flags
+                .insert(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF);
         }
     }
 

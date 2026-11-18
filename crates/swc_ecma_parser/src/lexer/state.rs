@@ -84,6 +84,15 @@ impl crate::input::Tokens for Lexer<'_> {
         }
     }
 
+    fn try_load_lookahead(&mut self, checkpoint: LexerCheckpoint) -> bool {
+        // The surrounding probe owns buffered comments. Only restore lexical
+        // state here; skipped comments will be read by the committed parse.
+        self.state = checkpoint.state;
+        self.ctx = checkpoint.ctx;
+        unsafe { self.input.reset_to(checkpoint.input_last_pos) };
+        true
+    }
+
     #[inline]
     fn read_string(&self, span: Span) -> &str {
         assert!(span.lo >= self.input.start_pos() && span.hi <= self.input.end_pos());
@@ -173,6 +182,10 @@ impl crate::input::Tokens for Lexer<'_> {
     #[inline]
     fn set_defer_comments(&mut self, defer: bool) {
         self.defer_comments = defer;
+    }
+
+    fn swap_defer_comments(&mut self, defer: bool) -> Option<bool> {
+        Some(std::mem::replace(&mut self.defer_comments, defer))
     }
 
     #[inline]
@@ -466,8 +479,8 @@ impl Lexer<'_> {
         };
 
         // Only allow raw `>` when it is already part of in-text arrow prose
-        // like `->`. A leading raw `>` immediately after the opening tag must
-        // keep producing the legacy JSX error from
+        // like `->`. A leading raw `>` immediately after the opening
+        // tag must keep producing the legacy JSX error from
         // `tests/jsx/errors/issue-10635/index.js`.
         prefix.as_bytes().last().copied() == Some(b'-')
     }

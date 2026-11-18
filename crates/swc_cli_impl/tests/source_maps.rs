@@ -314,7 +314,12 @@ impl Drop for WatchChild {
     }
 }
 
-fn wait_for_map(path: &Path, source_content: &str, child: &mut WatchChild) -> Result<()> {
+fn wait_for_map(
+    path: &Path,
+    source_content: &str,
+    previous_output: Option<&str>,
+    child: &mut WatchChild,
+) -> Result<()> {
     let deadline = Instant::now() + Duration::from_secs(10);
     let output_path = path.with_extension("");
     while Instant::now() < deadline {
@@ -326,7 +331,12 @@ fn wait_for_map(path: &Path, source_content: &str, child: &mut WatchChild) -> Re
             if let Ok(map) = serde_json::from_slice::<Value>(&content) {
                 if map["sourcesContent"] == json!([source_content]) {
                     if let Ok(code) = fs::read_to_string(&output_path) {
-                        if code.contains("//# sourceMappingURL=") {
+                        if code.contains("//# sourceMappingURL=")
+                            && match previous_output {
+                                None => true,
+                                Some(previous) => code != previous,
+                            }
+                        {
                             return Ok(());
                         }
                     }
@@ -358,11 +368,23 @@ fn issue_12480_watch_rebuild() -> Result<()> {
     );
     let map_path = fixture.project.join("lib/src/index.js.map");
     let source_path = fixture.project.join("src/index.ts");
-    wait_for_map(&map_path, &fs::read_to_string(&source_path)?, &mut child)?;
+    wait_for_map(
+        &map_path,
+        &fs::read_to_string(&source_path)?,
+        None,
+        &mut child,
+    )?;
     fixture.check_map("lib/src/index.js", "src/index.ts", "../../src/index.ts")?;
 
+    let output_path = fixture.project.join("lib/src/index.js");
+    let previous_output = fs::read_to_string(&output_path)?;
     fs::write(&source_path, "export const value: number = 2;\n")?;
-    wait_for_map(&map_path, "export const value: number = 2;\n", &mut child)?;
+    wait_for_map(
+        &map_path,
+        "export const value: number = 2;\n",
+        Some(&previous_output),
+        &mut child,
+    )?;
     fixture.check_map("lib/src/index.js", "src/index.ts", "../../src/index.ts")?;
     Ok(())
 }

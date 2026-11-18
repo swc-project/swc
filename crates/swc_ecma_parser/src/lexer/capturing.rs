@@ -85,6 +85,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.checkpoint_load(checkpoint.inner);
     }
 
+    fn try_load_lookahead(&mut self, checkpoint: Self::Checkpoint) -> bool {
+        self.inner.try_load_lookahead(checkpoint.inner)
+    }
+
     fn read_string(&self, span: Span) -> &str {
         self.inner.read_string(span)
     }
@@ -157,6 +161,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn set_defer_comments(&mut self, defer: bool) {
         self.inner.set_defer_comments(defer);
+    }
+
+    fn swap_defer_comments(&mut self, defer: bool) -> Option<bool> {
+        self.inner.swap_defer_comments(defer)
     }
 
     fn finalize_comments(&mut self) {

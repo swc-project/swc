@@ -194,6 +194,9 @@ fn run_with_source(
         let lexer = Lexer::new(
             Syntax::Es(EsSyntax {
                 jsx: true,
+                // Auto-accessors reach the minifier when the input targets a
+                // runtime that supports them, so fixtures can use them.
+                auto_accessors: true,
                 ..Default::default()
             }),
             Default::default(),

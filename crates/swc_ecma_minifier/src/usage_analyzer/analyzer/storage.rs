@@ -37,7 +37,13 @@ pub trait Storage: Sized {
     fn get_initialized_cnt(&self) -> usize;
     fn truncate_initialized_cnt(&mut self, len: usize);
 
-    fn mark_property_mutation(&mut self, id: Id);
+    /// Records a mutation of a property of `id`.
+    ///
+    /// `is_self_mutation` is `true` when the analyzer does not report a read
+    /// of `id` at the mutation position as a usage. This is the body of the
+    /// class or function that `id` names, or the side-effect-free initializer
+    /// of the variable `id`.
+    fn mark_property_mutation(&mut self, id: Id, is_self_mutation: bool);
 
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData>;
 }

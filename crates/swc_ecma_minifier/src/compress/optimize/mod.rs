@@ -743,6 +743,7 @@ impl Optimizer<'_> {
             Expr::Class(cls) => {
                 let Some(side_effects) = extract_class_side_effect(
                     self.ctx.expr_ctx,
+                    self.data,
                     cls.ident.as_ref(),
                     &mut cls.class,
                 ) else {
@@ -804,8 +805,8 @@ impl Optimizer<'_> {
                 op: op!("void"), ..
             }) if !self.options.unused => return Some(e.take()),
 
-            // We optimize binary expressions if operation is side-effect-free
-            // and lhs and rhs is evaluated regardless of value of lhs.
+            // We optimize binary expressions if operation is side-effect-free and lhs and rhs is
+            // evaluated regardless of value of lhs.
             Expr::Bin(
                 bin @ BinExpr {
                     op:
@@ -1051,12 +1052,11 @@ impl Optimizer<'_> {
             | Expr::TsAs(_) => return Some(e.take()),
 
             Expr::Array(arr) => {
-                if arr.elems.iter().any(|e| match e {
-                    Some(ExprOrSpread {
-                        spread: Some(..), ..
-                    }) => true,
-                    _ => false,
-                }) {
+                if arr
+                    .elems
+                    .iter()
+                    .any(|e| e.as_ref().map(|e| e.spread.is_some()).unwrap_or(false))
+                {
                     return Some(
                         ArrayLit {
                             elems: arr
@@ -1108,26 +1108,138 @@ impl Optimizer<'_> {
             }
 
             Expr::Object(obj) => {
+                if obj.props.iter().any(|p| p.is_spread()) {
+                    let props = obj
+                        .props
+                        .take()
+                        .into_iter()
+                        .filter_map(|p| match p {
+                            PropOrSpread::Spread(..) => Some(p),
+                            PropOrSpread::Prop(prop) => match *prop {
+                                Prop::Shorthand(i) => {
+                                    let mut expr = Expr::Ident(i.clone());
+
+                                    if self.ignore_return_value(&mut expr).is_some() {
+                                        Some(Prop::Shorthand(i).into())
+                                    } else {
+                                        None
+                                    }
+                                }
+                                Prop::KeyValue(KeyValueProp { key, mut value, .. }) => {
+                                    let key = match key {
+                                        PropName::Ident(_)
+                                        | PropName::Str(_)
+                                        | PropName::Num(_)
+                                        | PropName::BigInt(_) => None,
+                                        PropName::Computed(mut key) => {
+                                            self.ignore_return_value(&mut key.expr).map(Box::new)
+                                        }
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => panic!("unable to access unknown nodes"),
+                                    };
+
+                                    let value = self.ignore_return_value(&mut value).map(Box::new);
+
+                                    let mut exprs = Vec::new();
+                                    exprs.extend(key);
+                                    exprs.extend(value);
+
+                                    if !exprs.is_empty() {
+                                        Some(
+                                            Prop::KeyValue(KeyValueProp {
+                                                key: PropName::Num(Number {
+                                                    span: DUMMY_SP,
+                                                    value: 0.0,
+                                                    raw: None,
+                                                }),
+                                                value: Expr::Seq(SeqExpr {
+                                                    span: DUMMY_SP,
+                                                    exprs,
+                                                })
+                                                .into(),
+                                            })
+                                            .into(),
+                                        )
+                                    } else {
+                                        None
+                                    }
+                                }
+                                Prop::Getter(GetterProp { key, .. })
+                                | Prop::Setter(SetterProp { key, .. })
+                                | Prop::Method(MethodProp { key, .. }) => match key {
+                                    PropName::Ident(_)
+                                    | PropName::Str(_)
+                                    | PropName::Num(_)
+                                    | PropName::BigInt(_) => None,
+                                    PropName::Computed(mut key) => self
+                                        .ignore_return_value(&mut key.expr)
+                                        .map(Box::new)
+                                        .map(|key| {
+                                            Prop::KeyValue(KeyValueProp {
+                                                key: PropName::Num(Number {
+                                                    span: DUMMY_SP,
+                                                    value: 0.0,
+                                                    raw: None,
+                                                }),
+                                                value: key,
+                                            })
+                                            .into()
+                                        }),
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
+                                },
+
+                                Prop::Assign(mut prop) => {
+                                    let value =
+                                        self.ignore_return_value(&mut prop.value).map(Box::new);
+
+                                    if let Some(value) = value {
+                                        Some(
+                                            Prop::Assign(AssignProp {
+                                                span: prop.span,
+                                                key: prop.key,
+                                                value,
+                                            })
+                                            .into(),
+                                        )
+                                    } else {
+                                        None
+                                    }
+                                }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
+                            },
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
+                        })
+                        .collect();
+
+                    return Some(Expr::Object(ObjectLit {
+                        span: obj.span,
+                        props,
+                    }));
+                }
+
                 let mut exprs = Vec::new();
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
                     match prop {
-                        PropOrSpread::Spread(mut e) => {
-                            exprs.extend(self.ignore_return_value(&mut e.expr).map(Box::new));
+                        PropOrSpread::Spread(_) => {
+                            unreachable!();
                         }
                         PropOrSpread::Prop(prop) => match *prop {
                             Prop::KeyValue(KeyValueProp { key, mut value, .. }) => {
                                 match key {
-                                    PropName::Ident(_) => {}
-                                    PropName::Str(_) => {}
-                                    PropName::Num(_) => {}
+                                    PropName::Ident(_)
+                                    | PropName::Str(_)
+                                    | PropName::Num(_)
+                                    | PropName::BigInt(_) => {}
                                     PropName::Computed(mut key) => {
                                         exprs.extend(
                                             self.ignore_return_value(&mut key.expr).map(Box::new),
                                         );
                                     }
-                                    PropName::BigInt(_) => {}
                                     #[cfg(swc_ast_unknown)]
                                     _ => panic!("unable to access unknown nodes"),
                                 }
@@ -1137,15 +1249,15 @@ impl Optimizer<'_> {
                             Prop::Getter(GetterProp { key, .. })
                             | Prop::Setter(SetterProp { key, .. })
                             | Prop::Method(MethodProp { key, .. }) => match key {
-                                PropName::Ident(_) => {}
-                                PropName::Str(_) => {}
-                                PropName::Num(_) => {}
+                                PropName::Ident(_)
+                                | PropName::Str(_)
+                                | PropName::Num(_)
+                                | PropName::BigInt(_) => {}
                                 PropName::Computed(mut key) => {
                                     exprs.extend(
                                         self.ignore_return_value(&mut key.expr).map(Box::new),
                                     );
                                 }
-                                PropName::BigInt(_) => {}
                                 #[cfg(swc_ast_unknown)]
                                 _ => panic!("unable to access unknown nodes"),
                             },
@@ -1156,7 +1268,10 @@ impl Optimizer<'_> {
                                 );
                             }
 
-                            Prop::Shorthand(_) => {}
+                            Prop::Shorthand(i) => {
+                                let mut expr = Expr::Ident(i);
+                                exprs.extend(self.ignore_return_value(&mut expr).map(Box::new));
+                            }
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         },
@@ -1727,8 +1842,9 @@ impl VisitMut for Optimizer<'_> {
         let is_noinline = self.has_noinline(e.ctxt);
         // If this call produces the value for another receiver-aware callee,
         // such as a template tag, keep the inner callee as a reference.
-        // Replacing its member expression can expose the returned callable to
-        // later callee rewrites and lose the required `this` form.
+        // Replacing its member expression can expose the returned
+        // callable to later callee rewrites and lose the required
+        // `this` form.
         let can_replace_callee = !self.ctx.bit_ctx.contains(BitCtx::IsThisAwareCallee);
         {
             let ctx = self
@@ -2216,7 +2332,8 @@ impl VisitMut for Optimizer<'_> {
         // visit_mut_children_with(self) above.
         if !self.options.negate_iife {
             // I(kdy1) don't know why this check if required, but there are two
-            // test cases with `options.expressions` as only difference.
+            // test cases with `options.expressions` as only
+            // difference.
             if !self.options.expr && self.negate_iife_in_cond(&mut n.expr) {
                 need_ignore_return_value = true
             }
@@ -2266,23 +2383,15 @@ impl VisitMut for Optimizer<'_> {
             #[cfg(feature = "debug")]
             let start = dump(&n.expr, true);
 
-            // Fix https://github.com/swc-project/swc/issues/6422
-            let is_object_lit_with_spread = n
-                .expr
-                .as_object()
-                .map(|object_lit| object_lit.props.iter().any(|prop| prop.is_spread()))
-                .unwrap_or(false);
+            let expr = self.ignore_return_value(&mut n.expr);
+            n.expr = expr.map(Box::new).unwrap_or_else(|| {
+                report_change!("visit_mut_expr_stmt: Dropped an expression statement");
 
-            if !is_object_lit_with_spread {
-                let expr = self.ignore_return_value(&mut n.expr);
-                n.expr = expr.map(Box::new).unwrap_or_else(|| {
-                    report_change!("visit_mut_expr_stmt: Dropped an expression statement");
-                    #[cfg(feature = "debug")]
-                    dump_change_detail!("Removed {}", start);
+                #[cfg(feature = "debug")]
+                dump_change_detail!("Removed {}", start);
 
-                    Expr::undefined(DUMMY_SP)
-                });
-            }
+                Expr::undefined(DUMMY_SP)
+            });
         }
 
         self.normalize_expr(&mut n.expr);
@@ -2849,8 +2958,7 @@ impl VisitMut for Optimizer<'_> {
 
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
             match s {
-                // We use var decl with no declarator to indicate we dropped an
-                // decl.
+                // We use var decl with no declarator to indicate we dropped an decl.
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                     *s = EmptyStmt { span: DUMMY_SP }.into();
                     self.prepend_stmts = old_prepend;
@@ -3025,8 +3133,7 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_eq!(self.append_stmts.len(), append_len);
 
         match s {
-            // We use var decl with no declarator to indicate we dropped an
-            // decl.
+            // We use var decl with no declarator to indicate we dropped an decl.
             Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                 *s = EmptyStmt { span: DUMMY_SP }.into();
                 return;
@@ -3469,9 +3576,10 @@ impl VisitMut for Optimizer<'_> {
 
                 if v.init.is_none() {
                     // Even without an initializer, `let` ends the binding's TDZ
-                    // here. Later initializers may assign to it, so their side
-                    // effects must not be moved before the declaration. `var`
-                    // is already initialized.
+                    // here. Later initializers may assign
+                    // to it, so their side effects must not
+                    // be moved before the declaration. `var` is already
+                    // initialized.
                     if self.ctx.bit_ctx.contains(BitCtx::IsLet) {
                         can_prepend = false;
                     }
@@ -3612,8 +3720,9 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
         Expr::Seq(..) => return true,
         Expr::Member(MemberExpr { obj, prop, .. }) => {
             // An object-literal arrow property has no receiver-sensitive
-            // `this`. Treating it like a normal member would unnecessarily
-            // block safe call reduction after property inlining.
+            // `this`. Treating it like a normal member would
+            // unnecessarily block safe call reduction after
+            // property inlining.
             if let (Expr::Object(obj), MemberProp::Ident(prop)) = (&**obj, prop) {
                 let mut matching_props = obj.props.iter().filter(|item| match item {
                     PropOrSpread::Prop(item) => match &**item {

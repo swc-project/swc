@@ -173,6 +173,24 @@ where
         self.data.report_usage(self.ctx, i)
     }
 
+    /// Returns `true` if a reference to `i` at the current position is a
+    /// recursive reference that [Self::report_usage] does not count.
+    fn is_ignored_recursive_usage(&self, i: &Id) -> bool {
+        matches!(
+            self.used_recursively.get(i),
+            Some(RecursiveUsage::FnOrClass | RecursiveUsage::Var { can_ignore: true })
+        )
+    }
+
+    /// Records a mutation of a property of `id`.
+    ///
+    /// A mutation that [Self::report_usage] would treat as an ignored
+    /// recursive reference is reported as a self mutation.
+    fn mark_property_mutation(&mut self, id: Id) {
+        let is_self_mutation = self.is_ignored_recursive_usage(&id);
+        self.data.mark_property_mutation(id, is_self_mutation);
+    }
+
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
         for id in find_pat_ids::<_, Id>(p) {
             // It's hard to determined the type of pat assignment
@@ -226,7 +244,7 @@ where
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
             for_each_id_ref_in_member_obj(&m.obj, &mut |id| {
-                self.data.mark_property_mutation(id.to_id())
+                self.mark_property_mutation(id.to_id())
             });
         }
     }
@@ -237,7 +255,7 @@ where
         let mut v = MemberTargetsInPat::default();
         n.visit_with(&mut v);
         for id in v.objs {
-            self.data.mark_property_mutation(id);
+            self.mark_property_mutation(id);
         }
     }
 
@@ -598,7 +616,7 @@ where
             if call_may_mutate {
                 for a in &n.args {
                     for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                        self.data.mark_property_mutation(id.to_id());
+                        self.mark_property_mutation(id.to_id());
                     });
                 }
             }
@@ -1236,7 +1254,7 @@ where
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                            self.data.mark_property_mutation(id.to_id());
+                            self.mark_property_mutation(id.to_id());
                         });
                     }
                 }
@@ -1536,8 +1554,8 @@ where
                 }
             } else {
                 // Destructuring pulls values from an external object or
-                // iterable, so the callable arity of each binding is not known
-                // from this declaration.
+                // iterable, so the callable arity of each
+                // binding is not known from this declaration.
                 for id in find_pat_ids(&decl.name) {
                     self.data
                         .var_or_default(id)
@@ -1755,8 +1773,8 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                     Prop::Assign(p) => {
                         for_each_id_ref_in_expr(&p.value, op);
                     }
-                    // Function bodies and parameter defaults run on invocation,
-                    // so only computed keys can contribute references here.
+                    // Function bodies and parameter defaults run on invocation, so
+                    // only computed keys can contribute references here.
                     Prop::Getter(p) => {
                         for_each_id_ref_in_prop_name(&p.key, op);
                     }

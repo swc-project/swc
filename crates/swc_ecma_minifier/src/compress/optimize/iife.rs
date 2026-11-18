@@ -13,7 +13,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::util::may_inline_arrow,
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
-    util::{idents_captured_by, make_number},
+    util::make_number,
 };
 
 /// Methods related to the option `negate_iife`.
@@ -317,8 +317,8 @@ impl Optimizer<'_> {
                         }
 
                         // `b = a` depends on parameter evaluation order. We
-                        // only inline defaults that are independent of earlier
-                        // parameters.
+                        // only inline defaults that are
+                        // independent of earlier parameters.
                         let references_earlier_param =
                             param_idents.iter().take(idx).any(|earlier_param| {
                                 let Some(earlier_param) = earlier_param else {
@@ -351,13 +351,17 @@ impl Optimizer<'_> {
                                 }
 
                                 // The rest array is allocated once per call. If
-                                // its only reference can run more than once (in
-                                // a loop or in a nested function), inlining
-                                // allocates a new array on every evaluation, so
-                                // `args.push(x)` or `args.shift()` no longer
+                                // its only
+                                // reference can run more than once (in a loop
+                                // or in a nested
+                                // function), inlining allocates a new array on
+                                // every
+                                // evaluation, so `args.push(x)` or
+                                // `args.shift()` no longer
                                 // sees the previous one. There, inline only
-                                // reads of `length` or of an element at a
-                                // literal index, and only when the array
+                                // reads of `length`
+                                // or of an element at a literal index, and only
+                                // when the array
                                 // does not escape.
                                 if (usage
                                     .flags
@@ -382,10 +386,8 @@ impl Optimizer<'_> {
                                     }
 
                                     match &*arg.expr {
-                                        // RegExp literals allocate on each
-                                        // evaluation; moving one
-                                        // into a returned closure changes its
-                                        // identity.
+                                        // RegExp literals allocate on each evaluation; moving one
+                                        // into a returned closure changes its identity.
                                         Expr::Lit(Lit::Regex(..)) => true,
                                         Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => true,
                                         Expr::Lit(..) => false,
@@ -961,46 +963,53 @@ impl Optimizer<'_> {
     }
 
     fn can_inline_fn_stmt(&self, stmt: &Stmt, for_stmt: bool) -> bool {
-        match stmt {
-            Stmt::Decl(Decl::Var(var)) => {
-                for decl in &var.decls {
-                    for id in find_pat_ids::<_, Id>(&decl.name) {
-                        if self.ident_reserved(&id.0) {
-                            log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
-                            return false;
-                        }
-                    }
-                }
+        let can_inline_fn_stmts = |stmts: &[Stmt]| {
+            stmts
+                .iter()
+                .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt))
+        };
 
-                if matches!(
-                    &**var,
-                    VarDecl {
-                        kind: VarDeclKind::Var | VarDeclKind::Let,
-                        ..
+        let check_var = |var: &VarDecl| {
+            for decl in &var.decls {
+                for id in find_pat_ids::<_, Id>(&decl.name) {
+                    if self.ident_reserved(&id.0) {
+                        log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
+                        return false;
                     }
-                ) {
-                    for decl in &var.decls {
-                        match &decl.name {
-                            Pat::Ident(id) if id.sym == "arguments" => return false,
-                            Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.to_id()) {
-                                    log_abort!(
-                                        "iife: [x] Cannot inline because pending inline of `{}`",
-                                        id.id
-                                    );
-                                    return false;
-                                }
-                            }
-
-                            _ => return false,
-                        }
-                    }
-
-                    !self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
-                } else {
-                    for_stmt
                 }
             }
+
+            if matches!(
+                var,
+                VarDecl {
+                    kind: VarDeclKind::Var | VarDeclKind::Let,
+                    ..
+                }
+            ) {
+                for decl in &var.decls {
+                    match &decl.name {
+                        Pat::Ident(id) if id.sym == "arguments" => return false,
+                        Pat::Ident(id) => {
+                            if self.vars.has_pending_inline_for(&id.to_id()) {
+                                log_abort!(
+                                    "iife: [x] Cannot inline because pending inline of `{}`",
+                                    id.id
+                                );
+                                return false;
+                            }
+                        }
+                        _ => return false,
+                    }
+                }
+
+                !self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
+            } else {
+                for_stmt
+            }
+        };
+
+        match stmt {
+            Stmt::Decl(Decl::Var(var)) => check_var(var),
 
             Stmt::Expr(_) => true,
 
@@ -1010,10 +1019,7 @@ impl Optimizer<'_> {
                 }
                 _ => true,
             },
-            Stmt::Block(b) => b
-                .stmts
-                .iter()
-                .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
+            Stmt::Block(b) => can_inline_fn_stmts(&b.stmts),
             Stmt::If(i) if for_stmt => {
                 self.can_inline_fn_stmt(&i.cons, for_stmt)
                     && i.alt
@@ -1026,17 +1032,48 @@ impl Optimizer<'_> {
                 .iter()
                 .flat_map(|case| case.cons.iter())
                 .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
-            // Other statements (`try`, `do-while`, `for`, `for-in`, `for-of`,
-            // `with`, labeled statements, ...) are not inspected statement by
-            // statement, but a `var` nested in them is hoisted to the function
-            // scope just like a top-level one. If the call is executed multiple
-            // times, inlining it would make all iterations share a single
-            // binding, which is observable by closures.
-            _ => {
-                for_stmt
-                    && !(self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
-                        && contains_var_decl(stmt))
+
+            Stmt::While(WhileStmt { body, .. }) | Stmt::DoWhile(DoWhileStmt { body, .. })
+                if for_stmt =>
+            {
+                self.can_inline_fn_stmt(body, for_stmt)
             }
+
+            Stmt::Try(t) if for_stmt => {
+                can_inline_fn_stmts(&t.block.stmts)
+                    && t.handler
+                        .as_ref()
+                        .map(|h| can_inline_fn_stmts(&h.body.stmts))
+                        .unwrap_or(true)
+                    && t.finalizer
+                        .as_ref()
+                        .map(|f| can_inline_fn_stmts(&f.stmts))
+                        .unwrap_or(true)
+            }
+
+            Stmt::For(ForStmt { init, body, .. }) if for_stmt => {
+                init.as_ref()
+                    .and_then(|i| i.as_var_decl())
+                    .map(|v| check_var(v))
+                    .unwrap_or(true)
+                    && self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            Stmt::ForIn(ForInStmt { left, body, .. })
+            | Stmt::ForOf(ForOfStmt { left, body, .. })
+                if for_stmt =>
+            {
+                left.as_var_decl().map(|v| check_var(v)).unwrap_or(true)
+                    && self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            Stmt::With(WithStmt { body, .. }) | Stmt::Labeled(LabeledStmt { body, .. })
+                if for_stmt =>
+            {
+                self.can_inline_fn_stmt(body, for_stmt)
+            }
+
+            _ => for_stmt,
         }
     }
 
@@ -1076,10 +1113,14 @@ impl Optimizer<'_> {
 
         if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
             if param_ids.len() != 0 {
-                let captured = idents_captured_by(body);
-
                 for param in param_ids {
-                    if captured.contains(&param.to_id()) {
+                    if self
+                        .data
+                        .vars
+                        .get(&param.to_id())
+                        .map(|p| !p.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL))
+                        .unwrap_or(false)
+                    {
                         log_abort!(
                             "iife: [x] Cannot inline because of the capture of `{}`",
                             param
@@ -1210,8 +1251,8 @@ impl Optimizer<'_> {
                             for id in ids {
                                 if let Some(usage) = self.data.vars.get_mut(&id) {
                                     // as we turn var declaration into
-                                    // assignment we need to maintain correct
-                                    // var usage
+                                    // assignment
+                                    // we need to maintain correct var usage
                                     usage.ref_count += 1;
                                 }
                             }
@@ -1621,50 +1662,6 @@ impl Visit for DeclVisitor<'_> {
     }
 }
 
-/// Returns true if `stmt` contains a `var` declaration (including the ones in
-/// `for`, `for-in` and `for-of` heads) that is hoisted to the scope of the
-/// enclosing function.
-fn contains_var_decl(stmt: &Stmt) -> bool {
-    let mut v = VarDeclFinder { found: false };
-    stmt.visit_with(&mut v);
-    v.found
-}
-
-/// Finds `var` declarations hoisted to the current function scope.
-struct VarDeclFinder {
-    found: bool,
-}
-
-impl Visit for VarDeclFinder {
-    noop_visit_type!(fail);
-
-    /// A `var` declaration cannot appear in an expression, except in a
-    /// function body, which has its own scope.
-    fn visit_expr(&mut self, _: &Expr) {}
-
-    /// Don't recurse into fn
-    fn visit_function(&mut self, _: &Function) {}
-
-    /// Don't recurse into constructor
-    fn visit_constructor(&mut self, _: &Constructor) {}
-
-    /// Static blocks have their own var scope.
-    fn visit_static_block(&mut self, _: &StaticBlock) {}
-
-    fn visit_var_decl(&mut self, v: &VarDecl) {
-        if v.kind == VarDeclKind::Var {
-            self.found = true;
-        }
-    }
-
-    fn visit_stmt(&mut self, s: &Stmt) {
-        // Skip the remaining statements once a declaration is found.
-        if !self.found {
-            s.visit_children_with(self);
-        }
-    }
-}
-
 /// Enhanced IIFE invocation for sequence expressions
 impl Optimizer<'_> {
     /// Specifically handles IIFE invocation for arrow functions within sequence
@@ -1720,8 +1717,8 @@ impl Optimizer<'_> {
             // If we can optimize, perform the mutation
             if can_optimize {
                 // Extract a fresh mutable reference to avoid borrowing
-                // conflicts This block ensures all previous borrows are dropped
-                // before we create new ones
+                // conflicts This block ensures all previous
+                // borrows are dropped before we create new ones
                 let expr = &mut seq.exprs[i];
                 if let Expr::Call(call) = &mut **expr {
                     if let Callee::Expr(callee) = &call.callee {

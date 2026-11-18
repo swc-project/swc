@@ -4,9 +4,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_ident_ref, find_pat_ids, ExprExt, Remapper,
-};
+use swc_ecma_utils::{class_has_side_effect, collect_decls, contains_ident_ref, ExprExt, Remapper};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
@@ -23,9 +21,7 @@ use crate::{
         alias::{collect_infects_from, AliasConfig},
         analyzer::storage::Storage,
     },
-    util::{
-        idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
-    },
+    util::{idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt},
 };
 
 /// Methods related to option `inline`.
@@ -274,7 +270,8 @@ impl Optimizer<'_> {
                     Expr::Lit(lit) => match lit {
                         Lit::Str(s) => {
                             // If the string literal is declared without
-                            // initializer and assigned once, we can inline it.
+                            // initializer and assigned
+                            // once, we can inline it.
                             if (ref_count == 1
                                 || (ref_count == 2
                                     && usage.assign_count == 1
@@ -323,6 +320,7 @@ impl Optimizer<'_> {
                     flags,
                     ..
                 } = **usage;
+
                 let mut inc_usage = || {
                     for (i, _) in collect_infects_from(
                         &*init,
@@ -339,6 +337,7 @@ impl Optimizer<'_> {
                             u.flags |= flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
                             u.flags |= flags & VarUsageInfoFlags::USED_IN_COND;
                             u.flags |= flags & VarUsageInfoFlags::USED_RECURSIVELY;
+                            u.flags |= flags & VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF;
 
                             if !flags.contains(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS)
                             {
@@ -349,6 +348,14 @@ impl Optimizer<'_> {
                             u.ref_count += ref_count;
                             u.usage_count += usage_count;
                             u.property_mutation_count += property_mutation_count;
+                        }
+                    }
+
+                    if let Expr::Ident(i) = &*init {
+                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                            if !flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) {
+                                u.flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
+                            }
                         }
                     }
                 };
@@ -509,24 +516,7 @@ impl Optimizer<'_> {
                     .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
                 {
                     match init {
-                        Expr::Lit(..) => {}
-                        Expr::Fn(f) => {
-                            // Similar to `_loop` generation of the
-                            // block_scoping pass.
-                            // If the function captures the environment, we
-                            // can't inline it.
-                            let params: Vec<Id> = find_pat_ids(&f.function.params);
-
-                            if !params.is_empty() {
-                                let captured = idents_captured_by(&f.function.body);
-
-                                for param in params {
-                                    if captured.contains(&param) {
-                                        return;
-                                    }
-                                }
-                            }
-                        }
+                        Expr::Lit(..) | Expr::Fn(..) => {}
                         _ => {
                             return;
                         }

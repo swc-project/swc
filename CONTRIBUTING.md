@@ -140,6 +140,10 @@ For running all tests, take the following steps:
 
     **TIP**: If you see errors while attempting to run the commands above, we usually do not run all tests at once. Instead, we run tests per package ([see below](#running-tests-per-package)), which you can use to verify your local setup.
 
+Local `pnpm build` and `pnpm build:dev` install cargo-fixit once and apply
+Clippy fixes before compiling. Review the source diff afterward. CI stays
+read-only and caches Clippy builds with Mr Boxington.
+
 ## Running tests per package
 
 While working on specific packages, individual tests can be run by specifying a package to the
@@ -215,6 +219,12 @@ to be tested after the pull request is made. In case unforeseen
 problems are discovered during this step (e.g. a failure on a platform you
 originally did not develop on), you may ask for guidance. Push additional
 commits to your branch to tackle these problems.
+
+Keep each pull request to one logical change. Do not add unrelated changes,
+such as unrelated refactors, formatting, or dependency updates, to your pull
+request. If CI fails for a reason that your pull request does not cause, do
+not fix the failure in your pull request. Fix it in a separate pull request,
+or ask a maintainer for help.
 
 The reviewer might point out changes deemed necessary. Please add them as
 extra commits; this ensures that the reviewer can see what has changed since

@@ -269,11 +269,10 @@ impl<I: Tokens> Parser<I> {
 
                 _ => match *expr {
                     // It is a Syntax Error if the LeftHandSideExpression is
-                    // CoverParenthesizedExpressionAndArrowParameterList:
-                    // (Expression) and Expression derives a phrase that would
-                    // produce a Syntax Error according to these rules if that
-                    // phrase were substituted for LeftHandSideExpression. This
-                    // rule is recursively applied.
+                    // CoverParenthesizedExpressionAndArrowParameterList:(Expression) and
+                    // Expression derives a phrase that would produce a Syntax Error according
+                    // to these rules if that phrase were substituted for
+                    // LeftHandSideExpression. This rule is recursively applied.
                     Expr::Paren(..) => {
                         return Ok(expr.into());
                     }
@@ -418,12 +417,15 @@ impl<I: Tokens> Parser<I> {
                                         // Per ECMA-262 13.15.5.1,
                                         // AssignmentRestProperty's
                                         // DestructuringAssignmentTarget may not
-                                        // be an ArrayLiteral or ObjectLiteral.
-                                        // Parenthesized forms are rejected too,
-                                        // matching V8 / SpiderMonkey behavior.
+                                        // be an
+                                        // ArrayLiteral or ObjectLiteral.
+                                        // Parenthesized forms
+                                        // are rejected too, matching V8 /
+                                        // SpiderMonkey behavior.
                                         // Other shapes (member access, optional
-                                        // chain, calls) are syntactically valid
-                                        // per spec and either reparse
+                                        // chain, calls)
+                                        // are syntactically valid per spec and
+                                        // either reparse
                                         // successfully or throw at runtime.
                                         // Closes #11543.
                                         self.emit_err(span, SyntaxError::NotSimpleAssign);
@@ -456,9 +458,9 @@ impl<I: Tokens> Parser<I> {
                 let len = exprs.len();
                 let mut params = Vec::with_capacity(len);
                 // Array literals do not store a trailing comma as an element.
-                // Every `None`, including a trailing one, is an elision that
-                // advances the iterator in both binding and assignment
-                // patterns.
+                // Every `None`, including a trailing one, is an
+                // elision that advances the iterator in both
+                // binding and assignment patterns.
                 for (idx, expr) in exprs.into_iter().enumerate() {
                     let pat = match expr {
                         Some(
@@ -510,8 +512,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             // Invalid patterns.
-            // Note that assignment expression with '=' is valid, and handled
-            // above.
+            // Note that assignment expression with '=' is valid, and handled above.
             Expr::Lit(..) | Expr::Assign(..) => {
                 self.emit_err(span, SyntaxError::InvalidPat);
                 Ok(Invalid { span }.into())
@@ -965,17 +966,29 @@ impl<I: Tokens> Parser<I> {
     /// parameter grammar and list-wide binding validation remain with callers.
     pub(super) fn parse_parameter_list<T: ParameterListItem>(
         &mut self,
+        parse: impl FnMut(&mut Self, usize) -> PResult<T>,
+    ) -> PResult<Vec<T>> {
+        self.parse_parameter_list_with_first(None, parse)
+    }
+
+    /// Finish a list after a cover grammar has already parsed its first item.
+    pub(super) fn parse_parameter_list_with_first<T: ParameterListItem>(
+        &mut self,
+        mut first: Option<T>,
         mut parse: impl FnMut(&mut Self, usize) -> PResult<T>,
     ) -> PResult<Vec<T>> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 
-        while !self.input().is(Token::RParen) {
+        while first.is_some() || !self.input().is(Token::RParen) {
             if !rest_span.is_dummy() {
                 self.emit_err(rest_span, SyntaxError::TS1014);
             }
 
-            let param = parse(self, params.len())?;
+            let param = match first.take() {
+                Some(param) => param,
+                None => parse(self, params.len())?,
+            };
             let current_rest = param.rest_span();
             if let Some(span) = current_rest {
                 rest_span = span;

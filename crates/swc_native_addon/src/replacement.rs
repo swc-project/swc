@@ -7,6 +7,9 @@ use std::path::Path;
 
 use crate::{cache::Materialized, format::Payload, Result};
 
+#[cfg(any(target_os = "linux", all(test, unix)))]
+mod btrfs;
+
 /// Try the optional filesystem optimization. Errors leave the carrier intact
 /// (except a directory-flush error after a completed atomic replacement) and
 /// should be reported as diagnostics before falling back to the verified cache.
@@ -60,8 +63,8 @@ mod supported {
             return Ok(None);
         }
         // Lock the original inode. Competing first loads holding that inode
-        // must recheck the pathname after acquiring the lock; only one can
-        // replace it.
+        // must recheck the pathname after acquiring the lock; only one
+        // can replace it.
         platform::lock_exclusive(&original).map_err(|e| fail("lock carrier", e))?;
         if !same_file(carrier, &metadata)? {
             return Ok(None);
@@ -188,7 +191,8 @@ mod supported {
     fn compress(stage: tempfile::NamedTempFile) -> Result<tempfile::TempPath> {
         // These ioctl encodings are shared by the supported 64-bit Linux ABIs.
         // Set the inode policy AND rewrite already-written extents: setting
-        // only FS_COMPR_FL does not retroactively compress the decoded file.
+        // only FS_COMPR_FL does not retroactively compress the decoded
+        // file.
         #[repr(C)]
         struct DefragRange {
             start: u64,
@@ -199,6 +203,7 @@ mod supported {
             unused: [u32; 4],
         }
         let fd = stage.as_file().as_raw_fd();
+        let incompat_flags = super::btrfs::incompat_flags(stage.as_file());
         let mut flags: libc::c_long = 0;
         if unsafe { libc::ioctl(fd, 0x8008_6601_u32 as _, &mut flags) } != 0 {
             return Err(fail("read btrfs inode flags", io::Error::last_os_error()));
@@ -207,17 +212,22 @@ mod supported {
         if unsafe { libc::ioctl(fd, 0x4008_6602, &flags) } != 0 {
             return Err(fail("enable btrfs compression", io::Error::last_os_error()));
         }
-        let range = DefragRange {
-            start: 0,
-            len: u64::MAX,
-            flags: 3,
-            extent_thresh: 1,
-            compress_type: 1,
-            unused: [0; 4], // zlib works on all supported btrfs kernels
-        };
-        if unsafe { libc::ioctl(fd, 0x4030_9410, &range) } != 0 {
-            return Err(fail("compress btrfs extents", io::Error::last_os_error()));
-        }
+        super::btrfs::compress_with_fallback(incompat_flags, |codec| {
+            let range = DefragRange {
+                start: 0,
+                len: u64::MAX,
+                flags: 3,
+                extent_thresh: 1,
+                compress_type: codec,
+                unused: [0; 4],
+            };
+            if unsafe { libc::ioctl(fd, 0x4030_9410, &range) } == 0 {
+                Ok(())
+            } else {
+                Err(io::Error::last_os_error())
+            }
+        })
+        .map_err(|error| fail("compress btrfs extents", error))?;
         stage
             .as_file()
             .sync_all()

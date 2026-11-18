@@ -107,8 +107,8 @@ pub fn optimize(
         // Apply global defs.
         //
         // As terser treats `CONFIG['VALUE']` and `CONFIG.VALUE` differently, we
-        // don't have to see if optimized code matches global definition and we
-        // can run this at startup.
+        // don't have to see if optimized code matches global definition
+        // and we can run this at startup.
 
         if !defs.is_empty() {
             let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
@@ -206,6 +206,7 @@ pub fn optimize(
             &mut n,
             mangle,
             preserved.preserved,
+            &preserved.kept_class_names,
             chars,
             extra.top_level_mark,
             extra.mangle_name_cache.clone(),

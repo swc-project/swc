@@ -1134,8 +1134,8 @@
    * Runtime helper for merging v-bind="object" into a VNode's data.
    */ function bindObjectProps(data, tag, value, asProp, isSync) {
         if (value) if (isObject(value)) {
-            Array.isArray(value) && (value = toObject(value));
-            var hash, loop = function(key) {
+            var hash;
+            for(var key in Array.isArray(value) && (value = toObject(value)), value)!function(key) {
                 if ('class' === key || 'style' === key || isReservedAttribute(key)) hash = data;
                 else {
                     var type = data.attrs && data.attrs.type;
@@ -1145,8 +1145,7 @@
                 camelizedKey in hash || hyphenatedKey in hash || (hash[key] = value[key], isSync && ((data.on || (data.on = {}))["update:" + key] = function($event) {
                     value[key] = $event;
                 }));
-            };
-            for(var key in value)loop(key);
+            }(key);
         } else warn('v-bind without argument expects an Object or Array value', this);
         return data;
     }
@@ -1769,16 +1768,13 @@
             });
         }), shouldObserve = !0), this._watchers = [], (opts1 = this.$options).props && function(vm, propsOptions) {
             var propsData = vm.$options.propsData || {}, props = vm._props = {}, keys = vm.$options._propKeys = [], isRoot = !vm.$parent;
-            // root instance props should be converted
-            isRoot || (shouldObserve = !1);
-            var loop = function(key) {
+            for(var key in isRoot || (shouldObserve = !1), propsOptions)!function(key) {
                 keys.push(key);
                 var value = validateProp(key, propsOptions, propsData, vm), hyphenatedKey = hyphenate(key);
                 (isReservedAttribute(hyphenatedKey) || config.isReservedAttr(hyphenatedKey)) && warn("\"" + hyphenatedKey + "\" is a reserved attribute and cannot be used as component prop.", vm), defineReactive$$1(props, key, value, function() {
                     isRoot || isUpdatingChildComponent || warn("Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: \"" + key + "\"", vm);
                 }), key in vm || proxy(vm, "_props", key);
-            };
-            for(var key in propsOptions)loop(key);
+            }(key);
             shouldObserve = !0;
         }(this, opts1.props), opts1.methods && function(vm, methods) {
             var props = vm.$options.props;

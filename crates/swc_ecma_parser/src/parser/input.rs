@@ -23,6 +23,14 @@ pub trait Tokens: Clone {
     fn checkpoint_save(&self) -> Self::Checkpoint;
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
 
+    /// Restores a cached lexical boundary inside disposable lookahead while
+    /// preserving the current diagnostics, comments, and captured-token prefix.
+    /// Return false without changing state when this operation is unsupported.
+    #[doc(hidden)]
+    fn try_load_lookahead(&mut self, _checkpoint: Self::Checkpoint) -> bool {
+        false
+    }
+
     fn read_string(&self, span: Span) -> &str;
 
     fn start_pos(&self) -> BytePos {
@@ -74,6 +82,13 @@ pub trait Tokens: Clone {
 
     /// Defers publishing buffered comments while a parse may be rewound.
     fn set_defer_comments(&mut self, _defer: bool) {}
+
+    /// Temporarily changes comment publication for a disposable probe.
+    /// Implementations without comment publication can leave this unsupported.
+    #[doc(hidden)]
+    fn swap_defer_comments(&mut self, _defer: bool) -> Option<bool> {
+        None
+    }
 
     /// Publishes all buffered comments after the parser commits a parse.
     fn finalize_comments(&mut self) {}

@@ -202,14 +202,14 @@
             'replaceState',
             "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
         ]
-    }, defineDeprecationWarning = function(methodName, info) {
+    };
+    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && function(methodName, info) {
         Object.defineProperty(Component.prototype, methodName, {
             get: function() {
                 warn('%s(...) is deprecated in plain JavaScript React classes. %s', info[0], info[1]);
             }
         });
-    };
-    for(var fnName in deprecatedAPIs)deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
+    }(fnName, deprecatedAPIs[fnName]);
     function ComponentDummy() {}
     /**
  * Convenience component with default shallow equality check for sCU.
