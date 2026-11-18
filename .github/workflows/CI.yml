@@ -133,7 +133,7 @@ jobs:
       # We explicitly do this to cache properly.
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
         with:
-          toolchain: nightly-2026-11-15
+          toolchain: nightly-2026-10-08
           components: rustfmt
 
       - run: cargo fmt --all -- --check
@@ -153,7 +153,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
         with:
-          toolchain: nightly-2026-11-15
+          toolchain: nightly-2026-10-08
           components: rustfmt
 
       - run: cargo codegen helpers --check
@@ -174,7 +174,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
         with:
-          toolchain: nightly-2026-11-15
+          toolchain: nightly-2026-10-08
           components: clippy
 
       - run: cargo clippy --all --all-targets -- -D warnings
@@ -251,7 +251,7 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
         with:
-          toolchain: nightly-2026-11-15
+          toolchain: nightly-2026-10-08
 
       - name: Check publish dependency order
         run: node ./scripts/github/check-publish-order.mjs
@@ -394,7 +394,7 @@ jobs:
         uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
         if: matrix.settings.crate != '__noop__'
         with:
-          toolchain: nightly-2026-11-15
+          toolchain: nightly-2026-10-08
           target: wasm32-wasip1
           components: rustfmt
 
