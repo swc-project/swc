@@ -64,3 +64,9 @@ export function supportsUnicodeSets() {
         return false;
     }
 }
+// More forms of the global `RegExp`.
+export const computedMember = globalThis["RegExp"](/(?-i:a)/, "i");
+export const optionalMember = globalThis?.RegExp(/(?-i:a)/, "i");
+// A literal used only in the test of a conditional is not the pattern, so it
+// is lowered.
+export const conditionalTest = RegExp(/(?i:a)/.test("A") ? "b" : "c", "g");

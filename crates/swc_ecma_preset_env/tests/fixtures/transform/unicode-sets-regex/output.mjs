@@ -43,3 +43,6 @@ export function supportsUnicodeSets() {
         return false;
     }
 }
+export const computedMember = globalThis["RegExp"](RegExp("(?-i:a)"), "i");
+export const optionalMember = globalThis?.RegExp(RegExp("(?-i:a)"), "i");
+export const conditionalTest = RegExp(/(?:[Aa])/.test("A") ? "b" : "c", "g");
