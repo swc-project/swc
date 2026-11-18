@@ -403,6 +403,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_serialize_normal_utf8() {
         let atom = Wtf8Atom::new("Hello, world!");
         let serialized = serde_json::to_string(&atom).unwrap();
@@ -411,6 +412,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_deserialize_normal_utf8() {
         let json = "\"Hello, world!\"";
         let atom: Wtf8Atom = serde_json::from_str(json).unwrap();
@@ -419,6 +421,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_serialize_unpaired_high_surrogate() {
         // Create a WTF-8 string with an unpaired high surrogate (U+D800)
         let mut wtf8 = Wtf8Buf::new();
@@ -432,6 +435,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_serialize_unpaired_low_surrogate() {
         // Create a WTF-8 string with an unpaired low surrogate (U+DC00)
         let mut wtf8 = Wtf8Buf::new();
@@ -445,6 +449,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_serialize_multiple_surrogates() {
         // Create a WTF-8 string with multiple unpaired surrogates
         let mut wtf8 = Wtf8Buf::new();
@@ -461,6 +466,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_serialize_literal_backslash_u() {
         // Test that literal "\u" in the string gets escaped properly
         let atom = Wtf8Atom::new("\\u0041");
@@ -471,6 +477,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_deserialize_escaped_backslash_u() {
         // Test deserializing the escaped format for unpaired surrogates
         let json = "\"\\\\uD800\"";
@@ -482,6 +489,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_deserialize_unpaired_surrogates() {
         let json = "\"\\\\uD800\""; // Use escaped format that matches serialization
         let atom: Wtf8Atom = serde_json::from_str(json).unwrap();
@@ -493,6 +501,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_round_trip_normal_string() {
         let original = Wtf8Atom::new("Hello, 世界! 🌍");
         let serialized = serde_json::to_string(&original).unwrap();
@@ -502,6 +511,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_round_trip_unpaired_surrogates() {
         // Create a string with unpaired surrogates
         let mut wtf8 = Wtf8Buf::new();
@@ -524,6 +534,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_round_trip_mixed_content() {
         // Create a complex string with normal text, emojis, and unpaired surrogates
         let mut wtf8 = Wtf8Buf::new();
@@ -541,6 +552,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_empty_string() {
         let atom = Wtf8Atom::new("");
         let serialized = serde_json::to_string(&atom).unwrap();
@@ -552,6 +564,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_special_characters() {
         let test_cases = vec![
             ("\"", "\"\\\"\""),
@@ -572,6 +585,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_consecutive_surrogates_not_paired() {
         // Test that consecutive surrogates that don't form a valid pair
         // are handled correctly
@@ -590,6 +604,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_deserialize_incomplete_escape() {
         // Test handling of incomplete escape sequences from our custom format
         let json = "\"\\\\\\\\u123\""; // Escaped backslash + incomplete sequence
@@ -601,6 +616,7 @@ mod tests {
 
     #[cfg(feature = "serde")]
     #[test]
+    #[cfg(feature = "serde")]
     fn test_deserialize_invalid_hex() {
         // Test handling of invalid hex in escape sequences from our custom format
         let json = "\"\\\\\\\\uGGGG\""; // Escaped backslash + invalid hex
@@ -611,6 +627,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "serde")]
     fn test_try_into_atom_valid_utf8() {
         let wtf8_atom = Wtf8Atom::new("Valid UTF-8 string");
         let result = wtf8_atom.try_into_atom();
@@ -619,6 +636,7 @@ mod tests {
     }
 
     #[test]
+    #[cfg(feature = "serde")]
     fn test_try_into_atom_invalid_utf8() {
         // Create an atom with unpaired surrogates
         let mut wtf8 = Wtf8Buf::new();

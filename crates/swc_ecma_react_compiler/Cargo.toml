@@ -21,8 +21,8 @@ rustc-hash = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 swc_atoms = { version = "10.0.1", path = "../swc_atoms" }
-swc_common = { version = "27.0.0", path = "../swc_common" }
-swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast" }
+swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast", default-features = false }
 swc_ecma_codegen = { version = "33.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "47.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
@@ -30,11 +30,11 @@ swc_ecma_parser = { version = "47.1.0", path = "../swc_ecma_parser", default-fea
 swc_ecma_utils = { version = "36.1.1", path = "../swc_ecma_utils", features = [
   "stacker",
 ] }
-swc_ecma_visit = { version = "30.0.0", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "30.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [dev-dependencies]
 swc_common = { version = "27.0.0", path = "../swc_common" }
 swc_ecma_parser = { version = "47.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-testing = { version = "28.0.1", path = "../testing" }
+testing = { version = "28.0.1", path = "../testing", default-features = false }

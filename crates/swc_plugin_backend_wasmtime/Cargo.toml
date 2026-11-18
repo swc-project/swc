@@ -8,7 +8,7 @@ repository  = { workspace = true }
 version     = "18.0.1"
 
 [dependencies]
-anyhow = { workspace = true }
+anyhow = { workspace = true, default-features = false }
 
 # The workspace uses the patched Wasmtime 36 LTS line to retain wasi-common
 # support without increasing the Rust version required by the backend.
@@ -18,4 +18,4 @@ wasmtime    = { workspace = true, features = ["runtime", "cranelift", "threads"]
 swc_common = { version = "27.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "35.0.0", path = "../swc_plugin_runner" }
+swc_plugin_runner = { version = "35.0.0", path = "../swc_plugin_runner", default-features = false }

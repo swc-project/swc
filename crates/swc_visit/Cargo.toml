@@ -14,4 +14,4 @@ bench = false
 path = []
 
 [dependencies]
-either = { workspace = true }
+either = { workspace = true, default-features = false }
