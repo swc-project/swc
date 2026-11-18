@@ -9,6 +9,10 @@ export const disableDotAll = /(?-s:.)./s;
 // `v` patterns are lowered to `u` patterns before the modifiers.
 export const unicodeSets = /(?i:[^a])[^b]/v;
 
+// An escaped parenthesis is not a modifier group, so the supported `v` flag
+// is kept.
+export const notModifiers = /\(?i:[a--b]/v;
+
 // A backreference in a case-insensitive group cannot be lowered.
 export const backreference = /(a)(?i:\1)/;
 

@@ -17,6 +17,6 @@ mod unicode_property;
 mod unicode_sets;
 
 pub use error::LowerError;
-pub use modifiers::transform_modifiers;
+pub use modifiers::{has_modifiers, transform_modifiers};
 pub use unicode_property::transform_unicode_property_escapes;
 pub use unicode_sets::transform_unicode_sets;

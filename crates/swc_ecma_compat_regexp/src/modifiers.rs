@@ -77,6 +77,13 @@ pub fn transform_modifiers(
     Ok(Some(new_flags))
 }
 
+/// Returns true if `pattern` has a group with modifiers, such as `(?i:...)`.
+pub fn has_modifiers(pattern: &Pattern) -> bool {
+    let mut usage = ModifierUsage::default();
+    usage.visit_disjunction(&pattern.body);
+    usage.has_modifiers
+}
+
 /// Collects whether a pattern has modifiers, and which flags they disable.
 struct ModifierUsage {
     has_modifiers: bool,

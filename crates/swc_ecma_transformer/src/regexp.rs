@@ -2,7 +2,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_regexp::{
-    transform_modifiers, transform_unicode_property_escapes, transform_unicode_sets,
+    has_modifiers, transform_modifiers, transform_unicode_property_escapes, transform_unicode_sets,
 };
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{
@@ -129,6 +129,13 @@ impl RegexpPass {
         let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
             .parse()
             .ok()?;
+        // `may_have_modifiers` can report a false positive, such as `\(?i:`.
+        // Confirm it on the AST, so that a supported `v` flag is not lowered
+        // for nothing.
+        let lower_modifiers = lower_modifiers && has_modifiers(&ast);
+        if !lower_unicode_sets && !lower_modifiers {
+            return None;
+        }
         let mut flags = flags.to_string();
         let mut changed = false;
 

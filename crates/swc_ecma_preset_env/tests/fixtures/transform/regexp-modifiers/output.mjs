@@ -6,5 +6,6 @@ export const dotAll = /(?:[\s\S])./;
 export const multiline = /(?:(?<=^|[\x0A\x0D\u2028-\u2029])a(?=$|[\x0A\x0D\u2028-\u2029]))/;
 export const disableDotAll = /(?:.)[\s\S]/;
 export const unicodeSets = /(?:[^Aa])[^b]/u;
+export const notModifiers = /\(?i:[a--b]/v;
 export const backreference = /(a)(?i:\1)/;
 export const constructorCall = new RegExp("(?:[Aa])b", "g");
