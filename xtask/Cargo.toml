@@ -12,11 +12,11 @@ version     = "0.1.0"
 
 [dependencies]
 anyhow = { workspace = true, default-features = false }
-chrono = { workspace = true, default-features = false }
+chrono = { workspace = true, default-features = false, features = ["clock"] }
 clap         = { version = "4.4.6", features = ["derive"] }
-semver = { workspace = true, default-features = false }
+semver = { workspace = true, default-features = false, features = ["std"] }
 serde = { workspace = true, default-features = false }
 serde_derive = { workspace = true, default-features = false }
-serde_json = { workspace = true, default-features = false }
-toml = { workspace = true, default-features = false }
+serde_json = { workspace = true, default-features = false, features = ["std"] }
+toml = { workspace = true, default-features = false, features = ["std", "serde", "parse"] }
 walkdir = { workspace = true, default-features = false }
