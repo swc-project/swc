@@ -112,6 +112,11 @@ fn parse_capturing_groups<'a>(
             {
                 continue;
             }
+            // Skip IgnoreGroup with modifiers, such as `(?i:` or `(?-s:`. Only
+            // `(?<name>` captures among the groups that start with `(?`.
+            if reader.peek() == Some('?' as u32) && reader.peek2() != Some('<' as u32) {
+                continue;
+            }
 
             // Count named or unnamed capturing groups
             num_of_left_capturing_parens += 1;
@@ -230,6 +235,7 @@ mod tests {
             ("(foo)(?<n>bar)(?<nn>baz)", (3, 2)),
             ("(?<n>.)(?<m>.)|(?<n>..)|(?<m>.)", (4, 2)),
             ("(?<n>.)(?<m>.)|(?:..)|(?<m>.)", (3, 2)),
+            ("(?i:a)(?-s:b)(?im-s:c)(d)", (1, 0)),
         ] {
             let mut reader = Reader::initialize(source_text, true, false).unwrap();
 

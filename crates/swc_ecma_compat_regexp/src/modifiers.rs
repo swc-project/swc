@@ -566,6 +566,12 @@ mod tests {
     }
 
     #[test]
+    fn legacy_octal_is_not_a_backreference() {
+        // Without captures, `\1` is the character U+0001.
+        assert_eq!(lowered(r"(?i:\1)", ""), (r"(?:\1)".into(), "".into()));
+    }
+
+    #[test]
     fn backreference_is_unsupported() {
         assert_eq!(
             lower(r"(a)(?i:\1)", ""),
