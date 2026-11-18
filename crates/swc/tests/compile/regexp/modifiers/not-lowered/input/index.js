@@ -10,3 +10,8 @@ export const loneSurrogate = RegExp("\uD800(?i:a)");
 export const shadowedUndefined = (undefined) => RegExp(/(?m:^a)/, undefined);
 // No modifier group (the parenthesis is escaped), so there is no warning.
 export const escapedParenthesis = (flags) => new RegExp(/\(?i:a\)/, flags);
+export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
+export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
+export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
+// Without captures, `\1` is a legacy octal escape, so this is lowered.
+export const legacyOctal = /(?i:\1)/;

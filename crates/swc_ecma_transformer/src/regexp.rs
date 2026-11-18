@@ -1,5 +1,5 @@
 use swc_atoms::Atom;
-use swc_common::{errors::HANDLER, util::take::Take, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{errors::HANDLER, util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_regexp::{
     has_modifiers, transform_modifiers, transform_unicode_property_escapes, transform_unicode_sets,
@@ -137,13 +137,40 @@ impl RegexpPass {
     /// Returns what `callee` refers to, or `None` if it is not `RegExp` or is a
     /// local binding named `RegExp`.
     fn regexp_callee(&self, callee: &Expr) -> Option<RegExpCallee> {
-        let Expr::Ident(ident) = callee.unwrap_parens() else {
-            return None;
-        };
-        if ident.sym != "RegExp" {
-            return None;
+        match callee.unwrap_parens() {
+            Expr::Ident(ident) if ident.sym == "RegExp" => self.global_ident(ident),
+            // `globalThis.RegExp`, `window.RegExp` and `self.RegExp`.
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(prop),
+                ..
+            }) if prop.sym == "RegExp" => match obj.unwrap_parens() {
+                Expr::Ident(obj) if matches!(&*obj.sym, "globalThis" | "window" | "self") => {
+                    self.global_ident(obj)
+                }
+                _ => None,
+            },
+            _ => None,
         }
-        self.global_ident(ident)
+    }
+
+    /// Classifies the flags argument of a `RegExp` call. `rest_args` are the
+    /// arguments after the pattern.
+    fn call_flags<'a>(&self, rest_args: &'a [ExprOrSpread]) -> CallFlags<'a> {
+        match rest_args.first() {
+            None => CallFlags::Absent,
+            // A spread in the second position can supply the flags. A spread
+            // after the flags argument cannot change it.
+            Some(arg) if arg.spread.is_some() => CallFlags::Unknown,
+            Some(arg) if self.is_global_undefined(&arg.expr) => CallFlags::Undefined,
+            Some(arg) => match arg.expr.unwrap_parens() {
+                Expr::Lit(Lit::Str(flags_lit)) => match flags_lit.value.as_str() {
+                    Some(flags) => CallFlags::Known(flags),
+                    None => CallFlags::Unknown,
+                },
+                _ => CallFlags::Unknown,
+            },
+        }
     }
 
     /// Returns whether `ident` refers to a global binding, or `None` if it
@@ -216,18 +243,8 @@ impl RegexpPass {
     /// - Otherwise (unknown flags, a spread, or a callee that may be a local
     ///   binding), the literal is kept as it is.
     fn prepare_constructor(&mut self, expr: &mut Expr) {
-        let (callee, args) = match expr {
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) => (&**callee, args),
-            Expr::New(NewExpr {
-                callee,
-                args: Some(args),
-                ..
-            }) => (&**callee, args),
-            _ => return,
+        let Some((callee, args)) = regexp_call_parts(expr) else {
+            return;
         };
         let Some(callee) = self.regexp_callee(callee) else {
             return;
@@ -241,40 +258,16 @@ impl RegexpPass {
         if pattern_arg.spread.is_some() {
             return;
         }
-        let Expr::Lit(Lit::Regex(regex)) = pattern_arg.expr.unwrap_parens() else {
-            return;
+
+        let flags = match self.call_flags(rest_args) {
+            // The call keeps the flags of the literal.
+            CallFlags::Absent | CallFlags::Undefined => return,
+            CallFlags::Known(flags) if callee == RegExpCallee::Global => Some(Atom::from(flags)),
+            CallFlags::Known(_) | CallFlags::Unknown => None,
         };
 
-        enum Flags {
-            /// The call keeps the flags of the literal.
-            Literal,
-            /// The flags are a string literal.
-            Known(Atom),
-            /// The flags are not known when compiling.
-            Unknown,
-        }
-
-        let flags = if rest_args.iter().any(|arg| arg.spread.is_some()) {
-            Flags::Unknown
-        } else {
-            match rest_args.first() {
-                None => Flags::Literal,
-                Some(arg) if self.is_global_undefined(&arg.expr) => Flags::Literal,
-                Some(arg) => match arg.expr.unwrap_parens() {
-                    Expr::Lit(Lit::Str(flags_lit)) if callee == RegExpCallee::Global => {
-                        match flags_lit.value.as_str() {
-                            Some(flags) => Flags::Known(flags.into()),
-                            None => Flags::Unknown,
-                        }
-                    }
-                    _ => Flags::Unknown,
-                },
-            }
-        };
-
-        match flags {
-            Flags::Literal => {}
-            Flags::Known(flags) => {
+        match (pattern_arg.expr.unwrap_parens_mut(), flags) {
+            (Expr::Lit(Lit::Regex(regex)), Some(flags)) => {
                 // The literal must not be lowered with its own flags either,
                 // because the call reads its source with other flags.
                 if self.needs_syntax_lowering(&regex.exp, &flags)
@@ -289,9 +282,12 @@ impl RegexpPass {
                     *pattern_arg.expr = Expr::Lit(Lit::Str(source));
                 }
             }
-            Flags::Unknown => {
-                let address = regex as *const Regex as usize;
-                self.constructor_literals.push(address);
+            // The flags are not known, or the literal is inside another
+            // expression such as `cond ? /a/ : /b/`. Keep such literals.
+            (pattern, _) => {
+                let mut literals = Vec::new();
+                collect_pattern_literals(pattern, &mut literals);
+                self.constructor_literals.extend(literals);
             }
         }
     }
@@ -349,7 +345,17 @@ impl RegexpPass {
         if flags.contains('v') && (lower_unicode_sets || lower_modifiers) {
             if let Err(err) = transform_unicode_sets(&mut ast, flags.contains('i')) {
                 debug!(%pattern, %flags, %err, "cannot lower the `v` flag");
-                warn_not_lowered(span, "the `v` flag", err);
+                if lower_unicode_sets {
+                    warn_not_lowered(span, "the `v` flag", err);
+                } else {
+                    // The target supports the `v` flag, but the modifiers can
+                    // only be lowered in a `u` pattern.
+                    warn_not_lowered(
+                        span,
+                        "regexp modifiers",
+                        format!("the `v` flag must be lowered first, but {err}"),
+                    );
+                }
                 return None;
             }
             flags = flags.replace('v', "u");
@@ -423,63 +429,74 @@ impl RegexpPass {
             return;
         }
 
-        let Expr::Lit(Lit::Str(pattern_lit)) = pattern_arg.expr.unwrap_parens() else {
-            return;
+        let call_flags = self.call_flags(rest_args);
+
+        // A string, or a template literal without expressions.
+        let (pattern_span, pattern_value) = match pattern_arg.expr.unwrap_parens() {
+            Expr::Lit(Lit::Str(pattern_lit)) => (pattern_lit.span, pattern_lit.value.clone()),
+            Expr::Tpl(tpl) if tpl.exprs.is_empty() => {
+                match tpl.quasis.first().and_then(|quasi| quasi.cooked.clone()) {
+                    Some(cooked) => (tpl.span, cooked),
+                    None => return,
+                }
+            }
+            pattern => {
+                // The pattern is not known when compiling, so only a known
+                // `v` flag can be reported.
+                if callee == RegExpCallee::Global && !matches!(pattern, Expr::Lit(Lit::Regex(_))) {
+                    self.warn_unknown_pattern(pattern.span(), call_flags, "is not known");
+                }
+                return;
+            }
         };
-        let pattern_span = pattern_lit.span;
-        let Some(pattern) = pattern_lit.value.as_str() else {
+        let Some(pattern) = pattern_value.as_str() else {
             // A lone surrogate cannot be parsed. Check the rest of the
             // pattern, so that unsupported syntax is reported.
-            if callee == RegExpCallee::Global
-                && self.options.regexp_modifiers
-                && may_have_modifiers(&pattern_lit.value.to_atom_lossy())
-            {
-                warn_not_lowered(
-                    pattern_span,
-                    "possible regexp modifiers",
-                    "the pattern has a lone surrogate",
-                );
+            if callee == RegExpCallee::Global {
+                if self.options.regexp_modifiers
+                    && may_have_modifiers(&pattern_value.to_atom_lossy())
+                {
+                    warn_not_lowered(
+                        pattern_span,
+                        "possible regexp modifiers",
+                        "the pattern has a lone surrogate",
+                    );
+                } else {
+                    self.warn_unknown_pattern(pattern_span, call_flags, "has a lone surrogate");
+                }
             }
             return;
         };
 
-        // `None` means that the flags are not known when compiling.
         // `undefined_flags` is true if the flags argument is the global
         // `undefined`, which means no flags.
-        let mut undefined_flags = false;
-        let flags = if rest_args.iter().any(|arg| arg.spread.is_some()) {
-            None
-        } else {
-            match rest_args.first() {
-                None => Some(""),
-                Some(arg) if self.is_global_undefined(&arg.expr) => {
-                    undefined_flags = true;
-                    Some("")
+        let undefined_flags = matches!(call_flags, CallFlags::Undefined);
+        let flags = match call_flags {
+            CallFlags::Absent | CallFlags::Undefined => "",
+            CallFlags::Known(flags) => flags,
+            CallFlags::Unknown => {
+                // Modifier groups do not depend on the flags. A `v` flag
+                // cannot be known.
+                if callee == RegExpCallee::Global
+                    && self.options.regexp_modifiers
+                    && may_have_modifiers(pattern)
+                    && LiteralParser::new(pattern, None, RegexpOptions::default())
+                        .parse()
+                        .map_or(true, |ast| has_modifiers(&ast))
+                {
+                    warn_not_lowered(
+                        pattern_span,
+                        "regexp modifiers",
+                        "the flags of the `RegExp` call are not known",
+                    );
                 }
-                Some(arg) => match arg.expr.unwrap_parens() {
-                    Expr::Lit(Lit::Str(flags_lit)) => flags_lit.value.as_str(),
-                    _ => None,
-                },
+                return;
             }
         };
-        let Some(flags) = flags else {
-            // Modifier groups do not depend on the flags. A `v` flag cannot be
-            // known.
-            if callee == RegExpCallee::Global
-                && self.options.regexp_modifiers
-                && may_have_modifiers(pattern)
-                && LiteralParser::new(pattern, None, RegexpOptions::default())
-                    .parse()
-                    .map_or(true, |ast| has_modifiers(&ast))
-            {
-                warn_not_lowered(
-                    pattern_span,
-                    "regexp modifiers",
-                    "the flags of the `RegExp` call are not known",
-                );
-            }
-            return;
-        };
+
+        if callee == RegExpCallee::Global {
+            self.warn_duplicate_names_in_string(pattern_span, pattern, flags);
+        }
 
         // A local binding named `RegExp` keeps its arguments. The unicode
         // property transform below predates this check and is kept for
@@ -506,10 +523,13 @@ impl RegexpPass {
         let new_pattern: Atom = transformed_pattern.as_deref().unwrap_or(pattern).into();
         let new_flags: Option<Atom> = lowered.as_ref().map(|(_, flags)| flags.as_str().into());
 
-        if let Expr::Lit(Lit::Str(pattern_lit)) = pattern_arg.expr.unwrap_parens_mut() {
-            pattern_lit.value = new_pattern.into();
-            pattern_lit.raw = None;
-        }
+        // A template literal pattern is replaced with a string.
+        *pattern_arg.expr.unwrap_parens_mut() = Lit::Str(Str {
+            span: pattern_span,
+            value: new_pattern.into(),
+            raw: None,
+        })
+        .into();
         let Some(new_flags) = new_flags else {
             return;
         };
@@ -538,6 +558,37 @@ impl RegexpPass {
                     args.push(flags_lit.as_arg());
                 }
             }
+        }
+    }
+
+    /// Warns about a `RegExp` call whose pattern cannot be checked, when the
+    /// call uses a `v` flag that the targets do not support.
+    fn warn_unknown_pattern(&self, span: Span, flags: CallFlags, reason: &str) {
+        if self.options.unicode_sets_regex
+            && matches!(flags, CallFlags::Known(flags) if flags.contains('v'))
+        {
+            warn_not_lowered(span, "the `v` flag", format!("the pattern {reason}"));
+        }
+    }
+
+    /// Warns about a string pattern of a `RegExp` call with duplicate named
+    /// groups. Only regex literals are wrapped with `_wrap_reg_exp`.
+    fn warn_duplicate_names_in_string(&self, span: Span, pattern: &str, flags: &str) {
+        if !self.options.duplicate_named_capturing_groups_regex || !pattern.contains("(?<") {
+            return;
+        }
+        let Ok(ast) = LiteralParser::new(pattern, Some(flags), RegexpOptions::default()).parse()
+        else {
+            return;
+        };
+        let mut mapping = Vec::new();
+        collect_named_groups(&ast.body, &mut 0, &mut mapping);
+        if mapping.iter().any(|(_, indices)| indices.len() > 1) {
+            warn_not_lowered(
+                span,
+                "duplicate named capturing groups",
+                "only regex literals are lowered, not the pattern of a `RegExp` call",
+            );
         }
     }
 
@@ -802,28 +853,70 @@ impl RegexpPass {
                     .into()
                 }
             }
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) => {
-                if let Some(callee) = self.regexp_callee(callee) {
-                    self.leave_constructor();
-                    self.transform_regexp_args(args, callee);
+            _ => {
+                if let Some((callee, args)) = regexp_call_parts(expr) {
+                    if let Some(callee) = self.regexp_callee(callee) {
+                        self.leave_constructor();
+                        self.transform_regexp_args(args, callee);
+                    }
                 }
             }
-            Expr::New(NewExpr {
-                callee,
-                args: Some(args),
-                ..
-            }) => {
-                if let Some(callee) = self.regexp_callee(callee) {
-                    self.leave_constructor();
-                    self.transform_regexp_args(args, callee);
-                }
-            }
-            _ => {}
         }
+    }
+}
+
+/// The flags argument of a `RegExp` call.
+#[derive(Debug, Clone, Copy)]
+enum CallFlags<'a> {
+    /// No flags argument.
+    Absent,
+    /// The global `undefined`, which is the same as no flags argument.
+    Undefined,
+    /// A string literal.
+    Known(&'a str),
+    /// Flags that are not known when compiling.
+    Unknown,
+}
+
+/// Returns the callee and the arguments of a call, a `new` expression or an
+/// optional call.
+fn regexp_call_parts(expr: &mut Expr) -> Option<(&Expr, &mut Vec<ExprOrSpread>)> {
+    match expr {
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            args,
+            ..
+        }) => Some((&**callee, args)),
+        Expr::New(NewExpr {
+            callee,
+            args: Some(args),
+            ..
+        }) => Some((&**callee, args)),
+        Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
+            OptChainBase::Call(OptCall { callee, args, .. }) => Some((&**callee, args)),
+            OptChainBase::Member(_) => None,
+        },
+        _ => None,
+    }
+}
+
+/// Collects the addresses of the regex literals that `pattern` can evaluate
+/// to, looking through parentheses, conditional expressions and the last
+/// expression of a sequence.
+fn collect_pattern_literals(pattern: &Expr, literals: &mut Vec<usize>) {
+    match pattern {
+        Expr::Lit(Lit::Regex(regex)) => literals.push(regex as *const Regex as usize),
+        Expr::Paren(paren) => collect_pattern_literals(&paren.expr, literals),
+        Expr::Cond(cond) => {
+            collect_pattern_literals(&cond.cons, literals);
+            collect_pattern_literals(&cond.alt, literals);
+        }
+        Expr::Seq(seq) => {
+            if let Some(last) = seq.exprs.last() {
+                collect_pattern_literals(last, literals);
+            }
+        }
+        _ => {}
     }
 }
 

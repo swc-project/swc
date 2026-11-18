@@ -42,3 +42,13 @@ export const parenthesizedCallee = (RegExp)(/a(?-i:b)/i, "i");
 // `undefined` means no flags for a string pattern.
 export const undefinedFlags = RegExp("(?i:a)", undefined);
 export const undefinedFlagsWithAddedFlag = new RegExp("(?m:^a$)", undefined);
+
+// A template literal without expressions is a known pattern.
+export const templatePattern = new RegExp(`(?i:a)`, "g");
+// `globalThis.RegExp` and optional calls are the global `RegExp` too.
+export const globalThisCallee = new globalThis.RegExp(/(?-i:a)b/i, "i");
+export const optionalCall = RegExp?.(/a(?-i:b)/i, "i");
+// The flags replace the flags of either literal, so both are kept.
+export const conditionalPattern = (x) => new RegExp(x ? /(?-i:a)/ : /(?-i:b)/, "i");
+// A spread after the flags argument does not change the flags.
+export const spreadAfterFlags = (extra) => RegExp("[[a-z]--b]", "v", ...extra);

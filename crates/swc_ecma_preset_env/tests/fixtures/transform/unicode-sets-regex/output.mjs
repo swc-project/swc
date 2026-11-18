@@ -25,3 +25,8 @@ export const parenthesizedLiteral = RegExp("[Aa](?:b)", "");
 export const parenthesizedCallee = RegExp("[Aa](?:b)", "");
 export const undefinedFlags = RegExp("(?:[Aa])", undefined);
 export const undefinedFlagsWithAddedFlag = new RegExp("(?:^a$)", "m");
+export const templatePattern = new RegExp("(?:[Aa])", "g");
+export const globalThisCallee = new globalThis.RegExp("(?:a)[Bb]", "");
+export const optionalCall = RegExp?.("[Aa](?:b)", "");
+export const conditionalPattern = (x)=>new RegExp(x ? /(?-i:a)/ : /(?-i:b)/, "i");
+export const spreadAfterFlags = (extra)=>RegExp("[ac-z]", "u", ...extra);

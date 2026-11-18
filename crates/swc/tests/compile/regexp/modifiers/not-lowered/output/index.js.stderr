@@ -81,4 +81,37 @@
     :                                                        ^^^^^^^^^
  11 | // No modifier group (the parenthesis is escaped), so there is no warning.
  12 | export const escapedParenthesis = (flags) => new RegExp(/\(?i:a\)/, flags);
+ 13 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
+    `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: the pattern is not known. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:13:1]
+ 10 | export const shadowedUndefined = (undefined) => RegExp(/(?m:^a)/, undefined);
+ 11 | // No modifier group (the parenthesis is escaped), so there is no warning.
+ 12 | export const escapedParenthesis = (flags) => new RegExp(/\(?i:a\)/, flags);
+ 13 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
+    :                                                        ^^^^^^^
+ 14 | export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
+ 15 | export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
+ 16 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
+    `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: the pattern has a lone surrogate. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:14:1]
+ 11 | // No modifier group (the parenthesis is escaped), so there is no warning.
+ 12 | export const escapedParenthesis = (flags) => new RegExp(/\(?i:a\)/, flags);
+ 13 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
+ 14 | export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
+    :                                          ^^^^^^^^^^^^^^
+ 15 | export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
+ 16 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
+ 17 | export const legacyOctal = /(?i:\1)/;
+    `----
+  ! Cannot lower duplicate named capturing groups in this regular expression for the configured targets: only regex literals are lowered, not the pattern of a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:15:1]
+ 12 | export const escapedParenthesis = (flags) => new RegExp(/\(?i:a\)/, flags);
+ 13 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
+ 14 | export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
+ 15 | export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
+    :                                              ^^^^^^^^^^^^^^^^^
+ 16 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
+ 17 | export const legacyOctal = /(?i:\1)/;
     `----
