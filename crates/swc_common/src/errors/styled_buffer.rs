@@ -64,12 +64,11 @@ impl StyledBuffer {
                 if s != current_style {
                     if !current_text.is_empty() {
                         styled_vec.push(StyledString {
-                            text: current_text,
+                            text: std::mem::take(&mut current_text),
                             style: current_style,
                         });
                     }
                     current_style = s;
-                    current_text = String::new();
                 }
                 current_text.push(c);
             }
@@ -81,9 +80,7 @@ impl StyledBuffer {
             }
 
             // We're done with the row, push and keep going
-            output.push(styled_vec);
-
-            styled_vec = Vec::new();
+            output.push(std::mem::take(&mut styled_vec));
         }
 
         output

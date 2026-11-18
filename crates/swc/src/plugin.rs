@@ -177,7 +177,7 @@ impl RustPlugins {
                             .with_context(|| {
                                 format!(
                                     "failed to invoke `{}` as js transform plugin at {}",
-                                    &p.0, plugin_name
+                                    p.0, plugin_name
                                 )
                             })?;
                         #[cfg(debug_assertions)]

@@ -275,11 +275,10 @@ impl Spread {
                             arg_list.push(
                                 ArrayLit {
                                     span: DUMMY_SP,
-                                    elems: current_elems,
+                                    elems: std::mem::take(&mut current_elems),
                                 }
                                 .as_arg(),
                             );
-                            current_elems = Vec::new();
                         }
                         // Special handling for `arguments` to call
                         // Array.prototype.slice https://github.com/babel/babel/blob/61ad8555b875cb0c0996f18f803b6bf1d2150173/packages/babel-plugin-transform-spread/src/index.ts#L43-L47

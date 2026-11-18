@@ -58,9 +58,9 @@ fn fixtures() -> Result<(), Error> {
             &js_path
         };
         let input = fs::read_to_string(input_path)
-            .with_context(|| format!("Failed to open file: {}", &js_path.to_string_lossy()))?;
+            .with_context(|| format!("Failed to open file: {}", js_path.to_string_lossy()))?;
         let output = fs::read_to_string(&output_path)
-            .with_context(|| format!("Failed to open file: {}", &output_path.to_string_lossy()))?;
+            .with_context(|| format!("Failed to open file: {}", output_path.to_string_lossy()))?;
 
         tests.push(TestDescAndFn {
             desc: TestDesc {

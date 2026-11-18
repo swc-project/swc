@@ -1,4 +1,3 @@
-use core::f64;
 use std::borrow::Borrow;
 
 use rustc_hash::FxHashMap;

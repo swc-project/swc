@@ -364,7 +364,7 @@ where
     );
 
     if env_config.config.debug {
-        println!("Targets: {:?}", &env_config.core_js_config.targets);
+        println!("Targets: {:?}", env_config.core_js_config.targets);
     }
 
     (

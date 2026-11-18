@@ -377,20 +377,12 @@ impl Optimizer<'_> {
                         Prop::Shorthand(p) => {
                             // Check if `p` is __proto__
 
-                            if p.sym == "__proto__" {
-                                return true;
-                            }
-
-                            false
+                            p.sym == "__proto__"
                         }
                         Prop::KeyValue(k) => {
                             // Check if `k` is __proto__
 
-                            if is_proto_key(&k.key) {
-                                return true;
-                            }
-
-                            false
+                            is_proto_key(&k.key)
                         }
 
                         Prop::Setter(_) => true,

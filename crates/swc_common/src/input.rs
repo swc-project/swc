@@ -251,8 +251,7 @@ pub trait Input<'a>: Clone {
     /// Returns [None] if it's end of input or if the byte is not ASCII.
     #[inline]
     fn cur_as_ascii(&self) -> Option<u8> {
-        self.cur()
-            .and_then(|b| if b <= 0x7f { Some(b) } else { None })
+        self.cur().filter(|&b| b <= 0x7f)
     }
 
     /// Returns the current position as a UTF-8 char for cases where we need

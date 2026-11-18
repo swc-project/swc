@@ -307,14 +307,8 @@ pub fn hwb_to_rgb(hwb: [f64; 3]) -> [f64; 3] {
 pub fn hsl_to_rgb(hsl: [f64; 3]) -> [f64; 3] {
     let [h, s, l] = hsl;
 
-    let r;
-    let g;
-    let b;
-
-    if s == 0.0 {
-        r = l;
-        g = l;
-        b = l;
+    let (r, g, b) = if s == 0.0 {
+        (l, l, l)
     } else {
         let f = |n: f64| -> f64 {
             let k = (n + h / 30.0) % 12.0;
@@ -323,10 +317,8 @@ pub fn hsl_to_rgb(hsl: [f64; 3]) -> [f64; 3] {
             l - a * f64::min(k - 3.0, 9.0 - k).clamp(-1.0, 1.0)
         };
 
-        r = f(0.0);
-        g = f(8.0);
-        b = f(4.0);
-    }
+        (f(0.0), f(8.0), f(4.0))
+    };
 
     [r, g, b]
 }

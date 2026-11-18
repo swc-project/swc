@@ -1206,7 +1206,7 @@ fn make_ref_ident_for_array(
                 } else {
                     match elem_cnt {
                         None => v,
-                        Some(std::usize::MAX) => Box::new(
+                        Some(usize::MAX) => Box::new(
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: helper!(to_array),

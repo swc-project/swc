@@ -826,8 +826,7 @@ impl Pure<'_> {
                 current_group.push(elem.as_ref());
             } else {
                 if !current_group.is_empty() {
-                    groups.push(GroupType::Literals(current_group));
-                    current_group = Vec::new();
+                    groups.push(GroupType::Literals(std::mem::take(&mut current_group)));
                 }
                 groups.push(GroupType::Expression(elem.as_ref().unwrap()));
             }

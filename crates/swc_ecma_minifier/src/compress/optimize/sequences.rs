@@ -1047,13 +1047,7 @@ impl Optimizer<'_> {
 
                 true
             }
-            Pat::Rest(p) => {
-                if !self.is_pat_skippable_for_seq(a, &p.arg) {
-                    return false;
-                }
-
-                true
-            }
+            Pat::Rest(p) => self.is_pat_skippable_for_seq(a, &p.arg),
             Pat::Object(p) => {
                 for prop in &p.props {
                     match prop {

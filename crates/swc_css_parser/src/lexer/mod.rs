@@ -65,7 +65,7 @@ where
 
     fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: for<'any> FnOnce(&mut Lexer<'a, I>, &mut String) -> LexResult<Ret>,
+        F: FnOnce(&mut Lexer<'a, I>, &mut String) -> LexResult<Ret>,
     {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
@@ -77,7 +77,7 @@ where
 
     fn with_sub_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: for<'any> FnOnce(&mut Lexer<'a, I>, &mut String) -> LexResult<Ret>,
+        F: FnOnce(&mut Lexer<'a, I>, &mut String) -> LexResult<Ret>,
     {
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
@@ -89,7 +89,7 @@ where
 
     fn with_buf_and_raw_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: for<'any> FnOnce(&mut Lexer<'a, I>, &mut String, &mut String) -> LexResult<Ret>,
+        F: FnOnce(&mut Lexer<'a, I>, &mut String, &mut String) -> LexResult<Ret>,
     {
         let b = self.buf.clone();
         let r = self.raw_buf.clone();

@@ -4242,7 +4242,6 @@ switch (foo) {
 mod ident_usage_finder_parallel_tests {
     use swc_atoms::Atom;
     use swc_common::SyntaxContext;
-    use swc_ecma_ast::*;
 
     use super::*;
 

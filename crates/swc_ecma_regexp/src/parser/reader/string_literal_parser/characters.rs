@@ -36,8 +36,5 @@ pub fn is_non_escape_character(ch: char) -> bool {
     let is_escape_character =
         |ch| is_single_escape_character(ch) || ch.is_ascii_digit() || matches!(ch, 'x' | 'u');
 
-    if is_escape_character(ch) || is_line_terminator(ch) {
-        return false;
-    }
-    true
+    !(is_escape_character(ch) || is_line_terminator(ch))
 }

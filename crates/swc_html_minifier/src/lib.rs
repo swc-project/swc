@@ -737,11 +737,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
     }
 
     fn is_conditional_comment(&self, data: &Atom) -> bool {
-        if CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data) {
-            return true;
-        }
-
-        false
+        CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data)
     }
 
     fn need_collapse_whitespace(&self) -> bool {

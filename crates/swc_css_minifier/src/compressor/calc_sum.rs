@@ -607,13 +607,10 @@ fn try_to_multiply_all_numeric_sum_children_by_value(
         match calc_node {
             CalcNode::Number(_) | CalcNode::Dimension(_) | CalcNode::Percentage(_) => {
                 let node_value = get_value(calc_node);
-                if let Some(result) = try_to_multiply_values(node_value, value) {
-                    let mut node = calc_node.clone();
-                    set_value(&mut node, result);
-                    operands.push(node);
-                } else {
-                    return None;
-                }
+                let result = try_to_multiply_values(node_value, value)?;
+                let mut node = calc_node.clone();
+                set_value(&mut node, result);
+                operands.push(node);
             }
             _ => return None,
         }

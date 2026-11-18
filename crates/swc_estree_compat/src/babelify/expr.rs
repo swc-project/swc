@@ -96,10 +96,9 @@ impl Babelify for Expr {
                     Lit::Regex(r) => ExprOutput::Expr(
                         Box::alloc().init(Expression::Literal(Literal::RegExp(r.babelify(ctx)))),
                     ),
-                    Lit::JSXText(_) => panic!(
-                        "illegal conversion: Cannot convert {:?} to ExprOutput",
-                        &lit
-                    ), // TODO(dwoznicki): is this really illegal?
+                    Lit::JSXText(_) => {
+                        panic!("illegal conversion: Cannot convert {:?} to ExprOutput", lit)
+                    } // TODO(dwoznicki): is this really illegal?
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 }
@@ -147,28 +146,28 @@ impl Babelify for Expr {
             // TODO(dwoznicki): how does babel handle these?
             Expr::JSXMember(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
-                &self
+                self
             ),
             Expr::JSXNamespacedName(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
-                &self
+                self
             ),
             Expr::JSXEmpty(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
-                &self
+                self
             ),
             Expr::TsConstAssertion(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
-                &self
+                self
             ),
             Expr::TsSatisfies(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
-                &self
+                self
             ),
             Expr::OptChain(o) => ExprOutput::Expr(Box::alloc().init(o.babelify(ctx))),
             Expr::Invalid(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
-                &self
+                self
             ),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
@@ -182,7 +181,7 @@ impl From<ExprOutput> for Expression {
             ExprOutput::Expr(expr) => *expr,
             ExprOutput::Private(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to Expression - babel has no equivalent",
-                &o
+                o
             ),
         }
     }
@@ -208,7 +207,7 @@ impl From<ExprOutput> for ObjectKey {
             },
             ExprOutput::Private(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivalent",
-                &o
+                o
             ),
         }
     }

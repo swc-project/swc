@@ -117,7 +117,7 @@ impl Pure<'_> {
                             {
                                 stmt.init = cur
                                     .take()
-                                    .and_then(|v| if v.decls.is_empty() { None } else { Some(v) })
+                                    .filter(|v| !v.decls.is_empty())
                                     .map(VarDeclOrExpr::VarDecl);
 
                                 new.push(T::from(stmt.into()));

@@ -780,9 +780,9 @@ mod tests {
         };
 
         let names = collect_additional_names(&[scope]);
-        assert!(names.contains(&"function".to_string()));
-        assert!(names.contains(&"foo".to_string()));
-        assert!(names.contains(&"a".to_string()));
+        assert!(names.iter().any(|i| i == "function"));
+        assert!(names.iter().any(|i| i == "foo"));
+        assert!(names.iter().any(|i| i == "a"));
     }
 
     #[test]

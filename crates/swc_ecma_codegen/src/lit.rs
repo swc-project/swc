@@ -456,11 +456,7 @@ where
             .unwrap_or_else(|| {
                 let bytes = value.as_bytes();
 
-                if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
-                    return true;
-                }
-
-                false
+                !bytes.contains(&b'.') && !bytes.contains(&b'e')
             }))
     }
 }

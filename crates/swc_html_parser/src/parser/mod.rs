@@ -8407,7 +8407,7 @@ where
     }
 
     fn is_special_element(&self, node: &RcNode) -> bool {
-        if is_html_element!(
+        is_html_element!(
             node,
             "address"
                 | "applet"
@@ -8493,11 +8493,6 @@ where
                 | "xmp"
         ) || is_mathml_element!(node, "mi" | "mo" | "mn" | "ms" | "mtext" | "annotation-xml")
             || is_svg_element!(node, "title" | "foreignObject" | "desc")
-        {
-            return true;
-        }
-
-        false
     }
 
     // While the parser is processing a token, it can enable or disable foster

@@ -108,11 +108,7 @@ impl NoAlert {
     }
 
     fn is_satisfying_indent(&self, ident: &Ident) -> bool {
-        if ident.ctxt != self.unresolved_ctxt {
-            return false;
-        }
-
-        true
+        ident.ctxt == self.unresolved_ctxt
     }
 
     fn handle_member_prop(&mut self, prop: &MemberProp) {

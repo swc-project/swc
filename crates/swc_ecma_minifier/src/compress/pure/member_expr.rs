@@ -204,19 +204,16 @@ fn does_key_exist(key: &str, props: &Vec<PropOrSpread>) -> Option<bool> {
                         // If __proto__ is defined, we need to check the
                         // contents of it, as well as any nested __proto__
                         // objects
-                        if let Some(object) = prop.value.as_object() {
-                            // __proto__ is an ObjectLiteral, check if key
-                            // exists in it
-                            let exists = does_key_exist(key, &object.props);
-                            if exists.is_none() {
-                                return None;
-                            } else if exists.is_some_and(|exists| exists) {
-                                return Some(true);
-                            }
-                        } else {
-                            // __proto__ is not a literal, it is impossible to
-                            // know if the key exists or not
+                        // If __proto__ is not a literal, it is impossible to
+                        // know if the key exists or not
+                        let object = prop.value.as_object()?;
+                        // __proto__ is an ObjectLiteral, check if key
+                        // exists in it
+                        let exists = does_key_exist(key, &object.props);
+                        if exists.is_none() {
                             return None;
+                        } else if exists.is_some_and(|exists| exists) {
+                            return Some(true);
                         }
                     } else {
                         // Normal key

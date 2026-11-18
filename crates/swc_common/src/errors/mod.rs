@@ -797,12 +797,12 @@ impl Handler {
                     ));
                     self.failure(&format!(
                         "For more information about an error, try `rustc --explain {}`.",
-                        &error_codes[0]
+                        error_codes[0]
                     ));
                 } else {
                     self.failure(&format!(
                         "For more information about this error, try `rustc --explain {}`.",
-                        &error_codes[0]
+                        error_codes[0]
                     ));
                 }
             }

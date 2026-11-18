@@ -136,7 +136,7 @@ where
 
     #[cfg(not(feature = "concurrent"))]
     pub fn get(&self, k: &K) -> Option<V> {
-        self.inner.borrow().get(k).map(|v| v.clone())
+        self.inner.borrow().get(k).cloned()
     }
 
     #[cfg(feature = "concurrent")]

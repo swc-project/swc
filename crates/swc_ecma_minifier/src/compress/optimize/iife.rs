@@ -996,11 +996,7 @@ impl Optimizer<'_> {
                         }
                     }
 
-                    if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
-                        return false;
-                    }
-
-                    true
+                    !self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
                 } else {
                     for_stmt
                 }
@@ -1100,15 +1096,9 @@ impl Optimizer<'_> {
             }
         }
 
-        if !body
-            .stmts
+        body.stmts
             .iter()
             .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt))
-        {
-            return false;
-        }
-
-        true
     }
 
     fn inline_fn_param<'a>(

@@ -121,12 +121,7 @@ impl Optimizer<'_> {
         {
             // If a function has a variable named `arguments`, we abort.
             let data: Vec<Id> = find_pat_ids(&f.body);
-            if data.iter().any(|id| {
-                if id.0 == "arguments" {
-                    return true;
-                }
-                false
-            }) {
+            if data.iter().any(|id| id.0 == "arguments") {
                 return;
             }
         }

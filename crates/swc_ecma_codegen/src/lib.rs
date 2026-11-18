@@ -1029,20 +1029,10 @@ where
             SimpleAssignTarget::Ident(i) => {
                 span_has_leading_comment(self.comments.as_ref().unwrap(), i.span)
             }
-            SimpleAssignTarget::Member(m) => {
-                if self.has_leading_comment(&m.obj) {
-                    return true;
-                }
-
-                false
-            }
+            SimpleAssignTarget::Member(m) => self.has_leading_comment(&m.obj),
 
             SimpleAssignTarget::SuperProp(m) => {
-                if span_has_leading_comment(self.comments.as_ref().unwrap(), m.span) {
-                    return true;
-                }
-
-                false
+                span_has_leading_comment(self.comments.as_ref().unwrap(), m.span)
             }
 
             _ => false,
