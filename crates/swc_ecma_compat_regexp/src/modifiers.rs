@@ -59,13 +59,27 @@ pub fn transform_modifiers(
     // A flag that some group disables cannot stay on the pattern. It is
     // removed and applied by rewriting instead.
     let removed = global & usage.disabled;
+
+    // If every `^`, `$` (or every `.`) is in a part where `m` (or `s`)
+    // applies, the flag can be added to the pattern instead. This avoids the
+    // lookbehind that the rewrite of `^` needs.
+    let mut scope = FlagScope::default();
+    scope.visit_disjunction(&pattern.body, global);
+    let mut promoted = Modifier::empty();
+    if !global.contains(Modifier::M) && scope.anchors_with_m && !scope.anchors_without_m {
+        promoted |= Modifier::M;
+    }
+    if !global.contains(Modifier::S) && scope.dots_with_s && !scope.dots_without_s {
+        promoted |= Modifier::S;
+    }
+
     let lowerer = Lowerer {
         unicode: flags.contains('u'),
-        kept: global - removed,
+        kept: (global - removed) | promoted,
     };
     lowerer.lower_disjunction(&mut pattern.body, global)?;
 
-    let new_flags = flags
+    let mut new_flags: String = flags
         .chars()
         .filter(|&flag| {
             !((flag == 'i' && removed.contains(Modifier::I))
@@ -73,6 +87,12 @@ pub fn transform_modifiers(
                 || (flag == 's' && removed.contains(Modifier::S)))
         })
         .collect();
+    if promoted.contains(Modifier::M) {
+        new_flags.push('m');
+    }
+    if promoted.contains(Modifier::S) {
+        new_flags.push('s');
+    }
 
     Ok(Some(new_flags))
 }
@@ -82,6 +102,63 @@ pub fn has_modifiers(pattern: &Pattern) -> bool {
     let mut usage = ModifierUsage::default();
     usage.visit_disjunction(&pattern.body);
     usage.has_modifiers
+}
+
+/// Collects whether the terms that `m` and `s` affect are inside or outside of
+/// the parts where those flags apply.
+#[derive(Default)]
+struct FlagScope {
+    anchors_with_m: bool,
+    anchors_without_m: bool,
+    dots_with_s: bool,
+    dots_without_s: bool,
+}
+
+impl FlagScope {
+    fn visit_disjunction(&mut self, disjunction: &Disjunction, effective: Modifier) {
+        for alternative in &disjunction.body {
+            for term in &alternative.body {
+                self.visit_term(term, effective);
+            }
+        }
+    }
+
+    fn visit_term(&mut self, term: &Term, effective: Modifier) {
+        match term {
+            Term::IgnoreGroup(group) => {
+                let effective = match &group.modifiers {
+                    Some(modifiers) => (effective | modifiers.enabling) - modifiers.disabling,
+                    None => effective,
+                };
+                self.visit_disjunction(&group.body, effective);
+            }
+            Term::CapturingGroup(group) => self.visit_disjunction(&group.body, effective),
+            Term::LookAroundAssertion(assertion) => {
+                self.visit_disjunction(&assertion.body, effective)
+            }
+            Term::Quantifier(quantifier) => self.visit_term(&quantifier.body, effective),
+            Term::BoundaryAssertion(assertion)
+                if matches!(
+                    assertion.kind,
+                    BoundaryAssertionKind::Start | BoundaryAssertionKind::End
+                ) =>
+            {
+                if effective.contains(Modifier::M) {
+                    self.anchors_with_m = true;
+                } else {
+                    self.anchors_without_m = true;
+                }
+            }
+            Term::Dot(_) => {
+                if effective.contains(Modifier::S) {
+                    self.dots_with_s = true;
+                } else {
+                    self.dots_without_s = true;
+                }
+            }
+            _ => {}
+        }
+    }
 }
 
 /// Collects whether a pattern has modifiers, and which flags they disable.
@@ -448,13 +525,23 @@ mod tests {
     fn dot_all_and_multiline() {
         assert_eq!(lowered("(?s:.).", ""), (r"(?:[\s\S]).".into(), "".into()));
         assert_eq!(
-            lowered("(?m:^a$)", ""),
+            lowered("(?m:^a$)$", ""),
             (
-                r"(?:(?<=^|[\x0A\x0D\u2028-\u2029])a(?=$|[\x0A\x0D\u2028-\u2029]))".into(),
+                r"(?:(?<=^|[\x0A\x0D\u2028-\u2029])a(?=$|[\x0A\x0D\u2028-\u2029]))$".into(),
                 "".into()
             )
         );
         assert_eq!(lowered("(?-s:.).", "s"), (r"(?:.)[\s\S]".into(), "".into()));
+    }
+
+    #[test]
+    fn promote_multiline_and_dot_all() {
+        // Every `^`, `$` and `.` is in the group, so the flags are added to
+        // the pattern instead of rewriting the terms.
+        assert_eq!(lowered("(?m:^a$)b", "g"), ("(?:^a$)b".into(), "gm".into()));
+        assert_eq!(lowered("(?s:a.)b", ""), ("(?:a.)b".into(), "s".into()));
+        // A `.` outside of the group needs the rewrite.
+        assert_eq!(lowered("(?s:.).", ""), (r"(?:[\s\S]).".into(), "".into()));
     }
 
     #[test]
