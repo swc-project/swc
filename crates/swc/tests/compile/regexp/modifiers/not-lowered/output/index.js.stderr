@@ -26,8 +26,9 @@
    :                                        ^^^^^^^^^^^^^^^^^^^^^^
  5 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
  6 | export const dynamicFlags = (flags) => new RegExp(/(?i:a)/, flags);
+ 7 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
    `----
-  ! Cannot lower regexp modifiers in this regular expression for the configured targets: the pattern cannot be parsed. The regular expression is kept, and it can fail on those targets.
+  ! Cannot lower possible regexp modifiers in this regular expression for the configured targets: the pattern cannot be parsed. The regular expression is kept, and it can fail on those targets.
    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:5:1]
  2 | export const backreference = /(a)(?i:\1)/;
  3 | export const propertyOfStrings = /\p{RGI_Emoji}/v;
@@ -35,6 +36,8 @@
  5 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
    :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | export const dynamicFlags = (flags) => new RegExp(/(?i:a)/, flags);
+ 7 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
+ 8 | export const loneSurrogate = RegExp("\uD800(?i:a)");
    `----
   ! Cannot lower the syntax in this regular expression for the configured targets: the flags of the enclosing `RegExp` call are not known. The regular expression is kept, and it can fail on those targets.
    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:6:1]
@@ -43,4 +46,39 @@
  5 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
  6 | export const dynamicFlags = (flags) => new RegExp(/(?i:a)/, flags);
    :                                                   ^^^^^^^^
+ 7 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
+ 8 | export const loneSurrogate = RegExp("\uD800(?i:a)");
+ 9 | // A shadowed `undefined` is not the global one, so the flags are unknown.
    `----
+  ! Cannot lower regexp modifiers in this regular expression for the configured targets: the flags of the `RegExp` call are not known. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:7:1]
+  4 | export const duplicatedNameReference = /(?<a>.)\k<a>|(?<a>b)/;
+  5 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
+  6 | export const dynamicFlags = (flags) => new RegExp(/(?i:a)/, flags);
+  7 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
+    :                                                             ^^^^^^^^
+  8 | export const loneSurrogate = RegExp("\uD800(?i:a)");
+  9 | // A shadowed `undefined` is not the global one, so the flags are unknown.
+ 10 | export const shadowedUndefined = (undefined) => RegExp(/(?m:^a)/, undefined);
+    `----
+  ! Cannot lower possible regexp modifiers in this regular expression for the configured targets: the pattern has a lone surrogate. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:8:1]
+  5 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
+  6 | export const dynamicFlags = (flags) => new RegExp(/(?i:a)/, flags);
+  7 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
+  8 | export const loneSurrogate = RegExp("\uD800(?i:a)");
+    :                                     ^^^^^^^^^^^^^^
+  9 | // A shadowed `undefined` is not the global one, so the flags are unknown.
+ 10 | export const shadowedUndefined = (undefined) => RegExp(/(?m:^a)/, undefined);
+ 11 | // No modifier group (the parenthesis is escaped), so there is no warning.
+    `----
+  ! Cannot lower the syntax in this regular expression for the configured targets: the flags of the enclosing `RegExp` call are not known. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:10:1]
+  7 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
+  8 | export const loneSurrogate = RegExp("\uD800(?i:a)");
+  9 | // A shadowed `undefined` is not the global one, so the flags are unknown.
+ 10 | export const shadowedUndefined = (undefined) => RegExp(/(?m:^a)/, undefined);
+    :                                                        ^^^^^^^^^
+ 11 | // No modifier group (the parenthesis is escaped), so there is no warning.
+ 12 | export const escapedParenthesis = (flags) => new RegExp(/\(?i:a\)/, flags);
+    `----

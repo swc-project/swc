@@ -18,3 +18,10 @@ export const unsupported = RegExp("\\p{RGI_Emoji}", "v");
 export const loneSurrogates = /[\uD800-\uD800][\uDC00-\uDC00]+/u;
 export const literalWithOtherFlags = new RegExp("[^a]", "");
 export const literalWithUnicodeFlag = RegExp("[a&&b]", "u");
+export const spreadFlags = RegExp(/a(?-i:b)/i, ...[
+    "i"
+]);
+export const parenthesizedLiteral = RegExp("[Aa](?:b)", "");
+export const parenthesizedCallee = RegExp("[Aa](?:b)", "");
+export const undefinedFlags = RegExp("(?:[Aa])", undefined);
+export const undefinedFlagsWithAddedFlag = new RegExp("(?:^a$)", "m");

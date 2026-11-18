@@ -33,3 +33,12 @@ export const loneSurrogates = /\u{D800}\u{DC00}+/v;
 // lowered with the flags of the call.
 export const literalWithOtherFlags = new RegExp(/[^a]/vi, "");
 export const literalWithUnicodeFlag = RegExp(/[a&&b]/v, "u");
+
+// The flags can come from a spread, so the literal is kept.
+export const spreadFlags = RegExp(/a(?-i:b)/i, ...["i"]);
+// Parentheses do not hide the call or the literal.
+export const parenthesizedLiteral = RegExp((/a(?-i:b)/i), "i");
+export const parenthesizedCallee = (RegExp)(/a(?-i:b)/i, "i");
+// `undefined` means no flags for a string pattern.
+export const undefinedFlags = RegExp("(?i:a)", undefined);
+export const undefinedFlagsWithAddedFlag = new RegExp("(?m:^a$)", undefined);
