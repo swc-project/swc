@@ -17,12 +17,10 @@ icu_properties = { version = "2.0.0", default-features = false, features = [
   "compiled_data",
   "alloc",
 ] }
-# Only the simple case folding tables are used, to lower case-insensitive
-# matching.
-regex-syntax = { version = "0.8.11", default-features = false, features = [
-  "std",
-  "unicode-case",
+icu_casemap = { version = "~2.1.1", default-features = false, features = [
+  "compiled_data",
 ] }
+icu_locale_core = { version = "~2.1.1", default-features = false }
 
 swc_common            = { version = "27.0.0", path = "../swc_common" }
 swc_ecma_regexp_ast   = { version = "4.0.0", path = "../swc_ecma_regexp_ast" }

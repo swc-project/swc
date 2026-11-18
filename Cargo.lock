@@ -2724,6 +2724,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "icu_casemap"
+version = "2.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d4ca9983e8bf51223c2f89014fa4eaa9e9b336c47f3af0d000538f86f841fba1"
+dependencies = [
+ "icu_casemap_data",
+ "icu_collections",
+ "icu_locale_core",
+ "icu_properties",
+ "icu_provider",
+ "potential_utf",
+ "writeable",
+ "zerovec",
+]
+
+[[package]]
+name = "icu_casemap_data"
+version = "2.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "98d4663d0f99b301033a19e0acf94e9d2fa4b107638580165e5a6ccc49ad1450"
+
+[[package]]
 name = "icu_collections"
 version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2745,6 +2767,7 @@ checksum = "edba7861004dd3714265b4db54a3c390e880ab658fec5f7db895fae2046b5bb6"
 dependencies = [
  "displaydoc",
  "litemap",
+ "serde",
  "tinystr",
  "writeable",
  "zerovec",
@@ -2799,6 +2822,8 @@ checksum = "85962cf0ce02e1e0a629cc34e7ca3e373ce20dda4c4d7294bbd0bf1fdb59e614"
 dependencies = [
  "displaydoc",
  "icu_locale_core",
+ "serde",
+ "stable_deref_trait",
  "writeable",
  "yoke",
  "zerofrom",
@@ -4207,6 +4232,8 @@ version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b73949432f5e2a09657003c25bca5e19a0e9c84f8058ca374f49e0ebe605af77"
 dependencies = [
+ "serde_core",
+ "writeable",
  "zerovec",
 ]
 
@@ -6381,8 +6408,9 @@ dependencies = [
 name = "swc_ecma_compat_regexp"
 version = "10.0.1"
 dependencies = [
+ "icu_casemap",
+ "icu_locale_core",
  "icu_properties",
- "regex-syntax",
  "swc_common",
  "swc_ecma_regexp",
  "swc_ecma_regexp_ast",
@@ -7851,6 +7879,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "42d3e9c45c09de15d06dd8acf5f4e0e399e85927b7f00711024eb7ae10fa4869"
 dependencies = [
  "displaydoc",
+ "serde_core",
  "zerovec",
 ]
 

@@ -6,9 +6,12 @@
 //! for the `(?i:...)` modifier), the set must be extended with every character
 //! that has the same canonical form. This module computes that extension.
 
-use regex_syntax::hir::{ClassUnicode, ClassUnicodeRange};
+use std::{collections::HashMap, sync::OnceLock};
 
-use crate::char_set::{CharSet, MAX_CODE_UNIT};
+use icu_casemap::CaseMapper;
+use icu_locale_core::LanguageIdentifier;
+
+use crate::char_set::{CharSet, MAX_CODE_POINT, MAX_CODE_UNIT};
 
 /// The `Canonicalize` rule that the engine uses.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -30,48 +33,97 @@ pub(crate) fn case_closure(set: &CharSet, mode: CaseMode) -> CharSet {
     }
 }
 
-/// Returns a key that is equal for two characters if and only if they match
-/// each other under simple case folding.
+/// Returns `scf(cp)`, the simple case folding of `cp`. Two characters match
+/// each other under simple case folding if and only if they have the same
+/// key.
 pub(crate) fn simple_case_folding_key(cp: u32) -> u32 {
-    simple_case_folding_closure(&CharSet::single(cp)).ranges()[0].0
+    match char::from_u32(cp) {
+        Some(ch) => CaseMapper::new().simple_fold(ch) as u32,
+        // Lone surrogates have no case mapping.
+        None => cp,
+    }
+}
+
+/// The equivalence classes of simple case folding that have more than one
+/// member. The data comes from ICU, the same source as the Unicode property
+/// data of this crate, so both use the same Unicode version.
+struct FoldClasses {
+    /// Every member of a class, with the index of its class, sorted by code
+    /// point.
+    members: Vec<(u32, usize)>,
+    /// The members of each class, sorted.
+    classes: Vec<Vec<u32>>,
+}
+
+impl FoldClasses {
+    /// Builds the classes once, by folding every code point.
+    fn get() -> &'static Self {
+        static CLASSES: OnceLock<FoldClasses> = OnceLock::new();
+
+        CLASSES.get_or_init(|| {
+            let mapper = CaseMapper::new();
+            let mut by_fold: HashMap<u32, Vec<u32>> = HashMap::new();
+            for cp in 0..=MAX_CODE_POINT {
+                let Some(ch) = char::from_u32(cp) else {
+                    continue;
+                };
+                let folded = mapper.simple_fold(ch) as u32;
+                if folded != cp {
+                    by_fold
+                        .entry(folded)
+                        .or_insert_with(|| vec![folded])
+                        .push(cp);
+                }
+            }
+
+            let mut classes: Vec<Vec<u32>> = by_fold
+                .into_values()
+                .map(|mut class| {
+                    class.sort_unstable();
+                    class
+                })
+                .collect();
+            classes.sort_unstable();
+
+            let mut members: Vec<(u32, usize)> = classes
+                .iter()
+                .enumerate()
+                .flat_map(|(idx, class)| class.iter().map(move |&cp| (cp, idx)))
+                .collect();
+            members.sort_unstable();
+
+            FoldClasses { members, classes }
+        })
+    }
+
+    /// Returns the class of `cp`, or `None` if `cp` matches only itself.
+    fn class_of(&self, cp: u32) -> Option<&[u32]> {
+        let idx = self
+            .members
+            .binary_search_by_key(&cp, |&(member, _)| member)
+            .ok()?;
+        Some(&self.classes[self.members[idx].1])
+    }
 }
 
 /// Extends `set` with all characters that have the same simple case folding as
 /// a member of `set`.
-///
-/// `regex_syntax` stores the equivalence classes of simple case folding
-/// (`CaseFolding.txt`, status C and S). Surrogates are not `char`s and have no
-/// case mapping, so they are kept as-is.
 fn simple_case_folding_closure(set: &CharSet) -> CharSet {
-    let mut class = ClassUnicode::new(set.ranges().iter().filter_map(|&(start, end)| {
-        // `char::from_u32` rejects surrogates, so clamp each range to the
-        // scalar values around the surrogate block.
-        let start = if (0xd800..=0xdfff).contains(&start) {
-            0xe000
-        } else {
-            start
-        };
-        let end = if (0xd800..=0xdfff).contains(&end) {
-            0xd7ff
-        } else {
-            end
-        };
-        if start > end {
-            return None;
-        }
-        Some(ClassUnicodeRange::new(
-            char::from_u32(start)?,
-            char::from_u32(end)?,
-        ))
-    }));
-    class.case_fold_simple();
+    let classes = FoldClasses::get();
 
-    let folded = CharSet::from_ranges(
-        class
-            .iter()
-            .map(|range| (range.start() as u32, range.end() as u32)),
-    );
-    set.union(&folded)
+    let mut added = Vec::new();
+    let mut last_class = None;
+    for &(cp, idx) in &classes.members {
+        if last_class != Some(idx) && set.contains(cp) {
+            added.extend(classes.classes[idx].iter().map(|&member| (member, member)));
+            last_class = Some(idx);
+        }
+    }
+
+    if added.is_empty() {
+        return set.clone();
+    }
+    set.union(&CharSet::from_ranges(added))
 }
 
 /// Extends `set` with the code units that match a member of `set` in a pattern
@@ -79,9 +131,10 @@ fn simple_case_folding_closure(set: &CharSet) -> CharSet {
 ///
 /// Two code units match if `toUppercase` maps them to the same single code
 /// unit. Every such pair also has the same simple case folding, so the
-/// candidates are taken from [`simple_case_folding_closure`] and filtered with
+/// candidates are taken from the simple case folding classes and filtered with
 /// the exact rule.
 fn legacy_closure(set: &CharSet) -> CharSet {
+    let classes = FoldClasses::get();
     let candidates = simple_case_folding_closure(set)
         .intersection(&CharSet::from_ranges([(0, MAX_CODE_UNIT)]))
         .difference(set);
@@ -89,9 +142,11 @@ fn legacy_closure(set: &CharSet) -> CharSet {
     let mut added = Vec::new();
     for cp in candidates.iter() {
         let key = legacy_canonicalize(cp);
-        let matches_member = simple_case_folding_closure(&CharSet::single(cp))
-            .iter()
-            .any(|other| other != cp && set.contains(other) && legacy_canonicalize(other) == key);
+        let matches_member = classes.class_of(cp).is_some_and(|class| {
+            class.iter().any(|&other| {
+                other != cp && set.contains(other) && legacy_canonicalize(other) == key
+            })
+        });
         if matches_member {
             added.push((cp, cp));
         }
@@ -108,8 +163,11 @@ fn legacy_canonicalize(cp: u32) -> u32 {
         return cp;
     };
 
-    let mut upper = ch.to_uppercase();
-    let (Some(upper_ch), None) = (upper.next(), upper.next()) else {
+    let mut buf = [0u8; 4];
+    let upper = CaseMapper::new()
+        .uppercase_to_string(ch.encode_utf8(&mut buf), &LanguageIdentifier::UNKNOWN);
+    let mut chars = upper.chars();
+    let (Some(upper_ch), None) = (chars.next(), chars.next()) else {
         // The result is not a single code point.
         return cp;
     };
@@ -158,6 +216,19 @@ mod tests {
         );
         // σ, ς and Σ all uppercase to Σ.
         assert_eq!(closure_of('σ', CaseMode::Legacy), vec![0x3a3, 0x3c2, 0x3c3]);
+    }
+
+    #[test]
+    fn uses_recent_unicode_data() {
+        // U+A7CE and U+A7CF were added in Unicode 17.
+        assert_eq!(
+            closure_of('\u{a7ce}', CaseMode::Unicode),
+            vec![0xa7ce, 0xa7cf]
+        );
+        assert_eq!(
+            closure_of('\u{16ea0}', CaseMode::Unicode),
+            vec![0x16ea0, 0x16ebb]
+        );
     }
 
     #[test]
