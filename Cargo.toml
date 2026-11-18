@@ -47,7 +47,7 @@ criterion = { version = "0.5.1", default-features = false }
 dashmap = { version = "6.1.0", default-features = false }
 dialoguer = { version = "0.10.2", default-features = false }
 difference = { version = "2", default-features = false }
-dragonbox_ecma = { version = "0.1.0", default-features = false }
+dragonbox_ecma = { version = "0.1.0", default-features = false, features = ["ecma"] }
 either = { version = "1.10.0", default-features = false }
 enumset = { version = "1.1.2", default-features = false }
 flate2 = { version = "1.0", default-features = false, features = ["rust_backend"] }
