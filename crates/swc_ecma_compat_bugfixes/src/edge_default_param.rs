@@ -1,6 +1,5 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 /// A bugfix pass for Edge.
 ///
@@ -16,7 +15,6 @@ struct EdgeDefaultParam {
     in_arrow: bool,
 }
 
-#[swc_trace]
 impl VisitMut for EdgeDefaultParam {
     noop_visit_mut_type!(fail);
 
@@ -25,7 +23,7 @@ impl VisitMut for EdgeDefaultParam {
         n.params.visit_mut_children_with(self);
         self.in_arrow = false;
 
-        n.body.visit_mut_children_with(self);
+        n.body.visit_mut_with(self);
     }
 
     fn visit_mut_object_pat(&mut self, n: &mut ObjectPat) {

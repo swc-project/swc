@@ -1,0 +1,21 @@
+{
+    "isModule": "unknown",
+    "minify": true,
+    "sourceMaps": true,
+    "jsc": {
+        "target": "esnext",
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "decorators": true,
+            "decoratorsBeforeExport": true
+        },
+        "minify": {
+            "compress": true,
+            "mangle": true
+        },
+        "output": {
+            "preamble": "/** @license */\n"
+        }
+    }
+}

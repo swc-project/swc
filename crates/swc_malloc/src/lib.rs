@@ -7,9 +7,9 @@
 //! This crate configures the global memory allocator based on the target
 //! platform:
 //!
-//! - **mimalloc**: Used for most platforms (Windows, macOS, Linux x86_64 with
-//!   glibc, Linux aarch64 with glibc). Provides excellent performance and
-//!   memory efficiency.
+//! - **mimalloc**: Used on non-Linux native targets (for example Windows and
+//!   macOS), and Linux GNU on x86_64 / aarch64 where it provides excellent
+//!   performance and memory efficiency.
 //!
 //! - **jemalloc**: Used for Linux ARM 32-bit (armv7) with glibc. This is
 //!   because mimalloc has known issues on this architecture.
@@ -21,6 +21,9 @@
 //!   - jemalloc has threading issues with musl libc (see https://github.com/jemalloc/jemalloc/issues/1443)
 //!   - musl's built-in allocator is designed to work reliably across all
 //!     architectures
+//!   - Linux GNU targets like s390x / powerpc64le may use cross toolchains
+//!     where C11 headers (such as `stdatomic.h`) are unavailable for mimalloc
+//!     builds in CI
 //!
 //! - **WASM**: Uses the default allocator for WebAssembly targets.
 //!
@@ -29,23 +32,14 @@
 //! but rather to binary loading or compatibility issues. See the postinstall.js
 //! script for troubleshooting options.
 
-// Use mimalloc for most platforms where it provides better performance
+// Use mimalloc for non-linux native targets and Linux GNU x86_64/aarch64.
 #[cfg(any(
-    not(any(
-        target_os = "linux",
-        target_family = "wasm",
-        target_env = "musl",
-        all(target_os = "linux", any(target_arch = "aarch64", target_arch = "arm"))
-    )),
+    all(not(target_os = "linux"), not(target_family = "wasm")),
     all(
         target_os = "linux",
-        not(any(
-            target_family = "wasm",
-            target_env = "musl",
-            all(target_os = "linux", any(target_arch = "aarch64", target_arch = "arm"))
-        ))
-    ),
-    all(target_os = "linux", target_arch = "aarch64", target_env = "gnu")
+        target_env = "gnu",
+        any(target_arch = "x86_64", target_arch = "aarch64")
+    )
 ))]
 #[global_allocator]
 static GLOBAL: mimalloc::MiMalloc = mimalloc::MiMalloc;

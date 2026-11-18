@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "lints": {
-            "use-isnan": [
-                "error"
-            ]
-        }
-    }
-}

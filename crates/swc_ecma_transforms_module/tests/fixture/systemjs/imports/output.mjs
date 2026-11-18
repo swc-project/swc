@@ -6,9 +6,9 @@ System.register([
     "use strict";
     return {
         setters: [
-            function(_foo) {},
-            function(_foobar) {},
-            function(_foobar) {}
+            function() {},
+            function() {},
+            function() {}
         ],
         execute: function() {}
     };

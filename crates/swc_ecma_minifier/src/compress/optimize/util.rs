@@ -1,6 +1,6 @@
 use std::{
     borrow::Borrow,
-    mem::take,
+    mem::{self, take},
     ops::{Deref, DerefMut},
 };
 
@@ -9,12 +9,25 @@ use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_utils::{collect_decls, contains_this_expr, ExprCtx, ExprExt, Remapper};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_utils::{
+    collect_decls, contains_this_expr, prop_name_from_ident, ExprCtx, ExprExt, IdentUsageFinder,
+    Remapper,
+};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
+};
+#[cfg(debug_assertions)]
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::HEAVY_TASK_PARALLELS;
+use crate::{
+    compress::util::contains_super,
+    program_data::{ProgramData, VarUsageInfoFlags},
+    HEAVY_TASK_PARALLELS,
+};
+
+#[cfg(test)]
+mod tests;
 
 impl<'b> Optimizer<'b> {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
@@ -162,13 +175,48 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(
+pub(crate) fn extract_class_side_effect<'a>(
     expr_ctx: ExprCtx,
-    c: &mut Class,
-) -> Option<Vec<&mut Box<Expr>>> {
+    data: &ProgramData,
+    ident: Option<&'a Ident>,
+    c: &'a mut Class,
+) -> Option<Vec<&'a mut Box<Expr>>> {
     let mut res = Vec::new();
+    let mut value = Vec::new();
+
+    let mut visitor = ClassEffectVisitor {
+        found: false,
+        private_ident: FxHashSet::default(),
+        nested_class_depth: 0,
+        in_strict: expr_ctx.in_strict,
+        unresolved_ctxt: expr_ctx.unresolved_ctxt,
+        data,
+        in_outer_context: false,
+    };
+
+    for m in &mut c.body {
+        if let ClassMember::PrivateProp(PrivateProp { key, .. })
+        | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+        | ClassMember::AutoAccessor(AutoAccessor {
+            key: Key::Private(key),
+            ..
+        }) = m
+        {
+            visitor.private_ident.insert(key.name.clone());
+        }
+    }
+
+    // A side-effecting heritage expression or computed key is kept in the
+    // output, but it is moved out of the strict class body. Check it like a
+    // static initializer, but in the context of the code around the class. The
+    // private names of the class are not in scope in the heritage expression,
+    // so checking them there is only conservative.
     if let Some(e) = &mut c.super_class {
         if e.may_have_side_effects(expr_ctx) {
+            if !visitor.can_extract_outer(e, ident) {
+                return None;
+            }
+
             res.push(e);
         }
     }
@@ -180,6 +228,10 @@ pub(crate) fn extract_class_side_effect(
                 ..
             }) => {
                 if key.expr.may_have_side_effects(expr_ctx) {
+                    if !visitor.can_extract_outer(&key.expr, ident) {
+                        return None;
+                    }
+
                     res.push(&mut key.expr);
                 }
             }
@@ -187,16 +239,49 @@ pub(crate) fn extract_class_side_effect(
             ClassMember::ClassProp(p) => {
                 if let PropName::Computed(key) = &mut p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
+                        if !visitor.can_extract_outer(&key.expr, ident) {
+                            return None;
+                        }
+
                         res.push(&mut key.expr);
                     }
                 }
 
                 if let Some(v) = &mut p.value {
                     if p.is_static && v.may_have_side_effects(expr_ctx) {
-                        if contains_this_expr(v) {
+                        if !visitor.can_extract(v, ident) {
                             return None;
                         }
-                        res.push(v);
+
+                        value.push(v);
+                    }
+                }
+            }
+            ClassMember::AutoAccessor(AutoAccessor {
+                key,
+                value: initializer,
+                is_static,
+                ..
+            }) => {
+                if let Key::Public(PropName::Computed(key)) = key {
+                    if key.expr.may_have_side_effects(expr_ctx) {
+                        if !visitor.can_extract_outer(&key.expr, ident) {
+                            return None;
+                        }
+
+                        res.push(&mut key.expr);
+                    }
+                }
+
+                // A static auto-accessor initializer runs while the class is
+                // evaluated, like a static property initializer.
+                if let Some(v) = initializer {
+                    if *is_static && v.may_have_side_effects(expr_ctx) {
+                        if !visitor.can_extract(v, ident) {
+                            return None;
+                        }
+
+                        value.push(v);
                     }
                 }
             }
@@ -206,10 +291,30 @@ pub(crate) fn extract_class_side_effect(
                 ..
             }) => {
                 if v.may_have_side_effects(expr_ctx) {
-                    if contains_this_expr(v) {
+                    if !visitor.can_extract(v, ident) {
                         return None;
                     }
-                    res.push(v);
+
+                    value.push(v);
+                }
+            }
+            ClassMember::StaticBlock(s) => {
+                if s.body.stmts.len() > 1 {
+                    return None;
+                }
+
+                let first = if let Some(stmt) = s.body.stmts.get_mut(0) {
+                    &mut stmt.as_mut_expr()?.expr
+                } else {
+                    continue;
+                };
+
+                if first.may_have_side_effects(expr_ctx) {
+                    if !visitor.can_extract(first, ident) {
+                        return None;
+                    }
+
+                    value.push(first);
                 }
             }
 
@@ -217,7 +322,331 @@ pub(crate) fn extract_class_side_effect(
         }
     }
 
+    res.append(&mut value);
+
     Some(res)
+}
+
+struct ClassEffectVisitor<'d> {
+    found: bool,
+    private_ident: FxHashSet<Atom>,
+    nested_class_depth: usize,
+    /// `true` if the code around the class is strict.
+    in_strict: bool,
+    unresolved_ctxt: SyntaxContext,
+    data: &'d ProgramData,
+    /// `true` while checking a heritage expression or a computed key. These
+    /// use the `this`, `super` and `new.target` of the code around the class,
+    /// so moving them out of the class keeps their meaning.
+    in_outer_context: bool,
+}
+
+impl<'d> ClassEffectVisitor<'d> {
+    /// Returns `true` if `e` can be moved out of the class body when the class
+    /// is dropped.
+    ///
+    /// `e` must not contain code whose meaning depends on the class body, and
+    /// it must not refer to `class_ident`, which is dropped with the class.
+    /// For example, a callback that `e` stores could otherwise refer to the
+    /// dropped binding.
+    fn can_extract(&mut self, e: &Expr, class_ident: Option<&Ident>) -> bool {
+        e.visit_with(self);
+        if self.found {
+            return false;
+        }
+
+        !class_ident.is_some_and(|id| IdentUsageFinder::find(id, e))
+    }
+
+    /// Returns `true` if code at the current position is strict in the class
+    /// body but sloppy after it is moved out of the class.
+    ///
+    /// A nested class stays strict when it is moved, so code in a nested class
+    /// is not affected.
+    fn in_moved_sloppy_code(&self) -> bool {
+        !self.in_strict && self.nested_class_depth == 0
+    }
+
+    /// Returns `true` if a write to `target` behaves differently when it is
+    /// moved out of the strict class body into sloppy code.
+    ///
+    /// In sloppy code, an assignment to an undeclared variable creates a
+    /// global instead of throwing, and a failed property write, for example on
+    /// a primitive, does nothing instead of throwing. The name of a named
+    /// function expression is immutable, so a write to it throws only in
+    /// strict code too. A write to another declared variable behaves the
+    /// same in both modes.
+    fn is_strict_sensitive_target<N>(&self, target: &N) -> bool
+    where
+        N: VisitWith<StrictSensitiveTargetFinder<'d>>,
+    {
+        if !self.in_moved_sloppy_code() {
+            return false;
+        }
+
+        let mut finder = StrictSensitiveTargetFinder {
+            unresolved_ctxt: self.unresolved_ctxt,
+            data: self.data,
+            found: false,
+        };
+        target.visit_with(&mut finder);
+        finder.found
+    }
+
+    /// Like [Self::can_extract], for a heritage expression or a computed key.
+    fn can_extract_outer(&mut self, e: &Expr, class_ident: Option<&Ident>) -> bool {
+        self.in_outer_context = true;
+        let can_extract = self.can_extract(e, class_ident);
+        self.in_outer_context = false;
+        can_extract
+    }
+}
+
+impl Visit for ClassEffectVisitor<'_> {
+    noop_visit_type!();
+
+    fn visit_constructor(&mut self, n: &Constructor) {
+        // A constructor appears only in a nested class, and it runs only when
+        // that class is instantiated, so its effects are not checked. Like a
+        // method of a nested class, it can still use the private names of this
+        // class, which would be undeclared after the code is moved.
+        let mut visitor = PrivateNameUsageVisitor {
+            found: false,
+            private_ident: self.private_ident.clone(),
+        };
+        n.visit_children_with(&mut visitor);
+
+        self.found |= visitor.found;
+    }
+
+    fn visit_function(&mut self, n: &Function) {
+        if self.found {
+            return;
+        }
+
+        // Ordinary functions inherit strict mode from the containing class.
+        // Extracting an outer class's static initializer would relocate those
+        // functions into the surrounding scope and can change their semantics.
+        // Functions inside a nested class stay within that class when the
+        // initializer is relocated, so their strictness is preserved.
+        //
+        // A function in a heritage expression or computed key keeps its
+        // meaning when the code around the class is strict, because it does
+        // not use the `this` of a static initializer.
+        if self.nested_class_depth == 0 && !(self.in_outer_context && self.in_strict) {
+            self.found = true;
+            return;
+        }
+
+        // Function bodies are normally evaluated after the class, but private
+        // names resolve in the surrounding class environment. Moving a static
+        // initializer containing such a function outside the class would make
+        // the emitted private-name reference invalid.
+        let mut visitor = PrivateNameUsageVisitor {
+            found: false,
+            private_ident: self.private_ident.clone(),
+        };
+        n.visit_children_with(&mut visitor);
+
+        self.found |= visitor.found;
+    }
+
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if self.is_strict_sensitive_target(&n.left) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if self.is_strict_sensitive_target(&n.arg) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_unary_expr(&mut self, n: &UnaryExpr) {
+        if n.op == op!("delete") && self.in_moved_sloppy_code() {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        if matches!(&n.left, ForHead::Pat(pat) if self.is_strict_sensitive_target(pat)) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        if matches!(&n.left, ForHead::Pat(pat) if self.is_strict_sensitive_target(pat)) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
+        // A heritage expression or computed key uses the `this` of the code
+        // around the class.
+        if !self.in_outer_context {
+            self.found = true;
+        }
+    }
+
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
+        // `new.target` in a static initializer of this class, including one in
+        // an arrow function, is `undefined`. Outside the class it refers to the
+        // enclosing function's `new.target`, or it is a syntax error.
+        //
+        // The heritage expression and computed keys of a nested class use the
+        // same `new.target`, so this also applies in a nested class. This
+        // visitor does not visit functions in a nested class, which have their
+        // own `new.target`. A `new.target` in a field of a nested class also
+        // has its own value, but it is rare, so it is rejected for simplicity.
+        //
+        // A heritage expression or computed key uses the `new.target` of the
+        // code around the class, so it keeps its meaning when it is moved.
+        if n.kind == MetaPropKind::NewTarget && !self.in_outer_context {
+            self.found = true;
+        }
+    }
+
+    fn visit_prop(&mut self, n: &Prop) {
+        n.visit_children_with(self);
+
+        if let Prop::Shorthand(Ident { sym, .. }) = n {
+            if &**sym == "arguments" {
+                self.found = true;
+            }
+        }
+    }
+
+    fn visit_super(&mut self, _: &Super) {
+        // A heritage expression or computed key uses the `super` of the code
+        // around the class, like `this`.
+        if !self.in_outer_context {
+            self.found = true;
+        }
+    }
+
+    fn visit_private_name(&mut self, n: &PrivateName) {
+        if self.private_ident.contains(&n.name) {
+            self.found = true
+        }
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        // Private declarations belong to the class body, not its heritage or
+        // decorators. Those expressions can still reference an enclosing
+        // class's private names even if this class redeclares the same name.
+        self.nested_class_depth += 1;
+        n.decorators.visit_with(self);
+        n.super_class.visit_with(self);
+
+        let mut private_ident = self.private_ident.clone();
+
+        for m in &n.body {
+            if let ClassMember::PrivateProp(PrivateProp { key, .. })
+            | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+            | ClassMember::AutoAccessor(AutoAccessor {
+                key: Key::Private(key),
+                ..
+            }) = m
+            {
+                private_ident.remove(&key.name);
+            }
+        }
+
+        let old_set = mem::replace(&mut self.private_ident, private_ident);
+        n.body.visit_with(self);
+        self.nested_class_depth -= 1;
+        self.private_ident = old_set;
+    }
+}
+
+/// Finds a write target whose behavior depends on strict mode: an undeclared
+/// variable, the name of a named function expression, or a property.
+///
+/// It also visits default values in patterns, so a read there is treated as
+/// a target too. This is conservative.
+struct StrictSensitiveTargetFinder<'d> {
+    unresolved_ctxt: SyntaxContext,
+    data: &'d ProgramData,
+    found: bool,
+}
+
+impl Visit for StrictSensitiveTargetFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, n: &Ident) {
+        if self.found {
+            return;
+        }
+
+        self.found = n.ctxt == self.unresolved_ctxt
+            || self
+                .data
+                .vars
+                .get(&n.to_id())
+                .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR));
+    }
+
+    fn visit_member_expr(&mut self, _: &MemberExpr) {
+        self.found = true;
+    }
+
+    fn visit_super_prop_expr(&mut self, _: &SuperPropExpr) {
+        self.found = true;
+    }
+}
+
+/// Finds uses of the current class's private names, respecting nested class
+/// private-name scopes.
+struct PrivateNameUsageVisitor {
+    found: bool,
+    private_ident: FxHashSet<Atom>,
+}
+
+impl Visit for PrivateNameUsageVisitor {
+    noop_visit_type!();
+
+    fn visit_private_name(&mut self, n: &PrivateName) {
+        self.found |= self.private_ident.contains(&n.name);
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        n.decorators.visit_with(self);
+        n.super_class.visit_with(self);
+
+        let mut private_ident = self.private_ident.clone();
+
+        for member in &n.body {
+            if let ClassMember::PrivateProp(PrivateProp { key, .. })
+            | ClassMember::PrivateMethod(PrivateMethod { key, .. })
+            | ClassMember::AutoAccessor(AutoAccessor {
+                key: Key::Private(key),
+                ..
+            }) = member
+            {
+                private_ident.remove(&key.name);
+            }
+        }
+
+        let old_private_ident = mem::replace(&mut self.private_ident, private_ident);
+        n.body.visit_with(self);
+        self.private_ident = old_private_ident;
+    }
 }
 
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
@@ -250,33 +679,57 @@ impl Parallel for Finalizer<'_> {
     }
 }
 
+/// Gives bindings in a cloned expression fresh contexts so each copy remains
+/// distinct to the renamer.
+fn freshen_cloned_bindings(mut value: Box<Expr>) -> Box<Expr> {
+    let bindings: FxHashSet<Id> = collect_decls(&*value);
+    if bindings.is_empty() {
+        return value;
+    }
+
+    let new_mark = Mark::new();
+    let mut cache = FxHashMap::default();
+    let mut remap = FxHashMap::default();
+
+    // Finalizer consumes these copies after usage analysis, so the fresh IDs do
+    // not need new ProgramData entries.
+    for id in bindings {
+        let new_ctxt = *cache
+            .entry(id.1)
+            .or_insert_with(|| id.1.apply_mark(new_mark));
+
+        remap.insert(id, new_ctxt);
+    }
+
+    if !remap.is_empty() {
+        let mut remapper = Remapper::new(&remap);
+        value.visit_mut_with(&mut remapper);
+    }
+
+    value
+}
+
+/// Clones an inline value while keeping binding-bearing cheap arrows hygienic.
+fn clone_lit_for_inlining(value: &Expr) -> Box<Expr> {
+    let value = Box::new(value.clone());
+
+    // Cheap arrows are the only binding-bearing expressions stored in `lits`.
+    if !matches!(&*value, Expr::Arrow(..)) {
+        debug_assert!(
+            collect_decls::<Id, _>(&*value).is_empty(),
+            "`Finalizer::lits` contains an unhandled binding-bearing expression"
+        );
+        return value;
+    }
+
+    freshen_cloned_bindings(value)
+}
+
 impl Finalizer<'_> {
     fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
             FinalizerMode::Callee => {
-                let mut value = self.simple_functions.get(i).cloned()?;
-                let mut cache = FxHashMap::default();
-                let mut remap = FxHashMap::default();
-                let bindings: FxHashSet<Id> = collect_decls(&*value);
-                let new_mark = Mark::new();
-
-                // at this point, var usage no longer matter
-                for id in bindings {
-                    let new_ctxt = cache
-                        .entry(id.1)
-                        .or_insert_with(|| id.1.apply_mark(new_mark));
-
-                    let new_ctxt = *new_ctxt;
-
-                    remap.insert(id, new_ctxt);
-                }
-
-                if !remap.is_empty() {
-                    let mut remapper = Remapper::new(&remap);
-                    value.visit_mut_with(&mut remapper);
-                }
-
-                value
+                freshen_cloned_bindings(self.simple_functions.get(i).cloned()?)
             }
             FinalizerMode::ComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
             FinalizerMode::MemberAccess => self.lits_for_array_access.get(i).cloned()?,
@@ -299,6 +752,7 @@ impl Finalizer<'_> {
     fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id(), mode) {
+                #[cfg(debug_assertions)]
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -321,6 +775,10 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
 
+        if self.lits_for_cmp.is_empty() {
+            return;
+        }
+
         match e.op {
             op!("===") | op!("!==") | op!("==") | op!("!=") => {
                 //
@@ -337,6 +795,10 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_callee(&mut self, e: &mut Callee) {
         e.visit_mut_children_with(self);
 
+        if self.simple_functions.is_empty() {
+            return;
+        }
+
         if let Callee::Expr(e) = e {
             self.check(e, FinalizerMode::Callee);
         }
@@ -349,23 +811,38 @@ impl VisitMut for Finalizer<'_> {
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
+        let can_replace_lit = !self.lits.is_empty();
+        let can_replace_hoisted_prop = !self.hoisted_props.is_empty();
+
+        if !can_replace_lit && !can_replace_hoisted_prop {
+            if !matches!(n, Expr::Ident(..)) {
+                n.visit_mut_children_with(self);
+            }
+            return;
+        }
+
         match n {
             Expr::Ident(i) => {
-                if let Some(expr) = self.lits.get(&i.to_id()) {
-                    *n = *expr.clone();
-                    return;
+                if can_replace_lit {
+                    if let Some(expr) = self.lits.get(&i.to_id()) {
+                        *n = *clone_lit_for_inlining(expr);
+                    }
                 }
+
+                return;
             }
-            Expr::Member(e) => {
+            Expr::Member(e) if can_replace_hoisted_prop => 'a: {
                 if let Expr::Ident(obj) = &*e.obj {
                     let sym = match &e.prop {
                         MemberProp::Ident(i) => i.sym.borrow(),
                         MemberProp::Computed(e) => match &*e.expr {
                             Expr::Ident(ident) => ident.sym.borrow(),
                             Expr::Lit(Lit::Str(s)) => &s.value,
-                            _ => return,
+                            _ => break 'a,
                         },
-                        _ => return,
+                        MemberProp::PrivateName(_) => break 'a,
+                        #[cfg(swc_ast_unknown)]
+                        _ => break 'a,
                     };
 
                     if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), sym.clone())) {
@@ -396,7 +873,11 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.visit_mut_children_with(self);
 
-        if let MemberProp::Computed(ref mut prop) = e.prop {
+        if self.lits_for_array_access.is_empty() {
+            return;
+        }
+
+        if let MemberProp::Computed(prop) = &mut e.prop {
             if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                 self.check(&mut e.obj, FinalizerMode::MemberAccess);
             }
@@ -450,6 +931,10 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
         n.visit_mut_children_with(self);
 
+        if self.vars_to_remove.is_empty() {
+            return;
+        }
+
         if n.init.is_none() {
             if let Pat::Ident(i) = &n.name {
                 if self.vars_to_remove.contains(&i.to_id()) {
@@ -468,12 +953,16 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
 
+        if self.lits.is_empty() {
+            return;
+        }
+
         if let Prop::Shorthand(i) = n {
             if let Some(expr) = self.lits.get(&i.to_id()) {
                 let key = prop_name_from_ident(i.take());
                 *n = Prop::KeyValue(KeyValueProp {
                     key,
-                    value: expr.clone(),
+                    value: clone_lit_for_inlining(expr),
                 });
                 self.changed = true;
             }
@@ -531,20 +1020,20 @@ impl VisitMut for NormalMultiReplacer<'_> {
         if self.vars.is_empty() {
             return;
         }
-        e.visit_mut_children_with(self);
-
-        if self.vars.is_empty() {
-            return;
-        }
 
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id()) {
+                #[cfg(debug_assertions)]
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
                 *e = *new;
             }
+
+            return;
         }
+
+        e.visit_mut_children_with(self);
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
@@ -556,6 +1045,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
         #[cfg(feature = "debug")]
         if !self.vars.is_empty() {
             let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+            #[cfg(debug_assertions)]
             debug!("Dropping {:?}", keys);
         }
     }
@@ -565,6 +1055,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
 
         if let Prop::Shorthand(i) = p {
             if let Some(value) = self.var(&i.to_id()) {
+                #[cfg(debug_assertions)]
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 
@@ -823,20 +1314,6 @@ pub fn get_ids_of_pat(pat: &Pat) -> Vec<Id> {
     idents
 }
 
-/// Creates a PropName for a shorthand property, handling the special case of
-/// `__proto__`. When the property name is `__proto__`, it must be converted to
-/// a computed property to preserve JavaScript semantics.
-fn prop_name_from_ident(ident: Ident) -> PropName {
-    if ident.sym == "__proto__" {
-        PropName::Computed(ComputedPropName {
-            span: ident.span,
-            expr: Box::new(Expr::Lit(Lit::Str(Str {
-                span: ident.span,
-                value: ident.sym.clone().into(),
-                raw: None,
-            }))),
-        })
-    } else {
-        ident.into()
-    }
+pub(crate) fn may_inline_arrow(a: &ArrowExpr) -> bool {
+    !(contains_super(&a.body) || contains_this_expr(&a.body))
 }

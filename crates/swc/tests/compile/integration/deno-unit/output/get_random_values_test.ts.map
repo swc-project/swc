@@ -1,0 +1,34 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,eAAe,EAAEC,kBAAkB,QAAQ,iBAAiB;AAE/EF,SAAS,SAASG;IACd,IAAMC,MAAM,IAAIC,UAAU;IAC1BC,OAAOC,eAAe,CAACH;IACvBH,gBAAgBG,KAAK,IAAIC,UAAU;AACvC;AAEAL,SAAS,SAASQ;IACd,IAAMJ,MAAM,IAAIK,WAAW;IAC3BH,OAAOC,eAAe,CAACH;IACvBH,gBAAgBG,KAAK,IAAIK,WAAW;AACxC;AAEAT,SAAS,SAASU;IACd,IAAMN,MAAM,IAAIO,kBAAkB;IAClCL,OAAOC,eAAe,CAACH;IACvBH,gBAAgBG,KAAK,IAAIO,kBAAkB;AAC/C;AAEAX,SAAS,SAASY;IACd,IAAMR,MAAM,IAAIS,WAAW;IAC3BP,OAAOC,eAAe,CAACH;IACvBH,gBAAgBG,KAAK,IAAIS,WAAW;AACxC;AAEAb,SAAS,SAASc;IACd,IAAMV,MAAM,IAAIW,YAAY;IAC5BT,OAAOC,eAAe,CAACH;IACvBH,gBAAgBG,KAAK,IAAIW,YAAY;AACzC;AAEAf,SAAS,SAASgB;IACd,IAAMZ,MAAM,IAAIa,WAAW;IAC3BX,OAAOC,eAAe,CAACH;IACvBH,gBAAgBG,KAAK,IAAIa,WAAW;AACxC;AAEAjB,SAAS,SAASkB;IACd,IAAMd,MAAM,IAAIe,YAAY;IAC5Bb,OAAOC,eAAe,CAACH;IACvBH,gBAAgBG,KAAK,IAAIe,YAAY;AACzC;AAEAnB,SAAS,SAASoB;IACd,IAAMhB,MAAM,IAAIe,YAAY;IAC5B,IAAME,MAAMf,OAAOC,eAAe,CAACH;IACnCH,gBAAgBG,KAAK,IAAIe,YAAY;IACrCjB,mBAAmBmB,KAAKjB;AAC5B",
+  "names": [
+    "unitTest",
+    "assertNotEquals",
+    "assertStrictEquals",
+    "getRandomValuesInt8Array",
+    "arr",
+    "Int8Array",
+    "crypto",
+    "getRandomValues",
+    "getRandomValuesUint8Array",
+    "Uint8Array",
+    "getRandomValuesUint8ClampedArray",
+    "Uint8ClampedArray",
+    "getRandomValuesInt16Array",
+    "Int16Array",
+    "getRandomValuesUint16Array",
+    "Uint16Array",
+    "getRandomValuesInt32Array",
+    "Int32Array",
+    "getRandomValuesUint32Array",
+    "Uint32Array",
+    "getRandomValuesReturnValue",
+    "rtn"
+  ],
+  "sources": [
+    "../input/get_random_values_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertNotEquals, assertStrictEquals } from \"./test_util.ts\";\n\nunitTest(function getRandomValuesInt8Array(): void {\n    const arr = new Int8Array(32);\n    crypto.getRandomValues(arr);\n    assertNotEquals(arr, new Int8Array(32));\n});\n\nunitTest(function getRandomValuesUint8Array(): void {\n    const arr = new Uint8Array(32);\n    crypto.getRandomValues(arr);\n    assertNotEquals(arr, new Uint8Array(32));\n});\n\nunitTest(function getRandomValuesUint8ClampedArray(): void {\n    const arr = new Uint8ClampedArray(32);\n    crypto.getRandomValues(arr);\n    assertNotEquals(arr, new Uint8ClampedArray(32));\n});\n\nunitTest(function getRandomValuesInt16Array(): void {\n    const arr = new Int16Array(4);\n    crypto.getRandomValues(arr);\n    assertNotEquals(arr, new Int16Array(4));\n});\n\nunitTest(function getRandomValuesUint16Array(): void {\n    const arr = new Uint16Array(4);\n    crypto.getRandomValues(arr);\n    assertNotEquals(arr, new Uint16Array(4));\n});\n\nunitTest(function getRandomValuesInt32Array(): void {\n    const arr = new Int32Array(8);\n    crypto.getRandomValues(arr);\n    assertNotEquals(arr, new Int32Array(8));\n});\n\nunitTest(function getRandomValuesUint32Array(): void {\n    const arr = new Uint32Array(8);\n    crypto.getRandomValues(arr);\n    assertNotEquals(arr, new Uint32Array(8));\n});\n\nunitTest(function getRandomValuesReturnValue(): void {\n    const arr = new Uint32Array(8);\n    const rtn = crypto.getRandomValues(arr);\n    assertNotEquals(arr, new Uint32Array(8));\n    assertStrictEquals(rtn, arr);\n});\n"
+  ],
+  "version": 3
+}

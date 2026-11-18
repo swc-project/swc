@@ -2429,7 +2429,7 @@
                     dir = +!!isRtl, function(chars, levels, len, charTypes) {
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
-                        for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
+                        for(hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1, ix = 0; ix < len; ix++){
                             if (prevState = newState, classes[ix] = newClass = function(chars, types, classes, ix) {
                                 var wType, nType, len, i, cType = types[ix];
                                 switch(cType){
@@ -2492,8 +2492,7 @@
                         if (hasUBAT_S) {
                             for(i = 0; i < len; i++)if (6 == charTypes[i]) {
                                 levels[i] = dir;
-                                for(var j = i - 1; j >= 0; j--)if (8 == charTypes[j]) levels[j] = dir;
-                                else break;
+                                for(var j = i - 1; j >= 0 && 8 == charTypes[j]; j--)levels[j] = dir;
                             }
                         }
                     }(chars, levels, chars.length, textCharTypes);
@@ -4343,7 +4342,7 @@
                         iter(function(line, i) {
                             var indent = line.search(/\S/);
                             -1 !== indent ? (indent < minIndent && (minIndent = indent), shouldRemove && !testRemove(line, i) && (shouldRemove = !1)) : minEmptyLength > line.length && (minEmptyLength = line.length);
-                        }), minIndent == 1 / 0 && (minIndent = minEmptyLength, ignoreBlankLines = !1, shouldRemove = !1), insertAtTabStop && minIndent % tabSize != 0 && (minIndent = Math.floor(minIndent / tabSize) * tabSize), iter(shouldRemove ? uncomment : comment);
+                        }), 1 / 0 == minIndent && (minIndent = minEmptyLength, ignoreBlankLines = !1, shouldRemove = !1), insertAtTabStop && minIndent % tabSize != 0 && (minIndent = Math.floor(minIndent / tabSize) * tabSize), iter(shouldRemove ? uncomment : comment);
                     }, this.toggleBlockComment = function(state, session, range, cursor) {
                         var comment = this.blockComment;
                         if (comment) {
@@ -5101,7 +5100,7 @@
                         }
                     }, this.restoreRange = function(range) {
                         var anchor;
-                        return anchor = this.start, void (restorePoint(range.start, anchor), restorePoint(range.end, anchor));
+                        anchor = this.start, restorePoint(range.start, anchor), restorePoint(range.end, anchor);
                     };
                 }).call(Fold.prototype);
             }), ace.define("ace/edit_session/folding", [
@@ -10634,7 +10633,7 @@ margin: 0 10px;\
                             this.$changedLines = null;
                             var layerConfig = this.layerConfig;
                             if (!(firstRow > layerConfig.lastRow + 1) && !(lastRow < layerConfig.firstRow)) {
-                                if (lastRow === 1 / 0) {
+                                if (1 / 0 === lastRow) {
                                     this.$showGutter && this.$gutterLayer.update(layerConfig), this.$textLayer.update(layerConfig);
                                     return;
                                 }
@@ -12080,7 +12079,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                                     w.coverLine && (rowCount -= this.session.getRowLineCount(w.row)) < 0 && (rowCount = 0), w.rowCount != rowCount && (w.rowCount = rowCount, w.row < min && (min = w.row));
                                 }
                             }
-                            min != 1 / 0 && (this.session._emit("changeFold", {
+                            1 / 0 != min && (this.session._emit("changeFold", {
                                 data: {
                                     start: {
                                         row: min

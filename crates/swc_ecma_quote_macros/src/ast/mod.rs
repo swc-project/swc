@@ -165,7 +165,7 @@ impl_enum!(ObjectPatProp, [KeyValue, Assign, Rest]);
 impl_enum!(PropName, [Ident, Str, Num, Computed, BigInt]);
 impl_enum!(ParamOrTsParamProp, [TsParamProp, Param]);
 impl_enum!(PropOrSpread, [Spread, Prop]);
-impl_enum!(BlockStmtOrExpr, [BlockStmt, Expr]);
+impl_enum!(ArrowFunctionBody, [FunctionBody, Expr]);
 impl_enum!(MemberProp, [Ident, PrivateName, Computed]);
 impl_enum!(SuperProp, [Ident, Computed]);
 impl_enum!(JSXObject, [Ident, JSXMemberExpr]);

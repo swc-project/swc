@@ -6,17 +6,12 @@ use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 pub type ColorHexLengthConfig = Option<HexForm>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum HexForm {
+    #[default]
     Long,
     Short,
-}
-
-impl Default for HexForm {
-    fn default() -> Self {
-        Self::Long
-    }
 }
 
 pub fn color_hex_length(ctx: LintRuleContext<ColorHexLengthConfig>) -> Box<dyn LintRule> {

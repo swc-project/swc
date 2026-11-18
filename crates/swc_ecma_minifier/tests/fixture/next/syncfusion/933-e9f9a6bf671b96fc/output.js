@@ -3058,7 +3058,7 @@
                     if (-1 !== value.indexOf(options.infinity)) return 1 / 0;
                     value = ParserBase.convertValueParts(value, options.symbolRegex, numOptions.symbolMatch), 0 === (value = -1 !== (value = ParserBase.convertValueParts(value, numOptions.numberParseRegex, numOptions.numericPair)).indexOf('-') ? value.replace('-.', '-0.') : value).indexOf('.') && (value = '0' + value);
                     var isNegative, isPercent, tempValue, lead, end, ret, matches = value.match(parseRegex);
-                    if (util_isNullOrUndefined(matches)) return NaN;
+                    if (util_isNullOrUndefined(matches)) return 0 / 0;
                     lead = matches[1], tempValue = matches[2];
                     var exponent = matches[5];
                     return end = matches[6], isPercent = (isNegative = options.custom ? lead === options.nData.nlead && end === options.nData.nend : -1 !== lead.indexOf(options.nData.nlead) && -1 !== end.indexOf(options.nData.nend)) ? options.nData.isPercent : options.pData.isPercent, tempValue = tempValue.replace(groupRegex, ''), exponent && (tempValue += exponent), ret = +tempValue, ('percent' === options.type || isPercent) && (ret /= 100), (options.custom || options.fractionDigits) && (ret = parseFloat(ret.toFixed(options.custom ? isNegative ? options.nData.maximumFractionDigits : options.pData.maximumFractionDigits : options.fractionDigits))), options.maximumFractionDigits && (ret = this.convertMaxFracDigits(tempValue, options, ret, isNegative)), isNegative && (ret *= -1), ret;
@@ -4638,12 +4638,12 @@
      * @param {Function} listener - Specifies the function to remove
      * @returns {void} ?
      */ EventHandler.remove = function(element, eventName, listener) {
-                    for(var eventData = EventHandler.addOrGetEventData(element), event = eventName.split(' '), _loop_1 = function(j) {
+                    for(var eventData = EventHandler.addOrGetEventData(element), event = eventName.split(' '), j = 0; j < event.length; j++)!function(j) {
                         var debounceListener, index = -1;
                         eventData && 0 !== eventData.length && eventData.some(function(x, i) {
                             return x.name === event[j] && x.listener === listener && (index = i, debounceListener = x.debounce, !0);
                         }), -1 !== index && eventData.splice(index, 1), debounceListener && element.removeEventListener(event[j], debounceListener);
-                    }, j = 0; j < event.length; j++)_loop_1(j);
+                    }(j);
                 }, /**
      * Clear all the event listeners that has been previously attached to the element.
      *
@@ -6125,7 +6125,7 @@
                 }, Component.prototype.ignoreOnPersist = function(options) {
                     return JSON.stringify(this.iterateJsonProperties(this.properties, options));
                 }, Component.prototype.iterateJsonProperties = function(obj, ignoreList) {
-                    for(var newObj = {}, _loop_1 = function(key) {
+                    for(var newObj = {}, this_1 = this, _i = 0, _a = Object.keys(obj); _i < _a.length; _i++)!function(key) {
                         if (-1 === ignoreList.indexOf(key)) {
                             // eslint-disable-next-line
                             var value = obj[key];
@@ -6139,7 +6139,7 @@
                                 newObj[key] = this_1.iterateJsonProperties(this_1.getActualProperties(value), newList);
                             }
                         }
-                    }, this_1 = this, _i = 0, _a = Object.keys(obj); _i < _a.length; _i++)_loop_1(_a[_i]);
+                    }(_a[_i]);
                     return newObj;
                 }, component_decorate([
                     Property(!1)
@@ -9726,10 +9726,10 @@
  * @private
  */ function getZindexPartial(element) {
                 for(// upto body traversal
-                var parent = element.parentElement, parentZindex = []; parent;)if ('BODY' !== parent.tagName) {
+                var parent = element.parentElement, parentZindex = []; parent && 'BODY' !== parent.tagName;){
                     var index = document.defaultView.getComputedStyle(parent, null).getPropertyValue('z-index'), position = document.defaultView.getComputedStyle(parent, null).getPropertyValue('position');
                     'auto' !== index && 'static' !== position && parentZindex.push(index), parent = parent.parentElement;
-                } else break;
+                }
                 for(var childrenZindex = [], i = 0; i < document.body.children.length; i++)if (!element.isEqualNode(document.body.children[i])) {
                     var index = document.defaultView.getComputedStyle(document.body.children[i], null).getPropertyValue('z-index'), position = document.defaultView.getComputedStyle(document.body.children[i], null).getPropertyValue('position');
                     'auto' !== index && 'static' !== position && childrenZindex.push(index);
@@ -16834,7 +16834,7 @@
                     var allCells = this.getCorrespondingColumns(), minMaxIndex = this.getSelectedCellMinMaxIndex(allCells);
                     if (1 === this.curTable.rows.length) e.item.selection.restore(), (0, ej2_base /* detach */ .og)((0, ej2_base /* closest */ .oq)(selectedCell.parentElement, 'table'));
                     else for(maxI = minMaxIndex.endRow; maxI >= minMaxIndex.startRow; maxI--){
-                        for(j = 0, currentRow = this.curTable.rows[maxI]; j < allCells[maxI].length; j++){
+                        for(currentRow = this.curTable.rows[maxI], j = 0; j < allCells[maxI].length; j++){
                             if ((0 === j || allCells[maxI][j] !== allCells[maxI][j - 1]) && 1 < parseInt(allCells[maxI][j].getAttribute('rowspan'), 10)) {
                                 var rowSpanVal = parseInt(allCells[maxI][j].getAttribute('rowspan'), 10) - 1;
                                 //eslint-disable-next-line
@@ -19102,8 +19102,7 @@
                     return element.lastElementChild ? 'BR' === element.lastElementChild.tagName ? element.lastElementChild.previousElementSibling ? element.lastElementChild.previousElementSibling : element : element.lastElementChild : element;
                 }, HtmlEditor.prototype.getRootBlockNode = function(rangeBlockNode) {
                     // eslint-disable-next-line
-                    for(; rangeBlockNode && this.parent && this.parent.inputElement !== rangeBlockNode;)if (rangeBlockNode.parentElement === this.parent.inputElement) break;
-                    else rangeBlockNode = rangeBlockNode.parentElement;
+                    for(; rangeBlockNode && this.parent && this.parent.inputElement !== rangeBlockNode && rangeBlockNode.parentElement !== this.parent.inputElement;)rangeBlockNode = rangeBlockNode.parentElement;
                     return rangeBlockNode;
                 }, HtmlEditor.prototype.getRangeLiNode = function(rangeLiNode) {
                     for(var node = rangeLiNode.parentElement; node !== this.parent.inputElement && (1 !== node.nodeType || 'LI' !== node.tagName);)node = node.parentElement;
@@ -20508,7 +20507,7 @@
                         _this.pushFilesEntries(event), entries.length && _this.readFileFromDirectory(directoryReader);
                     });
                 }, Uploader.prototype.pushFilesEntries = function(event) {
-                    for(var _this = this, files = [], _loop_4 = function(i) {
+                    for(var _this = this, files = [], this_2 = this, i = 0; i < this.filesEntries.length; i++)!function(i) {
                         this_2.filesEntries[i].file(function(fileObj) {
                             if (_this.filesEntries.length) {
                                 var path = _this.filesEntries[i].fullPath;
@@ -20518,7 +20517,7 @@
                                 }), i === _this.filesEntries.length - 1 && (_this.filesEntries = [], _this.renderSelectedFiles(event, files, !0));
                             }
                         });
-                    }, this_2 = this, i = 0; i < this.filesEntries.length; i++)_loop_4(i);
+                    }(i);
                 }, Uploader.prototype.onSelectFiles = function(args) {
                     if (this.enabled) {
                         /* istanbul ignore next */ if ('drop' === args.type) if (this.directoryUpload) this.getFilesFromFolder(args);
@@ -21530,12 +21529,12 @@
                         else {
                             var removeFiles = [];
                             (fileData = (0, ej2_base /* isNullOrUndefined */ .le)(fileData) ? _this.filesData : fileData) instanceof Array ? removeFiles = fileData : removeFiles.push(fileData), eventArgs.filesData = removeFiles;
-                            for(var removeUrl = _this.asyncSettings.removeUrl, validUrl = !('' === removeUrl || (0, ej2_base /* isNullOrUndefined */ .le)(removeUrl)), _loop_5 = function(files) {
+                            for(var removeUrl = _this.asyncSettings.removeUrl, validUrl = !('' === removeUrl || (0, ej2_base /* isNullOrUndefined */ .le)(removeUrl)), _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++)!function(files) {
                                 var fileUploadedIndex = _this.uploadedFilesData.indexOf(files);
                                 ('2' === files.statusCode || '4' === files.statusCode || '0' === files.statusCode && -1 !== fileUploadedIndex) && validUrl ? _this.removeUploadedFile(files, eventArgs, removeDirectly, customTemplate) : removeDirectly ? _this.removeFilesData(files, customTemplate) : _this.trigger('removing', eventArgs, function(eventArgs) {
                                     eventArgs.cancel || _this.removeFilesData(files, customTemplate);
                                 }), args && !args.target.classList.contains(REMOVE_ICON) && _this.checkActionComplete(!1);
-                            }, _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++)_loop_5(removeFiles_1[_i]);
+                            }(removeFiles_1[_i]);
                         }
                     });
                 }, /* eslint-enable valid-jsdoc, jsdoc/require-param */ /**
@@ -25765,7 +25764,7 @@
                     var start = parseFloat(this.min.toString());
                     'v' === orien && (start = parseFloat(this.max.toString()));
                     var left = 0, tickWidth = 100 / count;
-                    tickWidth === 1 / 0 && (tickWidth = 5);
+                    1 / 0 === tickWidth && (tickWidth = 5);
                     for(var i = 0, y = !(0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) && this.customValues.length > 0 ? this.customValues.length - 1 : 0, k = 0; i <= count; i++){
                         if (li = this.createElement('li', {
                             attrs: {
@@ -28003,7 +28002,7 @@
      */ BaseToolbar.prototype.getItems = function(tbItems, container) {
                     var _this = this;
                     if (this.parent.toolbarSettings.items.length < 1) return [];
-                    for(var items = [], _loop_1 = function(item) {
+                    for(var items = [], this_1 = this, _i = 0; _i < tbItems.length; _i++)!function(item) {
                         if ('string' == typeof item) items.push(this_1.getObject(item, container));
                         else {
                             if (!(0, ej2_base /* isNullOrUndefined */ .le)(item.click)) {
@@ -28014,7 +28013,7 @@
                             }
                             items.push(item);
                         }
-                    }, this_1 = this, _i = 0; _i < tbItems.length; _i++)_loop_1(tbItems[_i]);
+                    }(tbItems[_i]);
                     return items;
                 }, BaseToolbar.prototype.getToolbarOptions = function(args) {
                     return {

@@ -57,7 +57,7 @@ var myGeneric = inferTypeFn({
 function make(o) {}
 make({
     mutations: {
-        foo: function foo1() {}
+        foo: function foo() {}
     },
     action: function action(a) {
         a.foo();

@@ -1,0 +1,21 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "target": "es2022",
+    "transform": {
+      "optimizer": {
+        "globals": {
+          "vars": {
+            "__NODE__": "true"
+          }
+        },
+      },
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "target": "es2020",
+        "lints": {
+            "preferRegexLiterals": [
+                "error"
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

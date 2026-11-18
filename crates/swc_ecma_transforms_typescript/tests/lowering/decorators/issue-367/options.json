@@ -1,0 +1,21 @@
+{
+    "jsc": {
+        "transform": {
+            "noEmptyExport": true,
+            "useDefineForClassFields": false
+        },
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "assumptions": {
+            "pureGetters": true
+        }
+    },
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": []
+    }
+}

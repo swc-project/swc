@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: yield
+   ,-[$DIR/tests/typescript-errors/namespace-await-context/escaped-yield/input.ts:1:1]
+ 1 | namespace N { const x = y\u0069eld 1; }
+   :                         ^^^^^^^^^^
+   `----

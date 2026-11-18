@@ -139,10 +139,10 @@ impl FastDts {
         let mut has_export = false;
         for item in items.iter_mut() {
             match item {
-                ModuleItem::Stmt(stmt) => {
-                    if stmt.as_decl().map_or(true, |decl| !decl.is_ts_module()) {
-                        has_non_exported_stmt = true;
-                    }
+                ModuleItem::Stmt(stmt)
+                    if stmt.as_decl().map_or(true, |decl| !decl.is_ts_module()) =>
+                {
+                    has_non_exported_stmt = true;
                 }
                 ModuleItem::ModuleDecl(
                     ModuleDecl::ExportDefaultDecl(_)
@@ -408,7 +408,7 @@ impl FastDts {
                                     member_expr
                                         .prop
                                         .static_name()
-                                        .is_some_and(|name| properties.contains(name))
+                                        .is_some_and(|name| properties.contains(name.as_ref()))
                                 })
                         {
                             self.function_with_assigning_properties(member_expr.span);

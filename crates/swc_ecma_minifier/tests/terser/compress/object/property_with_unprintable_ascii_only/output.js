@@ -1,21 +1,21 @@
-var foo1 = {
+var foo = {
     "\0\x01": "foo",
-    get "\0\x01" () {
+    get "\0\x01"() {
         return "bar";
     },
-    set "\0\x01" (foo){
+    set "\0\x01"(foo) {
         save(foo);
     },
-    *"\0\x01" () {
+    *"\0\x01"() {
         return "foobar";
-    }
+    },
 };
 class bar {
     get "\0\x01"() {
         return "bar";
     }
-    set "\0\x01"(foo1) {
-        save(foo1);
+    set "\0\x01"(foo) {
+        save(foo);
     }
     *"\0\x01"() {
         return "foobar";

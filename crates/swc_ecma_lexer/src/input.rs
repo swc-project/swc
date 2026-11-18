@@ -439,7 +439,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
         t.take_jsx_name(self)
     }
 
-    fn expect_jsx_text_token_and_bump(&mut self) -> (swc_atoms::Atom, swc_atoms::Atom) {
+    fn expect_jsx_text_token_and_bump(&mut self) -> (swc_atoms::Wtf8Atom, swc_atoms::Atom) {
         let t = self.bump();
         t.take_jsx_text(self)
     }

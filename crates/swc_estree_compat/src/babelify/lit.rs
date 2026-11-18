@@ -2,8 +2,9 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::atom;
 use swc_ecma_ast::{BigInt, Bool, Lit, Null, Number, Regex, Str};
 use swc_estree_ast::{
-    BigIntLiteral, BooleanLiteral, JSXText as BabelJSXText, Literal, NullLiteral, NumericLiteral,
-    RegExpLiteral, StringLiteral,
+    BigIntLiteral, BigIntLiteralExtra, BooleanLiteral, JSXText as BabelJSXText, Literal,
+    NullLiteral, NumericLiteral, NumericLiteralExtra, RegExpLiteral, StringLiteral,
+    StringLiteralExtra,
 };
 
 use crate::babelify::{Babelify, Context};
@@ -36,14 +37,21 @@ impl Babelify for Str {
     type Output = StringLiteral;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let raw = match self.raw {
+            Some(value) => value,
+            None => serde_json::to_string(&self.value)
+                .map(Into::into)
+                .unwrap_or_else(|_| atom!("")),
+        };
+        let extra = Some(StringLiteralExtra {
+            raw: raw.clone(),
+            raw_value: self.value.clone(),
+        });
         StringLiteral {
             base: ctx.base(self.span),
             value: self.value,
-            // TODO improve me
-            raw: match self.raw {
-                Some(value) => value,
-                _ => swc_atoms::atom!(""),
-            },
+            raw,
+            extra,
         }
     }
 }
@@ -73,9 +81,18 @@ impl Babelify for Number {
     type Output = NumericLiteral;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let raw = match self.raw {
+            Some(value) => value,
+            None => self.value.to_string().into(),
+        };
+        let extra = Some(NumericLiteralExtra {
+            raw,
+            raw_value: self.value,
+        });
         NumericLiteral {
             base: ctx.base(self.span),
             value: self.value,
+            extra,
         }
     }
 }
@@ -84,14 +101,20 @@ impl Babelify for BigInt {
     type Output = BigIntLiteral;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let value = self.value.to_string();
+        let raw = match self.raw {
+            Some(raw) => raw,
+            None => format!("{}n", value).into(),
+        };
+        let extra = Some(BigIntLiteralExtra {
+            raw: raw.clone(),
+            raw_value: value.clone(),
+        });
         BigIntLiteral {
             base: ctx.base(self.span),
-            value: self.value.to_string(),
-            // TODO improve me
-            raw: match self.raw {
-                Some(value) => value,
-                _ => atom!(""),
-            },
+            value,
+            raw,
+            extra,
         }
     }
 }

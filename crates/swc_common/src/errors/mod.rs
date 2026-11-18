@@ -49,12 +49,6 @@ mod styled_buffer;
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -70,12 +64,6 @@ pub enum Applicability {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -128,12 +116,6 @@ pub struct CodeSuggestion {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -146,12 +128,6 @@ pub struct Substitution {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -172,6 +148,14 @@ pub trait SourceMapper: crate::sync::Send + crate::sync::Sync {
     fn call_span_if_macro(&self, sp: Span) -> Span;
     fn doctest_offset_line(&self, line: usize) -> usize;
     fn span_to_snippet(&self, sp: Span) -> Result<String, Box<SpanSnippetError>>;
+    /// This function is called to change the [BytePos] in AST into an unmapped,
+    /// real value.
+    ///
+    /// By default, it returns the raw value because by default, the AST stores
+    /// original values.
+    fn map_raw_pos(&self, raw_pos: BytePos) -> BytePos {
+        raw_pos
+    }
 }
 
 impl CodeSuggestion {
@@ -911,12 +895,6 @@ impl Handler {
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
 )]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)

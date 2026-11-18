@@ -6,9 +6,7 @@ function _define_property(obj, key, value) {
             configurable: true,
             writable: true
         });
-    } else {
-        obj[key] = value;
-    }
+    } else obj[key] = value;
     return obj;
 }
 function deferred() {}

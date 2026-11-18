@@ -79,11 +79,9 @@ fn remove_common(a: &mut Value, b: &mut Value) -> bool {
             });
         }
 
-        (Value::Array(a), Value::Array(b)) => {
-            if a.len() == b.len() {
-                for (a_v, b_v) in a.iter_mut().zip(b.iter_mut()) {
-                    remove_common(a_v, b_v);
-                }
+        (Value::Array(a), Value::Array(b)) if a.len() == b.len() => {
+            for (a_v, b_v) in a.iter_mut().zip(b.iter_mut()) {
+                remove_common(a_v, b_v);
             }
         }
 

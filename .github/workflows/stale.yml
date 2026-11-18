@@ -5,16 +5,26 @@ on:
     # This runs every day 20 minutes before midnight: https://crontab.guru/#40_23_*_*_*
     - cron: "40 23 * * *"
 
+permissions: {}
+
 jobs:
   stale:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'swc-project'
     steps:
-      - uses: actions/stale@v4
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: bot-token
+        with:
+          client-id: ${{ vars.BOT_APP_CLIENT_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          # Actions write lets the action delete its saved state cache.
+          permission-actions: write
+          permission-issues: write
+      - uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
         id: stale
         name: "Close stale issues with no reproduction"
         with:
-          repo-token: ${{ secrets.GH_TOKEN }}
+          repo-token: ${{ steps.bot-token.outputs.token }}
           only-labels: "Need more info"
           close-issue-message: "This issue has been automatically closed because it received no activity for 2 weeks and had no reproduction to investigate. If you think this was closed by accident, please leave a comment. If you are running into a similar issue, please open a new issue with a reproduction. Thank you."
           days-before-issue-close: 1

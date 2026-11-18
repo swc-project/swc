@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "target": "es2015",
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false,
+                "passes": 1
+            },
+            "mangle": {
+                "toplevel": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": true
+}

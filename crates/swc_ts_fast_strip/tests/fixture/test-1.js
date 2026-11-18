@@ -1,5 +1,0 @@
-               
-               
- 
-
-throw new Error('Whitespacing')

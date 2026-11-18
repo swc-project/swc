@@ -1,0 +1,51 @@
+{
+  "mappings": "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",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "assertThrows",
+    "perms",
+    "read",
+    "write",
+    "linkSyncSuccess",
+    "testDir",
+    "Deno",
+    "makeTempDirSync",
+    "oldData",
+    "oldName",
+    "newName",
+    "writeFileSync",
+    "TextEncoder",
+    "encode",
+    "linkSync",
+    "newData",
+    "TextDecoder",
+    "decode",
+    "readFileSync",
+    "newData2",
+    "newData3",
+    "removeSync",
+    "newNameStat",
+    "statSync",
+    "isFile",
+    "isSymlink",
+    "linkSyncExists",
+    "errors",
+    "AlreadyExists",
+    "linkSyncNotFound",
+    "NotFound",
+    "linkSyncReadPerm",
+    "PermissionDenied",
+    "linkSyncWritePerm",
+    "linkSuccess",
+    "link"
+  ],
+  "sources": [
+    "../input/link_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert, assertEquals, assertThrows } from \"./test_util.ts\";\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function linkSyncSuccess(): void {\n        const testDir = Deno.makeTempDirSync();\n        const oldData = \"Hardlink\";\n        const oldName = testDir + \"/oldname\";\n        const newName = testDir + \"/newname\";\n        Deno.writeFileSync(oldName, new TextEncoder().encode(oldData));\n        // Create the hard link.\n        Deno.linkSync(oldName, newName);\n        // We should expect reading the same content.\n        const newData = new TextDecoder().decode(Deno.readFileSync(newName));\n        assertEquals(oldData, newData);\n        // Writing to newname also affects oldname.\n        const newData2 = \"Modified\";\n        Deno.writeFileSync(newName, new TextEncoder().encode(newData2));\n        assertEquals(\n            newData2,\n            new TextDecoder().decode(Deno.readFileSync(oldName))\n        );\n        // Writing to oldname also affects newname.\n        const newData3 = \"ModifiedAgain\";\n        Deno.writeFileSync(oldName, new TextEncoder().encode(newData3));\n        assertEquals(\n            newData3,\n            new TextDecoder().decode(Deno.readFileSync(newName))\n        );\n        // Remove oldname. File still accessible through newname.\n        Deno.removeSync(oldName);\n        const newNameStat = Deno.statSync(newName);\n        assert(newNameStat.isFile);\n        assert(!newNameStat.isSymlink); // Not a symlink.\n        assertEquals(\n            newData3,\n            new TextDecoder().decode(Deno.readFileSync(newName))\n        );\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function linkSyncExists(): void {\n        const testDir = Deno.makeTempDirSync();\n        const oldName = testDir + \"/oldname\";\n        const newName = testDir + \"/newname\";\n        Deno.writeFileSync(oldName, new TextEncoder().encode(\"oldName\"));\n        // newname is already created.\n        Deno.writeFileSync(newName, new TextEncoder().encode(\"newName\"));\n\n        assertThrows(() => {\n            Deno.linkSync(oldName, newName);\n        }, Deno.errors.AlreadyExists);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function linkSyncNotFound(): void {\n        const testDir = Deno.makeTempDirSync();\n        const oldName = testDir + \"/oldname\";\n        const newName = testDir + \"/newname\";\n\n        assertThrows(() => {\n            Deno.linkSync(oldName, newName);\n        }, Deno.errors.NotFound);\n    }\n);\n\nunitTest(\n    { perms: { read: false, write: true } },\n    function linkSyncReadPerm(): void {\n        assertThrows(() => {\n            Deno.linkSync(\"oldbaddir\", \"newbaddir\");\n        }, Deno.errors.PermissionDenied);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: false } },\n    function linkSyncWritePerm(): void {\n        assertThrows(() => {\n            Deno.linkSync(\"oldbaddir\", \"newbaddir\");\n        }, Deno.errors.PermissionDenied);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function linkSuccess(): Promise<void> {\n        const testDir = Deno.makeTempDirSync();\n        const oldData = \"Hardlink\";\n        const oldName = testDir + \"/oldname\";\n        const newName = testDir + \"/newname\";\n        Deno.writeFileSync(oldName, new TextEncoder().encode(oldData));\n        // Create the hard link.\n        await Deno.link(oldName, newName);\n        // We should expect reading the same content.\n        const newData = new TextDecoder().decode(Deno.readFileSync(newName));\n        assertEquals(oldData, newData);\n        // Writing to newname also affects oldname.\n        const newData2 = \"Modified\";\n        Deno.writeFileSync(newName, new TextEncoder().encode(newData2));\n        assertEquals(\n            newData2,\n            new TextDecoder().decode(Deno.readFileSync(oldName))\n        );\n        // Writing to oldname also affects newname.\n        const newData3 = \"ModifiedAgain\";\n        Deno.writeFileSync(oldName, new TextEncoder().encode(newData3));\n        assertEquals(\n            newData3,\n            new TextDecoder().decode(Deno.readFileSync(newName))\n        );\n        // Remove oldname. File still accessible through newname.\n        Deno.removeSync(oldName);\n        const newNameStat = Deno.statSync(newName);\n        assert(newNameStat.isFile);\n        assert(!newNameStat.isSymlink); // Not a symlink.\n        assertEquals(\n            newData3,\n            new TextDecoder().decode(Deno.readFileSync(newName))\n        );\n    }\n);\n"
+  ],
+  "version": 3
+}

@@ -1,0 +1,140 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:2:1]
+ 1 | async function f() {
+ 2 |     let { aw\u0061it } = obj;
+   :           ^^^^^^^^^^
+ 3 |     let [{ aw\u{61}it = 1 }] = xs;
+   `----
+  x Cannot use a reserved word as a shorthand property
+   ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:2:1]
+ 1 | async function f() {
+ 2 |     let { aw\u0061it } = obj;
+   :           ^^^^^^^^^^
+ 3 |     let [{ aw\u{61}it = 1 }] = xs;
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:3:1]
+ 2 |     let { aw\u0061it } = obj;
+ 3 |     let [{ aw\u{61}it = 1 }] = xs;
+   :            ^^^^^^^^^^
+ 4 |     for (let { aw\u0061it = 1 } of xs) {}
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:4:1]
+ 3 |     let [{ aw\u{61}it = 1 }] = xs;
+ 4 |     for (let { aw\u0061it = 1 } of xs) {}
+   :                ^^^^^^^^^^
+ 5 |     ({ aw\u0061it });
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:5:1]
+ 4 |     for (let { aw\u0061it = 1 } of xs) {}
+ 5 |     ({ aw\u0061it });
+   :        ^^^^^^^^^^
+ 6 |     ({ aw\u0061it = 1 }) => 0;
+   `----
+  x Cannot use a reserved word as a shorthand property
+   ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:5:1]
+ 4 |     for (let { aw\u0061it = 1 } of xs) {}
+ 5 |     ({ aw\u0061it });
+   :        ^^^^^^^^^^
+ 6 |     ({ aw\u0061it = 1 }) => 0;
+   `----
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:6:1]
+ 5 |     ({ aw\u0061it });
+ 6 |     ({ aw\u0061it = 1 }) => 0;
+   :        ^^^^^^^^^^
+ 7 | }
+   `----
+  x Cannot use a reserved word as a shorthand property
+   ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:6:1]
+ 5 |     ({ aw\u0061it });
+ 6 |     ({ aw\u0061it = 1 }) => 0;
+   :        ^^^^^^^^^^
+ 7 | }
+   `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:9:1]
+  8 | function* g() {
+  9 |     let { y\u0069eld } = obj;
+    :           ^^^^^^^^^^
+ 10 |     let [{ y\u{69}eld = 1 }] = xs;
+    `----
+  x Cannot use a reserved word as a shorthand property
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:9:1]
+  8 | function* g() {
+  9 |     let { y\u0069eld } = obj;
+    :           ^^^^^^^^^^
+ 10 |     let [{ y\u{69}eld = 1 }] = xs;
+    `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:10:1]
+  9 |     let { y\u0069eld } = obj;
+ 10 |     let [{ y\u{69}eld = 1 }] = xs;
+    :            ^^^^^^^^^^
+ 11 |     for (let { y\u0069eld = 1 } of xs) {}
+    `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:11:1]
+ 10 |     let [{ y\u{69}eld = 1 }] = xs;
+ 11 |     for (let { y\u0069eld = 1 } of xs) {}
+    :                ^^^^^^^^^^
+ 12 |     ({ y\u0069eld = 1 } = obj);
+    `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:12:1]
+ 11 |     for (let { y\u0069eld = 1 } of xs) {}
+ 12 |     ({ y\u0069eld = 1 } = obj);
+    :        ^^^^^^^^^^
+ 13 |     ({ y\u0069eld = 1 }) => 0;
+    `----
+  x Cannot use a reserved word as a shorthand property
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:12:1]
+ 11 |     for (let { y\u0069eld = 1 } of xs) {}
+ 12 |     ({ y\u0069eld = 1 } = obj);
+    :        ^^^^^^^^^^
+ 13 |     ({ y\u0069eld = 1 }) => 0;
+    `----
+  x Unexpected escape sequence in reserved word: yield
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:13:1]
+ 12 |     ({ y\u0069eld = 1 } = obj);
+ 13 |     ({ y\u0069eld = 1 }) => 0;
+    :        ^^^^^^^^^^
+ 14 | }
+    `----
+  x Cannot use a reserved word as a shorthand property
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:13:1]
+ 12 |     ({ y\u0069eld = 1 } = obj);
+ 13 |     ({ y\u0069eld = 1 }) => 0;
+    :        ^^^^^^^^^^
+ 14 | }
+    `----
+  x Unexpected escape sequence in reserved word: await
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:17:1]
+ 16 |     static {
+ 17 |         let { aw\u0061it } = obj;
+    :               ^^^^^^^^^^
+ 18 |         ({ aw\u0061it = 1 }) => 0;
+    `----
+  x Cannot use a reserved word as a shorthand property
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:17:1]
+ 16 |     static {
+ 17 |         let { aw\u0061it } = obj;
+    :               ^^^^^^^^^^
+ 18 |         ({ aw\u0061it = 1 }) => 0;
+    `----
+  x Unexpected escape sequence in reserved word: await
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:18:1]
+ 17 |         let { aw\u0061it } = obj;
+ 18 |         ({ aw\u0061it = 1 }) => 0;
+    :            ^^^^^^^^^^
+ 19 |     }
+    `----
+  x Cannot use a reserved word as a shorthand property
+    ,-[$DIR/tests/errors/pr-12425/binding-escape-boundaries/input.cjs:18:1]
+ 17 |         let { aw\u0061it } = obj;
+ 18 |         ({ aw\u0061it = 1 }) => 0;
+    :            ^^^^^^^^^^
+ 19 |     }
+    `----

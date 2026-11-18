@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/enum-await-context/escaped-await/input.ts:1:1]
+ 1 | enum E { Value = a\u0077ait value }
+   :                  ^^^^^^^^^^
+   `----

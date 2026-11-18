@@ -1568,26 +1568,18 @@ where
                     // If the current end tag token is an appropriate end tag token, then switch
                     // to the self-closing start tag state. Otherwise, treat it as per the
                     // "anything else" entry below.
-                    Some(b'/') => {
-                        if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
-                            self.finish_tag_token_name();
-                            self.state = State::SelfClosingStartTag;
-                        } else {
-                            anything_else(self);
-                        }
+                    Some(b'/') if self.current_end_tag_token_is_an_appropriate_end_tag_token() => {
+                        self.finish_tag_token_name();
+                        self.state = State::SelfClosingStartTag;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // If the current end tag token is an appropriate end tag token, then switch
                     // to the data state and emit the current tag token. Otherwise, treat it as
                     // per the "anything else" entry below.
-                    Some(b'>') => {
-                        if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
-                            self.finish_tag_token_name();
-                            self.state = State::Data;
-                            self.emit_tag_token();
-                        } else {
-                            anything_else(self);
-                        }
+                    Some(b'>') if self.current_end_tag_token_is_an_appropriate_end_tag_token() => {
+                        self.finish_tag_token_name();
+                        self.state = State::Data;
+                        self.emit_tag_token();
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -1690,26 +1682,18 @@ where
                     // If the current end tag token is an appropriate end tag token, then switch
                     // to the self-closing start tag state. Otherwise, treat it as per the
                     // "anything else" entry below.
-                    Some(b'/') => {
-                        if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
-                            self.finish_tag_token_name();
-                            self.state = State::SelfClosingStartTag;
-                        } else {
-                            anything_else(self);
-                        }
+                    Some(b'/') if self.current_end_tag_token_is_an_appropriate_end_tag_token() => {
+                        self.finish_tag_token_name();
+                        self.state = State::SelfClosingStartTag;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // If the current end tag token is an appropriate end tag token, then switch
                     // to the data state and emit the current tag token. Otherwise, treat it as
                     // per the "anything else" entry below.
-                    Some(b'>') => {
-                        if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
-                            self.finish_tag_token_name();
-                            self.state = State::Data;
-                            self.emit_tag_token();
-                        } else {
-                            anything_else(self);
-                        }
+                    Some(b'>') if self.current_end_tag_token_is_an_appropriate_end_tag_token() => {
+                        self.finish_tag_token_name();
+                        self.state = State::Data;
+                        self.emit_tag_token();
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -1820,26 +1804,18 @@ where
                     // If the current end tag token is an appropriate end tag token, then switch
                     // to the self-closing start tag state. Otherwise, treat it as per the
                     // "anything else" entry below.
-                    Some(b'/') => {
-                        if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
-                            self.finish_tag_token_name();
-                            self.state = State::SelfClosingStartTag;
-                        } else {
-                            anything_else(self);
-                        }
+                    Some(b'/') if self.current_end_tag_token_is_an_appropriate_end_tag_token() => {
+                        self.finish_tag_token_name();
+                        self.state = State::SelfClosingStartTag;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // If the current end tag token is an appropriate end tag token, then switch
                     // to the data state and emit the current tag token. Otherwise, treat it as
                     // per the "anything else" entry below.
-                    Some(b'>') => {
-                        if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
-                            self.finish_tag_token_name();
-                            self.state = State::Data;
-                            self.emit_tag_token();
-                        } else {
-                            anything_else(self);
-                        }
+                    Some(b'>') if self.current_end_tag_token_is_an_appropriate_end_tag_token() => {
+                        self.finish_tag_token_name();
+                        self.state = State::Data;
+                        self.emit_tag_token();
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020
@@ -2118,26 +2094,18 @@ where
                     // If the current end tag token is an appropriate end tag token, then switch
                     // to the self-closing start tag state. Otherwise, treat it as per the
                     // "anything else" entry below.
-                    Some(b'/') => {
-                        if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
-                            self.finish_tag_token_name();
-                            self.state = State::SelfClosingStartTag;
-                        } else {
-                            anything_else(self);
-                        }
+                    Some(b'/') if self.current_end_tag_token_is_an_appropriate_end_tag_token() => {
+                        self.finish_tag_token_name();
+                        self.state = State::SelfClosingStartTag;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // If the current end tag token is an appropriate end tag token, then switch
                     // to the data state and emit the current tag token. Otherwise, treat it as
                     // per the "anything else" entry below.
-                    Some(b'>') => {
-                        if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
-                            self.finish_tag_token_name();
-                            self.state = State::Data;
-                            self.emit_tag_token();
-                        } else {
-                            anything_else(self);
-                        }
+                    Some(b'>') if self.current_end_tag_token_is_an_appropriate_end_tag_token() => {
+                        self.finish_tag_token_name();
+                        self.state = State::Data;
+                        self.emit_tag_token();
                     }
                     // ASCII upper alpha
                     // Append the lowercase version of the current input character (add 0x0020

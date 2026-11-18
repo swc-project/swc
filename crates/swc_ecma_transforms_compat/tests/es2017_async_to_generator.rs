@@ -1,3 +1,5 @@
+mod common;
+
 use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::{Mark, Spanned};
@@ -12,7 +14,7 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture};
 use swc_ecma_visit::{fold_pass, Fold, FoldWith};
 
 struct ParenRemover;
@@ -53,187 +55,6 @@ fn tr() -> impl Pass {
         fixer(None),
     )
 }
-
-fn with_resolver() -> impl Pass {
-    let unresolved = Mark::new();
-    let top_level = Mark::new();
-    (
-        resolver(unresolved, top_level, false),
-        async_to_generator(Default::default(), unresolved),
-    )
-}
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_216,
-    r#"
-async function foo(bar) {
-  bar && await bar();
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    async_arrow_in_method,
-    r#"
-let TestClass = {
-  name: "John Doe",
-
-  testMethodFailure() {
-    return new Promise(async (resolve) => {
-      console.log(this);
-      setTimeout(resolve, 1000);
-    });
-  }
-};
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    async_default_arguments,
-    r#"
-function mandatory(paramName) {
-  throw new Error(`Missing parameter: ${paramName}`);
-}
-
-async function foo({ a, b = mandatory("b") }) {
-  return Promise.resolve(b);
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    async_iife,
-    r#"
-(async function() { await 'ok' })();
-(async () => { await 'ok' })();
-(async function notIIFE() { await 'ok' });
-(async () => { await 'not iife' });
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    r#async,
-    r#"
-class Foo {
-  async foo() {
-    var wat = await bar();
-  }
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    deeply_nested_asyncs,
-    r#"
-async function s(x, ...args) {
-  let t = async (y, a) => {
-    let r = async (z, b, ...innerArgs) =>  {
-      await z;
-      console.log(this, innerArgs, arguments);
-      return this.x;
-    }
-    await r();
-
-    console.log(this, args, arguments);
-    return this.g(r);
-  }
-
-  await t();
-  return this.h(t);
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    expression,
-    r#"
-var foo = async function () {
-  var wat = await bar();
-};
-
-var foo2 = async function () {
-  var wat = await bar();
-},
-bar = async function () {
-  var wat = await foo();
-};
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    named_expression,
-    r#"
-var foo = async function bar() {
-  console.log(bar);
-};
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    no_parameters_and_no_id,
-    r#"
-foo(async function () {
-});"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_method_with_arrows,
-    r#"
-class Class {
-  async method() {
-    this;
-    () => this;
-    () => {
-      this;
-      () => this;
-      function x() {
-        this;
-        () => {this}
-        async () => {this}
-      }
-    }
-    function x() {
-      this;
-      () => {this}
-      async () => {this}
-    }
-  }
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_method_with_super,
-    r#"class Foo extends class {} {
-  async method() {
-    super.method();
-
-    var arrow = () => super.method();
-  }
-}"#
-);
 
 test_exec!(
     syntax(),
@@ -362,52 +183,6 @@ let c = new Class();
 c.x = 1;
 return c.method();
 "#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    object_method,
-    r#"
-let obj = {
-  a: 123,
-  async foo(bar) {
-    return await baz(bar);
-  }
-}"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    babel_parameters,
-    r#"
-async function foo(bar) {
-
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    statement,
-    r#"
-async function foo() {
-  var wat = await bar();
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(),
-    issue_319,
-    "export default obj({
-    async f() {
-        await g();
-    }
-});"
 );
 
 test_exec!(
@@ -540,174 +315,24 @@ return (new A()).print();"
 //);
 
 // bluebird_coroutines_named_expression
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_named_expression,
-    r#"
-var foo = async function bar() {
-  console.log(bar);
-};
-
-"#
-);
 
 // export_async_lone_export
-test!(
-    // TODO: Enable this test after implementing es6 module pass.
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_async_lone_export,
-    r#"
-export async function foo () { }
-
-"#
-);
 
 // bluebird_coroutines_arrow_function
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_arrow_function,
-    r#"
-(async () => { await foo(); })()
-
-"#
-);
 
 // regression_t6882
 
 // regression_t7194
-test!(
-    // Optimization
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            arrow(unresolved_mark),
-        )
-    },
-    regression_t7194,
-    r#"
-function f() {
-  g(async function() {
-    c(() => this);
-  });
-}
-
-(async function () {
-  console.log('async wrapper:', this === 'foo')
-
-  ;(() => {
-    console.log('nested arrow:', this === 'foo')
-  })()
-}).call('foo')
-
-"#
-);
 
 // async_to_generator_shadowed_promise
-test!(
-    // TODO: Unignore this
-    ignore,
-    syntax(),
-    |_| with_resolver(),
-    async_to_generator_shadowed_promise,
-    r#"
-let Promise;
-async function foo() {
-  await new Promise(resolve => { resolve() });
-}
-
-"#
-);
 
 // async_to_generator_object_method_with_arrows
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_object_method_with_arrows,
-    r#"
-class Class {
-  async method() {
-    this;
-    () => this;
-    () => {
-      this;
-      () => this;
-      function x() {
-        this;
-        () => {this}
-        async () => {this}
-      }
-    }
-    function x() {
-      this;
-      () => {this}
-      async () => {this}
-    }
-  }
-}
-"#
-);
 
 // async_to_generator_object_method
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_object_method,
-    r#"
-let obj = {
-  a: 123,
-  async foo(bar) {
-    return await baz(bar);
-  }
-}
-
-"#
-);
 
 // bluebird_coroutines_class
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_class,
-    r#"
-class Foo {
-  async foo() {
-    var wat = await bar();
-  }
-}
-
-"#
-);
 
 // async_to_generator_async_iife_with_regenerator
-test!(
-    ignore,
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            //regenerator(),
-            arrow(unresolved_mark),
-        )
-    },
-    async_to_generator_async_iife_with_regenerator,
-    r#"
-(async function() { await 'ok' })();
-(async () => { await 'ok' })();
-(async function notIIFE() { await 'ok' });
-(async () => { await 'not iife' });
-
-"#
-);
 
 //// regression_gh_6923
 //test!(syntax(),|_| tr("{
@@ -778,17 +403,6 @@ test!(
 //"#);
 
 // async_to_generator_named_expression
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_named_expression,
-    r#"
-var foo = async function bar() {
-  console.log(bar);
-};
-
-"#
-);
 
 //// async_to_generator_async_iife_with_regenerator_spec
 //test!(
@@ -884,235 +498,34 @@ var foo = async function bar() {
 //);
 
 // async_to_generator_async_arrow_in_method
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_async_arrow_in_method,
-    r#"
-let TestClass = {
-  name: "John Doe",
-
-  testMethodFailure() {
-    return new Promise(async (resolve) => {
-      console.log(this);
-      setTimeout(resolve, 1000);
-    });
-  }
-};
-
-"#
-);
 
 // bluebird_coroutines_statement
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_statement,
-    r#"
-async function foo() {
-  var wat = await bar();
-}
-
-"#
-);
 
 // regression_4943
-test!(
-    syntax(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, false),
-            async_to_generator(Default::default(), unresolved_mark),
-            parameters(Default::default(), unresolved_mark),
-            destructuring(destructuring::Config { loose: false }),
-        )
-    },
-    regression_4943,
-    r#"
-"use strict";
-
-function mandatory(paramName) {
-  throw new Error(`Missing parameter: ${paramName}`);
-}
-
-async function foo({ a, b = mandatory("b") }) {
-  return Promise.resolve(b);
-}
-
-"#
-);
 
 // export_async_default_arrow_export
-test!(
-    // TODO: Enable this test after implementing es6 module pass.
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_async_default_arrow_export,
-    r#"
-export default async () => { return await foo(); }
-
-"#
-);
 
 // async_to_generator_function_arity
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_function_arity,
-    r#"
-async function one(a, b = 1) {}
-async function two(a, b, ...c) {}
-async function three(a, b = 1, c, d = 3) {}
-async function four(a, b = 1, c, ...d) {}
-async function five(a, {b}){}
-async function six(a, {b} = {}){}
-
-"#
-);
 
 // async_to_generator_object_method_with_super
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_object_method_with_super_caching,
-    r#"
-class Foo extends class {} {
-  async method() {
-    super.method();
-
-    var arrow = () => super.method();
-  }
-}
-
-"#
-);
 
 // export_async_default_export
-test!(
-    // TODO: Enable this test after implementing es6 module pass.
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_async_default_export,
-    r#"
-export default async function myFunc() {}
-
-"#
-);
 
 // async_to_generator_async
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_async,
-    r#"
-class Foo {
-  async foo() {
-    var wat = await bar();
-  }
-}
-
-"#
-);
 
 // regression_8783
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    regression_8783,
-    r#"
-(async function poll() {
-  console.log(await Promise.resolve('Hello'))
-  setTimeout(poll, 1000);
-})();
-"#
-);
 
 // async_to_generator_deeply_nested_asyncs
-test!(
-    syntax(),
-    |_| with_resolver(),
-    async_to_generator_deeply_nested_asyncs,
-    r#"
-async function s(x, ...args) {
-  let t = async (y, a) => {
-    let r = async (z, b, ...innerArgs) =>  {
-      await z;
-      console.log(this, innerArgs, arguments);
-      return this.x;
-    }
-    await r();
-
-    console.log(this, args, arguments);
-    return this.g(r);
-  }
-
-  await t();
-  return this.h(t);
-}
-
-"#
-);
 
 // export_async_import_and_export
-test!(
-    // TODO: Enable this test after implementing es6 module pass.
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_async_import_and_export,
-    r#"
-import bar from 'bar';
-
-export async function foo () { }
-
-"#
-);
 
 // async_to_generator_shadowed_promise_nested
-test!(
-    // TODO: Unignore this
-    ignore,
-    syntax(),
-    |_| with_resolver(),
-    async_to_generator_shadowed_promise_nested,
-    r#"
-let Promise;
-
-async function foo() {
-  let Promise;
-
-  await bar();
-
-  async function bar() {
-    return Promise.resolve();
-  }
-}
-
-"#
-);
 
 // bluebird_coroutines
 
 // export_async
 
 // regression_4599
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    regression_4599,
-    r#"
-async () => await promise
-
-async () => { await promise }
-
-"#
-);
 
 // regression_4943_exec
 test_exec!(
@@ -1162,81 +575,14 @@ return main.then(() => {
 );
 
 // bluebird_coroutines_expression
-test!(
-    ignore,
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    bluebird_coroutines_expression,
-    r#"
-var foo = async function () {
-  var wat = await bar();
-};
-
-"#
-);
 
 // async_to_generator_expression
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_expression,
-    r#"
-var foo = async function () {
-  var wat = await bar();
-};
-
-var foo2 = async function () {
-  var wat = await bar();
-},
-bar = async function () {
-  var wat = await foo();
-};
-
-"#
-);
 
 // async_to_generator_statement
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_statement,
-    r#"
-async function foo() {
-  var wat = await bar();
-}
-
-"#
-);
 
 // async_to_generator_shadowed_promise_import
-test!(
-    // TODO: Unignore this
-    ignore,
-    syntax(),
-    |_| with_resolver(),
-    async_to_generator_shadowed_promise_import,
-    r#"
-import Promise from 'somewhere';
-
-async function foo() {
-  await Promise.resolve();
-}
-
-"#
-);
 
 // async_to_generator_parameters
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_to_generator_parameters,
-    r#"
-async function foo(bar) {
-
-}
-
-"#
-);
 
 // async_to_generator
 
@@ -1254,32 +600,6 @@ async function foo() {}
 );
 
 // async_to_generator_parameters
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_600,
-    r#"
-async function foo() {
-for (let a of b) {
-}
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1036_1,
-    "
-    const x = async function() {
-      console.log(
-          await Promise.all([[1], [2], [3]].map(
-              async ([a]) => Promise.resolve().then(() => a * 2))
-          )
-      );
-    }
-    "
-);
 
 test_exec!(
     syntax(),
@@ -1295,65 +615,6 @@ test_exec!(
       expect(x).toEqual([2, 4, 6])
     })
   "
-);
-
-test!(
-    syntax(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1216_1,
-    "
-    const source = Math.random() < 2 ? 'matilda' : 'fred';
-    const details = {
-        _id: '1',
-    };
-    async function request(path) {
-        return `success:${path}`;
-    }
-
-    (async function () {
-        const obj = source === 'matilda'
-            ? details
-            : await request(
-                `/${details._id}?source=${source}`
-            );
-
-        console.log({ obj });
-    })();
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1125_1,
-    "
-async function test() {
-    try {
-        await 1
-    } finally {
-        console.log(2)
-    }
-}
-test()
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1341_1,
-    "
-    class A {
-      val = '1';
-      async foo() {
-          try {
-              return await (async (x) => x + this.val)('a');
-          } catch (e) {
-              throw e;
-          }
-      }
-    }
-    "
 );
 
 test_exec!(
@@ -1386,20 +647,6 @@ test_exec!(
     "
 );
 
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1341_2,
-    "
-  class A {
-    val = '1';
-    async foo() {
-      return await (async (x) => x + this.val)('a');
-    }
-  }
-  "
-);
-
 test_exec!(
     Syntax::default(),
     |_| {
@@ -1424,25 +671,6 @@ test_exec!(
   const a = new A();
   expect(a.foo()).resolves.toEqual('a1')
   "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1455_1,
-    "
-    const obj = {
-      find({ platform }) {
-          return { platform }
-      },
-      byPlatform: async function (platform) {
-          const result = await this.find({ platform: { $eq: platform } });
-          return result;
-      },
-    };
-
-    obj.byPlatform('foo').then(v => console.log(v))
-    "
 );
 
 test_exec!(
@@ -1479,84 +707,6 @@ test_exec!(
   }
   return obj.method().then((res) => expect(res).toBe(5))
 "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1722_1,
-    "
-    (async function main() {
-      console.log(1)
-    })(foo);
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1721_1,
-    "
-    async function main() {
-      for await (const x of lol()) {
-        console.log(x);
-      }
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1721_2_async_generator,
-    "
-    async function* lol() {
-      yield 1;
-      yield 2;
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_1684_1,
-    "
-    const cache = {}
-
-    async function getThing(key) {
-      const it = cache[key] || (await fetchThing(key))
-      return it
-    }
-
-    function fetchThing(key) {
-      return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_1684_2,
-    "
-    const cache = {}
-
-    async function getThing(key) {
-      const it = cache[key] || (await fetchThing(key))
-      return it
-    }
-
-    function fetchThing(key) {
-      return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
-    }
-    "
 );
 
 test_exec!(
@@ -1648,35 +798,6 @@ expect(tmp.fun()).resolves.toEqual({ foo: 'bar' });
 "
 );
 
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_2402_2,
-    "
-  function MyClass(item) {
-    this.item = item;
-    console.log('Constructor | this.item', this.item);
-  }
-
-  MyClass.prototype.fun = async function fun() {
-    console.log('fun | this.item', this.item);
-    return this.item;
-  };
-
-  const tmp = new MyClass({ foo: 'bar' });
-
-  tmp.fun().then((res) => {
-    console.log('fun result | item', res);
-  });
-"
-);
-
 test_exec!(
     Syntax::default(),
     |_| async_to_generator(Default::default(), Mark::new()),
@@ -1709,87 +830,6 @@ expect(myclass.init(2)).resolves.toEqual(true);
 "
 );
 
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_2305_2,
-    "
-    function MyClass () {}
-
-    MyClass.prototype.handle = function () {
-        console.log('this is MyClass handle')
-    }
-
-    MyClass.prototype.init = async function(param1) {
-        const a = 1;
-
-        if (!param1) {
-            console.log(this)
-            this.handle()
-        }
-
-        if (param1 === a) {
-            return false
-        }
-
-        return true
-    }
-
-    const myclass = new MyClass()
-    myclass.handle()
-  "
-);
-
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_2677_1,
-    "
-async function region() {
-}
-
-export async function otherCall() {
-  await region();
-}
-
-export default async function someCall() {
-  await region();
-}
-  "
-);
-
-test!(
-    Syntax::default(),
-    |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), unresolved_mark),
-            generator(unresolved_mark, t.comments.clone()),
-        )
-    },
-    issue_2677_2,
-    "
-async function region() {
-}
-
-export default async function() {
-  await region();
-}
-"
-);
-
 test_exec!(
     Syntax::default(),
     |_| async_to_generator(Default::default(), Mark::new()),
@@ -1813,295 +853,27 @@ expect(a.doTest()).resolves.toEqual(3);
 "
 );
 
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_1,
-    r#"
-async function foo(x, y, ...z) {
-    return 42;
-}
-"#
-);
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture("tests/async-to-generator/**/input.js", exclude("/tests/async-to-generator/(async-to-generator|async-to-generator-arrow|async-to-generator-generator-fresh-mark|resolver-async-to-generator-parameters-destructuring|resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer)/"))]
+fn fixture(input: PathBuf) {
+    test_fixture(
+        Default::default(),
+        &|_| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
 
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_2,
-    r#"
-async function* foo(x, y, ...z) {
-    return 42;
-}
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_3,
-    r#"
-const foo = async function (x, y, ...z) {
-    return 42;
-}
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_4,
-    r#"
-const foo = async function* (x, y, ...z) {
-    return 42;
-}
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_5,
-    r#"
-const foo = async function foo(x, y, ...z) {
-    if (x) {
-        return foo(0, y);
-    }
-    return 0;
-};
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_6,
-    r#"
-const foo = async function* foo(x, y, ...z) {
-  if (x) {
-      return foo(0, y);
-  }
-  return 0;
-};
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    function_length_issue_3135_7,
-    r#"
-const foo = async (x, y, ...z) => {
-    return this;
-};
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_wrap_this,
-    r#"
-const foo = async (x, y, ...z) => {
-    return this;
-};
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| with_resolver(),
-    async_wrap_arguments,
-    r#"
-function foo() {
-    const bar = async () => {
-        return arguments;
-    };
-}
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| with_resolver(),
-    async_wrap_super_and_new_target,
-    r#"
-class Foo {
-    constractur() {
-        const foo = async () => {
-            return new.target;
-        };
-    }
-
-    hello() {
-        const world = async () => {
-            return super.hello();
-        };
-    }
-}
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_default_async_nested_1,
-    "
-export default async function foo(x) {
-    async function bar(y){
-        y(x);
-    }
-}
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    export_default_async_nested_2,
-    "
-export default async function (x) {
-    async function bar(y) {
-        (async (z) => x(y)(z))();
-    }
-}
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_with_optional_params,
-    "
-(async function (a = 10, ...rest) {})();
-(async (a = 10, ...rest) => {})()
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| with_resolver(),
-    issue_2895,
-    "
-export class Quirk {
-  async doStuff() {
-    const args = arguments;
-    console.log(args);
-    return { foo: null, ...args[0] };
-  }
-}
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    super_field_update,
-    "
-class Foo {
-  async doStuff() {
-    super.foo += 123;
-    super['abc'] *= 456;
-  }
-}
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    microbundle_835,
-    "
-class A extends B {
-  a() {
-    (async () => {
-      super.b();
-    })();
-  }
-}
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    super_update,
-    "
-class A extends B {
-  async foo() {
-    super.foo ++;
-    -- super.bar;
-    super['foo'] ++;
-    -- super['bar'];
-  }
-}
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    async_with_optional_params_2,
-    "
-const Z = (f) => ((x) => f((y) => x(x)(y)))((x) => f((y) => x(x)(y)));
-
-const p = Z(
-    (f) =>
-        async (n = 0) =>
-            n <= 1 ? 1 : n * (await f(n - 1))
-)(5);
-"
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_4208,
-    "
-    function foo() {
-        const bar = async (baz = this.baz) => {
-            console.log(this);
-        }
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| async_to_generator(Default::default(), Mark::new()),
-    issue_8452,
-    r#"
-class Test0 {}
-
-class Test extends Test0 {
-    constructor() {
-        super(),
-            console.log(async (e) => {
-                await this.test();
-            });
-    }
-}
-
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| with_resolver(),
-    issue_9432,
-    r#"
-class Foo extends Bar {
-  constructor(options) {
-    super(
-      {
-        callA: async () => {
-          this.callA();
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                class_properties(Default::default(), unresolved_mark),
+                async_to_generator(Default::default(), unresolved_mark),
+            )
         },
-      }
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
     );
-  }
 }
-"#
-);
 
 #[testing::fixture("tests/async-to-generator/**/exec.js")]
 fn exec(input: PathBuf) {
@@ -2141,5 +913,35 @@ fn exec_regenerator(input: PathBuf) {
             )
         },
         &input,
+    );
+}
+
+/// Named transform pipelines for the output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(
+        rename = "resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer"
+    )]
+    ResolverRemoveParensArrowParametersDestructuringFunctionNameAsyncFixer,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture(
+    "tests/async-to-generator/\
+     resolver-remove-parens-arrow-parameters-destructuring-function-name-async-fixer/**/input.js"
+)]
+fn pipeline_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = common::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+            CasePipeline::ResolverRemoveParensArrowParametersDestructuringFunctionNameAsyncFixer => Box::new(tr ()),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
     );
 }

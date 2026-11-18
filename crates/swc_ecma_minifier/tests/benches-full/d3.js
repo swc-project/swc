@@ -6,7 +6,7 @@ function(global, factory) {
 }(this, function(exports1) {
     'use strict';
     function ascending(a, b) {
-        return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
+        return a < b ? -1 : a > b ? 1 : a >= b ? 0 : 0 / 0;
     }
     function bisector(f) {
         let delta = f, compare = f;
@@ -34,7 +34,7 @@ function(global, factory) {
         };
     }
     function number(x) {
-        return null === x ? NaN : +x;
+        return null === x ? 0 / 0 : +x;
     }
     let ascendingBisect = bisector(ascending), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left, bisectCenter = bisector(number).center;
     function count(values, valueof) {
@@ -551,7 +551,7 @@ function(global, factory) {
         return node.__data__;
     }
     function ascending$1(a, b) {
-        return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
+        return a < b ? -1 : a > b ? 1 : a >= b ? 0 : 0 / 0;
     }
     function defaultView(node) {
         return node.ownerDocument && node.ownerDocument.defaultView // node is a Node
@@ -956,7 +956,7 @@ function(global, factory) {
                 }
                 return;
             }
-            for(i = 0, on = value ? onAdd : onRemove; i < n; ++i)this.each(on(typenames[i], value, options));
+            for(on = value ? onAdd : onRemove, i = 0; i < n; ++i)this.each(on(typenames[i], value, options));
             return this;
         },
         dispatch: function(type, params) {
@@ -1128,7 +1128,7 @@ function(global, factory) {
         var value = this._.on.apply(this._, arguments);
         return value === this._ ? this : value;
     };
-    var reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
+    var brighter = 1 / 0.7, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
         reI,
         reI,
         reI
@@ -1325,13 +1325,13 @@ function(global, factory) {
          : (m = reHslPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, 1) // hsl(120, 50%, 50%)
          : (m = reHslaPercent.exec(format)) ? hsla(m[1], m[2] / 100, m[3] / 100, m[4]) // hsla(120, 50%, 50%, 1)
          : named.hasOwnProperty(format) ? rgbn(named[format]) // eslint-disable-line no-prototype-builtins
-         : "transparent" === format ? new Rgb(NaN, NaN, NaN, 0) : null;
+         : "transparent" === format ? new Rgb(0 / 0, 0 / 0, 0 / 0, 0) : null;
     }
     function rgbn(n) {
         return new Rgb(n >> 16 & 0xff, n >> 8 & 0xff, 0xff & n, 1);
     }
     function rgba(r, g, b, a) {
-        return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
+        return a <= 0 && (r = g = b = 0 / 0), new Rgb(r, g, b, a);
     }
     function rgbConvert(o) {
         return (o instanceof Color || (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
@@ -1353,13 +1353,13 @@ function(global, factory) {
         return ((value = Math.max(0, Math.min(255, Math.round(value) || 0))) < 16 ? "0" : "") + value.toString(16);
     }
     function hsla(h, s, l, a) {
-        return a <= 0 ? h = s = l = NaN : l <= 0 || l >= 1 ? h = s = NaN : s <= 0 && (h = NaN), new Hsl(h, s, l, a);
+        return a <= 0 ? h = s = l = 0 / 0 : l <= 0 || l >= 1 ? h = s = 0 / 0 : s <= 0 && (h = 0 / 0), new Hsl(h, s, l, a);
     }
     function hslConvert(o) {
         if (o instanceof Hsl) return new Hsl(o.h, o.s, o.l, o.opacity);
         if (o instanceof Color || (o = color(o)), !o) return new Hsl;
         if (o instanceof Hsl) return o;
-        var r = (o = o.rgb()).r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = NaN, s = max - min, l = (max + min) / 2;
+        var r = (o = o.rgb()).r / 255, g = o.g / 255, b = o.b / 255, min = Math.min(r, g, b), max = Math.max(r, g, b), h = 0 / 0, s = max - min, l = (max + min) / 2;
         return s ? (h = r === max ? (g - b) / s + (g < b) * 6 : g === max ? (b - r) / s + 2 : (r - g) / s + 4, s /= l < 0.5 ? max + min : 2 - max - min, h *= 60) : s = l > 0 && l < 1 ? 0 : h, new Hsl(h, s, l, o.opacity);
     }
     function hsl(h, s, l, opacity) {
@@ -1387,7 +1387,7 @@ function(global, factory) {
         toString: color_formatRgb
     }), define1(Rgb, rgb, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Rgb(this.r * k, this.g * k, this.b * k, this.opacity);
@@ -1404,7 +1404,7 @@ function(global, factory) {
         toString: rgb_formatRgb
     })), define1(Hsl, hsl, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Hsl(this.h, this.s, this.l * k, this.opacity);
@@ -1449,7 +1449,7 @@ function(global, factory) {
     }
     function hclConvert(o) {
         if (o instanceof Hcl) return new Hcl(o.h, o.c, o.l, o.opacity);
-        if (o instanceof Lab || (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(NaN, 0 < o.l && o.l < 100 ? 0 : NaN, o.l, o.opacity);
+        if (o instanceof Lab || (o = labConvert(o)), 0 === o.a && 0 === o.b) return new Hcl(0 / 0, 0 < o.l && o.l < 100 ? 0 : 0 / 0, o.l, o.opacity);
         var h = Math.atan2(o.b, o.a) * degrees;
         return new Hcl(h < 0 ? h + 360 : h, Math.sqrt(o.a * o.a + o.b * o.b), o.l, o.opacity);
     }
@@ -1491,7 +1491,7 @@ function(global, factory) {
         return 1 == arguments.length ? function(o) {
             if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
             o instanceof Rgb || (o = rgbConvert(o));
-            var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * degrees - 120 : NaN;
+            var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * degrees - 120 : 0 / 0;
             return new Cubehelix(h < 0 ? h + 360 : h, s, l, o.opacity);
         }(h) : new Cubehelix(h, s, l, null == opacity ? 1 : opacity);
     }
@@ -1518,7 +1518,7 @@ function(global, factory) {
     }
     define1(Cubehelix, cubehelix, extend(Color, {
         brighter: function(k) {
-            return k = null == k ? 1.4285714285714286 : Math.pow(1.4285714285714286, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
+            return k = null == k ? brighter : Math.pow(brighter, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
         },
         darker: function(k) {
             return k = null == k ? 0.7 : Math.pow(0.7, k), new Cubehelix(this.h, this.s, this.l * k, this.opacity);
@@ -1856,8 +1856,8 @@ function(global, factory) {
                 }), // Dispatch the start event.
                 // Note this must be done before the tween are initialized.
                 self1.state = 2, self1.on.call("start", node, node.__data__, self1.index, self1.group), 2 === self1.state) {
-                    for(i = 0, self1.state = 3, // Initialize the tween, deleting null tween.
-                    tween = Array(n = self1.tween.length), j = -1; i < n; ++i)(o = self1.tween[i].value.call(node, node.__data__, self1.index, self1.group)) && (tween[++j] = o);
+                    for(self1.state = 3, // Initialize the tween, deleting null tween.
+                    tween = Array(n = self1.tween.length), i = 0, j = -1; i < n; ++i)(o = self1.tween[i].value.call(node, node.__data__, self1.index, self1.group)) && (tween[++j] = o);
                     tween.length = j + 1;
                 } // interrupted
             }
@@ -2270,9 +2270,9 @@ function(global, factory) {
     function circleInOut(t) {
         return ((t *= 2) <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
     }
-    var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
+    var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b5 = 9 / 11, b6 = 10 / 11, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
     function bounceOut(t) {
-        return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+        return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + 0.75 : t < b6 ? b0 * (t -= b5) * t + 0.9375 : b0 * (t -= b8) * t + b9;
     }
     var backIn = function custom(s) {
         function backIn(t) {
@@ -3318,11 +3318,11 @@ function(global, factory) {
             return new Delaunator(coords);
         }
         constructor(coords){
-            const n = coords.length >> 1;
+            let n = coords.length >> 1;
             if (n > 0 && 'number' != typeof coords[0]) throw Error('Expected coords to contain numbers.');
             this.coords = coords;
             // arrays that will store the triangulation graph
-            const maxTriangles = Math.max(2 * n - 5, 0);
+            let maxTriangles = Math.max(2 * n - 5, 0);
             this._triangles = new Uint32Array(3 * maxTriangles), this._halfedges = new Int32Array(3 * maxTriangles), // temporary arrays for tracking the edges of the advancing convex hull
             this._hashSize = Math.ceil(Math.sqrt(n)), this._hullPrev = new Uint32Array(n), this._hullNext = new Uint32Array(n), this._hullTri = new Uint32Array(n), this._hullHash = new Int32Array(this._hashSize).fill(-1), // temporary arrays for sorting points
             this._ids = new Uint32Array(n), this._dists = new Float64Array(n), this.update();
@@ -3359,7 +3359,7 @@ function(global, factory) {
                 r < minRadius && (i2 = i, minRadius = r);
             }
             let i2x = coords[2 * i2], i2y = coords[2 * i2 + 1];
-            if (minRadius === 1 / 0) {
+            if (1 / 0 === minRadius) {
                 // order collinear points by dx (or dy if all x are identical)
                 // and return the list as a hull
                 for(let i = 0; i < n; i++)this._dists[i] = coords[2 * i] - coords[0] || coords[2 * i + 1] - coords[1];
@@ -3820,157 +3820,6 @@ function(global, factory) {
     function pointY(p) {
         return p[1];
     }
-    class Delaunay {
-        static from(points, fx = pointX, fy = pointY, that) {
-            return new Delaunay("length" in points ? function(points, fx, fy, that) {
-                let n = points.length, array = new Float64Array(2 * n);
-                for(let i = 0; i < n; ++i){
-                    let p = points[i];
-                    array[2 * i] = fx.call(that, p, i, points), array[2 * i + 1] = fy.call(that, p, i, points);
-                }
-                return array;
-            }(points, fx, fy, that) : Float64Array.from(function*(points, fx, fy, that) {
-                let i = 0;
-                for (let p of points)yield fx.call(that, p, i, points), yield fy.call(that, p, i, points), ++i;
-            }(points, fx, fy, that)));
-        }
-        constructor(points){
-            this._delaunator = new Delaunator(points), this.inedges = new Int32Array(points.length / 2), this._hullIndex = new Int32Array(points.length / 2), this.points = this._delaunator.coords, this._init();
-        }
-        update() {
-            return this._delaunator.update(), this._init(), this;
-        }
-        _init() {
-            let d = this._delaunator, points = this.points;
-            // check for collinear
-            if (d.hull && d.hull.length > 2 && // A triangulation is collinear if all its triangles have a non-null area
-            function(d) {
-                let { triangles, coords } = d;
-                for(let i = 0; i < triangles.length; i += 3){
-                    let a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2];
-                    if ((coords[c] - coords[a]) * (coords[b + 1] - coords[a + 1]) - (coords[b] - coords[a]) * (coords[c + 1] - coords[a + 1]) > 1e-10) return !1;
-                }
-                return !0;
-            }(d)) {
-                this.collinear = Int32Array.from({
-                    length: points.length / 2
-                }, (_, i)=>i).sort((i, j)=>points[2 * i] - points[2 * j] || points[2 * i + 1] - points[2 * j + 1]); // for exact neighbors
-                let e = this.collinear[0], f = this.collinear[this.collinear.length - 1], bounds = [
-                    points[2 * e],
-                    points[2 * e + 1],
-                    points[2 * f],
-                    points[2 * f + 1]
-                ], r = 1e-8 * Math.hypot(bounds[3] - bounds[1], bounds[2] - bounds[0]);
-                for(let i = 0, n = points.length / 2; i < n; ++i){
-                    var x, y;
-                    let p = [
-                        (x = points[2 * i]) + Math.sin(x + (y = points[2 * i + 1])) * r,
-                        y + Math.cos(x - y) * r
-                    ];
-                    points[2 * i] = p[0], points[2 * i + 1] = p[1];
-                }
-                this._delaunator = new Delaunator(points);
-            } else delete this.collinear;
-            let halfedges = this.halfedges = this._delaunator.halfedges, hull = this.hull = this._delaunator.hull, triangles = this.triangles = this._delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1);
-            // Compute an index from each point to an (arbitrary) incoming halfedge
-            // Used to give the first neighbor of each point; for this reason,
-            // on the hull we give priority to exterior halfedges
-            for(let e = 0, n = halfedges.length; e < n; ++e){
-                let p = triangles[e % 3 == 2 ? e - 2 : e + 1];
-                (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
-            }
-            for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
-            // degenerate case: 1 or 2 (distinct) points
-            hull.length <= 2 && hull.length > 0 && (this.triangles = new Int32Array(3).fill(-1), this.halfedges = new Int32Array(3).fill(-1), this.triangles[0] = hull[0], this.triangles[1] = hull[1], this.triangles[2] = hull[1], inedges[hull[0]] = 1, 2 === hull.length && (inedges[hull[1]] = 0));
-        }
-        voronoi(bounds) {
-            return new Voronoi(this, bounds);
-        }
-        *neighbors(i) {
-            let { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this;
-            // degenerate case with several collinear points
-            if (collinear) {
-                let l = collinear.indexOf(i);
-                l > 0 && (yield collinear[l - 1]), l < collinear.length - 1 && (yield collinear[l + 1]);
-                return;
-            }
-            let e0 = inedges[i];
-            if (-1 === e0) return; // coincident point
-            let e = e0, p0 = -1;
-            do {
-                if (yield p0 = triangles[e], triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) return; // bad triangulation
-                if (-1 === (e = halfedges[e])) {
-                    let p = hull[(_hullIndex[i] + 1) % hull.length];
-                    p !== p0 && (yield p);
-                    return;
-                }
-            }while (e !== e0)
-        }
-        find(x, y, i = 0) {
-            let c;
-            if ((x *= 1) != x || (y *= 1) != y) return -1;
-            let i0 = i;
-            for(; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
-            return c;
-        }
-        _step(i, x, y) {
-            let { inedges, hull, _hullIndex, halfedges, triangles, points } = this;
-            if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
-            let c = i, dc = pow(x - points[2 * i], 2) + pow(y - points[2 * i + 1], 2), e0 = inedges[i], e = e0;
-            do {
-                let t = triangles[e], dt = pow(x - points[2 * t], 2) + pow(y - points[2 * t + 1], 2);
-                if (dt < dc && (dc = dt, c = t), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
-                if (-1 === (e = halfedges[e])) {
-                    if ((e = hull[(_hullIndex[i] + 1) % hull.length]) !== t && pow(x - points[2 * e], 2) + pow(y - points[2 * e + 1], 2) < dc) return e;
-                    break;
-                }
-            }while (e !== e0)
-            return c;
-        }
-        render(context) {
-            let buffer = null == context ? context = new Path$1 : void 0, { points, halfedges, triangles } = this;
-            for(let i = 0, n = halfedges.length; i < n; ++i){
-                let j = halfedges[i];
-                if (j < i) continue;
-                let ti = 2 * triangles[i], tj = 2 * triangles[j];
-                context.moveTo(points[ti], points[ti + 1]), context.lineTo(points[tj], points[tj + 1]);
-            }
-            return this.renderHull(context), buffer && buffer.value();
-        }
-        renderPoints(context, r = 2) {
-            let buffer = null == context ? context = new Path$1 : void 0, { points } = this;
-            for(let i = 0, n = points.length; i < n; i += 2){
-                let x = points[i], y = points[i + 1];
-                context.moveTo(x + r, y), context.arc(x, y, r, 0, tau$3);
-            }
-            return buffer && buffer.value();
-        }
-        renderHull(context) {
-            let buffer = null == context ? context = new Path$1 : void 0, { hull, points } = this, h = 2 * hull[0], n = hull.length;
-            context.moveTo(points[h], points[h + 1]);
-            for(let i = 1; i < n; ++i){
-                let h = 2 * hull[i];
-                context.lineTo(points[h], points[h + 1]);
-            }
-            return context.closePath(), buffer && buffer.value();
-        }
-        hullPolygon() {
-            let polygon = new Polygon;
-            return this.renderHull(polygon), polygon.value();
-        }
-        renderTriangle(i, context) {
-            let buffer = null == context ? context = new Path$1 : void 0, { points, triangles } = this, t0 = 2 * triangles[i *= 3], t1 = 2 * triangles[i + 1], t2 = 2 * triangles[i + 2];
-            return context.moveTo(points[t0], points[t0 + 1]), context.lineTo(points[t1], points[t1 + 1]), context.lineTo(points[t2], points[t2 + 1]), context.closePath(), buffer && buffer.value();
-        }
-        *trianglePolygons() {
-            let { triangles } = this;
-            for(let i = 0, n = triangles.length / 3; i < n; ++i)yield this.trianglePolygon(i);
-        }
-        trianglePolygon(i) {
-            let polygon = new Polygon;
-            return this.renderTriangle(i, polygon), polygon.value();
-        }
-    }
     var EOL = {}, EOF = {};
     function objectConverter(columns) {
         return Function("d", "return {" + columns.map(function(name, i) {
@@ -4128,7 +3977,7 @@ function(global, factory) {
         return d[1];
     }
     function quadtree(nodes, x, y) {
-        var tree = new Quadtree(null == x ? defaultX$1 : x, null == y ? defaultY$1 : y, NaN, NaN, NaN, NaN);
+        var tree = new Quadtree(null == x ? defaultX$1 : x, null == y ? defaultY$1 : y, 0 / 0, 0 / 0, 0 / 0, 0 / 0);
         return null == nodes ? tree : tree.addAll(nodes);
     }
     function Quadtree(x, y, x0, y0, x1, y1) {
@@ -4335,7 +4184,7 @@ function(global, factory) {
         ];
     }
     function exponent$1(x) {
-        return (x = formatDecimalParts(Math.abs(x))) ? x[1] : NaN;
+        return (x = formatDecimalParts(Math.abs(x))) ? x[1] : 0 / 0;
     }
     // [[fill]align][sign][symbol][0][width][,][.precision][~][type]
     var re = /^(?:(.)?([<>=^]))?([+\-( ])?([$#])?(0)?(\d+)?(,)?(\.\d+)?(~)?([a-z%])?$/i;
@@ -5034,7 +4883,7 @@ function(global, factory) {
     // intersections or the line was empty; 1 - no intersections; 2 - there were
     // intersections, and the first and last segments should be rejoined.
     function(stream) {
-        var clean, lambda0 = NaN, phi0 = NaN, sign0 = NaN; // no intersections
+        var clean, lambda0 = 0 / 0, phi0 = 0 / 0, sign0 = 0 / 0; // no intersections
         return {
             lineStart: function() {
                 stream.lineStart(), clean = 1;
@@ -5044,7 +4893,7 @@ function(global, factory) {
                 1e-6 > abs$2(delta - pi$3) ? (stream.point(lambda0, phi0 = (phi0 + phi1) / 2 > 0 ? halfPi$2 : -halfPi$2), stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), stream.point(lambda1, phi0), clean = 0) : sign0 !== sign1 && delta >= pi$3 && (1e-6 > abs$2(lambda0 - sign0) && (lambda0 -= 1e-6 * sign0), 1e-6 > abs$2(lambda1 - sign1) && (lambda1 -= 1e-6 * sign1), lambda01 = lambda0, phi01 = phi0, phi0 = abs$2(sinLambda0Lambda1 = sin$1(lambda01 - (lambda11 = lambda1))) > 1e-6 ? atan((sin$1(phi01) * (cosPhi1 = cos$1(phi1)) * sin$1(lambda11) - sin$1(phi1) * (cosPhi0 = cos$1(phi01)) * sin$1(lambda01)) / (cosPhi0 * cosPhi1 * sinLambda0Lambda1)) : (phi01 + phi1) / 2, stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), clean = 0), stream.point(lambda0 = lambda1, phi0 = phi1), sign0 = sign1;
             },
             lineEnd: function() {
-                stream.lineEnd(), lambda0 = phi0 = NaN;
+                stream.lineEnd(), lambda0 = phi0 = 0 / 0;
             },
             clean: function() {
                 return 2 - clean; // if intersections, rejoin first and last segments
@@ -5166,7 +5015,7 @@ function(global, factory) {
             var segments, polygon, ring, x__, y__, v__, x_, y_, v_, first, clean, activeStream = stream, bufferStream = clipBuffer(), clipStream = {
                 point: point,
                 lineStart: function() {
-                    clipStream.point = linePoint, polygon && polygon.push(ring = []), first = !0, v_ = !1, x_ = y_ = NaN;
+                    clipStream.point = linePoint, polygon && polygon.push(ring = []), first = !0, v_ = !1, x_ = y_ = 0 / 0;
                 },
                 lineEnd: // TODO rather than special-case polygons, simply handle them separately.
                 // Ideally, coincident intersection points should be jittered to avoid
@@ -5436,20 +5285,20 @@ function(global, factory) {
         }, graticule.extentMajor([
             [
                 -180,
-                -89.999999
+                -90 + 1e-6
             ],
             [
                 180,
-                89.999999
+                90 - 1e-6
             ]
         ]).extentMinor([
             [
                 -180,
-                -80.000001
+                -80 - 1e-6
             ],
             [
                 180,
-                80.000001
+                80 + 1e-6
             ]
         ]);
     }
@@ -5480,7 +5329,7 @@ function(global, factory) {
     function areaRingEnd$1() {
         areaPoint$1(x00, y00);
     }
-    var x00$1, y00$1, x0$3, y0$3, x0$2 = 1 / 0, y0$2 = 1 / 0, x1 = -1 / 0, y1 = x1, boundsStream$1 = {
+    var x00$1, y00$1, x0$3, y0$3, x0$2 = 1 / 0, y0$2 = 1 / 0, x1 = -1 / 0, y1 = -1 / 0, boundsStream$1 = {
         point: function(x, y) {
             x < x0$2 && (x0$2 = x), x > x1 && (x1 = x), y < y0$2 && (y0$2 = y), y > y1 && (y1 = y);
         },
@@ -5522,8 +5371,8 @@ function(global, factory) {
                 X0$1 / Z0$1,
                 Y0$1 / Z0$1
             ] : [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ];
             return X0$1 = Y0$1 = Z0$1 = X1$1 = Y1$1 = Z1$1 = X2$1 = Y2$1 = Z2$1 = 0, centroid;
         }
@@ -5569,13 +5418,13 @@ function(global, factory) {
             this._line = 0;
         },
         polygonEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
             this._point = 0;
         },
         lineEnd: function() {
-            0 === this._line && this._context.closePath(), this._point = NaN;
+            0 === this._line && this._context.closePath(), this._point = 0 / 0;
         },
         point: function(x, y) {
             switch(this._point){
@@ -5683,13 +5532,13 @@ function(global, factory) {
             this._line = 0;
         },
         polygonEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
             this._point = 0;
         },
         lineEnd: function() {
-            0 === this._line && this._string.push("Z"), this._point = NaN;
+            0 === this._line && this._string.push("Z"), this._point = 0 / 0;
         },
         point: function(x, y) {
             switch(this._point){
@@ -5757,7 +5606,7 @@ function(global, factory) {
                     x = project(x, y), stream.point(x[0], x[1]);
                 }
                 function lineStart() {
-                    x0 = NaN, resampleStream.point = linePoint, stream.lineStart();
+                    x0 = 0 / 0, resampleStream.point = linePoint, stream.lineStart();
                 }
                 function linePoint(lambda, phi) {
                     var c = cartesian([
@@ -5973,7 +5822,7 @@ function(global, factory) {
     function azimuthalRaw(scale) {
         return function(x, y) {
             var cx = cos$1(x), cy = cos$1(y), k = scale(cx * cy);
-            return k === 1 / 0 ? [
+            return 1 / 0 === k ? [
                 2,
                 0
             ] : [
@@ -6119,7 +5968,7 @@ function(global, factory) {
     function equalEarthRaw(lambda, phi) {
         var l = asin(M * sin$1(phi)), l2 = l * l, l6 = l2 * l2 * l2;
         return [
-            lambda * cos$1(l) / (M * (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2))),
+            lambda * cos$1(l) / (M * (1.340264 + -3 * 0.081106 * l2 + l6 * (7 * 0.000893 + 0.034164 * l2))),
             l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2))
         ];
     }
@@ -6321,7 +6170,7 @@ function(global, factory) {
             b._
         ], c = b; (c = c.next) !== b;)a.push(c._);
         // Translate the circles to put the enclosing circle around the origin.
-        for(i = 0, c = enclose(a); i < n; ++i)a = circles[i], a.x -= c.x, a.y -= c.y;
+        for(c = enclose(a), i = 0; i < n; ++i)a = circles[i], a.x -= c.x, a.y -= c.y;
         return c.r;
     }
     function required(f) {
@@ -6367,9 +6216,9 @@ function(global, factory) {
         for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (x1 - x0) / parent.value; ++i < n;)(node = nodes[i]).y0 = y0, node.y1 = y1, node.x0 = x0, node.x1 = x0 += node.value * k;
     }
     equalEarthRaw.invert = function(x, y) {
-        for(var delta, fy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
+        for(var delta, fy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -3 * 0.081106 * l2 + l6 * (7 * 0.000893 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
         return [
-            M * x * (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)) / cos$1(l),
+            M * x * (1.340264 + -3 * 0.081106 * l2 + l6 * (7 * 0.000893 + 0.034164 * l2)) / cos$1(l),
             asin(sin$1(l) / M)
         ];
     }, gnomonicRaw.invert = azimuthalInvert(atan), naturalEarth1Raw.invert = function(x, y) {
@@ -6841,7 +6690,7 @@ function(global, factory) {
         var x;
         return (b -= a *= 1) ? function(x) {
             return (x - a) / b;
-        } : (x = isNaN(b) ? NaN : 0.5, function() {
+        } : (x = isNaN(b) ? 0 / 0 : 0.5, function() {
             return x;
         });
     }
@@ -6993,7 +6842,7 @@ function(global, factory) {
             } else z = ticks(i, j, Math.min(j - i, n)).map(pows);
             return r ? z.reverse() : z;
         }, scale.tickFormat = function(count, specifier) {
-            if (null == specifier && (specifier = 10 === base ? ".0e" : ","), "function" != typeof specifier && (specifier = exports1.format(specifier)), count === 1 / 0) return specifier;
+            if (null == specifier && (specifier = 10 === base ? ".0e" : ","), "function" != typeof specifier && (specifier = exports1.format(specifier)), 1 / 0 === count) return specifier;
             null == count && (count = 10);
             var k = Math.max(1, base * count / scale.ticks().length); // TODO fast estimate?
             return function(d) {
@@ -8207,7 +8056,7 @@ function(global, factory) {
         }, area;
     }
     function descending$1(a, b) {
-        return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+        return b < a ? -1 : b > a ? 1 : b >= a ? 0 : 0 / 0;
     }
     function identity$8(d) {
         return d;
@@ -8217,7 +8066,7 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
             this._point = 0;
@@ -8397,10 +8246,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._y0 = this._y1 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._y0 = this._y1 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8430,7 +8279,7 @@ function(global, factory) {
         areaStart: noop$3,
         areaEnd: noop$3,
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8465,10 +8314,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._y0 = this._y1 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._y0 = this._y1 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -8525,10 +8374,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8571,7 +8420,7 @@ function(global, factory) {
         areaStart: noop$3,
         areaEnd: noop$3,
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8618,10 +8467,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -8673,10 +8522,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8723,7 +8572,7 @@ function(global, factory) {
         areaStart: noop$3,
         areaEnd: noop$3,
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._x3 = this._x4 = this._x5 = this._y0 = this._y1 = this._y2 = this._y3 = this._y4 = this._y5 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8774,10 +8623,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = NaN, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
+            this._x0 = this._x1 = this._x2 = this._y0 = this._y1 = this._y2 = 0 / 0, this._l01_a = this._l12_a = this._l23_a = this._l01_2a = this._l12_2a = this._l23_2a = this._point = 0;
         },
         lineEnd: function() {
             (this._line || 0 !== this._line && 3 === this._point) && this._context.closePath(), this._line = 1 - this._line;
@@ -8854,7 +8703,7 @@ function(global, factory) {
         for(a[0] = 0, b[0] = 2, r[0] = x[0] + 2 * x[1], i = 1; i < n - 1; ++i)a[i] = 1, b[i] = 4, r[i] = 4 * x[i] + 2 * x[i + 1];
         for(a[n - 1] = 2, b[n - 1] = 7, r[n - 1] = 8 * x[n - 1] + x[n], i = 1; i < n; ++i)m = a[i] / b[i - 1], b[i] -= m, r[i] -= m * r[i - 1];
         for(a[n - 1] = r[n - 1] / b[n - 1], i = n - 2; i >= 0; --i)a[i] = (r[i] - a[i + 1]) / b[i];
-        for(i = 0, b[n - 1] = (x[n] + a[n - 1]) / 2; i < n - 1; ++i)b[i] = 2 * x[i + 1] - a[i + 1];
+        for(b[n - 1] = (x[n] + a[n - 1]) / 2, i = 0; i < n - 1; ++i)b[i] = 2 * x[i + 1] - a[i + 1];
         return [
             a,
             b
@@ -8914,10 +8763,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x0 = this._x1 = this._y0 = this._y1 = this._t0 = NaN, this._point = 0;
+            this._x0 = this._x1 = this._y0 = this._y1 = this._t0 = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             switch(this._point){
@@ -8930,7 +8779,7 @@ function(global, factory) {
             (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line = 1 - this._line;
         },
         point: function(x, y) {
-            var t1 = NaN;
+            var t1 = 0 / 0;
             if (y *= 1, (x *= 1) !== this._x1 || y !== this._y1) {
                 switch(this._point){
                     case 0:
@@ -8968,7 +8817,7 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
             this._x = [], this._y = [];
@@ -8987,10 +8836,10 @@ function(global, factory) {
             this._line = 0;
         },
         areaEnd: function() {
-            this._line = NaN;
+            this._line = 0 / 0;
         },
         lineStart: function() {
-            this._x = this._y = NaN, this._point = 0;
+            this._x = this._y = 0 / 0, this._point = 0;
         },
         lineEnd: function() {
             0 < this._t && this._t < 1 && 2 === this._point && this._context.lineTo(this._x, this._y), (this._line || 0 !== this._line && 1 === this._point) && this._context.closePath(), this._line >= 0 && (this._t = 1 - this._t, this._line = 1 - this._line);
@@ -9145,7 +8994,157 @@ function(global, factory) {
         var dx0 = transform.invertX(extent[0][0]) - translateExtent[0][0], dx1 = transform.invertX(extent[1][0]) - translateExtent[1][0], dy0 = transform.invertY(extent[0][1]) - translateExtent[0][1], dy1 = transform.invertY(extent[1][1]) - translateExtent[1][1];
         return transform.translate(dx1 > dx0 ? (dx0 + dx1) / 2 : Math.min(0, dx0) || Math.max(0, dx1), dy1 > dy0 ? (dy0 + dy1) / 2 : Math.min(0, dy0) || Math.max(0, dy1));
     }
-    transform$1.prototype = Transform.prototype, exports1.Adder = Adder, exports1.Delaunay = Delaunay, exports1.FormatSpecifier = FormatSpecifier, exports1.Voronoi = Voronoi, exports1.active = function(node, name) {
+    transform$1.prototype = Transform.prototype, exports1.Adder = Adder, exports1.Delaunay = class Delaunay {
+        static from(points, fx = pointX, fy = pointY, that) {
+            return new Delaunay("length" in points ? function(points, fx, fy, that) {
+                let n = points.length, array = new Float64Array(2 * n);
+                for(let i = 0; i < n; ++i){
+                    let p = points[i];
+                    array[2 * i] = fx.call(that, p, i, points), array[2 * i + 1] = fy.call(that, p, i, points);
+                }
+                return array;
+            }(points, fx, fy, that) : Float64Array.from(function*(points, fx, fy, that) {
+                let i = 0;
+                for (let p of points)yield fx.call(that, p, i, points), yield fy.call(that, p, i, points), ++i;
+            }(points, fx, fy, that)));
+        }
+        constructor(points){
+            this._delaunator = new Delaunator(points), this.inedges = new Int32Array(points.length / 2), this._hullIndex = new Int32Array(points.length / 2), this.points = this._delaunator.coords, this._init();
+        }
+        update() {
+            return this._delaunator.update(), this._init(), this;
+        }
+        _init() {
+            let d = this._delaunator, points = this.points;
+            // check for collinear
+            if (d.hull && d.hull.length > 2 && // A triangulation is collinear if all its triangles have a non-null area
+            function(d) {
+                let { triangles, coords } = d;
+                for(let i = 0; i < triangles.length; i += 3){
+                    let a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2];
+                    if ((coords[c] - coords[a]) * (coords[b + 1] - coords[a + 1]) - (coords[b] - coords[a]) * (coords[c + 1] - coords[a + 1]) > 1e-10) return !1;
+                }
+                return !0;
+            }(d)) {
+                this.collinear = Int32Array.from({
+                    length: points.length / 2
+                }, (_, i)=>i).sort((i, j)=>points[2 * i] - points[2 * j] || points[2 * i + 1] - points[2 * j + 1]); // for exact neighbors
+                let e = this.collinear[0], f = this.collinear[this.collinear.length - 1], bounds = [
+                    points[2 * e],
+                    points[2 * e + 1],
+                    points[2 * f],
+                    points[2 * f + 1]
+                ], r = 1e-8 * Math.hypot(bounds[3] - bounds[1], bounds[2] - bounds[0]);
+                for(let i = 0, n = points.length / 2; i < n; ++i){
+                    var x, y;
+                    let p = [
+                        (x = points[2 * i]) + Math.sin(x + (y = points[2 * i + 1])) * r,
+                        y + Math.cos(x - y) * r
+                    ];
+                    points[2 * i] = p[0], points[2 * i + 1] = p[1];
+                }
+                this._delaunator = new Delaunator(points);
+            } else delete this.collinear;
+            let halfedges = this.halfedges = this._delaunator.halfedges, hull = this.hull = this._delaunator.hull, triangles = this.triangles = this._delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1);
+            // Compute an index from each point to an (arbitrary) incoming halfedge
+            // Used to give the first neighbor of each point; for this reason,
+            // on the hull we give priority to exterior halfedges
+            for(let e = 0, n = halfedges.length; e < n; ++e){
+                let p = triangles[e % 3 == 2 ? e - 2 : e + 1];
+                (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
+            }
+            for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
+            // degenerate case: 1 or 2 (distinct) points
+            hull.length <= 2 && hull.length > 0 && (this.triangles = new Int32Array(3).fill(-1), this.halfedges = new Int32Array(3).fill(-1), this.triangles[0] = hull[0], this.triangles[1] = hull[1], this.triangles[2] = hull[1], inedges[hull[0]] = 1, 2 === hull.length && (inedges[hull[1]] = 0));
+        }
+        voronoi(bounds) {
+            return new Voronoi(this, bounds);
+        }
+        *neighbors(i) {
+            let { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this;
+            // degenerate case with several collinear points
+            if (collinear) {
+                let l = collinear.indexOf(i);
+                l > 0 && (yield collinear[l - 1]), l < collinear.length - 1 && (yield collinear[l + 1]);
+                return;
+            }
+            let e0 = inedges[i];
+            if (-1 === e0) return; // coincident point
+            let e = e0, p0 = -1;
+            do {
+                if (yield p0 = triangles[e], triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) return; // bad triangulation
+                if (-1 === (e = halfedges[e])) {
+                    let p = hull[(_hullIndex[i] + 1) % hull.length];
+                    p !== p0 && (yield p);
+                    return;
+                }
+            }while (e !== e0)
+        }
+        find(x, y, i = 0) {
+            let c;
+            if ((x *= 1) != x || (y *= 1) != y) return -1;
+            let i0 = i;
+            for(; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
+            return c;
+        }
+        _step(i, x, y) {
+            let { inedges, hull, _hullIndex, halfedges, triangles, points } = this;
+            if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
+            let c = i, dc = pow(x - points[2 * i], 2) + pow(y - points[2 * i + 1], 2), e0 = inedges[i], e = e0;
+            do {
+                let t = triangles[e], dt = pow(x - points[2 * t], 2) + pow(y - points[2 * t + 1], 2);
+                if (dt < dc && (dc = dt, c = t), triangles[e = e % 3 == 2 ? e - 2 : e + 1] !== i) break; // bad triangulation
+                if (-1 === (e = halfedges[e])) {
+                    if ((e = hull[(_hullIndex[i] + 1) % hull.length]) !== t && pow(x - points[2 * e], 2) + pow(y - points[2 * e + 1], 2) < dc) return e;
+                    break;
+                }
+            }while (e !== e0)
+            return c;
+        }
+        render(context) {
+            let buffer = null == context ? context = new Path$1 : void 0, { points, halfedges, triangles } = this;
+            for(let i = 0, n = halfedges.length; i < n; ++i){
+                let j = halfedges[i];
+                if (j < i) continue;
+                let ti = 2 * triangles[i], tj = 2 * triangles[j];
+                context.moveTo(points[ti], points[ti + 1]), context.lineTo(points[tj], points[tj + 1]);
+            }
+            return this.renderHull(context), buffer && buffer.value();
+        }
+        renderPoints(context, r = 2) {
+            let buffer = null == context ? context = new Path$1 : void 0, { points } = this;
+            for(let i = 0, n = points.length; i < n; i += 2){
+                let x = points[i], y = points[i + 1];
+                context.moveTo(x + r, y), context.arc(x, y, r, 0, tau$3);
+            }
+            return buffer && buffer.value();
+        }
+        renderHull(context) {
+            let buffer = null == context ? context = new Path$1 : void 0, { hull, points } = this, h = 2 * hull[0], n = hull.length;
+            context.moveTo(points[h], points[h + 1]);
+            for(let i = 1; i < n; ++i){
+                let h = 2 * hull[i];
+                context.lineTo(points[h], points[h + 1]);
+            }
+            return context.closePath(), buffer && buffer.value();
+        }
+        hullPolygon() {
+            let polygon = new Polygon;
+            return this.renderHull(polygon), polygon.value();
+        }
+        renderTriangle(i, context) {
+            let buffer = null == context ? context = new Path$1 : void 0, { points, triangles } = this, t0 = 2 * triangles[i *= 3], t1 = 2 * triangles[i + 1], t2 = 2 * triangles[i + 2];
+            return context.moveTo(points[t0], points[t0 + 1]), context.lineTo(points[t1], points[t1 + 1]), context.lineTo(points[t2], points[t2 + 1]), context.closePath(), buffer && buffer.value();
+        }
+        *trianglePolygons() {
+            let { triangles } = this;
+            for(let i = 0, n = triangles.length / 3; i < n; ++i)yield this.trianglePolygon(i);
+        }
+        trianglePolygon(i) {
+            let polygon = new Polygon;
+            return this.renderTriangle(i, polygon), polygon.value();
+        }
+    }, exports1.FormatSpecifier = FormatSpecifier, exports1.Voronoi = Voronoi, exports1.active = function(node, name) {
         var schedule, i, schedules = node.__transition;
         if (schedules) {
             for(i in name = null == name ? null : name + "", schedules)if ((schedule = schedules[i]).state > 1 && schedule.name === name) return new Transition([
@@ -9217,7 +9216,7 @@ function(global, factory) {
             var number, m, value = object[key].trim();
             if (value) if ("true" === value) value = !0;
             else if ("false" === value) value = !1;
-            else if ("NaN" === value) value = NaN;
+            else if ("NaN" === value) value = 0 / 0;
             else if (isNaN(number = +value)) if (!(m = value.match(/^([-+]\d{2})?\d{4}(-\d{2}(-\d{2})?)?(T\d{2}:\d{2}(:\d{2}(\.\d{3})?)?(Z|[-+]\d{2}:\d{2})?)?$/))) continue;
             else fixtz && m[4] && !m[7] && (value = value.replace(/-/g, "/").replace(/T/, " ")), value = new Date(value);
             else value = number;
@@ -9435,7 +9434,7 @@ function(global, factory) {
     }, exports1.curveStepBefore = function(context) {
         return new Step(context, 0);
     }, exports1.descending = function(a, b) {
-        return b < a ? -1 : b > a ? 1 : b >= a ? 0 : NaN;
+        return b < a ? -1 : b > a ? 1 : b >= a ? 0 : 0 / 0;
     }, exports1.deviation = deviation, exports1.difference = function(values, ...others) {
         for (let other of (values = new Set(values), others))for (let value of other)values.delete(value);
         return values;
@@ -9597,7 +9596,7 @@ function(global, factory) {
     }, exports1.forceCollide = function(radius) {
         var nodes, radii, random, strength = 1, iterations = 1;
         function force() {
-            for(var i, tree, node, xi, yi, ri, ri2, n = nodes.length, k = 0; k < iterations; ++k)for(i = 0, tree = quadtree(nodes, x, y).visitAfter(prepare); i < n; ++i)ri2 = (ri = radii[(node = nodes[i]).index]) * ri, xi = node.x + node.vx, yi = node.y + node.vy, tree.visit(apply);
+            for(var i, tree, node, xi, yi, ri, ri2, n = nodes.length, k = 0; k < iterations; ++k)for(tree = quadtree(nodes, x, y).visitAfter(prepare), i = 0; i < n; ++i)ri2 = (ri = radii[(node = nodes[i]).index]) * ri, xi = node.x + node.vx, yi = node.y + node.vy, tree.visit(apply);
             function apply(quad, x0, y0, x1, y1) {
                 var data = quad.data, rj = quad.r, r = ri + rj;
                 if (data) {
@@ -9617,7 +9616,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, node, n = nodes.length;
-                for(i = 0, radii = Array(n); i < n; ++i)radii[(node = nodes[i]).index] = +radius(node, i, nodes);
+                for(radii = Array(n), i = 0; i < n; ++i)radii[(node = nodes[i]).index] = +radius(node, i, nodes);
             }
         }
         return "function" != typeof radius && (radius = constant$7(null == radius ? 1 : +radius)), force.initialize = function(_nodes, _random) {
@@ -9675,7 +9674,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, node, n = nodes.length;
-                for(i = 0, strengths = Array(n); i < n; ++i)strengths[(node = nodes[i]).index] = +strength(node, i, nodes);
+                for(strengths = Array(n), i = 0; i < n; ++i)strengths[(node = nodes[i]).index] = +strength(node, i, nodes);
             }
         }
         function accumulate(quad) {
@@ -9726,7 +9725,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, n = nodes.length;
-                for(i = 0, strengths = Array(n), radiuses = Array(n); i < n; ++i)radiuses[i] = +radius(nodes[i], i, nodes), strengths[i] = isNaN(radiuses[i]) ? 0 : +strength(nodes[i], i, nodes);
+                for(strengths = Array(n), radiuses = Array(n), i = 0; i < n; ++i)radiuses[i] = +radius(nodes[i], i, nodes), strengths[i] = isNaN(radiuses[i]) ? 0 : +strength(nodes[i], i, nodes);
             }
         }
         return "function" != typeof radius && (radius = constant$7(+radius)), null == x && (x = 0), null == y && (y = 0), force.initialize = function(_) {
@@ -9815,7 +9814,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, n = nodes.length;
-                for(i = 0, strengths = Array(n), xz = Array(n); i < n; ++i)strengths[i] = isNaN(xz[i] = +x(nodes[i], i, nodes)) ? 0 : +strength(nodes[i], i, nodes);
+                for(strengths = Array(n), xz = Array(n), i = 0; i < n; ++i)strengths[i] = isNaN(xz[i] = +x(nodes[i], i, nodes)) ? 0 : +strength(nodes[i], i, nodes);
             }
         }
         return "function" != typeof x && (x = constant$7(null == x ? 0 : +x)), force.initialize = function(_) {
@@ -9833,7 +9832,7 @@ function(global, factory) {
         function initialize() {
             if (nodes) {
                 var i, n = nodes.length;
-                for(i = 0, strengths = Array(n), yz = Array(n); i < n; ++i)strengths[i] = isNaN(yz[i] = +y(nodes[i], i, nodes)) ? 0 : +strength(nodes[i], i, nodes);
+                for(strengths = Array(n), yz = Array(n), i = 0; i < n; ++i)strengths[i] = isNaN(yz[i] = +y(nodes[i], i, nodes)) ? 0 : +strength(nodes[i], i, nodes);
             }
         }
         return "function" != typeof y && (y = constant$7(null == y ? 0 : +y)), force.initialize = function(_) {
@@ -9987,14 +9986,14 @@ function(global, factory) {
             // The final bounding box will be the inverse of this gap.
             for(deltaMax = -1 / 0, n = merged.length - 1, i = 0, a = merged[n]; i <= n; a = b, ++i)b = merged[i], (delta = angle(a[1], b[0])) > deltaMax && (deltaMax = delta, lambda0$1 = b[0], lambda1 = a[1]);
         }
-        return ranges = range$1 = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [
+        return ranges = range$1 = null, 1 / 0 === lambda0$1 || 1 / 0 === phi0 ? [
             [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ],
             [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ]
         ] : [
             [
@@ -10011,8 +10010,8 @@ function(global, factory) {
         var x = +X2, y = +Y2, z = +Z2, m = hypot(x, y, z);
         return(// If the area-weighted ccentroid is undefined, fall back to length-weighted ccentroid.
         m < 1e-12 && (x = X1, y = Y1, z = Z1, W1 < 1e-6 && (x = X0, y = Y0, z = Z0), (m = hypot(x, y, z)) < 1e-12) ? [
-            NaN,
-            NaN
+            0 / 0,
+            0 / 0
         ] : [
             atan2(y, x) * degrees$2,
             asin(z / m) * degrees$2
@@ -10174,7 +10173,7 @@ function(global, factory) {
     }, exports1.geoMercatorRaw = mercatorRaw, exports1.geoNaturalEarth1 = function() {
         return projection(naturalEarth1Raw).scale(175.295);
     }, exports1.geoNaturalEarth1Raw = naturalEarth1Raw, exports1.geoOrthographic = function() {
-        return projection(orthographicRaw).scale(249.5).clipAngle(90.000001);
+        return projection(orthographicRaw).scale(249.5).clipAngle(90 + 1e-6);
     }, exports1.geoOrthographicRaw = orthographicRaw, exports1.geoPath = function(projection, context) {
         var projectionStream, contextStream, pointRadius = 4.5;
         function path(object) {
@@ -10544,8 +10543,8 @@ function(global, factory) {
         return scale.invertExtent = function(y) {
             var i = range.indexOf(y);
             return i < 0 ? [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ] : [
                 i > 0 ? thresholds[i - 1] : domain[0],
                 i < thresholds.length ? thresholds[i] : domain[domain.length - 1]
@@ -10588,8 +10587,8 @@ function(global, factory) {
         }, scale.invertExtent = function(y) {
             var i = range.indexOf(y);
             return i < 0 ? [
-                NaN,
-                NaN
+                0 / 0,
+                0 / 0
             ] : i < 1 ? [
                 x0,
                 domain[0]

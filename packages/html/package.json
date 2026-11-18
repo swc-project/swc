@@ -1,6 +1,6 @@
 {
     "name": "@swc/html",
-    "version": "1.15.11",
+    "version": "1.16.22",
     "description": "Super-fast HTML minifier",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -27,6 +27,8 @@
             "x86_64-apple-darwin",
             "x86_64-pc-windows-msvc",
             "x86_64-unknown-linux-gnu",
+            "powerpc64le-unknown-linux-gnu",
+            "s390x-unknown-linux-gnu",
             "x86_64-unknown-linux-musl",
             "i686-pc-windows-msvc",
             "armv7-unknown-linux-gnueabihf",
@@ -45,8 +47,8 @@
         "artifacts": "napi artifacts --npm-dir scripts/npm",
         "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
         "build:ts": "tsc -d",
-        "build": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
-        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
+        "build": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --no-js --dts ./binding.d.ts --release -o .",
+        "build:dev": "(tsc -d || true) && napi build --manifest-path ../../Cargo.toml --platform -p binding_html_node --no-js --dts ./binding.d.ts -o .",
         "test": "echo 'done!'",
         "version": "napi version --npm-dir scripts/npm"
     },

@@ -1,0 +1,23 @@
+{
+    "module": {
+        "type": "es6"
+    },
+    "jsc": {
+        "target": "es2017",
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "decorators": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "react": {
+                "throwIfNamespace": false,
+                "useBuiltins": false,
+                "importSource": "react",
+                "runtime": "automatic"
+            }
+        },
+        "keepClassNames": true
+    }
+}

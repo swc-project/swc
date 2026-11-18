@@ -100,12 +100,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 108,
                 "end": 141
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -183,12 +182,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 159,
                 "end": 231
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ExpressionStatement",
@@ -393,12 +391,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 341,
           "end": 954
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -755,12 +752,11 @@
               },
               "ctxt": 0,
               "body": {
-                "type": "BlockStatement",
+                "type": "FunctionBody",
                 "span": {
                   "start": 572,
                   "end": 952
                 },
-                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "IfStatement",
@@ -838,12 +834,11 @@
                                   },
                                   "ctxt": 0,
                                   "body": {
-                                    "type": "BlockStatement",
+                                    "type": "FunctionBody",
                                     "span": {
                                       "start": 643,
                                       "end": 744
                                     },
-                                    "ctxt": 0,
                                     "stmts": [
                                       {
                                         "type": "ExpressionStatement",
@@ -1057,26 +1052,19 @@
                     "argument": {
                       "type": "FunctionExpression",
                       "identifier": null,
-                      "params": [
-                        {
-                          "type": "Parameter",
-                          "span": {
-                            "start": 783,
-                            "end": 787
-                          },
-                          "decorators": [],
-                          "pat": {
-                            "type": "Identifier",
-                            "span": {
-                              "start": 783,
-                              "end": 787
-                            },
-                            "ctxt": 0,
-                            "value": "this",
-                            "optional": false,
-                            "typeAnnotation": null
-                          }
+                      "thisParam": {
+                        "type": "TsThisParameter",
+                        "span": {
+                          "start": 783,
+                          "end": 787
                         },
+                        "thisSpan": {
+                          "start": 783,
+                          "end": 787
+                        },
+                        "typeAnnotation": null
+                      },
+                      "params": [
                         {
                           "type": "Parameter",
                           "span": {
@@ -1116,12 +1104,11 @@
                       },
                       "ctxt": 0,
                       "body": {
-                        "type": "BlockStatement",
+                        "type": "FunctionBody",
                         "span": {
                           "start": 798,
                           "end": 946
                         },
-                        "ctxt": 0,
                         "stmts": [
                           {
                             "type": "ExpressionStatement",

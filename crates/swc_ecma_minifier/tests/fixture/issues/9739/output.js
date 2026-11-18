@@ -3,6 +3,6 @@ const arr = [
     'b'
 ];
 [arr[0], arr[1]] = [
-    'b',
-    'a'
+    arr[1],
+    arr[0]
 ];

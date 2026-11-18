@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "target": "es2017"
+    },
+    "module": {
+        "type": "commonjs",
+        "ignoreDynamic": true
+    }
+}

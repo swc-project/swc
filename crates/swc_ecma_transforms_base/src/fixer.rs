@@ -1,11 +1,17 @@
-use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
+use std::mem;
 
-use indexmap::IndexMap;
-use rustc_hash::FxHasher;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+
+mod parens;
+mod typescript;
+
+use self::{
+    parens::ParenSpans,
+    typescript::{continues_optional_chain, TsOperand},
+};
 
 /// Fixes ast nodes before printing so semantics are preserved.
 ///
@@ -19,6 +25,7 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
         in_opt_chain: Default::default(),
+        is_strict: false,
         remove_only: false,
     })
 }
@@ -30,6 +37,7 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
         in_opt_chain: Default::default(),
+        is_strict: false,
         remove_only: true,
     })
 }
@@ -37,14 +45,11 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
 struct Fixer<'a> {
     comments: Option<&'a dyn Comments>,
     ctx: Context,
-    /// A hash map to preserve original span.
-    ///
-    /// Key is span of inner expression, and value is span of the paren
-    /// expression.
-    span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
+    span_map: ParenSpans,
 
     in_for_stmt_head: bool,
     in_opt_chain: bool,
+    is_strict: bool,
 
     remove_only: bool,
 }
@@ -71,6 +76,45 @@ enum Context {
 }
 
 impl Fixer<'_> {
+    /// `Pat::Expr` is needed for parenthesized for-head expressions, but a
+    /// bare identifier should use the same pattern shape as `for (x of y)`.
+    fn normalize_for_head_pat(n: &mut ForHead) {
+        let ForHead::Pat(pat) = n else {
+            return;
+        };
+
+        if pat.as_expr().and_then(|expr| expr.as_ident()).is_none() {
+            return;
+        }
+
+        let Pat::Expr(expr) = *pat.take() else {
+            unreachable!()
+        };
+
+        let Expr::Ident(ident) = *expr else {
+            unreachable!()
+        };
+
+        **pat = ident.into();
+    }
+
+    fn should_wrap_tagged_tpl_new_callee(tag: &Expr) -> bool {
+        match tag {
+            Expr::Call(..) | Expr::New(..) => true,
+            Expr::TaggedTpl(TaggedTpl { tag, .. }) => Self::should_wrap_tagged_tpl_new_callee(tag),
+            Expr::Member(MemberExpr { obj, .. }) => Self::member_tag_starts_with_tagged_tpl(obj),
+            _ => false,
+        }
+    }
+
+    fn member_tag_starts_with_tagged_tpl(obj: &Expr) -> bool {
+        match obj {
+            Expr::TaggedTpl(..) => true,
+            Expr::Member(MemberExpr { obj, .. }) => Self::member_tag_starts_with_tagged_tpl(obj),
+            _ => false,
+        }
+    }
+
     fn wrap_callee(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
@@ -81,8 +125,33 @@ impl Fixer<'_> {
             | Expr::Unary(..)
             | Expr::Object(..)
             | Expr::Await(..)
-            | Expr::Yield(..) => self.wrap(e),
+            | Expr::Yield(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => self.wrap(e),
             _ => (),
+        }
+    }
+
+    /// Wraps a function declaration used as the body of a statement in a
+    /// block.
+    ///
+    /// Only a plain function declaration used as an `if` clause in sloppy mode
+    /// is valid without a block (Annex B). A loop body always needs one.
+    fn wrap_single_function(&self, s: &mut Stmt, is_if_clause: bool) {
+        if let Stmt::Decl(Decl::Fn(f)) = s {
+            if is_if_clause && !self.is_strict && !f.function.is_async && !f.function.is_generator {
+                return;
+            }
+
+            let f = f.take();
+
+            *s = Stmt::Block(BlockStmt {
+                span: f.span(),
+                ctxt: f.function.ctxt,
+                stmts: vec![Stmt::Decl(Decl::Fn(f))],
+            })
         }
     }
 }
@@ -103,11 +172,11 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
         match &mut *node.body {
-            BlockStmtOrExpr::Expr(e) if e.is_seq() => {
+            ArrowFunctionBody::Expr(e) if e.is_seq() => {
                 self.wrap(e);
             }
 
-            BlockStmtOrExpr::Expr(e) if e.is_assign() => {
+            ArrowFunctionBody::Expr(e) if e.is_assign() => {
                 if let Expr::Assign(assign) = &**e {
                     if let AssignTarget::Pat(..) = &assign.left {
                         self.wrap(e);
@@ -122,6 +191,7 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
         expr.left.visit_mut_with(self);
+        self.wrap_ts_assign_target(expr.op, &mut expr.left);
 
         let ctx = self.ctx;
         self.ctx = Context::FreeExpr;
@@ -195,7 +265,13 @@ impl VisitMut for Fixer<'_> {
         match n {
             AssignTarget::Simple(a) => {
                 if let SimpleAssignTarget::Paren(s) = a {
-                    *n = AssignTarget::try_from(s.expr.take()).unwrap();
+                    match AssignTarget::try_from(s.expr.take()) {
+                        Ok(target) => *n = target,
+                        // Parser recovery can retain expressions that have no
+                        // assignment-target variant. Keep their wrapper so
+                        // the recovered expression is neither lost nor invalidated.
+                        Err(expr) => s.expr = expr,
+                    }
                 }
             }
             AssignTarget::Pat(b) => {
@@ -221,13 +297,17 @@ impl VisitMut for Fixer<'_> {
             | Expr::Assign(..)
             | Expr::Bin(..)
             | Expr::Yield(..)
-            | Expr::Arrow(..) => self.wrap(&mut expr.arg),
+            | Expr::Arrow(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..) => self.wrap(&mut expr.arg),
             _ => {}
         }
     }
 
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
         expr.left.visit_mut_with(self);
+
         let ctx = self.ctx;
         self.ctx = Context::FreeExpr;
         expr.right.visit_mut_with(self);
@@ -247,16 +327,21 @@ impl VisitMut for Fixer<'_> {
                 _ => {}
             },
 
-            op!(">") | op!(">=") | op!("<") | op!("<=") => {
-                if let (Expr::Update(..) | Expr::Lit(..), Expr::Update(..) | Expr::Lit(..)) =
-                    (&*expr.left, &*expr.right)
-                {
-                    return;
-                }
+            op!(">") | op!(">=") | op!("<") | op!("<=")
+                if matches!(
+                    (&*expr.left, &*expr.right),
+                    (
+                        Expr::Update(..) | Expr::Lit(..),
+                        Expr::Update(..) | Expr::Lit(..)
+                    )
+                ) =>
+            {
+                self.wrap_ts_instantiation_tail(expr.op, &mut expr.left);
+                return;
             }
 
             op!("**") => match &*expr.left {
-                Expr::Unary(..) => {
+                Expr::Unary(..) | Expr::Await(..) | Expr::TsTypeAssertion(..) => {
                     self.wrap(&mut expr.left);
                 }
                 Expr::Lit(Lit::Num(v)) if v.value.is_sign_negative() => {
@@ -276,6 +361,13 @@ impl VisitMut for Fixer<'_> {
             | Expr::Arrow(..) => {
                 self.wrap(&mut expr.right);
             }
+            // Postfix casts have relational precedence. Without grouping, the
+            // cast would apply to the whole equal or higher precedence binary.
+            Expr::TsAs(..) | Expr::TsSatisfies(..) | Expr::TsConstAssertion(..)
+                if expr.op.precedence() >= op!("in").precedence() =>
+            {
+                self.wrap(&mut expr.right);
+            }
             Expr::Bin(BinExpr { op: op_of_rhs, .. }) => {
                 if *op_of_rhs == expr.op {
                     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence#precedence_and_associativity
@@ -293,18 +385,21 @@ impl VisitMut for Fixer<'_> {
         };
 
         match &mut *expr.left {
+            Expr::TsAs(..) | Expr::TsSatisfies(..) | Expr::TsConstAssertion(..) => {
+                self.wrap_ts_cast_left(expr.op, &mut expr.left);
+            }
+
             Expr::Bin(BinExpr { op: op!("??"), .. }) if expr.op != op!("??") => {
                 self.wrap(&mut expr.left);
             }
 
             // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
             // But it should be `(1 + x) * Nan`
-            Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
+            Expr::Bin(BinExpr { op: op_of_lhs, .. })
                 if op_of_lhs.precedence() < expr.op.precedence()
-                    || (op_of_lhs.precedence() == expr.op.precedence() && expr.op == op!("**"))
-                {
-                    self.wrap(&mut expr.left);
-                }
+                    || (op_of_lhs.precedence() == expr.op.precedence() && expr.op == op!("**")) =>
+            {
+                self.wrap(&mut expr.left);
             }
 
             Expr::Unary(UnaryExpr {
@@ -347,6 +442,8 @@ impl VisitMut for Fixer<'_> {
                 _ => (),
             }
         }
+
+        self.wrap_ts_instantiation_tail(expr.op, &mut expr.left);
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
@@ -355,11 +452,17 @@ impl VisitMut for Fixer<'_> {
         self.in_for_stmt_head = in_for_stmt_head;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
+    fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        n.visit_mut_children_with(self);
+        self.in_for_stmt_head = in_for_stmt_head;
+    }
+
+    fn visit_mut_arrow_function_body(&mut self, body: &mut ArrowFunctionBody) {
         body.visit_mut_children_with(self);
 
         match body {
-            BlockStmtOrExpr::Expr(expr) if expr.is_object() => {
+            ArrowFunctionBody::Expr(expr) if expr.is_object() => {
                 self.wrap(expr);
             }
 
@@ -373,7 +476,28 @@ impl VisitMut for Fixer<'_> {
         node.callee.visit_mut_with(self);
         if let Callee::Expr(e) = &mut node.callee {
             match &**e {
-                Expr::OptChain(_) if !self.in_opt_chain => self.wrap(e),
+                Expr::OptChain(..) | Expr::TsNonNull(..) if continues_optional_chain(e) => {
+                    self.wrap(e)
+                }
+                // Preserve parentheses around callees that carry a leading
+                // annotation like `/* @__PURE__ */` so downstream tools do not
+                // interpret the annotation as applying to the outer chained
+                // call expression. See issue #12019.
+                Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if !self.remove_only => {
+                    let span = e.span();
+                    let has_annotation = !span.is_dummy()
+                        && self.comments.is_some_and(|c| {
+                            c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+                        });
+                    if has_annotation {
+                        let expr = e.take();
+                        *e = ParenExpr {
+                            expr,
+                            span: DUMMY_SP,
+                        }
+                        .into();
+                    }
+                }
                 _ => self.wrap_callee(e),
             }
         }
@@ -391,8 +515,11 @@ impl VisitMut for Fixer<'_> {
         node.super_class.visit_mut_with(self);
 
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, false);
+        let is_strict = self.is_strict;
+        self.is_strict = true;
         node.body.visit_mut_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
+        self.is_strict = is_strict;
 
         match &mut node.super_class {
             Some(e)
@@ -428,6 +555,8 @@ impl VisitMut for Fixer<'_> {
         expr.cons.visit_mut_with(self);
         expr.alt.visit_mut_with(self);
         self.ctx = ctx;
+
+        self.wrap_ts_conditional_test(&mut expr.test, &expr.cons);
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
@@ -445,6 +574,10 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let ctx = self.ctx;
+        // Optional-chain context belongs to the current postfix link. A
+        // nested expression establishes its own links, including inside
+        // arguments, computed keys, and function bodies.
+        let in_opt_chain = mem::replace(&mut self.in_opt_chain, false);
 
         if ctx == Context::Default {
             match e {
@@ -465,7 +598,8 @@ impl VisitMut for Fixer<'_> {
         maybe_grow_default(|| e.visit_mut_children_with(self));
 
         self.ctx = ctx;
-        self.wrap_with_paren_if_required(e)
+        self.wrap_with_paren_if_required(e);
+        self.in_opt_chain = in_opt_chain;
     }
 
     fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
@@ -479,6 +613,17 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
+        // `("use strict");` is an expression statement, but without the parentheses
+        // it is a directive, and no later pass could tell the two apart. Keep one
+        // pair, also in `paren_remover` and outside of a directive prologue, because
+        // later passes can move the statement into one.
+        if let Expr::Paren(ParenExpr { expr, .. }) = &mut *s.expr {
+            if let Expr::Lit(Lit::Str(..)) = expr.unwrap_parens() {
+                self.unwrap_expr(expr);
+                return;
+            }
+        }
+
         let old = self.ctx;
         self.ctx = Context::Default;
         s.expr.visit_mut_with(self);
@@ -491,30 +636,48 @@ impl VisitMut for Fixer<'_> {
         let in_for_stmt_head = mem::replace(&mut self.in_for_stmt_head, true);
         n.visit_mut_children_with(self);
         self.in_for_stmt_head = in_for_stmt_head;
+
+        Self::normalize_for_head_pat(n);
+    }
+
+    fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body, false);
+    }
+
+    fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body, false);
+    }
+
+    fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
+        n.visit_mut_children_with(self);
+
+        self.wrap_single_function(&mut n.body, false);
     }
 
     fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
         s.visit_mut_children_with(self);
 
-        if !s.is_await {
-            match &s.left {
-                ForHead::Pat(p)
-                    if match &**p {
-                        Pat::Ident(BindingIdent {
-                            id: Ident { sym, .. },
-                            ..
-                        }) => &**sym == "async",
-                        _ => false,
-                    } =>
-                {
-                    let expr: Pat = p.clone().expect_ident().into();
-                    s.left = ForHead::Pat(expr.into());
-                }
-                _ => (),
-            }
+        if !self.remove_only && !s.is_await {
+            if let ForHead::Pat(p) = &mut s.left {
+                if matches!(
+                    &**p,
+                    Pat::Ident(BindingIdent {
+                        id: Ident { sym, .. },
+                        ..
+                    }) if &**sym == "async"
+                ) {
+                    let Pat::Ident(ident) = *p.take() else {
+                        unreachable!()
+                    };
 
-            if let ForHead::Pat(e) = &mut s.left {
-                if let Pat::Expr(expr) = &mut **e {
+                    **p = Pat::Expr(ident.into());
+                }
+
+                if let Pat::Expr(expr) = &mut **p {
                     if expr.is_ident_ref_to("async") {
                         self.wrap(&mut *expr);
                     }
@@ -525,6 +688,8 @@ impl VisitMut for Fixer<'_> {
         if let Expr::Seq(..) | Expr::Await(..) = &*s.right {
             self.wrap(&mut s.right)
         }
+
+        self.wrap_single_function(&mut s.body, false);
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
@@ -535,20 +700,26 @@ impl VisitMut for Fixer<'_> {
         n.test.visit_mut_with(self);
         n.update.visit_mut_with(self);
         n.body.visit_mut_with(self);
+
+        self.wrap_single_function(&mut n.body, false);
     }
 
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
         node.visit_mut_children_with(self);
 
         if will_eat_else_token(&node.cons) {
-            node.cons = Box::new(
-                BlockStmt {
-                    span: node.cons.span(),
-                    stmts: vec![*node.cons.take()],
-                    ..Default::default()
-                }
-                .into(),
-            );
+            *node.cons = BlockStmt {
+                span: node.cons.span(),
+                stmts: vec![*node.cons.take()],
+                ..Default::default()
+            }
+            .into();
+        }
+
+        self.wrap_single_function(&mut node.cons, true);
+
+        if let Some(alt) = &mut node.alt {
+            self.wrap_single_function(alt, true);
         }
     }
 
@@ -586,14 +757,40 @@ impl VisitMut for Fixer<'_> {
             | Expr::Class(..)
             | Expr::Yield(..)
             | Expr::Await(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..)
+            | Expr::TsInstantiation(..)
             | Expr::New(NewExpr { args: None, .. }) => {
                 self.wrap(&mut n.obj);
             }
             Expr::Call(..) if self.ctx == Context::Callee { is_new: true } => {
                 self.wrap(&mut n.obj);
             }
-            Expr::OptChain(..) if !self.in_opt_chain => {
+            Expr::OptChain(..) | Expr::TsNonNull(..)
+                if !self.in_opt_chain && continues_optional_chain(&n.obj) =>
+            {
                 self.wrap(&mut n.obj);
+            }
+            // Preserve parentheses around expressions that carry a leading
+            // annotation like `/* @__PURE__ */` so downstream tools do not
+            // interpret the annotation as applying to the full chained
+            // expression. See issue #12019.
+            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if !self.remove_only => {
+                let span = n.obj.span();
+                let has_annotation = !span.is_dummy()
+                    && self.comments.is_some_and(|c| {
+                        c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+                    });
+                if has_annotation {
+                    let expr = n.obj.take();
+                    n.obj = ParenExpr {
+                        expr,
+                        span: DUMMY_SP,
+                    }
+                    .into();
+                }
             }
             _ => {}
         }
@@ -603,13 +800,9 @@ impl VisitMut for Fixer<'_> {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
 
+        self.is_strict = true;
         n.visit_mut_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain(RangeFull).rev() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
+        self.span_map.move_comments(self.comments);
     }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
@@ -620,6 +813,16 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: true };
         node.callee.visit_mut_with(self);
         match *node.callee {
+            Expr::TsNonNull(..) if continues_optional_chain(&node.callee) => {
+                self.wrap(&mut node.callee)
+            }
+            // `new foo()`bar`() constructs `foo`, while `new (foo()`bar`)()`
+            // constructs the class returned by the tagged template expression.
+            Expr::TaggedTpl(TaggedTpl { ref tag, .. })
+                if Self::should_wrap_tagged_tpl_new_callee(tag) =>
+            {
+                self.wrap(&mut node.callee)
+            }
             Expr::Call(..)
             | Expr::Await(..)
             | Expr::Yield(..)
@@ -627,7 +830,13 @@ impl VisitMut for Fixer<'_> {
             | Expr::Assign(..)
             | Expr::Seq(..)
             | Expr::Unary(..)
-            | Expr::Lit(..) => self.wrap(&mut node.callee),
+            | Expr::Arrow(..)
+            | Expr::Lit(..)
+            | Expr::OptChain(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => self.wrap(&mut node.callee),
             _ => {}
         }
         self.ctx = ctx;
@@ -682,12 +891,7 @@ impl VisitMut for Fixer<'_> {
         self.span_map.clear();
 
         n.visit_mut_children_with(self);
-        if let Some(c) = self.comments {
-            for (to, from) in self.span_map.drain(RangeFull).rev() {
-                c.move_leading(from.lo, to.lo);
-                c.move_trailing(from.hi, to.hi);
-            }
-        }
+        self.span_map.move_comments(self.comments);
     }
 
     fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
@@ -712,6 +916,39 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_jsx_expr_container(&mut self, node: &mut JSXExprContainer) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        node.visit_mut_children_with(self);
+        self.ctx = old;
+    }
+
+    fn visit_mut_jsx_spread_child(&mut self, node: &mut JSXSpreadChild) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        node.visit_mut_children_with(self);
+        self.ctx = old;
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        let is_strict = self.is_strict;
+
+        if let Some(Stmt::Expr(ExprStmt { expr, .. })) = stmts.first() {
+            if let Expr::Lit(Lit::Str(v)) = &**expr {
+                match &v.raw {
+                    Some(value) if value == "\"use strict\"" || value == "'use strict'" => {
+                        self.is_strict = true;
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        stmts.visit_mut_children_with(self);
+
+        self.is_strict = is_strict;
+    }
+
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old = self.ctx;
         // only ExprStmt would have unparented expr,
@@ -725,6 +962,9 @@ impl VisitMut for Fixer<'_> {
         e.visit_mut_children_with(self);
 
         match &*e.tag {
+            Expr::TsNonNull(..) if continues_optional_chain(&e.tag) => {
+                self.wrap(&mut e.tag);
+            }
             Expr::Object(..) if self.ctx == Context::Default => {
                 self.wrap(&mut e.tag);
             }
@@ -733,13 +973,51 @@ impl VisitMut for Fixer<'_> {
             | Expr::Cond(..)
             | Expr::Bin(..)
             | Expr::Seq(..)
+            // `(new Foo)`bar`` tags with the constructed value, but
+            // `new Foo`bar`` tags `Foo` and then constructs the result.
+            | Expr::New(..)
             | Expr::Fn(..)
             | Expr::Assign(..)
-            | Expr::Unary(..) => {
+            | Expr::Unary(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..)
+            | Expr::TsTypeAssertion(..) => {
                 self.wrap(&mut e.tag);
             }
             _ => {}
         }
+    }
+
+    #[inline]
+    fn visit_mut_ts_as_expr(&mut self, expr: &mut TsAsExpr) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    #[inline]
+    fn visit_mut_ts_satisfies_expr(&mut self, expr: &mut TsSatisfiesExpr) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    #[inline]
+    fn visit_mut_ts_const_assertion(&mut self, expr: &mut TsConstAssertion) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_input(&mut expr.expr);
+    }
+
+    fn visit_mut_ts_instantiation(&mut self, expr: &mut TsInstantiation) {
+        self.visit_mut_ts_operand(&mut expr.expr, TsOperand::Postfix);
+    }
+
+    fn visit_mut_ts_non_null_expr(&mut self, expr: &mut TsNonNullExpr) {
+        self.visit_mut_ts_operand(&mut expr.expr, TsOperand::NonNull);
+    }
+
+    fn visit_mut_ts_type_assertion(&mut self, expr: &mut TsTypeAssertion) {
+        expr.visit_mut_children_with(self);
+        self.wrap_ts_cast_operand(&mut expr.expr);
     }
 
     fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
@@ -767,9 +1045,33 @@ impl VisitMut for Fixer<'_> {
             | Expr::Seq(..)
             | Expr::Cond(..)
             | Expr::Arrow(..)
-            | Expr::Yield(..) => self.wrap(&mut n.arg),
+            | Expr::Yield(..)
+            | Expr::TsAs(..)
+            | Expr::TsSatisfies(..)
+            | Expr::TsConstAssertion(..) => self.wrap(&mut n.arg),
 
             _ => {}
+        }
+    }
+
+    fn visit_mut_update_expr(&mut self, expr: &mut UpdateExpr) {
+        // Identifiers are already valid update operands and have no children
+        // that need fixing.
+        if expr.arg.is_ident() {
+            return;
+        }
+
+        let kind = TsOperand::Update {
+            prefix: expr.prefix,
+        };
+        if expr.arg.is_paren() && self.visit_mut_ts_paren_if_required(&mut expr.arg, kind) {
+            return;
+        }
+
+        expr.visit_mut_children_with(self);
+
+        if kind.needs_parens(&expr.arg) {
+            self.wrap(&mut expr.arg);
         }
     }
 
@@ -964,10 +1266,10 @@ impl Fixer<'_> {
                     | Expr::Arrow(..)
                     | Expr::Yield(..) => self.wrap(&mut expr.test),
 
-                    Expr::Object(..) | Expr::Fn(..) | Expr::Class(..) => {
-                        if self.ctx == Context::Default {
-                            self.wrap(&mut expr.test)
-                        }
+                    Expr::Object(..) | Expr::Fn(..) | Expr::Class(..)
+                        if self.ctx == Context::Default =>
+                    {
+                        self.wrap(&mut expr.test)
                     }
                     _ => {}
                 };
@@ -1045,21 +1347,31 @@ impl Fixer<'_> {
             return;
         }
 
-        let mut span = e.span();
+        let expr = Box::new(e.take());
+        *e = self.make_paren(expr).into();
+    }
 
-        if let Some(new_span) = self.span_map.shift_remove(&span) {
-            span = new_span;
+    /// Restores the removed parentheses' span for expressions and targets.
+    fn make_paren(&mut self, expr: Box<Expr>) -> ParenExpr {
+        let span = self.restore_paren_span(expr.span());
+        ParenExpr { expr, span }
+    }
+
+    fn restore_paren_span(&mut self, mut span: Span) -> Span {
+        if let Some(paren_span) = self.span_map.remove(span) {
+            span = paren_span;
         }
 
         if span.is_pure() {
             span = DUMMY_SP;
         }
 
-        let expr = Box::new(e.take());
-        *e = ParenExpr { expr, span }.into();
+        span
     }
 
     /// Removes paren
+    // `visit_mut_expr` calls this for every expression, keep it inlined there.
+    #[inline(always)]
     fn unwrap_expr(&mut self, e: &mut Expr) {
         loop {
             match e {
@@ -1199,7 +1511,12 @@ fn will_eat_else_token(s: &Stmt) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_ast::noop_pass;
+    use swc_ecma_ast::{
+        noop_pass, Expr, ExprStmt, ForHead, Lit, ModuleItem, ParenExpr, Pat, Program, Stmt,
+    };
+    use swc_ecma_parser::Syntax;
+
+    use super::paren_remover;
 
     fn run_test(from: &str, to: &str) {
         crate::tests::test_transform(
@@ -1227,6 +1544,96 @@ mod tests {
             test_fixer!($name, $src, $src);
         };
     }
+
+    fn assert_for_head_ident(left: &ForHead, expected: &str) {
+        let ForHead::Pat(pat) = left else {
+            panic!("expected for head pattern");
+        };
+
+        let Pat::Ident(ident) = &**pat else {
+            panic!("expected identifier pattern");
+        };
+
+        assert_eq!(&*ident.sym, expected);
+    }
+
+    #[test]
+    fn paren_remover_normalizes_ident_for_head_pat_exprs() {
+        crate::tests::Tester::run(|tester| {
+            let program = tester.apply_transform(
+                paren_remover(None),
+                "input.js",
+                Syntax::default(),
+                "for ((((x))) of y) {}\nfor ((((x))) in y) {}\nfor ((((async))) of y) {}",
+            )?;
+
+            let Program::Module(module) = program else {
+                panic!("expected module");
+            };
+
+            let [ModuleItem::Stmt(Stmt::ForOf(for_of)), ModuleItem::Stmt(Stmt::ForIn(for_in)), ModuleItem::Stmt(Stmt::ForOf(for_of_async))] =
+                &module.body[..]
+            else {
+                panic!("expected for-of, for-in, and async for-of");
+            };
+
+            assert_for_head_ident(&for_of.left, "x");
+            assert_for_head_ident(&for_in.left, "x");
+            assert_for_head_ident(&for_of_async.left, "async");
+
+            Ok(())
+        });
+    }
+
+    #[test]
+    fn paren_remover_keeps_parens_of_str_lit_stmt() {
+        crate::tests::Tester::run(|tester| {
+            let program = tester.apply_transform(
+                paren_remover(None),
+                "input.js",
+                Syntax::default(),
+                "(\"use strict\");\n((\"use asm\"));\n('use strict');",
+            )?;
+
+            let Program::Module(module) = program else {
+                panic!("expected module");
+            };
+
+            assert_eq!(module.body.len(), 3);
+            for item in &module.body {
+                let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = item else {
+                    panic!("expected expression statement");
+                };
+
+                let Expr::Paren(ParenExpr { expr, .. }) = &**expr else {
+                    panic!("expected one pair of parentheses around the string literal");
+                };
+
+                assert!(matches!(&**expr, Expr::Lit(Lit::Str(..))));
+            }
+
+            Ok(())
+        });
+    }
+
+    identical!(paren_str_lit_stmt, r#"("use strict"); x = 1;"#);
+
+    identical!(
+        paren_str_lit_stmt_in_fn_body,
+        r#"function f() { ('use strict'); return this; }"#
+    );
+
+    identical!(paren_str_lit_stmt_after_stmt, r#"a; ("use strict");"#);
+
+    identical!(paren_str_lit_stmt_in_block, r#"{ ("use strict"); }"#);
+
+    test_fixer!(
+        nested_paren_str_lit_stmt,
+        r#"(("use asm"));"#,
+        r#"("use asm");"#
+    );
+
+    identical!(str_lit_directive, r#""use strict"; x = 1;"#);
 
     identical!(fn_expr_position, r#"foo(function(){}())"#);
 
@@ -1320,6 +1727,12 @@ const _ref = {}, { c =( _tmp = {}, d = _extends({}, _tmp), _tmp)  } = _ref;"
     test_fixer!(fixer_03, "((a, b), (c && d)) && e;", "(a, b, c && d) && e;");
 
     test_fixer!(fixer_04, "for ((a, b), c;;) ;", "for(a, b, c;;);");
+
+    test_fixer!(
+        for_of_async_head,
+        "var async; for (async of [1, 2]);",
+        "var async; for ((async) of [1, 2]);"
+    );
 
     test_fixer!(
         fixer_05,
@@ -1830,15 +2243,17 @@ var store = global[SHARED] || (global[SHARED] = {});
         "(function () { })() && a, b"
     );
 
-    test_fixer!(
-        issue_11322_simple,
-        "(function () { })() && a",
-        "(function () { })() && a"
-    );
+    identical!(issue_11322_simple, "(function () { })() && a");
+
+    identical!(issue_11322_stmt, "(function () { })() && a;");
+
+    identical!(issue_11612, "r = new (XE?.default)({ ...e });");
 
     test_fixer!(
-        issue_11322_stmt,
-        "(function () { })() && a;",
-        "(function () { })() && a;"
+        issue_12404,
+        "while (a) function foo() {}",
+        "while(a){ function foo() {} }"
     );
+
+    identical!(pr_12558, "new (() => {})");
 }

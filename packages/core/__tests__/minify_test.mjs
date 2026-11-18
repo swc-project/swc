@@ -261,6 +261,61 @@ describe("should remove comments", () => {
     });
 });
 
+describe("should extract comments", () => {
+    it("should extract legal comments asynchronously", async () => {
+        const result = await swc.minify(
+            `
+        (function(){
+            /**
+             * @license MIT
+             */
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+        })()
+        `,
+            {
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+                extractComments: true,
+            }
+        );
+
+        expect(result.code).toMatchInlineSnapshot(
+            `"(function(){const o=Math.random()+"_"+Math.random();console.log(o)})();"`
+        );
+        expect(result.extractedComments).toEqual(["/**\n             * @license MIT\n             */"]);
+    });
+
+    it("should preserve and extract comments synchronously", () => {
+        const result = swc.minifySync(
+            `
+        (function(){
+            /*!
+             * Important notice
+             */
+            const longName = Math.random() + '_' + Math.random();
+            console.log(longName);
+        })()
+        `,
+            {
+                compress: false,
+                mangle: {
+                    topLevel: true,
+                },
+                format: {
+                    comments: "some",
+                },
+                extractComments: "all",
+            }
+        );
+
+        expect(result.code).toContain("Important notice");
+        expect(result.extractedComments).toEqual(["/*!\n             * Important notice\n             */"]);
+    });
+});
+
 it("should accept non-strict code", async () => {
     const { code } = await swc.minify(`
     a = 1;
@@ -271,4 +326,14 @@ it("should accept non-strict code", async () => {
     });
 
     expect(code).toMatchInlineSnapshot(`"a=1,delete a,console.log(a);"`);
+});
+
+it("should accept ecma 2023", () => {
+    const { code } = swc.minifySync("const foo = 1; console.log(foo);", {
+        ecma: 2023,
+        compress: false,
+        mangle: false,
+    });
+
+    expect(code).toEqual("const foo=1;console.log(foo);");
 });

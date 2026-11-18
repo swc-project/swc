@@ -1,0 +1,4 @@
+enum FlexSize {
+  md,
+  lg,
+}

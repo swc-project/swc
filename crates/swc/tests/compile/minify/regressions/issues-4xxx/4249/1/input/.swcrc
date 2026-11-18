@@ -1,0 +1,7 @@
+{
+    "jsc": {
+        "minify": {
+            "compress": true
+        }
+    }
+}

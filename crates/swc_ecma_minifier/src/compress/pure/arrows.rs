@@ -1,5 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_utils::{contains_arguments, contains_this_expr};
 
 use super::Pure;
@@ -34,7 +35,9 @@ impl Pure<'_> {
             *e = ArrowExpr {
                 span: function.span,
                 params: function.params.take().into_iter().map(|p| p.pat).collect(),
-                body: Box::new(BlockStmtOrExpr::BlockStmt(function.body.take().unwrap())),
+                body: Box::new(ArrowFunctionBody::FunctionBody(
+                    function.body.take().unwrap(),
+                )),
                 is_async: function.is_async,
                 is_generator: function.is_generator,
                 ..Default::default()
@@ -43,19 +46,19 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn optimize_arrow_body(&mut self, b: &mut BlockStmtOrExpr) {
+    pub(super) fn optimize_arrow_body(&mut self, b: &mut ArrowFunctionBody) {
         match b {
-            BlockStmtOrExpr::BlockStmt(s) => {
+            ArrowFunctionBody::FunctionBody(s) => {
                 if s.stmts.len() == 1 {
                     if let Stmt::Return(s) = &mut s.stmts[0] {
                         if let Some(arg) = &mut s.arg {
                             report_change!("arrows: Optimizing the body of an arrow");
-                            *b = BlockStmtOrExpr::Expr(arg.take());
+                            *b = ArrowFunctionBody::Expr(arg.take());
                         }
                     }
                 }
             }
-            BlockStmtOrExpr::Expr(_) => {}
+            ArrowFunctionBody::Expr(_) => {}
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
@@ -70,7 +73,12 @@ impl Pure<'_> {
             if m.function.is_generator
                 || contains_arguments(&m.function.body)
                 || contains_super(&m.function.body)
-                || m.function.params.iter().any(contains_this_expr)
+                || m.function.params.iter().any(|param| {
+                    contains_this_expr(param)
+                        || contains_arguments(param)
+                        || contains_super(param)
+                        || contains_eval(param, false)
+                })
             {
                 return;
             }
@@ -110,7 +118,7 @@ impl Pure<'_> {
                                 .into_iter()
                                 .map(|v| v.pat)
                                 .collect(),
-                            body: Box::new(BlockStmtOrExpr::Expr(arg)),
+                            body: Box::new(ArrowFunctionBody::Expr(arg)),
                             is_async: m.function.is_async,
                             is_generator: m.function.is_generator,
                             ..Default::default()
@@ -138,7 +146,7 @@ impl Pure<'_> {
             }
 
             match &mut *kv.value {
-                Expr::Arrow(m) if m.body.is_block_stmt() => {
+                Expr::Arrow(m) if m.body.is_function_body() => {
                     *p = Prop::Method(MethodProp {
                         key: kv.key.take(),
                         function: Box::new(Function {
@@ -153,7 +161,7 @@ impl Pure<'_> {
                                 })
                                 .collect(),
                             span: m.span,
-                            body: m.body.take().block_stmt(),
+                            body: m.body.take().function_body(),
                             is_generator: m.is_generator,
                             is_async: m.is_async,
                             ..Default::default()

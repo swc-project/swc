@@ -1,0 +1,2 @@
+
+const { a: { ...bar }, b: { ...baz }, ...foo } = obj;

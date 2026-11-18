@@ -1,9 +1,12 @@
+use std::{num::FpCategory, ops::RangeInclusive};
+
+use num_bigint::BigUint;
 use radix_fmt::Radix;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Spanned, SyntaxContext};
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    number::ToJsString,
+    number::{parse_canonical_index, ToJsString},
     unicode::{is_high_surrogate, is_low_surrogate},
     ExprExt, IsEmpty, Type, Value,
 };
@@ -16,8 +19,61 @@ use crate::{
         pure::Ctx,
         util::{eval_as_number, is_pure_undefined_or_null},
     },
-    util::ValueExt,
+    util::{make_number, ValueExt},
 };
+
+/// Formats an integer with `radix_fmt` only where its exact integer output is
+/// also a valid ECMAScript `Number::toString` result.
+fn format_integer_in_radix(value: f64, radix: u8) -> Option<String> {
+    const MAX_SAFE_INTEGER: f64 = 9_007_199_254_740_991_f64;
+
+    let magnitude = value.abs();
+    let is_safe_integer = magnitude <= MAX_SAFE_INTEGER;
+    let is_supported_binary_radix = radix.is_power_of_two() && magnitude < u128::MAX as f64;
+
+    if !is_safe_integer && !is_supported_binary_radix {
+        return None;
+    }
+
+    let digits = Radix::new(magnitude as u128, radix).to_string();
+    if value >= 0_f64 {
+        return Some(digits);
+    }
+
+    let mut output = String::with_capacity(digits.len() + 1);
+    output.push('-');
+    output.push_str(&digits);
+    Some(output)
+}
+
+/// Applies ECMAScript's `ToIntegerOrInfinity` operation to a known number.
+///
+/// https://tc39.es/ecma262/multipage/abstract-operations.html#sec-tointegerorinfinity
+fn to_integer_or_infinity(value: f64) -> f64 {
+    // Step 1 (`ToNumber`) is already satisfied by the `f64` input.
+    // 2. If number is one of NaN, +0𝔽, or -0𝔽, return 0.
+    // 3. If number is +∞𝔽, return +∞.
+    // 4. If number is -∞𝔽, return -∞.
+    // 5. Return truncate(ℝ(number)).
+    match value.classify() {
+        FpCategory::Nan | FpCategory::Zero => 0.0,
+        FpCategory::Infinite => value,
+        _ => value.trunc(),
+    }
+}
+
+/// Converts a `ToIntegerOrInfinity` result to `u8` if it is within `range`.
+fn to_u8_if_in_range(value: f64, range: RangeInclusive<u8>) -> Option<u8> {
+    let start = f64::from(*range.start());
+    let end = f64::from(*range.end());
+    let valid_range = start..=end;
+
+    if !valid_range.contains(&value) {
+        return None;
+    }
+
+    Some(value as u8)
+}
 
 impl Pure<'_> {
     ///
@@ -197,7 +253,7 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
+    pub(super) fn eval_array_or_fn_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
         }
@@ -230,211 +286,169 @@ impl Pure<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
-        if let Expr::Member(MemberExpr {
+        let (span, obj, method_name) = if let Expr::Member(MemberExpr {
             span,
             obj,
             prop: MemberProp::Ident(method_name),
         }) = callee
         {
-            if obj.may_have_side_effects(self.expr_ctx) {
-                return;
-            }
+            (*span, obj, method_name)
+        } else {
+            return;
+        };
 
-            let arr = match &mut **obj {
-                Expr::Array(arr) => arr,
-                _ => return,
-            };
+        if obj.may_have_side_effects(self.expr_ctx) {
+            return;
+        }
 
-            let has_spread_elem = arr.elems.iter().any(|s| {
-                matches!(
-                    s,
-                    Some(ExprOrSpread {
-                        spread: Some(..),
-                        ..
-                    })
-                )
-            });
+        match &mut **obj {
+            Expr::Array(arr) => {
+                let has_spread_elem = arr.elems.iter().any(|s| {
+                    matches!(
+                        s,
+                        Some(ExprOrSpread {
+                            spread: Some(..),
+                            ..
+                        })
+                    )
+                });
 
-            // Ignore array
+                // Ignore array
 
-            if &*method_name.sym == "slice" {
-                if has_spread || has_spread_elem {
-                    return;
-                }
-
-                match call.args.len() {
-                    0 => {
-                        self.changed = true;
-                        report_change!("evaluate: Dropping array.slice call");
-                        *e = *obj.take();
+                if &*method_name.sym == "slice" {
+                    if has_spread || has_spread_elem {
+                        return;
                     }
-                    1 => {
-                        if let Value::Known(start) = call.args[0].expr.as_pure_number(self.expr_ctx)
-                        {
-                            if start.is_sign_negative() {
-                                return;
-                            }
 
-                            let start = start.floor() as usize;
-
+                    match call.args.len() {
+                        0 => {
                             self.changed = true;
-                            report_change!("evaluate: Reducing array.slice({}) call", start);
-
-                            if start >= arr.elems.len() {
-                                *e = ArrayLit {
-                                    span: *span,
-                                    elems: Default::default(),
-                                }
-                                .into();
-                                return;
-                            }
-
-                            let elems = arr.elems.drain(start..).collect();
-
-                            *e = ArrayLit { span: *span, elems }.into();
+                            report_change!("evaluate: Dropping array.slice call");
+                            *e = *obj.take();
                         }
-                    }
-                    _ => {
-                        let start = call.args[0].expr.as_pure_number(self.expr_ctx);
-                        let end = call.args[1].expr.as_pure_number(self.expr_ctx);
-                        if let Value::Known(start) = start {
-                            if start.is_sign_negative() {
-                                return;
-                            }
-
-                            let start = start.floor() as usize;
-
-                            if let Value::Known(end) = end {
-                                if end.is_sign_negative() {
+                        1 => {
+                            if let Value::Known(start) =
+                                call.args[0].expr.as_pure_number(self.expr_ctx)
+                            {
+                                if start.is_sign_negative() {
                                     return;
                                 }
 
-                                let end = end.floor() as usize;
-                                let end = end.min(arr.elems.len());
-
-                                if start >= end {
-                                    return;
-                                }
+                                let start = start.floor() as usize;
 
                                 self.changed = true;
-                                report_change!(
-                                    "evaluate: Reducing array.slice({}, {}) call",
-                                    start,
-                                    end
-                                );
+                                report_change!("evaluate: Reducing array.slice({}) call", start);
+
                                 if start >= arr.elems.len() {
                                     *e = ArrayLit {
-                                        span: *span,
+                                        span,
                                         elems: Default::default(),
                                     }
                                     .into();
                                     return;
                                 }
 
-                                let elems = arr.elems.drain(start..end).collect();
+                                let elems = arr.elems.drain(start..).collect();
 
-                                *e = ArrayLit { span: *span, elems }.into();
+                                *e = ArrayLit { span, elems }.into();
+                            }
+                        }
+                        _ => {
+                            let start = call.args[0].expr.as_pure_number(self.expr_ctx);
+                            let end = call.args[1].expr.as_pure_number(self.expr_ctx);
+                            if let Value::Known(start) = start {
+                                if start.is_sign_negative() {
+                                    return;
+                                }
+
+                                let start = start.floor() as usize;
+
+                                if let Value::Known(end) = end {
+                                    if end.is_sign_negative() {
+                                        return;
+                                    }
+
+                                    let end = end.floor() as usize;
+                                    let end = end.min(arr.elems.len());
+
+                                    if start >= end {
+                                        return;
+                                    }
+
+                                    self.changed = true;
+                                    report_change!(
+                                        "evaluate: Reducing array.slice({}, {}) call",
+                                        start,
+                                        end
+                                    );
+                                    if start >= arr.elems.len() {
+                                        *e = ArrayLit {
+                                            span,
+                                            elems: Default::default(),
+                                        }
+                                        .into();
+                                        return;
+                                    }
+
+                                    let elems = arr.elems.drain(start..end).collect();
+
+                                    *e = ArrayLit { span, elems }.into();
+                                }
                             }
                         }
                     }
-                }
-                return;
-            }
-
-            if self.options.unsafe_passes
-                && &*method_name.sym == "toString"
-                && arr.elems.len() == 1
-                && arr.elems[0].is_some()
-            {
-                report_change!("evaluate: Reducing array.toString() call");
-                self.changed = true;
-                *obj = arr.elems[0]
-                    .take()
-                    .map(|elem| elem.expr)
-                    .unwrap_or_else(|| Expr::undefined(*span));
-            }
-        }
-    }
-
-    pub(super) fn eval_fn_method_call(&mut self, e: &mut Expr) {
-        if !self.options.evaluate {
-            return;
-        }
-
-        if self.ctx.intersects(
-            Ctx::IN_DELETE
-                .union(Ctx::IS_UPDATE_ARG)
-                .union(Ctx::IS_LHS_OF_ASSIGN),
-        ) {
-            return;
-        }
-
-        let call = match e {
-            Expr::Call(e) => e,
-            _ => return,
-        };
-
-        let has_spread = call.args.iter().any(|arg| arg.spread.is_some());
-
-        for arg in &call.args {
-            if arg.expr.may_have_side_effects(self.expr_ctx) {
-                return;
-            }
-        }
-
-        let callee = match &mut call.callee {
-            Callee::Super(_) | Callee::Import(_) => return,
-            Callee::Expr(e) => &mut **e,
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        };
-
-        if let Expr::Member(MemberExpr {
-            obj,
-            prop: MemberProp::Ident(method_name),
-            ..
-        }) = callee
-        {
-            if obj.may_have_side_effects(self.expr_ctx) {
-                return;
-            }
-
-            let f = match &mut **obj {
-                Expr::Fn(v) => v,
-                _ => return,
-            };
-
-            if &*method_name.sym == "valueOf" {
-                if has_spread {
                     return;
                 }
 
-                self.changed = true;
-                report_change!("evaluate: Reduced `function.valueOf()` into a function expression");
-
-                *e = *obj.take();
-                return;
+                if self.options.unsafe_passes
+                    && &*method_name.sym == "toString"
+                    && arr.elems.len() == 1
+                    && arr.elems[0].is_some()
+                {
+                    report_change!("evaluate: Reducing array.toString() call");
+                    self.changed = true;
+                    *obj = arr.elems[0]
+                        .take()
+                        .map(|elem| elem.expr)
+                        .unwrap_or_else(|| Expr::undefined(span));
+                }
             }
+            Expr::Fn(f) => {
+                if &*method_name.sym == "valueOf" {
+                    if has_spread {
+                        return;
+                    }
 
-            if self.options.unsafe_passes
-                && &*method_name.sym == "toString"
-                && f.function.params.is_empty()
-                && f.function.body.is_empty()
-            {
-                if has_spread {
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Reduced `function.valueOf()` into a function expression"
+                    );
+
+                    *e = *obj.take();
                     return;
                 }
 
-                self.changed = true;
-                report_change!("evaluate: Reduced `function.toString()` into a string");
+                if self.options.unsafe_passes
+                    && &*method_name.sym == "toString"
+                    && f.function.params.is_empty()
+                    && f.function.body.is_empty()
+                {
+                    if has_spread {
+                        return;
+                    }
 
-                *e = Str {
-                    span: call.span,
-                    value: atom!("function(){}").into(),
-                    raw: None,
+                    self.changed = true;
+                    report_change!("evaluate: Reduced `function.toString()` into a string");
+
+                    *e = Str {
+                        span: call.span,
+                        value: atom!("function(){}").into(),
+                        raw: None,
+                    }
+                    .into();
                 }
-                .into();
             }
+            _ => {}
         }
     }
 
@@ -454,7 +468,9 @@ impl Pure<'_> {
             MemberProp::Computed(p) => {
                 if let Expr::Lit(Lit::Str(s)) = &*p.expr {
                     if let Some(value) = s.value.as_str() {
-                        if let Ok(value) = value.parse::<u32>() {
+                        if let Some(value) =
+                            parse_canonical_index(value).and_then(|value| u32::try_from(value).ok())
+                        {
                             p.expr = Lit::Num(Number {
                                 span: s.span,
                                 value: value as f64,
@@ -531,6 +547,29 @@ impl Pure<'_> {
             return;
         }
 
+        // We already have `eval_array_spread`, `eval_spread_array_in_args` and
+        // `eval_spread_array_in_array` runs before `eval_number_method_call`
+        // so assumeing that there is no spread in arguments is safe.
+
+        let first_arg: Value<Option<f64>> = {
+            if let Some(first_arg) = args.first() {
+                if first_arg.spread.is_some() {
+                    Value::Unknown
+                } else if first_arg.expr.is_undefined(self.expr_ctx) || first_arg.expr.is_void() {
+                    Value::Known(None)
+                } else {
+                    eval_as_number(self.expr_ctx, &first_arg.expr)
+                        .map_or(Value::Unknown, |res| Value::Known(Some(res)))
+                }
+            } else {
+                Value::Known(None)
+            }
+        };
+
+        let Value::Known(first_arg) = first_arg else {
+            return;
+        };
+
         if &*method.sym == "toFixed" {
             // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
             //
@@ -547,47 +586,42 @@ impl Pure<'_> {
 
             // 1. Let x be ? thisNumberValue(this value).
             // 2. Let f be ? ToIntegerOrInfinity(fractionDigits).
-            if let Some(precision) = args
-                .first()
-                // 3. Assert: If fractionDigits is undefined, then f is 0.
-                .map_or(Some(0f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
-                let f = precision.trunc() as u8;
+            // 3. Assert: If fractionDigits is undefined, then f is 0.
+            let precision = first_arg.unwrap_or(0f64);
 
-                // 4. If f is not finite, throw a RangeError exception.
-                // 5. If f < 0 or f > 100, throw a RangeError exception.
+            // 4. If f is not finite, throw a RangeError exception.
+            // 5. If f < 0 or f > 100, throw a RangeError exception.
+            let f = to_integer_or_infinity(precision);
+            // Note: ES2018 increased the maximum number of fraction digits from 20 to 100.
+            // Preserve the optimizer's existing conservative folding range. Wider valid
+            // values are left to runtime.
+            let Some(f) = to_u8_if_in_range(f, 0..=20) else {
+                return;
+            };
 
-                // Note: ES2018 increased the maximum number of fraction digits from 20 to 100.
-                // It relies on runtime behavior.
-                if !(0..=20).contains(&f) {
-                    return;
-                }
+            let mut buffer = ryu_js::Buffer::new();
+            let value = buffer.format_to_fixed(num.value, f);
 
-                let mut buffer = ryu_js::Buffer::new();
-                let value = buffer.format_to_fixed(num.value, f);
+            self.changed = true;
+            report_change!(
+                "evaluate: Evaluating `{}.toFixed({})` as `{}`",
+                num,
+                precision,
+                value
+            );
 
-                self.changed = true;
-                report_change!(
-                    "evaluate: Evaluating `{}.toFixed({})` as `{}`",
-                    num,
-                    precision,
-                    value
-                );
-
-                *e = Lit::Str(Str {
-                    span: e.span(),
-                    raw: None,
-                    value: value.into(),
-                })
-                .into();
-            }
+            *e = Lit::Str(Str {
+                span: e.span(),
+                raw: None,
+                value: value.into(),
+            })
+            .into();
 
             return;
         }
 
         if &*method.sym == "toPrecision" {
-            // TODO: handle num.toPrecision(undefined)
-            if args.is_empty() {
+            if first_arg.is_none() {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
                 let value = num.value.to_js_string().into();
@@ -606,19 +640,24 @@ impl Pure<'_> {
                 })
                 .into();
                 return;
-            }
+            } else if let Some(precision) = first_arg {
+                // 3. Let p be ? ToIntegerOrInfinity(precision).
+                let p = to_integer_or_infinity(precision);
 
-            if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
-                let p = precision.trunc() as usize;
-                // 5. If p < 1 or p > 100, throw a RangeError exception.
-                if !(1..=21).contains(&p) {
-                    return;
-                }
+                let value = if num.value.is_finite() {
+                    // 5. If p < 1 or p > 100, throw a RangeError exception.
+                    // Preserve the optimizer's existing conservative folding range. Wider valid
+                    // values are left to runtime.
+                    let Some(p) = to_u8_if_in_range(p, 1..=21) else {
+                        return;
+                    };
 
-                let value = f64_to_precision(num.value, p);
+                    f64_to_precision(num.value, usize::from(p))
+                } else {
+                    // 4. If x is not finite, return Number::toString(x, 10).
+                    num.value.to_js_string()
+                };
+
                 self.changed = true;
                 report_change!(
                     "evaluate: Evaluating `{}.toPrecision()` as `{}`",
@@ -636,9 +675,11 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toExponential" {
-            // TODO: handle num.toExponential(undefined)
-            if args.is_empty() {
-                let value = f64_to_exponential(num.value).into();
+            if first_arg.is_none() {
+                let Some(value) = f64_to_exponential(num.value) else {
+                    return;
+                };
+                let value = value.into();
 
                 self.changed = true;
                 report_change!(
@@ -654,21 +695,31 @@ impl Pure<'_> {
                 })
                 .into();
                 return;
-            } else if let Some(precision) = args
-                .first()
-                .and_then(|arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
-                let p = precision.trunc() as usize;
-                // 5. If p < 1 or p > 100, throw a RangeError exception.
-                if !(0..=20).contains(&p) {
-                    return;
-                }
+            } else if let Some(precision) = first_arg {
+                // 3. Let f be ? ToIntegerOrInfinity(fractionDigits).
+                let p = to_integer_or_infinity(precision);
 
-                let value = f64_to_exponential_with_precision(num.value, p).into();
+                let value = if num.value.is_finite() {
+                    // 5. If f < 0 or f > 100, throw a RangeError exception.
+                    // Preserve the optimizer's existing conservative folding range. Wider valid
+                    // values are left to runtime.
+                    let Some(p) = to_u8_if_in_range(p, 0..=20) else {
+                        return;
+                    };
+
+                    let Some(value) = f64_to_exponential_with_precision(num.value, usize::from(p))
+                    else {
+                        return;
+                    };
+                    value.into()
+                } else {
+                    // 4. If x is not finite, return Number::toString(x, 10).
+                    num.value.to_js_string().into()
+                };
 
                 self.changed = true;
                 report_change!(
-                    "evaluate: Evaluating `{}.toPrecision({})` as `{:?}`",
+                    "evaluate: Evaluating `{}.toExponential({})` as `{:?}`",
                     num,
                     precision,
                     value
@@ -685,49 +736,43 @@ impl Pure<'_> {
         }
 
         if &*method.sym == "toString" {
-            if let Some(base) = args
-                .first()
-                .map_or(Some(10f64), |arg| eval_as_number(self.expr_ctx, &arg.expr))
-            {
-                if base.trunc() == 10. {
-                    let value = num.value.to_js_string().into();
-                    *e = Lit::Str(Str {
-                        span: e.span(),
-                        raw: None,
-                        value,
-                    })
-                    .into();
+            let base = first_arg.unwrap_or(10f64);
+            if base.trunc() == 10. {
+                let value = num.value.to_js_string().into();
+                *e = Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value,
+                })
+                .into();
+                return;
+            }
+
+            if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
+                let base = base.floor() as u8;
+                let Some(value) = format_integer_in_radix(num.value, base) else {
                     return;
-                }
+                };
 
-                if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
-                    let base = base.floor() as u8;
-
-                    self.changed = true;
-
-                    let value = {
-                        let x = num.value;
-                        if x < 0. {
-                            // I don't know if u128 is really needed, but it works.
-                            format!("-{}", Radix::new(-x as u128, base))
-                        } else {
-                            Radix::new(x as u128, base).to_string()
-                        }
-                    }
-                    .into();
-
-                    *e = Lit::Str(Str {
-                        span: e.span(),
-                        raw: None,
-                        value,
-                    })
-                    .into()
-                }
+                *e = Lit::Str(Str {
+                    span: e.span(),
+                    raw: None,
+                    value: value.into(),
+                })
+                .into();
+                self.changed = true;
             }
         }
     }
 
     pub(super) fn eval_opt_chain(&mut self, e: &mut Expr) {
+        // Folding a nested continuation independently loses whether an earlier
+        // optional continuation short-circuited. Evaluate the full chain from
+        // its root so a required continuation can still preserve its throw.
+        if self.ctx.contains(Ctx::IN_OPT_CHAIN) {
+            return;
+        }
+
         let opt = match e {
             Expr::OptChain(e) => e,
             _ => return,
@@ -735,8 +780,9 @@ impl Pure<'_> {
 
         match &mut *opt.base {
             OptChainBase::Member(MemberExpr { span, obj, .. }) => {
-                //
-                if is_pure_undefined_or_null(self.expr_ctx, obj) {
+                if (opt.optional && is_pure_undefined_or_null(self.expr_ctx, obj))
+                    || self.is_opt_chain_short_circuited(obj)
+                {
                     self.changed = true;
                     report_change!(
                         "evaluate: Reduced an optional chaining operation because object is \
@@ -748,7 +794,9 @@ impl Pure<'_> {
             }
 
             OptChainBase::Call(OptCall { span, callee, .. }) => {
-                if is_pure_undefined_or_null(self.expr_ctx, callee) {
+                if (opt.optional && is_pure_undefined_or_null(self.expr_ctx, callee))
+                    || self.is_opt_chain_short_circuited(callee)
+                {
                     self.changed = true;
                     report_change!(
                         "evaluate: Reduced a call expression with optional chaining operation \
@@ -761,6 +809,24 @@ impl Pure<'_> {
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
+    }
+
+    /// Returns whether an earlier continuation of an optional chain has
+    /// definitely short-circuited to `undefined`.
+    fn is_opt_chain_short_circuited(&self, expr: &Expr) -> bool {
+        let Expr::OptChain(opt) = expr else {
+            return false;
+        };
+
+        let base = match &*opt.base {
+            OptChainBase::Member(member) => &*member.obj,
+            OptChainBase::Call(call) => &*call.callee,
+            #[cfg(swc_ast_unknown)]
+            _ => return false,
+        };
+
+        (opt.optional && is_pure_undefined_or_null(self.expr_ctx, base))
+            || self.is_opt_chain_short_circuited(base)
     }
 
     pub(super) fn eval_trivial_values_in_expr(&mut self, seq: &mut SeqExpr) {
@@ -870,6 +936,12 @@ impl Pure<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
 
+        // These methods ignore their arguments, but evaluating an argument can
+        // still throw or iterate a spread. Fold only calls without arguments.
+        if matches!(&*method, "toLowerCase" | "toUpperCase") && !call.args.is_empty() {
+            return;
+        }
+
         let new_val = match &*method {
             "toLowerCase" => s.value.to_lowercase(),
             "toUpperCase" => s.value.to_uppercase(),
@@ -904,7 +976,7 @@ impl Pure<'_> {
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
-                            *e = Ident::new(atom!("NaN"), e.span(), SyntaxContext::empty()).into()
+                            *e = make_number(e.span(), f64::NAN)
                         }
                     }
                 }
@@ -967,14 +1039,10 @@ impl Pure<'_> {
                         None => {
                             self.changed = true;
                             report_change!(
-                                "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
+                                "evaluate: Evaluated `codePointAt` of a string literal as \
+                                 `undefined`",
                             );
-                            *e = Ident::new(
-                                atom!("NaN"),
-                                e.span(),
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into()
+                            *e = *Expr::undefined(call.span)
                         }
                     }
                 }
@@ -994,9 +1062,56 @@ impl Pure<'_> {
     }
 }
 
+/// Returns the exact base-10 digits and decimal exponent of a nonzero positive
+/// `f64`.
+fn f64_to_decimal_digits(value: f64) -> (String, i32) {
+    debug_assert!(value.is_finite() && value > 0.0);
+
+    const FRACTION_MASK: u64 = (1 << 52) - 1;
+
+    let bits = value.to_bits();
+    let exponent_bits = ((bits >> 52) & 0x7ff) as i32;
+    let fraction = bits & FRACTION_MASK;
+    let (significand, binary_exponent) = if exponent_bits == 0 {
+        (fraction, -1074)
+    } else {
+        (fraction | (1 << 52), exponent_bits - 1023 - 52)
+    };
+
+    let mut coefficient = BigUint::from(significand);
+    let decimal_scale = if binary_exponent >= 0 {
+        coefficient <<= binary_exponent as usize;
+        0
+    } else {
+        let mut power = (-binary_exponent) as u32;
+        let mut factor = BigUint::from(5_u8);
+
+        while power != 0 {
+            if power & 1 != 0 {
+                coefficient *= &factor;
+            }
+            power >>= 1;
+            if power != 0 {
+                factor = &factor * &factor;
+            }
+        }
+
+        -binary_exponent
+    };
+
+    let digits = coefficient.to_str_radix(10);
+    let exponent = digits.len() as i32 - decimal_scale - 1;
+
+    (digits, exponent)
+}
+
 // Code from boa
 // https://github.com/boa-dev/boa/blob/f8b682085d7fe0bbfcd0333038e93cf2f5aee710/boa_engine/src/builtins/number/mod.rs#L408
 fn f64_to_precision(value: f64, precision: usize) -> String {
+    if !value.is_finite() {
+        return value.to_js_string();
+    }
+
     let mut x = value;
     let p_i32 = precision as i32;
 
@@ -1019,19 +1134,10 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
         e = 0;
     // 10
     } else {
-        // Due to f64 limitations, this part differs a bit from the spec,
-        // but has the same effect. It manipulates the string constructed
-        // by `format`: digits with an optional dot between two of them.
-        m = format!("{x:.100}");
-
-        // a: getting an exponent
-        e = flt_str_to_exp(&m);
-        // b: getting relevant digits only
-        if e < 0 {
-            m = m.split_off((1 - e) as usize);
-        } else if let Some(n) = m.find('.') {
-            m.remove(n);
-        }
+        // Use the exact decimal expansion of the binary float. A fixed-size decimal
+        // intermediate can round through an arbitrary carry chain before the requested
+        // precision is applied, which changes the result of `Number#toPrecision`.
+        (m, e) = f64_to_decimal_digits(x);
         // impl: having exactly `precision` digits in `suffix`
         if round_to_precision(&mut m, precision) {
             e += 1;
@@ -1077,25 +1183,6 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
 
     // 14
     s + &*m
-}
-
-fn flt_str_to_exp(flt: &str) -> i32 {
-    let mut non_zero_encountered = false;
-    let mut dot_encountered = false;
-    for (i, c) in flt.chars().enumerate() {
-        if c == '.' {
-            if non_zero_encountered {
-                return (i as i32) - 1;
-            }
-            dot_encountered = true;
-        } else if c != '0' {
-            if dot_encountered {
-                return 1 - (i as i32);
-            }
-            non_zero_encountered = true;
-        }
-    }
-    (flt.len() as i32) - 1
 }
 
 fn round_to_precision(digits: &mut String, precision: usize) -> bool {
@@ -1148,26 +1235,186 @@ fn round_to_precision(digits: &mut String, precision: usize) -> bool {
     }
 }
 
-/// Helper function that formats a float as a ES6-style exponential number
-/// string.
-fn f64_to_exponential(n: f64) -> String {
-    match n.abs() {
-        x if x >= 1.0 || x == 0.0 => format!("{n:e}").replace('e', "e+"),
-        _ => format!("{n:e}"),
+/// Formats a finite float as an ECMAScript exponential number string.
+///
+/// `Number::toExponential` omits the sign of both zero values. For all other
+/// values, the omitted-precision form uses the shortest ECMAScript decimal
+/// representation rather than Rust's formatter, whose rounding rules differ.
+fn f64_to_exponential(n: f64) -> Option<String> {
+    if !n.is_finite() {
+        return Some(n.to_js_string());
     }
+
+    decimal_to_exponential(&n.to_js_string(), None)
 }
 
-/// Helper function that formats a float as a ES6-style exponential number
-/// string with a given precision.
-// We can't use the same approach as in `f64_to_exponential`
-// because in cases like (0.999).toExponential(0) the result will be 1e0.
-// Instead we get the index of 'e', and if the next character is not '-'
-// we insert the plus sign
-fn f64_to_exponential_with_precision(n: f64, prec: usize) -> String {
-    let mut res = format!("{n:.prec$e}");
-    let idx = res.find('e').expect("'e' not found in exponential string");
-    if res.as_bytes()[idx + 1] != b'-' {
-        res.insert(idx + 1, '+');
+/// Formats a finite float as an ECMAScript exponential number string with
+/// `prec` digits after the decimal point.
+///
+/// The formatter performs ECMAScript's decimal half-tie rounding: when two
+/// candidate decimal integers are equally close, it chooses the larger one.
+/// It rounds the exact binary representation instead of using a fixed-decimal
+/// intermediate, whose final-place rounding can carry into the target digit.
+fn f64_to_exponential_with_precision(n: f64, prec: usize) -> Option<String> {
+    if !n.is_finite() {
+        return Some(n.to_js_string());
     }
-    res
+
+    if n == 0.0 {
+        return Some(if prec == 0 {
+            "0e+0".into()
+        } else {
+            format!("0.{}e+0", "0".repeat(prec))
+        });
+    }
+
+    let negative = n.is_sign_negative();
+    let (_, mut exponent) = decimal_parts(&n.abs().to_js_string())?;
+    let bits = n.abs().to_bits();
+    let ieee_mantissa = bits & ((1 << 52) - 1);
+    let ieee_exponent = ((bits >> 52) & 0x7ff) as i32;
+    let (mantissa, binary_exponent) = if ieee_exponent == 0 {
+        (ieee_mantissa, 1 - 1023 - 52)
+    } else {
+        (ieee_mantissa | (1 << 52), ieee_exponent - 1023 - 52)
+    };
+
+    // Compute round(abs(n) * 10^(prec - exponent)) using the exact binary
+    // significand. This is the integer `m` from Number::toExponential.
+    let decimal_shift = prec as i32 - exponent;
+    let binary_shift = binary_exponent + decimal_shift;
+    let mut numerator = BigUint::from(mantissa);
+    let mut denominator = BigUint::from(1u8);
+
+    if decimal_shift >= 0 {
+        numerator *= BigUint::from(5u8).pow(decimal_shift as u32);
+    } else {
+        denominator *= BigUint::from(5u8).pow(decimal_shift.unsigned_abs());
+    }
+
+    if binary_shift >= 0 {
+        numerator <<= binary_shift as usize;
+    } else {
+        denominator <<= binary_shift.unsigned_abs() as usize;
+    }
+
+    let mut rounded = &numerator / &denominator;
+    let remainder = numerator % denominator.clone();
+    if remainder * 2u8 >= denominator {
+        rounded += 1u8;
+    }
+
+    let mut digits = rounded.to_string();
+    let significant_digits = prec + 1;
+    if digits.len() == significant_digits + 1 {
+        // Rounding 9.99... up changes the exponent and contributes one
+        // trailing zero that is not part of the requested precision.
+        if !digits.ends_with('0') {
+            return None;
+        }
+        digits.pop();
+        exponent += 1;
+    }
+    if digits.len() != significant_digits {
+        return None;
+    }
+
+    let mut value = String::with_capacity(digits.len() + 6);
+    if negative {
+        value.push('-');
+    }
+    value.push(digits.remove(0));
+    if !digits.is_empty() {
+        value.push('.');
+        value.push_str(&digits);
+    }
+    value.push('e');
+    if exponent >= 0 {
+        value.push('+');
+    }
+    value.push_str(&exponent.to_string());
+
+    Some(value)
+}
+
+/// Parses an ECMAScript decimal string into its significant digits and base-10
+/// exponent. The returned digits preserve trailing zeroes, which are required
+/// by explicit `fractionDigits` formatting.
+fn decimal_parts(value: &str) -> Option<(String, i32)> {
+    let value = value.strip_prefix('-').unwrap_or(value);
+    let (coefficient, exponent) = match value.split_once(['e', 'E']) {
+        Some((coefficient, exponent)) => (coefficient, exponent.parse::<i32>().ok()?),
+        None => (value, 0),
+    };
+
+    let (integer, fraction) = match coefficient.split_once('.') {
+        Some((integer, fraction)) => (integer, fraction),
+        None => (coefficient, ""),
+    };
+
+    if integer.is_empty()
+        || !integer.bytes().all(|byte| byte.is_ascii_digit())
+        || !fraction.bytes().all(|byte| byte.is_ascii_digit())
+    {
+        return None;
+    }
+
+    let decimal_index = integer.len() as i32;
+    let mut digits = String::with_capacity(integer.len() + fraction.len());
+    digits.push_str(integer);
+    digits.push_str(fraction);
+
+    let first_non_zero = digits.bytes().position(|byte| byte != b'0');
+    let Some(first_non_zero) = first_non_zero else {
+        return Some((String::new(), 0));
+    };
+
+    let exponent = exponent + decimal_index - first_non_zero as i32 - 1;
+    Some((digits.split_off(first_non_zero), exponent))
+}
+
+/// Converts a decimal string produced by ECMAScript-compatible formatting into
+/// the canonical notation required by `Number::toExponential`.
+fn decimal_to_exponential(value: &str, fraction_digits: Option<usize>) -> Option<String> {
+    let negative = value.starts_with('-');
+    let (mut digits, exponent) = decimal_parts(value)?;
+
+    if digits.is_empty() {
+        let fraction_digits = fraction_digits.unwrap_or(0);
+        return Some(if fraction_digits == 0 {
+            "0e+0".into()
+        } else {
+            format!("0.{}e+0", "0".repeat(fraction_digits))
+        });
+    }
+
+    match fraction_digits {
+        Some(fraction_digits) => {
+            if digits.len() != fraction_digits + 1 {
+                return None;
+            }
+        }
+        None => {
+            while digits.ends_with('0') {
+                digits.pop();
+            }
+        }
+    }
+
+    let mut result = String::with_capacity(digits.len() + 5);
+    if negative {
+        result.push('-');
+    }
+    result.push(digits.remove(0));
+    if !digits.is_empty() {
+        result.push('.');
+        result.push_str(&digits);
+    }
+    result.push('e');
+    if exponent >= 0 {
+        result.push('+');
+    }
+    result.push_str(&exponent.to_string());
+
+    Some(result)
 }

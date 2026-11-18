@@ -30,22 +30,14 @@ pub mod hygiene;
 /// `BytePos` range between files.
 #[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Span {
     #[serde(rename = "start")]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub lo: BytePos,
     #[serde(rename = "end")]
-    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub hi: BytePos,
 }
 
@@ -167,21 +159,9 @@ better_scoped_tls::scoped_tls!(
     pub static GLOBALS: Globals
 );
 
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[derive(Debug, Eq, PartialEq, Clone, Ord, PartialOrd, Hash)]
 pub enum FileName {
-    Real(
-        #[cfg_attr(
-            any(feature = "rkyv-impl"),
-            rkyv(with = crate::source_map::EncodePathBuf)
-        )]
-        PathBuf,
-    ),
+    Real(PathBuf),
     /// A macro. This includes the full name of the macro, so that there are no
     /// clashes.
     Macros(String),
@@ -192,7 +172,7 @@ pub enum FileName {
     /// Hack in src/libsyntax/parse.rs
     MacroExpansion,
     ProcMacroSourceCode,
-    Url(#[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = crate::source_map::EncodeUrl))] Url),
+    Url(Url),
     Internal(String),
     /// Custom sources for explicit parser calls from plugins and drivers
     Custom(String),
@@ -296,103 +276,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for FileName {
     }
 }
 
-/// A wrapper that attempts to convert a type to and from UTF-8.
-///
-/// Types like `OsString` and `PathBuf` aren't guaranteed to be encoded as
-/// UTF-8, but they usually are anyway. Using this wrapper will archive them as
-/// if they were regular `String`s.
-///
-/// There is built-in `AsString` supports PathBuf but it requires custom
-/// serializer wrapper to handle conversion errors. This wrapper is simplified
-/// version accepts errors
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodePathBuf;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<PathBuf> for EncodePathBuf {
-    type Archived = rkyv::string::ArchivedString;
-    type Resolver = rkyv::string::StringResolver;
-
-    #[inline]
-    fn resolve_with(field: &PathBuf, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        // It's safe to unwrap here because if the OsString wasn't valid UTF-8 it would
-        // have failed to serialize
-        rkyv::string::ArchivedString::resolve_from_str(field.to_str().unwrap(), resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<PathBuf, S> for EncodePathBuf
-where
-    S: ?Sized + rancor::Fallible + rkyv::ser::Writer,
-    S::Error: rancor::Source,
-{
-    #[inline]
-    fn serialize_with(field: &PathBuf, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        let s = field.to_str().unwrap_or_default();
-        rkyv::string::ArchivedString::serialize_from_str(s, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::string::ArchivedString, PathBuf, D> for EncodePathBuf
-where
-    D: ?Sized + rancor::Fallible,
-{
-    #[inline]
-    fn deserialize_with(
-        field: &rkyv::string::ArchivedString,
-        _: &mut D,
-    ) -> Result<PathBuf, D::Error> {
-        Ok(<PathBuf as std::str::FromStr>::from_str(field.as_str()).unwrap())
-    }
-}
-
-/// A wrapper that attempts to convert a Url to and from String.
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodeUrl;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Url> for EncodeUrl {
-    type Archived = rkyv::string::ArchivedString;
-    type Resolver = rkyv::string::StringResolver;
-
-    #[inline]
-    fn resolve_with(field: &Url, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        rkyv::string::ArchivedString::resolve_from_str(field.as_str(), resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Url, S> for EncodeUrl
-where
-    S: ?Sized + rancor::Fallible + rkyv::ser::Writer,
-    S::Error: rancor::Source,
-{
-    #[inline]
-    fn serialize_with(field: &Url, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        let field = field.as_str();
-        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Url, D> for EncodeUrl
-where
-    D: ?Sized + rancor::Fallible,
-{
-    #[inline]
-    fn deserialize_with(field: &rkyv::string::ArchivedString, _: &mut D) -> Result<Url, D::Error> {
-        Ok(Url::parse(field.as_str()).unwrap())
-    }
-}
-
 impl std::fmt::Display for FileName {
     fn fmt(&self, fmt: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match *self {
@@ -460,12 +343,6 @@ impl FileName {
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -483,12 +360,6 @@ pub struct PrimarySpanLabel(pub Span, pub String);
     derive(serde::Serialize, serde::Deserialize)
 )]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -497,6 +368,7 @@ pub struct MultiSpan {
     span_labels: Vec<PrimarySpanLabel>,
 }
 
+#[cfg_attr(target_arch = "wasm32", link(wasm_import_module = "env"))]
 extern "C" {
     fn __span_dummy_with_cmt_proxy() -> u32;
 }
@@ -794,12 +666,6 @@ impl From<Vec<Span>> for MultiSpan {
 pub const NO_EXPANSION: SyntaxContext = SyntaxContext::empty();
 
 /// Identifies an offset of a multi-byte character in a SourceFile
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub struct MultiByteChar {
     /// The absolute offset of the character in the SourceMap
@@ -824,12 +690,6 @@ impl MultiByteChar {
 }
 
 /// Identifies an offset of a non-narrow character in a SourceFile
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum NonNarrowChar {
     /// Represents a zero-width character
@@ -892,65 +752,131 @@ impl Sub<BytePos> for NonNarrowChar {
 }
 
 /// A single source in the SourceMap.
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 #[derive(Clone)]
 pub struct SourceFile {
     /// The name of the file that the source came from. Source that doesn't
     /// originate from files has names between angle brackets by convention,
     /// e.g. `<anon>`
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::LrcHelper")
-    )]
     pub name: Lrc<FileName>,
     /// True if the `name` field above has been modified by
     /// `--remap-path-prefix`
     pub name_was_remapped: bool,
     /// The unmapped path of the file that the source came from.
     /// Set to `None` if the `SourceFile` was imported from an external crate.
-    #[cfg_attr(
-        feature = "encoding-impl",
-        encoding(with = "encoding_helper::LrcHelper")
-    )]
     pub unmapped_path: Option<Lrc<FileName>>,
     /// Indicates which crate this `SourceFile` was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "encoding_helper::Str"))]
     pub src: BytesStr,
-    /// The source code's hash
-    pub src_hash: u128,
     /// The start position of this source in the `SourceMap`
     pub start_pos: BytePos,
     /// The end position of this source in the `SourceMap`
     pub end_pos: BytePos,
-    /// A hash of the filename, used for speeding up the incr. comp. hashing.
-    pub name_hash: u128,
 
-    #[cfg_attr(feature = "encoding-impl", encoding(ignore))]
     lazy: CacheCell<SourceFileAnalysis>,
 }
 
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[derive(Clone)]
 pub struct SourceFileAnalysis {
+    /// Stable hash of the source code.
+    pub src_hash: u128,
+    /// Stable hash of the filename.
+    pub name_hash: u128,
     /// Locations of lines beginnings in the source code
     pub lines: Vec<BytePos>,
     /// Locations of multi-byte characters in the source code
     pub multibyte_chars: Vec<MultiByteChar>,
     /// Width of characters that are not narrow in the source code
     pub non_narrow_chars: Vec<NonNarrowChar>,
+}
+
+fn stable_src_hash(src: &BytesStr) -> u128 {
+    let mut hasher = StableHasher::new();
+    hasher.write(src.as_bytes());
+    hasher.finish()
+}
+
+fn stable_name_hash(name: &FileName) -> u128 {
+    let mut hasher = StableHasher::new();
+    name.hash(&mut hasher);
+    hasher.finish()
+}
+
+#[cfg(feature = "encoding-impl")]
+const SOURCE_FILE_WIRE_FIELD_COUNT: usize = 10;
+
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for SourceFile {
+    #[inline]
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        // This is intentionally the historical plugin wire format, not the
+        // in-memory SourceFile layout. Plugins compiled before SourceFile hashes
+        // became lazy (notably @swc/plugin-styled-components) read
+        // `Loc.file.src_hash`, so the wire format must still include virtual
+        // `src_hash` and `name_hash` slots.
+        //
+        // The derived encoder historically included ignored fields in the array
+        // header, so SourceFile reports 10 fields while only 9 values are
+        // written. Preserve that exact shape because old decoders expect the
+        // reported count to include the ignored `lazy` field.
+        cbor4ii::core::types::Array::<()>::bounded(SOURCE_FILE_WIRE_FIELD_COUNT, writer)?;
+
+        encoding_helper::LrcHelper(&self.name).encode(writer)?;
+        self.name_was_remapped.encode(writer)?;
+        encoding_helper::LrcHelper(&self.unmapped_path).encode(writer)?;
+        self.crate_of_origin.encode(writer)?;
+        encoding_helper::Str(&self.src).encode(writer)?;
+        stable_src_hash(&self.src).encode(writer)?;
+        self.start_pos.encode(writer)?;
+        self.end_pos.encode(writer)?;
+        stable_name_hash(&self.name).encode(writer)?;
+
+        Ok(())
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for SourceFile {
+    #[inline]
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        let len = cbor4ii::core::types::Array::<()>::len(reader)?.unwrap();
+        if len < SOURCE_FILE_WIRE_FIELD_COUNT {
+            return Err(cbor4ii::core::error::DecodeError::Custom {
+                name: &"SourceFile",
+                num: len as u32,
+            });
+        }
+
+        let name = encoding_helper::LrcHelper::<Lrc<FileName>>::decode(reader)?.0;
+        let name_was_remapped = bool::decode(reader)?;
+        let unmapped_path = encoding_helper::LrcHelper::<Option<Lrc<FileName>>>::decode(reader)?.0;
+        let crate_of_origin = u32::decode(reader)?;
+        let src = encoding_helper::Str::<BytesStr>::decode(reader)?.0;
+        let _src_hash = u128::decode(reader)?;
+        let start_pos = BytePos::decode(reader)?;
+        let end_pos = BytePos::decode(reader)?;
+        let _name_hash = u128::decode(reader)?;
+
+        for _ in 0..len - SOURCE_FILE_WIRE_FIELD_COUNT {
+            cbor4ii::core::dec::IgnoredAny::decode(reader)?;
+        }
+
+        Ok(SourceFile {
+            name,
+            name_was_remapped,
+            unmapped_path,
+            crate_of_origin,
+            src,
+            start_pos,
+            end_pos,
+            lazy: CacheCell::new(),
+        })
+    }
 }
 
 impl fmt::Debug for SourceFile {
@@ -974,16 +900,6 @@ impl SourceFile {
             "BytePos::DUMMY is reserved and `SourceFile` should not use it"
         );
 
-        let src_hash = {
-            let mut hasher: StableHasher = StableHasher::new();
-            hasher.write(src.as_bytes());
-            hasher.finish()
-        };
-        let name_hash = {
-            let mut hasher: StableHasher = StableHasher::new();
-            name.hash(&mut hasher);
-            hasher.finish()
-        };
         let end_pos = start_pos.to_usize() + src.len();
 
         SourceFile {
@@ -992,12 +908,20 @@ impl SourceFile {
             unmapped_path: Some(unmapped_path),
             crate_of_origin: 0,
             src,
-            src_hash,
             start_pos,
             end_pos: SmallPos::from_usize(end_pos),
-            name_hash,
             lazy: CacheCell::new(),
         }
+    }
+
+    /// Returns the stable hash of the source text, computing it on first use.
+    pub fn src_hash(&self) -> u128 {
+        self.analyze().src_hash
+    }
+
+    /// Returns the stable hash of the filename, computing it on first use.
+    pub fn name_hash(&self) -> u128 {
+        self.analyze().name_hash
     }
 
     /// Return the BytePos of the beginning of the current line.
@@ -1091,6 +1015,8 @@ impl SourceFile {
                 lines,
                 multibyte_chars,
                 non_narrow_chars,
+                src_hash: stable_src_hash(&self.src),
+                name_hash: stable_name_hash(&self.name),
             }
         })
     }
@@ -1124,14 +1050,8 @@ pub trait SmallPos {
 )]
 #[serde(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-pub struct BytePos(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] pub u32);
+pub struct BytePos(pub u32);
 
 #[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for BytePos {
@@ -1194,12 +1114,6 @@ impl BytePos {
 /// A character offset. Because of multibyte utf8 characters, a byte offset
 /// is not equivalent to a character offset. The SourceMap will convert BytePos
 /// values to CharPos values as necessary.
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
 pub struct CharPos(
@@ -1295,7 +1209,7 @@ impl Sub for CharPos {
 
 /// A source code location used for error reporting.
 ///
-/// Note: This struct intentionally does not implement rkyv's archieve
+/// Note: This struct intentionally does not implement an archive format
 /// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
 /// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
 /// instance.
@@ -1313,12 +1227,6 @@ pub struct Loc {
 
 /// A struct to exchange `Loc` with omitting SourceFile as needed.
 /// This is internal struct between plugins to the host, not a public interface.
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Debug, Clone)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub struct PartialLoc {
     #[cfg_attr(
@@ -1353,12 +1261,6 @@ pub struct SourceFileAndLine {
 }
 
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -1373,12 +1275,6 @@ pub struct SourceFileAndBytePos {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "encoding-impl", derive(crate::Encode, crate::Decode))]
 pub struct LineInfo {
     /// Index of line, starting from 0.
@@ -1404,7 +1300,7 @@ pub struct LineCol {
 
 /// A struct to represent lines of a source file.
 ///
-/// Note: This struct intentionally does not implement rkyv's archieve
+/// Note: This struct intentionally does not implement an archive format
 /// to avoid redundant data copy (https://github.com/swc-project/swc/issues/5471)
 /// source_map_proxy constructs plugin-side Loc instead with shared SourceFile
 /// instance.
@@ -1415,12 +1311,6 @@ pub struct FileLines {
 
 /// A struct to exchange `FileLines` with omitting SourceFile as needed.
 /// This is internal struct between plugins to the host, not a public interface.
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, Debug, Clone)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -1445,12 +1335,6 @@ pub type PartialFileLinesResult = Result<PartialFileLines, Box<SpanLinesError>>;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -1460,12 +1344,6 @@ pub enum SpanLinesError {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 pub enum SpanSnippetError {
     DummyBytePos,
     IllFormedSpan(Span),
@@ -1534,12 +1412,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for SpanSnippetError {
 /// This type is small.
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -1548,12 +1420,6 @@ pub enum SourceMapLookupError {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -1569,12 +1435,6 @@ pub struct FilePos(
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
 )]
@@ -1584,12 +1444,6 @@ pub struct DistinctSources {
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::ast_node::Encode, ::ast_node::Decode)
@@ -1720,7 +1574,8 @@ mod encoding_helper {
 
 #[cfg(test)]
 mod tests {
-    use super::{lookup_line, BytePos, Span};
+    use super::{lookup_line, BytePos, FileName, SourceFile, Span};
+    use crate::sync::Lrc;
 
     #[test]
     fn test_lookup_line() {
@@ -1741,5 +1596,88 @@ mod tests {
     #[test]
     fn size_of_span() {
         assert_eq!(std::mem::size_of::<Span>(), 8);
+    }
+
+    #[test]
+    fn source_file_hashes_are_lazy() {
+        let name = Lrc::new(FileName::Custom("input.js".into()));
+        let file = SourceFile::new(
+            name.clone(),
+            false,
+            name,
+            "let answer = 42;".into(),
+            BytePos(1),
+        );
+
+        assert!(file.lazy.get().is_none());
+
+        let src_hash = file.src_hash();
+        let name_hash = file.name_hash();
+        let analysis = file.lazy.get().unwrap();
+
+        assert_eq!(analysis.src_hash, src_hash);
+        assert_eq!(analysis.name_hash, name_hash);
+        assert_eq!(file.src_hash(), src_hash);
+        assert_eq!(file.name_hash(), name_hash);
+    }
+
+    #[cfg(feature = "encoding-impl")]
+    #[test]
+    fn source_file_encoding_includes_hash_slots() {
+        use cbor4ii::core::{dec::Decode, enc::Encode};
+
+        let name = Lrc::new(FileName::Custom("input.js".into()));
+        let file = SourceFile::new(
+            name.clone(),
+            false,
+            name,
+            "let answer = 42;".into(),
+            BytePos(1),
+        );
+
+        let mut writer = cbor4ii::core::utils::BufWriter::new(Vec::new());
+        file.encode(&mut writer).unwrap();
+        let bytes = writer.into_inner();
+        assert!(file.lazy.get().is_none());
+
+        let mut reader = cbor4ii::core::utils::SliceReader::new(&bytes);
+        let len = cbor4ii::core::types::Array::<()>::len(&mut reader)
+            .unwrap()
+            .unwrap();
+        assert_eq!(len, super::SOURCE_FILE_WIRE_FIELD_COUNT);
+
+        let decoded_name = FileName::decode(&mut reader).unwrap();
+        let decoded_name_was_remapped = bool::decode(&mut reader).unwrap();
+        let decoded_unmapped_path =
+            cbor4ii::core::types::Maybe::<Option<FileName>>::decode(&mut reader)
+                .unwrap()
+                .0;
+        let decoded_crate_of_origin = u32::decode(&mut reader).unwrap();
+        let decoded_src = String::decode(&mut reader).unwrap();
+        let decoded_src_hash = u128::decode(&mut reader).unwrap();
+        let decoded_start_pos = BytePos::decode(&mut reader).unwrap();
+        let decoded_end_pos = BytePos::decode(&mut reader).unwrap();
+        let decoded_name_hash = u128::decode(&mut reader).unwrap();
+
+        assert_eq!(decoded_name, FileName::Custom("input.js".into()));
+        assert!(!decoded_name_was_remapped);
+        assert_eq!(
+            decoded_unmapped_path,
+            Some(FileName::Custom("input.js".into()))
+        );
+        assert_eq!(decoded_crate_of_origin, 0);
+        assert_eq!(decoded_src, "let answer = 42;");
+        assert_eq!(decoded_src_hash, super::stable_src_hash(&file.src));
+        assert_eq!(decoded_start_pos, file.start_pos);
+        assert_eq!(decoded_end_pos, file.end_pos);
+        assert_eq!(decoded_name_hash, super::stable_name_hash(&file.name));
+
+        let mut reader = cbor4ii::core::utils::SliceReader::new(&bytes);
+        let decoded = SourceFile::decode(&mut reader).unwrap();
+        assert_eq!(*decoded.name, FileName::Custom("input.js".into()));
+        assert_eq!(decoded.src, file.src);
+        assert_eq!(decoded.start_pos, file.start_pos);
+        assert_eq!(decoded.end_pos, file.end_pos);
+        assert!(decoded.lazy.get().is_none());
     }
 }

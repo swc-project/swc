@@ -10,7 +10,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     B.Line = Line;
 })(B || (B = {}));
 (function(Geometry) {
-    Geometry.Points = A;
     var Lines = B;
     Geometry.Origin = {
         x: 0,

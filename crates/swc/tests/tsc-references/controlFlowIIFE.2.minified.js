@@ -1,4 +1,3 @@
 //// [controlFlowIIFE.ts]
-let maybeNumber, test;
-if (maybeNumber = 1, ++maybeNumber, maybeNumber++, !test) throw Error('Test is not defined');
-test.slice(1);
+let maybeNumber;
+throw maybeNumber = 1, ++maybeNumber, maybeNumber++, Error('Test is not defined');

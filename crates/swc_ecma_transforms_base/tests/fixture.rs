@@ -63,6 +63,7 @@ where
     .unwrap();
 }
 
+// Resolver regressions are organized as input/output fixture pairs.
 #[fixture("tests/resolver/**/input.js")]
 fn test_resolver(input: PathBuf) {
     run(

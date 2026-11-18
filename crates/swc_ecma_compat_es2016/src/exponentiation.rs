@@ -20,9 +20,7 @@ use swc_ecma_ast::*;
 /// x = Math.pow(x, 3);
 /// ```
 pub fn exponentiation() -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.env.es2016.exponentiation_operator = true;
-    options.into_pass()
+    swc_ecma_transformer::es2016_exponentiation()
 }
 
 #[cfg(test)]

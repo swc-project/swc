@@ -1,0 +1,1 @@
+const re = /\p{L}/u;

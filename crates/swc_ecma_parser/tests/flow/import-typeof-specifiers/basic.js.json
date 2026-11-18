@@ -1,0 +1,202 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 122
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 53
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 10,
+            "end": 20
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 20
+            },
+            "ctxt": 0,
+            "value": "Foo",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 20
+            },
+            "ctxt": 0,
+            "value": "Foo",
+            "optional": false
+          },
+          "isTypeOnly": true
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 22,
+            "end": 39
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 36,
+              "end": 39
+            },
+            "ctxt": 0,
+            "value": "Baz",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 29,
+              "end": 32
+            },
+            "ctxt": 0,
+            "value": "Bar",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 47,
+          "end": 52
+        },
+        "value": "foo",
+        "raw": "\"foo\""
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 54,
+        "end": 98
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 63,
+            "end": 69
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 68,
+              "end": 69
+            },
+            "ctxt": 0,
+            "value": "T",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": true
+        },
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 71,
+            "end": 84
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 83,
+              "end": 84
+            },
+            "ctxt": 0,
+            "value": "V",
+            "optional": false
+          },
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 78,
+              "end": 79
+            },
+            "ctxt": 0,
+            "value": "U",
+            "optional": false
+          },
+          "isTypeOnly": true
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 92,
+          "end": 97
+        },
+        "value": "mod",
+        "raw": "\"mod\""
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 99,
+        "end": 122
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 106,
+          "end": 122
+        },
+        "ctxt": 0,
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 112,
+              "end": 121
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 112,
+                "end": 117
+              },
+              "ctxt": 0,
+              "value": "value",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 120,
+                "end": 121
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

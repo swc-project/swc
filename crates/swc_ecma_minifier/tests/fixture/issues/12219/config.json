@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "inline": 3,
+    "reduce_vars": true,
+    "module": false
+}

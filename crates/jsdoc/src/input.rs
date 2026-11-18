@@ -1,11 +1,10 @@
 use std::{
-    ops::{Deref, Range, RangeFrom, RangeTo},
+    ops::Deref,
+    slice::SliceIndex,
     str::{CharIndices, Chars},
 };
 
-use nom::{
-    Compare, CompareResult, InputIter, InputLength, InputTake, Needed, Slice, UnspecializedInput,
-};
+use nom::{Compare, CompareResult, Input as NomInput, Needed};
 use swc_common::{comments::Comment, BytePos, Span};
 
 use crate::ast::Text;
@@ -38,21 +37,17 @@ impl<'i> Input<'i> {
     }
 }
 
-macro_rules! impl_slice {
-    ($T:ident) => {
-        impl Slice<$T<usize>> for Input<'_> {
-            fn slice(&self, range: $T<usize>) -> Self {
-                let s = self.src.slice(range);
-
-                Self::new(self.start, self.start + BytePos(s.as_bytes().len() as _), s)
-            }
-        }
-    };
+impl Input<'_> {
+    /// Slice the source while preserving the span convention used by this
+    /// parser.
+    pub(crate) fn slice<R>(&self, range: R) -> Self
+    where
+        R: SliceIndex<str, Output = str>,
+    {
+        let src = &self.src[range];
+        Self::new(self.start, self.start + BytePos(src.len() as _), src)
+    }
 }
-
-impl_slice!(Range);
-impl_slice!(RangeFrom);
-impl_slice!(RangeTo);
 
 impl From<Input<'_>> for Text {
     fn from(i: Input) -> Self {
@@ -60,16 +55,6 @@ impl From<Input<'_>> for Text {
             span: Span::new(i.start, i.end),
             value: i.src.into(),
         }
-    }
-}
-
-impl InputTake for Input<'_> {
-    fn take(&self, count: usize) -> Self {
-        self.slice(..count)
-    }
-
-    fn take_split(&self, count: usize) -> (Self, Self) {
-        (self.slice(..count), self.slice(count..))
     }
 }
 
@@ -83,24 +68,32 @@ impl<'a> Compare<&'a str> for Input<'_> {
     }
 }
 
-impl InputLength for Input<'_> {
+impl<'a> NomInput for Input<'a> {
+    type Item = char;
+    type Iter = Chars<'a>;
+    type IterIndices = CharIndices<'a>;
+
     fn input_len(&self) -> usize {
         self.src.len()
     }
-}
 
-impl UnspecializedInput for Input<'_> {}
+    fn take(&self, count: usize) -> Self {
+        self.slice(..count)
+    }
 
-impl<'a> InputIter for Input<'a> {
-    type Item = char;
-    type Iter = CharIndices<'a>;
-    type IterElem = Chars<'a>;
+    fn take_from(&self, count: usize) -> Self {
+        self.slice(count..)
+    }
 
-    fn iter_indices(&self) -> Self::Iter {
+    fn take_split(&self, count: usize) -> (Self, Self) {
+        (self.slice(count..), self.slice(..count))
+    }
+
+    fn iter_indices(&self) -> Self::IterIndices {
         self.src.iter_indices()
     }
 
-    fn iter_elements(&self) -> Self::IterElem {
+    fn iter_elements(&self) -> Self::Iter {
         self.src.iter_elements()
     }
 

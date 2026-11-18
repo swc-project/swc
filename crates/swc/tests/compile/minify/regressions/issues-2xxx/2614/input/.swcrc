@@ -1,0 +1,9 @@
+{
+    "jsc": {
+        "minify": {
+            "compress": true,
+            "toplevel": true,
+            "module": true
+        }
+    }
+}

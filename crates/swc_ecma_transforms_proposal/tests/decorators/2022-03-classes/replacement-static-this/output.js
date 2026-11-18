@@ -7,16 +7,14 @@ new class extends _identity {
             this;
         })(), _initClass();
     }
-    static{
-        class Foo {
-            static{
-                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [], [
-                    dec
-                ]));
-            }
-            static field = ((()=>{
-                this;
-            })(), this);
+    static [class Foo {
+        static{
+            ({ c: [_Foo, _initClass] } = _apply_decs_2203_r(this, [], [
+                dec
+            ]));
         }
-    }
+    }];
+    field = ((()=>{
+        this;
+    })(), this);
 }();

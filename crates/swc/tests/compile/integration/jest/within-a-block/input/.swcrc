@@ -1,0 +1,18 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "hidden": {
+                "jest": true
+            }
+        },
+        "target": "es2016"
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

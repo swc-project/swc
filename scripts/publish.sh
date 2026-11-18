@@ -5,7 +5,7 @@ set -eu
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 git pull || true
-yarn
+pnpm install
 
 version="$1"
 swc_core_version="$(cargo tree -i -p swc_core --depth 0 | awk '{print $2}')"
@@ -17,7 +17,7 @@ echo "Publishing $version with swc_core $swc_core_version"
 (cd ./packages/html && npm version "$version" --no-git-tag-version --allow-same-version || true)
 (cd ./packages/minifier && npm version "$version" --no-git-tag-version --allow-same-version || true)
 (cd ./packages/react-compiler && npm version "$version" --no-git-tag-version --allow-same-version || true)
-cargo set-version $version -p binding_core_wasm -p binding_minifier_wasm -p binding_typescript_wasm -p binding_es_ast_viewer
+cargo set-version $version -p binding_core_wasm -p binding_minifier_wasm -p binding_typescript_wasm -p binding_nodejs_support_wasm -p binding_html_wasm -p binding_es_ast_viewer
 cargo set-version --bump patch -p swc_cli
 
 
@@ -28,10 +28,10 @@ git tag -a -m "swc_core $swc_core_version" "v$version"
 
 
 # Update changelog
-yarn changelog
+pnpm changelog
 git add -A || true
 git commit -m 'chore: Update changelog' || true
 
 # Publish packages
-git push git@github.com:swc-project/swc.git --no-verify
-git push git@github.com:swc-project/swc.git --no-verify --tags
+git push git@github.com:swc-project/swc.git
+git push git@github.com:swc-project/swc.git --tags

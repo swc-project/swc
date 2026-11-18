@@ -1,0 +1,27 @@
+  x An interface can only extend an identifier/qualified-name with optional type arguments.
+   ,-[$DIR/tests/typescript-errors/heritage-expressions/input.ts:2:1]
+ 1 | export {};
+ 2 | interface Invalid extends (Base<T>) {}
+   :                           ^^^^^^^^^
+ 3 | class InvalidImpl implements (Base<T>) {}
+   `----
+  x An interface can only extend an identifier/qualified-name with optional type arguments.
+   ,-[$DIR/tests/typescript-errors/heritage-expressions/input.ts:3:1]
+ 2 | interface Invalid extends (Base<T>) {}
+ 3 | class InvalidImpl implements (Base<T>) {}
+   :                              ^^^^^^^^^
+ 4 | interface Computed extends namespace[key]<T> {}
+   `----
+  x An interface can only extend an identifier/qualified-name with optional type arguments.
+   ,-[$DIR/tests/typescript-errors/heritage-expressions/input.ts:4:1]
+ 3 | class InvalidImpl implements (Base<T>) {}
+ 4 | interface Computed extends namespace[key]<T> {}
+   :                            ^^^^^^^^^^^^^^^^^
+ 5 | class FactoryImpl implements factory().Type<T> {}
+   `----
+  x An interface can only extend an identifier/qualified-name with optional type arguments.
+   ,-[$DIR/tests/typescript-errors/heritage-expressions/input.ts:5:1]
+ 4 | interface Computed extends namespace[key]<T> {}
+ 5 | class FactoryImpl implements factory().Type<T> {}
+   :                              ^^^^^^^^^^^^^^^^^
+   `----

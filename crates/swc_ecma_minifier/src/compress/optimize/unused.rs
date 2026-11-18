@@ -4,8 +4,9 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::{contains_ident_ref, contains_this_expr, ExprExt};
+use swc_ecma_utils::{
+    contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, IsEmpty, Value,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -15,6 +16,7 @@ use crate::{
     compress::optimize::{util::extract_class_side_effect, BitCtx},
     option::PureGetterOption,
     program_data::{ScopeData, VarUsageInfoFlags},
+    usage_analyzer::{analyzer::storage::Storage, util::is_global_var_with_pure_property_access},
 };
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -26,7 +28,10 @@ pub(crate) struct PropertyAccessOpts {
 
 /// Methods related to the option `unused`.
 impl Optimizer<'_> {
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_var_declarator(
         &mut self,
         var: &mut VarDeclarator,
@@ -85,7 +90,10 @@ impl Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_param(&mut self, pat: &mut Pat, ignore_fn_length: bool) {
         if !self.options.unused && !self.options.reduce_fns {
             return;
@@ -115,7 +123,10 @@ impl Optimizer<'_> {
         self.take_pat_if_unused(pat, None, false)
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
         if self
             .ctx
@@ -135,13 +146,15 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
-            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
-                log_abort!(
-                    "unused: Preserving `{}` because of usages",
-                    dump(&*name, false)
-                );
-                return;
+        for (_, ctx) in find_pat_ids::<_, Id>(name) {
+            if let Some(scope) = self.data.get_scope(ctx) {
+                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    log_abort!(
+                        "unused: Preserving `{}` because of usages",
+                        dump(&*name, false)
+                    );
+                    return;
+                }
             }
         }
 
@@ -152,7 +165,10 @@ impl Optimizer<'_> {
         self.take_pat_if_unused(name, init, true);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         if self.options.keep_fargs || !self.options.unused {
             return;
@@ -169,7 +185,10 @@ impl Optimizer<'_> {
         params.retain(|p| !p.pat.is_invalid());
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_arrow_params(&mut self, params: &mut Vec<Pat>) {
         if self.options.keep_fargs || !self.options.unused {
             return;
@@ -186,7 +205,10 @@ impl Optimizer<'_> {
         params.retain(|p| !p.is_invalid());
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn take_ident_of_pat_if_unused(&mut self, i: &mut Ident, init: Option<&mut Expr>) {
         trace_op!("unused: Checking identifier `{}`", i);
 
@@ -250,6 +272,69 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Drops an unused shorthand object-pattern binding only when its default
+    /// can be discarded.
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
+    fn take_assign_pat_prop_if_unused(&mut self, key: &mut Ident, value: &mut Expr) {
+        trace_op!("unused: Checking object pattern identifier `{}`", key);
+
+        if !self.may_remove_ident(key) {
+            log_abort!(
+                "unused: Preserving object pattern var `{:#?}` because it's top-level",
+                key
+            );
+            return;
+        }
+
+        if let Some(v) = self.data.vars.get(&key.to_id()) {
+            let is_used_in_member =
+                v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
+            if v.ref_count != 0
+                || v.usage_count != 0
+                || v.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                || is_used_in_member
+            {
+                log_abort!(
+                    "unused: Cannot drop object pattern binding ({}) because it's used",
+                    dump(&*key, false)
+                );
+                return;
+            }
+
+            // Some expressions have observable evaluation that
+            // `ignore_return_value` cannot preserve. Do not pass those defaults
+            // to it, because a destructuring default is evaluated when the
+            // property value is `undefined`.
+            let mut visitor = NonDiscardableDefaultVisitor::default();
+            value.visit_with(&mut visitor);
+            if visitor.found {
+                log_abort!("unused: Preserving object pattern default with observable evaluation");
+                return;
+            }
+
+            // A destructuring default is evaluated only when the property access produces
+            // `undefined`, so any remaining effects must stay in this default expression.
+            // The enclosing pattern has already proven the property access itself
+            // discardable.
+            if let Some(side_effects) = self.ignore_return_value(value) {
+                *value = side_effects;
+                return;
+            }
+
+            self.changed = true;
+            report_change!(
+                "unused: Dropping object pattern binding '{}{:?}' because it and its default are \
+                 unused",
+                key.sym,
+                key.ctxt
+            );
+            key.take();
+        }
+    }
+
     pub(crate) fn should_preserve_property_access(
         &self,
         e: &Expr,
@@ -301,10 +386,8 @@ impl Optimizer<'_> {
                         Prop::KeyValue(k) => {
                             // Check if `k` is __proto__
 
-                            if let PropName::Ident(i) = &k.key {
-                                if i.sym == "__proto__" {
-                                    return true;
-                                }
+                            if is_proto_key(&k.key) {
+                                return true;
                             }
 
                             false
@@ -341,7 +424,10 @@ impl Optimizer<'_> {
 
     /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
     #[allow(clippy::only_used_in_recursion)]
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn take_pat_if_unused(
         &mut self,
         name: &mut Pat,
@@ -354,13 +440,19 @@ impl Optimizer<'_> {
 
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
-        let pure_mark = self.marks.pure;
-        let has_pure_ann = match init {
-            Some(Expr::Call(c)) => c.ctxt.has_mark(pure_mark),
-            Some(Expr::New(n)) => n.ctxt.has_mark(pure_mark),
-            Some(Expr::TaggedTpl(t)) => t.ctxt.has_mark(pure_mark),
-            _ => false,
-        };
+        // A PURE annotation on the initializer does not make destructuring
+        // safe to remove: the pattern can still invoke getters or throw on a
+        // nullish value. Keep the fix from #12386 when reverting #12384.
+        // Restrict this to structural values known to be non-nullish so removing
+        // the whole pattern cannot remove a destructuring error. A pure annotation
+        // only describes evaluation effects, not the value produced by the
+        // initializer. Classes are excluded because accessing a static property can
+        // invoke a user-defined static getter.
+        let can_drop_object_assign_default = init
+            .as_deref()
+            .is_some_and(is_safe_object_assign_default_initializer);
+        let is_function_object_assign_default =
+            matches!(init.as_deref(), Some(Expr::Fn(..) | Expr::Arrow(..)));
 
         if !name.is_ident() {
             // For Pat::Assign (default parameters), we can skip the pure_getters check
@@ -370,23 +462,21 @@ impl Optimizer<'_> {
 
             if !is_assign_pat_without_init {
                 // TODO: Use smart logic
-                if self.options.pure_getters != PureGetterOption::Bool(true) && !has_pure_ann {
+                if self.options.pure_getters != PureGetterOption::Bool(true) {
                     return;
                 }
 
-                if !has_pure_ann {
-                    if let Some(init) = init.as_mut() {
-                        if !matches!(init, Expr::Ident(_))
-                            && self.should_preserve_property_access(
-                                init,
-                                PropertyAccessOpts {
-                                    allow_getter: false,
-                                    only_ident: false,
-                                },
-                            )
-                        {
-                            return;
-                        }
+                if let Some(init) = init.as_mut() {
+                    if !matches!(init, Expr::Ident(_))
+                        && self.should_preserve_property_access(
+                            init,
+                            PropertyAccessOpts {
+                                allow_getter: false,
+                                only_ident: false,
+                            },
+                        )
+                    {
+                        return;
                     }
                 }
             }
@@ -416,10 +506,6 @@ impl Optimizer<'_> {
                         }
                     }
                 }
-
-                if has_pure_ann && arr.elems.iter().all(|e| e.is_none()) {
-                    name.take();
-                }
             }
 
             Pat::Object(obj) => {
@@ -442,13 +528,17 @@ impl Optimizer<'_> {
                             self.take_pat_if_unused(&mut p.value, None, is_var_decl);
                         }
                         ObjectPatProp::Assign(AssignPatProp { key, value, .. }) => {
-                            if has_pure_ann {
-                                if let Some(e) = value {
-                                    *value = self.ignore_return_value(e).map(Box::new);
+                            if let Some(value) = value {
+                                // Accessing `arguments` on a function throws. Unlike
+                                // `caller`, this behavior is not covered by the minifier's
+                                // documented assumptions.
+                                if can_drop_object_assign_default
+                                    && !(is_function_object_assign_default
+                                        && key.sym == "arguments")
+                                {
+                                    self.take_assign_pat_prop_if_unused(key, value.as_mut());
                                 }
-                            }
-
-                            if value.is_none() {
+                            } else {
                                 self.take_ident_of_pat_if_unused(key, None);
                             }
                         }
@@ -511,7 +601,10 @@ impl Optimizer<'_> {
     }
 
     /// Creates an empty [VarDecl] if `decl` should be removed.
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_decl(&mut self, decl: &mut Decl) {
         if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             return;
@@ -533,41 +626,27 @@ impl Optimizer<'_> {
 
         match decl {
             Decl::Class(ClassDecl { ident, class, .. }) => {
-                if ident.sym == "arguments" {
-                    return;
-                }
-
-                // Fix https://github.com/swc-project/swc/issues/5588
-                let may_have_side_effect = class.body.iter().any(|m| match m {
-                    ClassMember::ClassProp(ClassProp {
-                        is_static: true,
-                        value: Some(_),
-                        ..
-                    })
-                    | ClassMember::PrivateProp(PrivateProp {
-                        is_static: true,
-                        value: Some(_),
-                        ..
-                    }) => true,
-                    ClassMember::StaticBlock(StaticBlock {
-                        body: BlockStmt { stmts, .. },
-                        ..
-                    }) if !stmts.is_empty() => true,
-                    _ => false,
-                });
-                if may_have_side_effect {
-                    return;
-                }
-
                 // If it is not used, drop it.
+                //
+                // A property mutation in the class body, such as `C.x = v` in a
+                // method, does not keep the class. The method runs only if code
+                // outside the class gets a reference to `C`, and such a reference
+                // is counted in `usage_count`. A static initializer that refers to
+                // `C` is kept by `extract_class_side_effect`.
                 if self
                     .data
                     .vars
                     .get(&ident.to_id())
-                    .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
+                    .map(|v| {
+                        v.usage_count == 0
+                            && !v
+                                .flags
+                                .contains(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF)
+                    })
                     .unwrap_or(false)
                 {
-                    let Some(side_effects) = extract_class_side_effect(self.ctx.expr_ctx, class)
+                    let Some(side_effects) =
+                        extract_class_side_effect(self.ctx.expr_ctx, self.data, Some(ident), class)
                     else {
                         return;
                     };
@@ -655,7 +734,10 @@ impl Optimizer<'_> {
     }
 
     /// This should be only called from ignore_return_value
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_update(&mut self, e: &mut Expr) {
         if !self.options.unused {
             return;
@@ -688,21 +770,16 @@ impl Optimizer<'_> {
     }
 
     /// This should be only called from ignore_return_value
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_op_assign(&mut self, e: &mut Expr) {
         if !self.options.unused {
             return;
         }
 
         if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg) {
-            return;
-        }
-
-        if self
-            .data
-            .top
-            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
-        {
             return;
         }
 
@@ -715,6 +792,12 @@ impl Optimizer<'_> {
         };
 
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
+            if let Some(scope) = self.data.get_scope(left.id.ctxt) {
+                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    return;
+                }
+            }
+
             if let Some(var) = self.data.vars.get(&left.to_id()) {
                 // TODO: We don't need fn_local check
                 if var
@@ -735,17 +818,12 @@ impl Optimizer<'_> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
         if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg) {
-            return;
-        }
-
-        if self
-            .data
-            .top
-            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
-        {
             return;
         }
 
@@ -758,12 +836,6 @@ impl Optimizer<'_> {
             return;
         }
 
-        let used_arguments = self
-            .data
-            .get_scope(self.ctx.scope)
-            .unwrap_or_else(|| unreachable!("scope should exist\nCtxt: {:?}", self.ctx.scope))
-            .contains(ScopeData::USED_ARGUMENTS);
-
         trace_op!(
             "unused: drop_unused_assignments: Target: `{}`",
             dump(&assign.left, false)
@@ -774,6 +846,12 @@ impl Optimizer<'_> {
                 return;
             }
 
+            if let Some(scope) = self.data.get_scope(i.ctxt) {
+                if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                    return;
+                }
+            }
+
             if let Some(var) = self.data.vars.get(&i.to_id()) {
                 // technically this is inline
                 if !var.flags.intersects(
@@ -781,7 +859,7 @@ impl Optimizer<'_> {
                 ) && var.usage_count == 0
                     && var.flags.contains(VarUsageInfoFlags::DECLARED)
                     && (!var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-                        || !used_arguments
+                        || !self.data.used_arguments(i.ctxt)
                         || self.ctx.expr_ctx.in_strict)
                 {
                     report_change!(
@@ -845,7 +923,10 @@ impl Optimizer<'_> {
     }
 
     /// Make `name` [None] if the name is not used.
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn remove_name_if_not_used(&mut self, name: &mut Option<Ident>) {
         if !self.options.unused {
             return;
@@ -924,7 +1005,10 @@ impl Optimizer<'_> {
                 return;
             };
 
-            if contains_ident_ref(&f.function.body, f_ident) {
+            // Default parameter initializers run in the function's scope and can reference
+            // the function expression's internal name, so inspect the whole
+            // function rather than only its body.
+            if self.options.keep_fnames || contains_ident_ref(&f.function, f_ident) {
                 return;
             }
 
@@ -949,6 +1033,22 @@ impl Optimizer<'_> {
         let obj = v.init.as_mut()?.as_mut_object()?;
 
         let usage = self.data.vars.get(&name.to_id())?;
+
+        // Property pruning is only safe when every property read is reflected in
+        // accessed_props. Some reduced computed reads only leave the coarser
+        // HAS_PROPERTY_ACCESS marker, so keep the whole object in that case.
+        if usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
+            && usage.accessed_props.is_empty()
+        {
+            return None;
+        }
+
+        let accessed_props_count: u32 = usage.accessed_props.values().sum();
+        // Direct uses, such as default-parameter aliases, can read properties
+        // through another binding, so keep the full object in that case.
+        if accessed_props_count < usage.ref_count {
+            return None;
+        }
 
         if usage.flags.intersects(
             VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
@@ -1005,18 +1105,10 @@ impl Optimizer<'_> {
             };
 
             match &**prop {
-                Prop::Method(prop) => {
-                    if contains_this_expr(&prop.function.body) {
-                        return None;
-                    }
-                }
-                Prop::Getter(prop) => {
-                    if contains_this_expr(&prop.body) {
-                        return None;
-                    }
-                }
-                Prop::Setter(prop) => {
-                    if contains_this_expr(&prop.body) {
+                Prop::Method(MethodProp { function, .. })
+                | Prop::Getter(GetterProp { function, .. })
+                | Prop::Setter(SetterProp { function, .. }) => {
+                    if contains_this_expr(&function.body) {
                         return None;
                     }
                 }
@@ -1131,11 +1223,641 @@ impl Optimizer<'_> {
 
         None
     }
+
+    pub(crate) fn ignore_unused_args_of_call(&mut self, e: &mut CallExpr) {
+        if !self.options.unused && !self.options.reduce_vars {
+            return;
+        }
+
+        if self.ctx.bit_ctx.intersects(BitCtx::InWithStmt) {
+            return;
+        }
+
+        if e.args.iter().any(|a| a.spread.is_some()) {
+            return;
+        }
+
+        let callee = match &mut e.callee {
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        };
+
+        match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                if let Some(scope) = self.data.get_scope(function.ctxt) {
+                    if scope.intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL)) {
+                        return;
+                    }
+                }
+            }
+            Expr::Arrow(a) => {
+                if let Some(scope) = self.data.get_scope(a.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL) {
+                        return;
+                    }
+                }
+            }
+            _ => (),
+        }
+
+        let params_len = match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                let params = &function.params;
+
+                if !params.iter().any(|p| p.pat.is_rest()) {
+                    params.len()
+                } else {
+                    return;
+                }
+            }
+            Expr::Arrow(ArrowExpr { params, .. }) => {
+                if !params.iter().any(|p| p.is_rest()) {
+                    params.len()
+                } else {
+                    return;
+                }
+            }
+            Expr::Ident(i) => {
+                if let Some(scope) = self.data.get_scope(i.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
+                if let Some(data) = self.data.get_var_data(i.to_id()) {
+                    if let (true, Some(Value::Known(count))) = (
+                        data.flags.intersects(VarUsageInfoFlags::DECLARED),
+                        data.param_count,
+                    ) {
+                        count as usize
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+            _ => return,
+        };
+
+        if e.args.len() > params_len {
+            for i in (params_len..e.args.len()).rev() {
+                if let Some(arg) = e.args.get_mut(i) {
+                    let new = self.ignore_return_value(&mut arg.expr);
+
+                    if let Some(new) = new {
+                        *arg.expr = new;
+                    } else {
+                        e.args.remove(i);
+                    }
+                }
+            }
+        }
+    }
+
+    pub(crate) fn ignore_unused_args_of_new(&mut self, e: &mut NewExpr) {
+        if !self.options.unused && !self.options.reduce_vars {
+            return;
+        }
+
+        if self.ctx.bit_ctx.intersects(BitCtx::InWithStmt) {
+            return;
+        }
+
+        let args = if let Some(args) = &mut e.args {
+            args
+        } else {
+            return;
+        };
+
+        if args.iter().any(|a| a.spread.is_some()) {
+            return;
+        }
+
+        let callee = &mut *e.callee;
+
+        match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                if let Some(scope) = self.data.get_scope(function.ctxt) {
+                    if scope.intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL)) {
+                        return;
+                    }
+                }
+            }
+            Expr::Class(c) => {
+                for m in &c.class.body {
+                    if let Some(scope) =
+                        m.as_constructor().and_then(|c| self.data.get_scope(c.ctxt))
+                    {
+                        if scope
+                            .intersects(ScopeData::USED_ARGUMENTS.union(ScopeData::HAS_EVAL_CALL))
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            _ => (),
+        }
+
+        let params_len = match callee {
+            Expr::Fn(FnExpr { function, .. }) => {
+                let params = &function.params;
+
+                if !params.iter().any(|p| p.pat.is_rest()) {
+                    params.len()
+                } else {
+                    return;
+                }
+            }
+            Expr::Class(ClassExpr { class, .. }) => {
+                let c = class
+                    .body
+                    .iter()
+                    .filter_map(|c| c.as_constructor())
+                    .find(|c| c.body.is_some());
+
+                if let Some(c) = c {
+                    if !c
+                        .params
+                        .iter()
+                        .any(|p| p.as_param().and_then(|p| p.pat.as_rest()).is_some())
+                    {
+                        c.params.len()
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+            Expr::Ident(i) => {
+                if let Some(scope) = self.data.get_scope(i.ctxt) {
+                    if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                        return;
+                    }
+                }
+
+                if let Some(data) = self.data.get_var_data(i.to_id()) {
+                    if let (true, Some(Value::Known(count))) = (
+                        data.flags.intersects(VarUsageInfoFlags::DECLARED),
+                        data.param_count,
+                    ) {
+                        count as usize
+                    } else {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
+            _ => return,
+        };
+
+        if args.len() > params_len {
+            for i in (params_len..args.len()).rev() {
+                if let Some(arg) = args.get_mut(i) {
+                    let new = self.ignore_return_value(&mut arg.expr);
+
+                    if let Some(new) = new {
+                        *arg.expr = new;
+                    } else {
+                        args.remove(i);
+                    }
+                }
+            }
+        }
+    }
 }
 
 fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
     sym.as_str()
         .map_or(true, |s| !matches!(s, "toString" | "valueOf"))
+}
+
+/// Returns true for a function `arguments` access that can throw.
+fn is_restricted_function_property_access(member: &MemberExpr) -> bool {
+    let is_arguments = match &member.prop {
+        MemberProp::Ident(prop) => prop.sym == "arguments",
+        MemberProp::Computed(prop) => matches!(
+            &*prop.expr,
+            Expr::Lit(Lit::Str(prop)) if prop.value.as_str() == Some("arguments")
+        ),
+        _ => false,
+    };
+
+    is_arguments
+        && matches!(
+            member.obj.unwrap_parens(),
+            Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..)
+        )
+}
+
+/// Returns true for pure member calls whose argument coercion can throw.
+fn is_potentially_throwing_pure_member_call(callee: &Expr, args: &[ExprOrSpread]) -> bool {
+    if args.is_empty() {
+        return false;
+    }
+
+    let Expr::Member(MemberExpr {
+        obj,
+        prop: MemberProp::Ident(..),
+        ..
+    }) = callee.unwrap_parens()
+    else {
+        return false;
+    };
+
+    matches!(&**obj, Expr::Lit(Lit::Str(..)))
+        || matches!(&**obj, Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty())
+        || matches!(&**obj, Expr::Ident(Ident { sym, .. }) if &**sym == "Math")
+}
+
+/// Returns true when evaluating an object literal property cannot perform
+/// construction-time property-key coercion or spread enumeration.
+fn is_non_computed_object_prop(prop: &PropOrSpread) -> bool {
+    match prop {
+        PropOrSpread::Spread(..) => false,
+        PropOrSpread::Prop(prop) => match &**prop {
+            // `ignore_return_value` cannot retain shorthand identifier reads,
+            // which can throw for unresolved bindings.
+            Prop::Shorthand(..) => false,
+            Prop::Assign(..) => true,
+            Prop::KeyValue(prop) => !prop.key.is_computed() && !is_proto_key(&prop.key),
+            Prop::Getter(prop) => !prop.key.is_computed(),
+            Prop::Setter(prop) => !prop.key.is_computed(),
+            Prop::Method(prop) => !prop.key.is_computed(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        },
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    }
+}
+
+/// Returns true when an initializer is both non-nullish and can be reduced by
+/// `ignore_return_value` without losing construction-time effects.
+fn is_safe_object_assign_default_initializer(init: &Expr) -> bool {
+    if !matches!(
+        init,
+        Expr::Array(..) | Expr::Fn(..) | Expr::Arrow(..) | Expr::Object(..)
+    ) {
+        return false;
+    }
+
+    let mut visitor = NonDiscardableDefaultVisitor::default();
+    init.visit_with(&mut visitor);
+    !visitor.found
+}
+
+/// Returns true for object literal keys with special `__proto__` semantics.
+fn is_proto_key(key: &PropName) -> bool {
+    match key {
+        PropName::Ident(ident) => ident.sym == "__proto__",
+        PropName::Str(string) => string.value.as_str() == Some("__proto__"),
+        _ => false,
+    }
+}
+
+/// Returns true when a class member is safely discardable by
+/// `extract_class_side_effect`.
+fn is_discardable_class_default_member(member: &ClassMember) -> bool {
+    match member {
+        ClassMember::Method(method) => !method.key.is_computed(),
+        ClassMember::ClassProp(prop) => !prop.key.is_computed(),
+        ClassMember::AutoAccessor(accessor) => {
+            // Static auto-accessor initializers run while evaluating the class.
+            // `NonDiscardableDefaultVisitor::visit_class` does not check them,
+            // so keep a class default that has one.
+            (!accessor.is_static || accessor.value.is_none())
+                && !matches!(&accessor.key, Key::Public(key) if key.is_computed())
+        }
+        _ => true,
+    }
+}
+
+/// Finds expressions whose evaluation cannot be reconstructed by
+/// `ignore_return_value`.
+#[derive(Default)]
+struct NonDiscardableDefaultVisitor {
+    found: bool,
+    in_class_static_initializer: bool,
+}
+
+fn has_observable_param_initialization(pat: &Pat) -> bool {
+    match pat {
+        Pat::Ident(..) => false,
+        Pat::Rest(rest) => has_observable_param_initialization(&rest.arg),
+        _ => true,
+    }
+}
+
+impl Visit for NonDiscardableDefaultVisitor {
+    noop_visit_type!();
+
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
+        if self.in_class_static_initializer {
+            // Class static initializers run in strict mode. Extracting an assignment
+            // into the surrounding script can turn a ReferenceError into a global
+            // property creation, so retain the class instead.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, e: &UpdateExpr) {
+        if self.in_class_static_initializer {
+            // Like assignments, updates of unresolved names throw in a class's
+            // strict-mode static initializer but can create globals when moved.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_unary_expr(&mut self, e: &UnaryExpr) {
+        if self.in_class_static_initializer && e.op == op!("delete") {
+            // Class static initializers run in strict mode. Moving a deletion into
+            // a surrounding sloppy script can turn its TypeError into `false`.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
+        // Arrows capture `new.target` lexically. A class side-effect extraction
+        // can relocate an arrow without invoking it, which still makes a
+        // captured `new.target` invalid at the relocation site.
+        e.visit_children_with(self);
+    }
+
+    fn visit_function(&mut self, function: &Function) {
+        // Method and parameter decorators run while the class is evaluated, but
+        // the function body and parameter patterns run only when it is called.
+        function.decorators.visit_with(self);
+        for param in &function.params {
+            param.decorators.visit_with(self);
+        }
+    }
+
+    fn visit_decorator(&mut self, _: &Decorator) {
+        // `extract_class_side_effect` does not retain class or member decorators.
+        self.found = true;
+    }
+
+    fn visit_this_expr(&mut self, _: &ThisExpr) {
+        // `this` can be uninitialized before `super()` in a derived constructor.
+        // The side-effect extractor cannot reconstruct that runtime error, so retain
+        // defaults that evaluate it.
+        self.found = true;
+    }
+
+    fn visit_meta_prop_expr(&mut self, e: &MetaPropExpr) {
+        if e.kind == MetaPropKind::NewTarget {
+            // `new.target` is valid in class field initialization, but moving it
+            // outside the class would produce invalid syntax.
+            self.found = true;
+        }
+    }
+
+    fn visit_bin_expr(&mut self, e: &BinExpr) {
+        if matches!(
+            e.op,
+            op!("in")
+                | op!("instanceof")
+                | op!("<")
+                | op!("<=")
+                | op!(">")
+                | op!(">=")
+                | op!("==")
+                | op!("!=")
+        ) {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_object_lit(&mut self, e: &ObjectLit) {
+        // Object spread performs observable property enumeration and access,
+        // while computed keys perform ToPropertyKey coercion. Neither operation
+        // is preserved by side-effect extraction when its operand is pure.
+        if e.props
+            .iter()
+            .any(|prop| !is_non_computed_object_prop(prop))
+        {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_array_lit(&mut self, e: &ArrayLit) {
+        // Array spread invokes the iterator protocol, which cannot be preserved
+        // by reducing the array to its element expressions.
+        if e.elems
+            .iter()
+            .flatten()
+            .any(|element| element.spread.is_some())
+        {
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_class(&mut self, e: &Class) {
+        // Evaluating `class extends value {}` throws unless `value` is a
+        // constructor or `null`. The side-effect extractor intentionally only
+        // keeps expressions with direct effects, so retain the class default
+        // when its heritage cannot be proven to be `null`.
+        if e.super_class
+            .as_deref()
+            .is_some_and(|super_class| !matches!(super_class, Expr::Lit(Lit::Null(..))))
+        {
+            self.found = true;
+            return;
+        }
+
+        // Computed class keys perform ToPropertyKey coercion. The side-effect
+        // extractor can omit that coercion when the key expression itself is
+        // pure, so retain the whole default instead.
+        if e.body
+            .iter()
+            .any(|member| !is_discardable_class_default_member(member))
+        {
+            self.found = true;
+            return;
+        }
+
+        for member in &e.body {
+            let initializer = match member {
+                ClassMember::ClassProp(prop) if prop.is_static => prop.value.as_deref(),
+                ClassMember::PrivateProp(prop) if prop.is_static => prop.value.as_deref(),
+                ClassMember::StaticBlock(block) if block.body.stmts.len() == 1 => block
+                    .body
+                    .stmts
+                    .first()
+                    .and_then(|stmt| stmt.as_expr())
+                    .map(|stmt| &*stmt.expr),
+                _ => None,
+            };
+
+            if let Some(initializer) = initializer {
+                let was_in_class_static_initializer = self.in_class_static_initializer;
+                self.in_class_static_initializer = true;
+                initializer.visit_with(self);
+                self.in_class_static_initializer = was_in_class_static_initializer;
+
+                if self.found {
+                    return;
+                }
+            }
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        if matches!(e.prop, MemberProp::Computed(..)) {
+            // A computed member access performs ToPropertyKey coercion. The class
+            // side-effect extractor can discard that coercion when the key itself
+            // is pure, so retain the default instead.
+            self.found = true;
+            return;
+        }
+
+        if is_restricted_function_property_access(e) {
+            // Function `arguments` is a restricted property. Reading it can throw
+            // while a function is evaluated in a class initializer, but class-side
+            // effect extraction treats ordinary member reads as discardable.
+            self.found = true;
+            return;
+        }
+
+        if matches!(e.prop, MemberProp::PrivateName(..)) {
+            // Private member access performs a brand check that can throw even when
+            // evaluating the object expression itself has no observable effects.
+            // `extract_class_side_effect` cannot reproduce that check outside the
+            // class, so keep the class default intact.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_call_expr(&mut self, e: &CallExpr) {
+        if e.args.iter().any(|arg| arg.spread.is_some()) {
+            // Spread call arguments invoke the iterator protocol, which cannot be
+            // preserved by class-side-effect extraction.
+            self.found = true;
+            return;
+        }
+
+        if let Callee::Expr(callee) = &e.callee {
+            if is_potentially_throwing_pure_member_call(callee, &e.args) {
+                // `may_have_side_effects` recognizes known string and Math methods as pure,
+                // but their arguments may throw while being coerced. Class-side effect
+                // extraction cannot preserve that exception, so retain the default.
+                self.found = true;
+                return;
+            }
+        }
+
+        if matches!(
+            &e.callee,
+            Callee::Expr(callee) if matches!(callee.unwrap_parens(), Expr::Ident(Ident { sym, .. }) if &**sym == "eval")
+        ) {
+            // Direct eval observes the class evaluation environment, which cannot
+            // be preserved when class side effects are extracted.
+            self.found = true;
+            return;
+        }
+
+        if let Callee::Expr(callee) = &e.callee {
+            if let Expr::Arrow(arrow) = &**callee {
+                // Unlike a standalone arrow expression, a directly invoked arrow
+                // evaluates its body during class evaluation.
+                arrow.body.visit_with(self);
+                if self.found {
+                    return;
+                }
+            }
+        }
+
+        let has_observable_param_initialization = match &e.callee {
+            Callee::Expr(callee) => match &**callee {
+                Expr::Fn(FnExpr { function, .. }) => {
+                    function.body.is_empty()
+                        && function
+                            .params
+                            .iter()
+                            .any(|param| has_observable_param_initialization(&param.pat))
+                }
+                Expr::Arrow(ArrowExpr { body, params, .. }) => {
+                    matches!(
+                        &**body,
+                        ArrowFunctionBody::FunctionBody(body) if body.stmts.is_empty()
+                    ) && params.iter().any(has_observable_param_initialization)
+                }
+                _ => false,
+            },
+            _ => false,
+        };
+
+        if e.args.is_empty() && has_observable_param_initialization {
+            // Calling an empty function still initializes omitted parameters.
+            // In particular, defaults can run user code and destructuring can
+            // throw, neither of which is preserved by the pure-call shortcut.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_opt_call(&mut self, e: &OptCall) {
+        if e.args.iter().any(|arg| arg.spread.is_some()) {
+            // Spread optional-call arguments invoke the iterator protocol, which
+            // cannot be preserved by class-side-effect extraction.
+            self.found = true;
+            return;
+        }
+
+        if is_potentially_throwing_pure_member_call(&e.callee, &e.args) {
+            // Optional calls use the same pure-member shortcut as ordinary calls.
+            // Retain the default so argument coercion exceptions are preserved.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
+    fn visit_new_expr(&mut self, e: &NewExpr) {
+        if e.args
+            .as_ref()
+            .is_some_and(|args| args.iter().any(|arg| arg.spread.is_some()))
+        {
+            // Spread constructor arguments invoke the iterator protocol, which
+            // cannot be preserved by class-side-effect extraction.
+            self.found = true;
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
 }
 
 #[derive(Default)]

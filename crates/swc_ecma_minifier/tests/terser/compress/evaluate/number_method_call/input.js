@@ -1,0 +1,18 @@
+console.log((1.23).toExponential());
+console.log((1.23).toExponential(undefined));
+console.log((1.23).toExponential(void 0));
+console.log((1.23).toExponential(...[]));
+console.log((1.23).toExponential(...[undefined]));
+console.log((1.23).toExponential(...[...[undefined]]));
+console.log((1.23).toPrecision());
+console.log((1.23).toPrecision(undefined));
+console.log((1.23).toPrecision(void 0));
+console.log((1.23).toPrecision(...[]));
+console.log((1.23).toPrecision(...[undefined]));
+console.log((1.23).toPrecision(...[...[undefined]]));
+console.log((1.23).toFixed());
+console.log((1.23).toFixed(undefined));
+console.log((1.23).toFixed(void 0));
+console.log((1.23).toString());
+console.log((1.23).toString(undefined));
+console.log((1.23).toString(void 0));

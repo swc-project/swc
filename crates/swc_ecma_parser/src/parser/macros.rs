@@ -1,6 +1,45 @@
+/// Derives ECMAScript grammatical parameters and returns their previous values.
+/// `+` enables a parameter, `~` disables it, and `?` explicitly inherits it.
+/// Unlisted parameters are unchanged. Restoration belongs to the caller.
+/// https://tc39.es/ecma262/#sec-grammatical-parameters
+macro_rules! enter_grammar_context {
+    (@flag $parameter:ident) => {
+        $crate::parser::context::GrammarContext::$parameter
+    };
+    (@set $context:ident, + $parameter:ident) => {
+        $context.insert(enter_grammar_context!(@flag $parameter));
+    };
+    (@set $context:ident, ~ $parameter:ident) => {
+        $context.remove(enter_grammar_context!(@flag $parameter));
+    };
+    (@set $context:ident, ? $parameter:ident) => {
+        // Validate inherited parameter names without changing their values.
+        let _ = enter_grammar_context!(@flag $parameter);
+    };
+    ($context:expr, $($modifier:tt $parameter:ident),+ $(,)?) => {{
+        let context = $context;
+        let previous = *context;
+        $(enter_grammar_context!(@set context, $modifier $parameter);)+
+        previous
+    }};
+}
+
+/// Parses within explicit grammatical arguments, restoring them on success or
+/// error. Only GrammarContext is scoped; lexical and other parser contexts are
+/// unaffected.
+macro_rules! with_grammar_context {
+    ($parser:expr, [$($modifier:tt $parameter:ident),+ $(,)?], $parse:expr $(,)?) => {{
+        let parser = &mut *$parser;
+        let mut context = parser.grammar_ctx();
+        enter_grammar_context!(&mut context, $($modifier $parameter),+);
+        parser.with_grammar_context(context, $parse)
+    }};
+}
+
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             tracing::debug!("{}: {:?}", stringify!($name), $p.input.cur());
         }
     }};
@@ -20,6 +59,7 @@ macro_rules! syntax_error {
             }
         }
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             tracing::error!(
                 "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
                 file!(),
@@ -62,7 +102,7 @@ macro_rules! unexpected {
 
 macro_rules! debug_tracing {
     ($p:expr, $name:tt) => {{
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         {
             let _ = tracing::span!(
                 tracing::Level::ERROR,

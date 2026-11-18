@@ -116,6 +116,7 @@ impl PluginModuleCacheInner {
 
                 let module =
                     if let Some(cache) = unsafe { fs_cache_store.load(rt, &module_bytes_hash) } {
+                        #[cfg(debug_assertions)]
                         tracing::debug!("Build WASM from cache: {key}");
                         cache
                     } else {
@@ -222,7 +223,7 @@ struct FileSystemCache {
 
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 impl FileSystemCache {
-    #[tracing::instrument(level = "info", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
     fn create(root: Option<&str>) -> Option<Self> {
         let mut root_path = if let Some(root) = root {
             Some(PathBuf::from(root))

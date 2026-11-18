@@ -1,0 +1,18 @@
+  x multiple `export =` found
+   ,-[$DIR/tests/compile/lints/duplicate-exports/5/input/input.ts:1:1]
+ 1 | export = 1;
+   : ^^^^^|^^^^^
+   :      `-- previous `export =` declared here
+ 2 | export = 2;
+   : ^^^^^^^^^^^
+ 3 | export = 3;
+   `----
+  x multiple `export =` found
+   ,-[$DIR/tests/compile/lints/duplicate-exports/5/input/input.ts:2:1]
+ 1 | export = 1;
+ 2 | export = 2;
+   : ^^^^^|^^^^^
+   :      `-- previous `export =` declared here
+ 3 | export = 3;
+   : ^^^^^^^^^^^
+   `----

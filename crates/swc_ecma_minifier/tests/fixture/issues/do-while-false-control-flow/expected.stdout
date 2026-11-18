@@ -1,0 +1,5 @@
+unlabeled break body0,tail0,body1,tail1
+labeled break body0,tail0,body1,tail1
+unlabeled continue body0,tail0,body1,tail1
+labeled continue body0,tail0,body1,tail1
+hoist after break undefined

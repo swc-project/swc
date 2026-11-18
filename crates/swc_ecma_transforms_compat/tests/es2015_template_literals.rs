@@ -1,7 +1,10 @@
-use swc_ecma_ast::Pass;
+use std::path::PathBuf;
+
+use swc_ecma_ast::{Expr, Pass};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_compat::es2015::template_literal;
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{test_exec, test_fixture};
+use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 fn syntax() -> Syntax {
     Default::default()
@@ -33,34 +36,6 @@ const write = (text) => {
 write(1)
 write('2')
 write`3`"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    escape_quotes,
-    r#"var t = `'${foo}' "${bar}"`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    multiple,
-    r#"var foo = `test ${foo} ${bar}`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    none,
-    r#"var foo = `test`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    only,
-    r#"var foo = `${test}`;"#
 );
 
 test_exec!(
@@ -117,20 +92,6 @@ test_exec!(
 expect(calls).toEqual([1, 2]);"#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    single,
-    r#"var foo = `test ${foo}`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    statement,
-    r#"var foo = `test ${foo + bar}`;"#
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -138,23 +99,6 @@ test_exec!(
     r#"const fn = () => `${Symbol()}`;
 
 expect(fn).toThrow(TypeError);"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    template_revision,
-    r"tag`\unicode and \u{55}`;
-tag`\01`;
-tag`\xg${0}right`;
-tag`left${0}\xg`;
-tag`left${0}\xg${1}right`;
-tag`left${0}\u000g${1}right`;
-tag`left${0}\u{-0}${1}right`;
-function a() {
-  var undefined = 4;
-  tag`\01`;
-}"
 );
 
 // default_order_exec
@@ -190,105 +134,18 @@ expect(calls).toEqual([1, 2, 3, 4]);
 );
 
 // default_only
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_only,
-    r#"
-var foo = `${test}`;
-
-"#
-);
 
 // default_single
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_single,
-    r#"
-var foo = `test ${foo}`;
-
-"#
-);
 
 // default_statement
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_statement,
-    r#"
-var foo = `test ${foo + bar}`;
-
-"#
-);
 
 // default_expression_first
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_expression_first,
-    r#"
-var foo = 5;
-var bar = 10;
-var baz = 15;
-
-var example = `${"a"}`;
-var example2 = `${1}`;
-var example3 = 1 + `${foo}${bar}${baz}`;
-var example4 = 1 + `${foo}bar${baz}`;
-var example5 = `${""}`;
-
-"#
-);
 
 // default_literals
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_literals,
-    r#"
-var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;
-
-"#
-);
 
 // default_multiline
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_multiline,
-    r#"
-var o = `wow
-this is
-actually multiline!`;
-
-"#
-);
 
 // default_template_revision
-test!(
-    // TODO: Improve parser
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    default_template_revision,
-    r"
-tag`\unicode and \u{55}`;
-
-tag`\01`;
-tag`\xg${0}right`;
-tag`left${0}\xg`;
-tag`left${0}\xg${1}right`;
-tag`left${0}\u000g${1}right`;
-tag`left${0}\u{-0}${1}right`;
-
-function a() {
-  var undefined = 4;
-  tag`\01`;
-}
-
-"
-);
 
 // default_order2_exec
 test_exec!(
@@ -345,26 +202,8 @@ expect(bar()).not.toBe(foo());
 );
 
 // default_functions
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_functions,
-    r#"
-var foo = `test ${_.test(foo)} ${bar}`;
-
-"#
-);
 
 // default_none
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_none,
-    r#"
-var foo = `test`;
-
-"#
-);
 
 // default_symbol_exec
 test_exec!(
@@ -380,218 +219,10 @@ expect(fn).toThrow(TypeError);
 );
 
 // default_cache_revision
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_cache_revision,
-    r#"
-var tag = v => v;
-
-function foo() {
-  return tag`some template`;
-}
-function bar() {
-  return tag`some template`;
-}
-expect(foo()).toBe(foo());
-expect(foo()).toEqual(["some template"]);
-
-expect(bar()).toBe(bar());
-expect(bar()).toEqual(["some template"]);
-
-expect(bar()).not.toBe(foo());
-
-"#
-);
 
 // default_tag
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_tag,
-    r"
-var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
-var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
-var bar = bar`wow\naB${ 42 } ${_.baz()}`;
-
-"
-);
 
 // default_simple_tag
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    default_simple_tag,
-    r#"
-var foo = tag`wow`;
-var bar = tag`first${1}second`;
-
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_598_1,
-    "
-  export function foo() {
-    console.log(i18n`Hello World`);
-    console.log(i18n`Nobody will ever see this.`);
-  }
-"
-);
-
-test!(syntax(), |_| tr(Default::default()), codegen_01, "`\"`");
-
-test!(syntax(), |_| tr(Default::default()), codegen_02, "`\"\"`");
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_03,
-    "`\"${foo}`"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_04,
-    "`\"${foo}\"`"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_05,
-    "`\"\"${foo}\"\"`"
-);
-
-test!(syntax(), |_| tr(Default::default()), codegen_06, "\"``\"");
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_07,
-    r#"`The ${argumentName} has unexpected type of "`"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_08,
-    r#"`". Expected argument to be an object with the following `"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_09,
-    r#"`keys: "${reducerKeys.join('" "')}"`"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_10,
-    r#"`The ${argumentName} has unexpected type of "` +
-  matchType +
-  `". Expected argument to be an object with the following ` +
-  `keys: "${reducerKeys.join('" "')}"`"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1280,
-    "
-    const myVar = T`'Hello'`;
-    "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1488_1,
-    "
-    `\\``
-    "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1549_1,
-    "const a = `\r\n`;"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1549_2,
-    "const a = \"\\r\\n\";"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1742_1,
-    "
-    function foo() {
-      return this;
-    }
-    foo`template`
-    "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    preserve_comment,
-    r#"
-import { useState } from 'react';
-import './index.css';
-
-export const AppPage = () => {
-  const [active, setActive] = useState(false);
-
-  const case1 = async () => {
-    // error case
-    const module = await import(
-      /* webpackChunkName: "a/en" */
-     `./message/en.json`
-    );
-    return module;
-  };
-
-  const case2 = async () => {
-    const locale = 'zh';
-    const module = await import(
-      /* webpackChunkName: "b/zh" */
-      `./message/${locale}.json`
-    );
-    return module;
-  };
-
-  const case3 = async () => {
-    const module = await import(
-      /* webpackChunkName: "c/cn" */
-      './message/cn.json'
-    );
-    return module;
-  };
-
-  const case4 = async () => {
-    const module = await import(
-      /* webpackChunkName: "d/ja" */
-      "./message/ja.json"
-    );
-    return module;
-  };
-
-  return;
-};
-    "#
-);
 
 test_exec!(
     syntax(),
@@ -605,119 +236,6 @@ test_exec!(
     }
     expect(typeof obj.foo`template`).toEqual('object')
     "
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_escape_quotes,
-    r#"var t = `'${foo}' "${bar}"`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_expression_first,
-    r#"
-var foo = 5;
-var bar = 10;
-var baz = 15;
-
-var example = `${"a"}`;
-var example2 = `${1}`;
-var example3 = 1 + `${foo}${bar}${baz}`;
-var example4 = 1 + `${foo}bar${baz}`;
-var example5 = `${""}`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_function,
-    r#"var foo = `test ${_.test(foo)} ${bar}`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_literals,
-    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_multi_line,
-    r#"
-var o = `wow
-this is
-actually multiline!`;
-    "#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_multiple,
-    r#"var foo = `test ${foo} ${bar}`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_none,
-    r#"var foo = `test`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_only,
-    r#"var foo = `${test}`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_single,
-    r#"var foo = `test ${foo}`;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: true,
-        mutable_template: false
-    }),
-    loose_statement,
-    r#"var foo = `test ${foo + bar}`;"#
 );
 
 test_exec!(
@@ -797,45 +315,28 @@ test_exec!(
   expect(fn).toThrow(TypeError);"
 );
 
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: false,
-        mutable_template: true
-    }),
-    loose_no_tag,
-    "`foo ${bar} baz`;"
-);
+/// Models plugins that synthesize ordinary templates with only raw text.
+struct ClearCooked;
 
-test!(
-    syntax(),
-    |_| tr(template_literal::Config {
-        ignore_to_primitive: false,
-        mutable_template: true
-    }),
-    loose_tag,
-    r"
-var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
-var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
-var bar = bar`wow\naB${ 42 } ${_.baz()}`;
-    "
-);
+impl VisitMut for ClearCooked {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
+        if let Expr::Tpl(tpl) = expr {
+            for quasi in &mut tpl.quasis {
+                quasi.cooked = None;
+            }
+        }
+    }
+}
 
-test!(
-    // TODO: Fix parser
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    loose_template_revision,
-    r"tag`\unicode and \u{55}`;
-tag`\01`;
-tag`\xg${0}right`;
-tag`left${0}\xg`;
-tag`left${0}\xg${1}right`;
-tag`left${0}\u000g${1}right`;
-tag`left${0}\u{-0}${1}right`;
-function a() {
-var undefined = 4;
-tag`\01`;
-}"
-);
+#[testing::fixture("tests/template-literals/missing-cooked/**/input.js")]
+fn missing_cooked(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+    test_fixture(
+        syntax(),
+        &|_| (visit_mut_pass(ClearCooked), tr(Default::default())),
+        &input,
+        &output,
+        Default::default(),
+    );
+}

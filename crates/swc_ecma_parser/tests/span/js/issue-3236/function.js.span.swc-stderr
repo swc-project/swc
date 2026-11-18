@@ -88,7 +88,7 @@
    :                ^
  2 |     "use strict";
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
  1 | ,-> function f(a = 0) {
  2 | |       "use strict";

@@ -1,6 +1,6 @@
 use std::{
     env,
-    path::{Component, PathBuf},
+    path::{Component, Path, PathBuf},
 };
 
 use anyhow::{Context, Error};
@@ -96,7 +96,12 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<TokenStream>, Error> {
     let base_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect(
         "#[fixture] requires CARGO_MANIFEST_DIR because it's relative to cargo manifest directory",
     ));
-    let resolved_path = RelativePath::new(&attr.pattern).to_path(&base_dir);
+
+    expand_from(callee, attr, &base_dir)
+}
+
+fn expand_from(callee: &Ident, attr: Config, base_dir: &Path) -> Result<Vec<TokenStream>, Error> {
+    let resolved_path = RelativePath::new(&attr.pattern).to_path(base_dir);
     let pattern = resolved_path.to_string_lossy();
 
     let paths =
@@ -111,7 +116,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<TokenStream>, Error> {
             .canonicalize()
             .with_context(|| format!("failed to canonicalize {}", path.display()))?;
 
-        let path_for_name = path.strip_prefix(&base_dir).with_context(|| {
+        let path_for_name = path.strip_prefix(base_dir).with_context(|| {
             format!(
                 "Failed to strip prefix `{}` from `{}`",
                 base_dir.display(),
@@ -130,10 +135,7 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<TokenStream>, Error> {
             }
         }
 
-        let ignored = path.components().any(|c| match c {
-            Component::Normal(s) => s.to_string_lossy().starts_with('.'),
-            _ => false,
-        });
+        let ignored = is_ignored_fixture(path_for_name);
         let test_name = format!(
             "{}_{}",
             callee,
@@ -174,6 +176,15 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<TokenStream>, Error> {
     Ok(test_fns)
 }
 
+/// Returns whether a manifest-relative fixture path contains a hidden
+/// component.
+fn is_ignored_fixture(path: &Path) -> bool {
+    path.components().any(|component| match component {
+        Component::Normal(name) => name.to_string_lossy().starts_with('.'),
+        _ => false,
+    })
+}
+
 struct InputParen {
     input: Punctuated<LitStr, Token![,]>,
 }
@@ -183,5 +194,63 @@ impl Parse for InputParen {
         Ok(Self {
             input: input.call(Punctuated::parse_terminated)?,
         })
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::fs::{create_dir_all, write};
+
+    use proc_macro2::Span;
+    use tempfile::tempdir;
+
+    use super::*;
+
+    #[test]
+    fn ignores_only_hidden_fixture_path_components() {
+        let temp_dir = tempdir().unwrap();
+        let manifest_dir = temp_dir
+            .path()
+            .join(".codex")
+            .join("worktrees")
+            .join("swc")
+            .join("crates")
+            .join("testing_macros");
+        let fixture_dir = manifest_dir.join("tests").join("fixture");
+        let ignored_fixture_dir = fixture_dir.join(".ignored");
+
+        create_dir_all(&ignored_fixture_dir).unwrap();
+        write(fixture_dir.join("normal.ts"), "").unwrap();
+        write(ignored_fixture_dir.join("ignored.ts"), "").unwrap();
+
+        let cases = expand_from(
+            &Ident::new("fixture", Span::call_site()),
+            Config {
+                pattern: "tests/fixture/**/*.ts".into(),
+                exclude_patterns: Vec::new(),
+            },
+            &manifest_dir,
+        )
+        .unwrap();
+
+        let case_count = cases.len();
+        let ignored_count = cases
+            .into_iter()
+            .map(|case| syn::parse2::<syn::ItemFn>(case).unwrap())
+            .filter(|case| case.attrs.iter().any(|attr| attr.path().is_ident("ignore")))
+            .count();
+
+        assert_eq!(case_count, 2);
+        assert_eq!(ignored_count, 1);
+    }
+
+    #[test]
+    fn ignores_hidden_components_in_cross_crate_fixture_paths() {
+        assert!(!is_ignored_fixture(Path::new(
+            "../other-crate/tests/fixture/input.js"
+        )));
+        assert!(is_ignored_fixture(Path::new(
+            "../other-crate/tests/fixture/.case/input.js"
+        )));
     }
 }

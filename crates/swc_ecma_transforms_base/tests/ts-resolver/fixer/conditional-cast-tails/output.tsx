@@ -1,0 +1,12 @@
+left && (value as T) ? /a/ : other;
+left || (value satisfies T) ? /a/ : other;
+left ?? (value as T) ? /a/ : other;
+left + (value as T) ? /a/ : other;
+left & (value satisfies T) ? /a/ : other;
+left * (value as T) ? +other : value;
+value as T && other ? /a/ : value;
+value satisfies T || other ? /a/ : value;
+left && value as T ? true : false;
+left || value satisfies T ? -1 : other;
+left && ((value as T) ? /a/ : other) ? /b/ : value;
+left && ((value as T) ? /a/ : other)() ? /b/ : value;

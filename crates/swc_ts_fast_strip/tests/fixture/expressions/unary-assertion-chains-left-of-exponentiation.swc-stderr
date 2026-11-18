@@ -1,0 +1,52 @@
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,-[1:1]
+ 1 | const negative = -input as number as number ** 2;
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | const positive = +input satisfies number ** 2;
+   `----
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,-[2:1]
+ 1 | const negative = -input as number as number ** 2;
+ 2 | const positive = +input satisfies number ** 2;
+   :                  ^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | const constant = -1 as const ** 2;
+   `----
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,-[3:1]
+ 2 | const positive = +input satisfies number ** 2;
+ 3 | const constant = -1 as const ** 2;
+   :                  ^^^^^^^^^^^
+ 4 | const negated = !input as boolean ** 2;
+   `----
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,-[4:1]
+ 3 | const constant = -1 as const ** 2;
+ 4 | const negated = !input as boolean ** 2;
+   :                 ^^^^^^^^^^^^^^^^^
+ 5 | const complemented = ~input satisfies number as number ** 2;
+   `----
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,-[5:1]
+ 4 | const negated = !input as boolean ** 2;
+ 5 | const complemented = ~input satisfies number as number ** 2;
+   :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 | const mixed = typeof input as string satisfies string ** 2;
+   `----
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,-[6:1]
+ 5 | const complemented = ~input satisfies number as number ** 2;
+ 6 | const mixed = typeof input as string satisfies string ** 2;
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

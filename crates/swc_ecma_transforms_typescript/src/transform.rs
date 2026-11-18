@@ -1,38 +1,36 @@
-use std::{iter, mem};
+use std::mem;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{
-    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
-    DUMMY_SP,
-};
+use swc_common::{errors::HANDLER, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::rename;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, find_pat_ids, ident::IdentLike, is_literal,
-    member_expr, private_ident, quote_ident, quote_str, stack_size::maybe_grow_default,
-    ExprFactory, QueryRef, RefRewriter, StmtLikeInjector,
+    alias_ident_for,
+    constructor::inject_after_super,
+    is_literal, member_expr, private_ident, quote_ident, quote_str,
+    stack_size::maybe_grow_default,
+    ts_bindings::{TsContainerId, TsMemberId},
+    ExprFactory, RefRewriter, StmtLikeInjector,
 };
 use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
+    noop_visit_mut_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
 use crate::{
-    config::TsImportExportAssignConfig,
-    ts_enum::{EnumValueComputer, TsEnumRecord, TsEnumRecordKey, TsEnumRecordValue},
-    utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
+    config::{Config, TsImportExportAssignConfig},
+    retain::{should_retain_decl, should_retain_module_item, should_retain_stmt},
+    semantic::{EnumBodyCursor, EnumInlining, SemanticInfo},
+    utils::{assign_value_to_this_private_prop, assign_value_to_this_prop},
 };
 
-#[inline]
-fn enum_member_id_atom(id: &TsEnumMemberId) -> Atom {
-    match id {
-        TsEnumMemberId::Ident(ident) => ident.sym.clone(),
-        TsEnumMemberId::Str(s) => s.value.to_atom_lossy().into_owned(),
-        #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes"),
-    }
-}
+mod enums;
+mod exports;
+mod namespaces;
 
-/// ## This Module will transform all TypeScript specific synatx
+use self::{enums::EnumEmission, exports::ExportQuery, namespaces::NamespaceInstantiation};
+
+/// ## This Module will transform all TypeScript specific syntax
 ///
 /// - ### [namespace]/[modules]/[enums]
 /// - ### class constructor [parameter properties]
@@ -56,26 +54,34 @@ fn enum_member_id_atom(id: &TsEnumMemberId) -> Atom {
 /// [enums]: https://www.typescriptlang.org/docs/handbook/enums.html
 /// [parameter properties]: https://www.typescriptlang.org/docs/handbook/2/classes.html#parameter-properties
 /// [export and import require]: https://www.typescriptlang.org/docs/handbook/modules.html#export--and-import--require
-#[derive(Default)]
-pub(crate) struct Transform {
+pub(crate) struct Transform<'a> {
     unresolved_ctxt: SyntaxContext,
     top_level_ctxt: SyntaxContext,
 
     import_export_assign_config: TsImportExportAssignConfig,
+    import_not_used_as_values: crate::ImportsNotUsedAsValues,
     ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
     native_class_properties: bool,
+    flow_syntax: bool,
 
+    semantic: &'a SemanticInfo,
+    has_export_refs: bool,
+
+    in_namespace: bool,
+    // Preserve each completed body's contribution across erasure so its
+    // enclosing namespace can reuse the result without rescanning the body.
+    namespace_state: NamespaceInstantiation,
     is_lhs: bool,
 
-    ref_rewriter: Option<RefRewriter<ExportQuery>>,
+    in_binding: bool,
+    container_contexts: Vec<ContainerContext<'a>>,
+    enum_inlining: EnumInlining,
+    enum_emissions: Vec<EnumEmission<'a>>,
+    enum_bodies: EnumBodyCursor<'a>,
 
     decl_id_record: FxHashSet<Id>,
     namespace_id: Option<Id>,
-    exported_binding: FxHashMap<Id, Option<Id>>,
-
-    enum_record: TsEnumRecord,
-    const_enum: FxHashSet<Id>,
 
     var_list: Vec<Id>,
     export_var_list: Vec<Id>,
@@ -84,157 +90,144 @@ pub(crate) struct Transform {
     in_class_prop_init: Vec<Box<Expr>>,
 }
 
-pub fn transform(
+/// The JS bindings that this particular emitted container body provides.
+/// Exported variables, enums, aliases and nested namespaces are properties;
+/// functions and classes retain a body-local declaration.
+struct ContainerContext<'a> {
+    container: TsContainerId,
+    object: Id,
+    // Local names borrow the immutable semantic declaration store.
+    locals: FxHashMap<TsMemberId, &'a Id>,
+}
+
+impl Transform<'_> {
+    fn retain_decl(&self, declaration: &Decl) -> bool {
+        if let Decl::TsModule(declaration) = declaration {
+            // No namespace bindings means analysis found only erased namespaces.
+            return self.semantic.bindings.namespace_body(0).is_some()
+                && !declaration.declare
+                && !declaration.global
+                && declaration.body.is_some()
+                && declaration.id.as_ident().is_some_and(|id| {
+                    // A known value lets the ordinary child walk decide this
+                    // body's contribution. Reuse known type-only identities
+                    // before the fallback for uninstantiated private aliases.
+                    self.semantic.bindings.ident_value_target(id).is_some()
+                        || (!self.semantic.has_pure_type(&id.to_id())
+                            && self.namespace_instantiation(declaration).is_instantiated())
+                });
+        }
+        if !should_retain_decl(declaration) {
+            return false;
+        }
+        match declaration {
+            Decl::TsEnum(declaration) => !self.can_erase_enum(declaration),
+            _ => true,
+        }
+    }
+
+    fn retain_module_item(&self, item: &ModuleItem) -> bool {
+        match item {
+            // Statement declarations apply the same check in visit_mut_stmt.
+            ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(_))) => true,
+            ModuleItem::Stmt(Stmt::Decl(declaration))
+            | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: declaration,
+                ..
+            })) => self.retain_decl(declaration),
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(declaration)) => {
+                !declaration.is_type_only
+                    && self
+                        .semantic
+                        .has_import_equals_usage(&declaration.id.to_id())
+            }
+            _ => should_retain_module_item(item),
+        }
+    }
+
+    fn has_ref_rewrites(&self) -> bool {
+        !self.in_binding && (!self.container_contexts.is_empty() || self.has_export_refs)
+    }
+
+    fn ref_rewriter(&self) -> Option<RefRewriter<ExportQuery<'_, '_>>> {
+        self.has_ref_rewrites().then(|| self.new_ref_rewriter())
+    }
+
+    fn new_ref_rewriter(&self) -> RefRewriter<ExportQuery<'_, '_>> {
+        RefRewriter {
+            query: ExportQuery::new(
+                &self.semantic.exported_binding,
+                &self.semantic.bindings,
+                &self.container_contexts,
+                self.has_export_refs,
+            ),
+        }
+    }
+}
+
+pub fn transform<'a>(
     unresolved_mark: Mark,
     top_level_mark: Mark,
-    import_export_assign_config: TsImportExportAssignConfig,
-    ts_enum_is_mutable: bool,
-    verbatim_module_syntax: bool,
-    native_class_properties: bool,
-) -> impl Pass {
+    semantic: &'a SemanticInfo,
+    config: Config,
+) -> impl Pass + 'a {
+    // Shared members are handled by the emitted owner. Only unindexed exports
+    // can use the legacy fallback outside or after those owner queries.
+    let has_export_refs = semantic
+        .exported_binding
+        .iter()
+        .any(|(id, owner)| owner.is_some() && semantic.bindings.member_of(id).is_none());
     visit_mut_pass(Transform {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
-        import_export_assign_config,
-        ts_enum_is_mutable,
-        verbatim_module_syntax,
-        native_class_properties,
-        ..Default::default()
+        semantic,
+        has_export_refs,
+        import_not_used_as_values: config.import_not_used_as_values,
+        import_export_assign_config: config.import_export_assign_config,
+        ts_enum_is_mutable: config.ts_enum_is_mutable,
+        verbatim_module_syntax: config.verbatim_module_syntax,
+        native_class_properties: config.native_class_properties,
+        flow_syntax: config.flow_syntax,
+        in_namespace: false,
+        namespace_state: NamespaceInstantiation::default(),
+        is_lhs: false,
+        in_binding: false,
+        container_contexts: Vec::new(),
+        enum_inlining: semantic.enum_inlining,
+        enum_emissions: Vec::new(),
+        enum_bodies: semantic.enums.body_cursor(),
+        decl_id_record: FxHashSet::default(),
+        namespace_id: None,
+        var_list: Vec::new(),
+        export_var_list: Vec::new(),
+        in_class_prop: Vec::new(),
+        in_class_prop_init: Vec::new(),
     })
 }
 
-impl Visit for Transform {
-    noop_visit_type!();
-
-    fn visit_ts_enum_decl(&mut self, node: &TsEnumDecl) {
-        node.visit_children_with(self);
-
-        let TsEnumDecl {
-            declare,
-            is_const,
-            id,
-            members,
-            ..
-        } = node;
-
-        if *is_const {
-            self.const_enum.insert(id.to_id());
-        }
-
-        debug_assert!(!declare);
-
-        let mut default_init = 0.0.into();
-
-        for m in members {
-            let value = Self::transform_ts_enum_member(
-                m.clone(),
-                &id.to_id(),
-                &default_init,
-                &self.enum_record,
-                self.unresolved_ctxt,
-            );
-
-            default_init = value.inc();
-
-            let member_name = enum_member_id_atom(&m.id);
-            let key = TsEnumRecordKey {
-                enum_id: id.to_id(),
-                member_name: member_name.clone(),
-            };
-
-            self.enum_record.insert(key, value);
-        }
-    }
-
-    fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
-        let id = n.id.to_id();
-        let namespace_id = self.namespace_id.replace(id);
-
-        n.body.visit_with(self);
-
-        self.namespace_id = namespace_id;
-    }
-
-    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
-        let id = n.id.to_id();
-
-        let namespace_id = self.namespace_id.replace(id);
-
-        n.body.visit_with(self);
-
-        self.namespace_id = namespace_id;
-    }
-
-    fn visit_export_decl(&mut self, node: &ExportDecl) {
-        node.visit_children_with(self);
-
-        match &node.decl {
-            Decl::Var(var_decl) => {
-                self.exported_binding.extend({
-                    find_pat_ids(&var_decl.decls)
-                        .into_iter()
-                        .zip(iter::repeat(self.namespace_id.clone()))
-                });
-            }
-            Decl::TsEnum(ts_enum_decl) => {
-                self.exported_binding
-                    .insert(ts_enum_decl.id.to_id(), self.namespace_id.clone());
-            }
-            Decl::TsModule(ts_module_decl) => {
-                self.exported_binding
-                    .insert(ts_module_decl.id.to_id(), self.namespace_id.clone());
-            }
-            _ => {}
-        }
-    }
-
-    fn visit_export_named_specifier(&mut self, node: &ExportNamedSpecifier) {
-        if let ModuleExportName::Ident(ident) = &node.orig {
-            self.exported_binding
-                .insert(ident.to_id(), self.namespace_id.clone());
-        }
-    }
-
-    fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
-        node.visit_children_with(self);
-
-        if let Expr::Ident(ident) = &*node.expr {
-            self.exported_binding
-                .insert(ident.to_id(), self.namespace_id.clone());
-        }
-    }
-
-    fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
-        node.visit_children_with(self);
-
-        if node.is_export {
-            self.exported_binding
-                .insert(node.id.to_id(), self.namespace_id.clone());
-        }
-    }
-
-    fn visit_expr(&mut self, node: &Expr) {
-        maybe_grow_default(|| node.visit_children_with(self));
-    }
-}
-
-impl VisitMut for Transform {
+impl VisitMut for Transform<'_> {
     noop_visit_mut_type!();
 
-    fn visit_mut_program(&mut self, node: &mut Program) {
-        node.visit_with(self);
+    crate::type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
 
-        if !self.exported_binding.is_empty() {
-            self.ref_rewriter = Some(RefRewriter {
-                query: ExportQuery {
-                    export_name: self.exported_binding.clone(),
-                },
-            });
-        }
+    crate::type_to_none!(visit_mut_opt_ts_type_ann, Box<TsTypeAnn>);
+
+    crate::type_to_none!(visit_mut_opt_ts_type_param_decl, Box<TsTypeParamDecl>);
+
+    crate::type_to_none!(
+        visit_mut_opt_ts_type_param_instantiation,
+        Box<TsTypeParamInstantiation>
+    );
+
+    fn visit_mut_program(&mut self, node: &mut Program) {
         node.visit_mut_children_with(self);
     }
 
     fn visit_mut_module(&mut self, node: &mut Module) {
+        if !self.verbatim_module_syntax {
+            self.strip_module_items_with_semantic(&mut node.body);
+        }
+
         self.visit_mut_for_ts_import_export(node);
 
         node.visit_mut_children_with(self);
@@ -259,16 +252,25 @@ impl VisitMut for Transform {
                 .into(),
             )
         }
+
+        if self.flow_syntax {
+            self.normalize_module_await_bindings(node);
+        }
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
         let var_list = self.var_list.take();
-        node.retain_mut(|item| {
-            let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
-            item.visit_mut_with(self);
-            // Remove those folded into Empty
-            is_empty || !item.as_stmt().map(Stmt::is_empty).unwrap_or(false)
-        });
+        if self.in_namespace {
+            self.namespace_state = self.visit_namespace_items(node);
+        } else {
+            node.retain(|item| self.retain_module_item(item));
+            node.retain_mut(|item| {
+                let is_empty = item.as_stmt().map(Stmt::is_empty).unwrap_or(false);
+                item.visit_mut_with(self);
+                // Remove those folded into Empty.
+                is_empty || !item.as_stmt().map(Stmt::is_empty).unwrap_or(false)
+            });
+        }
         let var_list = mem::replace(&mut self.var_list, var_list);
 
         if !var_list.is_empty() {
@@ -288,6 +290,31 @@ impl VisitMut for Transform {
         let prop_list = self.in_class_prop.take();
         let init_list = self.in_class_prop_init.take();
 
+        node.retain(|member| match member {
+            ClassMember::TsIndexSignature(..) => false,
+            ClassMember::Constructor(Constructor { body: None, .. }) => false,
+            ClassMember::Method(ClassMethod {
+                is_abstract,
+                function,
+                ..
+            })
+            | ClassMember::PrivateMethod(PrivateMethod {
+                is_abstract,
+                function,
+                ..
+            }) => !is_abstract && function.body.is_some(),
+            ClassMember::ClassProp(
+                ClassProp { declare: true, .. }
+                | ClassProp {
+                    is_abstract: true, ..
+                },
+            )
+            | ClassMember::AutoAccessor(AutoAccessor {
+                is_abstract: true, ..
+            }) => false,
+            _ => true,
+        });
+
         node.visit_mut_children_with(self);
         let prop_list = mem::replace(&mut self.in_class_prop, prop_list);
         let init_list = mem::replace(&mut self.in_class_prop_init, init_list);
@@ -302,6 +329,8 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_constructor(&mut self, node: &mut Constructor) {
+        node.accessibility = None;
+
         node.params
             .iter_mut()
             .for_each(|param_or_ts_param_prop| match param_or_ts_param_prop {
@@ -317,7 +346,9 @@ impl VisitMut for Transform {
                         TsParamPropParam::Ident(binding_ident) => {
                             let id = binding_ident.to_id();
                             let prop_name = PropName::Ident(IdentName::from(&*binding_ident));
-                            let value = Ident::from(&*binding_ident).into();
+                            let mut value_ident = Ident::from(&*binding_ident);
+                            value_ident.optional = false;
+                            let value = value_ident.into();
 
                             (
                                 binding_ident.clone().into(),
@@ -334,7 +365,9 @@ impl VisitMut for Transform {
 
                             let id = binding_ident.id.to_id();
                             let prop_name = PropName::Ident(binding_ident.id.clone().into());
-                            let value = binding_ident.id.clone().into();
+                            let mut value_ident = binding_ident.id.clone();
+                            value_ident.optional = false;
+                            let value = value_ident.into();
 
                             (
                                 assign_pat.clone().into(),
@@ -362,7 +395,7 @@ impl VisitMut for Transform {
             });
 
         node.params.visit_mut_children_with(self);
-        node.body.visit_mut_children_with(self);
+        node.body.visit_mut_with(self);
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
@@ -384,28 +417,72 @@ impl VisitMut for Transform {
                 .into(),
             )
         }
+
+        node.retain(|stmt| !matches!(stmt, Stmt::Empty(empty_stmt) if empty_stmt.span.is_dummy()));
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, node: &mut TsNamespaceDecl) {
         let id = node.id.to_id();
+        let context = self.namespace_context(id.clone(), &node.body);
+        let pushed = context.is_some();
+        self.container_contexts.extend(context);
         let namespace_id = self.namespace_id.replace(id);
 
         node.body.visit_mut_with(self);
+        self.namespace_state =
+            self.namespace_instantiation_with_usage(&node.id, self.namespace_state);
 
         self.namespace_id = namespace_id;
+        if pushed {
+            self.container_contexts.pop();
+        }
     }
 
     fn visit_mut_ts_module_decl(&mut self, node: &mut TsModuleDecl) {
         let id = node.id.to_id();
 
+        let context = node
+            .body
+            .as_ref()
+            .and_then(|body| self.namespace_context(id.clone(), body));
+        let pushed = context.is_some();
+        self.container_contexts.extend(context);
+
         let namespace_id = self.namespace_id.replace(id);
 
         node.body.visit_mut_with(self);
+        if let TsModuleName::Ident(id) = &node.id {
+            self.namespace_state =
+                self.namespace_instantiation_with_usage(id, self.namespace_state);
+        }
 
         self.namespace_id = namespace_id;
+        if pushed {
+            self.container_contexts.pop();
+        }
+    }
+
+    fn visit_mut_ts_enum_decl(&mut self, node: &mut TsEnumDecl) {
+        self.visit_enum(node);
     }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
+        let retain = match node {
+            Stmt::Decl(declaration) => self.retain_decl(declaration),
+            _ => should_retain_stmt(node),
+        };
+        if !retain {
+            if self.in_namespace {
+                if let Stmt::Decl(Decl::TsModule(declaration)) = node {
+                    self.namespace_state = self.namespace_instantiation(declaration);
+                }
+            }
+            if !node.is_empty() {
+                node.take();
+            }
+            return;
+        }
+
         node.visit_mut_children_with(self);
 
         let Stmt::Decl(decl) = node else {
@@ -455,10 +532,13 @@ impl VisitMut for Transform {
     }
 
     fn visit_mut_export_decl(&mut self, node: &mut ExportDecl) {
-        if self.ref_rewriter.is_some() {
+        if self.has_ref_rewrites() {
             if let Decl::Var(var_decl) = &mut node.decl {
                 // visit inner directly to bypass visit_mut_var_declarator
                 for decl in var_decl.decls.iter_mut() {
+                    if self.flow_syntax {
+                        convert_flow_component_arrow(decl);
+                    }
                     decl.name.visit_mut_with(self);
                     decl.init.visit_mut_with(self);
                 }
@@ -471,34 +551,56 @@ impl VisitMut for Transform {
     fn visit_mut_prop(&mut self, node: &mut Prop) {
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_prop(node);
         }
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
-        let ref_rewriter = self.ref_rewriter.take();
+        if self.flow_syntax {
+            convert_flow_component_arrow(n);
+        }
+
+        let in_binding = mem::replace(&mut self.in_binding, true);
         n.name.visit_mut_with(self);
-        self.ref_rewriter = ref_rewriter;
+        self.in_binding = in_binding;
         n.init.visit_mut_with(self);
     }
 
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_pat(node);
         }
     }
 
     fn visit_mut_expr(&mut self, node: &mut Expr) {
-        self.enter_expr_for_inline_enum(node);
+        // Defaults and computed keys within binding patterns are evaluated
+        // expressions; only the binding names themselves exclude rewrites.
+        let in_binding = mem::replace(&mut self.in_binding, false);
+        while let Expr::TsAs(TsAsExpr { expr, .. })
+        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { expr, .. })
+        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) = node
+        {
+            *node = *expr.take();
+        }
+
+        if matches!(self.enum_inlining, EnumInlining::Emit) {
+            self.enter_expr_for_inline_enum(node);
+        }
 
         maybe_grow_default(|| node.visit_mut_children_with(self));
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
-            ref_rewriter.exit_expr(node);
+        // Only identifiers can be rewritten at this boundary. Other expressions
+        // have already visited their reference-bearing children.
+        if self.has_ref_rewrites() && matches!(node, Expr::Ident(_)) {
+            self.new_ref_rewriter().exit_expr(node);
         }
+        self.in_binding = in_binding;
     }
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
@@ -515,6 +617,15 @@ impl VisitMut for Transform {
         self.is_lhs = false;
         n.right.visit_mut_with(self);
         self.is_lhs = is_lhs;
+    }
+
+    fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
+        // Delete consumes a reference; other unary operators consume a value.
+        let target_is_reference =
+            node.op == UnaryOp::Delete && crate::shared::is_reference_expr(&node.arg);
+        let previous = std::mem::replace(&mut self.is_lhs, target_is_reference);
+        node.arg.visit_mut_with(self);
+        self.is_lhs = previous;
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
@@ -536,10 +647,38 @@ impl VisitMut for Transform {
         self.is_lhs = is_lhs;
     }
 
+    fn visit_mut_computed_prop_name(&mut self, node: &mut ComputedPropName) {
+        // A computed key is read even when its property is a write target.
+        let previous = std::mem::replace(&mut self.is_lhs, false);
+        node.expr.visit_mut_with(self);
+        self.is_lhs = previous;
+    }
+
+    fn visit_mut_for_head(&mut self, node: &mut ForHead) {
+        let previous = mem::replace(&mut self.is_lhs, true);
+        node.visit_mut_children_with(self);
+        self.is_lhs = previous;
+    }
+
     fn visit_mut_simple_assign_target(&mut self, node: &mut SimpleAssignTarget) {
+        // A wrapped assignment still targets the same reference. Peel the
+        // entire chain before visiting its receiver and computed-key reads.
+        while let SimpleAssignTarget::Paren(ParenExpr { expr, .. })
+        | SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = node
+        {
+            *node = expr
+                .take()
+                .try_into()
+                .expect("assignment-target wrappers must contain an assignable expression");
+        }
+
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_simple_assign_target(node);
         }
     }
@@ -547,7 +686,7 @@ impl VisitMut for Transform {
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_jsx_element_name(node);
         }
     }
@@ -555,7 +694,7 @@ impl VisitMut for Transform {
     fn visit_mut_jsx_object(&mut self, node: &mut JSXObject) {
         node.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_jsx_object(node);
         }
     }
@@ -563,9 +702,149 @@ impl VisitMut for Transform {
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
         n.visit_mut_children_with(self);
 
-        if let Some(ref_rewriter) = self.ref_rewriter.as_mut() {
+        if let Some(mut ref_rewriter) = self.ref_rewriter() {
             ref_rewriter.exit_object_pat_prop(n);
         }
+    }
+
+    fn visit_mut_array_pat(&mut self, node: &mut ArrayPat) {
+        node.visit_mut_children_with(self);
+        node.optional = false;
+    }
+
+    fn visit_mut_auto_accessor(&mut self, node: &mut AutoAccessor) {
+        node.type_ann = None;
+        node.accessibility = None;
+        node.definite = false;
+        node.is_override = false;
+        node.is_abstract = false;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_class(&mut self, node: &mut Class) {
+        node.is_abstract = false;
+        node.implements.clear();
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
+        node.accessibility = None;
+        node.is_override = false;
+        node.is_abstract = false;
+        node.is_optional = false;
+        node.visit_mut_children_with(self);
+        self.normalize_flow_static_constructor_key(
+            &mut node.key,
+            node.is_static,
+            node.function.is_async,
+            node.function.is_generator,
+            matches!(node.kind, MethodKind::Getter | MethodKind::Setter),
+        );
+    }
+
+    fn visit_mut_class_prop(&mut self, node: &mut ClassProp) {
+        node.declare = false;
+        node.readonly = false;
+        node.is_override = false;
+        node.is_optional = false;
+        node.is_abstract = false;
+        node.definite = false;
+        node.accessibility = None;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_export_specifiers(&mut self, node: &mut Vec<ExportSpecifier>) {
+        node.retain(|specifier| {
+            !matches!(
+                specifier,
+                ExportSpecifier::Named(ExportNamedSpecifier {
+                    is_type_only: true,
+                    ..
+                })
+            )
+        });
+    }
+
+    fn visit_mut_ident(&mut self, node: &mut Ident) {
+        node.optional = false;
+    }
+
+    fn visit_mut_import_specifiers(&mut self, node: &mut Vec<ImportSpecifier>) {
+        node.retain(|specifier| {
+            !matches!(
+                specifier,
+                ImportSpecifier::Named(ImportNamedSpecifier {
+                    is_type_only: true,
+                    ..
+                })
+            )
+        });
+    }
+
+    fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
+        let in_namespace = mem::replace(&mut self.in_namespace, true);
+        node.visit_mut_children_with(self);
+        self.in_namespace = in_namespace;
+    }
+
+    fn visit_mut_object_pat(&mut self, node: &mut ObjectPat) {
+        node.visit_mut_children_with(self);
+        node.optional = false;
+    }
+
+    fn visit_mut_params(&mut self, node: &mut Vec<Param>) {
+        if node
+            .first()
+            .filter(|param| {
+                matches!(
+                    &param.pat,
+                    Pat::Ident(BindingIdent {
+                        id: Ident { sym, .. },
+                        ..
+                    }) if &**sym == "this"
+                )
+            })
+            .is_some()
+        {
+            node.drain(0..1);
+        }
+
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_function(&mut self, node: &mut Function) {
+        node.this_param = None;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_private_method(&mut self, node: &mut PrivateMethod) {
+        node.accessibility = None;
+        node.is_abstract = false;
+        node.is_optional = false;
+        node.is_override = false;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_private_prop(&mut self, node: &mut PrivateProp) {
+        node.readonly = false;
+        node.is_override = false;
+        node.is_optional = false;
+        node.definite = false;
+        node.accessibility = None;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_ts_import_equals_decl(&mut self, node: &mut TsImportEqualsDecl) {
+        if let TsModuleRef::TsEntityName(name) = &mut node.module_ref {
+            if let Some(rewriter) = self.ref_rewriter() {
+                rewriter.query.rewrite_entity_name(name);
+            }
+        }
+    }
+
+    fn visit_mut_ts_param_prop(&mut self, node: &mut TsParamProp) {
+        node.decorators.visit_mut_with(self);
+        node.param.visit_mut_with(self);
     }
 }
 
@@ -575,10 +854,150 @@ enum FoldedDecl {
     Expr(Stmt),
 }
 
-impl Transform {
+impl Transform<'_> {
+    fn normalize_flow_static_constructor_key(
+        &self,
+        key: &mut PropName,
+        is_static: bool,
+        is_async: bool,
+        is_generator: bool,
+        is_accessor: bool,
+    ) {
+        if !self.flow_syntax
+            || !is_static
+            || !(is_async || is_generator || is_accessor)
+            || !Self::is_constructor_key(key)
+        {
+            return;
+        }
+
+        let span = key.span();
+        *key = PropName::Computed(ComputedPropName {
+            span,
+            expr: Box::new(
+                Lit::Str(Str {
+                    span,
+                    value: "constructor".into(),
+                    raw: None,
+                })
+                .into(),
+            ),
+        });
+    }
+
+    fn is_constructor_key(key: &PropName) -> bool {
+        match key {
+            PropName::Ident(ident) => ident.sym == "constructor",
+            PropName::Str(string) => string
+                .value
+                .as_str()
+                .is_some_and(|value| value == "constructor"),
+            _ => false,
+        }
+    }
+
+    fn strip_module_items_with_semantic(&self, items: &mut Vec<ModuleItem>) {
+        items.retain_mut(|module_item| match module_item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                specifiers,
+                type_only: false,
+                ..
+            })) if !specifiers.is_empty() => {
+                // Match tsc behavior: keep empty original imports, but strip specifiers by
+                // usage.
+                specifiers.retain(|import_specifier| match import_specifier {
+                    ImportSpecifier::Named(named) => {
+                        if named.is_type_only {
+                            return false;
+                        }
+
+                        let id = named.local.to_id();
+
+                        if self.semantic.has_value(&id) {
+                            return false;
+                        }
+
+                        self.semantic.has_usage(&id)
+                    }
+                    ImportSpecifier::Default(default) => {
+                        let id = default.local.to_id();
+
+                        if self.semantic.has_value(&id) {
+                            return false;
+                        }
+
+                        self.semantic.has_usage(&id)
+                    }
+                    ImportSpecifier::Namespace(namespace) => {
+                        let id = namespace.local.to_id();
+
+                        if self.semantic.has_value(&id) {
+                            return false;
+                        }
+
+                        self.semantic.has_usage(&id)
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                });
+
+                self.import_not_used_as_values == crate::ImportsNotUsedAsValues::Preserve
+                    || !specifiers.is_empty()
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                specifiers,
+                src,
+                type_only: false,
+                ..
+            })) => {
+                specifiers.retain(|export_specifier| match export_specifier {
+                    ExportSpecifier::Namespace(..) | ExportSpecifier::Default(..) => true,
+                    ExportSpecifier::Named(ExportNamedSpecifier {
+                        orig: ModuleExportName::Ident(ident),
+                        is_type_only: false,
+                        ..
+                    }) if src.is_none() => !self.semantic.has_pure_type(&ident.to_id()),
+                    ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => {
+                        !is_type_only
+                    }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
+                });
+
+                !specifiers.is_empty()
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport { type_only, .. })) => {
+                !*type_only
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                expr,
+                ..
+            })) => expr
+                .as_ident()
+                .map(|ident| !self.semantic.has_pure_type(&ident.to_id()))
+                .unwrap_or(true),
+            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
+                if ts_import_equals_decl.is_type_only {
+                    return false;
+                }
+
+                if ts_import_equals_decl.is_export {
+                    return true;
+                }
+
+                self.semantic
+                    .has_import_equals_usage(&ts_import_equals_decl.id.to_id())
+            }
+            _ => true,
+        });
+    }
+
     fn fold_decl(&mut self, node: Decl, is_export: bool) -> FoldedDecl {
         match node {
             Decl::TsModule(ts_module) => {
+                if !self.namespace_state.is_instantiated() {
+                    return FoldedDecl::Empty;
+                }
                 let id = ts_module.id.to_id();
 
                 if self.decl_id_record.insert(id.clone()) {
@@ -606,6 +1025,115 @@ impl Transform {
             }
             decl => FoldedDecl::Decl(decl),
         }
+    }
+
+    fn normalize_module_await_bindings(&mut self, module: &mut Module) {
+        let mut collector = AwaitBindingCollector::default();
+        module.visit_with(&mut collector);
+
+        if collector.await_binding_ids.is_empty() {
+            return;
+        }
+
+        let mut used_syms = collector.used_syms;
+        let mut rename_map = FxHashMap::default();
+        let mut suffix = 0usize;
+
+        for id in collector.await_binding_ids {
+            let next_sym = loop {
+                let candidate: Atom = if suffix == 0 {
+                    "_await".into()
+                } else {
+                    format!("_await{suffix}").into()
+                };
+                suffix += 1;
+
+                if used_syms.insert(candidate.clone()) {
+                    break candidate;
+                }
+            };
+
+            rename_map.insert(id, next_sym);
+        }
+
+        if !rename_map.is_empty() {
+            module.visit_mut_with(&mut rename(&rename_map));
+        }
+    }
+}
+
+#[derive(Default)]
+struct AwaitBindingCollector {
+    used_syms: FxHashSet<Atom>,
+    seen_await_bindings: FxHashSet<Id>,
+    await_binding_ids: Vec<Id>,
+}
+
+impl AwaitBindingCollector {
+    fn record_binding_ident(&mut self, ident: &Ident) {
+        if ident.sym != "await" {
+            return;
+        }
+
+        let id = ident.to_id();
+        if self.seen_await_bindings.insert(id.clone()) {
+            self.await_binding_ids.push(id);
+        }
+    }
+}
+
+impl Visit for AwaitBindingCollector {
+    fn visit_binding_ident(&mut self, node: &BindingIdent) {
+        self.record_binding_ident(&node.id);
+        node.visit_children_with(self);
+    }
+
+    fn visit_class_decl(&mut self, node: &ClassDecl) {
+        self.record_binding_ident(&node.ident);
+        node.visit_children_with(self);
+    }
+
+    fn visit_class_expr(&mut self, node: &ClassExpr) {
+        if let Some(ident) = &node.ident {
+            self.record_binding_ident(ident);
+        }
+        node.visit_children_with(self);
+    }
+
+    fn visit_fn_decl(&mut self, node: &FnDecl) {
+        self.record_binding_ident(&node.ident);
+        node.visit_children_with(self);
+    }
+
+    fn visit_fn_expr(&mut self, node: &FnExpr) {
+        if let Some(ident) = &node.ident {
+            self.record_binding_ident(ident);
+        }
+        node.visit_children_with(self);
+    }
+
+    fn visit_ident(&mut self, node: &Ident) {
+        self.used_syms.insert(node.sym.clone());
+    }
+
+    fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
+        self.record_binding_ident(&node.local);
+        node.visit_children_with(self);
+    }
+
+    fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier) {
+        self.record_binding_ident(&node.local);
+        node.visit_children_with(self);
+    }
+
+    fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
+        self.record_binding_ident(&node.local);
+        node.visit_children_with(self);
+    }
+
+    fn visit_ts_import_equals_decl(&mut self, node: &TsImportEqualsDecl) {
+        self.record_binding_ident(&node.id);
+        node.visit_children_with(self);
     }
 }
 
@@ -685,391 +1213,7 @@ impl InitArg<'_> {
     }
 }
 
-impl Transform {
-    fn transform_ts_enum(
-        &mut self,
-        ts_enum: TsEnumDecl,
-        is_first: bool,
-        is_export: bool,
-    ) -> FoldedDecl {
-        let TsEnumDecl {
-            span,
-            declare,
-            is_const,
-            id,
-            members,
-        } = ts_enum;
-
-        debug_assert!(!declare);
-
-        let ts_enum_safe_remove = !self.verbatim_module_syntax
-            && is_const
-            && !is_export
-            && !self.exported_binding.contains_key(&id.to_id());
-
-        let member_list: Vec<_> = members
-            .into_iter()
-            .map(|m| {
-                let span = m.span;
-                let name = enum_member_id_atom(&m.id);
-
-                let key = TsEnumRecordKey {
-                    enum_id: id.to_id(),
-                    member_name: name.clone(),
-                };
-
-                let value = self.enum_record.get(&key).unwrap().clone();
-
-                EnumMemberItem { span, name, value }
-            })
-            .filter(|m| !ts_enum_safe_remove || !m.is_const())
-            .collect();
-
-        if member_list.is_empty() && is_const {
-            return FoldedDecl::Empty;
-        }
-
-        let opaque = member_list
-            .iter()
-            .any(|item| matches!(item.value, TsEnumRecordValue::Opaque(..)));
-
-        let stmts = member_list
-            .into_iter()
-            .filter(|item| !ts_enum_safe_remove || !item.is_const())
-            .map(|item| item.build_assign(&id.to_id()));
-
-        let namespace_export = self.namespace_id.is_some() && is_export;
-        let iife = !is_first || namespace_export;
-
-        let body = if !iife {
-            let return_stmt: Stmt = ReturnStmt {
-                arg: Some(id.clone().into()),
-                ..Default::default()
-            }
-            .into();
-
-            let stmts = stmts.chain(iter::once(return_stmt)).collect();
-
-            BlockStmt {
-                stmts,
-                ..Default::default()
-            }
-        } else {
-            BlockStmt {
-                stmts: stmts.collect(),
-                ..Default::default()
-            }
-        };
-
-        let var_kind = if is_export || id.ctxt == self.top_level_ctxt {
-            VarDeclKind::Var
-        } else {
-            VarDeclKind::Let
-        };
-
-        let init_arg = 'init_arg: {
-            let init_arg = InitArg {
-                id: &id,
-                namespace_id: self.namespace_id.as_ref().filter(|_| is_export),
-            };
-            if !is_first {
-                break 'init_arg init_arg.get();
-            }
-
-            if namespace_export {
-                break 'init_arg init_arg.or_assign_empty();
-            }
-
-            if is_export || var_kind == VarDeclKind::Let {
-                InitArg::empty()
-            } else {
-                init_arg.or_empty()
-            }
-        };
-
-        let expr = Factory::function(vec![id.clone().into()], body).as_call(
-            if iife || opaque { DUMMY_SP } else { PURE_SP },
-            vec![init_arg],
-        );
-
-        if iife {
-            FoldedDecl::Expr(
-                ExprStmt {
-                    span,
-                    expr: expr.into(),
-                }
-                .into(),
-            )
-        } else {
-            let var_declarator = VarDeclarator {
-                span,
-                name: id.into(),
-                init: Some(expr.into()),
-                definite: false,
-            };
-
-            FoldedDecl::Decl(
-                VarDecl {
-                    span,
-                    kind: var_kind,
-                    decls: vec![var_declarator],
-                    ..Default::default()
-                }
-                .into(),
-            )
-        }
-    }
-
-    fn transform_ts_enum_member(
-        member: TsEnumMember,
-        enum_id: &Id,
-        default_init: &TsEnumRecordValue,
-        record: &TsEnumRecord,
-        unresolved_ctxt: SyntaxContext,
-    ) -> TsEnumRecordValue {
-        member
-            .init
-            .map(|expr| {
-                EnumValueComputer {
-                    enum_id,
-                    unresolved_ctxt,
-                    record,
-                }
-                .compute(expr)
-            })
-            .filter(TsEnumRecordValue::has_value)
-            .unwrap_or_else(|| default_init.clone())
-    }
-}
-
-impl Transform {
-    fn transform_ts_module(&self, ts_module: TsModuleDecl, is_export: bool) -> FoldedDecl {
-        debug_assert!(!ts_module.declare);
-        debug_assert!(!ts_module.global);
-
-        let TsModuleDecl {
-            span,
-            id: TsModuleName::Ident(module_ident),
-            body: Some(body),
-            ..
-        } = ts_module
-        else {
-            unreachable!();
-        };
-
-        let body = Self::transform_ts_namespace_body(module_ident.to_id(), body);
-
-        let init_arg = InitArg {
-            id: &module_ident,
-            namespace_id: self.namespace_id.as_ref().filter(|_| is_export),
-        }
-        .or_assign_empty();
-
-        let expr = Factory::function(vec![module_ident.clone().into()], body)
-            .as_call(DUMMY_SP, vec![init_arg])
-            .into();
-
-        FoldedDecl::Expr(ExprStmt { span, expr }.into())
-    }
-
-    fn transform_ts_namespace_body(id: Id, body: TsNamespaceBody) -> BlockStmt {
-        let TsNamespaceDecl {
-            span,
-            declare,
-            global,
-            id: local_name,
-            body,
-        } = match body {
-            TsNamespaceBody::TsModuleBlock(ts_module_block) => {
-                return Self::transform_ts_module_block(id, ts_module_block);
-            }
-            TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        };
-
-        debug_assert!(!declare);
-        debug_assert!(!global);
-
-        let body = Self::transform_ts_namespace_body(local_name.to_id(), *body);
-
-        let init_arg = InitArg {
-            id: &local_name,
-            namespace_id: Some(&id.to_id()),
-        }
-        .or_assign_empty();
-
-        let expr =
-            Factory::function(vec![local_name.into()], body).as_call(DUMMY_SP, vec![init_arg]);
-
-        BlockStmt {
-            span,
-            stmts: vec![expr.into_stmt()],
-            ..Default::default()
-        }
-    }
-
-    /// Note:
-    /// All exported variable declarations are transformed into assignment to
-    /// the namespace. All references to the exported binding will be
-    /// replaced with qualified access to the namespace property.
-    ///
-    /// Exported function and class will be treat as const exported which is in
-    /// line with how the TypeScript compiler handles exports.
-    ///
-    /// Inline exported syntax should not be used with function which will lead
-    /// to issues with function hoisting.
-    ///
-    /// Input:
-    /// ```TypeScript
-    /// export const foo = init, { bar: baz = init } = init;
-    ///
-    /// export function a() {}
-    ///
-    /// export let b = init;
-    /// ```
-    ///
-    /// Output:
-    /// ```TypeScript
-    /// NS.foo = init, { bar: NS.baz = init } = init;
-    ///
-    /// function a() {}
-    /// NS.a = a;
-    ///
-    /// NS.b = init;
-    /// ```
-    fn transform_ts_module_block(id: Id, TsModuleBlock { span, body }: TsModuleBlock) -> BlockStmt {
-        let mut stmts = Vec::new();
-
-        for module_item in body {
-            match module_item {
-                ModuleItem::Stmt(stmt) => stmts.push(stmt),
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl, span, ..
-                })) => match decl {
-                    Decl::Class(ClassDecl { ref ident, .. })
-                    | Decl::Fn(FnDecl { ref ident, .. }) => {
-                        let assign_stmt = Self::assign_prop(&id, ident, span);
-                        stmts.push(decl.into());
-                        stmts.push(assign_stmt);
-                    }
-                    Decl::Var(var_decl) => {
-                        let mut exprs: Vec<Box<_>> = var_decl
-                            .decls
-                            .into_iter()
-                            .flat_map(
-                                |VarDeclarator {
-                                     span, name, init, ..
-                                 }| {
-                                    let right = init?;
-                                    let left = name.try_into().unwrap();
-
-                                    Some(
-                                        AssignExpr {
-                                            span,
-                                            left,
-                                            op: op!("="),
-                                            right,
-                                        }
-                                        .into(),
-                                    )
-                                },
-                            )
-                            .collect();
-
-                        if exprs.is_empty() {
-                            continue;
-                        }
-
-                        let expr = if exprs.len() == 1 {
-                            exprs.pop().unwrap()
-                        } else {
-                            SeqExpr {
-                                span: DUMMY_SP,
-                                exprs,
-                            }
-                            .into()
-                        };
-
-                        stmts.push(
-                            ExprStmt {
-                                span: var_decl.span,
-                                expr,
-                            }
-                            .into(),
-                        );
-                    }
-                    decl => unreachable!("{decl:?}"),
-                },
-                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) => {
-                    match decl.module_ref {
-                        TsModuleRef::TsEntityName(ts_entity_name) => {
-                            let init = Self::ts_entity_name_to_expr(ts_entity_name);
-
-                            // export impot foo = bar.baz
-                            let stmt = if decl.is_export {
-                                // Foo.foo = bar.baz
-                                let left = id.clone().make_member(decl.id.clone().into());
-                                let expr = init.make_assign_to(op!("="), left.into());
-
-                                ExprStmt {
-                                    span: decl.span,
-                                    expr: expr.into(),
-                                }
-                                .into()
-                            } else {
-                                // const foo = bar.baz
-                                let mut var_decl =
-                                    init.into_var_decl(VarDeclKind::Const, decl.id.clone().into());
-
-                                var_decl.span = decl.span;
-
-                                var_decl.into()
-                            };
-
-                            stmts.push(stmt);
-                        }
-                        TsModuleRef::TsExternalModuleRef(..) => {
-                            // TS1147
-                            if HANDLER.is_set() {
-                                HANDLER.with(|handler| {
-                                    handler
-                                    .struct_span_err(
-                                        decl.span,
-                                        r#"Import declarations in a namespace cannot reference a module."#,
-                                    )
-                                    .emit();
-                                });
-                            }
-                        }
-                        #[cfg(swc_ast_unknown)]
-                        _ => panic!("unable to access unknown nodes"),
-                    }
-                }
-                item => {
-                    if HANDLER.is_set() {
-                        HANDLER.with(|handler| {
-                            handler
-                                .struct_span_err(
-                                    item.span(),
-                                    r#"ESM-style module declarations are not permitted in a namespace."#,
-                                )
-                                .emit();
-                        });
-                    }
-                }
-            }
-        }
-
-        BlockStmt {
-            span,
-            stmts,
-            ..Default::default()
-        }
-    }
-}
-
-impl Transform {
+impl Transform<'_> {
     fn reorder_class_prop_decls_and_inits(
         &mut self,
         class_member_list: &mut Vec<ClassMember>,
@@ -1189,7 +1333,7 @@ impl Transform {
     }
 }
 
-impl Transform {
+impl Transform<'_> {
     // Foo.x = x;
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
         let expr = prop
@@ -1222,40 +1366,7 @@ impl Transform {
     }
 }
 
-impl Transform {
-    fn enter_expr_for_inline_enum(&mut self, node: &mut Expr) {
-        if self.is_lhs {
-            return;
-        }
-
-        if let Expr::Member(MemberExpr { obj, prop, .. }) = node {
-            let Some(enum_id) = get_enum_id(obj) else {
-                return;
-            };
-
-            if self.ts_enum_is_mutable && !self.const_enum.contains(&enum_id) {
-                return;
-            }
-
-            let Some(member_name) = get_member_key(prop) else {
-                return;
-            };
-
-            let key = TsEnumRecordKey {
-                enum_id,
-                member_name,
-            };
-
-            let Some(value) = self.enum_record.get(&key) else {
-                return;
-            };
-
-            if value.is_const() {
-                *node = value.clone().into();
-            }
-        }
-    }
-
+impl Transform<'_> {
     fn visit_mut_for_ts_import_export(&mut self, node: &mut Module) {
         let mut should_inject = false;
         let create_require = private_ident!("_createRequire");
@@ -1283,7 +1394,14 @@ impl Transform {
                     match &mut decl.module_ref {
                         // import foo = bar.baz
                         TsModuleRef::TsEntityName(ts_entity_name) => {
-                            let init = Self::ts_entity_name_to_expr(ts_entity_name.clone());
+                            let mut init = Self::ts_entity_name_to_expr(ts_entity_name.clone());
+                            if matches!(self.enum_inlining, EnumInlining::Applied) {
+                                // This expression did not exist during reference analysis.
+                                let enum_inlining =
+                                    mem::replace(&mut self.enum_inlining, EnumInlining::Emit);
+                                init.visit_mut_with(self);
+                                self.enum_inlining = enum_inlining;
+                            }
 
                             let mut var_decl =
                                 init.into_var_decl(VarDeclKind::Const, decl.id.take().into());
@@ -1462,80 +1580,6 @@ impl Transform {
     }
 }
 
-struct ExportQuery {
-    export_name: FxHashMap<Id, Option<Id>>,
-}
-
-impl QueryRef for ExportQuery {
-    fn query_ref(&self, export_name: &Ident) -> Option<Box<Expr>> {
-        self.export_name
-            .get(&export_name.to_id())?
-            .clone()
-            .map(|namespace_id| namespace_id.make_member(export_name.clone().into()).into())
-    }
-
-    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
-        self.query_ref(ident)
-    }
-
-    fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
-        self.export_name
-            .get(&ident.to_id())?
-            .clone()
-            .map(|namespace_id| {
-                JSXMemberExpr {
-                    span: DUMMY_SP,
-                    obj: JSXObject::Ident(namespace_id.into()),
-                    prop: ident.clone().into(),
-                }
-                .into()
-            })
-    }
-}
-
-struct EnumMemberItem {
-    span: Span,
-    name: Atom,
-    value: TsEnumRecordValue,
-}
-
-impl EnumMemberItem {
-    fn is_const(&self) -> bool {
-        self.value.is_const()
-    }
-
-    fn build_assign(self, enum_id: &Id) -> Stmt {
-        let is_string = self.value.is_string();
-        let value: Expr = self.value.into();
-
-        let inner_assign = value.make_assign_to(
-            op!("="),
-            Ident::from(enum_id.clone())
-                .computed_member(self.name.clone())
-                .into(),
-        );
-
-        let outer_assign = if is_string {
-            inner_assign
-        } else {
-            let value: Expr = self.name.clone().into();
-
-            value.make_assign_to(
-                op!("="),
-                Ident::from(enum_id.clone())
-                    .computed_member(inner_assign)
-                    .into(),
-            )
-        };
-
-        ExprStmt {
-            span: self.span,
-            expr: outer_assign.into(),
-        }
-        .into()
-    }
-}
-
 trait ModuleId {
     fn to_id(&self) -> Id;
 }
@@ -1548,40 +1592,105 @@ impl ModuleId for TsModuleName {
     }
 }
 
+/// Gives a Flow component-typed arrow binding the function semantics required
+/// by Flow's component runtime contract.
+fn convert_flow_component_arrow(declarator: &mut VarDeclarator) {
+    let Pat::Ident(BindingIdent {
+        id,
+        type_ann: Some(type_ann),
+    }) = &declarator.name
+    else {
+        return;
+    };
+
+    if !is_flow_component_type(&type_ann.type_ann) {
+        return;
+    }
+
+    let Some(init) = &mut declarator.init else {
+        return;
+    };
+    let Expr::Arrow(arrow) = init.as_mut() else {
+        return;
+    };
+
+    let arrow = arrow.take();
+    let body = match *arrow.body {
+        ArrowFunctionBody::FunctionBody(body) => body,
+        ArrowFunctionBody::Expr(expr) => {
+            let span = expr.span();
+            FunctionBody {
+                span,
+                stmts: vec![Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(expr),
+                })],
+            }
+        }
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    };
+
+    **init = Expr::Fn(FnExpr {
+        ident: Some(id.clone()),
+        function: Box::new(Function {
+            this_param: None,
+            params: arrow
+                .params
+                .into_iter()
+                .map(|pat| Param {
+                    span: pat.span(),
+                    decorators: Vec::new(),
+                    pat,
+                })
+                .collect(),
+            decorators: Vec::new(),
+            span: arrow.span,
+            ctxt: arrow.ctxt,
+            body: Some(body),
+            is_generator: arrow.is_generator,
+            is_async: arrow.is_async,
+            type_params: arrow.type_params,
+            return_type: arrow.return_type,
+        }),
+    });
+}
+
+/// Returns whether a syntactic type annotation identifies a Flow component.
+fn is_flow_component_type(ty: &TsType) -> bool {
+    match ty {
+        TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(fn_type)) => {
+            is_flow_component_fn_type(fn_type)
+        }
+        TsType::TsParenthesizedType(parenthesized) => {
+            is_flow_component_type(&parenthesized.type_ann)
+        }
+        _ => false,
+    }
+}
+
+/// Returns whether this function type is the parser's representation of a
+/// Flow `component(...)` type.
+///
+/// Flow component parameters describe a single props object. The parser
+/// preserves that syntax without extending the public AST by giving the
+/// synthetic object pattern the same non-dummy span as the function type.
+#[inline]
+fn is_flow_component_fn_type(fn_type: &TsFnType) -> bool {
+    matches!(
+        fn_type.params.as_slice(),
+        [TsFnParam::Object(props)]
+            if !fn_type.span.is_dummy()
+                && props.span == fn_type.span
+                && props.type_ann.is_none()
+    )
+}
+
 fn id_to_var_declarator(id: Id) -> VarDeclarator {
     VarDeclarator {
         span: DUMMY_SP,
         name: id.into(),
         init: None,
         definite: false,
-    }
-}
-
-fn get_enum_id(e: &Expr) -> Option<Id> {
-    if let Expr::Ident(ident) = e {
-        Some(ident.to_id())
-    } else {
-        None
-    }
-}
-
-fn get_member_key(prop: &MemberProp) -> Option<Atom> {
-    match prop {
-        MemberProp::Ident(ident) => Some(ident.sym.clone()),
-        MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-            Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.to_atom_lossy().into_owned()),
-            Expr::Tpl(Tpl { exprs, quasis, .. }) => match (exprs.len(), quasis.len()) {
-                (0, 1) => quasis[0]
-                    .cooked
-                    .as_ref()
-                    .map(|cooked| cooked.to_atom_lossy().into_owned())
-                    .or_else(|| Some(quasis[0].raw.clone())),
-                _ => None,
-            },
-            _ => None,
-        },
-        MemberProp::PrivateName(_) => None,
-        #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes"),
     }
 }

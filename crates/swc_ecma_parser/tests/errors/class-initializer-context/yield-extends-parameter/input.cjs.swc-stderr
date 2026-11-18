@@ -1,0 +1,5 @@
+  x 'yield' cannot be used as a parameter within generator
+   ,-[$DIR/tests/errors/class-initializer-context/yield-extends-parameter/input.cjs:1:1]
+ 1 | function* f(x = class extends (yield 1) {}) {}
+   :                                ^^^^^
+   `----

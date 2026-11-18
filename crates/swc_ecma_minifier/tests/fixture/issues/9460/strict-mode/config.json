@@ -1,0 +1,5 @@
+{
+    "defaults": true,
+    "unused": true,
+    "pure_getters": true
+}

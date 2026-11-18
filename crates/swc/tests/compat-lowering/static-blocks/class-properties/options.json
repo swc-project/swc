@@ -1,0 +1,11 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": [
+            "transform-class-static-block",
+            "transform-class-properties"
+        ]
+    }
+}

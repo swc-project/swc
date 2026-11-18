@@ -1,0 +1,5 @@
+
+var foo = {
+  [bar]: "foobar"
+};
+

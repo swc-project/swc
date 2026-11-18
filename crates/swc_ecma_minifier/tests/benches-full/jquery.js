@@ -1295,7 +1295,7 @@
             if ("string" != typeof selector) return this.pushStack(jQuery(selector).filter(function() {
                 for(i = 0; i < len; i++)if (jQuery.contains(self[i], this)) return !0;
             }));
-            for(i = 0, ret = this.pushStack([]); i < len; i++)jQuery.find(selector, self[i], ret);
+            for(ret = this.pushStack([]), i = 0; i < len; i++)jQuery.find(selector, self[i], ret);
             return len > 1 ? jQuery.uniqueSort(ret) : ret;
         },
         filter: function(selector) {
@@ -2301,8 +2301,8 @@
         dispatch: function(nativeEvent) {
             var i, j, ret, matched, handleObj, handlerQueue, args = Array(arguments.length), // Make a writable jQuery.Event from the native event object
             event = jQuery.event.fix(nativeEvent), handlers = (dataPriv.get(this, "events") || Object.create(null))[event.type] || [], special = jQuery.event.special[event.type] || {};
-            for(i = 1, // Use the fix-ed jQuery.Event rather than the (read-only) native event
-            args[0] = event; i < arguments.length; i++)args[i] = arguments[i];
+            for(// Use the fix-ed jQuery.Event rather than the (read-only) native event
+            args[0] = event, i = 1; i < arguments.length; i++)args[i] = arguments[i];
             // Call the preDispatch hook for the mapped type, and let it bail if desired
             if (event.delegateTarget = this, !special.preDispatch || !1 !== special.preDispatch.call(this, event)) {
                 for(// Determine handlers
@@ -2598,15 +2598,15 @@
         clone: function(elem, dataAndEvents, deepDataAndEvents) {
             var i, l, srcElements, destElements, clone = elem.cloneNode(!0), inPage = isAttached(elem);
             // Fix IE cloning issues
-            if (!support.noCloneChecked && (1 === elem.nodeType || 11 === elem.nodeType) && !jQuery.isXMLDoc(elem)) for(i = 0, // We eschew Sizzle here for performance reasons: https://jsperf.com/getall-vs-sizzle/2
-            destElements = getAll(clone), l = (srcElements = getAll(elem)).length; i < l; i++)!// Fix IE bugs, see support tests
+            if (!support.noCloneChecked && (1 === elem.nodeType || 11 === elem.nodeType) && !jQuery.isXMLDoc(elem)) for(// We eschew Sizzle here for performance reasons: https://jsperf.com/getall-vs-sizzle/2
+            destElements = getAll(clone), i = 0, l = (srcElements = getAll(elem)).length; i < l; i++)!// Fix IE bugs, see support tests
             function(src, dest) {
                 var nodeName = dest.nodeName.toLowerCase();
                 // Fails to persist the checked state of a cloned checkbox or radio button.
                 "input" === nodeName && rcheckableType.test(src.type) ? dest.checked = src.checked : ("input" === nodeName || "textarea" === nodeName) && (dest.defaultValue = src.defaultValue);
             }(srcElements[i], destElements[i]);
             // Copy the events from the original to the clone
-            if (dataAndEvents) if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone), l = srcElements.length; i < l; i++)cloneCopyEvent(srcElements[i], destElements[i]);
+            if (dataAndEvents) if (deepDataAndEvents) for(srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone), i = 0, l = srcElements.length; i < l; i++)cloneCopyEvent(srcElements[i], destElements[i]);
             else cloneCopyEvent(elem, clone);
             // Return the cloned set
             return(// Preserve script evaluation history

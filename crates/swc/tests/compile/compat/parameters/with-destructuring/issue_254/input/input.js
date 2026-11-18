@@ -1,0 +1,1 @@
+export const someFunction = (update = false, action = {}) => {}

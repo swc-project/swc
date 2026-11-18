@@ -44,6 +44,8 @@ pub fn set_version(version: &Version) -> Result<()> {
             .arg("-p")
             .arg("binding_core_wasm")
             .arg("-p")
+            .arg("binding_html_wasm")
+            .arg("-p")
             .arg("binding_minifier_wasm");
 
         c.status()?;

@@ -1,3 +1,5 @@
+mod common;
+
 use std::{fs::read_to_string, path::PathBuf};
 
 use serde::Deserialize;
@@ -8,7 +10,7 @@ use swc_ecma_transforms_compat::{
     es2015::{arrow, classes, new_target::new_target},
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{exec_tr, parse_options, test, test_fixture, Tester};
+use swc_ecma_transforms_testing::{exec_tr, parse_options, test_fixture, Tester};
 
 fn get_passes(_: &Tester, plugins: &[PluginConfig]) -> Box<dyn Pass> {
     let unresolved_mark = Mark::new();
@@ -93,7 +95,12 @@ enum PluginConfig {
     Name(String),
 }
 
-#[testing::fixture("tests/new-target/**/input.js")]
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.
+#[testing::fixture(
+    "tests/new-target/**/input.js",
+    exclude("/tests/new-target/(classes-new-target)/")
+)]
 fn fixture(input: PathBuf) {
     let options: TestOptions = parse_options(&input);
 
@@ -107,18 +114,29 @@ fn fixture(input: PathBuf) {
     )
 }
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| (classes(Default::default()), new_target()),
-    issue_6259,
-    r#"
-(() => {
-  var SomeError = class extends Error {
-    constructor(issues) {
-      super();
-      const actualProto = new.target.prototype;
-    }
-  }
-})();
-"#
-);
+/// Named transform pipelines for the output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "classes-new-target")]
+    ClassesNewTarget,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/new-target/classes-new-target/**/input.js")]
+fn pipeline_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = common::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        swc_ecma_parser::Syntax::default(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::ClassesNewTarget => {
+                    Box::new((classes(Default::default()), new_target()))
+                }
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}

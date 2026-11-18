@@ -44,8 +44,6 @@ rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
 tracing            = { workspace = true, features = ["release_max_level_info"] }
-tracing-chrome = { workspace = true, default-features = false }
-tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
 swc_core = { path = "../../crates/swc_core", features = [
   "allocator_node",
@@ -61,6 +59,9 @@ swc_core = { path = "../../crates/swc_core", features = [
   "ecma_visit",
   "base_node",
   "base_concurrent",
+  "base_flow",
+  "base_isolated_dts",
   "base_module",
+  "base_react_compiler",
 ] }
 swc_malloc = { path = "../../crates/swc_malloc", default-features = false }

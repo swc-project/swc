@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

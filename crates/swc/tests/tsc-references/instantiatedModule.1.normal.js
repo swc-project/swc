@@ -54,6 +54,6 @@ var a3 = m3.Color;
 var a3 = M3.Color;
 var blue = a3.Blue;
 var p3;
-var p3 = M3.Color.Red;
+var p3 = 1;
 var p3 = m3.Color.Blue;
 var M, M2, M3;

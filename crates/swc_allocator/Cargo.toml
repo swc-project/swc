@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_allocator"
 repository    = { workspace = true }
-version       = "4.0.1"
+version       = "5.0.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -15,14 +15,11 @@ rustdoc-args = ["--cfg", "docsrs"]
 
 [features]
 hashbrown = ["dep:hashbrown", "hashbrown/allocator-api2"]
-nightly = [
-  "skip-warning",
-  "allocator-api2/nightly",
-  "bumpalo/allocator_api",
-  "hashbrown/nightly",
-]
-# This two features are actually useless
-rkyv  = []
+nightly   = ["skip-warning"]
+# The latest pinned nightly rejects the bumpalo/hashbrown/allocator-api2
+# nightly-only allocator paths. Stable allocator-api2 support is sufficient
+# for our usage here.
+# This feature is actually useless.
 serde = []
 # This feature is used to suppress warnings about slowness caused by stable rustc.
 # It's recommended to use nightly rustc until the allocator APIs are stabilized.
@@ -31,18 +28,16 @@ skip-warning = []
 
 [dependencies]
 allocator-api2 = { workspace = true, default-features = true }
-bumpalo = { workspace = true, features = [
-  "allocator-api2",
-], default-features = false }
+bumpalo = { workspace = true, features = ["allocator-api2"], default-features = false }
 hashbrown = { workspace = true, optional = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true, default-features = true }
-criterion                 = { workspace = true, default-features = false }
+criterion = { workspace = true, default-features = false }
 
-swc_malloc = { version = "1.2.4", path = "../swc_malloc", default-features = false }
+swc_malloc = { version = "1.2.5", path = "../swc_malloc", default-features = false }
 
 
 [[bench]]

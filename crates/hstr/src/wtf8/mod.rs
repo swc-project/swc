@@ -503,7 +503,17 @@ impl Wtf8 {
     /// Return `true` if the string contains only ASCII characters.
     #[inline]
     pub const fn is_ascii(&self) -> bool {
-        self.bytes.is_ascii()
+        let mut i = 0;
+
+        while i < self.bytes.len() {
+            if !self.bytes[i].is_ascii() {
+                return false;
+            }
+
+            i += 1;
+        }
+
+        true
     }
 
     /// Return a slice of the given string for the byte range [`begin`..`end`).
@@ -573,7 +583,7 @@ impl Wtf8 {
 
     /// Return an iterator for the string’s code points.
     #[inline]
-    pub fn code_points(&self) -> Wtf8CodePoints {
+    pub fn code_points(&self) -> Wtf8CodePoints<'_> {
         Wtf8CodePoints {
             bytes: self.bytes.iter(),
         }
@@ -595,16 +605,7 @@ impl Wtf8 {
     /// Returns `true` if this WTF-8 string starts with the given UTF-8 string.
     #[inline]
     pub fn starts_with(&self, pattern: &str) -> bool {
-        if pattern.len() > self.len() {
-            return false;
-        }
-
-        let pattern_wtf8 = self.slice_to(pattern.len());
-        if let Some(pattern_str) = pattern_wtf8.as_str() {
-            pattern_str == pattern
-        } else {
-            false
-        }
+        self.as_bytes().starts_with(pattern.as_bytes())
     }
 
     /// Try to convert the string to UTF-8 and return a `&str` slice.
@@ -635,7 +636,7 @@ impl Wtf8 {
     /// “�”).
     ///
     /// This only copies the data if necessary (if it contains any surrogate).
-    pub fn to_string_lossy(&self) -> Cow<str> {
+    pub fn to_string_lossy(&self) -> Cow<'_, str> {
         let surrogate_pos = match self.next_surrogate(0) {
             None => return Cow::Borrowed(unsafe { str::from_utf8_unchecked(&self.bytes) }),
             Some((pos, _)) => pos,
@@ -667,7 +668,7 @@ impl Wtf8 {
     /// calling `Wtf8Buf::from_ill_formed_utf16` on the resulting code units
     /// would always return the original WTF-8 string.
     #[inline]
-    pub fn to_ill_formed_utf16(&self) -> IllFormedUtf16CodeUnits {
+    pub fn to_ill_formed_utf16(&self) -> IllFormedUtf16CodeUnits<'_> {
         IllFormedUtf16CodeUnits {
             code_points: self.code_points(),
             extra: 0,
@@ -1072,6 +1073,33 @@ mod tests {
     }
 
     #[test]
+    fn wtf8buf_push_code_points_of_each_encoded_width() {
+        fn code_point(value: u32) -> CodePoint {
+            CodePoint::from_u32(value).unwrap()
+        }
+
+        let mut string = Wtf8Buf::new();
+
+        string.push(code_point(0x7f));
+        assert_eq!(string.bytes, b"\x7f");
+
+        string.push(code_point(0x80));
+        assert_eq!(string.bytes, b"\x7f\xc2\x80");
+
+        string.push(code_point(0x800));
+        assert_eq!(string.bytes, b"\x7f\xc2\x80\xe0\xa0\x80");
+
+        string.push(code_point(0xd800));
+        assert_eq!(string.bytes, b"\x7f\xc2\x80\xe0\xa0\x80\xed\xa0\x80");
+
+        string.push(code_point(0x10000));
+        assert_eq!(
+            string.bytes,
+            b"\x7f\xc2\x80\xe0\xa0\x80\xed\xa0\x80\xf0\x90\x80\x80"
+        );
+    }
+
+    #[test]
     fn wtf8buf_push() {
         let mut string = Wtf8Buf::from_str("aé ");
         assert_eq!(string.bytes, b"a\xC3\xA9 ");
@@ -1291,6 +1319,16 @@ mod tests {
             Wtf8::from_str("aé 💩").as_bytes(),
             b"a\xC3\xA9 \xF0\x9F\x92\xA9"
         );
+    }
+
+    #[test]
+    fn wtf8_starts_with() {
+        assert!(Wtf8::from_str("aé 💩").starts_with("aé"));
+        assert!(!Wtf8::from_str("aé 💩").starts_with("a💩"));
+        assert!(!Wtf8::from_str("aé 💩").starts_with("aé 💩!"));
+
+        // The pattern length falls inside the first non-ASCII code point.
+        assert!(!Wtf8::from_str("/example/path/to/日本語").starts_with("next/dist/compiled"));
     }
 
     #[test]

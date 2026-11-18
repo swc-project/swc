@@ -1,0 +1,5 @@
+  x JSX Namespace is disabled by default because react does not support it yet. You can specify jsc.transform.react.throwIfNamespace to false to override default behavior
+   ,-[$DIR/tests/compile/react/jsx/react-automatic/should-disallow-xml-namespacing/input/input.js:1:1]
+ 1 | <Namespace:Component />;
+   :  ^^^^^^^^^^^^^^^^^^^
+   `----

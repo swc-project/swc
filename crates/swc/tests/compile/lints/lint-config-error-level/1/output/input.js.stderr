@@ -1,0 +1,14 @@
+  x Use '===' instead of '=='
+   ,-[$DIR/tests/compile/lints/lint-config-error-level/1/input/input.js:1:1]
+ 1 | if (x == y || z != (a || b)) {}
+   :     ^^^^^^
+ 2 | 
+ 3 | if (x === y || z !== (a || b)) {}
+   `----
+  x Use '!==' instead of '!='
+   ,-[$DIR/tests/compile/lints/lint-config-error-level/1/input/input.js:1:1]
+ 1 | if (x == y || z != (a || b)) {}
+   :               ^^^^^^^^^^^^^
+ 2 | 
+ 3 | if (x === y || z !== (a || b)) {}
+   `----

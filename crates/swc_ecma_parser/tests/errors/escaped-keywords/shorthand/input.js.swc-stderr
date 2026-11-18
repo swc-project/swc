@@ -1,0 +1,10 @@
+  x Unexpected escape sequence in reserved word: break
+   ,-[$DIR/tests/errors/escaped-keywords/shorthand/input.js:1:1]
+ 1 | const object = { br\u0065ak };
+   :                  ^^^^^^^^^^
+   `----
+  x Cannot use a reserved word as a shorthand property
+   ,-[$DIR/tests/errors/escaped-keywords/shorthand/input.js:1:1]
+ 1 | const object = { br\u0065ak };
+   :                  ^^^^^^^^^^
+   `----

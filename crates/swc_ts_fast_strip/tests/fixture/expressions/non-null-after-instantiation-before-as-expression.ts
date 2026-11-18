@@ -1,0 +1,1 @@
+const value = (fn<A>)! as B;

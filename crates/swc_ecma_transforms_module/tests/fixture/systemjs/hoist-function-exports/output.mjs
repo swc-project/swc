@@ -2,15 +2,19 @@ System.register([
     "./evens"
 ], function(_export, _context) {
     "use strict";
-    var isEven, p, a, i, j, isOdd;
+    var a, i, isEven, isOdd, j, p;
     function nextOdd(n) {
-        return _export("p", p = isEven(n) ? n + 1 : n + 2);
+        return p = isEven(n) ? n + 1 : n + 2, _export("p", p), p;
     }
-    _export("nextOdd", nextOdd);
+    _export({
+        isOdd: void 0,
+        nextOdd: nextOdd,
+        p: void 0
+    });
     return {
         setters: [
-            function(_evens) {
-                isEven = _evens.isEven;
+            function(_evens_ns) {
+                isEven = _evens_ns.isEven;
             }
         ],
         execute: function() {

@@ -1,0 +1,5 @@
+  x Expression expected
+   ,-[$DIR/tests/errors/class-initializer-context/yield-auto-accessor/input.ts:1:1]
+ 1 | function* f(x = class { accessor field = yield 1; }) {}
+   :                                          ^^^^^
+   `----

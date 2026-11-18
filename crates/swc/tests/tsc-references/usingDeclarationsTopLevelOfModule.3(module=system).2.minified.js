@@ -4,13 +4,13 @@ System.register([
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
     var _ts_add_disposable_resource, _ts_dispose_resources, env;
-    return {
+    return _export("y", void 0), {
         setters: [
-            function(_ts_add_disposable_resource1) {
-                _ts_add_disposable_resource = _ts_add_disposable_resource1._;
+            function(_ts_add_disposable_resource_ns) {
+                _ts_add_disposable_resource = _ts_add_disposable_resource_ns._;
             },
-            function(_ts_dispose_resources1) {
-                _ts_dispose_resources = _ts_dispose_resources1._;
+            function(_ts_dispose_resources_ns) {
+                _ts_dispose_resources = _ts_dispose_resources_ns._;
             }
         ],
         execute: function() {

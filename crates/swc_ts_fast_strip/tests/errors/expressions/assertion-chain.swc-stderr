@@ -1,0 +1,16 @@
+InvalidSyntax
+
+  x An unparenthesized `as` or `satisfies` expression cannot be followed by an operator that would bind differently after type erasure
+   ,-[1:1]
+ 1 | 1 + 1 as any satisfies number / 2;
+   :                               ^
+ 2 | 2 ** 3 satisfies any as number ** 2;
+   `----
+InvalidSyntax
+
+  x An unparenthesized `as` or `satisfies` expression cannot be followed by an operator that would bind differently after type erasure
+   ,-[2:1]
+ 1 | 1 + 1 as any satisfies number / 2;
+ 2 | 2 ** 3 satisfies any as number ** 2;
+   :                                ^^
+   `----

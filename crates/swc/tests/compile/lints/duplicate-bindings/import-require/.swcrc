@@ -1,0 +1,11 @@
+{
+    "isModule": "unknown",
+    "jsc": {
+        "experimental": {
+            "disableAllLints": false
+        },
+        "parser": {
+            "syntax": "typescript"
+        }
+    }
+}

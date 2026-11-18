@@ -162,10 +162,8 @@ impl NoAlert {
 
     fn handle_callee(&mut self, expr: &Expr) {
         match expr {
-            Expr::Ident(ident) => {
-                if self.is_satisfying_indent(ident) {
-                    self.prop = Some(ident.sym.clone());
-                }
+            Expr::Ident(ident) if self.is_satisfying_indent(ident) => {
+                self.prop = Some(ident.sym.clone());
             }
             Expr::Member(member_expr) => self.handle_member_expr(member_expr),
             Expr::OptChain(OptChainExpr { base, .. }) if base.is_member() => {

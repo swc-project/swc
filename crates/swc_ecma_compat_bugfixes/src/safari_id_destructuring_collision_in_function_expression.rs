@@ -6,7 +6,6 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub fn safari_id_destructuring_collision_in_function_expression() -> impl Pass {
     visit_mut_pass(SafariIdDestructuringCollisionInFunctionExpression::default())
@@ -30,7 +29,6 @@ impl SafariIdDestructuringCollisionInFunctionExpression {
     }
 }
 
-#[swc_trace]
 impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     noop_visit_mut_type!(fail);
 
@@ -54,7 +52,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.in_body = false;
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;
-            n.function.body.visit_mut_children_with(self);
+            n.function.body.visit_mut_with(self);
 
             if let Some(id_ctxt) = self.destructured_id_span.take() {
                 let mut rename_map = HashMap::default();
@@ -82,7 +80,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.in_body = false;
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;
-            n.function.body.visit_mut_children_with(self);
+            n.function.body.visit_mut_with(self);
         }
         self.in_body = old_in_body;
     }

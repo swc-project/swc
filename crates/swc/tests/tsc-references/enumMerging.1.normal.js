@@ -96,7 +96,7 @@
             Color[Color["Yellow"] = 1] = "Yellow";
         })(A.Color || (A.Color = {}));
     })(M6.A || (M6.A = {}));
-    var t = M6.A.Color.Yellow;
-    t = M6.A.Color.Red;
+    var t = 1;
+    t = 0;
 })(M6 || (M6 = {}));
 var M1, M2, M3, M4, M5, M6;

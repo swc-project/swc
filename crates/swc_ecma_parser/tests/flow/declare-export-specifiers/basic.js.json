@@ -1,0 +1,118 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 146
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 1,
+        "end": 24
+      },
+      "declare": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 24
+        },
+        "ctxt": 0,
+        "value": "__flow_declare_export_1",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 1,
+          "end": 24
+        },
+        "kind": "any"
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 25,
+        "end": 78
+      },
+      "declare": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 78
+        },
+        "ctxt": 0,
+        "value": "__flow_declare_export_25",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 25,
+          "end": 78
+        },
+        "kind": "any"
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 79,
+        "end": 109
+      },
+      "declare": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 79,
+          "end": 109
+        },
+        "ctxt": 0,
+        "value": "__flow_declare_export_79",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 79,
+          "end": 109
+        },
+        "kind": "any"
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 110,
+        "end": 146
+      },
+      "declare": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 110,
+          "end": 146
+        },
+        "ctxt": 0,
+        "value": "__flow_declare_export_110",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 110,
+          "end": 146
+        },
+        "kind": "any"
+      }
+    }
+  ],
+  "interpreter": null
+}

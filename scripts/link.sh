@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-yarn run build:dev
-yarn link
+pnpm build:dev
+pnpm link --global
 
-(cd swr && yarn run build)
+(cd swr && pnpm build)

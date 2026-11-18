@@ -4,21 +4,66 @@ inputs:
   node-version:
     description: "Node version to install"
     required: false
-    default: "20"
+    default: "24"
+  install-dependencies:
+    description: "Install pnpm dependencies after restoring the pnpm cache"
+    required: false
+    default: "true"
+  cache:
+    description: "Restore and save the pnpm store cache"
+    required: false
+    default: "true"
+outputs:
+  pnpm-store-path:
+    description: "Resolved pnpm store path"
+    value: ${{ steps.pnpm-store.outputs.path }}
+  pnpm-cache-primary-key:
+    description: "Primary pnpm cache key"
+    value: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}
+  pnpm-cache-hit:
+    description: "Whether the primary pnpm cache was restored"
+    value: ${{ steps.restore-pnpm-cache.outputs.cache-hit }}
 
 runs:
   using: "composite"
   steps:
+    - name: Enable corepack shims
+      shell: bash
+      run: |
+        mkdir -p "$HOME/.local/bin"
+        corepack enable --install-directory "$HOME/.local/bin"
+        echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
     - name: Install Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
         node-version: ${{ inputs.node-version }}
-        cache: "yarn"
 
     - name: Enable corepack
       shell: bash
       run: corepack enable
 
-    - name: Install dependencies
+    - name: Get pnpm store path
+      id: pnpm-store
       shell: bash
-      run: yarn
+      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+    - name: Restore pnpm cache
+      id: restore-pnpm-cache
+      if: inputs.cache == 'true'
+      uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ steps.pnpm-store.outputs.path }}
+        key: pnpm-${{ runner.os }}-${{ runner.arch }}-node-${{ inputs.node-version }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+    - name: Install dependencies
+      if: inputs.install-dependencies == 'true'
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    - name: Save pnpm cache
+      if: inputs.cache == 'true' && inputs.install-dependencies == 'true' && github.ref == 'refs/heads/main' && steps.restore-pnpm-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      with:
+        path: ${{ steps.pnpm-store.outputs.path }}
+        key: ${{ steps.restore-pnpm-cache.outputs.cache-primary-key }}

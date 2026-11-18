@@ -125,12 +125,11 @@
                 },
                 "ctxt": 0,
                 "body": {
-                  "type": "BlockStatement",
+                  "type": "FunctionBody",
                   "span": {
                     "start": 79,
                     "end": 82
                   },
-                  "ctxt": 0,
                   "stmts": []
                 },
                 "generator": false,
@@ -176,32 +175,43 @@
                     }
                   }
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 115,
+                    "start": 88,
                     "end": 140
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 125,
-                        "end": 134
-                      },
-                      "argument": {
-                        "type": "NumericLiteral",
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 115,
+                      "end": 140
+                    },
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 132,
-                          "end": 133
+                          "start": 125,
+                          "end": 134
                         },
-                        "value": 0.0,
-                        "raw": "0"
+                        "argument": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 132,
+                            "end": 133
+                          },
+                          "value": 0.0,
+                          "raw": "0"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

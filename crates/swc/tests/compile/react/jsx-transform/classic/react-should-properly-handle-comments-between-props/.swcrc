@@ -1,0 +1,9 @@
+{
+  "jsc": {
+    "parser": {
+      "jsx": true,
+      "syntax": "ecmascript"
+    },
+    "target": "esnext"
+  }
+}

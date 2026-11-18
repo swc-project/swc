@@ -1,0 +1,23 @@
+{
+    "jsc": {
+        "target": "es2015",
+        "minify": {
+            "compress": {
+                "computed_props": false,
+                "conditionals": false,
+                "dead_code": false,
+                "directives": false,
+                "expression": true,
+                "reduce_funcs": false,
+                "switches": false
+            },
+            "mangle": {
+                "toplevel": true
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": true
+}

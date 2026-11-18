@@ -20,6 +20,7 @@ crates/swc_css_prefixer/tests/
 crates/swc_ecma_codegen/tests/
 crates/swc_ecma_lints/tests/
 crates/swc_ecma_minifier/tests/**/output.js
+crates/swc_ecma_minifier/tests/fixture/
 crates/swc_ecma_parser/tests/
 crates/swc_estree_compat/tests/
 crates/swc_html_codegen/tests/

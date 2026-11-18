@@ -1,0 +1,1 @@
+function f<T extends Base = Default>() {}

@@ -1,0 +1,18 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "target": "es2019",
+    "minify": {
+      "mangle": {
+        "toplevel": false,
+        "keep_classnames": true
+      }
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}

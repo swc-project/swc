@@ -1,0 +1,46 @@
+{
+  "mappings": ";;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,EAAEC,MAAM,QAAQ,iBAAiB;AAEhEF,SAAS,SAASG;IACd,IAAMC,OAAO;IACb,IAAMC,QAAQ,IAAIC,MAAMF;IAExBH,aAAaI,MAAME,SAAS,EAAE;IAC9BN,aAAaI,MAAMG,MAAM,EAAE;IAC3BP,aAAaI,MAAMI,aAAa,EAAE;IAClCR,aAAaI,MAAMD,IAAI,EAAE;IACzBH,aAAaI,MAAMK,OAAO,EAAE;IAC5BT,aAAaI,MAAMM,UAAU,EAAE;AACnC;AAEAX,SAAS,SAASY;IACd,IAAMC,OAAO;IACb,IAAMC,YAAY;QAAEJ,SAAS;QAAMC,YAAY;IAAK;IACpD,IAAMN,QAAQ,IAAIC,MAAMO,MAAMC;IAE9Bb,aAAaI,MAAME,SAAS,EAAE;IAC9BN,aAAaI,MAAMG,MAAM,EAAE;IAC3BP,aAAaI,MAAMI,aAAa,EAAE;IAClCR,aAAaI,MAAMD,IAAI,EAAE;IACzBH,aAAaI,MAAMK,OAAO,EAAE;IAC5BT,aAAaI,MAAMM,UAAU,EAAE;AACnC;AAEAX,SAAS,SAASe;IACd,IAAMX,OAAO;IACb,IAAMC,QAAQ,IAAIC,MAAMF;IACxB,IAAMY,eAAeX,MAAMW,YAAY;IAEvCf,aAAae,cAAc,EAAE;AACjC;AAEAhB,SAAS,SAASiB;IACd,IAAMb,OAAO;IACb,IAAMC,QAAQ,IAAIC,MAAMF;IAExBH,aAAaI,MAAMa,YAAY,EAAE;IACjCb,MAAMc,eAAe;IACrBlB,aAAaI,MAAMa,YAAY,EAAE;AACrC;AAEAlB,SAAS,SAASoB;IACd,IAAMhB,OAAO;IACb,IAAMC,QAAQ,IAAIC,MAAMF;IAExBH,aAAaI,MAAMa,YAAY,EAAE;IACjCb,MAAMgB,wBAAwB;IAC9BpB,aAAaI,MAAMa,YAAY,EAAE;AACrC;AAEAlB,SAAS,SAASsB;IACd,IAAMlB,OAAO;IACb,IAAMC,QAAQ,IAAIC,MAAMF;IAExBH,aAAaI,MAAMkB,gBAAgB,EAAE;IACrClB,MAAMmB,cAAc;IACpBvB,aAAaI,MAAMkB,gBAAgB,EAAE;IAErC,IAAMT,YAAY;QAAEJ,SAAS;QAAMC,YAAY;IAAK;IACpD,IAAMc,kBAAkB,IAAInB,MAAMF,MAAMU;IACxCb,aAAawB,gBAAgBF,gBAAgB,EAAE;IAC/CE,gBAAgBD,cAAc;IAC9BvB,aAAawB,gBAAgBF,gBAAgB,EAAE;AACnD;AAEAvB,SAAS,SAAS0B;IACd,8DAA8D;IAC9D,IAAMtB,OAAYuB;IAClB,IAAMtB,QAAQ,IAAIC,MAAMF;IAExBH,aAAaI,MAAME,SAAS,EAAE;IAC9BN,aAAaI,MAAMG,MAAM,EAAE;IAC3BP,aAAaI,MAAMI,aAAa,EAAE;IAClCR,aAAaI,MAAMD,IAAI,EAAE;IACzBH,aAAaI,MAAMK,OAAO,EAAE;IAC5BT,aAAaI,MAAMM,UAAU,EAAE;AACnC;AAEA,8FAA8F;AAC9FX,SAAS,SAAS4B;IACd,IAAMC,QAAQC,OAAOC,wBAAwB,CAAC,IAAIzB,MAAM,MAAM;IAC9DJ,OAAO2B;IACP5B,aAAa,SAAO4B,MAAMG,GAAG,GAAE;IAE/B,IAAMC,QAAQH,OAAOC,wBAAwB,CAAC,IAAIzB,MAAM,MAAM;IAC9DJ,OAAO+B;IACPhC,aAAa,SAAOgC,MAAOD,GAAG,GAAE;IAEhC/B,aAAa4B,MAAOG,GAAG,EAAEC,MAAOD,GAAG;AACvC",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "assert",
+    "eventInitializedWithType",
+    "type",
+    "event",
+    "Event",
+    "isTrusted",
+    "target",
+    "currentTarget",
+    "bubbles",
+    "cancelable",
+    "eventInitializedWithTypeAndDict",
+    "init",
+    "eventInit",
+    "eventComposedPathSuccess",
+    "composedPath",
+    "eventStopPropagationSuccess",
+    "cancelBubble",
+    "stopPropagation",
+    "eventStopImmediatePropagationSuccess",
+    "stopImmediatePropagation",
+    "eventPreventDefaultSuccess",
+    "defaultPrevented",
+    "preventDefault",
+    "cancelableEvent",
+    "eventInitializedWithNonStringType",
+    "undefined",
+    "eventIsTrusted",
+    "desc1",
+    "Object",
+    "getOwnPropertyDescriptor",
+    "get",
+    "desc2"
+  ],
+  "sources": [
+    "../input/event_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertEquals, assert } from \"./test_util.ts\";\n\nunitTest(function eventInitializedWithType(): void {\n    const type = \"click\";\n    const event = new Event(type);\n\n    assertEquals(event.isTrusted, false);\n    assertEquals(event.target, null);\n    assertEquals(event.currentTarget, null);\n    assertEquals(event.type, \"click\");\n    assertEquals(event.bubbles, false);\n    assertEquals(event.cancelable, false);\n});\n\nunitTest(function eventInitializedWithTypeAndDict(): void {\n    const init = \"submit\";\n    const eventInit = { bubbles: true, cancelable: true } as EventInit;\n    const event = new Event(init, eventInit);\n\n    assertEquals(event.isTrusted, false);\n    assertEquals(event.target, null);\n    assertEquals(event.currentTarget, null);\n    assertEquals(event.type, \"submit\");\n    assertEquals(event.bubbles, true);\n    assertEquals(event.cancelable, true);\n});\n\nunitTest(function eventComposedPathSuccess(): void {\n    const type = \"click\";\n    const event = new Event(type);\n    const composedPath = event.composedPath();\n\n    assertEquals(composedPath, []);\n});\n\nunitTest(function eventStopPropagationSuccess(): void {\n    const type = \"click\";\n    const event = new Event(type);\n\n    assertEquals(event.cancelBubble, false);\n    event.stopPropagation();\n    assertEquals(event.cancelBubble, true);\n});\n\nunitTest(function eventStopImmediatePropagationSuccess(): void {\n    const type = \"click\";\n    const event = new Event(type);\n\n    assertEquals(event.cancelBubble, false);\n    event.stopImmediatePropagation();\n    assertEquals(event.cancelBubble, true);\n});\n\nunitTest(function eventPreventDefaultSuccess(): void {\n    const type = \"click\";\n    const event = new Event(type);\n\n    assertEquals(event.defaultPrevented, false);\n    event.preventDefault();\n    assertEquals(event.defaultPrevented, false);\n\n    const eventInit = { bubbles: true, cancelable: true } as EventInit;\n    const cancelableEvent = new Event(type, eventInit);\n    assertEquals(cancelableEvent.defaultPrevented, false);\n    cancelableEvent.preventDefault();\n    assertEquals(cancelableEvent.defaultPrevented, true);\n});\n\nunitTest(function eventInitializedWithNonStringType(): void {\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    const type: any = undefined;\n    const event = new Event(type);\n\n    assertEquals(event.isTrusted, false);\n    assertEquals(event.target, null);\n    assertEquals(event.currentTarget, null);\n    assertEquals(event.type, \"undefined\");\n    assertEquals(event.bubbles, false);\n    assertEquals(event.cancelable, false);\n});\n\n// ref https://github.com/web-platform-tests/wpt/blob/master/dom/events/Event-isTrusted.any.js\nunitTest(function eventIsTrusted(): void {\n    const desc1 = Object.getOwnPropertyDescriptor(new Event(\"x\"), \"isTrusted\");\n    assert(desc1);\n    assertEquals(typeof desc1.get, \"function\");\n\n    const desc2 = Object.getOwnPropertyDescriptor(new Event(\"x\"), \"isTrusted\");\n    assert(desc2);\n    assertEquals(typeof desc2!.get, \"function\");\n\n    assertEquals(desc1!.get, desc2!.get);\n});\n"
+  ],
+  "version": 3
+}

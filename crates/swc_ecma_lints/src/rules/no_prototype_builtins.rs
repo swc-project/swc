@@ -101,10 +101,8 @@ impl NoPrototypeBuiltins {
             Expr::Lit(Lit::Str(lit_str)) => {
                 self.extend_chain(lit_str.span, lit_str.value.to_atom_lossy().into_owned());
             }
-            Expr::Tpl(tpl) => {
-                if tpl.exprs.is_empty() && tpl.quasis.len() == 1 {
-                    self.extend_chain(tpl.span, tpl.quasis[0].raw.clone());
-                }
+            Expr::Tpl(tpl) if tpl.exprs.is_empty() && tpl.quasis.len() == 1 => {
+                self.extend_chain(tpl.span, tpl.quasis[0].raw.clone());
             }
             Expr::Ident(ident) => {
                 self.extend_chain(ident.span, ident.sym.clone());

@@ -1,0 +1,51 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,EAAEC,MAAM,EAAEC,YAAY,QAAQ,iBAAiB;AAE9EH,SAAS,SAASI;IACdD,aAAa;QACTE,KAAKC,KAAK,CAAC;IACf,GAAGD,KAAKE,MAAM,CAACC,WAAW;AAC9B;AAEAR,SAAS,SAASS;IACd,IAAMC,MAAML,KAAKM,SAAS;IAE1BV,aAAaS,GAAG,CAAC,EAAE,EAAE;IACrBT,aAAaS,GAAG,CAAC,EAAE,EAAE;IACrBT,aAAaS,GAAG,CAAC,EAAE,EAAE;AACzB;AAEAV,SACI;IAAEY,OAAO;QAAEC,KAAK;IAAK;AAAE,GACvB,SAAeC;;YACLC,UACAC,YACAC,cAEAP,KAMAQ;;;;oBAVAH,WAAWV,KAAKc,MAAM,CAAC;wBAAEC,MAAM;oBAAK;oBACvB;;wBAAMf,KAAKgB,OAAO,CAAC;4BAAED,MAAM;wBAAK;;;oBAA7CJ,aAAa;oBACE;;wBAAMD,SAASO,MAAM;;;oBAApCL,eAAe;oBAEfP,MAAML,KAAKM,SAAS;oBAC1BV,aACIsB,OAAOC,MAAM,CAACd,KAAKe,MAAM,CAAC,SAACC;+BAAeA,MAAM;uBAC3CC,MAAM,EACX;oBAEET,aAAaK,OAAOC,MAAM,CAACd,KAAKe,MAAM,CACxC,SAACC;+BAAeA,MAAM;;oBAE1BxB,OAAOgB,WAAWS,MAAM,IAAI;oBAE5BV,aAAaX,KAAK;oBAClBU,WAAWV,KAAK;oBAChBS,SAAST,KAAK;;;;;;IAClB;;AAGJN,SACI;IAAEY,OAAO;QAAEgB,MAAM;IAAK;AAAE,GACxB,SAAeC;;YACLC,iBACAC,GACAC,gBAQAC;;;;oBAVAH,kBAAkBzB,KAAKM,SAAS;oBAC5B;;wBAAMN,KAAK6B,IAAI,CAAC;;;oBAApBH,IAAI;oBACJC,iBAAiB3B,KAAKM,SAAS;oBACrCoB,EAAEzB,KAAK;oBAEP,uDAAuD;oBACvDL,aACIsB,OAAOY,IAAI,CAACH,gBAAgBL,MAAM,EAClCJ,OAAOY,IAAI,CAACL,iBAAiBH,MAAM,GAAG;oBAEpCM,SAAS,CAACV,OAAOY,IAAI,CAACH,gBAAgBI,IAAI,CAAC,SAACC;wBAC9C,OAAO,CAACP,gBAAgBQ,cAAc,CAACD;oBAC3C;oBACApC,aAAa+B,cAAc,CAACC,OAAO,EAAE;;;;;;IACzC",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "assert",
+    "assertThrows",
+    "resourcesCloseBadArgs",
+    "Deno",
+    "close",
+    "errors",
+    "InvalidData",
+    "resourcesStdio",
+    "res",
+    "resources",
+    "perms",
+    "net",
+    "resourcesNet",
+    "listener",
+    "dialerConn",
+    "listenerConn",
+    "tcpStreams",
+    "listen",
+    "port",
+    "connect",
+    "accept",
+    "Object",
+    "values",
+    "filter",
+    "r",
+    "length",
+    "read",
+    "resourcesFile",
+    "resourcesBefore",
+    "f",
+    "resourcesAfter",
+    "newRid",
+    "open",
+    "keys",
+    "find",
+    "rid",
+    "hasOwnProperty"
+  ],
+  "sources": [
+    "../input/resources_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertEquals, assert, assertThrows } from \"./test_util.ts\";\n\nunitTest(function resourcesCloseBadArgs(): void {\n    assertThrows(() => {\n        Deno.close(null as unknown as number);\n    }, Deno.errors.InvalidData);\n});\n\nunitTest(function resourcesStdio(): void {\n    const res = Deno.resources();\n\n    assertEquals(res[0], \"stdin\");\n    assertEquals(res[1], \"stdout\");\n    assertEquals(res[2], \"stderr\");\n});\n\nunitTest(\n    { perms: { net: true } },\n    async function resourcesNet(): Promise<void> {\n        const listener = Deno.listen({ port: 4501 });\n        const dialerConn = await Deno.connect({ port: 4501 });\n        const listenerConn = await listener.accept();\n\n        const res = Deno.resources();\n        assertEquals(\n            Object.values(res).filter((r): boolean => r === \"tcpListener\")\n                .length,\n            1\n        );\n        const tcpStreams = Object.values(res).filter(\n            (r): boolean => r === \"tcpStream\"\n        );\n        assert(tcpStreams.length >= 2);\n\n        listenerConn.close();\n        dialerConn.close();\n        listener.close();\n    }\n);\n\nunitTest(\n    { perms: { read: true } },\n    async function resourcesFile(): Promise<void> {\n        const resourcesBefore = Deno.resources();\n        const f = await Deno.open(\"cli/tests/hello.txt\");\n        const resourcesAfter = Deno.resources();\n        f.close();\n\n        // check that exactly one new resource (file) was added\n        assertEquals(\n            Object.keys(resourcesAfter).length,\n            Object.keys(resourcesBefore).length + 1\n        );\n        const newRid = +Object.keys(resourcesAfter).find((rid): boolean => {\n            return !resourcesBefore.hasOwnProperty(rid);\n        })!;\n        assertEquals(resourcesAfter[newRid], \"fsFile\");\n    }\n);\n"
+  ],
+  "version": 3
+}

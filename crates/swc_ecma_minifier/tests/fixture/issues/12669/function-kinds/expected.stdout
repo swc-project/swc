@@ -1,0 +1,5 @@
+sync true
+async true
+generator true
+arrow true
+asyncArrow true

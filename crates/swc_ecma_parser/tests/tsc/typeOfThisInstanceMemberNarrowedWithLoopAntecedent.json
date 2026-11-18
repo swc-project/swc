@@ -300,12 +300,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 176,
                 "end": 338
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "WhileStatement",
@@ -644,12 +643,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 393,
                 "end": 606
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "VariableDeclaration",

@@ -11,7 +11,6 @@ use criterion::{black_box, BatchSize, BenchmarkId, Criterion};
 use par_iter::prelude::*;
 use rand::distributions::{Alphanumeric, DistString};
 use rustc_hash::FxHashSet;
-use smartstring::{LazyCompact, SmartString};
 
 macro_rules! string_creation {
     ($group:expr, $len:expr, $setup:expr) => {{
@@ -57,16 +56,6 @@ macro_rules! string_creation {
                     $setup(len),
                     |text| {
                         black_box(CompactString::from(text));
-                    },
-                    BatchSize::SmallInput,
-                );
-            });
-
-            group.bench_with_input(BenchmarkId::new("smartstring", len), &len, |b, _| {
-                b.iter_batched(
-                    $setup(len),
-                    |text| {
-                        black_box(SmartString::<LazyCompact>::from(text));
                     },
                     BatchSize::SmallInput,
                 );
@@ -206,17 +195,6 @@ fn bench_hash_operation(c: &mut Criterion) {
             group.bench_with_input(BenchmarkId::new("compact_str", len), &len, |b, _| {
                 b.iter_batched(
                     || prepare(len, &mut CompactString::from),
-                    |(map, keys)| {
-                        for key in keys {
-                            black_box(map.contains(&key));
-                        }
-                    },
-                    BatchSize::SmallInput,
-                );
-            });
-            group.bench_with_input(BenchmarkId::new("smartstring", len), &len, |b, _| {
-                b.iter_batched(
-                    || prepare(len, &mut SmartString::<LazyCompact>::from),
                     |(map, keys)| {
                         for key in keys {
                             black_box(map.contains(&key));

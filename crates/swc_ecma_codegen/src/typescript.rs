@@ -4,6 +4,7 @@ use swc_ecma_codegen_macros::node_impl;
 
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
+use crate::{util::type_starts_with_lt, ExprPrecedence};
 
 #[node_impl]
 impl MacroNode for ParamOrTsParamProp {
@@ -307,6 +308,30 @@ impl MacroNode for TsFnParam {
             #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
+        Ok(())
+    }
+}
+
+#[node_impl]
+impl MacroNode for TsThisParam {
+    fn emit(&mut self, emitter: &mut Macro) -> Result {
+        emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        srcmap!(emitter, self.this_span, true);
+        keyword!(emitter, "this");
+
+        if let Some(type_ann) = &self.type_ann {
+            punct!(emitter, ":");
+            formatting_space!(emitter);
+            emit!(type_ann);
+        }
+
+        srcmap!(emitter, self, false);
+
+        if emitter.comments.is_some() {
+            emitter.emit_trailing_comments_of_pos(self.span.hi, true, true)?;
+        }
+
         Ok(())
     }
 }
@@ -804,9 +829,12 @@ impl MacroNode for TsNamespaceExportDecl {
 
         keyword!(emitter, "export");
         space!(emitter);
-        punct!(emitter, "=");
+        keyword!(emitter, "as");
+        space!(emitter);
+        keyword!(emitter, "namespace");
         space!(emitter);
         emit!(self.id);
+        formatting_semi!(emitter);
         Ok(())
     }
 }
@@ -816,7 +844,7 @@ impl MacroNode for TsNonNullExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::POSTFIX)?;
         punct!(emitter, "!");
         Ok(())
     }
@@ -1130,9 +1158,13 @@ impl MacroNode for TsTypeAssertion {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         punct!(emitter, "<");
+        if type_starts_with_lt(&self.type_ann) {
+            // Keep the assertion and generic parameter openers from becoming `<<`.
+            space!(emitter);
+        }
         emit!(self.type_ann);
         punct!(emitter, ">");
-        emit!(self.expr);
+        emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::EXPONENTIATION)?;
         Ok(())
     }
 }
@@ -1299,14 +1331,7 @@ impl MacroNode for TsTypeParam {
 #[node_impl]
 impl MacroNode for TsTypeParamDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        emitter.emit_leading_comments_of_span(self.span(), false)?;
-
-        punct!(emitter, "<");
-
-        emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
-
-        punct!(emitter, ">");
-        Ok(())
+        emitter.emit_ts_type_param_decl(self, ListFormat::TypeParameters)
     }
 }
 
@@ -1315,11 +1340,7 @@ impl MacroNode for TsTypeParamInstantiation {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        punct!(emitter, "<");
-        emitter.emit_list(self.span, Some(&self.params), ListFormat::TypeParameters)?;
-
-        punct!(emitter, ">");
-        Ok(())
+        emitter.emit_ts_type_arguments(self, ListFormat::TypeParameters)
     }
 }
 
@@ -1379,9 +1400,7 @@ impl MacroNode for TsTypeRef {
         emit!(self.type_name);
 
         if let Some(n) = &self.type_params {
-            punct!(emitter, "<");
-            emitter.emit_list(n.span, Some(&n.params), ListFormat::TypeArguments)?;
-            punct!(emitter, ">");
+            emitter.emit_ts_type_arguments(n, ListFormat::TypeArguments)?;
         }
         Ok(())
     }
@@ -1419,7 +1438,7 @@ impl MacroNode for TsInstantiation {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.expr);
+        emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::POSTFIX)?;
 
         emit!(self.type_args);
         Ok(())

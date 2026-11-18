@@ -15,6 +15,7 @@ pub(crate) struct InlineData {
 
 /// Inline **injected** variables.
 pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
+    #[cfg(debug_assertions)]
     tracing::debug!("Inlining injected variables");
 
     let mut data = Default::default();

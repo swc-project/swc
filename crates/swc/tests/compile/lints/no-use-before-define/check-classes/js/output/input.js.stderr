@@ -1,0 +1,7 @@
+  x 'C' was used before it was defined
+   ,-[$DIR/tests/compile/lints/no-use-before-define/check-classes/js/input/input.js:1:1]
+ 1 | new C();
+   :     ^
+ 2 | 
+ 3 | class C {}
+   `----

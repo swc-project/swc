@@ -7,7 +7,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_utils::{is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub fn template_literal(c: Config) -> impl Pass {
     visit_mut_pass(TemplateLiteral {
@@ -41,7 +40,6 @@ impl Parallel for TemplateLiteral {
     }
 }
 
-#[swc_trace]
 impl VisitMut for TemplateLiteral {
     noop_visit_mut_type!(fail);
 
@@ -63,7 +61,7 @@ impl VisitMut for TemplateLiteral {
                         let s = quasis[0]
                             .cooked
                             .clone()
-                            .unwrap_or_else(|| quasis[0].raw.clone().into());
+                            .unwrap_or_else(|| Str::from_tpl_raw(&quasis[0]));
 
                         Str {
                             span: quasis[0].span,
@@ -94,14 +92,15 @@ impl VisitMut for TemplateLiteral {
                     let expr = if i % 2 == 0 {
                         // Quasis
                         match quasis.next() {
-                            Some(TplElement {
-                                span, cooked, raw, ..
-                            }) => {
-                                let s = cooked.clone().unwrap_or_else(|| raw.clone().into());
+                            Some(quasi) => {
+                                let s = quasi
+                                    .cooked
+                                    .clone()
+                                    .unwrap_or_else(|| Str::from_tpl_raw(quasi));
 
                                 Box::new(
                                     Lit::Str(Str {
-                                        span: *span,
+                                        span: quasi.span,
                                         value: s,
                                         raw: None,
                                     })
@@ -329,13 +328,12 @@ impl VisitMut for TemplateLiteral {
                                     is_async: false,
                                     is_generator: false,
                                     params: Vec::new(),
-                                    body: Some(BlockStmt {
+                                    body: Some(FunctionBody {
                                         span: DUMMY_SP,
                                         stmts: vec![Stmt::Return(ReturnStmt {
                                             span: DUMMY_SP,
                                             arg: Some(Box::new(quote_ident!("data").into())),
                                         })],
-                                        ..Default::default()
                                     }),
                                     ..Default::default()
                                 }
@@ -344,7 +342,7 @@ impl VisitMut for TemplateLiteral {
                             .into()
                         };
 
-                        Some(BlockStmt {
+                        Some(FunctionBody {
                             span: DUMMY_SP,
 
                             stmts: vec![
@@ -355,7 +353,6 @@ impl VisitMut for TemplateLiteral {
                                     arg: Some(Box::new(quote_ident!("data").into())),
                                 }),
                             ],
-                            ..Default::default()
                         })
                     },
 

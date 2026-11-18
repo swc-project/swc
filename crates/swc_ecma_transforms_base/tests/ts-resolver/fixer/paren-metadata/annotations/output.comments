@@ -1,0 +1,112 @@
+Source, remove_only=false:
+leading BytePos(40) -> BytePos(41)
+trailing BytePos(65) -> BytePos(64)
+leading BytePos(39) -> BytePos(40)
+trailing BytePos(66) -> BytePos(65)
+leading BytePos(2) -> BytePos(17)
+trailing BytePos(27) -> BytePos(26)
+leading BytePos(1) -> BytePos(2)
+trailing BytePos(28) -> BytePos(27)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Source, remove_only=true:
+leading BytePos(41) -> BytePos(53)
+trailing BytePos(64) -> BytePos(63)
+leading BytePos(40) -> BytePos(41)
+trailing BytePos(65) -> BytePos(64)
+leading BytePos(39) -> BytePos(40)
+trailing BytePos(66) -> BytePos(65)
+leading BytePos(2) -> BytePos(17)
+trailing BytePos(27) -> BytePos(26)
+leading BytePos(1) -> BytePos(2)
+trailing BytePos(28) -> BytePos(27)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Duplicated, remove_only=false:
+leading BytePos(40) -> BytePos(41)
+trailing BytePos(65) -> BytePos(64)
+leading BytePos(39) -> BytePos(40)
+trailing BytePos(66) -> BytePos(65)
+leading BytePos(2) -> BytePos(17)
+trailing BytePos(27) -> BytePos(26)
+leading BytePos(1) -> BytePos(2)
+trailing BytePos(28) -> BytePos(27)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Duplicated, remove_only=true:
+leading BytePos(41) -> BytePos(53)
+trailing BytePos(64) -> BytePos(63)
+leading BytePos(40) -> BytePos(41)
+trailing BytePos(65) -> BytePos(64)
+leading BytePos(39) -> BytePos(40)
+trailing BytePos(66) -> BytePos(65)
+leading BytePos(2) -> BytePos(17)
+trailing BytePos(27) -> BytePos(26)
+leading BytePos(1) -> BytePos(2)
+trailing BytePos(28) -> BytePos(27)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Dummy, remove_only=false:
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Dummy, remove_only=true:
+leading BytePos(0) -> BytePos(0)
+trailing BytePos(0) -> BytePos(0)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Shared, remove_only=false:
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Shared, remove_only=true:
+leading BytePos(1) -> BytePos(1)
+trailing BytePos(2) -> BytePos(2)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Pure, remove_only=false:
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Pure, remove_only=true:
+leading BytePos(4294967294) -> BytePos(4294967294)
+trailing BytePos(4294967294) -> BytePos(4294967294)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Mixed, remove_only=false:
+leading BytePos(4294967294) -> BytePos(3)
+trailing BytePos(4294967294) -> BytePos(4)
+leading BytePos(0) -> BytePos(0)
+trailing BytePos(0) -> BytePos(0)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+
+Mixed, remove_only=true:
+leading BytePos(4294967294) -> BytePos(3)
+trailing BytePos(4294967294) -> BytePos(4)
+leading BytePos(3) -> BytePos(4294967294)
+trailing BytePos(4) -> BytePos(4294967294)
+leading BytePos(0) -> BytePos(0)
+trailing BytePos(0) -> BytePos(0)
+leading at BytePos(17): [Comment { kind: Block, span: 3..16, text: "#__PURE__" }]
+leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
+trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
+

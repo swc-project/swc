@@ -1,0 +1,6 @@
+{
+  "isModule": false,
+  "env": {
+    "include": ["transform-named-capturing-groups-regex"]
+  }
+}

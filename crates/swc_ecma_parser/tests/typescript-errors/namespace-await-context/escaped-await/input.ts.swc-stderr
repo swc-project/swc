@@ -1,0 +1,5 @@
+  x Unexpected escape sequence in reserved word: await
+   ,-[$DIR/tests/typescript-errors/namespace-await-context/escaped-await/input.ts:1:1]
+ 1 | namespace N { const x = a\u0077ait value; }
+   :                         ^^^^^^^^^^
+   `----

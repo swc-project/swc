@@ -1,0 +1,5 @@
+  x Abstract property cannot have an initializer.
+   ,-[$DIR/tests/errors/declare-readonly-initializers/abstract-accessor/input.ts:1:1]
+ 1 | abstract class C { abstract accessor x = 1; }
+   :                    ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----

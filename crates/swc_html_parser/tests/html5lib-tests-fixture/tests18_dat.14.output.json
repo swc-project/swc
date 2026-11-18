@@ -54,20 +54,34 @@
               "type": "Element",
               "span": {
                 "start": 23,
-                "end": 43
+                "end": 53
               },
               "tagName": "select",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": [
                 {
-                  "type": "Text",
+                  "type": "Element",
                   "span": {
-                    "start": 42,
-                    "end": 43
+                    "start": 31,
+                    "end": 53
                   },
-                  "data": "a",
-                  "raw": "a"
+                  "tagName": "plaintext",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 42,
+                        "end": 53
+                      },
+                      "data": "a<caption>b",
+                      "raw": "a<caption>b"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
               "content": null,
@@ -77,36 +91,12 @@
               "type": "Element",
               "span": {
                 "start": 16,
-                "end": 53
+                "end": 23
               },
               "tagName": "table",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
-              "children": [
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 43,
-                    "end": 53
-                  },
-                  "tagName": "caption",
-                  "namespace": "http://www.w3.org/1999/xhtml",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 52,
-                        "end": 53
-                      },
-                      "data": "b",
-                      "raw": "b"
-                    }
-                  ],
-                  "content": null,
-                  "isSelfClosing": false
-                }
-              ],
+              "children": [],
               "content": null,
               "isSelfClosing": false
             }

@@ -1,0 +1,5 @@
+  x Expected '(', got 'await'
+   ,-[$DIR/tests/errors/for-of-await-scope/function.cjs:1:1]
+ 1 | function f() { for await (value of [1]) {} }
+   :                    ^^^^^
+   `----

@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "target": "es2019",
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": true
+}

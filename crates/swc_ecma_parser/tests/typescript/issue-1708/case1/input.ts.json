@@ -54,32 +54,43 @@
                   "value": "a-b",
                   "raw": "\"a-b\""
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 33,
+                    "start": 21,
                     "end": 62
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 43,
-                        "end": 56
-                      },
-                      "argument": {
-                        "type": "StringLiteral",
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 33,
+                      "end": 62
+                    },
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 50,
-                          "end": 55
+                          "start": 43,
+                          "end": 56
                         },
-                        "value": "abc",
-                        "raw": "\"abc\""
+                        "argument": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 50,
+                            "end": 55
+                          },
+                          "value": "abc",
+                          "raw": "\"abc\""
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

@@ -1,0 +1,18 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <tbody>
+|         <tr>
+|           <td>
+|             <select>
+|               <math math>
+|                 <math mi>
+|                   "foo"
+|                 <math mi>
+|                   "bar"
+|               <p>
+|                 "baz"
+|     <p>
+|       "quux"

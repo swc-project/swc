@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "target": "esnext",
+        "minify": {
+            "compress": true,
+            "mangle": {
+                "topLevel": true
+            },
+            "toplevel": true
+        }
+    },
+    "minify": true
+}

@@ -1,0 +1,27 @@
+{
+    "isModule": "unknown",
+    "minify": true,
+    "sourceMaps": true,
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "decorators": true,
+            "decoratorsBeforeExport": true
+        },
+        "minify": {
+            "compress": {
+                "negate_iife": false,
+                "sequences": 30
+            },
+            "mangle": {
+                "safari10": true
+            }
+        }
+    },
+    "env": {
+        "targets": {
+            "chrome": "120"
+        }
+    }
+}

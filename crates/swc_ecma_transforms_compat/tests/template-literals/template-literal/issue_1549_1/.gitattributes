@@ -1,0 +1,2 @@
+# Preserve the carriage return in this template literal input.
+input.js -text

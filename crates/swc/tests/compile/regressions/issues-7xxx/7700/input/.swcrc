@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "target": "esnext",
+        "loose": true,
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false
+            }
+        },
+    }
+}

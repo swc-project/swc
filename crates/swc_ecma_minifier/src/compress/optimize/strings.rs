@@ -1,9 +1,10 @@
-use swc_atoms::{atom, Atom, Wtf8Atom};
-use swc_common::{util::take::Take, Spanned, SyntaxContext};
+use swc_atoms::{Atom, Wtf8Atom};
+use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::Optimizer;
+use crate::util::make_number;
 
 impl Optimizer<'_> {
     pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {
@@ -123,12 +124,7 @@ impl Optimizer<'_> {
             }) => {
                 if let (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(r))) = (&**left, &**right) {
                     if l.value == 0.0 && r.value == 0.0 {
-                        *n = Ident::new(
-                            atom!("NaN"),
-                            *span,
-                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        )
-                        .into();
+                        *n = make_number(*span, f64::NAN);
                         self.changed = true;
                         report_change!("strings: Evaluated 0 / 0 => NaN in string context");
                     }
@@ -232,8 +228,8 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8Atom) -> Atom {
                 _ => result.push(ch),
             }
         } else {
-            // Unparied surrogate, escape as \\uXXXX (two backslashes)
-            result.push_str(&format!("\\\\u{:04X}", code_point.to_u32()));
+            // Unpaired surrogates must remain Unicode escapes in a template raw value.
+            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
         }
     }
 

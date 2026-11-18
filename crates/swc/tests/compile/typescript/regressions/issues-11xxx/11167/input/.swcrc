@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2015",
+        "minify": {
+            "mangle": true
+        },
+        "preserveAllComments": true
+    },
+    "module": {
+        "type": "es6"
+    }
+}

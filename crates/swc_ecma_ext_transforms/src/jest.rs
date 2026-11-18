@@ -95,10 +95,8 @@ impl VisitMut for Jest {
                                 imported: None,
                                 is_type_only: false,
                                 ..
-                            }) => {
-                                if HOIST_METHODS.contains(&*local.sym) {
-                                    self.imported.push(local.to_id());
-                                }
+                            }) if HOIST_METHODS.contains(&*local.sym) => {
+                                self.imported.push(local.to_id());
                             }
 
                             ImportSpecifier::Named(ImportNamedSpecifier {
@@ -106,10 +104,8 @@ impl VisitMut for Jest {
                                 imported: Some(exported),
                                 is_type_only: false,
                                 ..
-                            }) => {
-                                if HOIST_METHODS.contains(&exported.atom()) {
-                                    self.imported.push(local.to_id());
-                                }
+                            }) if HOIST_METHODS.contains(&exported.atom()) => {
+                                self.imported.push(local.to_id());
                             }
                             _ => {}
                         }

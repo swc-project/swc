@@ -783,12 +783,11 @@
             "ctxt": 0,
             "params": [],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 506,
                 "end": 601
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "IfStatement",

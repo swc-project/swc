@@ -347,7 +347,7 @@ impl Visit for CriticalRules {
 
         let ArrowExpr { params, body, .. } = a;
         params.visit_with(self);
-        if let BlockStmtOrExpr::BlockStmt(b) = &**body {
+        if let ArrowFunctionBody::FunctionBody(b) = &**body {
             self.visit_with_stmts(&b.stmts, false)
         }
     }

@@ -1,0 +1,1 @@
+instance[name](...args);

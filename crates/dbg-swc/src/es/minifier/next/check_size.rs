@@ -45,6 +45,7 @@ impl CheckSizeCommand {
 
         let files = self.store_minifier_inputs(&app_dir)?;
 
+        #[cfg(debug_assertions)]
         info!("Running minifier");
 
         let mut files = GLOBALS.with(|globals| {
@@ -61,6 +62,7 @@ impl CheckSizeCommand {
         })?;
 
         if !self.show_all {
+            #[cfg(debug_assertions)]
             info!(
                 "Skiping files which are smaller than terser output, as `--show-all` is not \
                  specified"
@@ -148,6 +150,7 @@ impl CheckSizeCommand {
                     .count()
                     != 0
             {
+                #[cfg(debug_assertions)]
                 info!(
                     "Skipping `npm run build` because the cache exists and `--ensure-fresh` is \
                      not set"
@@ -177,6 +180,7 @@ impl CheckSizeCommand {
     /// Invokes `npm run build` and extacts the inputs for the swc minifier.
     fn build_app(&self, app_dir: &Path) -> Result<Vec<InputFile>> {
         wrap_task(|| {
+            #[cfg(debug_assertions)]
             info!("Running `npm run build`");
 
             // Remove cache

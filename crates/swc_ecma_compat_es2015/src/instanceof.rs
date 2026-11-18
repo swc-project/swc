@@ -26,7 +26,58 @@ use swc_ecma_ast::Pass;
 /// _instanceof(foo, Bar);
 /// ```
 pub fn instance_of() -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.env.es2015.instanceof = true;
-    options.into_pass()
+    swc_ecma_transformer::es2015_instanceof()
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_ecma_parser::Syntax;
+    use swc_ecma_transforms_testing::test;
+
+    use super::*;
+
+    test!(
+        Syntax::default(),
+        |_| instance_of(),
+        basic,
+        "foo instanceof Bar;"
+    );
+
+    test!(
+        Syntax::default(),
+        |_| instance_of(),
+        skip_helper_fn_decl_by_name,
+        "
+        function _instanceof(left, right) {
+            return left instanceof right;
+        }
+        foo instanceof Bar;
+        "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| instance_of(),
+        skip_helper_fn_expr_by_swc_directive,
+        "
+        const helper = function(left, right) {
+            '@swc/helpers - instanceof';
+            return left instanceof right;
+        };
+        foo instanceof Bar;
+        "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| instance_of(),
+        skip_helper_fn_expr_by_babel_directive,
+        "
+        const helper = function(left, right) {
+            '@babel/helpers - instanceof';
+            return left instanceof right;
+        };
+        foo instanceof Bar;
+        "
+    );
 }

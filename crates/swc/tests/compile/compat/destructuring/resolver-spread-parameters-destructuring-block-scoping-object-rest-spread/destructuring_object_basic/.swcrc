@@ -1,0 +1,18 @@
+{
+  "env": {
+    "include": [
+      "transform-object-rest-spread",
+      "transform-destructuring",
+      "transform-block-scoping",
+      "transform-parameters",
+      "transform-spread"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "preserveAllComments": true
+  }
+}

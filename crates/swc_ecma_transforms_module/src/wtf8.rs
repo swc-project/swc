@@ -10,8 +10,7 @@ use swc_ecma_ast::Str;
 pub(crate) fn normalize_wtf8_atom(value: &Wtf8Atom) -> Atom {
     value
         .as_str()
-        .map(Atom::from)
-        .unwrap_or_else(|| Atom::from(value.to_string_lossy()))
+        .map_or_else(|| Atom::from(value.to_string_lossy()), Atom::from)
 }
 
 /// Convert a [`Str`] literal into a UTF-8 [`Atom`], preserving valid UTF-8
@@ -22,8 +21,8 @@ pub(crate) fn str_to_atom(value: &Str) -> Atom {
 }
 
 pub(crate) fn wtf8_to_cow_str(value: &Wtf8Atom) -> Cow<'_, str> {
-    value
-        .as_str()
-        .map(Cow::Borrowed)
-        .unwrap_or_else(|| Cow::Owned(value.to_string_lossy().into_owned()))
+    value.as_str().map_or_else(
+        || Cow::Owned(value.to_string_lossy().into_owned()),
+        Cow::Borrowed,
+    )
 }

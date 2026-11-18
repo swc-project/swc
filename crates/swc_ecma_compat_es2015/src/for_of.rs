@@ -1,8 +1,9 @@
 use std::mem::take;
 
 use serde::Deserialize;
+use smallvec::SmallVec;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     helper,
@@ -13,7 +14,6 @@ use swc_ecma_utils::{
     alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-for-of`
 ///
@@ -74,11 +74,28 @@ struct ForOf {
     top_level_vars: Vec<VarDeclarator>,
 }
 
-#[swc_trace]
+/// Consecutive labels on an iteration statement, ordered outermost first.
+#[derive(Default)]
+struct LoopLabels(SmallVec<[(Span, Ident); 1]>);
+
+impl LoopLabels {
+    fn wrap(self, mut stmt: Stmt) -> Stmt {
+        for (span, label) in self.0.into_iter().rev() {
+            stmt = LabeledStmt {
+                span,
+                label,
+                body: Box::new(stmt),
+            }
+            .into();
+        }
+        stmt
+    }
+}
+
 impl ForOf {
     fn fold_for_stmt(
         &mut self,
-        label: Option<Ident>,
+        labels: LoopLabels,
         ForOfStmt {
             span,
             left,
@@ -208,15 +225,7 @@ impl ForOf {
             }
             .into();
 
-            return match label {
-                Some(label) => LabeledStmt {
-                    span,
-                    label,
-                    body: Box::new(stmt),
-                }
-                .into(),
-                _ => stmt,
-            };
+            return labels.wrap(stmt);
         }
 
         // Loose mode
@@ -330,15 +339,7 @@ impl ForOf {
                 body: Box::new(Stmt::Block(body)),
             }
             .into();
-            return match label {
-                Some(label) => LabeledStmt {
-                    span,
-                    label,
-                    body: Box::new(stmt),
-                }
-                .into(),
-                _ => stmt,
-            };
+            return labels.wrap(stmt);
         }
 
         let var_span = left.span();
@@ -500,15 +501,9 @@ impl ForOf {
         }
         .into();
 
-        let for_stmt = match label {
-            Some(label) => LabeledStmt {
-                span,
-                label,
-                body: Box::new(for_stmt),
-            }
-            .into(),
-            None => for_stmt,
-        };
+        // Every loop label must remain inside the try, attached to the iteration
+        // statement, so labeled continue targets the loop rather than the try.
+        let for_stmt = labels.wrap(for_stmt);
 
         TryStmt {
             span: DUMMY_SP,
@@ -569,7 +564,7 @@ impl ForOf {
 ///     }
 ///   }
 /// ```
-#[tracing::instrument(level = "debug", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
 fn make_finally_block(
     iterator_return: Box<Expr>,
     normal_completion_ident: &Ident,
@@ -656,7 +651,6 @@ impl Parallel for ForOf {
     }
 }
 
-#[swc_trace]
 impl ParExplode for ForOf {
     fn after_one_stmt(&mut self, stmts: &mut Vec<Stmt>) {
         // Add variable declaration
@@ -693,20 +687,26 @@ impl ParExplode for ForOf {
     }
 }
 
-#[swc_trace]
 #[parallel(explode)]
 impl VisitMut for ForOf {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         match s {
-            Stmt::Labeled(LabeledStmt { label, body, .. }) => {
-                // Handle label
-                match &mut **body {
+            Stmt::Labeled(..) => {
+                let mut labels = LoopLabels::default();
+                let mut body = &mut *s;
+                // Only consecutive labels belong to the same iteration
+                // statement. A block or another statement ends the chain.
+                while let Stmt::Labeled(labeled) = body {
+                    labels.0.push((labeled.span, labeled.label.clone()));
+                    body = &mut labeled.body;
+                }
+                match body {
                     Stmt::ForOf(stmt) => {
                         stmt.visit_mut_children_with(self);
 
-                        *s = self.fold_for_stmt(Some(label.clone()), stmt.take());
+                        *s = self.fold_for_stmt(labels, stmt.take());
                     }
                     _ => {
                         body.visit_mut_with(self);
@@ -716,7 +716,7 @@ impl VisitMut for ForOf {
             Stmt::ForOf(stmt) => {
                 stmt.visit_mut_children_with(self);
 
-                *s = self.fold_for_stmt(None, stmt.take())
+                *s = self.fold_for_stmt(LoopLabels::default(), stmt.take())
             }
             _ => s.visit_mut_children_with(self),
         }

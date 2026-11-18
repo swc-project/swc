@@ -1,0 +1,12 @@
+  x 'const' declarations must be initialized
+   ,-[$DIR/tests/flow-errors/require-directive/with-noflow.js:2:1]
+ 1 | /* @noflow */
+ 2 | const value: number = 1;
+   :       ^^^^^
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/flow-errors/require-directive/with-noflow.js:2:1]
+ 1 | /* @noflow */
+ 2 | const value: number = 1;
+   :            ^
+   `----

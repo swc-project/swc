@@ -247,12 +247,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 321,
                 "end": 346
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",
@@ -334,12 +333,11 @@
             },
             "ctxt": 0,
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 405,
                 "end": 431
               },
-              "ctxt": 0,
               "stmts": [
                 {
                   "type": "ReturnStatement",

@@ -8,7 +8,7 @@ where
 {
     /// Original context is restored when returned guard is dropped.
     #[inline]
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<W> {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, W> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
         WithCtx {

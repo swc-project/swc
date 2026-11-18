@@ -7,6 +7,7 @@ use std::{
 
 use anyhow::{Context, Error};
 use once_cell::sync::Lazy;
+use serde::Deserialize;
 use swc::{
     config::{
         Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig,
@@ -14,12 +15,85 @@ use swc::{
     },
     try_with_handler, BoolOrDataConfig, Compiler, HandlerOpts,
 };
-use swc_common::{errors::ColorConfig, SourceMap, GLOBALS};
+use swc_common::{errors::ColorConfig, FileName, SourceMap, GLOBALS};
+use swc_config::merge::Merge;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::{assert_eq, find_executable, unignore_fixture};
 use tracing::{span, Level};
+
+/// Execution policy shared by compiler, Babel, and native async fixtures.
+/// Compiler options are loaded normally from the input's complete `.swcrc`.
+#[derive(Default, Deserialize)]
+#[serde(default, deny_unknown_fields)]
+struct ExecConfig {
+    /// Restrict the target matrix without changing its other dimensions.
+    targets: Option<Vec<EsVersion>>,
+    /// Overrides for compiling the reference when Node cannot run the input.
+    reference: Config,
+}
+
+impl ExecConfig {
+    fn load(entry: &Path) -> Self {
+        let path = entry
+            .parent()
+            .unwrap()
+            .ancestors()
+            .map(|dir| dir.join("exec.json"))
+            .find(|path| path.is_file());
+
+        let Some(path) = path else {
+            return Self::default();
+        };
+
+        let file = fs::File::open(&path)
+            .unwrap_or_else(|err| panic!("failed to open {}: {err}", path.display()));
+        serde_json::from_reader(file)
+            .unwrap_or_else(|err| panic!("failed to parse {}: {err}", path.display()))
+    }
+}
+
+/// The matrix tests explicit targets and the fixture's environment
+/// independently.
+#[derive(Clone, Copy)]
+enum MatrixTarget {
+    Version(EsVersion),
+    Env,
+}
+
+/// Load the complete fixture configuration once, including normal path
+/// resolution.
+fn load_swcrc(entry: &Path) -> Option<Config> {
+    if !entry
+        .parent()
+        .unwrap()
+        .ancestors()
+        .any(|dir| dir.join(".swcrc").is_file())
+    {
+        return None;
+    }
+
+    let compiler = Compiler::new(Default::default());
+    let config = GLOBALS
+        .set(&Default::default(), || {
+            compiler.read_config(
+                &Options {
+                    swcrc: true,
+                    ..Default::default()
+                },
+                &FileName::Real(entry.to_path_buf()),
+            )
+        })
+        .unwrap_or_else(|err| panic!("failed to read .swcrc for {}: {err:?}", entry.display()));
+
+    Some(config.unwrap_or_else(|| {
+        panic!(
+            "execution fixture is excluded by .swcrc: {}",
+            entry.display()
+        )
+    }))
+}
 
 trait IterExt<T>: Sized + IntoIterator<Item = T>
 where
@@ -62,27 +136,37 @@ fn init_helpers() -> Arc<PathBuf> {
             return Arc::new(helper_dir);
         }
 
-        let yarn = find_executable("yarn").expect("failed to find yarn");
+        let pnpm = find_executable("pnpm").expect("failed to find pnpm");
         {
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");
-                c.arg("/C").arg(&yarn);
+                c.arg("/C").arg(&pnpm);
                 c
             } else {
-                Command::new(&yarn)
+                Command::new(&pnpm)
             };
-            cmd.current_dir(&helper_dir);
-            let status = cmd.status().expect("failed to update swc core");
+            // Installing from `packages/helpers` can still run workspace
+            // lifecycle scripts. In a clean checkout `@swc/core` has not been
+            // built yet, so its postinstall validation would fail while trying
+            // to resolve generated files such as `index.js`.
+            //
+            // Use the lockfile as it is, like CI does. A plain `pnpm install`
+            // can resolve the workspace again and rewrite `pnpm-lock.yaml`.
+            cmd.current_dir(&helper_dir)
+                .env("SWC_SKIP_VALIDATION", "1")
+                .arg("install")
+                .arg("--frozen-lockfile");
+            let status = cmd.status().expect("failed to install helper dependencies");
             assert!(status.success());
         }
 
         {
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");
-                c.arg("/C").arg(&yarn);
+                c.arg("/C").arg(&pnpm);
                 c
             } else {
-                Command::new(&yarn)
+                Command::new(&pnpm)
             };
             cmd.current_dir(&helper_dir).arg("build");
             let status = cmd.status().expect("failed to compile helper package");
@@ -95,28 +179,9 @@ fn init_helpers() -> Arc<PathBuf> {
     BUILD_HELPERS.clone()
 }
 
-fn create_matrix(entry: &Path) -> Vec<Options> {
-    let use_define_for_class_fields = entry
-        .parent()
-        .map(|parent| parent.join(".swcrc"))
-        .and_then(|path| fs::read_to_string(path).ok())
-        .and_then(|content| {
-            jsonc_parser::parse_to_serde_value(
-                &content,
-                &jsonc_parser::ParseOptions {
-                    allow_comments: true,
-                    allow_trailing_commas: true,
-                    allow_loose_object_property_names: false,
-                },
-            )
-            .ok()?
-        })
-        .and_then(|content| serde_json::from_value::<Config>(content).ok())
-        .and_then(|config| config.jsc.transform.into_inner())
-        .map(|c| c.use_define_for_class_fields)
-        .unwrap_or_default();
-
-    [
+/// Overlays the matrix dimensions on the complete input configuration.
+fn create_matrix(entry: &Path, config: &ExecConfig, swcrc: Option<&Config>) -> Vec<Options> {
+    let default_targets = [
         EsVersion::EsNext,
         EsVersion::Es2022,
         EsVersion::Es2021,
@@ -127,112 +192,116 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
         EsVersion::Es2016,
         EsVersion::Es2015,
         EsVersion::Es5,
-    ]
-    .into_iter()
-    .matrix(|| {
-        let default_es = Syntax::Es(Default::default());
+    ];
+    let targets = config.targets.as_deref().unwrap_or(&default_targets);
+    assert!(
+        !targets.is_empty(),
+        "execution target matrix must not be empty"
+    );
 
-        if let Some(ext) = entry.extension() {
-            if ext == "ts" {
-                let ts = Syntax::Typescript(TsSyntax {
-                    decorators: true,
-                    ..Default::default()
-                });
-                return vec![ts];
+    let mut targets = targets
+        .iter()
+        .copied()
+        .map(MatrixTarget::Version)
+        .collect::<Vec<_>>();
+    if swcrc.is_some_and(|config| config.env.is_some()) {
+        targets.push(MatrixTarget::Env);
+    }
+
+    targets
+        .into_iter()
+        .matrix(|| {
+            let default_es = Syntax::Es(Default::default());
+
+            if let Some(ext) = entry.extension() {
+                if ext == "ts" {
+                    let ts = Syntax::Typescript(TsSyntax {
+                        decorators: true,
+                        ..Default::default()
+                    });
+                    return vec![ts];
+                }
             }
-        }
 
-        vec![default_es]
-    })
-    .matrix_bool()
-    .matrix_bool()
-    .matrix_bool()
-    .into_iter()
-    .map(
-        |((((target, syntax), minify), external_helpers), source_map)| {
-            // Actual
-            Options {
-                config: Config {
-                    jsc: JscConfig {
-                        syntax: Some(syntax),
-                        transform: Some(TransformConfig {
-                            use_define_for_class_fields,
+            vec![default_es]
+        })
+        .matrix_bool()
+        .matrix_bool()
+        .matrix_bool()
+        .into_iter()
+        .map(
+            |((((target, syntax), minify), external_helpers), source_map)| {
+                let mut options = Options {
+                    config: Config {
+                        jsc: JscConfig {
+                            syntax: Some(syntax),
+                            external_helpers: (!external_helpers).into(),
+                            minify: if minify {
+                                Some(JsMinifyOptions {
+                                    compress: BoolOrDataConfig::from_bool(true),
+                                    mangle: BoolOrDataConfig::from_bool(true),
+                                    ..Default::default()
+                                })
+                            } else {
+                                None
+                            },
                             ..Default::default()
-                        })
-                        .into(),
-                        // true, false
-                        external_helpers: (!external_helpers).into(),
-                        target: Some(target),
-                        minify: if minify {
-                            Some(JsMinifyOptions {
-                                compress: BoolOrDataConfig::from_bool(true),
-                                mangle: BoolOrDataConfig::from_bool(true),
-                                ..Default::default()
-                            })
-                        } else {
-                            None
                         },
+                        module: if entry.extension().unwrap() == "mjs" {
+                            Some(ModuleConfig::Es6(Default::default()))
+                        } else {
+                            Some(ModuleConfig::CommonJs(Default::default()))
+                        },
+                        minify: minify.into(),
                         ..Default::default()
                     },
-                    module: if entry.extension().unwrap() == "mjs" {
-                        Some(ModuleConfig::Es6(Default::default()))
+                    source_maps: Some(if source_map {
+                        SourceMapsConfig::Str("inline".into())
                     } else {
-                        Some(ModuleConfig::CommonJs(Default::default()))
-                    },
-                    minify: minify.into(),
+                        SourceMapsConfig::Bool(false)
+                    }),
                     ..Default::default()
-                },
-                source_maps: if source_map {
-                    Some(SourceMapsConfig::Str("inline".into()))
-                } else {
-                    None
-                },
-                ..Default::default()
-            }
-        },
-    )
-    .collect::<Vec<_>>()
+                };
+                options.config.merge(swcrc.cloned().unwrap_or_default());
+
+                // `env` and `jsc.target` are mutually exclusive. Keep the file
+                // intact and exercise both lowering strategies in separate rows.
+                match target {
+                    MatrixTarget::Version(version) => {
+                        options.config.env = None;
+                        options.config.jsc.target = Some(version);
+                    }
+                    MatrixTarget::Env => options.config.jsc.target = None,
+                }
+                if !minify {
+                    options.config.jsc.minify = None;
+                }
+
+                // The complete configuration was already loaded and merged.
+                // Reloading it would undo the mutually exclusive target choice.
+                options
+            },
+        )
+        .collect::<Vec<_>>()
 }
 
+/// Executes compiler, Babel, TypeScript semantic, and native async fixtures,
+/// comparing every configuration with the reference stdout.
 #[testing::fixture("tests/exec/**/exec.js")]
 #[testing::fixture("tests/exec/**/exec.mjs")]
 #[testing::fixture("tests/exec/**/exec.ts")]
-fn run_fixture_test(entry: PathBuf) {
-    let _ = init_helpers();
-
-    let _guard = testing::init();
-
-    let matrix = create_matrix(&entry);
-    let expected_stdout = get_expected_stdout(&entry).expect("failed to get stdout");
-
-    eprintln!(
-        "----- {} -----\n{}\n-----",
-        ansi_term::Color::Green.bold().paint("Expected stdout"),
-        expected_stdout
-    );
-
-    let _ = matrix
-        .into_iter()
-        .enumerate()
-        .map(|(idx, opts)| test_file_with_opts(&entry, &opts, &expected_stdout, idx).unwrap())
-        .collect::<Vec<_>>();
-
-    // Test was successful.
-
-    unignore_fixture(&entry);
-}
-
 #[testing::fixture("tests/babel-exec/**/exec.js")]
-fn run_babel_fixture_exec_test(entry: PathBuf) {
+#[testing::fixture("../swc_ecma_preset_env/tests/fixtures/transform/native-async/**/exec.js")]
+fn fixture(entry: PathBuf) {
     let _ = init_helpers();
 
     let _guard = testing::init();
 
-    let matrix = create_matrix(&entry);
-    let expected_stdout = get_expected_stdout(&entry).unwrap_or_else(|_| {
-        fs::remove_file(&entry).unwrap();
-        panic!("Removed")
-    });
+    let config = ExecConfig::load(&entry);
+    let swcrc = load_swcrc(&entry);
+    let matrix = create_matrix(&entry, &config, swcrc.as_ref());
+    let expected_stdout = get_expected_stdout(&entry, config.reference)
+        .unwrap_or_else(|err| panic!("failed to get stdout for {}: {err:?}", entry.display()));
 
     eprintln!(
         "----- {} -----\n{}\n-----",
@@ -240,18 +309,41 @@ fn run_babel_fixture_exec_test(entry: PathBuf) {
         expected_stdout
     );
 
-    let _ = matrix
-        .into_iter()
-        .enumerate()
-        .map(|(idx, opts)| test_file_with_opts(&entry, &opts, &expected_stdout, idx).unwrap())
-        .collect::<Vec<_>>();
+    let configured_idx = matrix.len();
+    for (idx, opts) in matrix.into_iter().enumerate() {
+        test_file_with_opts(&entry, &opts, &expected_stdout, idx).unwrap();
+    }
 
-    // Test was successful.
+    if let Some(mut config) = swcrc {
+        // Also exercise settings overridden by the matrix, such as the file's
+        // detailed minifier options, module format, target, and helper mode.
+        // An environment specifies its own lowering targets.
+        if config.env.is_some() {
+            config.jsc.target = None;
+        }
+        config.module.get_or_insert_with(|| {
+            if entry.extension().unwrap() == "mjs" {
+                ModuleConfig::Es6(Default::default())
+            } else {
+                ModuleConfig::CommonJs(Default::default())
+            }
+        });
+        test_file_with_opts(
+            &entry,
+            &Options {
+                config,
+                ..Default::default()
+            },
+            &expected_stdout,
+            configured_idx,
+        )
+        .unwrap();
+    }
 
     unignore_fixture(&entry);
 }
 
-fn get_expected_stdout(input: &Path) -> Result<String, Error> {
+fn get_expected_stdout(input: &Path, mut reference: Config) -> Result<String, Error> {
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
 
@@ -273,37 +365,37 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
                         return Ok(output);
                     }
 
+                    reference.merge(Config {
+                        jsc: JscConfig {
+                            target: Some(EsVersion::Es2022),
+                            syntax: Some(Syntax::Typescript(TsSyntax {
+                                decorators: true,
+                                ..Default::default()
+                            })),
+                            transform: Some(TransformConfig {
+                                use_define_for_class_fields: true.into(),
+                                ..Default::default()
+                            })
+                            .into(),
+                            ..Default::default()
+                        },
+                        module: match input.extension() {
+                            Some(ext) if ext == "ts" => {
+                                Some(ModuleConfig::CommonJs(Default::default()))
+                            }
+                            _ => None,
+                        },
+                        ..Default::default()
+                    });
+                    // Keep the reference independent of the configuration under
+                    // test, just as the original runner did with swcrc disabled.
+
                     let res = c
                         .process_js_file(
                             fm,
                             handler,
                             &Options {
-                                config: Config {
-                                    jsc: JscConfig {
-                                        target: Some(EsVersion::Es2022),
-                                        syntax: Some(Syntax::Typescript(TsSyntax {
-                                            decorators: true,
-                                            ..Default::default()
-                                        })),
-                                        transform: Some(TransformConfig {
-                                            use_define_for_class_fields: (!input
-                                                .to_string_lossy()
-                                                .contains("set_public_class_fields"))
-                                            .into(),
-                                            ..Default::default()
-                                        })
-                                        .into(),
-                                        ..Default::default()
-                                    },
-                                    module: match input.extension() {
-                                        Some(ext) if ext == "ts" => {
-                                            Some(ModuleConfig::CommonJs(Default::default()))
-                                        }
-                                        Some(ext) if ext == "mjs" => None,
-                                        _ => None,
-                                    },
-                                    ..Default::default()
-                                },
+                                config: reference,
                                 ..Default::default()
                             },
                         )
@@ -356,14 +448,27 @@ fn test_file_with_opts(
                     res.code
                 );
 
-                println!("target: {:?}", opts.config.jsc.target.unwrap());
+                println!("target: {:?}", opts.config.jsc.target);
+                println!(
+                    "env: {:?}",
+                    opts.config.env.as_ref().map(|env| &env.targets)
+                );
                 println!("minify: {:?}", opts.config.jsc.minify.is_some());
                 println!("external_helpers: {:?}", opts.config.jsc.external_helpers);
-                println!("source_map: {:?}", opts.source_maps.is_some());
+                println!(
+                    "source_map: {:?}",
+                    opts.source_maps
+                        .as_ref()
+                        .or(opts.config.source_maps.as_ref())
+                        .is_some_and(|maps| maps.enabled())
+                );
 
                 let actual_stdout = stdout_of(
                     &res.code,
-                    if entry.extension().unwrap() == "mjs" {
+                    if matches!(
+                        opts.config.module,
+                        Some(ModuleConfig::Es6(_) | ModuleConfig::NodeNext(_))
+                    ) {
                         NodeModuleType::Module
                     } else {
                         NodeModuleType::CommonJs

@@ -1,0 +1,14 @@
+{
+  "jsc": {
+    "externalHelpers": false,
+    "transform": {
+      "optimizer": {
+        "globals": {
+          "envs": {
+            "REPRO_VALUE": "'second'"
+          }
+        }
+      }
+    }
+  }
+}

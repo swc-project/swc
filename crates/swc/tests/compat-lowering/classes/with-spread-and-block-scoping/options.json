@@ -1,0 +1,12 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": [
+            "transform-classes",
+            "transform-spread",
+            "transform-block-scoping"
+        ]
+    }
+}

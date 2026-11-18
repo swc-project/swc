@@ -1,0 +1,29 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,QAAQ,iBAAiB;AAExDD,SAAS,SAASE;IACd,8DAA8D;IAC9D,IAAMC,aAAoB;QAACC;QAAKC,OAAO;QAAQ,CAAC;QAAG,CAAC;QAAG;KAAM;QACxD,kCAAA,2BAAA;;;YAAA,IAAMC,gBAAN;YACDL,aACI;gBACI,IAAIM,eAAuBC,WAAW;oBAAEF,eAAAA;gBAAc;YAC1D,GACAG,YACA;QAER;QARA,QAAK,YAAuBN,+BAAvB,SAAA,6BAAA,QAAA,yBAAA;;QAAA;QAAA;;;iBAAA,6BAAA;gBAAA;;;gBAAA;sBAAA;;;;IAULF,aAAa;QACT,IAAIM,eACAC,WACA,8DAA8D;QAC9D;YAAEF,eAAeI,OAAO;QAAc;IAE9C,GAAGC;AACP;AAEAX,SAAS,SAASY;IACd,8DAA8D;IAC9D,IAAMT,aAAoB;QAACC;QAAKC,OAAO;QAAQ,CAAC;QAAG,CAAC;QAAG;KAAM;QACxD,kCAAA,2BAAA;;;YAAA,IAAMC,gBAAN;YACDL,aACI;gBACI,IAAIY,eACAL,WACA,IAAIM,qBAAqB;oBAAER,eAAAA;gBAAc;YAEjD,GACAG,YACA;QAER;QAXA,QAAK,YAAuBN,+BAAvB,SAAA,6BAAA,QAAA,yBAAA;;QAAA;QAAA;;;iBAAA,6BAAA;gBAAA;;;gBAAA;sBAAA;;;;IAaLF,aAAa;QACT,IAAIY,eACAL,WACA,8DAA8D;QAC9D,IAAIM,qBAAqB;YAAER,eAAeI,OAAO;QAAe;IAExE,GAAGC;AACP;AAEAX,SAAS,SAASe;IACd,8DAA8D;IAC9D,IAAMZ,aAAoB;QAACC;QAAKC,OAAO;QAAQ,CAAC;QAAG,CAAC;QAAG;KAAM;QACxD,kCAAA,2BAAA;;;YAAA,IAAMC,gBAAN;YACDL,aACI;gBACI,IAAIe,gBAAgBR,WAAWA,WAAW;oBAAEF,eAAAA;gBAAc;YAC9D,GACAG,YACA;QAER;QARA,QAAK,YAAuBN,+BAAvB,SAAA,6BAAA,QAAA,yBAAA;;QAAA;QAAA;;;iBAAA,6BAAA;gBAAA;;;gBAAA;sBAAA;;;;IAULF,aAAa;QACT,IAAIe,gBACAR,WACAA,WACA,8DAA8D;QAC9D;YAAEF,eAAeI,OAAO;QAAe;IAE/C,GAAGC;AACP",
+  "names": [
+    "unitTest",
+    "assertThrows",
+    "streamReadableHwmError",
+    "invalidHwm",
+    "NaN",
+    "Number",
+    "highWaterMark",
+    "ReadableStream",
+    "undefined",
+    "RangeError",
+    "Symbol",
+    "TypeError",
+    "streamWriteableHwmError",
+    "WritableStream",
+    "CountQueuingStrategy",
+    "streamTransformHwmError",
+    "TransformStream"
+  ],
+  "sources": [
+    "../input/streams_internal_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertThrows } from \"./test_util.ts\";\n\nunitTest(function streamReadableHwmError() {\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    const invalidHwm: any[] = [NaN, Number(\"NaN\"), {}, -1, \"two\"];\n    for (const highWaterMark of invalidHwm) {\n        assertThrows(\n            () => {\n                new ReadableStream<number>(undefined, { highWaterMark });\n            },\n            RangeError,\n            \"highWaterMark must be a positive number or Infinity.  Received:\"\n        );\n    }\n\n    assertThrows(() => {\n        new ReadableStream<number>(\n            undefined,\n            // eslint-disable-next-line @typescript-eslint/no-explicit-any\n            { highWaterMark: Symbol(\"hwk\") as any }\n        );\n    }, TypeError);\n});\n\nunitTest(function streamWriteableHwmError() {\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    const invalidHwm: any[] = [NaN, Number(\"NaN\"), {}, -1, \"two\"];\n    for (const highWaterMark of invalidHwm) {\n        assertThrows(\n            () => {\n                new WritableStream(\n                    undefined,\n                    new CountQueuingStrategy({ highWaterMark })\n                );\n            },\n            RangeError,\n            \"highWaterMark must be a positive number or Infinity.  Received:\"\n        );\n    }\n\n    assertThrows(() => {\n        new WritableStream(\n            undefined,\n            // eslint-disable-next-line @typescript-eslint/no-explicit-any\n            new CountQueuingStrategy({ highWaterMark: Symbol(\"hwmk\") as any })\n        );\n    }, TypeError);\n});\n\nunitTest(function streamTransformHwmError() {\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    const invalidHwm: any[] = [NaN, Number(\"NaN\"), {}, -1, \"two\"];\n    for (const highWaterMark of invalidHwm) {\n        assertThrows(\n            () => {\n                new TransformStream(undefined, undefined, { highWaterMark });\n            },\n            RangeError,\n            \"highWaterMark must be a positive number or Infinity.  Received:\"\n        );\n    }\n\n    assertThrows(() => {\n        new TransformStream(\n            undefined,\n            undefined,\n            // eslint-disable-next-line @typescript-eslint/no-explicit-any\n            { highWaterMark: Symbol(\"hwmk\") as any }\n        );\n    }, TypeError);\n});\n"
+  ],
+  "version": 3
+}

@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_compiler_base"
 repository    = { workspace = true }
-version       = "47.0.0"
+version       = "67.0.0"
 
 [features]
 node = ["napi", "napi-derive"]
@@ -23,19 +23,18 @@ serde = { workspace = true, features = ["derive"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 swc_sourcemap = { workspace = true, default-features = false }
 
-swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
-swc_common = { version = "18.0.1", path = "../swc_common", features = [
+swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
+swc_common = { version = "27.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_config = { version = "3.1.2", path = "../swc_config", default-features = false }
-swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen", default-features = false }
-swc_ecma_minifier = { version = "44.0.0", path = "../swc_ecma_minifier", default-features = false }
-swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false, features = [
+swc_config = { version = "6.0.1", path = "../swc_config", default-features = false }
+swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_codegen = { version = "33.0.2", path = "../swc_ecma_codegen", default-features = false }
+swc_ecma_minifier = { version = "64.0.8", path = "../swc_ecma_minifier", default-features = false }
+swc_ecma_parser = { version = "47.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
-swc_timer = { version = "1.0.0", path = "../swc_timer", default-features = false }
+swc_ecma_visit = { version = "30.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [dependencies.napi-derive]
 default-features = false

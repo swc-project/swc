@@ -1,0 +1,7 @@
+{
+    "defaults": false,
+    "global_defs": {
+        "CONFIG.a.b": 1,
+        "GLOBAL.a.b": 1
+    }
+}

@@ -1,0 +1,47 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":15}},
+      "message":"Unexpected string, expected the token `(`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+      "message":"Unexpected token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+      "message":"Unexpected token `;`, expected the token `)`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
+    {
+      "type":"BlockStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "body":[
+        {
+          "type":"ExpressionStatement",
+          "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":16}},
+          "range":[2,16],
+          "expression":{
+            "type":"ImportExpression",
+            "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":16}},
+            "range":[2,16],
+            "source":{
+              "type":"Literal",
+              "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+              "range":[15,16],
+              "value":null,
+              "raw":"null"
+            }
+          },
+          "directive":null
+        }
+      ]
+    }
+  ],
+  "comments":[]
+}

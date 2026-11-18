@@ -123,12 +123,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 51,
           "end": 157
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "WhileStatement",
@@ -331,12 +330,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 189,
           "end": 323
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "WhileStatement",
@@ -565,12 +563,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 355,
           "end": 495
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "WhileStatement",

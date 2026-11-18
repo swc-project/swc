@@ -86,7 +86,6 @@ impl Lit {
 #[derive(Eq, Hash)]
 pub struct BigInt {
     pub span: Span,
-    #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
     #[cfg_attr(feature = "encoding-impl", encoding(with = "EncodeBigInt2"))]
     pub value: Box<BigIntValue>,
 
@@ -135,61 +134,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for EncodeBigInt2<Box<BigIntValue>> {
         Ok(EncodeBigInt2(Box::new(BigIntValue::from_signed_bytes_le(
             buf.0,
         ))))
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodeBigInt;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    fn resolve_with(
-        field: &Box<BigIntValue>,
-        resolver: Self::Resolver,
-        out: rkyv::Place<Self::Archived>,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.to_string();
-        s.resolve(resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Box<BigIntValue>, S> for EncodeBigInt
-where
-    S: ?Sized + rancor::Fallible + rkyv::ser::Writer,
-    S::Error: rancor::Source,
-{
-    fn serialize_with(
-        field: &Box<BigIntValue>,
-        serializer: &mut S,
-    ) -> Result<Self::Resolver, S::Error> {
-        let field = field.to_string();
-        rkyv::string::ArchivedString::serialize_from_str(&field, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Box<BigIntValue>, D> for EncodeBigInt
-where
-    D: ?Sized + rancor::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<Box<BigIntValue>, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: String = field.deserialize(deserializer)?;
-
-        Ok(Box::new(s.parse().unwrap()))
     }
 }
 
@@ -268,15 +212,16 @@ impl Str {
         self.value.is_empty()
     }
 
+    /// Decodes an ordinary template element's raw text into its string value.
+    ///
+    /// Normalizes line endings and preserves unpaired UTF-16 surrogates.
+    /// Invalid escapes emit diagnostics; tagged templates must preserve
+    /// their optional cooked value instead of using this conversion.
     pub fn from_tpl_raw(tpl: &TplElement) -> Wtf8Atom {
         let tpl_raw = &tpl.raw;
         let span = tpl.span;
         let mut buf: Wtf8Buf = Wtf8Buf::with_capacity(tpl_raw.len());
         let mut iter = tpl_raw.chars();
-        // prev_result can only be less than 0xdc00
-        // so init with 0xdc00 as no prev result
-        const NO_PREV_RESULT: u32 = 0xdc00;
-        let mut prev_result: u32 = NO_PREV_RESULT;
         while let Some(c) = iter.next() {
             match c {
                 '\\' => {
@@ -311,94 +256,44 @@ impl Str {
                             }
                             '\n' | '\u{2028}' | '\u{2029}' => {}
                             'u' | 'x' => {
-                                let mut count: u8 = 0;
-                                // result is a 4 digit hex value
-                                let mut result: u32 = 0;
-                                let mut max_len = if c == 'u' { 4 } else { 2 };
+                                let braced = c == 'u' && iter.clone().next() == Some('{');
+                                if braced {
+                                    iter.next();
+                                }
+                                let digits = if c == 'u' { 4 } else { 2 };
+                                let mut count = 0;
+                                let mut result = 0u32;
+                                let mut terminated = !braced;
                                 for c in &mut iter {
-                                    match c {
-                                        '{' if max_len == 4 && count == 0 => {
-                                            max_len = 6;
-                                            continue;
-                                        }
-                                        '}' if max_len == 6 => {
-                                            break;
-                                        }
-                                        '0'..='9' => {
-                                            result = (result << 4) | (c as u32 - '0' as u32);
-                                            count += 1;
-                                        }
-                                        'a'..='f' => {
-                                            result = (result << 4) | (c as u32 - 'a' as u32 + 10);
-                                            count += 1;
-                                        }
-                                        'A'..='F' => {
-                                            result = (result << 4) | (c as u32 - 'A' as u32 + 10);
-                                            count += 1;
-                                        }
-                                        _ => emit_span_error(
+                                    if braced && c == '}' {
+                                        terminated = true;
+                                        break;
+                                    }
+                                    let Some(digit) = c.to_digit(16) else {
+                                        emit_span_error(
                                             span,
                                             "Uncaught SyntaxError: Invalid Unicode escape sequence",
-                                        ),
-                                    }
-                                    if count >= max_len {
-                                        if result > 0x10ffff {
-                                            emit_span_error(
-                                                span,
-                                                "Uncaught SyntaxError: Undefined Unicode \
-                                                 code-point",
-                                            )
-                                        } else {
-                                            break;
-                                        }
+                                        );
+                                        break;
+                                    };
+                                    // Saturation keeps arbitrarily long invalid escapes from
+                                    // overflowing while allowing leading zeroes in valid ones.
+                                    result = result.saturating_mul(16).saturating_add(digit);
+                                    count += 1;
+                                    if !braced && count == digits {
+                                        break;
                                     }
                                 }
-                                if max_len == 2 && max_len != count {
+                                if !terminated || count == 0 || (!braced && count != digits) {
                                     emit_span_error(
                                         span,
                                         "Uncaught SyntaxError: Invalid hexadecimal escape sequence",
                                     );
                                 }
-                                if (0xd800..=0xdfff).contains(&result) {
-                                    // Handle UTF-16 surrogate pair
-                                    if result < 0xdc00 {
-                                        // High surrogate pair
-                                        if prev_result != NO_PREV_RESULT {
-                                            // If the previous result is a high surrogate
-                                            // We can be sure `prev_result` is less than 0xdc00
-                                            buf.push(unsafe {
-                                                CodePoint::from_u32_unchecked(prev_result)
-                                            });
-                                        }
-                                        let mut iter = iter.clone();
-                                        if let Some('\\') = iter.next() {
-                                            if let Some('u') = iter.next() {
-                                                // less than 0xdc00
-                                                prev_result = result;
-                                                continue;
-                                            }
-                                        }
-                                    } else if prev_result != NO_PREV_RESULT {
-                                        // Low surrogate pair
-                                        // Decode to supplementary plane code point
-                                        // (0x10000-0x10FFFF)
-                                        result = 0x10000
-                                            + ((result & 0x3ff) | ((prev_result & 0x3ff) << 10));
-                                        // We can be sure result is a valid code point here
-                                        buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
-                                        prev_result = NO_PREV_RESULT;
-                                        continue;
-                                    }
-                                }
-                                if prev_result != NO_PREV_RESULT {
-                                    // Could not find a valid low surrogate pair
-                                    // We can be sure `prev_result` is less than 0xdc00
-                                    buf.push(unsafe { CodePoint::from_u32_unchecked(prev_result) });
-                                    prev_result = NO_PREV_RESULT;
-                                }
-                                if result <= 0x10ffff {
-                                    // We can be sure result is a valid code point here
-                                    buf.push(unsafe { CodePoint::from_u32_unchecked(result) });
+                                if let Some(code_point) = CodePoint::from_u32(result) {
+                                    // Wtf8Buf joins adjacent surrogate pairs and preserves
+                                    // unpaired surrogates without lookahead or buffering.
+                                    buf.push(code_point);
                                 } else {
                                     emit_span_error(
                                         span,
@@ -435,6 +330,13 @@ impl Str {
                             }
                         }
                     }
+                }
+
+                '\r' => {
+                    if iter.clone().next() == Some('\n') {
+                        iter.next();
+                    }
+                    buf.push_char('\n');
                 }
 
                 c => {
@@ -578,13 +480,14 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
 /// All of `Box<Expr>`, `Expr`, `Lit`, `Number` implements `From<64>` and
 /// `From<usize>`.
 
-#[ast_node("NumericLiteral")]
+#[ast_node("NumericLiteral", no_partial_eq)]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct Number {
     pub span: Span,
-    /// **Note**: This should not be `NaN`. Use [crate::Ident] to represent NaN.
+    /// The numeric value, including `NaN` and positive or negative infinity.
     ///
-    /// If you store `NaN` in this field, a hash map will behave strangely.
+    /// Equality treats all `NaN` representations as equal and distinguishes
+    /// positive and negative zero.
     pub value: f64,
 
     /// Use `None` value only for transformations to avoid recalculate
@@ -596,35 +499,49 @@ pub struct Number {
     pub raw: Option<Atom>,
 }
 
+impl PartialEq for Number {
+    fn eq(&self, other: &Self) -> bool {
+        self.span == other.span && number_value_eq(self.value, other.value) && self.raw == other.raw
+    }
+}
+
 impl Eq for Number {}
 
 impl EqIgnoreSpan for Number {
     fn eq_ignore_span(&self, other: &Self) -> bool {
-        self.value == other.value && self.value.is_sign_positive() == other.value.is_sign_positive()
+        number_value_eq(self.value, other.value)
     }
 }
 
-#[allow(clippy::derived_hash_with_manual_eq)]
-#[allow(clippy::transmute_float_to_int)]
 impl Hash for Number {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        fn integer_decode(val: f64) -> (u64, i16, i8) {
-            let bits: u64 = val.to_bits();
-            let sign: i8 = if bits >> 63 == 0 { 1 } else { -1 };
-            let mut exponent: i16 = ((bits >> 52) & 0x7ff) as i16;
-            let mantissa = if exponent == 0 {
-                (bits & 0xfffffffffffff) << 1
-            } else {
-                (bits & 0xfffffffffffff) | 0x10000000000000
-            };
-
-            exponent -= 1023 + 52;
-            (mantissa, exponent, sign)
-        }
-
         self.span.hash(state);
-        integer_decode(self.value).hash(state);
+        canonical_number_bits(self.value).hash(state);
         self.raw.hash(state);
+    }
+}
+
+/// Compares numeric values using the equality semantics required by `Number`.
+///
+/// NaN payloads are not observable in ECMAScript, while the sign of zero is.
+#[inline]
+fn number_value_eq(left: f64, right: f64) -> bool {
+    // Compare bits so positive and negative zero remain distinct.
+    left.to_bits() == right.to_bits() || (left.is_nan() && right.is_nan())
+}
+
+/// Returns bits consistent with [`number_value_eq`].
+///
+/// This follows the NaN canonicalization used by `ordered-float`, but retains
+/// the sign bit of zero.
+#[inline]
+fn canonical_number_bits(value: f64) -> u64 {
+    const CANONICAL_NAN_BITS: u64 = 0x7ff8_0000_0000_0000;
+
+    if value.is_nan() {
+        CANONICAL_NAN_BITS
+    } else {
+        value.to_bits()
     }
 }
 

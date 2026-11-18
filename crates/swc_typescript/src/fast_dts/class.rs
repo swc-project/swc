@@ -102,12 +102,13 @@ impl FastDts {
                                 }));
                                 continue;
                             }
-                            self.transform_fn_params(&mut method.function.params);
+                            self.transform_function_params(&mut method.function);
                         }
                         MethodKind::Getter => {
                             if method.accessibility.is_some_and(|accessibility| {
                                 accessibility == Accessibility::Private
                             }) {
+                                method.function.this_param = None;
                                 method.function.params.clear();
                                 method.function.return_type = None;
                                 method.function.decorators.clear();
@@ -119,12 +120,13 @@ impl FastDts {
                                 class.body.push(member);
                                 continue;
                             }
-                            self.transform_fn_params(&mut method.function.params);
+                            self.transform_function_params(&mut method.function);
                         }
                         MethodKind::Setter => {
                             if method.accessibility.is_some_and(|accessibility| {
                                 accessibility == Accessibility::Private
                             }) {
+                                method.function.this_param = None;
                                 method.function.params = vec![Param {
                                     span: DUMMY_SP,
                                     decorators: Vec::new(),
@@ -144,6 +146,7 @@ impl FastDts {
                                 continue;
                             }
 
+                            self.check_this_param(method.function.this_param.as_deref());
                             if method.function.params.is_empty() {
                                 method.function.params.push(Param {
                                     span: DUMMY_SP,
@@ -239,14 +242,14 @@ impl FastDts {
                         .is_some_and(|accessibility| accessibility == Accessibility::Private)
                     {
                         auto_accessor.decorators.clear();
-                        auto_accessor.definite = false;
                         auto_accessor.type_ann = None;
-                        auto_accessor.accessibility =
-                            self.transform_accessibility(auto_accessor.accessibility);
                     }
 
+                    auto_accessor.definite = false;
                     auto_accessor.is_override = false;
                     auto_accessor.value = None;
+                    auto_accessor.accessibility =
+                        self.transform_accessibility(auto_accessor.accessibility);
                     class.body.push(member);
                 }
                 ClassMember::Empty(_) | ClassMember::StaticBlock(_) => {}
@@ -475,6 +478,7 @@ impl FastDts {
         }
 
         prop.declare = false;
+        prop.definite = false;
         prop.decorators.clear();
         prop.accessibility = self.transform_accessibility(prop.accessibility);
     }

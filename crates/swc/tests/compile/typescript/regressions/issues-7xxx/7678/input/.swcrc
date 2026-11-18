@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2015"
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "minify": true,
+    "isModule": false
+}

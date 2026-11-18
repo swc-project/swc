@@ -1,0 +1,2 @@
+# Preserve the exact CR and CRLF bytes exercised by this fixture.
+input.js -text

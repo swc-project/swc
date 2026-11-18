@@ -1,6 +1,8 @@
+use std::collections::HashSet;
+
 use swc_atoms::{wtf8::Wtf8, Atom};
-use swc_common::DUMMY_SP;
-use swc_ecma_ast::{Str, TplElement};
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
+use swc_ecma_ast::{Number, Str, TplElement};
 
 /// Convert Wtf8 to a string representation, escaping invalid surrogates.
 fn convert_wtf8_to_raw(s: &Wtf8) -> String {
@@ -112,6 +114,45 @@ fn combined_escapes() {
     test_from_tpl_raw("\\t\\tindented", "\t\tindented");
 }
 
+#[test]
+fn number_nan_has_consistent_equality_and_hash() {
+    let first = Number::from(f64::NAN);
+    let second = Number::from(f64::from_bits(0xfff8_0000_0000_0001));
+
+    assert_eq!(first, second);
+    assert!(first.eq_ignore_span(&second));
+
+    let mut numbers = HashSet::new();
+    numbers.insert(first);
+
+    assert!(numbers.contains(&second));
+}
+
+#[test]
+fn number_distinguishes_signed_zero() {
+    let positive = Number::from(0.0);
+    let negative = Number::from(-0.0);
+
+    assert_ne!(positive, negative);
+    assert!(!positive.eq_ignore_span(&negative));
+
+    let numbers = HashSet::from([positive, negative]);
+
+    assert_eq!(numbers.len(), 2);
+}
+
+#[test]
+fn number_infinity_has_consistent_equality_and_hash() {
+    let first = Number::from(f64::INFINITY);
+    let second = Number::from(f64::INFINITY);
+
+    assert_eq!(first, second);
+
+    let numbers = HashSet::from([first]);
+
+    assert!(numbers.contains(&second));
+}
+
 // Tests for octal escape sequences that should be rejected.
 // These will panic because octal escapes are not allowed in template strings.
 #[test]
@@ -130,4 +171,24 @@ fn should_panic_octal_2() {
 #[should_panic]
 fn should_panic_octal_7() {
     test_from_tpl_raw("\\7", "");
+}
+
+#[test]
+fn template_line_endings() {
+    test_from_tpl_raw("a\rb\r\nc\n", "a\nb\nc\n");
+    test_from_tpl_raw("a\\\rb\\\r\nc\\\nd", "abcd");
+    test_from_tpl_raw("\\r\\n", "\r\n");
+}
+
+#[test]
+fn braced_unicode_boundaries() {
+    test_from_tpl_raw("\\u{10FFFF}", "\u{10FFFF}");
+    test_from_tpl_raw("\\u{000000000041}", "A");
+}
+
+#[test]
+fn consecutive_unpaired_surrogates() {
+    test_from_tpl_raw("\\uD800\\uD801", "\\uD800\\uD801");
+    test_from_tpl_raw("\\uD800\\uD801x", "\\uD800\\uD801x");
+    test_from_tpl_raw("\\uD800\\uD801\\uDC00", "\\uD800\u{10400}");
 }

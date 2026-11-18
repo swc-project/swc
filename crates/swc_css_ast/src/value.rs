@@ -133,17 +133,6 @@ impl EqIgnoreSpan for Str {
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
-#[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
 )]
@@ -388,7 +377,7 @@ pub struct Number {
 impl Eq for Number {}
 
 #[allow(clippy::derived_hash_with_manual_eq)]
-#[allow(clippy::transmute_float_to_int)]
+#[allow(unnecessary_transmutes)]
 impl Hash for Number {
     fn hash<H: Hasher>(&self, state: &mut H) {
         fn integer_decode(val: f64) -> (u64, i16, i8) {
@@ -429,17 +418,6 @@ pub struct Ratio {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv", repr(u32))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)
@@ -560,17 +538,6 @@ pub struct CalcOperator {
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(
-    feature = "rkyv",
-    rkyv(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator,
-        __S::Error: rkyv::rancor::Source))
-)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(
     feature = "encoding-impl",
     derive(::swc_common::Encode, ::swc_common::Decode)

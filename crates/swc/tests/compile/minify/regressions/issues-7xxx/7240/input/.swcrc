@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "loose": true,
+        "minify": {
+            "compress": {
+                "drop_console": true,
+                "passes": 3
+            },
+            "format": {
+                "asciiOnly": true
+            },
+            "mangle": {
+                "toplevel": false
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

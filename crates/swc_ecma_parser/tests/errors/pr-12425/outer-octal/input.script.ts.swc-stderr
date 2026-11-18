@@ -1,0 +1,12 @@
+  x Legacy octal literals are not available when targeting ECMAScript 5 and higher
+   ,-[$DIR/tests/errors/pr-12425/outer-octal/input.script.ts:1:1]
+ 1 | declare module "m" { import type { X } from "n"; }010;
+   :                                                   ^^^
+ 2 | declare module "m" { import type { X } from "n"; } var x = 010;
+   `----
+  x Legacy octal literals are not available when targeting ECMAScript 5 and higher
+   ,-[$DIR/tests/errors/pr-12425/outer-octal/input.script.ts:2:1]
+ 1 | declare module "m" { import type { X } from "n"; }010;
+ 2 | declare module "m" { import type { X } from "n"; } var x = 010;
+   :                                                            ^^^
+   `----

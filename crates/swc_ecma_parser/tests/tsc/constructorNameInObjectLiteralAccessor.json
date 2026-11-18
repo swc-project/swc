@@ -53,24 +53,35 @@
                   },
                   "value": "constructor"
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 55,
+                    "start": 37,
                     "end": 65
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 57,
-                        "end": 63
-                      },
-                      "argument": null
-                    }
-                  ]
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 55,
+                      "end": 65
+                    },
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
+                        "span": {
+                          "start": 57,
+                          "end": 63
+                        },
+                        "argument": null
+                      }
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               },
               {
@@ -87,26 +98,46 @@
                   },
                   "value": "constructor"
                 },
-                "thisParam": null,
-                "param": {
-                  "type": "Identifier",
+                "function": {
+                  "params": [
+                    {
+                      "type": "Parameter",
+                      "span": {
+                        "start": 87,
+                        "end": 92
+                      },
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 87,
+                          "end": 92
+                        },
+                        "ctxt": 0,
+                        "value": "value",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    }
+                  ],
+                  "decorators": [],
                   "span": {
-                    "start": 87,
-                    "end": 92
-                  },
-                  "ctxt": 0,
-                  "value": "value",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "body": {
-                  "type": "BlockStatement",
-                  "span": {
-                    "start": 94,
+                    "start": 71,
                     "end": 96
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 94,
+                      "end": 96
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

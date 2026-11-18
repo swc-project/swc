@@ -1,0 +1,35 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":14}},
+      "message":"Unexpected token `,`, expected the end of a tuple type (no trailing comma is allowed in inexact tuple type)."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
+  "range":[0,17],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
+      "range":[0,17],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"A",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"TupleTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
+        "range":[9,16],
+        "elementTypes":[],
+        "inexact":true
+      }
+    }
+  ],
+  "comments":[]
+}

@@ -8,6 +8,19 @@
     {
       "type": "Element",
       "span": {
+        "start": 1,
+        "end": 9
+      },
+      "tagName": "keygen",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "attributes": [],
+      "children": [],
+      "content": null,
+      "isSelfClosing": false
+    },
+    {
+      "type": "Element",
+      "span": {
         "start": 9,
         "end": 17
       },

@@ -3,7 +3,7 @@ let nestedrest, complex;
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
-var _ref, _ref1, o = {
+var _ref1, _ref2, _ref3, o = {
     a: 1,
     b: 'no'
 }, {} = o;
@@ -32,33 +32,33 @@ var { d: renamed } = o2;
 _object_without_properties(o2, [
     "d"
 ]);
-var { x, n1: _ref2 } = nestedrest, { y, n2: _ref3 } = _ref2, { z, n3: _ref4 } = _ref3, {} = _ref4;
-_extends({}, _ref4), _object_without_properties(nestedrest, [
+var { x, n1: _ref4 } = nestedrest, { y, n2: _ref5 } = _ref4, { z, n3: _ref6 } = _ref5, {} = _ref6;
+_extends({}, _ref6), _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
-var { x: _ref5 } = complex, { ka } = _ref5, { y: other } = (_object_without_properties(_ref5, [
+var { x: _ref7 } = complex, { ka } = _ref7, { y: other } = (_object_without_properties(_ref7, [
     "ka"
 ]), complex);
 _object_without_properties(complex, [
     "x",
     "y"
-]), ({ x: _ref } = complex), ({ ka } = _ref), _object_without_properties(_ref, [
+]), ({ x: _ref1 } = complex), ({ ka } = _ref1), _object_without_properties(_ref1, [
     "ka"
 ]), ({ y: other } = complex), _object_without_properties(complex, [
     "x",
     "y"
 ]);
-var _ref6 = {
+var _ref8 = {
     x: 1,
     y: 2
-}, { x } = _ref6;
-_object_without_properties(_ref6, [
+}, { x } = _ref8;
+_object_without_properties(_ref8, [
     "x"
-]), _ref1 = {
+]), _ref2 = {
     x: 1,
     y: 2
-}, ({ x } = _ref1), _object_without_properties(_ref1, [
+}, ({ x } = _ref2), _object_without_properties(_ref2, [
     "x"
 ]);
 var removable = new class {
@@ -80,7 +80,7 @@ var { b: stillNotGreat, a: soSo } = o, o = _object_without_properties(o, [
     'b',
     'a'
 ].map(_to_property_key));
-({ b: stillNotGreat, a: soSo } = o), o = _object_without_properties(o, [
+_ref3 = o, ({ b: stillNotGreat, a: soSo } = _ref3), o = _object_without_properties(_ref3, [
     'b',
     'a'
 ].map(_to_property_key));

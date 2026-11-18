@@ -1,0 +1,57 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":28}},
+      "message":"Unexpected reserved type"},
+    {
+      "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":32}},
+      "message":"Unexpected identifier, expected the token `=`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":34},"end":{"line":1,"column":35}},
+      "message":"Unexpected token `:`, expected the token `=>`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":40}},
+  "range":[0,40],
+  "body":[
+    {
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":40}},
+      "range":[0,40],
+      "default":false,
+      "declaration":{
+        "type":"TypeAlias",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":40}},
+        "range":[15,40],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":28}},
+          "range":[20,28],
+          "name":"function",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeParameters":null,
+        "right":{
+          "type":"FunctionTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":32},"end":{"line":1,"column":40}},
+          "range":[32,40],
+          "params":[],
+          "this":null,
+          "returnType":{
+            "type":"VoidTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":36},"end":{"line":1,"column":40}},
+            "range":[36,40]
+          },
+          "rest":null,
+          "typeParameters":null
+        }
+      },
+      "specifiers":[],
+      "source":null
+    }
+  ],
+  "comments":[]
+}

@@ -3,9 +3,14 @@ use std::{fs::read_to_string, path::PathBuf};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
-use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
-use swc_ecma_ast::EsVersion;
-use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
+use swc_common::{
+    comments::SingleThreadedComments, source_map::SourceMapGenConfig, FileName, Spanned, DUMMY_SP,
+};
+use swc_ecma_ast::{BlockStmt, Decl, EsVersion, Expr, ParenExpr, Script, Stmt};
+use swc_ecma_codegen::{
+    text_writer::{JsWriter, WriteJs},
+    Emitter,
+};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_sourcemap::SourceMap;
@@ -73,6 +78,8 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "6498dcc494193cb4.js",
     "6a240463b40550d2.js",
     // TODO: (maybe) fix span of `,`
+    // Preserving arrow binding elisions exposes the same missing comma mappings.
+    "2bd8ae9202baa31e.js",
     "641ac9060a206183.js",
     "e4cef19dab44335a.js",
     "a6806d6fedbf6759.js",
@@ -85,6 +92,9 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "f9888fa1a1e366e7.js",
     "78cf02220fb0937c.js",
     "5e7ca8611aaa4d53.js",
+    "10a21e1cf65c5afb.js",
+    "49bdb14b27afe650.js",
+    "4e9006104ab9afe8.js",
     // TODO(kdy1): Non-ascii char count
     "58cb05d17f7ec010.js",
     "4d2c7020de650d40.js",
@@ -508,5 +518,156 @@ impl SourceMapGenConfig for SourceMapConfigImpl {
 
     fn inline_sources_content(&self, _: &swc_common::FileName) -> bool {
         true
+    }
+}
+
+/// Parses `src` as a script, lets `mutate` change the AST, and emits it with a
+/// source map.
+fn emit_with_source_map(src: &str, mutate: impl FnOnce(&mut Script)) -> (String, SourceMap) {
+    let mut output = None;
+    ::testing::run_test(false, |cm, handler| {
+        let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
+        let mut parser = Parser::new(Syntax::default(), (&*fm).into(), None);
+        let mut script = parser
+            .parse_script()
+            .map_err(|e| e.into_diagnostic(handler).emit())?;
+        mutate(&mut script);
+
+        let mut code = Vec::new();
+        let mut mappings = Vec::new();
+        {
+            let mut emitter = Emitter {
+                cfg: swc_ecma_codegen::Config::default().with_minify(true),
+                cm: cm.clone(),
+                comments: None,
+                wr: JsWriter::new(cm.clone(), "\n", &mut code, Some(&mut mappings)),
+            };
+            emitter.emit_script(&script).unwrap();
+        }
+
+        let map = cm.build_source_map(&mappings, None, SourceMapConfigImpl);
+        output = Some((String::from_utf8(code).unwrap(), map));
+        Ok(())
+    })
+    .unwrap();
+    output.unwrap()
+}
+
+/// Returns the source position of the token at the generated position of the
+/// first `needle` in `code`. The token must start exactly at that position.
+fn src_of(code: &str, map: &SourceMap, needle: char) -> (u32, u32) {
+    let col = code[..code.find(needle).unwrap()].encode_utf16().count() as u32;
+    let token = map.lookup_token(0, col).unwrap();
+    assert_eq!(
+        token.get_dst_col(),
+        col,
+        "no mapping for {needle:?} in {code}"
+    );
+    token.get_src()
+}
+
+/// Returns the first paren in `let y = (...) * 2;`.
+fn first_paren(script: &mut Script) -> &mut ParenExpr {
+    let Stmt::Decl(Decl::Var(var)) = &mut script.body[0] else {
+        unreachable!()
+    };
+    let Expr::Bin(bin) = &mut **var.decls[0].init.as_mut().unwrap() else {
+        unreachable!()
+    };
+    let Expr::Paren(paren) = &mut *bin.left else {
+        unreachable!()
+    };
+    paren
+}
+
+/// Returns the consequent block in `if (a) { ... } else ...;`.
+fn if_block(script: &mut Script) -> &mut BlockStmt {
+    let Stmt::If(if_stmt) = &mut script.body[0] else {
+        unreachable!()
+    };
+    let Stmt::Block(block) = &mut *if_stmt.cons else {
+        unreachable!()
+    };
+    block
+}
+
+/// https://github.com/swc-project/swc/issues/12775
+///
+/// The `)` of a paren from the parser maps to the source `)`.
+#[test]
+fn issue_12775_parsed_paren() {
+    for operand in ["ε", "a"] {
+        let src = format!("let y = (x - {operand}) * 2;");
+        let (code, map) = emit_with_source_map(&src, |_| {});
+        assert_eq!(src_of(&code, &map, ')'), (0, 14), "{code}");
+    }
+}
+
+/// https://github.com/swc-project/swc/issues/12775
+///
+/// `fixer` can create a paren with the span of the wrapped expression. Its `)`
+/// maps to the end of that expression, which is the source `)` when
+/// `paren_remover` removed the original paren. It must not map to the last
+/// byte of the expression, which can be inside a multi-byte char.
+#[test]
+fn issue_12775_synthesized_paren() {
+    for operand in ["ε", "a"] {
+        let src = format!("let y = (x - {operand}) * 2;");
+        let (code, map) = emit_with_source_map(&src, |script| {
+            let paren = first_paren(script);
+            paren.span = paren.expr.span();
+        });
+        assert_eq!(src_of(&code, &map, ')'), (0, 14), "{code}");
+    }
+}
+
+/// https://github.com/swc-project/swc/issues/12775
+///
+/// The `}` of a block from the parser maps to the source `}`.
+#[test]
+fn issue_12775_parsed_block() {
+    for operand in ["ε", "a"] {
+        let src = format!("if (a) {{ if (b) throw {operand} }} else y();");
+        let (code, map) = emit_with_source_map(&src, |_| {});
+        assert_eq!(src_of(&code, &map, '}'), (0, 24), "{code}");
+    }
+}
+
+/// https://github.com/swc-project/swc/issues/12775
+///
+/// `fixer` can wrap an `if` consequent in a block with the span of the
+/// statement. Its `}` maps to the end of that statement, not to its last
+/// byte, which can be inside a multi-byte char.
+#[test]
+fn issue_12775_synthesized_block() {
+    for operand in ["ε", "a"] {
+        let src = format!("if (a) {{ if (b) throw {operand} }} else y();");
+        let (code, map) = emit_with_source_map(&src, |script| {
+            let block = if_block(script);
+            block.span = block.stmts[0].span();
+        });
+        assert_eq!(src_of(&code, &map, '}'), (0, 23), "{code}");
+    }
+}
+
+/// https://github.com/swc-project/swc/issues/12775
+///
+/// The minifier can create a fake block with the span of a statement in it,
+/// and append statements with other spans after that statement. Its `}` maps
+/// to the end of that statement, not to its last byte, which can be inside a
+/// multi-byte char.
+#[test]
+fn issue_12775_synthesized_block_with_appended_stmt() {
+    for operand in ["ε", "a"] {
+        let src = format!("if (a) {{ if (b) throw {operand}\nc() }} else y();");
+        let (code, map) = emit_with_source_map(&src, |script| {
+            let block = if_block(script);
+            block.span = block.stmts[0].span();
+            let Stmt::Expr(appended) = &mut block.stmts[1] else {
+                unreachable!()
+            };
+            appended.span = DUMMY_SP;
+        });
+        assert_eq!(src_of(&code, &map, '}'), (0, 23), "{code}");
     }
 }

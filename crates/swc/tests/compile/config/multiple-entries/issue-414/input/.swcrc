@@ -1,0 +1,20 @@
+[
+    {
+        "test": ".*.js$",
+        "module": {
+            "type": "commonjs"
+        },
+        "jsc": {
+            "externalHelpers": false
+        }
+    },
+    {
+        "test": ".*.ts$",
+        "module": {
+            "type": "amd"
+        },
+        "jsc": {
+            "externalHelpers": false
+        }
+    }
+]

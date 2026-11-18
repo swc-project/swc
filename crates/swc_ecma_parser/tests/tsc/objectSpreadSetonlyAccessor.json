@@ -171,40 +171,60 @@
                         },
                         "value": "bar"
                       },
-                      "thisParam": null,
-                      "param": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 105,
-                          "end": 107
-                        },
-                        "ctxt": 0,
-                        "value": "_v",
-                        "optional": false,
-                        "typeAnnotation": {
-                          "type": "TsTypeAnnotation",
-                          "span": {
-                            "start": 107,
-                            "end": 115
-                          },
-                          "typeAnnotation": {
-                            "type": "TsKeywordType",
+                      "function": {
+                        "params": [
+                          {
+                            "type": "Parameter",
                             "span": {
-                              "start": 109,
+                              "start": 105,
                               "end": 115
                             },
-                            "kind": "number"
+                            "decorators": [],
+                            "pat": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 105,
+                                "end": 107
+                              },
+                              "ctxt": 0,
+                              "value": "_v",
+                              "optional": false,
+                              "typeAnnotation": {
+                                "type": "TsTypeAnnotation",
+                                "span": {
+                                  "start": 107,
+                                  "end": 115
+                                },
+                                "typeAnnotation": {
+                                  "type": "TsKeywordType",
+                                  "span": {
+                                    "start": 109,
+                                    "end": 115
+                                  },
+                                  "kind": "number"
+                                }
+                              }
+                            }
                           }
-                        }
-                      },
-                      "body": {
-                        "type": "BlockStatement",
+                        ],
+                        "decorators": [],
                         "span": {
-                          "start": 117,
+                          "start": 97,
                           "end": 120
                         },
                         "ctxt": 0,
-                        "stmts": []
+                        "body": {
+                          "type": "FunctionBody",
+                          "span": {
+                            "start": 117,
+                            "end": 120
+                          },
+                          "stmts": []
+                        },
+                        "generator": false,
+                        "async": false,
+                        "typeParameters": null,
+                        "returnType": null
                       }
                     }
                   ]
@@ -347,40 +367,60 @@
                         },
                         "value": "foo"
                       },
-                      "thisParam": null,
-                      "param": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 180,
-                          "end": 182
-                        },
-                        "ctxt": 0,
-                        "value": "_v",
-                        "optional": false,
-                        "typeAnnotation": {
-                          "type": "TsTypeAnnotation",
-                          "span": {
-                            "start": 182,
-                            "end": 190
-                          },
-                          "typeAnnotation": {
-                            "type": "TsKeywordType",
+                      "function": {
+                        "params": [
+                          {
+                            "type": "Parameter",
                             "span": {
-                              "start": 184,
+                              "start": 180,
                               "end": 190
                             },
-                            "kind": "number"
+                            "decorators": [],
+                            "pat": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 180,
+                                "end": 182
+                              },
+                              "ctxt": 0,
+                              "value": "_v",
+                              "optional": false,
+                              "typeAnnotation": {
+                                "type": "TsTypeAnnotation",
+                                "span": {
+                                  "start": 182,
+                                  "end": 190
+                                },
+                                "typeAnnotation": {
+                                  "type": "TsKeywordType",
+                                  "span": {
+                                    "start": 184,
+                                    "end": 190
+                                  },
+                                  "kind": "number"
+                                }
+                              }
+                            }
                           }
-                        }
-                      },
-                      "body": {
-                        "type": "BlockStatement",
+                        ],
+                        "decorators": [],
                         "span": {
-                          "start": 192,
+                          "start": 172,
                           "end": 195
                         },
                         "ctxt": 0,
-                        "stmts": []
+                        "body": {
+                          "type": "FunctionBody",
+                          "span": {
+                            "start": 192,
+                            "end": 195
+                          },
+                          "stmts": []
+                        },
+                        "generator": false,
+                        "async": false,
+                        "typeParameters": null,
+                        "returnType": null
                       }
                     }
                   ]

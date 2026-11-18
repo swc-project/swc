@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "valid-typeof": [
+                "error",
+                {
+                    "requireStringLiterals": false
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

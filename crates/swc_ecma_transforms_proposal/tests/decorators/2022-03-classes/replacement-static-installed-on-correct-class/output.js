@@ -9,17 +9,15 @@ new class extends _identity {
             hasM = (o)=>#m in o;
         })(), _initClass();
     }
-    static{
-        class Foo {
-            static{
-                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [], [
-                    dec
-                ]));
-            }
-            static x;
-            static m() {}
+    static [class Foo {
+        static{
+            ({ c: [_Foo, _initClass] } = _apply_decs_2203_r(this, [], [
+                dec
+            ]));
         }
-    }
+        static m() {}
+    }];
     #x;
     #m() {}
+    x;
 }();

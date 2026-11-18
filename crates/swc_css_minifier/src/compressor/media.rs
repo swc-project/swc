@@ -392,24 +392,22 @@ impl Compressor {
                 span,
                 name: MediaFeatureName::Ident(name),
                 value,
-            }) => {
-                if matches!(
-                    &*name.value,
-                    "min-color" | "min-color-index" | "min-monochrome"
-                ) && value
-                    .as_number()
-                    .map(|value| value.value == 1.0)
-                    .unwrap_or_default()
-                {
-                    *n = MediaFeature::Boolean(MediaFeatureBoolean {
-                        span: *span,
-                        name: MediaFeatureName::Ident(Ident {
-                            span: name.span,
-                            value: (*name.value).chars().skip(4).collect::<String>().into(),
-                            raw: None,
-                        }),
-                    });
-                }
+            }) if matches!(
+                &*name.value,
+                "min-color" | "min-color-index" | "min-monochrome"
+            ) && value
+                .as_number()
+                .map(|value| value.value == 1.0)
+                .unwrap_or_default() =>
+            {
+                *n = MediaFeature::Boolean(MediaFeatureBoolean {
+                    span: *span,
+                    name: MediaFeatureName::Ident(Ident {
+                        span: name.span,
+                        value: (*name.value).chars().skip(4).collect::<String>().into(),
+                        raw: None,
+                    }),
+                });
             }
             MediaFeature::Range(range) => {
                 if let MediaFeatureValue::Ident(name) = &*range.left {

@@ -1,0 +1,5 @@
+  x Declarations with initializers cannot also have definite assignment assertions.
+   ,-[$DIR/tests/errors/declare-readonly-initializers/ordinary-definite/input.ts:1:1]
+ 1 | class C { x!: number = 1; }
+   :           ^^^^^^^^^^^^^^
+   `----

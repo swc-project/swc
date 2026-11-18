@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "minify": {
+            "mangle": {
+                "toplevel": false
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

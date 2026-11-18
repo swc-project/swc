@@ -1,0 +1,5 @@
+  x 'in' modifier can only appear on a type parameter of a class, interface or type alias
+   ,-[$DIR/tests/typescript-errors/type-query-lookahead/invalid-variance-separated/input.tsx:1:1]
+ 1 | type Q = typeof f< <in T>() => T>;
+   :                     ^^
+   `----

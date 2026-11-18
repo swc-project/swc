@@ -1,0 +1,49 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":18}},
+      "message":"Unexpected reserved type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":30}},
+  "range":[43,73],
+  "body":[
+    {
+      "type":"ImportDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":30}},
+      "range":[43,73],
+      "specifiers":[
+        {
+          "type":"ImportDefaultSpecifier",
+          "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":18}},
+          "range":[55,61],
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":18}},
+            "range":[55,61],
+            "name":"string",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        }
+      ],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":2,"column":24},"end":{"line":2,"column":29}},
+        "range":[67,72],
+        "value":"foo",
+        "raw":"'foo'"
+      },
+      "importKind":"type"
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":42}},
+      "range":[0,42],
+      "value":" error, `string` is a reserved type name"
+    }
+  ]
+}

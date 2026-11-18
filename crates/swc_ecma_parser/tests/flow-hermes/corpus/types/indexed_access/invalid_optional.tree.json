@@ -1,0 +1,65 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+      "message":"Invalid optional indexed access. Indexed access uses bracket notation. Use the format `T?.[K]`."
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+      "message":"Unexpected identifier, expected the token `[`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":14}},
+      "message":"Unexpected token `;`, expected a type"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":14}},
+      "message":"Unexpected token `;`, expected the token `]`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+  "range":[0,14],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+      "range":[0,14],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"T",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"OptionalIndexedAccessType",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":14}},
+        "range":[9,14],
+        "objectType":{
+          "type":"GenericTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+          "range":[9,10],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+            "range":[9,10],
+            "name":"T",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "typeParameters":null
+        },
+        "indexType":{
+          "type":"AnyTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":14}},
+          "range":[13,14]
+        },
+        "optional":true
+      }
+    }
+  ],
+  "comments":[]
+}

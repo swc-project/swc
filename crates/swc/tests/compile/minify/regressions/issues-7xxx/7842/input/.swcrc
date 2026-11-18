@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "minify": {
+            "format": {
+                "comments": false
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

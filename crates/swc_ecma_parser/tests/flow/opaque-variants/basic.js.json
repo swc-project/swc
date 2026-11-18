@@ -1,0 +1,91 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 90
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 1,
+        "end": 19
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 13,
+          "end": 18
+        },
+        "ctxt": 0,
+        "value": "Token",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 1,
+          "end": 18
+        },
+        "kind": "any"
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 20,
+        "end": 49
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 32,
+          "end": 40
+        },
+        "ctxt": 0,
+        "value": "PublicId",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 20,
+          "end": 48
+        },
+        "kind": "any"
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 50,
+        "end": 90
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 62,
+          "end": 72
+        },
+        "ctxt": 0,
+        "value": "InternalId",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 83,
+          "end": 89
+        },
+        "kind": "string"
+      }
+    }
+  ],
+  "interpreter": null
+}

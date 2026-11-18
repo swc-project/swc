@@ -5,9 +5,7 @@ pub fn typeof_symbol(c: Config) -> impl Pass {
     if c.loose {
         None
     } else {
-        let mut options = swc_ecma_transformer::Options::default();
-        options.env.es2015.typeof_symbol = true;
-        Some(options.into_pass())
+        Some(swc_ecma_transformer::es2015_typeof_symbol())
     }
 }
 

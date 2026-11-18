@@ -1,0 +1,25 @@
+{
+  "corpus": "corpus",
+  "counts": {
+    "bytes": 12821465,
+    "files": 1932
+  },
+  "flowconfig": "source.flowconfig",
+  "generated_at_utc": "2026-04-16T21:02:44.014114+00:00",
+  "manifest": "manifest.txt",
+  "name": "react-native",
+  "parser": {
+    "components": true,
+    "decorators": false,
+    "enums": true,
+    "jsx": true,
+    "pattern_matching": true,
+    "require_directive": false
+  },
+  "source": {
+    "branch": "main",
+    "commit": "f8fa76f94c37a97e0479f55e9945e1dd111a5567",
+    "flowconfig_path": ".flowconfig",
+    "repo": "facebook/react-native"
+  }
+}

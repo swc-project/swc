@@ -44,7 +44,7 @@
               "start": 6,
               "end": 46
             },
-            "value": "this should not parse as unicode: \\u00a0",
+            "value": "this should not parse as unicode: \\\\u00a0",
             "raw": "this should not parse as unicode: \\u00a0"
           }
         ],

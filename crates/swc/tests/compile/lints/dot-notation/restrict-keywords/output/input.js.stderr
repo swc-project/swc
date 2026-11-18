@@ -1,0 +1,5 @@
+  x ['break'] is better written in dot notation
+   ,-[$DIR/tests/compile/lints/dot-notation/restrict-keywords/input/input.js:1:1]
+ 1 | obj['break'];
+   :    ^^^^^^^^^
+   `----

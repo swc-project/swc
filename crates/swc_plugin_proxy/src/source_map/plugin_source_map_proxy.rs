@@ -13,7 +13,6 @@ use swc_common::{
 use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
 #[cfg(feature = "__plugin_mode")]
 use swc_ecma_ast::SourceMapperExt;
-use swc_trace_macro::swc_trace;
 
 #[cfg(all(
     feature = "encoding-impl",
@@ -23,6 +22,7 @@ use swc_trace_macro::swc_trace;
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
+#[link(wasm_import_module = "env")]
 extern "C" {
     fn __lookup_char_pos_source_map_proxy(
         byte_pos: u32,
@@ -63,7 +63,6 @@ pub struct PluginSourceMapProxy {
     feature = "__plugin_mode",
     target_arch = "wasm32"
 ))]
-#[swc_trace]
 impl PluginSourceMapProxy {
     pub fn span_to_source<F, Ret>(
         &self,

@@ -7,10 +7,10 @@ var e = {
     get d () {
         return "d";
     },
-    set e (a){
-        doSomething(a);
+    set e (e){
+        doSomething(e);
     },
-    set f (a){
+    set f (e){
         doSomething(b);
     }
 };

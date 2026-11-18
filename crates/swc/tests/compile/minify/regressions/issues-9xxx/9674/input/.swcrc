@@ -1,0 +1,14 @@
+{
+    "$schema": "https://swc.rs/schema.json",
+    "module": {
+        "type": "es6"
+    },
+    "jsc": {
+        "target": "es2015",
+        "minify": {
+            "format": {
+                "comments": { "regex": "^!" }
+            }
+        }
+    }
+}

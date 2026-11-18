@@ -1,0 +1,8 @@
+  x Unexpected console statement
+   ,-[$DIR/tests/compile/lints/no-console/default/input/input.js:7:1]
+ 4 |     console.log("message");
+ 5 | };
+ 6 | 
+ 7 | console.log("message");
+   : ^^^^^^^^^^^
+   `----

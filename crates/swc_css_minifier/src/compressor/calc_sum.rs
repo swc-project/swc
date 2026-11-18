@@ -215,10 +215,8 @@ fn simplify_calc_operator_node_product(nodes: &[CalcNode]) -> CalcNode {
         nodes[idx] = simplify_calc_node(&nodes[idx]);
         if let Some(children) = get_children_if_node_is_product_operator(&nodes[idx]) {
             nodes.remove(idx);
-            let mut i = idx;
-            for nested_node in children {
+            for (i, nested_node) in (idx..).zip(children) {
                 nodes.insert(i, nested_node);
-                i += 1;
             }
         } else {
             idx += 1;
@@ -300,10 +298,8 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
         nodes[idx] = simplify_calc_node(&nodes[idx]);
         if let Some(children) = get_children_if_node_is_sum_operator(&nodes[idx]) {
             nodes.remove(idx);
-            let mut i = idx;
-            for nested_node in children {
+            for (i, nested_node) in (idx..).zip(children) {
                 nodes.insert(i, nested_node);
-                i += 1;
             }
         } else {
             idx += 1;

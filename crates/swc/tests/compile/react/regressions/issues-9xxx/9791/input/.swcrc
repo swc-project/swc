@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

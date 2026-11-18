@@ -160,8 +160,8 @@ impl SizeWithCtxt for Expr {
                 is_async,
                 ..
             }) => match &**body {
-                BlockStmtOrExpr::BlockStmt(_) => TODO,
-                BlockStmtOrExpr::Expr(e) => {
+                ArrowFunctionBody::FunctionBody(_) => TODO,
+                ArrowFunctionBody::Expr(e) => {
                     let p = match &params[..] {
                         [] => 2,
                         [Pat::Ident(_)] => 1,

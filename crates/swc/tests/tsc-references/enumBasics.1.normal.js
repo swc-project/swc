@@ -26,7 +26,7 @@ var E2 = /*#__PURE__*/ function(E2) {
 var E3 = function(E3) {
     E3[E3["X"] = 'foo'.length] = "X";
     E3[E3["Y"] = 7] = "Y";
-    E3[E3["Z"] = +"foo"] = "Z";
+    E3[E3["Z"] = +'foo'] = "Z";
     return E3;
 }(E3 || {});
 // Enum with constant members followed by computed members

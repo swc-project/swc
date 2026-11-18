@@ -1,2 +1,2 @@
-var NaN1;
-console.log(null, void 0, 1 / 0, NaN, NaN, (1 / 0).toString(), NaN.toString(), NaN.toString());
+var NaN;
+console.log(null, void 0, 1 / 0, 0 / 0, 0 / 0, "Infinity", "NaN", "NaN");

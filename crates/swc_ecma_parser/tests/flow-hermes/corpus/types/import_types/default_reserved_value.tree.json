@@ -1,0 +1,43 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":30}},
+  "range":[52,82],
+  "body":[
+    {
+      "type":"ImportDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":30}},
+      "range":[52,82],
+      "specifiers":[
+        {
+          "type":"ImportDefaultSpecifier",
+          "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":18}},
+          "range":[64,70],
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":18}},
+            "range":[64,70],
+            "name":"switch",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        }
+      ],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":2,"column":24},"end":{"line":2,"column":29}},
+        "range":[76,81],
+        "value":"foo",
+        "raw":"'foo'"
+      },
+      "importKind":"type"
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":51}},
+      "range":[0,51],
+      "value":" ok, because `switch` is not a reserved type name"
+    }
+  ]
+}

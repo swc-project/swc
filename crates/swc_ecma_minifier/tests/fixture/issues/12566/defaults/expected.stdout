@@ -1,0 +1,17 @@
+inlined call
+empty callee
+sequence
+after sequence
+new
+Date
+Math.max
+string method
+true
+TypeError
+TypeError
+TypeError
+TypeError
+annotated call
+annotated new
+TypeError
+ordinary

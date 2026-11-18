@@ -1,0 +1,74 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 54
+  },
+  "body": [
+    {
+      "type": "TsInterfaceDeclaration",
+      "span": {
+        "start": 1,
+        "end": 54
+      },
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 34,
+          "end": 37
+        },
+        "ctxt": 0,
+        "value": "Foo",
+        "optional": false
+      },
+      "declare": true,
+      "typeParams": null,
+      "extends": [],
+      "body": {
+        "type": "TsInterfaceBody",
+        "span": {
+          "start": 38,
+          "end": 54
+        },
+        "body": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 42,
+              "end": 52
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 43
+              },
+              "ctxt": 0,
+              "value": "x",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 43,
+                "end": 51
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 45,
+                  "end": 51
+                },
+                "kind": "number"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

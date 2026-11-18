@@ -1,0 +1,27 @@
+[
+    {
+        "jsc": {
+            "externalHelpers": false
+        },
+        "exclude": "\\.tsx?$"
+    },
+    {
+        "jsc": {
+            "externalHelpers": false,
+            "parser": {
+                "syntax": "typescript",
+                "tsx": true
+            }
+        },
+        "test": "\\.tsx$"
+    },
+    {
+        "jsc": {
+            "externalHelpers": false,
+            "parser": {
+                "syntax": "typescript"
+            }
+        },
+        "test": "\\.ts$"
+    }
+]

@@ -1,0 +1,76 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":37},"end":{"line":1,"column":41}},
+      "message":"Unexpected reserved word"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":44}},
+  "range":[0,44],
+  "body":[
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":44}},
+      "range":[0,44],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":14}},
+        "range":[9,14],
+        "name":"hello",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":44}},
+        "range":[17,44],
+        "body":[
+          {
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":32}},
+            "range":[19,32],
+            "expression":{
+              "type":"Literal",
+              "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":31}},
+              "range":[19,31],
+              "value":"use strict",
+              "raw":"\"use strict\""
+            },
+            "directive":"use strict"
+          },
+          {
+            "type":"VariableDeclaration",
+            "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":1,"column":42}},
+            "range":[33,42],
+            "declarations":[
+              {
+                "type":"VariableDeclarator",
+                "loc":{"source":null,"start":{"line":1,"column":37},"end":{"line":1,"column":41}},
+                "range":[37,41],
+                "id":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":1,"column":37},"end":{"line":1,"column":41}},
+                  "range":[37,41],
+                  "name":"enum",
+                  "typeAnnotation":null,
+                  "optional":false
+                },
+                "init":null
+              }
+            ],
+            "kind":"var"
+          }
+        ]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    }
+  ],
+  "comments":[]
+}

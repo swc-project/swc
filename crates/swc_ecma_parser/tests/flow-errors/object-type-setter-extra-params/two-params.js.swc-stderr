@@ -1,0 +1,5 @@
+  x A `set` accessor must have exactly one parameter
+   ,-[$DIR/tests/flow-errors/object-type-setter-extra-params/two-params.js:1:1]
+ 1 | type T = { set p(x: number, y: string): void };
+   :                ^
+   `----

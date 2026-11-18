@@ -1,0 +1,3 @@
+function *g() {
+  (x = yield) => {};
+}

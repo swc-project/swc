@@ -1,0 +1,35 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+  "range":[0,5],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+      "range":[0,5],
+      "expression":{
+        "type":"MemberExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+        "range":[0,4],
+        "object":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":2}},
+          "range":[0,2],
+          "value":1,
+          "raw":"1."
+        },
+        "property":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":3},"end":{"line":1,"column":4}},
+          "range":[3,4],
+          "name":"n",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "computed":false
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

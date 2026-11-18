@@ -5,7 +5,9 @@ use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_transforms_base::{assumptions::Assumptions, helper, helper_expr};
-use swc_ecma_utils::{alias_if_required, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    alias_if_required, number::ToJsString, private_ident, quote_ident, ExprFactory,
+};
 
 use crate::TraverseCtx;
 
@@ -163,33 +165,11 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             return;
         }
 
-        // Has rest - create temp for RHS if needed
-        let (ref_ident, aliased) = alias_if_required(right, "_ref");
-
-        // Build sequence expression
+        // Preserve the RHS value for every extraction and the assignment result.
+        // Even an identifier may be overwritten by the pattern or its side effects.
         let mut out = ExprOutput::new(ctx);
-
-        if aliased {
-            // Declare the temp var
-            out.ctx
-                .var_declarations
-                .insert_var_declarator(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ref_ident.clone().into(),
-                    init: None,
-                    definite: false,
-                });
-            // _ref = source
-            out.exprs.push(
-                AssignExpr {
-                    span: DUMMY_SP,
-                    left: ref_ident.clone().into(),
-                    op: op!("="),
-                    right: right.take(),
-                }
-                .into(),
-            );
-        }
+        let ref_ident = out.declare_temp("_ref");
+        out.assign(ref_ident.clone().into(), right.take());
 
         let mut lowerer = RestLowerer::new(self.config, out);
         lowerer.visit(inner_pat, Box::new(ref_ident.clone().into()));
@@ -275,9 +255,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             }
 
             let stmts = collector.into_stmts();
-            for stmt in stmts.into_iter().rev() {
-                body.stmts.insert(0, stmt);
-            }
+            prepend_stmts_to_front(&mut body.stmts, stmts);
         }
     }
 
@@ -304,12 +282,10 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             if !stmts.is_empty() {
                 // Insert into body
                 match &mut *arrow.body {
-                    BlockStmtOrExpr::BlockStmt(block) => {
-                        for stmt in stmts.into_iter().rev() {
-                            block.stmts.insert(0, stmt);
-                        }
+                    ArrowFunctionBody::FunctionBody(block) => {
+                        prepend_stmts_to_front(&mut block.stmts, stmts);
                     }
-                    BlockStmtOrExpr::Expr(expr) => {
+                    ArrowFunctionBody::Expr(expr) => {
                         let mut body_stmts = stmts;
                         body_stmts.push(
                             ReturnStmt {
@@ -318,10 +294,10 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                             }
                             .into(),
                         );
-                        arrow.body = Box::new(BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        *arrow.body = ArrowFunctionBody::FunctionBody(FunctionBody {
+                            span: DUMMY_SP,
                             stmts: body_stmts,
-                            ..Default::default()
-                        }));
+                        });
                     }
                     #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
@@ -353,9 +329,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             }
 
             let stmts = collector.into_stmts();
-            for stmt in stmts.into_iter().rev() {
-                body.stmts.insert(0, stmt);
-            }
+            prepend_stmts_to_front(&mut body.stmts, stmts);
         }
     }
 
@@ -382,9 +356,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         }
 
                         let stmts = collector.into_stmts();
-                        for stmt in stmts.into_iter().rev() {
-                            body.stmts.insert(0, stmt);
-                        }
+                        prepend_stmts_to_front(&mut body.stmts, stmts);
                     }
                 }
                 ClassMember::PrivateMethod(method) => {
@@ -406,9 +378,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
                         }
 
                         let stmts = collector.into_stmts();
-                        for stmt in stmts.into_iter().rev() {
-                            body.stmts.insert(0, stmt);
-                        }
+                        prepend_stmts_to_front(&mut body.stmts, stmts);
                     }
                 }
                 _ => {}
@@ -441,7 +411,7 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
         }
         .into();
 
-        clause.body.stmts.insert(0, stmt);
+        prepend_stmts_to_front(&mut clause.body.stmts, vec![stmt]);
     }
 
     // Object Rest: Transform for-in statement
@@ -455,86 +425,55 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
     }
 
     fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _: &mut TraverseCtx) {
-        // Only process export var declarations that need transformation
-        let mut i = 0;
-        while i < items.len() {
-            let needs_transform = matches!(
-                &items[i],
+        let original = items.take();
+        let mut rewritten = Vec::with_capacity(original.len() + self.export_idents.len());
+
+        for item in original {
+            match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: Decl::Var(_),
-                    ..
-                }))
-            );
+                    span,
+                    decl: Decl::Var(var_decl),
+                })) => {
+                    let var_decl_ptr = &*var_decl as *const VarDecl;
 
-            if !needs_transform {
-                i += 1;
-                continue;
+                    if let Some(exported_names) = self.export_idents.remove(&var_decl_ptr) {
+                        rewritten.push(ModuleItem::Stmt((*var_decl).into()));
+
+                        if !exported_names.is_empty() {
+                            rewritten.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                                NamedExport {
+                                    span,
+                                    specifiers: exported_names
+                                        .into_iter()
+                                        .map(|id| {
+                                            ExportSpecifier::Named(ExportNamedSpecifier {
+                                                span: DUMMY_SP,
+                                                orig: ModuleExportName::Ident(id),
+                                                exported: None,
+                                                is_type_only: false,
+                                            })
+                                        })
+                                        .collect(),
+                                    src: None,
+                                    type_only: false,
+                                    with: None,
+                                },
+                            )));
+                        }
+                    } else {
+                        rewritten.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
+                            ExportDecl {
+                                span,
+                                decl: Decl::Var(var_decl),
+                            },
+                        )));
+                    }
+                }
+                _ => rewritten.push(item),
             }
-
-            // Extract the export declaration
-            let ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                span,
-                decl: Decl::Var(var_decl),
-            })) = items.remove(i)
-            else {
-                unreachable!()
-            };
-
-            // Get the original identifiers collected before transformation
-            let var_decl_ptr = &*var_decl as *const VarDecl;
-            let exported_names = self.export_idents.remove(&var_decl_ptr);
-
-            // Note: The var_decl has already been transformed by exit_var_decl
-            // Check if transformation happened
-            let transformation_occurred = exported_names.is_some();
-
-            if !transformation_occurred {
-                // No transformation, restore the export declaration
-                items.insert(
-                    i,
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                        span,
-                        decl: Decl::Var(var_decl),
-                    })),
-                );
-                i += 1;
-                continue;
-            }
-
-            // Use the original identifiers collected before transformation
-            let exported_names = exported_names.unwrap();
-
-            // Insert var declaration as a statement
-            let var_stmt: Stmt = (*var_decl).into();
-            items.insert(i, ModuleItem::Stmt(var_stmt));
-
-            // Insert named export
-            if !exported_names.is_empty() {
-                items.insert(
-                    i + 1,
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                        span,
-                        specifiers: exported_names
-                            .into_iter()
-                            .map(|id| {
-                                ExportSpecifier::Named(ExportNamedSpecifier {
-                                    span: DUMMY_SP,
-                                    orig: ModuleExportName::Ident(id),
-                                    exported: None,
-                                    is_type_only: false,
-                                })
-                            })
-                            .collect(),
-                        src: None,
-                        type_only: false,
-                        with: None,
-                    })),
-                );
-                i += 1; // Skip the export we just inserted
-            }
-
-            i += 1;
         }
+
+        *items = rewritten;
     }
 }
 
@@ -558,6 +497,10 @@ impl ObjectRestSpreadPass {
 
         match left {
             ForHead::VarDecl(var_decl) => {
+                // Keep the original declaration kind: `var` bindings are
+                // function-scoped, while `let` and `const` need per-iteration
+                // lexical bindings.
+                let kind = var_decl.kind;
                 let ref_ident = private_ident!("_ref");
                 let pat = var_decl.decls[0].name.take();
                 var_decl.decls[0].name = ref_ident.clone().into();
@@ -566,22 +509,20 @@ impl ObjectRestSpreadPass {
                 lowerer.visit(pat, Box::new(ref_ident.into()));
 
                 let stmt: Stmt = VarDecl {
-                    kind: VarDeclKind::Let,
+                    kind,
                     decls: lowerer.out.into_decls(),
                     ..Default::default()
                 }
                 .into();
 
                 match &mut **body {
-                    Stmt::Block(block) => block.stmts.insert(0, stmt),
+                    Stmt::Block(block) => prepend_stmts_to_front(&mut block.stmts, vec![stmt]),
                     _ => {
-                        *body = Box::new(
-                            BlockStmt {
-                                stmts: vec![stmt, (**body).take()],
-                                ..Default::default()
-                            }
-                            .into(),
-                        );
+                        **body = BlockStmt {
+                            stmts: vec![stmt, (**body).take()],
+                            ..Default::default()
+                        }
+                        .into();
                     }
                 }
             }
@@ -611,21 +552,33 @@ impl ObjectRestSpreadPass {
                 .into_stmt();
 
                 match &mut **body {
-                    Stmt::Block(block) => block.stmts.insert(0, assign_stmt),
+                    Stmt::Block(block) => {
+                        prepend_stmts_to_front(&mut block.stmts, vec![assign_stmt])
+                    }
                     _ => {
-                        *body = Box::new(
-                            BlockStmt {
-                                stmts: vec![assign_stmt, (**body).take()],
-                                ..Default::default()
-                            }
-                            .into(),
-                        );
+                        **body = BlockStmt {
+                            stmts: vec![assign_stmt, (**body).take()],
+                            ..Default::default()
+                        }
+                        .into();
                     }
                 }
             }
             _ => {}
         }
     }
+}
+
+fn prepend_stmts_to_front(stmts: &mut Vec<Stmt>, mut prepended: Vec<Stmt>) {
+    if prepended.is_empty() {
+        return;
+    }
+
+    let mut original = mem::take(stmts);
+    let mut merged = Vec::with_capacity(prepended.len() + original.len());
+    merged.append(&mut prepended);
+    merged.append(&mut original);
+    *stmts = merged;
 }
 
 // ========================================
@@ -740,7 +693,7 @@ impl<O: RestOutput> RestLowerer<O> {
                 if !is_pure_expr(&computed.expr) {
                     let temp = self.out.declare_temp("_key");
                     self.out.assign(temp.clone().into(), computed.expr.take());
-                    computed.expr = Box::new(temp.into());
+                    *computed.expr = temp.into();
                 }
             }
         }
@@ -797,12 +750,12 @@ impl<O: RestOutput> RestLowerer<O> {
             ObjectPatProp::KeyValue(kv) => match kv.value.as_mut() {
                 Pat::Assign(assign) => {
                     let nested = assign.left.take();
-                    assign.left = Box::new(split_ref.clone().into());
+                    *assign.left = split_ref.clone().into();
                     *nested
                 }
                 pat => {
                     let nested = pat.take();
-                    kv.value = Box::new(split_ref.clone().into());
+                    *kv.value = split_ref.clone().into();
                     nested
                 }
             },
@@ -882,9 +835,14 @@ impl<O: RestOutput> RestLowerer<O> {
 
         // Extract nested pattern and replace with temp
         let nested_pat: Pat = match arr.elems[split_idx].as_mut() {
+            Some(Pat::Rest(rest)) => {
+                let nested = rest.arg.take();
+                *rest.arg = split_ref.clone().into();
+                *nested
+            }
             Some(Pat::Assign(assign)) => {
                 let nested = assign.left.take();
-                assign.left = Box::new(split_ref.clone().into());
+                *assign.left = split_ref.clone().into();
                 *nested
             }
             Some(pat) => {
@@ -1084,7 +1042,7 @@ fn make_rest_call(config: Config, source: Ident, excluded: Vec<PropName>) -> Exp
                 PropName::Str(s) => Expr::Lit(Lit::Str(s)),
                 PropName::Num(n) => Expr::Lit(Lit::Str(Str {
                     span: n.span,
-                    value: n.value.to_string().into(),
+                    value: n.value.to_js_string().into(),
                     raw: None,
                 })),
                 PropName::Computed(c) if impure_count == 1 && !is_lit_str(&c.expr) => CallExpr {

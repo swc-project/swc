@@ -1,0 +1,15 @@
+InvalidSyntax
+
+  x An unparenthesized `as` or `satisfies` expression cannot be followed by an operator that would bind differently after type erasure
+   ,----
+ 1 | 1 + 1 as number / 2;
+   :                 ^
+   `----
+InvalidSyntax
+
+  x An unparenthesized `as` or `satisfies` expression cannot be followed by an operator that would bind differently after type erasure
+   ,-[3:1]
+ 2 | 
+ 3 | 1 + 1 as const / 2;
+   :                ^
+   `----

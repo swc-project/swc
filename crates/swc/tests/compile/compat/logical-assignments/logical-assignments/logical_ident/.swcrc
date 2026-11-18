@@ -1,0 +1,17 @@
+{
+  "env": {
+    "include": [
+      "transform-logical-assignment-operators"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "preserveAllComments": true
+  }
+}

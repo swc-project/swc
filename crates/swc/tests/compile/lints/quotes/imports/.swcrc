@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "quotes": [
+                "error",
+                {
+                    "prefer": "backtick"
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

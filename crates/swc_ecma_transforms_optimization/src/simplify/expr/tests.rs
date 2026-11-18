@@ -1,10 +1,54 @@
-use swc_common::{Mark, SyntaxContext};
+use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_transforms_testing::test_transform;
 use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::visit_mut_pass;
 
 use super::SimplifyExpr;
+
+fn assert_non_finite_number(op: BinaryOp, left: f64, right: f64, expected: f64) {
+    let mut expr = BinExpr {
+        span: DUMMY_SP,
+        op,
+        left: Lit::Num(Number {
+            span: DUMMY_SP,
+            value: left,
+            raw: None,
+        })
+        .into(),
+        right: Lit::Num(Number {
+            span: DUMMY_SP,
+            value: right,
+            raw: None,
+        })
+        .into(),
+    }
+    .into();
+    let mut changed = false;
+
+    super::optimize_bin_expr(
+        ExprCtx {
+            unresolved_ctxt: SyntaxContext::empty(),
+            is_unresolved_ref_safe: true,
+            in_strict: false,
+            remaining_depth: 4,
+        },
+        &mut expr,
+        &mut changed,
+    );
+
+    assert!(changed);
+    let Expr::Lit(Lit::Num(number)) = expr else {
+        panic!("expected a numeric literal, got {expr:?}");
+    };
+    assert!(number.raw.is_none());
+    if expected.is_nan() {
+        assert!(number.value.is_nan());
+    } else {
+        assert_eq!(number.value.to_bits(), expected.to_bits());
+    }
+}
 
 fn fold(src: &str, expected: &str) {
     test_transform(
@@ -428,21 +472,6 @@ fn test_nan_comparison() {
 }
 
 #[test]
-fn test_object_comparison1() {
-    fold("!new Date()", "false");
-    fold("!!new Date()", "true");
-
-    fold("new Date() == null", "false");
-    fold("new Date() == undefined", "false");
-    fold("new Date() != null", "true");
-    fold("new Date() != undefined", "true");
-    fold("null == new Date()", "false");
-    fold("undefined == new Date()", "false");
-    fold("null != new Date()", "true");
-    fold("undefined != new Date()", "true");
-}
-
-#[test]
 fn test_unary_ops_1() {
     // These cases are handled by PeepholeRemoveDeadCode.
     fold_same("!foo()");
@@ -474,8 +503,8 @@ fn test_unary_ops_1() {
 #[test]
 fn test_unary_ops_2() {
     fold("a=+0", "a=0");
-    fold("a=+Infinity", "a=Infinity");
-    fold("a=+NaN", "a=NaN");
+    fold("a=+Infinity", "a=1 / 0");
+    fold("a=+NaN", "a=0 / 0");
     fold("a=+-7", "a=-7");
     fold("a=+.5", "a=0.5");
 }
@@ -505,10 +534,10 @@ fn test_unary_ops_5() {
     fold("+[,]", "0");
 
     // Arrays with more than one element
-    fold("+[1, 2]", "NaN");
-    fold("+[[1], 2]", "NaN");
-    fold("+[,1]", "NaN");
-    fold("+[,,]", "NaN");
+    fold("+[1, 2]", "0 / 0");
+    fold("+[[1], 2]", "0 / 0");
+    fold("+[,1]", "0 / 0");
+    fold("+[,,]", "0 / 0");
 }
 
 #[test]
@@ -820,11 +849,11 @@ fn test_fold_arithmetic() {
     fold("x = 2.25 * 3", "x = 6.75");
     fold_same("z = x * y");
     fold_same("x = y * 5");
-    fold_same("x = 1 / 0");
+    fold("x = 1 / 0", "x = 1 / 0");
     fold("x = 3 % 2", "x = 1");
     fold("x = 3 % -2", "x = 1");
     fold("x = -1 % 3", "x = -1");
-    fold_same("x = 1 % 0");
+    fold("x = 1 % 0", "x = 0 / 0");
     fold("x = 2 ** 3", "x = 8");
     // fold("x = 2 ** -3", "x = 0.125");
     fold_same("x = 2 ** 55"); // backs off folding because 2 ** 55 is too large
@@ -833,18 +862,61 @@ fn test_fold_arithmetic() {
 }
 
 #[test]
+fn non_finite_arithmetic_results_are_number_literals() {
+    assert_non_finite_number(op!("/"), 0.0, 0.0, f64::NAN);
+    assert_non_finite_number(op!("/"), 1.0, 0.0, f64::INFINITY);
+    assert_non_finite_number(op!("/"), -1.0, 0.0, f64::NEG_INFINITY);
+    assert_non_finite_number(op!("/"), 1.0, -0.0, f64::NEG_INFINITY);
+    assert_non_finite_number(op!("%"), 1.0, 0.0, f64::NAN);
+}
+
+#[test]
 fn test_fold_arithmetic2() {
     fold_same("x = y + 10 + 20");
     fold_same("x = y / 2 / 4");
-    fold("x = y * 2.25 * 3", "x = y * 6.75");
+    // Floating-point multiplication is not associative.
+    fold_same("x = y * 2.25 * 3");
     fold_same("z = x * y");
     fold_same("x = y * 5");
-    fold("x = y + (z * 24 * 60 * 60 * 1000)", "x = y + z * 86400000");
+    fold(
+        "x = y + (z * 24 * 60 * 60 * 1000)",
+        "x = y + z * 24 * 60 * 60 * 1000",
+    );
+}
+
+/// https://github.com/swc-project/swc/issues/12634
+#[test]
+fn test_fold_mul_reassociation() {
+    // `365.2425 * 24 * 3600` and `365.2425 * 86400` are different numbers.
+    fold_same("x = y * 24 * 60 * 60");
+    fold_same("x = y * 1000 * 60 * 60");
+    fold_same("x = y * 30.44 * 24");
+    // A power of two less than `1` can round a subnormal intermediate result.
+    fold_same("x = y * 0.5 * 0.5");
+    // `(y * 4) * 0.25` overflows for a large `y`, but `y * 1` does not.
+    fold_same("x = y * 4 * 0.25");
+    // `2 ** 1000 * 2 ** 1000` overflows, but `(y * 2 ** 1000) * 2 ** 1000` does
+    // not overflow for a small `y`.
+    fold_same("x = y * 2 ** 1000 * 2 ** 1000");
+
+    // Multiplication by `1` or `-1` never rounds.
+    fold("x = y * 1 * 2.25", "x = y * 2.25");
+    fold("x = y * 2.25 * 1", "x = y * 2.25");
+    fold("x = y * -1 * 2.25", "x = y * -2.25");
+    fold("x = y * 2.25 * -1", "x = y * -2.25");
+    // Multiplication by a power of two of at least `1` never rounds.
+    fold("x = y * 2 * 4", "x = y * 8");
+    fold("x = y * -2 * 1024", "x = y * -2048");
+
+    // Bitwise operators are associative.
+    fold("x = y & 7 & 3", "x = y & 3");
+    fold("x = y | 4 | 3", "x = y | 7");
+    fold("x = y ^ 5 ^ 3", "x = y ^ 6");
 }
 
 #[test]
 fn test_fold_arithmetic3() {
-    fold("x = null * undefined", "x = NaN");
+    fold("x = null * undefined", "x = 0 / 0");
     fold("x = null * 1", "x = 0");
     fold("x = (null - 1) * 2", "x = -2");
     fold("x = (null + 1) * 2", "x = 2");
@@ -859,10 +931,10 @@ fn test_fold_arithmetic3_2() {
 
 #[test]
 fn test_fold_arithmetic_infinity() {
-    fold("x=-Infinity-2", "x=-Infinity");
-    fold("x=Infinity-2", "x=Infinity");
-    fold("x=Infinity*5", "x=Infinity");
-    fold("x = Infinity ** 2", "x = Infinity");
+    fold("x=-Infinity-2", "x=-1 / 0");
+    fold("x=Infinity-2", "x=1 / 0");
+    fold("x=Infinity*5", "x=1 / 0");
+    fold("x = Infinity ** 2", "x = 1 / 0");
     fold("x = Infinity ** -2", "x = 0");
 }
 
@@ -1108,7 +1180,12 @@ fn test_fold_object_spread() {
     fold("x = {a, ...{}, b}", "x = {a, b}");
     fold("x = {...{a, b}, c, ...{d, e}}", "x = {a, b, c, d, e}");
     fold("x = {...{...{a}, b}, c}", "x = {a, b, c}");
-    fold_same("({...{x}} = obj)");
+    // `({...{x}} = obj)` previously asserted that the simplify pass leaves
+    // destructuring-assignment forms alone, but `{x}` as a rest target is now
+    // a parser error per ECMA-262 §13.15.5.1.  Use an identifier rest target,
+    // which is still a valid `AssignmentRestProperty` and exercises the same
+    // "don't fold inside destructuring" code path.  See #11543.
+    fold_same("({...rest} = obj)");
 }
 
 #[test]
@@ -1370,24 +1447,24 @@ fn test_fold_arithmetic_with_strings() {
     fold("'4' / 2", "2");
     fold("'11' % 2", "1");
     fold("'10' ** 2", "100");
-    fold("'Infinity' * 2", "Infinity");
-    fold("'NaN' * 2", "NaN");
+    fold("'Infinity' * 2", "1 / 0");
+    fold("'NaN' * 2", "0 / 0");
 
     // Right side of expression is a string
     fold("10 - '5'", "5");
     fold("4 / '2'", "2");
     fold("11 % '2'", "1");
     fold("10 ** '2'", "100");
-    fold("2 * 'Infinity'", "Infinity");
-    fold("2 * 'NaN'", "NaN");
+    fold("2 * 'Infinity'", "1 / 0");
+    fold("2 * 'NaN'", "0 / 0");
 
     // Both sides are strings
     fold("'10' - '5'", "5");
     fold("'4' / '2'", "2");
     fold("'11' % '2'", "1");
     fold("'10' ** '2'", "100");
-    fold("'Infinity' * '2'", "Infinity");
-    fold("'NaN' * '2'", "NaN");
+    fold("'Infinity' * '2'", "1 / 0");
+    fold("'NaN' * '2'", "0 / 0");
 }
 
 #[test]

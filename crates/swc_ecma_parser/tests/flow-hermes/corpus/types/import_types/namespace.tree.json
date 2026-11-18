@@ -1,0 +1,42 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+      "message":"Unexpected token `*`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":38}},
+  "range":[0,38],
+  "body":[
+    {
+      "type":"ImportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":38}},
+      "range":[0,38],
+      "specifiers":[
+        {
+          "type":"ImportNamespaceSpecifier",
+          "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":19}},
+          "range":[12,19],
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":19}},
+            "range":[17,19],
+            "name":"ns",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        }
+      ],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":37}},
+        "range":[25,37],
+        "value":"ModuleName",
+        "raw":"\"ModuleName\""
+      },
+      "importKind":"type"
+    }
+  ],
+  "comments":[]
+}

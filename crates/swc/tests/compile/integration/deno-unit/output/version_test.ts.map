@@ -1,0 +1,21 @@
+{
+  "mappings": "AAAA,SAASA,QAAQ,EAAEC,MAAM,QAAQ,iBAAiB;AAElDD,SAAS,SAASE;IACd,IAAMC,UAAU;IAChBF,OAAOE,QAAQC,IAAI,CAACC,KAAKH,OAAO,CAACI,IAAI;IACrCL,OAAOE,QAAQC,IAAI,CAACC,KAAKH,OAAO,CAACK,EAAE;IACnCN,OAAOE,QAAQC,IAAI,CAACC,KAAKH,OAAO,CAACM,UAAU;AAC/C",
+  "names": [
+    "unitTest",
+    "assert",
+    "version",
+    "pattern",
+    "test",
+    "Deno",
+    "deno",
+    "v8",
+    "typescript"
+  ],
+  "sources": [
+    "../input/version_test.ts"
+  ],
+  "sourcesContent": [
+    "import { unitTest, assert } from \"./test_util.ts\";\n\nunitTest(function version(): void {\n    const pattern = /^\\d+\\.\\d+\\.\\d+/;\n    assert(pattern.test(Deno.version.deno));\n    assert(pattern.test(Deno.version.v8));\n    assert(pattern.test(Deno.version.typescript));\n});\n"
+  ],
+  "version": 3
+}

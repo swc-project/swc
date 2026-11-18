@@ -1,0 +1,23 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,QAAQ,iBAAiB;AAExDD,SACI;IACIE,QAAQC,KAAKC,KAAK,CAACC,EAAE,KAAK;AAC9B,GACA,SAASC;IACL,IAAMC,WAAWJ,KAAKK,KAAK,CAAC;IAC5B,IAAMC,UAAUN,KAAKK,KAAK,CAACD;IAC3B,IAAMG,YAAYP,KAAKK,KAAK;IAC5BP,aAAaQ,SAAS;IACtBR,aAAaS,WAAWH;AAC5B",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "ignore",
+    "Deno",
+    "build",
+    "os",
+    "umaskSuccess",
+    "prevMask",
+    "umask",
+    "newMask",
+    "finalMask"
+  ],
+  "sources": [
+    "../input/umask_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertEquals } from \"./test_util.ts\";\n\nunitTest(\n    {\n        ignore: Deno.build.os === \"windows\",\n    },\n    function umaskSuccess(): void {\n        const prevMask = Deno.umask(0o020);\n        const newMask = Deno.umask(prevMask);\n        const finalMask = Deno.umask();\n        assertEquals(newMask, 0o020);\n        assertEquals(finalMask, prevMask);\n    }\n);\n"
+  ],
+  "version": 3
+}

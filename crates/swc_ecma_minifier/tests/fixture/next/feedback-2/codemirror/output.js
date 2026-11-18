@@ -1247,11 +1247,11 @@ function(global, factory) {
         if (arr.length) {
             var list, args = Array.prototype.slice.call(arguments, 2);
             operationGroup ? list = operationGroup.delayedCallbacks : orphanDelayedCallbacks ? list = orphanDelayedCallbacks : (list = orphanDelayedCallbacks = [], setTimeout(fireOrphanDelayed, 0));
-            for(var loop = function(i) {
+            for(var i = 0; i < arr.length; ++i)!function(i) {
                 list.push(function() {
                     return arr[i].apply(null, args);
                 });
-            }, i = 0; i < arr.length; ++i)loop(i);
+            }(i);
         }
     }
     function fireOrphanDelayed() {
@@ -2935,8 +2935,7 @@ function(global, factory) {
     // Pop all selection events off the end of a history array. Stop at
     // a change event.
     function clearSelectionEvents(array) {
-        for(; array.length;)if (lst(array).ranges) array.pop();
-        else break;
+        for(; array.length && lst(array).ranges;)array.pop();
     }
     // Register a change in the history. Merges changes that are within
     // a single operation, or are close together with an origin that
@@ -3068,7 +3067,7 @@ function(global, factory) {
     // Set a new selection.
     function setSelection(doc, sel, options) {
         var sel1, opId, prev, ch, hist, origin;
-        setSelectionNoUndo(doc, sel, options), sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : NaN, hist = doc.history, origin = options && options.origin, opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (prev = lst(hist.done), "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel1.ranges.length && prev.somethingSelected() == sel1.somethingSelected() && new Date() - doc.history.lastSelTime <= (doc.cm ? doc.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin, hist.lastSelOp = opId, options && !1 !== options.clearRedo && clearSelectionEvents(hist.undone);
+        setSelectionNoUndo(doc, sel, options), sel1 = doc.sel, opId = doc.cm ? doc.cm.curOp.id : 0 / 0, hist = doc.history, origin = options && options.origin, opId == hist.lastSelOp || origin && hist.lastSelOrigin == origin && (hist.lastModTime == hist.lastSelTime && hist.lastOrigin == origin || (prev = lst(hist.done), "*" == (ch = origin.charAt(0)) || "+" == ch && prev.ranges.length == sel1.ranges.length && prev.somethingSelected() == sel1.somethingSelected() && new Date() - doc.history.lastSelTime <= (doc.cm ? doc.cm.options.historyEventDelay : 500))) ? hist.done[hist.done.length - 1] = sel1 : pushSelectionToHistory(sel1, hist.done), hist.lastSelTime = +new Date(), hist.lastSelOrigin = origin, hist.lastSelOp = opId, options && !1 !== options.clearRedo && clearSelectionEvents(hist.undone);
     }
     function setSelectionNoUndo(doc, sel, options) {
         (hasHandler(doc, "beforeSelectionChange") || doc.cm && hasHandler(doc.cm, "beforeSelectionChange")) && (obj = {
@@ -3210,7 +3209,7 @@ function(global, factory) {
     function makeChangeInner(doc, change) {
         if (1 != change.text.length || "" != change.text[0] || 0 != cmp(change.from, change.to)) {
             var selAfter = computeSelAfterChange(doc, change);
-            addChangeToHistory(doc, change, selAfter, doc.cm ? doc.cm.curOp.id : NaN), makeChangeSingleDoc(doc, change, selAfter, stretchSpansOverChange(doc, change));
+            addChangeToHistory(doc, change, selAfter, doc.cm ? doc.cm.curOp.id : 0 / 0), makeChangeSingleDoc(doc, change, selAfter, stretchSpansOverChange(doc, change));
             var rebased = [];
             linkedDocs(doc, function(doc, sharedHist) {
                 sharedHist || -1 != indexOf(rebased, doc.history) || (rebaseHist(doc.history, change), rebased.push(doc.history)), makeChangeSingleDoc(doc, change, null, stretchSpansOverChange(doc, change));
@@ -3221,7 +3220,7 @@ function(global, factory) {
     function makeChangeFromHistory(doc, type, allowSelectionOnly) {
         var suppress = doc.cm && doc.cm.state.suppressEdits;
         if (!suppress || allowSelectionOnly) {
-            for(var event, hist = doc.history, selAfter = doc.sel, source = "undo" == type ? hist.done : hist.undone, dest = "undo" == type ? hist.undone : hist.done, i = 0; i < source.length && (event = source[i], allowSelectionOnly ? !event.ranges || event.equals(doc.sel) : event.ranges); i++);
+            for(var event, hist = doc.history, selAfter = doc.sel, source = "undo" == type ? hist.done : hist.undone, dest = "undo" == type ? hist.undone : hist.done, i = 0; i < source.length && (event = source[i], allowSelectionOnly ? !event.ranges || !!event.equals(doc.sel) : !!event.ranges); i++);
             if (i != source.length) {
                 for(hist.lastOrigin = hist.lastSelOrigin = null;;)if ((event = source.pop()).ranges) {
                     if (pushSelectionToHistory(event, dest), allowSelectionOnly && !event.equals(doc.sel)) return void setSelection(doc, event, {
@@ -3596,7 +3595,7 @@ function(global, factory) {
             from: from,
             to: to,
             origin: "markText"
-        }, doc.sel, NaN);
+        }, doc.sel, 0 / 0);
         var updateMaxLine, curLine = from.line, cm = doc.cm;
         if (doc.iter(curLine, to.line + 1, function(line) {
             var span, op, inThisOp;
@@ -4143,8 +4142,8 @@ function(global, factory) {
                     };
                     makeChange(cm.doc, change), setSelectionReplaceHistory(cm.doc, simpleSelection(clipPos(cm.doc, pos), clipPos(cm.doc, changeEnd(change))));
                 })();
-            }, readTextFromFile = function(file, i) {
-                if (cm.options.allowDropFileTypes && -1 == indexOf(cm.options.allowDropFileTypes, file.type)) return void markAsReadAndPasteIfAllFilesAreRead();
+            }, i = 0; i < files.length; i++)!function(file, i) {
+                if (cm.options.allowDropFileTypes && -1 == indexOf(cm.options.allowDropFileTypes, file.type)) return markAsReadAndPasteIfAllFilesAreRead();
                 var reader = new FileReader();
                 reader.onerror = function() {
                     return markAsReadAndPasteIfAllFilesAreRead();
@@ -4152,7 +4151,7 @@ function(global, factory) {
                     var content = reader.result;
                     /[\x00-\x08\x0e-\x1f]{2}/.test(content) || (text[i] = content), markAsReadAndPasteIfAllFilesAreRead();
                 }, reader.readAsText(file);
-            }, i = 0; i < files.length; i++)readTextFromFile(files[i], i);
+            }(files[i], i);
             else {
                 // Normal drop
                 // Don't do a replace if the drop happened inside of the selected text.

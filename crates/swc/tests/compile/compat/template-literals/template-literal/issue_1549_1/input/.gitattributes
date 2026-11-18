@@ -1,0 +1,2 @@
+# Preserve the CRLF inside the template literal under test.
+input.js -text

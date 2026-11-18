@@ -1,0 +1,36 @@
+{
+    "jsc": {
+        "target": "es2019",
+        "minify": {
+            "compress": {
+                "arrows": false,
+                "booleans": false,
+                "comparisons": false,
+                "computed_props": false,
+                "conditionals": false,
+                "dead_code": false,
+                "directives": false,
+                "drop_debugger": false,
+                "evaluate": false,
+                "hoist_props": false,
+                "if_return": false,
+                "join_vars": false,
+                "keep_fargs": false,
+                "loops": false,
+                "negate_iife": false,
+                "properties": false,
+                "reduce_funcs": false,
+                "reduce_vars": false,
+                "side_effects": false,
+                "switches": false,
+                "typeofs": false,
+                "unused": false,
+                "const_to_let": false,
+                "pristine_globals": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

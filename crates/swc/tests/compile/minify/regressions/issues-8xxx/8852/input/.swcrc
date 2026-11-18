@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "target": "es3",
+        "minify": {
+            "format": {
+                "asciiOnly": true
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

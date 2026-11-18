@@ -1,10 +1,11 @@
-use swc_common::Spanned;
+use swc_atoms::atom;
+use swc_common::{BytePos, Span, Spanned};
 
 use super::*;
 use crate::parser::{pat::PatType, Parser};
 
 #[allow(clippy::enum_variant_names)]
-enum TempForHead {
+pub(super) enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
         test: Option<Box<Expr>>,
@@ -20,12 +21,54 @@ enum TempForHead {
     },
 }
 
+#[derive(Debug, Clone)]
+enum FlowMatchPattern {
+    Wildcard,
+    Value(Box<Expr>),
+    Binding(FlowMatchBinding),
+    Object {
+        props: Vec<(PropName, FlowMatchPattern)>,
+        rest: Option<Option<FlowMatchBinding>>,
+    },
+    Array {
+        elems: Vec<FlowMatchPattern>,
+        rest: Option<Option<FlowMatchBinding>>,
+    },
+    Or(Vec<FlowMatchPattern>),
+    As {
+        inner: Box<FlowMatchPattern>,
+        binding: FlowMatchBinding,
+    },
+}
+
+#[derive(Debug, Clone)]
+struct FlowMatchBinding {
+    kind: VarDeclKind,
+    pat: Pat,
+    span: Span,
+}
+
+#[derive(Debug)]
+struct FlowMatchBindingInit {
+    kind: VarDeclKind,
+    pat: Pat,
+    init: Box<Expr>,
+    span: Span,
+}
+
+#[derive(Debug)]
+struct FlowMatchLowered {
+    predicate: Box<Expr>,
+    bindings: Vec<FlowMatchBindingInit>,
+}
+
 impl<I: Tokens> Parser<I> {
     fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<TempForHead> {
         let test = if self.input_mut().eat(Token::Semi) {
             None
         } else {
-            let test = self.allow_in_expr(|p| p.parse_expr()).map(Some)?;
+            let test =
+                with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr()).map(Some)?;
             self.input_mut().eat(Token::Semi);
             test
         };
@@ -33,7 +76,7 @@ impl<I: Tokens> Parser<I> {
         let update = if self.input().is(Token::RParen) {
             None
         } else {
-            self.allow_in_expr(|p| p.parse_expr()).map(Some)?
+            with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr()).map(Some)?
         };
 
         Ok(TempForHead::For { init, test, update })
@@ -41,28 +84,30 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_for_each_head(&mut self, left: ForHead) -> PResult<TempForHead> {
         let is_of = self.input().cur() == Token::Of;
+        // The separator is a keyword even when its name is contextual.
+        self.check_current_keyword_escape()?;
         self.bump();
         if is_of {
-            let right = self.allow_in_expr(Self::parse_assignment_expr)?;
+            let right =
+                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
             Ok(TempForHead::ForOf { left, right })
         } else {
             if let ForHead::UsingDecl(d) = &left {
                 self.emit_err(d.span, SyntaxError::UsingDeclNotAllowedForForInLoop)
             }
-            let right = self.allow_in_expr(|p| p.parse_expr())?;
+            let right = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
             Ok(TempForHead::ForIn { left, right })
         }
     }
 
     fn parse_return_stmt(&mut self) -> PResult<Stmt> {
-        let start = self.cur_pos();
-
         self.assert_and_bump(Token::Return);
+        let start = self.input().prev_span().lo;
 
         let arg = if self.is_general_semi() {
             None
         } else {
-            self.allow_in_expr(|p| p.parse_expr()).map(Some)?
+            with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr()).map(Some)?
         };
         self.expect_general_semi()?;
         let stmt = Ok(ReturnStmt {
@@ -71,9 +116,7 @@ impl<I: Tokens> Parser<I> {
         }
         .into());
 
-        if !self.ctx().contains(Context::InFunction)
-            && !self.input().syntax().allow_return_outside_function()
-        {
+        if !self.allows_return_stmt() && !self.input().syntax().allow_return_outside_function() {
             self.emit_err(self.span(start), SyntaxError::ReturnNotAllowed);
         }
 
@@ -90,8 +133,12 @@ impl<I: Tokens> Parser<I> {
         let is_let_or_const = matches!(kind, VarDeclKind::Let | VarDeclKind::Const);
 
         let mut name = self.parse_binding_pat_or_ident(is_let_or_const)?;
+        let cur = self.input().cur();
+        let is_typescript =
+            matches!(cur, Token::Bang | Token::Colon) && self.input().syntax().typescript();
 
-        let definite = if self.input().syntax().typescript() {
+        // `!` cannot be a definite assignment assertion after a line break.
+        let definite = if is_typescript && !self.input().had_line_break_before_cur() {
             match name {
                 Pat::Ident(..) => self.input_mut().eat(Token::Bang),
                 _ => false,
@@ -101,7 +148,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         // Typescript extension
-        if self.input().syntax().typescript() && self.input().is(Token::Colon) {
+        if is_typescript && self.input().is(Token::Colon) {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
                 Pat::Array(ArrayPat {
@@ -133,11 +180,11 @@ impl<I: Tokens> Parser<I> {
             } else {
                 // Destructuring bindings require initializers, but
                 // typescript allows `declare` vars not to have initializers.
-                if self.ctx().contains(Context::InDeclare) {
+                if self.type_ctx().contains(TypeContext::InDeclare) {
                     None
                 } else if kind == VarDeclKind::Const
                     && !for_loop
-                    && !self.ctx().contains(Context::InDeclare)
+                    && !self.type_ctx().contains(TypeContext::InDeclare)
                 {
                     self.emit_err(
                         self.span(start),
@@ -238,9 +285,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let decl = if should_include_in {
-                self.do_inside_of_context(Context::IncludeInExpr, |p| {
-                    p.parse_var_declarator(for_loop, kind)
-                })
+                with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_var_declarator(for_loop, kind))
             } else {
                 self.parse_var_declarator(for_loop, kind)
             }?;
@@ -316,7 +361,10 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.span(start), SyntaxError::UsingDeclNotEnabled);
         }
 
-        if !self.ctx().contains(Context::AllowUsingDecl) {
+        if !self
+            .statement_ctx()
+            .contains(StatementContext::AllowUsingDecl)
+        {
             self.emit_err(self.span(start), SyntaxError::UsingDeclNotAllowed);
         }
 
@@ -342,13 +390,18 @@ impl<I: Tokens> Parser<I> {
         })))
     }
 
-    fn parse_for_head(&mut self) -> PResult<TempForHead> {
-        // let strict = self.ctx().contains(Context::Strict);
+    pub(super) fn parse_for_head(&mut self) -> PResult<TempForHead> {
+        self.parse_for_head_with_await(false)
+    }
 
+    /// Keeps the iteration kind local to the loop head, not its nested
+    /// expressions.
+    pub(super) fn parse_for_head_with_await(&mut self, is_await: bool) -> PResult<TempForHead> {
         let cur = self.input().cur();
         if cur == Token::Const
             || cur == Token::Var
             || (self.input().is(Token::Let)
+                && !self.input().has_escaped_keyword()
                 && peek!(self).map_or(false, |v| v.follows_keyword_let()))
         {
             let decl = self.parse_var_stmt(true)?;
@@ -390,6 +443,16 @@ impl<I: Tokens> Parser<I> {
             }
 
             expect!(self, Token::Semi);
+            if decl.kind == VarDeclKind::Const {
+                for d in &decl.decls {
+                    if d.init.is_none() {
+                        self.emit_err(
+                            d.name.span(),
+                            SyntaxError::ConstDeclarationsRequireInitialization,
+                        );
+                    }
+                }
+            }
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
@@ -397,8 +460,32 @@ impl<I: Tokens> Parser<I> {
             return self.parse_normal_for_head(None);
         }
 
+        self.parse_for_with_expression(is_await)
+    }
+
+    fn parse_for_with_expression(&mut self, is_await: bool) -> PResult<TempForHead> {
+        #[cfg(feature = "typescript")]
+        if self.type_ctx().contains(TypeContext::TsContainerBody)
+            && ((self.input().is(Token::Await) && !self.includes_await_expr())
+                || (self.input().is(Token::Yield) && !self.includes_yield_expr()))
+            && self.input_mut().peek() == Some(Token::Of)
+        {
+            let literal_of = self
+                .input
+                .next
+                .as_ref()
+                .is_some_and(|next| next.value.is_none());
+            // Preserve ordinary-loop recovery only when a delimiter proves
+            // it. An inconclusive lexical scan commits to the for-of grammar
+            // without speculatively parsing its RHS.
+            if literal_of && !self.is_ordinary_for_head() {
+                let ident = self.parse_ident(true, true)?;
+                return self.parse_for_each_head(ForHead::Pat(Box::new(Pat::Ident(ident.into()))));
+            }
+        }
+
         let start = self.cur_pos();
-        let init = self.disallow_in_expr(Self::parse_for_head_prefix)?;
+        let init = with_grammar_context!(self, [~In, ?Yield, ?Await], Self::parse_expr)?;
 
         let mut is_using_decl = false;
         let mut is_await_using_decl = false;
@@ -420,7 +507,8 @@ impl<I: Tokens> Parser<I> {
             }
 
             if maybe_using_decl
-                && !self.input().is(Token::Of)
+                // Only synchronous `using` forbids `of` as a for-of binding name.
+                && (maybe_await_using_decl || !self.input().is(Token::Of))
                 && (peek!(self).is_some_and(|peek| peek == Token::Of || peek == Token::In))
             {
                 is_using_decl = maybe_using_decl;
@@ -459,6 +547,16 @@ impl<I: Tokens> Parser<I> {
         if cur == Token::Of || cur == Token::In {
             let is_in = self.input().is(Token::In);
 
+            // The lookahead restriction matches the literal `async of` tokens,
+            // not an escaped identifier with the same decoded name.
+            if !is_in
+                && !is_await
+                && init.is_ident_ref_to("async")
+                && self.input.iter.read_string(init.span()) == "async"
+            {
+                self.emit_err(init.span(), SyntaxError::TS1106);
+            }
+
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
 
             // for ({} in foo) is invalid
@@ -484,27 +582,43 @@ impl<I: Tokens> Parser<I> {
 
         self.assert_and_bump(Token::For);
         let await_start = self.cur_pos();
-        let await_token = if self.input_mut().eat(Token::Await) {
-            Some(self.span(await_start))
+        let await_token = if self.input().is(Token::Await) {
+            self.check_current_keyword_escape()?;
+            // For-await-of is only available with the Await grammar parameter.
+            // Program entry may still be selecting or recovering module grammar.
+            let at_module_entry = self.syntax_context == SyntaxContext::Program
+                && (self.ctx().contains(Context::Module)
+                    || self.program_parse_mode == ProgramParseMode::None);
+            let allows_for_await =
+                self.includes_await_expr() || self.can_classify_module() || at_module_entry;
+            if allows_for_await {
+                self.bump();
+                Some(self.span(await_start))
+            } else {
+                None
+            }
         } else {
             None
         };
+        if await_token.is_some() && self.can_classify_module() {
+            self.mark_found_module_item();
+        }
         expect!(self, Token::LParen);
 
-        let head = self.do_inside_of_context(Context::ForLoopInit, |p| {
-            if await_token.is_some() {
-                p.do_inside_of_context(Context::ForAwaitLoopInit, Self::parse_for_head)
-            } else {
-                p.do_outside_of_context(Context::ForAwaitLoopInit, Self::parse_for_head)
-            }
-        })?;
+        let head = if await_token.is_some() {
+            with_grammar_context!(self, [?Yield, +Await], |p| {
+                p.parse_for_head_with_await(true)
+            })?
+        } else {
+            self.parse_for_head()?
+        };
 
         expect!(self, Token::RParen);
 
         let body = self
-            .do_inside_of_context(
-                Context::IsBreakAllowed.union(Context::IsContinueAllowed),
-                |p| p.do_outside_of_context(Context::TopLevel, Self::parse_stmt),
+            .do_inside_of_statement_context(
+                StatementContext::IsBreakAllowed.union(StatementContext::IsContinueAllowed),
+                |p| p.do_outside_of_boundary_context(BoundaryContext::TopLevel, Self::parse_stmt),
             )
             .map(Box::new)?;
 
@@ -537,20 +651,34 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into()
             }
-            TempForHead::ForOf { left, right } => ForOfStmt {
-                span,
-                is_await: await_token.is_some(),
-                left,
-                right,
-                body,
+            TempForHead::ForOf { left, right } => {
+                if let Some(await_token) = await_token {
+                    if self.is_await_forbidden_in_initializer() {
+                        self.emit_err(await_token, SyntaxError::ExpectedIdent);
+                    } else if self.syntax().flow()
+                        && !self.includes_await_expr()
+                        // Top-level await makes `for await` valid at the top level of a module.
+                        && !self.ctx().contains(Context::Module)
+                    {
+                        self.emit_err(self.span(start), SyntaxError::AwaitForStmt);
+                    }
+                }
+
+                ForOfStmt {
+                    span,
+                    is_await: await_token.is_some(),
+                    left,
+                    right,
+                    body,
+                }
+                .into()
             }
-            .into(),
         })
     }
 
     pub fn parse_stmt(&mut self) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt);
-        self.parse_stmt_like(false, handle_import_export)
+        self.parse_stmt_like(StatementGrammar::Statement, handle_import_export)
     }
 
     /// Utility function used to parse large if else statements iteratively.
@@ -577,9 +705,10 @@ impl<I: Tokens> Parser<I> {
         expect!(self, Token::LParen);
 
         let test = self
-            .do_outside_of_context(Context::IgnoreElseClause, |p| {
-                p.allow_in_expr(|p| p.parse_expr())
-            })
+            .do_outside_of_statement_context(
+                StatementContext::IgnoreElseClause,
+                |p| with_grammar_context!(p, [+In, ?Yield, ?Await], |p| p.parse_expr()),
+            )
             .map_err(|err| {
                 Error::new(
                     err.span(),
@@ -600,10 +729,9 @@ impl<I: Tokens> Parser<I> {
                 // if !self.ctx().contains(Context::Strict) && self.input().is(Token::FUNCTION)
                 // {     // TODO: report error?
                 // }
-                self.do_outside_of_context(
-                    Context::IgnoreElseClause.union(Context::TopLevel),
-                    Self::parse_stmt,
-                )
+                self.do_outside_of_statement_context(StatementContext::IgnoreElseClause, |p| {
+                    p.do_outside_of_boundary_context(BoundaryContext::TopLevel, Self::parse_stmt)
+                })
                 .map(Box::new)
             })?
         };
@@ -611,7 +739,10 @@ impl<I: Tokens> Parser<I> {
         // We parse `else` branch iteratively, to avoid stack overflow
         // See https://github.com/swc-project/swc/pull/3961
 
-        let alt = if self.ctx().contains(Context::IgnoreElseClause) {
+        let alt = if self
+            .statement_ctx()
+            .contains(StatementContext::IgnoreElseClause)
+        {
             None
         } else {
             let mut cur = None;
@@ -623,17 +754,24 @@ impl<I: Tokens> Parser<I> {
 
                 if !self.input().is(Token::If) {
                     // As we eat `else` above, we need to parse statement once.
-                    let last = self.do_outside_of_context(
-                        Context::IgnoreElseClause.union(Context::TopLevel),
-                        Self::parse_stmt,
+                    let last = self.do_outside_of_statement_context(
+                        StatementContext::IgnoreElseClause,
+                        |p| {
+                            p.do_outside_of_boundary_context(
+                                BoundaryContext::TopLevel,
+                                Self::parse_stmt,
+                            )
+                        },
                     )?;
                     break Some(last);
                 }
 
                 // We encountered `else if`
 
-                let alt =
-                    self.do_inside_of_context(Context::IgnoreElseClause, Self::parse_if_stmt)?;
+                let alt = self.do_inside_of_statement_context(
+                    StatementContext::IgnoreElseClause,
+                    Self::parse_if_stmt,
+                )?;
 
                 match &mut cur {
                     Some(cur) => {
@@ -676,7 +814,7 @@ impl<I: Tokens> Parser<I> {
             syntax_error!(self, SyntaxError::LineBreakInThrow);
         }
 
-        let arg = self.allow_in_expr(|p| p.parse_expr())?;
+        let arg = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
         self.expect_general_semi()?;
 
         let span = self.span(start);
@@ -684,7 +822,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_with_stmt(&mut self) -> PResult<Stmt> {
-        if self.syntax().typescript() {
+        if self.syntax().typescript() && !self.syntax().flow() {
             let span = self.input().cur_span();
             self.emit_err(span, SyntaxError::TS2410);
         }
@@ -699,13 +837,11 @@ impl<I: Tokens> Parser<I> {
         self.assert_and_bump(Token::With);
 
         expect!(self, Token::LParen);
-        let obj = self.allow_in_expr(|p| p.parse_expr())?;
+        let obj = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
         expect!(self, Token::RParen);
 
         let body = self
-            .do_inside_of_context(Context::InFunction, |p| {
-                p.do_outside_of_context(Context::TopLevel, Self::parse_stmt)
-            })
+            .do_outside_of_boundary_context(BoundaryContext::TopLevel, Self::parse_stmt)
             .map(Box::new)?;
 
         let span = self.span(start);
@@ -718,13 +854,13 @@ impl<I: Tokens> Parser<I> {
         self.assert_and_bump(Token::While);
 
         expect!(self, Token::LParen);
-        let test = self.allow_in_expr(|p| p.parse_expr())?;
+        let test = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
         expect!(self, Token::RParen);
 
         let body = self
-            .do_inside_of_context(
-                Context::IsBreakAllowed.union(Context::IsContinueAllowed),
-                |p| p.do_outside_of_context(Context::TopLevel, Self::parse_stmt),
+            .do_inside_of_statement_context(
+                StatementContext::IsBreakAllowed.union(StatementContext::IsContinueAllowed),
+                |p| p.do_outside_of_boundary_context(BoundaryContext::TopLevel, Self::parse_stmt),
             )
             .map(Box::new)?;
 
@@ -740,7 +876,7 @@ impl<I: Tokens> Parser<I> {
             let type_ann_start = self.cur_pos();
 
             if self.syntax().typescript() && self.input_mut().eat(Token::Colon) {
-                let ty = self.do_inside_of_context(Context::InType, Self::parse_ts_type)?;
+                let ty = self.in_type(Self::parse_ts_type)?;
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
                 match &mut pat {
@@ -773,16 +909,16 @@ impl<I: Tokens> Parser<I> {
         self.assert_and_bump(Token::Do);
 
         let body = self
-            .do_inside_of_context(
-                Context::IsBreakAllowed.union(Context::IsContinueAllowed),
-                |p| p.do_outside_of_context(Context::TopLevel, Self::parse_stmt),
+            .do_inside_of_statement_context(
+                StatementContext::IsBreakAllowed.union(StatementContext::IsContinueAllowed),
+                |p| p.do_outside_of_boundary_context(BoundaryContext::TopLevel, Self::parse_stmt),
             )
             .map(Box::new)?;
 
         expect!(self, Token::While);
         expect!(self, Token::LParen);
 
-        let test = self.allow_in_expr(|p| p.parse_expr())?;
+        let test = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
 
         expect!(self, Token::RParen);
 
@@ -795,8 +931,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_labelled_stmt(&mut self, l: Ident) -> PResult<Stmt> {
-        self.do_inside_of_context(Context::IsBreakAllowed, |p| {
-            p.do_outside_of_context(Context::AllowUsingDecl, |p| {
+        self.do_inside_of_statement_context(StatementContext::IsBreakAllowed, |p| {
+            p.do_outside_of_statement_context(StatementContext::AllowUsingDecl, |p| {
                 let start = l.span.lo();
 
                 let mut errors = Vec::new();
@@ -808,33 +944,36 @@ impl<I: Tokens> Parser<I> {
                         ));
                     }
                 }
+                let labels_before = p.state().labels.len();
                 p.state_mut().labels.push(l.sym.clone());
 
-                let body = Box::new(if p.input().is(Token::Function) {
-                    let f = p.parse_fn_decl(Vec::new())?;
-                    if let Decl::Fn(FnDecl { function, .. }) = &f {
-                        if p.ctx().contains(Context::Strict) {
-                            p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
+                let body = (|| {
+                    if p.input().is(Token::Function) {
+                        let f = p.parse_fn_decl(Vec::new())?;
+                        if let Decl::Fn(FnDecl { function, .. }) = &f {
+                            if p.ctx().contains(Context::Strict) {
+                                p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
+                            }
+                            if function.is_generator || function.is_async {
+                                p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
+                            }
                         }
-                        if function.is_generator || function.is_async {
-                            p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
-                        }
-                    }
 
-                    f.into()
-                } else {
-                    p.do_outside_of_context(Context::TopLevel, Self::parse_stmt)?
-                });
+                        Ok(f.into())
+                    } else {
+                        p.do_outside_of_boundary_context(
+                            BoundaryContext::TopLevel,
+                            Self::parse_stmt,
+                        )
+                    }
+                })();
+                // Labels belong to this statement even when its body fails
+                // inside a speculative class static block.
+                p.state_mut().labels.truncate(labels_before);
+                let body = Box::new(body?);
 
                 for err in errors {
                     p.emit_error(err);
-                }
-
-                {
-                    let pos = p.state().labels.iter().position(|v| v == &l.sym);
-                    if let Some(pos) = pos {
-                        p.state_mut().labels.remove(pos);
-                    }
                 }
 
                 Ok(LabeledStmt {
@@ -852,7 +991,7 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, Token::LBrace);
 
-        let stmts = self.do_outside_of_context(Context::TopLevel, |p| {
+        let stmts = self.do_outside_of_boundary_context(BoundaryContext::TopLevel, |p| {
             p.parse_stmt_block_body(allow_directives, Some(Token::RBrace))
         })?;
 
@@ -921,7 +1060,7 @@ impl<I: Tokens> Parser<I> {
         self.assert_and_bump(Token::Switch);
 
         expect!(self, Token::LParen);
-        let discriminant = self.allow_in_expr(|p| p.parse_expr())?;
+        let discriminant = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
         expect!(self, Token::RParen);
 
         let mut cases = Vec::new();
@@ -929,7 +1068,7 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, Token::LBrace);
 
-        self.do_inside_of_context(Context::IsBreakAllowed, |p| {
+        self.do_inside_of_statement_context(StatementContext::IsBreakAllowed, |p| {
             while {
                 let cur = p.input().cur();
                 cur == Token::Case || cur == Token::Default
@@ -939,7 +1078,7 @@ impl<I: Tokens> Parser<I> {
                 let case_start = p.cur_pos();
                 p.bump();
                 let test = if is_case {
-                    p.allow_in_expr(|p| p.parse_expr()).map(Some)?
+                    with_grammar_context!(p, [+In, ?Yield, ?Await], |p| p.parse_expr()).map(Some)?
                 } else {
                     if let Some(previous) = span_of_previous_default {
                         syntax_error!(p, SyntaxError::MultipleDefault { previous });
@@ -954,9 +1093,10 @@ impl<I: Tokens> Parser<I> {
                     let cur = p.input().cur();
                     !(cur == Token::Case || cur == Token::Default || cur == Token::RBrace)
                 } {
-                    cons.push(
-                        p.do_outside_of_context(Context::TopLevel, Self::parse_stmt_list_item)?,
-                    );
+                    cons.push(p.do_outside_of_boundary_context(
+                        BoundaryContext::TopLevel,
+                        Self::parse_stmt_list_item,
+                    )?);
                 }
 
                 cases.push(SwitchCase {
@@ -974,23 +1114,823 @@ impl<I: Tokens> Parser<I> {
 
         Ok(SwitchStmt {
             span: self.span(switch_start),
+            body_ctxt: Default::default(),
             discriminant,
             cases,
         }
         .into())
     }
 
+    pub(super) fn is_flow_match_keyword(&mut self) -> bool {
+        if !self.input().syntax().flow_pattern_matching() {
+            return false;
+        }
+        if !(self.input().cur().is_word()
+            && self.input().cur().take_word(&self.input) == atom!("match"))
+        {
+            return false;
+        }
+
+        if self.input_mut().peek() != Some(Token::LParen) {
+            return false;
+        }
+
+        self.input()
+            .next()
+            .is_some_and(|next| self.input().cur_span().hi < next.span().lo)
+    }
+
+    fn flow_match_true_expr(&self, span: Span) -> Box<Expr> {
+        Box::new(Expr::Lit(Lit::Bool(Bool { span, value: true })))
+    }
+
+    fn flow_match_bin_expr(
+        &self,
+        span: Span,
+        op: BinaryOp,
+        left: Box<Expr>,
+        right: Box<Expr>,
+    ) -> Box<Expr> {
+        Box::new(Expr::Bin(BinExpr {
+            span,
+            op,
+            left,
+            right,
+        }))
+    }
+
+    fn flow_match_and_expr(&self, span: Span, left: Box<Expr>, right: Box<Expr>) -> Box<Expr> {
+        self.flow_match_bin_expr(span, BinaryOp::LogicalAnd, left, right)
+    }
+
+    fn flow_match_or_expr(&self, span: Span, left: Box<Expr>, right: Box<Expr>) -> Box<Expr> {
+        self.flow_match_bin_expr(span, BinaryOp::LogicalOr, left, right)
+    }
+
+    fn flow_match_eq_expr(&self, span: Span, left: Box<Expr>, right: Box<Expr>) -> Box<Expr> {
+        self.flow_match_bin_expr(span, BinaryOp::EqEqEq, left, right)
+    }
+
+    fn flow_match_member_expr(&self, span: Span, obj: Box<Expr>, key: &PropName) -> Box<Expr> {
+        let prop = match key {
+            PropName::Ident(id) => MemberProp::Ident(id.clone()),
+            _ => MemberProp::Computed(ComputedPropName {
+                span,
+                expr: self.flow_match_prop_key_expr(key),
+            }),
+        };
+
+        Box::new(Expr::Member(MemberExpr { span, obj, prop }))
+    }
+
+    #[allow(unreachable_patterns)]
+    fn flow_match_prop_key_expr(&self, key: &PropName) -> Box<Expr> {
+        match key {
+            PropName::Ident(id) => Box::new(Expr::Lit(Lit::Str(Str {
+                span: id.span,
+                value: id.sym.clone().into(),
+                raw: None,
+            }))),
+            PropName::Str(s) => Box::new(Expr::Lit(Lit::Str(s.clone()))),
+            PropName::Num(n) => Box::new(Expr::Lit(Lit::Num(n.clone()))),
+            PropName::BigInt(b) => Box::new(Expr::Lit(Lit::BigInt(b.clone()))),
+            PropName::Computed(c) => c.expr.clone(),
+            _ => unreachable!("unsupported PropName variant in flow_match_prop_key_expr"),
+        }
+    }
+
+    fn flow_match_lower_pattern(
+        &mut self,
+        span: Span,
+        value: Box<Expr>,
+        pattern: &FlowMatchPattern,
+    ) -> FlowMatchLowered {
+        match pattern {
+            FlowMatchPattern::Wildcard => FlowMatchLowered {
+                predicate: self.flow_match_true_expr(span),
+                bindings: Vec::new(),
+            },
+            FlowMatchPattern::Value(expected) => FlowMatchLowered {
+                predicate: self.flow_match_eq_expr(span, value, expected.clone()),
+                bindings: Vec::new(),
+            },
+            FlowMatchPattern::Binding(binding) => FlowMatchLowered {
+                predicate: self.flow_match_true_expr(span),
+                bindings: vec![FlowMatchBindingInit {
+                    kind: binding.kind,
+                    pat: binding.pat.clone(),
+                    init: value,
+                    span: binding.span,
+                }],
+            },
+            FlowMatchPattern::As { inner, binding } => {
+                let mut lowered = self.flow_match_lower_pattern(span, value.clone(), inner);
+                lowered.bindings.push(FlowMatchBindingInit {
+                    kind: binding.kind,
+                    pat: binding.pat.clone(),
+                    init: value,
+                    span: binding.span,
+                });
+                lowered
+            }
+            FlowMatchPattern::Or(patterns) => {
+                let mut iter = patterns.iter();
+                let mut first = self.flow_match_lower_pattern(
+                    span,
+                    value.clone(),
+                    iter.next().expect("non-empty"),
+                );
+                if !first.bindings.is_empty() {
+                    self.emit_err(span, SyntaxError::TS1003);
+                    first.bindings.clear();
+                }
+
+                for pat in iter {
+                    let mut lowered = self.flow_match_lower_pattern(span, value.clone(), pat);
+                    if !lowered.bindings.is_empty() {
+                        self.emit_err(span, SyntaxError::TS1003);
+                        lowered.bindings.clear();
+                    }
+                    first.predicate =
+                        self.flow_match_or_expr(span, first.predicate, lowered.predicate);
+                }
+
+                first
+            }
+            FlowMatchPattern::Object { props, rest } => {
+                let mut predicate = self.flow_match_and_expr(
+                    span,
+                    self.flow_match_eq_expr(
+                        span,
+                        Box::new(Expr::Unary(UnaryExpr {
+                            span,
+                            op: op!("typeof"),
+                            arg: value.clone(),
+                        })),
+                        Box::new(Expr::Lit(Lit::Str(Str {
+                            span,
+                            value: atom!("object").into(),
+                            raw: None,
+                        }))),
+                    ),
+                    Box::new(Expr::Bin(BinExpr {
+                        span,
+                        op: BinaryOp::NotEqEq,
+                        left: value.clone(),
+                        right: Box::new(Expr::Lit(Lit::Null(Null { span }))),
+                    })),
+                );
+                let mut bindings = Vec::new();
+
+                for (key, pat) in props {
+                    let has_key = self.flow_match_bin_expr(
+                        span,
+                        BinaryOp::In,
+                        self.flow_match_prop_key_expr(key),
+                        value.clone(),
+                    );
+                    predicate = self.flow_match_and_expr(span, predicate, has_key);
+
+                    let lowered = self.flow_match_lower_pattern(
+                        span,
+                        self.flow_match_member_expr(span, value.clone(), key),
+                        pat,
+                    );
+                    predicate = self.flow_match_and_expr(span, predicate, lowered.predicate);
+                    bindings.extend(lowered.bindings);
+                }
+
+                if let Some(Some(binding)) = rest {
+                    bindings.push(FlowMatchBindingInit {
+                        kind: binding.kind,
+                        pat: binding.pat.clone(),
+                        init: value,
+                        span: binding.span,
+                    });
+                }
+
+                FlowMatchLowered {
+                    predicate,
+                    bindings,
+                }
+            }
+            FlowMatchPattern::Array { elems, rest } => {
+                let array_ctor = Box::new(Expr::Member(MemberExpr {
+                    span,
+                    obj: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("Array"), span))),
+                    prop: MemberProp::Ident(IdentName::new(atom!("isArray"), span)),
+                }));
+                let mut predicate = Box::new(Expr::Call(CallExpr {
+                    span,
+                    callee: Callee::Expr(array_ctor),
+                    args: vec![ExprOrSpread {
+                        spread: None,
+                        expr: value.clone(),
+                    }],
+                    ..Default::default()
+                }));
+
+                let len_expr = self.flow_match_member_expr(
+                    span,
+                    value.clone(),
+                    &PropName::Ident(IdentName::new(atom!("length"), span)),
+                );
+                predicate = self.flow_match_and_expr(
+                    span,
+                    predicate,
+                    self.flow_match_bin_expr(
+                        span,
+                        BinaryOp::GtEq,
+                        len_expr,
+                        Box::new(Expr::Lit(Lit::Num(Number {
+                            span,
+                            value: elems.len() as f64,
+                            raw: None,
+                        }))),
+                    ),
+                );
+
+                let mut bindings = Vec::new();
+                for (idx, pat) in elems.iter().enumerate() {
+                    let elem_expr = self.flow_match_member_expr(
+                        span,
+                        value.clone(),
+                        &PropName::Num(Number {
+                            span,
+                            value: idx as f64,
+                            raw: None,
+                        }),
+                    );
+                    let lowered = self.flow_match_lower_pattern(span, elem_expr, pat);
+                    predicate = self.flow_match_and_expr(span, predicate, lowered.predicate);
+                    bindings.extend(lowered.bindings);
+                }
+
+                if let Some(Some(binding)) = rest {
+                    let slice_callee = Box::new(Expr::Member(MemberExpr {
+                        span,
+                        obj: value.clone(),
+                        prop: MemberProp::Ident(IdentName::new(atom!("slice"), span)),
+                    }));
+                    bindings.push(FlowMatchBindingInit {
+                        kind: binding.kind,
+                        pat: binding.pat.clone(),
+                        init: Box::new(Expr::Call(CallExpr {
+                            span,
+                            callee: Callee::Expr(slice_callee),
+                            args: vec![ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(Expr::Lit(Lit::Num(Number {
+                                    span,
+                                    value: elems.len() as f64,
+                                    raw: None,
+                                }))),
+                            }],
+                            ..Default::default()
+                        })),
+                        span: binding.span,
+                    });
+                }
+
+                FlowMatchLowered {
+                    predicate,
+                    bindings,
+                }
+            }
+        }
+    }
+
+    fn flow_match_binding_to_stmt(&self, binding: FlowMatchBindingInit) -> Stmt {
+        Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span: binding.span,
+            kind: binding.kind,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span: binding.span,
+                name: binding.pat,
+                init: Some(binding.init),
+                definite: false,
+            }],
+            ..Default::default()
+        })))
+    }
+
+    fn flow_match_parse_binding(
+        &mut self,
+        default_kind: Option<VarDeclKind>,
+    ) -> PResult<FlowMatchBinding> {
+        let start = self.cur_pos();
+        let kind = if self.input().is(Token::Const) {
+            self.bump();
+            VarDeclKind::Const
+        } else if self.input().is(Token::Let) {
+            self.bump();
+            VarDeclKind::Let
+        } else if self.input().is(Token::Var) {
+            self.bump();
+            VarDeclKind::Var
+        } else if let Some(kind) = default_kind {
+            kind
+        } else {
+            unexpected!(self, "const, let or var")
+        };
+
+        let pat = self.parse_binding_pat_or_ident(false)?;
+        Ok(FlowMatchBinding {
+            kind,
+            pat,
+            span: self.span(start),
+        })
+    }
+
+    fn flow_match_parse_member_value_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        let start = self.cur_pos();
+        let base = self.parse_ident_name()?;
+        let mut expr: Box<Expr> = Box::new(Expr::Ident(Ident::new_no_ctxt(base.sym, base.span)));
+
+        loop {
+            if self.input_mut().eat(Token::Dot) {
+                let prop = self.parse_ident_name()?;
+                expr = Box::new(Expr::Member(MemberExpr {
+                    span: self.span(start),
+                    obj: expr,
+                    prop: MemberProp::Ident(prop),
+                }));
+                continue;
+            }
+
+            if self.input_mut().eat(Token::LBracket) {
+                let prop_expr = with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
+                expect!(self, Token::RBracket);
+                expr = Box::new(Expr::Member(MemberExpr {
+                    span: self.span(start),
+                    obj: expr,
+                    prop: MemberProp::Computed(ComputedPropName {
+                        span: self.span(start),
+                        expr: prop_expr,
+                    }),
+                }));
+                continue;
+            }
+
+            break;
+        }
+
+        Ok(FlowMatchPattern::Value(expr))
+    }
+
+    fn flow_match_parse_object_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        expect!(self, Token::LBrace);
+        let mut props = Vec::new();
+        let mut rest = None;
+
+        while !self.input().is(Token::RBrace) {
+            if self.input_mut().eat(Token::DotDotDot) {
+                let parsed_rest = if self.input().is(Token::Comma) || self.input().is(Token::RBrace)
+                {
+                    None
+                } else {
+                    Some(self.flow_match_parse_binding(Some(VarDeclKind::Const))?)
+                };
+                if rest.is_some() {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1014);
+                }
+                rest = Some(parsed_rest);
+            } else if self.input().is(Token::Const)
+                || self.input().is(Token::Let)
+                || self.input().is(Token::Var)
+            {
+                let binding = self.flow_match_parse_binding(None)?;
+                match &binding.pat {
+                    Pat::Ident(ident) => {
+                        props.push((
+                            PropName::Ident(IdentName::new(ident.id.sym.clone(), ident.id.span)),
+                            FlowMatchPattern::Binding(binding),
+                        ));
+                    }
+                    _ => self.emit_err(binding.span, SyntaxError::TS1003),
+                }
+            } else {
+                let key = self.parse_prop_name()?;
+                let pat = if self.input_mut().eat(Token::Colon) {
+                    self.flow_match_parse_pattern()?
+                } else {
+                    match &key {
+                        PropName::Ident(id) => FlowMatchPattern::Value(Box::new(Expr::Ident(
+                            Ident::new_no_ctxt(id.sym.clone(), id.span),
+                        ))),
+                        _ => {
+                            self.emit_err(key.span(), SyntaxError::TS1003);
+                            FlowMatchPattern::Wildcard
+                        }
+                    }
+                };
+                props.push((key, pat));
+            }
+
+            if self.input().is(Token::RBrace) {
+                break;
+            }
+
+            expect!(self, Token::Comma);
+            if rest.is_some() && !self.input().is(Token::RBrace) {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1014);
+            }
+        }
+
+        expect!(self, Token::RBrace);
+        Ok(FlowMatchPattern::Object { props, rest })
+    }
+
+    fn flow_match_parse_array_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        expect!(self, Token::LBracket);
+
+        let mut elems = Vec::new();
+        let mut rest = None;
+
+        while !self.input().is(Token::RBracket) {
+            if self.input_mut().eat(Token::Comma) {
+                continue;
+            }
+
+            if self.input_mut().eat(Token::DotDotDot) {
+                let parsed_rest =
+                    if self.input().is(Token::Comma) || self.input().is(Token::RBracket) {
+                        None
+                    } else {
+                        Some(self.flow_match_parse_binding(Some(VarDeclKind::Const))?)
+                    };
+                rest = Some(parsed_rest);
+
+                if self.input().is(Token::RBracket) {
+                    break;
+                }
+
+                expect!(self, Token::Comma);
+                if !self.input().is(Token::RBracket) {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1014);
+                }
+                continue;
+            }
+
+            elems.push(self.flow_match_parse_pattern()?);
+            if self.input().is(Token::RBracket) {
+                break;
+            }
+
+            expect!(self, Token::Comma);
+            if rest.is_some() && !self.input().is(Token::RBracket) {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1014);
+            }
+        }
+
+        expect!(self, Token::RBracket);
+        Ok(FlowMatchPattern::Array { elems, rest })
+    }
+
+    fn flow_match_parse_primary_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        let start = self.cur_pos();
+        let cur = self.input().cur();
+
+        if self.input_mut().eat(Token::LParen) {
+            let pat = self.flow_match_parse_pattern()?;
+            expect!(self, Token::RParen);
+            return Ok(pat);
+        }
+
+        if cur == Token::LBrace {
+            return self.flow_match_parse_object_pattern();
+        }
+
+        if cur == Token::LBracket {
+            return self.flow_match_parse_array_pattern();
+        }
+
+        if cur == Token::Const || cur == Token::Let || cur == Token::Var {
+            return self
+                .flow_match_parse_binding(None)
+                .map(FlowMatchPattern::Binding);
+        }
+
+        if self.input().cur().is_word() && self.input().cur().take_word(&self.input) == atom!("_") {
+            self.bump();
+            return Ok(FlowMatchPattern::Wildcard);
+        }
+
+        if cur == Token::Plus || cur == Token::Minus {
+            let op = if cur == Token::Plus {
+                op!(unary, "+")
+            } else {
+                op!(unary, "-")
+            };
+            self.bump();
+            if !(self.input().is(Token::Num) || self.input().is(Token::BigInt)) {
+                unexpected!(self, "numeric or bigint literal")
+            }
+            let lit = self.parse_lit()?;
+            return Ok(FlowMatchPattern::Value(Box::new(Expr::Unary(UnaryExpr {
+                span: self.span(start),
+                op,
+                arg: Box::new(Expr::Lit(lit)),
+            }))));
+        }
+
+        if matches!(
+            cur,
+            Token::Str | Token::Num | Token::BigInt | Token::True | Token::False | Token::Null
+        ) {
+            return self
+                .parse_lit()
+                .map(|lit| FlowMatchPattern::Value(Box::new(Expr::Lit(lit))));
+        }
+
+        if self.input().cur().is_word() {
+            return self.flow_match_parse_member_value_pattern();
+        }
+
+        unexpected!(self, "a pattern")
+    }
+
+    fn flow_match_parse_pattern(&mut self) -> PResult<FlowMatchPattern> {
+        // Flow allows one optional leading pipe, including in nested patterns.
+        self.input_mut().eat(Token::Pipe);
+        let mut pat = self.flow_match_parse_primary_pattern()?;
+
+        while self.input_mut().eat(Token::Pipe) {
+            let rhs = self.flow_match_parse_primary_pattern()?;
+            pat = match pat {
+                FlowMatchPattern::Or(mut items) => {
+                    items.push(rhs);
+                    FlowMatchPattern::Or(items)
+                }
+                _ => FlowMatchPattern::Or(vec![pat, rhs]),
+            };
+        }
+
+        if self.input_mut().eat(Token::As) {
+            let binding = self.flow_match_parse_binding(Some(VarDeclKind::Const))?;
+            pat = FlowMatchPattern::As {
+                inner: Box::new(pat),
+                binding,
+            };
+        }
+
+        Ok(pat)
+    }
+
+    fn flow_match_expect_case_separator(&mut self) -> PResult<()> {
+        if self.input_mut().eat(Token::Colon) || self.input_mut().eat(Token::Arrow) {
+            return Ok(());
+        }
+
+        let cur = format!("{:?}", self.input().cur());
+        let span = self.input().cur_span();
+        syntax_error!(self, span, SyntaxError::Expected(": or =>".into(), cur))
+    }
+
+    fn flow_match_parse_subject_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
+        self.bump();
+        let args = self.parse_args(false)?;
+
+        if args.is_empty() {
+            self.emit_err(self.span(start), SyntaxError::TS1003);
+            return Ok(Box::new(Expr::Invalid(Invalid {
+                span: self.span(start),
+            })));
+        }
+
+        let mut elems = Vec::with_capacity(args.len());
+        for arg in args {
+            if arg.spread.is_some() {
+                self.emit_err(arg.expr.span(), SyntaxError::TS1003);
+            }
+            elems.push(Some(ExprOrSpread {
+                spread: None,
+                expr: arg.expr,
+            }));
+        }
+
+        if elems.len() == 1 {
+            Ok(elems.pop().unwrap().unwrap().expr)
+        } else {
+            Ok(Box::new(Expr::Array(ArrayLit {
+                span: self.span(start),
+                elems,
+            })))
+        }
+    }
+
+    fn flow_match_make_temp_ident(&self, span: Span) -> Ident {
+        Ident::new_no_ctxt(format!("__match_subject_{}", span.lo.0).into(), span)
+    }
+
+    fn flow_match_make_temp_decl(&self, span: Span, ident: &Ident, init: Box<Expr>) -> Stmt {
+        Stmt::Decl(Decl::Var(Box::new(VarDecl {
+            span,
+            kind: VarDeclKind::Const,
+            declare: false,
+            decls: vec![VarDeclarator {
+                span,
+                name: Pat::Ident(BindingIdent {
+                    id: ident.clone(),
+                    type_ann: None,
+                }),
+                init: Some(init),
+                definite: false,
+            }],
+            ..Default::default()
+        })))
+    }
+
+    fn flow_match_non_exhaustive_throw(&self, span: Span) -> Stmt {
+        let error_ctor = Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("Error"), span)));
+        let arg = Box::new(Expr::Lit(Lit::Str(Str {
+            span,
+            value: atom!("Non-exhaustive match").into(),
+            raw: None,
+        })));
+        let err = Box::new(Expr::New(NewExpr {
+            span,
+            callee: error_ctor,
+            args: Some(vec![ExprOrSpread {
+                spread: None,
+                expr: arg,
+            }]),
+            ..Default::default()
+        }));
+
+        Stmt::Throw(ThrowStmt { span, arg: err })
+    }
+
+    fn flow_match_make_iife_expr(&self, span: Span, stmts: Vec<Stmt>) -> Box<Expr> {
+        let fn_expr = Box::new(Expr::Fn(FnExpr {
+            ident: None,
+            function: Box::new(Function {
+                span,
+                this_param: None,
+                params: Vec::new(),
+                decorators: Vec::new(),
+                body: Some(FunctionBody { span, stmts }),
+                is_async: false,
+                is_generator: false,
+                type_params: None,
+                return_type: None,
+                ctxt: Default::default(),
+            }),
+        }));
+
+        Box::new(Expr::Call(CallExpr {
+            span,
+            callee: Callee::Expr(fn_expr),
+            args: Vec::new(),
+            ..Default::default()
+        }))
+    }
+
+    pub(super) fn parse_flow_match_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
+        let span = self.input().cur_span();
+        let subject = self.flow_match_parse_subject_expr(start)?;
+
+        expect!(self, Token::LBrace);
+
+        let temp_ident = self.flow_match_make_temp_ident(span);
+        let temp_expr = Box::new(Expr::Ident(temp_ident.clone()));
+        let mut stmts = vec![self.flow_match_make_temp_decl(span, &temp_ident, subject)];
+
+        while !self.input().is(Token::RBrace) {
+            let pattern = self.flow_match_parse_pattern()?;
+            let guard = if self.input_mut().eat(Token::If) {
+                Some(with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?)
+            } else {
+                None
+            };
+            self.flow_match_expect_case_separator()?;
+
+            let body =
+                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
+            let lowered = self.flow_match_lower_pattern(span, temp_expr.clone(), &pattern);
+            let mut test = lowered.predicate;
+            if let Some(guard) = guard {
+                test = self.flow_match_and_expr(span, test, guard);
+            }
+
+            let mut cons_stmts = lowered
+                .bindings
+                .into_iter()
+                .map(|binding| self.flow_match_binding_to_stmt(binding))
+                .collect::<Vec<_>>();
+            cons_stmts.push(Stmt::Return(ReturnStmt {
+                span,
+                arg: Some(body),
+            }));
+
+            stmts.push(Stmt::If(IfStmt {
+                span,
+                test,
+                cons: Box::new(Stmt::Block(BlockStmt {
+                    span,
+                    stmts: cons_stmts,
+                    ctxt: Default::default(),
+                })),
+                alt: None,
+            }));
+
+            self.input_mut().eat(Token::Comma);
+        }
+
+        expect!(self, Token::RBrace);
+        stmts.push(self.flow_match_non_exhaustive_throw(span));
+        Ok(self.flow_match_make_iife_expr(span, stmts))
+    }
+
+    fn parse_flow_match_stmt(&mut self, start: BytePos) -> PResult<Stmt> {
+        let span = self.input().cur_span();
+        let subject = self.flow_match_parse_subject_expr(start)?;
+        expect!(self, Token::LBrace);
+
+        let temp_ident = self.flow_match_make_temp_ident(span);
+        let temp_expr = Box::new(Expr::Ident(temp_ident.clone()));
+        let mut cases = Vec::new();
+
+        while !self.input().is(Token::RBrace) {
+            let pattern = self.flow_match_parse_pattern()?;
+            let guard = if self.input_mut().eat(Token::If) {
+                Some(with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?)
+            } else {
+                None
+            };
+            self.flow_match_expect_case_separator()?;
+
+            let body = if self.input().is(Token::LBrace) {
+                self.parse_block(false)?
+            } else {
+                self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+                let expr = with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
+                BlockStmt {
+                    span,
+                    stmts: vec![Stmt::Expr(ExprStmt { span, expr })],
+                    ctxt: Default::default(),
+                }
+            };
+
+            let lowered = self.flow_match_lower_pattern(span, temp_expr.clone(), &pattern);
+            let mut test = lowered.predicate;
+            if let Some(guard) = guard {
+                test = self.flow_match_and_expr(span, test, guard);
+            }
+
+            let mut stmts = lowered
+                .bindings
+                .into_iter()
+                .map(|binding| self.flow_match_binding_to_stmt(binding))
+                .collect::<Vec<_>>();
+            stmts.extend(body.stmts);
+
+            cases.push(IfStmt {
+                span,
+                test,
+                cons: Box::new(Stmt::Block(BlockStmt {
+                    span,
+                    stmts,
+                    ctxt: Default::default(),
+                })),
+                alt: None,
+            });
+
+            self.input_mut().eat(Token::Comma);
+        }
+
+        expect!(self, Token::RBrace);
+
+        let mut tail: Option<Box<Stmt>> = None;
+        for mut case in cases.into_iter().rev() {
+            case.alt = tail;
+            tail = Some(Box::new(Stmt::If(case)));
+        }
+
+        let mut stmts = vec![self.flow_match_make_temp_decl(span, &temp_ident, subject)];
+        if let Some(if_stmt) = tail {
+            stmts.push(*if_stmt);
+        }
+
+        Ok(Stmt::Block(BlockStmt {
+            span,
+            stmts,
+            ctxt: Default::default(),
+        }))
+    }
+
     /// Parse a statement and maybe a declaration.
     pub fn parse_stmt_list_item(&mut self) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt_list_item);
-        self.parse_stmt_like(true, handle_import_export)
+        self.parse_stmt_like(StatementGrammar::StatementListItem, handle_import_export)
     }
 
     /// Parse a statement, declaration or module item.
     #[inline(always)]
-    pub(crate) fn parse_stmt_like<Type: From<Stmt>>(
+    pub(super) fn parse_stmt_like<Type: From<Stmt>>(
         &mut self,
-        include_decl: bool,
+        grammar: StatementGrammar,
         handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
     ) -> PResult<Type> {
         trace_cur!(self, parse_stmt_like);
@@ -1009,9 +1949,9 @@ impl<I: Tokens> Parser<I> {
             return handle_import_export(self, decorators);
         }
 
-        self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
-            p.do_inside_of_context(Context::AllowUsingDecl, |p| {
-                p.parse_stmt_internal(start, include_decl, decorators)
+        self.do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
+            p.do_inside_of_statement_context(StatementContext::AllowUsingDecl, |p| {
+                p.parse_stmt_internal(start, grammar, decorators)
             })
         })
         .map(From::from)
@@ -1021,47 +1961,87 @@ impl<I: Tokens> Parser<I> {
     fn parse_stmt_internal(
         &mut self,
         start: BytePos,
-        include_decl: bool,
+        grammar: StatementGrammar,
         decorators: Vec<Decorator>,
     ) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt_internal);
 
+        let include_decl = grammar.permits_declaration();
+
         let is_typescript = self.input().syntax().typescript();
 
         if is_typescript
+            && self.input().syntax().typescript_allows_enum()
             && self.input().is(Token::Const)
             && peek!(self).is_some_and(|peek| peek == Token::Enum)
         {
             self.assert_and_bump(Token::Const);
             self.assert_and_bump(Token::Enum);
+            if self.input().syntax().flow() {
+                self.emit_err(self.span(start), SyntaxError::TS1003);
+            }
             return self
                 .parse_ts_enum_decl(start, true)
                 .map(Decl::from)
                 .map(Stmt::from);
         }
 
-        let top_level = self.ctx().contains(Context::TopLevel);
+        let top_level = self.boundary_ctx().contains(BoundaryContext::TopLevel);
 
         let cur = self.input().cur();
+        if self.is_flow_match_keyword() {
+            return self.parse_flow_match_stmt(start);
+        }
 
         if cur == Token::Await && (include_decl || top_level) {
-            if top_level {
+            let is_await_using = peek!(self).is_some_and(|peek| peek == Token::Using)
+                && !self.input_mut().has_linebreak_between_cur_and_peeked();
+
+            // In Script grammar, `await` can start an expression or a label.
+            // Only `await using` needs a statement-level context error.
+            let handled_by_explicit_program = top_level
+                && self.program_parse_mode == ProgramParseMode::None
+                && (self.ctx().contains(Context::Module)
+                    || self.boundary_ctx().contains(BoundaryContext::CanBeModule)
+                    || is_await_using);
+            if handled_by_explicit_program {
                 self.mark_found_module_item();
-                if !self.ctx().contains(Context::CanBeModule) {
+                if !self.boundary_ctx().contains(BoundaryContext::CanBeModule) {
                     self.emit_err(self.input().cur_span(), SyntaxError::TopLevelAwaitInScript);
                 }
             }
 
-            if peek!(self).is_some_and(|peek| peek == Token::Using) {
+            if is_await_using {
                 let eaten_await = Some(self.input().cur_pos());
+                let await_token = self.input().cur_span();
+                self.check_current_token_escape()?;
+                if self.can_classify_module() {
+                    self.mark_found_module_item();
+                } else if !self.includes_await_expr()
+                    && !self.ctx().contains(Context::Module)
+                    && !handled_by_explicit_program
+                {
+                    let error = if self.syntax_context == SyntaxContext::FunctionBody {
+                        SyntaxError::AwaitInFunction
+                    } else {
+                        SyntaxError::TopLevelAwaitInScript
+                    };
+                    self.emit_err(self.input().cur_span(), error);
+                }
                 self.assert_and_bump(Token::Await);
                 let v = self.parse_using_decl(start, true)?;
                 if let Some(v) = v {
+                    // Static blocks use +Await, but Contains `await` is an early
+                    // error. Check declarations here; the expression fallback
+                    // below performs its own check in parse_await_expr.
+                    if self.is_await_forbidden_in_initializer() {
+                        self.emit_err(await_token, SyntaxError::ExpectedIdent);
+                    }
                     return Ok(v.into());
                 }
 
                 let expr = self.parse_await_expr(eaten_await)?;
-                let expr = self.allow_in_expr(|p| p.parse_bin_op_recursively(expr, 0))?;
+                let expr = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_bin_op_recursively(expr, 0))?;
                 self.eat_general_semi();
 
                 let span = self.span(start);
@@ -1081,10 +2061,16 @@ impl<I: Tokens> Parser<I> {
             if is_break {
                 if label.is_some() && !self.state().labels.contains(&label.as_ref().unwrap().sym) {
                     self.emit_err(span, SyntaxError::TS1116);
-                } else if !self.ctx().contains(Context::IsBreakAllowed) {
+                } else if !self
+                    .statement_ctx()
+                    .contains(StatementContext::IsBreakAllowed)
+                {
                     self.emit_err(span, SyntaxError::TS1105);
                 }
-            } else if !self.ctx().contains(Context::IsContinueAllowed) {
+            } else if !self
+                .statement_ctx()
+                .contains(StatementContext::IsContinueAllowed)
+            {
                 self.emit_err(span, SyntaxError::TS1115);
             } else if label.is_some() && !self.state().labels.contains(&label.as_ref().unwrap().sym)
             {
@@ -1160,8 +2146,8 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::Var || (cur == Token::Const && include_decl) {
             let v = self.parse_var_stmt(false)?;
             return Ok(v.into());
-        } else if cur == Token::Let && include_decl {
-            // 'let' can start an identifier reference.
+        } else if cur == Token::Let && include_decl && !self.input().has_escaped_keyword() {
+            // Only an unescaped 'let' can introduce a lexical declaration.
             let is_keyword = match peek!(self) {
                 Some(t) => t.follows_keyword_let(),
                 _ => false,
@@ -1194,15 +2180,18 @@ impl<I: Tokens> Parser<I> {
             return Ok(self.parse_ts_type_alias_decl(start)?.into());
         } else if cur == Token::Enum
             && is_typescript
+            && self.input().syntax().typescript_allows_enum()
             && peek!(self).is_some_and(|peek| peek.is_word())
-            && !self.input_mut().has_linebreak_between_cur_and_peeked()
         {
+            // A line break before an enum name does not terminate the declaration.
             let start = self.input().cur_pos();
             self.bump();
             return Ok(self.parse_ts_enum_decl(start, false)?.into());
         } else if cur == Token::LBrace {
             return self
-                .do_inside_of_context(Context::AllowUsingDecl, |p| p.parse_block(false))
+                .do_inside_of_statement_context(StatementContext::AllowUsingDecl, |p| {
+                    p.parse_block(false)
+                })
                 .map(Stmt::Block);
         } else if cur == Token::Semi {
             self.bump();
@@ -1225,7 +2214,8 @@ impl<I: Tokens> Parser<I> {
         // simply start parsing an expression, and afterwards, if the
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
-        let expr = self.allow_in_expr(|p| p.parse_expr())?;
+        let expr_token = self.input().cur();
+        let expr = with_grammar_context!(self, [+In, ?Yield, ?Await], |p| p.parse_expr())?;
 
         let expr = match *expr {
             Expr::Ident(ident) => {
@@ -1236,22 +2226,23 @@ impl<I: Tokens> Parser<I> {
             }
             _ => self.verify_expr(expr)?,
         };
-        if let Expr::Ident(ref ident) = *expr {
-            if &*ident.sym == "interface" && self.input().had_line_break_before_cur() {
-                self.emit_strict_mode_err(
-                    ident.span,
-                    SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
-                );
 
-                self.eat_general_semi();
+        if expr_token == Token::Interface && self.input().had_line_break_before_cur() {
+            self.emit_strict_mode_err(
+                expr.span(),
+                SyntaxError::InvalidIdentInStrict(Atom::from("interface")),
+            );
 
-                return Ok(ExprStmt {
-                    span: self.span(start),
-                    expr,
-                }
-                .into());
+            self.eat_general_semi();
+
+            return Ok(ExprStmt {
+                span: self.span(start),
+                expr,
             }
+            .into());
+        }
 
+        if let Expr::Ident(ident) = expr.as_ref() {
             if self.input().syntax().typescript() {
                 if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
                     return Ok(decl.into());
@@ -1259,21 +2250,15 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.syntax().typescript() {
-            if let Expr::Ident(ref i) = *expr {
-                match &*i.sym {
-                    "public" | "static" | "abstract" => {
-                        if self.input_mut().eat(Token::Interface) {
-                            self.emit_err(i.span, SyntaxError::TS2427);
-                            return self
-                                .parse_ts_interface_decl(start)
-                                .map(Decl::from)
-                                .map(Stmt::from);
-                        }
-                    }
-                    _ => {}
-                }
-            }
+        if self.syntax().typescript()
+            && matches!(expr_token, Token::Public | Token::Static | Token::Abstract)
+            && self.input_mut().eat(Token::Interface)
+        {
+            self.emit_err(expr.span(), SyntaxError::TS2427);
+            return self
+                .parse_ts_interface_decl(start)
+                .map(Decl::from)
+                .map(Stmt::from);
         }
 
         if self.eat_general_semi() {
@@ -1306,10 +2291,17 @@ impl<I: Tokens> Parser<I> {
         allow_directives: bool,
         end: Option<Token>,
     ) -> PResult<Vec<Stmt>> {
-        self.parse_block_body(allow_directives, end, handle_import_export)
+        let stmts = self.parse_block_body(allow_directives, end, handle_import_export)?;
+        if self.input().cur() != Token::Eof && end.is_some() {
+            self.bump();
+        }
+        Ok(stmts)
     }
 
-    pub(crate) fn parse_block_body<Type: From<Stmt>>(
+    /// Parses a body without consuming its closing delimiter. The caller can
+    /// restore the enclosing lexical context before reading the following
+    /// token.
+    pub(super) fn parse_block_body<Type: super::context::BlockBodyItem>(
         &mut self,
         allow_directives: bool,
         end: Option<Token>,
@@ -1330,28 +2322,31 @@ impl<I: Tokens> Parser<I> {
         };
 
         let parse_stmts = |p: &mut Self, stmts: &mut Vec<Type>| -> PResult<()> {
-            let is_stmt_start = |p: &mut Self| {
-                let cur = p.input().cur();
-                match end {
-                    Some(end) => {
-                        if cur == Token::Eof {
-                            let eof_text = p.input_mut().dump_cur();
-                            p.emit_err(
-                                p.input().cur_span(),
-                                SyntaxError::Expected(format!("{end:?}"), eof_text),
-                            );
-                            false
-                        } else {
-                            cur != end
-                        }
+            if let Some(end) = end {
+                loop {
+                    let cur = p.input().cur();
+                    if cur == Token::Eof {
+                        let eof_text = p.input_mut().dump_cur();
+                        p.emit_err(
+                            p.input().cur_span(),
+                            SyntaxError::Expected(format!("{end:?}"), eof_text),
+                        );
+                        break;
                     }
-                    None => cur != Token::Eof,
+                    if cur == end {
+                        break;
+                    }
+
+                    let stmt = p.parse_stmt_like(Type::GRAMMAR, &handle_import_export)?;
+                    stmts.push(stmt);
                 }
-            };
-            while is_stmt_start(p) {
-                let stmt = p.parse_stmt_like(true, &handle_import_export)?;
-                stmts.push(stmt);
+            } else {
+                while p.input().cur() != Token::Eof {
+                    let stmt = p.parse_stmt_like(Type::GRAMMAR, &handle_import_export)?;
+                    stmts.push(stmt);
+                }
             }
+
             Ok(())
         };
 
@@ -1360,10 +2355,6 @@ impl<I: Tokens> Parser<I> {
         } else {
             parse_stmts(self, &mut stmts)?;
         };
-
-        if self.input().cur() != Token::Eof && end.is_some() {
-            self.bump();
-        }
 
         Ok(stmts)
     }
@@ -2051,7 +3042,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "top level await is only allowed in module")]
+    #[should_panic(expected = "Expected ';', '}' or <eof>")]
     fn top_level_await_in_script() {
         let src = "await promise";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());
@@ -2083,7 +3074,7 @@ export default function waitUntil(callback, options = {}) {
     }
 
     #[test]
-    #[should_panic(expected = "await isn't allowed in non-async function")]
+    #[should_panic(expected = "Expected ';', '}' or <eof>")]
     fn await_in_function_in_script() {
         let src = "function foo (p) { await p; }";
         test_parser(src, Syntax::Es(Default::default()), |p| p.parse_script());

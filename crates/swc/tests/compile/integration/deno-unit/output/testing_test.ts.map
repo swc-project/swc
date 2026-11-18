@@ -1,0 +1,21 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,YAAY,EAAEC,QAAQ,QAAQ,iBAAiB;AAExDA,SAAS,SAASC;IACd,8DAA8D;IAC9DC,KAAKC,IAAI,CAAC,uBAAuB,YAAa;AAClD;AAEAH,SAAS,SAASI;IACdL,aACI;QACIG,KAAKC,IAAI,CAAC,IAAI,YAAO;IACzB,GACAE,WACA;IAEJN,aACI;QACIG,KAAKC,IAAI,CAAC;YACNG,MAAM;YACNC,IAAI,SAAJA,MAAW;QACf;IACJ,GACAF,WACA;AAER",
+  "names": [
+    "assertThrows",
+    "unitTest",
+    "testFnOverloading",
+    "Deno",
+    "test",
+    "nameOfTestCaseCantBeEmpty",
+    "TypeError",
+    "name",
+    "fn"
+  ],
+  "sources": [
+    "../input/testing_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { assertThrows, unitTest } from \"./test_util.ts\";\n\nunitTest(function testFnOverloading(): void {\n    // just verifying that you can use this test definition syntax\n    Deno.test(\"test fn overloading\", (): void => {});\n});\n\nunitTest(function nameOfTestCaseCantBeEmpty(): void {\n    assertThrows(\n        () => {\n            Deno.test(\"\", () => {});\n        },\n        TypeError,\n        \"The test name can't be empty\"\n    );\n    assertThrows(\n        () => {\n            Deno.test({\n                name: \"\",\n                fn: () => {},\n            });\n        },\n        TypeError,\n        \"The test name can't be empty\"\n    );\n});\n"
+  ],
+  "version": 3
+}

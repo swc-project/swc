@@ -3,7 +3,7 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
-    error::Error,
+    error::{Error, SyntaxError},
     lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
     syntax::SyntaxFlags,
     Context,
@@ -22,6 +22,14 @@ pub trait Tokens: Clone {
 
     fn checkpoint_save(&self) -> Self::Checkpoint;
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
+
+    /// Restores a cached lexical boundary inside disposable lookahead while
+    /// preserving the current diagnostics, comments, and captured-token prefix.
+    /// Return false without changing state when this operation is unsupported.
+    #[doc(hidden)]
+    fn try_load_lookahead(&mut self, _checkpoint: Self::Checkpoint) -> bool {
+        false
+    }
 
     fn read_string(&self, span: Span) -> &str;
 
@@ -42,18 +50,48 @@ pub trait Tokens: Clone {
     ///
     /// This errors should be dropped if it's not a module.
     ///
-    /// Implementor should check for if [Context].module, and buffer errors if
-    /// module is false. Also, implementors should move errors to the error
-    /// buffer on set_ctx if the parser mode become module mode.
+    /// Implementors should buffer the error unless [`Context::Module`] is set.
+    /// When `set_ctx` enables module mode, buffered module errors should be
+    /// moved to the main error buffer.
     fn add_module_mode_error(&mut self, error: Error);
 
     fn end_pos(&self) -> BytePos;
 
     fn take_errors(&mut self) -> Vec<Error>;
 
+    /// Returns whether parsing has emitted a non-module-mode error.
+    ///
+    /// Custom token sources which buffer recoverable errors should override
+    /// this together with the diagnostic checkpoint methods.
+    fn has_errors(&self) -> bool {
+        false
+    }
+
+    /// Saves the diagnostic buffer lengths for speculative parsing or a
+    /// whole-program retry.
+    fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
+        (0, 0)
+    }
+
+    /// Discards diagnostics emitted after a parser checkpoint.
+    fn diagnostic_checkpoint_load(&mut self, _checkpoint: (usize, usize)) {}
+
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
     fn take_script_module_errors(&mut self) -> Vec<Error>;
+
+    /// Defers publishing buffered comments while a parse may be rewound.
+    fn set_defer_comments(&mut self, _defer: bool) {}
+
+    /// Temporarily changes comment publication for a disposable probe.
+    /// Implementations without comment publication can leave this unsupported.
+    #[doc(hidden)]
+    fn swap_defer_comments(&mut self, _defer: bool) -> Option<bool> {
+        None
+    }
+
+    /// Publishes all buffered comments after the parser commits a parse.
+    fn finalize_comments(&mut self) {}
     fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags));
     fn token_flags(&self) -> TokenFlags;
 
@@ -77,6 +115,9 @@ pub trait Tokens: Clone {
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan;
     fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan;
+    /// Rewinds a compound greater-than operator to its first `>`, discarding
+    /// any diagnostics and buffered comments produced by later lookahead.
+    fn rescan_type_gt(&mut self, span: Span) -> TokenAndSpan;
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan;
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan;
     fn rescan_template_token(&mut self, start: BytePos, start_with_back_tick: bool)
@@ -123,7 +164,7 @@ impl<I: Tokens> Buffer<I> {
         value
     }
 
-    pub fn expect_jsx_text_token_value(&mut self) -> Atom {
+    pub fn expect_jsx_text_token_value(&mut self) -> Wtf8Atom {
         let Some(crate::lexer::TokenValue::JsxText(value)) = self.iter.take_token_value() else {
             unreachable!()
         };
@@ -190,6 +231,14 @@ impl<I: Tokens> Buffer<I> {
     pub fn rescan_jsx_token(&mut self) {
         let start = self.cur.span.lo;
         let t = self.iter.rescan_jsx_token(start);
+        self.set_cur(t);
+    }
+
+    #[cfg(feature = "tsrx")]
+    pub fn rescan_jsx_token_from(&mut self, start: BytePos) {
+        self.next = None;
+        let t = self.iter.rescan_jsx_token(start);
+        self.prev_span = Span::new_with_checked(start, start);
         self.set_cur(t);
     }
 
@@ -303,13 +352,56 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(first_token);
     }
 
+    #[inline(always)]
+    pub(crate) fn has_escaped_keyword(&self) -> bool {
+        // Keyword tokens only carry a word value when their spelling has escapes.
+        (self.cur().is_keyword() || self.cur().is_known_ident())
+            && matches!(self.get_token_value(), Some(TokenValue::Word(_)))
+    }
+
+    #[inline(always)]
+    pub(crate) fn escaped_keyword_error(&self) -> Option<Error> {
+        if !self.has_escaped_keyword() {
+            return None;
+        }
+        let Some(TokenValue::Word(word)) = self.get_token_value() else {
+            return None;
+        };
+        if !self.cur().is_reserved(self.iter.ctx()) {
+            return None;
+        }
+        Some(Error::new(
+            self.cur.span,
+            SyntaxError::EscapeInReservedWord { word: word.clone() },
+        ))
+    }
+
+    #[inline]
     pub fn bump(&mut self) {
-        let next = match self.next.take() {
-            Some(next) => {
-                self.iter.set_token_value(next.value);
-                next.token_and_span
-            }
-            None => self.iter.next_token(),
+        if self.has_escaped_keyword() {
+            self.report_escaped_keyword();
+        }
+        self.bump_without_escape_check();
+    }
+
+    #[cold]
+    #[inline(never)]
+    fn report_escaped_keyword(&mut self) {
+        if let Some(error) = self.escaped_keyword_error() {
+            self.iter.add_error(error);
+        }
+    }
+
+    /// IdentifierName permits escaped reserved words, unlike keyword syntax.
+    pub(crate) fn bump_without_escape_check(&mut self) {
+        let next = if self.next.is_none() {
+            self.iter.next_token()
+        } else {
+            let Some(next) = self.next.take() else {
+                unreachable!();
+            };
+            self.iter.set_token_value(next.value);
+            next.token_and_span
         };
         self.prev_span = self.cur.span;
         self.set_cur(next);
@@ -317,7 +409,11 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn expect_word_token_and_bump(&mut self) -> Atom {
         let cur = self.cur();
-        let word = cur.take_word(self);
+        let word = if cur == Token::Ident {
+            self.expect_word_token_value()
+        } else {
+            cur.take_word(self)
+        };
         self.bump();
         word
     }
@@ -353,7 +449,7 @@ impl<I: Tokens> Buffer<I> {
 
 impl<I: Tokens> Buffer<I> {
     pub fn had_line_break_before_cur(&self) -> bool {
-        self.get_cur().had_line_break
+        self.cur.had_line_break
     }
 
     /// This returns true on eof.
@@ -375,90 +471,46 @@ impl<I: Tokens> Buffer<I> {
         self.set_cur(token);
     }
 
-    pub fn merge_lt_gt(&mut self) {
-        debug_assert!(
-            self.is(Token::Lt) || self.is(Token::Gt),
-            "parser should only call merge_lt_gt when encountering Less token"
-        );
-        if self.peek().is_none() {
-            return;
+    /// Consumes one type-closing `>`. Rescanning is necessary because the
+    /// suffix may combine with following source, as in `>=>` becoming `=>`.
+    pub fn eat_type_gt(&mut self) -> bool {
+        if self.cur().should_rescan_into_gt_in_jsx() {
+            let had_line_break = self.cur.had_line_break;
+            let mut token = self.iter.rescan_type_gt(self.cur.span);
+            token.had_line_break = had_line_break;
+            self.next = None;
+            self.set_cur(token);
+        } else if self.cur() != Token::Gt {
+            return false;
         }
-        let span = self.cur_span();
-        let next = self.next().unwrap();
-        if span.hi != next.span().lo {
-            return;
-        }
-        let next = self.next_mut().take().unwrap();
-        let cur = self.get_cur();
-        let cur_token = cur.token;
-        let token = if cur_token == Token::Gt {
-            let next_token = next.token();
-            if next_token == Token::Gt {
-                // >>
-                Token::RShift
-            } else if next_token == Token::Eq {
-                // >=
-                Token::GtEq
-            } else if next_token == Token::RShift {
-                // >>>
-                Token::ZeroFillRShift
-            } else if next_token == Token::GtEq {
-                // >>=
-                Token::RShiftEq
-            } else if next_token == Token::RShiftEq {
-                // >>>=
-                Token::ZeroFillRShiftEq
-            } else {
-                self.set_next(Some(next));
-                return;
-            }
-        } else if cur_token == Token::Lt {
-            let next_token = next.token();
-            if next_token == Token::Lt {
-                // <<
-                Token::LShift
-            } else if next_token == Token::Eq {
-                // <=
-                Token::LtEq
-            } else if next_token == Token::LtEq {
-                // <<=
-                Token::LShiftEq
-            } else {
-                self.set_next(Some(next));
-                return;
-            }
-        } else {
-            self.set_next(Some(next));
-            return;
-        };
-        let span = span.with_hi(next.span().hi);
-        let token = TokenAndSpan::new(token, span, cur.had_line_break);
-        self.set_cur(token);
+        self.bump();
+        true
     }
 
     #[inline(always)]
     pub fn is(&self, expected: Token) -> bool {
-        self.cur() == expected
+        self.cur.token == expected
     }
 
     #[inline(always)]
     pub fn eat(&mut self, expected: Token) -> bool {
-        let v = self.is(expected);
-        if v {
+        if self.cur.token == expected {
             self.bump();
+            true
+        } else {
+            false
         }
-        v
     }
 
     /// Returns start of current token.
     #[inline]
     pub fn cur_pos(&self) -> BytePos {
-        self.get_cur().span.lo
+        self.cur.span.lo
     }
 
     #[inline]
     pub fn cur_span(&self) -> Span {
-        self.get_cur().span
+        self.cur.span
     }
 
     #[inline]
@@ -470,7 +522,7 @@ impl<I: Tokens> Buffer<I> {
     /// Returns last byte position of previous token.
     #[inline]
     pub fn last_pos(&self) -> BytePos {
-        self.prev_span().hi
+        self.prev_span.hi
     }
 
     #[inline]

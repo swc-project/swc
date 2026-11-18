@@ -27,7 +27,10 @@ class Foo {
             ]
         ], []));
     }
-    #__a_1 = (_initProto(this), _init_a(this));
+    constructor(){
+        _initProto(this);
+    }
+    #__a_1 = _init_a(this);
     get #a() {
         return _get___a(this);
     }

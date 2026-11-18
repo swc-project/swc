@@ -1,0 +1,5 @@
+  x Expected '(', got 'await'
+   ,-[$DIR/tests/flow-errors/top-level-for-await/input.script.js:1:1]
+ 1 | for await (const x of y) {}
+   :     ^^^^^
+   `----

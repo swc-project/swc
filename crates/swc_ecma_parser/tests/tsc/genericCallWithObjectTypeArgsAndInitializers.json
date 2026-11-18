@@ -84,12 +84,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 77,
           "end": 90
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -227,12 +226,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 132,
           "end": 145
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "ReturnStatement",
@@ -369,12 +367,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 194,
           "end": 197
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -554,12 +551,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 253,
           "end": 256
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -761,12 +757,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 312,
           "end": 315
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1011,12 +1006,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 387,
           "end": 390
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1257,12 +1251,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 459,
           "end": 462
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

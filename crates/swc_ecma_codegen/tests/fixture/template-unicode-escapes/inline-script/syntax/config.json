@@ -1,0 +1,5 @@
+{
+    "inline_script": true,
+    "exec": true,
+    "source_map": true
+}

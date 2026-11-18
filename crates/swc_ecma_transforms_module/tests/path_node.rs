@@ -1,4 +1,5 @@
 use std::{
+    fs::{create_dir_all, write},
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -13,6 +14,7 @@ use swc_ecma_transforms_module::{
     rewriter::import_rewriter,
 };
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
+use tempfile::tempdir;
 use testing::run_test2;
 
 type TestProvider = NodeImportResolver<NodeModulesResolver>;
@@ -72,7 +74,7 @@ fn issue_4730() {
 
             let rules = paths.into_iter().collect();
 
-            let resolver = paths_resolver(&input_dir, rules);
+            let resolver = paths_resolver(&input_dir, rules, true);
 
             import_rewriter(
                 FileName::Real(input_dir.join("src").join("index.js")),
@@ -90,25 +92,242 @@ fn issue_4730() {
 
 type JscPathsProvider = NodeImportResolver<TsConfigResolver<NodeModulesResolver>>;
 
-fn paths_resolver(base_dir: &Path, rules: Vec<(String, Vec<String>)>) -> JscPathsProvider {
+fn paths_resolver(
+    base_dir: &Path,
+    rules: Vec<(String, Vec<String>)>,
+    resolve_fully: bool,
+) -> JscPathsProvider {
+    paths_resolver_with_options(base_dir, rules, resolve_fully, false)
+}
+
+fn paths_resolver_with_options(
+    base_dir: &Path,
+    rules: Vec<(String, Vec<String>)>,
+    resolve_fully: bool,
+    preserve_symlinks: bool,
+) -> JscPathsProvider {
     let base_dir = base_dir
         .to_path_buf()
         .canonicalize()
         .expect("failed to canonicalize");
     dbg!(&base_dir);
 
-    NodeImportResolver::with_config(
-        TsConfigResolver::new(
-            NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
-            base_dir.clone(),
-            rules,
-        ),
-        swc_ecma_transforms_module::path::Config {
-            base_dir: Some(base_dir),
-            resolve_fully: true,
-            file_extension: swc_ecma_transforms_module::util::Config::default_js_ext(),
-        },
+    let resolver = TsConfigResolver::new(
+        NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
+        base_dir.clone(),
+        rules,
+    );
+    let config = swc_ecma_transforms_module::path::Config {
+        base_dir: Some(base_dir),
+        resolve_fully,
+        file_extension: swc_ecma_transforms_module::util::Config::default_js_ext(),
+    };
+
+    if preserve_symlinks {
+        NodeImportResolver::with_config_preserving_symlinks(resolver, config)
+    } else {
+        NodeImportResolver::with_config(resolver, config)
+    }
+}
+
+#[test]
+fn symlink_paths_are_preserved_only_when_opted_in() {
+    let sandbox = tempdir().unwrap();
+    let root = sandbox.path();
+
+    create_dir_all(root.join("src")).unwrap();
+    create_dir_all(root.join("shared")).unwrap();
+    create_dir_all(root.join("server")).unwrap();
+
+    write(root.join("src/index.ts"), "import \"../server/source\";\n").unwrap();
+    write(root.join("shared/source.ts"), "export const value = 1;\n").unwrap();
+    create_symlink(
+        &root.join("shared/source.ts"),
+        &root.join("server/source.ts"),
+    );
+
+    let base = FileName::Real(root.join("src/index.ts").canonicalize().unwrap());
+
+    // Keep the original extensionless specifier so the assertion focuses on
+    // symlink preservation instead of extension rewriting.
+    let default_resolver = paths_resolver_with_options(root, Vec::new(), false, false);
+    let preserve_symlinks_resolver = paths_resolver_with_options(root, Vec::new(), false, true);
+
+    let default_resolved = default_resolver
+        .resolve_import(&base, "../server/source")
+        .unwrap();
+    let preserve_symlinks_resolved = preserve_symlinks_resolver
+        .resolve_import(&base, "../server/source")
+        .unwrap();
+
+    assert_eq!(&*default_resolved, "../shared/source");
+    assert_eq!(&*preserve_symlinks_resolved, "../server/source");
+}
+
+#[test]
+fn issue_11880_preserve_symlinks_uses_cwd_for_relative_input_filename() {
+    let cwd = std::env::current_dir().unwrap();
+    let sandbox = tempfile::tempdir_in(&cwd).unwrap();
+    let root = sandbox.path();
+
+    create_dir_all(root.join("apis")).unwrap();
+    create_dir_all(root.join("bazel-out/apis")).unwrap();
+    create_dir_all(root.join("foo-app/src")).unwrap();
+    create_dir_all(root.join("bazel-out/foo-app/src")).unwrap();
+
+    write(
+        root.join("apis/auth.ts"),
+        "export const hello = () => 'hello';\n",
     )
+    .unwrap();
+    write(
+        root.join("foo-app/src/app.ts"),
+        "import { hello } from '#/apis/auth';\nexport const greet = () => hello();\n",
+    )
+    .unwrap();
+
+    create_symlink(
+        &root.join("apis/auth.ts"),
+        &root.join("bazel-out/apis/auth.ts"),
+    );
+    create_symlink(
+        &root.join("foo-app/src/app.ts"),
+        &root.join("bazel-out/foo-app/src/app.ts"),
+    );
+
+    let resolver = paths_resolver_with_options(
+        &root.join("bazel-out/foo-app"),
+        vec![("#/apis/*".into(), vec!["../apis/*".into()])],
+        false,
+        true,
+    );
+    let relative_input = root
+        .join("bazel-out/foo-app/src/app.ts")
+        .strip_prefix(&cwd)
+        .unwrap()
+        .to_path_buf();
+
+    let resolved = resolver
+        .resolve_import(&FileName::Real(relative_input), "#/apis/auth")
+        .unwrap();
+
+    assert_eq!(&*resolved, "../../apis/auth");
+}
+
+/// `jsc.paths` mapping to a missing file with a relative input filename and
+/// `jsc.preserveSymlinks`.
+///
+/// https://github.com/swc-project/swc/issues/12668
+#[test]
+fn issue_12668_preserve_symlinks_missing_paths_target_with_relative_input() {
+    let cwd = std::env::current_dir().unwrap();
+    let sandbox = tempfile::tempdir_in(&cwd).unwrap();
+    let root = sandbox.path();
+
+    // `src/modules` intentionally does not exist.
+    create_dir_all(root.join("src")).unwrap();
+    write(
+        root.join("src/index.ts"),
+        "import { moduleA } from '@modules/moduleA';\n",
+    )
+    .unwrap();
+
+    let relative_input = root
+        .join("src/index.ts")
+        .strip_prefix(&cwd)
+        .unwrap()
+        .to_path_buf();
+
+    for preserve_symlinks in [false, true] {
+        let resolver = paths_resolver_with_options(
+            &root.join("src"),
+            vec![("@modules/*".into(), vec!["./modules/*".into()])],
+            false,
+            preserve_symlinks,
+        );
+
+        let resolved = resolver
+            .resolve_import(&FileName::Real(relative_input.clone()), "@modules/moduleA")
+            .unwrap();
+
+        assert_eq!(
+            &*resolved, "./modules/moduleA",
+            "preserve_symlinks={preserve_symlinks}"
+        );
+    }
+}
+
+#[test]
+fn mixed_relative_target_cleans_absolute_base_path() {
+    let cwd = std::env::current_dir().unwrap();
+    let sandbox = tempfile::tempdir_in(&cwd).unwrap();
+    let root = sandbox.path();
+
+    create_dir_all(root.join("bazel-out/foo-app/src")).unwrap();
+    write(
+        root.join("bazel-out/foo-app/src/app.ts"),
+        "import { hello } from '#/apis/auth';\n",
+    )
+    .unwrap();
+
+    let resolver = paths_resolver_with_options(
+        &root.join("bazel-out/foo-app"),
+        vec![("#/apis/*".into(), vec!["../apis/*".into()])],
+        false,
+        true,
+    );
+    let base = root.join("bazel-out/foo-app/src/../src/app.ts");
+
+    let resolved = resolver
+        .resolve_import(&FileName::Real(base), "#/apis/auth")
+        .unwrap();
+
+    assert_eq!(&*resolved, "../../apis/auth");
+}
+
+#[test]
+fn mixed_absolute_target_cleans_target_path() {
+    let cwd = std::env::current_dir().unwrap();
+    let sandbox = tempfile::tempdir_in(&cwd).unwrap();
+    let root = sandbox.path();
+
+    create_dir_all(root.join("bazel-out/foo-app/src")).unwrap();
+    write(
+        root.join("bazel-out/foo-app/src/app.ts"),
+        "import { hello } from '#/apis/auth';\n",
+    )
+    .unwrap();
+
+    let target = root.join("bazel-out/apis/../apis/*").display().to_string();
+    let resolver = paths_resolver_with_options(
+        &root.join("bazel-out/foo-app"),
+        vec![("#/apis/*".into(), vec![target])],
+        false,
+        true,
+    );
+    let relative_input = root
+        .join("bazel-out/foo-app/src/app.ts")
+        .strip_prefix(&cwd)
+        .unwrap()
+        .to_path_buf();
+
+    let resolved = resolver
+        .resolve_import(&FileName::Real(relative_input), "#/apis/auth")
+        .unwrap();
+
+    assert_eq!(&*resolved, "../../apis/auth");
+}
+
+fn create_symlink(a: &Path, b: &Path) {
+    #[cfg(unix)]
+    {
+        std::os::unix::fs::symlink(a, b).unwrap();
+    }
+
+    #[cfg(windows)]
+    {
+        std::os::windows::fs::symlink_file(a, b).unwrap();
+    }
 }
 
 #[derive(Deserialize)]
@@ -122,6 +341,13 @@ struct TestConfig {
 
     #[serde(default)]
     paths: IndexMap<String, Vec<String>>,
+
+    #[serde(default = "default_resolve_fully")]
+    resolve_fully: bool,
+}
+
+fn default_resolve_fully() -> bool {
+    true
 }
 
 #[testing::fixture("tests/paths/**/input")]
@@ -145,7 +371,7 @@ fn fixture(input_dir: PathBuf) {
         &|_| {
             let rules = config.paths.clone().into_iter().collect();
 
-            let resolver = paths_resolver(&base_dir, rules);
+            let resolver = paths_resolver(&base_dir, rules, config.resolve_fully);
 
             import_rewriter(FileName::Real(index_path.clone()), Arc::new(resolver))
         },

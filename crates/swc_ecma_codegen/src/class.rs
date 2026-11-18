@@ -5,7 +5,10 @@ use swc_ecma_codegen_macros::node_impl;
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 use crate::{
-    text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
+    scope_helpers::{for_each_constructor_param_binding, for_each_param_binding},
+    text_writer::{BindingStorage, ScopeKind, WriteJs},
+    util::StartsWithAlphaNum,
+    Emitter, ExprPrecedence, ListFormat, Result, SourceMapperExt,
 };
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
@@ -14,21 +17,17 @@ where
     S: SourceMapperExt,
 {
     pub fn emit_class_trailing(&mut self, node: &Class) -> Result {
-        if node.super_class.is_some() {
+        if let Some(super_class) = &node.super_class {
             space!(self);
             keyword!(self, "extends");
 
-            {
-                let starts_with_alpha_num =
-                    node.super_class.as_ref().unwrap().starts_with_alpha_num();
-
-                if starts_with_alpha_num {
-                    space!(self);
-                } else {
-                    formatting_space!(self)
-                }
+            if self.expr_starts_with_alpha_num_after_codegen(super_class, ExprPrecedence::POSTFIX) {
+                space!(self);
+            } else {
+                formatting_space!(self)
             }
-            emit!(self, node.super_class);
+
+            self.emit_expr_with_precedence(super_class, ExprPrecedence::POSTFIX)?;
             emit!(self, node.super_type_params);
         }
 
@@ -91,21 +90,19 @@ impl MacroNode for ClassExpr {
 #[node_impl]
 impl MacroNode for Class {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        if self.super_class.is_some() {
+        if let Some(super_class) = &self.super_class {
             space!(emitter);
             keyword!(emitter, "extends");
 
+            if emitter
+                .expr_starts_with_alpha_num_after_codegen(super_class, ExprPrecedence::POSTFIX)
             {
-                let starts_with_alpha_num =
-                    self.super_class.as_ref().unwrap().starts_with_alpha_num();
-
-                if starts_with_alpha_num {
-                    space!(emitter);
-                } else {
-                    formatting_space!(emitter)
-                }
+                space!(emitter);
+            } else {
+                formatting_space!(emitter)
             }
-            emit!(self.super_class);
+
+            emitter.emit_expr_with_precedence(super_class, ExprPrecedence::POSTFIX)?;
             emit!(self.super_type_params);
         }
 
@@ -225,6 +222,22 @@ impl MacroNode for PrivateMethod {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter.start_scope(
+            None,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        if emitter.scope_tracking_enabled() {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         if self.is_static {
             keyword!(emitter, "static");
@@ -259,6 +272,7 @@ impl MacroNode for PrivateMethod {
         }
 
         emitter.emit_fn_trailing(&self.function)?;
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -272,6 +286,22 @@ impl MacroNode for ClassMethod {
         emitter.emit_leading_comments_of_span(self.key.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter.start_scope(
+            None,
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.function.span),
+        )?;
+        if emitter.scope_tracking_enabled() {
+            let mut names = vec![];
+            for_each_param_binding(&self.function.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         for d in &self.function.decorators {
             emit!(d);
@@ -361,14 +391,7 @@ impl MacroNode for ClassMethod {
             emit!(type_params);
         }
 
-        punct!(emitter, "(");
-        emitter.emit_list(
-            self.function.span,
-            Some(&self.function.params),
-            ListFormat::CommaListElements,
-        )?;
-
-        punct!(emitter, ")");
+        emitter.emit_fn_params(&self.function)?;
 
         if let Some(ty) = &self.function.return_type {
             punct!(emitter, ":");
@@ -382,6 +405,7 @@ impl MacroNode for ClassMethod {
         } else {
             formatting_semi!(emitter)
         }
+        emitter.end_scope()?;
 
         Ok(())
     }
@@ -530,6 +554,22 @@ impl MacroNode for Constructor {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
+        emitter.start_scope(
+            Some("constructor"),
+            ScopeKind::Function,
+            true,
+            false,
+            Some(self.span()),
+        )?;
+        if emitter.scope_tracking_enabled() {
+            let mut names = vec![];
+            for_each_constructor_param_binding(&self.params, &mut |name| {
+                names.push(name.to_string())
+            });
+            for name in names {
+                emitter.add_scope_variable(&name, Some(&name), BindingStorage::Lexical)?;
+            }
+        }
 
         emitter.emit_accessibility(self.accessibility)?;
 
@@ -543,6 +583,7 @@ impl MacroNode for Constructor {
         } else {
             formatting_semi!(emitter);
         }
+        emitter.end_scope()?;
 
         Ok(())
     }

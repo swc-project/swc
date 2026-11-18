@@ -21,7 +21,9 @@ impl Pure<'_> {
         }
 
         if let Some(VarDeclOrExpr::Expr(e)) = init {
-            self.make_bool_short(e, false, true);
+            if super::bools::may_make_bool_short(e) {
+                self.make_bool_short(e, false, true);
+            }
         }
     }
 
@@ -38,7 +40,9 @@ impl Pure<'_> {
                 return;
             }
 
-            self.make_bool_short(e, false, true);
+            if super::bools::may_make_bool_short(e) {
+                self.make_bool_short(e, false, true);
+            }
         }
     }
 
@@ -117,73 +121,72 @@ impl Pure<'_> {
             return None;
         }
 
-        if let Stmt::Block(body) = &mut *s.body {
-            let first = body.stmts.get_mut(0)?;
+        let first = if let Stmt::Block(b) = &mut *s.body {
+            b.stmts.first_mut()?
+        } else {
+            &mut *s.body
+        };
 
-            if let Stmt::If(IfStmt {
-                span,
-                test,
-                cons,
-                alt: None,
-                ..
-            }) = first
-            {
-                if let Stmt::Break(BreakStmt { label: None, .. }) = &**cons {
-                    self.negate(test, false, false);
+        if let Stmt::If(IfStmt {
+            span,
+            test,
+            cons,
+            alt,
+            ..
+        }) = first
+        {
+            if let Stmt::Break(BreakStmt { label: None, .. }) = &**cons {
+                self.negate(test, false, false);
 
-                    match s.test.as_deref_mut() {
-                        Some(e) => {
-                            let orig_test = e.take();
-                            *e = BinExpr {
-                                span: *span,
-                                op: op!("&&"),
-                                left: Box::new(orig_test),
-                                right: test.take(),
-                            }
-                            .into();
-                        }
-                        None => {
-                            s.test = Some(test.take());
-                        }
+                if let Some(e) = s.test.as_deref_mut() {
+                    let orig_test = e.take();
+                    *e = BinExpr {
+                        span: *span,
+                        op: op!("&&"),
+                        left: Box::new(orig_test),
+                        right: test.take(),
                     }
-
-                    report_change!("loops: Optimizing a for loop with an if-then-break");
-
-                    first.take();
-                    return None;
+                    .into();
+                } else {
+                    s.test = Some(test.take());
                 }
+
+                report_change!("loops: Optimizing a for loop with an if-then-break");
+
+                *first = *(alt.take().unwrap_or_default());
+                return None;
             }
+        }
 
-            if let Stmt::If(IfStmt {
-                span,
-                test,
-                cons,
-                alt: Some(alt),
-                ..
-            }) = first
-            {
-                if let Stmt::Break(BreakStmt { label: None, .. }) = &**alt {
-                    match s.test.as_deref_mut() {
-                        Some(e) => {
-                            let orig_test = e.take();
-                            *e = BinExpr {
-                                span: *span,
-                                op: op!("&&"),
-                                left: Box::new(orig_test),
-                                right: test.take(),
-                            }
-                            .into();
+        if let Stmt::If(IfStmt {
+            span,
+            test,
+            cons,
+            alt: Some(alt),
+            ..
+        }) = first
+        {
+            if let Stmt::Break(BreakStmt { label: None, .. }) = &**alt {
+                match s.test.as_deref_mut() {
+                    Some(e) => {
+                        let orig_test = e.take();
+                        *e = BinExpr {
+                            span: *span,
+                            op: op!("&&"),
+                            left: Box::new(orig_test),
+                            right: test.take(),
                         }
-                        None => {
-                            s.test = Some(test.take());
-                        }
+                        .into();
                     }
-
-                    report_change!("loops: Optimizing a for loop with an if-else-break");
-
-                    *first = *cons.take();
-                    return None;
+                    None => {
+                        s.test = Some(test.take());
+                    }
                 }
+
+                report_change!("loops: Optimizing a for loop with an if-else-break");
+
+                *first = *cons.take();
+                return None;
             }
         }
 
@@ -260,7 +263,11 @@ impl Pure<'_> {
             Stmt::DoWhile(stmt) => {
                 let val = stmt.test.as_pure_bool(self.expr_ctx);
                 if let Value::Known(false) = val {
-                    if should_not_inline_loop_body(&stmt.body, true) {
+                    // A direct break or continue targets this loop and cannot survive
+                    // unwrapping. Even removing a terminal jump along with the loop
+                    // can expose its ancestors to unsafe purity or directive
+                    // simplifications, including during a later minification.
+                    if should_not_inline_loop_body(&stmt.body) {
                         return;
                     }
 
@@ -302,33 +309,23 @@ fn optimize_loop_body(loop_body: &mut Stmt) {
     }
 }
 
-fn should_not_inline_loop_body(s: &Stmt, allow_break_continue: bool) -> bool {
+fn should_not_inline_loop_body(s: &Stmt) -> bool {
     match s {
-        Stmt::Block(s) => s
-            .stmts
-            .iter()
-            .any(|s| should_not_inline_loop_body(s, allow_break_continue)),
+        Stmt::Block(s) => s.stmts.iter().any(should_not_inline_loop_body),
 
         Stmt::If(s) => {
-            should_not_inline_loop_body(&s.cons, false)
+            should_not_inline_loop_body(&s.cons)
                 || s.alt
                     .as_deref()
-                    .map(|s| should_not_inline_loop_body(s, false))
+                    .map(should_not_inline_loop_body)
                     .unwrap_or_default()
         }
         Stmt::Switch(s) => s
             .cases
             .iter()
-            .any(|c| c.cons.iter().any(|s| should_not_inline_loop_body(s, false))),
+            .any(|c| c.cons.iter().any(should_not_inline_loop_body)),
 
-        Stmt::Continue(ContinueStmt {
-            label: Some(..), ..
-        })
-        | Stmt::Break(BreakStmt {
-            label: Some(..), ..
-        }) => true,
-
-        Stmt::Break(..) | Stmt::Continue(..) => !allow_break_continue,
+        Stmt::Break(..) | Stmt::Continue(..) => true,
 
         Stmt::Return(..)
         | Stmt::Throw(..)

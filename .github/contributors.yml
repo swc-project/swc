@@ -1,0 +1,39 @@
+# All groups grant the same access. Add GitHub usernames, not organization names.
+groups:
+  individuals:
+    - alexander-akait
+    - ArturAralin
+    - baltasarblanco
+    - blueavee
+    - CodeMan62
+    - cuyl
+    - devongovett
+    - dsherret
+    - g-plane
+    - GiveMe-A-Name
+    - gmcsorley-work
+    - h-a-n-a
+    - hyfdev
+    - IWANABETHATGUY
+    - jdalton
+    - jridgewell
+    - nayeemrmn
+    - quininer
+    - RiESAEX
+    - SoonIter
+    - sosukesuzuki
+    - SukkaW
+  nextjs: # Next.js and Turbopack contributors.
+    - jimmyhmiller
+    - lukesandberg
+    - mischnic
+    - wbinnssmith
+  react: # React contributors.
+    - vjeux
+  rspack:
+    - chenjiahan
+    - hardfist
+    - LingyuCoder
+    - SyMind
+  tsrx: # TSRX contributors; see #12120.
+    - trueadm

@@ -1,0 +1,9 @@
+{
+    "exclude": "vendor/",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "externalHelpers": false
+    }
+}

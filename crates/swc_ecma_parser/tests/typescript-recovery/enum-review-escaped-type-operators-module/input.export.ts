@@ -1,0 +1,19 @@
+export {};
+enum E {
+    AwaitAsIn = await a\u0073 in values,
+    AwaitSatisfiesIn = await satisfie\u0073 in values,
+    AwaitAsType = await a\u0073 as number,
+    AwaitSatisfiesType = await satisfie\u0073 satisfies number,
+    AwaitAsExtended = await a\u{73} as number,
+    AwaitSatisfiesExtended = await satisfie\u{73} satisfies number,
+    AwaitAsLeading = await \u0061s as number,
+    AwaitAsGrouped = (await a\u0073 as number),
+    YieldAsIn = yield a\u0073 in values,
+    YieldSatisfiesIn = yield satisfie\u0073 in values,
+    YieldAsType = yield a\u0073 as number,
+    YieldSatisfiesType = yield satisfie\u0073 satisfies number,
+    YieldAsExtended = yield a\u{73} as number,
+    YieldSatisfiesExtended = yield satisfie\u{73} satisfies number,
+    YieldAsLeading = yield \u0061s as number,
+    YieldAsGrouped = (yield a\u0073 as number),
+}

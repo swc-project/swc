@@ -1,0 +1,56 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":5}},
+      "message":"Unexpected token `class`, expected the keyword `as`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":5}},
+      "message":"Unexpected token `class`, expected the keyword `from`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":10}},
+  "range":[0,19],
+  "body":[
+    {
+      "type":"ImportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
+      "range":[0,8],
+      "specifiers":[],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":8}},
+        "range":[8,8],
+        "value":"",
+        "raw":""
+      },
+      "importKind":"value"
+    },
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":10}},
+      "range":[9,19],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":7}},
+        "range":[15,16],
+        "name":"X",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":10}},
+        "range":[17,19],
+        "body":[]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    }
+  ],
+  "comments":[]
+}

@@ -2,6 +2,7 @@
 /* eslint-disable */
 export declare function getTargetTriple(): string
 
+/** @deprecated Trace profiling is disabled. This function is kept as a no-op for compatibility. */
 export declare function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 
 export declare function minify(code: Buffer, opts: Buffer, extras: NapiMinifyExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
@@ -18,6 +19,7 @@ export interface TransformOutput {
   code: string
   map?: string
   output?: string
+  extractedComments?: Array<string>
   diagnostics: Array<string>
 }
 
@@ -26,4 +28,3 @@ export interface TransformOutput {
   code: string
   map?: string
 }
-

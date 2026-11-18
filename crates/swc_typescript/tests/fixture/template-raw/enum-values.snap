@@ -1,0 +1,9 @@
+```==================== .D.TS ====================
+
+export declare enum Values {
+    Plain = "A",
+    Interpolated = "\nA\\",
+    Number = "😀42\uD800"
+}
+
+

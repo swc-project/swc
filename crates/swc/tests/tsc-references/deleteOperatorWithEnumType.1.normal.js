@@ -13,7 +13,7 @@ var ENUM1 = /*#__PURE__*/ function(ENUM1) {
 var ResultIsBoolean1 = delete ENUM;
 var ResultIsBoolean2 = delete ENUM1;
 // enum type expressions
-var ResultIsBoolean3 = delete 0;
+var ResultIsBoolean3 = delete ENUM1["A"];
 var ResultIsBoolean4 = delete (ENUM[0] + 1);
 // multiple delete  operators
 var ResultIsBoolean5 = delete delete ENUM;
@@ -21,5 +21,5 @@ var ResultIsBoolean6 = delete delete delete (ENUM[0] + 1);
 // miss assignment operators
 delete ENUM;
 delete ENUM1;
-delete 1;
+delete ENUM1.B;
 delete ENUM, ENUM1;

@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "useBuiltins": true
+            }
+        },
+        "minify": {
+            "compress": {
+                "toplevel": true
+            },
+            "toplevel": true
+        }
+    }
+}

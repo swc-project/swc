@@ -1,0 +1,4 @@
+// @flow
+match (kind) {
+  | 'start' | => {}
+}

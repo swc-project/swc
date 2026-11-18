@@ -30,9 +30,9 @@ D.classExprBoundary = function _class() {
     this.a = _get(_get_prototype_of(_class.prototype), "f", this) + 3;
 };
 D.functionAndClassDeclBoundary = function() {
-    var foo = function foo() {
+    function foo() {
         return _get(_get_prototype_of(D), "f", this) + 4;
-    };
+    }
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {

@@ -1,0 +1,4 @@
+function f() {
+    debugger;
+}
+debugger;

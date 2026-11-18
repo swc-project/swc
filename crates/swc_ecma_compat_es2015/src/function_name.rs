@@ -18,7 +18,5 @@ use swc_ecma_ast::Pass;
 /// var Foo = (class Foo {});
 /// ```
 pub fn function_name() -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.env.es2015.function_name = true;
-    options.into_pass()
+    swc_ecma_transformer::es2015_function_name()
 }

@@ -1,0 +1,24 @@
+export {};
+
+(!f<T>) + other;
+(+f<T>) - other;
+(-f<T>) + other;
+(~f<T>) > other;
+(++f<T>) > other;
+(--f<T>) - other;
+(++f<T>) > 1;
+(--f<T>) >= other++;
+(++f<T>) < 1;
+(typeof f<T>) - other;
+(void f<T>) + other;
+(await f<T>) + other;
+(await f<T>) ** other;
+(left * f<T>) > other;
+(left * f<T>) + other;
+(left * f<T> * other) > value;
+(left + f<T> * other) - value;
+(left * (await f<T>)) >= other;
+(left * +f<T>) > other;
+(left ** f<T>) + other;
+(left * f<T>) ** other;
+((await f<T>) ** other) + value;

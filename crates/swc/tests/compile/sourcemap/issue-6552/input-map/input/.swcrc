@@ -1,0 +1,7 @@
+{
+    "sourceMaps": true,
+    "module": {
+        "type": "commonjs"
+    },
+    "minify": true
+}

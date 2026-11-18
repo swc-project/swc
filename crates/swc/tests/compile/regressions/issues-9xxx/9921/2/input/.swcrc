@@ -1,0 +1,8 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "experimental": {
+            "disableBuiltinTransformsForInternalTesting": true,
+        }
+    }
+}

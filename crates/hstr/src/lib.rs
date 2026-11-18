@@ -6,7 +6,7 @@ use std::{
     borrow::Borrow,
     fmt::{Debug, Display},
     hash::Hash,
-    mem::{self, forget, transmute, ManuallyDrop},
+    mem::{forget, transmute, ManuallyDrop},
     num::NonZeroU8,
     ops::Deref,
     str::from_utf8_unchecked,
@@ -17,7 +17,7 @@ use once_cell::sync::Lazy;
 
 pub use crate::dynamic::{global_atom_store_gc, AtomStore};
 use crate::{
-    macros::{get_hash, impl_from_alias, partial_eq},
+    macros::{get_hash, impl_from_alias},
     tagged_value::TaggedValue,
 };
 
@@ -221,11 +221,12 @@ impl Atom {
 
 impl Atom {
     fn from_mutated_str<F: FnOnce(&mut str)>(s: &str, f: F) -> Self {
-        let mut buffer = mem::MaybeUninit::<[u8; 64]>::uninit();
-        let buffer = unsafe { &mut *buffer.as_mut_ptr() };
+        let mut buffer = [0u8; 64];
 
         if let Some(buffer_prefix) = buffer.get_mut(..s.len()) {
             buffer_prefix.copy_from_slice(s.as_bytes());
+            // SAFETY: `buffer_prefix` was just initialized from `s`, which is
+            // valid UTF-8. `f` receives a `str`, so it must preserve UTF-8.
             let as_str = unsafe { ::std::str::from_utf8_unchecked_mut(buffer_prefix) };
             f(as_str);
             Atom::from(&*as_str)
@@ -266,6 +267,7 @@ impl Atom {
         get_hash!(self)
     }
 
+    #[inline]
     fn as_str(&self) -> &str {
         match self.tag() {
             DYNAMIC_TAG => unsafe {
@@ -297,13 +299,37 @@ impl Atom {
 }
 
 impl PartialEq for Atom {
-    #[inline(never)]
+    #[inline]
     fn eq(&self, other: &Self) -> bool {
-        partial_eq!(self, other);
+        let unsafe_data = self.unsafe_data;
+        let other_unsafe_data = other.unsafe_data;
 
-        // If the store is different, the string may be the same, even though the
-        // `unsafe_data` is different
-        self.as_str() == other.as_str()
+        if unsafe_data == other_unsafe_data {
+            return true;
+        }
+
+        let tag = unsafe_data.tag() & TAG_MASK;
+
+        if tag != (other_unsafe_data.tag() & TAG_MASK) {
+            return false;
+        }
+
+        match tag {
+            // Inline atoms encode both their length and bytes in `unsafe_data`, so
+            // different raw values mean different strings.
+            INLINE_TAG => false,
+            DYNAMIC_TAG => {
+                let this = unsafe { crate::dynamic::deref_from(unsafe_data) };
+                let other = unsafe { crate::dynamic::deref_from(other_unsafe_data) };
+
+                if this.header.header.hash != other.header.header.hash {
+                    return false;
+                }
+
+                this.slice == other.slice
+            }
+            _ => unsafe { debug_unreachable!() },
+        }
     }
 }
 
@@ -381,39 +407,6 @@ impl Borrow<Wtf8Atom> for Atom {
         const _: () = assert!(std::mem::size_of::<Atom>() == std::mem::size_of::<Wtf8Atom>());
         const _: () = assert!(std::mem::align_of::<Atom>() == std::mem::align_of::<Wtf8Atom>());
         unsafe { transmute::<&Atom, &Wtf8Atom>(self) }
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv")]
-impl rkyv::Archive for Atom {
-    type Archived = rkyv::string::ArchivedString;
-    type Resolver = rkyv::string::StringResolver;
-
-    #[allow(clippy::unit_arg)]
-    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        rkyv::string::ArchivedString::resolve_from_str(self, pos, resolver, out)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv")]
-impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
-    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        String::serialize(&self.to_string(), serializer)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv")]
-impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
-where
-    D: ?Sized + rkyv::Fallible,
-{
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
-        let s: String = self.deserialize(deserializer)?;
-
-        Ok(Atom::new(s))
     }
 }
 

@@ -7,8 +7,22 @@ use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
 use super::Pure;
 use crate::{
     compress::util::{can_absorb_negate, is_eq, is_pure_undefined, negate, negate_cost},
-    util::make_bool,
+    util::{is_falsy_number, make_bool},
 };
+
+#[inline(always)]
+pub(super) fn may_make_bool_short(e: &Expr) -> bool {
+    matches!(
+        e,
+        Expr::Cond(..)
+            | Expr::Bin(..)
+            | Expr::Unary(UnaryExpr { op: op!("!"), .. })
+            | Expr::Array(..)
+            | Expr::Call(..)
+            | Expr::Seq(..)
+            | Expr::Assign(..)
+    )
+}
 
 impl Pure<'_> {
     pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
@@ -48,9 +62,15 @@ impl Pure<'_> {
     ) {
         match e {
             Expr::Cond(cond) => {
-                self.make_bool_short(&mut cond.test, true, false);
-                self.make_bool_short(&mut cond.cons, in_bool_ctx, ignore_return_value);
-                self.make_bool_short(&mut cond.alt, in_bool_ctx, ignore_return_value);
+                if may_make_bool_short(&cond.test) {
+                    self.make_bool_short(&mut cond.test, true, false);
+                }
+                if may_make_bool_short(&cond.cons) {
+                    self.make_bool_short(&mut cond.cons, in_bool_ctx, ignore_return_value);
+                }
+                if may_make_bool_short(&cond.alt) {
+                    self.make_bool_short(&mut cond.alt, in_bool_ctx, ignore_return_value);
+                }
 
                 if negate_cost(self.expr_ctx, &cond.test, true, false) >= 0 {
                     return;
@@ -66,8 +86,12 @@ impl Pure<'_> {
                 right,
                 ..
             }) => {
-                self.make_bool_short(left, in_bool_ctx, false);
-                self.make_bool_short(right, in_bool_ctx, ignore_return_value);
+                if may_make_bool_short(left) {
+                    self.make_bool_short(left, in_bool_ctx, false);
+                }
+                if may_make_bool_short(right) {
+                    self.make_bool_short(right, in_bool_ctx, ignore_return_value);
+                }
 
                 if in_bool_ctx {
                     match *op {
@@ -103,32 +127,44 @@ impl Pure<'_> {
             }
 
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.make_bool_short(left, false, false);
-                self.make_bool_short(right, false, false);
+                if may_make_bool_short(left) {
+                    self.make_bool_short(left, false, false);
+                }
+                if may_make_bool_short(right) {
+                    self.make_bool_short(right, false, false);
+                }
                 return;
             }
 
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
-                self.make_bool_short(arg, true, ignore_return_value);
+                if may_make_bool_short(arg) {
+                    self.make_bool_short(arg, true, ignore_return_value);
+                }
                 return;
             }
 
             Expr::Array(ArrayLit { elems, .. }) => {
                 for elem in elems.iter_mut().flatten() {
-                    self.make_bool_short(&mut elem.expr, false, false);
+                    if may_make_bool_short(&elem.expr) {
+                        self.make_bool_short(&mut elem.expr, false, false);
+                    }
                 }
                 return;
             }
 
             Expr::Call(CallExpr { callee, args, .. }) => {
                 if let Callee::Expr(callee) = callee {
-                    self.make_bool_short(callee, false, false);
+                    if may_make_bool_short(callee) {
+                        self.make_bool_short(callee, false, false);
+                    }
                 }
 
                 for arg in args {
-                    self.make_bool_short(&mut arg.expr, false, false);
+                    if may_make_bool_short(&arg.expr) {
+                        self.make_bool_short(&mut arg.expr, false, false);
+                    }
                 }
                 return;
             }
@@ -138,13 +174,17 @@ impl Pure<'_> {
                 for (idx, expr) in exprs.iter_mut().enumerate() {
                     let is_last = idx == len - 1;
 
-                    self.make_bool_short(expr, false, !is_last || ignore_return_value);
+                    if may_make_bool_short(expr) {
+                        self.make_bool_short(expr, false, !is_last || ignore_return_value);
+                    }
                 }
                 return;
             }
 
             Expr::Assign(AssignExpr { right, .. }) => {
-                self.make_bool_short(right, false, false);
+                if may_make_bool_short(right) {
+                    self.make_bool_short(right, false, false);
+                }
                 return;
             }
 
@@ -176,13 +216,13 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        negate(self.expr_ctx, e, true, is_ret_val_ignored);
-        negate(self.expr_ctx, e, false, is_ret_val_ignored);
+    pub(super) fn negate_twice(&mut self, e: &mut Expr, return_ignored: bool) {
+        negate(self.expr_ctx, e, true, return_ignored);
+        negate(self.expr_ctx, e, false, return_ignored);
     }
 
-    pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
-        negate(self.expr_ctx, e, in_bool_ctx, is_ret_val_ignored)
+    pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, return_ignored: bool) {
+        negate(self.expr_ctx, e, in_bool_ctx, return_ignored)
     }
 
     pub(super) fn optimize_negate_eq(&mut self, e: &mut Expr) {
@@ -375,7 +415,15 @@ impl Pure<'_> {
 
             e if is_pure_undefined(self.expr_ctx, e) => true,
 
-            Expr::Ident(i) => i.ctxt != self.expr_ctx.unresolved_ctxt,
+            // Deleting a declared binding is false in sloppy mode. Keep unresolved
+            // identifiers untouched because they may refer to a deletable global property.
+            Expr::Ident(i) if i.ctxt != self.expr_ctx.unresolved_ctxt => {
+                self.changed = true;
+                let span = delete.arg.span();
+                report_change!("booleans: Compressing `delete` => false");
+                *e = make_bool(span, false);
+                return;
+            }
 
             // NaN
             Expr::Bin(BinExpr {
@@ -489,7 +537,7 @@ impl Pure<'_> {
                     self.changed = true;
                     *n = Lit::Num(Number {
                         span: *span,
-                        value: if *value == 0.0 { 1.0 } else { 0.0 },
+                        value: if is_falsy_number(*value) { 1.0 } else { 0.0 },
                         raw: None,
                     })
                     .into()
@@ -561,7 +609,7 @@ impl Pure<'_> {
                     self.changed = true;
                     *n = Lit::Num(Number {
                         span: num.span,
-                        value: if num.value == 0.0 { 0.0 } else { 1.0 },
+                        value: if is_falsy_number(num.value) { 0.0 } else { 1.0 },
                         raw: None,
                     })
                     .into();
@@ -651,20 +699,24 @@ impl Pure<'_> {
 
             (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
-            (Expr::Ident(..), Expr::Lit(..))
-            | (
+            (
                 Expr::Ident(..) | Expr::Member(..),
                 Expr::Unary(UnaryExpr {
                     op: op!("void") | op!("!"),
+                    arg,
                     ..
                 }),
             )
             | (
                 Expr::This(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
+                    op: op!("void"),
+                    arg,
+                    ..
                 }),
-            )
+            ) if !arg.may_have_side_effects(self.expr_ctx) => true,
+
+            (Expr::Ident(..), Expr::Lit(..))
             | (Expr::Unary(..), Expr::Lit(..))
             | (Expr::Tpl(..), Expr::Lit(..)) => true,
             _ => false,
@@ -710,19 +762,20 @@ impl Pure<'_> {
     pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Bin(e @ BinExpr { op: op!("<="), .. })
-            | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
-                if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
-                    self.changed = true;
-                    report_change!("comparisons: Swapping operands of {}", e.op);
+            | Expr::Bin(e @ BinExpr { op: op!("<"), .. })
+                if self.options.comparisons
+                    && self.can_swap_bin_operands(&e.left, &e.right, true) =>
+            {
+                self.changed = true;
+                report_change!("comparisons: Swapping operands of {}", e.op);
 
-                    e.op = if e.op == op!("<=") {
-                        op!(">=")
-                    } else {
-                        op!(">")
-                    };
+                e.op = if e.op == op!("<=") {
+                    op!(">=")
+                } else {
+                    op!(">")
+                };
 
-                    swap(&mut e.left, &mut e.right);
-                }
+                swap(&mut e.left, &mut e.right);
             }
 
             Expr::Bin(bin) => {

@@ -1,0 +1,10 @@
+  x A switch block cannot have multiple defaults
+   ,-[$DIR/tests/tsrx-errors/duplicate-default.tsrx:2:1]
+ 1 | const invalid = @switch (value) {
+ 2 |     @default: {}
+   :     ^^^^|^^^
+   :         `-- previous default case is declared at here
+ 3 |     @default: {}
+   :             ^
+ 4 | };
+   `----

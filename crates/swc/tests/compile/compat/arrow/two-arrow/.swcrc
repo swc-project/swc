@@ -1,0 +1,14 @@
+{
+  "env": {
+    "include": [
+      "transform-arrow-functions"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "preserveAllComments": true
+  }
+}

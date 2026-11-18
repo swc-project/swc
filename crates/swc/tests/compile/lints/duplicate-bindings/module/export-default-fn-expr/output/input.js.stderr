@@ -1,0 +1,9 @@
+  x the name `foo` is defined multiple times
+   ,-[$DIR/tests/compile/lints/duplicate-bindings/module/export-default-fn-expr/input/input.js:1:1]
+ 1 | export default function foo(){}
+   :                         ^|^
+   :                          `-- previous definition of `foo` here
+ 2 | let foo = 1; // error
+   :     ^|^
+   :      `-- `foo` redefined here
+   `----

@@ -197,7 +197,8 @@ impl<'a> Lexer<'a> {
             } else {
                 Token::MinusMinus
             }
-        } else if self.input.eat_byte(b'=') {
+        // Safety: b'=' is ASCII.
+        } else if unsafe { self.input.eat_byte(b'=') } {
             Token::AssignOp(if C == b'+' {
                 AssignOp::AddAssign
             } else {
@@ -221,10 +222,12 @@ impl<'a> Lexer<'a> {
             self.input.bump_bytes(1);
         }
 
-        Ok(if self.input.eat_byte(b'=') {
+        // Safety: b'=' is ASCII.
+        Ok(if unsafe { self.input.eat_byte(b'=') } {
             // "=="
 
-            if self.input.eat_byte(b'=') {
+            // Safety: b'=' is ASCII.
+            if unsafe { self.input.eat_byte(b'=') } {
                 if C == b'!' {
                     Token::BinOp(BinOpToken::NotEqEq)
                 } else {
@@ -244,7 +247,8 @@ impl<'a> Lexer<'a> {
             } else {
                 Token::BinOp(BinOpToken::EqEq)
             }
-        } else if C == b'=' && self.input.eat_byte(b'>') {
+        // Safety: b'>' is ASCII.
+        } else if C == b'=' && unsafe { self.input.eat_byte(b'>') } {
             // "=>"
 
             Token::Arrow

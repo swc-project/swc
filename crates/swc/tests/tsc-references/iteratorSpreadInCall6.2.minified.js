@@ -21,4 +21,7 @@ class _StringIterator {
         return this;
     }
 }
-new SymbolIterator, new _StringIterator;
+[
+    ...new SymbolIterator,
+    ...new _StringIterator
+];

@@ -5,7 +5,6 @@ use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{rename::rename_with_config, scope::ScopeKind};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub(super) fn block_scoped_vars() -> impl VisitMut {
     BlockScopedVars::default()
@@ -36,11 +35,15 @@ struct ParentScope<'a> {
     vars: &'a IndexMap<Id, VarDeclKind, FxBuildHasher>,
 }
 
-#[swc_trace]
 impl BlockScopedVars {
-    fn add_usage(&mut self, id: Id) {
-        if !self.scope.usages.contains(&id) {
-            self.scope.usages.push(id);
+    fn add_usage(&mut self, ident: &Ident) {
+        if !self
+            .scope
+            .usages
+            .iter()
+            .any(|(sym, ctxt)| sym == &ident.sym && *ctxt == ident.ctxt)
+        {
+            self.scope.usages.push(ident.to_id());
         }
     }
 
@@ -75,6 +78,10 @@ impl BlockScopedVars {
         self.scope.rename(parent, &mut rename_map, true);
         self.scope.rename(parent, &mut rename_map, false);
 
+        // No identifiers change when conflict analysis produces no replacements.
+        if rename_map.is_empty() {
+            return;
+        }
         // dbg!(&rename_map);
 
         n.visit_mut_with(
@@ -103,7 +110,6 @@ impl BlockScopedVars {
     }
 }
 
-#[swc_trace]
 impl Scope {
     fn rename(&mut self, parent: ParentScope, rename_map: &mut FxHashMap<Id, Id>, fn_only: bool) {
         for s in self.children.iter_mut() {
@@ -123,6 +129,11 @@ impl Scope {
 
         self.collect_candidates(parent, &mut symbols);
 
+        // Candidate collection consumes usages even when it finds no conflicts.
+        // An empty candidate set cannot rename any declaration in this subtree.
+        if symbols.is_empty() {
+            return;
+        }
         // dbg!(&symbols);
 
         self.rename_decls(&symbols, rename_map);
@@ -234,7 +245,6 @@ impl ParentScope<'_> {
     }
 }
 
-#[swc_trace]
 impl VisitMut for BlockScopedVars {
     noop_visit_mut_type!(fail);
 
@@ -245,16 +255,7 @@ impl VisitMut for BlockScopedVars {
             n.params.visit_mut_with(v);
             v.is_param = old;
 
-            match &mut *n.body {
-                BlockStmtOrExpr::BlockStmt(b) => {
-                    b.visit_mut_children_with(v);
-                }
-                BlockStmtOrExpr::Expr(b) => {
-                    b.visit_mut_with(v);
-                }
-                #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),
-            }
+            n.body.visit_mut_with(v);
         });
     }
 
@@ -264,7 +265,7 @@ impl VisitMut for BlockScopedVars {
         if let Some(kind) = self.var_decl_kind {
             self.scope.vars.insert(n.key.to_id(), kind);
         } else if !self.is_param {
-            self.add_usage(n.key.to_id())
+            self.add_usage(&n.key.id)
         }
     }
 
@@ -272,7 +273,7 @@ impl VisitMut for BlockScopedVars {
         if let Some(kind) = self.var_decl_kind {
             self.scope.vars.insert(i.to_id(), kind);
         } else if !self.is_param {
-            self.add_usage(i.to_id())
+            self.add_usage(&i.id)
         }
     }
 
@@ -298,10 +299,7 @@ impl VisitMut for BlockScopedVars {
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
         self.with_scope(ScopeKind::Fn, |v| {
             n.params.visit_mut_with(v);
-
-            if let Some(body) = &mut n.body {
-                body.visit_mut_children_with(v);
-            }
+            n.body.visit_mut_with(v);
         });
     }
 
@@ -312,7 +310,7 @@ impl VisitMut for BlockScopedVars {
         n.visit_mut_children_with(self);
 
         if let Expr::Ident(i) = n {
-            self.add_usage(i.to_id());
+            self.add_usage(i);
         }
 
         self.var_decl_kind = old_var_decl_kind;
@@ -402,10 +400,7 @@ impl VisitMut for BlockScopedVars {
 
         self.with_scope(ScopeKind::Fn, |v| {
             n.params.visit_mut_with(v);
-
-            if let Some(body) = &mut n.body {
-                body.visit_mut_children_with(v);
-            }
+            n.body.visit_mut_with(v);
         });
     }
 
@@ -430,7 +425,7 @@ impl VisitMut for BlockScopedVars {
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            self.add_usage(i.to_id());
+            self.add_usage(i);
         }
     }
 

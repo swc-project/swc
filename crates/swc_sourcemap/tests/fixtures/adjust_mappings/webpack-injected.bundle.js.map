@@ -1,0 +1,1 @@
+{"version":3,"mappings":";;AAAA;AACA;;","names":[],"sources":["pre_injection.js"],"sourcesContent":["(()=>{\"use strict\";(function(n,o){!function(n,o){n(o)}(n,\"boop\")})((function(n){throw new Error(n)}))})();\n//# sourceMappingURL=webpack.bundle.js.map"],"file":null}

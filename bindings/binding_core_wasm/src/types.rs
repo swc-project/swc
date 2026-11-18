@@ -49,6 +49,12 @@ export interface JsMinifyOptions {
 
   sourceMap?: boolean
 
+  /**
+   * Serializable subset of terser-webpack-plugin's `extractComments`.
+   * `true` behaves like `'some'`.
+   */
+  extractComments?: boolean | "some" | "all" | { regex: string }
+
   outputPath?: string
 
   inlineSourcesContent?: boolean
@@ -708,7 +714,7 @@ export type JscTarget =
   | "es2021"
   | "es2022";
 
-export type ParserConfig = TsParserConfig | EsParserConfig;
+export type ParserConfig = TsParserConfig | EsParserConfig | FlowParserConfig;
 export interface TsParserConfig {
   syntax: "typescript";
   /**
@@ -723,6 +729,38 @@ export interface TsParserConfig {
    * Defaults to `false`
    */
   dynamicImport?: boolean;
+}
+
+export interface FlowParserConfig {
+  syntax: "flow";
+  /**
+   * Defaults to `false`.
+   */
+  jsx?: boolean;
+  /**
+   * Defaults to `false`.
+   */
+  all?: boolean;
+  /**
+   * Defaults to `false`.
+   */
+  requireDirective?: boolean;
+  /**
+   * Defaults to `false`.
+   */
+  enums?: boolean;
+  /**
+   * Defaults to `false`.
+   */
+  decorators?: boolean;
+  /**
+   * Defaults to `false`.
+   */
+  components?: boolean;
+  /**
+   * Defaults to `false`.
+   */
+  patternMatching?: boolean;
 }
 
 export interface EsParserConfig {
@@ -802,6 +840,8 @@ export interface TransformConfig {
    */
   react?: ReactConfig;
 
+  reactCompiler?: boolean | ReactCompilerOptions;
+
   constModules?: ConstModulesConfig;
 
   /**
@@ -822,6 +862,108 @@ export interface TransformConfig {
   treatConstEnumAsEnum?: boolean;
 
   useDefineForClassFields?: boolean;
+}
+
+export interface ReactCompilerOptions {
+  /**
+   * Which functions to compile.
+   *
+   * Defaults to `"infer"`.
+   */
+  compilationMode?: "infer" | "syntax" | "annotation" | "all";
+
+  /**
+   * What to do when a function cannot be compiled.
+   *
+   * Defaults to `"none"`.
+   */
+  panicThreshold?: "none" | "critical_errors" | "all_errors";
+
+  /**
+   * React runtime version target.
+   *
+   * Defaults to `"19"`.
+   */
+  target?: "17" | "18" | "19";
+
+  /**
+   * Analyze and report diagnostics only; emit no transformed code.
+   *
+   * Defaults to `false`.
+   */
+  noEmit?: boolean;
+
+  /**
+   * Defaults to `"client"`.
+   */
+  outputMode?: "client" | "ssr" | "lint";
+
+  /**
+   * Compile even functions marked with opt-out directives.
+   *
+   * Defaults to `false`.
+   */
+  ignoreUseNoForget?: boolean;
+
+  /**
+   * Treat Flow suppression comments as opt-outs.
+   *
+   * Defaults to `true`.
+   */
+  flowSuppressions?: boolean;
+
+  /**
+   * Enable react-native-reanimated support.
+   *
+   * Defaults to `false`.
+   */
+  enableReanimated?: boolean;
+
+  /**
+   * Development mode.
+   *
+   * Defaults to `false`.
+   */
+  isDev?: boolean;
+
+  /**
+   * ESLint rules whose suppressions opt a function out of compilation.
+   */
+  eslintSuppressionRules?: string[];
+
+  /**
+   * Extra directives that opt a function out of compilation.
+   */
+  customOptOutDirectives?: string[];
+
+  /**
+   * Emit a gated version of each compiled function.
+   */
+  gating?: ReactCompilerGatingConfig;
+
+  /**
+   * Dynamically-gated compilation.
+   */
+  dynamicGating?: ReactCompilerDynamicGatingConfig;
+}
+
+export interface ReactCompilerGatingConfig {
+  /**
+   * Module the gating import comes from.
+   */
+  source: string;
+
+  /**
+   * Imported specifier used as the gate.
+   */
+  importSpecifierName: string;
+}
+
+export interface ReactCompilerDynamicGatingConfig {
+  /**
+   * Module the gating import comes from.
+   */
+  source: string;
 }
 
 export interface ReactConfig {
@@ -1151,6 +1293,7 @@ export interface UmdConfig extends BaseModuleConfig {
 export interface AmdConfig extends BaseModuleConfig {
   type: "amd";
   moduleId?: string;
+  moduleRoot?: string;
 }
 export interface SystemjsConfig {
   type: "systemjs";
@@ -1165,6 +1308,10 @@ export interface Output {
    * Sourcemap (**not** base64 encoded)
    */
   map?: string;
+  /**
+   * Extracted comments collected during minification.
+   */
+  extractedComments?: string[];
 }
 
 export interface MatchPattern { }
@@ -1261,7 +1408,7 @@ export interface Constructor extends Node, HasSpan {
 
   params: (TsParameterProperty | Param)[];
 
-  body?: BlockStatement;
+  body?: FunctionBody;
 
   accessibility?: Accessibility;
 
@@ -1574,7 +1721,7 @@ export interface ArrowFunctionExpression extends ExpressionBase {
 
   params: Pattern[];
 
-  body: BlockStatement | Expression;
+  body: FunctionBody | Expression;
 
   async: boolean;
 
@@ -1638,9 +1785,11 @@ export interface ParenthesisExpression extends ExpressionBase {
 }
 
 export interface Fn extends HasSpan, HasDecorator {
+  thisParam?: TsThisParameter;
+
   params: Param[];
 
-  body?: BlockStatement;
+  body?: FunctionBody;
 
   generator: boolean;
 
@@ -2149,16 +2298,13 @@ export interface AssignmentProperty extends Node {
 export interface GetterProperty extends PropBase, HasSpan {
   type: "GetterProperty";
 
-  typeAnnotation?: TsTypeAnnotation;
-
-  body?: BlockStatement;
+  function: Fn;
 }
 
 export interface SetterProperty extends PropBase, HasSpan {
   type: "SetterProperty";
 
-  param: Pattern;
-  body?: BlockStatement;
+  function: Fn;
 }
 
 export interface MethodProperty extends PropBase, Fn {
@@ -2179,6 +2325,12 @@ export interface ComputedPropName extends Node, HasSpan {
 
 export interface BlockStatement extends Node, HasSpan {
   type: "BlockStatement";
+
+  stmts: Statement[];
+}
+
+export interface FunctionBody extends Node, HasSpan {
+  type: "FunctionBody";
 
   stmts: Statement[];
 }
@@ -2515,6 +2667,14 @@ export type TsKeywordTypeKind =
 
 export interface TsThisType extends Node, HasSpan {
   type: "TsThisType";
+}
+
+export interface TsThisParameter extends Node, HasSpan {
+  type: "TsThisParameter";
+
+  thisSpan: Span;
+
+  typeAnnotation?: TsTypeAnnotation;
 }
 
 export type TsFnParameter =

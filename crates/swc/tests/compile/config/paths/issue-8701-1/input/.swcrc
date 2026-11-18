@@ -1,0 +1,12 @@
+{
+  "test": "[/\\\\]src[/\\\\]input\\.ts$",
+  "jsc": {
+    "externalHelpers": false,
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": [
+        "./src/*"
+      ]
+    }
+  }
+}

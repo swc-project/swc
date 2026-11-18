@@ -101,10 +101,11 @@ pub struct Program {
     pub source_file: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum ExportKind {
     Type,
+    #[default]
     Value,
 }
 
@@ -116,6 +117,7 @@ pub struct ExportSpecifier {
     pub base: BaseNode,
     pub local: ModuleExportNameType,
     pub exported: ModuleExportNameType,
+    #[serde(default)]
     pub export_kind: ExportKind,
 }
 

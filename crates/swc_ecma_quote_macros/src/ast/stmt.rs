@@ -10,13 +10,14 @@ impl_enum!(
 
 impl_struct!(EmptyStmt, [span]);
 impl_struct!(BlockStmt, [span, ctxt, stmts]);
+impl_struct!(FunctionBody, [span, stmts]);
 impl_struct!(DebuggerStmt, [span]);
 impl_struct!(WithStmt, [span, obj, body]);
 impl_struct!(LabeledStmt, [span, label, body]);
 impl_struct!(BreakStmt, [span, label]);
 impl_struct!(ContinueStmt, [span, label]);
 impl_struct!(IfStmt, [span, test, cons, alt]);
-impl_struct!(SwitchStmt, [span, discriminant, cases]);
+impl_struct!(SwitchStmt, [span, body_ctxt, discriminant, cases]);
 impl_struct!(ThrowStmt, [span, arg]);
 impl_struct!(TryStmt, [span, block, handler, finalizer]);
 impl_struct!(WhileStmt, [span, test, body]);

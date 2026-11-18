@@ -28,6 +28,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
     Visit, VisitMut, VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::trace;
 
 #[allow(deprecated)]
@@ -61,6 +62,8 @@ mod node_ignore_span;
 pub mod number;
 pub mod stack_size;
 pub mod str;
+#[doc(hidden)]
+pub mod ts_bindings;
 pub use node_ignore_span::NodeIgnoringSpan;
 
 // TODO: remove
@@ -85,23 +88,6 @@ impl Visit for ThisVisitor {
 
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function) {}
-
-    /// Don't recurse into fn
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        n.key.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_method_prop(&mut self, n: &MethodProp) {
-        n.key.visit_with(self);
-        n.function.visit_with(self);
-    }
-
-    /// Don't recurse into fn
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        n.key.visit_with(self);
-        n.param.visit_with(self);
-    }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
         self.found = true;
@@ -146,8 +132,8 @@ impl Visit for IdentRefFinder<'_> {
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        match *e {
-            Expr::Ident(ref i) if i.ctxt == self.ident.ctxt && i.sym == self.ident.sym => {
+        match e {
+            Expr::Ident(i) if i.ctxt == self.ident.ctxt && i.sym == self.ident.sym => {
                 self.found = true;
             }
             _ => {}
@@ -402,6 +388,11 @@ impl IsEmpty for BlockStmt {
         self.stmts.is_empty()
     }
 }
+impl IsEmpty for FunctionBody {
+    fn is_empty(&self) -> bool {
+        self.stmts.is_empty()
+    }
+}
 impl IsEmpty for CatchClause {
     fn is_empty(&self) -> bool {
         self.body.stmts.is_empty()
@@ -409,9 +400,9 @@ impl IsEmpty for CatchClause {
 }
 impl IsEmpty for Stmt {
     fn is_empty(&self) -> bool {
-        match *self {
+        match self {
             Stmt::Empty(_) => true,
-            Stmt::Block(ref b) => b.is_empty(),
+            Stmt::Block(b) => b.is_empty(),
             _ => false,
         }
     }
@@ -420,8 +411,8 @@ impl IsEmpty for Stmt {
 impl<T: IsEmpty> IsEmpty for Option<T> {
     #[inline]
     fn is_empty(&self) -> bool {
-        match *self {
-            Some(ref node) => node.is_empty(),
+        match self {
+            Some(node) => node.is_empty(),
             None => true,
         }
     }
@@ -498,6 +489,7 @@ pub trait StmtExt {
             allow_break: bool,
             allow_throw: bool,
         ) -> Result<bool, ()> {
+            // println!("2222 {in_switch} {allow_break} {:#?}", stmt);
             Ok(match stmt {
                 Stmt::Break(_) => {
                     if in_switch {
@@ -541,7 +533,16 @@ pub trait StmtExt {
                     let mut has_default = false;
                     let mut has_non_empty_terminates = false;
 
-                    for case in &s.cases {
+                    // last case empty or no case at all
+                    if s.cases
+                        .last()
+                        .map(|case| case.cons.is_empty())
+                        .unwrap_or(true)
+                    {
+                        return Ok(false);
+                    }
+
+                    for case in s.cases.iter().rev() {
                         if case.test.is_none() {
                             has_default = true
                         }
@@ -624,7 +625,16 @@ pub trait StmtExt {
                 Stmt::Decl(decl) => match decl {
                     Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
                     Decl::Fn(_) => !ctx.in_strict,
-                    Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
+                    Decl::Var(var_decl) => {
+                        var_decl.kind == VarDeclKind::Var
+                            || var_decl.decls.iter().any(|decl| {
+                                decl.init
+                                    .as_ref()
+                                    .map(|init| init.may_have_side_effects(ctx))
+                                    .unwrap_or(false)
+                                    || !decl.name.is_ident()
+                            })
+                    }
                     _ => false,
                 },
                 Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
@@ -675,17 +685,13 @@ impl Visit for Hoister {
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_getter_prop(&mut self, _: &GetterProp) {}
-
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
 
-        if let Pat::Ident(ref i) = *p {
+        if let Pat::Ident(i) = p {
             self.vars.push(i.clone().into())
         }
     }
-
-    fn visit_setter_prop(&mut self, _: &SetterProp) {}
 
     fn visit_var_decl(&mut self, v: &VarDecl) {
         if v.kind != VarDeclKind::Var {
@@ -742,8 +748,9 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
+    #[deprecated(note = "please use `is_array` in `Expr` directly")]
     fn is_array_lit(&self) -> bool {
-        is_array_lit(self.as_expr())
+        self.as_expr().is_array()
     }
 
     /// Checks if `self` is `NaN`.
@@ -832,6 +839,11 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
+    fn is_pure_new_callee(&self, ctx: ExprCtx) -> bool {
+        is_pure_new_callee(self.as_expr(), ctx)
+    }
+
+    #[inline(always)]
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
         may_have_side_effects(self.as_expr(), ctx)
     }
@@ -862,26 +874,25 @@ pub fn class_has_side_effect(expr_ctx: ExprCtx, c: &Class) -> bool {
                 }
 
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
             }
             ClassMember::PrivateProp(p) => {
                 if let Some(v) = &p.value {
-                    if v.may_have_side_effects(expr_ctx) {
+                    if p.is_static && v.may_have_side_effects(expr_ctx) {
                         return true;
                     }
                 }
             }
-            ClassMember::StaticBlock(s) => {
+            ClassMember::StaticBlock(s)
                 if s.body
                     .stmts
                     .iter()
-                    .any(|stmt| stmt.may_have_side_effects(expr_ctx))
-                {
-                    return true;
-                }
+                    .any(|stmt| stmt.may_have_side_effects(expr_ctx)) =>
+            {
+                return true;
             }
             _ => {}
         }
@@ -907,6 +918,91 @@ fn may_be_str(ty: Value<Type>) -> bool {
     }
 }
 
+/// Converts the digits of a radix-prefixed numeric string (the part after
+/// `0x`/`0o`/`0b`) to a [`f64`], the way ECMAScript's `ToNumber` would.
+///
+/// `u64::from_str_radix` is used when the value fits, since `u64 as f64` is
+/// already a correctly-rounded conversion. When it doesn't (e.g.
+/// `"10000000000000000"` in hex, which is 2^64), the value is rounded to the
+/// nearest `f64` directly, in one step: `radix` is always a power of two here
+/// (2, 8, or 16, the only radixes ECMAScript's grammar uses for prefixed
+/// integer literals), so each digit maps to a fixed number of bits. That
+/// makes it possible to extract the top ~53 significant bits exactly and
+/// round them to nearest-even against a sticky bit for everything below,
+/// which is what a correctly-rounded conversion requires. Accumulating
+/// digit-by-digit into an `f64` (rounding after every multiply-add) is
+/// tempting but wrong: intermediate roundings can compound into a result a
+/// few ULPs off from rounding the exact integer once.
+fn radix_str_to_number(s: &str, radix: u32) -> f64 {
+    // Tried first, before validating anything: `u64::from_str_radix` already
+    // rejects invalid digits and empty input on its own, and this covers the
+    // overwhelming majority of real-world radix literals (short hex color
+    // codes, bit flags, hashes), so the explicit validity scan below only
+    // needs to run on the rare failure path, not on every call.
+    if let Ok(n) = u64::from_str_radix(s, radix) {
+        return n as f64;
+    }
+
+    if s.is_empty() || !s.bytes().all(|b| (b as char).is_digit(radix)) {
+        return f64::NAN;
+    }
+
+    let bits_per_digit = radix.trailing_zeros() as usize;
+    let bytes = s.as_bytes();
+
+    // `'0'` is the zero digit in every radix used here, so finding the first
+    // significant byte doesn't need to decode anything, and neither does the
+    // sticky-bit scan below — this whole function stays allocation-free even
+    // for a multi-megabyte numeric literal.
+    let Some(first) = bytes.iter().position(|&b| b != b'0') else {
+        return 0.0;
+    };
+    let significant = &bytes[first..];
+
+    // Even in the worst case (the leading digit contributes only 1 bit, e.g.
+    // a leading `1`), this many digits guarantee at least 7 bits beyond the
+    // 53-bit mantissa: a round bit plus headroom for the sticky check below.
+    let prefix_len = ((59usize).div_ceil(bits_per_digit) + 1).min(significant.len());
+    let prefix_value = significant[..prefix_len].iter().fold(0u64, |acc, &b| {
+        (acc << bits_per_digit) | (b as char).to_digit(radix).unwrap() as u64
+    });
+
+    let first_digit_bits = (32
+        - (significant[0] as char)
+            .to_digit(radix)
+            .unwrap()
+            .leading_zeros()) as usize;
+    let high_bits_count = (prefix_len - 1) * bits_per_digit + first_digit_bits;
+    let remaining_bits = (significant.len() - prefix_len) * bits_per_digit;
+    let remaining_sticky = significant[prefix_len..].iter().any(|&b| b != b'0');
+
+    let extra_bits = high_bits_count - 53;
+    let dropped = prefix_value & ((1u64 << extra_bits) - 1);
+    let mantissa = prefix_value >> extra_bits;
+    let round_bit = (dropped >> (extra_bits - 1)) & 1;
+    let lower_sticky = (dropped & ((1u64 << (extra_bits - 1)) - 1)) != 0;
+    let round_up = round_bit == 1 && (lower_sticky || remaining_sticky || mantissa & 1 == 1);
+    let mantissa = mantissa + round_up as u64;
+
+    let exponent = saturating_exponent(remaining_bits, extra_bits);
+
+    // Exact: multiplying by a power of two never loses precision in IEEE 754.
+    mantissa as f64 * 2f64.powi(exponent)
+}
+
+/// `(remaining_bits + extra_bits) as i32`, but saturating instead of
+/// wrapping when the sum exceeds `i32::MAX`.
+///
+/// An unchecked cast would wrap a large enough sum into a *negative* `i32`,
+/// turning what should be an astronomically large (legitimately `Infinity`
+/// once passed through `f64::powi`) exponent into a tiny or negative one
+/// instead — reachable only via a radix literal of hundreds of millions of
+/// digits, but `powi(i32::MAX)` already saturates to `Infinity` on its own,
+/// so clamping here is all that's needed to make that fall out correctly.
+fn saturating_exponent(remaining_bits: usize, extra_bits: usize) -> i32 {
+    (remaining_bits + extra_bits).min(i32::MAX as usize) as i32
+}
+
 pub fn num_from_str(s: &str) -> Value<f64> {
     if s.contains('\u{000b}') {
         return Unknown;
@@ -920,24 +1016,9 @@ pub fn num_from_str(s: &str) -> Value<f64> {
 
     if s.len() >= 2 {
         match &s.as_bytes()[..2] {
-            b"0x" | b"0X" => {
-                return match u64::from_str_radix(&s[2..], 16) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                }
-            }
-            b"0o" | b"0O" => {
-                return match u64::from_str_radix(&s[2..], 8) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                };
-            }
-            b"0b" | b"0B" => {
-                return match u64::from_str_radix(&s[2..], 2) {
-                    Ok(n) => Known(n as f64),
-                    Err(_) => Known(f64::NAN),
-                };
-            }
+            b"0x" | b"0X" => return Known(radix_str_to_number(&s[2..], 16)),
+            b"0o" | b"0O" => return Known(radix_str_to_number(&s[2..], 8)),
+            b"0b" | b"0B" => return Known(radix_str_to_number(&s[2..], 2)),
             _ => {}
         }
     }
@@ -1140,9 +1221,9 @@ impl Visit for LiteralVisitor {
             return;
         }
 
-        match *e {
+        match e {
             Expr::Ident(..) | Expr::Lit(Lit::Regex(..)) => self.is_lit = false,
-            Expr::Tpl(ref tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
+            Expr::Tpl(tpl) if !tpl.exprs.is_empty() => self.is_lit = false,
             _ => e.visit_children_with(self),
         }
     }
@@ -1172,7 +1253,9 @@ impl Visit for LiteralVisitor {
     }
 
     fn visit_number(&mut self, node: &Number) {
-        if !self.allow_non_json_value && node.value.is_infinite() {
+        // JSON number syntax can express infinities as overflowed values such
+        // as `2e308`, but it has no representation that parses to `NaN`.
+        if !self.allow_non_json_value && node.value.is_nan() {
             self.is_lit = false;
         }
     }
@@ -1208,8 +1291,8 @@ impl Visit for LiteralVisitor {
         node.visit_children_with(self);
 
         match node {
-            PropName::Str(ref s) => self.cost += 2 + s.value.len(),
-            PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
+            PropName::Str(s) => self.cost += 2 + s.value.len(),
+            PropName::Ident(id) => self.cost += 2 + id.sym.len(),
             PropName::Num(..) => {
                 // TODO: Count digits
                 self.cost += 5;
@@ -1430,7 +1513,7 @@ pub fn alias_ident_for_simple_assign_tatget(expr: &SimpleAssignTarget, default: 
 
 /// Returns `(ident, aliased)`
 pub fn alias_if_required(expr: &Expr, default: &str) -> (Ident, bool) {
-    if let Expr::Ident(ref i) = *expr {
+    if let Expr::Ident(i) = expr {
         return (Ident::new(i.sym.clone(), i.span, i.ctxt), false);
     }
 
@@ -1492,6 +1575,7 @@ pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
 /// `super_call_span` should be the span of the class definition
 /// Use value of [`Class::span`].
 pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> Constructor {
+    #[cfg(debug_assertions)]
     trace!(has_super = has_super, "Creating a default constructor");
     let super_call_span = super_call_span.with_hi(super_call_span.lo);
 
@@ -1513,7 +1597,8 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
         } else {
             Vec::new()
         },
-        body: Some(BlockStmt {
+        body: Some(FunctionBody {
+            span: DUMMY_SP,
             stmts: if has_super {
                 vec![CallExpr {
                     span: super_call_span,
@@ -1528,7 +1613,6 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
             } else {
                 Vec::new()
             },
-            ..Default::default()
         }),
         ..Default::default()
     }
@@ -1589,7 +1673,7 @@ pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
 /// If the stmt is maybe a directive like `"use strict";`
 pub fn is_maybe_branch_directive(stmt: &Stmt) -> bool {
     match stmt {
-        Stmt::Expr(ExprStmt { ref expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..))) => true,
+        Stmt::Expr(ExprStmt { expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..))) => true,
         _ => false,
     }
 }
@@ -1682,6 +1766,17 @@ where
 {
     let mut v = BindingIdentifierVisitor { op };
     node.visit_with(&mut v);
+}
+
+/// Finds binding identifiers in a TypeScript signature parameter, ignoring
+/// expressions and type annotations. The ordinary binding visitor skips the
+/// erased `TsFnParam` wrapper, so enter its binding pattern directly.
+pub fn for_each_ts_fn_param_binding_ident<F>(node: &TsFnParam, op: F)
+where
+    F: for<'a> FnMut(&'a BindingIdent),
+{
+    let mut v = BindingIdentifierVisitor { op };
+    node.visit_children_with(&mut v);
 }
 
 impl<F> Visit for BindingIdentifierVisitor<F>
@@ -1881,16 +1976,7 @@ impl ExprCtx {
             Expr::MetaProp(_) => to.push(Box::new(expr)),
 
             Expr::Call(_) => to.push(Box::new(expr)),
-            Expr::New(e) => {
-                // Known constructors
-                if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
-                    if *sym == "Date" && e.args.is_empty() {
-                        return;
-                    }
-                }
-
-                to.push(e.into())
-            }
+            Expr::New(e) => to.push(e.into()),
             Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
 
             // We are at here because we could not determine value of test.
@@ -2050,7 +2136,7 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
     match p {
         PropName::Ident(i) => i.sym == *key,
         PropName::Str(s) => s.value == *key,
-        PropName::Num(n) => n.value.to_string() == *key,
+        PropName::Num(n) => n.value.to_js_string() == *key,
         PropName::BigInt(_) => false,
         PropName::Computed(e) => match &*e.expr {
             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *key,
@@ -2297,6 +2383,10 @@ impl Visit for TopLevelAwait {
                 key: PropName::Computed(computed),
                 ..
             }) => computed.visit_children_with(self),
+            ClassMember::AutoAccessor(AutoAccessor {
+                key: Key::Public(PropName::Computed(computed)),
+                ..
+            }) => computed.visit_children_with(self),
             _ => (),
         };
     }
@@ -2305,9 +2395,16 @@ impl Visit for TopLevelAwait {
         match prop {
             Prop::KeyValue(KeyValueProp {
                 key: PropName::Computed(computed),
+                value,
                 ..
-            })
-            | Prop::Getter(GetterProp {
+            }) => {
+                computed.visit_children_with(self);
+                value.visit_with(self);
+            }
+            Prop::KeyValue(KeyValueProp { value, .. }) | Prop::Assign(AssignProp { value, .. }) => {
+                value.visit_with(self);
+            }
+            Prop::Getter(GetterProp {
                 key: PropName::Computed(computed),
                 ..
             })
@@ -2475,6 +2572,9 @@ pub trait QueryRef {
     fn query_ref(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
+    /// Rewrites an assignment, update, or deletion target while preserving
+    /// its identity as a reference rather than substituting its stored value.
+    /// A replacement must remain assignable, such as an identifier or member.
     fn query_lhs(&self, _ident: &Ident) -> Option<Box<Expr>> {
         None
     }
@@ -2503,6 +2603,30 @@ impl<T> RefRewriter<T>
 where
     T: QueryRef,
 {
+    /// Rewrites the target itself with the write query. Its receiver and
+    /// computed key are ordinary reads and keep using the read query.
+    fn visit_mut_reference(&mut self, mut expression: &mut Expr) {
+        loop {
+            expression = match expression {
+                Expr::Paren(ParenExpr { expr, .. })
+                | Expr::TsAs(TsAsExpr { expr, .. })
+                | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+                | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+                | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+                | Expr::TsInstantiation(TsInstantiation { expr, .. })
+                | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => expr,
+                _ => break,
+            };
+        }
+        if let Expr::Ident(ident) = expression {
+            if let Some(replacement) = self.query.query_lhs(ident) {
+                *expression = *replacement;
+            }
+        } else {
+            expression.visit_mut_children_with(self);
+        }
+    }
+
     pub fn exit_prop(&mut self, n: &mut Prop) {
         if let Prop::Shorthand(shorthand) = n {
             if let Some(expr) = self.query.query_ref(shorthand) {
@@ -2517,7 +2641,7 @@ where
 
     pub fn exit_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(id) = n {
-            if let Some(expr) = self.query.query_lhs(&id.clone().into()) {
+            if let Some(expr) = self.query.query_lhs(&id.id) {
                 *n = expr.into();
             }
         }
@@ -2533,8 +2657,10 @@ where
 
     pub fn exit_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
         if let SimpleAssignTarget::Ident(ref_ident) = n {
-            if let Some(expr) = self.query.query_lhs(&ref_ident.clone().into()) {
-                *n = expr.try_into().unwrap();
+            if let Some(expr) = self.query.query_lhs(&ref_ident.id) {
+                *n = expr
+                    .try_into()
+                    .expect("write query must produce a simple assignment target");
             }
         };
     }
@@ -2567,7 +2693,10 @@ where
                 let value = value
                     .take()
                     .map(|default_value| {
-                        let left = expr.clone().try_into().unwrap();
+                        let left = expr
+                            .clone()
+                            .try_into()
+                            .expect("write query must produce an assignment target");
                         Box::new(default_value.make_assign_to(op!("="), left))
                     })
                     .unwrap_or(expr);
@@ -2609,8 +2738,12 @@ where
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
-        n.visit_mut_children_with(self);
-        self.exit_pat(n);
+        if let Pat::Expr(expression) = n {
+            self.visit_mut_reference(expression);
+        } else {
+            n.visit_mut_children_with(self);
+            self.exit_pat(n);
+        }
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
@@ -2618,9 +2751,33 @@ where
         self.exit_expr(n);
     }
 
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
+        self.visit_mut_reference(&mut n.arg);
+    }
+
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if n.op == UnaryOp::Delete {
+            self.visit_mut_reference(&mut n.arg);
+        } else {
+            n.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
-        n.visit_mut_children_with(self);
-        self.exit_simple_assign_target(n);
+        match n {
+            SimpleAssignTarget::Paren(ParenExpr { expr, .. })
+            | SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+            | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+            | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+            | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+            | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
+                self.visit_mut_reference(expr);
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+                self.exit_simple_assign_target(n);
+            }
+        }
     }
 
     fn visit_mut_callee(&mut self, n: &mut Callee) {
@@ -2677,31 +2834,27 @@ fn is_immutable_value(expr: &Expr) -> bool {
     //    by other expressions.
     // This should only be used to say the value is immutable and
     // hasSideEffects and canBeSideEffected should be used for the other case.
-    match *expr {
+    match expr {
         Expr::Lit(Lit::Bool(..))
         | Expr::Lit(Lit::Str(..))
         | Expr::Lit(Lit::Num(..))
         | Expr::Lit(Lit::Null(..)) => true,
 
         Expr::Unary(UnaryExpr {
-            op: op!("!"),
-            ref arg,
-            ..
+            op: op!("!"), arg, ..
         })
         | Expr::Unary(UnaryExpr {
-            op: op!("~"),
-            ref arg,
-            ..
+            op: op!("~"), arg, ..
         })
         | Expr::Unary(UnaryExpr {
             op: op!("void"),
-            ref arg,
+            arg,
             ..
         }) => arg.is_immutable_value(),
 
-        Expr::Ident(ref i) => i.sym == "undefined" || i.sym == "Infinity" || i.sym == "NaN",
+        Expr::Ident(i) => i.sym == "undefined" || i.sym == "Infinity" || i.sym == "NaN",
 
-        Expr::Tpl(Tpl { ref exprs, .. }) => exprs.iter().all(|e| e.is_immutable_value()),
+        Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().all(|e| e.is_immutable_value()),
 
         _ => false,
     }
@@ -2734,13 +2887,11 @@ fn is_str(expr: &Expr) -> bool {
     }
 }
 
-fn is_array_lit(expr: &Expr) -> bool {
-    matches!(*expr, Expr::Array(..))
-}
-
 fn is_nan(expr: &Expr) -> bool {
-    // NaN is special
-    expr.is_ident_ref_to("NaN")
+    match expr {
+        Expr::Lit(Lit::Num(number)) => number.value.is_nan(),
+        _ => expr.is_ident_ref_to("NaN"),
+    }
 }
 
 fn is_undefined(expr: &Expr, ctx: ExprCtx) -> bool {
@@ -2778,23 +2929,67 @@ fn as_pure_bool(expr: &Expr, ctx: ExprCtx) -> BoolValue {
     }
 }
 
+/// Returns whether a number is truthy according to ECMAScript semantics.
+#[inline]
+fn is_truthy_number(value: f64) -> bool {
+    !matches!(value.classify(), FpCategory::Nan | FpCategory::Zero)
+}
+
 fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
     let Some(ctx) = ctx.consume_depth() else {
         return (MayBeImpure, Unknown);
     };
 
-    if expr.is_global_ref_to(ctx, "undefined") {
-        return (Pure, Known(false));
+    if let Expr::Ident(i) = expr {
+        if i.ctxt != ctx.unresolved_ctxt {
+            return (Pure, Unknown);
+        }
+
+        if &*i.sym == "NaN" {
+            return (Pure, Known(false));
+        }
+
+        if &*i.sym == "undefined" {
+            return (Pure, Known(false));
+        }
+
+        return if ctx.is_unresolved_ref_safe
+            || matches!(
+                &*i.sym,
+                "Infinity"
+                    | "Math"
+                    | "Object"
+                    | "Array"
+                    | "Date"
+                    | "Promise"
+                    | "Boolean"
+                    | "Number"
+                    | "String"
+                    | "BigInt"
+                    | "Error"
+                    | "RegExp"
+                    | "Function"
+                    | "document"
+            ) {
+            (Pure, Unknown)
+        } else {
+            (MayBeImpure, Unknown)
+        };
     }
-    if expr.is_nan() {
-        return (Pure, Known(false));
+
+    if matches!(expr, Expr::This(..)) {
+        return (Pure, Unknown);
+    }
+
+    if matches!(expr, Expr::Fn(..)) {
+        return (Pure, Known(true));
     }
 
     let val = match expr {
-        Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
+        Expr::Paren(e) => return e.expr.cast_to_bool(ctx),
 
         Expr::Assign(AssignExpr {
-            ref right,
+            right,
             op: op!("="),
             ..
         }) => {
@@ -2809,15 +3004,13 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }) => {
             let v = arg.as_pure_number(ctx);
             match v {
-                Known(n) => Known(!matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)),
+                Known(n) => Known(is_truthy_number(-n)),
                 Unknown => return (MayBeImpure, Unknown),
             }
         }
 
         Expr::Unary(UnaryExpr {
-            op: op!("!"),
-            ref arg,
-            ..
+            op: op!("!"), arg, ..
         }) => {
             let (p, v) = arg.cast_to_bool(ctx);
             return (p, !v);
@@ -2836,13 +3029,7 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             return (
                 lp + rp,
                 match (ln, rn) {
-                    (Known(ln), Known(rn)) => {
-                        if ln == rn {
-                            Known(false)
-                        } else {
-                            Known(true)
-                        }
-                    }
+                    (Known(ln), Known(rn)) => Known(is_truthy_number(ln - rn)),
                     _ => Unknown,
                 },
             );
@@ -2859,32 +3046,22 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
 
             match (lv, rv) {
                 (Known(lv), Known(rv)) => {
-                    // NaN is false
-                    if lv == 0.0 && rv == 0.0 {
-                        return (Pure, Known(false));
-                    }
-                    // Infinity is true.
-                    if rv == 0.0 {
-                        return (Pure, Known(true));
-                    }
-                    let v = lv / rv;
-
-                    return (Pure, Known(v != 0.0));
+                    return (Pure, Known(is_truthy_number(lv / rv)));
                 }
                 _ => Unknown,
             }
         }
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op @ op!("&"),
-            ref right,
+            right,
             ..
         })
         | Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op @ op!("|"),
-            ref right,
+            right,
             ..
         }) => {
             if left.get_type(ctx) != Known(BoolType) || right.get_type(ctx) != Known(BoolType) {
@@ -2910,9 +3087,9 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!("||"),
-            ref right,
+            right,
             ..
         }) => {
             let (lp, lv) = left.cast_to_bool(ctx);
@@ -2929,9 +3106,9 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
         }
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!("&&"),
-            ref right,
+            right,
             ..
         }) => {
             let (lp, lv) = left.cast_to_bool(ctx);
@@ -2974,19 +3151,17 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             op: op!("void"), ..
         }) => Known(false),
 
-        Expr::Lit(ref lit) => {
+        Expr::Lit(lit) => {
             return (
                 Pure,
-                Known(match *lit {
-                    Lit::Num(Number { value: n, .. }) => {
-                        !matches!(n.classify(), FpCategory::Nan | FpCategory::Zero)
-                    }
-                    Lit::BigInt(ref v) => v
+                Known(match lit {
+                    Lit::Num(Number { value: n, .. }) => is_truthy_number(*n),
+                    Lit::BigInt(v) => v
                         .value
                         .to_string()
                         .contains(|c: char| matches!(c, '1'..='9')),
                     Lit::Bool(b) => b.value,
-                    Lit::Str(Str { ref value, .. }) => !value.is_empty(),
+                    Lit::Str(Str { value, .. }) => !value.is_empty(),
                     Lit::Null(..) => false,
                     Lit::Regex(..) => true,
                     Lit::JSXText(..) => unreachable!("as_bool() for JSXText"),
@@ -3046,9 +3221,7 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
             _ => return (MayBeImpure, Unknown),
         },
         Expr::Unary(UnaryExpr {
-            op: op!("!"),
-            ref arg,
-            ..
+            op: op!("!"), arg, ..
         }) => match arg.cast_to_bool(ctx) {
             (Pure, Known(v)) => {
                 if v {
@@ -3061,7 +3234,7 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
         },
         Expr::Unary(UnaryExpr {
             op: op!("void"),
-            ref arg,
+            arg,
             ..
         }) => {
             if arg.may_have_side_effects(ctx) {
@@ -3134,10 +3307,10 @@ fn as_pure_wtf8(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
         return Unknown;
     };
 
-    match *expr {
-        Expr::Lit(ref l) => match *l {
-            Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(&**value)),
-            Lit::Num(ref n) => {
+    match expr {
+        Expr::Lit(l) => match l {
+            Lit::Str(Str { value, .. }) => Known(Cow::Borrowed(&**value)),
+            Lit::Num(n) => {
                 if n.value == -0.0 {
                     return Known(Cow::Borrowed("0".into()));
                 }
@@ -3156,8 +3329,8 @@ fn as_pure_wtf8(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
             // can be converted.
             // unimplemented!("TplLit. as_string()")
         }
-        Expr::Ident(Ident { ref sym, ctxt, .. }) => match &**sym {
-            "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
+        Expr::Ident(Ident { sym, ctxt, .. }) => match &**sym {
+            "undefined" | "Infinity" | "NaN" if *ctxt == ctx.unresolved_ctxt => {
                 Known(Cow::Borrowed(Wtf8::from_str(sym)))
             }
             _ => Unknown,
@@ -3166,9 +3339,7 @@ fn as_pure_wtf8(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
             op: op!("void"), ..
         }) => Known(Cow::Borrowed("undefined".into())),
         Expr::Unary(UnaryExpr {
-            op: op!("!"),
-            ref arg,
-            ..
+            op: op!("!"), arg, ..
         }) => Known(Cow::Borrowed(match arg.as_pure_bool(ctx) {
             Known(v) => {
                 if v {
@@ -3179,15 +3350,15 @@ fn as_pure_wtf8(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
             }
             Unknown => return Value::Unknown,
         })),
-        Expr::Array(ArrayLit { ref elems, .. }) => {
+        Expr::Array(ArrayLit { elems, .. }) => {
             let mut buf = Wtf8Buf::new();
             let len = elems.len();
             // null, undefined is "" in array literal.
             for (idx, elem) in elems.iter().enumerate() {
                 let last = idx == len - 1;
-                let e = match *elem {
-                    Some(ref elem) => {
-                        let ExprOrSpread { ref expr, .. } = *elem;
+                let e = match elem {
+                    Some(elem) => {
+                        let ExprOrSpread { expr, .. } = elem;
                         match &**expr {
                             Expr::Lit(Lit::Null(..)) => Cow::Borrowed("".into()),
                             Expr::Unary(UnaryExpr {
@@ -3232,7 +3403,7 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
 
     match expr {
         Expr::Assign(AssignExpr {
-            ref right,
+            right,
             op: op!("="),
             ..
         }) => right.get_type(ctx),
@@ -3243,39 +3414,41 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             ..
         }) if &**length == "length" => match &**obj {
             Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
-            Expr::Ident(Ident { sym: arguments, .. }) if &**arguments == "arguments" => {
-                Known(Type::Num)
-            }
+            Expr::Ident(Ident {
+                sym: arguments,
+                ctxt,
+                ..
+            }) if &**arguments == "arguments" && *ctxt == ctx.unresolved_ctxt => Known(Type::Num),
             _ => Unknown,
         },
 
-        Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
             .last()
             .expect("sequence expression should not be empty")
             .get_type(ctx),
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!("&&"),
-            ref right,
+            right,
             ..
         })
         | Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!("||"),
-            ref right,
+            right,
             ..
         })
         | Expr::Cond(CondExpr {
-            cons: ref left,
-            alt: ref right,
+            cons: left,
+            alt: right,
             ..
         }) => and(left.get_type(ctx), right.get_type(ctx)),
 
         Expr::Bin(BinExpr {
-            ref left,
+            left,
             op: op!(bin, "+"),
-            ref right,
+            right,
             ..
         }) => {
             let rt = right.get_type(ctx);
@@ -3309,7 +3482,7 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
 
         Expr::Assign(AssignExpr {
             op: op!("+="),
-            ref right,
+            right,
             ..
         }) => {
             if right.get_type(ctx) == Known(StringType) {
@@ -3318,9 +3491,9 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             Unknown
         }
 
-        Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
-            "undefined" => UndefinedType,
-            "NaN" | "Infinity" => NumberType,
+        Expr::Ident(Ident { sym, ctxt, .. }) => Known(match &**sym {
+            "undefined" if *ctxt == ctx.unresolved_ctxt => UndefinedType,
+            "NaN" | "Infinity" if *ctxt == ctx.unresolved_ctxt => NumberType,
             _ => return Unknown,
         }),
 
@@ -3405,60 +3578,57 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
     }
 }
 
-fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
-    if expr.is_global_ref_to(ctx, "Date") {
-        return true;
-    }
+#[inline(always)]
+fn is_pure_str_method(method: &str) -> bool {
+    matches!(
+        method,
+        "charAt"
+            | "charCodeAt"
+            | "concat"
+            | "endsWith"
+            | "includes"
+            | "indexOf"
+            | "lastIndexOf"
+            | "localeCompare"
+            | "slice"
+            | "split"
+            | "startsWith"
+            | "substr"
+            | "substring"
+            | "toLocaleLowerCase"
+            | "toLocaleUpperCase"
+            | "toLowerCase"
+            | "toString"
+            | "toUpperCase"
+            | "trim"
+            | "trimEnd"
+            | "trimStart"
+    )
+}
 
-    match expr {
-        Expr::Member(MemberExpr {
-            obj,
-            prop: MemberProp::Ident(prop),
-            ..
+#[inline(always)]
+fn is_pure_member_callee(obj: &Expr, prop: &MemberProp, ctx: ExprCtx) -> bool {
+    let MemberProp::Ident(prop) = prop else {
+        return false;
+    };
+
+    match obj {
+        Expr::Ident(Ident {
+            ctxt, sym: math, ..
         }) => {
-            // Some methods of string are pure
-            fn is_pure_str_method(method: &str) -> bool {
-                matches!(
-                    method,
-                    "charAt"
-                        | "charCodeAt"
-                        | "concat"
-                        | "endsWith"
-                        | "includes"
-                        | "indexOf"
-                        | "lastIndexOf"
-                        | "localeCompare"
-                        | "slice"
-                        | "split"
-                        | "startsWith"
-                        | "substr"
-                        | "substring"
-                        | "toLocaleLowerCase"
-                        | "toLocaleUpperCase"
-                        | "toLowerCase"
-                        | "toString"
-                        | "toUpperCase"
-                        | "trim"
-                        | "trimEnd"
-                        | "trimStart"
-                )
-            }
-
-            obj.is_global_ref_to(ctx, "Math")
-                || match &**obj {
-                    // Allow dummy span
-                    Expr::Ident(Ident {
-                        ctxt, sym: math, ..
-                    }) => &**math == "Math" && *ctxt == SyntaxContext::empty(),
-
-                    Expr::Lit(Lit::Str(..)) => is_pure_str_method(&prop.sym),
-                    Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty() => {
-                        is_pure_str_method(&prop.sym)
-                    }
-
-                    _ => false,
-                }
+            &**math == "Math" && (*ctxt == ctx.unresolved_ctxt || *ctxt == SyntaxContext::empty())
         }
+
+        Expr::Lit(Lit::Str(..)) => is_pure_str_method(&prop.sym),
+        Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty() => is_pure_str_method(&prop.sym),
+
+        _ => false,
+    }
+}
+
+fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
+    match expr {
+        Expr::Member(MemberExpr { obj, prop, .. }) => is_pure_member_callee(obj, prop, ctx),
 
         Expr::Fn(FnExpr { function: f, .. })
             if f.params.iter().all(|p| p.pat.is_ident())
@@ -3478,9 +3648,12 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
 /// - But `new (class {})()` can be pure if the class has no side effects
 fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
-        // An empty function expression is also pure for `new`
+        // Only an empty non-async, non-generator function expression is pure for `new`.
+        // Async and generator functions are not constructible, so `new` throws.
         Expr::Fn(FnExpr { function: f, .. })
-            if f.params.iter().all(|p| p.pat.is_ident())
+            if !f.is_async
+                && !f.is_generator
+                && f.params.iter().all(|p| p.pat.is_ident())
                 && f.body.is_some()
                 && f.body.as_ref().unwrap().stmts.is_empty() =>
         {
@@ -3511,6 +3684,9 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                 match member {
                     ClassMember::ClassProp(p) if !p.is_static => return false,
                     ClassMember::PrivateProp(p) if !p.is_static => return false,
+                    // Auto-accessor initializers run when the instance is constructed,
+                    // just like instance field initializers.
+                    ClassMember::AutoAccessor(p) if !p.is_static => return false,
                     _ => {}
                 }
             }
@@ -3518,6 +3694,14 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
             // Check constructor - must be empty or not present
             for member in &class.body {
                 if let ClassMember::Constructor(ctor) = member {
+                    if !ctor
+                        .params
+                        .iter()
+                        .all(|param| param.as_param().is_some_and(|param| param.pat.is_ident()))
+                    {
+                        return false;
+                    }
+
                     if let Some(body) = &ctor.body {
                         if !body.stmts.is_empty() {
                             return false;
@@ -3538,39 +3722,38 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         return true;
     };
 
-    if expr.is_pure_callee(ctx) {
-        return false;
+    fn ident_may_have_side_effects(i: &Ident, ctx: ExprCtx) -> bool {
+        if ctx.is_unresolved_ref_safe {
+            return false;
+        }
+
+        if i.ctxt == ctx.unresolved_ctxt {
+            !matches!(
+                &*i.sym,
+                "Infinity"
+                    | "NaN"
+                    | "Math"
+                    | "undefined"
+                    | "Object"
+                    | "Array"
+                    | "Date"
+                    | "Promise"
+                    | "Boolean"
+                    | "Number"
+                    | "String"
+                    | "BigInt"
+                    | "Error"
+                    | "RegExp"
+                    | "Function"
+                    | "document"
+            )
+        } else {
+            false
+        }
     }
 
     match expr {
-        Expr::Ident(i) => {
-            if ctx.is_unresolved_ref_safe {
-                return false;
-            }
-
-            if i.ctxt == ctx.unresolved_ctxt {
-                !matches!(
-                    &*i.sym,
-                    "Infinity"
-                        | "NaN"
-                        | "Math"
-                        | "undefined"
-                        | "Object"
-                        | "Array"
-                        | "Promise"
-                        | "Boolean"
-                        | "Number"
-                        | "String"
-                        | "BigInt"
-                        | "Error"
-                        | "RegExp"
-                        | "Function"
-                        | "document"
-                )
-            } else {
-                false
-            }
-        }
+        Expr::Ident(i) => ident_may_have_side_effects(i, ctx),
 
         Expr::Lit(..) | Expr::This(..) | Expr::PrivateName(..) | Expr::TsConstAssertion(..) => {
             false
@@ -3593,6 +3776,10 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
         Expr::Bin(BinExpr { left, right, .. }) => {
             left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
+        }
+
+        Expr::Member(MemberExpr { obj, prop, .. }) if is_pure_member_callee(obj, prop, ctx) => {
+            false
         }
 
         Expr::Member(MemberExpr { obj, prop, .. })
@@ -3679,17 +3866,17 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::New(NewExpr { callee, args, .. }) if is_pure_new_callee(callee, ctx) => args
             .iter()
             .flatten()
-            .any(|arg| arg.expr.may_have_side_effects(ctx)),
+            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx)),
 
         Expr::New(_) => true,
 
         Expr::Call(CallExpr {
             callee: Callee::Expr(callee),
-            ref args,
+            args,
             ..
-        }) if callee.is_pure_callee(ctx) => {
-            args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
-        }
+        }) if callee.is_pure_callee(ctx) => args
+            .iter()
+            .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx)),
         Expr::OptChain(OptChainExpr { base, .. })
             if matches!(&**base, OptChainBase::Call(..))
                 && OptChainBase::as_call(base)
@@ -3701,7 +3888,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                 .unwrap()
                 .args
                 .iter()
-                .any(|arg| arg.expr.may_have_side_effects(ctx))
+                .any(|arg| arg.spread.is_some() || arg.expr.may_have_side_effects(ctx))
         }
 
         Expr::Call(_) | Expr::OptChain(..) => true,
@@ -3718,7 +3905,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
 
         Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
             PropOrSpread::Prop(node) => match &**node {
-                Prop::Shorthand(..) => false,
+                Prop::Shorthand(i) => ident_may_have_side_effects(i, ctx),
                 Prop::KeyValue(KeyValueProp { key, value }) => {
                     let k = match key {
                         PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
@@ -3749,11 +3936,11 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         | Expr::JSXElement(..)
         | Expr::JSXFragment(..) => true,
 
-        Expr::TsAs(TsAsExpr { ref expr, .. })
-        | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
-        | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
-        | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-        | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.may_have_side_effects(ctx),
+        Expr::TsAs(TsAsExpr { expr, .. })
+        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { expr, .. })
+        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => expr.may_have_side_effects(ctx),
 
         Expr::Invalid(..) => true,
         #[cfg(swc_ast_unknown)]
@@ -3761,12 +3948,138 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
     }
 }
 
+/// Creates a PropName for a shorthand property, handling the special case of
+/// `__proto__`. When the property name is `__proto__`, it must be converted to
+/// a computed property to preserve JavaScript semantics.
+pub fn prop_name_from_ident(ident: Ident) -> PropName {
+    if ident.sym == "__proto__" {
+        PropName::Computed(ComputedPropName {
+            span: ident.span,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span: ident.span,
+                value: ident.sym.clone().into(),
+                raw: None,
+            }))),
+        })
+    } else {
+        ident.into()
+    }
+}
+
+pub fn prop_name_from_str(span: Span, s: &str) -> PropName {
+    if s == "__proto__" {
+        PropName::Computed(ComputedPropName {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span,
+                value: s.into(),
+                raw: None,
+            }))),
+        })
+    } else if is_valid_prop_ident(s) {
+        PropName::Ident(IdentName {
+            span,
+            sym: s.into(),
+        })
+    } else {
+        PropName::Str(quote_str!(span, s))
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use swc_common::{input::StringInput, BytePos};
+    use swc_common::{input::StringInput, BytePos, DUMMY_SP};
     use swc_ecma_parser::{Parser, Syntax};
 
     use super::*;
+
+    #[test]
+    fn number_literal_nan_is_recognized() {
+        let expr = Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: f64::NAN,
+            raw: None,
+        }));
+
+        assert!(expr.is_nan());
+    }
+
+    #[test]
+    fn num_from_str_small_radix_values_are_exact() {
+        assert_eq!(num_from_str("0xff"), Known(255.0));
+        assert_eq!(num_from_str("0o17"), Known(15.0));
+        assert_eq!(num_from_str("0b101"), Known(5.0));
+    }
+
+    #[test]
+    fn num_from_str_overflowing_radix_values_do_not_become_nan() {
+        // 2^64, one hex digit past what `u64` can hold.
+        assert_eq!(
+            num_from_str("0x10000000000000000"),
+            Known(18446744073709552000.0)
+        );
+        assert_eq!(
+            num_from_str("0o2000000000000000000000"),
+            Known(18446744073709552000.0)
+        );
+        assert_eq!(
+            num_from_str("0b10000000000000000000000000000000000000000000000000000000000000000"),
+            Known(18446744073709552000.0)
+        );
+    }
+
+    #[test]
+    fn num_from_str_overflowing_radix_values_round_correctly() {
+        // A leading digit worth only 1 bit (`1`) shrinks the margin between the
+        // 53-bit mantissa and the digits sampled for rounding; this case only
+        // rounds correctly if that margin is computed from the leading digit's
+        // actual bit length rather than assumed to always be a full digit wide.
+        // Reference: `u128::from_str_radix("123456789abcdef0123", 16) as f64`.
+        assert_eq!(
+            num_from_str("0x123456789abcdef0123"),
+            Known(5.373003642731685e21)
+        );
+
+        // Rounding after every digit (instead of once, on the exact value)
+        // produces a result one ULP away from this.
+        // Reference: `u128::from_str_radix("32a884c83f6f91624", 16) as f64`.
+        assert_eq!(
+            num_from_str("0x32a884c83f6f91624"),
+            Known(5.840501589722223e19)
+        );
+    }
+
+    #[test]
+    fn num_from_str_invalid_radix_digit_is_nan() {
+        match num_from_str("0xg1") {
+            Known(v) => assert!(v.is_nan()),
+            Unknown => panic!("expected a known (NaN) value"),
+        }
+    }
+
+    #[test]
+    fn num_from_str_overflow_with_later_invalid_digit_is_nan() {
+        // The leading `f`s alone already overflow a `u64`, so
+        // `u64::from_str_radix` can report the failure before ever examining
+        // the trailing `g` — this must still come out as `NaN`, not as if
+        // the invalid digit weren't there.
+        match num_from_str("0xfffffffffffffffffg") {
+            Known(v) => assert!(v.is_nan()),
+            Unknown => panic!("expected a known (NaN) value"),
+        }
+    }
+
+    #[test]
+    fn saturating_exponent_clamps_instead_of_wrapping() {
+        // A plain, comfortably in-range sum is passed through unchanged.
+        assert_eq!(saturating_exponent(100, 4), 104);
+
+        // Reachable only via a radix literal of hundreds of millions of
+        // digits, but must not wrap into a negative exponent: an unchecked
+        // `as i32` cast turns `i32::MAX as usize + 1` into `i32::MIN`.
+        assert_eq!(saturating_exponent(i32::MAX as usize + 1, 0), i32::MAX);
+        assert_eq!(saturating_exponent(i32::MAX as usize, 1), i32::MAX);
+    }
 
     #[test]
     fn test_collect_decls() {
@@ -3834,9 +4147,81 @@ mod tests {
     }
 
     #[test]
+    fn top_level_await_object_property() {
+        assert!(has_top_level_await("const obj = { value: await test };"));
+        assert!(has_top_level_await("const obj = { [await key]: value };"));
+        assert!(!has_top_level_await(
+            "const obj = { async method() { await test; } };"
+        ));
+    }
+
+    #[test]
+    fn top_level_await_class() {
+        assert!(has_top_level_await("class C extends (await base) {}"));
+        assert!(has_top_level_await("class C { [await key]() {} }"));
+        assert!(!has_top_level_await(
+            "class C { async method() { await test; } }"
+        ));
+    }
+
+    #[test]
+    fn nested_await_is_not_top_level_await() {
+        assert!(!has_top_level_await("const f = async () => await test;"));
+    }
+
+    #[test]
     fn top_level_export_await() {
         assert!(has_top_level_await("export const foo = await 1;"));
         assert!(has_top_level_await("export default await 1;"));
+    }
+
+    #[test]
+    fn switch_default_before_empty_case_does_not_terminate() {
+        assert!(!stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    default:
+        return 1;
+    case "0":
+}
+"#
+        ));
+    }
+
+    #[test]
+    fn switch_empty_case_before_default_terminates() {
+        assert!(stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    case "0":
+    default:
+        return 1;
+}
+"#
+        ));
+    }
+
+    #[test]
+    fn switch_non_terminating_case_falls_through_to_terminating_case() {
+        assert!(!stmt_in_function_terminates(
+            r#"
+switch (foo) {
+    case "0":
+        foo();
+    default:
+        return 1;
+}
+"#
+        ));
+    }
+
+    fn stmt_in_function_terminates(text: &str) -> bool {
+        let module = parse_module(&format!("function f() {{ {text} }}"));
+        let ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) = &module.body[0] else {
+            unreachable!("expected a function declaration")
+        };
+        let body = f.function.body.as_ref().unwrap();
+        body.stmts[0].terminates()
     }
 }
 

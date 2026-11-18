@@ -1,0 +1,47 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":21}},
+      "message":"`match` argument cannot contain spread elements"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+  "range":[0,26],
+  "body":[
+    {
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+      "range":[0,26],
+      "declarations":[
+        {
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":25}},
+          "range":[6,25],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+            "range":[6,7],
+            "name":"e",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "init":{
+            "type":"MatchExpression",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":25}},
+            "range":[10,25],
+            "argument":{
+              "type":"SequenceExpression",
+              "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":22}},
+              "range":[16,22],
+              "expressions":[]
+            },
+            "cases":[]
+          }
+        }
+      ],
+      "kind":"const"
+    }
+  ],
+  "comments":[]
+}

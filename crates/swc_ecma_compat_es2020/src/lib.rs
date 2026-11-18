@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use swc_common::{Mark, SyntaxContext};
+use swc_common::Mark;
 use swc_ecma_ast::Pass;
 
 pub use self::{
@@ -12,15 +12,9 @@ pub mod nullish_coalescing;
 pub mod optional_chaining;
 
 pub fn es2020(config: Config, unresolved_mark: Mark) -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
-    options.assumptions.no_document_all = config.nullish_coalescing.no_document_all;
-    options.env.es2020.nullish_coalescing = true;
-    options.env.es2020.export_namespace_from = true;
-
     (
         optional_chaining(config.optional_chaining, unresolved_mark),
-        options.into_pass(),
+        swc_ecma_transformer::es2020_runtime_transforms(config.nullish_coalescing.no_document_all),
     )
 }
 

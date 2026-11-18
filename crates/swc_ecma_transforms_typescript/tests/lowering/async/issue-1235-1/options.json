@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "transform": {
+            "noEmptyExport": true
+        },
+        "parser": {
+            "syntax": "typescript",
+            "decorators": false
+        },
+        "assumptions": {
+            "pureGetters": true
+        }
+    },
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": ["transform-async-to-generator"]
+    }
+}

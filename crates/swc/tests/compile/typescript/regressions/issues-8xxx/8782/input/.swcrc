@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "jsc": {
+    "target": "es2022",
+    "keepClassNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@foo/math": ["libs/math/index.js"],
+      "@foo/math/*": ["libs/math/*"],
+      "@foo/common": ["libs/common/main.js"]
+    },
+    "parser": {
+      "syntax": "typescript"
+    }
+  },
+  "module": {
+    "type": "es6",
+    "resolveFully": true
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,YAAY,QAAQ,iBAAiB;AAExDD,SACI;IAAEE,OAAO;QAAEC,MAAM;QAAMC,OAAO;IAAK;AAAE,GACrC,SAASC;IACL,IAAMC,WAAWC,KAAKC,eAAe,KAAK;IAC1C,IAAMC,OAAOF,KAAKG,QAAQ,CAACJ,UAAU;QACjCH,MAAM;QACNC,OAAO;QACPO,QAAQ;IACZ;IACA,IAAMC,OAAO,IAAIC,WAAW;IAC5BN,KAAKO,SAAS,CAACL,KAAKM,GAAG,EAAEH;IACzBL,KAAKS,aAAa,CAACP,KAAKM,GAAG;IAC3Bd,aAAaM,KAAKU,YAAY,CAACX,WAAWM;IAC1CL,KAAKW,KAAK,CAACT,KAAKM,GAAG;IACnBR,KAAKY,UAAU,CAACb;AACpB;AAGJN,SACI;IAAEE,OAAO;QAAEC,MAAM;QAAMC,OAAO;IAAK;AAAE,GACrC,SAAegB;;YACLd,UACAG,MAKAG;;;;oBANY;;wBAAML,KAAKc,WAAW;;;oBAAlCf,WAAW,AAAC,gBAA4B;oBACjC;;wBAAMC,KAAKe,IAAI,CAAChB,UAAU;4BACnCH,MAAM;4BACNC,OAAO;4BACPO,QAAQ;wBACZ;;;oBAJMF,OAAO;oBAKPG,OAAO,IAAIC,WAAW;oBAC5B;;wBAAMN,KAAKH,KAAK,CAACK,KAAKM,GAAG,EAAEH;;;oBAA3B;oBACA;;wBAAML,KAAKgB,SAAS,CAACd,KAAKM,GAAG;;;oBAA7B;oBACa;;wBAAMR,KAAKiB,QAAQ,CAAClB;;;oBAAjCL;wBAAa;wBAA+BW;;oBAC5CL,KAAKW,KAAK,CAACT,KAAKM,GAAG;oBACnB;;wBAAMR,KAAKkB,MAAM,CAACnB;;;oBAAlB;;;;;;IACJ;;AAGJN,SACI;IAAEE,OAAO;QAAEC,MAAM;QAAMC,OAAO;IAAK;AAAE,GACrC,SAASsB;IACL,IAAMpB,WAAWC,KAAKC,eAAe,KAAK;IAC1C,IAAMC,OAAOF,KAAKG,QAAQ,CAACJ,UAAU;QACjCH,MAAM;QACNC,OAAO;QACPO,QAAQ;IACZ;IACA,IAAMgB,OAAO;IACbpB,KAAKqB,aAAa,CAACnB,KAAKM,GAAG,EAAEY;IAC7BpB,KAAKsB,SAAS,CAACpB,KAAKM,GAAG;IACvBd,aAAaM,KAAKuB,QAAQ,CAACxB,UAAUqB,IAAI,EAAEA;IAC3CpB,KAAKW,KAAK,CAACT,KAAKM,GAAG;IACnBR,KAAKY,UAAU,CAACb;AACpB;AAGJN,SACI;IAAEE,OAAO;QAAEC,MAAM;QAAMC,OAAO;IAAK;AAAE,GACrC,SAAe2B;;YACLzB,UACAG,MAKAkB;;;;oBANY;;wBAAMpB,KAAKc,WAAW;;;oBAAlCf,WAAW,AAAC,gBAA4B;oBACjC;;wBAAMC,KAAKe,IAAI,CAAChB,UAAU;4BACnCH,MAAM;4BACNC,OAAO;4BACPO,QAAQ;wBACZ;;;oBAJMF,OAAO;oBAKPkB,OAAO;oBACb;;wBAAMpB,KAAKyB,SAAS,CAACvB,KAAKM,GAAG,EAAEY;;;oBAA/B;oBACA;;wBAAMpB,KAAK0B,KAAK,CAACxB,KAAKM,GAAG;;;oBAAzB;oBACc;;wBAAMR,KAAK2B,IAAI,CAAC5B;;;oBAA9BL;wBAAc,cAA2B0B,IAAI;wBAAEA;;oBAC/CpB,KAAKW,KAAK,CAACT,KAAKM,GAAG;oBACnB;;wBAAMR,KAAKkB,MAAM,CAACnB;;;oBAAlB;;;;;;IACJ",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "perms",
+    "read",
+    "write",
+    "fdatasyncSyncSuccess",
+    "filename",
+    "Deno",
+    "makeTempDirSync",
+    "file",
+    "openSync",
+    "create",
+    "data",
+    "Uint8Array",
+    "writeSync",
+    "rid",
+    "fdatasyncSync",
+    "readFileSync",
+    "close",
+    "removeSync",
+    "fdatasyncSuccess",
+    "makeTempDir",
+    "open",
+    "fdatasync",
+    "readFile",
+    "remove",
+    "fsyncSyncSuccess",
+    "size",
+    "ftruncateSync",
+    "fsyncSync",
+    "statSync",
+    "fsyncSuccess",
+    "ftruncate",
+    "fsync",
+    "stat"
+  ],
+  "sources": [
+    "../input/sync_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assertEquals } from \"./test_util.ts\";\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function fdatasyncSyncSuccess(): void {\n        const filename = Deno.makeTempDirSync() + \"/test_fdatasyncSync.txt\";\n        const file = Deno.openSync(filename, {\n            read: true,\n            write: true,\n            create: true,\n        });\n        const data = new Uint8Array(64);\n        Deno.writeSync(file.rid, data);\n        Deno.fdatasyncSync(file.rid);\n        assertEquals(Deno.readFileSync(filename), data);\n        Deno.close(file.rid);\n        Deno.removeSync(filename);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function fdatasyncSuccess(): Promise<void> {\n        const filename = (await Deno.makeTempDir()) + \"/test_fdatasync.txt\";\n        const file = await Deno.open(filename, {\n            read: true,\n            write: true,\n            create: true,\n        });\n        const data = new Uint8Array(64);\n        await Deno.write(file.rid, data);\n        await Deno.fdatasync(file.rid);\n        assertEquals(await Deno.readFile(filename), data);\n        Deno.close(file.rid);\n        await Deno.remove(filename);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function fsyncSyncSuccess(): void {\n        const filename = Deno.makeTempDirSync() + \"/test_fsyncSync.txt\";\n        const file = Deno.openSync(filename, {\n            read: true,\n            write: true,\n            create: true,\n        });\n        const size = 64;\n        Deno.ftruncateSync(file.rid, size);\n        Deno.fsyncSync(file.rid);\n        assertEquals(Deno.statSync(filename).size, size);\n        Deno.close(file.rid);\n        Deno.removeSync(filename);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function fsyncSuccess(): Promise<void> {\n        const filename = (await Deno.makeTempDir()) + \"/test_fsync.txt\";\n        const file = await Deno.open(filename, {\n            read: true,\n            write: true,\n            create: true,\n        });\n        const size = 64;\n        await Deno.ftruncate(file.rid, size);\n        await Deno.fsync(file.rid);\n        assertEquals((await Deno.stat(filename)).size, size);\n        Deno.close(file.rid);\n        await Deno.remove(filename);\n    }\n);\n"
+  ],
+  "version": 3
+}

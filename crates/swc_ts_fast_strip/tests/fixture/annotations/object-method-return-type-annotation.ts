@@ -1,0 +1,1 @@
+const object = { method(): number { return 1; } };

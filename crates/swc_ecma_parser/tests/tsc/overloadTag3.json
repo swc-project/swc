@@ -48,12 +48,11 @@
             },
             "params": [],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 204,
                 "end": 207
               },
-              "ctxt": 0,
               "stmts": []
             },
             "accessibility": null,
@@ -102,12 +101,11 @@
               },
               "ctxt": 0,
               "body": {
-                "type": "BlockStatement",
+                "type": "FunctionBody",
                 "span": {
                   "start": 264,
                   "end": 267
                 },
-                "ctxt": 0,
                 "stmts": []
               },
               "generator": false,

@@ -291,6 +291,8 @@ pub struct ForOfStatement {
     pub left: ForStmtLeft,
     pub right: Box<Expression>,
     pub body: Box<Statement>,
+    #[serde(default, rename = "await")]
+    pub is_await: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

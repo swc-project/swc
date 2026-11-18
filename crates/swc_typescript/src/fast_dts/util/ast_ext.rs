@@ -1,11 +1,21 @@
-use std::borrow::Cow;
+use std::borrow::{Borrow, Cow};
 
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Mark;
 use swc_ecma_ast::{
     BindingIdent, ComputedPropName, Expr, Ident, Lit, MemberProp, ObjectPatProp, Pat, Prop,
-    PropName, TsTypeAnn,
+    PropName, Str, TplElement, TsTypeAnn,
 };
+use swc_ecma_utils::number::ToJsString;
+
+/// Borrows parsed template values and decodes raw-only elements synthesized by
+/// transforms. Only ordinary templates should use this fallback.
+pub fn tpl_element_value(element: &TplElement) -> Cow<'_, Wtf8Atom> {
+    match &element.cooked {
+        Some(cooked) => Cow::Borrowed(cooked),
+        None => Cow::Owned(Str::from_tpl_raw(element)),
+    }
+}
 
 pub trait ExprExit {
     fn get_root_ident(&self) -> Option<&Ident>;
@@ -135,16 +145,16 @@ impl PatExt for Pat {
 }
 
 pub trait PropNameExit {
-    fn static_name(&self) -> Option<Cow<str>>;
+    fn static_name(&self) -> Option<Cow<'_, str>>;
     fn static_prop(&self, unresolved_mark: Mark) -> Option<StaticProp>;
 }
 
 impl PropNameExit for PropName {
-    fn static_name(&self) -> Option<Cow<str>> {
+    fn static_name(&self) -> Option<Cow<'_, str>> {
         match self {
             PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
             PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str()?)),
-            PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
+            PropName::Num(number) => Some(Cow::Owned(number.value.to_js_string())),
             PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
             PropName::Computed(computed_prop_name) => computed_prop_name.static_name(),
             #[cfg(swc_ast_unknown)]
@@ -161,24 +171,25 @@ impl PropNameExit for PropName {
 }
 
 impl PropNameExit for ComputedPropName {
-    fn static_name(&self) -> Option<Cow<str>> {
+    fn static_name(&self) -> Option<Cow<'_, str>> {
         match self.expr.as_ref() {
             Expr::Lit(lit) => match lit {
                 Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str()?)),
                 Lit::Bool(b) => Some(Cow::Owned(b.value.to_string())),
                 Lit::Null(_) => Some(Cow::Borrowed("null")),
-                Lit::Num(number) => Some(Cow::Owned(number.value.to_string())),
+                Lit::Num(number) => Some(Cow::Owned(number.value.to_js_string())),
                 Lit::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
                 Lit::Regex(regex) => Some(Cow::Owned(regex.exp.to_string())),
                 Lit::JSXText(_) => None,
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },
-            Expr::Tpl(tpl) if tpl.exprs.is_empty() => tpl
-                .quasis
-                .first()
-                .and_then(|e| e.cooked.as_ref())
-                .and_then(|atom| atom.as_str().map(Cow::Borrowed)),
+            Expr::Tpl(tpl) if tpl.exprs.is_empty() => {
+                match tpl_element_value(tpl.quasis.first()?) {
+                    Cow::Borrowed(value) => value.as_str().map(Cow::Borrowed),
+                    Cow::Owned(value) => value.as_str().map(|value| Cow::Owned(value.to_owned())),
+                }
+            }
             _ => None,
         }
     }
@@ -205,7 +216,7 @@ impl PropNameExit for ComputedPropName {
 }
 
 impl PropNameExit for Prop {
-    fn static_name(&self) -> Option<Cow<str>> {
+    fn static_name(&self) -> Option<Cow<'_, str>> {
         match self {
             Self::Shorthand(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
             Self::KeyValue(key_value_prop) => key_value_prop.key.static_name(),
@@ -233,17 +244,17 @@ impl PropNameExit for Prop {
 }
 
 pub trait MemberPropExt {
-    fn static_name(&self) -> Option<&Atom>;
+    fn static_name(&self) -> Option<Cow<'_, Wtf8Atom>>;
 }
 
 impl MemberPropExt for MemberProp {
-    fn static_name(&self) -> Option<&Atom> {
+    fn static_name(&self) -> Option<Cow<'_, Wtf8Atom>> {
         match self {
-            MemberProp::Ident(ident_name) => Some(&ident_name.sym),
+            MemberProp::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.borrow())),
             MemberProp::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
-                Expr::Lit(Lit::Str(s)) => s.value.as_atom(),
+                Expr::Lit(Lit::Str(s)) => Some(Cow::Borrowed(&s.value)),
                 Expr::Tpl(tpl) if tpl.quasis.len() == 1 && tpl.exprs.is_empty() => {
-                    Some(&tpl.quasis[0].raw)
+                    Some(tpl_element_value(&tpl.quasis[0]))
                 }
                 _ => None,
             },

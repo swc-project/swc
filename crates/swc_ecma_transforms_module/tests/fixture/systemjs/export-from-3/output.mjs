@@ -1,16 +1,20 @@
 System.register([
-  "foo"
+    "foo"
 ], function(_export, _context) {
-  "use strict";
-  return {
-      setters: [
-          function(_foo) {
-              _export({
-                  foo: _foo.foo,
-                  bar: _foo.bar
-              });
-          }
-      ],
-      execute: function() {}
-  };
+    "use strict";
+    _export({
+        bar: void 0,
+        foo: void 0
+    });
+    return {
+        setters: [
+            function(_foo_ns) {
+                _export({
+                    bar: _foo_ns.bar,
+                    foo: _foo_ns.foo
+                });
+            }
+        ],
+        execute: function() {}
+    };
 });

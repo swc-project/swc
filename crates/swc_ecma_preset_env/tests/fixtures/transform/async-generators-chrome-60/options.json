@@ -1,0 +1,16 @@
+{
+  "presets": [
+    [
+      "../../../../lib",
+      {
+        "targets": {
+          "chrome": "60"
+        },
+        "modules": false,
+        "useBuiltIns": "usage",
+        "corejs": 3,
+        "shippedProposals": true
+      }
+    ]
+  ]
+}

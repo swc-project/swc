@@ -1,0 +1,27 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":20}},
+      "message":"Unexpected string, expected the identifier `from`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+  "range":[0,26],
+  "body":[
+    {
+      "type":"ExportAllDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+      "range":[0,26],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":26}},
+        "range":[21,26],
+        "value":"foo",
+        "raw":"\"foo\""
+      },
+      "exportKind":"type"
+    }
+  ],
+  "comments":[]
+}

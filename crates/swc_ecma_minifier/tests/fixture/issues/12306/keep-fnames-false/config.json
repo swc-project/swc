@@ -1,0 +1,7 @@
+{
+    "defaults": false,
+    "unused": true,
+    "hoist_props": false,
+    "keep_fnames": false,
+    "module": false
+}

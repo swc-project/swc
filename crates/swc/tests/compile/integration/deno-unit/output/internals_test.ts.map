@@ -1,0 +1,18 @@
+{
+  "mappings": "AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,QAAQ,iBAAiB;AAElDD,SAAS,SAASE;IACd,IAAM,AACFC,gBAEAC,IAAI,CAACA,KAAKC,QAAQ,CAAC,CAFnBF;IAGJF,OAAO,CAAC,CAACE;AACb",
+  "names": [
+    "unitTest",
+    "assert",
+    "internalsExists",
+    "stringifyArgs",
+    "Deno",
+    "internal"
+  ],
+  "sources": [
+    "../input/internals_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert } from \"./test_util.ts\";\n\nunitTest(function internalsExists(): void {\n    const {\n        stringifyArgs,\n        // @ts-expect-error TypeScript (as of 3.7) does not support indexing namespaces by symbol\n    } = Deno[Deno.internal];\n    assert(!!stringifyArgs);\n});\n"
+  ],
+  "version": 3
+}

@@ -104,56 +104,59 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
             // `export { type as }`
             // `export { type as as }`
             // `export { type as as as }`
-            if p.syntax().typescript() && orig_ident.sym == "type" && p.input().cur().is_word() {
-                let possibly_orig = parse_ident_name(p).map(Ident::from)?;
-                if possibly_orig.sym == "as" {
+            // These names may also be string ModuleExportNames.
+            if p.syntax().typescript()
+                && orig_ident.sym == "type"
+                && (p.input().cur().is_word() || p.input().cur().is_str())
+            {
+                let possibly_orig = parse_module_export_name(p)?;
+                if matches!(&possibly_orig, ModuleExportName::Ident(ident) if ident.sym == "as") {
                     // `export { type as }`
-                    if !p.input().cur().is_word() {
+                    if !(p.input().cur().is_word() || p.input().cur().is_str()) {
                         if type_only {
                             p.emit_err(orig_ident.span, SyntaxError::TS2207);
                         }
 
                         return Ok(ExportNamedSpecifier {
                             span: p.span(start),
-                            orig: ModuleExportName::Ident(possibly_orig),
+                            orig: possibly_orig,
                             exported: None,
                             is_type_only: true,
                         });
                     }
 
-                    let maybe_as = parse_ident_name(p).map(Ident::from)?;
-                    if maybe_as.sym == "as" {
-                        if p.input().cur().is_word() {
+                    let maybe_as = parse_module_export_name(p)?;
+                    if matches!(&maybe_as, ModuleExportName::Ident(ident) if ident.sym == "as") {
+                        if p.input().cur().is_word() || p.input().cur().is_str() {
                             // `export { type as as as }`
                             // `export { type as as foo }`
-                            let exported = parse_ident_name(p).map(Ident::from)?;
+                            let exported = parse_module_export_name(p)?;
 
                             if type_only {
                                 p.emit_err(orig_ident.span, SyntaxError::TS2207);
                             }
 
-                            debug_assert!(start <= orig_ident.span.hi());
                             return Ok(ExportNamedSpecifier {
-                                span: Span::new_with_checked(start, orig_ident.span.hi()),
-                                orig: ModuleExportName::Ident(possibly_orig),
-                                exported: Some(ModuleExportName::Ident(exported)),
+                                span: p.span(start),
+                                orig: possibly_orig,
+                                exported: Some(exported),
                                 is_type_only: true,
                             });
                         } else {
                             // `export { type as as }`
                             return Ok(ExportNamedSpecifier {
-                                span: Span::new_with_checked(start, orig_ident.span.hi()),
+                                span: p.span(start),
                                 orig: ModuleExportName::Ident(orig_ident),
-                                exported: Some(ModuleExportName::Ident(maybe_as)),
+                                exported: Some(maybe_as),
                                 is_type_only: false,
                             });
                         }
                     } else {
                         // `export { type as xxx }`
                         return Ok(ExportNamedSpecifier {
-                            span: Span::new_with_checked(start, orig_ident.span.hi()),
+                            span: p.span(start),
                             orig: ModuleExportName::Ident(orig_ident),
-                            exported: Some(ModuleExportName::Ident(maybe_as)),
+                            exported: Some(maybe_as),
                             is_type_only: false,
                         });
                     }
@@ -165,7 +168,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
                     }
 
                     is_type_only = true;
-                    ModuleExportName::Ident(possibly_orig)
+                    possibly_orig
                 }
             } else {
                 ModuleExportName::Ident(orig_ident)
@@ -213,10 +216,32 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
             // Handle:
             // `import { type xx } from 'mod'`
             // `import { type xx as yy } from 'mod'`
+            // `import { type "xx" as yy } from 'mod'`
             // `import { type as } from 'mod'`
             // `import { type as as } from 'mod'`
             // `import { type as as as } from 'mod'`
-            if p.syntax().typescript() && orig_name.sym == "type" && p.input().cur().is_word() {
+            if p.syntax().typescript()
+                && orig_name.sym == "type"
+                && (p.input().cur().is_word() || p.input().cur().is_str())
+            {
+                // A string imported name still requires an identifier local binding.
+                if p.input().cur().is_str() {
+                    let imported = parse_module_export_name(p)?;
+                    expect!(p, &P::Token::AS);
+                    let local: Ident = parse_binding_ident(p, false)?.into();
+
+                    if type_only {
+                        p.emit_err(orig_name.span, SyntaxError::TS2206);
+                    }
+
+                    return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
+                        span: Span::new_with_checked(start, local.span.hi()),
+                        local,
+                        imported: Some(imported),
+                        is_type_only: true,
+                    }));
+                }
+
                 let possibly_orig_name = parse_ident_name(p).map(Ident::from)?;
                 if possibly_orig_name.sym == "as" {
                     // `import { type as } from 'mod'`

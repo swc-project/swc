@@ -1,0 +1,42 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
+      "message":"Components use `renders` instead of `:` to annotate the render type of a component."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":32}},
+  "range":[0,32],
+  "body":[
+    {
+      "type":"DeclareComponent",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":32}},
+      "range":[0,32],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":21}},
+        "range":[18,21],
+        "name":"Foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "rest":null,
+      "params":[],
+      "rendersType":{
+        "type":"TypeOperator",
+        "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":31}},
+        "range":[25,31],
+        "operator":"renders",
+        "typeAnnotation":{
+          "type":"NumberTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":31}},
+          "range":[25,31]
+        }
+      },
+      "typeParameters":null
+    }
+  ],
+  "comments":[]
+}

@@ -1,0 +1,7 @@
+  x pragma cannot be set when runtime is automatic
+   ,-[$DIR/tests/compile/react/jsx/pure/unset-pragma-comment-automatic-runtime/input/input.js:1:1]
+ 1 | /* @jsx h */
+   : ^^^^^^^^^^^^
+ 2 | 
+ 3 | <div />;
+   `----

@@ -1,0 +1,252 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 23,
+    "end": 349
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 23,
+        "end": 66
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 23,
+          "end": 65
+        },
+        "expressions": [],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 24,
+              "end": 64
+            },
+            "tail": true,
+            "cooked": "abcdefghijklmnopqrstuvwxyz12345`escaped",
+            "raw": "abcdefghijklmnopqrstuvwxyz12345\\`escaped"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 67,
+        "end": 112
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 67,
+          "end": 111
+        },
+        "expressions": [],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 68,
+              "end": 110
+            },
+            "tail": true,
+            "cooked": "abcdefghijklmnopqrstuvwxyz12345${literal}",
+            "raw": "abcdefghijklmnopqrstuvwxyz12345\\${literal}"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 113,
+        "end": 166
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 113,
+          "end": 165
+        },
+        "expressions": [],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 114,
+              "end": 164
+            },
+            "tail": true,
+            "cooked": "abcdefghijklmnopqrstuvwxyz12345\\\n😀\\uD800",
+            "raw": "abcdefghijklmnopqrstuvwxyz12345\\\\\\n\\u{1f600}\\uD800"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 167,
+        "end": 224
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 167,
+          "end": 223
+        },
+        "expressions": [
+          {
+            "type": "Identifier",
+            "span": {
+              "start": 212,
+              "end": 217
+            },
+            "ctxt": 0,
+            "value": "value",
+            "optional": false
+          }
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 168,
+              "end": 210
+            },
+            "tail": false,
+            "cooked": "abcdefghijklmnopqrstuvwxyz12345continued",
+            "raw": "abcdefghijklmnopqrstuvwxyz12345\\\ncontinued"
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 218,
+              "end": 222
+            },
+            "tail": true,
+            "cooked": "tail",
+            "raw": "tail"
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 225,
+        "end": 307
+      },
+      "expression": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 225,
+          "end": 306
+        },
+        "ctxt": 0,
+        "tag": {
+          "type": "Identifier",
+          "span": {
+            "start": 225,
+            "end": 228
+          },
+          "ctxt": 0,
+          "value": "tag",
+          "optional": false
+        },
+        "typeParameters": null,
+        "template": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 228,
+            "end": 306
+          },
+          "expressions": [
+            {
+              "type": "Identifier",
+              "span": {
+                "start": 265,
+                "end": 270
+              },
+              "ctxt": 0,
+              "value": "value",
+              "optional": false
+            }
+          ],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 229,
+                "end": 263
+              },
+              "tail": false,
+              "cooked": null,
+              "raw": "abcdefghijklmnopqrstuvwxyz12345\\xZ"
+            },
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 271,
+                "end": 305
+              },
+              "tail": true,
+              "cooked": null,
+              "raw": "abcdefghijklmnopqrstuvwxyz12345\\uZ"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 308,
+        "end": 349
+      },
+      "expression": {
+        "type": "TaggedTemplateExpression",
+        "span": {
+          "start": 308,
+          "end": 348
+        },
+        "ctxt": 0,
+        "tag": {
+          "type": "Identifier",
+          "span": {
+            "start": 308,
+            "end": 311
+          },
+          "ctxt": 0,
+          "value": "tag",
+          "optional": false
+        },
+        "typeParameters": null,
+        "template": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 311,
+            "end": 348
+          },
+          "expressions": [],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 312,
+                "end": 347
+              },
+              "tail": true,
+              "cooked": "abcdefghijklmnopqrstuvwxyz1234589",
+              "raw": "abcdefghijklmnopqrstuvwxyz12345\\8\\9"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,9 @@
+{
+  "exclude": ".*\\.spec.ts$",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "externalHelpers": false
+  }
+}

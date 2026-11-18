@@ -1,0 +1,10 @@
+{
+    "isModule": false,
+    "env": {
+        "targets": {
+            "ie": "6"
+        },
+        "mode": "usage",
+        "coreJs": "3.22"
+    }
+}

@@ -24,7 +24,7 @@ var D = /*#__PURE__*/ function() {
     _create_class(D, [
         {
             key: "x",
-            set: function set(v1) {}
+            set: function set(v) {}
         }
     ]);
     return D;

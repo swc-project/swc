@@ -1,6 +1,53 @@
 use swc_common::Span;
 use swc_ecma_ast::*;
 
+/// Checks the syntactic forms allowed for an unannotated ambient readonly
+/// initializer. Whether a member reference actually names an enum member is a
+/// type-checking concern.
+pub(super) fn is_ts_ambient_initializer(expr: &Expr) -> bool {
+    match expr {
+        Expr::Lit(Lit::Bool(_) | Lit::BigInt(_)) => true,
+        Expr::Unary(UnaryExpr {
+            op: UnaryOp::Minus,
+            arg,
+            ..
+        }) if matches!(&**arg, Expr::Lit(Lit::BigInt(_))) => true,
+        Expr::Member(member) => {
+            let mut object = &*member.obj;
+            while let Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(_),
+                ..
+            }) = object
+            {
+                object = obj;
+            }
+            if !matches!(object, Expr::Ident(_)) {
+                return false;
+            }
+            match &member.prop {
+                MemberProp::Ident(_) => true,
+                MemberProp::Computed(key) => is_ts_ambient_string_or_number(&key.expr),
+                _ => false,
+            }
+        }
+        _ => is_ts_ambient_string_or_number(expr),
+    }
+}
+
+fn is_ts_ambient_string_or_number(expr: &Expr) -> bool {
+    match expr {
+        Expr::Lit(Lit::Str(_) | Lit::Num(_)) => true,
+        Expr::Tpl(template) => template.exprs.is_empty(),
+        Expr::Unary(UnaryExpr {
+            op: UnaryOp::Minus,
+            arg,
+            ..
+        }) => matches!(&**arg, Expr::Lit(Lit::Num(_))),
+        _ => false,
+    }
+}
+
 pub trait IsSimpleParameterList {
     fn is_simple_parameter_list(&self) -> bool;
 }

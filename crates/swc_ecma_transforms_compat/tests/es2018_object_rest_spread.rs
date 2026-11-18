@@ -1,14 +1,14 @@
-use std::path::PathBuf;
+use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
-    es2015::{self, spread},
+    es2015,
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec};
 
 fn syntax() -> Syntax {
     Syntax::default()
@@ -18,73 +18,8 @@ fn tr(c: Config) -> impl Pass {
     object_rest_spread(c)
 }
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_233,
-    "const foo = () => ({ x, ...y }) => y"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_239,
-    "class Foo {
-  constructor ({ ...bar }) {}
-}"
-);
-
 // object rest spread pass should not touch rest in parameters and spread in
 // args.
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_227,
-    "export default function fn1(...args) {
-  fn2(...args);
-}"
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_162,
-    r#"
-export const good = {
-  a(bad1) {
-    (...bad2) => { };
-  }
-};
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_181,
-    r#"
-const fn = ({ a, ...otherProps }) => otherProps;
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_function_array,
-    r#"
-function foo([{...bar}]) {
-}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_var_basic,
-    r#"
-var { a , ...b } = _ref;
-"#
-);
 
 test_exec!(
     syntax(),
@@ -124,75 +59,6 @@ try {
 }"#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_assignment_expression,
-    r#"({ a1 } = c1);
-({ a2, ...b2 } = c2);
-
-console.log({ a3, ...b3 } = c3);"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_catch_clause,
-    r#"
-try {} catch({ ...a34 }) {}
-try {} catch({a1, ...b1}) {}
-try {} catch({a2, b2, ...c2}) {}
-try {} catch({a2, b2, c2: { c3, ...c4 }}) {}
-
-// Unchanged
-try {} catch(a) {}
-try {} catch({ b }) {}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_export,
-    r#"
-// ExportNamedDeclaration
-export var { b, ...c } = asdf2;
-// Skip
-export var { bb, cc } = ads;
-export var [ dd, ee ] = ads;
-"#
-);
-
-test!(
-    syntax(),
-    |_| (
-        tr(Default::default()),
-        spread(Default::default(), Mark::new())
-    ),
-    rest_for_x,
-    r#"
-// ForXStatement
-for (var {a, ...b} of []) {}
-for ({a, ...b} of []) {}
-async function a() {
-  for await ({a, ...b} of []) {}
-}
-
-// skip
-for ({a} in {}) {}
-for ({a} of []) {}
-async function a() {
-  for await ({a} of []) {}
-}
-
-for (a in {}) {}
-for (a of []) {}
-async function a() {
-  for await (a of []) {}
-}
-"#
-);
-
 test_exec!(
     ignore,
     syntax(),
@@ -223,73 +89,6 @@ expect(z).toBe("zee");
 "#
 );
 
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_impure_computed,
-    r#"
-var key, x, y, z;
-// impure
-key = 1;
-var { [key++]: y, ...x } = { 1: 1, a: 1 };
-expect(x).toEqual({ a: 1 });
-expect(key).toBe(2);
-expect(y).toBe(1);
-
-// takes care of the order
-
-key = 1;
-var { [++key]: y, [++key]: z, ...rest} = {2: 2, 3: 3};
-expect(y).toBe(2);
-expect(z).toBe(3);
-
-// pure, computed property should remain as-is
-key = 2;
-({ [key]: y, z, ...x } = {2: "two", z: "zee"});
-expect(y).toBe("two");
-expect(x).toEqual({});
-expect(z).toBe("zee");
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_2,
-    r#"
-const test = {
-  foo: {
-    bar: {
-      baz: {
-        a: {
-          x: 1,
-          y: 2,
-          z: 3,
-        },
-      },
-    },
-  },
-};
-
-const { foo: { bar: { baz: { a: { x, ...other } } } } } = test;
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_computed_key,
-    r#"
-const {
-  [({ ...rest }) => {
-    let { ...b } = {};
-  }]: a,
-  [({ ...d } = {})]: c,
-} = {};
-"#
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -305,20 +104,6 @@ const {
 a({})
 expect(c).toEqual({})
 expect(d).toEqual({})
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_default_value,
-    r#"
-const {
-  a = ({ ...rest }) => {
-    let { ...b } = {};
-  },
-  c = ({ ...d } = {}),
-} = {};
 "#
 );
 
@@ -348,33 +133,6 @@ var obj = {
 var { a: { ...bar }, b: { ...baz }, ...foo } = obj;
 
 expect(result).toBe("barbazfoo");
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_order,
-    r#"
-const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_nested_1,
-    r#"
-const defunct = {
-  outer: {
-    inner: {
-      three: 'three',
-      four: 'four'
-    }
-  }
-}
-
-const { outer: { inner: { three, ...other } } } = defunct
 "#
 );
 
@@ -441,68 +199,6 @@ expect(dy).toBe("sy");
 "#
 );
 
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_non_string_computed,
-    r#"
-const a = {
-  "3": "three"
-  "foo": "bar"
-}
-
-const {
-  [3]: omit,
-  ...rest
-} = a;
-
-expect(rest).toEqual({"foo": "bar"});
-expect(omit).toBe("three");
-
-const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
-const c = {
-  [k1]: "1"
-  [k2]: "2"
-  [k3]: "3"
-  [k4]: "4"
-  [k5]: "5"
-};
-
-const {
-  [k1]: v1,
-  [k2]: v2,
-  [k3]: v3,
-  [k4]: v4,
-  [k5]: v5,
-  ...vrest
-} = c;
-
-expect(v1).toBe("1");
-expect(v2).toBe("2");
-expect(v3).toBe("3");
-expect(v4).toBe("4");
-expect(v5).toBe("5");
-expect(vrest).toEqual({});
-
-// shouldn't convert symbols to strings
-const sx = Symbol();
-const sy = Symbol();
-
-const d = {
-  [sx]: "sx"
-  [sy]: "sy"
-}
-
-const {
-  [sx]: dx,
-  [sy]: dy
-} = d;
-
-expect(dx).toBe("sx");
-expect(dy).toBe("sy");"#
-);
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -528,64 +224,6 @@ const { [sym]: dst, ...noSym } = src;
 expect(dst).toBe("symbol");
 expect(noSym.a).toBe("string");
 expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);"#
-);
-
-test!(
-    ignore,
-    syntax(),
-    |_| tr(Default::default()),
-    rest_symbol,
-    r#"
-let {
-  [Symbol.for("foo")]: foo,
-  ...rest
-} = {};
-
-({ [Symbol.for("foo")]: foo, ...rest } = {});
-
-if ({ [Symbol.for("foo")]: foo, ...rest } = {}) {}
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_variable_destructuring_1,
-    r#"
-var z = {};
-var { ...x } = z;
-var { ...a } = { a: 1 };
-var { ...x } = a.b;
-var { ...x } = a();
-var {x1, ...y1} = z;
-x1++;
-var { [a]: b, ...c } = z;
-var {x1, ...y1} = z;
-let {x2, y2, ...z2} = z;
-const {w3, x3, y3, ...z4} = z;
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_variable_destructuring_2,
-    r#"
-let {
-  x: { a: xa, [d]: f, ...asdf },
-  y: { ...d },
-  ...g
-} = complex;
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_variable_destructuring_3,
-    r#"
-let { x4: { ...y4 } } = z;
-"#
 );
 
 test_exec!(
@@ -617,48 +255,6 @@ let {
 expect(b).toBe(1);
 expect(arrayRest).toEqual([2, 3, 4]);
 expect(objectRest).toEqual({d: 'oyez'})
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    rest_with_array_rest,
-    r#"
-let {
-  a: [b, ...arrayRest],
-  c = function(...functionRest){},
-  ...objectRest
-} = {
-  a: [1, 2, 3, 4],
-  d: "oyez"
-};
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    spread_assignment,
-    r#"
-z = { x, ...y };
-
-z = { x, w: { ...y } };
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    object_spread_expression,
-    r#"
-({ x, ...y, a, ...b, c });
-
-({ ...Object.prototype });
-
-({ ...{ foo: 'bar' } });
-
-({ ...{ get foo () { return 'foo' } } });
 "#
 );
 
@@ -711,25 +307,7 @@ expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(false);
 "#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    spread_variable_declaration,
-    r#"var z = { ...x };"#
-);
-
 // object_spread_assignment
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    object_spread_assignment,
-    r#"
-z = { x, ...y };
-
-z = { x, w: { ...y } };
-
-"#
-);
 
 //// regression_gh_7304
 //test!(syntax(),|_| tr("{
@@ -1106,24 +684,6 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //"#);
 
 // regression_gh_5151
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_gh_5151,
-    r#"
-const { x, ...y } = a,
-  z = foo(y);
-
-const { ...s } = r,
-  t = foo(s);
-
-// ordering is preserved
-var l = foo(),
-    { m: { n, ...o }, ...p } = bar(),
-    q = baz();
-
-"#
-);
 
 // object_rest_parameters
 //test!(syntax(),|_| tr("{
@@ -1345,26 +905,6 @@ var l = foo(),
 //"#);
 
 // regression_gh_7388
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_gh_7388,
-    r#"
-function fn0(obj0) {
-  const {
-    fn1 = (obj1 = {}) => {
-      const {
-        fn2 = (obj2 = {}) => {
-          const {a, ...rest} = obj2;
-          console.log(rest);
-        }
-      } = obj1;
-    }
-  } = obj0;
-}
-
-"#
-);
 
 // object_rest_impure_computed_exec
 
@@ -1743,15 +1283,6 @@ expect(log).toEqual([1]);
 //"#);
 
 // object_spread_variable_declaration
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    object_spread_variable_declaration,
-    r#"
-var z = { ...x };
-
-"#
-);
 
 //// object_rest_nested_array
 //test!(syntax(),|_| tr("{
@@ -2151,43 +1682,6 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //"#);
 
 // regression_gh_4904
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    regression_gh_4904,
-    r#"
-const { s, ...t } = foo();
-
-const { s: { q1, ...q2 }, ...q3 } = bar();
-
-const { a } = foo(({ b, ...c }) => {
-  console.log(b, c);
-});
-
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    no_symbol_rest_assignment_expression,
-    r#"({ a, b, ...c } = obj);"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    no_symbol_computed,
-    r#"let { [a]: b, ...c } = obj;"#
-);
 
 test_exec!(
     syntax(),
@@ -2205,75 +1699,6 @@ let { a, ...r } = { a: 1, b: 2, [sym]: 3 };
 expect(a).toBe(1);
 expect(r.b).toBe(2);
 expect(sym in r).toBe(false);
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    no_symbol_rest_nested,
-    r#"let { a, nested: { b, c, ...d }, e } = obj;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    no_symbol_var_declaration,
-    r#"var { a, b, ...c } = obj;"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    set_property_assignment,
-    r#"
-var x;
-var y;
-var z;
-
-z = { x, ...y };
-
-z = { x, w: { ...y } };
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    set_property_expression,
-    r#"
-var a;
-var b;
-var c;
-var d;
-var x;
-var y;
-
-({ x, ...y, a, ...b, c });
-
-({ ...Object.prototype });
-
-({ ...{ foo: 'bar' } });
-
-({ ...{ foo: 'bar' }, ...{ bar: 'baz' } });
-
-({ ...{ get foo () { return 'foo' } } });
 "#
 );
 
@@ -2370,30 +1795,6 @@ o.__proto__ = [];
 const o2 = { ...o };
 // Loose will do o2.__proto__ = []
 expect(Array.isArray(Object.getPrototypeOf(o2))).toBe(true);
-"#
-);
-
-test!(
-    syntax(),
-    |_| tr(Config {
-        no_symbol: true,
-        set_property: true,
-        pure_getters: true
-    }),
-    statements_for_of_dstr_obj_rest_to_property,
-    r#"
-    var src = {};
-
-    var counter = 0;
-    
-    for ({ ...src.y } of [{ x: 1, y: 2 }]) {
-        expect(src.y.x).toEqual(1);
-        expect(src.y.y).toEqual(2);
-
-        counter += 1;
-    }
-    
-    expect(counter).toEqual(1);
 "#
 );
 
@@ -2502,24 +1903,91 @@ compare_stdout!(
     "###
 );
 
-#[testing::fixture("tests/object-rest-spread/**/input.js")]
-fn fixture(input: PathBuf) {
-    let parent = input.parent().unwrap();
+compare_stdout!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_12153_var_and_lexical_scope,
+    r###"
+    const values = [
+      { a: 1, extra: 2 },
+      { a: 3, extra: 4 },
+    ];
 
-    let output = parent.join("output.js");
-    test_fixture(
-        Syntax::Es(Default::default()),
-        &|_| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
+    for (var { a, ...b } of values) {}
+    console.log(typeof a, a, b.extra);
 
+    const letClosures = [];
+    for (let { a, ...b } of values) {
+      letClosures.push(() => [a, b.extra]);
+    }
+    console.log(JSON.stringify(letClosures.map((f) => f())));
+
+    const constClosures = [];
+    for (const { a, ...b } of values) {
+      constClosures.push(() => [a, b.extra]);
+    }
+    console.log(JSON.stringify(constClosures.map((f) => f())));
+    "###
+);
+
+compare_stdout!(
+    syntax(),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            tr(Default::default()),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default(),
+            ),
+        )
+    },
+    issue_12339_array_rest,
+    // Shared with the helper-free lowering suite in the `swc` crate.
+    include_str!(
+        "../../swc/tests/compat-lowering/object-rest-spread/resolver/issue-12339/input.js"
+    )
+);
+
+// Check both the object-rest pass and its composition with ES2015 lowering.
+#[testing::fixture("tests/object-rest-spread/**/exec.js")]
+fn exec(input: PathBuf) {
+    let input = read_to_string(input).unwrap();
+    compare_stdout(
+        syntax(),
+        |_| {
             (
-                resolver(unresolved_mark, top_level_mark, false),
-                object_rest_spread(Default::default()),
+                resolver(Mark::new(), Mark::new(), false),
+                tr(Default::default()),
             )
         },
         &input,
-        &output,
-        Default::default(),
-    )
+    );
 }
+
+#[testing::fixture("tests/object-rest-spread/**/exec.js")]
+fn exec_es2015(input: PathBuf) {
+    let input = read_to_string(input).unwrap();
+    compare_stdout(
+        syntax(),
+        |t| {
+            let unresolved_mark = Mark::new();
+            (
+                resolver(unresolved_mark, Mark::new(), false),
+                tr(Default::default()),
+                es2015::es2015(
+                    unresolved_mark,
+                    Some(t.comments.clone()),
+                    Default::default(),
+                ),
+            )
+        },
+        &input,
+    );
+}
+
+// Pipeline directories have their own runner; update this exclusion when adding
+// one.

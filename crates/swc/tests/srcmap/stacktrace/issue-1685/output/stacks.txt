@@ -1,0 +1,5 @@
+$DIR/tests/srcmap/stacktrace/issue-1685/input/index.js:3
+throw new Error('Error here');
+^
+Error: Error here
+    at console ($DIR/tests/srcmap/stacktrace/issue-1685/input/index.js:3:7)

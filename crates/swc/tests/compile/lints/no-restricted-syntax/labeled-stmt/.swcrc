@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "lints": {
+            "noRestrictedSyntax": [
+                "error",
+                {
+                    "LabelStatement": [
+                        {
+                            "message": "no label statement"
+                        }
+                    ]
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

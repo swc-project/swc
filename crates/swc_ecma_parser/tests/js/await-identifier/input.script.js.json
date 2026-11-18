@@ -1,0 +1,334 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 147
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 1,
+          "end": 13
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 15,
+        "end": 30
+      },
+      "ctxt": 0,
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 19,
+            "end": 29
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 19,
+              "end": 24
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 27,
+              "end": 29
+            },
+            "value": 40.0,
+            "raw": "40"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 31,
+        "end": 42
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 31,
+          "end": 41
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 31,
+            "end": 36
+          },
+          "ctxt": 0,
+          "value": "await",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 39,
+            "end": 41
+          },
+          "value": 41.0,
+          "raw": "41"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 43,
+        "end": 54
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 43,
+          "end": 53
+        },
+        "operator": "+=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 43,
+            "end": 48
+          },
+          "ctxt": 0,
+          "value": "await",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 52,
+            "end": 53
+          },
+          "value": 1.0,
+          "raw": "1"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 55,
+        "end": 63
+      },
+      "expression": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 55,
+          "end": 62
+        },
+        "operator": "++",
+        "prefix": false,
+        "argument": {
+          "type": "Identifier",
+          "span": {
+            "start": 55,
+            "end": 60
+          },
+          "ctxt": 0,
+          "value": "await",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 64,
+        "end": 81
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 64,
+          "end": 80
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 64,
+            "end": 78
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 64,
+              "end": 69
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 70,
+              "end": 78
+            },
+            "value": "toString"
+          }
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 82,
+        "end": 114
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 82,
+          "end": 87
+        },
+        "ctxt": 0,
+        "value": "await",
+        "optional": false
+      },
+      "body": {
+        "type": "ForStatement",
+        "span": {
+          "start": 89,
+          "end": 114
+        },
+        "init": null,
+        "test": null,
+        "update": null,
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 98,
+            "end": 114
+          },
+          "ctxt": 0,
+          "stmts": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 100,
+                "end": 112
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 106,
+                  "end": 111
+                },
+                "ctxt": 0,
+                "value": "await",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 115,
+        "end": 138
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 115,
+          "end": 137
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 115,
+            "end": 120
+          },
+          "ctxt": 0,
+          "value": "await",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "FunctionExpression",
+          "identifier": null,
+          "params": [],
+          "decorators": [],
+          "span": {
+            "start": 123,
+            "end": 137
+          },
+          "ctxt": 0,
+          "body": {
+            "type": "FunctionBody",
+            "span": {
+              "start": 135,
+              "end": 137
+            },
+            "stmts": []
+          },
+          "generator": false,
+          "async": false,
+          "typeParameters": null,
+          "returnType": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 139,
+        "end": 147
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 139,
+          "end": 146
+        },
+        "ctxt": 0,
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 139,
+            "end": 144
+          },
+          "ctxt": 0,
+          "value": "await",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

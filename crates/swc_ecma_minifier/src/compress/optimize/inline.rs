@@ -2,24 +2,26 @@ use std::ops::Deref;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
-use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
+use swc_common::{util::take::Take, EqIgnoreSpan, Mark, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
-use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
-};
+use swc_ecma_utils::{class_has_side_effect, collect_decls, contains_ident_ref, ExprExt, Remapper};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
     compress::{
-        optimize::{util::is_valid_for_lhs, BitCtx},
-        util::contains_super,
+        optimize::{
+            util::{is_valid_for_lhs, may_inline_arrow},
+            BitCtx,
+        },
+        util::is_pure_undefined,
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
-    util::{
-        idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
+    usage_analyzer::{
+        alias::{collect_infects_from, AliasConfig},
+        analyzer::storage::Storage,
     },
+    util::{idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt},
 };
 
 /// Methods related to option `inline`.
@@ -40,8 +42,10 @@ impl Optimizer<'_> {
             self.may_remove_ident(ident)
         );
 
-        if self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
-            return;
+        if let Some(scope) = self.data.get_scope(ident.ctxt) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
         }
 
         // We will inline if possible.
@@ -49,11 +53,8 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Expr::Arrow(ArrowExpr { body, .. }) = init {
-            if contains_super(body) {
-                return;
-            }
-            if contains_this_expr(body) {
+        if let Expr::Arrow(a) = init {
+            if !may_inline_arrow(a) {
                 return;
             }
         }
@@ -64,13 +65,16 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if self.data.top.contains(ScopeData::USED_ARGUMENTS)
-                && usage
-                    .flags
-                    .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
-            {
-                return;
+            if let Some(scope) = self.data.get_scope(ident.ctxt) {
+                if scope.contains(ScopeData::USED_ARGUMENTS)
+                    && usage
+                        .flags
+                        .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                {
+                    return;
+                }
             }
+
             if usage
                 .flags
                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
@@ -218,8 +222,7 @@ impl Optimizer<'_> {
                             false
                         } else if let Some(u) = self.data.vars.get(&id.to_id()) {
                             let mut should_inline =
-                                !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                                    && u.flags.contains(VarUsageInfoFlags::DECLARED);
+                                !u.may_change() && u.flags.contains(VarUsageInfoFlags::DECLARED);
 
                             should_inline &=
                                 // Function declarations are hoisted
@@ -316,6 +319,7 @@ impl Optimizer<'_> {
                     flags,
                     ..
                 } = **usage;
+
                 let mut inc_usage = || {
                     for (i, _) in collect_infects_from(
                         &*init,
@@ -332,6 +336,7 @@ impl Optimizer<'_> {
                             u.flags |= flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
                             u.flags |= flags & VarUsageInfoFlags::USED_IN_COND;
                             u.flags |= flags & VarUsageInfoFlags::USED_RECURSIVELY;
+                            u.flags |= flags & VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF;
 
                             if !flags.contains(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS)
                             {
@@ -342,6 +347,14 @@ impl Optimizer<'_> {
                             u.ref_count += ref_count;
                             u.usage_count += usage_count;
                             u.property_mutation_count += property_mutation_count;
+                        }
+                    }
+
+                    if let Expr::Ident(i) = &*init {
+                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                            if !flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) {
+                                u.flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
+                            }
                         }
                     }
                 };
@@ -396,23 +409,6 @@ impl Optimizer<'_> {
                 && ref_count == 1
             {
                 match init {
-                    Expr::Fn(FnExpr { function: f, .. })
-                        if matches!(
-                            &**f,
-                            Function { is_async: true, .. }
-                                | Function {
-                                    is_generator: true,
-                                    ..
-                                }
-                        ) =>
-                    {
-                        return
-                    }
-                    Expr::Arrow(ArrowExpr { is_async: true, .. })
-                    | Expr::Arrow(ArrowExpr {
-                        is_generator: true, ..
-                    }) => return,
-
                     Expr::Lit(Lit::Regex(..)) => {
                         if !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                             || usage
@@ -432,48 +428,22 @@ impl Optimizer<'_> {
 
                     Expr::Lit(..) => {}
 
-                    Expr::Fn(_) | Expr::Arrow(..) if !usage.can_inline_fn_once() => {
-                        return;
-                    }
+                    Expr::Fn(_) | Expr::Arrow(..) => {
+                        let is_generator = match init {
+                            Expr::Arrow(ArrowExpr { is_generator, .. }) => *is_generator,
+                            Expr::Fn(FnExpr { function, .. }) => function.is_generator,
+                            _ => unreachable!(),
+                        };
 
-                    Expr::Fn(f) => {
-                        let excluded: Vec<Id> = find_pat_ids(&f.function.params);
-
-                        for id in idents_used_by(&f.function.params) {
-                            if excluded.contains(&id) {
-                                continue;
-                            }
-                            if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
-                                    return;
-                                }
-                            } else {
-                                return;
-                            }
-                        }
-                    }
-
-                    Expr::Arrow(f) => {
-                        let excluded: Vec<Id> = find_pat_ids(&f.params);
-
-                        for id in idents_used_by(&f.params) {
-                            if excluded.contains(&id) {
-                                continue;
-                            }
-                            if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
-                                    return;
-                                }
-                            } else {
-                                return;
-                            }
+                        if !usage.can_inline_fn_once(is_generator) {
+                            return;
                         }
                     }
 
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                                if v_usage.may_change() {
                                     return;
                                 }
                             }
@@ -486,7 +456,7 @@ impl Optimizer<'_> {
                         }
 
                         if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
-                            if init_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                            if init_usage.may_change()
                                 || !init_usage.flags.contains(VarUsageInfoFlags::DECLARED)
                             {
                                 return;
@@ -520,10 +490,10 @@ impl Optimizer<'_> {
                         for id in idents_used_by(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
                                 if v_usage.property_mutation_count > usage.property_mutation_count
-                                    || v_usage.flags.intersects(
-                                        VarUsageInfoFlags::HAS_PROPERTY_ACCESS
-                                            .union(VarUsageInfoFlags::REASSIGNED),
-                                    )
+                                    || v_usage.may_change()
+                                    || v_usage
+                                        .flags
+                                        .contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
                                 {
                                     return;
                                 }
@@ -545,24 +515,7 @@ impl Optimizer<'_> {
                     .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
                 {
                     match init {
-                        Expr::Lit(..) => {}
-                        Expr::Fn(f) => {
-                            // Similar to `_loop` generation of the
-                            // block_scoping pass.
-                            // If the function captures the environment, we
-                            // can't inline it.
-                            let params: Vec<Id> = find_pat_ids(&f.function.params);
-
-                            if !params.is_empty() {
-                                let captured = idents_captured_by(&f.function.body);
-
-                                for param in params {
-                                    if captured.contains(&param) {
-                                        return;
-                                    }
-                                }
-                            }
-                        }
+                        Expr::Lit(..) | Expr::Fn(..) => {}
                         _ => {
                             return;
                         }
@@ -590,10 +543,160 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Records a variable declared without an initializer, if the variable is
+    /// never assigned.
+    ///
+    /// Every read of such a variable evaluates to `undefined`, even inside
+    /// closures. [Optimizer::inline_undefined_var] replaces the references
+    /// that can fold, and the unused-variable pass removes the declaration
+    /// after all references are gone.
+    ///
+    /// See https://github.com/swc-project/swc/issues/12643
+    pub(super) fn store_uninitialized_var_for_inlining(&mut self, ident: &Ident) {
+        if self.options.inline == 0 && !self.options.reduce_vars {
+            return;
+        }
+
+        // `var arguments;` in a non-arrow function refers to the arguments object.
+        if ident.sym == "arguments" {
+            return;
+        }
+
+        if let Some(scope) = self.data.get_scope(ident.ctxt) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
+        }
+
+        let Some(usage) = self.data.vars.get(&ident.to_id()) else {
+            return;
+        };
+
+        if usage.ref_count == 0
+            || usage.assign_count != 0
+            || usage.declared_count != 1
+            || usage.property_mutation_count != 0
+            || !matches!(usage.var_kind, Some(VarDeclKind::Let | VarDeclKind::Var))
+            || !usage.flags.contains(VarUsageInfoFlags::DECLARED)
+            || usage.flags.intersects(
+                VarUsageInfoFlags::INLINE_PREVENTED
+                    .union(VarUsageInfoFlags::REASSIGNED)
+                    .union(VarUsageInfoFlags::VAR_INITIALIZED)
+                    // Reading a `let` binding above its declaration throws.
+                    .union(VarUsageInfoFlags::USED_ABOVE_DECL)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                    .union(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
+                    .union(VarUsageInfoFlags::DECLARED_AS_FOR_INIT),
+            )
+        {
+            return;
+        }
+
+        // Top-level variables of a script may be assigned by other scripts.
+        if !self.may_remove_ident(ident) {
+            return;
+        }
+
+        report_change!(
+            "inline: Decided to treat never-assigned variable '{}{:?}' as `void 0`",
+            ident.sym,
+            ident.ctxt
+        );
+
+        self.mode.store(ident.to_id(), &Expr::undefined(ident.span));
+        self.vars.undefined_vars.insert(ident.to_id());
+    }
+
+    /// Returns `true` if `e` is a reference to a variable recorded by
+    /// [Optimizer::store_uninitialized_var_for_inlining].
+    pub(super) fn is_undefined_var(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(i) => {
+                !self.vars.undefined_vars.is_empty()
+                    && self.vars.undefined_vars.contains(&i.to_id())
+            }
+            _ => false,
+        }
+    }
+
+    /// Replaces `e` with `void 0` if it is a reference to a never-assigned
+    /// variable.
+    ///
+    /// Callers invoke this only at positions where `undefined` lets the
+    /// enclosing expression fold, such as a condition or a comparison with a
+    /// constant.
+    pub(super) fn inline_undefined_var(&mut self, e: &mut Expr) {
+        if !self.is_undefined_var(e) {
+            return;
+        }
+
+        report_change!(
+            "inline: Replacing never-assigned variable `{}` with `void 0`",
+            crate::debug::dump(&*e, false)
+        );
+        self.changed = true;
+        *e = *Expr::undefined(e.span());
+    }
+
+    /// Replaces never-assigned variables in the operands of `n` where the
+    /// result can fold.
+    ///
+    /// - The left operand of `&&`, `||` and `??` decides the result.
+    /// - An equality comparison folds if the other operand is constant.
+    pub(super) fn inline_undefined_vars_in_bin_expr(&mut self, n: &mut BinExpr) {
+        if self.vars.undefined_vars.is_empty() {
+            return;
+        }
+
+        match n.op {
+            op!("&&") | op!("||") | op!("??") => self.inline_undefined_var(&mut n.left),
+            op!("==") | op!("!=") | op!("===") | op!("!==") => {
+                let is_const = |this: &Self, e: &Expr| {
+                    e.is_lit()
+                        || is_pure_undefined(this.ctx.expr_ctx, e)
+                        || this.is_undefined_var(e)
+                };
+
+                if is_const(self, &n.left) && is_const(self, &n.right) {
+                    self.inline_undefined_var(&mut n.left);
+                    self.inline_undefined_var(&mut n.right);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Replaces never-assigned variables in `e` where the result can fold.
+    ///
+    /// - The test of a conditional expression decides the branch.
+    /// - An optional chain on `undefined` short-circuits.
+    pub(super) fn inline_undefined_vars_in_expr(&mut self, e: &mut Expr) {
+        if self.vars.undefined_vars.is_empty() {
+            return;
+        }
+
+        match e {
+            Expr::Cond(c) => self.inline_undefined_var(&mut c.test),
+            Expr::OptChain(OptChainExpr {
+                optional: true,
+                base,
+                ..
+            }) => match &mut **base {
+                OptChainBase::Member(m) => self.inline_undefined_var(&mut m.obj),
+                OptChainBase::Call(c) => self.inline_undefined_var(&mut c.callee),
+                #[cfg(swc_ast_unknown)]
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
     /// Check if the body of a function is simple enough to inline.
     fn is_fn_body_simple_enough_to_inline(
         &self,
-        body: &BlockStmt,
+        body: &FunctionBody,
         param_count: usize,
         usage: &VarUsageInfo,
     ) -> bool {
@@ -606,17 +709,28 @@ impl Optimizer<'_> {
             0
         } as usize;
         let cost_limit = 3 + param_cost + func_body_cost;
+        let inline_cost = |expr: &Expr| {
+            let mut cost = expr.size(self.ctx.expr_ctx.unresolved_ctxt);
+            if let Expr::Object(obj) = expr {
+                // Substitution can expand `{ x }` to `{ x: value }`. Count at
+                // least the colon and a one-character value before copying it.
+                cost += 2 * obj
+                    .props
+                    .iter()
+                    .filter(|prop| {
+                        matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::Shorthand(..)))
+                    })
+                    .count();
+            }
+            cost
+        };
 
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
-                Stmt::Expr(ExprStmt { expr, .. })
-                    if expr.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
-                {
-                    return true
-                }
+                Stmt::Expr(ExprStmt { expr, .. }) if inline_cost(expr) < cost_limit => return true,
 
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. })
-                    if arg.size(self.ctx.expr_ctx.unresolved_ctxt) < cost_limit =>
+                    if inline_cost(arg) < cost_limit =>
                 {
                     return true
                 }
@@ -662,12 +776,8 @@ impl Optimizer<'_> {
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
         let i = match &*decl {
             Decl::Class(v) => &v.ident,
-            Decl::Fn(f) => {
-                if f.function.is_async {
-                    return;
-                }
-                &f.ident
-            }
+            Decl::Fn(f) => &f.ident,
+
             _ => return,
         };
 
@@ -695,15 +805,13 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self
-            .data
-            .top
-            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
-        {
-            return;
-        }
-
         let id = i.to_id();
+
+        if let Some(scope) = self.data.get_scope(id.1) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
+        }
 
         if let Some(usage) = self.data.vars.get(&id) {
             if usage
@@ -715,7 +823,7 @@ impl Optimizer<'_> {
             }
 
             if usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG) && usage.ref_count > 1 {
-                log_abort!("inline: Used as an arugment");
+                log_abort!("inline: Used as an argument");
                 return;
             }
 
@@ -733,7 +841,12 @@ impl Optimizer<'_> {
             // Inline very simple functions.
             self.vars.inline_with_multi_replacer(decl);
             match decl {
-                Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
+                Decl::Fn(f)
+                    if self.options.inline >= 2
+                        && f.ident.sym != *"arguments"
+                        && !f.function.is_async
+                        && !f.function.is_generator =>
+                {
                     if let Some(body) = &f.function.body {
                         if !usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                             // only callees can be inlined multiple times
@@ -746,26 +859,72 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
-                            if f.function
-                                .params
-                                .iter()
-                                .any(|param| matches!(param.pat, Pat::Rest(..) | Pat::Assign(..)))
-                            {
-                                return;
+                            if let Some(scope) = self.data.get_scope(f.function.ctxt) {
+                                if scope
+                                    .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::IS_ARROW))
+                                {
+                                    return;
+                                }
                             }
+
+                            for (idx, param) in f.function.params.iter().enumerate() {
+                                match &param.pat {
+                                    Pat::Rest(..) => return,
+                                    Pat::Assign(assign) => {
+                                        // Multi-use function inlining with default params is only
+                                        // safe for defaults that are never observed directly.
+                                        let Pat::Ident(param) = &*assign.left else {
+                                            return;
+                                        };
+                                        let Some(usage) = self.data.vars.get(&param.id.to_id())
+                                        else {
+                                            return;
+                                        };
+                                        if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                            || usage.ref_count != 0
+                                        {
+                                            return;
+                                        }
+
+                                        if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
+                                            return;
+                                        }
+
+                                        for earlier_param in f.function.params.iter().take(idx) {
+                                            let earlier_ident = match &earlier_param.pat {
+                                                Pat::Ident(id) => Some(&id.id),
+                                                Pat::Assign(assign) => match &*assign.left {
+                                                    Pat::Ident(id) => Some(&id.id),
+                                                    _ => None,
+                                                },
+                                                _ => None,
+                                            };
+
+                                            let Some(earlier_ident) = earlier_ident else {
+                                                return;
+                                            };
+                                            if contains_ident_ref(&assign.right, earlier_ident) {
+                                                return;
+                                            }
+                                        }
+                                    }
+                                    _ => {}
+                                }
+                            }
+
                             report_change!(
                                 "inline: Decided to inline function `{}{:?}` as it's very simple",
                                 id.0,
                                 id.1
                             );
 
-                            for i in collect_infects_from(
+                            for (i, _) in collect_infects_from(
                                 &f.function,
                                 AliasConfig::default()
                                     .marks(Some(self.marks))
                                     .need_all(true),
                             ) {
-                                if let Some(usage) = self.data.vars.get_mut(&i.0) {
+                                if let Some(usage) = self.data.vars.get_mut(&i) {
                                     usage.ref_count += 1;
                                 }
                             }
@@ -798,10 +957,14 @@ impl Optimizer<'_> {
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && usage.can_inline_fn_once()
                 && (match decl {
-                    Decl::Class(..) => !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL),
-                    Decl::Fn(..) => true,
+                    Decl::Class(..) => {
+                        !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL)
+                            && usage.can_inline_fn_once(false)
+                    }
+                    Decl::Fn(FnDecl { function, .. }) => {
+                        usage.can_inline_fn_once(function.is_generator)
+                    }
                     _ => false,
                 })
             {
@@ -873,7 +1036,6 @@ impl Optimizer<'_> {
         }
     }
 
-    /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
         if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign) {
             return;
@@ -897,92 +1059,106 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                let id = i.to_id();
-                if let Some(value) = self.vars.lits.get(&id).or_else(|| {
-                    if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
-                        self.vars.simple_functions.get(&id)
-                    } else {
-                        None
-                    }
-                }) {
-                    if !matches!(**value, Expr::Ident(..) | Expr::Member(..))
-                        && self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
-                    {
-                        return;
-                    }
-
-                    // currently renamer relies on the fact no distinct var has same ctxt, we need
-                    // to remap all new bindings.
-                    let bindings: FxHashSet<Id> = collect_decls(value);
-                    let new_mark = Mark::new();
-                    let mut cache = FxHashMap::default();
-                    let mut remap = FxHashMap::default();
-
-                    for id in bindings {
-                        let new_ctxt = cache
-                            .entry(id.1)
-                            .or_insert_with(|| id.1.apply_mark(new_mark));
-
-                        let new_ctxt = *new_ctxt;
-
-                        if let Some(usage) = self.data.vars.get(&id).cloned() {
-                            let new_id = (id.0.clone(), new_ctxt);
-                            self.data.vars.insert(new_id, usage);
-                        }
-
-                        remap.insert(id, new_ctxt);
-                    }
-
-                    let mut value = value.clone();
-                    if !remap.is_empty() {
-                        let mut remapper = Remapper::new(&remap);
-                        value.visit_mut_with(&mut remapper);
-                    }
-
-                    self.changed = true;
-                    report_change!("inline: Replacing a variable `{}` with cheap expression", i);
-
-                    *e = *value;
-                    return;
-                }
-
-                // Check without cloning
-                if let Some(value) = self.vars.vars_for_inlining.get(&id) {
-                    if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
-                        && !is_valid_for_lhs(value)
-                    {
-                        return;
-                    }
-
-                    if let Expr::Member(..) = &**value {
-                        if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
-                            return;
-                        }
-                    }
-                }
-
-                if let Some(value) = self.vars.vars_for_inlining.remove(&id) {
-                    self.changed = true;
-                    report_change!("inline: Replacing '{}' with an expression", i);
-
-                    *e = *value;
-
-                    log_abort!("inline: [Change] {}", crate::debug::dump(&*e, false))
+                if let Some(value) = self.inline_ident(i) {
+                    *e = *value
                 }
             }
             _ => (),
         }
     }
+
+    /// Actually inlines variables.
+    pub(super) fn inline_ident(&mut self, ident: &Ident) -> Option<Box<Expr>> {
+        let id = ident.to_id();
+
+        if let Some(value) = self.vars.lits.get(&id).or_else(|| {
+            if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
+                self.vars.simple_functions.get(&id)
+            } else {
+                None
+            }
+        }) {
+            if !matches!(**value, Expr::Ident(..) | Expr::Member(..))
+                && self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
+            {
+                return None;
+            }
+
+            // currently renamer relies on the fact no distinct var has same ctxt, we need
+            // to remap all new bindings.
+            let bindings: FxHashSet<Id> = collect_decls(value);
+            let new_mark = Mark::new();
+            let mut cache = FxHashMap::default();
+            let mut remap = FxHashMap::default();
+
+            for id in bindings {
+                let new_ctxt = cache
+                    .entry(id.1)
+                    .or_insert_with(|| id.1.apply_mark(new_mark));
+
+                let new_ctxt = *new_ctxt;
+
+                if let Some(usage) = self.data.vars.get(&id).cloned() {
+                    let new_id = (id.0.clone(), new_ctxt);
+                    self.data.vars.insert(new_id, usage);
+                }
+
+                remap.insert(id, new_ctxt);
+            }
+
+            for (from, to) in cache.into_iter() {
+                if let Some(scope) = self.data.get_scope(from) {
+                    *self.data.scope(to) = *scope
+                }
+            }
+
+            let mut value = value.clone();
+            if !remap.is_empty() {
+                let mut remapper = Remapper::new(&remap);
+                value.visit_mut_with(&mut remapper);
+            }
+
+            self.changed = true;
+            report_change!(
+                "inline: Replacing a variable `{}` with cheap expression",
+                ident
+            );
+
+            return Some(value);
+        }
+
+        // Check without cloning
+        if let Some(value) = self.vars.vars_for_inlining.get(&id) {
+            if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign) && !is_valid_for_lhs(value) {
+                return None;
+            }
+
+            if let Expr::Member(..) = &**value {
+                if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+                    return None;
+                }
+            }
+        }
+
+        if let Some(value) = self.vars.vars_for_inlining.remove(&id) {
+            self.changed = true;
+            report_change!("inline: Replacing '{}' with an expression", ident);
+
+            return Some(value);
+        }
+
+        None
+    }
 }
 
 fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> Option<u8> {
-    if e.is_async {
+    if e.is_async || e.is_generator {
         return None;
     }
 
     match &*e.body {
-        BlockStmtOrExpr::BlockStmt(s) => is_block_stmt_of_fn_simple_enough_for_copy(s),
-        BlockStmtOrExpr::Expr(e) => is_arrow_body_simple_enough_for_copy(e),
+        ArrowFunctionBody::FunctionBody(s) => is_block_stmt_of_fn_simple_enough_for_copy(s),
+        ArrowFunctionBody::Expr(e) => is_arrow_body_simple_enough_for_copy(e),
         #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
@@ -1019,7 +1195,7 @@ fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> Option<u8> {
     None
 }
 
-fn is_block_stmt_of_fn_simple_enough_for_copy(b: &BlockStmt) -> Option<u8> {
+fn is_block_stmt_of_fn_simple_enough_for_copy(b: &FunctionBody) -> Option<u8> {
     if b.stmts.len() == 1 {
         if let Stmt::Return(ret) = &b.stmts[0] {
             return ret

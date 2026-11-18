@@ -3,6 +3,7 @@
 use std::{cmp, cmp::Ordering, fmt, str::FromStr};
 
 use serde::{de, de::Visitor, Deserialize, Deserializer, Serialize};
+#[cfg(debug_assertions)]
 use tracing::warn;
 
 use crate::Versions;
@@ -28,7 +29,10 @@ impl FromStr for Version {
         if !v.contains('.') {
             return Ok(Version {
                 major: v.parse().map_err(|err| {
+                    #[cfg(debug_assertions)]
                     warn!("failed to parse `{}` as a version: {}", v, err);
+                    #[cfg(not(debug_assertions))]
+                    let _ = err;
                 })?,
                 minor: 0,
                 patch: 0,
@@ -45,7 +49,10 @@ impl FromStr for Version {
         }
 
         let v = v.parse::<semver::Version>().map_err(|err| {
+            #[cfg(debug_assertions)]
             warn!("failed to parse `{}` as a version: {}", v, err);
+            #[cfg(not(debug_assertions))]
+            let _ = err;
         })?;
 
         Ok(Version {

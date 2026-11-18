@@ -38,14 +38,34 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_hooks::VisitMutHook;
+use swc_ecma_hooks::{VisitMutHook, VisitMutWithHook};
 use swc_ecma_utils::{default_constructor_with_span, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitMutWith, VisitWith};
 
 use crate::TraverseCtx;
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
     PrivatePropertyInObjectPass::default()
+}
+
+pub(crate) fn pass() -> impl Pass {
+    PrivatePropertyInObjectFastPass
+}
+
+struct PrivatePropertyInObjectFastPass;
+
+impl Pass for PrivatePropertyInObjectFastPass {
+    fn process(&mut self, program: &mut Program) {
+        let mut finder = PrivateInFinder { found: false };
+        program.visit_with(&mut finder);
+
+        if finder.found {
+            program.visit_mut_with(&mut VisitMutWithHook {
+                hook: PrivatePropertyInObjectPass::default(),
+                context: TraverseCtx::default(),
+            });
+        }
+    }
 }
 
 #[derive(Debug)]
@@ -107,6 +127,7 @@ impl Mode {
 #[derive(Default)]
 struct PrivatePropertyInObjectPass {
     vars: Vec<VarDeclarator>,
+    vars_stack: Vec<Vec<VarDeclarator>>,
     prepend_exprs: Vec<Expr>,
     prepend_exprs_stack: Vec<Vec<Expr>>,
 
@@ -129,10 +150,10 @@ struct ClassData {
     privates: FxHashSet<Atom>,
 
     /// Name of private methods.
-    methods: Vec<Atom>,
+    methods: FxHashSet<Atom>,
 
     /// Name of private statics.
-    statics: Vec<Atom>,
+    statics: FxHashSet<Atom>,
 
     constructor_exprs: Vec<Expr>,
 
@@ -165,17 +186,17 @@ impl PrivatePropertyInObjectPass {
             match m {
                 ClassMember::PrivateMethod(m) => {
                     self.cls.privates.insert(m.key.name.clone());
-                    self.cls.methods.push(m.key.name.clone());
+                    self.cls.methods.insert(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.name.clone());
+                        self.cls.statics.insert(m.key.name.clone());
                     }
                 }
                 ClassMember::PrivateProp(m) => {
                     self.cls.privates.insert(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.name.clone());
+                        self.cls.statics.insert(m.key.name.clone());
                     }
                 }
                 _ => {}
@@ -308,7 +329,10 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 callee: ArrowExpr {
                     span: DUMMY_SP,
                     params: Default::default(),
-                    body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
+                    body: Box::new(ArrowFunctionBody::FunctionBody(FunctionBody {
+                        span: bs.span,
+                        stmts: bs.stmts,
+                    })),
                     is_async: false,
                     is_generator: false,
                     type_params: Default::default(),
@@ -517,8 +541,15 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
         }
     }
 
+    fn enter_stmts(&mut self, _s: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
+        self.vars_stack.push(take(&mut self.vars));
+    }
+
     fn exit_stmts(&mut self, s: &mut Vec<Stmt>, _ctx: &mut TraverseCtx) {
-        if self.vars.is_empty() {
+        let current_vars = take(&mut self.vars);
+        self.vars = self.vars_stack.pop().unwrap_or_default();
+
+        if current_vars.is_empty() {
             return;
         }
 
@@ -528,15 +559,22 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: Default::default(),
-                decls: take(&mut self.vars),
+                decls: current_vars,
                 ctxt: Default::default(),
             }
             .into(),
         );
     }
 
+    fn enter_module_items(&mut self, _items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
+        self.vars_stack.push(take(&mut self.vars));
+    }
+
     fn exit_module_items(&mut self, items: &mut Vec<ModuleItem>, _ctx: &mut TraverseCtx) {
-        if self.vars.is_empty() {
+        let current_vars = take(&mut self.vars);
+        self.vars = self.vars_stack.pop().unwrap_or_default();
+
+        if current_vars.is_empty() {
             return;
         }
 
@@ -546,11 +584,40 @@ impl VisitMutHook<TraverseCtx> for PrivatePropertyInObjectPass {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: Default::default(),
-                decls: take(&mut self.vars),
+                decls: current_vars,
                 ctxt: Default::default(),
             }
             .into(),
         );
+    }
+}
+
+struct PrivateInFinder {
+    found: bool,
+}
+
+impl Visit for PrivateInFinder {
+    noop_visit_type!(fail);
+
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_bin_expr(&mut self, node: &BinExpr) {
+        if self.found {
+            return;
+        }
+
+        if node.op == op!("in") && node.left.is_private_name() {
+            self.found = true;
+            return;
+        }
+
+        node.visit_children_with(self);
     }
 }
 

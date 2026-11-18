@@ -27,6 +27,5 @@ use(function(__unused_webpack_module, exports, __webpack_require__) {
     });
 });
 (function e() {
-    const e = 1;
-    use(e);
+    use(1);
 });

@@ -8,9 +8,6 @@ var Foo = function Foo() {
 module.exports = Foo;
 //// [foo_1.ts]
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var foo = require("./foo_0");
 var x = new foo();
 var y = x.test;

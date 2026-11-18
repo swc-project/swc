@@ -1,0 +1,38 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":8}},
+      "message":"Expected at least one type parameter."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
+  "range":[0,17],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
+      "range":[0,17],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"T",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":{
+        "type":"TypeParameterDeclaration",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":8}},
+        "range":[6,8],
+        "params":[]
+      },
+      "right":{
+        "type":"NumberTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":17}},
+        "range":[11,17]
+      }
+    }
+  ],
+  "comments":[]
+}

@@ -1,0 +1,26 @@
+{
+    "$schema": "https://swc.rs/schema.json",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true,
+            "dts": true
+        },
+        "baseUrl": "./",
+        "experimental": {
+            "emitIsolatedDts": true
+        },
+        "paths": {
+            "@lib/*": [
+                "src/*"
+            ],
+            "@tests/*": [
+                "tests/*"
+            ]
+        }
+    },
+    "module": {
+        "type": "commonjs",
+        "strict": true
+    }
+}

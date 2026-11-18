@@ -20,7 +20,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{
         terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MangleOptions,
-        MinifyOptions,
+        ManglePropertiesOptions, MinifyOptions,
     },
 };
 use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
@@ -237,6 +237,52 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
     }
 }
 
+fn run_mangle_props_exec_test(input_src: &str) {
+    let expected_output = stdout_of(input_src).unwrap();
+
+    eprintln!(
+        "---- {} -----\n{}",
+        Color::Green.paint("Expected"),
+        expected_output
+    );
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "mangle-props").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            input_src,
+            None,
+            Some(MangleOptions {
+                top_level: Some(true),
+                props: Some(ManglePropertiesOptions::default()),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
+}
+
 fn run_default_exec_test(input_src: &str) {
     let config = r#"{
         "defaults": true,
@@ -244,6 +290,125 @@ fn run_default_exec_test(input_src: &str) {
     }"#;
 
     run_exec_test(input_src, config, false);
+}
+
+#[test]
+fn concat_tpl_keeps_delimiter_after_interpolation() {
+    run_default_exec_test(
+        r#"
+        console.log(`<b>${1}</b>` + `<i>${2}</i>`);
+        console.log(`width:${1}px;` + `height:${2}px;`);
+        console.log(`a${0}]` + `${0}b`);
+        console.log(`<a>${1}</a>` + `<b>${2}</b>` + `<c>${3}</c>`);
+        console.log(`x${1}|` + "mid" + `z${2}|`);
+        "#,
+    );
+}
+
+#[test]
+fn issue_11684_named_constructor_arguments() {
+    let src = r#"
+        const effects = [];
+        const effect = value => {
+            effects.push(value);
+            return value;
+        };
+
+        function FunctionCtor(value) {
+            this.value = value;
+        }
+
+        class ClassCtor {
+            constructor(value) {
+                this.value = value;
+            }
+        }
+
+        function ArgumentsCtor() {
+            this.values = Array.from(arguments);
+        }
+
+        class RestCtor {
+            constructor(...values) {
+                this.values = values;
+            }
+        }
+
+        const functionValue = new FunctionCtor(
+            effect("function-used"),
+            0,
+            effect("function-extra-a"),
+            1,
+            effect("function-extra-b")
+        );
+        const classValue = new ClassCtor(
+            effect("class-used"),
+            0,
+            effect("class-extra-a"),
+            1,
+            effect("class-extra-b")
+        );
+        const argumentsValue = new ArgumentsCtor(1, 2, 3);
+        const restValue = new RestCtor(1, 2, 3);
+
+        console.log(JSON.stringify({
+            effects,
+            functionValue: functionValue.value,
+            classValue: classValue.value,
+            argumentsValue: argumentsValue.values,
+            restValue: restValue.values,
+        }));
+        "#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": false
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11684_nested_eval_preserves_constructor_arguments() {
+    let src = r#"
+        class ReplacementClass {
+            constructor(value) {
+                this.value = value;
+            }
+        }
+
+        function ReplacementFunction(value) {
+            this.value = value;
+        }
+
+        class OuterClass {}
+
+        function constructOuterClassAfterEval() {
+            // Direct eval in a child scope can replace an outer constructor binding.
+            eval("OuterClass = ReplacementClass");
+            return new OuterClass("class-eval", "extra");
+        }
+
+        function OuterFunction() {}
+
+        function constructOuterFunctionAfterEval() {
+            eval("OuterFunction = ReplacementFunction");
+            return new OuterFunction("function-eval", "extra");
+        }
+
+        const classValue = constructOuterClassAfterEval();
+        const functionValue = constructOuterFunctionAfterEval();
+
+        console.log(JSON.stringify({
+            classValue: classValue.value,
+            functionValue: functionValue.value,
+        }));
+        "#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": false
+    }"#;
+
+    run_exec_test(src, config, false);
 }
 
 #[test]
@@ -5485,6 +5650,129 @@ fn terser_reduce_vars_issue_3110_3() {
 }
 
 #[test]
+fn terser_reduce_vars_shorthand_proto_null() {
+    let src = r#"(function () {
+    var __proto__ = null;
+    var o = { __proto__ };
+    console.log(
+        Object.getPrototypeOf(o) === Object.prototype,
+        Object.prototype.hasOwnProperty.call(o, "__proto__"),
+        o.__proto__ === null
+    );
+})();"#;
+    let config = r#"{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_reduce_vars_shorthand_proto_object() {
+    let src = r#"(function () {
+    var __proto__ = { marker: 1 };
+    var o = { __proto__ };
+    console.log(
+        Object.getPrototypeOf(o) === Object.prototype,
+        Object.prototype.hasOwnProperty.call(o, "__proto__"),
+        o.__proto__ === __proto__,
+        o.__proto__.marker
+    );
+})();"#;
+    let config = r#"{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_reduce_vars_shorthand_member_not_reexecuted_in_loop() {
+    let src = r#"(function () {
+    var calls = 0;
+    var source = {
+        get value() {
+            calls++;
+            return { n: calls };
+        },
+    };
+    var value = source.value;
+    for (var i = 0; i < 3; i++) {
+        console.log(({ value }).value.n);
+    }
+    console.log(calls);
+})();"#;
+    let config = r#"{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_reduce_vars_shorthand_method_this_not_collapsed() {
+    let src = r#"(function () {
+    var fn = function () {
+        return this.x;
+    };
+    console.log(({ fn, x: "PASS" }).fn());
+})();"#;
+    let config = r#"{
+    "collapse_vars": true,
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unsafe": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn terser_reduce_vars_shorthand_multi_use_function_identity() {
+    let src = r#"(function () {
+    function foo() {
+        return "PASS";
+    }
+    var o = { foo };
+    console.log(o.foo === foo, o.foo());
+})();"#;
+    let config = r#"{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "properties": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
 fn terser_reduce_vars_defun_redefine() {
     let src = r###"function f() {
     function g() {
@@ -8745,6 +9033,127 @@ for (const tmp of test) {
 }
 
 #[test]
+fn issue_11027_many_mangle_props_runtime_collision() {
+    let src = r#"class Base {
+    a = "base-a";
+    b = "base-b";
+    c = "base-c";
+    d = "base-d";
+    e = "base-e";
+    f = "base-f";
+    n = "base-n";
+    r = "base-r";
+    s = "base-s";
+    w = "base-w";
+    x = "base-x";
+    y = "base-y";
+    z = "base-z";
+    E = "base-E";
+}
+Object.defineProperty(Base.prototype, "Q", {
+    get() {
+        return "base-Q:" + this.a + ":" + this.z;
+    }
+});
+class Derived extends Base {
+    fieldAlpha = "derived-alpha";
+    fieldBeta = "derived-beta";
+    fieldGamma = "derived-gamma";
+    fieldDelta = "derived-delta";
+    fieldEpsilon = "derived-epsilon";
+    fieldZeta = "derived-zeta";
+    fieldEta = "derived-eta";
+    fieldTheta = "derived-theta";
+    fieldIota = "derived-iota";
+    fieldKappa = "derived-kappa";
+    fieldLambda = "derived-lambda";
+    fieldMu = "derived-mu";
+    fieldNu = "derived-nu";
+    fieldXi = "derived-xi";
+    fieldOmicron = "derived-omicron";
+    fieldPi = "derived-pi";
+    fieldRho = "derived-rho";
+    fieldSigma = "derived-sigma";
+    fieldTau = "derived-tau";
+    fieldUpsilon = "derived-upsilon";
+    fieldPhi = "derived-phi";
+    fieldChi = "derived-chi";
+    fieldPsi = "derived-psi";
+    fieldOmega = "derived-omega";
+    fieldFinal = "derived-final";
+
+    methodAlpha() {
+        return this.fieldAlpha + ":" + this.fieldBeta;
+    }
+
+    methodBeta() {
+        return this.fieldGamma + ":" + this.fieldDelta;
+    }
+
+    methodGamma() {
+        return this.fieldEpsilon + ":" + this.fieldZeta;
+    }
+
+    methodDelta() {
+        return this.fieldEta + ":" + this.fieldTheta;
+    }
+
+    methodEpsilon() {
+        return this.fieldIota + ":" + this.fieldKappa;
+    }
+
+    methodZeta() {
+        return this.fieldLambda + ":" + this.fieldMu;
+    }
+
+    readQ() {
+        return super.Q + ":" + this.fieldNu;
+    }
+}
+const d = new Derived();
+const baseKeys = ["a", "b", "c", "d", "e", "f", "n", "r", "s", "w", "x", "y", "z", "E", "Q"];
+console.log(baseKeys.map((key) => d[key]).join("|"));
+console.log(
+    d.fieldAlpha,
+    d.fieldBeta,
+    d.fieldGamma,
+    d.fieldDelta,
+    d.fieldEpsilon,
+    d.fieldZeta,
+    d.fieldEta,
+    d.fieldTheta,
+    d.fieldIota,
+    d.fieldKappa,
+    d.fieldLambda,
+    d.fieldMu,
+    d.fieldNu,
+    d.fieldXi,
+    d.fieldOmicron,
+    d.fieldPi,
+    d.fieldRho,
+    d.fieldSigma,
+    d.fieldTau,
+    d.fieldUpsilon,
+    d.fieldPhi,
+    d.fieldChi,
+    d.fieldPsi,
+    d.fieldOmega,
+    d.fieldFinal
+);
+console.log(
+    d.methodAlpha(),
+    d.methodBeta(),
+    d.methodGamma(),
+    d.methodDelta(),
+    d.methodEpsilon(),
+    d.methodZeta(),
+    d.readQ()
+);"#;
+
+    run_mangle_props_exec_test(src);
+}
+
+#[test]
 fn terser_issue_747_dont_reuse_prop() {
     let src = r#""aaaaaaaaaabbbbb";
 var obj = {};
@@ -11498,7 +11907,928 @@ function printError() {
 }
 
 printError()
-    
+
         ",
+    );
+}
+
+#[test]
+fn issue_11517() {
+    // Test that the minifier does not incorrectly merge if statements with
+    // similar structures but different string literal values in local variables.
+    run_default_exec_test(
+        "
+const buildErrorLog = ({
+  errorType,
+  mode,
+}) => {
+  const isModeA = mode === 'modeA';
+  const isModeB = mode === 'modeB';
+
+  if (errorType === 'A_ERROR') {
+    const message = 'A error occured';
+    return { fieldX: true, fieldY: true, message };
+  }
+  if (errorType === 'B_ERROR') {
+    const message = 'B error occured';
+    return { fieldX: true, fieldY: true, message };
+  }
+  return { fieldX: true, fieldY: true, message: 'Invalid configuration' };
+};
+
+const resultA = buildErrorLog({ errorType: 'A_ERROR', mode: 'modeA' });
+const resultB = buildErrorLog({ errorType: 'B_ERROR', mode: 'modeB' });
+console.log('A:', resultA.message);
+console.log('B:', resultB.message);
+        ",
+    );
+}
+
+/// Test that `unsafe_hoist_static_method_alias` properly handles variable name
+/// collisions. When a variable already exists with the same name as the alias
+/// would have, the hoisting should either use a different name or skip
+/// hoisting.
+#[test]
+fn issue_9741_collision() {
+    let src = r#"
+const _Object_assign = [];
+_Object_assign.push(1);
+_Object_assign.push(2);
+_Object_assign.push(3);
+
+const a = {};
+Object.assign(a, {});
+const b = {};
+Object.assign(b, {});
+Object.assign(b, a);
+
+console.log(_Object_assign.length);
+console.log(_Object_assign[0]);
+console.log(Array.isArray(_Object_assign));
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test that `unsafe_hoist_global_objects_alias` hoists global constructors
+/// like Map, Set, Promise, etc. to local variables when used multiple times.
+#[test]
+fn issue_9741_global_objects() {
+    let src = r#"
+const a = new Map();
+a.set('foo', 1);
+const b = new Map();
+b.set('bar', 2);
+const c = new Map();
+c.set('baz', 3);
+
+console.log(a.get('foo'));
+console.log(b.get('bar'));
+console.log(c.get('baz'));
+console.log(a instanceof Map);
+console.log(b instanceof Map);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test that `unsafe_hoist_global_objects_alias` handles variable name
+/// collisions properly.
+#[test]
+fn issue_9741_global_objects_collision() {
+    let src = r#"
+const _Map = "not a map";
+
+const a = new Map();
+a.set('foo', 1);
+const b = new Map();
+b.set('bar', 2);
+
+console.log(_Map);
+console.log(a.get('foo'));
+console.log(b.get('bar'));
+console.log(a instanceof Map);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test that `unsafe_hoist_static_method_alias` handles function name
+/// collisions properly when a user-defined function has the same name
+/// as the generated alias.
+#[test]
+fn issue_9741_collision_function() {
+    let src = r#"
+function _Object_assign(a, b) {
+    return a + b;
+}
+console.log(_Object_assign(4, 2));
+
+const a = {};
+Object.assign(a, { x: 1 });
+const b = {};
+Object.assign(b, { y: 2 });
+console.log(a.x);
+console.log(b.y);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Test both options working together.
+#[test]
+fn issue_9741_combined() {
+    let src = r#"
+const a = new Map();
+const b = new Map();
+const c = new Map();
+
+const obj1 = {};
+Object.assign(obj1, {});
+const obj2 = {};
+Object.assign(obj2, {});
+Object.assign(obj2, obj1);
+
+console.log(a instanceof Map);
+console.log(b instanceof Map);
+console.log(c instanceof Map);
+console.log(typeof obj1);
+console.log(typeof obj2);
+"#;
+    let config = r#"{
+    "defaults": true,
+    "toplevel": true,
+    "unsafe_hoist_static_method_alias": true,
+    "unsafe_hoist_global_objects_alias": true
+}"#;
+
+    run_exec_test(src, config, false);
+}
+
+/// Issue #11517: Minifier incorrectly merges if statements with different local
+/// variable values. Original reproduction case.
+#[test]
+fn issue_11517_original() {
+    let src = r#"
+const buildErrorLog = ({
+  errorType,
+  mode,
+}) => {
+  const isModeA = mode === 'modeA';
+  const isModeB = mode === 'modeB';
+
+  if (errorType === 'A_ERROR') {
+    const message = 'A error occurred';
+    return { fieldX: true, fieldY: true, message };
+  }
+  if (errorType === 'B_ERROR') {
+    const message = 'B error occurred';
+    return { fieldX: true, fieldY: true, message };
+  }
+  return { fieldX: true, fieldY: true, message: 'Invalid configuration' };
+};
+
+console.log(buildErrorLog({ errorType: 'A_ERROR', mode: 'modeA' }).message);
+console.log(buildErrorLog({ errorType: 'B_ERROR', mode: 'modeB' }).message);
+console.log(buildErrorLog({ errorType: 'C_ERROR', mode: 'modeA' }).message);
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Simplified version with two if statements having different
+/// const values.
+#[test]
+fn issue_11517_simplified() {
+    let src = r#"
+function test(type) {
+  if (type === 'A') {
+    const msg = 'Message A';
+    return msg;
+  }
+  if (type === 'B') {
+    const msg = 'Message B';
+    return msg;
+  }
+  return 'Default';
+}
+
+console.log(test('A'));
+console.log(test('B'));
+console.log(test('C'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Correct merging when values are the same.
+/// This tests that merging still works correctly when it should.
+#[test]
+fn issue_11517_same_values_should_merge() {
+    let src = r#"
+function test(x) {
+  if (x === 'A') {
+    const msg = 'same';
+    return msg;
+  }
+  if (x === 'B') {
+    const msg = 'same';
+    return msg;
+  }
+  return 'default';
+}
+
+console.log(test('A'));
+console.log(test('B'));
+console.log(test('C'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Using let instead of const for local variable.
+#[test]
+fn issue_11517_let_variable() {
+    let src = r#"
+function process(x) {
+  if (x === 'foo') {
+    let val = 100;
+    return val + 1;
+  }
+  if (x === 'bar') {
+    let val = 200;
+    return val + 1;
+  }
+  return 0;
+}
+
+console.log(process('foo'));
+console.log(process('bar'));
+console.log(process('baz'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Using var instead of const for local variable.
+#[test]
+fn issue_11517_var_variable() {
+    let src = r#"
+function compute(n) {
+  if (n === 1) {
+    var x = 'first';
+    return x;
+  }
+  if (n === 2) {
+    var x = 'second';
+    return x;
+  }
+  return 'other';
+}
+
+console.log(compute(1));
+console.log(compute(2));
+console.log(compute(3));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: With continue statements instead of return.
+#[test]
+fn issue_11517_continue() {
+    let src = r#"
+function sumWithLabels(arr) {
+  let result = [];
+  for (let i = 0; i < arr.length; i++) {
+    const val = arr[i];
+    if (val === 1) {
+      const label = 'one';
+      result.push(label);
+      continue;
+    }
+    if (val === 2) {
+      const label = 'two';
+      result.push(label);
+      continue;
+    }
+    result.push('other');
+  }
+  return result;
+}
+
+console.log(sumWithLabels([1, 2, 3, 1, 2]).join(','));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: With break statements.
+#[test]
+fn issue_11517_break() {
+    let src = r#"
+function findLabel(arr) {
+  let found = 'none';
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === 'x') {
+      const label = 'found x';
+      found = label;
+      break;
+    }
+    if (arr[i] === 'y') {
+      const label = 'found y';
+      found = label;
+      break;
+    }
+  }
+  return found;
+}
+
+console.log(findLabel(['a', 'b', 'x', 'y']));
+console.log(findLabel(['a', 'y', 'x']));
+console.log(findLabel(['a', 'b', 'c']));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: With throw statements.
+#[test]
+fn issue_11517_throw() {
+    let src = r#"
+function validate(type) {
+  try {
+    if (type === 'invalid1') {
+      const err = 'Error type 1';
+      throw new Error(err);
+    }
+    if (type === 'invalid2') {
+      const err = 'Error type 2';
+      throw new Error(err);
+    }
+    return 'valid';
+  } catch (e) {
+    return e.message;
+  }
+}
+
+console.log(validate('invalid1'));
+console.log(validate('invalid2'));
+console.log(validate('valid'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Class method.
+#[test]
+fn issue_11517_class_method() {
+    let src = r#"
+class Handler {
+  process(type) {
+    if (type === 'alpha') {
+      const code = 'A';
+      return code;
+    }
+    if (type === 'beta') {
+      const code = 'B';
+      return code;
+    }
+    return 'X';
+  }
+}
+
+const h = new Handler();
+console.log(h.process('alpha'));
+console.log(h.process('beta'));
+console.log(h.process('gamma'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: With closure returning function that uses local variable.
+#[test]
+fn issue_11517_closure() {
+    let src = r#"
+function createHandler(type) {
+  if (type === 'A') {
+    const prefix = 'handler-a:';
+    return (x) => prefix + x;
+  }
+  if (type === 'B') {
+    const prefix = 'handler-b:';
+    return (x) => prefix + x;
+  }
+  return (x) => 'default:' + x;
+}
+
+const hA = createHandler('A');
+const hB = createHandler('B');
+const hC = createHandler('C');
+
+console.log(hA('test'));
+console.log(hB('test'));
+console.log(hC('test'));
+"#;
+    run_default_exec_test(src);
+}
+
+/// Issue #11517: Real-world HTTP status pattern with multiple branches.
+#[test]
+fn issue_11517_http_status() {
+    let src = r#"
+function getStatusMessage(status) {
+  if (status === 200) {
+    const message = 'OK';
+    return { status, message, success: true };
+  }
+  if (status === 201) {
+    const message = 'Created';
+    return { status, message, success: true };
+  }
+  if (status === 400) {
+    const message = 'Bad Request';
+    return { status, message, success: true };
+  }
+  if (status === 404) {
+    const message = 'Not Found';
+    return { status, message, success: true };
+  }
+  if (status === 500) {
+    const message = 'Internal Server Error';
+    return { status, message, success: true };
+  }
+  return { status, message: 'Unknown', success: false };
+}
+
+console.log(getStatusMessage(200).message);
+console.log(getStatusMessage(201).message);
+console.log(getStatusMessage(400).message);
+console.log(getStatusMessage(404).message);
+console.log(getStatusMessage(500).message);
+console.log(getStatusMessage(999).message);
+"#;
+    run_default_exec_test(src);
+}
+
+#[test]
+fn issue_11871() {
+    let src = r#"
+var window = {};
+var foo = { min: (items) => items[0] };
+var bar = {};
+var bucketFactory = () => ({
+    utc: (input) => ({
+        diff: () => 0
+    })
+});
+var min = foo;
+var moment = bucketFactory(bar);
+const defaultSpec = {
+    granularities: [
+        {
+            maxDays: 1,
+            displayFormatString: "[Q]Q"
+        }
+    ],
+    other: 1
+};
+
+window.x = {
+    f: (start, end) => ((inputStartDate, inputEndDate, spec = defaultSpec) => {
+        let startDate = moment.utc(inputStartDate);
+        let dayCount = moment.utc(inputEndDate).diff(startDate, "days") + 1;
+        let granularity = spec.granularities
+            .sort((left, right) => left.maxDays - right.maxDays)
+            .find((item) => dayCount <= item.maxDays);
+        return granularity == null ? "" : granularity.displayFormatString;
+    })(start, end) + String(min.min([1, 2]))
+};
+
+console.log(window.x.f(0, 0));
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true,
+        "passes": 2
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn object_freeze_spread_computed_registration() {
+    let src = r#"
+const Inner = /*#__PURE__*/ Object.freeze({
+  FocalTweet: "FocalTweet"
+});
+const Outer = /*#__PURE__*/ Object.freeze({
+  ...Inner,
+  Tweet: "Tweet"
+});
+const handlers = {
+  [Outer.Tweet]: "tweetHandler",
+  [Outer.FocalTweet]: "focalTweetHandler"
+};
+
+console.log(Outer.FocalTweet);
+console.log(handlers.FocalTweet);
+console.log(Object.prototype.hasOwnProperty.call(handlers, "undefined"));
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true,
+        "passes": 3
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn object_spread_proto_key_is_not_flattened() {
+    let src = r#"
+const proto = { poisoned: true };
+const out = { ...{ __proto__: proto } };
+
+console.log(Object.getPrototypeOf(out) === Object.prototype);
+console.log(out.poisoned);
+"#;
+
+    run_default_exec_test(src);
+}
+
+#[test]
+fn issue_11294_eval_mangle_no_collision() {
+    // Regression test for #11294.
+    //
+    // The compressor's scalar replacement rewrites `var x = { ids: [] }; x.ids`
+    // into a synthetic `var x_ids = []` whose binding isn't covered by the
+    // mangler's `eval` bypass. With `eval` present, the top-level map and the
+    // eval-free callback's per-unit map were built with independent reverse
+    // maps, so both reused the same Base54 names and collided. This input both
+    // triggers the scalar replacement (vars inside the `if` block) and contains
+    // `eval`, so a regression reintroduces the collision and breaks runtime.
+    let src = r#"
+var out = function (chart) {
+    var result = "";
+    if (chart.series) {
+        var first = { ids: [] };
+        var second = { ids: [] };
+        chart.series.forEach(function (item) {
+            var id = item.split("-")[2];
+            first.ids.push(id);
+            second.ids.push(id);
+        });
+        result = first.ids.join(",") + "|" + second.ids.join(",");
+    }
+    eval("");
+    return result;
+}({ series: ["a-b-1", "a-b-2", "a-b-3"] });
+console.log(out);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    let expected_output = stdout_of(src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "compress-and-mangle").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            src,
+            Some(config),
+            Some(MangleOptions {
+                top_level: Some(true),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn issue_11294_eval_mangle_no_collision_nested() {
+    // Same root cause as `issue_11294_eval_mangle_no_collision`, but with
+    // nested callbacks (a `forEach` inside another `forEach`), exercising
+    // several levels of per-unit maps that all must avoid the names assigned
+    // by the top-level map under `eval`.
+    let src = r#"
+var out = function (data) {
+    var result = "";
+    if (data.rows) {
+        var collected = { ids: [] };
+        var mirror = { ids: [] };
+        data.rows.forEach(function (row) {
+            row.forEach(function (cell) {
+                var doubled = cell * 2;
+                collected.ids.push(doubled);
+                mirror.ids.push(doubled);
+            });
+        });
+        result = collected.ids.join(",") + "|" + mirror.ids.join(",");
+    }
+    eval("");
+    return result;
+}({ rows: [[1, 2], [3, 4]] });
+console.log(out);
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    let expected_output = stdout_of(src).unwrap();
+
+    testing::run_test2(false, |cm, handler| {
+        let _tracing = span!(Level::ERROR, "compress-and-mangle").entered();
+
+        let output = run(
+            cm.clone(),
+            &handler,
+            src,
+            Some(config),
+            Some(MangleOptions {
+                top_level: Some(true),
+                ..Default::default()
+            }),
+        );
+
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm, &[&output], true, false);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
+
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
+        assert_ne!(actual_output, "");
+
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&expected_output)
+        );
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[test]
+fn issue_11970_switch_default_before_empty_case() {
+    let src = r#"
+async function classify(code) {
+    switch (code) {
+        case "66":
+            return 1;
+        case "0":
+            break;
+        default:
+            return 1;
+    }
+
+    return 2;
+}
+
+(async () => {
+    console.log(await classify("66"));
+    console.log(await classify("0"));
+    console.log(await classify("x"));
+})();
+"#;
+    let config = r#"{
+        "defaults": true,
+        "toplevel": true
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_11078_math_constant_folding() {
+    run_default_exec_test(
+        r#"
+        console.log(Math.floor(3.7), Math.floor(-3.2), Math.floor(0));
+        console.log(Math.ceil(3.2), Math.ceil(-3.7), Math.ceil(0));
+        console.log(Math.round(2.5), Math.round(-1.5), Math.round(-2.5));
+        console.log(Math.round(0.49999999999999994), Math.round(-0.6));
+        console.log(Math.sqrt(4), Math.sqrt(9), Math.sqrt(-1));
+        console.log(Math.floor(NaN), Math.ceil(Infinity), Math.sqrt(-Infinity));
+        console.log(Math.ceil(Math.sqrt(4)), Math.floor(Math.sqrt(9) + 1));
+        "#,
+    );
+}
+
+#[test]
+fn issue_11078_math_negative_zero_is_preserved() {
+    run_default_exec_test(
+        r#"
+        console.log(1 / Math.round(-0.5));
+        console.log(1 / Math.ceil(-0.5));
+        console.log(1 / Math.round(-0.4));
+        console.log(Object.is(Math.round(-0.5), -0));
+        console.log(Object.is(Math.ceil(-0.5), -0));
+        "#,
+    );
+}
+
+#[test]
+fn issue_11078_math_negative_results_in_member_position() {
+    run_default_exec_test(
+        r#"
+        console.log(Math.round(-1.5).toString());
+        console.log(Math.ceil(-0.5).toString());
+        console.log(Math.floor(-3.2).toString());
+        console.log(Math.round(-2.5).toFixed(1));
+        console.log(Math.round(-1.5) ** 2);
+        console.log(typeof Math.round(-1.5).toString());
+        "#,
+    );
+}
+
+#[test]
+fn issue_12213_object_keys_with_modified_globals() {
+    let src = r#"
+        Object.keys = () => ["patched"];
+        console.log(Object.keys({ 1: 0 }));
+    "#;
+    let config = r#"{
+        "defaults": false,
+        "evaluate": true,
+        "pristine_globals": false
+    }"#;
+
+    run_exec_test(src, config, false);
+}
+
+#[test]
+fn issue_12397_hoist_props_destructuring_member_targets() {
+    run_default_exec_test(
+        r#"
+        const a = { n: 1 };
+        [a.n] = [2];
+        console.log(a.n);
+
+        var b = { n: 1 };
+        [b.n] = [2];
+        console.log(b.n);
+
+        (function () {
+            const c = { n: 1 };
+            [c.n] = [2];
+            console.log(c.n);
+        })();
+
+        const d = { n: 1 };
+        ({ x: d.n } = { x: 2 });
+        console.log(d.n);
+
+        const e = { a: { x: 0 }, b: { y: 0 } };
+        [e.a.x, e.b.y] = [10, 20];
+        console.log(e.a.x, e.b.y);
+
+        const f = { flag: false };
+        [f.flag] = [true];
+        console.log(f.flag);
+
+        const g = { n: 1 };
+        [g.n = 3] = [];
+        console.log(g.n);
+
+        const h = { n: 1 };
+        [...h.n] = [4, 5];
+        console.log(h.n);
+
+        const i = { n: 1 };
+        for ([i.n] of [[6]]);
+        console.log(i.n);
+        "#,
+    );
+}
+
+#[test]
+fn issue_12400_fn_decl_self_ref_in_unused_local() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            function handler() {
+                var self = handler;
+                console.log("called");
+            }
+            setTimeout(handler, 0);
+        })();
+        "#,
+    );
+}
+
+#[test]
+fn issue_12400_class_decl_self_ref_in_unused_local() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            class Widget {
+                render() {
+                    var self = Widget;
+                    console.log("rendered");
+                }
+            }
+            setTimeout(function () { new Widget().render(); }, 0);
+        })();
+        "#,
+    );
+}
+
+#[test]
+fn issue_12529_array_assigned_then_mutated_through_member() {
+    run_default_exec_test(
+        r#"
+        (function () {
+            function fill(a) {
+                a[0] = 1;
+                console.log(a[0]);
+            }
+            fill([]);
+        })();
+
+        (function () {
+            function fill(a) {
+                a[0] = (console.log("x"), 1);
+                console.log(a[0]);
+            }
+            fill([]);
+        })();
+
+        (function () {
+            function fill(a) {
+                a[0] = String(1);
+                console.log(a[0]);
+            }
+            fill([]);
+        })();
+
+        function push() {
+            var r;
+            r = [];
+            r.push(3);
+            return r[0];
+        }
+        console.log(push());
+
+        (function () {
+            let e;
+            e = [1, 2];
+            e.reverse();
+            console.log(e[0]);
+        })();
+
+        (function () {
+            var t;
+            t = [1];
+            t.length = 0;
+            console.log(t[0]);
+        })();
+
+        (function () {
+            var d;
+            [(d = [])[0]] = [5];
+            console.log(d[0]);
+        })();
+        "#,
     );
 }

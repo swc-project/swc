@@ -1,0 +1,22 @@
+{
+    "jsc": {
+        "loose": true,
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": true,
+    "env": {
+        "targets": {
+            "chrome": 109
+        },
+        "coreJs": "3.21",
+        "mode": "usage"
+    }
+}

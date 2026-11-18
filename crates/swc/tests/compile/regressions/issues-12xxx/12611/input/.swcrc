@@ -1,0 +1,12 @@
+{
+    "sourceMaps": true,
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "target": "es2022"
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

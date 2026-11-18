@@ -16,7 +16,7 @@ var X;
 (function(X) {
     (function(Y) {
         (function(Point) {
-            Point.Origin = new Y.Point(0, 0);
+            Point.Origin = new Point(0, 0);
         })(Y.Point || (Y.Point = {}));
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));

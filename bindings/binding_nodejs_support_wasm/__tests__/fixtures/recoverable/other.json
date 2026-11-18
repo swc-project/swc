@@ -1,0 +1,34 @@
+[
+    {
+        "source": "const = 1;",
+        "expected": false
+    },
+    {
+        "source": "const x = 1;",
+        "expected": false
+    },
+    {
+        "source": "2e",
+        "expected": false
+    },
+    {
+        "source": "\"unterminated",
+        "expected": false
+    },
+    {
+        "source": "function foo() {",
+        "expected": true
+    },
+    {
+        "source": "/* comment",
+        "expected": true
+    },
+    {
+        "source": "`template",
+        "expected": true
+    },
+    {
+        "source": "import.",
+        "expected": false
+    }
+]

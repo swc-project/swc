@@ -1,5 +1,7 @@
 #![allow(clippy::unit_arg)]
 
+mod common;
+
 use swc_common::{
     comments::{NoopComments, SingleThreadedComments},
     Mark,
@@ -11,7 +13,7 @@ use swc_ecma_transforms_compat::{
     es2015, es2015::generator::generator, es2016, es2017, es2017::async_to_generator, es2018,
     es2021, es2022,
 };
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::test_exec;
 
 fn syntax() -> Syntax {
     Syntax::default()
@@ -37,19 +39,6 @@ fn tr_with_async() -> impl Pass {
 }
 
 // computed_properties_example
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    computed_properties_example,
-    r#"
-var o = {
-  *foo() {
-    return "foo";
-  }
-};
-
-"#
-);
 
 // class_argument_scope_example
 test_exec!(
@@ -103,14 +92,6 @@ expect(test.iter().next().value).toBe(test);
 //
 //"#
 //);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    empty_fn_decl_1,
-    "function* foo(a,b,c){}
-"
-);
 
 test_exec!(
     syntax(),
@@ -986,14 +967,6 @@ test_exec!(
 );
 
 // test interop between export and regenerator
-test!(
-    syntax(),
-    |t| generator(Mark::new(), t.comments.clone()),
-    issue_831_3,
-    "export function* myGenerator() {
-        yield* [1,2,3];
-    }"
-);
 
 test_exec!(
     syntax(),
@@ -1050,21 +1023,6 @@ test_exec!(
     "
 );
 
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    issue_1036_2,
-    "
-    const x = function*() {
-        return Promise.all([[1], [2], [3]].map(
-            function*([a]) {
-                Promise.resolve().then(() => a * 2)
-            })
-        )
-    }
-    "
-);
-
 test_exec!(
     Syntax::default(),
     |_| tr(()),
@@ -1099,18 +1057,6 @@ test_exec!(
     "
 );
 
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    hoist_function_in_generator_issue_2556_1,
-    r#"
-function* foo() {
-    return bar;
-    function bar() { }
-}
-"#
-);
-
 test_exec!(
     Syntax::default(),
     |_| tr_with_async(),
@@ -1135,26 +1081,6 @@ return foo()
         expect(x).toEqual(3);
     });
 "
-);
-
-test!(
-    Syntax::default(),
-    |_| tr_with_async(),
-    hoist_function_in_async_issue_2556_4,
-    r#"
-function requester() {
-	return pureRequester
-  
-    async function pureRequester() {
-      	await refreshThenRequest()
-        return true;
-        
-        async function refreshThenRequest() {
-        
-        }
-    }
-}
-"#
 );
 
 test_exec!(
@@ -1235,25 +1161,6 @@ return main().then((results) => {
 "#
 );
 
-test!(
-    Syntax::default(),
-    |_| tr_with_async(),
-    hoist_function_in_async_issue_2556_6,
-    r#"
-async function foo(a) {
-    return bar1;
-
-    async function bar1(b) {
-        return a + b;
-    }
-}
-
-foo(1)
-    .then((t) => t(2))
-    .then(console.log);
-"#
-);
-
 test_exec!(
     Syntax::default(),
     |_| tr_with_async(),
@@ -1273,169 +1180,6 @@ return foo(1)
         expect(result).toBe(3);
     });
 "#
-);
-
-test!(
-    Syntax::default(),
-    |_| tr_with_async(),
-    hoist_function_in_async_issue_2556_8,
-    r#"
-var fib = function fib() {
-    return 42;
-};
-async function init() {
-    return fib;
-
-    async function fib(n) {
-        if (n <= 1) {
-            return n;
-        }
-        const x = await fib(n - 1);
-        const y = await fib(n - 2);
-        return x + y;
-    }
-}
-"#
-);
-
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    issue_1125_2,
-    "
-    function _test() {
-        _test = _async_to_generator(function* () {
-            try {
-            yield 1;
-            } finally {
-            console.log(2);
-            }
-        });
-        return _test.apply(this, arguments);
-    }
-
-    function test() {
-        return _test.apply(this, arguments);
-    }
-
-    test();
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    issue_1125_3,
-    "
-    function* foo() {
-        try {
-            yield 1;
-        } finally {
-            console.log(2);
-        }
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| tr(()),
-    issue_1125_4,
-    "
-    function* foo() {
-        try {
-            yield 1;
-        } catch(e) {
-            console.log(2);
-        }
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| tr_with_async(),
-    issue_1799_1,
-    "
-    export default function Foo() {
-        return call(async (e) => { await doSomething(); })
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), mark),
-            es2015::<SingleThreadedComments>(mark, None, Default::default()),
-        )
-    },
-    issue_1799_2,
-    "
-    export default function Foo() {
-        return call(async (e) => { await doSomething(); })
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-        (
-            async_to_generator(Default::default(), mark),
-            es2016(),
-            es2015::<SingleThreadedComments>(mark, None, Default::default()),
-        )
-    },
-    issue_1799_3,
-    "
-    export default function Foo() {
-        return call(async (e) => { await doSomething(); })
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| {
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
-        (
-            resolver(unresolved_mark, top_level_mark, true),
-            es2022(Default::default(), unresolved_mark),
-            es2021(),
-            es2018(Default::default()),
-            es2017(Default::default(), unresolved_mark),
-            es2016(),
-            es2015::<SingleThreadedComments>(unresolved_mark, None, Default::default()),
-        )
-    },
-    issue_1799_5,
-    "
-    export default function Foo() {
-        return call(async (e) => { await doSomething(); })
-    }
-    "
-);
-
-test!(
-    Syntax::default(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::<SingleThreadedComments>(mark, None, Default::default())
-    },
-    issue_2024_1,
-    "
-    _async_to_generator(function*() {
-        const sleep = ()=>new Promise((resolve)=>setTimeout(()=>resolve(undefined), 500));
-        const result = (yield sleep()) || 'fallback';
-        console.log(result);
-    })();
-    "
 );
 
 test_exec!(
@@ -1484,22 +1228,78 @@ test_exec!(
     "
 );
 
-test!(
-    Syntax::default(),
-    |_| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::<SingleThreadedComments>(mark, None, Default::default())
-    },
-    issue_7809,
-    r#"
-    function a(fn) {
-        return _a.apply(this, arguments);
-    }
-    function _a() {
-        _a = _async_to_generator(function*(fn) {
-            (yield fn()).a = 1;
-        });
-        return _a.apply(this, arguments);
-    }    
-    "#
-);
+/// Named transform pipelines for the output fixtures.
+#[derive(Clone, Copy, serde::Deserialize)]
+enum CasePipeline {
+    #[serde(rename = "async-to-generator-es2015-fresh-mark")]
+    AsyncToGeneratorEs2015FreshMark,
+    #[serde(rename = "async-to-generator-es2016-es2015-fresh-mark")]
+    AsyncToGeneratorEs2016Es2015FreshMark,
+    #[serde(rename = "resolver-es2022-es2021-es2018-es2017-es2016-es2015-typescript-resolver")]
+    ResolverEs2022Es2021Es2018Es2017Es2016Es2015TypescriptResolver,
+    #[serde(rename = "es2015-fresh-mark")]
+    Es2015FreshMark,
+}
+
+/// Compares each input with its original output using its configured pipeline.
+#[testing::fixture("tests/generator/standard/async-to-generator-es2015-fresh-mark/**/input.js")]
+#[testing::fixture(
+    "tests/generator/standard/async-to-generator-es2016-es2015-fresh-mark/**/input.js"
+)]
+#[testing::fixture("tests/generator/standard/es2015-fresh-mark/**/input.js")]
+#[testing::fixture(
+    "tests/generator/standard/\
+     resolver-es2022-es2021-es2018-es2017-es2016-es2015-typescript-resolver/**/input.js"
+)]
+fn pipeline_fixture(input: std::path::PathBuf) {
+    let pipeline: CasePipeline = common::case_pipeline(&input);
+    swc_ecma_transforms_testing::test_fixture(
+        syntax(),
+        &|t| -> Box<dyn swc_ecma_ast::Pass> {
+            let _ = &t;
+            match pipeline {
+                CasePipeline::AsyncToGeneratorEs2015FreshMark => Box::new({
+                    let mark = Mark::fresh(Mark::root());
+                    (
+                        async_to_generator(Default::default(), mark),
+                        es2015::<SingleThreadedComments>(mark, None, Default::default()),
+                    )
+                }),
+                CasePipeline::AsyncToGeneratorEs2016Es2015FreshMark => Box::new({
+                    let mark = Mark::fresh(Mark::root());
+                    (
+                        async_to_generator(Default::default(), mark),
+                        es2016(),
+                        es2015::<SingleThreadedComments>(mark, None, Default::default()),
+                    )
+                }),
+                CasePipeline::ResolverEs2022Es2021Es2018Es2017Es2016Es2015TypescriptResolver => {
+                    Box::new({
+                        let unresolved_mark = Mark::new();
+                        let top_level_mark = Mark::new();
+                        (
+                            resolver(unresolved_mark, top_level_mark, true),
+                            es2022(Default::default(), unresolved_mark),
+                            es2021(),
+                            es2018(Default::default()),
+                            es2017(Default::default(), unresolved_mark),
+                            es2016(),
+                            es2015::<SingleThreadedComments>(
+                                unresolved_mark,
+                                None,
+                                Default::default(),
+                            ),
+                        )
+                    })
+                }
+                CasePipeline::Es2015FreshMark => Box::new({
+                    let mark = Mark::fresh(Mark::root());
+                    es2015::<SingleThreadedComments>(mark, None, Default::default())
+                }),
+            }
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
+    );
+}

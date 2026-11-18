@@ -1,0 +1,15 @@
+{
+  "isModule": "unknown",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "target": "esnext",
+    "transform": {
+      "react": {
+        "runtime": "preserve"
+      },
+      "useDefineForClassFields": false
+    }
+  }
+}

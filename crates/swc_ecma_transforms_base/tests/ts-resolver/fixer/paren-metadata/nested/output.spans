@@ -1,0 +1,52 @@
+Source, remove_only=false:
+paren 13..62, operand 14..61
+paren 15..54, operand 27..53
+paren 81..101, operand 96..100
+paren 119..131, operand 120..130
+
+Source, remove_only=true:
+
+Duplicated, remove_only=false:
+paren 13..62, operand 14..61
+paren 15..54, operand 27..53
+paren 81..101, operand 96..100
+paren 119..131, operand 120..130
+paren 13..62, operand 14..61
+paren 15..54, operand 27..53
+paren 81..101, operand 96..100
+paren 119..131, operand 120..130
+
+Duplicated, remove_only=true:
+
+Dummy, remove_only=false:
+paren 0..0, operand 0..0
+paren 0..0, operand 0..0
+paren 0..0, operand 0..0
+paren 0..0, operand 0..0
+
+Dummy, remove_only=true:
+
+Shared, remove_only=false:
+paren 1..2, operand 1..2
+paren 1..2, operand 1..2
+paren 1..2, operand 1..2
+paren 1..2, operand 1..2
+
+Shared, remove_only=true:
+
+Pure, remove_only=false:
+paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
+
+Pure, remove_only=true:
+
+Mixed, remove_only=false:
+paren 0..0, operand 0..0
+paren 0..0, operand 27..53
+paren 1..2, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
+
+Mixed, remove_only=true:
+

@@ -36,11 +36,13 @@ pub(crate) struct Factory;
 
 impl Factory {
     pub(crate) fn function(params: Vec<Param>, body: BlockStmt) -> Function {
+        let BlockStmt { span, stmts, .. } = body;
+
         Function {
             params,
             decorators: Default::default(),
             span: DUMMY_SP,
-            body: Some(body),
+            body: Some(FunctionBody { span, stmts }),
             is_generator: false,
             is_async: false,
             ..Default::default()

@@ -1,0 +1,34 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":7}},
+  "range":[0,7],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":7}},
+      "range":[0,7],
+      "expression":{
+        "type":"BinaryExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+        "range":[0,6],
+        "operator":"**",
+        "left":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
+          "range":[0,1],
+          "value":2,
+          "raw":"2"
+        },
+        "right":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+          "range":[5,6],
+          "value":3,
+          "raw":"3"
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

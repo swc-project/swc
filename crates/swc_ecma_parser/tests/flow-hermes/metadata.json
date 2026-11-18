@@ -1,0 +1,15 @@
+{
+  "counts": {
+    "js": 1493,
+    "known_fail": 79,
+    "options_json": 194,
+    "tree_json": 1493
+  },
+  "generated_at_utc": "2026-03-17T03:25:55.450279+00:00",
+  "source": {
+    "branch": "main",
+    "commit": "72c91c3b365f18d3917b75c5f15e978ff95cbb52",
+    "flow_commit": "facff9ab9e7de99ddc93ce13b5f33518f7766a53",
+    "repo": "facebook/hermes"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "jsc": {
+    "parser": {
+      "jsx": true,
+      "syntax": "ecmascript"
+    },
+    "preserveAllComments": true,
+    "target": "esnext",
+    "transform": {
+      "react": {
+        "importSource": "@emotion/react",
+        "runtime": "automatic"
+      }
+    }
+  }
+}

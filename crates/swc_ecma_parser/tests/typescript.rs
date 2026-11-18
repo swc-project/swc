@@ -2,11 +2,12 @@
 
 use std::{
     fs::File,
-    io::Read,
+    io::{self, Read},
     path::{Path, PathBuf},
 };
 
 use pretty_assertions::assert_eq;
+use serde::Deserialize;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax, TsSyntax};
@@ -17,6 +18,21 @@ use crate::common::Normalizer;
 
 #[path = "common/mod.rs"]
 mod common;
+
+#[derive(Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct TestConfig {
+    no_early_errors: Option<bool>,
+    parse_mode: Option<ParseMode>,
+}
+
+#[derive(Clone, Copy, Deserialize)]
+#[serde(rename_all = "lowercase")]
+enum ParseMode {
+    Script,
+    Module,
+    Unambiguous,
+}
 
 #[testing::fixture("tests/shifted/**/*.ts")]
 fn shifted(file: PathBuf) {
@@ -78,6 +94,14 @@ fn spec(file: PathBuf) {
     run_spec(&file, &output);
 }
 
+// Recovery fixtures can contain semantically invalid ASTs. Keep them outside
+// the shared fixture roots that downstream transforms reparse as JavaScript.
+#[testing::fixture("tests/typescript-recovery/**/*.ts")]
+#[testing::fixture("tests/typescript-recovery/**/*.tsx")]
+fn recovery_spec(file: PathBuf) {
+    spec(file);
+}
+
 #[testing::fixture(
     "tests/tsc/**/*.ts",
     exclude(
@@ -117,7 +141,12 @@ fn run_spec(file: &Path, output_json: &Path) {
         || file_name.contains("tsc/jsdocDisallowedInTypescript")
         || file_name.contains("tsc/errorSuperCalls")
         || file_name.contains("tsc/restElementMustBeLast")
-        || file_name.contains("tsc/parserRegularExpressionDivideAmbiguity3");
+        || file_name.contains("tsc/parserRegularExpressionDivideAmbiguity3")
+        // restPropertyWithBindingPattern asserts the AST of `({...{}} = {})` and similar
+        // forms.  Per the spec these are not valid SimpleAssignmentTargets and we now
+        // emit "Cannot assign to this", which changes the recovery AST.  The fix is
+        // covered by tests/errors/issue-11543{,-array} instead.  See #11543.
+        || file_name.contains("tsc/restPropertyWithBindingPattern");
 
     // Postponed
     let ignore = ignore
@@ -153,7 +182,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         || file_name.contains("tsc/parserGreaterThanTokenAmbiguity15")
         || file_name.contains("tsc/parserGreaterThanTokenAmbiguity16")
         || file_name.contains("tsc/parserGreaterThanTokenAmbiguity20")
-        || file_name.contains("tsc/awaitUsingDeclarationsInFor")
+        || file_name.ends_with("tsc/awaitUsingDeclarationsInFor.ts")
         || file_name.ends_with("tsc/usingDeclarationsInFor.ts")
         || file_name.ends_with("tsc/decoratorOnClassMethod12.ts")
         || file_name.ends_with("tsc/esDecorators-preservesThis.ts")
@@ -177,8 +206,30 @@ fn run_spec(file: &Path, output_json: &Path) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    with_parser(false, file, true, false, |p, _| {
-        let program = p.parse_program()?.fold_with(&mut Normalizer {
+    // AST fixtures normally suppress early errors; regression fixtures can opt in.
+    let config_path = file.with_file_name("config.json");
+    let config: TestConfig = match File::open(&config_path) {
+        Ok(file) => serde_json::from_reader(file).expect("failed to parse fixture config"),
+        Err(err) if err.kind() == io::ErrorKind::NotFound => TestConfig::default(),
+        Err(err) => panic!("failed to read {}: {err}", config_path.display()),
+    };
+    let no_early_errors = config.no_early_errors.unwrap_or(true);
+    let parse_mode = config.parse_mode.unwrap_or_else(|| {
+        if file.to_string_lossy().ends_with(".script.ts") {
+            ParseMode::Script
+        } else {
+            ParseMode::Unambiguous
+        }
+    });
+
+    with_parser(false, file, no_early_errors, false, |p, _| {
+        // Explicit modes exercise grammar boundaries and Unambiguous retries.
+        let program = match parse_mode {
+            ParseMode::Script => p.parse_script().map(Program::Script)?,
+            ParseMode::Module => p.parse_module().map(Program::Module)?,
+            ParseMode::Unambiguous => p.parse_program()?,
+        };
+        let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
         });
@@ -301,9 +352,35 @@ fn errors(file: PathBuf) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
+    // Negative fixtures can also snapshot the AST that survives a recoverable
+    // diagnostic. A fatal parse error must not satisfy an AST recovery fixture.
+    let ast_output = file.with_file_name(format!(
+        "{}.json",
+        file.file_name().unwrap().to_string_lossy()
+    ));
+    let expect_ast = ast_output.is_file();
+    let mut parsed_ast = false;
     let module = with_parser(false, &file, false, false, |p, _| {
-        p.parse_typescript_module()
+        let module = p.parse_typescript_module()?;
+        if expect_ast {
+            let module = module.fold_with(&mut Normalizer {
+                drop_span: false,
+                is_test262: false,
+            });
+            let json = serde_json::to_string_pretty(&module)
+                .expect("failed to serialize recovered module");
+            StdErr::from(json).compare_to_file(&ast_output).unwrap();
+            parsed_ast = true;
+            Ok(module)
+        } else {
+            Ok(module)
+        }
     });
+
+    assert!(
+        !expect_ast || parsed_ast,
+        "AST recovery fixture must return a complete module"
+    );
 
     let err = module.expect_err("should fail, but parsed as");
     if err

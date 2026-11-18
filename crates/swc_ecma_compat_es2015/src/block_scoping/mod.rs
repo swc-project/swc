@@ -13,10 +13,13 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
+    VisitWith,
 };
-use swc_trace_macro::swc_trace;
 
+mod nested_mutation;
 mod vars;
+
+use self::nested_mutation::NestedMutationCollector;
 
 ///
 ///
@@ -50,8 +53,8 @@ enum ScopeKind {
     Loop {
         lexical_var: Vec<Id>,
         args: Vec<Id>,
-        /// Produced by identifier reference and consumed by for-of/in loop.
-        used: Vec<Id>,
+        /// Set by identifier references and consumed by for-of/in loop.
+        has_used: bool,
         /// Map of original identifier to modified syntax context
         mutated: FxHashMap<Id, SyntaxContext>,
     },
@@ -64,7 +67,7 @@ impl ScopeKind {
         ScopeKind::Loop {
             lexical_var: Vec::new(),
             args: Vec::new(),
-            used: Vec::new(),
+            has_used: false,
             mutated: Default::default(),
         }
     }
@@ -94,7 +97,17 @@ impl BlockScoping {
         }
     }
 
-    fn mark_as_used(&mut self, i: Id) {
+    fn visit_mut_children_with_isolated_vars<T>(&mut self, node: &mut T)
+    where
+        T: VisitMutWith<Self>,
+    {
+        let vars = take(&mut self.vars);
+        node.visit_mut_children_with(self);
+        debug_assert!(self.vars.is_empty());
+        self.vars = vars;
+    }
+
+    fn mark_as_used(&mut self, i: &Ident) {
         // Only consider the variable used in a non-ScopeKind::Loop, which means it is
         // captured in a closure
         for scope in self
@@ -104,11 +117,16 @@ impl BlockScoping {
             .skip_while(|scope| matches!(scope, ScopeKind::Loop { .. }))
         {
             if let ScopeKind::Loop {
-                lexical_var, used, ..
+                lexical_var,
+                has_used,
+                ..
             } = scope
             {
-                if lexical_var.contains(&i) {
-                    used.push(i);
+                if lexical_var
+                    .iter()
+                    .any(|(sym, ctxt)| sym == &i.sym && *ctxt == i.ctxt)
+                {
+                    *has_used = true;
                     return;
                 }
             }
@@ -127,12 +145,12 @@ impl BlockScoping {
 
         if let Some(ScopeKind::Loop {
             args,
-            used,
+            has_used,
             mutated,
             ..
         }) = self.scope.pop()
         {
-            if used.is_empty() {
+            if !has_used {
                 return;
             }
 
@@ -173,11 +191,13 @@ impl BlockScoping {
             body_stmt.visit_mut_with(&mut flow_helper);
 
             let mut body_stmt = match &mut body_stmt.take() {
-                Stmt::Block(bs) => bs.take(),
-                body => BlockStmt {
+                Stmt::Block(bs) => {
+                    let BlockStmt { span, stmts, .. } = bs.take();
+                    FunctionBody { span, stmts }
+                }
+                body => FunctionBody {
                     span: DUMMY_SP,
                     stmts: vec![body.take()],
-                    ..Default::default()
                 },
             };
 
@@ -346,6 +366,7 @@ impl BlockScoping {
                     stmts.push(
                         SwitchStmt {
                             span: DUMMY_SP,
+                            body_ctxt: Default::default(),
                             discriminant: Box::new(ret.into()),
                             cases: flow_helper
                                 .label
@@ -371,18 +392,16 @@ impl BlockScoping {
                     );
                 }
 
-                *body = Box::new(
-                    BlockStmt {
-                        span: DUMMY_SP,
-                        stmts,
-                        ..Default::default()
-                    }
-                    .into(),
-                );
+                **body = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                    ..Default::default()
+                }
+                .into();
                 return;
             }
 
-            *body = Box::new(call.take().into_stmt());
+            **body = call.take().into_stmt();
         }
     }
 
@@ -403,14 +422,12 @@ impl BlockScoping {
     /// which fixes https://github.com/swc-project/swc/issues/6573
     fn blockify_for_stmt_body(&self, body: &mut Box<Stmt>) -> bool {
         if !body.is_block() {
-            *body = Box::new(
-                BlockStmt {
-                    span: Default::default(),
-                    stmts: vec![*body.take()],
-                    ..Default::default()
-                }
-                .into(),
-            );
+            **body = BlockStmt {
+                span: Default::default(),
+                stmts: vec![*body.take()],
+                ..Default::default()
+            }
+            .into();
             true
         } else {
             false
@@ -423,13 +440,12 @@ impl BlockScoping {
                 .as_mut_block()
                 .and_then(|block| (block.stmts.len() == 1).then(|| block.stmts[0].take()));
             if let Some(stmt) = stmt {
-                *body = Box::new(stmt)
+                **body = stmt
             }
         }
     }
 }
 
-#[swc_trace]
 impl VisitMut for BlockScoping {
     noop_visit_mut_type!(fail);
 
@@ -439,10 +455,11 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        let vars = take(&mut self.vars);
-        n.visit_mut_children_with(self);
-        debug_assert_eq!(self.vars, Vec::new());
-        self.vars = vars;
+        self.visit_mut_children_with_isolated_vars(n);
+    }
+
+    fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        self.visit_mut_children_with_isolated_vars(n);
     }
 
     fn visit_mut_constructor(&mut self, f: &mut Constructor) {
@@ -474,7 +491,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var,
             args,
-            used: Vec::new(),
+            has_used: false,
             mutated: Default::default(),
         };
 
@@ -500,7 +517,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var: vars,
             args,
-            used: Vec::new(),
+            has_used: false,
             mutated: Default::default(),
         };
 
@@ -526,7 +543,7 @@ impl VisitMut for BlockScoping {
         let kind = ScopeKind::Loop {
             lexical_var,
             args,
-            used: Vec::new(),
+            has_used: false,
             mutated: Default::default(),
         };
         self.visit_mut_with_scope(kind, &mut node.body);
@@ -540,24 +557,12 @@ impl VisitMut for BlockScoping {
         self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
-    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
-        f.key.visit_mut_with(self);
-        self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
-    }
-
     fn visit_mut_ident(&mut self, node: &mut Ident) {
-        let id = node.to_id();
-        self.mark_as_used(id);
+        self.mark_as_used(node);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(stmts);
-    }
-
-    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-        f.key.visit_mut_with(self);
-        f.param.visit_mut_with(self);
-        self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
@@ -671,6 +676,19 @@ impl FlowHelper<'_> {
         }
     }
 
+    /// Records writes to loop variables inside a nested function. See
+    /// [NestedMutationCollector].
+    fn collect_nested_mutations<T>(&mut self, node: &T)
+    where
+        T: for<'a, 'b> VisitWith<NestedMutationCollector<'a, 'b>>,
+    {
+        if self.all.is_empty() {
+            return;
+        }
+
+        node.visit_with(&mut NestedMutationCollector { flow: self });
+    }
+
     fn has_outer_label(&self, label: &Option<Ident>) -> bool {
         match label {
             Some(l) => !self.inner_label.contains(&l.sym),
@@ -679,12 +697,14 @@ impl FlowHelper<'_> {
     }
 }
 
-#[swc_trace]
 impl VisitMut for FlowHelper<'_> {
     noop_visit_mut_type!(fail);
 
-    /// noop
-    fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
+    /// Control flow inside an arrow function is not part of the loop body, but
+    /// a write to a captured loop variable must still be written back.
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        self.collect_nested_mutations(n);
+    }
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
@@ -745,14 +765,11 @@ impl VisitMut for FlowHelper<'_> {
         self.in_nested_loop = old;
     }
 
-    /// noop
-    fn visit_mut_function(&mut self, _f: &mut Function) {}
-
-    /// noop
-    fn visit_mut_getter_prop(&mut self, _f: &mut GetterProp) {}
-
-    /// noop
-    fn visit_mut_setter_prop(&mut self, _f: &mut SetterProp) {}
+    /// Control flow inside a function is not part of the loop body, but a write
+    /// to a captured loop variable must still be written back.
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        self.collect_nested_mutations(f);
+    }
 
     fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
         self.inner_label.insert(l.label.sym.clone());
@@ -912,7 +929,6 @@ impl MutationHandler<'_> {
     }
 }
 
-#[swc_trace]
 impl VisitMut for MutationHandler<'_> {
     noop_visit_mut_type!(fail);
 

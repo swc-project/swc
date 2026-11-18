@@ -1,7 +1,7 @@
 //// [usingDeclarationsWithLegacyClassDecorators.6.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 var env = {
     stack: [],

@@ -1,0 +1,1 @@
+function id<T>(value: T) {}

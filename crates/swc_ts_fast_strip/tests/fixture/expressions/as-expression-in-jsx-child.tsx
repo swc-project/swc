@@ -1,0 +1,1 @@
+const element = <div>{value as string}</div>;

@@ -1,8 +1,12 @@
+use std::cell::Cell;
+
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, stack_size::maybe_grow_default};
+use swc_ecma_utils::{
+    find_pat_ids, for_each_ts_fn_param_binding_ident, stack_size::maybe_grow_default,
+};
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_obj_and_computed, visit_mut_pass, VisitMut, VisitMutWith,
 };
@@ -12,6 +16,8 @@ use crate::scope::{DeclKind, IdentType, ScopeKind};
 
 #[cfg(test)]
 mod tests;
+
+mod typescript;
 
 const LOG: bool = false && cfg!(debug_assertions);
 
@@ -138,7 +144,7 @@ pub fn resolver(
         "Marker provided to resolver should not be the root mark"
     );
 
-    let _ = SyntaxContext::empty().apply_mark(unresolved_mark);
+    let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
     let _ = SyntaxContext::empty().apply_mark(top_level_mark);
 
     visit_mut_pass(Resolver {
@@ -147,8 +153,12 @@ pub fn resolver(
         in_type: false,
         is_module: false,
         in_ts_module: false,
+        in_erased_type: false,
+        namespace_owner: None,
+        unresolved_ctxt,
         decl_kind: DeclKind::Lexical,
         strict_mode: false,
+        namespace_state: Default::default(),
         config: InnerConfig {
             handle_types: typescript,
             unresolved_mark,
@@ -168,6 +178,10 @@ struct Scope<'a> {
     /// [Mark] of the current scope.
     mark: Mark,
 
+    /// Materialize the scope's identity once, without assigning contexts to
+    /// empty scopes or changing the lexical walk's context creation order.
+    ctxt: Cell<SyntaxContext>,
+
     /// All declarations in the scope
     declared_symbols: FxHashMap<Atom, DeclKind>,
 
@@ -181,9 +195,25 @@ impl<'a> Scope<'a> {
             parent,
             kind,
             mark,
+            ctxt: Cell::default(),
             declared_symbols: Default::default(),
             declared_types: Default::default(),
         }
+    }
+
+    fn ctxt(&self) -> SyntaxContext {
+        let ctxt = self.ctxt.get();
+        if ctxt != SyntaxContext::empty() || self.mark == Mark::root() {
+            return ctxt;
+        }
+        let ctxt = SyntaxContext::empty().apply_mark(self.mark);
+        self.ctxt.set(ctxt);
+        ctxt
+    }
+
+    fn set_mark(&mut self, mark: Mark) {
+        self.mark = mark;
+        self.ctxt.set(SyntaxContext::empty());
     }
 
     fn is_declared(&self, symbol: &Atom) -> Option<&DeclKind> {
@@ -204,8 +234,15 @@ struct Resolver<'a> {
     in_type: bool,
     is_module: bool,
     in_ts_module: bool,
+    in_erased_type: bool,
+    namespace_owner: Option<typescript::NamespaceScopeId>,
+    unresolved_ctxt: SyntaxContext,
     decl_kind: DeclKind,
     strict_mode: bool,
+    // Lexical fallback identities are recorded while parent scopes still
+    // exist. The later TS member pass can reject a known type-only alias
+    // without reconstructing lexical scopes or looking up names again.
+    namespace_state: typescript::NamespaceLookupStateRef<'a>,
 
     config: InnerConfig,
 }
@@ -215,6 +252,13 @@ struct InnerConfig {
     handle_types: bool,
     unresolved_mark: Mark,
     top_level_mark: Mark,
+}
+
+/// A found lexical declaration can intentionally resolve to the global value
+/// context for the non-configurable built-ins in scripts.
+enum ReferenceScope<'a> {
+    Declared(&'a Scope<'a>),
+    Unresolved,
 }
 
 #[allow(clippy::needless_lifetimes)]
@@ -227,9 +271,13 @@ impl<'a> Resolver<'a> {
             in_type: false,
             is_module: false,
             in_ts_module: false,
+            in_erased_type: false,
+            namespace_owner: None,
+            unresolved_ctxt: SyntaxContext::empty().apply_mark(config.unresolved_mark),
             config,
             decl_kind: DeclKind::Lexical,
             strict_mode: false,
+            namespace_state: Default::default(),
         }
     }
 
@@ -248,11 +296,60 @@ impl<'a> Resolver<'a> {
             in_type: self.in_type,
             is_module: self.is_module,
             in_ts_module: self.in_ts_module,
+            in_erased_type: self.in_erased_type,
+            namespace_owner: self.namespace_owner,
+            unresolved_ctxt: self.unresolved_ctxt,
             decl_kind: self.decl_kind,
             strict_mode: self.strict_mode,
+            namespace_state: typescript::NamespaceLookupStateRef::Borrowed(
+                self.namespace_state.get(),
+            ),
         };
 
         op(&mut child);
+
+        if let Some(owner) = child.namespace_owner {
+            if child.namespace_owner == self.namespace_owner
+                // Enum members deliberately share the global unresolved mark.
+                && child.current.mark != self.config.unresolved_mark
+                && (!child.current.declared_symbols.is_empty()
+                    || !child.current.declared_types.is_empty())
+            {
+                child
+                    .namespace_state
+                    .get()
+                    .scope(child.current.ctxt(), owner);
+            }
+        }
+    }
+
+    fn visit_ts_computed_key(&mut self, key: &mut Expr) {
+        // Computed names refer to values even in erased type syntax.
+        let in_type = std::mem::replace(&mut self.in_type, false);
+        key.visit_mut_with(self);
+        self.in_type = in_type;
+    }
+
+    fn visit_ts_signature_params(&mut self, params: &mut [TsFnParam]) {
+        // Constraints are resolved before parameters enter the value space.
+        // Predeclare every parameter so annotations can reference later ones.
+        for param in params.iter() {
+            for_each_ts_fn_param_binding_ident(param, |id| {
+                self.current
+                    .declared_symbols
+                    .insert(id.id.sym.clone(), DeclKind::Param);
+            });
+        }
+
+        let in_type = std::mem::replace(&mut self.in_type, false);
+        let ident_type = std::mem::replace(&mut self.ident_type, IdentType::Binding);
+        let decl_kind = std::mem::replace(&mut self.decl_kind, DeclKind::Param);
+        for param in params {
+            param.visit_mut_with(self);
+        }
+        self.decl_kind = decl_kind;
+        self.ident_type = ident_type;
+        self.in_type = in_type;
     }
 
     fn visit_mut_stmt_within_child_scope(&mut self, s: &mut Stmt) {
@@ -265,43 +362,42 @@ impl<'a> Resolver<'a> {
         });
     }
 
-    /// Returns a [Mark] for an identifier reference.
-    fn mark_for_ref(&self, sym: &Atom) -> Option<Mark> {
-        self.mark_for_ref_inner(sym, false)
+    /// Preserve the resolved scope so references reuse its existing identity.
+    fn scope_for_ref(&self, sym: &Atom) -> Option<ReferenceScope<'_>> {
+        self.scope_for_ref_inner(sym, false)
     }
 
-    fn mark_for_ref_inner(&self, sym: &Atom, stop_an_fn_scope: bool) -> Option<Mark> {
+    fn scope_for_ref_inner(
+        &self,
+        sym: &Atom,
+        stop_an_fn_scope: bool,
+    ) -> Option<ReferenceScope<'_>> {
         if self.config.handle_types && self.in_type {
-            let mut mark = self.current.mark;
             let mut scope = Some(&self.current);
 
             while let Some(cur) = scope {
                 // if cur.declared_types.contains(sym) ||
                 // cur.hoisted_symbols.borrow().contains(sym) {
                 if cur.declared_types.contains(sym) {
-                    if mark == Mark::root() {
+                    if cur.mark == Mark::root() {
                         break;
                     }
-                    return Some(mark);
+                    return Some(ReferenceScope::Declared(cur));
                 }
 
                 if cur.kind == ScopeKind::Fn && stop_an_fn_scope {
                     return None;
                 }
 
-                if let Some(parent) = &cur.parent {
-                    mark = parent.mark;
-                }
                 scope = cur.parent;
             }
         }
 
-        let mut mark = self.current.mark;
         let mut scope = Some(&self.current);
 
         while let Some(cur) = scope {
             if cur.declared_symbols.contains_key(sym) {
-                if mark == Mark::root() {
+                if cur.mark == Mark::root() {
                     return None;
                 }
 
@@ -309,11 +405,11 @@ impl<'a> Resolver<'a> {
                     // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
                     // non configurable global value
                     "undefined" | "NaN" | "Infinity"
-                        if mark == self.config.top_level_mark && !self.is_module =>
+                        if cur.mark == self.config.top_level_mark && !self.is_module =>
                     {
-                        Some(self.config.unresolved_mark)
+                        Some(ReferenceScope::Unresolved)
                     }
-                    _ => Some(mark),
+                    _ => Some(ReferenceScope::Declared(cur)),
                 };
             }
 
@@ -321,9 +417,6 @@ impl<'a> Resolver<'a> {
                 return None;
             }
 
-            if let Some(parent) = &cur.parent {
-                mark = parent.mark;
-            }
             scope = cur.parent;
         }
 
@@ -333,6 +426,7 @@ impl<'a> Resolver<'a> {
     /// Modifies a binding identifier.
     fn modify(&mut self, id: &mut Ident, kind: DeclKind) {
         if cfg!(debug_assertions) && LOG {
+            #[cfg(debug_assertions)]
             debug!(
                 "Binding (type = {}) {}{:?} {:?}",
                 self.in_type, id.sym, id.ctxt, kind
@@ -349,11 +443,7 @@ impl<'a> Resolver<'a> {
             self.current.declared_symbols.insert(id.sym.clone(), kind);
         }
 
-        let mark = self.current.mark;
-
-        if mark != Mark::root() {
-            id.ctxt = id.ctxt.apply_mark(mark);
-        }
+        id.ctxt = self.current.ctxt();
     }
 
     fn mark_block(&mut self, ctxt: &mut SyntaxContext) {
@@ -361,11 +451,7 @@ impl<'a> Resolver<'a> {
             return;
         }
 
-        let mark = self.current.mark;
-
-        if mark != Mark::root() {
-            *ctxt = ctxt.apply_mark(mark)
-        }
+        *ctxt = self.current.ctxt();
     }
 
     fn try_resolving_as_type(&mut self, i: &mut Ident) {
@@ -471,11 +557,7 @@ impl VisitMut for Resolver<'_> {
 
     typed_ref!(visit_mut_ts_type_query, TsTypeQuery);
 
-    typed_ref!(visit_mut_ts_type_query_expr, TsTypeQueryExpr);
-
     typed_ref!(visit_mut_ts_type_operator, TsTypeOperator);
-
-    typed_ref_init!(visit_mut_ts_type, TsType);
 
     typed_ref_init!(visit_mut_ts_type_ann, TsTypeAnn);
 
@@ -488,8 +570,6 @@ impl VisitMut for Resolver<'_> {
 
     typed_ref!(visit_mut_ts_union_type, TsUnionType);
 
-    typed_ref!(visit_mut_ts_infer_type, TsInferType);
-
     typed_ref!(visit_mut_ts_tuple_type, TsTupleType);
 
     typed_ref!(visit_mut_ts_intersection_type, TsIntersectionType);
@@ -501,8 +581,6 @@ impl VisitMut for Resolver<'_> {
     typed!(visit_mut_ts_fn_param, TsFnParam);
 
     typed!(visit_mut_ts_indexed_access_type, TsIndexedAccessType);
-
-    typed!(visit_mut_ts_index_signature, TsIndexSignature);
 
     typed!(visit_mut_ts_interface_body, TsInterfaceBody);
 
@@ -518,15 +596,43 @@ impl VisitMut for Resolver<'_> {
 
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
 
-    typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
-
     visit_mut_obj_and_computed!();
 
     // TODO: How should I handle this?
     typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
 
+    fn visit_mut_ts_infer_type(&mut self, node: &mut TsInferType) {
+        if self.config.handle_types {
+            // Inferred bindings do not yet have their own lexical scope.
+            // Keep their declaration-level owners in namespace completion
+            // instead of treating the surrounding scope as their owner.
+            self.namespace_state.get().require_type_scopes();
+            let in_type = std::mem::replace(&mut self.in_type, true);
+            let ident_type = self.ident_type;
+            node.visit_mut_children_with(self);
+            self.ident_type = ident_type;
+            self.in_type = in_type;
+        }
+    }
+
+    fn visit_mut_ts_type(&mut self, node: &mut TsType) {
+        if self.config.handle_types {
+            let in_type = std::mem::replace(&mut self.in_type, true);
+            let ident_type = std::mem::replace(&mut self.ident_type, IdentType::Ref);
+            let in_erased_type = std::mem::replace(&mut self.in_erased_type, true);
+            node.visit_mut_children_with(self);
+            self.in_erased_type = in_erased_type;
+            self.ident_type = ident_type;
+            self.in_type = in_type;
+        }
+    }
+
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
+        if self.in_erased_type {
+            self.namespace_state.get().require_type_scopes();
+        }
         self.with_child(ScopeKind::Fn, |child| {
+            child.mark_block(&mut e.ctxt);
             e.type_params.visit_mut_with(child);
 
             let old = child.ident_type;
@@ -546,9 +652,7 @@ impl VisitMut for Resolver<'_> {
             child.ident_type = old;
 
             match &mut *e.body {
-                BlockStmtOrExpr::BlockStmt(s) => {
-                    child.mark_block(&mut s.ctxt);
-
+                ArrowFunctionBody::FunctionBody(s) => {
                     let old_strict_mode = child.strict_mode;
 
                     if !child.strict_mode {
@@ -558,11 +662,10 @@ impl VisitMut for Resolver<'_> {
                             .map(|stmt| stmt.is_use_strict())
                             .unwrap_or(false);
                     }
-                    // Prevent creating new scope.
-                    s.stmts.visit_mut_with(child);
+                    s.visit_mut_with(child);
                     child.strict_mode = old_strict_mode;
                 }
-                BlockStmtOrExpr::Expr(e) => e.visit_mut_with(child),
+                ArrowFunctionBody::Expr(e) => e.visit_mut_with(child),
                 #[cfg(swc_ast_unknown)]
                 _ => (),
             }
@@ -662,6 +765,9 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        if self.in_erased_type {
+            self.namespace_state.get().require_type_scopes();
+        }
         // Create a child scope. The class name is only accessible within the class.
 
         n.class.super_class.visit_mut_with(self);
@@ -718,6 +824,7 @@ impl VisitMut for Resolver<'_> {
         }
 
         self.with_child(ScopeKind::Fn, |child| {
+            child.mark_block(&mut c.ctxt);
             let old = child.ident_type;
             child.ident_type = IdentType::Binding;
             {
@@ -740,8 +847,7 @@ impl VisitMut for Resolver<'_> {
             child.ident_type = old;
 
             if let Some(body) = &mut c.body {
-                child.mark_block(&mut body.ctxt);
-                body.visit_mut_children_with(child);
+                body.visit_mut_with(child);
             }
         });
     }
@@ -807,6 +913,7 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        #[cfg(debug_assertions)]
         let _span = if LOG {
             Some(span!(Level::ERROR, "visit_mut_expr").entered())
         } else {
@@ -879,6 +986,9 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {
+        if self.in_erased_type {
+            self.namespace_state.get().require_type_scopes();
+        }
         self.mark_block(&mut f.ctxt);
         f.type_params.visit_mut_with(self);
 
@@ -896,6 +1006,8 @@ impl VisitMut for Resolver<'_> {
                 self.current.declared_symbols.insert(id.0, DeclKind::Param);
             }
         }
+        f.this_param.visit_mut_with(self);
+
         self.ident_type = IdentType::Binding;
         f.params.visit_mut_with(self);
 
@@ -903,7 +1015,6 @@ impl VisitMut for Resolver<'_> {
 
         self.ident_type = IdentType::Ref;
         if let Some(body) = &mut f.body {
-            self.mark_block(&mut body.ctxt);
             let old_strict_mode = self.strict_mode;
             if !self.strict_mode {
                 self.strict_mode = body
@@ -912,33 +1023,23 @@ impl VisitMut for Resolver<'_> {
                     .map(|stmt| stmt.is_use_strict())
                     .unwrap_or(false);
             }
-            // Prevent creating new scope.
-            body.visit_mut_children_with(self);
+            body.visit_mut_with(self);
             self.strict_mode = old_strict_mode;
         }
-    }
-
-    fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
-        let old = self.ident_type;
-        self.ident_type = IdentType::Ref;
-        f.key.visit_mut_with(self);
-        self.ident_type = old;
-
-        f.type_ann.visit_mut_with(self);
-
-        f.body.visit_mut_with(self);
     }
 
     fn visit_mut_jsx_element_name(&mut self, node: &mut JSXElementName) {
         if let JSXElementName::Ident(i) = node {
             if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
                 if cfg!(debug_assertions) && LOG {
+                    #[cfg(debug_assertions)]
                     debug!("\t -> JSXElementName");
                 }
 
                 let ctxt = i.ctxt.apply_mark(self.config.unresolved_mark);
 
                 if cfg!(debug_assertions) && LOG {
+                    #[cfg(debug_assertions)]
                     debug!("\t -> {:?}", ctxt);
                 }
 
@@ -962,6 +1063,7 @@ impl VisitMut for Resolver<'_> {
                 let Ident { sym, ctxt, .. } = i;
 
                 if cfg!(debug_assertions) && LOG {
+                    #[cfg(debug_assertions)]
                     debug!("IdentRef (type = {}) {}{:?}", self.in_type, sym, ctxt);
                 }
 
@@ -969,21 +1071,27 @@ impl VisitMut for Resolver<'_> {
                     return;
                 }
 
-                if let Some(mark) = self.mark_for_ref(sym) {
-                    let ctxt = ctxt.apply_mark(mark);
+                if let Some(scope) = self.scope_for_ref(sym) {
+                    let ctxt = match scope {
+                        ReferenceScope::Declared(scope) => scope.ctxt(),
+                        ReferenceScope::Unresolved => self.unresolved_ctxt,
+                    };
 
                     if cfg!(debug_assertions) && LOG {
+                        #[cfg(debug_assertions)]
                         debug!("\t -> {:?}", ctxt);
                     }
                     i.ctxt = ctxt;
                 } else {
                     if cfg!(debug_assertions) && LOG {
+                        #[cfg(debug_assertions)]
                         debug!("\t -> Unresolved");
                     }
 
-                    let ctxt = ctxt.apply_mark(self.config.unresolved_mark);
+                    let ctxt = self.unresolved_ctxt;
 
                     if cfg!(debug_assertions) && LOG {
+                        #[cfg(debug_assertions)]
                         debug!("\t -> {:?}", ctxt);
                     }
 
@@ -1052,17 +1160,18 @@ impl VisitMut for Resolver<'_> {
         s.body.visit_mut_with(self);
     }
 
-    fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
-        m.key.visit_mut_with(self);
-
-        // Child folder
-        self.with_child(ScopeKind::Fn, |child| m.function.visit_mut_with(child));
-    }
-
     fn visit_mut_module(&mut self, module: &mut Module) {
+        self.namespace_state.get().reset();
         self.strict_mode = true;
         self.is_module = true;
-        module.visit_mut_children_with(self)
+        module.visit_mut_children_with(self);
+        if self.namespace_state.get().needs_lookup() {
+            typescript::resolve(
+                module,
+                self.unresolved_ctxt,
+                self.namespace_state.get().take_facts(),
+            );
+        }
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
@@ -1090,6 +1199,10 @@ impl VisitMut for Resolver<'_> {
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
         if e.src.is_some() {
             return;
+        }
+
+        if self.in_ts_module && !e.specifiers.is_empty() {
+            self.namespace_state.get().require_lookup();
         }
 
         e.visit_mut_children_with(self);
@@ -1128,34 +1241,42 @@ impl VisitMut for Resolver<'_> {
         }
     }
 
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        match prop {
+            Prop::Getter(GetterProp { key, function, .. })
+            | Prop::Setter(SetterProp { key, function, .. })
+            | Prop::Method(MethodProp { key, function }) => {
+                key.visit_mut_with(self);
+                self.with_child(ScopeKind::Fn, |child| function.visit_mut_with(child));
+            }
+            _ => prop.visit_mut_children_with(self),
+        }
+    }
+
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
         node.arg.visit_mut_with(self);
         node.type_ann.visit_mut_with(self);
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
+        self.namespace_state.get().reset();
         self.strict_mode = script
             .body
             .first()
             .map(|stmt| stmt.is_use_strict())
             .unwrap_or(false);
-        script.visit_mut_children_with(self)
-    }
-
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        n.key.visit_mut_with(self);
-
-        {
-            self.with_child(ScopeKind::Fn, |child| {
-                child.ident_type = IdentType::Binding;
-                n.this_param.visit_mut_with(child);
-                n.param.visit_mut_with(child);
-                n.body.visit_mut_with(child);
-            });
-        };
+        script.visit_mut_children_with(self);
+        if self.namespace_state.get().needs_lookup() {
+            typescript::resolve(
+                script,
+                self.unresolved_ctxt,
+                self.namespace_state.get().take_facts(),
+            );
+        }
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        #[cfg(debug_assertions)]
         let _span = if LOG {
             Some(span!(Level::ERROR, "visit_mut_stmts").entered())
         } else {
@@ -1164,6 +1285,7 @@ impl VisitMut for Resolver<'_> {
 
         // Phase 1: Handle hoisting
         {
+            #[cfg(debug_assertions)]
             let _span = if LOG {
                 Some(span!(Level::ERROR, "hoist").entered())
             } else {
@@ -1195,6 +1317,7 @@ impl VisitMut for Resolver<'_> {
         s.discriminant.visit_mut_with(self);
 
         self.with_child(ScopeKind::Block, |child| {
+            child.mark_block(&mut s.body_ctxt);
             s.cases.visit_mut_with(child);
         });
     }
@@ -1216,7 +1339,7 @@ impl VisitMut for Resolver<'_> {
             child.in_type = true;
 
             n.type_params.visit_mut_with(child);
-            n.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut n.params);
             n.type_ann.visit_mut_with(child);
         });
     }
@@ -1232,7 +1355,7 @@ impl VisitMut for Resolver<'_> {
 
             // order is important
             decl.type_params.visit_mut_with(child);
-            decl.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut decl.params);
             decl.type_ann.visit_mut_with(child);
         });
     }
@@ -1246,23 +1369,40 @@ impl VisitMut for Resolver<'_> {
             child.in_type = true;
 
             ty.type_params.visit_mut_with(child);
-            ty.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut ty.params);
             ty.type_ann.visit_mut_with(child);
         });
     }
 
     fn visit_mut_ts_enum_decl(&mut self, decl: &mut TsEnumDecl) {
-        if decl.declare && !self.config.handle_types {
-            return;
-        }
         self.modify(&mut decl.id, DeclKind::Lexical);
 
         self.with_child(ScopeKind::Block, |child| {
+            // Predeclare enum members in a child scope marked with `unresolved_mark`.
+            // Enum initializers may reference other members, including quoted names whose
+            // text is a valid identifier:
+            //
+            // ```TypeScript
+            //   enum E {
+            //       A = "A",
+            //       "B" = "B",
+            //       C = (() => { console.log(A, B); })(),
+            //   }
+            // ```
+            //
+            // This keeps references like `A`, `B`, and `b = a` in the unresolved
+            // context instead of resolving them to the enum's lexical scope, so the
+            // TypeScript enum transform can interpret them later through the
+            // current enum's typed member index.
+            child.current.set_mark(self.config.unresolved_mark);
             // add the enum member names as declared symbols for this scope
             // Ex. `enum Foo { a, b = a }`
             let member_names = decl.members.iter().filter_map(|m| match &m.id {
                 TsEnumMemberId::Ident(id) => Some((id.sym.clone(), DeclKind::Lexical)),
-                TsEnumMemberId::Str(_) => None,
+                TsEnumMemberId::Str(s) => s
+                    .value
+                    .as_atom()
+                    .map(|atom| (atom.clone(), DeclKind::Lexical)),
                 #[cfg(swc_ast_unknown)]
                 _ => None,
             });
@@ -1286,7 +1426,9 @@ impl VisitMut for Resolver<'_> {
         if self.config.handle_types {
             let old = self.in_type;
             self.in_type = true;
+            let in_erased_type = std::mem::replace(&mut self.in_erased_type, true);
             n.visit_mut_children_with(self);
+            self.in_erased_type = in_erased_type;
             self.in_type = old;
         }
     }
@@ -1300,21 +1442,56 @@ impl VisitMut for Resolver<'_> {
             child.in_type = true;
 
             ty.type_params.visit_mut_with(child);
-            ty.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut ty.params);
             ty.type_ann.visit_mut_with(child);
         });
     }
 
     fn visit_mut_ts_getter_signature(&mut self, n: &mut TsGetterSignature) {
         if n.computed {
-            n.key.visit_mut_with(self);
+            self.visit_ts_computed_key(&mut n.key);
         }
 
         n.type_ann.visit_mut_with(self);
     }
 
+    fn visit_mut_ts_index_signature(&mut self, n: &mut TsIndexSignature) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        self.with_child(ScopeKind::Block, |child| {
+            child.visit_ts_signature_params(&mut n.params);
+            n.type_ann.visit_mut_with(child);
+        });
+    }
+
     fn visit_mut_ts_import_equals_decl(&mut self, n: &mut TsImportEqualsDecl) {
         self.modify(&mut n.id, DeclKind::Lexical);
+        self.namespace_state.get().alias();
+
+        let mut scope = self.current.parent;
+        let mut fallback = self.config.unresolved_mark;
+        while let Some(parent) = scope {
+            if parent.declared_symbols.contains_key(&n.id.sym) {
+                fallback = parent.mark;
+                break;
+            }
+            scope = parent.parent;
+        }
+        if fallback == self.config.top_level_mark
+            && !self.is_module
+            && matches!(&*n.id.sym, "undefined" | "NaN" | "Infinity")
+        {
+            fallback = self.config.unresolved_mark;
+        }
+        // Most aliases have no outer value. Their default unresolved fallback
+        // is implicit; only custom lexical targets need an owned ID record.
+        if fallback != self.config.unresolved_mark {
+            self.namespace_state
+                .get()
+                .alias_fallback(n.id.to_id(), SyntaxContext::empty().apply_mark(fallback));
+        }
 
         n.module_ref.visit_mut_with(self);
     }
@@ -1345,6 +1522,7 @@ impl VisitMut for Resolver<'_> {
 
         self.with_child(ScopeKind::Fn, |child| {
             child.in_type = true;
+            child.in_erased_type = true;
 
             n.type_params.visit_mut_with(child);
             n.extends.visit_mut_with(child);
@@ -1374,47 +1552,51 @@ impl VisitMut for Resolver<'_> {
             return;
         }
 
+        if n.computed {
+            self.visit_ts_computed_key(&mut n.key);
+        }
+
         self.with_child(ScopeKind::Fn, |child| {
             child.in_type = true;
 
             n.type_params.visit_mut_with(child);
-            if n.computed {
-                n.key.visit_mut_with(child);
-            }
-            n.params.visit_mut_with(child);
+            child.visit_ts_signature_params(&mut n.params);
             n.type_ann.visit_mut_with(child);
         });
     }
 
     fn visit_mut_ts_module_decl(&mut self, decl: &mut TsModuleDecl) {
-        if decl.declare && !self.config.handle_types {
-            return;
-        }
-
-        match &mut decl.id {
+        let owner = match &mut decl.id {
             TsModuleName::Ident(i) => {
                 self.modify(i, DeclKind::Lexical);
+                let owner = self.namespace_state.get().namespace(i);
+                (!decl.global).then_some(owner)
             }
-            TsModuleName::Str(_) => {}
+            TsModuleName::Str(_) => {
+                self.namespace_state.get().require_lookup();
+                None
+            }
             #[cfg(swc_ast_unknown)]
-            _ => {}
-        }
+            _ => None,
+        };
 
         self.with_child(ScopeKind::Block, |child| {
             child.in_ts_module = true;
+            child.namespace_owner = owner.or(child.namespace_owner);
 
             decl.body.visit_mut_children_with(child);
         });
     }
 
     fn visit_mut_ts_namespace_decl(&mut self, n: &mut TsNamespaceDecl) {
-        if n.declare && !self.config.handle_types {
-            return;
-        }
-
         self.modify(&mut n.id, DeclKind::Lexical);
+        let owner = self.namespace_state.get().namespace(&n.id);
 
-        n.body.visit_mut_with(self);
+        self.with_child(ScopeKind::Block, |child| {
+            child.in_ts_module = true;
+            child.namespace_owner = Some(owner);
+            n.body.visit_mut_with(child);
+        });
     }
 
     fn visit_mut_ts_param_prop_param(&mut self, n: &mut TsParamPropParam) {
@@ -1428,7 +1610,7 @@ impl VisitMut for Resolver<'_> {
         }
 
         if n.computed {
-            n.key.visit_mut_with(self);
+            self.visit_ts_computed_key(&mut n.key);
         }
 
         self.with_child(ScopeKind::Fn, |child| {
@@ -1453,11 +1635,44 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_ts_setter_signature(&mut self, n: &mut TsSetterSignature) {
-        if n.computed {
-            n.key.visit_mut_with(self);
+        if !self.config.handle_types {
+            return;
         }
 
-        n.param.visit_mut_with(self);
+        if n.computed {
+            self.visit_ts_computed_key(&mut n.key);
+        }
+
+        self.with_child(ScopeKind::Fn, |child| {
+            child.visit_ts_signature_params(std::slice::from_mut(&mut n.param));
+        });
+    }
+
+    fn visit_mut_ts_this_type_or_ident(&mut self, n: &mut TsThisTypeOrIdent) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        // Predicate names refer to value parameters, not type declarations.
+        let in_type = std::mem::replace(&mut self.in_type, false);
+        let ident_type = std::mem::replace(&mut self.ident_type, IdentType::Ref);
+        n.visit_mut_children_with(self);
+        self.ident_type = ident_type;
+        self.in_type = in_type;
+    }
+
+    fn visit_mut_ts_type_query_expr(&mut self, n: &mut TsTypeQueryExpr) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        // A type query's entity is a value reference; type arguments are
+        // resolved separately in the type space.
+        let in_type = std::mem::replace(&mut self.in_type, false);
+        let ident_type = std::mem::replace(&mut self.ident_type, IdentType::Ref);
+        n.visit_mut_children_with(self);
+        self.ident_type = ident_type;
+        self.in_type = in_type;
     }
 
     fn visit_mut_ts_tuple_element(&mut self, e: &mut TsTupleElement) {
@@ -1572,7 +1787,7 @@ impl Hoister<'_, '_> {
     fn add_pat_id(&mut self, id: &mut BindingIdent) {
         if self.in_catch_body {
             // If we have a binding, it's different variable.
-            if self.resolver.mark_for_ref_inner(&id.sym, true).is_some()
+            if self.resolver.scope_for_ref_inner(&id.sym, true).is_some()
                 && self.catch_param_decls.contains(&id.sym)
             {
                 return;
@@ -1703,55 +1918,42 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         decl.visit_mut_children_with(self);
 
-        if self.resolver.config.handle_types {
-            match decl {
-                Decl::TsInterface(i) => {
-                    if self.in_block {
-                        return;
-                    }
-
-                    let old_in_type = self.resolver.in_type;
-                    self.resolver.in_type = true;
-                    self.resolver.modify(&mut i.id, DeclKind::Type);
-                    self.resolver.in_type = old_in_type;
+        match decl {
+            Decl::TsInterface(i) if self.resolver.config.handle_types => {
+                if self.in_block {
+                    return;
                 }
 
-                Decl::TsTypeAlias(a) => {
-                    let old_in_type = self.resolver.in_type;
-                    self.resolver.in_type = true;
-                    self.resolver.modify(&mut a.id, DeclKind::Type);
-                    self.resolver.in_type = old_in_type;
-                }
-
-                Decl::TsEnum(e) => {
-                    if !self.in_block {
-                        let old_in_type = self.resolver.in_type;
-                        self.resolver.in_type = false;
-                        self.resolver.modify(&mut e.id, DeclKind::Lexical);
-                        self.resolver.in_type = old_in_type;
-                    }
-                }
-
-                Decl::TsModule(v)
-                    if matches!(
-                        &**v,
-                        TsModuleDecl {
-                            global: false,
-                            id: TsModuleName::Ident(_),
-                            ..
-                        },
-                    ) =>
-                {
-                    if !self.in_block {
-                        let old_in_type = self.resolver.in_type;
-                        self.resolver.in_type = false;
-                        let id = v.id.as_mut_ident().unwrap();
-                        self.resolver.modify(id, DeclKind::Lexical);
-                        self.resolver.in_type = old_in_type;
-                    }
-                }
-                _ => {}
+                let old_in_type = self.resolver.in_type;
+                self.resolver.in_type = true;
+                self.resolver.modify(&mut i.id, DeclKind::Type);
+                self.resolver.in_type = old_in_type;
             }
+
+            Decl::TsTypeAlias(a) if self.resolver.config.handle_types => {
+                let old_in_type = self.resolver.in_type;
+                self.resolver.in_type = true;
+                self.resolver.modify(&mut a.id, DeclKind::Type);
+                self.resolver.in_type = old_in_type;
+            }
+
+            Decl::TsEnum(e) if !self.in_block => {
+                let old_in_type = self.resolver.in_type;
+                self.resolver.in_type = false;
+                self.resolver.modify(&mut e.id, DeclKind::Lexical);
+                self.resolver.in_type = old_in_type;
+            }
+
+            Decl::TsModule(namespace) if !self.in_block && !namespace.global => {
+                let TsModuleName::Ident(id) = &mut namespace.id else {
+                    return;
+                };
+                let old_in_type = self.resolver.in_type;
+                self.resolver.in_type = false;
+                self.resolver.modify(id, DeclKind::Lexical);
+                self.resolver.in_type = old_in_type;
+            }
+            _ => {}
         }
     }
 
@@ -1865,9 +2067,6 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_assign_target(&mut self, _: &mut AssignTarget) {}
-
-    #[inline]
-    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
         s.discriminant.visit_mut_with(self);

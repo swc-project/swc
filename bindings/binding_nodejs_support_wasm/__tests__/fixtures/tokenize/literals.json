@@ -1,0 +1,217 @@
+[
+    {
+        "source": "const value = 42; let big = 123n; \"ok\"; true; false; null;",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 5
+            },
+            {
+                "kind": "identifier",
+                "start": 6,
+                "end": 11
+            },
+            {
+                "kind": "punctuator",
+                "start": 12,
+                "end": 13
+            },
+            {
+                "kind": "number",
+                "start": 14,
+                "end": 16
+            },
+            {
+                "kind": "punctuator",
+                "start": 16,
+                "end": 17
+            },
+            {
+                "kind": "keyword",
+                "start": 18,
+                "end": 21
+            },
+            {
+                "kind": "identifier",
+                "start": 22,
+                "end": 25
+            },
+            {
+                "kind": "punctuator",
+                "start": 26,
+                "end": 27
+            },
+            {
+                "kind": "bigint",
+                "start": 28,
+                "end": 32
+            },
+            {
+                "kind": "punctuator",
+                "start": 32,
+                "end": 33
+            },
+            {
+                "kind": "string",
+                "start": 34,
+                "end": 38
+            },
+            {
+                "kind": "punctuator",
+                "start": 38,
+                "end": 39
+            },
+            {
+                "kind": "keyword",
+                "start": 40,
+                "end": 44
+            },
+            {
+                "kind": "punctuator",
+                "start": 44,
+                "end": 45
+            },
+            {
+                "kind": "keyword",
+                "start": 46,
+                "end": 51
+            },
+            {
+                "kind": "punctuator",
+                "start": 51,
+                "end": 52
+            },
+            {
+                "kind": "keyword",
+                "start": 53,
+                "end": 57
+            },
+            {
+                "kind": "punctuator",
+                "start": 57,
+                "end": 58
+            }
+        ]
+    },
+    {
+        "source": "const 𐐀 = \"😀\"; /* 한글 */ 𐐀 + 1",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 5
+            },
+            {
+                "kind": "identifier",
+                "start": 6,
+                "end": 8
+            },
+            {
+                "kind": "punctuator",
+                "start": 9,
+                "end": 10
+            },
+            {
+                "kind": "string",
+                "start": 11,
+                "end": 15
+            },
+            {
+                "kind": "punctuator",
+                "start": 15,
+                "end": 16
+            },
+            {
+                "kind": "comment",
+                "start": 17,
+                "end": 25
+            },
+            {
+                "kind": "identifier",
+                "start": 26,
+                "end": 28
+            },
+            {
+                "kind": "punctuator",
+                "start": 29,
+                "end": 30
+            },
+            {
+                "kind": "number",
+                "start": 31,
+                "end": 32
+            }
+        ]
+    },
+    {
+        "source": "obj.default; undefined; async function f() {}",
+        "expected": [
+            {
+                "kind": "identifier",
+                "start": 0,
+                "end": 3
+            },
+            {
+                "kind": "punctuator",
+                "start": 3,
+                "end": 4
+            },
+            {
+                "kind": "keyword",
+                "start": 4,
+                "end": 11
+            },
+            {
+                "kind": "punctuator",
+                "start": 11,
+                "end": 12
+            },
+            {
+                "kind": "identifier",
+                "start": 13,
+                "end": 22
+            },
+            {
+                "kind": "punctuator",
+                "start": 22,
+                "end": 23
+            },
+            {
+                "kind": "identifier",
+                "start": 24,
+                "end": 29
+            },
+            {
+                "kind": "keyword",
+                "start": 30,
+                "end": 38
+            },
+            {
+                "kind": "identifier",
+                "start": 39,
+                "end": 40
+            },
+            {
+                "kind": "punctuator",
+                "start": 40,
+                "end": 41
+            },
+            {
+                "kind": "punctuator",
+                "start": 41,
+                "end": 42
+            },
+            {
+                "kind": "punctuator",
+                "start": 43,
+                "end": 44
+            },
+            {
+                "kind": "punctuator",
+                "start": 44,
+                "end": 45
+            }
+        ]
+    }
+]

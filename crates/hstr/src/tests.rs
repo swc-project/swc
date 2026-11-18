@@ -22,6 +22,28 @@ fn store_with_wtf8_atoms(texts: Vec<&Wtf8>) -> (AtomStore, Vec<Wtf8Atom>) {
 }
 
 #[test]
+fn equality_variants() {
+    assert_eq!(Atom::from("inline"), Atom::from("inline"));
+    assert_ne!(Atom::from("inline"), Atom::from("inlinf"));
+
+    let (_, atoms1) = store_with_atoms(vec!["Hello, beautiful world!"]);
+    let (_, atoms2) = store_with_atoms(vec!["Hello, beautiful world!", "Hello, different world!"]);
+    assert_eq!(atoms1[0], atoms2[0]);
+    assert_ne!(atoms1[0], atoms2[1]);
+
+    assert_eq!(Wtf8Atom::from("inline"), Wtf8Atom::from("inline"));
+    assert_ne!(Wtf8Atom::from("inline"), Wtf8Atom::from("inlinf"));
+
+    let (_, atoms1) = store_with_wtf8_atoms(vec![&Wtf8::from_str("Hello, beautiful world!")]);
+    let (_, atoms2) = store_with_wtf8_atoms(vec![
+        &Wtf8::from_str("Hello, beautiful world!"),
+        &Wtf8::from_str("Hello, different world!"),
+    ]);
+    assert_eq!(atoms1[0], atoms2[0]);
+    assert_ne!(atoms1[0], atoms2[1]);
+}
+
+#[test]
 fn simple_usage() {
     // atom
     let (s, atoms) = store_with_atoms(vec!["Hello, world!", "Hello, world!"]);
@@ -47,6 +69,31 @@ fn simple_usage() {
     let a2 = atoms[1].clone();
 
     assert_eq!(a1.unsafe_data, a2.unsafe_data);
+}
+
+#[test]
+fn ascii_case_conversion_uses_stack_and_heap_paths() {
+    let short = Atom::from("aBcDeF");
+    assert_eq!(short.to_ascii_uppercase(), "ABCDEF");
+    assert_eq!(short.to_ascii_lowercase(), "abcdef");
+
+    let lowercase_at_stack_limit = "a".repeat(64);
+    let uppercase_at_stack_limit = "A".repeat(64);
+    assert_eq!(
+        Atom::from(lowercase_at_stack_limit).to_ascii_uppercase(),
+        uppercase_at_stack_limit.as_str()
+    );
+
+    let lowercase_over_stack_limit = "a".repeat(65);
+    let uppercase_over_stack_limit = "A".repeat(65);
+    assert_eq!(
+        Atom::from(lowercase_over_stack_limit.as_str()).to_ascii_uppercase(),
+        uppercase_over_stack_limit.as_str()
+    );
+    assert_eq!(
+        Atom::from(uppercase_over_stack_limit).to_ascii_lowercase(),
+        lowercase_over_stack_limit.as_str()
+    );
 }
 
 #[test]

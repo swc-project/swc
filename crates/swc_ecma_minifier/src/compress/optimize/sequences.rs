@@ -3,15 +3,11 @@ use std::{iter::once, mem::take};
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::{
-    alias::{try_collect_infects_from, AccessKind, AliasConfig},
-    util::is_global_var_with_pure_property_access,
-};
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, ExprExt, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
-#[cfg(feature = "debug")]
+#[cfg(all(debug_assertions, feature = "debug"))]
 use tracing::{span, Level};
 
 use super::{is_pure_undefined, Optimizer};
@@ -24,6 +20,7 @@ use crate::{
     },
     option::CompressOptions,
     program_data::{ScopeData, VarUsageInfoFlags},
+    usage_analyzer::util::is_global_var_with_pure_property_access,
     util::{
         idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, IdentUsageCollector,
         ModuleItemExt,
@@ -214,10 +211,7 @@ impl Optimizer<'_> {
                             match &mut stmt.init {
                                 Some(VarDeclOrExpr::Expr(e)) => {
                                     if exprs.iter().all(|expr| {
-                                        matches!(
-                                            &**expr,
-                                            Expr::Assign(AssignExpr { op: op!("="), .. })
-                                        )
+                                        self.can_append_expr_after_for_init_literal(expr)
                                     }) {
                                         let ids_used_by_exprs =
                                             idents_used_by_ignoring_nested(&exprs);
@@ -363,6 +357,24 @@ impl Optimizer<'_> {
         *stmts = new_stmts;
     }
 
+    /// Returns true if a pending expression can be moved after a leading
+    /// `for` initializer of the form `id = literal`.
+    fn can_append_expr_after_for_init_literal(&self, expr: &Expr) -> bool {
+        let Expr::Assign(AssignExpr {
+            op: op!("="),
+            left,
+            right,
+            ..
+        }) = expr
+        else {
+            return false;
+        };
+
+        left.as_ident().is_some()
+            && !right.may_have_side_effects(self.ctx.expr_ctx)
+            && self.is_skippable_for_seq(None, expr)
+    }
+
     /// Lift sequence expressions in an assign expression.
     ///
     /// - `(a = (f, 4)) => (f, a = 4)`
@@ -392,8 +404,7 @@ impl Optimizer<'_> {
                 })) => {
                     if let Some(id) = obj.as_ident() {
                         if let Some(usage) = self.data.vars.get(&id.to_id()) {
-                            id.ctxt != self.ctx.expr_ctx.unresolved_ctxt
-                                && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                            id.ctxt != self.ctx.expr_ctx.unresolved_ctxt && !usage.may_change()
                         } else {
                             false
                         }
@@ -516,7 +527,10 @@ impl Optimizer<'_> {
         })
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: ModuleItemExt,
@@ -590,7 +604,7 @@ impl Optimizer<'_> {
         }
         exprs.push(buf);
 
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let buf_len = exprs.iter().map(|v| v.len()).collect::<Vec<_>>();
             Some(
@@ -674,7 +688,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let e_str = dump(&*e, false);
 
@@ -714,7 +728,7 @@ impl Optimizer<'_> {
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) -> Result<(), ()> {
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             Some(
                 tracing::span!(Level::TRACE, "merge_sequences_in_exprs", len = exprs.len())
@@ -726,6 +740,10 @@ impl Optimizer<'_> {
         loop {
             let mut changed = false;
             for a_idx in 0..exprs.len().saturating_sub(1) {
+                if self.never_merges(&exprs[a_idx]) {
+                    continue;
+                }
+
                 for b_idx in (a_idx + 1)..exprs.len() {
                     let (a1, a2) = exprs.split_at_mut(a_idx + 1);
                     let a = a1.last_mut().unwrap();
@@ -868,11 +886,13 @@ impl Optimizer<'_> {
                         }
                         Mergable::FnDecl(..) => continue,
                         Mergable::Drop => {
-                            if self.drop_mergable_seq(a)? {
-                                changed = true;
-                                merge_seq_cache.invalidate(a_idx);
-                                merge_seq_cache.invalidate(b_idx);
-                                break;
+                            if let Mergable::Expr(a) = a {
+                                if self.optimize_last_expr_before_termination(a) {
+                                    changed = true;
+                                    merge_seq_cache.invalidate(a_idx);
+                                    merge_seq_cache.invalidate(b_idx);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -972,6 +992,39 @@ impl Optimizer<'_> {
         Ok(())
     }
 
+    /// Whether `merge_sequences_in_exprs` can't do anything with `a`, so
+    /// needn't look at the expressions after it. A declaration is only merged
+    /// into a later expression by inlining it there, which
+    /// `replace_seq_assignment` only allows for some bindings, and only
+    /// dropped for a later declaration of the same name.
+    fn never_merges(&self, a: &Mergable) -> bool {
+        let (id, init) = match a {
+            Mergable::Var(a) => match &a.name {
+                Pat::Ident(name) => (name.to_id(), a.init.as_deref()),
+                _ => return true,
+            },
+            Mergable::FnDecl(a) => (a.ident.to_id(), None),
+            _ => return false,
+        };
+        let Some(usage) = self.data.vars.get(&id) else {
+            return false;
+        };
+        if usage.declared_count > 1 {
+            return false;
+        }
+        if usage.flags.intersects(
+            VarUsageInfoFlags::INLINE_PREVENTED.union(VarUsageInfoFlags::USED_RECURSIVELY),
+        ) {
+            return true;
+        }
+        let inlinable = usage.ref_count == 1
+            && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+            && usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL);
+        // A declaration's trivial literal value can be copied to a use.
+        let copyable = matches!(a, Mergable::Var(_)) && init.is_some_and(is_trivial_lit);
+        !inlinable && !copyable
+    }
+
     fn is_pat_skippable_for_seq(&mut self, a: Option<&Mergable>, p: &Pat) -> bool {
         match p {
             Pat::Ident(_) => true,
@@ -1027,16 +1080,6 @@ impl Optimizer<'_> {
         }
     }
 
-    fn drop_mergable_seq(&mut self, a: &mut Mergable) -> Result<bool, ()> {
-        if let Mergable::Expr(a) = a {
-            if self.optimize_last_expr_before_termination(a) {
-                return Ok(true);
-            }
-        }
-
-        Ok(false)
-    }
-
     fn is_simple_assign_target_skippable_for_seq(
         &self,
         a: Option<&Mergable>,
@@ -1084,55 +1127,7 @@ impl Optimizer<'_> {
                 Mergable::Drop => return false,
             }
 
-            let ids_used_by_a_init = match a {
-                Mergable::Var(a) => a.init.as_ref().map(|init| {
-                    try_collect_infects_from(
-                        init,
-                        AliasConfig::default()
-                            .marks(Some(self.marks))
-                            .ignore_nested(true)
-                            .need_all(true),
-                        8,
-                    )
-                }),
-                Mergable::Expr(a) => match a {
-                    Expr::Assign(a) if a.is_simple_assign() => Some(try_collect_infects_from(
-                        &a.right,
-                        AliasConfig::default()
-                            .marks(Some(self.marks))
-                            .ignore_nested(true)
-                            .need_all(true),
-                        8,
-                    )),
-
-                    _ => None,
-                },
-
-                Mergable::FnDecl(a) => Some(try_collect_infects_from(
-                    &a.function,
-                    AliasConfig::default()
-                        .marks(Some(self.marks))
-                        .ignore_nested(true)
-                        .need_all(true),
-                    8,
-                )),
-
-                Mergable::Drop => return false,
-            };
-
-            if let Some(deps) = ids_used_by_a_init {
-                let Ok(deps) = deps else {
-                    return false;
-                };
-
-                if deps.contains(&(e.to_id(), AccessKind::Reference))
-                    || deps.contains(&(e.to_id(), AccessKind::Call))
-                {
-                    return false;
-                }
-            }
-
-            if !self.assignee_skippable_for_seq(a, e) {
+            if !self.assignee_skippable_for_seq(a, &e.to_id()) {
                 return false;
             }
         }
@@ -1168,7 +1163,10 @@ impl Optimizer<'_> {
         false
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.bit_ctx.contains(BitCtx::InTryBlock) {
             log_abort!("try block");
@@ -1318,6 +1316,12 @@ impl Optimizer<'_> {
 
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if elem.spread.is_some() {
+                        log_abort!("array spread");
+                        return false;
+                    }
+
                     if !self.is_skippable_for_seq(a, &elem.expr) {
                         log_abort!("array element");
                         return false;
@@ -1381,7 +1385,7 @@ impl Optimizer<'_> {
 
             Expr::Update(..) => false,
             Expr::SuperProp(..) => false,
-            Expr::Class(_) => e.may_have_side_effects(self.ctx.expr_ctx),
+            Expr::Class(_) => !e.may_have_side_effects(self.ctx.expr_ctx),
 
             Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
             Expr::Unary(e) => self.is_skippable_for_seq(a, &e.arg),
@@ -1446,8 +1450,8 @@ impl Optimizer<'_> {
         }
     }
 
-    fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Ident) -> bool {
-        let usgae = if let Some(usage) = self.data.vars.get(&assignee.to_id()) {
+    fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Id) -> bool {
+        let usgae = if let Some(usage) = self.data.vars.get(assignee) {
             usage
         } else {
             return false;
@@ -1462,9 +1466,7 @@ impl Optimizer<'_> {
                 };
                 if has_side_effect
                     && !usgae.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
-                    && (usgae.flags.intersects(
-                        VarUsageInfoFlags::EXPORTED.union(VarUsageInfoFlags::REASSIGNED),
-                    ))
+                    && (usgae.flags.contains(VarUsageInfoFlags::EXPORTED) || usgae.may_change())
                 {
                     log_abort!("a (expr) has side effect");
                     return false;
@@ -1474,9 +1476,7 @@ impl Optimizer<'_> {
                 if let Some(init) = &a.init {
                     if init.may_have_side_effects(self.ctx.expr_ctx)
                         && !usgae.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
-                        && (usgae.flags.intersects(
-                            VarUsageInfoFlags::EXPORTED.union(VarUsageInfoFlags::REASSIGNED),
-                        ))
+                        && (usgae.flags.contains(VarUsageInfoFlags::EXPORTED) || usgae.may_change())
                     {
                         log_abort!("a (var) init has side effect");
                         return false;
@@ -1494,7 +1494,7 @@ impl Optimizer<'_> {
     ///
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
-        #[cfg(feature = "debug")]
+        #[cfg(all(debug_assertions, feature = "debug"))]
         let _tracing = {
             let b_str = dump(&*b, false);
             let a = match a {
@@ -1740,7 +1740,7 @@ impl Optimizer<'_> {
                                         && !usage
                                             .flags
                                             .contains(VarUsageInfoFlags::INLINE_PREVENTED)
-                                        && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                        && !usage.may_change()
                                         && !b_left.prop.is_computed()
                                     {
                                         match &*a {
@@ -1843,6 +1843,11 @@ impl Optimizer<'_> {
                         return Ok(true);
                     }
 
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if elem.spread.is_some() {
+                        break;
+                    }
+
                     if !self.is_skippable_for_seq(Some(a), &elem.expr) {
                         // To preserve side-effects, we need to abort.
                         break;
@@ -1904,6 +1909,11 @@ impl Optimizer<'_> {
                         return Ok(true);
                     }
 
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if arg.spread.is_some() {
+                        return Ok(false);
+                    }
+
                     if !self.is_skippable_for_seq(Some(a), &arg.expr) {
                         return Ok(false);
                     }
@@ -1926,6 +1936,11 @@ impl Optimizer<'_> {
                     trace_op!("seq: Try arg of super");
                     if self.merge_sequential_expr(a, &mut arg.expr)? {
                         return Ok(true);
+                    }
+
+                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    if arg.spread.is_some() {
+                        return Ok(false);
                     }
 
                     if !self.is_skippable_for_seq(Some(a), &arg.expr) {
@@ -1956,6 +1971,12 @@ impl Optimizer<'_> {
 
                         if self.merge_sequential_expr(a, &mut arg.expr)? {
                             return Ok(true);
+                        }
+
+                        // Spreading reads the contents of the iterable, which `a` may have
+                        // modified.
+                        if arg.spread.is_some() {
+                            return Ok(false);
                         }
 
                         if !self.is_skippable_for_seq(Some(a), &arg.expr) {
@@ -2022,14 +2043,14 @@ impl Optimizer<'_> {
                                     // https://github.com/swc-project/swc/issues/6914
                                     let mut new_b = shorthand.clone().into();
                                     if self.merge_sequential_expr(a, &mut new_b)? {
-                                        *prop = Box::new(Prop::KeyValue(KeyValueProp {
+                                        **prop = Prop::KeyValue(KeyValueProp {
                                             key: Ident::new_no_ctxt(
                                                 shorthand.sym.clone(),
                                                 shorthand.span,
                                             )
                                             .into(),
                                             value: new_b.clone().into(),
-                                        }));
+                                        });
                                     }
 
                                     if !self.is_skippable_for_seq(Some(a), &new_b) {
@@ -2395,10 +2416,6 @@ impl Optimizer<'_> {
                         return Ok(false);
                     }
 
-                    if contains_arguments(&a.function) {
-                        return Ok(false);
-                    }
-
                     (a.ident.clone(), None)
                 } else {
                     return Ok(false);
@@ -2407,6 +2424,8 @@ impl Optimizer<'_> {
 
             Mergable::Drop => return Ok(false),
         };
+
+        can_remove &= self.may_remove_ident(&left_id);
 
         let a_type = a_right.as_deref().map(|a| a.get_type(self.ctx.expr_ctx));
 
@@ -2424,10 +2443,9 @@ impl Optimizer<'_> {
                 Mergable::Var(a) => {
                     if self.options.unused {
                         if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
-                            // We are eliminating one usage, so we use 1 instead of
-                            // 0
+                            // We are eliminating one usage, so we use 1 instead of 0
                             if !force_drop
-                                && usage.usage_count == 1
+                                && usage.ref_count == 1
                                 && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                             {
                                 report_change!("sequences: Dropping inlined variable");
@@ -2579,16 +2597,34 @@ impl Optimizer<'_> {
             }
         }
 
+        // `UsageCounter` also sees identifiers in syntax positions which
+        // `ExprReplacer` cannot replace (for example, JSX element names).
+        // Probe the actual replacer before taking the initializer so a failed
+        // replacement cannot report progress or discard the source binding.
+        let mut replacement_probe = b.clone();
+        if replace_id_with_expr(
+            &mut replacement_probe,
+            left_id.to_id(),
+            Box::new(Invalid { span: DUMMY_SP }.into()),
+        )
+        .is_some()
+        {
+            return Ok(false);
+        }
+
+        let to = take_a(a, false, false);
+        let unconsumed = replace_id_with_expr(b, left_id.to_id(), to);
+        assert!(
+            unconsumed.is_none(),
+            "replacement preflight must match the real replacement"
+        );
+
         self.changed = true;
         report_change!(
             "sequences: Inlining sequential expressions (`{}{:?}`)",
             left_id.sym,
             left_id.ctxt
         );
-
-        let to = take_a(a, false, false);
-
-        replace_id_with_expr(b, left_id.to_id(), to);
 
         if can_remove {
             report_change!("sequences: Removed variable ({})", left_id);
@@ -2800,14 +2836,44 @@ impl MergeSequenceCache {
     }
 }
 
-/// Returns true for trivial bool/numeric literals
+/// Largest initializer, in AST nodes, that [is_trivial_lit] accepts.
+///
+/// The sequential inliner copies a trivial initializer into every use instead
+/// of moving it. Copies cascade: once the copy lands in the initializer of
+/// another variable, that initializer may become trivial and get copied too. A
+/// variable built from two earlier ones (`const c = 1 + a + b`) receives both
+/// of their expressions, so without a bound the copied expressions grow like
+/// the Fibonacci numbers along a chain of such declarations, and so do the time
+/// and memory spent on them. Real-world cascades, such as `24 * 60 * 60 * 1000`
+/// built from a chain of time constants, stay far below this bound.
+const TRIVIAL_LIT_MAX_NODES: usize = 16;
+
+/// Returns true for trivial bool/numeric literals, and for small expressions
+/// that combine them with `!` and binary operators (at most
+/// [TRIVIAL_LIT_MAX_NODES] nodes).
 pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
+    remaining_trivial_lit_budget(e, TRIVIAL_LIT_MAX_NODES).is_some()
+}
+
+/// Returns the budget left after visiting `e`, or [None] when `e` is not a
+/// trivial literal or has more nodes than `budget`. The walk stops as soon as
+/// the budget runs out, so it never visits more than [TRIVIAL_LIT_MAX_NODES]
+/// nodes.
+fn remaining_trivial_lit_budget(e: &Expr, budget: usize) -> Option<usize> {
+    let budget = budget.checked_sub(1)?;
+
     match e {
-        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => true,
-        Expr::Paren(e) => is_trivial_lit(&e.expr),
-        Expr::Bin(e) => is_trivial_lit(&e.left) && is_trivial_lit(&e.right),
-        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_trivial_lit(&e.arg),
-        _ => false,
+        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => Some(budget),
+        Expr::Paren(e) => remaining_trivial_lit_budget(&e.expr, budget),
+        // The right operand only gets the budget the left operand did not use, so
+        // this bounds the total number of nodes rather than the depth.
+        Expr::Bin(e) => {
+            remaining_trivial_lit_budget(&e.right, remaining_trivial_lit_budget(&e.left, budget)?)
+        }
+        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => {
+            remaining_trivial_lit_budget(&e.arg, budget)
+        }
+        _ => None,
     }
 }
 

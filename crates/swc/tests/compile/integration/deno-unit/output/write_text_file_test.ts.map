@@ -1,0 +1,44 @@
+{
+  "mappings": "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",
+  "names": [
+    "unitTest",
+    "assertEquals",
+    "assertThrows",
+    "assertThrowsAsync",
+    "perms",
+    "read",
+    "write",
+    "writeTextFileSyncSuccess",
+    "filename",
+    "Deno",
+    "makeTempDirSync",
+    "writeTextFileSync",
+    "dataRead",
+    "readTextFileSync",
+    "writeTextFileSyncByUrl",
+    "tempDir",
+    "fileUrl",
+    "URL",
+    "build",
+    "os",
+    "removeSync",
+    "recursive",
+    "writeTextFileSyncFail",
+    "errors",
+    "NotFound",
+    "writeTextFileSyncPerm",
+    "PermissionDenied",
+    "writeTextFileSuccess",
+    "writeTextFile",
+    "writeTextFileByUrl",
+    "writeTextFileNotFound",
+    "writeTextFilePerm"
+  ],
+  "sources": [
+    "../input/write_text_file_test.ts"
+  ],
+  "sourcesContent": [
+    "import {\n    unitTest,\n    assertEquals,\n    assertThrows,\n    assertThrowsAsync,\n} from \"./test_util.ts\";\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function writeTextFileSyncSuccess(): void {\n        const filename = Deno.makeTempDirSync() + \"/test.txt\";\n        Deno.writeTextFileSync(filename, \"Hello\");\n        const dataRead = Deno.readTextFileSync(filename);\n        assertEquals(\"Hello\", dataRead);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function writeTextFileSyncByUrl(): void {\n        const tempDir = Deno.makeTempDirSync();\n        const fileUrl = new URL(\n            `file://${\n                Deno.build.os === \"windows\" ? \"/\" : \"\"\n            }${tempDir}/test.txt`\n        );\n        Deno.writeTextFileSync(fileUrl, \"Hello\");\n        const dataRead = Deno.readTextFileSync(fileUrl);\n        assertEquals(\"Hello\", dataRead);\n\n        Deno.removeSync(fileUrl, { recursive: true });\n    }\n);\n\nunitTest({ perms: { write: true } }, function writeTextFileSyncFail(): void {\n    const filename = \"/baddir/test.txt\";\n    // The following should fail because /baddir doesn't exist (hopefully).\n    assertThrows(() => {\n        Deno.writeTextFileSync(filename, \"hello\");\n    }, Deno.errors.NotFound);\n});\n\nunitTest({ perms: { write: false } }, function writeTextFileSyncPerm(): void {\n    const filename = \"/baddir/test.txt\";\n    // The following should fail due to no write permission\n    assertThrows(() => {\n        Deno.writeTextFileSync(filename, \"Hello\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function writeTextFileSuccess(): Promise<void> {\n        const filename = Deno.makeTempDirSync() + \"/test.txt\";\n        await Deno.writeTextFile(filename, \"Hello\");\n        const dataRead = Deno.readTextFileSync(filename);\n        assertEquals(\"Hello\", dataRead);\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function writeTextFileByUrl(): Promise<void> {\n        const tempDir = Deno.makeTempDirSync();\n        const fileUrl = new URL(\n            `file://${\n                Deno.build.os === \"windows\" ? \"/\" : \"\"\n            }${tempDir}/test.txt`\n        );\n        await Deno.writeTextFile(fileUrl, \"Hello\");\n        const dataRead = Deno.readTextFileSync(fileUrl);\n        assertEquals(\"Hello\", dataRead);\n\n        Deno.removeSync(fileUrl, { recursive: true });\n    }\n);\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function writeTextFileNotFound(): Promise<void> {\n        const filename = \"/baddir/test.txt\";\n        // The following should fail because /baddir doesn't exist (hopefully).\n        await assertThrowsAsync(async () => {\n            await Deno.writeTextFile(filename, \"Hello\");\n        }, Deno.errors.NotFound);\n    }\n);\n\nunitTest(\n    { perms: { write: false } },\n    async function writeTextFilePerm(): Promise<void> {\n        const filename = \"/baddir/test.txt\";\n        // The following should fail due to no write permission\n        await assertThrowsAsync(async () => {\n            await Deno.writeTextFile(filename, \"Hello\");\n        }, Deno.errors.PermissionDenied);\n    }\n);\n"
+  ],
+  "version": 3
+}

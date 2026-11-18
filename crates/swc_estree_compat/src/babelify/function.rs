@@ -1,5 +1,5 @@
 use copyless::BoxHelper;
-use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};
+use swc_ecma_ast::{BindingIdent, Function, Ident, Param, ParamOrTsParamProp, Pat, TsThisParam};
 use swc_estree_ast::{
     ArrayPattern, AssignmentPattern, FunctionExpression, Identifier, ObjectPattern,
     Param as BabelParam, Pattern, RestElement,
@@ -7,13 +7,39 @@ use swc_estree_ast::{
 
 use crate::babelify::{Babelify, Context};
 
+/// Converts a `this` parameter without widening the identifier's token span.
+fn babelify_ts_this_param(param: TsThisParam, ctx: &Context) -> BabelParam {
+    BabelParam::Id(
+        BindingIdent {
+            id: Ident::new_no_ctxt("this".into(), param.this_span),
+            type_ann: param.type_ann,
+        }
+        .babelify(ctx),
+    )
+}
+
+pub(super) fn babelify_function_params(
+    this_param: Option<Box<TsThisParam>>,
+    params: Vec<Param>,
+    ctx: &Context,
+) -> Vec<BabelParam> {
+    let mut output = Vec::with_capacity(params.len() + usize::from(this_param.is_some()));
+    if let Some(this_param) = this_param {
+        output.push(babelify_ts_this_param(*this_param, ctx));
+    }
+    output.extend(params.into_iter().map(|param| param.babelify(ctx)));
+    output
+}
+
 impl Babelify for Function {
     type Output = FunctionExpression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let params = babelify_function_params(self.this_param, self.params, ctx);
+
         FunctionExpression {
             base: ctx.base(self.span),
-            params: self.params.babelify(ctx),
+            params,
             body: self.body.unwrap().babelify(ctx),
             generator: Some(self.is_generator),
             is_async: Some(self.is_async),

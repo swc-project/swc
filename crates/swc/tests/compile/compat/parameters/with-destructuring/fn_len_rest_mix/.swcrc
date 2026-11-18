@@ -1,0 +1,19 @@
+{
+  "env": {
+    "include": [
+      "transform-parameters",
+      "transform-destructuring",
+      "transform-block-scoping"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "ignoreFunctionLength": true
+    },
+    "preserveAllComments": true
+  }
+}

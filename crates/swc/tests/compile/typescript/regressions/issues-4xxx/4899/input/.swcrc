@@ -1,0 +1,20 @@
+{
+    "$schema": "http://json.schemastore.org/swcrc",
+    "exclude": "\\.js$",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "target": "es2020",
+        "minify": {
+            "format": {
+                "comments": false
+            }
+        }
+    },
+    "module": {
+        "type": "amd",
+        "noInterop": true
+    }
+}

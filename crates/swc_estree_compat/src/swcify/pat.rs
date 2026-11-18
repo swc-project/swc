@@ -110,26 +110,55 @@ impl Swcify for ObjectPatternProp {
         match self {
             ObjectPatternProp::Rest(v) => ObjectPatProp::Rest(v.swcify(ctx)),
             ObjectPatternProp::Prop(prop) => {
-                if prop.shorthand {
-                    return ObjectPatProp::Assign(AssignPatProp {
+                match (prop.shorthand && !prop.computed, prop.key, prop.value) {
+                    (
+                        true,
+                        swc_estree_ast::ObjectKey::Id(key_id),
+                        swc_estree_ast::ObjectPropVal::Pattern(swc_estree_ast::PatternLike::Id(
+                            left_id,
+                        )),
+                    ) if key_id.name == left_id.name => ObjectPatProp::Assign(AssignPatProp {
                         span: ctx.span(&prop.base),
-                        key: prop.key.swcify(ctx).expect_ident().into(),
+                        key: key_id.swcify(ctx),
                         value: None,
-                    });
-                }
-
-                match prop.value {
-                    swc_estree_ast::ObjectPropVal::Pattern(v) => {
+                    }),
+                    (
+                        true,
+                        swc_estree_ast::ObjectKey::Id(key_id),
+                        swc_estree_ast::ObjectPropVal::Pattern(
+                            swc_estree_ast::PatternLike::AssignmentPat(a),
+                        ),
+                    ) if matches!(
+                        &a.left,
+                        swc_estree_ast::AssignmentPatternLeft::Id(left_id)
+                            if key_id.name == left_id.name
+                    ) =>
+                    {
+                        ObjectPatProp::Assign(AssignPatProp {
+                            span: ctx.span(&prop.base),
+                            key: key_id.swcify(ctx),
+                            value: Some(a.right.swcify(ctx)),
+                        })
+                    }
+                    (_, key, swc_estree_ast::ObjectPropVal::Pattern(v)) => {
                         ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: prop.key.swcify(ctx),
+                            key: crate::swcify::expr::swcify_object_key(key, prop.computed, ctx),
                             value: Box::new(v.swcify(ctx)),
                         })
                     }
-                    swc_estree_ast::ObjectPropVal::Expr(v) => {
-                        ObjectPatProp::Assign(AssignPatProp {
-                            span: ctx.span(&prop.base),
-                            key: prop.key.swcify(ctx).expect_ident().into(),
-                            value: Some(v.swcify(ctx)),
+                    (
+                        _,
+                        swc_estree_ast::ObjectKey::Id(key_id),
+                        swc_estree_ast::ObjectPropVal::Expr(v),
+                    ) => ObjectPatProp::Assign(AssignPatProp {
+                        span: ctx.span(&prop.base),
+                        key: key_id.swcify(ctx),
+                        value: Some(v.swcify(ctx)),
+                    }),
+                    (_, key, swc_estree_ast::ObjectPropVal::Expr(v)) => {
+                        ObjectPatProp::KeyValue(KeyValuePatProp {
+                            key: key.swcify(ctx),
+                            value: Box::new(Pat::Expr(v.swcify(ctx))),
                         })
                     }
                 }
@@ -180,5 +209,104 @@ impl Swcify for swc_estree_ast::Param {
             },
             swc_estree_ast::Param::TSProp(..) => todo!(),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::atom;
+    use swc_common::{sync::Lrc, FileName, SourceMap};
+    use swc_ecma_ast::ObjectPatProp;
+    use swc_estree_ast as estree;
+    use swc_node_comments::SwcComments;
+
+    use crate::swcify::{Context, Swcify};
+
+    fn base() -> estree::BaseNode {
+        estree::BaseNode {
+            leading_comments: Default::default(),
+            inner_comments: Default::default(),
+            trailing_comments: Default::default(),
+            start: None,
+            end: None,
+            loc: None,
+            range: None,
+        }
+    }
+
+    #[test]
+    fn test_swcify_object_pattern_shorthand_assignment_pat() {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), String::new());
+        let comments = SwcComments::default();
+        let ctx = Context::new_without_alloc(cm, comments, fm);
+
+        let prop = estree::ObjectPatternProp::Prop(estree::ObjectProperty {
+            base: base(),
+            key: estree::ObjectKey::Id(estree::Identifier {
+                base: base(),
+                name: atom!("x"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            }),
+            value: estree::ObjectPropVal::Pattern(estree::PatternLike::AssignmentPat(
+                estree::AssignmentPattern {
+                    base: base(),
+                    left: estree::AssignmentPatternLeft::Id(estree::Identifier {
+                        base: base(),
+                        name: atom!("x"),
+                        type_annotation: None,
+                        optional: None,
+                        decorators: None,
+                    }),
+                    right: Box::new(estree::Expression::Literal(estree::Literal::Numeric(
+                        estree::NumericLiteral {
+                            base: base(),
+                            value: 1.0,
+                            extra: None,
+                        },
+                    ))),
+                    type_annotation: None,
+                    decorators: None,
+                },
+            )),
+            computed: false,
+            shorthand: true,
+            decorators: None,
+        });
+
+        let pat_prop: ObjectPatProp = prop.swcify(&ctx);
+        match pat_prop {
+            ObjectPatProp::Assign(assign_prop) => {
+                assert_eq!(assign_prop.key.id.sym.as_str(), "x");
+                assert!(assign_prop.value.is_some());
+            }
+            _ => panic!("Expected ObjectPatProp::Assign"),
+        }
+
+        let mismatched_shorthand = estree::ObjectPatternProp::Prop(estree::ObjectProperty {
+            base: base(),
+            key: estree::ObjectKey::Id(estree::Identifier {
+                base: base(),
+                name: atom!("x"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            }),
+            value: estree::ObjectPropVal::Pattern(estree::PatternLike::Id(estree::Identifier {
+                base: base(),
+                name: atom!("y"),
+                type_annotation: None,
+                optional: None,
+                decorators: None,
+            })),
+            computed: false,
+            shorthand: true,
+            decorators: None,
+        });
+
+        let mismatched_pat_prop: ObjectPatProp = mismatched_shorthand.swcify(&ctx);
+        assert!(matches!(mismatched_pat_prop, ObjectPatProp::KeyValue(_)));
     }
 }

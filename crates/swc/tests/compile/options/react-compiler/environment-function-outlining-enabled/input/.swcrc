@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "reactCompiler": {
+                "environment": {
+                    "enableFunctionOutlining": true
+                }
+            }
+        }
+    }
+}

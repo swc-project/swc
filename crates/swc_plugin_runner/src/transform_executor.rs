@@ -156,9 +156,12 @@ pub struct TransformExecutor {
 
 #[cfg(feature = "encoding-impl")]
 impl TransformExecutor {
-    #[tracing::instrument(
-        level = "info",
-        skip(source_map, metadata_context, plugin_config, module_bytes, runtime)
+    #[cfg_attr(
+        debug_assertions,
+        tracing::instrument(
+            level = "info",
+            skip(source_map, metadata_context, plugin_config, module_bytes, runtime)
+        )
     )]
     pub fn new(
         module_bytes: Box<dyn PluginModuleBytes>,
@@ -247,7 +250,7 @@ impl TransformExecutor {
         })
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "info", skip_all))]
     pub fn transform(
         &mut self,
         program: &PluginSerializedBytes,
@@ -271,20 +274,12 @@ impl TransformExecutor {
 
                 See https://plugins.swc.rs/versions/from-plugin-runner/{PKG_VERSION} for the list of the compatible versions.
 
-                Build info:
-                    Date: {BUILD_DATE}
-                    Timestamp: {BUILD_TIMESTAMP}
-
                 Version info:
                     swc_plugin_runner: {PKG_VERSION}
-                    Dependencies: {PKG_DEPS}
                 "
                 )
             })
     }
 }
 
-const BUILD_DATE: &str = env!("VERGEN_BUILD_DATE");
-const BUILD_TIMESTAMP: &str = env!("VERGEN_BUILD_TIMESTAMP");
 const PKG_VERSION: &str = env!("CARGO_PKG_VERSION");
-const PKG_DEPS: &str = env!("VERGEN_CARGO_DEPENDENCIES");

@@ -1,0 +1,202 @@
+[
+    {
+        "source": "const re = /a[b/]+/giu; re.test(\"a/\"); x / 2; x /= 2; if (ok) /x/.test(y);",
+        "expected": [
+            {
+                "kind": "keyword",
+                "start": 0,
+                "end": 5
+            },
+            {
+                "kind": "identifier",
+                "start": 6,
+                "end": 8
+            },
+            {
+                "kind": "punctuator",
+                "start": 9,
+                "end": 10
+            },
+            {
+                "kind": "regexp",
+                "start": 11,
+                "end": 22
+            },
+            {
+                "kind": "punctuator",
+                "start": 22,
+                "end": 23
+            },
+            {
+                "kind": "identifier",
+                "start": 24,
+                "end": 26
+            },
+            {
+                "kind": "punctuator",
+                "start": 26,
+                "end": 27
+            },
+            {
+                "kind": "identifier",
+                "start": 27,
+                "end": 31
+            },
+            {
+                "kind": "punctuator",
+                "start": 31,
+                "end": 32
+            },
+            {
+                "kind": "string",
+                "start": 32,
+                "end": 36
+            },
+            {
+                "kind": "punctuator",
+                "start": 36,
+                "end": 37
+            },
+            {
+                "kind": "punctuator",
+                "start": 37,
+                "end": 38
+            },
+            {
+                "kind": "identifier",
+                "start": 39,
+                "end": 40
+            },
+            {
+                "kind": "punctuator",
+                "start": 41,
+                "end": 42
+            },
+            {
+                "kind": "number",
+                "start": 43,
+                "end": 44
+            },
+            {
+                "kind": "punctuator",
+                "start": 44,
+                "end": 45
+            },
+            {
+                "kind": "identifier",
+                "start": 46,
+                "end": 47
+            },
+            {
+                "kind": "punctuator",
+                "start": 48,
+                "end": 50
+            },
+            {
+                "kind": "number",
+                "start": 51,
+                "end": 52
+            },
+            {
+                "kind": "punctuator",
+                "start": 52,
+                "end": 53
+            },
+            {
+                "kind": "keyword",
+                "start": 54,
+                "end": 56
+            },
+            {
+                "kind": "punctuator",
+                "start": 57,
+                "end": 58
+            },
+            {
+                "kind": "identifier",
+                "start": 58,
+                "end": 60
+            },
+            {
+                "kind": "punctuator",
+                "start": 60,
+                "end": 61
+            },
+            {
+                "kind": "regexp",
+                "start": 62,
+                "end": 65
+            },
+            {
+                "kind": "punctuator",
+                "start": 65,
+                "end": 66
+            },
+            {
+                "kind": "identifier",
+                "start": 66,
+                "end": 70
+            },
+            {
+                "kind": "punctuator",
+                "start": 70,
+                "end": 71
+            },
+            {
+                "kind": "identifier",
+                "start": 71,
+                "end": 72
+            },
+            {
+                "kind": "punctuator",
+                "start": 72,
+                "end": 73
+            },
+            {
+                "kind": "punctuator",
+                "start": 73,
+                "end": 74
+            }
+        ]
+    },
+    {
+        "source": "/😀/u; 8 / 2 / 2",
+        "expected": [
+            {
+                "kind": "regexp",
+                "start": 0,
+                "end": 5
+            },
+            {
+                "kind": "punctuator",
+                "start": 5,
+                "end": 6
+            },
+            {
+                "kind": "number",
+                "start": 7,
+                "end": 8
+            },
+            {
+                "kind": "punctuator",
+                "start": 9,
+                "end": 10
+            },
+            {
+                "kind": "number",
+                "start": 11,
+                "end": 12
+            },
+            {
+                "kind": "punctuator",
+                "start": 13,
+                "end": 14
+            },
+            {
+                "kind": "number",
+                "start": 15,
+                "end": 16
+            }
+        ]
+    }
+]

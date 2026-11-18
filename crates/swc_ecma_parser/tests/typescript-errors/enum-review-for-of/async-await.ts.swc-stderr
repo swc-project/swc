@@ -1,0 +1,5 @@
+  x Expected ';', got ')'
+   ,-[$DIR/tests/typescript-errors/enum-review-for-of/async-await.ts:1:1]
+ 1 | enum E { A = (async () => { for (await of [1]) {} })() }
+   :                                              ^
+   `----

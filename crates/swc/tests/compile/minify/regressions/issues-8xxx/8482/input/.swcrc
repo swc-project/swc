@@ -1,0 +1,13 @@
+{
+  "jsc": {
+    "keepClassNames": true,
+    "loose": true
+  },
+  "module": {
+    "type": "umd"
+  },
+  "env": {
+    "targets": "",
+    "bugfixes": true
+  }
+}

@@ -1,0 +1,34 @@
+Source, remove_only=false:
+paren 0..0, operand 17..26
+paren 41..64, operand 53..63
+
+Source, remove_only=true:
+
+Duplicated, remove_only=false:
+paren 0..0, operand 17..26
+paren 41..64, operand 53..63
+paren 0..0, operand 17..26
+paren 41..64, operand 53..63
+
+Duplicated, remove_only=true:
+
+Dummy, remove_only=false:
+paren 0..0, operand 0..0
+
+Dummy, remove_only=true:
+
+Shared, remove_only=false:
+paren 1..2, operand 1..2
+
+Shared, remove_only=true:
+
+Pure, remove_only=false:
+paren 0..0, operand 4294967294..4294967294
+
+Pure, remove_only=true:
+
+Mixed, remove_only=false:
+paren 3..4, operand 4294967294..4294967294
+
+Mixed, remove_only=true:
+

@@ -1,0 +1,1 @@
+function id(value) {}

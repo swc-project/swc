@@ -200,11 +200,12 @@ impl Babelify for KeyValuePatProp {
     type Output = ObjectProperty;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let computed = self.key.is_computed();
         ObjectProperty {
             base: ctx.base(self.span()),
             key: self.key.babelify(ctx),
             value: self.value.babelify(ctx).into(),
-            computed: Default::default(),
+            computed,
             shorthand: Default::default(),
             decorators: Default::default(),
         }
@@ -244,18 +245,91 @@ impl Babelify for AssignPatProp {
     type Output = ObjectProperty;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        let is_shorthand = self.value.is_none();
+        let base = ctx.base(self.span);
+        let key_id = self.key.babelify(ctx);
+        let mut value_id = key_id.clone();
+        value_id.base.leading_comments.clear();
+        value_id.base.inner_comments.clear();
+        value_id.base.trailing_comments.clear();
+        let value = match self.value {
+            Some(default_expr) => {
+                let right = default_expr.babelify(ctx).into();
+                ObjectPropVal::Pattern(PatternLike::AssignmentPat(AssignmentPattern {
+                    base: ctx.base(self.span),
+                    left: AssignmentPatternLeft::Id(value_id),
+                    right: Box::alloc().init(right),
+                    decorators: Default::default(),
+                    type_annotation: Default::default(),
+                }))
+            }
+            None => ObjectPropVal::Pattern(PatternLike::Id(value_id)),
+        };
         ObjectProperty {
-            base: ctx.base(self.span),
-            key: ObjectKey::Id(self.key.clone().babelify(ctx)),
-            value: if is_shorthand {
-                ObjectPropVal::Pattern(PatternLike::Id(self.key.babelify(ctx)))
-            } else {
-                ObjectPropVal::Expr(Box::alloc().init(self.value.unwrap().babelify(ctx).into()))
-            },
-            shorthand: is_shorthand,
+            base,
+            key: ObjectKey::Id(key_id),
+            value,
+            shorthand: true,
             computed: Default::default(),
             decorators: Default::default(),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::atom;
+    use swc_common::{
+        comments::{Comment, CommentKind, Comments},
+        sync::Lrc,
+        BytePos, FileName, SourceMap, Span, SyntaxContext, DUMMY_SP,
+    };
+    use swc_ecma_ast::{AssignPatProp, BindingIdent, Expr, Ident, Lit, Number};
+    use swc_estree_ast::{AssignmentPatternLeft, ObjectPropVal, PatternLike};
+    use swc_node_comments::SwcComments;
+
+    use crate::babelify::{Babelify, Context};
+
+    #[test]
+    fn test_babelify_assign_pat_prop_with_default() {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), "x = 1");
+        let comments = SwcComments::default();
+        let prop_span = Span::new(BytePos(1), BytePos(6));
+        comments.add_leading(
+            prop_span.lo,
+            Comment {
+                kind: CommentKind::Block,
+                span: DUMMY_SP,
+                text: atom!(" prop comment "),
+            },
+        );
+        let ctx = Context { fm, cm, comments };
+
+        let assign_pat_prop = AssignPatProp {
+            span: prop_span,
+            key: BindingIdent {
+                id: Ident::new(atom!("x"), DUMMY_SP, SyntaxContext::empty()),
+                type_ann: None,
+            },
+            value: Some(Box::new(Expr::Lit(Lit::Num(Number {
+                span: DUMMY_SP,
+                value: 1.0,
+                raw: None,
+            })))),
+        };
+
+        let obj_prop = assign_pat_prop.babelify(&ctx);
+        assert!(obj_prop.shorthand);
+        assert_eq!(obj_prop.base.leading_comments.len(), 1);
+        match obj_prop.value {
+            ObjectPropVal::Pattern(PatternLike::AssignmentPat(assign_pat)) => {
+                assert!(assign_pat.base.leading_comments.is_empty());
+                match assign_pat.left {
+                    AssignmentPatternLeft::Id(id) => assert_eq!(id.name.as_str(), "x"),
+                    _ => panic!("Expected AssignmentPatternLeft::Id"),
+                }
+            }
+            _ => panic!("Expected ObjectPropVal::Pattern(AssignmentPat)"),
         }
     }
 }

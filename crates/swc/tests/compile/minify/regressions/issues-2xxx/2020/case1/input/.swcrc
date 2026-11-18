@@ -1,0 +1,9 @@
+{
+    "module": {
+        "type": "commonjs"
+    },
+    "jsc": {
+        "target": "es2018"
+    },
+    "minify": true
+}

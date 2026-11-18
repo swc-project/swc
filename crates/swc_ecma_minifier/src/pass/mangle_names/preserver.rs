@@ -2,15 +2,19 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
-use crate::option::MangleOptions;
+use crate::{option::MangleOptions, usage_analyzer::marks::Marks};
 
 pub(crate) struct PreversedIdents {
     pub preserved: FxHashSet<Id>,
     pub idents: Option<Vec<Atom>>,
+    /// Original names of classes that the renamer keeps as inner class names
+    /// because of `keep_classnames`.
+    ///
+    /// See [Preserver::kept_class_names].
+    pub kept_class_names: FxHashSet<Atom>,
 }
 
 /// Returns `(preserved, unresolved)`
@@ -25,6 +29,7 @@ where
         in_top_level: false,
 
         idents: Vec::new(),
+        kept_class_names: Default::default(),
         unresolved_ctx: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
     };
     n.visit_with(&mut v);
@@ -55,6 +60,7 @@ where
         } else {
             Some(idents)
         },
+        kept_class_names: v.kept_class_names,
     }
 }
 
@@ -67,6 +73,16 @@ pub(crate) struct Preserver<'a> {
     in_top_level: bool,
 
     idents: Vec<Id>,
+
+    /// With `keep_classnames`, the renamer keeps the original name of a class
+    /// declaration or a named class expression as the inner name of a class
+    /// expression. That inner name is bound inside the class body, so no
+    /// mangled binding visible there may use it. The outer binding of a class
+    /// declaration is usually not preserved and can still be mangled (see
+    /// #12606), so the name must be reserved separately.
+    ///
+    /// See https://github.com/swc-project/swc/issues/12770
+    kept_class_names: FxHashSet<Atom>,
     unresolved_ctx: SyntaxContext,
 }
 
@@ -84,6 +100,15 @@ impl Preserver<'_> {
 
         self.idents.push(ident.to_id());
     }
+
+    fn visit_non_top_level_stmts(&mut self, stmts: &[Stmt]) {
+        let old_top_level = self.in_top_level;
+        for stmt in stmts {
+            self.in_top_level = false;
+            stmt.visit_with(self);
+        }
+        self.in_top_level = old_top_level;
+    }
 }
 
 impl Visit for Preserver<'_> {
@@ -92,12 +117,11 @@ impl Visit for Preserver<'_> {
     visit_obj_and_computed!();
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
-        let old_top_level = self.in_top_level;
-        for n in n.stmts.iter() {
-            self.in_top_level = false;
-            n.visit_with(self);
-        }
-        self.in_top_level = old_top_level;
+        self.visit_non_top_level_stmts(&n.stmts);
+    }
+
+    fn visit_function_body(&mut self, n: &FunctionBody) {
+        self.visit_non_top_level_stmts(&n.stmts);
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {
@@ -115,11 +139,20 @@ impl Visit for Preserver<'_> {
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         n.visit_children_with(self);
 
+        // The renamer preserves the class name with a named class expression.
+        // Allow its outer binding to change: compression can move same-named
+        // declarations from separate scopes into the same scope.
         if (self.in_top_level && !self.options.top_level.unwrap_or_default())
-            || self.options.keep_class_names
             || self.is_reserved(&n.ident)
         {
             self.preserved.insert(n.ident.to_id());
+        }
+
+        // Record the name even if the Id was preserved above: synthesized Ids
+        // are dropped from `preserved` later (#9468), and their classes are
+        // still rewritten with the original name.
+        if self.options.keep_class_names {
+            self.kept_class_names.insert(n.ident.sym.clone());
         }
     }
 
@@ -129,6 +162,9 @@ impl Visit for Preserver<'_> {
         if self.options.keep_class_names {
             if let Some(i) = &n.ident {
                 self.preserved.insert(i.to_id());
+                // Synthesized Ids are dropped from `preserved` later (#9468),
+                // but the renamer still emits the original name.
+                self.kept_class_names.insert(i.sym.clone());
             }
         }
     }
@@ -180,6 +216,21 @@ impl Visit for Preserver<'_> {
                 self.preserved.insert(i.to_id());
             }
         }
+    }
+
+    fn visit_for_head(&mut self, n: &ForHead) {
+        let old_top_level = self.in_top_level;
+        // Lexical loop bindings are local to the loop. Preserving their names
+        // can capture outer references moved into the right-hand expression by
+        // compression. `var` bindings still belong to the enclosing scope.
+        if let ForHead::VarDecl(decl) = n {
+            if decl.kind != VarDeclKind::Var {
+                self.in_top_level = false;
+            }
+        }
+
+        n.visit_children_with(self);
+        self.in_top_level = old_top_level;
     }
 
     fn visit_ident(&mut self, i: &Ident) {

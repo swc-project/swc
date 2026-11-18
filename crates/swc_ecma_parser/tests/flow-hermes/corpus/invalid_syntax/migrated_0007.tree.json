@@ -1,0 +1,64 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
+      "message":"Unexpected token `-`, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+      "message":"Unexpected identifier, expected the token `)`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":17}},
+      "message":"Unexpected token `)`, expected the token `{`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `}`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,21],
+  "body":[
+    {
+      "type":"TryStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+      "range":[0,21],
+      "block":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":6}},
+        "range":[4,6],
+        "body":[]
+      },
+      "handler":{
+        "type":"CatchClause",
+        "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":2,"column":0}},
+        "range":[7,21],
+        "param":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
+          "range":[14,15],
+          "name":"",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "body":{
+          "type":"BlockStatement",
+          "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":2,"column":0}},
+          "range":[16,21],
+          "body":[
+            {
+              "type":"BlockStatement",
+              "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":20}},
+              "range":[18,20],
+              "body":[]
+            }
+          ]
+        }
+      },
+      "finalizer":null
+    }
+  ],
+  "comments":[]
+}

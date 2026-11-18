@@ -1,0 +1,3 @@
+class C {
+    value = 1;
+}

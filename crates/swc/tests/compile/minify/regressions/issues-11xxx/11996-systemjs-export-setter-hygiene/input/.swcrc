@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "target": "es2022",
+        "minify": {
+            "mangle": {
+                "topLevel": true
+            }
+        }
+    },
+    "module": {
+        "type": "systemjs"
+    },
+    "minify": true
+}

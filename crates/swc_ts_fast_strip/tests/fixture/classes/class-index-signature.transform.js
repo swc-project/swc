@@ -1,0 +1,3 @@
+class C {
+    next = 1;
+}

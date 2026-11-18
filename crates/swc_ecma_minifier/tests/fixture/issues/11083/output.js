@@ -1,16 +1,11 @@
-({
-    showPopup: async function({ mallId: o }) {
-        try {
-            console.log({
-                mallId: o
-            });
-        } catch (o) {
-            console.log(o);
-        }
-    },
-    get liteContractCode () {
-        return null;
+!async function({ mallId: l }) {
+    try {
+        console.log({
+            mallId: l
+        });
+    } catch (l) {
+        console.log(l);
     }
-}).showPopup({
+}({
     mallId: 1
 });

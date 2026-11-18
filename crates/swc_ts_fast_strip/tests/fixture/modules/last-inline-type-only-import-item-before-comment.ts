@@ -1,0 +1,1 @@
+import { value, type T /* comment */ } from 'm';

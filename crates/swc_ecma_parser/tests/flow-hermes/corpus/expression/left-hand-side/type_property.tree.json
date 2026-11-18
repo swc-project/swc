@@ -1,0 +1,36 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+  "range":[0,13],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+      "range":[0,13],
+      "expression":{
+        "type":"MemberExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+        "range":[0,13],
+        "object":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
+          "range":[0,8],
+          "name":"universe",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "property":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":13}},
+          "range":[9,13],
+          "name":"type",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "computed":false
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

@@ -11,6 +11,11 @@ pub enum Syntax {
     #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
     #[serde(rename = "typescript")]
     Typescript(TsSyntax),
+    /// This variant requires the cargo feature `flow` to be enabled.
+    #[cfg(feature = "flow")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "flow")))]
+    #[serde(rename = "flow")]
+    Flow(FlowSyntax),
 }
 
 impl Default for Syntax {
@@ -28,6 +33,8 @@ impl Syntax {
             }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(_) => false,
             _ => false,
         }
     }
@@ -40,8 +47,12 @@ impl Syntax {
     pub fn jsx(self) -> bool {
         match self {
             Syntax::Es(EsSyntax { jsx: true, .. }) => true,
-            #[cfg(feature = "typescript")]
+            #[cfg(all(feature = "typescript", not(feature = "tsrx")))]
             Syntax::Typescript(TsSyntax { tsx: true, .. }) => true,
+            #[cfg(feature = "tsrx")]
+            Syntax::Typescript(TsSyntax { tsx: true, .. } | TsSyntax { tsrx: true, .. }) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(FlowSyntax { jsx: true, .. }) => true,
             _ => false,
         }
     }
@@ -59,6 +70,10 @@ impl Syntax {
             Syntax::Typescript(TsSyntax {
                 decorators: true, ..
             }) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(FlowSyntax {
+                decorators: true, ..
+            }) => true,
             _ => false,
         }
     }
@@ -71,6 +86,10 @@ impl Syntax {
             }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(..) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(FlowSyntax {
+                decorators: true, ..
+            }) => true,
             _ => false,
         }
     }
@@ -82,9 +101,29 @@ impl Syntax {
     }
 
     /// Should we parse typescript?
-    #[cfg(feature = "typescript")]
+    #[cfg(all(feature = "typescript", not(feature = "flow")))]
     pub const fn typescript(self) -> bool {
         matches!(self, Syntax::Typescript(..))
+    }
+
+    /// Should we parse typescript?
+    #[cfg(all(feature = "typescript", feature = "flow"))]
+    pub const fn typescript(self) -> bool {
+        matches!(self, Syntax::Typescript(..) | Syntax::Flow(..))
+    }
+
+    #[cfg(not(feature = "flow"))]
+    pub const fn flow(self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    pub const fn flow(self) -> bool {
+        matches!(self, Syntax::Flow(..))
+    }
+
+    pub const fn types_like(self) -> bool {
+        self.typescript()
     }
 
     pub fn export_default_from(self) -> bool {
@@ -101,6 +140,8 @@ impl Syntax {
         match self {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => t.dts,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(_) => false,
             _ => false,
         }
     }
@@ -113,6 +154,8 @@ impl Syntax {
             }) => allow_super_outside_method,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(_) => false,
         }
     }
 
@@ -124,6 +167,8 @@ impl Syntax {
             }) => allow_return_outside_function,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => false,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(_) => false,
         }
     }
 
@@ -131,6 +176,8 @@ impl Syntax {
         match self {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => !t.no_early_errors,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(_) => true,
             Syntax::Es(..) => true,
         }
     }
@@ -139,6 +186,8 @@ impl Syntax {
         match self {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => t.disallow_ambiguous_jsx_like,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(_) => false,
             _ => false,
         }
     }
@@ -151,6 +200,8 @@ impl Syntax {
             }) => *using_decl,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(_) => false,
         }
     }
 
@@ -159,6 +210,8 @@ impl Syntax {
             Syntax::Es(es) => es.into_flags(),
             #[cfg(feature = "typescript")]
             Syntax::Typescript(ts) => ts.into_flags(),
+            #[cfg(feature = "flow")]
+            Syntax::Flow(flow) => flow.into_flags(),
         }
     }
 }
@@ -168,6 +221,12 @@ impl Syntax {
 pub struct TsSyntax {
     #[serde(default)]
     pub tsx: bool,
+
+    /// Parse TSRX and immediately lower it to the standard TSX AST.
+    #[cfg(feature = "tsrx")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "tsrx")))]
+    #[serde(default)]
+    pub tsrx: bool,
 
     #[serde(default)]
     pub decorators: bool,
@@ -201,6 +260,10 @@ impl TsSyntax {
         if self.tsx {
             flags |= SyntaxFlags::JSX;
         }
+        #[cfg(feature = "tsrx")]
+        if self.tsrx {
+            flags |= SyntaxFlags::JSX | SyntaxFlags::TSRX;
+        }
         if self.decorators {
             flags |= SyntaxFlags::DECORATORS;
         }
@@ -213,6 +276,73 @@ impl TsSyntax {
         if self.disallow_ambiguous_jsx_like {
             flags |= SyntaxFlags::DISALLOW_AMBIGUOUS_JSX_LIKE;
         }
+        flags
+    }
+}
+
+#[cfg(feature = "flow")]
+#[cfg_attr(docsrs, doc(cfg(feature = "flow")))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct FlowSyntax {
+    #[serde(default)]
+    pub jsx: bool,
+
+    #[serde(default)]
+    pub all: bool,
+
+    #[serde(default)]
+    pub require_directive: bool,
+
+    #[serde(default)]
+    pub enums: bool,
+
+    #[serde(
+        default,
+        alias = "esproposalDecorators",
+        alias = "esproposal_decorators"
+    )]
+    pub decorators: bool,
+
+    #[serde(default)]
+    pub components: bool,
+
+    #[serde(default, alias = "patternMatching", alias = "pattern_matching")]
+    pub pattern_matching: bool,
+}
+
+#[cfg(feature = "flow")]
+impl FlowSyntax {
+    fn into_flags(self) -> SyntaxFlags {
+        let mut flags = SyntaxFlags::FLOW.union(SyntaxFlags::IMPORT_ATTRIBUTES);
+
+        if self.jsx {
+            flags |= SyntaxFlags::JSX;
+        }
+        if self.all {
+            flags |= SyntaxFlags::FLOW_ALL;
+        }
+        if self.require_directive {
+            flags |= SyntaxFlags::FLOW_REQUIRE_DIRECTIVE;
+        }
+        if self.enums {
+            flags |= SyntaxFlags::FLOW_ENUMS;
+        }
+        if self.decorators {
+            flags |= SyntaxFlags::FLOW_DECORATORS;
+        }
+        if self.components {
+            flags |= SyntaxFlags::FLOW_COMPONENTS;
+        }
+        if self.pattern_matching {
+            flags |= SyntaxFlags::FLOW_PATTERN_MATCHING;
+        }
+        // Cache "type grammar enabled" for Flow configurations that do not
+        // depend on a file pragma. This keeps hot-path syntax checks cheap.
+        if self.all || !self.require_directive {
+            flags |= SyntaxFlags::TS;
+        }
+
         flags
     }
 }
@@ -314,6 +444,13 @@ impl SyntaxFlags {
         self.contains(SyntaxFlags::JSX)
     }
 
+    /// Should TSRX syntax be parsed and lowered to standard TSX?
+    #[cfg(feature = "tsrx")]
+    #[inline(always)]
+    pub const fn tsrx(&self) -> bool {
+        self.contains(SyntaxFlags::TSRX)
+    }
+
     #[inline(always)]
     pub const fn fn_bind(&self) -> bool {
         self.contains(SyntaxFlags::FN_BIND)
@@ -321,12 +458,12 @@ impl SyntaxFlags {
 
     #[inline(always)]
     pub const fn decorators(&self) -> bool {
-        self.contains(SyntaxFlags::DECORATORS)
+        self.contains(SyntaxFlags::DECORATORS) || self.flow_decorators()
     }
 
     #[inline(always)]
     pub const fn decorators_before_export(&self) -> bool {
-        self.contains(SyntaxFlags::DECORATORS_BEFORE_EXPORT)
+        self.contains(SyntaxFlags::DECORATORS_BEFORE_EXPORT) || self.flow_decorators()
     }
 
     /// Should we parse typescript?
@@ -341,6 +478,131 @@ impl SyntaxFlags {
     #[inline(always)]
     pub const fn typescript(&self) -> bool {
         self.contains(SyntaxFlags::TS)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_all(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_all(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_ALL)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_require_directive(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_require_directive(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_REQUIRE_DIRECTIVE)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_enums(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_enums(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_ENUMS)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_decorators(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_decorators(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_DECORATORS)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_components(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_components(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_COMPONENTS)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_pattern_matching(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_pattern_matching(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_PATTERN_MATCHING)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_pragma(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_pragma(&self) -> bool {
+        self.contains(SyntaxFlags::FLOW_PRAGMA)
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn flow_types_enabled(&self) -> bool {
+        false
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn flow_types_enabled(&self) -> bool {
+        self.flow() && (self.flow_all() || !self.flow_require_directive() || self.flow_pragma())
+    }
+
+    #[cfg(not(feature = "flow"))]
+    #[inline(always)]
+    pub const fn typescript_allows_enum(&self) -> bool {
+        self.typescript()
+    }
+
+    #[cfg(feature = "flow")]
+    #[inline(always)]
+    pub const fn typescript_allows_enum(&self) -> bool {
+        self.typescript() && (!self.flow() || self.flow_enums())
+    }
+
+    #[inline(always)]
+    pub const fn types_like(&self) -> bool {
+        self.typescript()
     }
 
     #[inline(always)]
@@ -381,7 +643,7 @@ impl SyntaxFlags {
 
 bitflags::bitflags! {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
-    pub struct SyntaxFlags: u16 {
+    pub struct SyntaxFlags: u32 {
         const JSX = 1 << 0;
         const FN_BIND = 1 << 1;
         const DECORATORS = 1 << 2;
@@ -396,5 +658,23 @@ bitflags::bitflags! {
         const NO_EARLY_ERRORS = 1 << 11;
         const DISALLOW_AMBIGUOUS_JSX_LIKE = 1 << 12;
         const TS = 1 << 13;
+        #[cfg(feature = "flow")]
+        const FLOW = 1 << 14;
+        #[cfg(feature = "flow")]
+        const FLOW_ALL = 1 << 15;
+        #[cfg(feature = "flow")]
+        const FLOW_REQUIRE_DIRECTIVE = 1 << 16;
+        #[cfg(feature = "flow")]
+        const FLOW_ENUMS = 1 << 17;
+        #[cfg(feature = "flow")]
+        const FLOW_PRAGMA = 1 << 18;
+        #[cfg(feature = "flow")]
+        const FLOW_DECORATORS = 1 << 19;
+        #[cfg(feature = "flow")]
+        const FLOW_COMPONENTS = 1 << 20;
+        #[cfg(feature = "flow")]
+        const FLOW_PATTERN_MATCHING = 1 << 21;
+        #[cfg(feature = "tsrx")]
+        const TSRX = 1 << 22;
     }
 }

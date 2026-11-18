@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "radix": [
+                "error",
+                {
+                    "mode": "as-needed"
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

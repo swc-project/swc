@@ -41,12 +41,11 @@
             "ctxt": 0,
             "params": [],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 31,
                 "end": 34
               },
-              "ctxt": 0,
               "stmts": []
             },
             "async": false,
@@ -145,12 +144,11 @@
               }
             ],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 70,
                 "end": 73
               },
-              "ctxt": 0,
               "stmts": []
             },
             "async": false,
@@ -272,12 +270,11 @@
               }
             ],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 118,
                 "end": 121
               },
-              "ctxt": 0,
               "stmts": []
             },
             "async": false,
@@ -403,12 +400,11 @@
               }
             ],
             "body": {
-              "type": "BlockStatement",
+              "type": "FunctionBody",
               "span": {
                 "start": 165,
                 "end": 168
               },
-              "ctxt": 0,
               "stmts": []
             },
             "async": false,
@@ -491,12 +487,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 203,
           "end": 206
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -591,12 +586,11 @@
               "ctxt": 0,
               "params": [],
               "body": {
-                "type": "BlockStatement",
+                "type": "FunctionBody",
                 "span": {
                   "start": 234,
                   "end": 251
                 },
-                "ctxt": 0,
                 "stmts": [
                   {
                     "type": "ReturnStatement",

@@ -1,0 +1,3 @@
+node-exec.js
+["fixture argument","quotation\"backslash\\"]
+true

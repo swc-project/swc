@@ -20,13 +20,37 @@
   x Child
    ,-[$DIR/tests/recovery/element/select/input.html:1:1]
  1 | <select><div>foo</div>bar</select>
-   :              ^^^^^^^^^^^^
+   :         ^^^^^^^^^^^^^^
+ 2 | <select><keygen>
+   `----
+  x Element
+   ,-[$DIR/tests/recovery/element/select/input.html:1:1]
+ 1 | <select><div>foo</div>bar</select>
+   :         ^^^^^^^^^^^^^^
+ 2 | <select><keygen>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/select/input.html:1:1]
+ 1 | <select><div>foo</div>bar</select>
+   :              ^^^
  2 | <select><keygen>
    `----
   x Text
    ,-[$DIR/tests/recovery/element/select/input.html:1:1]
  1 | <select><div>foo</div>bar</select>
-   :              ^^^^^^^^^^^^
+   :              ^^^
+ 2 | <select><keygen>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/select/input.html:1:1]
+ 1 | <select><div>foo</div>bar</select>
+   :                       ^^^
+ 2 | <select><keygen>
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/select/input.html:1:1]
+ 1 | <select><div>foo</div>bar</select>
+   :                       ^^^
  2 | <select><keygen>
    `----
   x Child
@@ -45,13 +69,13 @@
    ,-[$DIR/tests/recovery/element/select/input.html:2:1]
  1 | <select><div>foo</div>bar</select>
  2 | <select><keygen>
-   : ^^^^^^^^
+   : ^^^^^^^^^^^^^^^^
    `----
   x Element
    ,-[$DIR/tests/recovery/element/select/input.html:2:1]
  1 | <select><div>foo</div>bar</select>
  2 | <select><keygen>
-   : ^^^^^^^^
+   : ^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/recovery/element/select/input.html:2:1]

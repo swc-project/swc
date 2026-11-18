@@ -1,12 +1,12 @@
 [package]
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "Proc macro for performance trace of swc"
-documentation = "https://rustdoc.swc.rs/swc_trace_macro/"
+documentation = "https://rustdoc.swc.rs/swc_typescript/"
 edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_typescript"
 repository    = { workspace = true }
-version       = "25.0.0"
+version       = "35.0.0"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
@@ -16,15 +16,15 @@ bitflags = { workspace = true, default-features = false }
 petgraph = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 
-swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
-swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
-swc_ecma_ast = { version = "20.0.1", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_utils = { version = "26.0.1", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "20.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
+swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_utils = { version = "36.1.1", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "30.0.0", path = "../swc_ecma_visit", default-features = false }
 
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "23.0.0", path = "../swc_ecma_codegen", default-features = false }
-swc_ecma_parser = { version = "33.0.1", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_transforms_base = { version = "36.0.1", path = "../swc_ecma_transforms_base", default-features = false }
-testing = { version = "19.0.0", path = "../testing", default-features = false }
+swc_ecma_codegen = { version = "33.0.2", path = "../swc_ecma_codegen", default-features = false }
+swc_ecma_parser = { version = "47.1.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_base = { version = "51.0.3", path = "../swc_ecma_transforms_base", default-features = false }
+testing = { version = "28.0.1", path = "../testing", default-features = false }

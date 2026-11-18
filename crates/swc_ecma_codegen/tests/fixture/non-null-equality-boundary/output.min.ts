@@ -1,0 +1,1 @@
+x! ===y;x! ==y;x! =y;x!! ===y;x!.value! ===y;getValue()! ===y;x+y! ===z;-x! ===y;++x! ===y;--x! ===y;const asserted=<number>x! ===y;const assigned=(x as number)! =y;async function compare(){return await x! ===y}(x!)===y;x!!==y;x!!=y;x!>=y;x!+=y;x!&&y;x===y;

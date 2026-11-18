@@ -1,0 +1,60 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":15},"end":{"line":2,"column":21}},
+      "message":"Unexpected identifier, expected the token `{`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":21},"end":{"line":2,"column":22}},
+      "message":"Unexpected token `;`, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":0}},
+      "message":"Unexpected end of input, expected the token `}`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":3,"column":0}},
+  "range":[66,89],
+  "body":[
+    {
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":3,"column":0}},
+      "range":[66,89],
+      "default":false,
+      "declaration":null,
+      "specifiers":[
+        {
+          "type":"ExportSpecifier",
+          "loc":{"source":null,"start":{"line":2,"column":21},"end":{"line":2,"column":22}},
+          "range":[87,88],
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":21},"end":{"line":2,"column":22}},
+            "range":[87,88],
+            "name":"",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "exported":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":21},"end":{"line":2,"column":22}},
+            "range":[87,88],
+            "name":"",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        }
+      ],
+      "source":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":65}},
+      "range":[0,65],
+      "value":" You may only export a type directly for declare export default"
+    }
+  ]
+}

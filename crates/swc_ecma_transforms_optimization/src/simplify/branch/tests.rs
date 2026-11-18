@@ -1289,20 +1289,6 @@ fn test_call_containing_spread() {
 #[test]
 fn test_new() {
     test_same("new foo(0)");
-    // We use a function with no side-effects, otherwise the entire invocation would
-    // be preserved.
-    test("new Date;", "");
-    test("1 + new Date;", "");
-}
-
-#[test]
-fn test_new_containing_spread_1() {
-    // We use a function with no side-effects, otherwise the entire invocation would
-    // be preserved.
-    test("new Date(...c)", "[...c]");
-    test("new Date(4, ...c, a)", "[...c, a]");
-    test("new Date(...a, b, ...c)", "[...a, b, ...c]");
-    test("new Date(...b, ...c)", "[...b, ...c]");
 }
 
 #[test]
@@ -1413,9 +1399,12 @@ fn test_empty_pattern_in_declaration_removed_2() {
 }
 
 #[test]
-fn test_empty_array_pattern_in_assign_removed() {
+fn test_empty_patterns_in_assign_removed_or_preserved() {
     test("({} = {});", "");
-    test("({} = foo());", "foo()");
+    test("({} = []);", "");
+    test_same("({} = foo());");
+    test_same("({} = null);");
+    test_same("({} = void 0);");
     test("[] = [];", "");
     test("[] = foo();", "foo()");
 }

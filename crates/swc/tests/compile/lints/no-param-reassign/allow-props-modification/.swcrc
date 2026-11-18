@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "lints": {
+            "no-param-reassign": [
+                "error",
+                {
+                    "props": false
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

@@ -13,7 +13,6 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-destructuring`
 ///
@@ -150,7 +149,6 @@ fn make_ref_ident_for_for_stmt() -> Ident {
     private_ident!("ref")
 }
 
-#[swc_trace]
 impl AssignFolder {
     fn visit_mut_var_decl(&mut self, decls: &mut Vec<VarDeclarator>, decl: VarDeclarator) {
         match decl.name {
@@ -474,7 +472,6 @@ impl AssignFolder {
     }
 }
 
-#[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for Destructuring {
     noop_visit_mut_type!(fail);
@@ -494,13 +491,12 @@ impl VisitMut for Destructuring {
     }
 }
 
-#[swc_trace]
 impl Destructuring {
     fn visit_mut_fn_like(
         &mut self,
         ps: &mut Vec<Param>,
-        body: &mut BlockStmt,
-    ) -> (Vec<Param>, BlockStmt) {
+        body: &mut Vec<Stmt>,
+    ) -> (Vec<Param>, Vec<Stmt>) {
         let mut params = Vec::new();
         let mut decls = Vec::new();
 
@@ -531,7 +527,7 @@ impl Destructuring {
         }
 
         let stmts = if decls.is_empty() {
-            body.stmts.take()
+            body.take()
         } else {
             let mut stmt: Stmt = VarDecl {
                 span: DUMMY_SP,
@@ -544,16 +540,10 @@ impl Destructuring {
 
             stmt.visit_mut_children_with(self);
 
-            iter::once(stmt).chain(body.stmts.take()).collect()
+            iter::once(stmt).chain(body.take()).collect()
         };
 
-        (
-            params,
-            BlockStmt {
-                stmts,
-                ..body.take()
-            },
-        )
+        (params, stmts)
     }
 }
 
@@ -606,7 +596,6 @@ impl AssignFolder {
     }
 }
 
-#[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for AssignFolder {
     noop_visit_mut_type!(fail);
@@ -1104,7 +1093,6 @@ impl VisitMut for AssignFolder {
     }
 }
 
-#[swc_trace]
 impl Destructuring {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -1177,7 +1165,7 @@ fn make_ref_ident(c: Config, decls: &mut Vec<VarDeclarator>, init: Option<Box<Ex
     make_ref_ident_for_array(c, decls, init, None)
 }
 
-#[tracing::instrument(level = "debug", skip_all)]
+#[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
 fn make_ref_ident_for_array(
     c: Config,
     decls: &mut Vec<VarDeclarator>,
@@ -1348,15 +1336,46 @@ struct DestructuringVisitor {
 impl Visit for DestructuringVisitor {
     noop_visit_type!(fail);
 
+    fn visit_module_item(&mut self, node: &ModuleItem) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_stmt(&mut self, node: &Stmt) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_assign_target_pat(&mut self, _: &AssignTargetPat) {
         self.found = true;
     }
 
     fn visit_pat(&mut self, node: &Pat) {
-        node.visit_children_with(self);
+        if self.found {
+            return;
+        }
+
         match *node {
             Pat::Ident(..) => {}
             _ => self.found = true,
+        }
+
+        if !self.found {
+            node.visit_children_with(self);
         }
     }
 }

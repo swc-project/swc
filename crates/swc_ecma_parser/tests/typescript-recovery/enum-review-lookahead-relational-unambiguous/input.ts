@@ -1,0 +1,16 @@
+enum E {
+    AwaitAsIn = await as in values,
+    AwaitSatisfiesIn = await satisfies in values,
+    AwaitAsInstanceof = await as instanceof Constructor,
+    AwaitSatisfiesInstanceof = await satisfies instanceof Constructor,
+    YieldAsIn = yield as in values,
+    YieldSatisfiesIn = yield satisfies in values,
+    YieldAsInstanceof = yield as instanceof Constructor,
+    YieldSatisfiesInstanceof = yield satisfies instanceof Constructor,
+    AwaitAsComment = await as /* operand */ in values,
+    YieldSatisfiesComment = yield satisfies /* operand */ instanceof Constructor,
+    AwaitSatisfiesUnicode = await satisfies in values,
+    YieldAsUnicode = yield as instanceof Constructor,
+    AwaitAsGrouped = (await as in values),
+    YieldSatisfiesGrouped = (yield satisfies in values),
+}

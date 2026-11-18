@@ -1,0 +1,10 @@
+{
+  "jsc": {
+    "parser": {
+      "jsx": true,
+      "syntax": "ecmascript"
+    },
+    "preserveAllComments": true,
+    "target": "esnext"
+  }
+}

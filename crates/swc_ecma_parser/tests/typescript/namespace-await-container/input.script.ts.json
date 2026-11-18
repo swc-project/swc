@@ -1,0 +1,177 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 82
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 1,
+        "end": 65
+      },
+      "declare": false,
+      "global": false,
+      "namespace": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 11,
+          "end": 12
+        },
+        "ctxt": 0,
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 13,
+          "end": 65
+        },
+        "body": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 19,
+              "end": 35
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 25,
+                  "end": 34
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 25,
+                    "end": 30
+                  },
+                  "ctxt": 0,
+                  "value": "await",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 33,
+                    "end": 34
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 40,
+              "end": 63
+            },
+            "ctxt": 0,
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 46,
+                  "end": 62
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 46,
+                    "end": 50
+                  },
+                  "ctxt": 0,
+                  "value": "next",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 53,
+                    "end": 62
+                  },
+                  "operator": "+",
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 53,
+                      "end": 58
+                    },
+                    "ctxt": 0,
+                    "value": "await",
+                    "optional": false
+                  },
+                  "right": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 61,
+                      "end": 62
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 66,
+        "end": 82
+      },
+      "ctxt": 0,
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 72,
+            "end": 81
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 72,
+              "end": 77
+            },
+            "ctxt": 0,
+            "value": "await",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 80,
+              "end": 81
+            },
+            "value": 2.0,
+            "raw": "2"
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

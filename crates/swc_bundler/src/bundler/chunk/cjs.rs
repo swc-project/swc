@@ -58,6 +58,7 @@ where
             return Ok(module);
         }
 
+        #[cfg(debug_assertions)]
         tracing::debug!("Merging as a common js module: {}", info.fm.name);
 
         let load_var = self.make_cjs_load_var(info, DUMMY_SP);
@@ -86,6 +87,7 @@ where
             self.injected_ctxt,
         );
 
+        #[cfg(debug_assertions)]
         tracing::debug!("Injected a variable named `load` for a common js module");
 
         Ok(wrapped)
@@ -130,7 +132,7 @@ fn wrap_module(
             ],
             decorators: Vec::new(),
             span: DUMMY_SP,
-            body: Some(BlockStmt {
+            body: Some(FunctionBody {
                 span: dep.span,
                 stmts: dep
                     .body
@@ -144,7 +146,6 @@ fn wrap_module(
                         _ => panic!("unable to access unknown nodes"),
                     })
                     .collect(),
-                ..Default::default()
             }),
             is_generator: false,
             is_async: false,
@@ -216,6 +217,7 @@ where
                         self.replaced = true;
                         *node = load;
 
+                        #[cfg(debug_assertions)]
                         tracing::trace!("Found, and replacing require");
                     }
                 }

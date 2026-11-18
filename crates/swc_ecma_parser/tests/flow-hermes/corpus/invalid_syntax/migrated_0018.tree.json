@@ -1,0 +1,84 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":16}},
+      "message":"Unexpected identifier, expected the identifier `from`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":21}},
+      "message":"Unexpected identifier, expected a string"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":21}},
+      "message":"Unexpected identifier, expected the token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":26}},
+      "message":"Unexpected identifier, expected the end of an expression statement (`;`)"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":32}},
+      "message":"Unexpected string, expected the end of an expression statement (`;`)"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":32}},
+  "range":[0,32],
+  "body":[
+    {
+      "type":"ExportAllDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
+      "range":[0,16],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":21}},
+        "range":[17,21],
+        "value":"",
+        "raw":""
+      },
+      "exportKind":"type"
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":21}},
+      "range":[17,21],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":21}},
+        "range":[17,21],
+        "name":"blah",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":26}},
+      "range":[22,26],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":26}},
+        "range":[22,26],
+        "name":"from",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":32}},
+      "range":[27,32],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":32}},
+        "range":[27,32],
+        "value":"foo",
+        "raw":"\"foo\""
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

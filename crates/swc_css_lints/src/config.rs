@@ -11,18 +11,13 @@ use crate::rules::{
     selector_max_combinators::SelectorMaxCombinatorsConfig, unit_no_unknown::UnitNoUnknownConfig,
 };
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum LintRuleReaction {
+    #[default]
     Off,
     Warning,
     Error,
-}
-
-impl Default for LintRuleReaction {
-    fn default() -> Self {
-        Self::Off
-    }
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

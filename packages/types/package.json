@@ -1,12 +1,12 @@
 {
     "name": "@swc/types",
-    "version": "0.1.25",
+    "version": "0.1.28",
     "description": "Typings for the swc project.",
     "types": "./index.d.ts",
     "sideEffects": false,
     "scripts": {
         "build": "tsc",
-        "prepublishOnly": "yarn build"
+        "prepublishOnly": "pnpm build"
     },
     "repository": {
         "type": "git",

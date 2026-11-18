@@ -4,41 +4,56 @@ inputs:
   version:
     description: "The version"
     required: true
-  ssh-private-key:
-    description: "The SSH private key"
+  token:
+    description: "GitHub App installation token with contents write access"
+    required: true
+  app-slug:
+    description: "GitHub App slug, used to derive the bot commit identity"
     required: true
 
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         fetch-depth: 0
+        persist-credentials: false
         ref: "main"
 
     - uses: ./.github/actions/setup-node
+      with:
+        cache: "false"
+
+    - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
+      with:
+        toolchain: nightly-2026-04-10
+        # The pre-push hook runs cargo fmt with the repository toolchain.
+        components: rustfmt
 
     - name: Install git-cliff
-      uses: taiki-e/install-action@v2
+      uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
       with:
         tool: git-cliff@2.8.0
 
     - name: Install cargo-edit
-      uses: taiki-e/install-action@v2
+      uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
       with:
         tool: cargo-edit@0.12.2
 
     - name: "Setup jq"
-      uses: dcarbone/install-jq-action@v2
+      uses: dcarbone/install-jq-action@4fcb5062d7ce9bc4382d1a352d19ba3ba2c317c1 # v4.0.1
       with:
         version: "1.7"
         force: true
 
-    - uses: webfactory/ssh-agent@v0.9.1
+    - uses: ./.github/actions/configure-bot-git
       with:
-        ssh-private-key: ${{ inputs.ssh-private-key }}
+        token: ${{ inputs.token }}
+        app-slug: ${{ inputs.app-slug }}
 
     - name: Create git tag commit
       shell: bash
+      env:
+        RELEASE_VERSION: ${{ inputs.version }}
       run: |
-        ./scripts/publish.sh ${{ inputs.version }}
+        ./scripts/publish.sh "$RELEASE_VERSION"

@@ -24,10 +24,5 @@ define([
 //// [foo_2.ts]
 define([
     "require",
-    "exports",
     "./foo_1"
-], function(require, exports, _foo_1) {
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    });
-});
+], function(require, foo) {});

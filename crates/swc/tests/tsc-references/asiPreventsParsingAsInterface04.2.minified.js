@@ -8,3 +8,13 @@
 //!  4 | declare     // This should be the identifier 'declare'
 //!  5 | interface   // This should be the identifier 'interface'
 //!    `----
+//!   x Expression expected
+//!    ,-[5:1]
+//!  2 | var declare: boolean, interface: number, I: string;
+//!  3 | 
+//!  4 | declare     // This should be the identifier 'declare'
+//!  5 | interface   // This should be the identifier 'interface'
+//!    : ^^^^^^^^^
+//!  6 | I           // This should be the identifier 'I'
+//!  7 | {}          // This should be a block body
+//!    `----

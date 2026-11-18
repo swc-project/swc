@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "baseUrl": "./src",
+        "paths": {
+            "*": [
+                "*"
+            ]
+        }
+    }
+}

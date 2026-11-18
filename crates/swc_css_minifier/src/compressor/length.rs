@@ -228,21 +228,19 @@ impl Compressor {
                     };
                 }
             }
-            "pc" => {
-                if value % 6.0 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, "in");
+            "pc" if value % 6.0 == 0.0 => {
+                let new_value = self.convert_length(value, &length.unit.value, "in");
 
-                    length.value = Number {
-                        span: length.value.span,
-                        value: new_value,
-                        raw: None,
-                    };
-                    length.unit = Ident {
-                        span: length.unit.span,
-                        value: atom!("in"),
-                        raw: None,
-                    };
-                }
+                length.value = Number {
+                    span: length.value.span,
+                    value: new_value,
+                    raw: None,
+                };
+                length.unit = Ident {
+                    span: length.unit.span,
+                    value: atom!("in"),
+                    raw: None,
+                };
             }
             "pt" => {
                 if value % 72.0 == 0.0 {

@@ -47,7 +47,7 @@ System.register([], function(_export, _context) {
     _export("D", void 0);
     return {
         setters: [],
-        execute: async function() {
+        execute: function() {
             C = class C {
                 method() {
                     const loadAsync = _context.import("./0");

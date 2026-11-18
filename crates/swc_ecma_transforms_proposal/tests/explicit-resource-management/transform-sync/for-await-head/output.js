@@ -5,7 +5,7 @@ for await (const _ of y){
         hasError: false
     };
     try {
-        const x = _ts_add_disposable_resource(env, _, false);
+        var x = _ts_add_disposable_resource(env, _, false);
         {
             doSomethingWith(x);
         }

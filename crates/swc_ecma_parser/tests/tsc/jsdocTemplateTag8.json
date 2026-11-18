@@ -262,12 +262,11 @@
                     }
                   ],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 561,
                       "end": 563
                     },
-                    "ctxt": 0,
                     "stmts": []
                   },
                   "async": false,
@@ -347,12 +346,11 @@
                     }
                   ],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 645,
                       "end": 647
                     },
-                    "ctxt": 0,
                     "stmts": []
                   },
                   "async": false,
@@ -504,12 +502,11 @@
                     }
                   ],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 908,
                       "end": 910
                     },
-                    "ctxt": 0,
                     "stmts": []
                   },
                   "async": false,
@@ -589,12 +586,11 @@
                     }
                   ],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 984,
                       "end": 997
                     },
-                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "ReturnStatement",
@@ -739,12 +735,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1145,
           "end": 1147
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

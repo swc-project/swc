@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "transform": {
+            "legacyDecorator": true,
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "target": "es2022",
+        "minify": {
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

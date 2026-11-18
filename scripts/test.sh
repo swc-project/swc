@@ -2,9 +2,9 @@
 set -eux
 
 
-yarn run build:dev
-yarn run tsc
-# yarn test
+pnpm build:dev
+pnpm exec tsc
+# pnpm test
 npm link
 
 mkdir -p tests/integration/three-js

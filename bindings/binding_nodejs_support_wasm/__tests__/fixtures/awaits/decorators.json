@@ -1,0 +1,25 @@
+[
+    {
+        "source": "class C { @((await load()).dec) method() {} }",
+        "expected": [{ "line": 1, "column": 13 }]
+    },
+    {
+        "source": "class C extends (await base) {\n    @((await first()).dec)\n    @((await second()).dec)\n    async [await key]() { await hidden; }\n    @((await staticDecorator()).dec)\n    static async method() { await hidden; }\n    @((await privateDecorator()).dec)\n    async #method() { await hidden; }\n}",
+        "expected": [
+            { "line": 1, "column": 17 },
+            { "line": 2, "column": 7 },
+            { "line": 3, "column": 7 },
+            { "line": 4, "column": 11 },
+            { "line": 5, "column": 7 },
+            { "line": 7, "column": 7 }
+        ]
+    },
+    {
+        "source": "async function f() { class C { @((await hidden).dec) method() {} } }\nawait visible;",
+        "expected": [{ "line": 2, "column": 0 }]
+    },
+    {
+        "source": "class C { @(async () => await hidden) async method() { await hidden; } }\nawait visible;",
+        "expected": [{ "line": 2, "column": 0 }]
+    }
+]

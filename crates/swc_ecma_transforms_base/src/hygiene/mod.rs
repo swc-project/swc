@@ -23,10 +23,20 @@ pub struct Config {
     pub ignore_eval: bool,
 }
 
+// https://github.com/swc-project/swc/issues/9791
+impl Config {
+    pub fn hygiene_default() -> Self {
+        Self {
+            ignore_eval: true,
+            ..Default::default()
+        }
+    }
+}
+
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
 /// value of [Config].
 pub fn hygiene() -> impl Pass + VisitMut {
-    hygiene_with_config(Default::default())
+    hygiene_with_config(Config::hygiene_default())
 }
 
 /// The pass actually modifies the identifiers in the way that different

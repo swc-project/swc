@@ -8,17 +8,12 @@ use crate::{
     rule::{visitor_rule, Rule},
 };
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 enum EqEqEqMode {
+    #[default]
     Always,
     Never,
-}
-
-impl Default for EqEqEqMode {
-    fn default() -> Self {
-        Self::Always
-    }
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

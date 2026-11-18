@@ -1,0 +1,18 @@
+{
+    "jsc": {
+        "lints": {
+            "noRestrictedSyntax": [
+                "error",
+                {
+                    "ForOfExpression": {
+                        "message": "no 'for-of' expression"
+                    }
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

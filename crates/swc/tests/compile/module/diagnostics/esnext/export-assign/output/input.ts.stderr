@@ -1,0 +1,5 @@
+  x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
+   ,-[$DIR/tests/compile/module/diagnostics/esnext/export-assign/input/input.ts:1:1]
+ 1 | export = 42;
+   : ^^^^^^^^^^^^
+   `----

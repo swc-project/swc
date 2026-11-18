@@ -171,6 +171,7 @@ impl Hasher for StableHasher {
 
 /// Something that implements `HashStable<CTX>` can be hashed in a way that is
 /// stable across multiple compilation sessions.
+#[allow(dead_code)]
 pub trait HashStable<CTX> {
     fn hash_stable(&self, hcx: &mut CTX, hasher: &mut StableHasher);
 }
@@ -178,6 +179,7 @@ pub trait HashStable<CTX> {
 /// Implement this for types that can be turned into stable keys like, for
 /// example, for DefId that can be converted to a DefPathHash. This is used for
 /// bringing maps into a predictable order before hashing them.
+#[allow(dead_code)]
 pub trait ToStableHashKey<HCX> {
     type KeyType: Ord + Clone + Sized + HashStable<HCX>;
     fn to_stable_hash_key(&self, hcx: &HCX) -> Self::KeyType;
@@ -493,6 +495,7 @@ where
     }
 }
 
+#[allow(dead_code)]
 fn stable_hash_reduce<HCX, I, C, F>(
     hcx: &mut HCX,
     hasher: &mut StableHasher,

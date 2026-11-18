@@ -1,0 +1,31 @@
+{
+    "jsc": {
+        "minify": {
+            "compress": {
+                "arrows": false,
+                "booleans": false,
+                "collapse_vars": false,
+                "comparisons": false,
+                "computed_props": false,
+                "conditionals": false,
+                "dead_code": false,
+                "directives": false,
+                "drop_debugger": false,
+                "evaluate": false,
+                "hoist_props": false,
+                "if_return": false,
+                "keep_fargs": false,
+                "loops": false,
+                "properties": false,
+                "reduce_funcs": false,
+                "reduce_vars": false,
+                "side_effects": false,
+                "switches": false,
+                "typeofs": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

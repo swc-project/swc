@@ -6,8 +6,8 @@ use crate::{
     TraverseCtx,
 };
 
-mod export_namespace_from;
-mod nullish_coalescing;
+pub(crate) mod export_namespace_from;
+pub(crate) mod nullish_coalescing;
 mod optional_chaining;
 
 #[derive(Debug, Default)]

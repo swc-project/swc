@@ -181,13 +181,18 @@ fn do_work(
             .clone()
             .into_inner()
             .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
-        minify_file_comments(
+        let extracted_comments = minify_file_comments(
             &comments,
             preserve_comments,
+            options
+                .extract_comments
+                .clone()
+                .into_inner()
+                .unwrap_or(BoolOr::Bool(false)),
             options.format.preserve_annotations,
         );
 
-        swc_compiler_base::print(
+        let mut output = swc_compiler_base::print(
             cm.clone(),
             &module,
             PrintArgs {
@@ -209,7 +214,13 @@ fn do_work(
                     ),
                 ..Default::default()
             },
-        )
+        )?;
+
+        if !extracted_comments.is_empty() {
+            output.extracted_comments = Some(extracted_comments);
+        }
+
+        Ok(output)
     })
 }
 

@@ -1,0 +1,91 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 163
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 1,
+        "end": 51
+      },
+      "declare": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 51
+        },
+        "ctxt": 0,
+        "value": "__flow_default_export",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 1,
+          "end": 51
+        },
+        "kind": "any"
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 52,
+        "end": 117
+      },
+      "declare": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 52,
+          "end": 117
+        },
+        "ctxt": 0,
+        "value": "__flow_default_export",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 52,
+          "end": 117
+        },
+        "kind": "any"
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 118,
+        "end": 163
+      },
+      "declare": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 118,
+          "end": 163
+        },
+        "ctxt": 0,
+        "value": "__flow_default_export",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsKeywordType",
+        "span": {
+          "start": 118,
+          "end": 163
+        },
+        "kind": "any"
+      }
+    }
+  ],
+  "interpreter": null
+}

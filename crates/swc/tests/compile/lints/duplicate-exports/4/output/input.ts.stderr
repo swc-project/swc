@@ -1,0 +1,7 @@
+  x An export assignment cannot be used in a module with other exported elements.
+   ,-[$DIR/tests/compile/lints/duplicate-exports/4/input/input.ts:3:1]
+ 1 | export default 1;
+ 2 | 
+ 3 | export = {};
+   : ^^^^^^^^^^^^
+   `----

@@ -1,11 +1,22 @@
 var _init_a, _initProto;
-const dec = () => { };
+const dec = ()=>{};
 class Foo {
-  constructor() {
-    defineProperty(this, "a", (_initProto(this), _init_a(this, 123)));
-  }
-  a() {
-    return 1;
-  }
+    a() {
+        return 1;
+    }
+    constructor(){
+        _define_property(this, "a", (_initProto(this), _init_a(this, 123)));
+    }
 }
-[_init_a, _initProto] = _applyDecs2203R(Foo, [[dec, 2, "a"], [dec, 0, "a"]], []).e;
+({ e: [_init_a, _initProto] } = _apply_decs_2203_r(Foo, [
+    [
+        dec,
+        2,
+        "a"
+    ],
+    [
+        dec,
+        0,
+        "a"
+    ]
+], []));

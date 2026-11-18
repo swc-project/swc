@@ -1,9 +1,7 @@
 use swc_ecma_ast::*;
 
 pub fn optional_catch_binding() -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-    options.env.es2019.optional_catch_binding = true;
-    options.into_pass()
+    swc_ecma_transformer::es2019_optional_catch_binding()
 }
 
 #[cfg(test)]

@@ -1,0 +1,37 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,EAAEC,YAAY,QAAQ,iBAAiB;AAEhEF,SACI;IAAEG,OAAO;QAAEC,MAAM;QAAMC,OAAO;IAAK;AAAE,GACrC,SAASC;IACL,IAAMC,UAAUC,KAAKC,eAAe;IACpC,IAAMC,UAAUH,UAAU;IAC1B,IAAMI,UAAUJ,UAAU;IAC1BC,KAAKI,SAAS,CAACF;IACfF,KAAKK,WAAW,CAACH,SAASC;IAC1B,IAAMG,mBAAmBN,KAAKO,SAAS,CAACJ;IACxC,IAAMK,kBAAkBR,KAAKS,QAAQ,CAACN;IACtCV,OAAOa,iBAAiBI,SAAS;IACjCjB,OAAOe,gBAAgBG,WAAW;AACtC;AAGJnB,SAAS,SAASoB;IACdlB,aAAa;QACTM,KAAKK,WAAW,CAAC,aAAa;IAClC,GAAGL,KAAKa,MAAM,CAACC,gBAAgB;AACnC;AAEAtB,SACI;IAAEG,OAAO;QAAEC,MAAM;QAAMC,OAAO;IAAK;AAAE,GACrC,SAAekB;;YACLhB,SACAG,SACAC,SAGAG,kBACAE;;;;oBANAT,UAAUC,KAAKC,eAAe;oBAC9BC,UAAUH,UAAU;oBACpBI,UAAUJ,UAAU;oBAC1BC,KAAKI,SAAS,CAACF;oBACf;;wBAAMF,KAAKgB,OAAO,CAACd,SAASC;;;oBAA5B;oBACMG,mBAAmBN,KAAKO,SAAS,CAACJ;oBAClCK,kBAAkBR,KAAKS,QAAQ,CAACN;oBACtCV,OAAOa,iBAAiBI,SAAS,EAAE;oBACnCjB,OAAOe,gBAAgBG,WAAW,EAAE;;;;;;IACxC",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertThrows",
+    "perms",
+    "read",
+    "write",
+    "symlinkSyncSuccess",
+    "testDir",
+    "Deno",
+    "makeTempDirSync",
+    "oldname",
+    "newname",
+    "mkdirSync",
+    "symlinkSync",
+    "newNameInfoLStat",
+    "lstatSync",
+    "newNameInfoStat",
+    "statSync",
+    "isSymlink",
+    "isDirectory",
+    "symlinkSyncPerm",
+    "errors",
+    "PermissionDenied",
+    "symlinkSuccess",
+    "symlink"
+  ],
+  "sources": [
+    "../input/symlink_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert, assertThrows } from \"./test_util.ts\";\n\nunitTest(\n    { perms: { read: true, write: true } },\n    function symlinkSyncSuccess(): void {\n        const testDir = Deno.makeTempDirSync();\n        const oldname = testDir + \"/oldname\";\n        const newname = testDir + \"/newname\";\n        Deno.mkdirSync(oldname);\n        Deno.symlinkSync(oldname, newname);\n        const newNameInfoLStat = Deno.lstatSync(newname);\n        const newNameInfoStat = Deno.statSync(newname);\n        assert(newNameInfoLStat.isSymlink);\n        assert(newNameInfoStat.isDirectory);\n    }\n);\n\nunitTest(function symlinkSyncPerm(): void {\n    assertThrows(() => {\n        Deno.symlinkSync(\"oldbaddir\", \"newbaddir\");\n    }, Deno.errors.PermissionDenied);\n});\n\nunitTest(\n    { perms: { read: true, write: true } },\n    async function symlinkSuccess(): Promise<void> {\n        const testDir = Deno.makeTempDirSync();\n        const oldname = testDir + \"/oldname\";\n        const newname = testDir + \"/newname\";\n        Deno.mkdirSync(oldname);\n        await Deno.symlink(oldname, newname);\n        const newNameInfoLStat = Deno.lstatSync(newname);\n        const newNameInfoStat = Deno.statSync(newname);\n        assert(newNameInfoLStat.isSymlink, \"NOT SYMLINK\");\n        assert(newNameInfoStat.isDirectory, \"NOT DIRECTORY\");\n    }\n);\n"
+  ],
+  "version": 3
+}

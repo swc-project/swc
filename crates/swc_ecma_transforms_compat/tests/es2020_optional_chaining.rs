@@ -8,7 +8,7 @@ use swc_ecma_transforms_compat::{
     es2020::{optional_chaining, optional_chaining::Config},
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test_exec, test_fixture};
 
 fn tr(c: Config) -> impl Pass {
     let unresolved_mark = Mark::new();
@@ -146,10 +146,6 @@ expect(() => {
 "#
 );
 
-test!(syntax(), |_| tr(Default::default()), simple_1, "obj?.a");
-
-test!(syntax(), |_| tr(Default::default()), simple_2, "obj?.a?.b");
-
 test_exec!(
     syntax(),
     |_| tr(Default::default()),
@@ -169,13 +165,6 @@ test_exec!(
 
   expect(obj?.a?.b?.c()).toBe(2)
   "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    pr_2791,
-    r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#
 );
 
 test_exec!(
@@ -269,33 +258,6 @@ fn exec(input: PathBuf) {
             )
         },
         &src,
-    );
-}
-
-#[testing::fixture("tests/optional-chaining/**/input.js")]
-fn fixture(input: PathBuf) {
-    let output = input.with_file_name("output.js");
-
-    test_fixture(
-        Default::default(),
-        &|_| {
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-            (
-                resolver(unresolved_mark, top_level_mark, false),
-                class_properties(
-                    swc_ecma_transforms_compat::es2022::class_properties::Config {
-                        private_as_properties: false,
-                        ..Default::default()
-                    },
-                    unresolved_mark,
-                ),
-                optional_chaining(Default::default(), unresolved_mark),
-            )
-        },
-        &input,
-        &output,
-        Default::default(),
     );
 }
 

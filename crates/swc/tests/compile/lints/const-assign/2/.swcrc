@@ -1,0 +1,8 @@
+{
+    "isModule": "unknown",
+    "jsc": {
+        "experimental": {
+            "disableAllLints": false
+        }
+    }
+}

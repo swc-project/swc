@@ -171,12 +171,11 @@
                       },
                       "params": [],
                       "body": {
-                        "type": "BlockStatement",
+                        "type": "FunctionBody",
                         "span": {
                           "start": 97,
                           "end": 139
                         },
-                        "ctxt": 0,
                         "stmts": [
                           {
                             "type": "VariableDeclaration",
@@ -313,12 +312,11 @@
                       },
                       "params": [],
                       "body": {
-                        "type": "BlockStatement",
+                        "type": "FunctionBody",
                         "span": {
                           "start": 197,
                           "end": 239
                         },
-                        "ctxt": 0,
                         "stmts": [
                           {
                             "type": "VariableDeclaration",

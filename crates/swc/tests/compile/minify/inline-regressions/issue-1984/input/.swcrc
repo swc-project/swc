@@ -1,0 +1,16 @@
+{
+  "isModule": "unknown",
+  "minify": true,
+  "env": {
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "jsc": {
+    "externalHelpers": false,
+    "minify": {
+      "compress": true,
+      "mangle": true
+    }
+  }
+}

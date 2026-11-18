@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_css_modules"
 repository    = { workspace = true }
-version       = "18.0.0"
+version       = "27.0.0"
 
 [lib]
 bench = false
@@ -18,15 +18,15 @@ bench = false
 rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
 
-swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
-swc_common = { version = "18.0.1", path = "../swc_common", default-features = false }
-swc_css_ast = { version = "18.0.0", path = "../swc_css_ast", default-features = false }
-swc_css_codegen = { version = "18.0.0", path = "../swc_css_codegen", default-features = false }
-swc_css_parser = { version = "18.0.0", path = "../swc_css_parser", default-features = false }
-swc_css_visit = { version = "18.0.0", path = "../swc_css_visit", default-features = false }
+swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
+swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
+swc_css_ast = { version = "27.0.0", path = "../swc_css_ast", default-features = false }
+swc_css_codegen = { version = "27.0.0", path = "../swc_css_codegen", default-features = false }
+swc_css_parser = { version = "27.0.0", path = "../swc_css_parser", default-features = false }
+swc_css_visit = { version = "27.0.0", path = "../swc_css_visit", default-features = false }
 
 [dev-dependencies]
 indexmap = { workspace = true, features = ["serde"], default-features = false }
 
-swc_css_compat = { version = "18.0.0", path = "../swc_css_compat", default-features = false }
-testing = { version = "19.0.0", path = "../testing", default-features = false }
+swc_css_compat = { version = "27.0.0", path = "../swc_css_compat", default-features = false }
+testing = { version = "28.0.1", path = "../testing", default-features = false }

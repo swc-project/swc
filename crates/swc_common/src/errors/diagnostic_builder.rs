@@ -182,6 +182,7 @@ impl<'a> DiagnosticBuilder<'a> {
         // Logging here is useful to help track down where in logs an error was
         // actually emitted.
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             debug!("buffer: diagnostic={:?}", diagnostic);
         }
         buffered_diagnostics.push(*diagnostic);

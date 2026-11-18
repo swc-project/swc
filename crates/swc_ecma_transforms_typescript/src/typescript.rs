@@ -8,7 +8,7 @@ use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
-use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
+use crate::{semantic::analyze_program, transform::transform};
 
 macro_rules! static_str {
     ($s:expr) => {
@@ -41,28 +41,29 @@ pub(crate) struct TypeScript {
 
 impl Pass for TypeScript {
     fn process(&mut self, n: &mut Program) {
-        let was_module = n.as_module().and_then(|m| self.get_last_module_span(m));
+        let last_module_span = n
+            .as_module()
+            // Flow does not need to restore module context
+            .filter(|_| !self.config.flow_syntax)
+            .and_then(|m| self.get_last_module_span(m));
 
-        if !self.config.verbatim_module_syntax {
-            n.visit_mut_with(&mut StripImportExport {
-                import_not_used_as_values: self.config.import_not_used_as_values,
-                usage_info: mem::take(&mut self.id_usage).into(),
-                ..Default::default()
-            });
-        }
-
-        n.visit_mut_with(&mut StripType::default());
+        let semantic = analyze_program(
+            n,
+            self.unresolved_mark,
+            mem::take(&mut self.id_usage),
+            self.config.flow_syntax,
+            self.config.ts_enum_is_mutable,
+            self.config.verbatim_module_syntax,
+        );
 
         n.mutate(transform(
             self.unresolved_mark,
             self.top_level_mark,
-            self.config.import_export_assign_config,
-            self.config.ts_enum_is_mutable,
-            self.config.verbatim_module_syntax,
-            self.config.native_class_properties,
+            &semantic,
+            self.config,
         ));
 
-        if let Some(span) = was_module {
+        if let Some(span) = last_module_span {
             let module = n.as_mut_module().unwrap();
             Self::restore_esm_ctx(module, span);
         }
@@ -71,7 +72,14 @@ impl Pass for TypeScript {
 
 impl TypeScript {
     fn get_last_module_span(&self, n: &Module) -> Option<Span> {
-        if self.config.no_empty_export {
+        if self.config.no_empty_export
+            || n.body.iter().any(|item| {
+                matches!(
+                    item,
+                    ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(_))
+                )
+            })
+        {
             return None;
         }
 

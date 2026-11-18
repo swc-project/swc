@@ -1,0 +1,95 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 57
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 33
+      },
+      "specifiers": [
+        {
+          "type": "ImportNamespaceSpecifier",
+          "span": {
+            "start": 15,
+            "end": 22
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 20,
+              "end": 22
+            },
+            "ctxt": 0,
+            "value": "NS",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 28,
+          "end": 32
+        },
+        "value": "ns",
+        "raw": "\"ns\""
+      },
+      "typeOnly": true,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 34,
+        "end": 57
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 41,
+          "end": 57
+        },
+        "ctxt": 0,
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 47,
+              "end": 56
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 47,
+                "end": 52
+              },
+              "ctxt": 0,
+              "value": "ready",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 55,
+                "end": 56
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

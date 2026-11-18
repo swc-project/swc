@@ -13,3 +13,13 @@ export { type type as as }
 export { type export }
 export { type as export }
 export { type as as export }
+
+export { type "x" } from "m";
+export { type "x" as y } from "m";
+export { type "x" as "as" } from "m";
+export { type "as" } from "m";
+export { type "as" as y } from "m";
+export { type as "" } from "m";
+export { type as "as" } from "m";
+export { type as as "x" } from "m";
+export { "type" as "as" } from "m";

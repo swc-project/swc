@@ -1,0 +1,333 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":20,"column":2}},
+  "range":[16,283],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "trailingComments":[
+        {
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":40}},
+          "range":[19,40],
+          "value":" 1.2 T expr stmt "
+        }
+      ],
+      "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":18}},
+      "range":[16,18],
+      "expression":{
+        "type":"Literal",
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":15}},
+            "range":[0,15],
+            "value":" 1.1 L num "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":17}},
+        "range":[16,17],
+        "value":1,
+        "raw":"1"
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "trailingComments":[
+        {
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":4,"column":3},"end":{"line":4,"column":24}},
+          "range":[61,82],
+          "value":" 2.2 T expr stmt "
+        }
+      ],
+      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":2}},
+      "range":[58,60],
+      "expression":{
+        "type":"Literal",
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":15}},
+            "range":[42,57],
+            "value":" 2.1 L num "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":1}},
+        "range":[58,59],
+        "value":2,
+        "raw":"2"
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":6,"column":16},"end":{"line":6,"column":18}},
+      "range":[100,102],
+      "expression":{
+        "type":"Literal",
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":6,"column":0},"end":{"line":6,"column":15}},
+            "range":[84,99],
+            "value":" 3.1 L num "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":6,"column":16},"end":{"line":6,"column":17}},
+        "range":[100,101],
+        "value":3,
+        "raw":"3"
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "trailingComments":[
+        {
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":6,"column":38},"end":{"line":6,"column":59}},
+          "range":[122,143],
+          "value":" 3.3 T expr stmt "
+        }
+      ],
+      "loc":{"source":null,"start":{"line":6,"column":35},"end":{"line":6,"column":37}},
+      "range":[119,121],
+      "expression":{
+        "type":"Literal",
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":6,"column":19},"end":{"line":6,"column":34}},
+            "range":[103,118],
+            "value":" 3.2 L num "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":6,"column":35},"end":{"line":6,"column":36}},
+        "range":[119,120],
+        "value":3,
+        "raw":"3"
+      },
+      "directive":null
+    },
+    {
+      "type":"BlockStatement",
+      "loc":{"source":null,"start":{"line":8,"column":0},"end":{"line":12,"column":1}},
+      "range":[145,200],
+      "body":[
+        {
+          "type":"ExpressionStatement",
+          "trailingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":9,"column":5},"end":{"line":9,"column":26}},
+              "range":[152,173],
+              "value":" 4.1 T expr stmt "
+            },
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":11,"column":2},"end":{"line":11,"column":23}},
+              "range":[177,198],
+              "value":" 4.2 T expr stmt "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":9,"column":2},"end":{"line":9,"column":4}},
+          "range":[149,151],
+          "expression":{
+            "type":"Literal",
+            "loc":{"source":null,"start":{"line":9,"column":2},"end":{"line":9,"column":3}},
+            "range":[149,150],
+            "value":4,
+            "raw":"4"
+          },
+          "directive":null
+        }
+      ]
+    },
+    {
+      "type":"BlockStatement",
+      "loc":{"source":null,"start":{"line":14,"column":0},"end":{"line":18,"column":1}},
+      "range":[202,279],
+      "body":[
+        {
+          "type":"ExpressionStatement",
+          "loc":{"source":null,"start":{"line":15,"column":18},"end":{"line":15,"column":19}},
+          "range":[222,223],
+          "expression":{
+            "type":"Literal",
+            "trailingComments":[
+              {
+                "type":"Block",
+                "loc":{"source":null,"start":{"line":15,"column":20},"end":{"line":15,"column":35}},
+                "range":[224,239],
+                "value":" 5.2 T num "
+              }
+            ],
+            "leadingComments":[
+              {
+                "type":"Block",
+                "loc":{"source":null,"start":{"line":15,"column":2},"end":{"line":15,"column":17}},
+                "range":[206,221],
+                "value":" 5.1 L num "
+              }
+            ],
+            "loc":{"source":null,"start":{"line":15,"column":18},"end":{"line":15,"column":19}},
+            "range":[222,223],
+            "value":5,
+            "raw":"5"
+          },
+          "directive":null
+        },
+        {
+          "type":"ExpressionStatement",
+          "loc":{"source":null,"start":{"line":16,"column":18},"end":{"line":16,"column":19}},
+          "range":[258,259],
+          "expression":{
+            "type":"Literal",
+            "trailingComments":[
+              {
+                "type":"Block",
+                "loc":{"source":null,"start":{"line":17,"column":2},"end":{"line":17,"column":17}},
+                "range":[262,277],
+                "value":" 5.4 T num "
+              }
+            ],
+            "leadingComments":[
+              {
+                "type":"Block",
+                "loc":{"source":null,"start":{"line":16,"column":2},"end":{"line":16,"column":17}},
+                "range":[242,257],
+                "value":" 5.3 L num "
+              }
+            ],
+            "loc":{"source":null,"start":{"line":16,"column":18},"end":{"line":16,"column":19}},
+            "range":[258,259],
+            "value":5,
+            "raw":"5"
+          },
+          "directive":null
+        }
+      ]
+    },
+    {
+      "type":"ExpressionStatement",
+      "trailingComments":[
+        {
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":20,"column":3},"end":{"line":20,"column":24}},
+          "range":[284,305],
+          "value":" 6.1 T expr stmt "
+        },
+        {
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":22,"column":0},"end":{"line":22,"column":21}},
+          "range":[307,328],
+          "value":" 6.2 T expr stmt "
+        }
+      ],
+      "loc":{"source":null,"start":{"line":20,"column":0},"end":{"line":20,"column":2}},
+      "range":[281,283],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":20,"column":0},"end":{"line":20,"column":1}},
+        "range":[281,282],
+        "value":6,
+        "raw":"6"
+      },
+      "directive":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":15}},
+      "range":[0,15],
+      "value":" 1.1 L num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":40}},
+      "range":[19,40],
+      "value":" 1.2 T expr stmt "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":15}},
+      "range":[42,57],
+      "value":" 2.1 L num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":4,"column":3},"end":{"line":4,"column":24}},
+      "range":[61,82],
+      "value":" 2.2 T expr stmt "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":6,"column":0},"end":{"line":6,"column":15}},
+      "range":[84,99],
+      "value":" 3.1 L num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":6,"column":19},"end":{"line":6,"column":34}},
+      "range":[103,118],
+      "value":" 3.2 L num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":6,"column":38},"end":{"line":6,"column":59}},
+      "range":[122,143],
+      "value":" 3.3 T expr stmt "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":9,"column":5},"end":{"line":9,"column":26}},
+      "range":[152,173],
+      "value":" 4.1 T expr stmt "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":11,"column":2},"end":{"line":11,"column":23}},
+      "range":[177,198],
+      "value":" 4.2 T expr stmt "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":15,"column":2},"end":{"line":15,"column":17}},
+      "range":[206,221],
+      "value":" 5.1 L num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":15,"column":20},"end":{"line":15,"column":35}},
+      "range":[224,239],
+      "value":" 5.2 T num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":16,"column":2},"end":{"line":16,"column":17}},
+      "range":[242,257],
+      "value":" 5.3 L num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":17,"column":2},"end":{"line":17,"column":17}},
+      "range":[262,277],
+      "value":" 5.4 T num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":20,"column":3},"end":{"line":20,"column":24}},
+      "range":[284,305],
+      "value":" 6.1 T expr stmt "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":22,"column":0},"end":{"line":22,"column":21}},
+      "range":[307,328],
+      "value":" 6.2 T expr stmt "
+    }
+  ]
+}

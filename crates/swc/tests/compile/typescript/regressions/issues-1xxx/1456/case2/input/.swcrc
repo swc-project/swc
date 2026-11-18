@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "transform": {
+            "useDefineForClassFields": false,
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "env": {
+        "targets": "node 12"
+    }
+}

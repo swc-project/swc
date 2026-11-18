@@ -91,10 +91,17 @@ impl Pure<'_> {
 
         let mut var_ids = Vec::new();
         let mut cases = Vec::new();
+        let mut removed_case = false;
         let mut exact = None;
         let mut may_match_other_than_exact = false;
+        // Case tests are only evaluated while searching for a match, but their
+        // consequents can be entered by falling through from an earlier case.
+        let mut may_fall_through = false;
+        let mut has_reachable_default = false;
 
         for (idx, case) in stmt.cases.iter_mut().enumerate() {
+            let case_terminates = case.cons.iter().rev().any(|s| s.terminates());
+
             if let Some(test) = case.test.as_ref() {
                 if let Some(e) = is_primitive(self.expr_ctx, tail_expr(test)) {
                     if match (e, tail) {
@@ -108,7 +115,34 @@ impl Pure<'_> {
                         exact = Some(idx);
                         break;
                     } else {
-                        var_ids.extend(extract_var_ids(&case.cons))
+                        let test = case.test.take().unwrap();
+
+                        if may_fall_through {
+                            // A preceding unknown case may have matched and entered this
+                            // consequent without evaluating this case test. Keep both the
+                            // body and any abrupt completion reachable by that path.
+                            case.test = Some(test);
+                            cases.push(case.take());
+                            may_fall_through = !case_terminates;
+                        } else if case.cons.is_empty() && test.may_have_side_effects(self.expr_ctx)
+                        {
+                            // This case is already a search-only case from an earlier pass.
+                            // Retain it unchanged so that compression reaches a fixed point.
+                            case.test = Some(test);
+                            cases.push(case.take());
+                        } else {
+                            removed_case = true;
+                            var_ids.extend(extract_var_ids(&case.cons));
+
+                            if test.may_have_side_effects(self.expr_ctx) {
+                                // Keep the original test in the search path. Its primitive tail is
+                                // known not to match, while an expression statement would evaluate
+                                // it incorrectly after an earlier fallthrough match.
+                                case.test = Some(test);
+                                case.cons = Default::default();
+                                cases.push(case.take());
+                            }
+                        }
                     }
                 } else {
                     if !may_match_other_than_exact
@@ -118,10 +152,13 @@ impl Pure<'_> {
                         may_match_other_than_exact = true;
                     }
 
-                    cases.push(case.take())
+                    cases.push(case.take());
+                    may_fall_through = !case_terminates;
                 }
             } else {
-                cases.push(case.take())
+                has_reachable_default |= may_fall_through;
+                cases.push(case.take());
+                may_fall_through &= !case_terminates;
             }
         }
 
@@ -137,7 +174,7 @@ impl Pure<'_> {
                 }
             }
 
-            if !may_match_other_than_exact {
+            if !may_match_other_than_exact && !has_reachable_default {
                 // remove default if there's an exact match
                 cases.retain(|case| {
                     if case.test.is_some() {
@@ -161,7 +198,7 @@ impl Pure<'_> {
             }
         }
 
-        if cases.len() == stmt.cases.len() {
+        if !removed_case && cases.len() == stmt.cases.len() {
             stmt.cases = cases;
             return;
         }
@@ -714,9 +751,9 @@ fn remove_last_break(stmt: &mut Vec<Stmt>) -> bool {
             if let Some(h) = t.handler.as_mut() {
                 changed |= remove_last_break(&mut h.body.stmts);
             }
-            if let Some(f) = t.finalizer.as_mut() {
-                changed |= remove_last_break(&mut f.stmts);
-            }
+            // A break in a finalizer replaces a pending throw or return from the try or
+            // catch block, so removing it changes the completion of the
+            // enclosing switch.
             changed
         }
         Some(Stmt::Block(BlockStmt { stmts, .. })) => remove_last_break(stmts),
@@ -761,6 +798,16 @@ impl Visit for BreakFinder {
             self.top_level = true;
         } else {
             i.visit_children_with(self);
+        }
+    }
+
+    fn visit_try_stmt(&mut self, t: &TryStmt) {
+        if self.top_level {
+            self.top_level = false;
+            t.visit_children_with(self);
+            self.top_level = true;
+        } else {
+            t.visit_children_with(self);
         }
     }
 

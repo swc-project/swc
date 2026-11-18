@@ -78,32 +78,43 @@
                     }
                   }
                 },
-                "typeAnnotation": null,
-                "body": {
-                  "type": "BlockStatement",
+                "function": {
+                  "params": [],
+                  "decorators": [],
                   "span": {
-                    "start": 45,
+                    "start": 31,
                     "end": 57
                   },
                   "ctxt": 0,
-                  "stmts": [
-                    {
-                      "type": "ReturnStatement",
-                      "span": {
-                        "start": 47,
-                        "end": 55
-                      },
-                      "argument": {
-                        "type": "NumericLiteral",
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 45,
+                      "end": 57
+                    },
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
                         "span": {
-                          "start": 54,
+                          "start": 47,
                           "end": 55
                         },
-                        "value": 0.0,
-                        "raw": "0"
+                        "argument": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 54,
+                            "end": 55
+                          },
+                          "value": 0.0,
+                          "raw": "0"
+                        }
                       }
-                    }
-                  ]
+                    ]
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               },
               {
@@ -145,40 +156,60 @@
                     }
                   }
                 },
-                "thisParam": null,
-                "param": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 75,
-                    "end": 76
-                  },
-                  "ctxt": 0,
-                  "value": "v",
-                  "optional": false,
-                  "typeAnnotation": {
-                    "type": "TsTypeAnnotation",
-                    "span": {
-                      "start": 76,
-                      "end": 84
-                    },
-                    "typeAnnotation": {
-                      "type": "TsKeywordType",
+                "function": {
+                  "params": [
+                    {
+                      "type": "Parameter",
                       "span": {
-                        "start": 78,
+                        "start": 75,
                         "end": 84
                       },
-                      "kind": "string"
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 75,
+                          "end": 76
+                        },
+                        "ctxt": 0,
+                        "value": "v",
+                        "optional": false,
+                        "typeAnnotation": {
+                          "type": "TsTypeAnnotation",
+                          "span": {
+                            "start": 76,
+                            "end": 84
+                          },
+                          "typeAnnotation": {
+                            "type": "TsKeywordType",
+                            "span": {
+                              "start": 78,
+                              "end": 84
+                            },
+                            "kind": "string"
+                          }
+                        }
+                      }
                     }
-                  }
-                },
-                "body": {
-                  "type": "BlockStatement",
+                  ],
+                  "decorators": [],
                   "span": {
-                    "start": 86,
+                    "start": 63,
                     "end": 89
                   },
                   "ctxt": 0,
-                  "stmts": []
+                  "body": {
+                    "type": "FunctionBody",
+                    "span": {
+                      "start": 86,
+                      "end": 89
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 }
               }
             ]

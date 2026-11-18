@@ -1,0 +1,5 @@
+# Native fixture loading without the security opt-out, with and without unshare.
+default
+custom
+temporary
+fallback

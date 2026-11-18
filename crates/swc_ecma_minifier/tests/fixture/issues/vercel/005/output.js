@@ -4,7 +4,7 @@ export default function(value, options) {
             var str = value;
             if ((str = String(str)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
             let match = /^(-?(?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str);
-            if (!match) return NaN;
+            if (!match) return 0 / 0;
             let n = parseFloat(match[1]), type = (match[2] || "ms").toLowerCase();
             switch(type){
                 case "years":

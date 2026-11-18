@@ -1,0 +1,35 @@
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,0EAA0E;AAC1E,SAASA,QAAQ,EAAEC,MAAM,EAAEC,YAAY,QAAQ,iBAAiB;AAEhEF,SAAS,SAASG;IACd,IAAMC,MAAM,IAAIC,QAAQ,uBAAuB;QAC3CC,MAAM;QACNC,QAAQ;QACRC,SAAS;YACL,eAAe;QACnB;IACJ;IAEA,8DAA8D;IAC9DN,aAAa,WAAW,AAACE,IAAYK,WAAW;IAChDP,aAAaE,IAAIM,GAAG,EAAE;IACtBR,aAAaE,IAAII,OAAO,CAACG,GAAG,CAAC,gBAAgB;AACjD;AAEAX,SAAS,SAASY;IACd,IAAMC,IAAI,IAAIR,QAAQ;IACtB,8DAA8D;IAC7DQ,EAAUJ,WAAW,GAAG;IACzBI,EAAEL,OAAO,CAACM,GAAG,CAAC,eAAe;IAE7B,IAAMV,MAAM,IAAIC,QAAQQ;IAExB,8DAA8D;IAC9DX,aAAa,AAACE,IAAYK,WAAW,EAAE,AAACI,EAAUJ,WAAW;IAC7DP,aAAaE,IAAIM,GAAG,EAAEG,EAAEH,GAAG;IAC3BR,aAAaE,IAAII,OAAO,CAACG,GAAG,CAAC,gBAAgBE,EAAEL,OAAO,CAACG,GAAG,CAAC;AAC/D;AAEAX,SAAS,SAAee;;YAEdC,QACAC,IAIAC,IAEAC,IACAC;;;;oBATN,uBAAuB;oBACjBJ,SAAS,IAAIX,QAAQ,IAAI;wBAAEC,MAAM;oBAAc,GAAGA,IAAI;oBACtDW,KAAK,IAAIZ,QAAQ,uBAAuB;wBAC1CC,MAAMU;oBACV;oBAEME,KAAKD,GAAGI,KAAK;oBAER;;wBAAMJ,GAAGK,IAAI;;;oBAAlBH,KAAK;oBACA;;wBAAMD,GAAGI,IAAI;;;oBAAlBF,KAAK;oBAEXlB,aAAaiB,IAAIC;oBAEjB,8DAA8D;oBAC9DnB,OAAO,AAACgB,GAAWR,WAAW,KAAK,AAACS,GAAWT,WAAW;;;;;;IAC9D",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "fromInit",
+    "req",
+    "Request",
+    "body",
+    "method",
+    "headers",
+    "_bodySource",
+    "url",
+    "get",
+    "fromRequest",
+    "r",
+    "set",
+    "cloneRequestBodyStream",
+    "stream",
+    "r1",
+    "r2",
+    "b1",
+    "b2",
+    "clone",
+    "text"
+  ],
+  "sources": [
+    "../input/request_test.ts"
+  ],
+  "sourcesContent": [
+    "// Copyright 2018-2020 the Deno authors. All rights reserved. MIT license.\nimport { unitTest, assert, assertEquals } from \"./test_util.ts\";\n\nunitTest(function fromInit(): void {\n    const req = new Request(\"https://example.com\", {\n        body: \"ahoyhoy\",\n        method: \"POST\",\n        headers: {\n            \"test-header\": \"value\",\n        },\n    });\n\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    assertEquals(\"ahoyhoy\", (req as any)._bodySource);\n    assertEquals(req.url, \"https://example.com\");\n    assertEquals(req.headers.get(\"test-header\"), \"value\");\n});\n\nunitTest(function fromRequest(): void {\n    const r = new Request(\"https://example.com\");\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    (r as any)._bodySource = \"ahoyhoy\";\n    r.headers.set(\"test-header\", \"value\");\n\n    const req = new Request(r);\n\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    assertEquals((req as any)._bodySource, (r as any)._bodySource);\n    assertEquals(req.url, r.url);\n    assertEquals(req.headers.get(\"test-header\"), r.headers.get(\"test-header\"));\n});\n\nunitTest(async function cloneRequestBodyStream(): Promise<void> {\n    // hack to get a stream\n    const stream = new Request(\"\", { body: \"a test body\" }).body;\n    const r1 = new Request(\"https://example.com\", {\n        body: stream,\n    });\n\n    const r2 = r1.clone();\n\n    const b1 = await r1.text();\n    const b2 = await r2.text();\n\n    assertEquals(b1, b2);\n\n    // eslint-disable-next-line @typescript-eslint/no-explicit-any\n    assert((r1 as any)._bodySource !== (r2 as any)._bodySource);\n});\n"
+  ],
+  "version": 3
+}

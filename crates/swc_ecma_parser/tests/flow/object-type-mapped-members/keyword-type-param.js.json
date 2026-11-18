@@ -1,0 +1,595 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 81,
+    "end": 348
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 81,
+        "end": 151
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 86,
+          "end": 107
+        },
+        "ctxt": 0,
+        "value": "PropThenKeywordMapped",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeLiteral",
+        "span": {
+          "start": 110,
+          "end": 150
+        },
+        "members": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 112,
+              "end": 124
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 112,
+                "end": 115
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 115,
+                "end": 123
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 117,
+                  "end": 123
+                },
+                "kind": "string"
+              }
+            }
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 125,
+              "end": 148
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 125,
+                "end": 148
+              },
+              "ctxt": 0,
+              "value": "__flow_mapped",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 125,
+                "end": 148
+              },
+              "typeAnnotation": {
+                "type": "TsMappedType",
+                "span": {
+                  "start": 125,
+                  "end": 148
+                },
+                "readonly": null,
+                "typeParam": {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 126,
+                    "end": 139
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 126,
+                      "end": 128
+                    },
+                    "ctxt": 0,
+                    "value": "in",
+                    "optional": false
+                  },
+                  "in": false,
+                  "out": false,
+                  "const": false,
+                  "constraint": {
+                    "type": "TsTypeOperator",
+                    "span": {
+                      "start": 132,
+                      "end": 139
+                    },
+                    "op": "keyof",
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 138,
+                        "end": 139
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 138,
+                          "end": 139
+                        },
+                        "ctxt": 0,
+                        "value": "O",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  },
+                  "default": null
+                },
+                "nameType": null,
+                "optional": null,
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 142,
+                    "end": 148
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 152,
+        "end": 222
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 157,
+          "end": 178
+        },
+        "ctxt": 0,
+        "value": "KeywordMappedThenProp",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeLiteral",
+        "span": {
+          "start": 181,
+          "end": 221
+        },
+        "members": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 183,
+              "end": 207
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 183,
+                "end": 207
+              },
+              "ctxt": 0,
+              "value": "__flow_mapped",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 183,
+                "end": 207
+              },
+              "typeAnnotation": {
+                "type": "TsMappedType",
+                "span": {
+                  "start": 183,
+                  "end": 207
+                },
+                "readonly": null,
+                "typeParam": {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 184,
+                    "end": 197
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 184,
+                      "end": 186
+                    },
+                    "ctxt": 0,
+                    "value": "in",
+                    "optional": false
+                  },
+                  "in": false,
+                  "out": false,
+                  "const": false,
+                  "constraint": {
+                    "type": "TsTypeOperator",
+                    "span": {
+                      "start": 190,
+                      "end": 197
+                    },
+                    "op": "keyof",
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 196,
+                        "end": 197
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 196,
+                          "end": 197
+                        },
+                        "ctxt": 0,
+                        "value": "O",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  },
+                  "default": null
+                },
+                "nameType": null,
+                "optional": null,
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 200,
+                    "end": 206
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 208,
+              "end": 219
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 208,
+                "end": 211
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 211,
+                "end": 219
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 213,
+                  "end": 219
+                },
+                "kind": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 223,
+        "end": 276
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 228,
+          "end": 245
+        },
+        "ctxt": 0,
+        "value": "KeywordMappedOnly",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeLiteral",
+        "span": {
+          "start": 248,
+          "end": 275
+        },
+        "members": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 250,
+              "end": 273
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 250,
+                "end": 273
+              },
+              "ctxt": 0,
+              "value": "__flow_mapped",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 250,
+                "end": 273
+              },
+              "typeAnnotation": {
+                "type": "TsMappedType",
+                "span": {
+                  "start": 250,
+                  "end": 273
+                },
+                "readonly": null,
+                "typeParam": {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 251,
+                    "end": 264
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 251,
+                      "end": 253
+                    },
+                    "ctxt": 0,
+                    "value": "in",
+                    "optional": false
+                  },
+                  "in": false,
+                  "out": false,
+                  "const": false,
+                  "constraint": {
+                    "type": "TsTypeOperator",
+                    "span": {
+                      "start": 257,
+                      "end": 264
+                    },
+                    "op": "keyof",
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 263,
+                        "end": 264
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 263,
+                          "end": 264
+                        },
+                        "ctxt": 0,
+                        "value": "O",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  },
+                  "default": null
+                },
+                "nameType": null,
+                "optional": null,
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 267,
+                    "end": 273
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 277,
+        "end": 348
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 282,
+          "end": 301
+        },
+        "ctxt": 0,
+        "value": "KeywordMappedSigned",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTypeLiteral",
+        "span": {
+          "start": 304,
+          "end": 347
+        },
+        "members": [
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 306,
+              "end": 318
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 306,
+                "end": 309
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 309,
+                "end": 317
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 311,
+                  "end": 317
+                },
+                "kind": "string"
+              }
+            }
+          },
+          {
+            "type": "TsPropertySignature",
+            "span": {
+              "start": 319,
+              "end": 345
+            },
+            "readonly": false,
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 319,
+                "end": 345
+              },
+              "ctxt": 0,
+              "value": "__flow_mapped",
+              "optional": false
+            },
+            "computed": false,
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 319,
+                "end": 345
+              },
+              "typeAnnotation": {
+                "type": "TsMappedType",
+                "span": {
+                  "start": 319,
+                  "end": 345
+                },
+                "readonly": null,
+                "typeParam": {
+                  "type": "TsTypeParameter",
+                  "span": {
+                    "start": 320,
+                    "end": 334
+                  },
+                  "name": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 320,
+                      "end": 323
+                    },
+                    "ctxt": 0,
+                    "value": "out",
+                    "optional": false
+                  },
+                  "in": false,
+                  "out": false,
+                  "const": false,
+                  "constraint": {
+                    "type": "TsTypeOperator",
+                    "span": {
+                      "start": 327,
+                      "end": 334
+                    },
+                    "op": "keyof",
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 333,
+                        "end": 334
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 333,
+                          "end": 334
+                        },
+                        "ctxt": 0,
+                        "value": "O",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  },
+                  "default": null
+                },
+                "nameType": null,
+                "optional": "-",
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 339,
+                    "end": 345
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

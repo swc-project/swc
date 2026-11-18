@@ -1122,8 +1122,7 @@
                     if (!data.disabled) {
                         event = fixEvent(event);
                         var handlers = data.handlers[event.type];
-                        if (handlers) for(var handlersCopy = handlers.slice(0), m = 0, n = handlersCopy.length; m < n; m++)if (event.isImmediatePropagationStopped()) break;
-                        else try {
+                        if (handlers) for(var handlersCopy = handlers.slice(0), m = 0, n = handlersCopy.length; m < n && !event.isImmediatePropagationStopped(); m++)try {
                             handlersCopy[m].call(elem, event, hash);
                         } catch (e) {
                             log$1.error(e);
@@ -3745,15 +3744,15 @@
                         id: options.id || "vjs_track_" + _guid++,
                         kind: options.kind || "",
                         language: options.language || ""
-                    }, label = options.label || "", _loop = function(key) {
+                    }, label = options.label || "";
+                    for(var key in trackProps)!function(key) {
                         Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__ /* ["default"] */ .Z)(_this), key, {
                             get: function() {
                                 return trackProps[key];
                             },
                             set: function() {}
                         });
-                    };
-                    for(var key in trackProps)_loop(key);
+                    }(key);
                     return(/**
                      * @memberof Track
                      * @member {string} label
@@ -6021,7 +6020,7 @@
              *         Time formatted as H:MM:SS or M:SS
              */ var defaultImplementation = function(seconds, guide) {
                 var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600), gm = Math.floor(guide / 60 % 60), gh = Math.floor(guide / 3600);
-                return (isNaN(seconds) || seconds === 1 / 0) && // '-' is false for all relational operators (e.g. <, >=) so this setting
+                return (isNaN(seconds) || 1 / 0 === seconds) && // '-' is false for all relational operators (e.g. <, >=) so this setting
                 // will add the minimum number of fields specified by the guide
                 (h = m = s = "-"), // Always show at least one digit of minutes.
                 m = (((h = h > 0 || gh > 0 ? h + ":" : "") || gm >= 10) && m < 10 ? "0" + m : m) + ":", h + m + (s = s < 10 ? "0" + s : s);
@@ -6382,7 +6381,7 @@
                  *
                  * @listens Player#durationchange
                  */ _proto.updateShowing = function(event) {
-                    this.player().duration() === 1 / 0 ? this.show() : this.hide();
+                    1 / 0 === this.player().duration() ? this.show() : this.hide();
                 }, LiveDisplay;
             }(Component$1);
             Component$1.registerComponent("LiveDisplay", LiveDisplay);
@@ -7050,7 +7049,7 @@
                             var seekableStart = liveTracker.seekableStart(), seekableEnd = liveTracker.liveCurrentTime();
                             // this will cause newTime to be Infinity, which is
                             // not a valid currentTime.
-                            if ((newTime = seekableStart + distance * liveTracker.liveWindow()) >= seekableEnd && (newTime = seekableEnd), newTime <= seekableStart && (newTime = seekableStart + 0.1), newTime === 1 / 0) return;
+                            if ((newTime = seekableStart + distance * liveTracker.liveWindow()) >= seekableEnd && (newTime = seekableEnd), newTime <= seekableStart && (newTime = seekableStart + 0.1), 1 / 0 === newTime) return;
                         } else (newTime = distance * this.player_.duration()) === this.player_.duration() && (newTime -= 0.1);
                          // Set new time (tell player to seek to new time)
                         this.userSeek_(newTime);
@@ -9899,7 +9898,12 @@
                         '<select aria-labelledby="' + selectLabelledbyIds + '">'
                     ].concat(config.options.map(function(o) {
                         var optionId = id + "-" + o[1].replace(/\W+/g, "");
-                        return '<option id="' + optionId + '" value="' + o[0] + '" aria-labelledby="' + selectLabelledbyIds + " " + optionId + '">' + _this2.localize(o[1]) + "</option>";
+                        return [
+                            '<option id="' + optionId + '" value="' + o[0] + '" ',
+                            'aria-labelledby="' + selectLabelledbyIds + " " + optionId + '">',
+                            _this2.localize(o[1]),
+                            "</option>"
+                        ].join("");
                     })).concat("</select>").join("");
                 }, /**
                  * Create foreground color element for the component
@@ -9910,7 +9914,17 @@
                  * @private
                  */ _proto.createElFgColor_ = function() {
                     var legendId = "captions-text-legend-" + this.id_;
-                    return '<fieldset class="vjs-fg-color vjs-track-setting"><legend id="' + legendId + '">' + this.localize("Text") + "</legend>" + this.createElSelect_("color", legendId) + '<span class="vjs-text-opacity vjs-opacity">' + this.createElSelect_("textOpacity", legendId) + "</span></fieldset>";
+                    return [
+                        '<fieldset class="vjs-fg-color vjs-track-setting">',
+                        '<legend id="' + legendId + '">',
+                        this.localize("Text"),
+                        "</legend>",
+                        this.createElSelect_("color", legendId),
+                        '<span class="vjs-text-opacity vjs-opacity">',
+                        this.createElSelect_("textOpacity", legendId),
+                        "</span>",
+                        "</fieldset>"
+                    ].join("");
                 }, /**
                  * Create background color element for the component
                  *
@@ -9920,7 +9934,17 @@
                  * @private
                  */ _proto.createElBgColor_ = function() {
                     var legendId = "captions-background-" + this.id_;
-                    return '<fieldset class="vjs-bg-color vjs-track-setting"><legend id="' + legendId + '">' + this.localize("Background") + "</legend>" + this.createElSelect_("backgroundColor", legendId) + '<span class="vjs-bg-opacity vjs-opacity">' + this.createElSelect_("backgroundOpacity", legendId) + "</span></fieldset>";
+                    return [
+                        '<fieldset class="vjs-bg-color vjs-track-setting">',
+                        '<legend id="' + legendId + '">',
+                        this.localize("Background"),
+                        "</legend>",
+                        this.createElSelect_("backgroundColor", legendId),
+                        '<span class="vjs-bg-opacity vjs-opacity">',
+                        this.createElSelect_("backgroundOpacity", legendId),
+                        "</span>",
+                        "</fieldset>"
+                    ].join("");
                 }, /**
                  * Create window color element for the component
                  *
@@ -9930,7 +9954,17 @@
                  * @private
                  */ _proto.createElWinColor_ = function() {
                     var legendId = "captions-window-" + this.id_;
-                    return '<fieldset class="vjs-window-color vjs-track-setting"><legend id="' + legendId + '">' + this.localize("Window") + "</legend>" + this.createElSelect_("windowColor", legendId) + '<span class="vjs-window-opacity vjs-opacity">' + this.createElSelect_("windowOpacity", legendId) + "</span></fieldset>";
+                    return [
+                        '<fieldset class="vjs-window-color vjs-track-setting">',
+                        '<legend id="' + legendId + '">',
+                        this.localize("Window"),
+                        "</legend>",
+                        this.createElSelect_("windowColor", legendId),
+                        '<span class="vjs-window-opacity vjs-opacity">',
+                        this.createElSelect_("windowOpacity", legendId),
+                        "</span>",
+                        "</fieldset>"
+                    ].join("");
                 }, /**
                  * Create color elements for the component
                  *
@@ -9957,7 +9991,17 @@
                  */ _proto.createElFont_ = function() {
                     return createEl("div", {
                         className: "vjs-track-settings-font",
-                        innerHTML: '<fieldset class="vjs-font-percent vjs-track-setting">' + this.createElSelect_("fontPercent", "", "legend") + '</fieldset><fieldset class="vjs-edge-style vjs-track-setting">' + this.createElSelect_("edgeStyle", "", "legend") + '</fieldset><fieldset class="vjs-font-family vjs-track-setting">' + this.createElSelect_("fontFamily", "", "legend") + "</fieldset>"
+                        innerHTML: [
+                            '<fieldset class="vjs-font-percent vjs-track-setting">',
+                            this.createElSelect_("fontPercent", "", "legend"),
+                            "</fieldset>",
+                            '<fieldset class="vjs-edge-style vjs-track-setting">',
+                            this.createElSelect_("edgeStyle", "", "legend"),
+                            "</fieldset>",
+                            '<fieldset class="vjs-font-family vjs-track-setting">',
+                            this.createElSelect_("fontFamily", "", "legend"),
+                            "</fieldset>"
+                        ].join("")
                     });
                 }, /**
                  * Create controls for the component
@@ -9970,7 +10014,13 @@
                     var defaultsDescription = this.localize("restore all settings to the default values");
                     return createEl("div", {
                         className: "vjs-track-settings-controls",
-                        innerHTML: '<button type="button" class="vjs-default-button" title="' + defaultsDescription + '">' + this.localize("Reset") + '<span class="vjs-control-text"> ' + defaultsDescription + '</span></button><button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>"
+                        innerHTML: [
+                            '<button type="button" class="vjs-default-button" title="' + defaultsDescription + '">',
+                            this.localize("Reset"),
+                            '<span class="vjs-control-text"> ' + defaultsDescription + "</span>",
+                            "</button>",
+                            '<button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>"
+                        ].join("")
                     });
                 }, _proto.content = function() {
                     return [
@@ -10198,7 +10248,7 @@
                  * toggle tracking based on document visiblility
                  */ var _proto = LiveTracker.prototype;
                 return _proto.handleVisibilityChange = function() {
-                    this.player_.duration() === 1 / 0 && (global_document__WEBPACK_IMPORTED_MODULE_1___default().hidden ? this.stopTracking() : this.startTracking());
+                    1 / 0 === this.player_.duration() && (global_document__WEBPACK_IMPORTED_MODULE_1___default().hidden ? this.stopTracking() : this.startTracking());
                 }, /**
                  * all the functionality for tracking when seek end changes
                  * and for tracking how far past seek end we should be
@@ -10208,7 +10258,7 @@
                         var newTime = Number(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now().toFixed(4)), deltaTime = -1 === this.lastTime_ ? 0 : (newTime - this.lastTime_) / 1000;
                         this.lastTime_ = newTime, this.pastSeekEnd_ = this.pastSeekEnd() + deltaTime;
                         var liveCurrentTime = this.liveCurrentTime(), currentTime = this.player_.currentTime(), isBehind = this.player_.paused() || this.seekedBehindLive_ || Math.abs(liveCurrentTime - currentTime) > this.options_.liveTolerance;
-                        this.timeupdateSeen_ && liveCurrentTime !== 1 / 0 || (isBehind = !1), isBehind !== this.behindLiveEdge_ && (this.behindLiveEdge_ = isBehind, this.trigger("liveedgechange"));
+                        this.timeupdateSeen_ && 1 / 0 !== liveCurrentTime || (isBehind = !1), isBehind !== this.behindLiveEdge_ && (this.behindLiveEdge_ = isBehind, this.trigger("liveedgechange"));
                     }
                 }, /**
                  * handle a durationchange event on the player
@@ -10218,7 +10268,7 @@
                 }, /**
                  * start/stop tracking
                  */ _proto.toggleTracking = function() {
-                    this.player_.duration() === 1 / 0 && this.liveWindow() >= this.options_.trackingThreshold ? (this.player_.options_.liveui && this.player_.addClass("vjs-liveui"), this.startTracking()) : (this.player_.removeClass("vjs-liveui"), this.stopTracking());
+                    1 / 0 === this.player_.duration() && this.liveWindow() >= this.options_.trackingThreshold ? (this.player_.options_.liveui && this.player_.addClass("vjs-liveui"), this.startTracking()) : (this.player_.removeClass("vjs-liveui"), this.stopTracking());
                 }, /**
                  * start tracking live playback
                  */ _proto.startTracking = function() {
@@ -10292,7 +10342,7 @@
                  *         the live video.
                  */ _proto.liveWindow = function() {
                     var liveCurrentTime = this.liveCurrentTime(); // if liveCurrenTime is Infinity then we don't have a liveWindow at all
-                    return liveCurrentTime === 1 / 0 ? 0 : liveCurrentTime - this.seekableStart();
+                    return 1 / 0 === liveCurrentTime ? 0 : liveCurrentTime - this.seekableStart();
                 }, /**
                  * Determines if the player is live, only checks if this component
                  * is tracking live playback or not
@@ -10765,9 +10815,9 @@
                     // playback has started, which triggers the live display erroneously.
                     // Return NaN if playback has not started and trigger a durationupdate once
                     // the duration can be reliably known.
-                    this.el_.duration === 1 / 0 && IS_ANDROID && IS_CHROME && 0 === this.el_.currentTime ? (this.on("timeupdate", function checkProgress() {
-                        _this5.el_.currentTime > 0 && (_this5.el_.duration === 1 / 0 && _this5.trigger("durationchange"), _this5.off("timeupdate", checkProgress));
-                    }), NaN) : this.el_.duration || NaN);
+                    1 / 0 === this.el_.duration && IS_ANDROID && IS_CHROME && 0 === this.el_.currentTime ? (this.on("timeupdate", function checkProgress() {
+                        _this5.el_.currentTime > 0 && (1 / 0 === _this5.el_.duration && _this5.trigger("durationchange"), _this5.off("timeupdate", checkProgress));
+                    }), 0 / 0) : this.el_.duration || 0 / 0);
                 }, /**
                  * Get the current width of the HTML5 media element.
                  *
@@ -11046,7 +11096,7 @@
                 try {
                     var muted = Html5.TEST_VID.muted; // in some versions of iOS muted property doesn't always
                     return(// work, so we want to set both property and attribute
-                    Html5.TEST_VID.muted = !muted, Html5.TEST_VID.muted ? setAttribute(Html5.TEST_VID, "muted", "muted") : removeAttribute(Html5.TEST_VID, "muted", "muted"), muted !== Html5.TEST_VID.muted);
+                    Html5.TEST_VID.muted = !muted, Html5.TEST_VID.muted ? setAttribute(Html5.TEST_VID, "muted", "muted") : removeAttribute(Html5.TEST_VID, "muted"), muted !== Html5.TEST_VID.muted);
                 } catch (e) {
                     return !1;
                 }
@@ -13009,7 +13059,7 @@
                         currentTime: 0,
                         initTime: 0,
                         inactivityTimeout: this.options_.inactivityTimeout,
-                        duration: NaN,
+                        duration: 0 / 0,
                         lastVolume: 1,
                         lastPlaybackRate: this.defaultPlaybackRate(),
                         media: null,
@@ -13221,10 +13271,10 @@
                  *         - The duration of the video in seconds when getting
                  */ _proto.duration = function(seconds) {
                     if (void 0 === seconds) // return NaN if the duration is not known
-                    return void 0 !== this.cache_.duration ? this.cache_.duration : NaN;
+                    return void 0 !== this.cache_.duration ? this.cache_.duration : 0 / 0;
                     (seconds = parseFloat(seconds)) < 0 && (seconds = 1 / 0), seconds !== this.cache_.duration && (// Cache the last set value for optimized scrubbing (esp. Flash)
                     // TODO: Required for techs other than Flash?
-                    this.cache_.duration = seconds, seconds === 1 / 0 ? this.addClass("vjs-live") : this.removeClass("vjs-live"), isNaN(seconds) || // Do not fire durationchange unless the duration value is known.
+                    this.cache_.duration = seconds, 1 / 0 === seconds ? this.addClass("vjs-live") : this.removeClass("vjs-live"), isNaN(seconds) || // Do not fire durationchange unless the duration value is known.
                     // @see [Spec]{@link https://www.w3.org/TR/2011/WD-html5-20110113/video.html#media-element-load-algorithm}
                     /**
                              * @event Player#durationchange
@@ -15632,7 +15682,7 @@
             }, isBlacklisted = function(playlist) {
                 return playlist.excludeUntil && playlist.excludeUntil > Date.now();
             }, isIncompatible = function(playlist) {
-                return playlist.excludeUntil && playlist.excludeUntil === 1 / 0;
+                return playlist.excludeUntil && 1 / 0 === playlist.excludeUntil;
             }, isEnabled = function(playlist) {
                 var blacklisted = isBlacklisted(playlist);
                 return !playlist.disabled && !blacklisted;
@@ -15768,7 +15818,7 @@
                 },
                 hasAttribute: hasAttribute,
                 estimateSegmentRequestTime: function(segmentDuration, bandwidth, playlist, bytesReceived) {
-                    return (void 0 === bytesReceived && (bytesReceived = 0), hasAttribute("BANDWIDTH", playlist)) ? (segmentDuration * playlist.attributes.BANDWIDTH - 8 * bytesReceived) / bandwidth : NaN;
+                    return (void 0 === bytesReceived && (bytesReceived = 0), hasAttribute("BANDWIDTH", playlist)) ? (segmentDuration * playlist.attributes.BANDWIDTH - 8 * bytesReceived) / bandwidth : 0 / 0;
                 },
                 isLowestEnabledRendition: isLowestEnabledRendition,
                 isAudioOnly: isAudioOnly,
@@ -16262,7 +16312,7 @@
                 }, PlaylistLoader;
             }(EventTarget$1), videojsXHR = videojs.xhr, mergeOptions$1 = videojs.mergeOptions, callbackWrapper = function(request, error, response, callback) {
                 var reqResponse = "arraybuffer" === request.responseType ? request.response : request.responseText;
-                !error && reqResponse && (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
+                !error && reqResponse && (request.responseTime = Date.now(), request.roundTripTime = request.responseTime - request.requestTime, request.bytesReceived = reqResponse.byteLength || reqResponse.length, request.bandwidth || (request.bandwidth = Math.floor(request.bytesReceived / request.roundTripTime * 8 * 1000))), response.headers && (request.responseHeaders = response.headers), error && "ETIMEDOUT" === error.code && (request.timedout = !0), error || request.aborted || 200 === response.statusCode || 206 === response.statusCode || 0 === response.statusCode || (error = Error("XHR Failed with a response of: " + (request && (reqResponse || request.responseText)))), callback(error, request);
             }, xhrFactory = function() {
                 var xhr = function XhrFunction(options, callback) {
                     // Add a default timeout
@@ -16899,10 +16949,10 @@
                             if (callbacks = listeners[type]) // can add a significant amount of overhead. Avoid the
                             // intermediate object creation for the common case of a
                             // single callback argument
-                            if (2 == arguments.length) for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                            if (2 == arguments.length) for(length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
                             else {
                                 for(args = [], i = arguments.length, i = 1; i < arguments.length; ++i)args.push(arguments[i]);
-                                for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].apply(this, args);
+                                for(length = callbacks.length, i = 0; i < length; ++i)callbacks[i].apply(this, args);
                             }
                              // Slicing the arguments on every invocation of this method
                         }, /**
@@ -17760,7 +17810,7 @@
                     return sample.dataOffset = dataOffset, sample.compositionTimeOffset = frame.pts - frame.dts, sample.duration = frame.duration, sample.size = 4 * frame.length, sample.size += frame.byteLength, frame.keyFrame && (sample.flags.dependsOn = 2, sample.flags.isNonSyncSample = 0), sample;
                 }, frameUtils_groupNalsIntoFrames = function(nalUnits) {
                     var i, currentNal, currentFrame = [], frames = []; // TODO added for LHLS, make sure this is OK
-                    for(i = 0, frames.byteLength = 0, frames.nalCount = 0, frames.duration = 0, currentFrame.byteLength = 0; i < nalUnits.length; i++)"access_unit_delimiter_rbsp" === (currentNal = nalUnits[i]).nalUnitType ? (currentFrame.length && (currentFrame.duration = currentNal.dts - currentFrame.dts, frames.byteLength += currentFrame.byteLength, frames.nalCount += currentFrame.length, frames.duration += currentFrame.duration, frames.push(currentFrame)), (currentFrame = [
+                    for(frames.byteLength = 0, frames.nalCount = 0, frames.duration = 0, currentFrame.byteLength = 0, i = 0; i < nalUnits.length; i++)"access_unit_delimiter_rbsp" === (currentNal = nalUnits[i]).nalUnitType ? (currentFrame.length && (currentFrame.duration = currentNal.dts - currentFrame.dts, frames.byteLength += currentFrame.byteLength, frames.nalCount += currentFrame.length, frames.duration += currentFrame.duration, frames.push(currentFrame)), (currentFrame = [
                         currentNal
                     ]).byteLength = currentNal.data.byteLength, currentFrame.pts = currentNal.pts, currentFrame.dts = currentNal.dts) : ("slice_layer_without_partitioning_rbsp_idr" === currentNal.nalUnitType && (currentFrame.keyFrame = !0), currentFrame.duration = currentNal.dts - currentFrame.dts, currentFrame.byteLength += currentNal.data.byteLength, currentFrame.push(currentNal));
                      // For the last frame, use the duration of the previous frame if we
@@ -17768,8 +17818,8 @@
                     frames.byteLength += currentFrame.byteLength, frames.nalCount += currentFrame.length, frames.duration += currentFrame.duration, frames.push(currentFrame), frames;
                 }, frameUtils_groupFramesIntoGops = function(frames) {
                     var i, currentFrame, currentGop = [], gops = []; // We must pre-set some of the values on the Gop since we
-                    for(i = 0, // keep running totals of these values
-                    currentGop.byteLength = 0, currentGop.nalCount = 0, currentGop.duration = 0, currentGop.pts = frames[0].pts, currentGop.dts = frames[0].dts, gops.byteLength = 0, gops.nalCount = 0, gops.duration = 0, gops.pts = frames[0].pts, gops.dts = frames[0].dts; i < frames.length; i++)(currentFrame = frames[i]).keyFrame ? (currentGop.length && (gops.push(currentGop), gops.byteLength += currentGop.byteLength, gops.nalCount += currentGop.nalCount, gops.duration += currentGop.duration), (currentGop = [
+                    for(// keep running totals of these values
+                    currentGop.byteLength = 0, currentGop.nalCount = 0, currentGop.duration = 0, currentGop.pts = frames[0].pts, currentGop.dts = frames[0].dts, gops.byteLength = 0, gops.nalCount = 0, gops.duration = 0, gops.pts = frames[0].pts, gops.dts = frames[0].dts, i = 0; i < frames.length; i++)(currentFrame = frames[i]).keyFrame ? (currentGop.length && (gops.push(currentGop), gops.byteLength += currentGop.byteLength, gops.nalCount += currentGop.nalCount, gops.duration += currentGop.duration), (currentGop = [
                         currentFrame
                     ]).nalCount = currentFrame.length, currentGop.byteLength = currentFrame.byteLength, currentGop.pts = currentFrame.pts, currentGop.dts = currentFrame.dts, currentGop.duration = currentFrame.duration) : (currentGop.duration += currentFrame.duration, currentGop.nalCount += currentFrame.length, currentGop.byteLength += currentFrame.byteLength, currentGop.push(currentFrame));
                     return gops.length && currentGop.duration <= 0 && (currentGop.duration = gops[gops.length - 1].duration), gops.byteLength += currentGop.byteLength, gops.nalCount += currentGop.nalCount, gops.duration += currentGop.duration, gops.push(currentGop), gops;
@@ -17781,11 +17831,11 @@
                     gops[0][0].dts = currentGop.dts, gops[0][0].pts = currentGop.pts, gops[0][0].duration += currentGop.duration), gops;
                 }, frameUtils_generateSampleTable = function(gops, baseDataOffset) {
                     var h, i, sample, currentGop, dataOffset = baseDataOffset || 0, samples = [];
-                    for(h = 0; h < gops.length; h++)for(i = 0, currentGop = gops[h]; i < currentGop.length; i++)sample = sampleForFrame(currentGop[i], dataOffset), dataOffset += sample.size, samples.push(sample);
+                    for(h = 0; h < gops.length; h++)for(currentGop = gops[h], i = 0; i < currentGop.length; i++)sample = sampleForFrame(currentGop[i], dataOffset), dataOffset += sample.size, samples.push(sample);
                     return samples;
                 }, frameUtils_concatenateNalData = function(gops) {
                     var h, i, j, currentGop, currentFrame, currentNal, dataOffset = 0, data = new Uint8Array(gops.byteLength + 4 * gops.nalCount), view = new DataView(data.buffer); // For each Gop..
-                    for(h = 0; h < gops.length; h++)for(i = 0, currentGop = gops[h]; i < currentGop.length; i++)for(j = 0, currentFrame = currentGop[i]; j < currentFrame.length; j++)currentNal = currentFrame[j], view.setUint32(dataOffset, currentNal.data.byteLength), dataOffset += 4, data.set(currentNal.data, dataOffset), dataOffset += currentNal.data.byteLength;
+                    for(h = 0; h < gops.length; h++)for(currentGop = gops[h], i = 0; i < currentGop.length; i++)for(currentFrame = currentGop[i], j = 0; j < currentFrame.length; j++)currentNal = currentFrame[j], view.setUint32(dataOffset, currentNal.data.byteLength), dataOffset += 4, data.set(currentNal.data, dataOffset), dataOffset += currentNal.data.byteLength;
                     return data;
                 }, highPrefix = [
                     33,
@@ -18105,7 +18155,7 @@
                     var i, count, offset, data, results = []; // if this is just filler, return immediately
                     if (!(0x40 & userData[0])) return results;
                      // parse out the cc_data_1 and cc_data_2 fields
-                    for(i = 0, count = 0x1f & userData[0]; i < count; i++)data = {
+                    for(count = 0x1f & userData[0], i = 0; i < count; i++)data = {
                         type: 0x03 & userData[(offset = 3 * i) + 2],
                         pts: pts
                     }, 0x04 & userData[offset + 2] && (data.ccData = userData[offset + 3] << 8 | userData[offset + 4], results.push(data));
@@ -19124,12 +19174,12 @@
                             }); // add this chunk to the data we've collected so far
                             if (buffer.push(chunk), bufferSize += chunk.data.byteLength, 1 === buffer.length && // convenient for our comparisons to include it
                             (tagSize = parseSyncSafeInteger$1(chunk.data.subarray(6, 10)) + 10), !(bufferSize < tagSize)) {
-                                for(i = 0, tag = {
+                                for(tag = {
                                     data: new Uint8Array(tagSize),
                                     frames: [],
                                     pts: buffer[0].pts,
                                     dts: buffer[0].dts
-                                }; i < tagSize;)tag.data.set(buffer[0].data.subarray(0, tagSize - i), i), i += buffer[0].data.byteLength, bufferSize -= buffer[0].data.byteLength, buffer.shift();
+                                }, i = 0; i < tagSize;)tag.data.set(buffer[0].data.subarray(0, tagSize - i), i), i += buffer[0].data.byteLength, bufferSize -= buffer[0].data.byteLength, buffer.shift();
                                  // find the start of the first frame and the end of the tag
                                 frameStart = 10, 0x40 & tag.data[5] && (// advance the frame start past the extended header
                                 frameStart += 4, frameStart += parseSyncSafeInteger$1(tag.data.subarray(10, 14)), tagSize -= parseSyncSafeInteger$1(tag.data.subarray(16, 20)));
@@ -19280,7 +19330,7 @@
                         }, i = 0, offset = 0, packetFlushable = !1; // do nothing if there is not enough buffered data for a complete
                         // PES header
                         if (stream.data.length && !(stream.size < 9)) {
-                            for(i = 0, event.trackId = stream.data[0].pid; i < stream.data.length; i++)fragment = stream.data[i], packetData.set(fragment.data, offset), offset += fragment.data.byteLength;
+                            for(event.trackId = stream.data[0].pid, i = 0; i < stream.data.length; i++)fragment = stream.data[i], packetData.set(fragment.data, offset), offset += fragment.data.byteLength;
                              // parse assembled packet's PES header
                             parsePes(packetData, event), // check that there is enough stream data to fill the packet
                             packetFlushable = "video" === type || event.packetLength <= stream.size, (forceFlush || packetFlushable) && (stream.size = 0, stream.data.length = 0), packetFlushable && self1.trigger("data", event);
@@ -19696,8 +19746,8 @@
                             1
                         ];
                         // some profiles have more optional data we don't need
-                        if (profileIdc = (expGolombDecoder = new expGolomb(data)).readUnsignedByte(), profileCompatibility = expGolombDecoder.readUnsignedByte(), levelIdc = expGolombDecoder.readUnsignedByte(), expGolombDecoder.skipUnsignedExpGolomb(), PROFILES_WITH_OPTIONAL_SPS_DATA[profileIdc] && (3 === (chromaFormatIdc = expGolombDecoder.readUnsignedExpGolomb()) && expGolombDecoder.skipBits(1), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean())) for(i = 0, // seq_scaling_matrix_present_flag
-                        scalingListCount = 3 !== chromaFormatIdc ? 8 : 12; i < scalingListCount; i++)expGolombDecoder.readBoolean() && (i < 6 ? skipScalingList(16, expGolombDecoder) : skipScalingList(64, expGolombDecoder));
+                        if (profileIdc = (expGolombDecoder = new expGolomb(data)).readUnsignedByte(), profileCompatibility = expGolombDecoder.readUnsignedByte(), levelIdc = expGolombDecoder.readUnsignedByte(), expGolombDecoder.skipUnsignedExpGolomb(), PROFILES_WITH_OPTIONAL_SPS_DATA[profileIdc] && (3 === (chromaFormatIdc = expGolombDecoder.readUnsignedExpGolomb()) && expGolombDecoder.skipBits(1), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean())) for(// seq_scaling_matrix_present_flag
+                        scalingListCount = 3 !== chromaFormatIdc ? 8 : 12, i = 0; i < scalingListCount; i++)expGolombDecoder.readBoolean() && (i < 6 ? skipScalingList(16, expGolombDecoder) : skipScalingList(64, expGolombDecoder));
                         if (expGolombDecoder.skipUnsignedExpGolomb(), 0 === (picOrderCntType = expGolombDecoder.readUnsignedExpGolomb())) expGolombDecoder.readUnsignedExpGolomb(); // log2_max_pic_order_cnt_lsb_minus4
                         else if (1 === picOrderCntType) for(expGolombDecoder.skipBits(1), expGolombDecoder.skipExpGolomb(), expGolombDecoder.skipExpGolomb(), numRefFramesInPicOrderCntCycle = expGolombDecoder.readUnsignedExpGolomb(), i = 0; i < numRefFramesInPicOrderCntCycle; i++)expGolombDecoder.skipExpGolomb(); // offset_for_ref_frame[ i ]
                         if (expGolombDecoder.skipUnsignedExpGolomb(), expGolombDecoder.skipBits(1), picWidthInMbsMinus1 = expGolombDecoder.readUnsignedExpGolomb(), picHeightInMapUnitsMinus1 = expGolombDecoder.readUnsignedExpGolomb(), 0 === (frameMbsOnlyFlag = expGolombDecoder.readBits(1)) && expGolombDecoder.skipBits(1), expGolombDecoder.skipBits(1), expGolombDecoder.readBoolean() && (// frame_cropping_flag
@@ -21256,7 +21306,7 @@
                 };
                 return stats.bytesReceived = progressEvent.loaded, // because we should only use bandwidth stats on progress to determine when
                 // abort a request early due to insufficient bandwidth
-                stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8000), stats;
+                stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8 * 1000), stats;
             }, handleErrors = function(error, request) {
                 return request.timedout ? {
                     status: request.status,
@@ -22112,7 +22162,7 @@
                     return _this.bandwidth = settings.bandwidth, _this.throughput = {
                         rate: 0,
                         count: 0
-                    }, _this.roundTrip = NaN, _this.resetStats_(), _this.mediaIndex = null, _this.partIndex = null, _this.hasPlayed_ = settings.hasPlayed, _this.currentTime_ = settings.currentTime, _this.seekable_ = settings.seekable, _this.seeking_ = settings.seeking, _this.duration_ = settings.duration, _this.mediaSource_ = settings.mediaSource, _this.vhs_ = settings.vhs, _this.loaderType_ = settings.loaderType, _this.currentMediaInfo_ = void 0, _this.startingMediaInfo_ = void 0, _this.segmentMetadataTrack_ = settings.segmentMetadataTrack, _this.goalBufferLength_ = settings.goalBufferLength, _this.sourceType_ = settings.sourceType, _this.sourceUpdater_ = settings.sourceUpdater, _this.inbandTextTracks_ = settings.inbandTextTracks, _this.state_ = "INIT", _this.timelineChangeController_ = settings.timelineChangeController, _this.shouldSaveSegmentTimingInfo_ = !0, _this.parse708captions_ = settings.parse708captions, _this.captionServices_ = settings.captionServices, _this.experimentalExactManifestTimings = settings.experimentalExactManifestTimings, _this.checkBufferTimeout_ = null, _this.error_ = void 0, _this.currentTimeline_ = -1, _this.pendingSegment_ = null, _this.xhrOptions_ = null, _this.pendingSegments_ = [], _this.audioDisabled_ = !1, _this.isPendingTimestampOffset_ = !1, _this.gopBuffer_ = [], _this.timeMapping_ = 0, _this.safeAppend_ = videojs.browser.IE_VERSION >= 11, _this.appendInitSegment_ = {
+                    }, _this.roundTrip = 0 / 0, _this.resetStats_(), _this.mediaIndex = null, _this.partIndex = null, _this.hasPlayed_ = settings.hasPlayed, _this.currentTime_ = settings.currentTime, _this.seekable_ = settings.seekable, _this.seeking_ = settings.seeking, _this.duration_ = settings.duration, _this.mediaSource_ = settings.mediaSource, _this.vhs_ = settings.vhs, _this.loaderType_ = settings.loaderType, _this.currentMediaInfo_ = void 0, _this.startingMediaInfo_ = void 0, _this.segmentMetadataTrack_ = settings.segmentMetadataTrack, _this.goalBufferLength_ = settings.goalBufferLength, _this.sourceType_ = settings.sourceType, _this.sourceUpdater_ = settings.sourceUpdater, _this.inbandTextTracks_ = settings.inbandTextTracks, _this.state_ = "INIT", _this.timelineChangeController_ = settings.timelineChangeController, _this.shouldSaveSegmentTimingInfo_ = !0, _this.parse708captions_ = settings.parse708captions, _this.captionServices_ = settings.captionServices, _this.experimentalExactManifestTimings = settings.experimentalExactManifestTimings, _this.checkBufferTimeout_ = null, _this.error_ = void 0, _this.currentTimeline_ = -1, _this.pendingSegment_ = null, _this.xhrOptions_ = null, _this.pendingSegments_ = [], _this.audioDisabled_ = !1, _this.isPendingTimestampOffset_ = !1, _this.gopBuffer_ = [], _this.timeMapping_ = 0, _this.safeAppend_ = videojs.browser.IE_VERSION >= 11, _this.appendInitSegment_ = {
                         audio: !0,
                         video: !0
                     }, _this.playlistOfLastInitSegment_ = {
@@ -22379,7 +22429,7 @@
                  */ _proto.remove = function(start, end, done, force) {
                     // commonly happens during a rendition switch at the start of a video
                     // from start 0 to end 0
-                    if (void 0 === done && (done = function() {}), void 0 === force && (force = !1), end === 1 / 0 && (end = this.duration_()), end <= start) return void this.logger_("skipping remove because end ${end} is <= start ${start}");
+                    if (void 0 === done && (done = function() {}), void 0 === force && (force = !1), 1 / 0 === end && (end = this.duration_()), end <= start) return void this.logger_("skipping remove because end ${end} is <= start ${start}");
                     if (!this.sourceUpdater_ || !this.getMediaInfo_()) return void this.logger_("skipping remove because no source updater or starting media info"); // set it to one to complete this function's removes
                     var removesRemaining = 1, removeFinished = function() {
                         0 == --removesRemaining && done();
@@ -23001,7 +23051,7 @@
                 }, _proto.handleTimeout_ = function() {
                     // although the VTT segment loader bandwidth isn't really used, it's good to
                     // maintain functinality between segment loaders
-                    this.mediaRequestsTimedout += 1, this.bandwidth = 1, this.roundTrip = NaN, this.trigger("bandwidthupdate");
+                    this.mediaRequestsTimedout += 1, this.bandwidth = 1, this.roundTrip = 0 / 0, this.trigger("bandwidthupdate");
                 }, /**
                  * Handle the callback from the segmentRequest function and set the
                  * associated SegmentLoader state and errors if necessary
@@ -23167,7 +23217,7 @@
                  * @param {Object} segmentInfo the object returned by loadSegment
                  */ _proto.recordThroughput_ = function(segmentInfo) {
                     if (segmentInfo.duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) return void this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
-                    var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8000); // Add one to the time to ensure that we don't accidentally attempt to divide
+                    var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8 * 1000); // Add one to the time to ensure that we don't accidentally attempt to divide
                     //   newAvg = oldAvg + (sample - oldAvg) / (sampleCount + 1)
                     this.throughput.rate += (segmentProcessingThroughput - rate) / ++this.throughput.count;
                 }, /**
@@ -23986,7 +24036,7 @@
                 {
                     name: "VOD",
                     run: function(syncController, playlist, duration, currentTimeline, currentTime) {
-                        return duration !== 1 / 0 ? {
+                        return 1 / 0 !== duration ? {
                             time: 0,
                             segmentIndex: 0,
                             partIndex: null
@@ -24428,8 +24478,8 @@
                         ]
                     ], encTable = tables[0], decTable = tables[1], sbox = encTable[4], sboxInv = decTable[4], d = [], th = [];
                     for(i = 0; i < 256; i++)th[(d[i] = i << 1 ^ (i >> 7) * 283) ^ i] = i;
-                    for(x = xInv = 0; !sbox[x]; x ^= x2 || 1, xInv = th[xInv] || 1)for(i = 0, s = // Compute sbox
-                    (s = xInv ^ xInv << 1 ^ xInv << 2 ^ xInv << 3 ^ xInv << 4) >> 8 ^ 255 & s ^ 99, sbox[x] = s, sboxInv[s] = x, tDec = 0x1010101 * d[x4 = d[x2 = d[x]]] ^ 0x10001 * x4 ^ 0x101 * x2 ^ 0x1010100 * x, tEnc = 0x101 * d[s] ^ 0x1010100 * s; i < 4; i++)encTable[i][x] = tEnc = tEnc << 24 ^ tEnc >>> 8, decTable[i][s] = tDec = tDec << 24 ^ tDec >>> 8;
+                    for(x = xInv = 0; !sbox[x]; x ^= x2 || 1, xInv = th[xInv] || 1)for(s = // Compute sbox
+                    (s = xInv ^ xInv << 1 ^ xInv << 2 ^ xInv << 3 ^ xInv << 4) >> 8 ^ 255 & s ^ 99, sbox[x] = s, sboxInv[s] = x, tDec = 0x1010101 * d[x4 = d[x2 = d[x]]] ^ 0x10001 * x4 ^ 0x101 * x2 ^ 0x1010100 * x, tEnc = 0x101 * d[s] ^ 0x1010100 * s, i = 0; i < 4; i++)encTable[i][x] = tEnc = tEnc << 24 ^ tEnc >>> 8, decTable[i][s] = tDec = tDec << 24 ^ tDec >>> 8;
                      // Compactify. Considerable speedup on Firefox.
                     for(i = 0; i < 5; i++)encTable[i] = encTable[i].slice(0), decTable[i] = decTable[i].slice(0);
                     return tables;
@@ -24493,8 +24543,8 @@
                     // word-level access to the encrypted bytes
                     var init0, init1, init2, init3, encrypted0, encrypted1, encrypted2, encrypted3, wordIx, encrypted32 = new Int32Array(encrypted.buffer, encrypted.byteOffset, encrypted.byteLength >> 2), decipher = new AES(Array.prototype.slice.call(key)), decrypted = new Uint8Array(encrypted.byteLength), decrypted32 = new Int32Array(decrypted.buffer);
                     // to each decrypted block
-                    for(wordIx = 0, // passed-in reference and easier access
-                    init0 = initVector[0], init1 = initVector[1], init2 = initVector[2], init3 = initVector[3]; wordIx < encrypted32.length; wordIx += 4)// convert big-endian (network order) words into little-endian
+                    for(// passed-in reference and easier access
+                    init0 = initVector[0], init1 = initVector[1], init2 = initVector[2], init3 = initVector[3], wordIx = 0; wordIx < encrypted32.length; wordIx += 4)// convert big-endian (network order) words into little-endian
                     // (javascript order)
                     encrypted0 = ntoh(encrypted32[wordIx]), encrypted1 = ntoh(encrypted32[wordIx + 1]), encrypted2 = ntoh(encrypted32[wordIx + 2]), encrypted3 = ntoh(encrypted32[wordIx + 3]), decipher.decrypt(encrypted0, encrypted1, encrypted2, encrypted3, decrypted32, wordIx), // plaintext
                     decrypted32[wordIx] = ntoh(decrypted32[wordIx] ^ init0), decrypted32[wordIx + 1] = ntoh(decrypted32[wordIx + 1] ^ init1), decrypted32[wordIx + 2] = ntoh(decrypted32[wordIx + 2] ^ init2), decrypted32[wordIx + 3] = ntoh(decrypted32[wordIx + 3] ^ init3), init0 = encrypted0, init1 = encrypted1, init2 = encrypted2, init3 = encrypted3;
@@ -24706,7 +24756,7 @@
                         if ("hls" === sourceType) playlistLoader = new PlaylistLoader(properties.resolvedUri, vhs, requestOptions);
                         else if ("dash" === sourceType) {
                             if (!properties.playlists.filter(function(p) {
-                                return p.excludeUntil !== 1 / 0;
+                                return 1 / 0 !== p.excludeUntil;
                             }).length) return;
                             playlistLoader = new DashPlaylistLoader(properties.playlists[0], vhs, requestOptions, masterPlaylistLoader);
                         } else "vhs-json" === sourceType && (playlistLoader = new PlaylistLoader(// as provided, otherwise use the resolved URI to load the playlist
@@ -25401,7 +25451,7 @@
                         this.tech_.ended() && this.tech_.setCurrentTime(0), this.hasPlayed_ && this.load();
                         var seekable = this.tech_.seekable(); // if the viewer has paused and we fell out of the live window,
                         // seek forward to the live point
-                        if (this.tech_.duration() === 1 / 0 && this.tech_.currentTime() < seekable.start(0)) return this.tech_.setCurrentTime(seekable.end(seekable.length - 1));
+                        if (1 / 0 === this.tech_.duration() && this.tech_.currentTime() < seekable.start(0)) return this.tech_.setCurrentTime(seekable.end(seekable.length - 1));
                     }
                 }, /**
                  * Seek to the latest media position if this is a live video and the
@@ -25453,7 +25503,7 @@
                         var cues = this.inbandTextTracks_.metadataTrack_.cues;
                         if (cues && cues.length) {
                             var duration = this.duration();
-                            cues[cues.length - 1].endTime = isNaN(duration) || Math.abs(duration) === 1 / 0 ? Number.MAX_VALUE : duration;
+                            cues[cues.length - 1].endTime = isNaN(duration) || 1 / 0 === Math.abs(duration) ? Number.MAX_VALUE : duration;
                         }
                     }
                 }, /**
@@ -25520,7 +25570,7 @@
                     currentPlaylist.playlistErrors_++;
                     var playlists = this.masterPlaylistLoader_.master.playlists, enabledPlaylists = playlists.filter(isEnabled), isFinalRendition = 1 === enabledPlaylists.length && enabledPlaylists[0] === currentPlaylist;
                     // forever
-                    if (1 === playlists.length && blacklistDuration !== 1 / 0) return videojs.log.warn("Problem encountered with playlist " + currentPlaylist.id + ". Trying again since it is the only playlist."), this.tech_.trigger("retryplaylist"), this.masterPlaylistLoader_.load(isFinalRendition);
+                    if (1 === playlists.length && 1 / 0 !== blacklistDuration) return videojs.log.warn("Problem encountered with playlist " + currentPlaylist.id + ". Trying again since it is the only playlist."), this.tech_.trigger("retryplaylist"), this.masterPlaylistLoader_.load(isFinalRendition);
                     if (isFinalRendition) {
                         // Since we're on the final non-blacklisted playlist, and we're about to blacklist
                         // it, instead of erring the player or retrying this playlist, clear out the current
@@ -25531,7 +25581,7 @@
                             // skip current playlist which is about to be blacklisted
                             if (playlist !== currentPlaylist) {
                                 var excludeUntil = playlist.excludeUntil; // a playlist cannot be reincluded if it wasn't excluded to begin with.
-                                void 0 !== excludeUntil && excludeUntil !== 1 / 0 && (reincluded = !0, delete playlist.excludeUntil);
+                                void 0 !== excludeUntil && 1 / 0 !== excludeUntil && (reincluded = !0, delete playlist.excludeUntil);
                             }
                         }), reincluded && (videojs.log.warn("Removing other playlists from the exclusion list because the last rendition is about to be excluded."), // playlist. This is needed for users relying on the retryplaylist event to catch a
                         // case where the player might be stuck and looping through "dead" playlists.
@@ -25824,7 +25874,7 @@
                     Object.keys(playlists).forEach(function(key) {
                         var variant = playlists[key]; // check if we already processed this playlist.
                         // or it if it is already excluded forever.
-                        if (-1 === ids.indexOf(variant.id) && variant.excludeUntil !== 1 / 0) {
+                        if (-1 === ids.indexOf(variant.id) && 1 / 0 !== variant.excludeUntil) {
                             ids.push(variant.id);
                             var blacklistReasons = [], variantCodecs = codecsForPlaylist(_this11.masterPlaylistLoader_.master, variant), variantCodecCount = codecCount(variantCodecs); // get codecs from the playlist for this variant
                             // variant is incompatible. Wait for mux.js to probe
@@ -26202,7 +26252,7 @@
                  */ var loadedMetadataHandler = function() {
                     seekTo && player.currentTime(seekTo);
                 }, setSource = function(sourceObj) {
-                    null != sourceObj && (seekTo = player.duration() !== 1 / 0 && player.currentTime() || 0, player.one("loadedmetadata", loadedMetadataHandler), player.src(sourceObj), player.trigger({
+                    null != sourceObj && (seekTo = 1 / 0 !== player.duration() && player.currentTime() || 0, player.one("loadedmetadata", loadedMetadataHandler), player.src(sourceObj), player.trigger({
                         type: "usage",
                         name: "vhs-error-reload"
                     }), player.trigger({

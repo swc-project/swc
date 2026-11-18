@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "minify": {
+            "compress": true,
+            "format": {
+                "asciiOnly": true
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

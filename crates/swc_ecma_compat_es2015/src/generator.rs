@@ -19,6 +19,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::debug;
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
@@ -38,10 +39,14 @@ struct Wrapper {
 
 macro_rules! dev_span {
     ($($tt:tt)*) => {{
-        if cfg!(debug_assertions) {
+        #[cfg(debug_assertions)]
+        {
             Some(tracing::span!(tracing::Level::ERROR, $($tt)*).entered())
-        } else {
-            None
+        }
+
+        #[cfg(not(debug_assertions))]
+        {
+            ()
         }
     }};
 }
@@ -76,9 +81,9 @@ impl VisitMut for Wrapper {
                     pat: Pat::Ident(v.state.clone().into()),
                 }],
                 decorators: Default::default(),
-                body: Some(BlockStmt {
+                body: Some(FunctionBody {
+                    span: DUMMY_SP,
                     stmts,
-                    ..Default::default()
                 }),
                 is_generator: false,
                 is_async: false,
@@ -403,12 +408,6 @@ impl VisitMut for Generator {
 
     fn visit_mut_function(&mut self, e: &mut Function) {
         e.params.visit_mut_with(self);
-    }
-
-    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
-
-    fn visit_mut_setter_prop(&mut self, e: &mut SetterProp) {
-        e.param.visit_mut_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -1014,7 +1013,7 @@ impl VisitMut for Generator {
         }
     }
 
-    #[tracing::instrument(level = "debug", skip_all)]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         match node {
             Stmt::Break(b) => {
@@ -1355,30 +1354,12 @@ impl Generator {
                     props: getter
                         .map(|g| KeyValueProp {
                             key: quote_ident!("get").into(),
-                            value: Function {
-                                params: Vec::new(),
-                                span: g.span,
-                                body: g.body,
-                                is_generator: false,
-                                is_async: false,
-                                ..Default::default()
-                            }
-                            .into(),
+                            value: g.function.into(),
                         })
                         .into_iter()
-                        .chain(setter.map(|s| {
-                            KeyValueProp {
-                                key: quote_ident!("set").into(),
-                                value: Function {
-                                    params: vec![(*s.param).into()],
-                                    span: s.span,
-                                    body: s.body,
-                                    is_generator: false,
-                                    is_async: false,
-                                    ..Default::default()
-                                }
-                                .into(),
-                            }
+                        .chain(setter.map(|s| KeyValueProp {
+                            key: quote_ident!("set").into(),
+                            value: s.function.into(),
                         }))
                         .map(Prop::KeyValue)
                         .map(Box::new)
@@ -1579,6 +1560,7 @@ impl Generator {
         let mut cnt = 0;
 
         while variables_written < var_len {
+            #[cfg(debug_assertions)]
             #[cfg(debug_assertions)]
             debug!("variables_written: {} / {}", variables_written, var_len);
 
@@ -2075,6 +2057,7 @@ impl Generator {
 
             while clauses_written < node.cases.len() {
                 #[cfg(debug_assertions)]
+                #[cfg(debug_assertions)]
                 debug!("clauses_written: {}", clauses_written);
 
                 let mut default_clauses_skipped = 0;
@@ -2104,6 +2087,7 @@ impl Generator {
                     self.emit_stmt(
                         SwitchStmt {
                             span: DUMMY_SP,
+                            body_ctxt: Default::default(),
                             discriminant: expression.clone().into(),
                             cases: take(&mut pending_clauses),
                         }
@@ -2135,6 +2119,7 @@ impl Generator {
     }
 
     fn transform_and_emit_labeled_stmt(&mut self, mut node: LabeledStmt) {
+        #[cfg(debug_assertions)]
         #[cfg(debug_assertions)]
         debug!("transform_and_emit_labeled_stmt: {:?}", node.label);
 
@@ -2263,6 +2248,7 @@ impl Generator {
         let label = Label(self.next_label_id as _);
         self.next_label_id += 1;
         #[cfg(debug_assertions)]
+        #[cfg(debug_assertions)]
         debug!("define_label: {:?}", label);
 
         if label.0 as usize >= self.label_offsets.as_ref().unwrap().len() {
@@ -2290,6 +2276,7 @@ impl Generator {
             self.operations.as_deref().map_or(0, |v| v.len() as _);
 
         #[cfg(debug_assertions)]
+        #[cfg(debug_assertions)]
         debug!(
             "mark_label: {:?}; offset: {}",
             label,
@@ -2313,6 +2300,7 @@ impl Generator {
 
         #[cfg(debug_assertions)]
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             debug!("Begin block {}: {:?}", index, block);
         }
 
@@ -2336,6 +2324,7 @@ impl Generator {
         #[cfg(debug_assertions)]
         let index = self.block_actions.as_ref().unwrap().len();
 
+        #[cfg(debug_assertions)]
         #[cfg(debug_assertions)]
         debug!("End block {}", index);
 
@@ -2655,6 +2644,7 @@ impl Generator {
     ///  - `label_text`: An optional name of a containing labeled statement.
     fn find_break_target(&self, label_text: Option<Atom>) -> Label {
         #[cfg(debug_assertions)]
+        #[cfg(debug_assertions)]
         debug!("find_break_target: label_text={:?}", label_text);
 
         if let Some(block_stack) = &self.block_stack {
@@ -2716,6 +2706,7 @@ impl Generator {
     fn create_label(&mut self, label: Option<Label>) -> Box<Expr> {
         if let Some(label) = label {
             if label.0 > 0 {
+                #[cfg(debug_assertions)]
                 #[cfg(debug_assertions)]
                 debug!("create_label: label={:?}", label);
 
@@ -2973,6 +2964,7 @@ impl Generator {
             let label_expr = self.state.clone().make_member(quote_ident!("label"));
             let switch_stmt = SwitchStmt {
                 span: DUMMY_SP,
+                body_ctxt: Default::default(),
                 discriminant: label_expr.into(),
                 cases: clauses,
             };
@@ -3056,6 +3048,7 @@ impl Generator {
     /// be reflected on the `state` object.
     fn append_label(&mut self, mark_label_end: bool) {
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             debug!(mark_label_end = mark_label_end, "append_label");
         }
 
@@ -3065,19 +3058,12 @@ impl Generator {
 
         #[allow(clippy::manual_unwrap_or_default)]
         let stmts = if let Some(mut stmts) = self.stmts.take() {
-            if self.with_block_stack.is_some() {
+            if let Some(with_block_stack) = self.with_block_stack.as_ref() {
                 // The previous label was nested inside one or more `with`
                 // blocks, so we surround the statements in
                 // generated `with` blocks to create the same environment.
 
-                for (_i, with_block) in self
-                    .with_block_stack
-                    .as_ref()
-                    .unwrap()
-                    .iter()
-                    .enumerate()
-                    .rev()
-                {
+                for with_block in with_block_stack.iter().rev() {
                     let b = with_block.borrow();
                     let with_block = match &*b {
                         CodeBlock::With(v) => v,
@@ -3099,6 +3085,7 @@ impl Generator {
             }
 
             if cfg!(debug_assertions) {
+                #[cfg(debug_assertions)]
                 debug!(
                     "current_exception_block = {:?}",
                     self.current_exception_block
@@ -3187,7 +3174,7 @@ impl Generator {
         });
     }
 
-    #[tracing::instrument(level = "debug", skip(self))]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip(self)))]
     fn try_enter_label(&mut self, op_index: usize) {
         if self.label_offsets.is_none() {
             return;
@@ -3224,13 +3211,16 @@ impl Generator {
 
     /// Updates literal expressions for labels with actual label numbers.
     fn update_label_expression(&mut self) {
-        if self.label_exprs.is_some() && self.label_numbers.is_some() {
-            for (label_number, labels) in self.label_numbers.as_ref().unwrap().iter().enumerate() {
+        if let (Some(label_exprs), Some(label_numbers)) =
+            (&mut self.label_exprs, &self.label_numbers)
+        {
+            for (label_number, labels) in label_numbers.iter().enumerate() {
                 for &label in labels {
-                    let exprs = self.label_exprs.as_mut().unwrap().get_mut(label);
+                    let exprs = label_exprs.get_mut(label);
                     if let Some(exprs) = exprs {
                         for expr in exprs {
                             expr.value = label_number as _;
+                            #[cfg(debug_assertions)]
                             #[cfg(debug_assertions)]
                             debug!("Label {:?} = {:?} ({:?})", label, expr.value, expr.pos);
                         }
@@ -3241,12 +3231,13 @@ impl Generator {
     }
 
     /// Tries to enter or leave a code block.
-    #[tracing::instrument(level = "debug", skip(self))]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip(self)))]
     fn try_enter_or_leave_block(&mut self, op_index: usize) {
         if let Some(blocks) = &self.blocks {
             while self.block_index < self.block_actions.as_ref().unwrap().len()
                 && self.block_offsets.as_ref().unwrap()[self.block_index] <= op_index
             {
+                #[cfg(debug_assertions)]
                 #[cfg(debug_assertions)]
                 debug!("try_enter_or_leave_block: iter");
 
@@ -3254,6 +3245,7 @@ impl Generator {
                 self.block_index += 1;
 
                 if cfg!(debug_assertions) {
+                    #[cfg(debug_assertions)]
                     debug!(block_index = block_index, "try_enter_or_leave_block")
                 }
 
@@ -3275,11 +3267,13 @@ impl Generator {
                             }
 
                             #[cfg(debug_assertions)]
+                            #[cfg(debug_assertions)]
                             debug!("Current exception block: open = Some({:?})", block);
                             self.current_exception_block = Some(block.clone());
                         } else if block_action == BlockAction::Close {
                             self.current_exception_block =
                                 self.exception_block_stack.as_mut().unwrap().pop();
+                            #[cfg(debug_assertions)]
                             #[cfg(debug_assertions)]
                             debug!(
                                 "Current exception block: close = {:?}",
@@ -3308,9 +3302,10 @@ impl Generator {
 
     /// Writes an operation as a statement to the current label's statement
     /// list.
-    #[tracing::instrument(level = "debug", skip(self))]
+    #[cfg_attr(debug_assertions, tracing::instrument(level = "debug", skip(self)))]
     fn write_operation(&mut self, op_index: usize) {
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             debug!("Writing operation {}", op_index);
         }
 
@@ -3679,7 +3674,7 @@ impl Generator {
                 }
 
                 let this_arg = self.create_temp_variable();
-                *obj = Box::new(obj.take().make_assign_to(op!("="), this_arg.clone().into()));
+                **obj = obj.take().make_assign_to(op!("="), this_arg.clone().into());
 
                 (callee, this_arg.into())
             }

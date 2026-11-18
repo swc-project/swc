@@ -1,0 +1,17 @@
+{
+    "module": {
+        "type": "es6"
+    },
+    "env": {
+        "targets": "ios_saf 14",
+        "coreJs": "3.21",
+        "mode": "usage"
+    },
+    "jsc": {
+        "minify": {
+            "format": {
+                "comments": false
+            }
+        }
+    }
+}

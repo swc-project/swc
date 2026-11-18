@@ -168,7 +168,7 @@ pub enum Feature {
     UnicodeSetsRegex,
 
     /// `transform-duplicate-named-capturing-groups-regex`
-    DuplicateNamedCapturingGroupsRegex, // TODO
+    DuplicateNamedCapturingGroupsRegex,
 
     /// `bugfix/transform-async-arrows-in-class`
     BugfixAsyncArrowsInClass,

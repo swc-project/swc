@@ -1,0 +1,15 @@
+{
+  "env": {
+    "include": [
+      "transform-computed-properties"
+    ],
+    "loose": true,
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "preserveAllComments": true
+  }
+}

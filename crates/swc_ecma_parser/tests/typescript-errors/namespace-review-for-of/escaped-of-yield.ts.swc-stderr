@@ -1,0 +1,5 @@
+  x Expected ';', got ')'
+   ,-[$DIR/tests/typescript-errors/namespace-review-for-of/escaped-of-yield.ts:1:1]
+ 1 | namespace N { for (yield o\u0066 [1]) {} }
+   :                                     ^
+   `----

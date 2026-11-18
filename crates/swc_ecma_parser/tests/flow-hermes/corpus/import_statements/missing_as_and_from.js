@@ -1,0 +1,2 @@
+import *
+class X {}

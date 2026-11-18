@@ -86,12 +86,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 371,
               "end": 387
             },
-            "ctxt": 0,
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -230,12 +229,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 426,
               "end": 442
             },
-            "ctxt": 0,
             "stmts": [
               {
                 "type": "ReturnStatement",
@@ -794,12 +792,11 @@
                 },
                 "ctxt": 0,
                 "body": {
-                  "type": "BlockStatement",
+                  "type": "FunctionBody",
                   "span": {
                     "start": 584,
                     "end": 600
                   },
-                  "ctxt": 0,
                   "stmts": [
                     {
                       "type": "ReturnStatement",
@@ -1109,12 +1106,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 747,
           "end": 750
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1349,12 +1345,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 844,
           "end": 847
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1589,12 +1584,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 938,
           "end": 941
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -1797,12 +1791,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1030,
           "end": 1033
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -2005,12 +1998,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1122,
           "end": 1125
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -2241,12 +2233,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1232,
           "end": 1235
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -2495,12 +2486,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1323,
           "end": 1326
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -2735,12 +2725,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1452,
           "end": 1455
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -2959,12 +2948,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1545,
           "end": 1548
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -3183,12 +3171,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1638,
           "end": 1641
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -3423,12 +3410,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1732,
           "end": 1735
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -3647,12 +3633,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1822,
           "end": 1825
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -3871,12 +3856,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 1915,
           "end": 1918
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -4095,12 +4079,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 2008,
           "end": 2011
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -4319,12 +4302,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 2095,
           "end": 2098
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,

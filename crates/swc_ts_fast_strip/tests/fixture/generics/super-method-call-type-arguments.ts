@@ -1,0 +1,1 @@
+class C extends B { method() { super.method<Type>(); } }

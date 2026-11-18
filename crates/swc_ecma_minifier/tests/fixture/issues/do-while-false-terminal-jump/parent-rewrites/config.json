@@ -1,0 +1,7 @@
+{
+    "defaults": false,
+    "loops": true,
+    "dead_code": true,
+    "switches": true,
+    "passes": 1
+}

@@ -21,21 +21,53 @@ env:
   RUST_LOG: "off"
   # https://github.com/swc-project/swc/pull/3742
   RUST_MIN_STACK: 4194304
-  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
-  SKIP_YARN_COREPACK_CHECK: 1
   CARGO_PROFILE_RELEASE_LTO: false
   CARGO_PROFILE_BENCH_LTO: false
 
+permissions: {}
+
 jobs:
+  contributor-policy:
+    name: Check contributor
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      allowed: ${{ steps.policy.outputs.allowed }}
+    steps:
+      # The gate must use the policy on the default branch, not PR changes.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: .contributor-policy
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/contributors.yml
+            /.github/actions/contributor-policy/
+
+      - uses: ./.contributor-policy/.github/actions/contributor-policy
+        id: policy
+        with:
+          token: ${{ github.token }}
+
   list-crates:
+    needs: contributor-policy
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+      ${{ !cancelled() &&
+      (github.event_name != 'pull_request' || needs.contributor-policy.outputs.allowed == 'true') &&
+      !contains(github.event.head_commit.message, 'chore: ') }}
     name: List crates to benchmark
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     outputs:
       crates: ${{ steps.list-crates.outputs.crates }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: List crates
         id: list-crates
@@ -43,29 +75,37 @@ jobs:
 
   benchmark-crate:
     name: Benchmark ${{ matrix.crate }}
+    # Main skips the PR-only policy ancestor; override the implicit success gate
+    # while still requiring successful crate discovery.
+    if: ${{ !cancelled() && needs.list-crates.result == 'success' }}
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     needs: list-crates
     strategy:
       matrix:
         crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
         with:
-          profile: minimal
+          toolchain: stable
 
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
         # Some crates are too slow to build
         if: matrix.crate == 'swc'
         with:
           shared-key: "bench-${{ matrix.crate }}"
           key: "bench-${{ matrix.crate }}"
           cache-all-crates: true
+          save-if: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Install cargo-codspeed
-        uses: taiki-e/install-action@v2
+        uses: taiki-e/install-action@3235f8901fd37ffed0052b276cec25a362fb82e9 # v2.77.7
         with:
           tool: cargo-codspeed@3.0.2
 
@@ -73,7 +113,8 @@ jobs:
         run: ./scripts/bench/build-crate.sh ${{ matrix.crate }}
 
       - name: Run the benchmarks
-        uses: CodSpeedHQ/action@v3
+        uses: CodSpeedHQ/action@78102a468f96d8e0ccb92d0ec49425753fc42062 # v5.6.0
         with:
+          mode: simulation
           run: cargo codspeed run
           token: ${{ secrets.CODSPEED_TOKEN }}

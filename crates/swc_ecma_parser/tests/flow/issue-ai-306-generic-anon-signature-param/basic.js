@@ -1,0 +1,12 @@
+type Bare = <T>(T) => void;
+type Qualified = <T>(NS.T) => void;
+type ArrayOf = <T>(T[]) => void;
+type Union = <T, U>(T | U) => void;
+type Intersection = <T, U>(T & U) => void;
+type Generic = <T>(Array<T>) => void;
+type Many = <T, U>(T, U, NS.T) => void;
+type Rest = <T>(...T) => void;
+type RestQualified = <T>(...NS.T) => void;
+type Nullable = <T>(?T) => void;
+type Keyword = <T>(string[], typeof x) => void;
+declare function poly(x: any): x is <T>(T) => void;

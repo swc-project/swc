@@ -1,0 +1,49 @@
+  x Invalid typeof comparison value
+   ,-[$DIR/tests/compile/lints/valid-typeof/default/input/input.js:1:1]
+ 1 | typeof foo === "strnig";
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | typeof foo == "undefimed";
+ 3 | typeof bar != "nunber";
+ 4 | typeof bar !== "fucntion";
+   `----
+  x Invalid typeof comparison value
+   ,-[$DIR/tests/compile/lints/valid-typeof/default/input/input.js:2:1]
+ 1 | typeof foo === "strnig";
+ 2 | typeof foo == "undefimed";
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | typeof bar != "nunber";
+ 4 | typeof bar !== "fucntion";
+ 5 | typeof bar !== foo();
+   `----
+  x Invalid typeof comparison value
+   ,-[$DIR/tests/compile/lints/valid-typeof/default/input/input.js:3:1]
+ 1 | typeof foo === "strnig";
+ 2 | typeof foo == "undefimed";
+ 3 | typeof bar != "nunber";
+   : ^^^^^^^^^^^^^^^^^^^^^^
+ 4 | typeof bar !== "fucntion";
+ 5 | typeof bar !== foo();
+ 6 | typeof foo > "strnig";
+   `----
+  x Invalid typeof comparison value
+   ,-[$DIR/tests/compile/lints/valid-typeof/default/input/input.js:4:1]
+ 1 | typeof foo === "strnig";
+ 2 | typeof foo == "undefimed";
+ 3 | typeof bar != "nunber";
+ 4 | typeof bar !== "fucntion";
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 | typeof bar !== foo();
+ 6 | typeof foo > "strnig";
+ 7 | typeof bar !== "function";
+   `----
+  x Invalid typeof comparison value
+   ,-[$DIR/tests/compile/lints/valid-typeof/default/input/input.js:5:1]
+ 2 | typeof foo == "undefimed";
+ 3 | typeof bar != "nunber";
+ 4 | typeof bar !== "fucntion";
+ 5 | typeof bar !== foo();
+   : ^^^^^^^^^^^^^^^^^^^^
+ 6 | typeof foo > "strnig";
+ 7 | typeof bar !== "function";
+ 8 | typeof x === typeof y;
+   `----

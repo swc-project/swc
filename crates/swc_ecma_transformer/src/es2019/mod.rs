@@ -2,7 +2,7 @@ use swc_ecma_hooks::VisitMutHook;
 
 use crate::TraverseCtx;
 
-mod optional_catch_binding;
+pub(crate) mod optional_catch_binding;
 
 #[derive(Debug, Default)]
 #[non_exhaustive]

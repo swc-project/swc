@@ -14,7 +14,6 @@ use crate::Atom;
 ///
 /// See [tendril] for more details.
 #[derive(Clone, Default, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[repr(transparent)]
 pub struct Wtf8Atom(pub(super) hstr::Wtf8Atom);
 
@@ -192,46 +191,6 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
     }
 }
 
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::Archive for Wtf8Atom {
-    type Archived = rkyv::vec::ArchivedVec<u8>;
-    type Resolver = rkyv::vec::VecResolver;
-
-    #[allow(clippy::unit_arg)]
-    fn resolve(&self, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        rkyv::vec::ArchivedVec::<u8>::resolve_from_slice(self.as_bytes(), resolver, out)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<S: rancor::Fallible + rkyv::ser::Writer + rkyv::ser::Allocator + ?Sized> rkyv::Serialize<S>
-    for Wtf8Atom
-where
-    <S as rancor::Fallible>::Error: rancor::Source,
-{
-    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        rkyv::vec::ArchivedVec::<u8>::serialize_from_slice(self.as_bytes(), serializer)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::Deserialize<Wtf8Atom, D> for rkyv::vec::ArchivedVec<u8>
-where
-    D: ?Sized + rancor::Fallible,
-    <D as rancor::Fallible>::Error: rancor::Source,
-{
-    fn deserialize(&self, _: &mut D) -> Result<Wtf8Atom, <D as rancor::Fallible>::Error> {
-        Ok(Wtf8Atom::new(
-            // SAFETY: `ArchivedVec<u8>` is guaranteed to be serialized with `Wtf8Atom` byte
-            // sequence.  `Wtf8Atom` byte sequence is identical to `Wtf8` byte sequence.
-            unsafe { Wtf8::from_bytes_unchecked(self.as_slice()) },
-        ))
-    }
-}
-
 /// noop
 #[cfg(feature = "shrink-to-fit")]
 impl shrink_to_fit::ShrinkToFit for Wtf8Atom {
@@ -241,7 +200,30 @@ impl shrink_to_fit::ShrinkToFit for Wtf8Atom {
 
 #[cfg(test)]
 mod tests {
+    use std::collections::HashSet;
+
     use super::*;
+    use crate::AtomStore;
+
+    #[test]
+    fn owned_utf8_conversion_preserves_value_and_hash_across_stores() {
+        for text in ["inline", "A dynamically stored UTF-8 identifier: 世界"] {
+            let converted = {
+                let mut store = AtomStore::default();
+                Wtf8Atom::from(store.atom(text))
+            };
+            let mut other_store = AtomStore::default();
+            let equivalent = Wtf8Atom::from(other_store.atom(text));
+
+            assert_eq!(converted.as_str(), Some(text));
+            assert_eq!(converted, equivalent);
+            let values = HashSet::from([converted.clone()]);
+            assert!(values.contains(&equivalent));
+
+            let round_trip = converted.try_into_atom().expect("UTF-8 must remain valid");
+            assert_eq!(round_trip, Atom::from(text));
+        }
+    }
 
     #[test]
     fn to_atom_lossy_returns_borrowed_for_utf8() {

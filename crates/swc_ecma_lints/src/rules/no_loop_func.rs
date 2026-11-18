@@ -129,20 +129,27 @@ impl NoLoopFunc {
             Pat::Expr(_) => {}
         }
     }
+
+    fn visit_scope(&mut self, span: Span, op: impl FnOnce(&mut Self)) {
+        self.scopes.push(span);
+        self.scoped_unsafe_vars.insert(span, Default::default());
+
+        op(self);
+
+        self.scopes.pop();
+        self.scoped_unsafe_vars.remove(&span);
+    }
 }
 
 impl Visit for NoLoopFunc {
     noop_visit_type!();
 
     fn visit_block_stmt(&mut self, block: &BlockStmt) {
-        self.scopes.push(block.span);
-        self.scoped_unsafe_vars
-            .insert(block.span, Default::default());
+        self.visit_scope(block.span, |visitor| block.visit_children_with(visitor));
+    }
 
-        block.visit_children_with(self);
-
-        self.scopes.pop();
-        self.scoped_unsafe_vars.remove(&block.span);
+    fn visit_function_body(&mut self, body: &FunctionBody) {
+        self.visit_scope(body.span, |visitor| body.visit_children_with(visitor));
     }
 
     fn visit_for_stmt(&mut self, for_stmt: &ForStmt) {

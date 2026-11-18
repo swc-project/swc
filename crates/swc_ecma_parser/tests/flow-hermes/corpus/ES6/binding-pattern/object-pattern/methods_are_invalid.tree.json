@@ -1,0 +1,39 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":9}},
+      "message":"Object pattern can't contain methods"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "expression":{
+        "type":"AssignmentExpression",
+        "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":16}},
+        "range":[1,16],
+        "operator":"=",
+        "left":{
+          "type":"ObjectPattern",
+          "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":11}},
+          "range":[1,11],
+          "properties":[],
+          "typeAnnotation":null
+        },
+        "right":{
+          "type":"ObjectExpression",
+          "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":16}},
+          "range":[14,16],
+          "properties":[]
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

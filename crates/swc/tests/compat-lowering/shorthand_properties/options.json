@@ -1,0 +1,16 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "120"
+        },
+        "include": ["transform-shorthand-properties"]
+    },
+    "sourceMaps": true,
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "importAttributes": true
+        }
+    }
+}

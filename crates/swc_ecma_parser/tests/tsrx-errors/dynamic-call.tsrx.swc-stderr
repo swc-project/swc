@@ -1,0 +1,10 @@
+  x Expression expected
+   ,-[$DIR/tests/tsrx-errors/dynamic-call.tsrx:1:1]
+ 1 | const invalid = <{getTag()} />;
+   :                              ^
+   `----
+  x Expression expected
+   ,-[$DIR/tests/tsrx-errors/dynamic-call.tsrx:1:1]
+ 1 | const invalid = <{getTag()} />;
+   :                 ^
+   `----

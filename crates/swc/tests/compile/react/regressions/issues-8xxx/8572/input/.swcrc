@@ -1,0 +1,23 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "target": "es2022",
+        "transform": {
+            "react": {
+                "importSource": "npm:react",
+                "runtime": "automatic"
+            }
+        },
+        "minify": {
+            "format": {
+                "comments": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

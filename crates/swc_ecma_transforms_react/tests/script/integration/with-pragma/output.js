@@ -14,7 +14,11 @@ const { jsxDEV: _jsxDEV, Fragment: _Fragment } = require("react/jsx-dev-runtime"
                 lineNumber: 6,
                 columnNumber: 13
             }, this)
-        }, void 0, false)
+        }, void 0, false, {
+            fileName: "input.js",
+            lineNumber: 5,
+            columnNumber: 9
+        }, this)
     ]
 }, void 0, true, {
     fileName: "input.js",

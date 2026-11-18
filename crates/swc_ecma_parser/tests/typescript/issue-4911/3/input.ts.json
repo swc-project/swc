@@ -84,12 +84,11 @@
                     }
                   ],
                   "body": {
-                    "type": "BlockStatement",
+                    "type": "FunctionBody",
                     "span": {
                       "start": 21,
                       "end": 670
                     },
-                    "ctxt": 0,
                     "stmts": [
                       {
                         "type": "ExpressionStatement",
@@ -182,12 +181,11 @@
                                     },
                                     "ctxt": 0,
                                     "body": {
-                                      "type": "BlockStatement",
+                                      "type": "FunctionBody",
                                       "span": {
                                         "start": 86,
                                         "end": 437
                                       },
-                                      "ctxt": 0,
                                       "stmts": [
                                         {
                                           "type": "ForStatement",
@@ -1295,12 +1293,11 @@
                                     },
                                     "ctxt": 0,
                                     "body": {
-                                      "type": "BlockStatement",
+                                      "type": "FunctionBody",
                                       "span": {
                                         "start": 468,
                                         "end": 660
                                       },
-                                      "ctxt": 0,
                                       "stmts": [
                                         {
                                           "type": "IfStatement",

@@ -1,0 +1,173 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":3,"column":119}},
+  "range":[26,235],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":114}},
+      "range":[26,114],
+      "expression":{
+        "type":"BinaryExpression",
+        "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":85}},
+        "range":[26,85],
+        "operator":"+",
+        "left":{
+          "type":"Literal",
+          "trailingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":28},"end":{"line":1,"column":54}},
+              "range":[28,54],
+              "value":" 1.2 Trailing on left "
+            }
+          ],
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+              "range":[0,25],
+              "value":" 1.1 Leading on left "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":27}},
+          "range":[26,27],
+          "value":1,
+          "raw":"1"
+        },
+        "right":{
+          "type":"Literal",
+          "trailingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":86},"end":{"line":1,"column":113}},
+              "range":[86,113],
+              "value":" 1.4 Trailing on right "
+            }
+          ],
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":57},"end":{"line":1,"column":83}},
+              "range":[57,83],
+              "value":" 1.3 Leading on right "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":1,"column":84},"end":{"line":1,"column":85}},
+          "range":[84,85],
+          "value":2,
+          "raw":"2"
+        }
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":3,"column":28},"end":{"line":3,"column":119}},
+      "range":[144,235],
+      "expression":{
+        "type":"BinaryExpression",
+        "trailingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":3,"column":90},"end":{"line":3,"column":118}},
+            "range":[206,234],
+            "value":" 2.4 Trailing on binary "
+          }
+        ],
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":27}},
+            "range":[116,143],
+            "value":" 2.1 Leading on binary "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":3,"column":55},"end":{"line":3,"column":60}},
+        "range":[171,176],
+        "operator":"+",
+        "left":{
+          "type":"Literal",
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":3,"column":29},"end":{"line":3,"column":54}},
+              "range":[145,170],
+              "value":" 2.2 Leading on left "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":3,"column":55},"end":{"line":3,"column":56}},
+          "range":[171,172],
+          "value":1,
+          "raw":"1"
+        },
+        "right":{
+          "type":"Literal",
+          "trailingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":3,"column":61},"end":{"line":3,"column":88}},
+              "range":[177,204],
+              "value":" 2.3 Trailing on right "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":3,"column":59},"end":{"line":3,"column":60}},
+          "range":[175,176],
+          "value":2,
+          "raw":"2"
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+      "range":[0,25],
+      "value":" 1.1 Leading on left "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":28},"end":{"line":1,"column":54}},
+      "range":[28,54],
+      "value":" 1.2 Trailing on left "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":57},"end":{"line":1,"column":83}},
+      "range":[57,83],
+      "value":" 1.3 Leading on right "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":86},"end":{"line":1,"column":113}},
+      "range":[86,113],
+      "value":" 1.4 Trailing on right "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":27}},
+      "range":[116,143],
+      "value":" 2.1 Leading on binary "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":29},"end":{"line":3,"column":54}},
+      "range":[145,170],
+      "value":" 2.2 Leading on left "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":61},"end":{"line":3,"column":88}},
+      "range":[177,204],
+      "value":" 2.3 Trailing on right "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":90},"end":{"line":3,"column":118}},
+      "range":[206,234],
+      "value":" 2.4 Trailing on binary "
+    }
+  ]
+}

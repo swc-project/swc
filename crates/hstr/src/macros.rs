@@ -18,35 +18,6 @@ macro_rules! get_hash {
     };
 }
 
-macro_rules! partial_eq {
-    ($self:expr, $other:expr) => {
-        if $self.unsafe_data == $other.unsafe_data {
-            return true;
-        }
-
-        // If one is inline and the other is not, the length is different.
-        // If one is static and the other is not, it's different.
-        if $self.tag() != $other.tag() {
-            return false;
-        }
-
-        if $self.is_dynamic() && $other.is_dynamic() {
-            let te = unsafe { $crate::dynamic::deref_from($self.unsafe_data) };
-            let oe = unsafe { $crate::dynamic::deref_from($other.unsafe_data) };
-
-            if te.header.header.hash != oe.header.header.hash {
-                return false;
-            }
-
-            return te.slice == oe.slice;
-        }
-
-        if $self.get_hash() != $other.get_hash() {
-            return false;
-        }
-    };
-}
-
 macro_rules! impl_from_alias {
     ($ty:ty) => {
         impl $ty {
@@ -68,4 +39,3 @@ macro_rules! impl_from_alias {
 
 pub(crate) use get_hash;
 pub(crate) use impl_from_alias;
-pub(crate) use partial_eq;

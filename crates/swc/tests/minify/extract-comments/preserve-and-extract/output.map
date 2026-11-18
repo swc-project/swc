@@ -1,0 +1,14 @@
+{
+  "mappings": "AAAA;;CAEC,EACDA,QAAQC,GAAG,CAAC",
+  "names": [
+    "console",
+    "log"
+  ],
+  "sources": [
+    "$DIR/tests/minify/extract-comments/preserve-and-extract/input.js"
+  ],
+  "sourcesContent": [
+    "/*!\n * Important notice\n */\nconsole.log(\"preserve-and-extract\");\n"
+  ],
+  "version": 3
+}

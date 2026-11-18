@@ -1,0 +1,17 @@
+name: Native artifact verifier
+description: Build the private host verifier with the repository toolchain
+runs:
+  using: composite
+  steps:
+    # Generated stable branches lose history; pin upstream master and name the toolchain.
+    - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
+      with:
+        toolchain: nightly-2026-04-10
+    - name: Build host tools
+      shell: bash
+      env:
+        RUSTFLAGS: ""
+        CARGO_ENCODED_RUSTFLAGS: ""
+      run: |
+        cargo build --locked -p swc_native_addon_pack --release
+        echo "SWC_NATIVE_TOOLS=$GITHUB_WORKSPACE/target/release" >> "$GITHUB_ENV"

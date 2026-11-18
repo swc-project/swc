@@ -15,14 +15,18 @@ System.register([
     "@swc/helpers/_/_class_call_check"
 ], function(_export, _context) {
     "use strict";
-    var _class_call_check, p1, p2, C, D;
+    var C, D, _class_call_check, p1, p2;
     function foo() {
         var p2 = _context.import("./0");
     }
+    _export({
+        D: void 0,
+        p2: void 0
+    });
     return {
         setters: [
-            function(_class_call_check1) {
-                _class_call_check = _class_call_check1._;
+            function(_class_call_check_ns) {
+                _class_call_check = _class_call_check_ns._;
             }
         ],
         execute: function() {
@@ -32,7 +36,7 @@ System.register([
                 return zero.foo();
             });
             _export("p2", p2 = _context.import("./0"));
-            C = /*#__PURE__*/ function() {
+            /*#__PURE__*/ /*#__PURE__*/ C = /*#__PURE__*/ function() {
                 "use strict";
                 function C() {
                     _class_call_check(this, C);
@@ -43,7 +47,7 @@ System.register([
                 };
                 return C;
             }();
-            _export("D", D = /*#__PURE__*/ function() {
+            /*#__PURE__*/ /*#__PURE__*/ _export("D", /*#__PURE__*/ D = /*#__PURE__*/ function() {
                 "use strict";
                 function D() {
                     _class_call_check(this, D);

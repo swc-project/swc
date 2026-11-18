@@ -1,8 +1,7 @@
 #[cfg(feature = "__plugin_mode")]
 use swc_common::Mark;
-#[cfg(feature = "__plugin_mode")]
-use swc_trace_macro::swc_trace;
 
+#[cfg(feature = "__plugin_mode")]
 #[cfg(all(
     feature = "encoding-impl",
     feature = "__plugin_mode",
@@ -31,6 +30,7 @@ pub struct TransformPluginProgramMetadata {
 }
 
 #[cfg(target_arch = "wasm32")] // Allow testing
+#[link(wasm_import_module = "env")]
 extern "C" {
     fn __copy_context_key_to_host_env(bytes_ptr: u32, bytes_ptr_len: u32);
     fn __get_transform_plugin_config(allocated_ret_ptr: u32) -> u32;
@@ -40,7 +40,6 @@ extern "C" {
 }
 
 #[cfg(feature = "__plugin_mode")]
-#[swc_trace]
 impl TransformPluginProgramMetadata {
     /// Returns current plugin's configuration as a JSON string.
     /// Plugin may need to deserialize this string manually.

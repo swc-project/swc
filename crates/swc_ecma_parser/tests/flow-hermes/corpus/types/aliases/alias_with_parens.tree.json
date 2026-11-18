@@ -1,0 +1,27 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"x",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"StringTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":16}},
+        "range":[10,16]
+      }
+    }
+  ],
+  "comments":[]
+}

@@ -530,7 +530,7 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
 }
 
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
@@ -793,16 +793,19 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
         }
 
         let type_pred_start = p.input().cur_pos();
-        let has_type_pred_asserts = p.input().cur().is_asserts() && {
-            let ctx = p.ctx();
-            peek!(p).is_some_and(|peek| {
-                if peek.is_word() {
-                    !peek.is_reserved(ctx)
-                } else {
-                    false
-                }
-            })
-        };
+        // In TypeScript, `asserts` and its parameter must be on the same line.
+        let has_type_pred_asserts = p.input().cur().is_asserts()
+            && {
+                let ctx = p.ctx();
+                peek!(p).is_some_and(|peek| {
+                    if peek.is_word() {
+                        !peek.is_reserved(ctx)
+                    } else {
+                        false
+                    }
+                })
+            }
+            && (p.syntax().flow() || !p.input_mut().has_linebreak_between_cur_and_peeked());
 
         if has_type_pred_asserts {
             p.assert_and_bump(&P::Token::ASSERTS);
@@ -867,7 +870,7 @@ fn is_start_of_expr<'a>(p: &mut impl Parser<'a>) -> bool {
 }
 
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub(super) fn try_parse_ts_type_args<'a, P: Parser<'a>>(
@@ -912,7 +915,7 @@ fn try_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsType>
 
 /// `tsTryParseTypeAnnotation`
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn try_parse_ts_type_ann<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsTypeAnn>>> {
@@ -1525,6 +1528,14 @@ fn parse_ts_tuple_element_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleE
 
     let label = try_parse_ts_tuple_element_name(p);
 
+    // Validate the confirmed label outside speculative parsing.
+    if let Some(Pat::Rest(rest)) = &label {
+        let is_optional = matches!(rest.arg.as_ref(), Pat::Ident(ident) if ident.id.optional);
+        if is_optional && !p.input().syntax().flow() {
+            syntax_error!(p, rest.span, SyntaxError::TsOptionalRestElement);
+        }
+    }
+
     if p.input_mut().eat(&P::Token::DOTDOTDOT) {
         let type_ann = parse_ts_type(p)?;
         return Ok(TsTupleElement {
@@ -1571,22 +1582,22 @@ pub fn parse_ts_tuple_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleType>
         /* skipFirstToken */ false,
     )?;
 
-    // Validate the elementTypes to ensure:
-    //   No mandatory elements may follow optional elements
-    //   If there's a rest element, it must be at the end of the tuple
-
+    // No required elements may follow optional elements. Named elements store
+    // their optional/rest markers on the label instead of the type.
     let mut seen_optional_element = false;
 
     for elem in elems.iter() {
-        match *elem.ty {
-            TsType::TsRestType(..) => {}
-            TsType::TsOptionalType(..) => {
-                seen_optional_element = true;
-            }
-            _ if seen_optional_element => {
-                syntax_error!(p, p.span(start), SyntaxError::TsRequiredAfterOptional)
-            }
-            _ => {}
+        if matches!(&elem.label, Some(Pat::Rest(..))) || matches!(*elem.ty, TsType::TsRestType(..))
+        {
+            continue;
+        }
+
+        let is_optional = matches!(&elem.label, Some(Pat::Ident(ident)) if ident.id.optional)
+            || matches!(*elem.ty, TsType::TsOptionalType(..));
+        if is_optional {
+            seen_optional_element = true;
+        } else if seen_optional_element {
+            syntax_error!(p, p.span(start), SyntaxError::TsRequiredAfterOptional)
         }
     }
 
@@ -2435,7 +2446,10 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
         || cur.is_await()
         || cur.is_break()
     {
-        if p.input().is(&P::Token::ASSERTS) && peek!(p).is_some_and(|peek| peek.is_this()) {
+        if p.input().is(&P::Token::ASSERTS)
+            && peek!(p).is_some_and(|peek| peek.is_this())
+            && (p.syntax().flow() || !p.input_mut().has_linebreak_between_cur_and_peeked())
+        {
             p.bump();
             let this_keyword = parse_ts_this_type_node(p)?;
             return parse_ts_this_type_predicate(p, start, true, this_keyword)
@@ -2789,34 +2803,31 @@ fn parse_ts_decl<'a, P: Parser<'a>>(
     }
 
     match &*value {
-        "abstract" => {
-            if next || (p.input().is(&P::Token::CLASS) && !p.input().had_line_break_before_cur()) {
-                if next {
-                    p.bump();
-                }
-                return Ok(Some(parse_class_decl(p, start, start, decorators, true)?));
+        "abstract"
+            if next
+                || (p.input().is(&P::Token::CLASS) && !p.input().had_line_break_before_cur()) =>
+        {
+            if next {
+                p.bump();
             }
+            return Ok(Some(parse_class_decl(p, start, start, decorators, true)?));
         }
 
-        "enum" => {
-            if next || p.is_ident_ref() {
-                if next {
-                    p.bump();
-                }
-                return parse_ts_enum_decl(p, start, /* is_const */ false)
-                    .map(From::from)
-                    .map(Some);
+        "enum" if next || p.is_ident_ref() => {
+            if next {
+                p.bump();
             }
+            return parse_ts_enum_decl(p, start, /* is_const */ false)
+                .map(From::from)
+                .map(Some);
         }
 
-        "interface" => {
-            if next || (p.is_ident_ref()) {
-                if next {
-                    p.bump();
-                }
-
-                return parse_ts_interface_decl(p, start).map(From::from).map(Some);
+        "interface" if next || p.is_ident_ref() => {
+            if next {
+                p.bump();
             }
+
+            return parse_ts_interface_decl(p, start).map(From::from).map(Some);
         }
 
         "module" if !p.input().had_line_break_before_cur() => {
@@ -2841,24 +2852,20 @@ fn parse_ts_decl<'a, P: Parser<'a>>(
             }
         }
 
-        "namespace" => {
-            if next || p.is_ident_ref() {
-                if next {
-                    p.bump();
-                }
-                return parse_ts_module_or_ns_decl(p, start, true)
-                    .map(From::from)
-                    .map(Some);
+        "namespace" if next || p.is_ident_ref() => {
+            if next {
+                p.bump();
             }
+            return parse_ts_module_or_ns_decl(p, start, true)
+                .map(From::from)
+                .map(Some);
         }
 
-        "type" => {
-            if next || (!p.input().had_line_break_before_cur() && p.is_ident_ref()) {
-                if next {
-                    p.bump();
-                }
-                return parse_ts_type_alias_decl(p, start).map(From::from).map(Some);
+        "type" if next || (!p.input().had_line_break_before_cur() && p.is_ident_ref()) => {
+            if next {
+                p.bump();
             }
+            return parse_ts_type_alias_decl(p, start).map(From::from).map(Some);
         }
 
         _ => {}
@@ -2884,10 +2891,15 @@ pub fn try_parse_ts_generic_async_arrow_fn<'a, P: Parser<'a>>(
             // In TSX mode, type parameters that could be mistaken for JSX
             // (single param without constraint and no trailing comma) are not
             // allowed.
-            if p.input().syntax().jsx() && type_params.params.len() == 1 {
+            if p.input().syntax().jsx()
+                && !p.input().syntax().flow()
+                && type_params.params.len() == 1
+            {
                 let single_param = &type_params.params[0];
                 let has_trailing_comma = type_params.span.hi.0 - single_param.span.hi.0 > 1;
-                let dominated_by_jsx = single_param.constraint.is_none() && !has_trailing_comma;
+                let dominated_by_jsx = single_param.constraint.is_none()
+                    && single_param.default.is_none()
+                    && !has_trailing_comma;
 
                 if dominated_by_jsx {
                     return Ok(None);

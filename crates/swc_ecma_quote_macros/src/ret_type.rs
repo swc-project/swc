@@ -71,6 +71,10 @@ where
         None,
     );
     let mut parser = Parser::new_from(lexer);
+    // Quoted nodes use direct parser entry points rather than parsing a Program.
+    // Preserve their module-capable grammar so top-level `await` is quoted as an
+    // `AwaitExpr`, while explicit Script parsing remains unchanged.
+    parser.allow_module_syntax();
     op(&mut parser)
         .map_err(|err| anyhow!("{err:?}"))
         .with_context(|| format!("failed to parse input as `{}`", type_name::<T>()))

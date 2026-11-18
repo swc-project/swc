@@ -42,12 +42,11 @@
           },
           "params": [],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 144,
               "end": 146
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": null,
@@ -131,12 +130,11 @@
           },
           "params": [],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 201,
               "end": 272
             },
-            "ctxt": 0,
             "stmts": [
               {
                 "type": "ExpressionStatement",
@@ -236,12 +234,11 @@
                           },
                           "ctxt": 0,
                           "body": {
-                            "type": "BlockStatement",
+                            "type": "FunctionBody",
                             "span": {
                               "start": 261,
                               "end": 263
                             },
-                            "ctxt": 0,
                             "stmts": []
                           },
                           "generator": false,

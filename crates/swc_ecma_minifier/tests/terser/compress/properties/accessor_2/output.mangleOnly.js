@@ -2,6 +2,6 @@ console.log({
     get a () {
         return "PASS";
     },
-    set a (v){},
+    set a (a){},
     a: "FAIL"
 }.a);

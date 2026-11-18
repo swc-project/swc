@@ -20,6 +20,7 @@ backtrace = { workspace = true, default-features = false }
 napi          = { workspace = true, features = ["napi3", "serde-json"] }
 napi-derive   = { workspace = true, features = ["type-def"] }
 serde = { workspace = true, features = ["derive"], default-features = false }
+serde_json    = { workspace = true }
 tracing       = { workspace = true, features = ["release_max_level_info"] }
 
 

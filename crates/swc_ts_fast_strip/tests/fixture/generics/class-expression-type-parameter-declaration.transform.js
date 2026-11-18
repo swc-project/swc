@@ -1,0 +1,2 @@
+const C = class {
+};

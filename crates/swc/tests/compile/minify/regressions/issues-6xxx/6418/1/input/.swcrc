@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "minify": {
+            "mangle": {
+                "toplevel": false
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "isModule": false
+}

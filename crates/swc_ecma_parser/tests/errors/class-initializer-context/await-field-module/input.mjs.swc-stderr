@@ -1,0 +1,5 @@
+  x Expected ident
+   ,-[$DIR/tests/errors/class-initializer-context/await-field-module/input.mjs:1:1]
+ 1 | async function f(x = class { field = await + 1; }) {}
+   :                                      ^^^^^
+   `----

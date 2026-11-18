@@ -35,6 +35,7 @@ where
         #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
         #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(debug_assertions)]
         tracing::debug!("Dependency analysis took {:?}", dur);
 
         if cfg!(debug_assertions) {
@@ -77,6 +78,7 @@ where
         #[cfg(not(target_arch = "wasm32"))]
         let dur = Instant::now() - start;
         #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(debug_assertions)]
         tracing::debug!("Module preparation took {:?}", dur);
 
         let entries = all
@@ -95,6 +97,7 @@ where
                 .map(|(id, mut entry)| {
                     self.merge_into_entry(&ctx, id, &mut entry, &mut all);
 
+                    #[cfg(debug_assertions)]
                     tracing::debug!("Merged `{}` and it's dep into an entry", id);
 
                     (id, entry)
@@ -121,6 +124,7 @@ where
                     let mut a = all.clone();
                     self.merge_into_entry(&ctx, id, &mut entry, &mut a);
 
+                    #[cfg(debug_assertions)]
                     tracing::debug!("Merged `{}` and it's dep into an entry", id);
 
                     (id, entry)

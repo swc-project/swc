@@ -1,0 +1,5 @@
+  x The value of property 'key' should not be empty
+   ,-[$DIR/tests/compile/react/jsx/issue-6939/input/input.js:1:1]
+ 1 | const test = <div key></div>
+   :                   ^^^
+   `----

@@ -1,0 +1,49 @@
+  x Expected ident
+   ,-[$DIR/tests/errors/static-block-await-context/resource-management/input.mjs:3:1]
+ 2 |     static {
+ 3 |         await using direct = null;
+   :         ^^^^^
+ 4 |         { await using nested = null; }
+   `----
+  x Expected ident
+   ,-[$DIR/tests/errors/static-block-await-context/resource-management/input.mjs:4:1]
+ 3 |         await using direct = null;
+ 4 |         { await using nested = null; }
+   :           ^^^^^
+ 5 |         for await (const value of []) {}
+   `----
+  x Expected ident
+   ,-[$DIR/tests/errors/static-block-await-context/resource-management/input.mjs:5:1]
+ 4 |         { await using nested = null; }
+ 5 |         for await (const value of []) {}
+   :             ^^^^^
+ 6 |         { for await (const value of []) {} }
+   `----
+  x Expected ident
+   ,-[$DIR/tests/errors/static-block-await-context/resource-management/input.mjs:6:1]
+ 5 |         for await (const value of []) {}
+ 6 |         { for await (const value of []) {} }
+   :               ^^^^^
+ 7 |         for (await using value of []) {}
+   `----
+  x Expected ident
+   ,-[$DIR/tests/errors/static-block-await-context/resource-management/input.mjs:7:1]
+ 6 |         { for await (const value of []) {} }
+ 7 |         for (await using value of []) {}
+   :              ^^^^^
+ 8 |         async function nested() {
+   `----
+  x Expected ident
+    ,-[$DIR/tests/errors/static-block-await-context/resource-management/input.mjs:11:1]
+ 10 |                 static {
+ 11 |                     await using resource = null;
+    :                     ^^^^^
+ 12 |                     for await (const value of []) {}
+    `----
+  x Expected ident
+    ,-[$DIR/tests/errors/static-block-await-context/resource-management/input.mjs:12:1]
+ 11 |                     await using resource = null;
+ 12 |                     for await (const value of []) {}
+    :                         ^^^^^
+ 13 |                 }
+    `----

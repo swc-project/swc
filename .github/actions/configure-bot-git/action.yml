@@ -1,0 +1,36 @@
+name: "Configure bot git"
+description: "Configures git to commit and push as the SWC GitHub App bot"
+inputs:
+  token:
+    description: "GitHub App installation token with contents write access"
+    required: true
+  app-slug:
+    description: "GitHub App slug, used to derive the bot commit identity"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Configure git identity and credentials
+      shell: bash
+      env:
+        BOT_TOKEN: ${{ inputs.token }}
+        APP_SLUG: ${{ inputs.app-slug }}
+      run: |
+        set -euo pipefail
+
+        # Resolve the bot identity at runtime so commits keep following the
+        # app after it is renamed. The `ID+login` noreply address is how
+        # GitHub attributes commits to the bot account.
+        bot_login="${APP_SLUG}[bot]"
+        bot_id="$(GH_TOKEN="$BOT_TOKEN" gh api "/users/${APP_SLUG}%5Bbot%5D" --jq .id)"
+        git config --global user.name "$bot_login"
+        git config --global user.email "${bot_id}+${bot_login}@users.noreply.github.com"
+        echo "Configured git identity as ${bot_login} (${bot_id})"
+
+        # Release scripts push to the SSH remote. Rewrite it to HTTPS so the
+        # installation token authenticates the push.
+        git config --global url."https://github.com/".insteadOf "git@github.com:"
+        auth_header="$(printf 'x-access-token:%s' "$BOT_TOKEN" | base64 -w0)"
+        echo "::add-mask::${auth_header}"
+        git config --global http.https://github.com/.extraheader "AUTHORIZATION: basic ${auth_header}"

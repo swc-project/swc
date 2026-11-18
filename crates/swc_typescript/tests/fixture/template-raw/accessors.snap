@@ -1,0 +1,8 @@
+```==================== .D.TS ====================
+
+export declare const accessors: {
+    ["A"]: number;
+    readonly ["read\nonly"]: string;
+};
+
+

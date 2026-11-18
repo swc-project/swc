@@ -61,13 +61,27 @@
               "attributes": [],
               "children": [
                 {
-                  "type": "Text",
+                  "type": "Element",
                   "span": {
-                    "start": 47,
+                    "start": 24,
                     "end": 48
                   },
-                  "data": "X",
-                  "raw": "X"
+                  "tagName": "plaintext",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 35,
+                        "end": 48
+                      },
+                      "data": "</plaintext>X",
+                      "raw": "</plaintext>X"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
                 }
               ],
               "content": null,

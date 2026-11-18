@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "dts": true,
+            "decorators": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        },
+        "target": "es2020"
+    },
+    "test": ".+\\.ts$",
+    "module": {
+        "type": "commonjs"
+    },
+    "sourceMaps": true,
+    "exclude": [
+        ".+\\.spec\\.ts$",
+        ".+\\.d\\.ts$"
+    ]
+}

@@ -264,11 +264,8 @@ impl Compressor {
                     '0'..='9' if idx == 0 || (starts_with_hyphen && idx == 1) => {
                         return;
                     }
-                    '-' => {
-                        if idx == 0 {
-                            starts_with_hyphen = true;
-                        }
-                    }
+                    '-' if idx == 0 => starts_with_hyphen = true,
+                    '-' => {}
                     _ if !matches!(c, '-' | '_' | 'a'..='z' | 'A'..='Z' | '0'..='9' | '\u{00a0}'..='\u{10FFFF}') =>
                     {
                         return;

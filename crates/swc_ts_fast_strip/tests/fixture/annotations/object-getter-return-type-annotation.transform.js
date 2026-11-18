@@ -1,0 +1,5 @@
+const object = {
+    get value () {
+        return 1;
+    }
+};

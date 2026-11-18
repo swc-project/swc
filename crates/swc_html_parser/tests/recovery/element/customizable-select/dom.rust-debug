@@ -1,0 +1,18 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <select>
+|       <option>
+|         <span>
+|           "one"
+|       <option>
+|         "two"
+|     "
+"
+|     <select>
+|       <option>
+|         "before"
+|     <input>
+|     "after
+"

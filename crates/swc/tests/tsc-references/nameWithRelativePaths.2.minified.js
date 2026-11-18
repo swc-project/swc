@@ -31,8 +31,5 @@ Object.defineProperty(exports, "__esModule", {
     }
 }), (M2 || (M2 = {})).x = !0;
 //// [test/foo_3.ts]
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-});
 var foo0 = require("../foo_0"), foo1 = require("./test/foo_1");
 require("./.././test/foo_2").M2.x && (foo0.foo, foo1.f());

@@ -34,18 +34,18 @@ var f2 = function f2(x, y) {
     }
 };
 var f3 = function f3(x, y) {
-    var bar = function bar() {
+    function bar() {
         var g = function g(a, b) {
             x = y;
             return y;
         };
-    };
+    }
 };
 var f4 = function f4(x, y) {
-    var bar = function bar() {
+    function bar() {
         var g = function g(a, b) {
             x = y;
             return y;
         };
-    };
+    }
 };

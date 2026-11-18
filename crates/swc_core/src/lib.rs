@@ -129,12 +129,6 @@ pub mod ecma {
         pub use swc_ecma_preset_env::*;
     }
 
-    #[cfg(feature = "ecma_usage_analyzer")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_usage_analyzer")))]
-    pub mod usage_analyzer {
-        pub use swc_ecma_usage_analyzer::*;
-    }
-
     // visit* interfaces
     #[cfg(feature = "ecma_lints")]
     #[cfg_attr(docsrs, doc(cfg(feature = "ecma_lints")))]
@@ -179,13 +173,6 @@ pub mod common {
 #[cfg_attr(docsrs, doc(cfg(feature = "__plugin_transform_host")))]
 pub mod plugin_runner {
     pub use swc_plugin_runner::*;
-}
-
-// swc_trace_macro
-#[cfg(feature = "trace_macro")]
-#[cfg_attr(docsrs, doc(cfg(feature = "trace_macro")))]
-pub mod trace_macro {
-    pub use swc_trace_macro::*;
 }
 
 #[cfg(feature = "transform_common")]
@@ -320,12 +307,9 @@ pub mod diagnostics {
     /// Returns metadata about the swc_core engine that was built against.
     pub fn get_core_engine_diagnostics() -> CoreEngineDiagnostics {
         CoreEngineDiagnostics {
-            package_semver: option_env!("VERGEN_BUILD_SEMVER")
-                .unwrap_or_else(|| PKG_SEMVER_FALLBACK)
-                .to_string(),
+            package_semver: PKG_SEMVER_FALLBACK.to_string(),
             git_sha: GIT_SHA.to_string(),
-            cargo_features: option_env!("VERGEN_CARGO_FEATURES")
-                .unwrap_or_else(|| "Unavailable to query")
+            cargo_features: include_str!(concat!(env!("OUT_DIR"), "/cargo_features.txt"))
                 .to_string(),
         }
     }

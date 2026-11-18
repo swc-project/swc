@@ -1,5 +1,5 @@
 //// [propertyAccessOnTypeParameterWithConstraints.ts]
-var i, a;
+var i, a, x;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 new (/*#__PURE__*/ function() {
     function C() {
@@ -9,8 +9,4 @@ new (/*#__PURE__*/ function() {
         var x;
         return x.getDate() + x.getDate();
     }, C;
-}())().f(), i.foo.getDate(), i.foo.getDate(), a().getDate(), a().getDate(), ({
-    foo: function(x) {
-        return x.getDate() + x.getDate();
-    }
-}).foo(new Date());
+}())().f(), i.foo.getDate(), i.foo.getDate(), a().getDate(), a().getDate(), (x = new Date()).getDate(), x.getDate();

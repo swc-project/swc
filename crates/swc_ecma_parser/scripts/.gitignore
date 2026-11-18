@@ -1,1 +1,2 @@
 *.js
+!sync_flow_hermes_metadata.js

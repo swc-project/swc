@@ -1,0 +1,21 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "decorators": true
+        },
+        "target": "es2022",
+        "transform": {
+            "decoratorMetadata": true,
+            "react": {
+                "refresh": true,
+                "development": true
+            }
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "isModule": "unknown"
+}

@@ -4,13 +4,14 @@ use std::{
 };
 
 use serde::Deserialize;
-use swc_common::comments::SingleThreadedComments;
+use swc_common::{comments::SingleThreadedComments, EqIgnoreSpan};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
     Emitter,
 };
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::{run_test2, NormalizedOutput};
 
 const fn true_by_default() -> bool {
@@ -19,14 +20,32 @@ const fn true_by_default() -> bool {
 
 #[derive(Deserialize)]
 struct TestConfig {
+    #[serde(default)]
+    ascii_only: bool,
+    #[serde(default)]
+    inline_script: bool,
+    #[serde(default)]
+    exec: bool,
+    #[serde(default)]
+    source_map: bool,
+    #[serde(default)]
+    check_ast: bool,
     #[serde(default = "true_by_default")]
     reduce_escaped_newline: bool,
+    #[serde(default = "true_by_default")]
+    tsx: bool,
 }
 
 impl Default for TestConfig {
     fn default() -> Self {
         TestConfig {
+            ascii_only: false,
+            inline_script: false,
+            exec: false,
+            source_map: false,
+            check_ast: false,
             reduce_escaped_newline: true,
+            tsx: true,
         }
     }
 }
@@ -51,41 +70,45 @@ fn find_config(dir: &Path) -> TestConfig {
 
 fn run(input: &Path, minify: bool) {
     let dir = input.parent().unwrap();
-    let output = if minify {
-        dir.join(format!(
-            "output.min.{}",
-            input.extension().unwrap().to_string_lossy()
-        ))
-    } else {
-        dir.join(format!(
-            "output.{}",
-            input.extension().unwrap().to_string_lossy()
-        ))
-    };
+
+    let dts = is_dts(input);
+
+    let output = output_path(input, minify, dts);
 
     run_test2(false, |cm, _| {
         let config = find_config(dir);
         let fm = cm.load_file(input).unwrap();
         let comments = SingleThreadedComments::default();
 
+        let syntax = Syntax::Typescript(TsSyntax {
+            decorators: true,
+            tsx: config.tsx,
+            dts,
+            ..Default::default()
+        });
+        let mut errors = Vec::new();
         let m = parse_file_as_module(
             &fm,
-            Syntax::Typescript(TsSyntax {
-                decorators: true,
-                tsx: true,
-                ..Default::default()
-            }),
+            syntax,
             EsVersion::latest(),
             Some(&comments),
-            &mut Vec::new(),
+            &mut errors,
         )
         .expect("failed to parse input as a module");
+        if config.check_ast {
+            assert!(errors.is_empty(), "input has syntax errors: {errors:?}");
+        }
 
         let mut buf = Vec::new();
+        let mut source_map = Vec::new();
 
         {
-            let mut wr =
-                Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
+            let mut wr = Box::new(JsWriter::new(
+                cm.clone(),
+                "\n",
+                &mut buf,
+                config.source_map.then_some(&mut source_map),
+            )) as Box<dyn WriteJs>;
 
             if minify {
                 wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
@@ -94,8 +117,10 @@ fn run(input: &Path, minify: bool) {
             let mut emitter = Emitter {
                 cfg: swc_ecma_codegen::Config::default()
                     .with_minify(minify)
+                    .with_ascii_only(config.ascii_only)
+                    .with_inline_script(config.inline_script)
                     .with_reduce_escaped_newline(config.reduce_escaped_newline),
-                cm,
+                cm: cm.clone(),
                 comments: Some(&comments),
                 wr,
             };
@@ -103,19 +128,94 @@ fn run(input: &Path, minify: bool) {
             emitter.emit_module(&m).unwrap();
         }
 
-        NormalizedOutput::from(String::from_utf8(buf).unwrap())
+        let code = String::from_utf8(buf).unwrap();
+        if config.check_ast {
+            let output_file = cm.new_source_file(swc_common::FileName::Anon.into(), code.clone());
+            let mut errors = Vec::new();
+            let actual =
+                parse_file_as_module(&output_file, syntax, EsVersion::latest(), None, &mut errors)
+                    .unwrap_or_else(|error| {
+                        panic!("generated code failed to parse: {error:?}\n{code}")
+                    });
+            assert!(errors.is_empty(), "output has syntax errors: {errors:?}");
+            assert!(
+                m.eq_ignore_span(&actual),
+                "generated code changed the AST in {}:\n{code}",
+                input.display(),
+            );
+        }
+        if config.inline_script {
+            let html_markers = regex::Regex::new(r"(?i:</script)[/>\t\n\x0c\r ]|<!--|-->").unwrap();
+            assert!(
+                !html_markers.is_match(&code),
+                "generated code contains HTML-sensitive inline-script sequences: {code}"
+            );
+        }
+        if config.exec {
+            let options = JsExecOptions {
+                cache: true,
+                ..Default::default()
+            };
+            let expected = exec_node_js(&fm.src, options.clone()).expect("failed to execute input");
+            let actual = exec_node_js(&code, options).expect("failed to execute output");
+            assert_eq!(
+                actual, expected,
+                "generated code changed the execution result"
+            );
+        }
+
+        NormalizedOutput::from(code)
             .compare_to_file(&output)
             .unwrap();
+
+        if config.source_map {
+            // Map zero-based generated line/column pairs to source byte positions.
+            let mappings = source_map
+                .iter()
+                .map(|(pos, loc)| format!("{}:{} -> {}\n", loc.line, loc.col, pos.0))
+                .collect::<String>();
+            NormalizedOutput::from(mappings)
+                .compare_to_file(output.with_extension("map"))
+                .unwrap();
+        }
 
         Ok(())
     })
     .unwrap();
 }
 
+fn is_dts(input: &Path) -> bool {
+    let file_name = input
+        .file_name()
+        .and_then(|file_name| file_name.to_str())
+        .unwrap();
+    file_name.ends_with(".d.ts") || file_name.ends_with(".d.mts") || file_name.ends_with(".d.cts")
+}
+
+fn output_path(input: &Path, minify: bool, is_dts: bool) -> PathBuf {
+    let dir = input.parent().unwrap();
+
+    if minify {
+        dir.join(format!(
+            "output.min.{}{}",
+            if is_dts { "d." } else { "" },
+            input.extension().unwrap().to_string_lossy()
+        ))
+    } else {
+        dir.join(format!(
+            "output.{}{}",
+            if is_dts { "d." } else { "" },
+            input.extension().unwrap().to_string_lossy()
+        ))
+    }
+}
+
 #[testing::fixture("tests/fixture/**/input.ts")]
 #[testing::fixture("tests/fixture/**/input.tsx")]
+#[testing::fixture("tests/fixture/**/input.d.ts")]
 fn ts(input: PathBuf) {
     run(&input, false);
+    run(&input, true);
 }
 
 #[testing::fixture("tests/fixture/**/input.js")]

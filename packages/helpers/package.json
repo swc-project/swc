@@ -1,6 +1,6 @@
 {
     "name": "@swc/helpers",
-    "version": "0.5.18",
+    "version": "0.5.24",
     "description": "External helpers for the swc project.",
     "module": "esm/index.js",
     "main": "cjs/index.cjs",
@@ -32,10 +32,7 @@
     "devDependencies": {
         "@ast-grep/napi": "^0.40.3",
         "dprint": "^0.35.3",
-        "zx": "^7.2.1"
-    },
-    "dependencies": {
-        "tslib": "^2.8.0"
+        "zx": "^8.0.0"
     },
     "exports": {
         "./package.json": "./package.json",
@@ -65,6 +62,12 @@
             "webpack": "./esm/_apply_decs_2203_r.js",
             "import": "./esm/_apply_decs_2203_r.js",
             "default": "./cjs/_apply_decs_2203_r.cjs"
+        },
+        "./_/_apply_decs_2311": {
+            "module-sync": "./esm/_apply_decs_2311.js",
+            "webpack": "./esm/_apply_decs_2311.js",
+            "import": "./esm/_apply_decs_2311.js",
+            "default": "./cjs/_apply_decs_2311.cjs"
         },
         "./_/_array_like_to_array": {
             "module-sync": "./esm/_array_like_to_array.js",
@@ -438,12 +441,6 @@
             "import": "./esm/_iterable_to_array_limit_loose.js",
             "default": "./cjs/_iterable_to_array_limit_loose.cjs"
         },
-        "./_/_jsx": {
-            "module-sync": "./esm/_jsx.js",
-            "webpack": "./esm/_jsx.js",
-            "import": "./esm/_jsx.js",
-            "default": "./cjs/_jsx.cjs"
-        },
         "./_/_new_arrow_check": {
             "module-sync": "./esm/_new_arrow_check.js",
             "webpack": "./esm/_new_arrow_check.js",
@@ -677,6 +674,12 @@
             "webpack": "./esm/_wrap_native_super.js",
             "import": "./esm/_wrap_native_super.js",
             "default": "./cjs/_wrap_native_super.cjs"
+        },
+        "./_/_wrap_reg_exp": {
+            "module-sync": "./esm/_wrap_reg_exp.js",
+            "webpack": "./esm/_wrap_reg_exp.js",
+            "import": "./esm/_wrap_reg_exp.js",
+            "default": "./cjs/_wrap_reg_exp.cjs"
         },
         "./_/_write_only_error": {
             "module-sync": "./esm/_write_only_error.js",

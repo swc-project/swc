@@ -1,0 +1,8 @@
+consume(`ab
+c
+`);
+consume(`a\b\
+c\
+d`);
+consume(`a${value}b
+`);

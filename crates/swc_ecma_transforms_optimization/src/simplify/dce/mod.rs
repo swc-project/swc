@@ -3,7 +3,7 @@ use std::borrow::Cow;
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
+use swc_atoms::Atom;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -17,6 +17,7 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::{debug, span, Level};
 
 use crate::debug_assert_valid;
@@ -37,8 +38,10 @@ pub fn dce(
         changed: false,
         pass: 0,
         in_fn: false,
-        in_block_stmt: false,
+        in_non_top_level_lexical_scope: false,
         var_decl_kind: None,
+        cur_fn_id: None,
+        cur_class_id: None,
         data: Default::default(),
     })
 }
@@ -83,8 +86,15 @@ struct TreeShaker {
     pass: u16,
 
     in_fn: bool,
-    in_block_stmt: bool,
+    in_non_top_level_lexical_scope: bool,
     var_decl_kind: Option<VarDeclKind>,
+
+    /// Innermost enclosing named function / class, tracked exactly like the
+    /// [Analyzer] does: references to these from inside their own body are
+    /// self-references, which the analyzer never counts, so the [Dropper]
+    /// must not subtract them either.
+    cur_fn_id: Option<Id>,
+    cur_class_id: Option<Id>,
 
     data: Data,
 }
@@ -116,7 +126,7 @@ impl Data {
     fn drop_usage(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurence count, so the value is not
+            // We subtract the cycle count from the occurrence count, so the value is not
             // correct representation of the actual usage.
             e.usage = e.usage.saturating_sub(1);
 
@@ -133,7 +143,7 @@ impl Data {
     fn drop_assign(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurence count, so the value is not
+            // We subtract the cycle count from the occurrence count, so the value is not
             // correct representation of the actual usage.
             e.assign = e.assign.saturating_sub(1);
 
@@ -237,11 +247,18 @@ impl Data {
 
 /// Graph modification
 impl Data {
-    fn drop_ast_node<N>(&mut self, node: &N)
+    /// `cur_fn_id` / `cur_class_id` are the innermost named function / class
+    /// enclosing `node`, so that self-references (which [Analyzer::add] never
+    /// counted) are not subtracted here.
+    fn drop_ast_node<N>(&mut self, node: &N, cur_fn_id: Option<Id>, cur_class_id: Option<Id>)
     where
         N: for<'aa> VisitWith<Dropper<'aa>>,
     {
-        let mut dropper = Dropper { data: self };
+        let mut dropper = Dropper {
+            data: self,
+            cur_fn_id,
+            cur_class_id,
+        };
 
         node.visit_with(&mut dropper);
     }
@@ -249,6 +266,16 @@ impl Data {
 
 struct Dropper<'a> {
     data: &'a mut Data,
+    /// Mirrors [Analyzer::cur_fn_id].
+    cur_fn_id: Option<Id>,
+    /// Mirrors [Analyzer::cur_class_id].
+    cur_class_id: Option<Id>,
+}
+
+impl Dropper<'_> {
+    fn is_self_ref(&self, id: &Id) -> bool {
+        self.cur_fn_id.as_ref() == Some(id) || self.cur_class_id.as_ref() == Some(id)
+    }
 }
 
 impl<'a> Visit for Dropper<'a> {
@@ -261,38 +288,58 @@ impl<'a> Visit for Dropper<'a> {
     }
 
     fn visit_class_decl(&mut self, node: &ClassDecl) {
-        node.visit_children_with(self);
+        // Same shape as `Analyzer::visit_class_decl`: the superclass is
+        // visited outside the class's own binding, the body inside it.
+        node.class.super_class.visit_with(self);
+
+        let old = self.cur_class_id.replace(node.ident.to_id());
+        node.class.decorators.visit_with(self);
+        node.class.body.visit_with(self);
+        self.cur_class_id = old;
 
         self.data.drop_assign(&node.ident.to_id());
     }
 
     fn visit_class_expr(&mut self, node: &ClassExpr) {
-        node.visit_children_with(self);
-
         if let Some(i) = &node.ident {
+            let old = self.cur_class_id.replace(i.to_id());
+            node.visit_children_with(self);
+            self.cur_class_id = old;
+
             self.data.drop_assign(&i.to_id());
+        } else {
+            node.visit_children_with(self);
         }
     }
 
     fn visit_expr(&mut self, expr: &Expr) {
-        expr.visit_children_with(self);
-
         if let Expr::Ident(i) = expr {
-            self.data.drop_usage(&i.to_id());
+            if !self.is_self_ref(&i.to_id()) {
+                self.data.drop_usage(&i.to_id());
+            }
+            return;
         }
+
+        expr.visit_children_with(self);
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
+        let old = self.cur_fn_id.replace(node.ident.to_id());
         node.visit_children_with(self);
+        self.cur_fn_id = old;
 
         self.data.drop_assign(&node.ident.to_id());
     }
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {
-        node.visit_children_with(self);
-
         if let Some(i) = &node.ident {
+            let old = self.cur_fn_id.replace(i.to_id());
+            node.visit_children_with(self);
+            self.cur_fn_id = old;
+
             self.data.drop_assign(&i.to_id());
+        } else {
+            node.visit_children_with(self);
         }
     }
 }
@@ -308,11 +355,27 @@ struct VarInfo {
 struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
+    expr_ctx: ExprCtx,
     in_var_decl: bool,
     scope: Scope<'a>,
     data: &'a mut Data,
     cur_class_id: Option<Id>,
     cur_fn_id: Option<Id>,
+    /// Lexical class bindings already declared earlier in the current scope.
+    /// Used to tell a backward (TDZ-safe) superclass reference, which may
+    /// participate in a removable declaration cycle, from a forward one, which
+    /// must be preserved.
+    initialized_classes: FxHashSet<Id>,
+    /// Subset of the above whose declaration carries decorators. A decorated
+    /// class is kept observable by its decorator independently of the cycle, so
+    /// a subclass extending it must not collapse the cycle.
+    /// Lexical class bindings, among those already initialized, whose
+    /// declaration is NOT definition-time trivial (see `class_def_is_trivial`):
+    /// it evaluates decorators, computed keys, or static initializers when
+    /// defined. A subclass must not collapse its `extends` cycle with such a
+    /// superclass, since the superclass's eager evaluation may depend on the
+    /// cycle being intact.
+    nontrivial_classes: FxHashSet<Id>,
 }
 
 #[derive(Debug, Default)]
@@ -332,16 +395,11 @@ struct Scope<'a> {
     ast_path: Vec<Id>,
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash, Default)]
 enum ScopeKind {
+    #[default]
     Fn,
     ArrowFn,
-}
-
-impl Default for ScopeKind {
-    fn default() -> Self {
-        Self::Fn
-    }
 }
 
 impl Analyzer<'_> {
@@ -373,6 +431,9 @@ impl Analyzer<'_> {
                 data: self.data,
                 cur_fn_id: self.cur_fn_id.clone(),
                 cur_class_id: self.cur_class_id.clone(),
+                // A new scope starts a fresh lexical-initialization context.
+                initialized_classes: Default::default(),
+                nontrivial_classes: Default::default(),
                 ..*self
             };
 
@@ -408,7 +469,7 @@ impl Analyzer<'_> {
 
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
-        if id.0 == atom!("arguments") {
+        if &*id.0 == "arguments" {
             self.scope.found_arguemnts = true;
         }
 
@@ -451,6 +512,103 @@ impl Analyzer<'_> {
     }
 }
 
+/// A class declaration is "definition-time trivial" when evaluating it (running
+/// its declaration) does nothing observable beyond resolving its `extends`
+/// clause and any computed member keys (whose identifier references are pinned
+/// separately by the analyzer). The eager evaluations this guards against are
+/// decorators (on the class or any member) and `static` member initializers
+/// (`static x = …`, `static #x = …`, and `static {}` blocks). Method and
+/// constructor bodies and instance-field initializers run later (at
+/// call/instantiation time), so they are not definition-time evaluations.
+///
+/// Any eager evaluation may read another class still in its temporal dead zone
+/// and throw. Restricting the backward-reference optimization to trivial
+/// classes (on both sides of the `extends` edge) means a removable cycle can
+/// only be collapsed when neither class evaluates anything at definition time
+/// except the heritage reference itself — which the caller separately checks is
+/// a safe backward reference. This closes the whole family of definition-time
+/// TDZ hazards structurally instead of enumerating each one. The `extends`
+/// expression is intentionally not inspected here; it is handled by the caller.
+fn class_def_is_trivial(class: &Class) -> bool {
+    if !class.decorators.is_empty() {
+        return false;
+    }
+    class.body.iter().all(|member| match member {
+        ClassMember::Constructor(_) | ClassMember::TsIndexSignature(_) | ClassMember::Empty(_) => {
+            true
+        }
+        ClassMember::Method(m) => m.function.decorators.is_empty(),
+        ClassMember::PrivateMethod(m) => m.function.decorators.is_empty(),
+        ClassMember::ClassProp(p) => p.decorators.is_empty() && !(p.is_static && p.value.is_some()),
+        ClassMember::PrivateProp(p) => {
+            p.decorators.is_empty() && !(p.is_static && p.value.is_some())
+        }
+        ClassMember::AutoAccessor(a) => {
+            a.decorators.is_empty() && !(a.is_static && a.value.is_some())
+        }
+        ClassMember::StaticBlock(_) => false,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    })
+}
+
+/// Returns true when the class definition has no observable side effects, i.e.
+/// it is safe to drop when unused. Kept in sync with the `Decl::Class` arm of
+/// `visit_mut_decl`'s drop predicate, which calls this.
+fn class_def_is_side_effect_free(class: &Class, expr_ctx: ExprCtx) -> bool {
+    class
+        .super_class
+        .as_deref()
+        .map_or(true, |e| !e.may_have_side_effects(expr_ctx))
+        && class.body.iter().all(|m| match m {
+            ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
+            ClassMember::ClassProp(m) => {
+                !matches!(m.key, PropName::Computed(..))
+                    && !m
+                        .value
+                        .as_deref()
+                        .is_some_and(|e| e.may_have_side_effects(expr_ctx))
+            }
+            ClassMember::AutoAccessor(m) => {
+                !matches!(m.key, Key::Public(PropName::Computed(..)))
+                    && !m
+                        .value
+                        .as_deref()
+                        .is_some_and(|e| e.may_have_side_effects(expr_ctx))
+            }
+            ClassMember::PrivateProp(m) => !m
+                .value
+                .as_deref()
+                .is_some_and(|e| e.may_have_side_effects(expr_ctx)),
+            ClassMember::StaticBlock(_) => false,
+            ClassMember::TsIndexSignature(_)
+            | ClassMember::Empty(_)
+            | ClassMember::Constructor(_)
+            | ClassMember::PrivateMethod(_) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
+        })
+}
+
+/// Returns true if references in an initializer can be attributed to the
+/// initialized binding instead of being treated as eager top-level references.
+fn can_attribute_initializer_refs_to_binding(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+    match expr {
+        Expr::Fn(_) | Expr::Arrow(_) => true,
+        Expr::Class(c) => {
+            // Class heritage is evaluated while defining the class and can throw
+            // even when evaluating the heritage expression itself is pure. The
+            // remaining checks reject decorators, computed keys, and static
+            // initialization, leaving only dependencies evaluated after the class
+            // value is used (for example, method and constructor bodies).
+            c.class.super_class.is_none()
+                && class_def_is_trivial(&c.class)
+                && class_def_is_side_effect_free(&c.class, expr_ctx)
+        }
+        _ => false,
+    }
+}
+
 impl Visit for Analyzer<'_> {
     noop_visit_type!();
 
@@ -471,12 +629,53 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
-        if let Some(super_class) = &n.class.super_class {
-            super_class.visit_with(self);
+        // A superclass that is a backward reference to an already-initialized
+        // class can be attributed as a normal dependency edge, letting an
+        // unreachable `extends` cycle collapse. A forward reference, a
+        // non-identifier expression, or anything else is treated as a top-level
+        // reference (the original behavior): it pins the referent as an entry
+        // and preserves any cycle it belongs to. This keeps TDZ-observable
+        // cycles such as `class A extends B {} class B extends A {}` (which
+        // throws at runtime) from being eliminated.
+        // The backward-reference optimization (attributing the `extends` edge to
+        // the subclass so an unreachable cycle can collapse) is only applied when
+        // it is provably safe. It requires the superclass to be an identifier
+        // already initialized earlier in this scope, AND:
+        //   - the subclass carries no decorators, and the superclass is not decorated
+        //     either — a decorator runs at definition time and keeps a class observable
+        //     independently of the cycle, so collapsing it could drop a sibling the
+        //     decorator still needs;
+        //   - neither class is in `top_retain`, which keeps it externally reachable.
+        // Anything else falls back to the original behavior (the heritage
+        // reference pins the referent as an entry, preserving the cycle).
+        // Preserving an unused cycle is always safe; dropping a live one is the bug.
+        let super_id = n.class.super_class.as_deref().and_then(|sc| match sc {
+            Expr::Ident(i) => Some(i.to_id()),
+            _ => None,
+        });
+        let super_is_initialized_class_ref = class_def_is_trivial(&n.class)
+            && !self.config.top_retain.contains(&n.ident.sym)
+            && super_id.as_ref().is_some_and(|id| {
+                self.initialized_classes.contains(id)
+                    && !self.nontrivial_classes.contains(id)
+                    && !self.config.top_retain.contains(&id.0)
+            });
+
+        if !super_is_initialized_class_ref {
+            if let Some(super_class) = &n.class.super_class {
+                super_class.visit_with(self);
+            }
         }
 
         self.with_ast_path(vec![n.ident.to_id()], |v| {
             let old = v.cur_class_id.take();
+
+            if super_is_initialized_class_ref {
+                if let Some(super_class) = &n.class.super_class {
+                    super_class.visit_with(v);
+                }
+            }
+
             v.cur_class_id = Some(n.ident.to_id());
             n.ident.visit_with(v);
             n.class.decorators.visit_with(v);
@@ -486,11 +685,37 @@ impl Visit for Analyzer<'_> {
             if !n.class.decorators.is_empty() {
                 v.add(n.ident.to_id(), false);
             }
-        })
+        });
+
+        // A class that is not definition-time trivial evaluates something when
+        // defined (decorators, computed keys, or static initializers) that may
+        // read another class still in its TDZ. It is recorded so a later
+        // subclass extending it will not collapse their cycle, and is itself
+        // pinned as an entry so any cycle it participates in is kept alive.
+        // Independently, a class whose definition has observable side effects
+        // cannot be dropped either.
+        let is_trivial = class_def_is_trivial(&n.class);
+        if !is_trivial {
+            self.nontrivial_classes.insert(n.ident.to_id());
+        }
+        if !is_trivial || !class_def_is_side_effect_free(&n.class, self.expr_ctx) {
+            let idx = self.data.node(&n.ident.to_id());
+            self.data.entries.insert(idx);
+        }
+
+        self.initialized_classes.insert(n.ident.to_id());
     }
 
     fn visit_class_expr(&mut self, n: &ClassExpr) {
-        n.visit_children_with(self);
+        if let Some(ident) = &n.ident {
+            // ClassDefinitionEvaluation creates a lexical binding for a named
+            // class expression that is visible only inside the class definition.
+            let old = self.cur_class_id.replace(ident.to_id());
+            n.visit_children_with(self);
+            self.cur_class_id = old;
+        } else {
+            n.visit_children_with(self);
+        }
 
         if !n.class.decorators.is_empty() {
             if let Some(i) = &n.ident {
@@ -527,11 +752,13 @@ impl Visit for Analyzer<'_> {
         let old_in_var_decl = self.in_var_decl;
 
         self.in_var_decl = false;
-        e.visit_children_with(self);
-
         if let Expr::Ident(i) = e {
             self.add(i.to_id(), false);
+            self.in_var_decl = old_in_var_decl;
+            return;
         }
+
+        e.visit_children_with(self);
 
         self.in_var_decl = old_in_var_decl;
     }
@@ -559,19 +786,21 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_jsx_element_name(&mut self, e: &JSXElementName) {
-        e.visit_children_with(self);
-
         if let JSXElementName::Ident(i) = e {
             self.add(i.to_id(), false);
+            return;
         }
+
+        e.visit_children_with(self);
     }
 
     fn visit_jsx_object(&mut self, e: &JSXObject) {
-        e.visit_children_with(self);
-
         if let JSXObject::Ident(i) = e {
             self.add(i.to_id(), false);
+            return;
         }
+
+        e.visit_children_with(self);
     }
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
@@ -612,7 +841,17 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_fn_expr(&mut self, n: &FnExpr) {
-        n.visit_children_with(self);
+        if let Some(ident) = &n.ident {
+            // `InstantiateOrdinaryFunctionExpression` creates a binding for a named
+            // function expression in an environment local to the function. It is
+            // therefore a self-reference, not a reference to an outer declaration
+            // with the same symbol.
+            let old = self.cur_fn_id.replace(ident.to_id());
+            n.visit_children_with(self);
+            self.cur_fn_id = old;
+        } else {
+            n.visit_children_with(self);
+        }
 
         if !n.function.decorators.is_empty() {
             if let Some(i) = &n.ident {
@@ -622,21 +861,23 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_pat(&mut self, p: &Pat) {
-        p.visit_children_with(self);
-
-        if !self.in_var_decl {
-            if let Pat::Ident(i) = p {
+        if let Pat::Ident(i) = p {
+            if !self.in_var_decl {
                 self.add(i.to_id(), true);
             }
+            return;
         }
+
+        p.visit_children_with(self);
     }
 
     fn visit_prop(&mut self, p: &Prop) {
-        p.visit_children_with(self);
-
         if let Prop::Shorthand(i) = p {
             self.add(i.to_id(), false);
+            return;
         }
+
+        p.visit_children_with(self);
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
@@ -646,7 +887,19 @@ impl Visit for Analyzer<'_> {
         n.name.visit_with(self);
 
         self.in_var_decl = false;
-        n.init.visit_with(self);
+        match (&n.name, n.init.as_deref()) {
+            // When a function or a side-effect-free class directly initializes a
+            // variable, its deferred references are dependencies of that variable
+            // rather than top-level entries. Keep this limited to direct values:
+            // attributing an arbitrary initializer to the binding could hide its
+            // eager side effects or TDZ errors.
+            (Pat::Ident(binding), Some(init))
+                if can_attribute_initializer_refs_to_binding(init, self.expr_ctx) =>
+            {
+                self.with_ast_path(vec![binding.to_id()], |v| n.init.visit_with(v));
+            }
+            _ => n.init.visit_with(self),
+        }
 
         self.in_var_decl = old;
     }
@@ -664,6 +917,14 @@ impl Repeated for TreeShaker {
 }
 
 impl TreeShaker {
+    fn drop_ast_node<N>(&mut self, node: &N)
+    where
+        N: for<'aa> VisitWith<Dropper<'aa>>,
+    {
+        self.data
+            .drop_ast_node(node, self.cur_fn_id.clone(), self.cur_class_id.clone());
+    }
+
     fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + ModuleItemLike + VisitMutWith<Self> + Send + Sync,
@@ -682,6 +943,7 @@ impl TreeShaker {
         stmts.retain(|s| match s.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             Some(Stmt::Block(s)) if s.is_empty() => {
+                #[cfg(debug_assertions)]
                 debug!("Dropping an empty block statement");
                 false
             }
@@ -695,7 +957,7 @@ impl TreeShaker {
                 if !self.in_fn {
                     return false;
                 }
-            } else if !self.in_block_stmt {
+            } else if !self.in_non_top_level_lexical_scope {
                 return false;
             }
         }
@@ -716,7 +978,7 @@ impl TreeShaker {
                 if !self.in_fn {
                     return false;
                 }
-            } else if !self.in_block_stmt {
+            } else if !self.in_non_top_level_lexical_scope {
                 return false;
             }
 
@@ -750,14 +1012,14 @@ impl TreeShaker {
         };
 
         if b.op == op!("&&") && b.left.as_pure_bool(self.expr_ctx) == Known(false) {
-            self.data.drop_ast_node(&b.right);
+            self.drop_ast_node(&b.right);
             *n = *b.left.take();
             self.changed = true;
             return;
         }
 
         if b.op == op!("||") && b.left.as_pure_bool(self.expr_ctx) == Known(true) {
-            self.data.drop_ast_node(&b.right);
+            self.drop_ast_node(&b.right);
             *n = *b.left.take();
             self.changed = true;
         }
@@ -769,6 +1031,48 @@ impl TreeShaker {
     {
         for n in nodes {
             n.visit_mut_with(self);
+        }
+    }
+}
+
+/// Top-level declared identifiers, without descending into function bodies.
+fn push_decl_binding_ids(decl: &Decl, out: &mut Vec<Id>) {
+    match decl {
+        Decl::Class(c) => out.push(c.ident.to_id()),
+        Decl::Fn(f) => out.push(f.ident.to_id()),
+        Decl::Var(v) => {
+            for d in &v.decls {
+                out.extend(find_pat_ids::<_, Id>(&d.name));
+            }
+        }
+        _ => {}
+    }
+}
+
+/// Collects `var` bindings that hoist to the enclosing top-level (module or
+/// script) scope: `var`s anywhere except inside a nested function scope. Used
+/// alongside the immediate top-level declarations so a `var` hoisted out of a
+/// top-level block (e.g. `if (c) { var x }`) stays visible to a root `eval`.
+#[derive(Default)]
+struct RootHoistedVars {
+    ids: Vec<Id>,
+}
+
+impl Visit for RootHoistedVars {
+    noop_visit_type!();
+
+    // Nested function scopes don't hoist their `var`s to the root.
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        if n.kind == VarDeclKind::Var {
+            for d in &n.decls {
+                self.ids.extend(find_pat_ids::<_, Id>(&d.name));
+            }
         }
     }
 }
@@ -785,8 +1089,9 @@ impl VisitMut for TreeShaker {
                 && !n.right.may_have_side_effects(self.expr_ctx)
             {
                 self.changed = true;
+                #[cfg(debug_assertions)]
                 debug!("Dropping an assignment to `{}` because it's not used", id);
-                self.data.drop_ast_node(&n.left);
+                self.drop_ast_node(&n.left);
 
                 n.left.take();
             }
@@ -794,17 +1099,45 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        let old_in_block_stmt = self.in_block_stmt;
-        self.in_block_stmt = true;
+        let old_in_non_top_level_lexical_scope = self.in_non_top_level_lexical_scope;
+        self.in_non_top_level_lexical_scope = true;
         n.visit_mut_children_with(self);
-        self.in_block_stmt = old_in_block_stmt;
+        self.in_non_top_level_lexical_scope = old_in_non_top_level_lexical_scope;
     }
 
-    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+    fn visit_mut_function_body(&mut self, n: &mut FunctionBody) {
+        let old_in_non_top_level_lexical_scope = self.in_non_top_level_lexical_scope;
+        self.in_non_top_level_lexical_scope = true;
+        n.visit_mut_children_with(self);
+        self.in_non_top_level_lexical_scope = old_in_non_top_level_lexical_scope;
+    }
+
+    fn visit_mut_arrow_function_body(&mut self, n: &mut ArrowFunctionBody) {
         let old_in_fn = self.in_fn;
         self.in_fn = true;
         n.visit_mut_children_with(self);
         self.in_fn = old_in_fn;
+    }
+
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        // Same shape as `Analyzer::visit_class_decl`: the superclass is
+        // visited outside the class's own binding, the body inside it.
+        n.class.super_class.visit_mut_with(self);
+
+        let old = self.cur_class_id.replace(n.ident.to_id());
+        n.class.decorators.visit_mut_with(self);
+        n.class.body.visit_mut_with(self);
+        self.cur_class_id = old;
+    }
+
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        if let Some(i) = &n.ident {
+            let old = self.cur_class_id.replace(i.to_id());
+            n.visit_mut_children_with(self);
+            self.cur_class_id = old;
+        } else {
+            n.visit_mut_children_with(self);
+        }
     }
 
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
@@ -815,60 +1148,25 @@ impl VisitMut for TreeShaker {
         n.visit_mut_children_with(self);
 
         match n {
-            Decl::Fn(f) => {
-                if self.can_drop_binding(f.ident.to_id(), true) {
-                    debug!("Dropping function `{}` as it's not used", f.ident);
-                    self.changed = true;
+            Decl::Fn(f) if self.can_drop_binding(f.ident.to_id(), true) => {
+                #[cfg(debug_assertions)]
+                debug!("Dropping function `{}` as it's not used", f.ident);
+                self.changed = true;
 
-                    self.data.drop_ast_node(&*f);
+                self.drop_ast_node(&*f);
 
-                    n.take();
-                }
+                n.take();
             }
-            Decl::Class(c) => {
+            Decl::Class(c)
                 if self.can_drop_binding(c.ident.to_id(), false)
-                    && c.class
-                        .super_class
-                        .as_deref()
-                        .map_or(true, |e| !e.may_have_side_effects(self.expr_ctx))
-                    && c.class.body.iter().all(|m| match m {
-                        ClassMember::Method(m) => !matches!(m.key, PropName::Computed(..)),
-                        ClassMember::ClassProp(m) => {
-                            !matches!(m.key, PropName::Computed(..))
-                                && !m
-                                    .value
-                                    .as_deref()
-                                    .is_some_and(|e| e.may_have_side_effects(self.expr_ctx))
-                        }
-                        ClassMember::AutoAccessor(m) => {
-                            !matches!(m.key, Key::Public(PropName::Computed(..)))
-                                && !m
-                                    .value
-                                    .as_deref()
-                                    .is_some_and(|e| e.may_have_side_effects(self.expr_ctx))
-                        }
+                    && class_def_is_side_effect_free(&c.class, self.expr_ctx) =>
+            {
+                #[cfg(debug_assertions)]
+                debug!("Dropping class `{}` as it's not used", c.ident);
+                self.changed = true;
 
-                        ClassMember::PrivateProp(m) => !m
-                            .value
-                            .as_deref()
-                            .is_some_and(|e| e.may_have_side_effects(self.expr_ctx)),
-
-                        ClassMember::StaticBlock(_) => false,
-
-                        ClassMember::TsIndexSignature(_)
-                        | ClassMember::Empty(_)
-                        | ClassMember::Constructor(_)
-                        | ClassMember::PrivateMethod(_) => true,
-                        #[cfg(swc_ast_unknown)]
-                        _ => panic!("unable to access unknown nodes"),
-                    })
-                {
-                    debug!("Dropping class `{}` as it's not used", c.ident);
-                    self.changed = true;
-
-                    self.data.drop_ast_node(&*c);
-                    n.take();
-                }
+                self.drop_ast_node(&*c);
+                n.take();
             }
             _ => {}
         }
@@ -916,28 +1214,28 @@ impl VisitMut for TreeShaker {
                             body: Some(..),
                             ..
                         }
-                    ) =>
+                    ) && f.params.is_empty()
+                        && f.body.as_ref().is_some_and(|body| body.stmts.len() == 1) =>
                     {
-                        if f.params.is_empty() && f.body.as_ref().unwrap().stmts.len() == 1 {
-                            if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) =
-                                &mut f.body.as_mut().unwrap().stmts[0]
-                            {
-                                if let Expr::Object(ObjectLit { props, .. }) = &**arg {
-                                    if props.iter().all(|p| match p {
-                                        PropOrSpread::Spread(_) => false,
-                                        PropOrSpread::Prop(p) => match &**p {
-                                            Prop::Shorthand(_) => true,
-                                            Prop::KeyValue(p) => p.value.is_ident(),
-                                            _ => false,
-                                        },
-                                        #[cfg(swc_ast_unknown)]
-                                        _ => panic!("unable to access unknown nodes"),
-                                    }) {
-                                        self.changed = true;
-                                        debug!("Dropping a wrapped esm");
-                                        *n = *arg.take();
-                                        return;
-                                    }
+                        if let Some(Stmt::Return(ReturnStmt { arg: Some(arg), .. })) =
+                            f.body.as_mut().and_then(|body| body.stmts.first_mut())
+                        {
+                            if let Expr::Object(ObjectLit { props, .. }) = &**arg {
+                                if props.iter().all(|p| match p {
+                                    PropOrSpread::Spread(_) => false,
+                                    PropOrSpread::Prop(p) => match &**p {
+                                        Prop::Shorthand(_) => true,
+                                        Prop::KeyValue(p) => p.value.is_ident(),
+                                        _ => false,
+                                    },
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
+                                }) {
+                                    self.changed = true;
+                                    #[cfg(debug_assertions)]
+                                    debug!("Dropping a wrapped esm");
+                                    *n = *arg.take();
+                                    return;
                                 }
                             }
                         }
@@ -960,6 +1258,22 @@ impl VisitMut for TreeShaker {
 
         if !n.is_invalid() {
             debug_assert_valid(n);
+        }
+    }
+
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        let old = self.cur_fn_id.replace(n.ident.to_id());
+        n.visit_mut_children_with(self);
+        self.cur_fn_id = old;
+    }
+
+    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        if let Some(i) = &n.ident {
+            let old = self.cur_fn_id.replace(i.to_id());
+            n.visit_mut_children_with(self);
+            self.cur_fn_id = old;
+        } else {
+            n.visit_mut_children_with(self);
         }
     }
 
@@ -1000,6 +1314,7 @@ impl VisitMut for TreeShaker {
             };
 
             if self.can_drop_binding(local.to_id(), false) {
+                #[cfg(debug_assertions)]
                 debug!(
                     "Dropping import specifier `{}` because it's not used",
                     local
@@ -1015,6 +1330,7 @@ impl VisitMut for TreeShaker {
     fn visit_mut_module(&mut self, m: &mut Module) {
         debug_assert_valid(m);
 
+        #[cfg(debug_assertions)]
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if !self.data.initialized {
@@ -1026,13 +1342,62 @@ impl VisitMut for TreeShaker {
             {
                 let mut analyzer = Analyzer {
                     config: &self.config,
+                    expr_ctx: self.expr_ctx,
                     in_var_decl: false,
                     scope: Default::default(),
                     data: &mut data,
                     cur_class_id: Default::default(),
                     cur_fn_id: Default::default(),
+                    initialized_classes: Default::default(),
+                    nontrivial_classes: Default::default(),
                 };
                 m.visit_with(&mut analyzer);
+
+                if analyzer.scope.found_direct_eval {
+                    // A direct `eval` reaching the root can resolve any
+                    // top-level binding by name. Pin the module's top-level
+                    // declarations as graph entries so DCE can't drop them.
+                    // Unlike `collect_decls`, we do NOT descend into function
+                    // bodies: a top-level `eval` cannot observe bindings nested
+                    // inside another scope.
+                    let mut ids = Vec::new();
+                    for item in &m.body {
+                        match item {
+                            ModuleItem::Stmt(Stmt::Decl(d)) => push_decl_binding_ids(d, &mut ids),
+                            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(e)) => {
+                                push_decl_binding_ids(&e.decl, &mut ids)
+                            }
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
+                                for spec in &i.specifiers {
+                                    ids.push(match spec {
+                                        ImportSpecifier::Named(s) => s.local.to_id(),
+                                        ImportSpecifier::Default(s) => s.local.to_id(),
+                                        ImportSpecifier::Namespace(s) => s.local.to_id(),
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => continue,
+                                    });
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+
+                    // Also pin `var`s hoisted out of nested top-level statements
+                    // (e.g. `if (c) { var x }`), visible to a root `eval`.
+                    let mut hoisted = RootHoistedVars::default();
+                    m.visit_with(&mut hoisted);
+                    ids.extend(hoisted.ids);
+
+                    for id in ids {
+                        // Pin as a graph entry so `subtract_cycles` never
+                        // subtracts it (survives Repeat passes), and bump usage
+                        // so a lone binding — which has no in-graph references —
+                        // isn't dropped by `can_drop_binding`.
+                        let ix = analyzer.data.node(&id);
+                        analyzer.data.entries.insert(ix);
+                        analyzer.data.used_names.entry(id).or_default().usage += 1;
+                    }
+                }
             }
             data.subtract_cycles();
             self.data = data;
@@ -1054,6 +1419,7 @@ impl VisitMut for TreeShaker {
                     && !is_for_side_effect
                     && i.specifiers.is_empty()
                 {
+                    #[cfg(debug_assertions)]
                     debug!("Dropping an import because it's not used");
                     self.changed = true;
                     *n = EmptyStmt { span: DUMMY_SP }.into();
@@ -1079,6 +1445,7 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
+        #[cfg(debug_assertions)]
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if !self.data.initialized {
@@ -1090,13 +1457,47 @@ impl VisitMut for TreeShaker {
             {
                 let mut analyzer = Analyzer {
                     config: &self.config,
+                    expr_ctx: self.expr_ctx,
                     in_var_decl: false,
                     scope: Default::default(),
                     data: &mut data,
                     cur_class_id: Default::default(),
                     cur_fn_id: Default::default(),
+                    initialized_classes: Default::default(),
+                    nontrivial_classes: Default::default(),
                 };
                 m.visit_with(&mut analyzer);
+
+                // A direct `eval` can reference any binding in its enclosing
+                // lexical scope chain, up to the top level. `found_direct_eval`
+                // is propagated to the root scope, but unlike function scopes
+                // (see `with_scope`), the root never consumed it, so top-level
+                // declarations reachable by a direct `eval` were dropped.
+                // Preserve them here.
+                if analyzer.scope.found_direct_eval {
+                    let mut ids = Vec::new();
+                    for stmt in &m.body {
+                        if let Stmt::Decl(d) = stmt {
+                            push_decl_binding_ids(d, &mut ids);
+                        }
+                    }
+
+                    // Also pin `var`s hoisted out of nested top-level statements
+                    // (e.g. `if (c) { var x }`), visible to a root `eval`.
+                    let mut hoisted = RootHoistedVars::default();
+                    m.visit_with(&mut hoisted);
+                    ids.extend(hoisted.ids);
+
+                    for id in ids {
+                        // Pin as a graph entry so `subtract_cycles` never
+                        // subtracts it (survives Repeat passes), and bump usage
+                        // so a lone binding — which has no in-graph references —
+                        // isn't dropped by `can_drop_binding`.
+                        let ix = analyzer.data.node(&id);
+                        analyzer.data.entries.insert(ix);
+                        analyzer.data.used_names.entry(id).or_default().usage += 1;
+                    }
+                }
             }
             data.subtract_cycles();
             self.data = data;
@@ -1131,7 +1532,7 @@ impl VisitMut for TreeShaker {
                 })
             {
                 for decl in v.decls.iter() {
-                    self.data.drop_ast_node(&decl.name);
+                    self.drop_ast_node(&decl.name);
                 }
 
                 let exprs = v
@@ -1141,6 +1542,7 @@ impl VisitMut for TreeShaker {
                     .filter_map(|v| v.init)
                     .collect::<Vec<_>>();
 
+                #[cfg(debug_assertions)]
                 debug!(
                     count = cnt,
                     "Dropping names of variables as they are not used",
@@ -1180,7 +1582,10 @@ impl VisitMut for TreeShaker {
         n.visit_mut_children_with(self);
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    #[cfg_attr(
+        all(debug_assertions, feature = "debug"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
     fn visit_mut_using_decl(&mut self, n: &mut UsingDecl) {
         for decl in n.decls.iter_mut() {
             decl.init.visit_mut_with(self);
@@ -1219,8 +1624,9 @@ impl VisitMut for TreeShaker {
                 && self.can_drop_binding(i.to_id(), self.var_decl_kind == Some(VarDeclKind::Var))
             {
                 self.changed = true;
+                #[cfg(debug_assertions)]
                 debug!("Dropping {} because it's not used", i);
-                self.data.drop_ast_node(&*v);
+                self.drop_ast_node(&*v);
                 v.name.take();
             }
         }

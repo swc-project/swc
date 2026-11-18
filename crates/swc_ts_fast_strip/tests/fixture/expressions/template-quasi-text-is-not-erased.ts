@@ -1,0 +1,1 @@
+const value = `as Type ${input as Type}`;

@@ -82,13 +82,13 @@
  2 | |       // @refresh reset
  3 | `-> });
    `----
-  x BlockStmtOrExpr
+  x ArrowFunctionBody
    ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
  1 | ,-> React.useEffect(() => {
  2 | |       // @refresh reset
  3 | `-> });
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
  1 | ,-> React.useEffect(() => {
  2 | |       // @refresh reset

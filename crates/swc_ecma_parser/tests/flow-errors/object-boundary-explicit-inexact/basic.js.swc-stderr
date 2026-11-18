@@ -1,0 +1,12 @@
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/object-boundary-explicit-inexact/basic.js:1:1]
+ 1 | type Exact = {| a: number, ... |};
+   :                            ^^^
+ 2 | type ExactOnlySpread = {| ... |};
+   `----
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/object-boundary-explicit-inexact/basic.js:2:1]
+ 1 | type Exact = {| a: number, ... |};
+ 2 | type ExactOnlySpread = {| ... |};
+   :                           ^^^
+   `----

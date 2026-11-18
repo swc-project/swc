@@ -8,7 +8,7 @@ use std::{
 use debug_unreachable::debug_unreachable;
 
 use crate::{
-    macros::{get_hash, impl_from_alias, partial_eq},
+    macros::{get_hash, impl_from_alias},
     tagged_value::TaggedValue,
     wtf8::Wtf8,
     Atom, DYNAMIC_TAG, INLINE_TAG, LEN_MASK, LEN_OFFSET, TAG_MASK,
@@ -181,37 +181,41 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
                         let d3 = iter.next();
                         let d4 = iter.next();
 
-                        if d1.is_some() && d2.is_some() && d3.is_some() && d4.is_some() {
-                            let hex = format!(
-                                "{}{}{}{}",
-                                d1.unwrap(),
-                                d2.unwrap(),
-                                d3.unwrap(),
-                                d4.unwrap()
-                            );
-                            if let Ok(code_point) = u16::from_str_radix(&hex, 16) {
-                                result.push(unsafe {
-                                    CodePoint::from_u32_unchecked(code_point as u32)
-                                });
-                                continue;
+                        match (d1, d2, d3, d4) {
+                            (Some(d1), Some(d2), Some(d3), Some(d4)) => {
+                                let hex = format!("{d1}{d2}{d3}{d4}");
+                                if let Ok(code_point) = u16::from_str_radix(&hex, 16) {
+                                    result.push(unsafe {
+                                        CodePoint::from_u32_unchecked(code_point as u32)
+                                    });
+                                    continue;
+                                }
+
+                                result.push_char('\\');
+                                result.push_char('u');
+                                result.push_char(d1);
+                                result.push_char(d2);
+                                result.push_char(d3);
+                                result.push_char(d4);
+                            }
+                            (d1, d2, d3, d4) => {
+                                result.push_char('\\');
+                                result.push_char('u');
+
+                                macro_rules! push_if_some {
+                                    ($expr:expr) => {
+                                        if let Some(c) = $expr {
+                                            result.push_char(c);
+                                        }
+                                    };
+                                }
+
+                                push_if_some!(d1);
+                                push_if_some!(d2);
+                                push_if_some!(d3);
+                                push_if_some!(d4);
                             }
                         }
-
-                        result.push_char('\\');
-                        result.push_char('u');
-
-                        macro_rules! push_if_some {
-                            ($expr:expr) => {
-                                if let Some(c) = $expr {
-                                    result.push_char(c);
-                                }
-                            };
-                        }
-
-                        push_if_some!(d1);
-                        push_if_some!(d2);
-                        push_if_some!(d3);
-                        push_if_some!(d4);
                     } else if iter.peek() == Some(&'\\') {
                         // Found '\\' - this is an escaped backslash
                         // '\\u' should become literal '\u' text
@@ -238,13 +242,37 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
 }
 
 impl PartialEq for Wtf8Atom {
-    #[inline(never)]
+    #[inline]
     fn eq(&self, other: &Self) -> bool {
-        partial_eq!(self, other);
+        let unsafe_data = self.unsafe_data;
+        let other_unsafe_data = other.unsafe_data;
 
-        // If the store is different, the string may be the same, even though the
-        // `unsafe_data` is different
-        self.as_wtf8() == other.as_wtf8()
+        if unsafe_data == other_unsafe_data {
+            return true;
+        }
+
+        let tag = unsafe_data.tag() & TAG_MASK;
+
+        if tag != (other_unsafe_data.tag() & TAG_MASK) {
+            return false;
+        }
+
+        match tag {
+            // Inline atoms encode both their length and bytes in `unsafe_data`, so
+            // different raw values mean different strings.
+            INLINE_TAG => false,
+            DYNAMIC_TAG => {
+                let this = unsafe { crate::dynamic::deref_from(unsafe_data) };
+                let other = unsafe { crate::dynamic::deref_from(other_unsafe_data) };
+
+                if this.header.header.hash != other.header.header.hash {
+                    return false;
+                }
+
+                this.slice == other.slice
+            }
+            _ => unsafe { debug_unreachable!() },
+        }
     }
 }
 
@@ -373,6 +401,7 @@ mod tests {
     use super::*;
     use crate::wtf8::{CodePoint, Wtf8Buf};
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_serialize_normal_utf8() {
@@ -381,6 +410,7 @@ mod tests {
         assert_eq!(serialized, "\"Hello, world!\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_deserialize_normal_utf8() {
@@ -389,6 +419,7 @@ mod tests {
         assert_eq!(atom.as_str(), Some("Hello, world!"));
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_serialize_unpaired_high_surrogate() {
@@ -402,6 +433,7 @@ mod tests {
         assert_eq!(serialized, "\"\\\\uD800\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_serialize_unpaired_low_surrogate() {
@@ -415,6 +447,7 @@ mod tests {
         assert_eq!(serialized, "\"\\\\uDC00\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_serialize_multiple_surrogates() {
@@ -431,6 +464,7 @@ mod tests {
         assert_eq!(serialized, "\"Hello \\\\uD800 World \\\\uDC00\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_serialize_literal_backslash_u() {
@@ -441,6 +475,7 @@ mod tests {
         assert_eq!(serialized, "\"\\\\\\\\u0041\"");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_deserialize_escaped_backslash_u() {
@@ -452,6 +487,7 @@ mod tests {
         assert_eq!(atom.to_string_lossy(), "\u{FFFD}");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_deserialize_unpaired_surrogates() {
@@ -463,6 +499,7 @@ mod tests {
         assert_eq!(atom.to_string_lossy(), "\u{FFFD}");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_round_trip_normal_string() {
@@ -472,6 +509,7 @@ mod tests {
         assert_eq!(original.as_str(), deserialized.as_str());
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_round_trip_unpaired_surrogates() {
@@ -494,6 +532,7 @@ mod tests {
         assert_eq!(original.to_string_lossy(), deserialized.to_string_lossy());
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_round_trip_mixed_content() {
@@ -511,6 +550,7 @@ mod tests {
         assert_eq!(original, deserialized);
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_empty_string() {
@@ -522,6 +562,7 @@ mod tests {
         assert_eq!(deserialized.as_str(), Some(""));
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_special_characters() {
@@ -542,6 +583,7 @@ mod tests {
         }
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_consecutive_surrogates_not_paired() {
@@ -560,6 +602,7 @@ mod tests {
         assert_eq!(atom, deserialized);
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_deserialize_incomplete_escape() {
@@ -571,6 +614,7 @@ mod tests {
         assert_eq!(atom.as_str(), Some("\\u123"));
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     #[cfg(feature = "serde")]
     fn test_deserialize_invalid_hex() {
@@ -606,6 +650,7 @@ mod tests {
         assert_eq!(err_atom.to_string_lossy(), "\u{FFFD}");
     }
 
+    #[cfg(feature = "serde")]
     #[test]
     fn test_backslash_util_issue_11214() {
         let atom =

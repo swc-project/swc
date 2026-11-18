@@ -1,0 +1,17 @@
+{
+  "env": {
+    "include": [
+      "transform-classes"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "assumptions": {
+      "noClassCalls": true
+    },
+    "preserveAllComments": true
+  }
+}

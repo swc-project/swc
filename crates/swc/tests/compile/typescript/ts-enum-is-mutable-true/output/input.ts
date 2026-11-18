@@ -1,0 +1,42 @@
+var D = /*#__PURE__*/ function(D) {
+    D[D["A"] = 0] = "A";
+    D[D["B"] = 2] = "B";
+    return D;
+}(D || {});
+D.A = 5;
+console.log(D.A);
+console.log(1);
+var G = /*#__PURE__*/ function(G) {
+    G[G["A"] = 2] = "A";
+    return G;
+}(G || {});
+console.log(G.A);
+var H = /*#__PURE__*/ function(H) {
+    H[H["A"] = 2] = "A";
+    return H;
+}(H || {});
+console.log(2);
+const j = H.A;
+var J = /*#__PURE__*/ function(J) {
+    J[J["A"] = 2] = "A";
+    return J;
+}(J || {});
+console.log(J.A);
+const l = 3;
+var L = /*#__PURE__*/ function(L) {
+    L[L["A"] = 3] = "A";
+    return L;
+}(L || {});
+console.log(L.A);
+const m = 7;
+var N = /*#__PURE__*/ function(N) {
+    N[N["A"] = 7] = "A";
+    N[N["B"] = 8] = "B";
+    return N;
+}(N || {});
+O.A = 5;
+var P = /*#__PURE__*/ function(P) {
+    P[P["A"] = 1] = "A";
+    return P;
+}(P || {});
+console.log(P.A);

@@ -1,0 +1,7 @@
+  x A 'continue' statement can only jump to a label of an enclosing iteration statement
+   ,-[$DIR/tests/tsrx-errors/nested-loop-control.tsrx:3:1]
+ 2 |     @for (const item of items) {
+ 3 |         @if (!item) { continue; } @else { <Row item={item} /> }
+   :                       ^^^^^^^^^
+ 4 |     }
+   `----

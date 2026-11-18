@@ -10,15 +10,31 @@ use swc_estree_ast::{
     StaticBlock as BabelStaticBlock,
 };
 
-use crate::babelify::{extract_class_body_span, Babelify, Context};
+use crate::babelify::{
+    extract_class_body_span, function::babelify_function_params, Babelify, Context,
+};
 
 impl Babelify for Class {
     type Output = ClassExpression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let mut body_base = ctx.base(extract_class_body_span(&self, ctx));
+        let mut members = Vec::with_capacity(self.body.len());
+        for m in self.body {
+            match m {
+                ClassMember::Empty(empty) => {
+                    let empty_base = ctx.base(empty.span);
+                    body_base.inner_comments.extend(empty_base.leading_comments);
+                    body_base
+                        .inner_comments
+                        .extend(empty_base.trailing_comments);
+                }
+                other => members.push(other),
+            }
+        }
         let body = ClassBody {
-            base: ctx.base(extract_class_body_span(&self, ctx)),
-            body: self.body.babelify(ctx),
+            base: body_base,
+            body: members.babelify(ctx),
         };
 
         ClassExpression {
@@ -108,6 +124,7 @@ impl Babelify for PrivateProp {
             type_annotation: self
                 .type_ann
                 .map(|ann| Box::alloc().init(ann.babelify(ctx).into())),
+            computed: false,
             static_any: Value::Bool(self.is_static),
             decorators: Some(self.decorators.babelify(ctx)),
         }
@@ -118,6 +135,10 @@ impl Babelify for ClassMethod {
     type Output = BabelClassMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let computed = Some(self.key.is_computed());
+
+        let params = babelify_function_params(self.function.this_param, self.function.params, ctx);
+
         BabelClassMethod {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx),
@@ -127,7 +148,7 @@ impl Babelify for ClassMethod {
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
-            params: self.function.params.babelify(ctx),
+            params,
             body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
@@ -137,7 +158,7 @@ impl Babelify for ClassMethod {
                 .function
                 .return_type
                 .map(|t| Box::alloc().init(t.babelify(ctx).into())),
-            computed: Default::default(),
+            computed,
         }
     }
 }
@@ -146,6 +167,8 @@ impl Babelify for PrivateMethod {
     type Output = ClassPrivateMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let params = babelify_function_params(self.function.this_param, self.function.params, ctx);
+
         ClassPrivateMethod {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx),
@@ -155,7 +178,7 @@ impl Babelify for PrivateMethod {
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
-            params: self.function.params.babelify(ctx),
+            params,
             body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
@@ -165,7 +188,7 @@ impl Babelify for PrivateMethod {
                 .function
                 .return_type
                 .map(|t| Box::alloc().init(t.babelify(ctx).into())),
-            computed: Default::default(),
+            computed: Some(false),
         }
     }
 }
@@ -174,6 +197,8 @@ impl Babelify for Constructor {
     type Output = BabelClassMethod;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let computed = Some(self.key.is_computed());
+
         BabelClassMethod {
             base: ctx.base(self.span),
             kind: Some(ClassMethodKind::Constructor),
@@ -183,10 +208,10 @@ impl Babelify for Constructor {
             access: self.accessibility.map(|access| access.babelify(ctx)),
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             optional: Some(self.is_optional),
-            computed: Default::default(),
-            is_static: Default::default(),
-            generator: Default::default(),
-            is_async: Default::default(),
+            computed,
+            is_static: Some(false),
+            generator: Some(false),
+            is_async: Some(false),
             is_abstract: Default::default(),
             decorators: Default::default(),
             return_type: Default::default(),
@@ -228,5 +253,71 @@ impl Babelify for StaticBlock {
             base: ctx.base(self.span),
             body: self.body.stmts.babelify(ctx),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::atom;
+    use swc_common::{
+        comments::{Comment, CommentKind, Comments},
+        sync::Lrc,
+        BytePos, FileName, SourceMap, Span, SyntaxContext, DUMMY_SP,
+    };
+    use swc_ecma_ast::{Class, ClassMember, ClassProp, EmptyStmt, IdentName, PropName};
+    use swc_node_comments::SwcComments;
+
+    use crate::babelify::{Babelify, Context};
+
+    #[test]
+    fn test_class_with_empty_member() {
+        let cm = Lrc::new(SourceMap::default());
+        let fm = cm.new_source_file(Lrc::new(FileName::Anon), ";");
+        let comments = SwcComments::default();
+        let empty_span = Span::new(BytePos(1), BytePos(2));
+        comments.add_leading(
+            empty_span.lo,
+            Comment {
+                kind: CommentKind::Block,
+                span: DUMMY_SP,
+                text: atom!(" empty stmt comment "),
+            },
+        );
+        let ctx = Context { fm, cm, comments };
+
+        let class = Class {
+            span: DUMMY_SP,
+            ctxt: SyntaxContext::empty(),
+            decorators: vec![],
+            body: vec![
+                ClassMember::Empty(EmptyStmt { span: empty_span }),
+                ClassMember::ClassProp(ClassProp {
+                    span: DUMMY_SP,
+                    key: PropName::Ident(IdentName {
+                        span: DUMMY_SP,
+                        sym: atom!("x"),
+                    }),
+                    value: None,
+                    type_ann: None,
+                    is_static: false,
+                    decorators: vec![],
+                    accessibility: None,
+                    is_abstract: false,
+                    is_override: false,
+                    is_optional: false,
+                    readonly: false,
+                    declare: false,
+                    definite: false,
+                }),
+            ],
+            super_class: None,
+            is_abstract: false,
+            type_params: None,
+            super_type_params: None,
+            implements: vec![],
+        };
+        let class_expr = class.babelify(&ctx);
+        assert_eq!(class_expr.body.body.len(), 1);
+        assert_eq!(class_expr.body.base.inner_comments.len(), 1);
     }
 }

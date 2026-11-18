@@ -1108,34 +1108,28 @@ where
                         }
                         Some(ComponentValue::Str(_)) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
-                        Some(ComponentValue::Number(n)) => {
-                            if self.config.minify {
-                                let minified = minify_numeric(n.value);
+                        Some(ComponentValue::Number(n)) if self.config.minify => {
+                            let minified = minify_numeric(n.value);
 
-                                !minified.starts_with('.')
-                            } else {
-                                true
-                            }
+                            !minified.starts_with('.')
                         }
-                        Some(ComponentValue::Dimension(dimension)) => {
-                            if self.config.minify {
-                                let value = match &**dimension {
-                                    Dimension::Length(i) => i.value.value,
-                                    Dimension::Angle(i) => i.value.value,
-                                    Dimension::Time(i) => i.value.value,
-                                    Dimension::Frequency(i) => i.value.value,
-                                    Dimension::Resolution(i) => i.value.value,
-                                    Dimension::Flex(i) => i.value.value,
-                                    Dimension::UnknownDimension(i) => i.value.value,
-                                };
+                        Some(ComponentValue::Number(_)) => true,
+                        Some(ComponentValue::Dimension(dimension)) if self.config.minify => {
+                            let value = match &**dimension {
+                                Dimension::Length(i) => i.value.value,
+                                Dimension::Angle(i) => i.value.value,
+                                Dimension::Time(i) => i.value.value,
+                                Dimension::Frequency(i) => i.value.value,
+                                Dimension::Resolution(i) => i.value.value,
+                                Dimension::Flex(i) => i.value.value,
+                                Dimension::UnknownDimension(i) => i.value.value,
+                            };
 
-                                let minified = minify_numeric(value);
+                            let minified = minify_numeric(value);
 
-                                !minified.starts_with('.')
-                            } else {
-                                true
-                            }
+                            !minified.starts_with('.')
                         }
+                        Some(ComponentValue::Dimension(_)) => true,
                         Some(component_value) if self.config.minify => {
                             if let Some(minified) = match component_value {
                                 ComponentValue::LengthPercentage(p) => {

@@ -23,13 +23,10 @@ use swc_ecma_ast::*;
 /// });
 /// ```
 pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Pass {
-    let mut options = swc_ecma_transformer::Options::default();
-
-    options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
-    options.assumptions.ignore_function_length = c.ignore_function_length;
-    options.env.es2017.async_to_generator = true;
-
-    options.into_pass()
+    swc_ecma_transformer::es2017_async_to_generator(
+        SyntaxContext::empty().apply_mark(unresolved_mark),
+        c.ignore_function_length,
+    )
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]

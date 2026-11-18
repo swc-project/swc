@@ -1,0 +1,25 @@
+{
+    "jsc": {
+        "lints": {
+            "noEmptyFunction": [
+                "error",
+                {
+                    "functions": [
+                        "simple"
+                    ],
+                    "methods": [
+                        "async"
+                    ],
+                    "constructors": [
+                        "all"
+                    ],
+                    "considerComments": false
+                }
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

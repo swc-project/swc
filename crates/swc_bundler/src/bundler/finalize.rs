@@ -123,6 +123,7 @@ where
                 let path = match &*self.scope.get_module(bundle.id).unwrap().fm.name {
                     FileName::Real(ref v) => v.clone(),
                     _ => {
+                        #[cfg(debug_assertions)]
                         tracing::error!("Cannot rename: not a real file");
                         return bundle;
                     }
@@ -155,7 +156,7 @@ where
         // Properties of returned object
         let mut props = Vec::new();
 
-        let mut body = BlockStmt {
+        let mut body = FunctionBody {
             span: module.span,
             stmts: module
                 .body
@@ -346,7 +347,6 @@ where
                     }
                 })
                 .collect(),
-            ..Default::default()
         };
         body.stmts.push(
             ReturnStmt {

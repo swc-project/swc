@@ -55,6 +55,7 @@ pub(super) fn sort_stmts(
 
     let mut id_graph = calc_deps(&stmts);
 
+    #[cfg(debug_assertions)]
     tracing::debug!("Analyzed dependencies between statements");
 
     let orders = iter(
@@ -66,6 +67,7 @@ pub(super) fn sort_stmts(
     )
     .collect::<Vec<_>>();
 
+    #[cfg(debug_assertions)]
     tracing::debug!("Sorted statements");
 
     debug_assert_eq!(total_len, orders.len());
@@ -656,6 +658,7 @@ impl Visit for RequirementCalculator {
 }
 
 fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
+    #[cfg(debug_assertions)]
     tracing::debug!("Analyzing dependencies between statements");
     let mut graph = StmtDepGraph::default();
 

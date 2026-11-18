@@ -1,0 +1,8 @@
+  x Unexpected var, use let or const instead
+   ,-[$DIR/tests/compile/lints/no-var/default/input/input.js:1:1]
+ 1 | var a = 1;
+   : ^^^^^^^^^^
+ 2 | 
+ 3 | let b = 1;
+ 4 | const c = 1;
+   `----

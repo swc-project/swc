@@ -6,17 +6,12 @@ use crate::rule::{visitor_rule, LintRule, LintRuleContext};
 
 pub type ColorHexAlphaConfig = Option<Preference>;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub enum Preference {
+    #[default]
     Always,
     Never,
-}
-
-impl Default for Preference {
-    fn default() -> Self {
-        Self::Always
-    }
 }
 
 pub fn color_hex_alpha(ctx: LintRuleContext<ColorHexAlphaConfig>) -> Box<dyn LintRule> {

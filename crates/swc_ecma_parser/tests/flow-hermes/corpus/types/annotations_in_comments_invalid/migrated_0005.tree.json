@@ -1,0 +1,45 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
+      "message":"Unexpected token `*`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":3}},
+      "message":"Invalid regular expression: missing /"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,3],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+      "range":[0,3],
+      "expression":{
+        "type":"BinaryExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+        "range":[0,3],
+        "operator":"*",
+        "left":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
+          "range":[0,1],
+          "value":null,
+          "raw":"null"
+        },
+        "right":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":2,"column":0}},
+          "range":[1,3],
+          "value":null,
+          "raw":"//",
+          "regex":{"pattern":"","flags":""}
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

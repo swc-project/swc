@@ -1,0 +1,1 @@
+const f = function<T>(value: T) {};

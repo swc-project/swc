@@ -48,7 +48,7 @@ fn transform_internal<C>(
     loose: bool,
     #[cfg_attr(not(feature = "es3"), allow(unused_variables))] dynamic_import: bool,
     debug: bool,
-    caniuse: impl (Fn(Feature) -> bool),
+    caniuse: impl Fn(Feature) -> bool,
 ) -> impl Pass
 where
     C: Comments + Clone,
@@ -88,6 +88,8 @@ where
 
         t.dot_all_regex = !caniuse(Feature::DotAllRegex);
         t.named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
+        t.duplicate_named_capturing_groups_regex =
+            !caniuse(Feature::DuplicateNamedCapturingGroupsRegex);
         t.sticky_regex = !caniuse(Feature::StickyRegex);
         t.unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
         t.unicode_regex = !caniuse(Feature::UnicodeRegex);
@@ -161,6 +163,10 @@ where
 
     if !caniuse(Feature::AsyncToGenerator) {
         options.env.es2017.async_to_generator = true;
+    }
+
+    if !caniuse(Feature::AsyncGeneratorFunctions) {
+        options.env.es2017.async_generator_functions = true;
     }
 
     // ES2016
@@ -285,7 +291,6 @@ where
     //    ObjectSuper,
     //    DotAllRegex,
     //    UnicodeRegex,
-    //    AsyncGeneratorFunctions,
     //    UnicodePropertyRegex,
     //    JsonStrings,
     //    NamedCapturingGroupsRegex,
@@ -818,7 +823,8 @@ impl Caniuse for EsVersion {
             Feature::ObjectRestSpread
             | Feature::DotAllRegex
             | Feature::NamedCapturingGroupsRegex
-            | Feature::UnicodePropertyRegex => *self >= EsVersion::Es2018,
+            | Feature::UnicodePropertyRegex
+            | Feature::AsyncGeneratorFunctions => *self >= EsVersion::Es2018,
 
             // ES2017
             Feature::AsyncToGenerator => *self >= EsVersion::Es2017,

@@ -1,0 +1,1 @@
+export const { a: a2, b: b2 } = { a: 1, b: 2 };

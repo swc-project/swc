@@ -1,13 +1,9 @@
 //// [file.tsx]
 define([
     "require",
-    "exports",
     "react"
-], function(require, exports, _react) {
+], function(require, React) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     var Foo = function Foo(props) {
         return undefined;
     };
@@ -15,6 +11,6 @@ define([
         return undefined;
     }
     // Error
-    var foo = /*#__PURE__*/ _react.createElement(Foo, null);
-    var G = /*#__PURE__*/ _react.createElement(Greet, null);
+    var foo = /*#__PURE__*/ React.createElement(Foo, null);
+    var G = /*#__PURE__*/ React.createElement(Greet, null);
 });

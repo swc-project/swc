@@ -1,0 +1,6 @@
+member test 1
+member result 1 1
+destructuring test 0
+destructuring result 1 1
+identifier test
+identifier result 1

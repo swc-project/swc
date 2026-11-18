@@ -1,7 +1,10 @@
 use std::mem::take;
 
-use swc_atoms::{wtf8::CodePoint, Atom};
-use swc_common::{BytePos, Span};
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    Wtf8Atom,
+};
+use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::EsVersion;
 
 use super::{Context, Input, Lexer};
@@ -27,8 +30,13 @@ bitflags::bitflags! {
     }
 }
 
+#[cfg(not(feature = "tsrx"))]
 static JSX_CHILD_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'{' | b'}' | b'<' | b'>' | b'&'));
+
+#[cfg(feature = "tsrx")]
+static JSX_CHILD_TABLE: SafeByteMatchTable =
+    safe_byte_match_table!(|b| matches!(b, b'{' | b'}' | b'<' | b'>' | b'&' | b'@'));
 
 /// State of lexer.
 ///
@@ -41,7 +49,7 @@ pub struct State {
     pub prev_hi: BytePos,
 
     pub(super) token_value: Option<TokenValue>,
-    token_type: Option<Token>,
+    token_type: Token,
 }
 
 pub struct LexerCheckpoint {
@@ -74,6 +82,15 @@ impl crate::input::Tokens for Lexer<'_> {
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {
             comments_buffer.checkpoint_load(checkpoint.comments_buffer);
         }
+    }
+
+    fn try_load_lookahead(&mut self, checkpoint: LexerCheckpoint) -> bool {
+        // The surrounding probe owns buffered comments. Only restore lexical
+        // state here; skipped comments will be read by the committed parse.
+        self.state = checkpoint.state;
+        self.ctx = checkpoint.ctx;
+        unsafe { self.input.reset_to(checkpoint.input_last_pos) };
+        true
     }
 
     #[inline]
@@ -142,8 +159,38 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     #[inline]
+    fn has_errors(&self) -> bool {
+        !self.errors.is_empty()
+    }
+
+    #[inline]
+    fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
+        (self.errors.len(), self.module_errors.len())
+    }
+
+    #[inline]
+    fn diagnostic_checkpoint_load(&mut self, checkpoint: (usize, usize)) {
+        self.errors.truncate(checkpoint.0);
+        self.module_errors.truncate(checkpoint.1);
+    }
+
+    #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors)
+    }
+
+    #[inline]
+    fn set_defer_comments(&mut self, defer: bool) {
+        self.defer_comments = defer;
+    }
+
+    fn swap_defer_comments(&mut self, defer: bool) -> Option<bool> {
+        Some(std::mem::replace(&mut self.defer_comments, defer))
+    }
+
+    #[inline]
+    fn finalize_comments(&mut self) {
+        Lexer::finalize_comments(self);
     }
 
     #[inline]
@@ -205,7 +252,9 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn next_token(&mut self) -> TokenAndSpan {
-        let mut start = self.cur_pos();
+        // `read_next_token` always overwrites this out-parameter before
+        // returning, including the regexp path.
+        let mut start = BytePos(0);
         let token = match self.read_next_token(&mut start) {
             Ok(res) => res,
             Err(error) => {
@@ -216,7 +265,41 @@ impl crate::input::Tokens for Lexer<'_> {
         self.finish_next_token(self.span(start), token)
     }
 
+    // Most type closers are already a single `>`. Keep suffix rescanning and
+    // speculative lookahead cleanup out of the common closer's call frame.
+    #[cold]
+    #[inline(never)]
+    fn rescan_type_gt(&mut self, span: Span) -> TokenAndSpan {
+        let start = span.lo;
+        let end = start + BytePos(1);
+        // Without lookahead, no diagnostics or comments can follow this
+        // punctuation token. Avoid scanning accumulated buffers on that path.
+        if self.cur_pos() > span.hi {
+            self.errors.retain(|error| error.span().lo < end);
+            self.module_errors.retain(|error| error.span().lo < end);
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                comments.retain_before(end);
+            }
+        }
+        // The parser only calls this for an ASCII greater-than operator.
+        unsafe {
+            self.input.reset_to(end);
+        }
+        self.state.token_value = None;
+        self.state.next_regexp = None;
+        self.token_flags = TokenFlags::empty();
+        self.finish_next_token(Span::new_with_checked(start, end), Token::Gt)
+    }
+
     fn rescan_jsx_token(&mut self, reset: BytePos) -> TokenAndSpan {
+        #[cfg(feature = "tsrx")]
+        {
+            self.errors.retain(|error| error.span().lo < reset);
+            self.module_errors.retain(|error| error.span().lo < reset);
+            if let Some(comments_buffer) = self.comments_buffer.as_mut() {
+                comments_buffer.retain_before(reset);
+            }
+        }
         unsafe {
             self.input.reset_to(reset);
         }
@@ -264,32 +347,49 @@ impl crate::input::Tokens for Lexer<'_> {
     }
 
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
-        let token = self.state.token_type.unwrap();
+        let token = self.state.token_type;
         debug_assert!(token.is_word());
+        let prefix_end = self.cur_pos();
         let mut v = String::with_capacity(16);
         while let Some(ch) = self.input().cur() {
             if ch == b'-' {
-                v.push(ch as char);
+                v.push('-');
                 self.bump(1); // `-`
-            } else {
-                let old_pos = self.cur_pos();
-                v.push_str(&self.scan_identifier_parts());
-                if self.cur_pos() == old_pos {
-                    break;
-                }
+            } else if !self.scan_identifier_parts_into(&mut v) {
+                break;
             }
         }
         let v = if !v.is_empty() {
-            let v = if token.is_known_ident() || token.is_keyword() {
-                format!("{token}{v}")
-            } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
-                format!("{value}{v}")
+            let mut value = String::new();
+            if token.is_known_ident() || token.is_keyword() {
+                let prefix = unsafe {
+                    // Safety: start and end are valid position because we got them from
+                    // `self.input`
+                    self.input_slice_str(start, prefix_end)
+                };
+                value.reserve(prefix.len() + v.len());
+                value.push_str(prefix);
+            } else if let Some(TokenValue::Word(prefix)) = self.state.token_value.take() {
+                value.reserve(prefix.len() + v.len());
+                value.push_str(&prefix);
             } else {
-                format!("{token}{v}")
-            };
-            self.atom(v)
+                let prefix = unsafe {
+                    // Safety: start and end are valid position because we got them from
+                    // `self.input`
+                    self.input_slice_str(start, prefix_end)
+                };
+                value.reserve(prefix.len() + v.len());
+                value.push_str(prefix);
+            }
+            value.push_str(&v);
+            self.atom(value)
         } else if token.is_known_ident() || token.is_keyword() {
-            self.atom(token.to_string())
+            let prefix = unsafe {
+                // Safety: start and end are valid position because we got them from
+                // `self.input`
+                self.input_slice_str(start, prefix_end)
+            };
+            self.atom(prefix)
         } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
             value
         } else {
@@ -370,6 +470,20 @@ impl crate::input::Tokens for Lexer<'_> {
 }
 
 impl Lexer<'_> {
+    #[inline]
+    fn jsx_text_allows_raw_gt(&self, start: BytePos, pos: BytePos) -> bool {
+        let prefix = unsafe {
+            // Safety: `start..pos` is within the current token and `pos` comes from a
+            // JSX-safe search boundary.
+            self.input_slice_str(start, pos)
+        };
+
+        // Only allow raw `>` when it is already part of in-text arrow prose like `->`.
+        // A leading raw `>` immediately after the opening tag must keep producing the
+        // legacy JSX error from `tests/jsx/errors/issue-10635/index.js`.
+        prefix.as_bytes().last().copied() == Some(b'-')
+    }
+
     fn read_next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
         if let Some(next_regexp) = self.state.next_regexp {
             *start = next_regexp;
@@ -385,14 +499,21 @@ impl Lexer<'_> {
 
     #[inline(always)]
     fn finish_next_token(&mut self, span: Span, token: Token) -> TokenAndSpan {
-        if token == Token::Eof {
-            self.consume_pending_comments();
-        } else if let Some(comments) = self.comments_buffer.as_mut() {
-            comments.pending_to_comment(BufferedCommentKind::Leading, span.lo);
+        if self.comments_buffer.is_some() {
+            if token == Token::Eof {
+                self.consume_pending_comments();
+            } else {
+                let Some(comments_buffer) = self.comments_buffer.as_mut() else {
+                    unreachable!();
+                };
+                if comments_buffer.has_pending() {
+                    comments_buffer.pending_to_comment(BufferedCommentKind::Leading, span.lo);
+                }
+            }
         }
 
         self.state.set_token_type(token);
-        self.state.prev_hi = self.last_pos();
+        self.state.prev_hi = span.hi;
         TokenAndSpan {
             token,
             had_line_break: self.state.had_line_break,
@@ -418,6 +539,14 @@ impl Lexer<'_> {
                 self.bump(1);
                 Ok(Token::LBrace)
             }
+            #[cfg(feature = "tsrx")]
+            Some(b'@')
+                if self.syntax.tsrx()
+                    && crate::parser::tsrx::is_directive_start(self.input().as_str()) =>
+            {
+                self.bump(1);
+                Ok(Token::At)
+            }
             Some(_) => {
                 // Fast path: we assume there's no `&` in the jsx child
                 byte_search! {
@@ -427,12 +556,14 @@ impl Lexer<'_> {
                         match matched_byte {
                             b'>' => {
                                 let pos = start + BytePos(pos_offset as u32);
-                                self.emit_error_span(
-                                    Span::new_with_checked(pos, pos),
-                                    SyntaxError::UnexpectedTokenWithSuggestions {
-                                        candidate_list: vec!["`{'>'}`", "`&gt;`"],
-                                    },
-                                );
+                                if !self.jsx_text_allows_raw_gt(start, pos) {
+                                    self.emit_error_span(
+                                        Span::new_with_checked(pos, pos),
+                                        SyntaxError::UnexpectedTokenWithSuggestions {
+                                            candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                                        },
+                                    );
+                                }
                                 true
                             },
                             b'}' => {
@@ -447,6 +578,12 @@ impl Lexer<'_> {
                             },
                             // Encountered `&`, go to the slow path
                             b'&' => return self.scan_jsx_token_with_jsx_entity(),
+                            #[cfg(feature = "tsrx")]
+                            b'@' => {
+                                let rest = &self.input().as_str()[pos_offset..];
+                                !self.syntax.tsrx()
+                                    || !crate::parser::tsrx::is_directive_start(rest)
+                            },
                             _ => false,
                         }
                     },
@@ -457,7 +594,7 @@ impl Lexer<'_> {
                             self.input_slice_str(start, self.cur_pos())
                         };
 
-                        let value = self.atom(s);
+                        let value = self.wtf8_atom(Wtf8::from_str(s));
                         self.state.set_token_value(TokenValue::JsxText(value));
                         return Ok(Token::JSXText);
                     },
@@ -469,7 +606,7 @@ impl Lexer<'_> {
                     self.input_slice_str(start, self.cur_pos())
                 };
 
-                let value = self.atom(s);
+                let value = self.wtf8_atom(Wtf8::from_str(s));
                 self.state.set_token_value(TokenValue::JsxText(value));
                 Ok(Token::JSXText)
             }
@@ -481,20 +618,22 @@ impl Lexer<'_> {
     /// Slow path: we encountered `&` in the jsx child, so we need to scan and
     /// resolve the jsx entity, which requires a dedicated string allocation.
     fn scan_jsx_token_with_jsx_entity(&mut self) -> LexResult<Token> {
-        let mut value = String::new();
+        let mut buf = Wtf8Buf::new();
         let mut chunk_start = self.input.cur_pos();
 
         while let Some(ch) = self.input.cur_as_char() {
             match ch {
                 '>' => {
                     let error_pos = self.input().cur_pos();
+                    if !self.jsx_text_allows_raw_gt(chunk_start, error_pos) {
+                        self.emit_error(
+                            error_pos,
+                            SyntaxError::UnexpectedTokenWithSuggestions {
+                                candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                            },
+                        );
+                    }
                     self.bump(1);
-                    self.emit_error(
-                        error_pos,
-                        SyntaxError::UnexpectedTokenWithSuggestions {
-                            candidate_list: vec!["`{'>'}`", "`&gt;`"],
-                        },
-                    );
                 }
                 '}' => {
                     let error_pos = self.input().cur_pos();
@@ -512,15 +651,20 @@ impl Lexer<'_> {
                         // Safety: We already checked for the range
                         self.input_slice_str(chunk_start, self.cur_pos())
                     };
-                    value.push_str(s);
+                    buf.push_str(s);
 
                     // Read the jsx entity and update the start of chunk
-                    if let Ok(jsx_entity) = self.read_jsx_entity() {
-                        value.push(jsx_entity.0);
-                        chunk_start = self.input.cur_pos();
-                    }
+                    let jsx_entity = self.read_jsx_entity();
+                    buf.push(jsx_entity);
+                    chunk_start = self.input.cur_pos();
                 }
                 '<' | '{' => break,
+                #[cfg(feature = "tsrx")]
+                '@' if self.syntax.tsrx()
+                    && crate::parser::tsrx::is_directive_start(self.input().as_str()) =>
+                {
+                    break
+                }
                 c => {
                     self.bump(c.len_utf8());
                 }
@@ -533,39 +677,57 @@ impl Lexer<'_> {
             self.input_slice_str(chunk_start, self.cur_pos())
         };
 
-        value.push_str(s);
-        let value = Atom::new(value);
+        buf.push_str(s);
+        let value = Wtf8Atom::new(buf);
         self.state.set_token_value(TokenValue::JsxText(value));
         Ok(Token::JSXText)
     }
 
     fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Token> {
-        if self.input.eat_byte(b'>') {
+        // Safety: b'>' and b'/' are ASCII.
+        if unsafe { self.input.eat_byte(b'>') } {
             Ok(Token::Gt)
-        } else if self.input.eat_byte(b'/') {
+        } else if unsafe { self.input.eat_byte(b'/') } {
             Ok(Token::Slash)
         } else {
             self.read_token()
         }
     }
 
-    fn scan_identifier_parts(&mut self) -> String {
-        let mut v = String::with_capacity(16);
+    #[allow(clippy::while_let_loop)]
+    fn scan_identifier_parts_into(&mut self, v: &mut String) -> bool {
+        let start = self.cur_pos();
         while let Some(ch) = self.input().cur() {
             // For ASCII, check if it's an identifier part quickly
             if ch <= 0x7f {
                 if ch.is_ident_part() {
-                    v.push(ch as char);
-                    unsafe {
-                        self.input_mut().bump_bytes(1);
+                    let chunk_start = self.cur_pos();
+                    loop {
+                        let Some(chunk_ch) = self.input().cur() else {
+                            break;
+                        };
+                        if chunk_ch <= 0x7f && chunk_ch.is_ident_part() {
+                            unsafe {
+                                // Safety: `chunk_ch` is current ASCII byte.
+                                self.input_mut().bump_bytes(1);
+                            }
+                        } else {
+                            break;
+                        }
                     }
+
+                    let chunk = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`.
+                        self.input_slice_str(chunk_start, self.cur_pos())
+                    };
+                    v.push_str(chunk);
                 } else if ch == b'\\' {
                     self.bump(1); // bump '\'
                     if !self.is(b'u') {
                         self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                         continue;
                     }
-                    self.bump(1); // bump 'u'
                     let Ok(value) = self.read_unicode_escape() else {
                         self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                         break;
@@ -593,7 +755,7 @@ impl Lexer<'_> {
                 }
             }
         }
-        v
+        self.cur_pos() != start
     }
 }
 
@@ -618,7 +780,7 @@ impl State {
             next_regexp: None,
             prev_hi: start_pos,
             token_value: None,
-            token_type: None,
+            token_type: Token::Eof,
         }
     }
 
@@ -630,27 +792,24 @@ impl State {
 impl State {
     #[inline(always)]
     pub fn set_token_type(&mut self, token_type: Token) {
-        self.token_type = Some(token_type);
+        self.token_type = token_type;
     }
 
     #[inline(always)]
-    pub fn token_type(&self) -> Option<Token> {
+    pub fn token_type(&self) -> Token {
         self.token_type
     }
 
     pub fn can_have_trailing_line_comment(&self) -> bool {
-        let Some(t) = self.token_type() else {
-            return true;
-        };
+        let t = self.token_type();
         !t.is_bin_op()
     }
 
     pub fn can_have_trailing_comment(&self) -> bool {
-        self.token_type().is_some_and(|t| {
-            !t.is_keyword()
-                && (t == Token::Semi
-                    || t == Token::LBrace
-                    || t.is_other_and_can_have_trailing_comment())
-        })
+        let t = self.token_type();
+        !t.is_keyword()
+            && (t == Token::Semi
+                || t == Token::LBrace
+                || t.is_other_and_can_have_trailing_comment())
     }
 }

@@ -19,6 +19,7 @@ use pathdiff::diff_paths;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::Deserialize;
 use swc_common::FileName;
+#[cfg(debug_assertions)]
 use tracing::{debug, trace, Level};
 
 use crate::{
@@ -152,6 +153,7 @@ impl NodeModulesResolver {
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
     /// otherwise the `path` + each extension is tried.
     fn resolve_as_file(&self, path: &Path) -> Result<Option<PathBuf>, Error> {
+        #[cfg(debug_assertions)]
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -166,6 +168,7 @@ impl NodeModulesResolver {
         };
 
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             trace!("resolve_as_file({})", path.display());
         }
 
@@ -234,6 +237,7 @@ impl NodeModulesResolver {
         path: &Path,
         allow_package_entry: bool,
     ) -> Result<Option<PathBuf>, Error> {
+        #[cfg(debug_assertions)]
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -248,6 +252,7 @@ impl NodeModulesResolver {
         };
 
         if cfg!(debug_assertions) {
+            #[cfg(debug_assertions)]
             trace!("resolve_as_directory({})", path.display());
         }
 
@@ -274,6 +279,7 @@ impl NodeModulesResolver {
         pkg_dir: &Path,
         pkg_path: &Path,
     ) -> Result<Option<PathBuf>, Error> {
+        #[cfg(debug_assertions)]
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -412,6 +418,7 @@ impl NodeModulesResolver {
     }
 
     fn resolve_filename(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
+        #[cfg(debug_assertions)]
         debug!(
             "Resolving {} from {:#?} for {:#?}",
             module_specifier, base, self.target_env

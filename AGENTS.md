@@ -1,12 +1,101 @@
-### Instructions
+# Instructions
 
+## General rule
+
+-   Read the codebase - the codebase is source of truth, and you should prefer reading lots of source code over searching.
+-   Never consult pull requests linked in issue descriptions or comments, or SWC forks owned by other people, as references. Do not read or reuse their code, diffs, tests, or proposed implementations through GitHub, `gh`, local checkouts, or other tools.
+-   Do not search web unless explicitly asked to do so. Web search does not help in general for our project.
 -   Write performant code. Always prefer performance over other things.
+-   Use `gh` CLI tool for fetching data from `github.com`.
+-   Do not let sandbox constraints stall progress. If sandbox restrictions block required work, request escalation promptly and continue.
+
+## Code style
+
 -   Write comments and documentations in English.
--   Do not use unstable, nightly only features of rustc.
--   When creating Atom instances, it's better to use `Cow<str>` or `&str` instead of `String`. Note that `&str` is better than `Cow<str>` here.
--   Write unit tests for your code.
--   When instructed to fix tests, do not remove or modify existing tests.
 -   Write documentation for your code.
--   Run `cargo fmt --all` before commiting files.
+-   When introducing a workaround, leave sufficient comments explaining why it is needed and any known limitations.
 -   Commit your work as frequent as possible using git. Do NOT use `--no-verify` flag.
 -   Prefer multiple small files over single large file.
+-   Prefer enum (or dedicated type) based modeling over raw string literals whenever possible.
+
+---
+
+-   When creating Atom instances, it's better to use `Cow<str>` or `&str` instead of `String`. Note that `&str` is better than `Cow<str>` here.
+
+## Debugging and logging
+
+-   Do not guess behavior. Verify assumptions by reading source, fixtures, and tests.
+-   Debug with logs when behavior is unclear.
+-   Write sufficient logs for debugging and operational troubleshooting.
+-   Prefer structured logging in Rust (`tracing`) over ad-hoc plain text logs when feasible.
+
+## Shell safety
+
+-   For shell commands or scripts, prefer `$(...)` over legacy backticks for command substitution.
+-   Quote and escape all dynamic shell values strictly.
+
+## Git workflow
+
+-   Run `git commit` only after `git add`.
+-   Once changes are staged, commit without unnecessary delay so staged history is preserved.
+-   When creating or updating a pull request, follow the repository pull request template.
+-   Keep each pull request to one logical change. Do not add unrelated changes, such as unrelated refactors, formatting, or dependency updates, to a pull request.
+-   If CI fails for a reason that the pull request does not cause, do not fix the failure in that pull request. Fix it in a separate pull request.
+-   When creating a pull request, use the `add-changeset` skill to create the required changeset.
+-   When writing or updating a pull request body, use the `write-pr-body` skill.
+-   After addressing pull request review comments and pushing updates, resolve the corresponding review threads.
+-   When fixing a GitHub issue, add the issue author as a co-author of the fix commit, unless they are already its author.
+-   Use `gh` to verify the issue author's GitHub login, numeric account ID, and display name. Use the login when no display name is available.
+-   Add a `Co-authored-by: Name <ID+login@users.noreply.github.com>` trailer with the verified account details. Do not guess an email address or use the pull request author in place of the issue author. Credit each distinct author when fixing multiple issues.
+-   After pushing, verify that GitHub recognizes each co-author's account in the commit authors. Preserve these trailers in the final merge commit, including squash merges, so GitHub can attribute the contribution.
+
+## Testing
+
+-   Write unit tests for your code.
+-   Prefer fixture tests over inline (`#[test]`) tests.
+-   Before running tests, run `git submodule update --init --recursive` to initialize and update all submodules.
+-   You can do `UPDATE=1 cargo test` to get test outputs updated for fixture tests.
+-   When instructed to fix tests, do not remove or modify existing tests.
+
+### Fixture Test Common Guide
+
+- Add new coverage by extending existing fixture suites instead of adding ad-hoc inline tests.
+- Find the exact fixture harness before adding files with: `rg -n "#\[(testing::)?fixture\(" tests src --glob "*.rs"`.
+- Keep each suite's naming conventions (for example: input.*, output.*, exec.*, .ans).
+- For snapshot-style tests, update expected outputs with `UPDATE=1 cargo test -p ...` using the exact crate command documented in each crate's AGENTS.md.
+- Always rerun the same crate tests without `UPDATE` before finishing.
+
+## Verification
+
+-   Before finishing a task, always run this baseline locally.
+    -   `cargo fmt --all`
+    -   `cargo clippy --all --all-targets -- -D warnings`
+-   For each touched Rust crate, run crate-level verification locally.
+    -   `cargo test -p <crate>`
+-   If wasm binding packages are touched, run:
+    -   `(cd bindings/binding_core_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_minifier_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_typescript_wasm && ./scripts/test.sh)`
+    -   `(cd bindings/binding_es_ast_viewer && ./scripts/test.sh)`
+-   If node bindings or integration paths are touched, run:
+    -   `(cd packages/core && pnpm build:dev && pnpm test)`
+
+## Issues
+
+-   File an issue in [swc-project/swc](https://github.com/swc-project/swc) only for a bug that someone actually encountered in real use. The issue must describe the situation in which the bug caused a problem (for example, which project or build broke, and how).
+-   File every other bug in [swc-project/swc-ai-issues](https://github.com/swc-project/swc-ai-issues). This includes bugs found by reading source code, by static analysis, by fuzzing, or by similar methods, alone or in bulk. Do not file them in `swc-project/swc`.
+-   For each issue in `swc-project/swc-ai-issues`, set the `Priority` and `Effort` issue fields. These are GitHub issue fields of the `swc-project` organization, not labels. Set them with the `setIssueFieldValue` GraphQL mutation (for example, through `gh api graphql`).
+-   Select `Priority` by the probable impact of the bug on real users in real code. Do not select it by the theoretical severity of the bug.
+    -   `Urgent`: Common code triggers the bug, and the bug silently produces incorrect output, breaks runtime behavior, or crashes SWC. No practical workaround exists.
+    -   `High`: Realistic code triggers the bug, and the bug produces incorrect output or a build failure. A workaround is difficult.
+    -   `Medium`: Uncommon but valid code triggers the bug, or the bug produces a clear error that users can work around.
+    -   `Low`: Only rare, contrived, or invalid code triggers the bug, or the bug has little effect on users (for example, a wrong diagnostic message or a missed optimization).
+-   Select `Effort` by the estimated size of the fix.
+    -   `Low`: A small, local change in one place.
+    -   `Medium`: A change to multiple functions or files in one crate.
+    -   `High`: A change to multiple crates, a design change, or a change that needs a large investigation.
+
+## Compatibility rule
+
+-   Do not use unstable, nightly only features of rustc.
+-   Respect the project's MSRV. Do not rely on Rust language features or standard library APIs newer than the MSRV unless the change intentionally raises the MSRV.

@@ -1,0 +1,36 @@
+{
+  "mappings": "AAAA,SAASA,QAAQ,EAAEC,MAAM,EAAEC,YAAY,QAAQ,iBAAiB;AAEhEF,SAAS,SAASG;IACd,IAAMC,aAAa,IAAIC;IACvBJ,OAAOG;IACP,IAAM,AAAEE,SAAWF,WAAXE;IACRL,OAAOK;IACPJ,aAAaI,OAAOC,OAAO,EAAE;IAC7BH,WAAWI,KAAK;IAChBN,aAAaI,OAAOC,OAAO,EAAE;AACjC;AAEAP,SAAS,SAASS;IACd,IAAML,aAAa,IAAIC;IACvB,IAAM,AAAEC,SAAWF,WAAXE;IACR,IAAII,SAAS;IACbJ,OAAOK,OAAO,GAAG,SAACC;QACdX,OAAOW;QACPV,aAAaU,IAAIC,IAAI,EAAE;QACvBH,SAAS;IACb;IACAN,WAAWI,KAAK;IAChBP,OAAOS;AACX;AAEAV,SAAS,SAASc;IACd,IAAMV,aAAa,IAAIC;IACvB,IAAM,AAAEC,SAAWF,WAAXE;IACR,IAAII,SAAS;IACbJ,OAAOS,gBAAgB,CAAC,SAAS,SAAUC,EAAE;QACzCf,OAAO,IAAI,KAAKK;QAChBJ,aAAac,GAAGH,IAAI,EAAE;QACtBH,SAAS;IACb;IACAN,WAAWI,KAAK;IAChBP,OAAOS;AACX;AAEAV,SAAS,SAASiB;IACd,IAAMb,aAAa,IAAIC;IACvB,IAAM,AAAEC,SAAWF,WAAXE;IACR,IAAII,SAAS;IACbJ,OAAOS,gBAAgB,CAAC,SAAS;eAAML;;IACvCJ,OAAOK,OAAO,GAAG;QACbD;IACJ;IACAN,WAAWI,KAAK;IAChBN,aAAaQ,QAAQ;IACrBN,WAAWI,KAAK;IAChBN,aAAaQ,QAAQ;AACzB;AAEAV,SAAS,SAASkB;IACd,IAAMC,SAASC,OAAOC,SAAS,CAACC,QAAQ,CAACC,IAAI,CAAC,IAAIlB;IAClDH,aAAaiB,QAAQ;AACzB",
+  "names": [
+    "unitTest",
+    "assert",
+    "assertEquals",
+    "basicAbortController",
+    "controller",
+    "AbortController",
+    "signal",
+    "aborted",
+    "abort",
+    "signalCallsOnabort",
+    "called",
+    "onabort",
+    "evt",
+    "type",
+    "signalEventListener",
+    "addEventListener",
+    "ev",
+    "onlyAbortsOnce",
+    "controllerHasProperToString",
+    "actual",
+    "Object",
+    "prototype",
+    "toString",
+    "call"
+  ],
+  "sources": [
+    "../input/abort_controller_test.ts"
+  ],
+  "sourcesContent": [
+    "import { unitTest, assert, assertEquals } from \"./test_util.ts\";\n\nunitTest(function basicAbortController() {\n    const controller = new AbortController();\n    assert(controller);\n    const { signal } = controller;\n    assert(signal);\n    assertEquals(signal.aborted, false);\n    controller.abort();\n    assertEquals(signal.aborted, true);\n});\n\nunitTest(function signalCallsOnabort() {\n    const controller = new AbortController();\n    const { signal } = controller;\n    let called = false;\n    signal.onabort = (evt): void => {\n        assert(evt);\n        assertEquals(evt.type, \"abort\");\n        called = true;\n    };\n    controller.abort();\n    assert(called);\n});\n\nunitTest(function signalEventListener() {\n    const controller = new AbortController();\n    const { signal } = controller;\n    let called = false;\n    signal.addEventListener(\"abort\", function (ev) {\n        assert(this === signal);\n        assertEquals(ev.type, \"abort\");\n        called = true;\n    });\n    controller.abort();\n    assert(called);\n});\n\nunitTest(function onlyAbortsOnce() {\n    const controller = new AbortController();\n    const { signal } = controller;\n    let called = 0;\n    signal.addEventListener(\"abort\", () => called++);\n    signal.onabort = (): void => {\n        called++;\n    };\n    controller.abort();\n    assertEquals(called, 2);\n    controller.abort();\n    assertEquals(called, 2);\n});\n\nunitTest(function controllerHasProperToString() {\n    const actual = Object.prototype.toString.call(new AbortController());\n    assertEquals(actual, \"[object AbortController]\");\n});\n"
+  ],
+  "version": 3
+}

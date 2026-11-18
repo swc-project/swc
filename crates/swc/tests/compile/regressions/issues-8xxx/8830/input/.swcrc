@@ -1,0 +1,8 @@
+{
+    "jsc": {
+        "target": "es2018",
+        "transform": {
+            "useDefineForClassFields": false
+        }
+    }
+}

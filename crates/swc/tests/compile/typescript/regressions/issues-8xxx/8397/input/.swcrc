@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "env": {
+        "targets": "Chrome >= 46"
+    }
+}

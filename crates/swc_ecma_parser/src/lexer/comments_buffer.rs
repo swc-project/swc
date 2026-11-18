@@ -41,6 +41,12 @@ impl CommentsBuffer {
         self.comments.truncate(checkpoint.comments_pos);
         self.pending_leading.truncate(checkpoint.pending_leading);
     }
+
+    pub fn retain_before(&mut self, pos: BytePos) {
+        self.comments
+            .retain(|comment| comment.comment.span.lo < pos);
+        self.pending_leading.retain(|comment| comment.span.lo < pos);
+    }
 }
 
 impl CommentsBuffer {
@@ -55,7 +61,25 @@ impl CommentsBuffer {
     }
 
     #[inline(always)]
+    pub fn has_pending(&self) -> bool {
+        !self.pending_leading.is_empty()
+    }
+
+    #[inline(always)]
     pub fn pending_to_comment(&mut self, kind: BufferedCommentKind, pos: BytePos) {
+        // Most tokens have no pending comments; avoid creating an empty drain on
+        // this lexer hot path.
+        match self.pending_leading.len() {
+            0 => return,
+            1 => {
+                let comment = self.pending_leading.pop().unwrap();
+                let comment = BufferedComment { kind, pos, comment };
+                self.comments.push(comment);
+                return;
+            }
+            _ => {}
+        }
+
         for comment in self.pending_leading.drain(..) {
             let comment = BufferedComment { kind, pos, comment };
             self.comments.push(comment);

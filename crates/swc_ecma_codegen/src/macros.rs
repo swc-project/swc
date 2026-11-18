@@ -36,7 +36,8 @@ macro_rules! keyword {
 }
 
 /// Returns true if the punctuation character requires committing a pending
-/// semicolon before it (to avoid ASI issues).
+/// semicolon before it (to avoid ASI issues), including type assertion and JSX
+/// openers.
 #[inline(always)]
 pub const fn punct_requires_semi_commit(s: &'static str) -> bool {
     let bytes = s.as_bytes();
@@ -56,9 +57,10 @@ pub const fn punct_requires_semi_commit(s: &'static str) -> bool {
                 | b'#'
                 | b'`'
                 | b'*'
+                | b'<'
         )
     } else {
-        false
+        matches!(bytes, [b'<', b'>'])
     }
 }
 

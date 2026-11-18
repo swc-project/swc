@@ -146,10 +146,8 @@ impl NoParamReassign {
         }
 
         match member_expr.obj.unwrap_seqs_and_parens() {
-            Expr::Ident(ident) => {
-                if self.is_satisfying_function_param(ident) {
-                    self.emit_report(ident.span, &ident.sym);
-                }
+            Expr::Ident(ident) if self.is_satisfying_function_param(ident) => {
+                self.emit_report(ident.span, &ident.sym);
             }
             Expr::Member(member_expr) => {
                 self.check_obj_member(member_expr);
@@ -170,10 +168,10 @@ impl NoParamReassign {
                 AssignTargetPat::Invalid(..) => {}
             },
             AssignTarget::Simple(expr) => match expr {
-                SimpleAssignTarget::Ident(ident) => {
-                    if self.is_satisfying_function_param(&Ident::from(ident)) {
-                        self.emit_report(ident.span, &ident.sym);
-                    }
+                SimpleAssignTarget::Ident(ident)
+                    if self.is_satisfying_function_param(&Ident::from(ident)) =>
+                {
+                    self.emit_report(ident.span, &ident.sym);
                 }
                 SimpleAssignTarget::Member(member_expr) => {
                     self.check_obj_member(member_expr);
@@ -186,10 +184,8 @@ impl NoParamReassign {
 
     fn check_expr(&self, expr: &Expr) {
         match expr.unwrap_seqs_and_parens() {
-            Expr::Ident(ident) => {
-                if self.is_satisfying_function_param(ident) {
-                    self.emit_report(ident.span, &ident.sym);
-                }
+            Expr::Ident(ident) if self.is_satisfying_function_param(ident) => {
+                self.emit_report(ident.span, &ident.sym);
             }
             Expr::Member(member_expr) => {
                 self.check_obj_member(member_expr);
@@ -208,10 +204,10 @@ impl NoParamReassign {
 
     fn check_object_pat(&self, ObjectPat { props, .. }: &ObjectPat) {
         props.iter().for_each(|prop| match prop {
-            ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                if self.is_satisfying_function_param(&Ident::from(key)) {
-                    self.emit_report(key.span, &key.sym);
-                }
+            ObjectPatProp::Assign(AssignPatProp { key, .. })
+                if self.is_satisfying_function_param(&Ident::from(key)) =>
+            {
+                self.emit_report(key.span, &key.sym);
             }
             ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
                 self.check_pat(value.as_ref());
@@ -222,10 +218,8 @@ impl NoParamReassign {
 
     fn check_pat(&self, pat: &Pat) {
         match pat {
-            Pat::Ident(id) => {
-                if self.is_satisfying_function_param(&Ident::from(id)) {
-                    self.emit_report(id.span, &id.sym);
-                }
+            Pat::Ident(id) if self.is_satisfying_function_param(&Ident::from(id)) => {
+                self.emit_report(id.span, &id.sym);
             }
             Pat::Expr(expr) => {
                 if let Expr::Member(member_expr) = expr.as_ref() {

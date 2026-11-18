@@ -27,13 +27,22 @@ pub struct Config {
     #[serde(default)]
     pub import_export_assign_config: TsImportExportAssignConfig,
 
-    /// Disables an optimization that inlines TS enum member values
-    /// within the same module that assumes the enum member values
-    /// are never modified.
+    /// Disables additional inlining of non-const enum member reads within
+    /// the same module. Enum initializers still follow TypeScript's constant
+    /// evaluation rules.
     ///
     /// Defaults to false.
     #[serde(default)]
     pub ts_enum_is_mutable: bool,
+
+    /// Indicates that the input AST was parsed from Flow syntax.
+    ///
+    /// Set this when reusing the strip pass with
+    /// `swc_ecma_parser::Syntax::Flow(...)` so Flow-only post-processing runs
+    /// after type stripping. Leave this disabled for TypeScript and plain
+    /// JavaScript inputs to avoid extra overhead on the common path.
+    #[serde(skip)]
+    pub flow_syntax: bool,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]

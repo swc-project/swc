@@ -36,7 +36,7 @@ System.register([], function(_export, _context) {
 System.register([], function(_export, _context) {
     return _export("D", void 0), {
         setters: [],
-        execute: async function() {
+        execute: function() {
             _export("D", class {
                 method() {
                     _context.import("./0"), this.myModule.then((Zero)=>{

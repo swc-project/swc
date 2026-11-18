@@ -35,7 +35,7 @@ fn bugs_1(b: &mut Bencher) {
 }
 
 fn bench_bugs(c: &mut Criterion) {
-    c.bench_function("es/full/bugs-1", bugs_1);
+    c.bench_function("es/large/bugs-1", bugs_1);
 }
 
 criterion_group!(benches, bench_bugs);

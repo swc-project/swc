@@ -15,6 +15,15 @@ use crate::{
     util::ExprOptExt,
 };
 
+/// Prevent creating extremely deep nested conditionals from long `if (...)
+/// return ...` chains.
+///
+/// Some engines have recursion/stack limits while parsing or transforming
+/// deeply nested ternary expressions (notably WebKit on iOS). Known limitation:
+/// very long chains stay as `if` statements, which may produce slightly larger
+/// output, but avoids stack overflows.
+const MAX_IF_RETURN_CHAINED_CONDITIONALS: usize = 250;
+
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
 impl Optimizer<'_> {
@@ -34,9 +43,27 @@ impl Optimizer<'_> {
             debug_assert_valid(&*stmt);
         }
 
-        if terminates || is_fn_body {
-            self.merge_if_returns_inner(stmts, !is_fn_body);
+        if !(terminates || is_fn_body) {
+            return;
         }
+
+        // The directive prologue of a function body must stay at the start of the
+        // body, otherwise it stops being a directive (e.g. `"use strict"` would be
+        // turned into a discarded `void "use strict"` operand of a sequence).
+        let prologue_len = if is_fn_body {
+            directive_prologue_len(stmts)
+        } else {
+            0
+        };
+
+        if prologue_len == 0 {
+            self.merge_if_returns_inner(stmts, !is_fn_body);
+            return;
+        }
+
+        let prologue = stmts.drain(..prologue_len).collect::<Vec<_>>();
+        self.merge_if_returns_inner(stmts, !is_fn_body);
+        stmts.splice(0..0, prologue);
     }
 
     #[allow(clippy::only_used_in_recursion)]
@@ -267,6 +294,26 @@ impl Optimizer<'_> {
                     });
             if !can_merge {
                 return;
+            }
+        }
+
+        {
+            let mut chained_conditionals = 0usize;
+            let chain_limit_plus_one = MAX_IF_RETURN_CHAINED_CONDITIONALS + 1;
+
+            for stmt in &stmts[skip..=last_idx] {
+                if matches!(stmt, Stmt::If(..)) {
+                    chained_conditionals += 1;
+
+                    if chained_conditionals >= chain_limit_plus_one {
+                        log_abort!(
+                            "if_return: [x] Aborting to avoid very deep conditional chain (limit \
+                             = {})",
+                            MAX_IF_RETURN_CHAINED_CONDITIONALS
+                        );
+                        return;
+                    }
+                }
             }
         }
 
@@ -527,6 +574,20 @@ impl Optimizer<'_> {
             _ => false,
         }
     }
+}
+
+/// Returns the number of leading string literal expression statements, which
+/// form the directive prologue of a function body.
+fn directive_prologue_len(stmts: &[Stmt]) -> usize {
+    stmts
+        .iter()
+        .take_while(|stmt| {
+            matches!(
+                stmt,
+                Stmt::Expr(ExprStmt { expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..)))
+            )
+        })
+        .count()
 }
 
 fn get_rightmost_alt_of_cond(e: &mut CondExpr) -> &mut Expr {

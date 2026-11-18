@@ -1,0 +1,18 @@
+  x String must use backtick quotes
+   ,-[$DIR/tests/compile/lints/quotes/valid-cases-backtick/input/input.js:2:1]
+ 1 | "use strict";
+ 2 | var v = "use strict";
+   :         ^^^^^^^^^^^^
+ 3 | var s = "double quotes string";
+ 4 | 
+ 5 | // valid cases
+   `----
+  x String must use backtick quotes
+   ,-[$DIR/tests/compile/lints/quotes/valid-cases-backtick/input/input.js:3:1]
+ 1 | "use strict";
+ 2 | var v = "use strict";
+ 3 | var s = "double quotes string";
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+ 4 | 
+ 5 | // valid cases
+   `----

@@ -5,7 +5,10 @@ use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Wtf8Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_usage_analyzer::{
+use swc_ecma_utils::{Merge, Type, Value};
+use swc_ecma_visit::VisitWith;
+
+use crate::usage_analyzer::{
     alias::{Access, AccessKind},
     analyzer::{
         analyze_with_custom_storage,
@@ -15,8 +18,6 @@ use swc_ecma_usage_analyzer::{
     marks::Marks,
     util::is_global_var_with_pure_property_access,
 };
-use swc_ecma_utils::{Merge, Type, Value};
-use swc_ecma_visit::VisitWith;
 
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bool) -> ProgramData
 where
@@ -41,8 +42,6 @@ pub(crate) struct ProgramData {
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 
-    pub(crate) top: ScopeData,
-
     scopes: Vec<ScopeData>,
 
     pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
@@ -59,7 +58,7 @@ bitflags::bitflags! {
         const DECLARED_AS_FN_DECL       = 1 << 3;
         const DECLARED_AS_FN_EXPR       = 1 << 4;
         const DECLARED_AS_FOR_INIT      = 1 << 5;
-        /// The variable itself is assigned after reference.
+        /// The variable itself is reassigned in the current module.
         const REASSIGNED                = 1 << 6;
         const HAS_PROPERTY_ACCESS       = 1 << 7;
         const EXPORTED                  = 1 << 8;
@@ -91,6 +90,24 @@ bitflags::bitflags! {
 
         /// The variable is declared without initializer.
         const LAZY_INIT                 = 1 << 25;
+
+        /// The binding's value may be changed by another module.
+        const EXTERNALLY_MUTABLE        = 1 << 26;
+
+        /// A property of the binding is mutated at a position where a read of
+        /// the binding counts as a usage.
+        ///
+        /// A mutation is not counted here when it is in the body of the class or
+        /// function that the binding names, or in the side-effect-free
+        /// initializer of the variable `v` in `var v = ...`. The usage analyzer
+        /// also ignores reads of the binding at these positions.
+        ///
+        /// A self mutation such as `C.x = v` in a method of class `C` does not
+        /// set this flag. Like a self read, it runs only after code outside the
+        /// body gets a reference to `C`, so it does not keep an otherwise
+        /// unused declaration alive. [VarUsageInfo::property_mutation_count]
+        /// still counts self mutations.
+        const PROPERTY_MUTATED_OUTSIDE_SELF = 1 << 27;
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -98,6 +115,8 @@ bitflags::bitflags! {
         const HAS_WITH_STMT  = 1 << 0;
         const HAS_EVAL_CALL  = 1 << 1;
         const USED_ARGUMENTS = 1 << 2;
+        const IS_FN = 1 << 3;
+        const IS_ARROW = 1 <<4;
     }
 }
 
@@ -123,6 +142,7 @@ pub(crate) struct VarUsageInfo {
     pub(crate) merged_var_type: Option<Value<Type>>,
 
     pub(crate) callee_count: u32,
+    pub(crate) param_count: Option<Value<u8>>,
 
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
@@ -145,6 +165,7 @@ impl Default for VarUsageInfo {
             var_kind: Default::default(),
             merged_var_type: Default::default(),
             callee_count: Default::default(),
+            param_count: Default::default(),
             infects_to: Default::default(),
             accessed_props: Default::default(),
         }
@@ -156,12 +177,26 @@ impl VarUsageInfo {
         !self.infects_to.is_empty()
     }
 
+    /// Whether the binding's value may change after initialization.
+    pub(crate) fn may_change(&self) -> bool {
+        self.flags
+            .intersects(VarUsageInfoFlags::REASSIGNED | VarUsageInfoFlags::EXTERNALLY_MUTABLE)
+    }
+
     /// The variable itself or a property of it is modified.
     pub(crate) fn mutated(&self) -> bool {
         self.assign_count > 1 || self.property_mutation_count > 0
     }
 
-    pub(crate) fn can_inline_fn_once(&self) -> bool {
+    pub(crate) fn can_inline_fn_once(&self, is_generator: bool) -> bool {
+        if is_generator
+            && self
+                .flags
+                .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+        {
+            return false;
+        }
+
         (self.callee_count > 0
             || !self
                 .flags
@@ -209,10 +244,6 @@ impl Storage for ProgramData {
         &self.scopes
     }
 
-    fn top_scope(&mut self) -> &mut Self::ScopeData {
-        &mut self.top
-    }
-
     fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
         self.vars.entry(id).or_default()
     }
@@ -229,62 +260,73 @@ impl Storage for ProgramData {
             let inited = self.initialized_vars.contains(&id);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
+                    let e = e.get_mut();
+
                     if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
-                        e.get_mut()
-                            .flags
-                            .insert(VarUsageInfoFlags::INLINE_PREVENTED);
+                        e.flags.insert(VarUsageInfoFlags::INLINE_PREVENTED);
                     }
                     let var_assigned = var_info.assign_count > 0
                         || (var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
-                            && !e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED));
+                            && !e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED));
 
-                    if var_info.assign_count > 0 {
-                        if e.get().initialized() {
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
-                        }
+                    if var_info.assign_count > 0 && e.initialized() {
+                        e.flags.insert(VarUsageInfoFlags::REASSIGNED);
                     }
 
                     if var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
                         // If it is inited in some other child scope and also inited in current
                         // scope
-                        if e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
-                            || e.get().ref_count > 0
-                        {
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                        if e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) || e.ref_count > 0 {
+                            e.flags.insert(VarUsageInfoFlags::REASSIGNED);
                         } else {
                             // If it is referred outside child scope, it will
                             // be marked as var_initialized false
-                            e.get_mut().flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
+                            e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
                         }
                     } else {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
                         if !inited
-                            && e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                            && e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
                             && var_info.ref_count > 0
                         {
-                            e.get_mut().flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                            e.flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
+                            e.flags.insert(VarUsageInfoFlags::REASSIGNED);
                         }
                     }
 
-                    e.get_mut().merged_var_type.merge(var_info.merged_var_type);
+                    e.merged_var_type.merge(var_info.merged_var_type);
 
-                    e.get_mut().ref_count += var_info.ref_count;
-                    e.get_mut().property_mutation_count |= var_info.property_mutation_count;
-                    e.get_mut().declared_count += var_info.declared_count;
-                    e.get_mut().assign_count += var_info.assign_count;
-                    e.get_mut().usage_count += var_info.usage_count;
-                    e.get_mut().infects_to.extend(var_info.infects_to);
-                    e.get_mut().callee_count += var_info.callee_count;
+                    e.ref_count += var_info.ref_count;
+                    e.property_mutation_count |= var_info.property_mutation_count;
+                    e.declared_count += var_info.declared_count;
+                    e.assign_count += var_info.assign_count;
+                    e.usage_count += var_info.usage_count;
+                    e.infects_to.extend(var_info.infects_to);
+                    e.callee_count += var_info.callee_count;
+
+                    e.param_count = match (e.param_count, var_info.param_count) {
+                        (Some(Value::Known(v1)), Some(Value::Known(v2))) if v1 == v2 => {
+                            Some(Value::Known(v1))
+                        }
+                        (Some(Value::Known(v)), None) | (None, Some(Value::Known(v))) => {
+                            Some(Value::Known(v))
+                        }
+                        (Some(Value::Known(_)), Some(Value::Known(_)))
+                        | (Some(Value::Unknown), _)
+                        | (_, Some(Value::Unknown)) => Some(Value::Unknown),
+                        (None, None) => None,
+                    };
 
                     for (k, v) in var_info.accessed_props {
-                        *e.get_mut().accessed_props.entry(k).or_default() += v;
+                        *e.accessed_props.entry(k).or_default() += v;
                     }
 
                     let var_info_flags = var_info.flags;
-                    let e_flags = &mut e.get_mut().flags;
+                    let e_flags = &mut e.flags;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::EXTERNALLY_MUTABLE;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
@@ -292,6 +334,7 @@ impl Storage for ProgramData {
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_EXPR;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
+                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FOR_INIT;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_COND;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_ARG;
@@ -318,7 +361,7 @@ impl Storage for ProgramData {
                     }
 
                     match kind {
-                        ScopeKind::Fn => {
+                        ScopeKind::Fn { .. } => {
                             e_flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
                             if !var_info_flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
                                 e_flags.insert(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
@@ -337,7 +380,7 @@ impl Storage for ProgramData {
                 }
                 Entry::Vacant(e) => {
                     match kind {
-                        ScopeKind::Fn => {
+                        ScopeKind::Fn { .. } => {
                             if !var_info.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
                                 var_info
                                     .flags
@@ -409,8 +452,12 @@ impl Storage for ProgramData {
             e.usage_count = e.usage_count.saturating_sub(1);
         }
 
+        if e.infects_to.is_empty() {
+            return;
+        }
+
         let mut to_visit: IndexSet<Id, FxBuildHasher> =
-            IndexSet::from_iter(e.infects_to.iter().cloned().map(|i| i.0));
+            IndexSet::from_iter(e.infects_to.iter().map(|(id, _)| id.clone()));
 
         let mut idx = 0;
 
@@ -434,7 +481,7 @@ impl Storage for ProgramData {
                     usage.usage_count += 1;
                 }
 
-                to_visit.extend(usage.infects_to.iter().cloned().map(|i| i.0))
+                to_visit.extend(usage.infects_to.iter().map(|(id, _)| id.clone()))
             }
 
             idx += 1;
@@ -457,14 +504,19 @@ impl Storage for ProgramData {
             v.flags |= VarUsageInfoFlags::IS_TOP_LEVEL;
         }
 
-        // assigned or declared before this declaration
-        if init_type.is_some() {
+        if init_type.is_some() ||
+        // it may actually not be assigned if loop is empty
+        // but that's only possible to be known at runtime
+        ctx.in_left_of_for_loop()
+        {
+            // assigned or declared before this declaration
             if v.flags
                 .intersects(VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::VAR_INITIALIZED))
                 || v.assign_count > 0
             {
                 #[cfg(feature = "debug")]
                 {
+                    #[cfg(debug_assertions)]
                     tracing::trace!("declare_decl(`{}`): Already declared", i);
                 }
 
@@ -474,7 +526,7 @@ impl Storage for ProgramData {
             v.assign_count += 1;
         }
 
-        // This is not delcared yet, so this is the first declaration.
+        // This is not declared yet, so this is the first declaration.
         if !v.flags.contains(VarUsageInfoFlags::DECLARED) {
             v.var_kind = kind;
             if ctx.in_decl_with_no_side_effect_for_member_access() {
@@ -521,9 +573,17 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutation(&mut self, id: Id) {
+    fn mark_property_mutation(&mut self, id: Id, is_self_mutation: bool) {
         let e = self.vars.entry(id).or_default();
         e.property_mutation_count += 1;
+        if !is_self_mutation {
+            e.flags
+                .insert(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF);
+        }
+
+        if e.infects_to.is_empty() {
+            return;
+        }
 
         let to_mark_mutate = e
             .infects_to
@@ -536,6 +596,11 @@ impl Storage for ProgramData {
             let other = self.vars.entry(other).or_default();
 
             other.property_mutation_count += 1;
+            // The analyzer does not know whether this mutation site is in the
+            // body of the alias target, so treat it as an outside mutation.
+            other
+                .flags
+                .insert(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF);
         }
     }
 
@@ -551,12 +616,33 @@ impl Storage for ProgramData {
 }
 
 impl ScopeDataLike for ScopeData {
+    fn new(kind: ScopeKind) -> Self {
+        let mut s = ScopeData::default();
+
+        if let ScopeKind::Fn { is_arrow } = kind {
+            s.insert(ScopeData::IS_FN);
+
+            if is_arrow {
+                s.insert(ScopeData::IS_ARROW);
+            }
+        }
+
+        s
+    }
+
     fn add_declared_symbol(&mut self, _: &Ident) {}
 
-    fn merge(&mut self, other: Self, _: bool) {
+    fn merge(&mut self, other: Self, is_child: bool) {
         *self |= other & Self::HAS_WITH_STMT;
         *self |= other & Self::HAS_EVAL_CALL;
-        *self |= other & Self::USED_ARGUMENTS;
+
+        if is_child {
+            if !other.intersects(ScopeData::IS_FN) || other.intersects(ScopeData::IS_ARROW) {
+                *self |= other & Self::USED_ARGUMENTS;
+            }
+        } else {
+            *self |= other & Self::USED_ARGUMENTS;
+        }
     }
 
     fn mark_used_arguments(&mut self) {
@@ -569,6 +655,14 @@ impl ScopeDataLike for ScopeData {
 
     fn mark_with_stmt(&mut self) {
         *self |= Self::HAS_WITH_STMT;
+    }
+
+    fn used_arguments(&self) -> bool {
+        self.intersects(ScopeData::USED_ARGUMENTS)
+    }
+
+    fn used_eval(&self) -> bool {
+        self.intersects(ScopeData::HAS_EVAL_CALL)
     }
 }
 
@@ -631,6 +725,12 @@ impl VarDataLike for VarUsageInfo {
         self.flags.insert(VarUsageInfoFlags::EXPORTED);
     }
 
+    fn mark_as_externally_mutable(&mut self) {
+        // External writes are invisible to assignment counts and scope analysis.
+        self.flags.insert(VarUsageInfoFlags::EXTERNALLY_MUTABLE);
+        self.flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
+    }
+
     fn mark_initialized_with_safe_value(&mut self) {
         self.flags
             .insert(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS);
@@ -655,6 +755,16 @@ impl VarDataLike for VarUsageInfo {
     fn mark_used_as_jsx_callee(&mut self) {
         self.flags.insert(VarUsageInfoFlags::USED_AS_JSX_CALLEE);
     }
+
+    fn store_param_count(&mut self, count: Value<u8>) {
+        match (self.param_count, count) {
+            (Some(Value::Known(prev)), Value::Known(count)) if prev == count => {}
+            (Some(Value::Known(_)), Value::Known(_))
+            | (Some(Value::Unknown), _)
+            | (_, Value::Unknown) => self.param_count = Some(Value::Unknown),
+            (None, count) => self.param_count = Some(count),
+        }
+    }
 }
 
 impl ProgramData {
@@ -663,82 +773,11 @@ impl ProgramData {
         self.scopes.get(ctxt)
     }
 
-    /// This should be used only for conditionals pass.
-    pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
-        match e {
-            Expr::Ident(i) => self.ident_is_unresolved(i),
-
-            Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if self.contains_unresolved(obj) {
-                    return true;
-                }
-
-                if let MemberProp::Computed(prop) = prop {
-                    if self.contains_unresolved(&prop.expr) {
-                        return true;
-                    }
-                }
-
-                false
-            }
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                self.contains_unresolved(left) || self.contains_unresolved(right)
-            }
-            Expr::Unary(UnaryExpr { arg, .. }) => self.contains_unresolved(arg),
-            Expr::Update(UpdateExpr { arg, .. }) => self.contains_unresolved(arg),
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
-            Expr::Assign(AssignExpr { left, right, .. }) => {
-                // TODO
-                (match left {
-                    AssignTarget::Simple(left) => {
-                        self.simple_assign_target_contains_unresolved(left)
-                    }
-                    AssignTarget::Pat(_) => false,
-                    #[cfg(swc_ast_unknown)]
-                    _ => panic!("unable to access unknown nodes"),
-                }) || self.contains_unresolved(right)
-            }
-            Expr::Cond(CondExpr {
-                test, cons, alt, ..
-            }) => {
-                self.contains_unresolved(test)
-                    || self.contains_unresolved(cons)
-                    || self.contains_unresolved(alt)
-            }
-            Expr::New(NewExpr { args, .. }) => args.iter().flatten().any(|arg| match arg.spread {
-                Some(..) => self.contains_unresolved(&arg.expr),
-                None => false,
-            }),
-            Expr::Yield(YieldExpr { arg, .. }) => {
-                matches!(arg, Some(arg) if self.contains_unresolved(arg))
-            }
-            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
-            Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr),
-            Expr::Await(AwaitExpr { arg, .. }) => self.contains_unresolved(arg),
-            Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| match elem {
-                Some(elem) => self.contains_unresolved(&elem.expr),
-                None => false,
-            }),
-
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) => {
-                if self.contains_unresolved(callee) {
-                    return true;
-                }
-
-                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
-                    return true;
-                }
-
-                false
-            }
-
-            Expr::OptChain(o) => self.opt_chain_expr_contains_unresolved(o),
-
-            _ => false,
+    pub(crate) fn used_arguments(&self, ctxt: SyntaxContext) -> bool {
+        if let Some(scope) = self.get_scope(ctxt) {
+            scope.intersects(ScopeData::USED_ARGUMENTS)
+        } else {
+            false
         }
     }
 
@@ -755,64 +794,5 @@ impl ProgramData {
         }
 
         true
-    }
-
-    fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
-        match &*o.base {
-            OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
-            OptChainBase::Call(OptCall { callee, args, .. }) => {
-                if self.contains_unresolved(callee) {
-                    return true;
-                }
-
-                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
-                    return true;
-                }
-
-                false
-            }
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
-    }
-
-    fn member_expr_contains_unresolved(&self, n: &MemberExpr) -> bool {
-        if self.contains_unresolved(&n.obj) {
-            return true;
-        }
-
-        if let MemberProp::Computed(prop) = &n.prop {
-            if self.contains_unresolved(&prop.expr) {
-                return true;
-            }
-        }
-
-        false
-    }
-
-    fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
-        match n {
-            SimpleAssignTarget::Ident(i) => self.ident_is_unresolved(&i.id),
-            SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me),
-            SimpleAssignTarget::SuperProp(n) => {
-                if let SuperProp::Computed(prop) = &n.prop {
-                    if self.contains_unresolved(&prop.expr) {
-                        return true;
-                    }
-                }
-
-                false
-            }
-            SimpleAssignTarget::Paren(n) => self.contains_unresolved(&n.expr),
-            SimpleAssignTarget::OptChain(n) => self.opt_chain_expr_contains_unresolved(n),
-            SimpleAssignTarget::TsAs(..)
-            | SimpleAssignTarget::TsSatisfies(..)
-            | SimpleAssignTarget::TsNonNull(..)
-            | SimpleAssignTarget::TsTypeAssertion(..)
-            | SimpleAssignTarget::TsInstantiation(..) => false,
-            SimpleAssignTarget::Invalid(..) => true,
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
     }
 }

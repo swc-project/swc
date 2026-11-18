@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use std::time::Instant;
+use std::{num::FpCategory, time::Instant};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
@@ -13,6 +13,12 @@ use swc_ecma_visit::{noop_visit_type, visit_mut_pass, visit_obj_and_computed, Vi
 pub(crate) mod base54;
 pub(crate) mod size;
 pub(crate) mod sort;
+
+/// Returns whether a number is falsy according to ECMAScript semantics.
+#[inline]
+pub(crate) fn is_falsy_number(value: f64) -> bool {
+    matches!(value.classify(), FpCategory::Zero | FpCategory::Nan)
+}
 
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     trace_op!("Creating a numeric literal");
@@ -260,10 +266,6 @@ impl Visit for LeapFinder {
 
     fn visit_function(&mut self, _: &Function) {}
 
-    fn visit_getter_prop(&mut self, _: &GetterProp) {}
-
-    fn visit_setter_prop(&mut self, _: &SetterProp) {}
-
     fn visit_yield_expr(&mut self, n: &YieldExpr) {
         n.visit_children_with(self);
 
@@ -352,7 +354,16 @@ impl Visit for IdentUsageCollector {
 
     visit_obj_and_computed!();
 
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
+    fn visit_expr(&mut self, n: &Expr) {
+        if let Expr::Ident(i) = n {
+            self.ids.insert(i.to_id());
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_arrow_function_body(&mut self, n: &ArrowFunctionBody) {
         if self.ignore_nested {
             return;
         }
@@ -369,22 +380,6 @@ impl Visit for IdentUsageCollector {
     }
 
     fn visit_function(&mut self, n: &Function) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
         if self.ignore_nested {
             return;
         }
@@ -401,63 +396,6 @@ impl Visit for IdentUsageCollector {
             n.visit_children_with(self);
         }
     }
-}
-
-#[derive(Default)]
-pub(crate) struct CapturedIdCollector {
-    ids: FxHashSet<Id>,
-    is_nested: bool,
-}
-
-impl Visit for CapturedIdCollector {
-    noop_visit_type!(fail);
-
-    visit_obj_and_computed!();
-
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
-        let old = self.is_nested;
-        self.is_nested = true;
-        n.visit_children_with(self);
-        self.is_nested = old;
-    }
-
-    fn visit_constructor(&mut self, n: &Constructor) {
-        let old = self.is_nested;
-        self.is_nested = true;
-        n.visit_children_with(self);
-        self.is_nested = old;
-    }
-
-    fn visit_function(&mut self, n: &Function) {
-        let old = self.is_nested;
-        self.is_nested = true;
-        n.visit_children_with(self);
-        self.is_nested = old;
-    }
-
-    fn visit_ident(&mut self, n: &Ident) {
-        if self.is_nested {
-            self.ids.insert(n.to_id());
-        }
-    }
-
-    fn visit_prop_name(&mut self, n: &PropName) {
-        if let PropName::Computed(..) = n {
-            n.visit_children_with(self);
-        }
-    }
-}
-
-pub(crate) fn idents_captured_by<N>(n: &N) -> FxHashSet<Id>
-where
-    N: VisitWith<CapturedIdCollector>,
-{
-    let mut v = CapturedIdCollector {
-        is_nested: false,
-        ..Default::default()
-    };
-    n.visit_with(&mut v);
-    v.ids
 }
 
 pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>

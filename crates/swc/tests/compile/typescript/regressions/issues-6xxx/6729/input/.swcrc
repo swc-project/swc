@@ -1,0 +1,15 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "target": "es2020",
+        "minify": {
+            "compress": true
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

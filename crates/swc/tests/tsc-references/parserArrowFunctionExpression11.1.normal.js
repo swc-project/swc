@@ -1,12 +1,6 @@
 //// [parserArrowFunctionExpression11.ts]
 //// [fileJs.js]
-//!   x Expected ':', got '<eof>'
-//!    ,-[2:2]
-//!  1 | a ? b ? c : (d) : e => f // Legal JS
-//!  2 | 
-//!    `----
+a ? b ? c : d : (e)=>f; // Legal JS
+ // Legal JS
 //// [fileTs.ts]
-//!   x Expected ':', got '<eof>'
-//!    ,----
-//!  1 | a ? b ? c : (d) : e => f
-//!    `----
+a ? b ? c : d : (e)=>f;

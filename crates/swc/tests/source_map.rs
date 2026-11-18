@@ -12,10 +12,12 @@ use std::{
 use anyhow::{Context, Error};
 use swc::{
     config::{
-        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        Config, GlobalPassOption, InputSourceMap, IsModule, JscConfig, JscExperimental,
+        ModuleConfig, OptimizerConfig, Options, SourceMapsConfig, TransformConfig,
     },
-    Compiler,
+    try_with_handler, Compiler, TransformOutput,
 };
+use swc_common::{sync::Lrc, FileName, SourceMap, GLOBALS};
 use swc_ecma_parser::Syntax;
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
@@ -46,7 +48,9 @@ fn file(f: &str, config: Config) -> Result<(), StdErr> {
         let js_path = path.parent().unwrap().join("index.g.js");
         std::fs::write(&js_path, s.code.as_bytes()).unwrap();
 
-        let map_path = path.parent().unwrap().join("index.js.map");
+        // Name the map after the generated file. `index.js.map` would be read as
+        // the input source map of `index.js` when the test runs again.
+        let map_path = path.parent().unwrap().join("index.g.js.map");
         std::fs::write(&map_path, s.map.unwrap().as_bytes()).unwrap();
 
         let output = Command::new("node")
@@ -145,7 +149,18 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/*.map")]
+// These integration, TypeScript, and minifier fixtures were not part of the
+// original map validation suite. Their snapshots are still checked by the
+// compile runner.
+#[testing::fixture(
+    "tests/compile/**/*.map",
+    exclude(
+        "[/\\\\]integration[/\\\\]vercel[/\\\\]",
+        "[/\\\\]integration[/\\\\]deno-unit[/\\\\]",
+        "[/\\\\]typescript[/\\\\]rewrite-",
+        "[/\\\\]minify[/\\\\]api[/\\\\]"
+    )
+)]
 fn validate_map(map_file: PathBuf) {
     let content = fs::read_to_string(map_file).unwrap();
     if content.is_empty() {
@@ -156,7 +171,7 @@ fn validate_map(map_file: PathBuf) {
 }
 
 #[cfg(not(target_os = "windows"))]
-#[testing::fixture("tests/stacktrace/**/input/")]
+#[testing::fixture("tests/srcmap/stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
     let output_dir = dir.join("output");
@@ -251,12 +266,25 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     let stderr = String::from_utf8_lossy(&output.stderr);
 
     eprintln!("\n\n\nStderr: {stderr}\n\n\n");
+
+    // Normalize differences between Node.js versions:
     //
+    // - Node.js 20 and 22 print two blank lines between the source line and the
+    //   error message, but Node.js 24 and later print one.
+    // - Node.js 22 prints frames of built-in modules other than `node:internal`,
+    //   such as `node:diagnostics_channel`.
+    // - Node.js 24 and later prefix some source-mapped function names with the
+    //   receiver type, for example `Object.console` instead of `console`.
     let stacks = stderr
         .lines()
         .filter(|s| {
-            !s.contains("node:internal") && !s.contains("node_modules") && !s.contains("Node.js v")
+            !s.trim().is_empty()
+                && !s.contains("node:internal")
+                && !s.contains("(node:")
+                && !s.contains("node_modules")
+                && !s.contains("Node.js v")
         })
+        .map(|s| s.replacen("    at Object.", "    at ", 1))
         .collect::<Vec<_>>();
 
     let stacks = stacks.join("\n");
@@ -442,6 +470,83 @@ fn should_work_with_emit_source_map_columns() {
 }
 
 #[test]
+fn issue_11424_emit_source_map_scopes_opt_in() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let path = canonicalize("tests/srcmap/issue-11424-scopes/input.js")
+            .expect("failed to canonicalize fixture");
+        let fm = cm.load_file(&path).expect("failed to load fixture");
+
+        let output = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Bool(true)),
+                    config: Config {
+                        inline_sources_content: true.into(),
+                        jsc: JscConfig {
+                            experimental: JscExperimental {
+                                emit_source_map_scopes: true.into(),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            )
+            .expect("failed to process fixture");
+
+        let map_text = output.map.expect("source map should be emitted");
+        let map = swc_sourcemap::SourceMap::from_slice(map_text.as_bytes())
+            .expect("failed to deserialize sourcemap");
+        let scopes = map.get_scopes().expect("scopes should be emitted");
+        assert!(!scopes.is_empty());
+        assert!(scopes.contains('B'));
+        assert!(scopes.contains('E'));
+        assert!(scopes.contains('G'));
+
+        Ok(())
+    });
+}
+
+#[test]
+fn issue_11424_emit_source_map_scopes_default_off() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let path = canonicalize("tests/srcmap/issue-11424-scopes/input.js")
+            .expect("failed to canonicalize fixture");
+        let fm = cm.load_file(&path).expect("failed to load fixture");
+
+        let output = c
+            .process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: false,
+                    source_maps: Some(SourceMapsConfig::Bool(true)),
+                    config: Config {
+                        inline_sources_content: true.into(),
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            )
+            .expect("failed to process fixture");
+
+        let map_text = output.map.expect("source map should be emitted");
+        let map = swc_sourcemap::SourceMap::from_slice(map_text.as_bytes())
+            .expect("failed to deserialize sourcemap");
+        assert!(map.get_scopes().is_none());
+
+        Ok(())
+    });
+}
+
+#[test]
 fn issue_4578() {
     file(
         "tests/srcmap/issue-4578/after-babel.js",
@@ -534,4 +639,108 @@ export const fixupRiskConfigData = (data: any): types.RiskConfigType => {
 
         Ok(())
     });
+}
+
+/// Compiles `src` with `defines` in a fresh `SourceMap`, as a bundler does.
+fn source_map_with_defines(defines: &str, src: &str) -> String {
+    let globals: GlobalPassOption = serde_json::from_str(defines).expect("invalid defines");
+
+    let cm: Lrc<SourceMap> = Default::default();
+    let c = Compiler::new(cm.clone());
+
+    GLOBALS
+        .set(&Default::default(), || {
+            try_with_handler(cm.clone(), Default::default(), |handler| {
+                let fm =
+                    cm.new_source_file(FileName::Real("input.js".into()).into(), src.to_string());
+
+                let output = c.process_js_file(
+                    fm,
+                    handler,
+                    &Options {
+                        swcrc: false,
+                        source_maps: Some(SourceMapsConfig::Bool(true)),
+                        config: Config {
+                            jsc: JscConfig {
+                                transform: Some(TransformConfig {
+                                    optimizer: Some(OptimizerConfig {
+                                        globals: Some(globals.clone()),
+                                        ..Default::default()
+                                    }),
+                                    ..Default::default()
+                                })
+                                .into(),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                )?;
+
+                Ok(output.map.expect("source map should be emitted"))
+            })
+        })
+        .expect("failed to process js file")
+}
+
+/// `globals` values are memoized in a process-wide cache, so they must not
+/// carry positions of the `SourceMap` that parsed them first.
+#[test]
+fn define_source_map_is_stable_across_compilations() {
+    const DEFINES: &str = r#"{ "vars": { "__STABLE_DEFINE__": "true" } }"#;
+    const SRC: &str = "if (__STABLE_DEFINE__) {\n    console.log('kept');\n}\n";
+
+    let first = source_map_with_defines(DEFINES, SRC);
+    let second = source_map_with_defines(DEFINES, SRC);
+
+    assert_eq!(
+        first, second,
+        "the same input produced two different source maps"
+    );
+}
+
+fn compile_str(
+    filename: Lrc<FileName>,
+    content: &str,
+    options: Options,
+) -> Result<TransformOutput, StdErr> {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+
+        let fm = cm.new_source_file(filename, content.to_string());
+        let s = c.process_js_file(fm, &handler, &options);
+
+        match s {
+            Ok(v) => {
+                if handler.has_errors() {
+                    Err(())
+                } else {
+                    Ok(v)
+                }
+            }
+            Err(err) => panic!("Error: {err:?}"),
+        }
+    })
+}
+
+#[test]
+fn opt_source_file_name_1() {
+    let map = compile_str(
+        FileName::Real(PathBuf::from("not-unique.js")).into(),
+        "import Foo from 'foo';",
+        Options {
+            filename: "unique.js".into(),
+            source_file_name: Some("entry-foo".into()),
+            source_maps: Some(SourceMapsConfig::Bool(true)),
+            ..Default::default()
+        },
+    )
+    .unwrap()
+    .map
+    .unwrap();
+
+    println!("{map}");
+
+    assert!(map.contains("entry-foo"));
 }

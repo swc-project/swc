@@ -9,42 +9,79 @@ env:
   CARGO_INCREMENTAL: 0
   CARGO_TERM_COLOR: "always"
   RUST_LOG: "off"
-  SKIP_YARN_COREPACK_CHECK: 1
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
+  contributor-policy:
+    name: Check contributor
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      allowed: ${{ steps.policy.outputs.allowed }}
+    steps:
+      # The gate must use the policy on the default branch, not PR changes.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: .contributor-policy
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /.github/contributors.yml
+            /.github/actions/contributor-policy/
+
+      - uses: ./.contributor-policy/.github/actions/contributor-policy
+        id: policy
+        with:
+          token: ${{ github.token }}
+
   measure-binary-size:
     name: Measure Binary Size
+    needs: contributor-policy
+    if: ${{ !cancelled() && (github.event_name != 'pull_request' || needs.contributor-policy.outputs.allowed == 'true') }}
     runs-on: ubuntu-latest
     # No special permissions needed - this workflow only reads and uploads artifacts
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772 # master
+        with:
+          toolchain: stable
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: ./.github/actions/setup-node
+        id: setup-node
         with:
-          node-version: "20"
-          cache: "yarn"
-
-      - name: Enable corepack
-        run: corepack enable
+          node-version: "24"
+          install-dependencies: "false"
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm install --frozen-lockfile
+
+      - name: Save pnpm cache
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        if: github.ref == 'refs/heads/main' && steps.setup-node.outputs.pnpm-cache-hit != 'true'
+        with:
+          path: ${{ steps.setup-node.outputs.pnpm-store-path }}
+          key: ${{ steps.setup-node.outputs.pnpm-cache-primary-key }}
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: Measure binary sizes
         id: measure
@@ -66,15 +103,12 @@ jobs:
           echo "" >> size_report.md
           echo "*Commit: ${{ github.sha }}*" >> size_report.md
 
-      - name: Save PR number
-        run: |
-          echo "${{ github.event.pull_request.number }}" > pr_number.txt
+      - name: Add binary size report to summary
+        run: cat size_report.md >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Upload size report and PR info
-        uses: actions/upload-artifact@v4
+      - name: Upload size report
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: size-report
-          path: |
-            size_report.md
-            pr_number.txt
+          path: size_report.md
           retention-days: 1

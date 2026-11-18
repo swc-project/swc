@@ -42,6 +42,12 @@ where
 
     chained_method!(enter_block_stmt, exit_block_stmt, BlockStmt);
 
+    chained_method!(
+        enter_arrow_function_body,
+        exit_arrow_function_body,
+        ArrowFunctionBody
+    );
+
     chained_method!(enter_module_item, exit_module_item, ModuleItem);
 
     chained_method!(enter_module_items, exit_module_items, Vec<ModuleItem>);

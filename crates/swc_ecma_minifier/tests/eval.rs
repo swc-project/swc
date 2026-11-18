@@ -1,7 +1,7 @@
 #![deny(warnings)]
 
 use swc_atoms::{wtf8::Wtf8, Atom};
-use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
+use swc_common::{sync::Lrc, FileName, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_minifier::{
@@ -75,6 +75,61 @@ fn eval(module: &str, expr: &str) -> Option<String> {
     .unwrap()
 }
 
+fn eval_resolved(module: &str, expr: &str) -> Option<String> {
+    testing::run_test2(false, |cm, _handler| {
+        let fm = cm.new_source_file(
+            FileName::Anon.into(),
+            format!("{module}\nconst evaluation_result = {expr};"),
+        );
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        let marks = Marks {
+            const_ann: Mark::new(),
+            noinline: Mark::new(),
+            pure: Mark::new(),
+            fake_block: Mark::new(),
+            top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
+            unresolved_mark,
+        };
+
+        let mut module_ast = parse_file_as_module(
+            &fm,
+            Default::default(),
+            EsVersion::latest(),
+            None,
+            &mut Vec::new(),
+        )
+        .unwrap();
+        module_ast.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+        let expr_ast = match module_ast.body.last() {
+            Some(ModuleItem::Stmt(Stmt::Decl(Decl::Var(var)))) => {
+                var.decls[0].init.clone().unwrap()
+            }
+            _ => unreachable!(),
+        };
+
+        let mut evaluator = Evaluator::new(module_ast, marks);
+
+        let res = evaluator.eval(&expr_ast);
+
+        match res {
+            Some(res) => match res {
+                EvalResult::Lit(l) => match l {
+                    swc_ecma_ast::Lit::Str(v) => Ok(Some(convert_wtf8_to_raw(&v.value))),
+                    swc_ecma_ast::Lit::Bool(v) => Ok(Some(v.value.to_string())),
+                    swc_ecma_ast::Lit::Num(v) => Ok(Some(v.value.to_string())),
+                    swc_ecma_ast::Lit::Null(_) => Ok(Some("null".into())),
+                    _ => unreachable!(),
+                },
+                EvalResult::Undefined => Ok(Some("undefined".into())),
+            },
+            None => Ok(None),
+        }
+    })
+    .unwrap()
+}
+
 #[test]
 
 fn simple() {
@@ -105,6 +160,27 @@ fn eval_lit() {
     assert_eq!(eval("", "false").unwrap(), "false");
     assert_eq!(eval("", "null").unwrap(), "null");
     assert_eq!(eval("", "`🦀`").unwrap(), "🦀");
+}
+
+#[test]
+fn eval_string_raw() {
+    let raw_newline = eval_resolved("", r"String.raw`a\nb`").unwrap();
+    assert_eq!(raw_newline, r"a\nb");
+    assert_eq!(raw_newline.encode_utf16().count(), 4);
+    assert_eq!(eval_resolved("", "String.raw`a\r\nb`").unwrap(), "a\nb");
+    assert_eq!(eval_resolved("", "String.raw`a\rb`").unwrap(), "a\nb");
+    assert_eq!(
+        eval_resolved("", "String.raw`a\r\nb\rc\r\nd`").unwrap(),
+        "a\nb\nc\nd"
+    );
+    assert_eq!(eval_resolved("", r"String.raw`\u0061`").unwrap(), r"\u0061");
+    assert_eq!(eval_resolved("", r"`a\nb`").unwrap(), "a\nb");
+    assert_eq!(eval_resolved("", "String.raw`abc`").unwrap(), "abc");
+    assert_eq!(
+        eval_resolved("const String = { raw: null };", "String.raw`abc`"),
+        None
+    );
+    assert_eq!(eval_resolved("", "String.raw`a${value}b`"), None);
 }
 
 struct PartialInliner {
@@ -229,11 +305,11 @@ impl VisitMut for PartialInliner {
                                     raw: Atom::new(s.value.to_string_lossy()),
                                     cooked: Some(s.value.clone()),
                                 };
-                                tt.tpl = Box::new(Tpl {
+                                *tt.tpl = Tpl {
                                     span: el.span,
                                     exprs: Default::default(),
                                     quasis: vec![el],
-                                });
+                                };
                             }
                             _ => {
                                 unreachable!()
@@ -335,6 +411,67 @@ fn partial_3() {
                 display: block;
             }
         `
+        ",
+    );
+}
+
+fn assert_evaluator_rejects_non_literal_template(src: &str) {
+    PartialInliner::run_test(src, |cm, module, inliner| {
+        let fm = cm.new_source_file(FileName::Anon.into(), "`${props.color}`");
+        let template = parse_file_as_expr(
+            &fm,
+            Default::default(),
+            EsVersion::latest(),
+            None,
+            &mut Vec::new(),
+        )
+        .unwrap();
+
+        let mut evaluator = Evaluator::new(module, inliner.marks);
+        assert_eq!(evaluator.eval(&template), None);
+    });
+}
+
+#[test]
+fn evaluator_does_not_inline_jsx_element_name_in_parentheses() {
+    assert_evaluator_rejects_non_literal_template(
+        "
+            export const Probe = props => {
+                const Icon = props.icon;
+                return (<Icon />);
+            };
+        ",
+    );
+}
+
+#[test]
+fn evaluator_does_not_inline_jsx_element_name() {
+    assert_evaluator_rejects_non_literal_template(
+        "
+            export const Probe = props => {
+                const Icon = props.icon;
+                return <Icon />;
+            };
+        ",
+    );
+}
+
+#[test]
+fn evaluator_keeps_inlining_normal_expression_uses() {
+    PartialInliner::expect(
+        "
+            const color = 'blue';
+            export const Probe = () => {
+                const Icon = color;
+                return css`${Icon}`;
+            };
+        ",
+        "
+            const color = 'blue';
+            export const Probe = () => {
+                const Icon = color;
+                return css`blue`;
+            };
         ",
     );
 }

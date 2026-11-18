@@ -1,0 +1,100 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 65
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 1,
+        "end": 65
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 7
+        },
+        "ctxt": 0,
+        "value": "E",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 14,
+            "end": 35
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 19
+            },
+            "ctxt": 0,
+            "value": "Await",
+            "optional": false
+          },
+          "init": {
+            "type": "AwaitExpression",
+            "span": {
+              "start": 22,
+              "end": 35
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 28,
+                "end": 35
+              },
+              "ctxt": 0,
+              "value": "of",
+              "optional": false
+            }
+          }
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 41,
+            "end": 62
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 41,
+              "end": 46
+            },
+            "ctxt": 0,
+            "value": "Yield",
+            "optional": false
+          },
+          "init": {
+            "type": "YieldExpression",
+            "span": {
+              "start": 49,
+              "end": 62
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 55,
+                "end": 62
+              },
+              "ctxt": 0,
+              "value": "of",
+              "optional": false
+            },
+            "delegate": false
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -98,7 +98,7 @@
  2 |     constructor(foo) {
    :                 ^^^
    `----
-  x BlockStmt
+  x FunctionBody
    ,-[$DIR/tests/span/js/decl/constructor.js:2:1]
  1 |     class Cons {
  2 | ,->     constructor(foo) {

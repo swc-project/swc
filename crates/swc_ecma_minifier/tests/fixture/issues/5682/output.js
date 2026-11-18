@@ -4,7 +4,7 @@ export default function(value, options) {
         if ('string' == typeof value && value.length > 0) return function(str) {
             if (str.length > 100) throw Error('Value exceeds the maximum length of 100 characters.');
             let match = /^(?<value>-?(?:\d+)?\.?\d+) *(?<type>milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)?$/i.exec(str), groups = match?.groups;
-            if (!groups) return NaN;
+            if (!groups) return 0 / 0;
             let n = parseFloat(groups.value), type = (groups.type || 'ms').toLowerCase();
             switch(type){
                 case 'years':

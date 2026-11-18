@@ -19,9 +19,6 @@ use options::RefreshOptions;
 mod hook;
 mod util;
 
-#[cfg(test)]
-mod tests;
-
 struct Hoc {
     insert: bool,
     reg: Vec<(Ident, Id)>,
@@ -73,24 +70,6 @@ struct Refresh<C: Comments> {
     should_reset: bool,
     comments: Option<C>,
     global_mark: Mark,
-}
-
-// For tests
-#[cfg(test)]
-fn refresh<C: Comments>(
-    dev: bool,
-    options: Option<RefreshOptions>,
-    cm: Lrc<SourceMap>,
-    comments: Option<C>,
-    global_mark: Mark,
-) -> impl Pass {
-    use swc_ecma_hooks::VisitMutWithHook;
-    use swc_ecma_visit::visit_mut_pass;
-
-    visit_mut_pass(VisitMutWithHook {
-        hook: hook(dev, options, cm, comments, global_mark),
-        context: (),
-    })
 }
 
 impl<C: Comments> Refresh<C> {
@@ -204,7 +183,7 @@ impl<C: Comments> Refresh<C> {
                         }
                         .into()
                     }
-                    *first_arg = Box::new(make_assign_stmt(reg_ident, first));
+                    **first_arg = make_assign_stmt(reg_ident, first);
 
                     Persist::Hoc(hoc)
                 } else {
@@ -220,10 +199,10 @@ impl<C: Comments> Refresh<C> {
                         callee: call.callee.clone(),
                         rest_arg: call.args[1..].to_owned(),
                     });
-                    *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first));
+                    **first_arg = make_assign_stmt(reg_ident.clone(), first);
                     res
                 } else {
-                    *first_arg = Box::new(make_assign_stmt(reg_ident.clone(), first));
+                    **first_arg = make_assign_stmt(reg_ident.clone(), first);
                     None
                 };
                 reg.push((reg_ident, reg_str));

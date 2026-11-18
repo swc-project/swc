@@ -71,7 +71,7 @@
      * @returns {string}
      */ prototype.toString = function() {
             var i, key, name, value, dict = this[__URLSearchParams__], query = [];
-            for(key in dict)for(i = 0, name = encode(key), value = dict[key]; i < value.length; i++)query.push(name + "=" + encode(value[i]));
+            for(key in dict)for(name = encode(key), i = 0, value = dict[key]; i < value.length; i++)query.push(name + "=" + encode(value[i]));
             return query.join("&");
         }, decodesPlusesCorrectly && nativeURLSearchParams && !isSupportObjectConstructor && self.Proxy ? // Chrome <=60 .toString() on a function proxy got error "Function.prototype.toString is not generic"
         // Safari 10.0 doesn't support Proxy, so it won't extend URLSearchParams on safari 10.0

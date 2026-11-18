@@ -1,0 +1,55 @@
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/namespace-review-escaped-type-operators/input.export.ts:2:1]
+ 1 | export {};
+ 2 | namespace NAwaitAsNumber { const AwaitAsNumber = await a\u0073 number; }
+   :                                                                ^^^^^^
+ 3 | namespace NAwaitSatisfiesNumber { const AwaitSatisfiesNumber = await satisfie\u0073 number; }
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/namespace-review-escaped-type-operators/input.export.ts:3:1]
+ 2 | namespace NAwaitAsNumber { const AwaitAsNumber = await a\u0073 number; }
+ 3 | namespace NAwaitSatisfiesNumber { const AwaitSatisfiesNumber = await satisfie\u0073 number; }
+   :                                                                                     ^^^^^^
+ 4 | namespace NAwaitAsExtendedNumber { const AwaitAsExtendedNumber = await a\u{73} number; }
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/namespace-review-escaped-type-operators/input.export.ts:4:1]
+ 3 | namespace NAwaitSatisfiesNumber { const AwaitSatisfiesNumber = await satisfie\u0073 number; }
+ 4 | namespace NAwaitAsExtendedNumber { const AwaitAsExtendedNumber = await a\u{73} number; }
+   :                                                                                ^^^^^^
+ 5 | namespace NAwaitSatisfiesExtendedNumber { const AwaitSatisfiesExtendedNumber = await satisfie\u{73} number; }
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/namespace-review-escaped-type-operators/input.export.ts:5:1]
+ 4 | namespace NAwaitAsExtendedNumber { const AwaitAsExtendedNumber = await a\u{73} number; }
+ 5 | namespace NAwaitSatisfiesExtendedNumber { const AwaitSatisfiesExtendedNumber = await satisfie\u{73} number; }
+   :                                                                                                     ^^^^^^
+ 6 | namespace NYieldAsNumber { const YieldAsNumber = yield a\u0073 number; }
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/namespace-review-escaped-type-operators/input.export.ts:6:1]
+ 5 | namespace NAwaitSatisfiesExtendedNumber { const AwaitSatisfiesExtendedNumber = await satisfie\u{73} number; }
+ 6 | namespace NYieldAsNumber { const YieldAsNumber = yield a\u0073 number; }
+   :                                                                ^^^^^^
+ 7 | namespace NYieldSatisfiesNumber { const YieldSatisfiesNumber = yield satisfie\u0073 number; }
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/namespace-review-escaped-type-operators/input.export.ts:7:1]
+ 6 | namespace NYieldAsNumber { const YieldAsNumber = yield a\u0073 number; }
+ 7 | namespace NYieldSatisfiesNumber { const YieldSatisfiesNumber = yield satisfie\u0073 number; }
+   :                                                                                     ^^^^^^
+ 8 | namespace NYieldAsExtendedNumber { const YieldAsExtendedNumber = yield a\u{73} number; }
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/namespace-review-escaped-type-operators/input.export.ts:8:1]
+ 7 | namespace NYieldSatisfiesNumber { const YieldSatisfiesNumber = yield satisfie\u0073 number; }
+ 8 | namespace NYieldAsExtendedNumber { const YieldAsExtendedNumber = yield a\u{73} number; }
+   :                                                                                ^^^^^^
+ 9 | namespace NYieldSatisfiesExtendedNumber { const YieldSatisfiesExtendedNumber = yield satisfie\u{73} number; }
+   `----
+  x Expected a semicolon
+   ,-[$DIR/tests/errors/namespace-review-escaped-type-operators/input.export.ts:9:1]
+ 8 | namespace NYieldAsExtendedNumber { const YieldAsExtendedNumber = yield a\u{73} number; }
+ 9 | namespace NYieldSatisfiesExtendedNumber { const YieldSatisfiesExtendedNumber = yield satisfie\u{73} number; }
+   :                                                                                                     ^^^^^^
+   `----

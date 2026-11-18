@@ -549,12 +549,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 244,
           "end": 247
         },
-        "ctxt": 0,
         "stmts": []
       },
       "generator": false,
@@ -641,12 +640,11 @@
       },
       "ctxt": 0,
       "body": {
-        "type": "BlockStatement",
+        "type": "FunctionBody",
         "span": {
           "start": 291,
           "end": 339
         },
-        "ctxt": 0,
         "stmts": [
           {
             "type": "VariableDeclaration",

@@ -86,11 +86,52 @@
 //! }
 //! ```
 //!
+//! # Example (flow parser)
+//!
+//! ```
+//! # #[cfg(feature = "flow")] {
+//! use swc_common::{sync::Lrc, FileName, SourceMap};
+//! use swc_ecma_ast::EsVersion;
+//! use swc_ecma_parser::{parse_file_as_program, FlowSyntax, Syntax};
+//!
+//! let cm: Lrc<SourceMap> = Default::default();
+//! let fm = cm.new_source_file(
+//!     FileName::Custom("test.js".into()).into(),
+//!     "// @flow\nconst value: number = 1;",
+//! );
+//! let mut recovered_errors = Vec::new();
+//!
+//! let program = parse_file_as_program(
+//!     &fm,
+//!     Syntax::Flow(FlowSyntax {
+//!         require_directive: true,
+//!         ..Default::default()
+//!     }),
+//!     EsVersion::latest(),
+//!     None,
+//!     &mut recovered_errors,
+//! )
+//! .expect("flow should parse");
+//!
+//! assert!(recovered_errors.is_empty());
+//! let _ = program;
+//! # }
+//! ```
+//!
 //! ## Cargo features
 //!
 //! ### `typescript`
 //!
 //! Enables typescript parser.
+//!
+//! ### `flow`
+//!
+//! Enables flow parser. This feature requires `typescript`.
+//!
+//! ### `tsrx`
+//!
+//! Enables parser-only TSRX syntax and React TSX lowering. This feature
+//! requires `typescript` and is disabled by default.
 //!
 //! ### `verify`
 //!
@@ -141,6 +182,7 @@ pub mod unstable {
     //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
     pub use crate::lexer::{
         capturing::Capturing,
+        state::TokenFlags,
         token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
     };
 }
@@ -151,6 +193,7 @@ use swc_ecma_ast::*;
 
 mod context;
 pub mod error;
+pub mod jsx;
 mod legacy;
 pub mod lexer;
 mod parser;
@@ -161,6 +204,8 @@ pub use legacy::token;
 pub use lexer::Lexer;
 pub use parser::*;
 pub use swc_common::input::{Input, StringInput};
+#[cfg(feature = "flow")]
+pub use syntax::FlowSyntax;
 pub use syntax::{EsSyntax, Syntax, SyntaxFlags, TsSyntax};
 
 #[cfg(test)]
@@ -218,8 +263,7 @@ macro_rules! expose {
 
 expose!(parse_file_as_expr, Box<Expr>, |p| {
     // This allow to parse `import.meta`
-    let ctx = p.ctx();
-    p.set_ctx(ctx.union(Context::CanBeModule));
+    p.allow_module_syntax();
     p.parse_expr()
 });
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });

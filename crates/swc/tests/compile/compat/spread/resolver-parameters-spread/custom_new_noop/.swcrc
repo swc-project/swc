@@ -1,0 +1,15 @@
+{
+  "env": {
+    "include": [
+      "transform-parameters",
+      "transform-spread"
+    ],
+    "targets": {
+      "chrome": "120"
+    }
+  },
+  "isModule": "unknown",
+  "jsc": {
+    "preserveAllComments": true
+  }
+}

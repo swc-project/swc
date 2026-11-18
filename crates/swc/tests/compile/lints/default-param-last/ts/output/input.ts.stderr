@@ -1,0 +1,7 @@
+  x Default parameters should be last.
+   ,-[$DIR/tests/compile/lints/default-param-last/ts/input/input.ts:2:1]
+ 1 | class C1 {
+ 2 |     constructor({ a } = {}, public b) {}
+   :                             ^^^^^^^^
+ 3 | }
+   `----

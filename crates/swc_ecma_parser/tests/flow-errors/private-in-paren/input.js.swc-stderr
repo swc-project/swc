@@ -1,0 +1,7 @@
+  x Expected an identifier
+   ,-[$DIR/tests/flow-errors/private-in-paren/input.js:4:1]
+ 3 |   static f(o) {
+ 4 |     return (#x) in o;
+   :             ^^
+ 5 |   }
+   `----

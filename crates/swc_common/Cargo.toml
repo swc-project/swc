@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_common"
 repository    = { workspace = true }
-version       = "18.0.1"
+version       = "27.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -26,7 +26,7 @@ concurrent       = ["parking_lot"]
 debug            = []
 default          = []
 diagnostic-serde = []
-plugin-base      = ["__plugin", "rkyv-impl", "diagnostic-serde"]
+plugin-base      = ["__plugin", "diagnostic-serde"]
 plugin-mode      = ["__plugin_mode", "plugin-base"]
 plugin-rt        = ["__plugin_rt", "plugin-base"]
 sourcemap        = ["dep:swc_sourcemap"]
@@ -36,16 +36,7 @@ plugin_transform_schema_vtest = []
 
 tty-emitter = ["termcolor"]
 
-__rkyv = []
 encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl"]
-rkyv-impl = [
-  "__rkyv",
-  "rkyv",
-  "swc_atoms/rkyv-impl",
-  "bytes-str/rkyv",
-  "bytecheck",
-  "rancor",
-]
 
 shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 
@@ -53,31 +44,28 @@ shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 [dependencies]
 anyhow = { workspace = true, default-features = false }
 arbitrary     = { workspace = true, features = ["derive"], optional = true }
-bytecheck = { workspace = true, optional = true, default-features = false }
 bytes-str = { workspace = true, features = ["serde"], default-features = false }
 cbor4ii       = { workspace = true, features = ["use_std"], optional = true }
 either = { workspace = true, default-features = false }
 num-bigint = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
 parking_lot = { workspace = true, optional = true, default-features = false }
-rancor = { workspace = true, optional = true, default-features = false }
-rkyv = { workspace = true, optional = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
-shrink-to-fit = { workspace = true, optional = true, default-features = false, features = ["derive"] }
+shrink-to-fit = { workspace = true, optional = true, features = ["derive"], default-features = false }
 siphasher = { workspace = true, default-features = false }
 swc_sourcemap = { workspace = true, optional = true, default-features = false }
 termcolor = { workspace = true, optional = true, default-features = false }
-tracing = { workspace = true, default-features = false, features = ["attributes"] }
+tracing = { workspace = true, features = ["attributes"], default-features = false }
 unicode-width = { workspace = true, default-features = false }
 url = { workspace = true, default-features = false }
 
-ast_node = { version = "5.0.0", path = "../ast_node", default-features = false }
+ast_node = { version = "7.0.0", path = "../ast_node", default-features = false }
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls", default-features = false }
 from_variant = { version = "3.0.0", path = "../from_variant", default-features = false }
-swc_atoms = { version = "9.0.0", path = "../swc_atoms", default-features = false }
+swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
 swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros", default-features = false }
-swc_visit = { version = "2.0.1", path = "../swc_visit", default-features = false }
+swc_visit = { version = "2.0.2", path = "../swc_visit", default-features = false }
 
 [dev-dependencies]
 par-iter = { workspace = true, default-features = false }

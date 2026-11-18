@@ -1,0 +1,5 @@
+  x Expected ',', got '?'
+   ,-[$DIR/tests/flow-errors/issue-12405-duplicate-optional-component-param/basic.js:1:1]
+ 1 | component DuplicateOptional(foo? as bar?: number) {}
+   :                                        ^
+   `----

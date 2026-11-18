@@ -21,7 +21,7 @@ use swc_common::{
     input::SourceFileInput,
     sync::Lrc,
     util::take::Take,
-    EqIgnoreSpan, FileName, Mark, SourceMap,
+    EqIgnoreSpan, FileName, Mark, SourceFile, SourceMap,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
@@ -43,7 +43,7 @@ use swc_ecma_transforms_base::{
     resolver,
 };
 use swc_ecma_utils::drop_span;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -145,17 +145,29 @@ fn run(
     mangle: Option<TestMangleOptions>,
     skip_hygiene: bool,
 ) -> Option<Program> {
+    let fm = cm.load_file(input).expect("failed to load input.js");
+    run_with_source(cm, handler, fm, config, comments, mangle, skip_hygiene)
+}
+
+/// Use the same parser and optimizer for fixture files and re-minified output.
+fn run_with_source(
+    cm: Lrc<SourceMap>,
+    handler: &Handler,
+    fm: Lrc<SourceFile>,
+    config: &str,
+    comments: Option<&dyn Comments>,
+    mangle: Option<TestMangleOptions>,
+    skip_hygiene: bool,
+) -> Option<Program> {
     HANDLER.set(handler, || {
         let disable_hygiene = mangle.is_some() || skip_hygiene;
 
-        let (_module, mut config) = parse_compressor_config(cm.clone(), config);
-
-        let fm = cm.load_file(input).expect("failed to load input.js");
+        let (module, mut config) = parse_compressor_config(cm.clone(), config);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
         if env::var("SWC_RUN").unwrap_or_default() == "1" {
-            let stdout = stdout_of(&fm.src);
+            let stdout = stdout_of(&fm.src, module);
             match stdout {
                 Ok(stdout) => {
                     eprintln!(
@@ -182,6 +194,9 @@ fn run(
         let lexer = Lexer::new(
             Syntax::Es(EsSyntax {
                 jsx: true,
+                // Auto-accessors reach the minifier when the input targets a
+                // runtime that supports them, so fixtures can use them.
+                auto_accessors: true,
                 ..Default::default()
             }),
             Default::default(),
@@ -248,11 +263,7 @@ fn run(
             },
         );
         let end = Instant::now();
-        tracing::info!(
-            "optimize({}) took {:?}",
-            input.display(),
-            end - optimization_start
-        );
+        tracing::info!("optimize({}) took {:?}", fm.name, end - optimization_start);
 
         if !disable_hygiene {
             output.visit_mut_with(&mut hygiene())
@@ -261,17 +272,13 @@ fn run(
         let output = output.apply(&mut fixer(None));
 
         let end = Instant::now();
-        tracing::info!(
-            "process({}) took {:?}",
-            input.display(),
-            end - minification_start
-        );
+        tracing::info!("process({}) took {:?}", fm.name, end - minification_start);
 
         Some(output)
     })
 }
 
-fn stdout_of(code: &str) -> Result<String, Error> {
+fn stdout_of(code: &str, module: bool) -> Result<String, Error> {
     exec_node_js(
         &format!(
             "
@@ -282,7 +289,7 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         ),
         JsExecOptions {
             cache: true,
-            module: false,
+            module,
             ..Default::default()
         },
     )
@@ -304,6 +311,19 @@ fn find_config(dir: &Path) -> String {
     panic!("failed to find config file for {}", dir.display())
 }
 
+fn read_mangle_config(dir: &Path) -> Option<TestMangleOptions> {
+    let mangle = read_to_string(dir.join("mangle.json")).ok();
+    if let Some(mangle) = &mangle {
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Mangle config"),
+            mangle
+        );
+    }
+
+    mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"))
+}
+
 #[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/pass-1/**/input.js")]
 #[testing::fixture("tests/pass-default/**/input.js")]
@@ -315,17 +335,7 @@ fn custom_fixture(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let comments = SingleThreadedComments::default();
 
-        let mangle = dir.join("mangle.json");
-        let mangle = read_to_string(mangle).ok();
-        if let Some(mangle) = &mangle {
-            eprintln!(
-                "---- {} -----\n{}",
-                Color::Green.paint("Mangle config"),
-                mangle
-            );
-        }
-        let mangle: Option<TestMangleOptions> =
-            mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
+        let mangle = read_mangle_config(dir);
 
         let output = run(
             cm.clone(),
@@ -341,11 +351,21 @@ fn custom_fixture(input: PathBuf) {
             None => return Ok(()),
         };
 
+        let is_module = output_module.is_module();
         let output = print(cm, &[output_module], Some(&comments), false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         println!("{}", input.display());
+
+        if let Ok(expected_stdout) = read_to_string(dir.join("expected.stdout")) {
+            let actual =
+                stdout_of(&output, is_module).expect("failed to execute the optimized code");
+            assert_eq!(
+                DebugUsingDisplay(&actual),
+                DebugUsingDisplay(&expected_stdout)
+            );
+        }
 
         NormalizedOutput::from(output)
             .compare_to_file(dir.join("output.js"))
@@ -354,6 +374,173 @@ fn custom_fixture(input: PathBuf) {
         Ok(())
     })
     .unwrap()
+}
+
+/// Check Script completion values without wrapping the fixture in a function.
+/// Expected values include the primitive type and distinguish NaN and negative
+/// zero. Check the original and two minifications independently: a retained
+/// block can protect one invocation while exposing a regression in the next
+/// one.
+#[testing::fixture("tests/fixture/**/expected.completion")]
+fn script_completion(expected: PathBuf) {
+    check_script_fixture(expected, ScriptExpectation::Completion);
+}
+
+/// Opt in to independent execution checks before and after two minifications.
+/// The regular fixture test continues to check the first output snapshot.
+#[testing::fixture("tests/fixture/**/expected.repeat-stdout")]
+fn script_repeated_stdout(expected: PathBuf) {
+    check_script_fixture(expected, ScriptExpectation::Stdout);
+}
+
+#[derive(Clone, Copy)]
+enum ScriptExpectation {
+    Completion,
+    Stdout,
+}
+
+fn check_script_fixture(expected: PathBuf, expectation: ScriptExpectation) {
+    let dir = expected.parent().unwrap();
+    let input = dir.join("input.js");
+    let config = find_config(dir);
+    let mangle = read_mangle_config(dir);
+    let expected = read_to_string(expected).expect("failed to read expected Script result");
+    let mut source = read_to_string(&input).expect("failed to read input.js");
+
+    testing::run_test2(false, |cm, handler| {
+        for round in 0..=2 {
+            if round != 0 {
+                let comments = SingleThreadedComments::default();
+                let fm = cm.new_source_file(
+                    FileName::Custom(format!("{} (round {round})", input.display())).into(),
+                    source,
+                );
+                let output = run_with_source(
+                    cm.clone(),
+                    &handler,
+                    fm,
+                    &config,
+                    Some(&comments),
+                    mangle.clone(),
+                    false,
+                )
+                .expect("failed to optimize Script fixture");
+                assert!(output.is_script(), "Script fixtures must parse as Scripts");
+                source = print(cm.clone(), &[output], Some(&comments), true, true);
+            }
+
+            eprintln!("---- Script round {round} -----\n{source}");
+            let actual = match expectation {
+                ScriptExpectation::Completion => script_completion_of(&source),
+                ScriptExpectation::Stdout => exec_node_js(
+                    &source,
+                    JsExecOptions {
+                        cache: false,
+                        ..Default::default()
+                    },
+                ),
+            }
+            .expect("failed to execute Script fixture");
+            assert_eq!(
+                DebugUsingDisplay(&actual),
+                DebugUsingDisplay(&expected),
+                "Script round {round}: {}",
+                input.display()
+            );
+        }
+
+        Ok(())
+    })
+    .unwrap()
+}
+
+fn script_completion_of(source: &str) -> Result<String, Error> {
+    let source = serde_json::to_string(source).expect("failed to serialize Script source");
+    exec_node_js(
+        &format!(
+            r#"
+const value = require('node:vm').runInNewContext({source});
+const type = value === null ? 'null' : typeof value;
+let result;
+switch (type) {{
+    case 'undefined':
+    case 'null':
+        result = {{ type }};
+        break;
+    case 'number':
+        result = {{ type, value: Object.is(value, -0) ? '-0' : String(value) }};
+        break;
+    case 'bigint':
+        result = {{ type, value: String(value) }};
+        break;
+    case 'boolean':
+    case 'string':
+        result = {{ type, value }};
+        break;
+    default:
+        throw new Error('Unsupported Script completion type: ' + type);
+}}
+console.log(JSON.stringify(result));
+"#
+        ),
+        JsExecOptions {
+            cache: false,
+            ..Default::default()
+        },
+    )
+}
+
+#[derive(Default)]
+struct NonFiniteLiteralValidator {
+    nan_count: usize,
+    positive_infinity_count: usize,
+    negative_infinity_count: usize,
+    non_finite_ident_count: usize,
+    non_finite_raw_count: usize,
+}
+
+impl Visit for NonFiniteLiteralValidator {
+    fn visit_ident(&mut self, ident: &Ident) {
+        if matches!(&*ident.sym, "NaN" | "Infinity") {
+            self.non_finite_ident_count += 1;
+        }
+    }
+
+    fn visit_number(&mut self, number: &Number) {
+        if number.value.is_nan() {
+            self.nan_count += 1;
+        } else if number.value == f64::INFINITY {
+            self.positive_infinity_count += 1;
+        } else if number.value == f64::NEG_INFINITY {
+            self.negative_infinity_count += 1;
+        }
+
+        if !number.value.is_finite() && number.raw.is_some() {
+            self.non_finite_raw_count += 1;
+        }
+    }
+}
+
+#[testing::fixture("tests/fixture/non-finite-number-literals/input.js")]
+fn non_finite_number_literals_are_canonical(input: PathBuf) {
+    let config = find_config(input.parent().unwrap());
+
+    testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+        let output = run(cm, &handler, &input, &config, Some(&comments), None, false)
+            .expect("failed to optimize fixture");
+        let mut validator = NonFiniteLiteralValidator::default();
+        output.visit_with(&mut validator);
+
+        assert_eq!(validator.non_finite_ident_count, 0);
+        assert_eq!(validator.nan_count, 5);
+        assert_eq!(validator.positive_infinity_count, 3);
+        assert_eq!(validator.negative_infinity_count, 3);
+        assert_eq!(validator.non_finite_raw_count, 0);
+
+        Ok(())
+    })
+    .unwrap();
 }
 
 #[testing::fixture("tests/projects/files/*.js")]
@@ -515,7 +702,7 @@ fn fixture(input: PathBuf) {
 
         let output = print(
             cm.clone(),
-            &[output_program.clone()],
+            std::slice::from_ref(&output_program),
             Some(&comments),
             false,
             false,
@@ -663,7 +850,8 @@ fn fixture(input: PathBuf) {
                 expected_stdout
             );
 
-            let actual = stdout_of(&output).expect("failed to execute the optimized code");
+            let actual = stdout_of(&output, output_program.is_module())
+                .expect("failed to execute the optimized code");
             assert_eq!(
                 DebugUsingDisplay(&actual),
                 DebugUsingDisplay(&expected_stdout)

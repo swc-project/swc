@@ -1,0 +1,42 @@
+[package]
+name = "swc_native_addon"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+license = "Apache-2.0"
+publish = false
+description = "Private verified native addon payload and materialization support"
+
+[dependencies]
+blake3 = "=1.5.4"
+sha2 = "=0.10.9"
+tempfile = "=3.12.0"
+tracing = { version = "=0.1.44", default-features = false, features = ["std"] }
+zstd = { version = "=0.14.3", default-features = false }
+
+# zstd's C build enables cc's parallel feature. Pin this transitive host
+# dependency to a release compatible with the carrier's Rust 1.85 MSRV.
+[build-dependencies]
+jobserver = "=0.1.35"
+
+[package.metadata.cargo-shear]
+ignored = ["jobserver"]
+
+[target.'cfg(unix)'.dependencies]
+libc = "=0.2.189"
+xattr = "=1.3.1"
+
+[target.'cfg(all(target_os = "macos", target_arch = "x86_64"))'.dependencies]
+blake3 = { version = "=1.5.4", features = ["rayon"] }
+# Keep the existing rayon-core pin for reproducible carrier builds.
+rayon-core = "=1.12.1"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "=0.52.0", features = [
+  "Win32_Foundation", "Win32_Security", "Win32_Security_Authorization",
+  "Win32_Storage_FileSystem", "Win32_System_IO", "Win32_System_Ioctl",
+  "Win32_System_LibraryLoader", "Win32_System_Memory", "Win32_System_Threading",
+] }
+
+[dev-dependencies]
+libloading = "=0.8.9"

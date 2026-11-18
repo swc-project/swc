@@ -1,0 +1,40 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+      "message":"Found a decorator in an unsupported position."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":6}},
+  "range":[6,12],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":6}},
+      "range":[6,12],
+      "expression":{
+        "type":"BinaryExpression",
+        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":5}},
+        "range":[6,11],
+        "operator":"*",
+        "left":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":2}},
+          "range":[6,8],
+          "value":10,
+          "raw":"10"
+        },
+        "right":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":5}},
+          "range":[9,11],
+          "value":20,
+          "raw":"20"
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

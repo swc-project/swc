@@ -1,0 +1,5 @@
+  x Expression expected
+   ,-[$DIR/tests/errors/class-initializer-context/yield-static-body/input.cjs:1:1]
+ 1 | function* f() { class C { static field = yield 1; } }
+   :                                          ^^^^^
+   `----

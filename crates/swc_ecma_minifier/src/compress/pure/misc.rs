@@ -1,4 +1,4 @@
-use std::{borrow::Cow, fmt::Write, num::FpCategory};
+use std::{borrow::Cow, num::FpCategory};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{
@@ -9,13 +9,17 @@ use swc_atoms::{
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value};
+use swc_ecma_utils::{
+    number::ToJsString, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value,
+};
 
 use super::Pure;
-use crate::compress::{
-    pure::{strings::convert_str_value_to_tpl_raw, Ctx},
-    util::is_pure_undefined,
+use crate::{
+    compress::{
+        pure::{strings::convert_str_value_to_tpl_raw, Ctx},
+        util::is_pure_undefined,
+    },
+    usage_analyzer::util::is_global_var_with_pure_property_access,
 };
 
 fn is_definitely_string(expr: &Expr) -> bool {
@@ -98,7 +102,7 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
 
 #[derive(Debug)]
 enum GroupType<'a> {
-    Literals(Vec<&'a ExprOrSpread>),
+    Literals(Vec<Option<&'a ExprOrSpread>>),
     Expression(&'a ExprOrSpread),
 }
 
@@ -261,7 +265,73 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_spread_object(&mut self, e: &mut ObjectLit) {
-        fn should_skip(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
+        fn is_proto_key(key: &PropName) -> bool {
+            match key {
+                PropName::Ident(i) => &*i.sym == "__proto__",
+                PropName::Str(s) => s.value.as_str() == Some("__proto__"),
+                _ => false,
+            }
+        }
+
+        // Spreading a primitive of these types copies zero own enumerable
+        // properties (`ToObject` on them yields a wrapper whose properties are
+        // all non-enumerable), so `{ ...x }` where `x` is one of them
+        // contributes nothing.
+        //
+        // Strings are intentionally EXCLUDED: they expose indexed own
+        // enumerable properties (`{ ..."ab" }` === `{ 0: "a", 1: "b" }`).
+        // Objects, arrays, functions, etc. are also excluded as they carry
+        // real properties.
+        fn spreads_no_props(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+            matches!(
+                expr.get_type(expr_ctx),
+                Value::Known(Type::Undefined | Type::Null | Type::Bool | Type::Num | Type::Symbol)
+            )
+        }
+
+        fn can_flatten_spread_expr(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+            match expr {
+                Expr::Object(ObjectLit { props, .. }) => {
+                    props.iter().all(|p| can_flatten_spread_prop(p, expr_ctx))
+                }
+                // Spreading a side-effect-free expression that has no own
+                // enumerable properties contributes nothing. We require purity
+                // so that we never discard observable side effects
+                // (e.g. `{ ...void foo() }`).
+                _ => spreads_no_props(expr, expr_ctx) && !expr.may_have_side_effects(expr_ctx),
+            }
+        }
+
+        fn can_flatten_spread_prop(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
+            match p {
+                PropOrSpread::Prop(p) => match &**p {
+                    Prop::KeyValue(KeyValueProp { key, value, .. }) => {
+                        !key.is_computed()
+                            && !is_proto_key(key)
+                            && !value.may_have_side_effects(expr_ctx)
+                    }
+                    Prop::Assign(AssignProp { key, value, .. }) => {
+                        key.sym != *"__proto__" && !value.may_have_side_effects(expr_ctx)
+                    }
+                    Prop::Shorthand(i) => i.sym != *"__proto__",
+
+                    // Moving methods between object literals can change their
+                    // [[HomeObject]], which matters for `super`.
+                    Prop::Method(..) | Prop::Getter(..) | Prop::Setter(..) => false,
+
+                    #[cfg(swc_ast_unknown)]
+                    _ => false,
+                },
+
+                PropOrSpread::Spread(SpreadElement { expr, .. }) => {
+                    can_flatten_spread_expr(expr, expr_ctx)
+                }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
+            }
+        }
+
+        fn should_skip_target_prop(p: &PropOrSpread, expr_ctx: ExprCtx) -> bool {
             match p {
                 PropOrSpread::Prop(p) => match &**p {
                     Prop::KeyValue(KeyValueProp { key, value, .. }) => {
@@ -276,9 +346,7 @@ impl Pure<'_> {
                 },
 
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => match &**expr {
-                    Expr::Object(ObjectLit { props, .. }) => {
-                        props.iter().any(|p| should_skip(p, expr_ctx))
-                    }
+                    Expr::Object(..) => !can_flatten_spread_expr(expr, expr_ctx),
                     _ => false,
                 },
                 #[cfg(swc_ast_unknown)]
@@ -286,10 +354,12 @@ impl Pure<'_> {
             }
         }
 
-        if e.props.iter().any(|p| should_skip(p, self.expr_ctx))
+        if e.props
+            .iter()
+            .any(|p| should_skip_target_prop(p, self.expr_ctx))
             || !e.props.iter().any(|p| match p {
                 PropOrSpread::Spread(SpreadElement { expr, .. }) => {
-                    expr.is_object() || expr.is_null()
+                    can_flatten_spread_expr(expr, self.expr_ctx)
                 }
                 _ => false,
             })
@@ -302,18 +372,14 @@ impl Pure<'_> {
         for prop in e.props.take() {
             match prop {
                 PropOrSpread::Spread(SpreadElement { expr, .. })
-                    if expr.is_object() || expr.is_null() =>
+                    if can_flatten_spread_expr(&expr, self.expr_ctx) =>
                 {
-                    match *expr {
-                        Expr::Object(ObjectLit { props, .. }) => {
-                            for p in props {
-                                new_props.push(p);
-                            }
-                        }
-
-                        Expr::Lit(Lit::Null(_)) => {}
-
-                        _ => {}
+                    // A plain object literal is flattened into the target; any
+                    // other flattenable spread is a no-property primitive
+                    // (including `null`) that contributes nothing, so it is
+                    // simply dropped.
+                    if let Expr::Object(ObjectLit { props, .. }) = *expr {
+                        new_props.extend(props);
                     }
                 }
 
@@ -324,6 +390,8 @@ impl Pure<'_> {
         }
 
         e.props = new_props;
+        self.changed = true;
+        report_change!("evaluate: Folded object spread from a plain object literal");
     }
 
     /// `foo(...[1, 2])`` => `foo(1, 2)`
@@ -637,7 +705,7 @@ impl Pure<'_> {
                         res.push_wtf8(&s.value);
                     }
                     Expr::Lit(Lit::Num(n)) => {
-                        write!(res, "{}", n.value).unwrap();
+                        res.push_str(&n.value.to_js_string());
                     }
                     e if is_pure_undefined(self.expr_ctx, e) => {}
                     Expr::Lit(Lit::Null(..)) => {}
@@ -697,11 +765,14 @@ impl Pure<'_> {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
 
-            for elem in elems.iter().flatten() {
-                let is_literal = match &*elem.expr {
-                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                    e if is_pure_undefined(self.expr_ctx, e) => true,
-                    _ => false,
+            for elem in elems.iter() {
+                let is_literal = match elem {
+                    None => true,
+                    Some(elem) => match &*elem.expr {
+                        Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                        e if is_pure_undefined(self.expr_ctx, e) => true,
+                        _ => false,
+                    },
                 };
 
                 if is_literal {
@@ -736,21 +807,26 @@ impl Pure<'_> {
         let mut groups = Vec::new();
         let mut current_group = Vec::new();
 
-        for elem in elems.iter().flatten() {
-            let is_literal = match &*elem.expr {
-                Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
-                e if is_pure_undefined(self.expr_ctx, e) => true,
-                _ => false,
+        for elem in elems.iter() {
+            let is_literal = match elem {
+                None => true,
+                Some(elem) => match &*elem.expr {
+                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                    e if is_pure_undefined(self.expr_ctx, e) => true,
+                    _ => false,
+                },
             };
 
             if is_literal {
-                current_group.push(elem);
+                // An elision is an empty join element, so it must stay in the
+                // group to preserve its surrounding separator positions.
+                current_group.push(elem.as_ref());
             } else {
                 if !current_group.is_empty() {
                     groups.push(GroupType::Literals(current_group));
                     current_group = Vec::new();
                 }
-                groups.push(GroupType::Expression(elem));
+                groups.push(GroupType::Expression(elem.as_ref().unwrap()));
             }
         }
 
@@ -767,35 +843,44 @@ impl Pure<'_> {
         let is_string_concat = separator.is_empty();
 
         if is_string_concat {
+            if !self.options.unsafe_passes
+                && groups.iter().any(|group| match group {
+                    GroupType::Literals(_) => false,
+                    GroupType::Expression(expr) => matches!(
+                        &expr.expr.get_type(self.expr_ctx,),
+                        Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                    ),
+                })
+            {
+                return None;
+            }
+
             // Convert to string concatenation
             let mut result_parts = Vec::new();
 
             // Only add empty string prefix when the first element is a non-string
             // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion
+            // literal early enough to provide coercion.
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
-                    // Check if the first expression is already a string concatenation
                     let first_needs_coercion = match &*first_expr.expr {
                         Expr::Bin(BinExpr {
                             op: op!(bin, "+"), ..
-                        }) => false, // Already string concat
-                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
-                        Expr::Call(_call) => {
-                            // Function calls may return any type and need string coercion
-                            true
+                        }) => {
+                            // `+` is only already a string concatenation when its
+                            // result is proven to be a string. Otherwise adjacent
+                            // join elements could be added numerically first.
+                            first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
                         }
-                        _ => true, // Other expressions need string coercion
+                        Expr::Lit(Lit::Str(..)) => false,
+                        Expr::Call(..) => true,
+                        _ => true,
                     };
 
-                    // If the first element needs coercion, check if the second element is a string
-                    // literal that can provide the coercion
+                    // A following literal provides the string coercion for the
+                    // first element before the next dynamic element is evaluated.
                     if first_needs_coercion {
-                        match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will */
-                            // provide coercion
-                            _ => true, // No string literal to provide coercion
-                        }
+                        !matches!(groups.get(1), Some(GroupType::Literals(_)))
                     } else {
                         false
                     }
@@ -816,9 +901,13 @@ impl Pure<'_> {
                     GroupType::Literals(literals) => {
                         let mut joined = Wtf8Buf::new();
                         for literal in literals.iter() {
+                            let Some(literal) = literal else {
+                                continue;
+                            };
+
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
-                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // For string concatenation, null becomes
                                     // empty string
@@ -872,9 +961,13 @@ impl Pure<'_> {
                                 joined.push_wtf8(separator);
                             }
 
+                            let Some(literal) = literal else {
+                                continue;
+                            };
+
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
-                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Num(n)) => joined.push_str(&n.value.to_js_string()),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // null becomes empty string
                                 }
@@ -1050,21 +1143,30 @@ impl Pure<'_> {
 
     /// Array() -> []
     fn optimize_array(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
+        // Literal array spreads are expanded before this optimization. Any
+        // remaining spread has unknown runtime arity, so it may expand to one
+        // numeric argument and invoke Array's length-constructor behavior.
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return None;
+        }
+
         if args.len() == 1 {
             if let ExprOrSpread { spread: None, expr } = &args[0] {
                 match &**expr {
                     Expr::Lit(Lit::Num(num)) => {
-                        if num.value <= 5_f64 && num.value >= 0_f64 {
-                            Some(
-                                ArrayLit {
-                                    span: *span,
-                                    elems: vec![None; num.value as usize],
-                                }
-                                .into(),
-                            )
-                        } else {
-                            None
+                        let length = num.value;
+
+                        if !(0_f64..=5_f64).contains(&length) || length.fract() != 0_f64 {
+                            return None;
                         }
+
+                        Some(
+                            ArrayLit {
+                                span: *span,
+                                elems: vec![None; length as usize],
+                            }
+                            .into(),
+                        )
                     }
                     Expr::Lit(_) => Some(
                         ArrayLit {
@@ -1213,15 +1315,21 @@ impl Pure<'_> {
                             })
                             .into(),
                         ),
-                        // this is indeed very unsafe in case of BigInt
-                        [ExprOrSpread { spread: None, expr }] if self.options.unsafe_math => Some(
-                            UnaryExpr {
-                                span: *span,
-                                op: op!(unary, "+"),
-                                arg: expr.take(),
-                            }
-                            .into(),
-                        ),
+                        // This is indeed very unsafe in case of BigInt, so it
+                        // requires both `unsafe` and `unsafe_math`, matching
+                        // terser (since v4.3.11).
+                        [ExprOrSpread { spread: None, expr }]
+                            if self.options.unsafe_passes && self.options.unsafe_math =>
+                        {
+                            Some(
+                                UnaryExpr {
+                                    span: *span,
+                                    op: op!(unary, "+"),
+                                    arg: expr.take(),
+                                }
+                                .into(),
+                            )
+                        }
                         _ => None,
                     },
                     Expr::Ident(Ident { sym, .. }) if &**sym == "String" => match &mut args[..] {
@@ -1325,36 +1433,36 @@ impl Pure<'_> {
         }
     }
 
-    /// Removes last return statement. This should be callled only if the return
-    /// value of function is ignored.
+    /// Simplifies and removes a tail return when the function result is
+    /// ignored. Leave other return arguments for
+    /// `ignore_return_value_of_return_stmt` so nested IIFEs are not
+    /// recursively simplified twice.
     ///
     /// Returns true if something is modified.
     fn drop_return_value(&mut self, stmts: &mut Vec<Stmt>) -> bool {
-        for s in stmts.iter_mut() {
-            if let Stmt::Return(ReturnStmt {
-                arg: arg @ Some(..),
-                ..
-            }) = s
-            {
-                self.ignore_return_value(
-                    arg.as_deref_mut().unwrap(),
-                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
-                        .union(DropOpts::DROP_NUMBER)
-                        .union(DropOpts::DROP_STR_LIT),
-                );
+        let Some(last) = stmts.last_mut() else {
+            return false;
+        };
 
-                if let Some(Expr::Invalid(..)) = arg.as_deref() {
-                    self.changed = true;
-                    *arg = None;
-                }
+        if let Stmt::Return(ReturnStmt {
+            arg: arg @ Some(..),
+            ..
+        }) = last
+        {
+            self.ignore_return_value(
+                arg.as_deref_mut().unwrap(),
+                DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                    .union(DropOpts::DROP_NUMBER)
+                    .union(DropOpts::DROP_STR_LIT),
+            );
+
+            if let Some(Expr::Invalid(..)) = arg.as_deref() {
+                self.changed = true;
+                *arg = None;
             }
         }
 
-        if let Some(last) = stmts.last_mut() {
-            self.drop_return_value_of_stmt(last)
-        } else {
-            false
-        }
+        self.drop_return_value_of_stmt(last)
     }
 
     fn compress_array_join_as_tpl(
@@ -1387,13 +1495,17 @@ impl Pure<'_> {
         let mut cur_cooked = Wtf8Buf::default();
         let mut first = true;
 
-        for elem in elems.take().into_iter().flatten() {
+        for elem in elems.take() {
             if first {
                 first = false;
             } else {
                 cur_raw.push_str(&convert_str_value_to_tpl_raw(sep));
                 cur_cooked.push_wtf8(sep);
             }
+
+            let Some(elem) = elem else {
+                continue;
+            };
 
             match *elem.expr {
                 Expr::Tpl(mut tpl) => {
@@ -1482,17 +1594,68 @@ impl Pure<'_> {
                     false
                 };
 
-                let b = s
-                    .finalizer
-                    .as_mut()
-                    .map(|s| self.drop_return_value(&mut s.stmts))
-                    .unwrap_or_default();
+                if let Some(s) = &mut s.finalizer {
+                    // A finalizer return overrides the pending completion, so only its value can
+                    // be removed when the IIFE result is ignored.
+                    for stmt in &mut s.stmts {
+                        self.ignore_return_value_of_return_stmt(
+                            stmt,
+                            DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                .union(DropOpts::DROP_NUMBER)
+                                .union(DropOpts::DROP_STR_LIT),
+                        );
+                    }
+                }
 
-                a || b
+                a
             }
 
             _ => false,
         }
+    }
+
+    fn make_ignored_arg_expr(
+        &mut self,
+        span: Span,
+        args: impl Iterator<Item = ExprOrSpread>,
+    ) -> Option<Expr> {
+        let mut exprs = args
+            .filter_map(|mut e| {
+                if e.spread.is_some() {
+                    Some(e)
+                } else {
+                    self.ignore_return_value(
+                        &mut e.expr,
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
+                    );
+
+                    if let Expr::Invalid(..) = &*e.expr {
+                        None
+                    } else {
+                        Some(e)
+                    }
+                }
+            })
+            .collect::<Vec<_>>();
+
+        if exprs.is_empty() {
+            return None;
+        }
+        if exprs.len() == 1 && exprs[0].spread.is_none() {
+            let mut new = *exprs.remove(0).expr;
+            new.set_span(span);
+            return Some(new);
+        }
+
+        Some(
+            ArrayLit {
+                span: DUMMY_SP,
+                elems: exprs.into_iter().map(Some).collect(),
+            }
+            .into(),
+        )
     }
 
     fn make_ignored_expr(
@@ -1616,8 +1779,7 @@ impl Pure<'_> {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new =
-                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter());
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -1632,8 +1794,7 @@ impl Pure<'_> {
                 report_change!("ignore_return_value: Dropping a pure call (callee is pure)");
                 self.changed = true;
 
-                let new =
-                    self.make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr));
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter());
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
@@ -1651,61 +1812,37 @@ impl Pure<'_> {
                 return;
             }
 
+            Expr::TaggedTpl(TaggedTpl {
+                span,
+                tag: callee,
+                tpl,
+                ..
+            }) if callee.is_pure_callee(self.expr_ctx) => {
+                self.changed = true;
+                report_change!("Dropping pure tag tpl as callee is pure");
+                *e = self
+                    .make_ignored_expr(*span, tpl.exprs.take().into_iter())
+                    .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                return;
+            }
+
             Expr::New(NewExpr {
                 callee,
                 span,
                 ctxt,
                 args,
                 ..
-            }) if callee.is_pure_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
+            }) if callee.is_pure_new_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
-                let new = self.make_ignored_expr(
-                    *span,
-                    args.take().into_iter().flatten().map(|arg| arg.expr),
-                );
+                let new = self.make_ignored_arg_expr(*span, args.take().into_iter().flatten());
 
                 *e = new.unwrap_or(Invalid { span: DUMMY_SP }.into());
                 return;
             }
 
             _ => {}
-        }
-
-        match e {
-            Expr::Call(CallExpr {
-                span,
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) => {
-                if callee.is_pure_callee(self.expr_ctx) {
-                    self.changed = true;
-                    report_change!("Dropping pure call as callee is pure");
-                    *e = self
-                        .make_ignored_expr(*span, args.take().into_iter().map(|arg| arg.expr))
-                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                    return;
-                }
-            }
-
-            Expr::TaggedTpl(TaggedTpl {
-                span,
-                tag: callee,
-                tpl,
-                ..
-            }) => {
-                if callee.is_pure_callee(self.expr_ctx) {
-                    self.changed = true;
-                    report_change!("Dropping pure tag tpl as callee is pure");
-                    *e = self
-                        .make_ignored_expr(*span, tpl.exprs.take().into_iter())
-                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                    return;
-                }
-            }
-            _ => (),
         }
 
         if self.options.conditionals || self.options.expr {
@@ -1873,38 +2010,38 @@ impl Pure<'_> {
                     obj,
                     prop: MemberProp::Ident(prop),
                     ..
-                }) => {
-                    if obj.is_ident_ref_to("arguments") {
-                        if &*prop.sym == "callee" {
-                            return;
-                        }
-                        e.take();
+                }) if obj.is_ident_ref_to("arguments") => {
+                    if &*prop.sym == "callee" {
                         return;
                     }
+                    e.take();
+                    return;
                 }
+                Expr::Member(MemberExpr {
+                    prop: MemberProp::Ident(..),
+                    ..
+                }) => {}
 
                 _ => {}
             }
         }
 
         match e {
-            Expr::Lit(Lit::Num(n)) => {
-                if n.value == 0.0 && opts.contains(DropOpts::DROP_NUMBER) {
-                    report_change!("Dropping a zero number");
-                    *e = Invalid { span: DUMMY_SP }.into();
-                    return;
-                }
+            Expr::Lit(Lit::Num(n)) if n.value == 0.0 && opts.contains(DropOpts::DROP_NUMBER) => {
+                report_change!("Dropping a zero number");
+                *e = Invalid { span: DUMMY_SP }.into();
+                return;
             }
+            Expr::Lit(Lit::Num(..)) => {}
 
-            Expr::Ident(i) => {
-                if i.ctxt.outer() != self.marks.unresolved_mark {
-                    report_change!("Dropping an identifier as it's declared");
+            Expr::Ident(i) if i.ctxt.outer() != self.marks.unresolved_mark => {
+                report_change!("Dropping an identifier as it's declared");
 
-                    self.changed = true;
-                    *e = Invalid { span: DUMMY_SP }.into();
-                    return;
-                }
+                self.changed = true;
+                *e = Invalid { span: DUMMY_SP }.into();
+                return;
             }
+            Expr::Ident(..) => {}
 
             Expr::Lit(Lit::Null(..) | Lit::BigInt(..) | Lit::Bool(..) | Lit::Regex(..))
             | Expr::This(..) => {
@@ -2021,28 +2158,24 @@ impl Pure<'_> {
                             break;
                         }
                         PropOrSpread::Prop(p) => match &mut **p {
-                            Prop::KeyValue(kv) => {
+                            Prop::KeyValue(kv)
                                 if !kv.key.is_computed()
-                                    && !kv.value.may_have_side_effects(self.expr_ctx)
-                                {
-                                    **p = Prop::Shorthand(Ident::dummy());
-                                    self.changed = true;
-                                    report_change!(
-                                        "Dropping a key-value pair in an object literal"
-                                    );
-                                }
+                                    && !kv.value.may_have_side_effects(self.expr_ctx) =>
+                            {
+                                **p = Prop::Shorthand(Ident::dummy());
+                                self.changed = true;
+                                report_change!("Dropping a key-value pair in an object literal");
                             }
 
-                            Prop::Shorthand(i) => {
-                                if i.ctxt.outer() != self.marks.unresolved_mark {
-                                    *i = Ident::dummy();
-                                    self.changed = true;
-                                    report_change!(
-                                        "Dropping a shorthand property in an object literal"
-                                    );
-                                }
+                            Prop::Shorthand(i) if i.ctxt.outer() != self.marks.unresolved_mark => {
+                                *i = Ident::dummy();
+                                self.changed = true;
+                                report_change!(
+                                    "Dropping a shorthand property in an object literal"
+                                );
                             }
 
+                            Prop::KeyValue(..) | Prop::Shorthand(..) | Prop::Assign(..) => {}
                             _ => {}
                         },
                         #[cfg(swc_ast_unknown)]
@@ -2072,19 +2205,19 @@ impl Pure<'_> {
         }
 
         match e {
-            Expr::Lit(Lit::Str(s)) => {
+            Expr::Lit(Lit::Str(s))
                 if (self.options.directives
                     && !matches!(s.value.as_str(), Some(s) if s == "use strict" || s == "use asm"))
                     || opts.contains(DropOpts::DROP_STR_LIT)
                     || (s.value.starts_with("@swc/helpers")
-                        || s.value.starts_with("@babel/helpers"))
-                {
-                    self.changed = true;
-                    *e = Invalid { span: DUMMY_SP }.into();
+                        || s.value.starts_with("@babel/helpers")) =>
+            {
+                self.changed = true;
+                *e = Invalid { span: DUMMY_SP }.into();
 
-                    return;
-                }
+                return;
             }
+            Expr::Lit(Lit::Str(..)) => {}
 
             Expr::Seq(seq) => {
                 self.drop_useless_ident_ref_in_seq(seq);
@@ -2110,7 +2243,7 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 ..
             }) if callee.is_fn_expr() => match &mut **callee {
-                Expr::Fn(callee) => {
+                Expr::Fn(callee) if !callee.function.is_async => {
                     if callee.ident.is_none() {
                         if let Some(body) = &mut callee.function.body {
                             if self.options.side_effects {
@@ -2119,6 +2252,8 @@ impl Pure<'_> {
                         }
                     }
                 }
+
+                Expr::Fn(..) => {}
 
                 _ => {
                     unreachable!()
@@ -2135,7 +2270,7 @@ impl Pure<'_> {
             }) = e
             {
                 match &mut **callee {
-                    Expr::Fn(callee) => {
+                    Expr::Fn(callee) if !callee.function.is_async => {
                         if let Some(body) = &mut callee.function.body {
                             if let Some(ident) = &callee.ident {
                                 if IdentUsageFinder::find(ident, body) {
@@ -2148,13 +2283,13 @@ impl Pure<'_> {
                             }
                         }
                     }
-                    Expr::Arrow(callee) => match &mut *callee.body {
-                        BlockStmtOrExpr::BlockStmt(body) => {
+                    Expr::Arrow(callee) if !callee.is_async => match &mut *callee.body {
+                        ArrowFunctionBody::FunctionBody(body) => {
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);
                             }
                         }
-                        BlockStmtOrExpr::Expr(body) => {
+                        ArrowFunctionBody::Expr(body) => {
                             self.ignore_return_value(body, opts);
 
                             if body.is_invalid() {
@@ -2172,14 +2307,49 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
+                // Map and Set synchronously consume their iterable argument. Keeping only the
+                // argument expression would skip observable iterator acquisition and iteration.
+                // Construction without arguments or with a nullish first argument does not
+                // consume an iterable and is still pure.
                 Expr::New(NewExpr {
                     span, callee, args, ..
-                }) if callee.is_one_of_global_ref_to(
-                    self.expr_ctx,
-                    &[
-                        "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
-                    ],
-                ) =>
+                }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Map", "Set"])
+                    // Spreading consumes an iterator. Extracting only `arg.expr` would create
+                    // the iterator but skip its observable iteration, including errors thrown
+                    // by the iterator.
+                    && !args.iter().flatten().any(|arg| arg.spread.is_some())
+                    && args
+                        .as_deref()
+                        .and_then(|arg| arg.first())
+                        .map(|arg| {
+                            arg.spread.is_none()
+                                && (matches!(
+                                    &arg.expr.get_type(self.expr_ctx,),
+                                    Value::Known(Type::Null | Type::Undefined)
+                                ) || is_valid_map_set_init(&arg.expr, self.expr_ctx, callee))
+                        })
+                        .unwrap_or(true) =>
+                {
+                    report_change!("Dropping a pure new expression");
+
+                    self.changed = true;
+                    *e = self
+                        .make_ignored_expr(
+                            *span,
+                            args.iter_mut().flatten().map(|arg| arg.expr.take()),
+                        )
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    return;
+                }
+
+                Expr::New(NewExpr {
+                    span, callee, args, ..
+                }) if self.options.pristine_globals
+                    && (callee.is_one_of_global_ref_to(
+                        self.expr_ctx,
+                        &["Object", "Date", "Boolean", "Number", "String", "Error"],
+                    ) || callee.is_one_of_global_ref_to(self.expr_ctx, ARRAY_CTOR))
+                    && !args.iter().flatten().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure new expression");
 
@@ -2201,73 +2371,41 @@ impl Pure<'_> {
                 }) if callee.is_one_of_global_ref_to(
                     self.expr_ctx,
                     &["Array", "Object", "Boolean", "Number"],
-                ) =>
+                ) && !args.iter().any(|arg| arg.spread.is_some()) =>
                 {
                     report_change!("Dropping a pure call expression");
 
                     self.changed = true;
                     *e = self
-                        .make_ignored_expr(*span, args.iter_mut().map(|arg| arg.expr.take()))
+                        .make_ignored_arg_expr(*span, args.take().into_iter())
                         .unwrap_or(Invalid { span: DUMMY_SP }.into());
                     return;
                 }
 
-                Expr::Object(obj) => {
-                    if obj.props.iter().all(|prop| !prop.is_spread()) {
-                        let exprs = collect_exprs_from_object(obj);
-                        *e = self
-                            .make_ignored_expr(obj.span, exprs.into_iter())
-                            .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                        report_change!("Ignored an object literal");
-                        self.changed = true;
-                        return;
-                    }
+                Expr::Object(obj) if obj.props.iter().all(|prop| !prop.is_spread()) => {
+                    let exprs = collect_exprs_from_object(obj);
+                    *e = self
+                        .make_ignored_expr(obj.span, exprs.into_iter())
+                        .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                    report_change!("Ignored an object literal");
+                    self.changed = true;
+                    return;
                 }
+                Expr::Object(..) => {}
 
                 Expr::Array(arr) => {
-                    if arr.elems.iter().any(|e| match e {
-                        Some(ExprOrSpread {
-                            spread: Some(..), ..
-                        }) => true,
-                        _ => false,
-                    }) {
-                        *e = ArrayLit {
-                            elems: arr
-                                .elems
-                                .take()
-                                .into_iter()
-                                .flatten()
-                                .filter_map(|mut e| {
-                                    if e.spread.is_some() {
-                                        return Some(e);
-                                    }
-
-                                    self.ignore_return_value(
-                                        &mut e.expr,
-                                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
-                                            .union(DropOpts::DROP_NUMBER)
-                                            .union(DropOpts::DROP_STR_LIT),
-                                    );
-                                    if e.expr.is_invalid() {
-                                        return None;
-                                    }
-
-                                    Some(ExprOrSpread {
-                                        spread: None,
-                                        expr: e.expr,
-                                    })
-                                })
-                                .map(Some)
-                                .collect(),
-                            ..*arr
-                        }
-                        .into();
+                    if arr
+                        .elems
+                        .iter()
+                        .any(|e| e.as_ref().and_then(|e| e.spread).is_some())
+                    {
+                        // The earlier array arm already reduced ordinary elements and removed
+                        // holes. Keep the array to consume the spread iterators, without
+                        // recursively reducing its elements a second time.
                         return;
                     }
 
                     let mut exprs = Vec::new();
-
-                    //
 
                     for ExprOrSpread { mut expr, .. } in arr.elems.take().into_iter().flatten() {
                         self.ignore_return_value(
@@ -2302,9 +2440,7 @@ impl Pure<'_> {
                     prop: MemberProp::Computed(prop),
                     ..
                 }) => match obj.as_mut() {
-                    Expr::Object(object) => {
-                        // Accessing getters and setters may cause side effect
-                        // More precision is possible if comparing the lit prop names
+                    Expr::Object(object)
                         if object.props.iter().all(|p| match p {
                             PropOrSpread::Spread(..) => false,
                             PropOrSpread::Prop(p) => match &**p {
@@ -2313,15 +2449,18 @@ impl Pure<'_> {
                             },
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
-                        }) {
-                            let mut exprs = collect_exprs_from_object(object);
-                            exprs.push(prop.expr.take());
-                            *e = self
-                                .make_ignored_expr(*span, exprs.into_iter())
-                                .unwrap_or(Invalid { span: DUMMY_SP }.into());
-                            return;
-                        }
+                        }) =>
+                    {
+                        // Accessing getters and setters may cause side effect
+                        // More precision is possible if comparing the lit prop names
+                        let mut exprs = collect_exprs_from_object(object);
+                        exprs.push(prop.expr.take());
+                        *e = self
+                            .make_ignored_expr(*span, exprs.into_iter())
+                            .unwrap_or(Invalid { span: DUMMY_SP }.into());
+                        return;
                     }
+                    Expr::Object(..) => {}
                     Expr::Array(..) => {
                         self.ignore_return_value(obj, opts);
                         *e = self
@@ -2409,11 +2548,32 @@ impl Pure<'_> {
                 self.changed = true;
                 *e = r.take();
             }
+            _ if is_pure_undefined(self.expr_ctx, l) => {
+                report_change!("Removing undefined from lhs of ??");
+                self.changed = true;
+                // `(void 0 ?? obj.method)()` must not receive `obj` as `this`.
+                *e = if r.directness_matters() {
+                    SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: vec![0.into(), Box::new(r.take())],
+                    }
+                    .into()
+                } else {
+                    r.take()
+                };
+            }
             Expr::Lit(Lit::Num(..))
             | Expr::Lit(Lit::Str(..))
             | Expr::Lit(Lit::BigInt(..))
             | Expr::Lit(Lit::Bool(..))
             | Expr::Lit(Lit::Regex(..)) => {
+                report_change!("Removing rhs of ?? as lhs cannot be null nor undefined");
+                self.changed = true;
+                *e = l.take();
+            }
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) if matches!(&**arg, Expr::Lit(Lit::Num(..))) => {
                 report_change!("Removing rhs of ?? as lhs cannot be null nor undefined");
                 self.changed = true;
                 *e = l.take();
@@ -2582,5 +2742,68 @@ fn is_block_scoped_stmt(s: &Stmt) -> bool {
         }
         Stmt::Decl(Decl::Fn(..)) | Stmt::Decl(Decl::Class(..)) => true,
         _ => false,
+    }
+}
+
+static ARRAY_CTOR: &[&str] = &[
+    "Array",
+    "Int16Array",
+    "Int32Array",
+    "Int8Array",
+    "Float32Array",
+    "Float64Array",
+    "Uint16Array",
+    "Uint32Array",
+    "Uint8Array",
+    "Uint8ClampedArray",
+];
+
+fn is_valid_map_set_init(expr: &Expr, ctx: ExprCtx, callee: &Expr) -> bool {
+    let is_map = callee.is_global_ref_to(ctx, "Map");
+
+    fn is_array_like(expr: &Expr, ctx: ExprCtx) -> bool {
+        match expr {
+            Expr::Array(..) => true,
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                ..
+            })
+            | Expr::New(NewExpr { callee: e, .. })
+                if e.is_one_of_global_ref_to(ctx, ARRAY_CTOR) =>
+            {
+                true
+            }
+            _ => false,
+        }
+    }
+
+    if is_map {
+        match expr {
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().all(|e| {
+                e.as_ref()
+                    .map(|e| e.spread.is_none() && is_array_like(&e.expr, ctx))
+                    .unwrap_or(false)
+            }),
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(e),
+                args,
+                ..
+            })
+            | Expr::New(NewExpr {
+                callee: e,
+                args: Some(args),
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => args
+                .iter()
+                .all(|a| a.spread.is_none() && is_array_like(&a.expr, ctx)),
+            Expr::New(NewExpr {
+                callee: e,
+                args: None,
+                ..
+            }) if e.is_global_ref_to(ctx, "Array") => true,
+            _ => false,
+        }
+    } else {
+        is_array_like(expr, ctx)
     }
 }

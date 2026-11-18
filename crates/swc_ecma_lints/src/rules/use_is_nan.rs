@@ -73,21 +73,19 @@ impl UseIsNan {
                 type_ann,
                 span,
                 ..
-            }) => {
-                if self.check_any_cast {
-                    if let TsType::TsKeywordType(TsKeywordType {
+            }) if self.check_any_cast
+                && matches!(
+                    type_ann.as_ref(),
+                    TsType::TsKeywordType(TsKeywordType {
                         kind: TsKeywordTypeKind::TsAnyKeyword,
                         ..
-                    }) = type_ann.as_ref()
-                    {
-                        self.check(expr_span.or(Some(*span)), expr.as_ref(), label_msg);
-                    }
-                }
+                    })
+                ) =>
+            {
+                self.check(expr_span.or(Some(*span)), expr.as_ref(), label_msg);
             }
-            Expr::Ident(ident) => {
-                if &*ident.sym == "NaN" {
-                    self.emit_report(expr_span.unwrap_or(ident.span), label_msg);
-                }
+            Expr::Ident(ident) if &*ident.sym == "NaN" => {
+                self.emit_report(expr_span.unwrap_or(ident.span), label_msg);
             }
             Expr::Member(MemberExpr {
                 obj, prop, span, ..
@@ -99,10 +97,8 @@ impl UseIsNan {
 
                     if &*obj.sym == "Number" {
                         match prop {
-                            MemberProp::Ident(ident) => {
-                                if &*ident.sym == "NaN" {
-                                    self.emit_report(expr_span.unwrap_or(*span), label_msg);
-                                }
+                            MemberProp::Ident(ident) if &*ident.sym == "NaN" => {
+                                self.emit_report(expr_span.unwrap_or(*span), label_msg);
                             }
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {

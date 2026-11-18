@@ -1,0 +1,3 @@
+{
+    "pipeline": "resolver-async-to-generator-arrow-parameters"
+}

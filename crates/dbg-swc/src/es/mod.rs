@@ -4,9 +4,10 @@ use anyhow::Result;
 use clap::Subcommand;
 use swc_common::SourceMap;
 
-use self::{exec_test::ExecForTestingCommand, minifier::MinifierCommand};
+use self::{exec_test::ExecForTestingCommand, flow::FlowCommand, minifier::MinifierCommand};
 
 mod exec_test;
+mod flow;
 mod minifier;
 
 /// Debug modules related to ECMAScript
@@ -16,6 +17,8 @@ pub(crate) enum EsCommand {
     Minifier(MinifierCommand),
     #[clap(subcommand)]
     ExecForTesting(ExecForTestingCommand),
+    #[clap(subcommand)]
+    Flow(FlowCommand),
 }
 
 impl EsCommand {
@@ -23,6 +26,7 @@ impl EsCommand {
         match self {
             Self::Minifier(cmd) => cmd.run(cm),
             Self::ExecForTesting(cmd) => cmd.run(cm),
+            Self::Flow(cmd) => cmd.run(cm),
         }
     }
 }

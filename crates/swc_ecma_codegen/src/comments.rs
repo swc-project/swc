@@ -102,7 +102,7 @@ where
             return Ok(());
         }
 
-        if pos.is_pure() {
+        if self.cm.map_raw_pos(pos).is_pure() {
             write_comments!(
                 self,
                 false,

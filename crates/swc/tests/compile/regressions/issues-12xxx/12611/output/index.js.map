@@ -1,0 +1,15 @@
+{
+  "mappings": "AAAA,iBAAiB;;;;;oBACK,QAAA;AACtBA,QAAQC,GAAG,CAACC,iBAAK",
+  "names": [
+    "console",
+    "log",
+    "value"
+  ],
+  "sources": [
+    "../input/index.js"
+  ],
+  "sourcesContent": [
+    "// Example module\nimport { value } from \"./dependency.js\";\nconsole.log(value);\n"
+  ],
+  "version": 3
+}

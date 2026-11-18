@@ -1,0 +1,38 @@
+{
+  "version": 3,
+  "sources": [],
+  "names": [],
+  "sections": [
+    {
+      "offset": { "line": 1, "column": 2 },
+      "map": {
+        "version": 3,
+        "sources": ["a.js", "b.js"],
+        "names": ["value"],
+        "mappings": "AAAA,KCAAA",
+        "ignoreList": [1]
+      }
+    },
+    {
+      "offset": { "line": 3, "column": 4 },
+      "map": {
+        "version": 3,
+        "sources": [],
+        "names": [],
+        "sections": [
+          {
+            "offset": { "line": 0, "column": 0 },
+            "map": {
+              "version": 3,
+              "sources": ["c.js"],
+              "sourcesContent": ["let c = 3"],
+              "names": [],
+              "mappings": "AAAA",
+              "ignoreList": [0]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

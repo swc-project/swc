@@ -61,7 +61,7 @@ pub(super) fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bo
 }
 
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
@@ -275,7 +275,10 @@ pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
 }
 
 /// Parse `Arguments[Yield, Await]`
-#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+#[cfg_attr(
+    all(debug_assertions, feature = "tracing-spans"),
+    tracing::instrument(skip_all)
+)]
 pub fn parse_args<'a, P: Parser<'a>>(
     p: &mut P,
     is_dynamic_import: bool,
@@ -314,7 +317,7 @@ pub fn parse_args<'a, P: Parser<'a>>(
 
 ///`parseMaybeAssign` (overridden)
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn parse_assignment_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
@@ -356,7 +359,10 @@ pub fn parse_assignment_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>>
 /// operators like `+=`.
 ///
 /// `parseMaybeAssign`
-#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+#[cfg_attr(
+    all(debug_assertions, feature = "tracing-spans"),
+    tracing::instrument(skip_all)
+)]
 fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_assignment_expr_base);
     let start = p.input().cur_span();
@@ -389,10 +395,15 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
                 // looks like JSX.
                 // Valid alternatives: `<T,>() => {}` or `<T extends unknown>() =>
                 // {}`
-                if p.input().syntax().jsx() && type_parameters.params.len() == 1 {
+                if p.input().syntax().jsx()
+                    && !p.input().syntax().flow()
+                    && type_parameters.params.len() == 1
+                {
                     let single_param = &type_parameters.params[0];
                     let has_trailing_comma = type_parameters.span.hi.0 - single_param.span.hi.0 > 1;
-                    let dominated_by_jsx = single_param.constraint.is_none() && !has_trailing_comma;
+                    let dominated_by_jsx = single_param.constraint.is_none()
+                        && single_param.default.is_none()
+                        && !has_trailing_comma;
 
                     if dominated_by_jsx {
                         return Ok(None);
@@ -517,7 +528,7 @@ pub fn finish_assignment_expr<'a, P: Parser<'a>>(
 
 /// Spec: 'ConditionalExpression'
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
@@ -555,7 +566,10 @@ fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     }
 }
 
-#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+#[cfg_attr(
+    all(debug_assertions, feature = "tracing-spans"),
+    tracing::instrument(skip_all)
+)]
 pub fn parse_subscripts<'a>(
     p: &mut impl Parser<'a>,
     mut obj: Callee,
@@ -572,7 +586,10 @@ pub fn parse_subscripts<'a>(
 }
 
 /// returned bool is true if this method should be called again.
-#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+#[cfg_attr(
+    all(debug_assertions, feature = "tracing-spans"),
+    tracing::instrument(skip_all)
+)]
 fn parse_subscript<'a, P: Parser<'a>>(
     p: &mut P,
     start: BytePos,
@@ -1092,7 +1109,7 @@ fn parse_dynamic_import_call<'a>(
 
 /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn parse_member_expr_or_new_expr<'a>(
@@ -1246,7 +1263,10 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
 
 /// Parse `NewExpression`.
 /// This includes `MemberExpression`.
-#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+#[cfg_attr(
+    all(debug_assertions, feature = "tracing-spans"),
+    tracing::instrument(skip_all)
+)]
 pub fn parse_new_expr<'a>(p: &mut impl Parser<'a>) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_new_expr);
     parse_member_expr_or_new_expr(p, true)
@@ -1387,6 +1407,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
 
     if op.precedence() <= min_prec {
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             tracing::trace!(
                 "returning {:?} without parsing {:?} because min_prec={}, prec={}",
                 left,
@@ -1400,6 +1421,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
     }
     p.bump();
     if cfg!(feature = "debug") {
+        #[cfg(debug_assertions)]
         tracing::trace!(
             "parsing binary op {:?} min_prec={}, prec={}",
             op,
@@ -1675,7 +1697,7 @@ pub(super) fn parse_for_head_prefix<'a>(p: &mut impl Parser<'a>) -> PResult<Box<
 
 /// Parse call, dot, and `[]`-subscript expressions.
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PResult<Box<Expr>> {
@@ -1816,7 +1838,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
 
 // Returns (args_or_pats, trailing_comma)
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn parse_args_or_pats<'a, P: Parser<'a>>(
@@ -2037,7 +2059,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
         } {
             let params: Vec<Pat> = parse_paren_items_as_params(p, items.clone(), None)?;
 
-            let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+            let body: Box<ArrowFunctionBody> = parse_fn_block_or_expr_body(
                 p,
                 false,
                 false,
@@ -2075,7 +2097,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
 }
 
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
@@ -2117,7 +2139,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
             let params: Vec<Pat> =
                 parse_paren_items_as_params(p, items_ref.clone(), trailing_comma)?;
 
-            let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+            let body: Box<ArrowFunctionBody> = parse_fn_block_or_expr_body(
                 p,
                 async_span.is_some(),
                 false,
@@ -2177,7 +2199,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
 
         let params: Vec<Pat> = parse_paren_items_as_params(p, paren_items, trailing_comma)?;
 
-        let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+        let body: Box<ArrowFunctionBody> = parse_fn_block_or_expr_body(
             p,
             async_span.is_some(),
             false,
@@ -2193,7 +2215,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
             return_type,
             ..Default::default()
         };
-        if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
+        if let ArrowFunctionBody::FunctionBody(..) = &*arrow_expr.body {
             if p.input().cur().is_bin_op() {
                 // ) is required
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
@@ -2544,7 +2566,7 @@ pub fn parse_this_expr<'a>(p: &mut impl Parser<'a>, start: BytePos) -> PResult<B
 
 /// Parse a primary expression or arrow function
 #[cfg_attr(
-    feature = "tracing-spans",
+    all(debug_assertions, feature = "tracing-spans"),
     tracing::instrument(level = "debug", skip_all)
 )]
 pub(crate) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {

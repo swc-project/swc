@@ -38,6 +38,13 @@ impl<I> Capturing<I> {
         }
     }
 
+    pub fn with_capacity(input: I, capacity: usize) -> Self {
+        Capturing {
+            inner: input,
+            captured: Vec::with_capacity(capacity),
+        }
+    }
+
     pub fn tokens(&self) -> &[TokenAndSpan] {
         &self.captured
     }
@@ -78,8 +85,18 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.checkpoint_load(checkpoint.inner);
     }
 
+    fn try_load_lookahead(&mut self, checkpoint: Self::Checkpoint) -> bool {
+        self.inner.try_load_lookahead(checkpoint.inner)
+    }
+
     fn read_string(&self, span: Span) -> &str {
         self.inner.read_string(span)
+    }
+
+    fn rescan_type_gt(&mut self, span: Span) -> TokenAndSpan {
+        let token = self.inner.rescan_type_gt(span);
+        self.capture(token);
+        token
     }
 
     fn set_ctx(&mut self, ctx: Context) {
@@ -126,8 +143,32 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.take_errors()
     }
 
+    fn has_errors(&self) -> bool {
+        self.inner.has_errors()
+    }
+
+    fn diagnostic_checkpoint_save(&self) -> (usize, usize) {
+        self.inner.diagnostic_checkpoint_save()
+    }
+
+    fn diagnostic_checkpoint_load(&mut self, checkpoint: (usize, usize)) {
+        self.inner.diagnostic_checkpoint_load(checkpoint);
+    }
+
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         self.inner.take_script_module_errors()
+    }
+
+    fn set_defer_comments(&mut self, defer: bool) {
+        self.inner.set_defer_comments(defer);
+    }
+
+    fn swap_defer_comments(&mut self, defer: bool) -> Option<bool> {
+        self.inner.swap_defer_comments(defer)
+    }
+
+    fn finalize_comments(&mut self) {
+        self.inner.finalize_comments();
     }
 
     fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {

@@ -421,14 +421,12 @@ impl VisitMut for ExplicitResourceManagement {
             self.wrap_with_try(state, &mut body);
 
             n.left = ForHead::VarDecl(var_decl);
-            n.body = Box::new(
-                BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: body,
-                    ..Default::default()
-                }
-                .into(),
-            )
+            *n.body = BlockStmt {
+                span: DUMMY_SP,
+                stmts: body,
+                ..Default::default()
+            }
+            .into()
         }
     }
 

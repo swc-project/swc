@@ -1,0 +1,7 @@
+  x Expected corresponding JSX closing tag for <B>
+   ,-[$DIR/tests/flow-errors/jsx-nested-closing-tag-mismatch/multiline.js:5:1]
+ 4 |       text
+ 5 |     </C>
+   :       ^
+ 6 |   </A>
+   `----

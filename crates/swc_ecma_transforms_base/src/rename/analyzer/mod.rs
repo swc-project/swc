@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 
@@ -113,6 +114,12 @@ impl Analyzer {
         self.enter_scope(ScopeKind::Block)
     }
 
+    /// Marks the current scope as the scope that holds only the own name of a
+    /// named function or class expression.
+    pub(super) fn mark_expr_name_scope(&mut self) {
+        self.scope.is_expr_name = true;
+    }
+
     pub(super) fn exit_scope(&mut self, mut v: Self) {
         std::mem::swap(self, &mut v);
         if !v.hoisted_vars.is_empty() {
@@ -180,8 +187,16 @@ impl Analyzer {
     }
 
     pub(super) fn handle_expr(&mut self, e: &Expr) {
-        if let Expr::Ident(i) = e {
-            self.add_usage(i.to_id());
+        match e {
+            Expr::Ident(i) => self.add_usage(i.to_id()),
+            Expr::Lit(Lit::Num(num)) if !num.value.is_finite() => match num.raw.as_deref() {
+                Some("NaN") => self.scope.reserve_output_symbol(atom!("NaN")),
+                Some("Infinity") => {
+                    self.scope.reserve_output_symbol(atom!("Infinity"));
+                }
+                _ => {}
+            },
+            _ => {}
         }
     }
 

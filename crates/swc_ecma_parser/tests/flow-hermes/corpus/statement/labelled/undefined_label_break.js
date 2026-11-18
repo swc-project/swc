@@ -1,0 +1,1 @@
+for (;;) break foo;

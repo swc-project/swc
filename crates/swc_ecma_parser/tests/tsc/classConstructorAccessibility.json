@@ -79,12 +79,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 75,
               "end": 78
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": "public",
@@ -171,12 +170,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 134,
               "end": 137
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": "private",
@@ -263,12 +261,11 @@
             }
           ],
           "body": {
-            "type": "BlockStatement",
+            "type": "FunctionBody",
             "span": {
               "start": 195,
               "end": 198
             },
-            "ctxt": 0,
             "stmts": []
           },
           "accessibility": "protected",
@@ -583,12 +580,11 @@
                   }
                 ],
                 "body": {
-                  "type": "BlockStatement",
+                  "type": "FunctionBody",
                   "span": {
                     "start": 349,
                     "end": 352
                   },
-                  "ctxt": 0,
                   "stmts": []
                 },
                 "accessibility": "public",
@@ -715,12 +711,11 @@
                   }
                 ],
                 "body": {
-                  "type": "BlockStatement",
+                  "type": "FunctionBody",
                   "span": {
                     "start": 418,
                     "end": 421
                   },
-                  "ctxt": 0,
                   "stmts": []
                 },
                 "accessibility": "private",
@@ -847,12 +842,11 @@
                   }
                 ],
                 "body": {
-                  "type": "BlockStatement",
+                  "type": "FunctionBody",
                   "span": {
                     "start": 489,
                     "end": 492
                   },
-                  "ctxt": 0,
                   "stmts": []
                 },
                 "accessibility": "protected",

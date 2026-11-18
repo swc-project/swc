@@ -1,0 +1,9 @@
+a ? b ? ({m(){}}) : c => d : e;
+a ? b ? ({get m(){return 1}}) : c => d : e;
+a ? b ? ({set m(x){}}) : c => d : e;
+a ? b ? ([{m(){}}]) : c => d : e;
+a ? b ? ({x: {m(){}}}) : c => d : e;
+a ? b ? (x, {m(){}}) : c => d : e;
+a ? (x): T => x : e;
+a ? ({x}): T => x : e;
+a ? async (x): Promise<T> => x : e;

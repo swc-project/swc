@@ -1,0 +1,20 @@
+# Each case runs in a separate process with isolated cache-root variables.
+primary
+appcontainer
+authenticated-users
+other-user
+other-user-custom
+other-user-temporary
+programdata-missing
+programdata-relative
+programdata-unsafe
+custom-fallback
+temporary
+missing-primary
+relative-primary
+late-cache-failure
+missing-profile
+relative-profile
+blocked-profile
+unsafe-profile
+integrity

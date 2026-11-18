@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "baseUrl": "./src",
+        "target": "es2018",
+        "parser": {
+            "syntax": "typescript"
+        },
+        "paths": {
+            "@moduleA/*": [
+                "modules/01-moduleA/*"
+            ],
+            "@moduleB/*": [
+                "modules/02-moduleB/*"
+            ]
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}

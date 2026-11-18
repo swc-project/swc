@@ -10,6 +10,25 @@ impl ToJsString for f64 {
     }
 }
 
+/// Parses the canonical non-negative decimal representation of a `usize`.
+///
+/// This does not apply numeric coercion, so distinct ECMAScript property keys
+/// such as `"01"`, `"1.0"`, and `"+1"` are not reinterpreted as the index `1`.
+pub fn parse_canonical_index(property_key: &str) -> Option<usize> {
+    let bytes = property_key.as_bytes();
+    let is_canonical = match bytes {
+        [b'0'] => true,
+        [b'1'..=b'9', rest @ ..] => rest.iter().all(u8::is_ascii_digit),
+        _ => false,
+    };
+
+    if !is_canonical {
+        return None;
+    }
+
+    property_key.parse().ok()
+}
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct JsNumber(f64);
 
@@ -34,6 +53,13 @@ impl std::ops::Deref for JsNumber {
 }
 
 impl JsNumber {
+    /// Applies ECMAScript `ToUint16` conversion.
+    ///
+    /// <https://tc39.es/ecma262/#sec-touint16>
+    pub fn to_uint16(self) -> u16 {
+        self.as_uint32() as u16
+    }
+
     // https://tc39.es/ecma262/#sec-toint32
     fn as_int32(&self) -> i32 {
         self.as_uint32() as i32
@@ -188,9 +214,92 @@ impl std::ops::Not for JsNumber {
     }
 }
 
+fn clz(s: &str) -> usize {
+    s.as_bytes().iter().take_while(|&&c| c == b'0').count()
+}
+
+pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
+    // ddddd -> 0xhhhh
+    // len(0xhhhh) == len(ddddd)
+    // 10000000 <= num <= 0xffffff
+    'hex: {
+        if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
+            let int = num.abs() as u64;
+
+            if int < 10000000 {
+                break 'hex;
+            }
+
+            // use scientific notation
+            if int % 1000 == 0 {
+                break 'hex;
+            }
+
+            *detect_dot = false;
+            return format!(
+                "{}{:#x}",
+                if num.is_sign_negative() { "-" } else { "" },
+                int
+            );
+        }
+    }
+
+    let mut num = num.to_string();
+
+    if num.contains(".") {
+        *detect_dot = false;
+    }
+
+    if let Some(num) = num.strip_prefix("0.") {
+        let cnt = clz(num);
+        if cnt > 2 {
+            return format!("{}e-{}", &num[cnt..], num.len());
+        }
+        return format!(".{num}");
+    }
+
+    if let Some(num) = num.strip_prefix("-0.") {
+        let cnt = clz(num);
+        if cnt > 2 {
+            return format!("-{}e-{}", &num[cnt..], num.len());
+        }
+        return format!("-.{num}");
+    }
+
+    if num.ends_with("000") {
+        *detect_dot = false;
+
+        let cnt = num
+            .as_bytes()
+            .iter()
+            .rev()
+            .skip(3)
+            .take_while(|&&c| c == b'0')
+            .count()
+            + 3;
+
+        num.truncate(num.len() - cnt);
+        num.push('e');
+        num.push_str(&cnt.to_string());
+    }
+
+    num
+}
+
 #[cfg(test)]
 mod test_js_number {
     use super::*;
+
+    #[test]
+    fn test_parse_canonical_index() {
+        assert_eq!(parse_canonical_index("0"), Some(0));
+        assert_eq!(parse_canonical_index("42"), Some(42));
+        assert_eq!(parse_canonical_index(""), None);
+        assert_eq!(parse_canonical_index("01"), None);
+        assert_eq!(parse_canonical_index("1.0"), None);
+        assert_eq!(parse_canonical_index("+1"), None);
+        assert_eq!(parse_canonical_index("-0"), None);
+    }
 
     #[test]
     fn test_as_int32() {
@@ -209,6 +318,20 @@ mod test_js_number {
         assert_eq!(JsNumber(f64::INFINITY).as_uint32(), 0);
         assert_eq!(JsNumber(f64::NEG_INFINITY).as_uint32(), 0);
         assert_eq!(JsNumber(-8.0).as_uint32(), 4294967288);
+    }
+
+    #[test]
+    fn test_to_uint16() {
+        assert_eq!(JsNumber(65.9).to_uint16(), 65);
+        assert_eq!(JsNumber(-1.0).to_uint16(), 65535);
+        assert_eq!(JsNumber(-65535.9).to_uint16(), 1);
+        assert_eq!(JsNumber(65536.0).to_uint16(), 0);
+        assert_eq!(JsNumber(65537.0).to_uint16(), 1);
+        assert_eq!(JsNumber(f64::NAN).to_uint16(), 0);
+        assert_eq!(JsNumber(f64::INFINITY).to_uint16(), 0);
+        assert_eq!(JsNumber(f64::NEG_INFINITY).to_uint16(), 0);
+        assert_eq!(JsNumber(4294967361.0).to_uint16(), 65);
+        assert_eq!(JsNumber(-4294967231.0).to_uint16(), 65);
     }
 
     #[test]

@@ -1,0 +1,33 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
+  "range":[0,28],
+  "body":[
+    {
+      "type":"ExportDefaultDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
+      "range":[0,28],
+      "declaration":{
+        "type":"FunctionDeclaration",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":28}},
+        "range":[15,28],
+        "id":null,
+        "params":[],
+        "body":{
+          "type":"BlockStatement",
+          "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":28}},
+          "range":[26,28],
+          "body":[]
+        },
+        "async":false,
+        "generator":false,
+        "predicate":null,
+        "expression":false,
+        "returnType":null,
+        "typeParameters":null
+      },
+      "exportKind":"value"
+    }
+  ],
+  "comments":[]
+}

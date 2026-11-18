@@ -1,0 +1,7 @@
+UnsupportedSyntax
+
+  x A unary or await expression on the left-hand side of `**` must be parenthesized in strip-only mode
+   ,----
+ 1 | const value = -input as number ** 2;
+   :               ^^^^^^^^^^^^^^^^
+   `----

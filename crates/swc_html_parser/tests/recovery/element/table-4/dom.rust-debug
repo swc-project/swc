@@ -7,6 +7,12 @@
 |         <tr>
 |           <td>
 |             <select>
-|               "foobarbaz"
+|               <math math>
+|                 <math mi>
+|                   "foo"
+|                 <math mi>
+|                   "bar"
+|               <p>
+|                 "baz"
 |     <p>
 |       "quux"

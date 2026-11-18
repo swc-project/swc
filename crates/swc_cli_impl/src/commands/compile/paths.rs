@@ -1,0 +1,234 @@
+use std::path::{Component, Path, PathBuf};
+
+use anyhow::Context;
+use path_absolutize::Absolutize;
+use pathdiff::diff_paths;
+
+/// Resolve the declaration file path that accompanies `output_file_path`.
+///
+/// This follows `tsc`: `.mjs` outputs get `.d.mts`, `.cjs` outputs get
+/// `.d.cts`, and every other output gets `.d.ts`. TypeScript resolves
+/// `import "./a.mjs"` to `a.d.mts` only, so a `.d.ts` next to an `.mjs` file
+/// would never be found by consumers.
+pub fn resolve_declaration_path(output_file_path: &Path) -> PathBuf {
+    let declaration_extension = match output_file_path.extension().and_then(|ext| ext.to_str()) {
+        Some("mjs") => "d.mts",
+        Some("cjs") => "d.cts",
+        _ => "d.ts",
+    };
+
+    output_file_path.with_extension(declaration_extension)
+}
+
+/// Resolve the output path for a compiled file or copied asset under `out_dir`.
+pub fn resolve_output_path(
+    out_dir: &Path,
+    raw_inputs: &[PathBuf],
+    file_path: &Path,
+    file_extension: Option<&str>,
+    strip_leading_paths: bool,
+) -> anyhow::Result<PathBuf> {
+    let out_dir = out_dir.absolutize()?.into_owned();
+    let mut relative_path =
+        resolve_relative_output_path(raw_inputs, file_path, strip_leading_paths)?;
+
+    if let Some(file_extension) = file_extension {
+        relative_path.set_extension(file_extension);
+    }
+
+    Ok(out_dir.join(relative_path))
+}
+
+/// Resolve a source-map source relative to the output file's directory without
+/// changing the input filename or resolving symlinks.
+pub fn resolve_source_file_name(
+    file_path: &Path,
+    output_file_path: &Path,
+) -> anyhow::Result<String> {
+    let file_path = file_path.absolutize()?;
+    let output_file_path = output_file_path.absolutize()?;
+    let output_dir = output_file_path
+        .parent()
+        .context("output file should have a parent directory")?;
+
+    // Different Windows drives or UNC roots require an absolute source path.
+    let source = if file_path.components().next() == output_dir.components().next() {
+        diff_paths(file_path.as_ref(), output_dir).unwrap_or_else(|| file_path.into_owned())
+    } else {
+        file_path.into_owned()
+    };
+    let source = source.to_string_lossy();
+
+    Ok(if cfg!(windows) {
+        source.replace('\\', "/")
+    } else {
+        source.into_owned()
+    })
+}
+
+fn resolve_relative_output_path(
+    raw_inputs: &[PathBuf],
+    file_path: &Path,
+    strip_leading_paths: bool,
+) -> anyhow::Result<PathBuf> {
+    let file_path = file_path.absolutize()?.into_owned();
+
+    if let Some(relative_to_input_dir) = resolve_relative_to_input_dir(raw_inputs, &file_path)? {
+        return Ok(finalize_relative_path(
+            &file_path,
+            relative_to_input_dir,
+            strip_leading_paths,
+        ));
+    }
+
+    let cwd = std::env::current_dir()?;
+    let cwd_relative = diff_paths(&file_path, &cwd).with_context(|| {
+        format!(
+            "failed to make {} relative to {}",
+            file_path.display(),
+            cwd.display()
+        )
+    })?;
+
+    // Absolute inputs outside the current working directory should not recreate
+    // the host filesystem under `out_dir`.
+    let base_path = if file_path.is_absolute() && starts_with_parent_component(&cwd_relative) {
+        fallback_relative_path(&file_path)?
+    } else {
+        cwd_relative
+    };
+
+    Ok(finalize_relative_path(
+        &file_path,
+        base_path,
+        strip_leading_paths,
+    ))
+}
+
+fn resolve_relative_to_input_dir(
+    raw_inputs: &[PathBuf],
+    file_path: &Path,
+) -> anyhow::Result<Option<PathBuf>> {
+    let input_dir = match raw_inputs.iter().find(|path| path.is_dir()) {
+        Some(input_dir) => input_dir,
+        None => return Ok(None),
+    };
+
+    let input_dir = input_dir.absolutize()?.into_owned();
+    let stripped = match file_path.strip_prefix(&input_dir) {
+        Ok(stripped) => stripped,
+        Err(_) => return Ok(None),
+    };
+
+    let cwd = std::env::current_dir()?.absolutize()?.into_owned();
+    let mut relative_path = PathBuf::new();
+
+    if input_dir != cwd {
+        if let Some(dir_name) = input_dir.file_name() {
+            relative_path.push(dir_name);
+        }
+    }
+
+    if !stripped.as_os_str().is_empty() {
+        relative_path.push(stripped);
+    }
+
+    Ok(Some(relative_path))
+}
+
+fn finalize_relative_path(
+    file_path: &Path,
+    base_path: PathBuf,
+    strip_leading_paths: bool,
+) -> PathBuf {
+    let mut relative_path = sanitize_relative_path(base_path, strip_leading_paths);
+
+    if relative_path.as_os_str().is_empty() {
+        relative_path = fallback_file_name(file_path);
+    }
+
+    relative_path
+}
+
+fn sanitize_relative_path(path: PathBuf, strip_leading_paths: bool) -> PathBuf {
+    let mut sanitized = PathBuf::new();
+    let mut stripped_first_component = !strip_leading_paths;
+
+    for component in path.components() {
+        match component {
+            Component::Normal(component) => {
+                if !stripped_first_component {
+                    stripped_first_component = true;
+                    continue;
+                }
+
+                sanitized.push(component);
+            }
+            Component::CurDir
+            | Component::ParentDir
+            | Component::RootDir
+            | Component::Prefix(_) => {
+                // Ignore non-normal components so output paths cannot escape
+                // the destination directory or recreate
+                // host-specific prefixes.
+            }
+        }
+    }
+
+    sanitized
+}
+
+fn fallback_relative_path(file_path: &Path) -> anyhow::Result<PathBuf> {
+    let mut path = PathBuf::new();
+
+    if let Some(parent_name) = file_path.parent().and_then(Path::file_name) {
+        path.push(parent_name);
+    }
+
+    path.push(
+        file_path
+            .file_name()
+            .context("Filename should be available for output path fallback")?,
+    );
+
+    Ok(path)
+}
+
+fn fallback_file_name(file_path: &Path) -> PathBuf {
+    file_path
+        .file_name()
+        .map(PathBuf::from)
+        .unwrap_or_else(|| PathBuf::from("unknown"))
+}
+
+fn starts_with_parent_component(path: &Path) -> bool {
+    matches!(path.components().next(), Some(Component::ParentDir))
+}
+
+#[cfg(test)]
+mod tests {
+    use std::path::Path;
+
+    use super::resolve_declaration_path;
+
+    #[test]
+    fn declaration_path_follows_output_extension() {
+        // Issue #12554: `tsc` pairs `.mjs` with `.d.mts` and `.cjs` with `.d.cts`.
+        for (output, expected) in [
+            ("dist/a.mjs", "dist/a.d.mts"),
+            ("dist/b.cjs", "dist/b.d.cts"),
+            ("dist/c.js", "dist/c.d.ts"),
+            ("dist/d.jsx", "dist/d.d.ts"),
+            ("dist/e", "dist/e.d.ts"),
+            // Only the last extension decides the declaration extension.
+            ("dist/f.min.mjs", "dist/f.min.d.mts"),
+            ("dist/g.mjs.js", "dist/g.mjs.d.ts"),
+        ] {
+            assert_eq!(
+                resolve_declaration_path(Path::new(output)),
+                Path::new(expected),
+                "declaration path for {output}"
+            );
+        }
+    }
+}

@@ -1,7 +1,7 @@
 use par_iter::prelude::*;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Value};
+use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
@@ -39,24 +39,13 @@ impl Pure<'_> {
                 right,
                 ..
             }) if match &*left {
-                AssignTargetPat::Array(arr) => {
-                    arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none())
+                AssignTargetPat::Object(obj) => {
+                    obj.props.is_empty()
+                        && !matches!(
+                            right.get_type(self.expr_ctx),
+                            Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                        )
                 }
-                _ => false,
-            } =>
-            {
-                report_change!("Dropping assignment to an empty array pattern");
-                self.changed = true;
-                *e = *right.take();
-            }
-
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left: AssignTarget::Pat(left),
-                right,
-                ..
-            }) if match &*left {
-                AssignTargetPat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
             {
@@ -76,12 +65,10 @@ impl Pure<'_> {
             match &*ls.body {
                 Stmt::Break(BreakStmt {
                     label: Some(label), ..
-                }) => {
-                    if label.sym == ls.label.sym {
-                        self.changed = true;
-                        report_change!("Dropping instant break `{}`", label);
-                        *s = Stmt::dummy();
-                    }
+                }) if label.sym == ls.label.sym => {
+                    self.changed = true;
+                    report_change!("Dropping instant break `{}`", label);
+                    *s = Stmt::dummy();
                 }
 
                 Stmt::Break(BreakStmt { label: None, .. }) => {
@@ -152,15 +139,13 @@ impl Pure<'_> {
                             let mut cons = bs.take();
                             cons.stmts.remove(0);
 
-                            ls.body = Box::new(
-                                IfStmt {
-                                    span: ls.span,
-                                    test,
-                                    cons: Box::new(Stmt::Block(cons)),
-                                    alt: None,
-                                }
-                                .into(),
-                            );
+                            *ls.body = IfStmt {
+                                span: ls.span,
+                                test,
+                                cons: Box::new(Stmt::Block(cons)),
+                                alt: None,
+                            }
+                            .into();
                             return None;
                         }
                     }
@@ -190,15 +175,13 @@ impl Pure<'_> {
                             let mut new_cons = bs.take();
                             new_cons.stmts[0] = cons;
 
-                            ls.body = Box::new(
-                                IfStmt {
-                                    span: ls.span,
-                                    test,
-                                    cons: Box::new(Stmt::Block(new_cons)),
-                                    alt: None,
-                                }
-                                .into(),
-                            );
+                            *ls.body = IfStmt {
+                                span: ls.span,
+                                test,
+                                cons: Box::new(Stmt::Block(new_cons)),
+                                alt: None,
+                            }
+                            .into();
                             return None;
                         }
                     }
@@ -405,12 +388,9 @@ impl Pure<'_> {
                     }
                     if let Some(h) = t.handler.as_mut() {
                         if let Some(stmt) = h.body.stmts.last_mut() {
-                            changed |= drop(stmt, last, need_break, ctx);
-                        }
-                    }
-                    if let Some(f) = t.finalizer.as_mut() {
-                        if let Some(stmt) = f.stmts.last_mut() {
-                            changed |= drop(stmt, last, need_break, ctx);
+                            if t.finalizer.is_none() {
+                                changed |= drop(stmt, last, need_break, ctx);
+                            }
                         }
                     }
                     changed
@@ -523,20 +503,21 @@ impl Pure<'_> {
     }
 
     pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {
-        if let Stmt::Return(r) = s {
-            if let Some(Expr::Unary(UnaryExpr {
-                span,
-                op: op!("void"),
-                arg,
-            })) = r.arg.as_deref_mut()
-            {
-                report_change!("unused: Removing `return void` in end of a function");
+        if let Stmt::Return(ReturnStmt {
+            arg: Some(arg),
+            span,
+            ..
+        }) = s
+        {
+            if let Value::Known(Type::Undefined) = arg.get_type(self.expr_ctx) {
+                report_change!("unused: Removing `return undefined` in end of a function");
+
                 self.changed = true;
-                *s = ExprStmt {
+
+                *s = Stmt::Expr(ExprStmt {
                     span: *span,
                     expr: arg.take(),
-                }
-                .into();
+                })
             }
         }
     }
@@ -666,7 +647,12 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..) => {
+            Expr::Unary(..) | Expr::Bin(..) | Expr::Cond(..)
+                if !arg.may_have_side_effects(ExprCtx {
+                    is_unresolved_ref_safe: true,
+                    ..self.expr_ctx
+                }) =>
+            {
                 *e = make_bool(e.span(), true);
             }
 

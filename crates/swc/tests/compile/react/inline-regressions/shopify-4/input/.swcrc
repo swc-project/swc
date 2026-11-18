@@ -1,0 +1,9 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true
+    },
+    "externalHelpers": false
+  }
+}

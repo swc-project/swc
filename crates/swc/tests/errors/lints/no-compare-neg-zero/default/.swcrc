@@ -1,9 +1,0 @@
-{
-    "jsc": {
-        "lints": {
-            "no-compare-neg-zero": [
-                "error"
-            ]
-        }
-    }
-}

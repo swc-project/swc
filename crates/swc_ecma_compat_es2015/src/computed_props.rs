@@ -6,7 +6,6 @@ use swc_ecma_utils::{quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
-use swc_trace_macro::swc_trace;
 
 /// `@babel/plugin-transform-computed-properties`
 ///
@@ -60,7 +59,6 @@ struct ComputedProps {
     c: Config,
 }
 
-#[swc_trace]
 impl VisitMut for ComputedProps {
     noop_visit_mut_type!(fail);
 
@@ -159,36 +157,8 @@ impl VisitMut for ComputedProps {
                                 _ => None,
                             };
                             let (key, function) = match prop {
-                                Prop::Getter(GetterProp {
-                                    span, body, key, ..
-                                }) => (
-                                    key,
-                                    Box::new(Function {
-                                        span,
-                                        body,
-                                        is_async: false,
-                                        is_generator: false,
-                                        params: Vec::new(),
-                                        ..Default::default()
-                                    }),
-                                ),
-                                Prop::Setter(SetterProp {
-                                    span,
-                                    body,
-                                    param,
-                                    key,
-                                    ..
-                                }) => (
-                                    key,
-                                    Box::new(Function {
-                                        span,
-                                        body,
-                                        is_async: false,
-                                        is_generator: false,
-                                        params: vec![(*param).into()],
-                                        ..Default::default()
-                                    }),
-                                ),
+                                Prop::Getter(GetterProp { key, function, .. }) => (key, function),
+                                Prop::Setter(SetterProp { key, function, .. }) => (key, function),
                                 _ => unreachable!(),
                             };
 
@@ -368,7 +338,6 @@ impl Visit for ComplexVisitor {
     }
 }
 
-#[swc_trace]
 impl ComputedProps {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where

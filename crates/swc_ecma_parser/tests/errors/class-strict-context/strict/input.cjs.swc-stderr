@@ -1,0 +1,6 @@
+  x Legacy octal escape is not permitted in strict mode
+   ,-[$DIR/tests/errors/class-strict-context/strict/input.cjs:3:1]
+ 2 | class C {}
+ 3 | 010;
+   : ^^^
+   `----

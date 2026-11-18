@@ -11,10 +11,11 @@ use anyhow::{anyhow, Context, Error};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use swc_atoms::Atom;
-use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
+#[cfg(debug_assertions)]
 use tracing::{debug, info, warn, Level};
 
 #[derive(Default)]
@@ -28,6 +29,13 @@ pub enum Resolver {
 }
 
 impl Resolver {
+    pub(crate) fn base(&self) -> Option<&FileName> {
+        match self {
+            Self::Real { base, .. } => Some(base),
+            Self::Default => None,
+        }
+    }
+
     pub(crate) fn resolve(&self, src: Atom) -> Atom {
         match self {
             Self::Real { resolver, base } => resolver
@@ -46,10 +54,14 @@ impl Resolver {
     ) -> Expr {
         let src = self.resolve(src);
 
+        // Use the module specifier span for the call and the `require` callee, so
+        // that the generated source map points runtime frames of the call back to
+        // the original import. Otherwise only the string argument is mapped.
         CallExpr {
-            span: DUMMY_SP,
+            span: src_span,
             callee: quote_ident!(
                 SyntaxContext::empty().apply_mark(unresolved_mark),
+                src_span,
                 "require"
             )
             .as_callee(),
@@ -72,7 +84,7 @@ pub trait ImportResolver {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error>;
 }
 
-/// [ImportResolver] implementation which just uses original source.
+/// [`ImportResolver`] implementation which just uses original source.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct NoopImportResolver;
 
@@ -82,11 +94,11 @@ impl ImportResolver for NoopImportResolver {
     }
 }
 
-/// [ImportResolver] implementation for node.js
+/// [`ImportResolver`] implementation for node.js
 ///
-/// Supports [FileName::Real] and [FileName::Anon] for `base`, [FileName::Real]
-/// and [FileName::Custom] for `target`. ([FileName::Custom] is used for core
-/// modules)
+/// Supports [`FileName::Real`] and [`FileName::Anon`] for `base`,
+/// [`FileName::Real`] and [`FileName::Custom`] for `target`.
+/// ([`FileName::Custom`] is used for core modules)
 #[derive(Debug, Clone, Default)]
 pub struct NodeImportResolver<R>
 where
@@ -94,6 +106,7 @@ where
 {
     resolver: R,
     config: Config,
+    preserve_symlinks: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -118,6 +131,16 @@ where
     R: Resolve,
 {
     pub fn with_config(resolver: R, config: Config) -> Self {
+        Self::with_config_inner(resolver, config, false)
+    }
+
+    /// Creates a resolver that preserves symlink paths when rewriting module
+    /// specifiers.
+    pub fn with_config_preserving_symlinks(resolver: R, config: Config) -> Self {
+        Self::with_config_inner(resolver, config, true)
+    }
+
+    fn with_config_inner(resolver: R, config: Config, preserve_symlinks: bool) -> Self {
         #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
         if let Some(base_dir) = &config.base_dir {
             assert!(
@@ -134,7 +157,11 @@ where
             );
         }
 
-        Self { resolver, config }
+        Self {
+            resolver,
+            config,
+            preserve_symlinks,
+        }
     }
 }
 
@@ -143,6 +170,7 @@ where
     R: Resolve,
 {
     fn to_specifier(&self, mut target_path: PathBuf, orig_filename: Option<&str>) -> Atom {
+        #[cfg(debug_assertions)]
         debug!(
             "Creating a specifier for `{}` with original filename `{:?}`",
             target_path.display(),
@@ -213,6 +241,12 @@ where
             } else if is_resolved_as_non_js && is_resolved_as_index {
                 if orig_filename == "index" {
                     target_path.set_extension("");
+                } else if Path::new(orig_filename).file_stem()
+                    == Some(std::ffi::OsStr::new("index"))
+                {
+                    // User explicitly imported an index file with extension
+                    // (e.g. "./plugins/index.js"), so preserve it.
+                    target_path.set_file_name(orig_filename);
                 } else {
                     target_path.pop();
                 }
@@ -229,6 +263,7 @@ where
     }
 
     fn try_resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error> {
+        #[cfg(debug_assertions)]
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -249,17 +284,22 @@ where
         let mut target = match target {
             Ok(v) => v,
             Err(err) => {
+                #[cfg(debug_assertions)]
                 warn!("import rewriter: failed to resolve: {}", err);
+                #[cfg(not(debug_assertions))]
+                let _ = err;
                 return Ok(module_specifier.into());
             }
         };
 
-        // Bazel uses symlink
-        //
-        // https://github.com/swc-project/swc/issues/8265
-        if let FileName::Real(resolved) = &target.filename {
-            if let Ok(orig) = canonicalize(resolved) {
-                target.filename = FileName::Real(orig);
+        if !self.preserve_symlinks {
+            // Bazel uses symlink
+            //
+            // https://github.com/swc-project/swc/issues/8265
+            if let FileName::Real(resolved) = &target.filename {
+                if let Ok(orig) = canonicalize(resolved) {
+                    target.filename = FileName::Real(orig);
+                }
             }
         }
 
@@ -269,6 +309,7 @@ where
         } = target;
         let slug = slug.as_deref().or(orig_slug);
 
+        #[cfg(debug_assertions)]
         info!("Resolved as {target:?} with slug = {slug:?}");
 
         let mut target = match target {
@@ -305,10 +346,40 @@ where
         };
 
         if base.is_absolute() != target.is_absolute() {
-            base = Cow::Owned(absolute_path(self.config.base_dir.as_deref(), &base)?);
-            target = absolute_path(self.config.base_dir.as_deref(), &target)?;
+            if base.is_absolute() {
+                base = Cow::Owned(base.to_path_buf().clean());
+            } else {
+                base = Cow::Owned(absolute_base_path(self.config.base_dir.as_deref(), &base)?);
+            }
+
+            if target.is_absolute() {
+                target = target.clean();
+            } else {
+                target = absolute_path(self.config.base_dir.as_deref(), &target)?;
+            }
+        } else if target.is_absolute() {
+            // A target anchored at `jsc.baseUrl` (e.g. from `jsc.paths` that points
+            // to a missing file) may contain `..` components, and so may the input
+            // filename. `diff_paths` does not resolve them lexically, so clean both
+            // paths first.
+            if target.components().any(|c| c == Component::ParentDir) {
+                target = target.clean();
+            }
+            if base.components().any(|c| c == Component::ParentDir) {
+                base = Cow::Owned(base.to_path_buf().clean());
+            }
         }
 
+        #[cfg(windows)]
+        {
+            (base, target) = normalize_extended_length_path_prefixes(
+                self.config.base_dir.as_deref(),
+                base,
+                target,
+            );
+        }
+
+        #[cfg(debug_assertions)]
         debug!(
             "Comparing values (after normalizing absoluteness)\nbase={}\ntarget={}",
             base.display(),
@@ -322,6 +393,7 @@ where
             None => return Ok(self.to_specifier(target, slug)),
         };
 
+        #[cfg(debug_assertions)]
         debug!("Relative path: {}", rel_path.display());
 
         {
@@ -373,7 +445,10 @@ where
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<Atom, Error> {
         self.try_resolve_import(base, module_specifier)
             .or_else(|err| {
+                #[cfg(debug_assertions)]
                 warn!("Failed to resolve import: {}", err);
+                #[cfg(not(debug_assertions))]
+                let _ = err;
                 Ok(module_specifier.into())
             })
     }
@@ -408,4 +483,189 @@ fn absolute_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
     .clean();
 
     Ok(absolute_path)
+}
+
+fn absolute_base_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
+    if path.is_absolute() {
+        return Ok(path.to_path_buf().clean());
+    }
+
+    let Some(base_dir) = base_dir else {
+        return absolute_path(None, path);
+    };
+
+    let base_dir_path = base_dir.join(path).clean();
+    let cwd = match current_dir() {
+        Ok(path) => normalize_path_prefix_like(base_dir, path.clean()),
+        Err(_) => return Ok(base_dir_path),
+    };
+
+    Ok(absolute_base_path_with_cwd(
+        base_dir,
+        path,
+        &cwd,
+        base_dir_path,
+    ))
+}
+
+fn absolute_base_path_with_cwd(
+    base_dir: &Path,
+    path: &Path,
+    cwd: &Path,
+    base_dir_path: PathBuf,
+) -> PathBuf {
+    let cwd_path = cwd.join(path).clean();
+
+    // Relative CLI filenames are rooted at the current process directory. Other
+    // API callers commonly pass filenames relative to `jsc.baseUrl`, so keep
+    // that legacy behavior unless the cwd-rooted path visibly enters baseUrl
+    // from outside it. If cwd is already inside baseUrl, every relative path is
+    // under baseUrl and the interpretation is ambiguous.
+    if cwd_path.starts_with(base_dir) && !cwd.starts_with(base_dir) {
+        cwd_path
+    } else {
+        base_dir_path
+    }
+}
+
+#[cfg(windows)]
+fn normalize_path_prefix_like(reference: &Path, path: PathBuf) -> PathBuf {
+    let reference = reference.as_os_str().to_string_lossy();
+    let path_str = path.as_os_str().to_string_lossy();
+
+    normalize_extended_length_path_prefix(&reference, &path_str)
+        .map(PathBuf::from)
+        .unwrap_or(path)
+}
+
+#[cfg(not(windows))]
+fn normalize_path_prefix_like(_: &Path, path: PathBuf) -> PathBuf {
+    path
+}
+
+#[cfg(windows)]
+fn normalize_extended_length_path_prefixes<'a>(
+    base_dir: Option<&Path>,
+    base: Cow<'a, Path>,
+    target: PathBuf,
+) -> (Cow<'a, Path>, PathBuf) {
+    if !base.is_absolute() || !target.is_absolute() {
+        return (base, target);
+    }
+
+    let reference = match base_dir {
+        Some(base_dir) if has_extended_length_path_prefix(base_dir) => Some(base_dir.to_path_buf()),
+        _ if has_extended_length_path_prefix(base.as_ref()) => Some(base.to_path_buf()),
+        _ if has_extended_length_path_prefix(&target) => Some(target.clone()),
+        _ => None,
+    };
+
+    let Some(reference) = reference else {
+        return (base, target);
+    };
+
+    // Windows canonicalization often returns extended-length paths (`\\?\...`).
+    // `pathdiff` treats those as a different prefix from ordinary absolute
+    // paths, so align both sides before calculating a relative import.
+    (
+        Cow::Owned(normalize_path_prefix_like(&reference, base.into_owned())),
+        normalize_path_prefix_like(&reference, target),
+    )
+}
+
+#[cfg(windows)]
+fn has_extended_length_path_prefix(path: &Path) -> bool {
+    path.as_os_str().to_string_lossy().starts_with(r"\\?\")
+}
+
+#[cfg(any(test, windows))]
+fn normalize_extended_length_path_prefix(reference: &str, path: &str) -> Option<String> {
+    if !reference.starts_with(r"\\?\") || path.starts_with(r"\\?\") {
+        return None;
+    }
+
+    if !is_windows_absolute_path(path) {
+        return None;
+    }
+
+    if let Some(path) = path.strip_prefix(r"\\") {
+        if path.starts_with(r".\") {
+            return None;
+        }
+
+        return Some(format!(r"\\?\UNC\{path}"));
+    }
+
+    Some(format!(r"\\?\{path}"))
+}
+
+#[cfg(any(test, windows))]
+fn is_windows_absolute_path(path: &str) -> bool {
+    path.starts_with(r"\\") || has_windows_drive_prefix(path)
+}
+
+#[cfg(any(test, windows))]
+fn has_windows_drive_prefix(path: &str) -> bool {
+    let bytes = path.as_bytes();
+
+    bytes.len() >= 3
+        && bytes[0].is_ascii_alphabetic()
+        && bytes[1] == b':'
+        && matches!(bytes[2], b'/' | b'\\')
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn absolute_base_path_keeps_base_dir_when_cwd_is_inside_base_dir() {
+        let base_dir = Path::new("/repo");
+        let cwd = Path::new("/repo/packages/app");
+        let path = Path::new("src");
+
+        assert_eq!(
+            absolute_base_path_with_cwd(base_dir, path, cwd, base_dir.join(path).clean()),
+            PathBuf::from("/repo/src")
+        );
+    }
+
+    #[test]
+    fn absolute_base_path_uses_cwd_when_relative_path_enters_base_dir() {
+        let base_dir = Path::new("/repo/bazel-out/foo-app");
+        let cwd = Path::new("/repo");
+        let path = Path::new("bazel-out/foo-app/src");
+
+        assert_eq!(
+            absolute_base_path_with_cwd(base_dir, path, cwd, base_dir.join(path).clean()),
+            PathBuf::from("/repo/bazel-out/foo-app/src")
+        );
+    }
+
+    #[test]
+    fn extended_unc_prefix_uses_canonical_unc_form() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(
+                r"\\?\UNC\server\share\repo",
+                r"\\server\share\repo\src"
+            ),
+            Some(r"\\?\UNC\server\share\repo\src".into())
+        );
+    }
+
+    #[test]
+    fn extended_drive_prefix_preserves_drive_form() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(r"\\?\C:\repo", r"C:\repo\src"),
+            Some(r"\\?\C:\repo\src".into())
+        );
+    }
+
+    #[test]
+    fn extended_drive_prefix_skips_relative_path() {
+        assert_eq!(
+            normalize_extended_length_path_prefix(r"\\?\C:\repo", r"repo\src"),
+            None
+        );
+    }
 }

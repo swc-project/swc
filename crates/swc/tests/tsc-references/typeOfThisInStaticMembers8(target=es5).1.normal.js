@@ -17,9 +17,9 @@ C.classExprBoundary = function _class() {
     this.a = this.f + 3;
 };
 C.functionAndClassDeclBoundary = function() {
-    var foo = function foo() {
+    function foo() {
         return this.f + 4;
-    };
+    }
     var CC = /*#__PURE__*/ function() {
         "use strict";
         function CC() {

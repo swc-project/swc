@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "lints": {
+            "noConsole": [
+                "error"
+            ]
+        },
+        "experimental": {
+            "disableAllLints": false
+        }
+    },
+    "isModule": "unknown"
+}

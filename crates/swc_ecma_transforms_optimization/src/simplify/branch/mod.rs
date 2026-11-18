@@ -9,11 +9,13 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_utils::{
     extract_var_ids, is_literal, prepend_stmt, ExprCtx, ExprExt, ExprFactory, Hoister, IsEmpty,
-    StmtExt, StmtLike, Value::Known,
+    StmtExt, StmtLike, Type,
+    Value::{self, Known},
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
 };
+#[cfg(debug_assertions)]
 use tracing::{debug, trace};
 
 #[cfg(test)]
@@ -104,6 +106,7 @@ impl VisitMut for Remover {
             } =>
             {
                 if cfg!(feature = "debug") {
+                    #[cfg(debug_assertions)]
                     debug!("Dropping assignment to the same variable");
                 }
                 *e = r.take().ident().unwrap().into();
@@ -122,6 +125,7 @@ impl VisitMut for Remover {
             } =>
             {
                 if cfg!(feature = "debug") {
+                    #[cfg(debug_assertions)]
                     debug!("Dropping assignment to an empty array pattern");
                 }
                 *e = *right.take();
@@ -133,11 +137,18 @@ impl VisitMut for Remover {
                 right,
                 ..
             }) if match &*left {
-                AssignTargetPat::Object(obj) => obj.props.is_empty(),
+                AssignTargetPat::Object(obj) => {
+                    obj.props.is_empty()
+                        && !matches!(
+                            right.get_type(self.expr_ctx),
+                            Value::Known(Type::Null | Type::Undefined) | Value::Unknown
+                        )
+                }
                 _ => false,
             } =>
             {
                 if cfg!(feature = "debug") {
+                    #[cfg(debug_assertions)]
                     debug!("Dropping assignment to an empty object pattern");
                 }
                 *e = *right.take();
@@ -159,6 +170,7 @@ impl VisitMut for Remover {
                             }) if !arg.may_have_side_effects(self.expr_ctx))) =>
             {
                 if cfg!(feature = "debug") {
+                    #[cfg(debug_assertions)]
                     debug!("Dropping side-effect-free expressions");
                 }
                 *e = *cond.cons.take();
@@ -224,6 +236,7 @@ impl VisitMut for Remover {
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         if cfg!(feature = "debug") {
+            #[cfg(debug_assertions)]
             debug!("Removing dead branches");
         }
         self.fold_stmt_like(n);
@@ -249,6 +262,7 @@ impl VisitMut for Remover {
                 } =>
             {
                 if cfg!(feature = "debug") {
+                    #[cfg(debug_assertions)]
                     debug!(
                         "Dropping key-value pattern property because it's an empty object pattern"
                     );
@@ -263,6 +277,7 @@ impl VisitMut for Remover {
                 } =>
             {
                 if cfg!(feature = "debug") {
+                    #[cfg(debug_assertions)]
                     debug!(
                         "Dropping key-value pattern property because it's an empty array pattern"
                     );
@@ -410,6 +425,7 @@ impl VisitMut for Remover {
                     let mut stmts = Vec::new();
                     if let (p, Known(v)) = test.cast_to_bool(self.expr_ctx) {
                         if cfg!(feature = "debug") {
+                            #[cfg(debug_assertions)]
                             trace!("The condition for if statement is always {}", v);
                         }
 
@@ -441,6 +457,7 @@ impl VisitMut for Remover {
                         }
 
                         if cfg!(feature = "debug") {
+                            #[cfg(debug_assertions)]
                             debug!("Optimized an if statement with known condition");
                         }
 
@@ -483,6 +500,7 @@ impl VisitMut for Remover {
 
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                     if cfg!(feature = "debug") {
+                        #[cfg(debug_assertions)]
                         debug!("Dropping an empty var declaration");
                     }
                     EmptyStmt { span: v.span }.into()
@@ -491,7 +509,10 @@ impl VisitMut for Remover {
                 Stmt::Labeled(LabeledStmt {
                     label, span, body, ..
                 }) if body.is_empty() => {
+                    #[cfg(debug_assertions)]
                     debug!("Dropping an empty label statement: `{}`", label);
+                    #[cfg(not(debug_assertions))]
+                    let _ = label;
                     EmptyStmt { span }.into()
                 }
 
@@ -505,6 +526,7 @@ impl VisitMut for Remover {
                     _ => false,
                 } =>
                 {
+                    #[cfg(debug_assertions)]
                     debug!("Dropping a label statement with instant break: `{}`", label);
                     EmptyStmt { span }.into()
                 }
@@ -525,6 +547,7 @@ impl VisitMut for Remover {
                 Stmt::Block(BlockStmt { span, stmts, ctxt }) => {
                     if stmts.is_empty() {
                         if cfg!(feature = "debug") {
+                            #[cfg(debug_assertions)]
                             debug!("Drooping an empty block statement");
                         }
 
@@ -534,6 +557,7 @@ impl VisitMut for Remover {
                         && stmt_depth(&stmts[0]) <= 1
                     {
                         if cfg!(feature = "debug") {
+                            #[cfg(debug_assertions)]
                             debug!("Optimizing a block statement with a single statement");
                         }
 
@@ -573,6 +597,7 @@ impl VisitMut for Remover {
                     // block.
                     if handler.is_none() && finalizer.is_empty() {
                         if cfg!(feature = "debug") {
+                            #[cfg(debug_assertions)]
                             debug!("Converting a try statement to a block statement");
                         }
 
@@ -664,6 +689,7 @@ impl VisitMut for Remover {
                     // Remove empty switch
                     if s.cases.is_empty() {
                         if cfg!(feature = "debug") {
+                            #[cfg(debug_assertions)]
                             debug!("Removing an empty switch statement");
                         }
                         return match ignore_result(s.discriminant, true, self.expr_ctx) {
@@ -678,6 +704,7 @@ impl VisitMut for Remover {
                         && !has_conditional_stopper(&s.cases[0].cons)
                     {
                         if cfg!(feature = "debug") {
+                            #[cfg(debug_assertions)]
                             debug!("Switch -> Block as default is the only case");
                         }
 
@@ -716,7 +743,7 @@ impl VisitMut for Remover {
                                     (
                                         &Expr::Lit(Lit::Num(Number { value: test, .. })),
                                         &Expr::Lit(Lit::Num(Number { value: d, .. })),
-                                    ) => (test - d).abs() < 1e-10,
+                                    ) => test == d || (test - d).abs() < 1e-10,
                                     (
                                         &Expr::Lit(Lit::Bool(Bool { value: test, .. })),
                                         &Expr::Lit(Lit::Bool(Bool { value: d, .. })),
@@ -820,6 +847,7 @@ impl VisitMut for Remover {
                             }
 
                             if cfg!(feature = "debug") {
+                                #[cfg(debug_assertions)]
                                 debug!("Switch -> Block as we know discriminant");
                             }
                             let mut block: Stmt = BlockStmt {
@@ -879,6 +907,7 @@ impl VisitMut for Remover {
                                     block.visit_mut_with(self);
 
                                     if cfg!(feature = "debug") {
+                                        #[cfg(debug_assertions)]
                                         debug!("Switch -> Block as the discriminant is a literal");
                                     }
                                     return block;
@@ -905,6 +934,7 @@ impl VisitMut for Remover {
                                 if breaked {
                                     idx += 1;
                                     if cfg!(feature = "debug") {
+                                        #[cfg(debug_assertions)]
                                         debug!("Dropping case because it is unreachable");
                                     }
                                     return None;
@@ -933,6 +963,7 @@ impl VisitMut for Remover {
                                         .for_each(|stmt| var_ids.extend(stmt.extract_var_ids()));
 
                                     if cfg!(feature = "debug") {
+                                        #[cfg(debug_assertions)]
                                         debug!(
                                             "Dropping case because it is unreachable (literal \
                                              test)"
@@ -1002,6 +1033,7 @@ impl VisitMut for Remover {
                             }
 
                             if cfg!(feature = "debug") {
+                                #[cfg(debug_assertions)]
                                 debug!("Stmt -> Block as all cases are empty");
                             }
                             let mut block: Stmt = BlockStmt {
@@ -1036,6 +1068,7 @@ impl VisitMut for Remover {
                             .all(|case| !has_conditional_stopper(&case.cons))
                         {
                             if cfg!(feature = "debug") {
+                                #[cfg(debug_assertions)]
                                 debug!("Removing swtich because all cases are unreachable");
                             }
 
@@ -1078,6 +1111,7 @@ impl VisitMut for Remover {
                     } =>
                 {
                     if cfg!(feature = "debug") {
+                        #[cfg(debug_assertions)]
                         debug!("Optimizing a for statement with a false test");
                     }
 
@@ -1182,6 +1216,7 @@ impl VisitMut for Remover {
                         match &v.name {
                             Pat::Object(o) if o.props.is_empty() => {
                                 if cfg!(feature = "debug") {
+                                    #[cfg(debug_assertions)]
                                     debug!("Dropping an object pattern in a var declaration");
                                 }
 
@@ -1189,6 +1224,7 @@ impl VisitMut for Remover {
                             }
                             Pat::Array(a) if a.elems.is_empty() => {
                                 if cfg!(feature = "debug") {
+                                    #[cfg(debug_assertions)]
                                     debug!("Dropping an array pattern in a var declaration");
                                 }
 
@@ -1201,6 +1237,7 @@ impl VisitMut for Remover {
 
                     if decls.is_empty() {
                         if cfg!(feature = "debug") {
+                            #[cfg(debug_assertions)]
                             debug!("Dropping a useless variable declaration");
                         }
 
@@ -1338,6 +1375,7 @@ impl Remover {
                                 self.changed = true;
 
                                 if cfg!(feature = "debug") {
+                                    #[cfg(debug_assertions)]
                                     debug!("Dropping statements after a control keyword");
                                 }
                             }

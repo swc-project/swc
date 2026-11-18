@@ -1,0 +1,6 @@
+  x Unexpected empty function pattern
+   ,-[$DIR/tests/compile/lints/no-empty-function/no-consider-comments/input/input.js:1:1]
+ 1 | ,-> function foo1() {
+ 2 | |       // comment into
+ 3 | `-> }
+   `----

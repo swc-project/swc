@@ -1,6 +1,11 @@
 //! Regex cache
 
-use std::{ops::Deref, str::FromStr, sync::Arc};
+use std::{
+    hash::{Hash, Hasher},
+    ops::Deref,
+    str::FromStr,
+    sync::Arc,
+};
 
 pub use anyhow::Error;
 use anyhow::{Context, Result};
@@ -24,6 +29,24 @@ impl Deref for CachedRegex {
 
     fn deref(&self) -> &Self::Target {
         &self.regex
+    }
+}
+
+// Note: PartialEq, Eq, and Hash for CachedRegex should use the pattern string
+// for comparison and hashing, as recommended in https://github.com/rust-lang/regex/issues/670.
+// These traits are implemented below by delegating to the `as_str()` of the
+// internal Regex.
+impl PartialEq for CachedRegex {
+    fn eq(&self, other: &Self) -> bool {
+        self.regex.as_str() == other.regex.as_str()
+    }
+}
+
+impl Eq for CachedRegex {}
+
+impl Hash for CachedRegex {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.regex.as_str().hash(state);
     }
 }
 

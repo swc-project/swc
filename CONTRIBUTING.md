@@ -18,6 +18,17 @@ and unexpected behavior.
 
 You can open a new issue by following [this link][new-issues] and choosing one of the issue templates.
 
+### Where to file a bug
+
+-   File a bug in [swc-project/swc][issue-tracker] only if you actually
+    encountered it in real use. In the issue, describe the situation in which
+    the bug caused a problem. For example, tell us which project or build
+    broke, what you tried to do, and what went wrong.
+-   If you found a bug but did not encounter it in real use (for example, you
+    found it by reading the source code, by static analysis, by fuzzing, or
+    with an AI tool), file it in
+    [swc-project/swc-ai-issues][ai-issues] instead.
+
 ## Feature requests
 
 Please feel free to open an issue using the [feature request template][new-issues].
@@ -35,6 +46,9 @@ The SWC core developers will do their best to provide help.
 If you start working on an already-filed issue, post a comment on this issue to
 let people know that somebody is working it. Feel free to ask for comments if
 you are unsure about the solution you would like to submit.
+
+The pull request workflow below is for accounts that meet the
+[pull request requirements](#pull-requests).
 
 We use the "fork and pull" model [described here][development-models], where
 contributors push changes to their personal fork and create pull requests to
@@ -89,7 +103,7 @@ For running all tests, take the following steps:
    Ensure [Yarn Package Manager is installed](https://yarnpkg.com/getting-started/install)
 
     ```bash
-    yarn
+    pnpm install
     ```
 
 3. Setup some environment variables which is required for tests.
@@ -126,6 +140,10 @@ For running all tests, take the following steps:
 
     **TIP**: If you see errors while attempting to run the commands above, we usually do not run all tests at once. Instead, we run tests per package ([see below](#running-tests-per-package)), which you can use to verify your local setup.
 
+Local `pnpm build` and `pnpm build:dev` install cargo-fixit once and apply
+Clippy fixes before compiling. Review the source diff afterward. CI stays
+read-only and caches Clippy builds with Mr Boxington.
+
 ## Running tests per package
 
 While working on specific packages, individual tests can be run by specifying a package to the
@@ -147,24 +165,49 @@ Run the patch script from the repo root, providing the path to your project as t
 
 The script will:
 
-- Add necessary patches to `bindings/Cargo.toml`
-- Update Cargo dependencies
-- Build the project
+- Build the project (`pnpm build:dev`)
 - Update your project's `package.json` to use the local `@swc/core`
 
 If `@swc/core` is not found in your project's dependencies, the script will provide instructions for adding it based on your package manager (yarn, npm, or pnpm).
 
-To revert the changes:
+The script does not modify any Cargo files in this repository.
 
-1. Restore the original Cargo files in this repository:
-
-    ```bash
-    git restore bindings/Cargo.toml bindings/Cargo.lock
-    ```
-
-2. Update your overriden project's `package.json` to use the published version of `@swc/core`
+To revert the changes, update your overridden project's `package.json` to use the published version of `@swc/core`.
 
 ## Pull requests
+
+SWC accepts pull requests from bot accounts, users with write access or higher
+to this repository, and contributors listed in
+[`.github/contributors.yml`](.github/contributors.yml). Next.js and Turbopack
+contributors share the `nextjs` group; React contributors use the `react` group.
+Individual and Rspack contributors have their own groups. Every group grants the
+same access, and usernames are compared case-insensitively. Organization
+membership and triage access alone do not grant an exception.
+
+Pull requests from other accounts are automatically closed with an explanation,
+and their CI builds and benchmarks are skipped. If your account does not meet the
+requirements above, please [open an issue][new-issues] describing the bug or
+proposed improvement instead of submitting a pull request.
+
+The policy is checked when a pull request is opened, reopened, or updated;
+existing pull requests are not scanned in bulk. Configuration errors and GitHub
+API failures stop the policy check and CI, without automatically closing the
+pull request.
+
+Maintainers should add usernames as YAML list entries in the appropriate group.
+For example, replace `individuals: []` with `individuals: [github-username]`.
+Changes to the policy must be merged into the default branch before they take
+effect; a pull request cannot authorize itself by editing the contributor list.
+Bots are recognized by GitHub's account type, not a username suffix. A machine
+account with the `User` type follows the same access rules as any other user.
+
+When deploying this policy, first merge the contributor action, configuration,
+and automatic closure workflow, then enable the CI gates after those files are
+available on the default branch. Populate and validate the external contributor
+list before changing **Settings > General > Features > Pull requests** from
+**Collaborators only** to **Everyone**. Until then, GitHub still restricts PR
+creation to repository writers. The existing approval policy for workflows from
+forks remains in effect even for allowlisted contributors.
 
 After the pull request is made, one of the SWC project developers will review your code.
 The review-process will make sure that the proposed changes are sound.
@@ -176,6 +219,12 @@ to be tested after the pull request is made. In case unforeseen
 problems are discovered during this step (e.g. a failure on a platform you
 originally did not develop on), you may ask for guidance. Push additional
 commits to your branch to tackle these problems.
+
+Keep each pull request to one logical change. Do not add unrelated changes,
+such as unrelated refactors, formatting, or dependency updates, to your pull
+request. If CI fails for a reason that your pull request does not cause, do
+not fix the failure in your pull request. Fix it in a separate pull request,
+or ask a maintainer for help.
 
 The reviewer might point out changes deemed necessary. Please add them as
 extra commits; this ensures that the reviewer can see what has changed since
@@ -244,6 +293,7 @@ adding labels to triage issues:
 
 [gist]: https://gist.github.com/
 [new-issues]: https://github.com/swc-project/swc/issues/new/choose
+[ai-issues]: https://github.com/swc-project/swc-ai-issues
 [e-easy]: https://github.com/swc-project/swc/labels/E-easy
 [e-mentor]: https://github.com/swc-project/swc/labels/E-mentor
 [code of conduct]: https://www.rust-lang.org/conduct.html

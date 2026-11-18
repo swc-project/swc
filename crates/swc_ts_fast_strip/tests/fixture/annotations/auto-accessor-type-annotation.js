@@ -1,0 +1,1 @@
+class C { accessor value      ; }

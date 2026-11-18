@@ -1,10 +1,21 @@
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token, parser::class_and_fn::is_not_this, Context,
-    PResult, Parser,
+    error::SyntaxError,
+    input::Tokens,
+    lexer::Token,
+    parser::{BoundaryContext, TypeContext},
+    Context, PResult, Parser,
 };
+
+fn prop_name_is(key: &PropName, expected: &str) -> bool {
+    match key {
+        PropName::Ident(ident) => ident.sym == *expected,
+        PropName::Str(value) => value.value == *expected,
+        _ => false,
+    }
+}
 
 impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_object<Object, ObjectProp>(
@@ -12,7 +23,7 @@ impl<I: Tokens> Parser<I> {
         parse_prop: impl Fn(&mut Self) -> PResult<ObjectProp>,
         make_object: impl Fn(&mut Self, Span, Vec<ObjectProp>, Option<Span>) -> PResult<Object>,
     ) -> PResult<Object> {
-        self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+        self.do_outside_of_type_context(TypeContext::WillExpectColonForCond, |p| {
             trace_cur!(p, parse_object);
 
             let start = p.cur_pos();
@@ -55,6 +66,7 @@ impl<I: Tokens> Parser<I> {
             }));
         }
 
+        let escaped_keyword_error = self.escaped_keyword_error();
         let key = self.parse_prop_name()?;
         if self.input_mut().eat(Token::Colon) {
             let value = Box::new(self.parse_binding_element()?);
@@ -66,11 +78,42 @@ impl<I: Tokens> Parser<I> {
             _ => unexpected!(self, "an identifier"),
         };
 
+        // A shorthand key is a binding identifier even when it has a default.
+        if let Some(error) = escaped_keyword_error {
+            self.emit_error(error);
+        }
         let value = if self.input_mut().eat(Token::Eq) {
-            self.allow_in_expr(Self::parse_assignment_expr).map(Some)?
+            with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)
+                .map(Some)?
         } else {
-            if self.ctx().is_reserved_word(&key.sym) {
+            let ctx = self.ctx();
+            if self.word_is_reserved(&key.sym) {
                 self.emit_err(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
+            }
+
+            if self.syntax().flow() {
+                match &*key.sym {
+                    "eval" | "arguments" if ctx.contains(Context::Strict) => {
+                        self.emit_err(key.span, SyntaxError::EvalAndArgumentsInStrict);
+                    }
+                    "await"
+                        if self.includes_await_expr()
+                            || self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
+                            || ctx.contains(Context::Module) =>
+                    {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInAsync);
+                    }
+                    "yield" if self.includes_yield_expr() || ctx.contains(Context::Strict) => {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInStrict(key.sym.clone()));
+                    }
+                    "implements" | "interface" | "package" | "private" | "protected" | "public"
+                    | "static"
+                        if ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(key.span, SyntaxError::InvalidIdentInStrict(key.sym.clone()));
+                    }
+                    _ => {}
+                }
             }
 
             None
@@ -110,7 +153,8 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let optional = (self.input().syntax().dts() || self.ctx().contains(Context::InDeclare))
+        let optional = (self.input().syntax().dts()
+            || self.type_ctx().contains(TypeContext::InDeclare))
             && self.input_mut().eat(Token::QuestionMark);
 
         Ok(ObjectPat {
@@ -133,9 +177,13 @@ impl<I: Tokens> Parser<I> {
         trailing_comma: Option<Span>,
     ) -> PResult<Expr> {
         if let Some(trailing_comma) = trailing_comma {
-            self.state_mut()
-                .trailing_commas
-                .insert(span.lo, trailing_comma);
+            // Preserve the comma only if cover grammar can turn the last property into
+            // rest.
+            if matches!(props.last(), Some(PropOrSpread::Spread(_))) {
+                self.state_mut()
+                    .trailing_commas
+                    .insert(span.lo, trailing_comma);
+            }
         }
         Ok(ObjectLit { span, props }.into())
     }
@@ -150,7 +198,8 @@ impl<I: Tokens> Parser<I> {
             // spread element
             let dot3_token = self.span(start);
 
-            let expr = self.allow_in_expr(Self::parse_assignment_expr)?;
+            let expr =
+                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
 
             return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
         }
@@ -158,8 +207,8 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().eat(Token::Asterisk) {
             let name = self.parse_prop_name()?;
             return self
-                .do_inside_of_context(Context::AllowDirectSuper, |p| {
-                    p.do_outside_of_context(Context::InClassField, |p| {
+                .do_inside_of_boundary_context(BoundaryContext::AllowDirectSuper, |p| {
+                    p.do_outside_of_boundary_context(BoundaryContext::InClassField, |p| {
                         p.parse_fn_args_body(
                             // no decorator in an object literal
                             Vec::new(),
@@ -181,6 +230,8 @@ impl<I: Tokens> Parser<I> {
         let has_modifiers = self.eat_any_ts_modifier()?;
         let modifiers_span = self.input().prev_span();
 
+        let key_token = self.input().cur();
+        let escaped_keyword_error = self.escaped_keyword_error();
         let key = self.parse_prop_name()?;
 
         let cur = self.input().cur();
@@ -217,7 +268,8 @@ impl<I: Tokens> Parser<I> {
         // { 0: 1, }
         // { a: expr, }
         if self.input_mut().eat(Token::Colon) {
-            let value = self.allow_in_expr(Self::parse_assignment_expr)?;
+            let value =
+                with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
                 value,
@@ -228,9 +280,20 @@ impl<I: Tokens> Parser<I> {
         if (self.input().syntax().typescript() && self.input().is(Token::Lt))
             || self.input().is(Token::LParen)
         {
+            if matches!(key_token, Token::Get | Token::Set) && self.input().is(Token::Lt) {
+                let accessor_as_ident = match key_token {
+                    Token::Get => prop_name_is(&key, "get"),
+                    Token::Set => prop_name_is(&key, "set"),
+                    _ => false,
+                };
+                if !accessor_as_ident {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+                }
+            }
+
             return self
-                .do_inside_of_context(Context::AllowDirectSuper, |p| {
-                    p.do_outside_of_context(Context::InClassField, |p| {
+                .do_inside_of_boundary_context(BoundaryContext::AllowDirectSuper, |p| {
+                    p.do_outside_of_boundary_context(BoundaryContext::InClassField, |p| {
                         p.parse_fn_args_body(
                             // no decorator in an object literal
                             Vec::new(),
@@ -259,12 +322,47 @@ impl<I: Tokens> Parser<I> {
         // It means we should check for invalid expressions like { for, }
         let cur = self.input().cur();
         if matches!(cur, Token::Eq | Token::Comma | Token::RBrace) {
-            if self.ctx().is_reserved_word(&ident.sym) {
+            if let Some(error) = escaped_keyword_error {
+                self.emit_error(error);
+            }
+            let ctx = self.ctx();
+            if self.word_is_reserved(&ident.sym) {
                 self.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
+            if self.syntax().flow() {
+                match &*ident.sym {
+                    "eval" | "arguments" if ctx.contains(Context::Strict) => {
+                        self.emit_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
+                    }
+                    "await"
+                        if self.includes_await_expr()
+                            || self.boundary_ctx().contains(BoundaryContext::InStaticBlock)
+                            || ctx.contains(Context::Module) =>
+                    {
+                        self.emit_err(ident.span, SyntaxError::InvalidIdentInAsync);
+                    }
+                    "yield" if self.includes_yield_expr() || ctx.contains(Context::Strict) => {
+                        self.emit_err(
+                            ident.span,
+                            SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
+                        );
+                    }
+                    "implements" | "interface" | "package" | "private" | "protected" | "public"
+                    | "static"
+                        if ctx.contains(Context::Strict) =>
+                    {
+                        self.emit_err(
+                            ident.span,
+                            SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
+                        );
+                    }
+                    _ => {}
+                }
+            }
+
             if self.input_mut().eat(Token::Eq) {
-                let value = self.allow_in_expr(Self::parse_assignment_expr)?;
+                let value = with_grammar_context!(self, [+In, ?Yield, ?Await], Self::parse_assignment_expr)?;
                 let span = self.span(start);
                 return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
                     span,
@@ -280,21 +378,25 @@ impl<I: Tokens> Parser<I> {
         // set a(v){}
         // async a(){}
 
-        match &*ident.sym {
-            "get" | "set" | "async" => {
+        match key_token {
+            Token::Get | Token::Set | Token::Async => {
                 trace_cur!(self, parse_object_prop__after_accessor);
 
                 if has_modifiers {
                     self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
 
-                let is_generator = ident.sym == "async" && self.input_mut().eat(Token::Asterisk);
+                let is_generator =
+                    key_token == Token::Async && self.input_mut().eat(Token::Asterisk);
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
-                self.do_inside_of_context(Context::AllowDirectSuper, |p| {
-                    p.do_outside_of_context(Context::InClassField, |p| {
-                        match &*ident.sym {
-                            "get" => p
+                if matches!(key_token, Token::Get | Token::Set) && self.input().is(Token::Lt) {
+                    self.emit_err(self.input().cur_span(), SyntaxError::TS1003);
+                }
+                self.do_inside_of_boundary_context(BoundaryContext::AllowDirectSuper, |p| {
+                    p.do_outside_of_boundary_context(BoundaryContext::InClassField, |p| {
+                        match key_token {
+                            Token::Get => p
                                 .parse_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),
@@ -302,7 +404,7 @@ impl<I: Tokens> Parser<I> {
                                     |p| {
                                         let params = p.parse_formal_params()?;
 
-                                        if params.iter().any(is_not_this) {
+                                        if !params.is_empty() {
                                             p.emit_err(key_span, SyntaxError::GetterParam);
                                         }
 
@@ -311,26 +413,20 @@ impl<I: Tokens> Parser<I> {
                                     false,
                                     false,
                                 )
-                                .map(|v| *v)
-                                .map(
-                                    |Function {
-                                         body, return_type, ..
-                                     }| {
-                                        if p.input().syntax().typescript()
-                                            && p.input().target() == EsVersion::Es3
-                                        {
-                                            p.emit_err(key_span, SyntaxError::TS1056);
-                                        }
+                                .map(|function| {
+                                    if p.input().syntax().typescript()
+                                        && p.input().target() == EsVersion::Es3
+                                    {
+                                        p.emit_err(key_span, SyntaxError::TS1056);
+                                    }
 
-                                        PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
-                                            span: p.span(start),
-                                            key,
-                                            type_ann: return_type,
-                                            body,
-                                        })))
-                                    },
-                                ),
-                            "set" => {
+                                    PropOrSpread::Prop(Box::new(Prop::Getter(GetterProp {
+                                        span: p.span(start),
+                                        key,
+                                        function,
+                                    })))
+                                }),
+                            Token::Set => {
                                 p.parse_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),
@@ -338,14 +434,14 @@ impl<I: Tokens> Parser<I> {
                                     |p| {
                                         let params = p.parse_formal_params()?;
 
-                                        if params.iter().filter(|p| is_not_this(p)).count() != 1 {
+                                        if params.len() != 1 {
                                             p.emit_err(key_span, SyntaxError::SetterParam);
                                         }
 
-                                        if !params.is_empty() {
-                                            if let Pat::Rest(..) = params[0].pat {
+                                        if let Some(param) = params.first() {
+                                            if let Pat::Rest(..) = param.pat {
                                                 p.emit_err(
-                                                    params[0].span(),
+                                                    param.span(),
                                                     SyntaxError::RestPatInSetter,
                                                 );
                                             }
@@ -362,40 +458,15 @@ impl<I: Tokens> Parser<I> {
                                     false,
                                     false,
                                 )
-                                .map(|v| *v)
-                                .map(
-                                    |Function {
-                                         mut params, body, ..
-                                     }| {
-                                        let mut this = None;
-                                        if params.len() >= 2 {
-                                            this = Some(params.remove(0).pat);
-                                        }
-
-                                        let param = Box::new(
-                                            params
-                                                .into_iter()
-                                                .next()
-                                                .map(|v| v.pat)
-                                                .unwrap_or_else(|| {
-                                                    p.emit_err(key_span, SyntaxError::SetterParam);
-
-                                                    Invalid { span: DUMMY_SP }.into()
-                                                }),
-                                        );
-
-                                        // debug_assert_eq!(params.len(), 1);
-                                        PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                            span: p.span(start),
-                                            key,
-                                            body,
-                                            param,
-                                            this_param: this,
-                                        })))
-                                    },
-                                )
+                                .map(|function| {
+                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                        span: p.span(start),
+                                        key,
+                                        function,
+                                    })))
+                                })
                             }
-                            "async" => p
+                            Token::Async => p
                                 .parse_fn_args_body(
                                     // no decorator in an object literal
                                     Vec::new(),

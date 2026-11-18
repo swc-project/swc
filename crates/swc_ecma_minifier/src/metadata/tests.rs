@@ -1,3 +1,133 @@
+use swc_common::{
+    comments::{Comment, CommentKind, Comments, SingleThreadedComments},
+    source_map::PURE_SP,
+    BytePos, Globals, Span, DUMMY_SP, GLOBALS,
+};
+use swc_ecma_ast::{CallExpr, Expr, NewExpr, OptCall, OptChainBase, OptChainExpr, TaggedTpl};
+
+use super::{has_pure_comment_before, InfoMarker, Marks, State};
+
+/// Delegates storage operations while intentionally inheriting the default
+/// consuming implementation of [`Comments::has_flag`].
+#[derive(Default)]
+struct DefaultFlagComments(SingleThreadedComments);
+
+impl Comments for DefaultFlagComments {
+    fn add_leading(&self, pos: BytePos, comment: Comment) {
+        self.0.add_leading(pos, comment);
+    }
+
+    fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        self.0.add_leading_comments(pos, comments);
+    }
+
+    fn has_leading(&self, pos: BytePos) -> bool {
+        self.0.has_leading(pos)
+    }
+
+    fn move_leading(&self, from: BytePos, to: BytePos) {
+        self.0.move_leading(from, to);
+    }
+
+    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.0.take_leading(pos)
+    }
+
+    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.0.get_leading(pos)
+    }
+
+    fn add_trailing(&self, pos: BytePos, comment: Comment) {
+        self.0.add_trailing(pos, comment);
+    }
+
+    fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>) {
+        self.0.add_trailing_comments(pos, comments);
+    }
+
+    fn has_trailing(&self, pos: BytePos) -> bool {
+        self.0.has_trailing(pos)
+    }
+
+    fn move_trailing(&self, from: BytePos, to: BytePos) {
+        self.0.move_trailing(from, to);
+    }
+
+    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.0.take_trailing(pos)
+    }
+
+    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.0.get_trailing(pos)
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        self.0.add_pure_comment(pos);
+    }
+}
+
+#[test]
+fn synthetic_pure_call_like_callees_do_not_mark_outer_invocations_pure() {
+    GLOBALS.set(&Globals::new(), || {
+        let marker = InfoMarker {
+            options: None,
+            pure_funcs: None,
+            pure_callee: Default::default(),
+            comments: None,
+            marks: Marks::new(),
+            state: State::default(),
+        };
+        let callees = [
+            Expr::Call(CallExpr {
+                span: PURE_SP,
+                ..Default::default()
+            }),
+            Expr::New(NewExpr {
+                span: PURE_SP,
+                ..Default::default()
+            }),
+            Expr::TaggedTpl(TaggedTpl {
+                span: PURE_SP,
+                ..Default::default()
+            }),
+            Expr::OptChain(OptChainExpr {
+                span: PURE_SP,
+                base: Box::new(OptChainBase::Call(OptCall {
+                    span: PURE_SP,
+                    ..Default::default()
+                })),
+                ..Default::default()
+            }),
+        ];
+
+        for callee in &callees {
+            assert!(!marker.is_pure_callee(callee, DUMMY_SP));
+        }
+    });
+}
+
+#[test]
+fn pure_comment_ownership_check_does_not_consume_leading_comments() {
+    let comments = DefaultFlagComments::default();
+    let callee_span = Span::new(BytePos(10), BytePos(20));
+    comments.add_leading(
+        callee_span.lo,
+        Comment {
+            kind: CommentKind::Block,
+            span: Span::new(BytePos(1), BytePos(9)),
+            text: "#__PURE__".into(),
+        },
+    );
+
+    assert!(has_pure_comment_before(
+        Some(&comments),
+        callee_span,
+        callee_span.lo,
+    ));
+    assert!(comments.has_leading(callee_span.lo));
+    assert!(!comments.has_trailing(callee_span.lo));
+}
+
 // use swc_common::{input::SourceFileInput, FileName, Mark, Span, DUMMY_SP};
 // use swc_ecma_ast::*;
 // use swc_ecma_parser::{lexer::Lexer, Parser};

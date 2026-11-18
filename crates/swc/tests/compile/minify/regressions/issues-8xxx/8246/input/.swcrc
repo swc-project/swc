@@ -1,0 +1,24 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        },
+        "transform": null,
+        "target": "es2015",
+        "loose": true,
+        "minify": {
+            "mangle": {
+                "toplevel": false
+            },
+            "compress": {
+                "reduce_funcs": false,
+                "reduce_vars": false
+            }
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "isModule": false
+}

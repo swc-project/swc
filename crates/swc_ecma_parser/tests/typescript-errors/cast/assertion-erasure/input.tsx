@@ -1,0 +1,16 @@
+1 + 1 as number * 2;
+1 + 1 satisfies number * 2;
+1 + 1 as any as number * 2;
+1 + 1 satisfies any satisfies number * 2;
+1 >> 1 as number + 2;
+1 >> 1 satisfies number + 2;
+2 ** 3 as number ** 2;
+2 ** 3 satisfies number ** 2;
+2 ** 3 as any as number ** 2;
+2 ** 3 satisfies any satisfies number ** 2;
+one < two as typeof f << other;
+one < two satisfies typeof f << other;
+one < two as number >> other;
+one < two as T<U> >>> other;
+1 + 1 as const * 2;
+const after = 1;

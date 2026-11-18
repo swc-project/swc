@@ -67,7 +67,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        // If we negate a block, these variables will have narrower scope.
+        // If we negate a block, these lexical bindings will have narrower scope.
         if stmts[pos_of_if..].iter().any(|s| match s {
             Stmt::Decl(Decl::Var(v))
                 if matches!(
@@ -80,6 +80,7 @@ impl Pure<'_> {
             {
                 true
             }
+            Stmt::Decl(Decl::Class(..)) => true,
             _ => false,
         }) {
             return;
@@ -153,14 +154,12 @@ impl Pure<'_> {
             match &mut **alt_of_alt {
                 Stmt::Block(..) => {}
                 Stmt::Expr(..) => {
-                    *alt_of_alt = Box::new(
-                        BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: vec![*alt_of_alt.take()],
-                            ..Default::default()
-                        }
-                        .into(),
-                    );
+                    **alt_of_alt = BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![*alt_of_alt.take()],
+                        ..Default::default()
+                    }
+                    .into();
                 }
                 _ => {
                     return;

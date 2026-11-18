@@ -11,6 +11,7 @@
         "start": 48,
         "end": 90
       },
+      "bodyCtxt": 0,
       "discriminant": {
         "type": "NumericLiteral",
         "span": {

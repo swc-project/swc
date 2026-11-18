@@ -1,11 +1,16 @@
 use swc_ecma_ast::*;
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_utils::private_ident;
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 
 use crate::{utils::normalize_module_export_name, TraverseCtx};
 
 pub fn hook() -> impl VisitMutHook<TraverseCtx> {
     ExportNamespaceFromPass
+}
+
+pub(crate) fn pass() -> impl Pass {
+    visit_mut_pass(ExportNamespaceFromPass)
 }
 
 struct ExportNamespaceFromPass;
@@ -123,6 +128,18 @@ impl ExportNamespaceFromPass {
 
 impl VisitMutHook<TraverseCtx> for ExportNamespaceFromPass {
     fn exit_program(&mut self, node: &mut Program, _: &mut TraverseCtx) {
+        let Program::Module(module) = node else {
+            return;
+        };
+
+        self.transform_export_namespace_from(&mut module.body);
+    }
+}
+
+impl VisitMut for ExportNamespaceFromPass {
+    noop_visit_mut_type!(fail);
+
+    fn visit_mut_program(&mut self, node: &mut Program) {
         let Program::Module(module) = node else {
             return;
         };

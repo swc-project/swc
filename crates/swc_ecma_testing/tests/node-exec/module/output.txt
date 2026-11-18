@@ -1,0 +1,4 @@
+node-exec.mjs
+["fixture argument","quotation\"backslash\\"]
+["fixture argument","quotation\"backslash\\"]
+true
