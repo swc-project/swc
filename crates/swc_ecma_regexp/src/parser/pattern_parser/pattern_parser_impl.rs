@@ -1782,8 +1782,9 @@ impl<'a> PatternParser<'a> {
         if let Some(index) = self.consume_decimal_digits()? {
             // \0 is CharacterEscape, not DecimalEscape
             if index != 0 {
-                #[expect(clippy::cast_possible_truncation)]
-                return Ok(Some(index as u32));
+                // A value that does not fit in `u32` is larger than any group
+                // count, so it must not wrap around to a small group number.
+                return Ok(Some(u32::try_from(index).unwrap_or(u32::MAX)));
             }
 
             self.reader.rewind(checkpoint);

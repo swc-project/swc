@@ -115,6 +115,8 @@ mod test {
         (r"/\400/", None),
         // `\01` is a legacy octal escape, not a backreference to group 1.
         (r"/(a)\01/", None),
+        // Larger than any group count, so it is not a backreference to group 1.
+        (r"/(a)\4294967297/", None),
         // An identity escape of an astral character in a non-unicode pattern.
         ("/\\😀/", Some(r"/\uD83D\uDE00/")),
         (r"/[\777]/", None),
