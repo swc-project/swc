@@ -1,0 +1,14 @@
+  ! Cannot lower regexp modifiers in this regular expression for the configured targets: backreference in a case-insensitive modifier group. The regular expression is kept, and it can fail on those targets.
+   ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:2:1]
+ 1 | // These cannot be lowered. They are kept, and a warning is reported.
+ 2 | export const backreference = /(a)(?i:\1)/;
+   :                              ^^^^^^^^^^^^
+ 3 | export const propertyOfStrings = /\p{RGI_Emoji}/v;
+   `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: unsupported unicode property. The regular expression is kept, and it can fail on those targets.
+   ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:3:1]
+ 1 | // These cannot be lowered. They are kept, and a warning is reported.
+ 2 | export const backreference = /(a)(?i:\1)/;
+ 3 | export const propertyOfStrings = /\p{RGI_Emoji}/v;
+   :                                  ^^^^^^^^^^^^^^^^
+   `----

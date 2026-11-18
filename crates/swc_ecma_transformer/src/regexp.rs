@@ -1,8 +1,9 @@
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
+use swc_common::{errors::HANDLER, util::take::Take, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_regexp::{
     has_modifiers, transform_modifiers, transform_unicode_property_escapes, transform_unicode_sets,
+    LowerError,
 };
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{
@@ -119,7 +120,10 @@ impl RegexpPass {
     /// Returns the new pattern and flags, or `None` if nothing is lowered. If a
     /// pattern cannot be lowered, it is kept and the other transforms still
     /// apply to it.
-    fn lower_syntax(&self, pattern: &str, flags: &str) -> Option<(String, String)> {
+    ///
+    /// When a pattern cannot be lowered, a warning is reported at `span`,
+    /// because the target may reject the kept pattern.
+    fn lower_syntax(&self, span: Span, pattern: &str, flags: &str) -> Option<(String, String)> {
         let lower_unicode_sets = self.options.unicode_sets_regex && flags.contains('v');
         let lower_modifiers = self.options.regexp_modifiers && may_have_modifiers(pattern);
         if !lower_unicode_sets && !lower_modifiers {
@@ -144,6 +148,7 @@ impl RegexpPass {
         if flags.contains('v') && (lower_unicode_sets || lower_modifiers) {
             if let Err(err) = transform_unicode_sets(&mut ast, flags.contains('i')) {
                 debug!(%pattern, %flags, %err, "cannot lower the `v` flag");
+                warn_not_lowered(span, "the `v` flag", err);
                 return None;
             }
             flags = flags.replace('v', "u");
@@ -159,6 +164,7 @@ impl RegexpPass {
                 Ok(None) => {}
                 Err(err) => {
                     debug!(%pattern, %flags, %err, "cannot lower regexp modifiers");
+                    warn_not_lowered(span, "regexp modifiers", err);
                     return None;
                 }
             }
@@ -216,6 +222,7 @@ impl RegexpPass {
         let Expr::Lit(Lit::Str(pattern_lit)) = &*pattern_arg.expr else {
             return;
         };
+        let pattern_span = pattern_lit.span;
         let Some(pattern) = pattern_lit.value.as_str() else {
             return;
         };
@@ -238,7 +245,7 @@ impl RegexpPass {
             None => "",
         };
 
-        let lowered = self.lower_syntax(pattern, flags);
+        let lowered = self.lower_syntax(pattern_span, pattern, flags);
         let (pattern, flags) = match &lowered {
             Some((pattern, flags)) => (pattern.as_str(), flags.as_str()),
             None => (pattern, flags),
@@ -394,7 +401,8 @@ impl RegexpPass {
     fn transform_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Lit(Lit::Regex(regex)) => {
-                if let Some((exp, flags)) = self.lower_syntax(&regex.exp, &regex.flags) {
+                if let Some((exp, flags)) = self.lower_syntax(regex.span, &regex.exp, &regex.flags)
+                {
                     regex.exp = exp.into();
                     regex.flags = flags.into();
                 }
@@ -510,6 +518,27 @@ impl RegexpPass {
             _ => {}
         }
     }
+}
+
+/// Reports that a regular expression keeps syntax that the target may not
+/// support.
+fn warn_not_lowered(span: Span, feature: &str, err: LowerError) {
+    if !HANDLER.is_set() {
+        return;
+    }
+
+    HANDLER.with(|handler| {
+        handler
+            .struct_span_warn(
+                span,
+                &format!(
+                    "Cannot lower {feature} in this regular expression for the configured \
+                     targets: {err}. The regular expression is kept, and it can fail on those \
+                     targets."
+                ),
+            )
+            .emit();
+    });
 }
 
 /// Returns true if `pattern` may contain a modifier group such as `(?i:` or
