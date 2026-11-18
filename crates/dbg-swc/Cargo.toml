@@ -13,7 +13,7 @@ name  = "dbg-swc"
 
 [dependencies]
 anyhow = { workspace = true, default-features = false }
-clap = { version = "4", features = ["derive"], default-features = false }
+clap = { version = "4", features = ["derive", "std", "help", "usage", "error-context"], default-features = false }
 dialoguer = { workspace = true, default-features = false }
 flate2 = { workspace = true, default-features = false }
 par-core = { workspace = true, features = ["chili"], default-features = false }
@@ -40,4 +40,4 @@ swc_ecma_visit = { version = "30.0.0", path = "../swc_ecma_visit", default-featu
 swc_error_reporters = { version = "29.0.0", path = "../swc_error_reporters", default-features = false }
 tempfile = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }
-tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
+tracing-subscriber = { workspace = true, features = ["fmt", "env-filter", "ansi"] }
