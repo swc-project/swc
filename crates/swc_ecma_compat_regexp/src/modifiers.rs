@@ -458,6 +458,20 @@ mod tests {
     }
 
     #[test]
+    fn control_escapes_are_kept() {
+        assert_eq!(
+            lowered(r"\cA(?i:b)", "u"),
+            (r"\cA(?:[Bb])".into(), "u".into())
+        );
+        assert_eq!(
+            lowered(r"(?i:[\cA])", ""),
+            (r"(?:[\x01])".into(), "".into())
+        );
+        // Annex B: `\c1` outside of a class is a literal `\`, `c` and `1`.
+        assert_eq!(lowered(r"(?i:\c1)", ""), (r"(?:\\[Cc]1)".into(), "".into()));
+    }
+
+    #[test]
     fn backreference_is_unsupported() {
         assert_eq!(
             lower(r"(a)(?i:\1)", ""),

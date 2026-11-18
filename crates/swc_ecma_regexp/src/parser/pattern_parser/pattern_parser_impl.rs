@@ -958,7 +958,15 @@ impl<'a> PatternParser<'a> {
         }
 
         if self.reader.eat('\\') {
-            if self.reader.peek().filter(|&cp| cp == 'c' as u32).is_some() {
+            if let Some(class_escape) = self.parse_class_escape(span_start)? {
+                return Ok(Some(class_escape));
+            }
+
+            // Annex B: `\c` that is not followed by a control letter or a
+            // `ClassControlLetter` is a literal `\`, and `c` is the next atom.
+            if !self.state.unicode_mode
+                && self.reader.peek().filter(|&cp| cp == 'c' as u32).is_some()
+            {
                 return Ok(Some(ast::CharacterClassContents::Character(Box::new(
                     ast::Character {
                         span: self.span_factory.create(span_start, self.reader.offset()),
@@ -966,10 +974,6 @@ impl<'a> PatternParser<'a> {
                         value: '\\' as u32,
                     },
                 ))));
-            }
-
-            if let Some(class_escape) = self.parse_class_escape(span_start)? {
-                return Ok(Some(class_escape));
             }
 
             return Err(diagnostics::invalid_class_atom(
@@ -1027,15 +1031,17 @@ impl<'a> PatternParser<'a> {
                 if let Some(cp) = self
                     .reader
                     .peek()
-                    .filter(|&cp| character::is_decimal_digit(cp) || cp == '-' as u32)
+                    .filter(|&cp| character::is_decimal_digit(cp) || cp == '_' as u32)
                 {
                     self.reader.advance();
 
+                    // The value is the code point modulo 32, as for a control
+                    // letter.
                     return Ok(Some(ast::CharacterClassContents::Character(Box::new(
                         ast::Character {
                             span: self.span_factory.create(span_start, self.reader.offset()),
                             kind: ast::CharacterKind::ControlLetter,
-                            value: cp,
+                            value: cp % 32,
                         },
                     ))));
                 }

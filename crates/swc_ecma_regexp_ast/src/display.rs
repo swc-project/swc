@@ -335,14 +335,18 @@ fn character_to_string(
 
     let ch = char::from_u32(cp).expect("Invalid `Character`!");
     let result = match this.kind {
+        // A `\` that is not part of an escape. This only happens in Annex B
+        // patterns such as `\c1`, where `\c` is not a control escape. Write it
+        // as `\\`, so that it stays a literal backslash even if the character
+        // after it changes.
+        CharacterKind::Symbol if ch == '\\' => Cow::Borrowed(r"\\"),
         // Not a surrogate, like BMP, or all units in unicode mode
         CharacterKind::Symbol => Cow::Owned(ch.to_string()),
-        CharacterKind::ControlLetter => match ch {
-            '\n' => Cow::Borrowed(r"\cJ"),
-            '\r' => Cow::Borrowed(r"\cM"),
-            '\t' => Cow::Borrowed(r"\cI"),
-            '\u{0019}' => Cow::Borrowed(r"\cY"),
-            _ => Cow::Owned(format!(r"\c{ch}")),
+        CharacterKind::ControlLetter => match cp {
+            // `\cA` to `\cZ` have the values 1 to 26.
+            1..=26 => Cow::Owned(format!(r"\c{}", char::from(b'@' + cp as u8))),
+            // Annex B `[\c_]` (value 31) has no control letter.
+            _ => Cow::Owned(format!(r"\x{cp:02X}")),
         },
         CharacterKind::Identifier => Cow::Owned(format!(r"\{ch}")),
         CharacterKind::SingleEscape => match ch {
