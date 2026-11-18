@@ -11,8 +11,6 @@ import type {
     WasmAnalysisOptions,
 } from "@swc/types";
 export type * from "@swc/types";
-// @ts-ignore
-export { newMangleNameCache as experimental_newMangleNameCache } from "./binding";
 import { BundleInput, compileBundleOptions } from "./spack";
 import * as assert from "assert";
 // @ts-ignore
@@ -21,7 +19,6 @@ import type { NapiMinifyExtra } from "./binding";
 // Allow overrides to the location of the .node binding file
 const bindingsOverride = process.env["SWC_BINARY_PATH"];
 // `@swc/core` includes d.ts for the `@swc/wasm` to provide typed fallback bindings
-// todo: fix package.json scripts
 let fallbackBindings: any;
 const bindings: typeof import("../binding") = (() => {
     let binding;
@@ -34,13 +31,98 @@ const bindings: typeof import("../binding") = (() => {
         const triple = binding.getTargetTriple();
         assert.ok(triple, "Failed to read target triple from native binary.");
         return binding;
-    } catch (_) {
-        // postinstall supposed to install `@swc/wasm` already
-        fallbackBindings = require("@swc/wasm");
+    } catch (error) {
+        // The native binding could not be loaded (for example, the platform
+        // has no prebuilt binary). Fall back to `@swc/wasm`, which is an
+        // optional dependency of `@swc/core`, so it is installed alongside
+        // it by the package manager without any install-time script.
+        // See https://github.com/swc-project/swc/issues/11898.
+        try {
+            fallbackBindings = require("@swc/wasm");
+        } catch (_) {
+            // No fallback available either (for example, the user installed
+            // with `--no-optional`). Every API below throws
+            // "Bindings not found." when used.
+            fallbackBindings = undefined;
+        }
+
+        // Preserve the diagnostics the removed postinstall script used to
+        // print at install time: report once, at load time, that the wasm
+        // fallback is in use and why. Users can opt out with the same
+        // `SWC_SKIP_VALIDATION` flag the postinstall script honored.
+        if (
+            fallbackBindings &&
+            process.env["SWC_SKIP_VALIDATION"] !== "1" &&
+            process.env["SWC_SKIP_VALIDATION"] !== "true"
+        ) {
+            let libc: unknown = "unknown";
+            try {
+                const report =
+                    typeof process.report?.getReport === "function"
+                        ? process.report.getReport()
+                        : null;
+                // `getReport()` is typed as returning `object` by some
+                // `@types/node` versions, so read the header defensively.
+                const header = (
+                    report as {
+                        header?: { glibcVersionRuntime?: unknown };
+                    } | null
+                )?.header;
+                libc = header?.glibcVersionRuntime ?? "unknown";
+            } catch (_) {
+                // Ignore diagnostics collection failures.
+            }
+
+            console.warn(
+                "Failed to load @swc/core native binding, falling back to @swc/wasm."
+            );
+            console.warn(
+                "System information:",
+                JSON.stringify(
+                    {
+                        platform: process.platform,
+                        arch: process.arch,
+                        nodeVersion: process.version,
+                        libc,
+                    },
+                    null,
+                    2
+                )
+            );
+            console.warn(
+                "Error details:",
+                error instanceof Error ? error.message : error
+            );
+        }
     } finally {
         return binding;
     }
 })();
+
+/**
+ * Re-exported from the native binding.
+ *
+ * This is intentionally NOT written as `export ... from "./binding"`: a
+ * static re-export makes the compiler emit an eager `require("./binding")`
+ * at the top of the compiled output, which throws on platforms without a
+ * native binary and breaks the `@swc/wasm` fallback above. Instead the
+ * export is resolved lazily from the already-loaded `bindings`.
+ *
+ * The wasm fallback does not provide `newMangleNameCache`, so calling it
+ * without a native binding throws a clear error.
+ */
+// @ts-ignore - `./binding` resolves from the package root in the emitted
+// declaration file, not from `src/` (same as the `NapiMinifyExtra` import
+// above).
+export const experimental_newMangleNameCache: typeof import("./binding").newMangleNameCache =
+    bindings
+        ? bindings.newMangleNameCache
+        : () => {
+              throw new Error(
+                  "experimental_newMangleNameCache is only available with the native binding. " +
+                      "The @swc/wasm fallback binding does not provide it."
+              );
+          };
 
 type ProgramSourceContext = {
     realFilename?: string | null;

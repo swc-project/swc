@@ -54,6 +54,6 @@
         "incremental": true /* Save .tsbuildinfo files to allow for incremental compilation of projects. */,
         "tsBuildInfoFile": ".tsbuildinfo"
     },
-    "include": ["src/", "postinstall.ts"],
+    "include": ["src/"],
     "exclude": ["*.js", "src/binding.d.ts"]
 }
