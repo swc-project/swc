@@ -65,16 +65,24 @@ pub fn transform_modifiers(
         }
     }
 
+    let mut scope = AnchorScope::default();
+    scope.visit_disjunction(&pattern.body, global);
+
     // A flag that some group disables cannot stay on the pattern. It is
-    // removed and applied by rewriting instead.
-    let removed = global & usage.disabled;
+    // removed and applied by rewriting instead. A disabled `m` (or `s`) can
+    // stay when no `^` or `$` (or no `.`) is in a part where it is disabled.
+    let mut removed = global & usage.disabled;
+    if !scope.without_m {
+        removed -= Modifier::M;
+    }
+    if !scope.dots_without_s {
+        removed -= Modifier::S;
+    }
 
     // If every `^` and `$` is in a part where `m` applies, the flag can be
     // added to the pattern instead. This avoids the lookbehind that the
     // rewrite of `^` needs. `.` is always rewritten to `[\s\S]`, which needs no
     // new syntax, so the `s` flag is never added.
-    let mut scope = AnchorScope::default();
-    scope.visit_disjunction(&pattern.body, global);
     let mut promoted = Modifier::empty();
     if !global.contains(Modifier::M) && scope.with_m && !scope.without_m {
         promoted |= Modifier::M;
@@ -118,6 +126,8 @@ pub fn has_modifiers(pattern: &Pattern) -> bool {
 struct AnchorScope {
     with_m: bool,
     without_m: bool,
+    /// A `.` is in a part where `s` does not apply.
+    dots_without_s: bool,
 }
 
 impl AnchorScope {
@@ -155,6 +165,7 @@ impl AnchorScope {
                     self.without_m = true;
                 }
             }
+            Term::Dot(_) if !effective.contains(Modifier::S) => self.dots_without_s = true,
             _ => {}
         }
     }
@@ -542,6 +553,15 @@ mod tests {
         assert_eq!(lowered("(?s:a.)b", ""), (r"(?:a[\s\S])b".into(), "".into()));
         // A `.` outside of the group needs the rewrite.
         assert_eq!(lowered("(?s:.).", ""), (r"(?:[\s\S]).".into(), "".into()));
+    }
+
+    #[test]
+    fn keep_disabled_flag_without_affected_terms() {
+        // No `^` or `$` is in the `-m` group, so the `m` flag stays.
+        assert_eq!(lowered("^x(?-m:y)", "m"), ("^x(?:y)".into(), "m".into()));
+        assert_eq!(lowered(".(?-s:y)", "s"), (".(?:y)".into(), "s".into()));
+        // A `.` in the `-s` group needs the flag removed.
+        assert_eq!(lowered(".(?-s:.)", "s"), (r"[\s\S](?:.)".into(), "".into()));
     }
 
     #[test]
