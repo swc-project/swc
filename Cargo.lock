@@ -5644,7 +5644,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "82.0.4"
+version = "82.0.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5925,7 +5925,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "84.1.2"
+version = "84.2.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6478,7 +6478,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "64.0.7"
+version = "64.0.8"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6521,7 +6521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "47.0.2"
+version = "47.1.0"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
