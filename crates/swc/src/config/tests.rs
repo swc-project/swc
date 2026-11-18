@@ -143,3 +143,34 @@ fn react_compiler_config_environment_enable_function_outlining() {
         Some(false)
     );
 }
+
+#[test]
+fn react_compiler_config_environment_validation_flags() {
+    let config = transform_config(
+        r#"{
+            "jsc": {
+                "transform": {
+                    "reactCompiler": {
+                        "eslintSuppressionRules": ["react-hooks/exhaustive-deps"],
+                        "environment": {
+                            "validateExhaustiveMemoizationDependencies": false,
+                            "validateHooksUsage": false
+                        }
+                    }
+                }
+            }
+        }"#,
+    );
+
+    let Some(BoolOr::Data(config)) = config.react_compiler.into_inner() else {
+        panic!("expected object config");
+    };
+    let environment = config.environment.expect("expected environment config");
+
+    assert_eq!(
+        environment.validate_exhaustive_memoization_dependencies,
+        Some(false)
+    );
+    assert_eq!(environment.validate_hooks_usage, Some(false));
+    assert_eq!(environment.enable_function_outlining, None);
+}
