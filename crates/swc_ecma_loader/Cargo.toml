@@ -34,10 +34,12 @@ path-clean = { workspace = true, optional = true, default-features = false }
 pathdiff = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 serde = { workspace = true, features = ["derive"], default-features = false }
-serde_json = { workspace = true, optional = true, default-features = false }
+serde_json = { workspace = true, optional = true, default-features = false, features = [
+  "std",
+] }
 tracing = { workspace = true, default-features = false }
 
-swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
+swc_atoms  = { version = "10.0.1", path = "../swc_atoms", default-features = false }
 swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
 
 [dev-dependencies]
