@@ -333,7 +333,12 @@ fn character_to_string(
         }
     }
 
-    let ch = char::from_u32(cp).expect("Invalid `Character`!");
+    let Some(ch) = char::from_u32(cp) else {
+        // A surrogate code unit of another kind, for example the identity
+        // escape `\<lead surrogate>` that the non-unicode reader creates from
+        // `\😀`. In a non-unicode pattern, `\uXXXX` is the same code unit.
+        return (Cow::Owned(format!(r"\u{cp:X}")), false);
+    };
     let result = match this.kind {
         // A `\` that is not part of an escape. This only happens in Annex B
         // patterns such as `\c1`, where `\c` is not a control escape. Write it

@@ -113,6 +113,8 @@ mod test {
         (r"/\370/", None),
         (r"/\377/", None),
         (r"/\400/", None),
+        // An identity escape of an astral character in a non-unicode pattern.
+        ("/\\😀/", Some(r"/\uD83D\uDE00/")),
         (r"/[\777]/", None),
         (r"/\0111/", None),
         (r"/\0022/", None),
