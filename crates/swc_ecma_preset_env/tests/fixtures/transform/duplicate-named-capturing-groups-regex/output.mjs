@@ -13,7 +13,7 @@ export const mixedGroups = _wrap_reg_exp(/(?:(x)(1)|(y))(z)/u, {
     b: 2,
     c: 4
 }, "(?:(?<a>x)(?<b>1)|(?<a>y))(?<c>z)");
-export const duplicateReference = /(?:(?<x>a)|(?<x>b))\k<x>/;
+export const duplicateReference = RegExp("(?:(?<x>a)|(?<x>b))\\k<x>");
 export const uniqueReference = _wrap_reg_exp(/(x)\1|(1)|(2)/, {
     a: 1,
     b: [

@@ -238,12 +238,19 @@ impl RegexpPass {
     /// arguments after the pattern.
     fn call_flags<'a>(&self, rest_args: &'a [ExprOrSpread]) -> CallFlags<'a> {
         match rest_args.first() {
-            None => CallFlags::Absent,
             // A spread in the second position can supply the flags. A spread
             // after the flags argument cannot change it.
             Some(arg) if arg.spread.is_some() => CallFlags::Unknown,
-            Some(arg) if self.is_global_undefined(&arg.expr) => CallFlags::Undefined,
-            Some(arg) => match static_string(&arg.expr).and_then(|(_, flags)| flags.as_str()) {
+            arg => self.flags_of(arg.map(|arg| &*arg.expr)),
+        }
+    }
+
+    /// Classifies a flags argument, or a missing one.
+    fn flags_of<'a>(&self, flags: Option<&'a Expr>) -> CallFlags<'a> {
+        match flags {
+            None => CallFlags::Absent,
+            Some(expr) if self.is_global_undefined(expr) => CallFlags::Undefined,
+            Some(expr) => match static_string(expr).and_then(|(_, flags)| flags.as_str()) {
                 Some(flags) => CallFlags::Known(flags),
                 None => CallFlags::Unknown,
             },
@@ -336,9 +343,23 @@ impl RegexpPass {
             return;
         };
         if first.spread.is_some() {
-            // A spread can supply the pattern and the flags, or nothing, in
-            // which case the next argument is the pattern. Keep the literals
-            // of every argument.
+            // A spread of an array literal supplies its elements in order, so
+            // the pattern and the flags are known by position.
+            if let Some(flat) = static_call_args(args) {
+                let Some(pattern) = flat.first() else {
+                    return;
+                };
+                if !matches!(
+                    self.flags_of(flat.get(1).copied()),
+                    CallFlags::Absent | CallFlags::Undefined
+                ) {
+                    collect_pattern_literals(pattern, &mut self.constructor_literals);
+                }
+                return;
+            }
+            // Another spread can supply the pattern and the flags, or nothing,
+            // in which case the next argument is the pattern. Keep the
+            // literals of every argument.
             for arg in args.iter() {
                 collect_pattern_literals(&arg.expr, &mut self.constructor_literals);
             }
@@ -606,9 +627,10 @@ impl RegexpPass {
     /// A name that is used by more than one group (allowed in different
     /// alternatives) maps to several indices.
     ///
-    /// Returns `None` if parsing fails, if the pattern does not contain a group
-    /// that an enabled option asks to lower, or if a `\k<name>` reference
-    /// points to a duplicated name.
+    /// Returns [`NamedGroups::NotLowered`] if parsing fails or if the pattern
+    /// does not contain a group that an enabled option asks to lower, and
+    /// [`NamedGroups::Unsupported`] if a `\k<name>` reference points to a
+    /// duplicated name.
     ///
     /// A pattern with such a reference cannot be lowered, so a warning is
     /// reported at `span`.
@@ -617,10 +639,12 @@ impl RegexpPass {
         span: Span,
         pattern: &str,
         flags: &str,
-    ) -> Option<(String, Vec<(Atom, Vec<u32>)>)> {
-        let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
-            .parse()
-            .ok()?;
+    ) -> NamedGroups {
+        let Ok(mut ast) =
+            LiteralParser::new(pattern, Some(flags), RegexpOptions::default()).parse()
+        else {
+            return NamedGroups::NotLowered;
+        };
 
         // First pass: collect all named capturing groups and their indices
         let mut mapping = Vec::new();
@@ -628,14 +652,14 @@ impl RegexpPass {
         collect_named_groups(&ast.body, &mut counter, &mut mapping);
 
         if mapping.is_empty() {
-            return None;
+            return NamedGroups::NotLowered;
         }
 
         let has_duplicates = mapping.iter().any(|(_, indices)| indices.len() > 1);
         if !(self.options.named_capturing_groups_regex
             || (self.options.duplicate_named_capturing_groups_regex && has_duplicates))
         {
-            return None;
+            return NamedGroups::NotLowered;
         }
 
         // Second pass: strip names from groups and convert named references
@@ -650,10 +674,10 @@ impl RegexpPass {
                 "duplicate named capturing groups",
                 "a backreference refers to a duplicated group name",
             );
-            return None;
+            return NamedGroups::Unsupported;
         }
 
-        Some((ast.to_string(), mapping))
+        NamedGroups::Lowered(ast.to_string(), mapping)
     }
 
     /// Check if non-named-group transforms require converting to RegExp()
@@ -760,12 +784,7 @@ impl RegexpPass {
                     None => false,
                 };
 
-                let lowers_named_groups = (self.options.named_capturing_groups_regex
-                    || self.options.duplicate_named_capturing_groups_regex)
-                    && may_have_named_groups(&regex.exp);
-                if in_constructor
-                    && (lowers_named_groups || self.has_syntax_to_lower(&regex.exp, &regex.flags))
-                {
+                if in_constructor && self.has_syntax_to_lower(&regex.exp, &regex.flags) {
                     self.warn(
                         regex.span,
                         "the syntax",
@@ -781,15 +800,33 @@ impl RegexpPass {
                     regex.flags = flags.into();
                 }
 
-                // Try named groups transform first. A literal in a `RegExp` call
-                // is kept, because the call copies only the pattern, not the
-                // group names that `_wrap_reg_exp` restores.
-                if !in_constructor && lowers_named_groups {
+                // Try named groups transform first.
+                let mut named_groups_unsupported = false;
+                if (self.options.named_capturing_groups_regex
+                    || self.options.duplicate_named_capturing_groups_regex)
+                    && may_have_named_groups(&regex.exp)
+                {
                     let original_exp = regex.exp.clone();
 
-                    if let Some((stripped_exp, group_mapping)) =
-                        self.extract_and_strip_named_groups(regex.span, &original_exp, &regex.flags)
-                    {
+                    let named_groups = self.extract_and_strip_named_groups(
+                        regex.span,
+                        &original_exp,
+                        &regex.flags,
+                    );
+                    named_groups_unsupported = matches!(named_groups, NamedGroups::Unsupported);
+                    if let NamedGroups::Lowered(stripped_exp, group_mapping) = named_groups {
+                        if in_constructor {
+                            // The call copies the pattern of the wrapped regex,
+                            // but not the group names that `_wrap_reg_exp`
+                            // restores.
+                            self.warn(
+                                regex.span,
+                                "named capturing groups",
+                                "the enclosing `RegExp` call copies only the pattern, so its \
+                                 matches have no `groups`",
+                            );
+                        }
+
                         let Regex { flags, span, .. } = regex.take();
 
                         // Check if other transforms also need the regex to be a
@@ -847,11 +884,11 @@ impl RegexpPass {
                 }
 
                 // Non-named-group transforms (or named group extraction failed).
-                // Named groups that a target may not parse are kept in a
-                // `RegExp` call, so that the target rejects only this
-                // expression, not the whole script.
+                // Named groups that cannot be lowered are kept in a `RegExp`
+                // call, so that the target rejects only this expression, not
+                // the whole script.
                 let needs_transform = self.needs_regexp_constructor(&regex.exp, &regex.flags)
-                    || (in_constructor && lowers_named_groups);
+                    || named_groups_unsupported;
 
                 if needs_transform {
                     let Regex { exp, flags, span } = regex.take();
@@ -889,6 +926,17 @@ impl RegexpPass {
     }
 }
 
+/// The result of [`RegexpPass::extract_and_strip_named_groups`].
+enum NamedGroups {
+    /// No group needs lowering, or the pattern cannot be parsed.
+    NotLowered,
+    /// The pattern without group names, and the name-to-indices mapping.
+    Lowered(String, Vec<(Atom, Vec<u32>)>),
+    /// Groups need lowering, but a `\k<name>` reference to a duplicated name
+    /// cannot be expressed without names.
+    Unsupported,
+}
+
 /// The flags argument of a `RegExp` call.
 #[derive(Debug, Clone, Copy)]
 enum CallFlags<'a> {
@@ -922,6 +970,30 @@ fn regexp_call_parts(expr: &mut Expr) -> Option<(&Expr, &mut Vec<ExprOrSpread>)>
         },
         _ => None,
     }
+}
+
+/// Returns the arguments of a call with spreads of array literals expanded, or
+/// `None` if another spread makes the positions unknown.
+fn static_call_args(args: &[ExprOrSpread]) -> Option<Vec<&Expr>> {
+    let mut flat = Vec::with_capacity(args.len());
+    for arg in args {
+        if arg.spread.is_none() {
+            flat.push(&*arg.expr);
+            continue;
+        }
+        let Expr::Array(array) = arg.expr.unwrap_parens() else {
+            return None;
+        };
+        for elem in &array.elems {
+            match elem {
+                Some(elem) if elem.spread.is_none() => flat.push(&*elem.expr),
+                // A hole is `undefined`, and a nested spread has unknown
+                // length.
+                _ => return None,
+            }
+        }
+    }
+    Some(flat)
 }
 
 /// Collects the addresses of the regex literals that the pattern argument of a

@@ -74,6 +74,11 @@ export const conditionalTest = RegExp(/(?i:a)/.test("A") ? "b" : "c", "g");
 export const voidFlags = RegExp(/(?i:a)/, void 0);
 // A literal that only computes the pattern is not passed to `RegExp`.
 export const replacePattern = (s) => new RegExp(s.replace(/(?i:a)/g, ""), "g");
-// A literal with named groups is kept for the call, which does not copy the
-// group names.
+// Duplicate names are lowered as usual, but the call does not copy the group
+// names, so a warning is reported.
 export const namedGroupsInCall = new RegExp(/(?<x>a)|(?<x>b)/, "g");
+// The targets support a unique name, so the literal is not changed.
+export const uniqueNamedGroupInCall = new RegExp(/(?<x>a)/, "g");
+// A spread of an array literal supplies its elements by position, so the third
+// element is not the pattern and is lowered.
+export const spreadPositions = new RegExp(...["a", "g", /(?i:b)/]);

@@ -29,7 +29,8 @@ use crate::{
 ///
 /// If the pattern has a flag that a modifier disables, the flag is removed
 /// from the pattern and applied by rewriting every term outside of the
-/// disabling group.
+/// disabling group. A disabled `m` (or `s`) stays on the pattern when no `^`
+/// or `$` (or no `.`) is in a part where it is disabled.
 ///
 /// `flags` are the flags of the pattern. The pattern must not have the `v`
 /// flag; lower it with [`crate::transform_unicode_sets`] first.

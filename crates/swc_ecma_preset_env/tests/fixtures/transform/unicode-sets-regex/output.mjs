@@ -48,4 +48,15 @@ export const optionalMember = globalThis?.RegExp(RegExp("(?-i:a)"), "i");
 export const conditionalTest = RegExp(/(?:[Aa])/.test("A") ? "b" : "c", "g");
 export const voidFlags = RegExp(/(?:[Aa])/, void 0);
 export const replacePattern = (s)=>new RegExp(s.replace(/(?:[Aa])/g, ""), "g");
-export const namedGroupsInCall = new RegExp(RegExp("(?<x>a)|(?<x>b)"), "g");
+export const namedGroupsInCall = new RegExp(_wrap_reg_exp(/(a)|(b)/, {
+    x: [
+        1,
+        2
+    ]
+}, "(?<x>a)|(?<x>b)"), "g");
+export const uniqueNamedGroupInCall = new RegExp(/(?<x>a)/, "g");
+export const spreadPositions = new RegExp(...[
+    "a",
+    "g",
+    /(?:[Bb])/
+]);

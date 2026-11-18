@@ -15,3 +15,8 @@ export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
 export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
 // Without captures, `\1` is a legacy octal escape, so this is lowered.
 export const legacyOctal = /(?i:\1)/;
+// The duplicated name cannot be lowered, so the regex becomes a `RegExp` call
+// that fails only when it runs.
+export function unusedDuplicateReference() {
+    return /(?:(?<x>a)|(?<x>b))\k<x>/;
+}

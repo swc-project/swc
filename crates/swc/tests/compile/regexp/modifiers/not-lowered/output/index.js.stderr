@@ -114,4 +114,14 @@
     :                                              ^^^^^^^^^^^^^^^^^
  16 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
  17 | export const legacyOctal = /(?i:\1)/;
+ 18 | // The duplicated name cannot be lowered, so the regex becomes a `RegExp` call
+    `----
+  ! Cannot lower duplicate named capturing groups in this regular expression for the configured targets: a backreference refers to a duplicated group name. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:21:1]
+ 18 | // The duplicated name cannot be lowered, so the regex becomes a `RegExp` call
+ 19 | // that fails only when it runs.
+ 20 | export function unusedDuplicateReference() {
+ 21 |     return /(?:(?<x>a)|(?<x>b))\k<x>/;
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 | }
     `----

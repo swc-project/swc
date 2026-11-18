@@ -6,7 +6,8 @@ export const uniqueNamedGroups = /(?<year>\d{4})-(?<month>\d{2})/;
 // Duplicated and unique names are mixed. Every group becomes an indexed one.
 export const mixedGroups = /(?:(?<a>x)(?<b>1)|(?<a>y))(?<c>z)/u;
 
-// A reference to a duplicated name cannot be expressed by indexed groups.
+// A reference to a duplicated name cannot be expressed by indexed groups, so
+// the regex becomes a `RegExp` call, which fails only when it runs.
 export const duplicateReference = /(?:(?<x>a)|(?<x>b))\k<x>/;
 
 // A reference to a unique name is not affected by the other duplicates.
