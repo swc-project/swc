@@ -6,7 +6,8 @@ use std::{
     fs::{read_dir, File},
     io::{self, Read, Write},
     path::Path,
-    sync::{Arc, RwLock},
+    process::ExitCode,
+    sync::{Arc, Mutex, RwLock},
 };
 
 use swc_atoms::atom;
@@ -17,7 +18,7 @@ use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use test::{
-    test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
+    test_main, DynTestFn, ShouldPanic::No, TestDesc, TestDescAndFn, TestFn, TestName, TestType,
 };
 
 const IGNORED_PASS_TESTS: &[&str] = &[
@@ -98,6 +99,30 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "44f31660bd715f05.js",
 ];
 
+/// Wraps a one-shot test body in the `Arc<dyn Fn>` that libtest's
+/// `DynTestFn` requires.
+///
+/// libtest invokes each dynamic test function at most once, so the body is
+/// taken out of the `Mutex` on the first call.
+fn dyn_test_fn<F: FnOnce() -> Result<(), String> + Send + 'static>(f: F) -> TestFn {
+    let f = Mutex::new(Some(f));
+    DynTestFn(Arc::new(move || {
+        let f = f
+            .lock()
+            .unwrap()
+            .take()
+            .expect("libtest invoked a test function twice");
+        f()
+    }))
+}
+
+/// Runs `tests` with libtest and fails the enclosing test if any of them
+/// fails.
+fn run_tests(args: &[String], tests: &[TestDescAndFn]) {
+    let tests = tests.iter().collect::<Vec<_>>();
+    assert_eq!(test_main(args, &tests), ExitCode::SUCCESS);
+}
+
 fn add_test<F: FnOnce() -> Result<(), String> + Send + 'static>(
     tests: &mut Vec<TestDescAndFn>,
     name: String,
@@ -119,7 +144,7 @@ fn add_test<F: FnOnce() -> Result<(), String> + Send + 'static>(
             end_line: 0,
             end_col: 0,
         },
-        testfn: DynTestFn(Box::new(f)),
+        testfn: dyn_test_fn(f),
     });
 }
 
@@ -278,7 +303,7 @@ fn identity() {
     let args: Vec<_> = env::args().collect();
     let mut tests = Vec::new();
     identity_tests(&mut tests).expect("failed to load tests");
-    test_main(&args, tests, Some(Options::new()));
+    run_tests(&args, &tests);
 }
 
 #[derive(Debug, Clone)]
