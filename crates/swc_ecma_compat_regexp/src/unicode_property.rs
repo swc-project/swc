@@ -186,7 +186,9 @@ fn push_ranges(
 }
 
 /// Gets the code point ranges for a unicode property.
-fn get_property_ranges(prop: &UnicodePropertyEscape) -> Option<Vec<RangeInclusive<u32>>> {
+pub(crate) fn get_property_ranges(
+    prop: &UnicodePropertyEscape,
+) -> Option<Vec<RangeInclusive<u32>>> {
     let name = prop.name.as_str();
     let value = prop.value.as_deref();
 

@@ -1,0 +1,10 @@
+export const enableIgnoreCase = /(?:[Aa])b/;
+export const ignoreCaseClass = /(?:[A-Ca-c][^Xx])/;
+export const disableIgnoreCase = /[Aa](?:b)[Cc]/g;
+export const unicodeIgnoreCase = /(?:[Kk\u212A][0-9A-Z_a-z\u017F\u212A](?:(?<=[0-9A-Z_a-z\u017F\u212A])(?![0-9A-Z_a-z\u017F\u212A])|(?<![0-9A-Z_a-z\u017F\u212A])(?=[0-9A-Z_a-z\u017F\u212A])))/u;
+export const dotAll = /(?:[\s\S])./;
+export const multiline = /(?:(?<=^|[\x0A\x0D\u2028-\u2029])a(?=$|[\x0A\x0D\u2028-\u2029]))/;
+export const disableDotAll = /(?:.)[\s\S]/;
+export const unicodeSets = /(?:[^Aa])[^b]/u;
+export const backreference = /(a)(?i:\1)/;
+export const constructorCall = new RegExp("(?:[Aa])b", "g");

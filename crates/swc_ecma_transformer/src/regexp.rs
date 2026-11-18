@@ -1,7 +1,9 @@
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_compat_regexp::transform_unicode_property_escapes;
+use swc_ecma_compat_regexp::{
+    transform_modifiers, transform_unicode_property_escapes, transform_unicode_sets,
+};
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{
     ast::{Disjunction, IndexedReference, Term},
@@ -10,6 +12,7 @@ use swc_ecma_regexp::{
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use tracing::debug;
 
 use crate::TraverseCtx;
 
@@ -39,8 +42,19 @@ pub struct RegExpOptions {
     pub unicode_property_regex: bool,
     /// [RegExp.prototype.unicode](https://tc39.es/ecma262/multipage/text-processing.html#sec-get-regexp.prototype.unicode)
     pub unicode_regex: bool,
-    // [RegExp.prototype.unicodeSets](https://github.com/tc39/proposal-regexp-v-flag)
+    /// [RegExp.prototype.unicodeSets](https://github.com/tc39/proposal-regexp-v-flag)
+    ///
+    /// Patterns with the `v` flag are rewritten to equivalent patterns with
+    /// the `u` flag. A pattern that uses a property of strings other than
+    /// `Basic_Emoji` (for example `\p{RGI_Emoji}`) cannot be rewritten and is
+    /// only converted to a `RegExp` call.
     pub unicode_sets_regex: bool,
+    /// [RegExp modifiers](https://github.com/tc39/proposal-regexp-modifiers)
+    ///
+    /// `(?ims-ims:...)` groups are rewritten without modifiers. A backreference
+    /// in a case-insensitive group cannot be rewritten, so such a pattern is
+    /// left unchanged.
+    pub regexp_modifiers: bool,
 }
 
 impl RegExpOptions {
@@ -55,20 +69,12 @@ impl RegExpOptions {
             || self.unicode_property_regex
             || self.unicode_regex
             || self.unicode_sets_regex
+            || self.regexp_modifiers
     }
 }
 
 pub(crate) fn hook(options: RegExpOptions) -> Option<impl VisitMutHook<TraverseCtx>> {
-    if options.dot_all_regex
-        || options.has_indices
-        || options.lookbehind_assertion
-        || options.named_capturing_groups_regex
-        || options.duplicate_named_capturing_groups_regex
-        || options.sticky_regex
-        || options.unicode_property_regex
-        || options.unicode_regex
-        || options.unicode_sets_regex
-    {
+    if options.is_enabled() {
         Some(RegexpPass { options })
     } else {
         None
@@ -84,6 +90,53 @@ struct RegexpPass {
 }
 
 impl RegexpPass {
+    /// Lowers the syntax that the target cannot parse: the `v` flag and
+    /// modifiers such as `(?i:...)`.
+    ///
+    /// Returns the new pattern and flags, or `None` if nothing is lowered. If a
+    /// pattern cannot be lowered, it is kept and the other transforms still
+    /// apply to it.
+    fn lower_syntax(&self, pattern: &str, flags: &str) -> Option<(String, String)> {
+        let lower_unicode_sets = self.options.unicode_sets_regex && flags.contains('v');
+        let lower_modifiers = self.options.regexp_modifiers && may_have_modifiers(pattern);
+        if !lower_unicode_sets && !lower_modifiers {
+            return None;
+        }
+
+        let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+            .parse()
+            .ok()?;
+        let mut flags = flags.to_string();
+        let mut changed = false;
+
+        // Modifiers are lowered on a `u` pattern, so the `v` flag is lowered
+        // first even if the target supports it.
+        if flags.contains('v') && (lower_unicode_sets || lower_modifiers) {
+            if let Err(err) = transform_unicode_sets(&mut ast, flags.contains('i')) {
+                debug!(%pattern, %flags, %err, "cannot lower the `v` flag");
+                return None;
+            }
+            flags = flags.replace('v', "u");
+            changed = true;
+        }
+
+        if lower_modifiers {
+            match transform_modifiers(&mut ast, &flags) {
+                Ok(Some(new_flags)) => {
+                    flags = new_flags;
+                    changed = true;
+                }
+                Ok(None) => {}
+                Err(err) => {
+                    debug!(%pattern, %flags, %err, "cannot lower regexp modifiers");
+                    return None;
+                }
+            }
+        }
+
+        changed.then(|| (ast.to_string(), flags))
+    }
+
     /// Transform the regex pattern if it contains unicode property escapes.
     /// Returns the transformed pattern string.
     fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
@@ -116,7 +169,10 @@ impl RegexpPass {
     }
 
     fn transform_regexp_args(&self, args: &mut [ExprOrSpread]) {
-        if !self.options.unicode_property_regex {
+        if !(self.options.unicode_property_regex
+            || self.options.unicode_sets_regex
+            || self.options.regexp_modifiers)
+        {
             return;
         }
 
@@ -152,19 +208,37 @@ impl RegexpPass {
             None => "",
         };
 
-        if !flags.contains(['u', 'v']) {
+        let lowered = self.lower_syntax(pattern, flags);
+        let (pattern, flags) = match &lowered {
+            Some((pattern, flags)) => (pattern.as_str(), flags.as_str()),
+            None => (pattern, flags),
+        };
+
+        let transformed_pattern = if flags.contains(['u', 'v']) {
+            self.transform_pattern(pattern, flags)
+        } else {
+            None
+        };
+        if lowered.is_none() && transformed_pattern.is_none() {
             return;
         }
 
-        let Some(transformed_pattern) = self.transform_pattern(pattern, flags) else {
-            return;
-        };
+        let new_pattern: Atom = transformed_pattern.as_deref().unwrap_or(pattern).into();
+        let new_flags: Option<Atom> = lowered.as_ref().map(|(_, flags)| flags.as_str().into());
 
-        let Expr::Lit(Lit::Str(pattern_lit)) = &mut *pattern_arg.expr else {
-            return;
-        };
-        pattern_lit.value = transformed_pattern.into();
-        pattern_lit.raw = None;
+        if let Expr::Lit(Lit::Str(pattern_lit)) = &mut *pattern_arg.expr {
+            pattern_lit.value = new_pattern.into();
+            pattern_lit.raw = None;
+        }
+        if let Some(new_flags) = new_flags {
+            // Lowering changes the flags only if they are given.
+            if let Some(flags_arg) = rest_args.first_mut() {
+                if let Expr::Lit(Lit::Str(flags_lit)) = &mut *flags_arg.expr {
+                    flags_lit.value = new_flags.into();
+                    flags_lit.raw = None;
+                }
+            }
+        }
     }
 
     /// Parse a regex pattern, extract named capturing groups, strip them,
@@ -290,6 +364,11 @@ impl RegexpPass {
     fn transform_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Lit(Lit::Regex(regex)) => {
+                if let Some((exp, flags)) = self.lower_syntax(&regex.exp, &regex.flags) {
+                    regex.exp = exp.into();
+                    regex.flags = flags.into();
+                }
+
                 // Try named groups transform first
                 if (self.options.named_capturing_groups_regex
                     || self.options.duplicate_named_capturing_groups_regex)
@@ -401,6 +480,18 @@ impl RegexpPass {
             _ => {}
         }
     }
+}
+
+/// Returns true if `pattern` may contain a modifier group such as `(?i:` or
+/// `(?-s:`. A false positive (for example an escaped `\(?i:`) only costs a
+/// parse.
+fn may_have_modifiers(pattern: &str) -> bool {
+    pattern.match_indices("(?").any(|(idx, _)| {
+        matches!(
+            pattern.as_bytes().get(idx + 2),
+            Some(b'i' | b'm' | b's' | b'-')
+        )
+    })
 }
 
 /// First pass: collect all named capturing groups and their 1-based indices.

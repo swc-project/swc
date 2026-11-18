@@ -94,6 +94,7 @@ where
         t.unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
         t.unicode_regex = !caniuse(Feature::UnicodeRegex);
         t.unicode_sets_regex = !caniuse(Feature::UnicodeSetsRegex);
+        t.regexp_modifiers = !caniuse(Feature::RegexpModifiers);
         // TODO: add Feature:HasIndicesRegex
         t.has_indices = false;
         // TODO: add Feature::LookbehindAssertion
