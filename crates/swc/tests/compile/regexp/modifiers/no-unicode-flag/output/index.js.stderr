@@ -1,0 +1,6 @@
+  ! Cannot lower the `u` flag in this regular expression for the configured targets: the lowered `v` pattern needs the `u` flag. The regular expression is kept, and it can fail on those targets.
+   ,-[$DIR/tests/compile/regexp/modifiers/no-unicode-flag/input/index.js:2:1]
+ 1 | // The lowered pattern needs the `u` flag, which the targets do not support.
+ 2 | export const unicodeSets = /[a&&a]/v;
+   :                            ^^^^^^^^^
+   `----

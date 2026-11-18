@@ -1,4 +1,5 @@
 ---
+swc_ecma_compat_common: patch
 swc_ecma_compat_regexp: minor
 swc_ecma_preset_env: patch
 swc_ecma_regexp: patch
