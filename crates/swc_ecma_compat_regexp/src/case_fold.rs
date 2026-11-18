@@ -111,12 +111,16 @@ impl FoldClasses {
 fn simple_case_folding_closure(set: &CharSet) -> CharSet {
     let classes = FoldClasses::get();
 
+    // Visit only the class members inside the ranges of `set`, so that the
+    // cost depends on the size of `set` and not on the size of the table.
     let mut added = Vec::new();
-    let mut last_class = None;
-    for &(cp, idx) in &classes.members {
-        if last_class != Some(idx) && set.contains(cp) {
+    for &(start, end) in set.ranges() {
+        let first = classes.members.partition_point(|&(cp, _)| cp < start);
+        for &(cp, idx) in &classes.members[first..] {
+            if cp > end {
+                break;
+            }
             added.extend(classes.classes[idx].iter().map(|&member| (member, member)));
-            last_class = Some(idx);
         }
     }
 

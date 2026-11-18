@@ -30,14 +30,23 @@ impl ClassSet {
         }
     }
 
-    fn union(mut self, other: Self) -> Self {
-        self.chars = self.chars.union(&other.chars);
-        if !other.strings.is_empty() {
-            self.strings.extend(other.strings);
-            self.strings.sort_unstable();
-            self.strings.dedup();
+    /// Returns the union of all `sets`. The ranges and strings are collected
+    /// first and normalized once, so a class with many operands takes
+    /// `O(n log n)` time.
+    fn union_all(sets: Vec<Self>) -> Self {
+        let mut ranges = Vec::new();
+        let mut strings = Vec::new();
+        for set in sets {
+            ranges.extend_from_slice(set.chars.ranges());
+            strings.extend(set.strings);
         }
-        self
+        strings.sort_unstable();
+        strings.dedup();
+
+        Self {
+            chars: CharSet::from_ranges(ranges),
+            strings,
+        }
     }
 
     fn intersection(mut self, other: &Self) -> Self {
@@ -120,6 +129,15 @@ pub(crate) fn eval_class_contents(
     class: &CharacterClass,
     ctx: ClassContext,
 ) -> Result<ClassSet, LowerError> {
+    if class.kind == CharacterClassContentsKind::Union {
+        let operands = class
+            .body
+            .iter()
+            .map(|operand| eval_contents(operand, ctx))
+            .collect::<Result<Vec<_>, _>>()?;
+        return Ok(ClassSet::union_all(operands));
+    }
+
     let mut operands = class.body.iter();
     let Some(first) = operands.next() else {
         return Ok(ClassSet::default());
@@ -128,10 +146,10 @@ pub(crate) fn eval_class_contents(
     let mut result = eval_contents(first, ctx)?;
     for operand in operands {
         let operand = eval_contents(operand, ctx)?;
-        result = match class.kind {
-            CharacterClassContentsKind::Union => result.union(operand),
-            CharacterClassContentsKind::Intersection => result.intersection(&operand),
-            CharacterClassContentsKind::Subtraction => result.difference(&operand),
+        result = if class.kind == CharacterClassContentsKind::Intersection {
+            result.intersection(&operand)
+        } else {
+            result.difference(&operand)
         };
     }
 
