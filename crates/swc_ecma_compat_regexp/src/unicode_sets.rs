@@ -159,6 +159,22 @@ mod tests {
     }
 
     #[test]
+    fn lone_surrogates_do_not_pair() {
+        assert_eq!(
+            lower(r"[\uD83D\u{DE00}]", "v").unwrap(),
+            r"[\uDE00-\uDE00\uD83D-\uD83D]"
+        );
+        assert_eq!(
+            lower(r"[[\0-\uFFFF]--[\uDC00-\uDC7F]]", "v").unwrap(),
+            r"[\uDC80-\uFFFF\x00-\uDBFF]"
+        );
+        assert_eq!(
+            lower(r"[\q{\u{D83D}\u{DE00}}]", "v").unwrap(),
+            r"(?:[\uD83D-\uD83D][\uDE00-\uDE00])"
+        );
+    }
+
+    #[test]
     fn plain_property_is_kept() {
         assert_eq!(lower(r"\p{L}\P{Lu}", "v").unwrap(), r"\p{L}\P{Lu}");
     }

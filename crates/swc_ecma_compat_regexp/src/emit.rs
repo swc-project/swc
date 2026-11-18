@@ -55,16 +55,40 @@ pub(crate) fn char_class(
     char_class_of(span, negative, &ranges)
 }
 
+/// Returns true if `cp` is a surrogate code point.
+fn is_surrogate(cp: u32) -> bool {
+    (0xd800..=0xdfff).contains(&cp)
+}
+
+/// Returns true if `cp` is a trail surrogate code point.
+fn is_trail_surrogate(cp: u32) -> bool {
+    (0xdc00..=0xdfff).contains(&cp)
+}
+
 /// Creates `[...]` (or `[^...]` if `negative` is true) of `ranges`.
+///
+/// In a `u` pattern, `\uD83D\uDE00` is read as one code point, even across a
+/// range boundary (`\uD83D-\uD83D\uDE00-\uDE00`). To keep lone surrogates
+/// apart, the ranges that start with a trail surrogate are written first. After
+/// that, no range starts with a trail surrogate, so no lead surrogate is ever
+/// followed by a trail surrogate.
 pub(crate) fn char_class_of(span: Span, negative: bool, chars: &CharSet) -> CharacterClass {
-    let body = chars
-        .ranges()
+    let ranges = chars.ranges();
+    let trail_first = ranges
         .iter()
+        .filter(|&&(start, _)| is_trail_surrogate(start))
+        .chain(
+            ranges
+                .iter()
+                .filter(|&&(start, _)| !is_trail_surrogate(start)),
+        );
+
+    let body = trail_first
         .map(|&(start, end)| {
             // A single surrogate is written as a range. Two adjacent
             // characters that form a surrogate pair would print as one code
             // point.
-            if start == end && !(0xd800..=0xdfff).contains(&start) {
+            if start == end && !is_surrogate(start) {
                 CharacterClassContents::Character(Box::new(make_char(span, start)))
             } else {
                 CharacterClassContents::CharacterClassRange(Box::new(CharacterClassRange {
@@ -82,6 +106,17 @@ pub(crate) fn char_class_of(span: Span, negative: bool, chars: &CharSet) -> Char
         strings: false,
         kind: CharacterClassContentsKind::Union,
         body,
+    }
+}
+
+/// Creates a term that matches exactly `cp`. A surrogate is written as a
+/// class (`[\uD83D-\uD83D]`), so that it never forms a pair with the term
+/// next to it.
+fn string_char_term(span: Span, cp: u32) -> Term {
+    if is_surrogate(cp) {
+        Term::CharacterClass(Box::new(char_class_of(span, false, &CharSet::single(cp))))
+    } else {
+        Term::Character(Box::new(make_char(span, cp)))
     }
 }
 
@@ -113,7 +148,7 @@ pub(crate) fn class_set_term(span: Span, set: ClassSet, max_char: u32) -> Term {
             span,
             body: string
                 .into_iter()
-                .map(|cp| Term::Character(Box::new(make_char(span, cp))))
+                .map(|cp| string_char_term(span, cp))
                 .collect(),
         });
     }
