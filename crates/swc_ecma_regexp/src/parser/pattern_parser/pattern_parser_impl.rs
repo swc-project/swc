@@ -2235,9 +2235,12 @@ impl<'a> PatternParser<'a> {
             }
 
             if let Some(second) = self.consume_octal_digit() {
-                if let Some(third) = self.consume_octal_digit() {
-                    // ZeroToThree OctalDigit OctalDigit
-                    if first <= 3 {
+                // ZeroToThree OctalDigit OctalDigit
+                //
+                // Only `0` to `3` take a third digit. In `\400`, the escape is
+                // `\40` and `0` is the next atom.
+                if first <= 3 {
+                    if let Some(third) = self.consume_octal_digit() {
                         return Some(first * 64 + second * 8 + third);
                     }
                 }
