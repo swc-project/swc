@@ -1898,7 +1898,8 @@ pub struct ReactCompilerConfig {
     /// The compiler reads ESLint suppressions only when
     /// `environment.validateExhaustiveMemoizationDependencies` or
     /// `environment.validateHooksUsage` is `false`; otherwise this option has
-    /// no effect.
+    /// no effect. When unset, the compiler uses its default rules,
+    /// `react-hooks/exhaustive-deps` and `react-hooks/rules-of-hooks`.
     #[serde(default)]
     pub eslint_suppression_rules: Option<Vec<String>>,
 

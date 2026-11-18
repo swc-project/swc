@@ -998,6 +998,8 @@ export interface ReactCompilerOptions {
      *
      * Takes effect only when `environment.validateExhaustiveMemoizationDependencies`
      * or `environment.validateHooksUsage` is `false`.
+     *
+     * Defaults to `["react-hooks/exhaustive-deps", "react-hooks/rules-of-hooks"]`.
      */
     eslintSuppressionRules?: string[];
 
