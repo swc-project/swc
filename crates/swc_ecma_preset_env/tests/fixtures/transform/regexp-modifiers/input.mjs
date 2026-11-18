@@ -14,16 +14,18 @@ export const unicodeSets = /(?i:[^a])[^b]/v;
 // is kept.
 export const notModifiers = /\(?i:[a--b]/v;
 
-// A backreference in a case-insensitive group cannot be lowered.
+// A backreference in a case-insensitive group cannot be lowered, so the literal
+// becomes a `RegExp` call, which fails only when it runs.
 export const backreference = /(a)(?i:\1)/;
 
 export const constructorCall = new RegExp("(?i:a)b", "g");
 
-// Lowering can add a flag, so a call without flags gets a flags argument.
+// `RegExp` calls are not rewritten, so that feature checks keep working.
 export const constructorWithoutFlags = new RegExp("(?s:.)");
 export const callWithoutFlags = RegExp("(?m:^a$)");
 
-// The flags of the call replace the flags of a regex literal argument.
+// The flags of the call replace the flags of a regex literal argument, so the
+// literal is kept.
 export const literalWithFlags = new RegExp(/(?-i:a)/, "i");
 export const literalWithEmptyFlags = new RegExp(/(?s:.)/, "");
 // The flags are unknown, so the literal is kept.

@@ -13,20 +13,33 @@ export const strings = /(?:abc|[dx]|)/u;
 export const ignoreCase = /[^Aa][^A-Za-z\xB5\xC0-\xD6\xD8-\xF6\xF8-\u0130\u0132-\u0137\u0139-\u0148\u014A-\u018C\u018E-\u01A9\u01AC-\u01B9\u01BC-\u01BD\u01BF\u01C4-\u01EF\u01F1-\u0220\u0222-\u0233\u023A-\u0254\u0256-\u0257\u0259\u025B-\u025C\u0260-\u0261\u0263-\u0266\u0268-\u026C\u026F\u0271-\u0272\u0275\u027D\u0280\u0282-\u0283\u0287-\u028C\u0292\u029D-\u029E\u0345\u0370-\u0373\u0376-\u0377\u037B-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u038F\u0391-\u03A1\u03A3-\u03AF\u03B1-\u03F5\u03F7-\u03FB\u03FD-\u0481\u048A-\u052F\u0531-\u0556\u0561-\u0586\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FD-\u10FF\u13A0-\u13F5\u13F8-\u13FD\u1C80-\u1C8A\u1C90-\u1CBA\u1CBD-\u1CBF\u1D79\u1D7D\u1D8E\u1E00-\u1E95\u1E9B\u1E9E\u1EA0-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F51\u1F53\u1F55\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1FB0-\u1FB1\u1FB8-\u1FBB\u1FBE\u1FC8-\u1FCB\u1FD0-\u1FD1\u1FD8-\u1FDB\u1FE0-\u1FE1\u1FE5\u1FE8-\u1FEC\u1FF8-\u1FFB\u2102\u2107\u210B-\u210D\u2110-\u2112\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u2130-\u2133\u213E-\u213F\u2145\u214E\u2183-\u2184\u2C00-\u2C70\u2C72-\u2C73\u2C75-\u2C76\u2C7E-\u2CE3\u2CEB-\u2CEE\u2CF2-\u2CF3\u2D00-\u2D25\u2D27\u2D2D\uA640-\uA66D\uA680-\uA69B\uA722-\uA72F\uA732-\uA76F\uA779-\uA787\uA78B-\uA78D\uA790-\uA794\uA796-\uA7AE\uA7B0-\uA7DC\uA7F5-\uA7F6\uAB53\uAB70-\uABBF\uFF21-\uFF3A\uFF41-\uFF5A\u{10400}-\u{1044F}\u{104B0}-\u{104D3}\u{104D8}-\u{104FB}\u{10570}-\u{1057A}\u{1057C}-\u{1058A}\u{1058C}-\u{10592}\u{10594}-\u{10595}\u{10597}-\u{105A1}\u{105A3}-\u{105B1}\u{105B3}-\u{105B9}\u{105BB}-\u{105BC}\u{10C80}-\u{10CB2}\u{10CC0}-\u{10CF2}\u{10D50}-\u{10D65}\u{10D70}-\u{10D85}\u{118A0}-\u{118DF}\u{16E40}-\u{16E7F}\u{16EA0}-\u{16EB8}\u{16EBB}-\u{16ED3}\u{1D400}-\u{1D419}\u{1D434}-\u{1D44D}\u{1D468}-\u{1D481}\u{1D49C}\u{1D49E}-\u{1D49F}\u{1D4A2}\u{1D4A5}-\u{1D4A6}\u{1D4A9}-\u{1D4AC}\u{1D4AE}-\u{1D4B5}\u{1D4D0}-\u{1D4E9}\u{1D504}-\u{1D505}\u{1D507}-\u{1D50A}\u{1D50D}-\u{1D514}\u{1D516}-\u{1D51C}\u{1D538}-\u{1D539}\u{1D53B}-\u{1D53E}\u{1D540}-\u{1D544}\u{1D546}\u{1D54A}-\u{1D550}\u{1D56C}-\u{1D585}\u{1D5A0}-\u{1D5B9}\u{1D5D4}-\u{1D5ED}\u{1D608}-\u{1D621}\u{1D63C}-\u{1D655}\u{1D670}-\u{1D689}\u{1D6A8}-\u{1D6C0}\u{1D6E2}-\u{1D6FA}\u{1D71C}-\u{1D734}\u{1D756}-\u{1D76E}\u{1D790}-\u{1D7A8}\u{1D7CA}\u{1E900}-\u{1E943}]/iu;
 export const reservedPunctuators = /[\x26\x28\x2D\x5D]/u;
 export const namedGroups = /(?<word>[A-Z_a-z]+)/u;
-export const constructorCall = new RegExp("[ac-z]", "u");
+export const constructorCall = new RegExp("[[a-z]--b]", "v");
 export const unsupported = RegExp("\\p{RGI_Emoji}", "v");
 export const loneSurrogates = /[\uD800-\uD800][\uDC00-\uDC00]+/u;
-export const literalWithOtherFlags = new RegExp("[^a]", "");
-export const literalWithUnicodeFlag = RegExp("[a&&b]", "u");
-export const spreadFlags = RegExp(/a(?-i:b)/i, ...[
+export const literalWithOtherFlags = new RegExp(RegExp("[^a]", "vi"), "");
+export const literalWithUnicodeFlag = RegExp(RegExp("[a&&b]", "v"), "u");
+export const spreadFlags = RegExp(RegExp("a(?-i:b)", "i"), ...[
     "i"
 ]);
-export const parenthesizedLiteral = RegExp("[Aa](?:b)", "");
-export const parenthesizedCallee = RegExp("[Aa](?:b)", "");
-export const undefinedFlags = RegExp("(?:[Aa])", undefined);
-export const undefinedFlagsWithAddedFlag = new RegExp("(?:^a$)", "m");
-export const templatePattern = new RegExp("(?:[Aa])", "g");
-export const globalThisCallee = new globalThis.RegExp("(?:a)[Bb]", "");
-export const optionalCall = RegExp?.("[Aa](?:b)", "");
-export const conditionalPattern = (x)=>new RegExp(x ? /(?-i:a)/ : /(?-i:b)/, "i");
-export const spreadAfterFlags = (extra)=>RegExp("[ac-z]", "u", ...extra);
+export const parenthesizedLiteral = RegExp(RegExp("a(?-i:b)", "i"), "i");
+export const parenthesizedCallee = RegExp(RegExp("a(?-i:b)", "i"), "i");
+export const undefinedFlags = RegExp("(?i:a)", undefined);
+export const undefinedFlagsWithAddedFlag = new RegExp("(?m:^a$)", undefined);
+export const templatePattern = new RegExp(`(?i:a)`, "g");
+export const globalThisCallee = new globalThis.RegExp(RegExp("(?-i:a)b", "i"), "i");
+export const optionalCall = RegExp?.(RegExp("a(?-i:b)", "i"), "i");
+export const conditionalPattern = (x)=>new RegExp(x ? RegExp("(?-i:a)") : RegExp("(?-i:b)"), "i");
+export const spreadAfterFlags = (extra)=>RegExp("[[a-z]--b]", "v", ...extra);
+export const logicalPattern = (re)=>new RegExp(re || RegExp("(?-i:b)"), "i");
+export const spreadPattern = new RegExp(...[
+    RegExp("(?-i:b)"),
+    "i"
+]);
+export function supportsUnicodeSets() {
+    try {
+        new RegExp("", "v");
+        return true;
+    } catch  {
+        return false;
+    }
+}

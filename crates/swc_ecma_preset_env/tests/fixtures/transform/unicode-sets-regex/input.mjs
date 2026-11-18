@@ -20,7 +20,7 @@ export const reservedPunctuators = /[\&\-\]\(]/v;
 // The `v` flag combined with named groups.
 export const namedGroups = /(?<word>[\w--\d]+)/v;
 
-// The `RegExp` constructor with literal arguments.
+// `RegExp` calls are not rewritten; only regex literals are lowered.
 export const constructorCall = new RegExp("[[a-z]--b]", "v");
 
 // A property of strings without data is only converted to a `RegExp` call.
@@ -29,26 +29,38 @@ export const unsupported = /\p{RGI_Emoji}/v;
 // Two lone surrogates are not one code point.
 export const loneSurrogates = /\u{D800}\u{DC00}+/v;
 
-// The call replaces the flags of the literal, so the source of the literal is
-// lowered with the flags of the call.
+// The call replaces the flags of the literal, so the literal is kept.
 export const literalWithOtherFlags = new RegExp(/[^a]/vi, "");
 export const literalWithUnicodeFlag = RegExp(/[a&&b]/v, "u");
 
 // The flags can come from a spread, so the literal is kept.
 export const spreadFlags = RegExp(/a(?-i:b)/i, ...["i"]);
-// Parentheses do not hide the call or the literal.
+// Parentheses do not hide the call or the literal, so the literal is kept.
 export const parenthesizedLiteral = RegExp((/a(?-i:b)/i), "i");
 export const parenthesizedCallee = (RegExp)(/a(?-i:b)/i, "i");
-// `undefined` means no flags for a string pattern.
+// `RegExp` calls with string patterns are kept.
 export const undefinedFlags = RegExp("(?i:a)", undefined);
 export const undefinedFlagsWithAddedFlag = new RegExp("(?m:^a$)", undefined);
 
-// A template literal without expressions is a known pattern.
+// A template literal pattern is kept too.
 export const templatePattern = new RegExp(`(?i:a)`, "g");
-// `globalThis.RegExp` and optional calls are the global `RegExp` too.
+// `globalThis.RegExp` and optional calls are the global `RegExp` too, so the
+// literal is kept.
 export const globalThisCallee = new globalThis.RegExp(/(?-i:a)b/i, "i");
 export const optionalCall = RegExp?.(/a(?-i:b)/i, "i");
 // The flags replace the flags of either literal, so both are kept.
 export const conditionalPattern = (x) => new RegExp(x ? /(?-i:a)/ : /(?-i:b)/, "i");
-// A spread after the flags argument does not change the flags.
+// A string pattern is kept even with a spread after the flags.
 export const spreadAfterFlags = (extra) => RegExp("[[a-z]--b]", "v", ...extra);
+// A literal anywhere in the pattern argument is kept when the call has flags.
+export const logicalPattern = (re) => new RegExp(re || /(?-i:b)/, "i");
+export const spreadPattern = new RegExp(...[/(?-i:b)/, "i"]);
+// A feature check keeps working.
+export function supportsUnicodeSets() {
+    try {
+        new RegExp("", "v");
+        return true;
+    } catch {
+        return false;
+    }
+}
