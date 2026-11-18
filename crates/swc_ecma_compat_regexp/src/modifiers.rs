@@ -13,6 +13,7 @@ use crate::{
     class_set::{class_escape_chars, eval_class_contents, ClassContext},
     emit::{char_class, char_class_of},
     error::LowerError,
+    surrogates::isolate_lone_surrogates,
 };
 
 /// Removes the modifiers of `(?ims-ims:...)` groups and rewrites the pattern
@@ -33,9 +34,10 @@ use crate::{
 /// `flags` are the flags of the pattern. The pattern must not have the `v`
 /// flag; lower it with [`crate::transform_unicode_sets`] first.
 ///
-/// `allow_dot_all_flag` is whether the `s` flag may be added to the pattern.
-/// Pass `false` for a target that does not support the `s` flag; `.` is then
-/// always rewritten to `[\s\S]`.
+/// If every `^` and `$` is in a part where an `m` modifier applies, the `m`
+/// flag is added to the pattern instead, which avoids lookbehind. This changes
+/// the `flags` property of the regex. The `s` flag is never added: `.` is
+/// always rewritten, so `flags` keeps the flags of the original pattern.
 ///
 /// The rewrite of `^` for `m`, and of `\b` and `\B` for `i` with the `u` flag,
 /// uses lookbehind. A target without lookbehind cannot parse the result.
@@ -45,7 +47,6 @@ use crate::{
 pub fn transform_modifiers(
     pattern: &mut Pattern,
     flags: &str,
-    allow_dot_all_flag: bool,
 ) -> Result<Option<String>, LowerError> {
     if flags.contains('v') {
         return Err(LowerError::UnicodeSetsFlag);
@@ -68,21 +69,15 @@ pub fn transform_modifiers(
     // removed and applied by rewriting instead.
     let removed = global & usage.disabled;
 
-    // If every `^`, `$` (or every `.`) is in a part where `m` (or `s`)
-    // applies, the flag can be added to the pattern instead. This avoids the
-    // lookbehind that the rewrite of `^` needs.
-    let mut scope = FlagScope::default();
+    // If every `^` and `$` is in a part where `m` applies, the flag can be
+    // added to the pattern instead. This avoids the lookbehind that the
+    // rewrite of `^` needs. `.` is always rewritten to `[\s\S]`, which needs no
+    // new syntax, so the `s` flag is never added.
+    let mut scope = AnchorScope::default();
     scope.visit_disjunction(&pattern.body, global);
     let mut promoted = Modifier::empty();
-    if !global.contains(Modifier::M) && scope.anchors_with_m && !scope.anchors_without_m {
+    if !global.contains(Modifier::M) && scope.with_m && !scope.without_m {
         promoted |= Modifier::M;
-    }
-    if allow_dot_all_flag
-        && !global.contains(Modifier::S)
-        && scope.dots_with_s
-        && !scope.dots_without_s
-    {
-        promoted |= Modifier::S;
     }
 
     let lowerer = Lowerer {
@@ -90,6 +85,10 @@ pub fn transform_modifiers(
         kept: (global - removed) | promoted,
     };
     lowerer.lower_disjunction(&mut pattern.body, global)?;
+    if lowerer.unicode {
+        // The rewritten pattern is printed again.
+        isolate_lone_surrogates(pattern);
+    }
 
     let mut new_flags: String = flags
         .chars()
@@ -102,9 +101,6 @@ pub fn transform_modifiers(
     if promoted.contains(Modifier::M) {
         new_flags.push('m');
     }
-    if promoted.contains(Modifier::S) {
-        new_flags.push('s');
-    }
 
     Ok(Some(new_flags))
 }
@@ -116,17 +112,15 @@ pub fn has_modifiers(pattern: &Pattern) -> bool {
     usage.has_modifiers
 }
 
-/// Collects whether the terms that `m` and `s` affect are inside or outside of
-/// the parts where those flags apply.
+/// Collects whether `^` and `$` are inside or outside of the parts where `m`
+/// applies.
 #[derive(Default)]
-struct FlagScope {
-    anchors_with_m: bool,
-    anchors_without_m: bool,
-    dots_with_s: bool,
-    dots_without_s: bool,
+struct AnchorScope {
+    with_m: bool,
+    without_m: bool,
 }
 
-impl FlagScope {
+impl AnchorScope {
     fn visit_disjunction(&mut self, disjunction: &Disjunction, effective: Modifier) {
         for alternative in &disjunction.body {
             for term in &alternative.body {
@@ -156,16 +150,9 @@ impl FlagScope {
                 ) =>
             {
                 if effective.contains(Modifier::M) {
-                    self.anchors_with_m = true;
+                    self.with_m = true;
                 } else {
-                    self.anchors_without_m = true;
-                }
-            }
-            Term::Dot(_) => {
-                if effective.contains(Modifier::S) {
-                    self.dots_with_s = true;
-                } else {
-                    self.dots_without_s = true;
+                    self.without_m = true;
                 }
             }
             _ => {}
@@ -489,7 +476,7 @@ mod tests {
         let mut ast = LiteralParser::new(pattern, Some(flags), Options::default())
             .parse()
             .unwrap();
-        let Some(new_flags) = transform_modifiers(&mut ast, flags, true)? else {
+        let Some(new_flags) = transform_modifiers(&mut ast, flags)? else {
             return Ok(None);
         };
         let lowered = ast.to_string();
@@ -547,20 +534,12 @@ mod tests {
     }
 
     #[test]
-    fn promote_multiline_and_dot_all() {
-        // Every `^`, `$` and `.` is in the group, so the flags are added to
-        // the pattern instead of rewriting the terms.
+    fn promote_multiline_only() {
+        // Every `^` and `$` is in the group, so `m` is added to the pattern
+        // instead of rewriting the anchors.
         assert_eq!(lowered("(?m:^a$)b", "g"), ("(?:^a$)b".into(), "gm".into()));
-        assert_eq!(lowered("(?s:a.)b", ""), ("(?:a.)b".into(), "s".into()));
-        // The target does not support the `s` flag.
-        let mut ast = LiteralParser::new("(?s:a.)b", Some(""), Options::default())
-            .parse()
-            .unwrap();
-        assert_eq!(
-            transform_modifiers(&mut ast, "", false),
-            Ok(Some("".into()))
-        );
-        assert_eq!(ast.to_string(), r"(?:a[\s\S])b");
+        // `.` is always rewritten, so the flags of the pattern stay the same.
+        assert_eq!(lowered("(?s:a.)b", ""), (r"(?:a[\s\S])b".into(), "".into()));
         // A `.` outside of the group needs the rewrite.
         assert_eq!(lowered("(?s:.).", ""), (r"(?:[\s\S]).".into(), "".into()));
     }
@@ -600,7 +579,7 @@ mod tests {
             .parse()
             .unwrap();
         assert_eq!(
-            transform_modifiers(&mut ast, "v", true),
+            transform_modifiers(&mut ast, "v"),
             Err(LowerError::UnicodeSetsFlag)
         );
     }

@@ -10,6 +10,7 @@ use crate::{
     class_set::{eval_class_contents, ClassContext},
     emit::class_set_term,
     error::LowerError,
+    surrogates::isolate_lone_surrogates,
 };
 
 /// Rewrites a pattern that was parsed with the `v` flag so that it has the
@@ -26,7 +27,10 @@ use crate::{
 /// the `v` flag with the `u` flag. On error, the pattern may be partially
 /// rewritten and must be discarded.
 pub fn transform_unicode_sets(pattern: &mut Pattern, ignore_case: bool) -> Result<(), LowerError> {
-    lower_disjunction(&mut pattern.body, ignore_case)
+    lower_disjunction(&mut pattern.body, ignore_case)?;
+    // The result is printed as a `u` pattern.
+    isolate_lone_surrogates(pattern);
+    Ok(())
 }
 
 fn lower_disjunction(disjunction: &mut Disjunction, ignore_case: bool) -> Result<(), LowerError> {
@@ -171,6 +175,14 @@ mod tests {
         assert_eq!(
             lower(r"[\q{\u{D83D}\u{DE00}}]", "v").unwrap(),
             r"(?:[\uD83D-\uD83D][\uDE00-\uDE00])"
+        );
+    }
+
+    #[test]
+    fn separate_surrogate_atoms_stay_separate() {
+        assert_eq!(
+            lower(r"\u{D800}\u{DC00}", "v").unwrap(),
+            r"[\uD800-\uD800][\uDC00-\uDC00]"
         );
     }
 

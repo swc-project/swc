@@ -2,8 +2,7 @@ use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, util::take::Take, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_regexp::{
-    has_modifiers, isolate_lone_surrogates, transform_modifiers,
-    transform_unicode_property_escapes, transform_unicode_sets,
+    has_modifiers, transform_modifiers, transform_unicode_property_escapes, transform_unicode_sets,
 };
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{
@@ -64,8 +63,12 @@ pub struct RegExpOptions {
     ///
     /// When it is set, only calls to the global `RegExp` are rewritten. A
     /// local binding named `RegExp` (for example a parameter) is left alone.
-    /// When it is `None`, or when the resolver has not run, every identifier
-    /// named `RegExp` is treated as the global one.
+    ///
+    /// An identifier with an empty context (the resolver has not run) is
+    /// treated as the global `RegExp`. When this field is `None` and the
+    /// resolver has run, the pass cannot tell a local binding from the global
+    /// one: it keeps applying the unicode property transform to the arguments,
+    /// as before, but does not lower the `v` flag or modifiers in them.
     pub unresolved_ctxt: Option<SyntaxContext>,
 }
 
@@ -147,6 +150,22 @@ impl RegexpPass {
         }
     }
 
+    /// Removes the pattern literal of a `RegExp` call from
+    /// `constructor_literals` when the call is left. The literal removes
+    /// itself when it is visited, so this only matters if another transform
+    /// replaced the literal before it was visited. A stale address could
+    /// otherwise match a later literal at the same address.
+    fn forget_constructor_literal(&mut self, args: &[ExprOrSpread]) {
+        if self.constructor_literals.is_empty() {
+            return;
+        }
+        if let Some(Expr::Lit(Lit::Regex(regex))) = args.first().map(|arg| &*arg.expr) {
+            let address = regex as *const Regex as usize;
+            self.constructor_literals
+                .retain(|&literal| literal != address);
+        }
+    }
+
     /// Returns true if the syntax of `pattern` with `flags` needs
     /// [`Self::lower_syntax`].
     fn needs_syntax_lowering(&self, pattern: &str, flags: &str) -> bool {
@@ -190,11 +209,17 @@ impl RegexpPass {
         };
 
         match &*flags_arg.expr {
+            // `RegExp(/re/, undefined)` keeps the flags of the literal.
+            Expr::Ident(ident) if ident.sym == "undefined" => {}
             Expr::Lit(Lit::Str(flags_lit)) => {
                 let Some(flags) = flags_lit.value.as_str() else {
                     return;
                 };
-                if self.needs_syntax_lowering(&regex.exp, flags) {
+                // The literal must not be lowered with its own flags either,
+                // because the call reads its source with other flags.
+                if self.needs_syntax_lowering(&regex.exp, flags)
+                    || self.needs_syntax_lowering(&regex.exp, &regex.flags)
+                {
                     // `RegExp(/re/, "f")` is `RegExp(/re/.source, "f")`.
                     let source = Str {
                         span: regex.span,
@@ -237,6 +262,8 @@ impl RegexpPass {
                     // not know) keeps the `v` flag.
                     if lower_unicode_sets {
                         warn_not_lowered(span, "the `v` flag", "the pattern cannot be parsed");
+                    } else {
+                        warn_not_lowered(span, "regexp modifiers", "the pattern cannot be parsed");
                     }
                     return None;
                 }
@@ -264,9 +291,7 @@ impl RegexpPass {
         }
 
         if lower_modifiers {
-            // `.` is rewritten instead of adding the `s` flag if the target does
-            // not support the `s` flag.
-            match transform_modifiers(&mut ast, &flags, !self.options.dot_all_regex) {
+            match transform_modifiers(&mut ast, &flags) {
                 Ok(Some(new_flags)) => {
                     flags = new_flags;
                     changed = true;
@@ -280,13 +305,7 @@ impl RegexpPass {
             }
         }
 
-        if !changed {
-            return None;
-        }
-        if flags.contains('u') {
-            isolate_lone_surrogates(&mut ast);
-        }
-        Some((ast.to_string(), flags))
+        changed.then(|| (ast.to_string(), flags))
     }
 
     /// Transform the regex pattern if it contains unicode property escapes.
@@ -424,8 +443,12 @@ impl RegexpPass {
     /// Returns `None` if parsing fails, if the pattern does not contain a group
     /// that an enabled option asks to lower, or if a `\k<name>` reference
     /// points to a duplicated name.
+    ///
+    /// A pattern with such a reference cannot be lowered, so a warning is
+    /// reported at `span`.
     fn extract_and_strip_named_groups(
         &self,
+        span: Span,
         pattern: &str,
         flags: &str,
     ) -> Option<(String, Vec<(Atom, Vec<u32>)>)> {
@@ -456,6 +479,11 @@ impl RegexpPass {
         };
         stripper.strip_disjunction(&mut ast.body);
         if stripper.unsupported {
+            warn_not_lowered(
+                span,
+                "duplicate named capturing groups",
+                "a backreference refers to a duplicated group name",
+            );
             return None;
         }
 
@@ -556,6 +584,14 @@ impl RegexpPass {
                     None => false,
                 };
 
+                if in_constructor && self.needs_syntax_lowering(&regex.exp, &regex.flags) {
+                    warn_not_lowered(
+                        regex.span,
+                        "the syntax",
+                        "the flags of the enclosing `RegExp` call are not known",
+                    );
+                }
+
                 if let Some((exp, flags)) = (!in_constructor)
                     .then(|| self.lower_syntax(regex.span, &regex.exp, &regex.flags))
                     .flatten()
@@ -572,7 +608,7 @@ impl RegexpPass {
                     let original_exp = regex.exp.clone();
 
                     if let Some((stripped_exp, group_mapping)) =
-                        self.extract_and_strip_named_groups(&original_exp, &regex.flags)
+                        self.extract_and_strip_named_groups(regex.span, &original_exp, &regex.flags)
                     {
                         let Regex { flags, span, .. } = regex.take();
 
@@ -664,6 +700,7 @@ impl RegexpPass {
                 ..
             }) => {
                 if let Some(callee) = self.regexp_callee(callee) {
+                    self.forget_constructor_literal(args);
                     self.transform_regexp_args(args, callee);
                 }
             }
@@ -673,6 +710,7 @@ impl RegexpPass {
                 ..
             }) => {
                 if let Some(callee) = self.regexp_callee(callee) {
+                    self.forget_constructor_literal(args);
                     self.transform_regexp_args(args, callee);
                 }
             }

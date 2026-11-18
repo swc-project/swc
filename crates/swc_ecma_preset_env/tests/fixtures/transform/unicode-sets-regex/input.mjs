@@ -28,3 +28,8 @@ export const unsupported = /\p{RGI_Emoji}/v;
 
 // Two lone surrogates are not one code point.
 export const loneSurrogates = /\u{D800}\u{DC00}+/v;
+
+// The call replaces the flags of the literal, so the source of the literal is
+// lowered with the flags of the call.
+export const literalWithOtherFlags = new RegExp(/[^a]/vi, "");
+export const literalWithUnicodeFlag = RegExp(/[a&&b]/v, "u");
