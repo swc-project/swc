@@ -2027,3 +2027,86 @@ fn transform_named_anonymous_function_wrapper_has_source_span() {
         )]
     );
 }
+
+/// Compiled code keeps source positions for nodes the React Compiler
+/// regenerates from `loc` only. The non-ASCII comment checks that `loc`
+/// columns are UTF-8 byte offsets, matching the forward conversion.
+#[test]
+fn transform_generated_nodes_keep_source_spans() {
+    use swc_common::Spanned;
+    use swc_ecma_visit::{Visit, VisitWith};
+
+    #[derive(Default)]
+    struct Collect {
+        news: Vec<swc_common::Span>,
+        cache_calls: Vec<swc_common::Span>,
+    }
+
+    impl Visit for Collect {
+        fn visit_new_expr(&mut self, new: &swc_ecma_ast::NewExpr) {
+            self.news.push(new.span());
+            new.visit_children_with(self);
+        }
+
+        fn visit_call_expr(&mut self, call: &swc_ecma_ast::CallExpr) {
+            if let swc_ecma_ast::Callee::Expr(callee) = &call.callee {
+                if callee.as_ident().is_some_and(|ident| ident.sym == "_c") {
+                    self.cache_calls.push(call.span());
+                }
+            }
+            call.visit_children_with(self);
+        }
+    }
+
+    let source = r#"'use client'
+
+import { useEffect, useState } from 'react'
+
+// Non-ASCII before the component: é 🎉
+export default function Page() {
+  const [callFrame, setCallFrame] = useState<string | null>(null)
+  useEffect(() => {
+    const error = new Error('test-top-frame')
+    console.error(error)
+
+    const callStack = new Error('test-top-frame').stack!.split(
+      'test-top-frame\n'
+    )[1]
+    // indices might change due to different compiler optimizations
+    const callFrame = callStack.split('\n')[0]
+    setCallFrame(callFrame)
+  }, [])
+  return (
+    <pre data-testid="call-frame" aria-busy={callFrame === null}>
+      {String(callFrame)}
+    </pre>
+  )
+}
+"#;
+    let result = transform_source(
+        source,
+        Syntax::Typescript(swc_ecma_parser::TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        default_options(),
+    );
+    let program = result
+        .program
+        .unwrap_or_else(|| panic!("expected compiled output: {:#?}", result.diagnostics));
+
+    let mut collect = Collect::default();
+    program.visit_with(&mut collect);
+
+    let lo = source_pos(source, "new Error('test-top-frame')\n");
+    let hi = lo + "new Error('test-top-frame')".len() as u32;
+    assert_eq!(
+        collect.news.first(),
+        Some(&swc_common::Span::new(
+            swc_common::BytePos(lo),
+            swc_common::BytePos(hi)
+        ))
+    );
+    // Memo-cache scaffolding has no source location.
+    assert_eq!(collect.cache_calls, vec![swc_common::DUMMY_SP]);
+}

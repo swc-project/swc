@@ -115,6 +115,8 @@ impl<'a> ReverseCtx<'a> {
     /// codegen usually carry only `loc`, copied from the HIR place or
     /// instruction they were generated from (often without `index`), so fall
     /// back to it when `start`/`end` are absent.
+    ///
+    /// Identifiers must not use this; see [`Self::span_from_offsets`].
     fn span_from_base(&self, base: &BaseNode) -> Span {
         let loc = base.loc.as_ref();
         let lo = base
@@ -128,6 +130,23 @@ impl<'a> ReverseCtx<'a> {
             .or_else(|| loc.and_then(|loc| self.line_index.byte_pos(&loc.end)))
             .unwrap_or(lo);
         Span::new(BytePos(lo), BytePos(hi))
+    }
+
+    /// Like [`Self::span_from_base`], but ignores `loc`.
+    ///
+    /// Used for every `swc::Ident`. `apply_renames` keys renames on
+    /// `ident.span.lo`, and codegen gives a temporary (e.g. `t1`) the `loc` of
+    /// the expression it holds. If that expression starts with a reference to
+    /// a renamed binding (`x.foo()` with `x` renamed to `x_0`), a `loc`-derived
+    /// span would make `apply_renames` rename the temporary too. Original
+    /// identifiers keep `start`/`end` from the forward pass, so this only drops
+    /// positions from compiler-generated identifiers.
+    fn span_from_offsets(base: &BaseNode) -> Span {
+        match (base.start, base.end) {
+            (Some(start), Some(end)) => Span::new(BytePos(start), BytePos(end)),
+            (Some(start), None) => Span::new(BytePos(start), BytePos(start)),
+            _ => DUMMY_SP,
+        }
     }
 
     // ===== Program =====
@@ -2059,7 +2078,7 @@ impl<'a> ReverseCtx<'a> {
 
     fn convert_identifier(&self, id: &Identifier) -> swc::Ident {
         swc::Ident {
-            span: self.span_from_base(&id.base),
+            span: Self::span_from_offsets(&id.base),
             ctxt: SyntaxContext::empty(),
             sym: self.atom(&id.name),
             optional: id.optional.unwrap_or(false),
@@ -2068,7 +2087,7 @@ impl<'a> ReverseCtx<'a> {
 
     fn convert_jsx_identifier(&self, id: &JSXIdentifier) -> swc::Ident {
         swc::Ident {
-            span: self.span_from_base(&id.base),
+            span: Self::span_from_offsets(&id.base),
             ctxt: SyntaxContext::empty(),
             sym: self.atom(&id.name),
             optional: false,
