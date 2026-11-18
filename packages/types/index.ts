@@ -995,6 +995,11 @@ export interface ReactCompilerOptions {
 
     /**
      * ESLint rules whose suppressions opt a function out of compilation.
+     *
+     * Takes effect only when `environment.validateExhaustiveMemoizationDependencies`
+     * or `environment.validateHooksUsage` is `false`.
+     *
+     * Defaults to `["react-hooks/exhaustive-deps", "react-hooks/rules-of-hooks"]`.
      */
     eslintSuppressionRules?: string[];
 
@@ -1048,6 +1053,27 @@ export interface ReactCompilerEnvironmentConfig {
      * Defaults to `true`.
      */
     enableFunctionOutlining?: boolean;
+
+    /**
+     * Validate that manual memoization dependencies are exhaustive.
+     *
+     * The compiler reads `eslintSuppressionRules` only when this option or
+     * `validateHooksUsage` is `false`. While both are `true`, ESLint
+     * suppression comments do not opt a function out of compilation.
+     *
+     * Defaults to `true`.
+     */
+    validateExhaustiveMemoizationDependencies?: boolean;
+
+    /**
+     * Validate that hooks are used according to the Rules of Hooks.
+     *
+     * See `validateExhaustiveMemoizationDependencies` for how this option
+     * interacts with `eslintSuppressionRules`.
+     *
+     * Defaults to `true`.
+     */
+    validateHooksUsage?: boolean;
 }
 
 export interface ReactConfig {
