@@ -33,7 +33,7 @@ dashmap = { workspace = true, optional = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 is-macro = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
-petgraph = { workspace = true, default-features = false }
+petgraph = { workspace = true, default-features = false, features = ["graphmap"] }
 radix_fmt = { workspace = true, default-features = false }
 rayon = { workspace = true, optional = true, default-features = false }
 relative-path = { workspace = true, default-features = false }

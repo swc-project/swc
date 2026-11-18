@@ -15,4 +15,4 @@ clap = { version = "4.5.9", features = [
     "std",
 ], default-features = false }
 indexmap = { workspace = true, default-features = false }
-petgraph = { workspace = true, default-features = false }
+petgraph = { workspace = true, default-features = false, features = ["graphmap"] }
