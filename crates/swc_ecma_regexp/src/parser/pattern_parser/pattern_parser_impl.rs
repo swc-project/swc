@@ -2404,10 +2404,8 @@ impl<'a> PatternParser<'a> {
         let may_contain_strings = |item: &ast::CharacterClassContents| match item {
             // MayContainStrings is true
             // - if ClassContents contains UnicodePropertyValueExpression
-            //   - && UnicodePropertyValueExpression is
-            //     LoneUnicodePropertyNameOrValue
-            //     - && it is binary property of strings(can be true only with
-            //       `UnicodeSetsMode`)
+            //   - && UnicodePropertyValueExpression is LoneUnicodePropertyNameOrValue
+            //     - && it is binary property of strings(can be true only with `UnicodeSetsMode`)
             ast::CharacterClassContents::UnicodePropertyEscape(item) => item.strings,
             // MayContainStrings is true
             // - if ClassStringDisjunction is [empty]

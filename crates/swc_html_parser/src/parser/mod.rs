@@ -1891,17 +1891,14 @@ where
                     //
                     // Run these steps:
                     //
-                    // 1. Let the adjusted insertion location be the appropriate
-                    //    place for inserting
+                    // 1. Let the adjusted insertion location be the appropriate place for inserting
                     // a node.
                     //
-                    // 2. Create an element for the token in the HTML namespace,
-                    //    with the intended
+                    // 2. Create an element for the token in the HTML namespace, with the intended
                     // parent being the element in which the adjusted insertion
                     // location finds itself.
                     //
-                    // 3. Set the element's parser document to the Document, and
-                    //    unset the element's
+                    // 3. Set the element's parser document to the Document, and unset the element's
                     // "non-blocking" flag.
                     //
                     // This ensures that, if the script is external, any
@@ -1910,13 +1907,11 @@ where
                     // would happen in most other cases. It also prevents the
                     // script from executing until the end tag is seen.
                     //
-                    // 4. If the parser was created as part of the HTML fragment
-                    //    parsing algorithm,
+                    // 4. If the parser was created as part of the HTML fragment parsing algorithm,
                     // then mark the script element as "already started".
                     // (fragment case)
                     //
-                    // 5. If the parser was invoked via the document.write() or
-                    //    document.writeln()
+                    // 5. If the parser was invoked via the document.write() or document.writeln()
                     // methods, then optionally mark the script element as
                     // "already started". (For example, the user agent might use
                     // this clause to prevent execution of cross-origin scripts
@@ -1924,17 +1919,14 @@ where
                     // conditions, or when the page has already taken a long
                     // time to load.)
                     //
-                    // 6. Insert the newly created element at the adjusted
-                    //    insertion location.
+                    // 6. Insert the newly created element at the adjusted insertion location.
                     //
-                    // 7. Push the element onto the stack of open elements so
-                    //    that it is the new
+                    // 7. Push the element onto the stack of open elements so that it is the new
                     // current node.
                     //
                     // 8. Switch the tokenizer to the script data state.
                     //
-                    // 9. Let the original insertion mode be the current
-                    //    insertion mode.
+                    // 9. Let the original insertion mode be the current insertion mode.
                     //
                     // 10. Switch the insertion mode to "text".
                     Token::StartTag {
@@ -3264,16 +3256,14 @@ where
                     }
                     // A start tag whose tag name is "button"
                     //
-                    // 1. If the stack of open elements has a button element in
-                    //    scope, then run
+                    // 1. If the stack of open elements has a button element in scope, then run
                     // these substeps:
                     //
                     // 1. Parse error.
                     //
                     // 2. Generate implied end tags.
                     //
-                    // 3. Pop elements from the stack of open elements until a
-                    //    button element has
+                    // 3. Pop elements from the stack of open elements until a button element has
                     // been popped from the stack.
                     //
                     // 2. Reconstruct the active formatting elements, if any.
@@ -3380,38 +3370,32 @@ where
                     // If there is no template element on the stack of open
                     // elements, then run these substeps:
                     //
-                    // 1. Let node be the element that the form element pointer
-                    //    is set to, or null
+                    // 1. Let node be the element that the form element pointer is set to, or null
                     // if it is not set to an element.
                     //
                     // 2. Set the form element pointer to null.
                     //
-                    // 3. If node is null or if the stack of open elements does
-                    //    not have node in
+                    // 3. If node is null or if the stack of open elements does not have node in
                     // scope, then this is a parse error; return and ignore the
                     // token.
                     //
                     // 4. Generate implied end tags.
                     //
-                    // 5. If the current node is not node, then this is a parse
-                    //    error.
+                    // 5. If the current node is not node, then this is a parse error.
                     //
                     // 6. Remove node from the stack of open elements.
                     //
                     // If there is a template element on the stack of open
                     // elements, then run these substeps instead:
                     //
-                    // 1. If the stack of open elements does not have a form
-                    //    element in scope, then
+                    // 1. If the stack of open elements does not have a form element in scope, then
                     // this is a parse error; return and ignore the token.
                     //
                     // 2, Generate implied end tags.
                     //
-                    // 3. If the current node is not a form element, then this
-                    //    is a parse error.
+                    // 3. If the current node is not a form element, then this is a parse error.
                     //
-                    // 4. Pop elements from the stack of open elements until a
-                    //    form element has been
+                    // 4. Pop elements from the stack of open elements until a form element has been
                     // popped from the stack.
                     Token::EndTag { tag_name, .. } if tag_name == "form" => {
                         if !self.open_elements_stack.contains_template_element() {

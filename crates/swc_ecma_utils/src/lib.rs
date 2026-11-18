@@ -3673,12 +3673,11 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
         }
 
         // A class expression is pure for `new` if:
-        // 1. It has no side effects from definition (computed keys, property
-        //    initializers, static blocks)
+        // 1. It has no side effects from definition (computed keys, property initializers, static
+        //    blocks)
         // 2. It has no super class (calling super() may have side effects)
         // 3. Either has no constructor, or constructor body is empty
-        // 4. Has no instance properties (they are initialized in the
-        //    constructor)
+        // 4. Has no instance properties (they are initialized in the constructor)
         Expr::Class(c) => {
             let class = &c.class;
 

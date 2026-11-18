@@ -1401,8 +1401,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 // list-item` `Display::Table`    - `display:
                                 // block table`
                                 //
-                                // + internal table display (only whitespace
-                                //   characters allowed
+                                // + internal table display (only whitespace characters allowed
                                 // there)
                                 Some(
                                     Display::Block
@@ -1533,8 +1532,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 // list-item` `Display::Table`    - `display:
                                 // block table`
                                 //
-                                // + internal table display (only whitespace
-                                //   characters allowed
+                                // + internal table display (only whitespace characters allowed
                                 // there)
                                 Some(
                                     Display::Block
