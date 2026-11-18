@@ -20,7 +20,11 @@ use swc_ecma_visit::{
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::{compress::util::contains_super, HEAVY_TASK_PARALLELS};
+use crate::{
+    compress::util::contains_super,
+    program_data::{ProgramData, VarUsageInfoFlags},
+    HEAVY_TASK_PARALLELS,
+};
 
 #[cfg(test)]
 mod tests;
@@ -173,21 +177,21 @@ impl Drop for WithCtx<'_, '_> {
 
 pub(crate) fn extract_class_side_effect<'a>(
     expr_ctx: ExprCtx,
+    data: &ProgramData,
     ident: Option<&'a Ident>,
     c: &'a mut Class,
 ) -> Option<Vec<&'a mut Box<Expr>>> {
     let mut res = Vec::new();
     let mut value = Vec::new();
-    if let Some(e) = &mut c.super_class {
-        if e.may_have_side_effects(expr_ctx) {
-            res.push(e);
-        }
-    }
 
     let mut visitor = ClassEffectVisitor {
         found: false,
         private_ident: FxHashSet::default(),
         nested_class_depth: 0,
+        in_strict: expr_ctx.in_strict,
+        unresolved_ctxt: expr_ctx.unresolved_ctxt,
+        data,
+        in_outer_context: false,
     };
 
     for m in &mut c.body {
@@ -202,6 +206,21 @@ pub(crate) fn extract_class_side_effect<'a>(
         }
     }
 
+    // A side-effecting heritage expression or computed key is kept in the
+    // output, but it is moved out of the strict class body. Check it like a
+    // static initializer, but in the context of the code around the class. The
+    // private names of the class are not in scope in the heritage expression,
+    // so checking them there is only conservative.
+    if let Some(e) = &mut c.super_class {
+        if e.may_have_side_effects(expr_ctx) {
+            if !visitor.can_extract_outer(e, ident) {
+                return None;
+            }
+
+            res.push(e);
+        }
+    }
+
     for m in &mut c.body {
         match m {
             ClassMember::Method(ClassMethod {
@@ -209,6 +228,10 @@ pub(crate) fn extract_class_side_effect<'a>(
                 ..
             }) => {
                 if key.expr.may_have_side_effects(expr_ctx) {
+                    if !visitor.can_extract_outer(&key.expr, ident) {
+                        return None;
+                    }
+
                     res.push(&mut key.expr);
                 }
             }
@@ -216,21 +239,46 @@ pub(crate) fn extract_class_side_effect<'a>(
             ClassMember::ClassProp(p) => {
                 if let PropName::Computed(key) = &mut p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
+                        if !visitor.can_extract_outer(&key.expr, ident) {
+                            return None;
+                        }
+
                         res.push(&mut key.expr);
                     }
                 }
 
                 if let Some(v) = &mut p.value {
                     if p.is_static && v.may_have_side_effects(expr_ctx) {
-                        v.visit_with(&mut visitor);
-                        if visitor.found {
+                        if !visitor.can_extract(v, ident) {
                             return None;
                         }
 
-                        if let Some(id) = ident {
-                            if IdentUsageFinder::find(id, v) {
-                                return None;
-                            }
+                        value.push(v);
+                    }
+                }
+            }
+            ClassMember::AutoAccessor(AutoAccessor {
+                key,
+                value: initializer,
+                is_static,
+                ..
+            }) => {
+                if let Key::Public(PropName::Computed(key)) = key {
+                    if key.expr.may_have_side_effects(expr_ctx) {
+                        if !visitor.can_extract_outer(&key.expr, ident) {
+                            return None;
+                        }
+
+                        res.push(&mut key.expr);
+                    }
+                }
+
+                // A static auto-accessor initializer runs while the class is
+                // evaluated, like a static property initializer.
+                if let Some(v) = initializer {
+                    if *is_static && v.may_have_side_effects(expr_ctx) {
+                        if !visitor.can_extract(v, ident) {
+                            return None;
                         }
 
                         value.push(v);
@@ -243,15 +291,8 @@ pub(crate) fn extract_class_side_effect<'a>(
                 ..
             }) => {
                 if v.may_have_side_effects(expr_ctx) {
-                    v.visit_with(&mut visitor);
-                    if visitor.found {
+                    if !visitor.can_extract(v, ident) {
                         return None;
-                    }
-
-                    if let Some(id) = ident {
-                        if IdentUsageFinder::find(id, v) {
-                            return None;
-                        }
                     }
 
                     value.push(v);
@@ -269,15 +310,8 @@ pub(crate) fn extract_class_side_effect<'a>(
                 };
 
                 if first.may_have_side_effects(expr_ctx) {
-                    first.visit_with(&mut visitor);
-                    if visitor.found {
+                    if !visitor.can_extract(first, ident) {
                         return None;
-                    }
-
-                    if let Some(id) = ident {
-                        if IdentUsageFinder::find(id, first) {
-                            return None;
-                        }
                     }
 
                     value.push(first);
@@ -293,17 +327,97 @@ pub(crate) fn extract_class_side_effect<'a>(
     Some(res)
 }
 
-struct ClassEffectVisitor {
+struct ClassEffectVisitor<'d> {
     found: bool,
     private_ident: FxHashSet<Atom>,
     nested_class_depth: usize,
+    /// `true` if the code around the class is strict.
+    in_strict: bool,
+    unresolved_ctxt: SyntaxContext,
+    data: &'d ProgramData,
+    /// `true` while checking a heritage expression or a computed key. These
+    /// use the `this`, `super` and `new.target` of the code around the class,
+    /// so moving them out of the class keeps their meaning.
+    in_outer_context: bool,
 }
 
-impl Visit for ClassEffectVisitor {
+impl<'d> ClassEffectVisitor<'d> {
+    /// Returns `true` if `e` can be moved out of the class body when the class
+    /// is dropped.
+    ///
+    /// `e` must not contain code whose meaning depends on the class body, and
+    /// it must not refer to `class_ident`, which is dropped with the class.
+    /// For example, a callback that `e` stores could otherwise refer to the
+    /// dropped binding.
+    fn can_extract(&mut self, e: &Expr, class_ident: Option<&Ident>) -> bool {
+        e.visit_with(self);
+        if self.found {
+            return false;
+        }
+
+        !class_ident.is_some_and(|id| IdentUsageFinder::find(id, e))
+    }
+
+    /// Returns `true` if code at the current position is strict in the class
+    /// body but sloppy after it is moved out of the class.
+    ///
+    /// A nested class stays strict when it is moved, so code in a nested class
+    /// is not affected.
+    fn in_moved_sloppy_code(&self) -> bool {
+        !self.in_strict && self.nested_class_depth == 0
+    }
+
+    /// Returns `true` if a write to `target` behaves differently when it is
+    /// moved out of the strict class body into sloppy code.
+    ///
+    /// In sloppy code, an assignment to an undeclared variable creates a
+    /// global instead of throwing, and a failed property write, for example on
+    /// a primitive, does nothing instead of throwing. The name of a named
+    /// function expression is immutable, so a write to it throws only in
+    /// strict code too. A write to another declared variable behaves the
+    /// same in both modes.
+    fn is_strict_sensitive_target<N>(&self, target: &N) -> bool
+    where
+        N: VisitWith<StrictSensitiveTargetFinder<'d>>,
+    {
+        if !self.in_moved_sloppy_code() {
+            return false;
+        }
+
+        let mut finder = StrictSensitiveTargetFinder {
+            unresolved_ctxt: self.unresolved_ctxt,
+            data: self.data,
+            found: false,
+        };
+        target.visit_with(&mut finder);
+        finder.found
+    }
+
+    /// Like [Self::can_extract], for a heritage expression or a computed key.
+    fn can_extract_outer(&mut self, e: &Expr, class_ident: Option<&Ident>) -> bool {
+        self.in_outer_context = true;
+        let can_extract = self.can_extract(e, class_ident);
+        self.in_outer_context = false;
+        can_extract
+    }
+}
+
+impl Visit for ClassEffectVisitor<'_> {
     noop_visit_type!();
 
-    /// Don't recurse into constructor
-    fn visit_constructor(&mut self, _: &Constructor) {}
+    fn visit_constructor(&mut self, n: &Constructor) {
+        // A constructor appears only in a nested class, and it runs only when
+        // that class is instantiated, so its effects are not checked. Like a
+        // method of a nested class, it can still use the private names of this
+        // class, which would be undeclared after the code is moved.
+        let mut visitor = PrivateNameUsageVisitor {
+            found: false,
+            private_ident: self.private_ident.clone(),
+        };
+        n.visit_children_with(&mut visitor);
+
+        self.found |= visitor.found;
+    }
 
     fn visit_function(&mut self, n: &Function) {
         if self.found {
@@ -315,7 +429,11 @@ impl Visit for ClassEffectVisitor {
         // functions into the surrounding scope and can change their semantics.
         // Functions inside a nested class stay within that class when the
         // initializer is relocated, so their strictness is preserved.
-        if self.nested_class_depth == 0 {
+        //
+        // A function in a heritage expression or computed key keeps its
+        // meaning when the code around the class is strict, because it does
+        // not use the `this` of a static initializer.
+        if self.nested_class_depth == 0 && !(self.in_outer_context && self.in_strict) {
             self.found = true;
             return;
         }
@@ -333,8 +451,75 @@ impl Visit for ClassEffectVisitor {
         self.found |= visitor.found;
     }
 
+    fn visit_assign_expr(&mut self, n: &AssignExpr) {
+        if self.is_strict_sensitive_target(&n.left) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_update_expr(&mut self, n: &UpdateExpr) {
+        if self.is_strict_sensitive_target(&n.arg) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_unary_expr(&mut self, n: &UnaryExpr) {
+        if n.op == op!("delete") && self.in_moved_sloppy_code() {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        if matches!(&n.left, ForHead::Pat(pat) if self.is_strict_sensitive_target(pat)) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        if matches!(&n.left, ForHead::Pat(pat) if self.is_strict_sensitive_target(pat)) {
+            self.found = true;
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_this_expr(&mut self, _: &ThisExpr) {
-        self.found = true;
+        // A heritage expression or computed key uses the `this` of the code
+        // around the class.
+        if !self.in_outer_context {
+            self.found = true;
+        }
+    }
+
+    fn visit_meta_prop_expr(&mut self, n: &MetaPropExpr) {
+        // `new.target` in a static initializer of this class, including one in
+        // an arrow function, is `undefined`. Outside the class it refers to the
+        // enclosing function's `new.target`, or it is a syntax error.
+        //
+        // The heritage expression and computed keys of a nested class use the
+        // same `new.target`, so this also applies in a nested class. This
+        // visitor does not visit functions in a nested class, which have their
+        // own `new.target`. A `new.target` in a field of a nested class also
+        // has its own value, but it is rare, so it is rejected for simplicity.
+        //
+        // A heritage expression or computed key uses the `new.target` of the
+        // code around the class, so it keeps its meaning when it is moved.
+        if n.kind == MetaPropKind::NewTarget && !self.in_outer_context {
+            self.found = true;
+        }
     }
 
     fn visit_prop(&mut self, n: &Prop) {
@@ -348,7 +533,11 @@ impl Visit for ClassEffectVisitor {
     }
 
     fn visit_super(&mut self, _: &Super) {
-        self.found = true;
+        // A heritage expression or computed key uses the `super` of the code
+        // around the class, like `this`.
+        if !self.in_outer_context {
+            self.found = true;
+        }
     }
 
     fn visit_private_name(&mut self, n: &PrivateName) {
@@ -383,6 +572,42 @@ impl Visit for ClassEffectVisitor {
         n.body.visit_with(self);
         self.nested_class_depth -= 1;
         self.private_ident = old_set;
+    }
+}
+
+/// Finds a write target whose behavior depends on strict mode: an undeclared
+/// variable, the name of a named function expression, or a property.
+///
+/// It also visits default values in patterns, so a read there is treated as
+/// a target too. This is conservative.
+struct StrictSensitiveTargetFinder<'d> {
+    unresolved_ctxt: SyntaxContext,
+    data: &'d ProgramData,
+    found: bool,
+}
+
+impl Visit for StrictSensitiveTargetFinder<'_> {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, n: &Ident) {
+        if self.found {
+            return;
+        }
+
+        self.found = n.ctxt == self.unresolved_ctxt
+            || self
+                .data
+                .vars
+                .get(&n.to_id())
+                .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR));
+    }
+
+    fn visit_member_expr(&mut self, _: &MemberExpr) {
+        self.found = true;
+    }
+
+    fn visit_super_prop_expr(&mut self, _: &SuperPropExpr) {
+        self.found = true;
     }
 }
 

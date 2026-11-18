@@ -8169,7 +8169,7 @@
                 } catch (error) {
                 /* empty */ }
                 return result;
-            }, proxy = function(key) {
+            }, keys = getOwnPropertyNames(NativeRegExp), index = 0; keys.length > index;)!function(key) {
                 key in RegExpWrapper || defineProperty(RegExpWrapper, key, {
                     configurable: !0,
                     get: function() {
@@ -8179,7 +8179,7 @@
                         NativeRegExp[key] = it;
                     }
                 });
-            }, keys = getOwnPropertyNames(NativeRegExp), index = 0; keys.length > index;)proxy(keys[index++]);
+            }(keys[index++]);
             RegExpPrototype.constructor = RegExpWrapper, RegExpWrapper.prototype = RegExpPrototype, redefine(global, "RegExp", RegExpWrapper);
         }
         // https://tc39.es/ecma262/#sec-get-regexp-@@species

@@ -39,7 +39,10 @@
 -   Run `git commit` only after `git add`.
 -   Once changes are staged, commit without unnecessary delay so staged history is preserved.
 -   When creating or updating a pull request, follow the repository pull request template.
+-   Keep each pull request to one logical change. Do not add unrelated changes, such as unrelated refactors, formatting, or dependency updates, to a pull request.
+-   If CI fails for a reason that the pull request does not cause, do not fix the failure in that pull request. Fix it in a separate pull request.
 -   When creating a pull request, use the `add-changeset` skill to create the required changeset.
+-   When writing or updating a pull request body, use the `write-pr-body` skill.
 -   After addressing pull request review comments and pushing updates, resolve the corresponding review threads.
 -   When fixing a GitHub issue, add the issue author as a co-author of the fix commit, unless they are already its author.
 -   Use `gh` to verify the issue author's GitHub login, numeric account ID, and display name. Use the login when no display name is available.

@@ -9,9 +9,16 @@ use crate::{
     error::SyntaxError,
     input::Tokens,
     lexer::Token,
-    parser::{util::IsSimpleParameterList, BoundaryContext, FunctionKind, TypeContext},
+    parser::{
+        util::IsSimpleParameterList, BoundaryContext, FunctionKind, TsSpeculationKind, TypeContext,
+    },
     Context, PResult, Parser,
 };
+
+mod flow;
+pub(super) mod lookahead;
+
+use lookahead::ParameterStart;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ParsingContext {
@@ -20,6 +27,17 @@ enum ParsingContext {
     TupleElementTypes,
     TypeMembers,
     TypeParametersOrArguments,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum TsMethodSignatureKind {
+    Method,
+    Get,
+    Set,
+}
+
+fn can_follow_accessor_keyword(token: Token) -> bool {
+    token.is_word() || matches!(token, Token::LBracket | Token::Str | Token::Num | Token::At)
 }
 
 /// Expression type arguments cannot split a comparison or shift operator.
@@ -1830,51 +1848,30 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    #[cfg_attr(
-        all(debug_assertions, feature = "tracing-spans"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
-        trace_cur!(self, try_parse_ts_type_args);
-        debug_assert!(self.input().syntax().typescript());
-
-        self.try_parse_ts(|p| {
-            let type_args = p.parse_ts_type_args_in_expr()?;
-            let cur = p.input().cur();
-            if matches!(
-                cur,
-                Token::Lt
-                    | Token::Gt
-                    | Token::Eq
-                    | Token::RShift
-                    | Token::ZeroFillRShift
-                    | Token::RShiftEq
-                    | Token::ZeroFillRShiftEq
-                    | Token::GtEq
-                    | Token::Plus
-                    | Token::Minus
-                    | Token::LParen
-                    | Token::NoSubstitutionTemplateLiteral
-                    | Token::TemplateHead
-                    | Token::BackQuote
-            )
-            // these should be type
-            // arguments in function
-            // call or template, not
-            // instantiation
-            // expression
-            {
-                Ok(None)
-            } else if p.input().had_line_break_before_cur()
+    pub(super) fn can_follow_ts_instantiation(&mut self) -> bool {
+        let cur = self.input().cur();
+        // Calls and tagged templates own their type arguments; these tokens
+        // cannot follow a standalone instantiation expression.
+        !matches!(
+            cur,
+            Token::Lt
+                | Token::Gt
+                | Token::Eq
+                | Token::RShift
+                | Token::ZeroFillRShift
+                | Token::RShiftEq
+                | Token::ZeroFillRShiftEq
+                | Token::GtEq
+                | Token::Plus
+                | Token::Minus
+                | Token::LParen
+                | Token::NoSubstitutionTemplateLiteral
+                | Token::TemplateHead
+                | Token::BackQuote
+        ) && (self.input().had_line_break_before_cur()
                 || cur.is_bin_op()
                 // Unlike other assignments, `/=` can start a regexp on the same line.
-                || (cur != Token::DivEq && !p.is_start_of_expr())
-            {
-                Ok(Some(type_args))
-            } else {
-                Ok(None)
-            }
-        })
+                || (cur != Token::DivEq && !self.is_start_of_expr()))
     }
 
     /// `tsTryParseType`
@@ -2452,117 +2449,25 @@ impl<I: Tokens> Parser<I> {
         Ok(heritage)
     }
 
-    /// `tsSkipParameterStart`
-    fn skip_ts_parameter_start(&mut self) -> PResult<bool> {
-        debug_assert!(self.input().syntax().typescript());
-
-        let _ = self.eat_any_ts_modifier()?;
-
-        let cur = self.input().cur();
-
-        if cur == Token::Void {
-            Ok(false)
-        } else if cur.is_word() || cur == Token::This {
-            self.bump();
-            Ok(true)
-        } else if (cur == Token::LBrace || cur == Token::LBracket)
-            && self.parse_binding_pat_or_ident(false).is_ok()
-        {
-            Ok(true)
-        } else {
-            Ok(false)
-        }
-    }
-
-    /// `tsIsUnambiguouslyStartOfFunctionType`
-    fn is_ts_unambiguously_start_of_fn_type(&mut self) -> PResult<bool> {
-        debug_assert!(self.input().syntax().typescript());
-
-        let disallow_flow_anon_fn_type = self.is_flow_syntax()
-            && self
-                .type_ctx()
-                .contains(TypeContext::DisallowFlowAnonFnType);
-
+    /// Recognize TypeScript parameters without parsing their initializers.
+    fn is_function_type_after_pattern(&mut self) -> PResult<bool> {
         self.assert_and_bump(Token::LParen);
-        let starts_with_parenthesized_object_or_array =
-            matches!(self.input().cur(), Token::LBrace | Token::LBracket);
-
-        let cur = self.input().cur();
-        let starts_with_flow_renders = self.input().syntax().flow()
-            && cur.is_word()
-            && cur.take_word(&self.input) == atom!("renders");
-        if cur == Token::RParen || cur == Token::DotDotDot {
-            // ( )
-            // ( ...
+        if matches!(self.input().cur(), Token::RParen | Token::DotDotDot) {
             return Ok(true);
         }
-        if self.skip_ts_parameter_start()? {
-            let cur = self.input().cur();
-            if cur == Token::QuestionMark
-                && !(self.is_flow_syntax()
-                    && peek!(self).is_some_and(|peek| {
-                        !matches!(
-                            peek,
-                            Token::Colon | Token::Comma | Token::Eq | Token::RParen
-                        )
-                    }))
-            {
-                return Ok(true);
+        match self.probe_parameter_start()? {
+            ParameterStart::Initializer => Ok(true),
+            ParameterStart::Pattern => {
+                if matches!(
+                    self.input().cur(),
+                    Token::QuestionMark | Token::Colon | Token::Comma | Token::Eq
+                ) {
+                    return Ok(true);
+                }
+                Ok(self.input_mut().eat(Token::RParen) && self.input().is(Token::Arrow))
             }
-
-            if matches!(cur, Token::Colon | Token::Comma | Token::Eq) {
-                // ( xxx :
-                // ( xxx ,
-                // ( xxx ?
-                // ( xxx =
-                if starts_with_flow_renders && cur == Token::Comma {
-                    return Ok(false);
-                }
-                if disallow_flow_anon_fn_type && starts_with_parenthesized_object_or_array {
-                    return Ok(false);
-                }
-                return Ok(true);
-            }
-            if self.input_mut().eat(Token::RParen) && self.input().cur() == Token::Arrow {
-                if starts_with_flow_renders {
-                    return Ok(false);
-                }
-                if disallow_flow_anon_fn_type {
-                    // In arrow return type context, `(T) => U` should bind to
-                    // the outer arrow unless the function type is parenthesized.
-                    return Ok(false);
-                }
-                // ( xxx ) =>
-                return Ok(true);
-            }
+            ParameterStart::None => Ok(false),
         }
-
-        if self.is_flow_syntax()
-            && self
-                .try_parse_ts(|p| {
-                    p.try_parse_flow_anon_signature_param(0, FlowAnonParamWords::GenericOnly)
-                })
-                .is_some()
-        {
-            if self.input().is(Token::Comma) {
-                if disallow_flow_anon_fn_type && starts_with_parenthesized_object_or_array {
-                    return Ok(false);
-                }
-                return Ok(true);
-            }
-
-            if self.input_mut().eat(Token::RParen) && self.input().cur() == Token::Arrow {
-                if disallow_flow_anon_fn_type {
-                    // In arrow return type context, `(T) => U` should bind to
-                    // the outer arrow unless the function type is parenthesized.
-                    return Ok(false);
-                }
-
-                return Ok(true);
-            }
-        }
-
-        Ok(false)
     }
 
     fn is_ts_start_of_fn_type(&mut self) -> bool {
@@ -2572,10 +2477,13 @@ impl<I: Tokens> Parser<I> {
             return true;
         }
 
-        self.input().cur() == Token::LParen
-            && self
-                .ts_look_ahead(Self::is_ts_unambiguously_start_of_fn_type)
-                .unwrap_or_default()
+        !self.is_flow_syntax()
+            && self.input().cur() == Token::LParen
+            && self.ts_look_ahead(|p| {
+                p.with_computed_key_lookahead(|p| {
+                    p.is_function_type_after_pattern().unwrap_or_default()
+                })
+            })
     }
 
     /// `tsIsUnambiguouslyIndexSignature`
@@ -2779,63 +2687,38 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().syntax().typescript());
 
-        fn pat_to_ts_fn_param<I: Tokens>(p: &mut Parser<I>, pat: Pat) -> PResult<TsFnParam> {
-            let item = match pat {
-                Pat::Ident(pat) => {
-                    if p.input().syntax().flow() && &*pat.id.sym == "static" {
-                        p.emit_err(
-                            pat.span(),
-                            SyntaxError::InvalidIdentInStrict(atom!("static")),
-                        );
-                    }
-
-                    TsFnParam::Ident(pat)
-                }
-                Pat::Array(pat) => TsFnParam::Array(pat),
-                Pat::Object(pat) => TsFnParam::Object(pat),
-                Pat::Rest(pat) => TsFnParam::Rest(pat),
-                _ => unexpected!(
-                    p,
-                    "an identifier, [ for an array pattern, { for an object patter or ... for a \
-                     rest pattern"
-                ),
-            };
-
-            Ok(item)
-        }
-
         if self.input().syntax().flow() && self.type_ctx().contains(TypeContext::InType) {
-            // Inside a Flow function type every parameter is either named
-            // (`name: T`, `name?: T`) or an anonymous type (`T`, `NS.T`, `T[]`,
-            // `T | U`, ...). A bare word is therefore a type here, matching the
-            // all-anonymous `(T) => U` fast path in `try_parse_flow_anon_fn_type`.
-            let list = self.parse_parameter_list(|p, index| {
-                if p.flow_starts_like_anon_signature_param(FlowAnonParamWords::UnlessNamed) {
-                    if let Some(param) = p.try_parse_ts(|p| {
-                        p.try_parse_flow_anon_signature_param(
-                            index,
-                            FlowAnonParamWords::UnlessNamed,
-                        )
-                    }) {
-                        return Ok(param);
-                    }
-                }
-                let pat_start = p.cur_pos();
-                let pat = if p.input_mut().eat(Token::DotDotDot) {
-                    p.parse_rest_parameter(pat_start)?
-                } else {
-                    p.parse_formal_param_pat()?
-                };
-                pat_to_ts_fn_param(p, pat)
-            })?;
+            let list = self.parse_parameter_list(Self::parse_flow_signature_param)?;
 
             expect!(self, Token::RParen);
             return Ok(list);
         }
 
-        let list = self.parse_formal_params_inner(|p, param| pat_to_ts_fn_param(p, param.pat))?;
+        let list = self.parse_formal_params_inner(|p, param| p.ts_fn_param_from_pat(param.pat))?;
         expect!(self, Token::RParen);
         Ok(list)
+    }
+
+    fn ts_fn_param_from_pat(&mut self, pat: Pat) -> PResult<TsFnParam> {
+        Ok(match pat {
+            Pat::Ident(pat) => {
+                if self.syntax().flow() && pat.id.sym == *"static" {
+                    self.emit_err(
+                        pat.span(),
+                        SyntaxError::InvalidIdentInStrict(atom!("static")),
+                    );
+                }
+                TsFnParam::Ident(pat)
+            }
+            Pat::Array(pat) => TsFnParam::Array(pat),
+            Pat::Object(pat) => TsFnParam::Object(pat),
+            Pat::Rest(pat) => TsFnParam::Rest(pat),
+            _ => unexpected!(
+                self,
+                "an identifier, [ for an array pattern, { for an object patter or ... for a rest \
+                 pattern"
+            ),
+        })
     }
 
     /// `tsIsStartOfMappedType`
@@ -3299,14 +3182,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
         expect!(self, Token::LParen);
-        let type_ann = if self.input().syntax().flow() {
-            self.do_outside_of_type_context(
-                TypeContext::DisallowFlowAnonFnType,
-                Self::parse_ts_type,
-            )?
-        } else {
-            self.parse_ts_type()?
-        };
+        let type_ann = self.parse_ts_type()?;
         expect!(self, Token::RParen);
         Ok(TsParenthesizedType {
             span: self.span(start),
@@ -3625,71 +3501,6 @@ impl<I: Tokens> Parser<I> {
             .map(Self::flow_anon_fn_param_to_pat))
     }
 
-    fn try_parse_flow_anon_fn_type(&mut self) -> PResult<Option<TsFnType>> {
-        if !self.input().syntax().flow()
-            || self
-                .type_ctx()
-                .contains(TypeContext::DisallowFlowAnonFnType)
-            || !self.input().is(Token::LParen)
-        {
-            return Ok(None);
-        }
-
-        let start = self.cur_pos();
-        expect!(self, Token::LParen);
-
-        // `() =>` is handled by the regular function type parser.
-        if self.input().is(Token::RParen) {
-            return Ok(None);
-        }
-
-        let mut params = Vec::new();
-
-        loop {
-            let param_start = self.cur_pos();
-            let dot3_token = if self.input_mut().eat(Token::DotDotDot) {
-                Some(self.input().prev_span())
-            } else {
-                None
-            };
-            let ty = self.parse_ts_type()?;
-
-            // Named parameters are handled by the regular signature parser.
-            if matches!(
-                self.input().cur(),
-                Token::Colon | Token::QuestionMark | Token::Eq
-            ) {
-                return Ok(None);
-            }
-            if Self::is_flow_bare_renders_type(&ty) {
-                return Ok(None);
-            }
-
-            params.push(self.make_flow_anon_fn_param(param_start, params.len(), dot3_token, ty));
-
-            if !self.input_mut().eat(Token::Comma) {
-                break;
-            }
-
-            if self.input().is(Token::RParen) {
-                break;
-            }
-        }
-
-        expect!(self, Token::RParen);
-        if !self.input().is(Token::Arrow) {
-            return Ok(None);
-        }
-
-        let type_ann = self.parse_ts_type_or_type_predicate_ann(Token::Arrow)?;
-        Ok(Some(TsFnType {
-            span: self.span(start),
-            params,
-            type_params: None,
-            type_ann,
-        }))
-    }
-
     /// `tsParseUnionTypeOrHigher`
     fn parse_ts_union_type_or_higher(&mut self) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_union_type_or_higher);
@@ -3807,17 +3618,7 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         expect!(self, Token::Infer);
         let type_param_name = self.parse_ident_name_with_escape_check()?;
-        let constraint = self.try_parse_ts(|p| {
-            expect!(p, Token::Extends);
-            let constraint = p.parse_ts_non_conditional_type();
-            if p.type_ctx().contains(TypeContext::DisallowConditionalTypes)
-                || !p.input().is(Token::QuestionMark)
-            {
-                constraint.map(Some)
-            } else {
-                Ok(None)
-            }
-        });
+        let constraint = self.parse_infer_constraint();
         let type_param = TsTypeParam {
             span: type_param_name.span(),
             name: type_param_name.into(),
@@ -3833,19 +3634,46 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    fn parse_infer_constraint(&mut self) -> Option<Box<TsType>> {
+        if !self.input().is(Token::Extends) {
+            return None;
+        }
+        let conditional_allowed = !self
+            .type_ctx()
+            .contains(TypeContext::DisallowConditionalTypes);
+        let key = if conditional_allowed {
+            self.ts_speculation_key(TsSpeculationKind::InferConstraint)
+        } else {
+            None
+        };
+        if key
+            .as_ref()
+            .is_some_and(|key| self.has_rejected_ts_speculation(key))
+        {
+            return None;
+        }
+        let mut rejected = false;
+        let constraint = self.try_parse_ts(|p| {
+            p.bump(); // extends
+            let constraint = p.parse_ts_non_conditional_type()?;
+            if conditional_allowed && p.input().is(Token::QuestionMark) {
+                rejected = true;
+                Ok(None)
+            } else {
+                Ok(Some(constraint))
+            }
+        });
+        if rejected {
+            self.reject_ts_speculation(key);
+        }
+        constraint
+    }
+
     /// `tsParseNonConditionalType`
     fn parse_ts_non_conditional_type(&mut self) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_non_conditional_type);
 
         debug_assert!(self.input().syntax().typescript());
-
-        if self.is_flow_syntax() {
-            if let Some(fn_type) = self.try_parse_ts(Self::try_parse_flow_anon_fn_type) {
-                return Ok(Box::new(TsType::TsFnOrConstructorType(
-                    TsFnOrConstructorType::TsFnType(fn_type),
-                )));
-            }
-        }
 
         if self.is_ts_start_of_fn_type() {
             return self
@@ -4014,7 +3842,7 @@ impl<I: Tokens> Parser<I> {
                 }))),
             )
         } else if self.input_mut().eat(Token::LBracket) {
-            let key = self.parse_assignment_expr()?;
+            let key = self.parse_computed_key_expression()?;
             expect!(self, Token::RBracket);
             (true, key)
         } else {
@@ -4042,41 +3870,85 @@ impl<I: Tokens> Parser<I> {
         Ok((computed, key))
     }
 
-    /// `tsParsePropertyOrMethodSignature`
-    fn parse_ts_property_or_method_signature(
+    fn parse_property_or_method_signature(
         &mut self,
         start: BytePos,
         readonly: bool,
-    ) -> PResult<Either<TsPropertySignature, TsMethodSignature>> {
-        debug_assert!(self.input().syntax().typescript());
-
+    ) -> PResult<TsTypeElement> {
+        let mut kind = TsMethodSignatureKind::Method;
+        let head = self.input().cur_span();
+        if matches!(self.input().cur(), Token::Get | Token::Set)
+            && peek!(self).is_some_and(can_follow_accessor_keyword)
+        {
+            kind = if self.input_mut().eat(Token::Get) {
+                TsMethodSignatureKind::Get
+            } else {
+                self.bump();
+                TsMethodSignatureKind::Set
+            };
+            if readonly {
+                syntax_error!(self, head, SyntaxError::GetterSetterCannotBeReadonly);
+            }
+        }
         let (computed, key) = self.parse_ts_property_name()?;
-
-        if self.input().syntax().flow() && readonly && computed && matches!(*key, Expr::Array(..)) {
+        if self.syntax().flow() && readonly && computed && matches!(*key, Expr::Array(..)) {
             self.emit_err(key.span(), SyntaxError::TS1003);
         }
-
         let optional = self.input_mut().eat(Token::QuestionMark);
-
-        let cur = self.input().cur();
-        if matches!(cur, Token::LParen | Token::Lt) {
-            if readonly {
+        if kind != TsMethodSignatureKind::Method
+            || matches!(self.input().cur(), Token::LParen | Token::Lt)
+        {
+            if kind == TsMethodSignatureKind::Method && readonly {
                 syntax_error!(self, SyntaxError::ReadOnlyMethod);
             }
+            if kind != TsMethodSignatureKind::Method && optional {
+                syntax_error!(
+                    self,
+                    self.input().prev_span(),
+                    SyntaxError::GetterSetterCannotBeOptional
+                );
+            }
+            return self.parse_method_signature_body(start, key, kind, computed, optional);
+        }
+        let type_ann = self.try_parse_ts_type_ann()?;
+        if self.syntax().flow() && type_ann.is_none() {
+            self.emit_err(self.span(start), SyntaxError::TS1003);
+        }
+        self.parse_ts_type_member_semicolon()?;
+        Ok(TsPropertySignature {
+            span: self.span(start),
+            computed,
+            readonly,
+            key,
+            optional,
+            type_ann,
+        }
+        .into())
+    }
 
-            let type_params = self.try_parse_ts_type_params(false, true)?;
-            expect!(self, Token::LParen);
-            let params = self.parse_ts_binding_list_for_signature()?;
-            let type_ann = if self.input().is(Token::Colon) {
-                self.parse_ts_type_or_type_predicate_ann(Token::Colon)
-                    .map(Some)?
-            } else {
-                None
-            };
-            // -----
-
-            self.parse_ts_type_member_semicolon()?;
-            Ok(Either::Right(TsMethodSignature {
+    fn parse_method_signature_body(
+        &mut self,
+        start: BytePos,
+        key: Box<Expr>,
+        kind: TsMethodSignatureKind,
+        computed: bool,
+        optional: bool,
+    ) -> PResult<TsTypeElement> {
+        let type_params = if kind == TsMethodSignatureKind::Method {
+            self.try_parse_ts_type_params(false, true)?
+        } else {
+            None
+        };
+        expect!(self, Token::LParen);
+        let params = self.parse_ts_binding_list_for_signature()?;
+        let type_ann = if self.input().is(Token::Colon) {
+            Some(self.parse_ts_type_or_type_predicate_ann(Token::Colon)?)
+        } else {
+            None
+        };
+        self.parse_ts_type_member_semicolon()?;
+        Ok(match kind {
+            TsMethodSignatureKind::Method => TsMethodSignature {
                 span: self.span(start),
                 computed,
                 key,
@@ -4084,24 +3956,45 @@ impl<I: Tokens> Parser<I> {
                 type_params,
                 params,
                 type_ann,
-            }))
-        } else {
-            let type_ann = self.try_parse_ts_type_ann()?;
-
-            if self.input().syntax().flow() && type_ann.is_none() {
-                self.emit_err(self.span(start), SyntaxError::TS1003);
             }
-
-            self.parse_ts_type_member_semicolon()?;
-            Ok(Either::Left(TsPropertySignature {
-                span: self.span(start),
-                computed,
-                readonly,
-                key,
-                optional,
-                type_ann,
-            }))
-        }
+            .into(),
+            TsMethodSignatureKind::Get => {
+                if !params.is_empty() {
+                    syntax_error!(self, self.span(start), SyntaxError::GetterParam);
+                }
+                TsGetterSignature {
+                    span: self.span(start),
+                    computed,
+                    key,
+                    type_ann,
+                }
+                .into()
+            }
+            TsMethodSignatureKind::Set => {
+                if !self.syntax().flow() {
+                    if let Some(type_ann) = &type_ann {
+                        syntax_error!(self, type_ann.span, SyntaxError::SetterReturnType);
+                    }
+                }
+                if params.len() > 1 {
+                    if self.syntax().flow() {
+                        self.emit_err(key.span(), SyntaxError::SetterParam);
+                    } else {
+                        syntax_error!(self, self.span(start), SyntaxError::SetterParam);
+                    }
+                }
+                let Some(param) = params.into_iter().next() else {
+                    syntax_error!(self, self.span(start), SyntaxError::SetterParamRequired);
+                };
+                TsSetterSignature {
+                    span: self.span(start),
+                    computed,
+                    key,
+                    param,
+                }
+                .into()
+            }
+        })
     }
 
     /// `tsParseTypeMember`
@@ -4212,86 +4105,11 @@ impl<I: Tokens> Parser<I> {
             return Ok(idx.into());
         }
 
-        // The accessor is parsed speculatively, which suppresses recoverable
-        // errors. A Flow setter with extra parameters is therefore reported
-        // only after the speculation succeeds, through the returned key span.
-        if let Some((v, extra_setter_params_key_span)) = self.try_parse_ts(|p| {
-            let start = p.input().cur_pos();
-
-            if readonly {
-                syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
-            }
-
-            let is_get = if p.input_mut().eat(Token::Get) {
-                true
-            } else {
-                expect!(p, Token::Set);
-                false
-            };
-
-            let (computed, key) = p.parse_ts_property_name()?;
-
-            if is_get {
-                expect!(p, Token::LParen);
-                expect!(p, Token::RParen);
-                let type_ann = p.try_parse_ts_type_ann()?;
-
-                p.parse_ts_type_member_semicolon()?;
-
-                Ok(Some((
-                    TsTypeElement::TsGetterSignature(TsGetterSignature {
-                        span: p.span(start),
-                        key,
-                        computed,
-                        type_ann,
-                    }),
-                    None,
-                )))
-            } else {
-                expect!(p, Token::LParen);
-                let params = p.parse_ts_binding_list_for_signature()?;
-                // `TsSetterSignature` holds a single parameter, so any extra
-                // parameter is dropped from the AST. Flow reports this like an
-                // object literal setter (`SyntaxError::SetterParam`).
-                let extra_params_key_span =
-                    (p.input().syntax().flow() && params.len() > 1).then(|| key.span());
-                let Some(param) = params.into_iter().next() else {
-                    syntax_error!(p, SyntaxError::SetterParamRequired)
-                };
-
-                if p.input().syntax().flow() && p.input().is(Token::Colon) {
-                    let _ = p.parse_ts_type_or_type_predicate_ann(Token::Colon)?;
-                }
-
-                p.parse_ts_type_member_semicolon()?;
-
-                Ok(Some((
-                    TsTypeElement::TsSetterSignature(TsSetterSignature {
-                        span: p.span(start),
-                        key,
-                        computed,
-                        param,
-                    }),
-                    extra_params_key_span,
-                )))
-            }
-        }) {
-            if let Some(key_span) = extra_setter_params_key_span {
-                self.emit_err(key_span, SyntaxError::SetterParam);
-            }
-            return Ok(v);
+        let member = self.parse_property_or_method_signature(start, readonly)?;
+        if flow_minus_variance && matches!(member, TsTypeElement::TsMethodSignature(..)) {
+            self.emit_err(member.span(), SyntaxError::TS1003);
         }
-
-        self.parse_ts_property_or_method_signature(start, readonly)
-            .map(|e| match e {
-                Either::Left(e) => e.into(),
-                Either::Right(e) => {
-                    if flow_minus_variance {
-                        self.emit_err(e.span, SyntaxError::TS1003);
-                    }
-                    e.into()
-                }
-            })
+        Ok(member)
     }
 
     /// `tsParseObjectTypeMembers`
@@ -4903,37 +4721,10 @@ impl<I: Tokens> Parser<I> {
         } else if self.input().syntax().flow() && cur == Token::QuestionMark {
             self.bump();
 
-            // Flow's nullable type (`?T`) is represented as `T | null | undefined`.
-            // Only use the non-conditional parser for actual function forms
-            // (`?() =>`, `?(x: T) =>`, `?(...A) =>`).
-            //
-            // Otherwise the operand is a postfix type: `?` binds looser than
-            // `[]` and `[K]`, so `?T[]` is a nullable array and `?T[K]` is a
-            // nullable indexed access, while `(?T)[]` keeps the suffix outside
-            // the union. Stopping at the postfix level leaves `|` and `&` to
-            // the enclosing union/intersection parser.
-            let is_nullable_fn_type = self.input().is(Token::LParen)
-                && self.ts_look_ahead(|p| {
-                    p.try_parse_ts(|p| {
-                        let ty = p.parse_ts_non_conditional_type()?;
-
-                        if matches!(
-                            &*ty,
-                            TsType::TsFnOrConstructorType(TsFnOrConstructorType::TsFnType(..))
-                        ) {
-                            Ok(Some(()))
-                        } else {
-                            Ok(None)
-                        }
-                    })
-                    .is_some()
-                });
-
-            let inner_type = if is_nullable_fn_type {
-                self.parse_ts_non_conditional_type()?
-            } else {
-                self.parse_ts_array_type_or_higher(false)?
-            };
+            // Parenthesized Flow types decide their function form while parsing.
+            // Include postfixes in the nullable operand: `?T[]` is a nullable
+            // array, whereas `(?T)[]` is an array of nullable elements.
+            let inner_type = self.parse_ts_array_type_or_higher(false)?;
             let span = self.span(start);
 
             let null_type = Box::new(TsType::TsKeywordType(TsKeywordType {
@@ -4980,6 +4771,9 @@ impl<I: Tokens> Parser<I> {
         } else if cur == Token::LBracket {
             return self.parse_ts_tuple_type().map(TsType::from).map(Box::new);
         } else if cur == Token::LParen {
+            if self.is_flow_syntax() {
+                return self.parse_flow_parenthesized_type();
+            }
             return self
                 .parse_ts_parenthesized_type()
                 .map(TsType::from)
@@ -5551,7 +5345,7 @@ impl<I: Tokens> Parser<I> {
 
         let cur = self.input().cur();
         let res = if cur == Token::Lt || cur == Token::JSXTagStart {
-            self.try_parse_ts(|p| {
+            self.try_parse_arrow(true, None, None, |p| {
                 let type_params = p.parse_ts_type_params(false, false)?;
 
                 // In TSX mode, type parameters that could be mistaken for JSX

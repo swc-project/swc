@@ -120,7 +120,9 @@
                     ...k.platform,
                     _c: E
                 };
-                return (async ()=>{})();
+                return (async ()=>{})({
+                    ...k
+                });
             };
             var et = {
                 arrow: "react-tooltip__arrow_KtSkBq",

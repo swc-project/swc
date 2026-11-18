@@ -1281,6 +1281,137 @@ fn issue_6781() {
     assert!(errors.is_empty());
 }
 
+#[cfg(feature = "typescript")]
+#[test]
+fn function_type_probe_stops_at_disambiguating_tokens() {
+    use super::typescript::lookahead::ParameterStart;
+
+    test_parser("{x = @}", Syntax::Typescript(Default::default()), |p| {
+        assert!(matches!(
+            p.probe_parameter_start()?,
+            ParameterStart::Initializer
+        ));
+        assert!(p.input().is(Token::Eq));
+        Ok(())
+    });
+    test_parser("{[0, @]: x}", Syntax::Typescript(Default::default()), |p| {
+        p.ts_look_ahead(|p| {
+            p.with_computed_key_lookahead(|p| {
+                assert!(p.probe_parameter_start().is_err());
+                assert!(p.input().is(Token::Comma));
+            })
+        });
+        Ok(())
+    });
+}
+
+#[cfg(feature = "typescript")]
+#[test]
+fn speculative_failures_survive_rewinds_but_not_program_retries() {
+    test_parser("<T>value", Syntax::Typescript(Default::default()), |p| {
+        let attempts = std::cell::Cell::new(0);
+        let site = TsSpeculationKind::Postfix {
+            context: super::expr::LhsContext::Expression,
+            possible_async: false,
+        };
+        let probe = |p: &mut Parser<crate::Lexer<'_>>| {
+            attempts.set(attempts.get() + 1);
+            let args = p.parse_ts_type_args_in_expr()?;
+            Ok(p.input().is(Token::LParen).then_some(args))
+        };
+        let program = p.program_checkpoint_save();
+        let ordinary = p.checkpoint_save();
+        for _ in 0..2 {
+            assert!(p.try_parse_ts_speculation(site, probe).is_none());
+        }
+        assert_eq!(attempts.get(), 1);
+
+        p.set_ctx(p.ctx() | Context::Strict);
+        assert!(p.try_parse_ts_speculation(site, probe).is_none());
+        assert_eq!(attempts.get(), 2);
+
+        p.checkpoint_load(ordinary);
+        assert!(p.try_parse_ts_speculation(site, probe).is_none());
+        assert_eq!(attempts.get(), 2);
+
+        p.program_checkpoint_load(program);
+        assert!(p.try_parse_ts_speculation(site, probe).is_none());
+        assert_eq!(attempts.get(), 3);
+        Ok(())
+    });
+}
+
+#[cfg(feature = "typescript")]
+#[test]
+fn computed_key_lookahead_reuses_expression_boundaries() {
+    let comments = SingleThreadedComments::default();
+    test_parser_comment(
+        &comments,
+        "x /* trailing */",
+        Syntax::Typescript(Default::default()),
+        |p| {
+            let attempts = std::cell::Cell::new(0);
+            p.state.potential_arrow_start = p.cur_pos();
+            let program = p.program_checkpoint_save();
+            let parse = |p: &mut Parser<crate::Lexer<'_>>| {
+                attempts.set(attempts.get() + 1);
+                p.parse_assignment_expr()
+            };
+            for _ in 0..2 {
+                p.ts_look_ahead(|p| {
+                    p.with_computed_key_lookahead(|p| {
+                        let expression = p.parse_computed_key_lookahead(parse)?;
+                        assert_eq!(expression.span(), Span::new(BytePos(1), BytePos(2)));
+                        assert!(p.input().is(Token::Eof));
+                        Ok::<_, crate::error::Error>(())
+                    })
+                })?;
+            }
+            assert_eq!(attempts.get(), 1);
+            p.program_checkpoint_load(program);
+            p.ts_look_ahead(|p| {
+                p.with_computed_key_lookahead(|p| p.parse_computed_key_lookahead(parse))
+            })?;
+            assert_eq!(attempts.get(), 2);
+            p.parse_assignment_expr()?;
+            Ok(())
+        },
+    );
+    let (leading, trailing) = comments.take_all();
+    assert!(leading.borrow().is_empty());
+    assert_eq!(trailing.borrow().values().map(Vec::len).sum::<usize>(), 1);
+}
+
+#[cfg(feature = "typescript")]
+#[test]
+fn computed_key_lookahead_reuses_failure_boundaries() {
+    test_parser(
+        "1 + class { static { mark: 1 + @; } }",
+        Syntax::Typescript(Default::default()),
+        |p| {
+            let attempts = std::cell::Cell::new(0);
+            for _ in 0..2 {
+                p.ts_look_ahead(|p| {
+                    p.with_computed_key_lookahead(|p| {
+                        let error = p
+                            .parse_computed_key_lookahead(|p| {
+                                attempts.set(attempts.get() + 1);
+                                p.parse_assignment_expr()
+                            })
+                            .unwrap_err();
+                        assert!(p.input().is(Token::At));
+                        assert_eq!(error.span(), p.input().cur_span());
+                    })
+                });
+            }
+            assert_eq!(attempts.get(), 1);
+            assert!(p.state.labels.is_empty());
+            assert!(p.take_errors().is_empty());
+            Ok(())
+        },
+    );
+}
+
 #[bench]
 fn bench_new_expr_ts(b: &mut Bencher) {
     bench_parser(

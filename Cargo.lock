@@ -3874,9 +3874,9 @@ checksum = "0ab1bc2a289d34bd04a330323ac98a1b4bc82c9d9fcb1e66b63caa84da26b575"
 
 [[package]]
 name = "openssl"
-version = "0.10.80"
+version = "0.10.82"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a45fa2aa886c42762255da344f0a0d313e254066c46aad76f300c3d3da62d967"
+checksum = "4de8111e94a56adca7ebfe6c365b6d42f99deb69b74b6becacd4204e2f193aa2"
 dependencies = [
  "bitflags 2.10.0",
  "cfg-if",
@@ -5643,7 +5643,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "82.0.4"
+version = "82.0.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5924,7 +5924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "84.1.2"
+version = "84.2.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6477,7 +6477,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "64.0.7"
+version = "64.0.8"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6520,7 +6520,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "47.0.2"
+version = "47.1.0"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",

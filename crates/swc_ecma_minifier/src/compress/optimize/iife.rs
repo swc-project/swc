@@ -13,7 +13,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::util::may_inline_arrow,
     program_data::{ProgramData, ScopeData, VarUsageInfo, VarUsageInfoFlags},
-    util::{idents_captured_by, make_number},
+    util::make_number,
 };
 
 /// Methods related to the option `negate_iife`.
@@ -1108,10 +1108,14 @@ impl Optimizer<'_> {
 
         if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
             if param_ids.len() != 0 {
-                let captured = idents_captured_by(body);
-
                 for param in param_ids {
-                    if captured.contains(&param.to_id()) {
+                    if self
+                        .data
+                        .vars
+                        .get(&param.to_id())
+                        .map(|p| !p.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL))
+                        .unwrap_or(false)
+                    {
                         log_abort!(
                             "iife: [x] Cannot inline because of the capture of `{}`",
                             param

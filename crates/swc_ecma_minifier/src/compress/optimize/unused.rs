@@ -627,15 +627,26 @@ impl Optimizer<'_> {
         match decl {
             Decl::Class(ClassDecl { ident, class, .. }) => {
                 // If it is not used, drop it.
+                //
+                // A property mutation in the class body, such as `C.x = v` in a
+                // method, does not keep the class. The method runs only if code
+                // outside the class gets a reference to `C`, and such a reference
+                // is counted in `usage_count`. A static initializer that refers to
+                // `C` is kept by `extract_class_side_effect`.
                 if self
                     .data
                     .vars
                     .get(&ident.to_id())
-                    .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
+                    .map(|v| {
+                        v.usage_count == 0
+                            && !v
+                                .flags
+                                .contains(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF)
+                    })
                     .unwrap_or(false)
                 {
                     let Some(side_effects) =
-                        extract_class_side_effect(self.ctx.expr_ctx, Some(ident), class)
+                        extract_class_side_effect(self.ctx.expr_ctx, self.data, Some(ident), class)
                     else {
                         return;
                     };
@@ -1517,8 +1528,9 @@ fn is_discardable_class_default_member(member: &ClassMember) -> bool {
         ClassMember::Method(method) => !method.key.is_computed(),
         ClassMember::ClassProp(prop) => !prop.key.is_computed(),
         ClassMember::AutoAccessor(accessor) => {
-            // Static auto-accessor initializers run while evaluating the class,
-            // but the class-side-effect extractor cannot reconstruct them.
+            // Static auto-accessor initializers run while evaluating the class.
+            // `NonDiscardableDefaultVisitor::visit_class` does not check them,
+            // so keep a class default that has one.
             (!accessor.is_static || accessor.value.is_none())
                 && !matches!(&accessor.key, Key::Public(key) if key.is_computed())
         }
