@@ -311,12 +311,12 @@ fn property_of_strings_set(
 /// Evaluates `\q{...}`. A string of one character is added to the characters.
 fn string_disjunction_set(disjunction: &ClassStringDisjunction, ctx: ClassContext) -> ClassSet {
     let mut set = ClassSet::default();
+    // Collect the single characters first and normalize them once.
+    let mut chars = Vec::new();
 
     for string in &disjunction.body {
         if let [ch] = string.body.as_slice() {
-            set.chars = set
-                .chars
-                .union(&ctx.fold_operand(CharSet::single(ch.value)));
+            chars.push((ch.value, ch.value));
         } else {
             let mut string: Vec<u32> = string.body.iter().map(|ch| ch.value).collect();
             ctx.fold_string(&mut string);
@@ -324,6 +324,7 @@ fn string_disjunction_set(disjunction: &ClassStringDisjunction, ctx: ClassContex
         }
     }
 
+    set.chars = ctx.fold_operand(CharSet::from_ranges(chars));
     set.strings.sort_unstable();
     set.strings.dedup();
     set
