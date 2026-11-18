@@ -1,5 +1,5 @@
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_regexp::{
     transform_modifiers, transform_unicode_property_escapes, transform_unicode_sets,
@@ -55,6 +55,13 @@ pub struct RegExpOptions {
     /// in a case-insensitive group cannot be rewritten, so such a pattern is
     /// left unchanged.
     pub regexp_modifiers: bool,
+    /// The syntax context of unresolved (global) identifiers.
+    ///
+    /// When it is set, only calls to the global `RegExp` are rewritten. A
+    /// local binding named `RegExp` (for example a parameter) is left alone.
+    /// When it is `None`, or when the resolver has not run, every identifier
+    /// named `RegExp` is treated as the global one.
+    pub unresolved_ctxt: Option<SyntaxContext>,
 }
 
 impl RegExpOptions {
@@ -90,6 +97,22 @@ struct RegexpPass {
 }
 
 impl RegexpPass {
+    /// Returns true if `callee` refers to the global `RegExp`.
+    fn is_global_regexp(&self, callee: &Expr) -> bool {
+        match callee {
+            // An empty context means that the resolver has not run, so the
+            // binding is unknown and the identifier is treated as global.
+            Expr::Ident(ident) if ident.sym == "RegExp" => {
+                ident.ctxt == SyntaxContext::empty()
+                    || self
+                        .options
+                        .unresolved_ctxt
+                        .map_or(true, |ctxt| ident.ctxt == ctxt)
+            }
+            _ => false,
+        }
+    }
+
     /// Lowers the syntax that the target cannot parse: the `v` flag and
     /// modifiers such as `(?i:...)`.
     ///
@@ -467,14 +490,14 @@ impl RegexpPass {
                 callee: Callee::Expr(callee),
                 args,
                 ..
-            }) if callee.is_ident_ref_to("RegExp") => {
+            }) if self.is_global_regexp(callee) => {
                 self.transform_regexp_args(args);
             }
             Expr::New(NewExpr {
                 callee,
                 args: Some(args),
                 ..
-            }) if callee.is_ident_ref_to("RegExp") => {
+            }) if self.is_global_regexp(callee) => {
                 self.transform_regexp_args(args);
             }
             _ => {}

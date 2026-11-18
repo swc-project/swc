@@ -62,7 +62,13 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
     ));
     let hook = hook.chain(crate::es2016::hook(options.env.es2016));
     let hook = hook.chain(crate::es2015::hook(options.env.es2015));
-    let hook = hook.chain_optional(crate::regexp::hook(options.env.regexp));
+    let mut regexp_options = options.env.regexp;
+    if regexp_options.unresolved_ctxt.is_none()
+        && options.unresolved_ctxt != swc_common::SyntaxContext::empty()
+    {
+        regexp_options.unresolved_ctxt = Some(options.unresolved_ctxt);
+    }
+    let hook = hook.chain_optional(crate::regexp::hook(regexp_options));
     let hook = hook.chain(crate::bugfix::hook(options.env.bugfix));
 
     // ES3 transforms should run after all higher ES versions
