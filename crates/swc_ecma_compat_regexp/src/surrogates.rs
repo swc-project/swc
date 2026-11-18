@@ -1,6 +1,8 @@
 //! Printing of lone surrogates in `u` patterns.
 
-use swc_ecma_regexp_ast::{CharacterClass, CharacterClassContents, Disjunction, Pattern, Term};
+use swc_ecma_regexp_ast::{
+    CharacterClass, CharacterClassContents, CharacterKind, Disjunction, Pattern, Term,
+};
 
 use crate::{char_set::CharSet, emit::char_class_of};
 
@@ -63,6 +65,15 @@ fn isolate_class(class: &mut CharacterClass) {
     }
 
     if class.body.iter().any(starts_with_trail) {
+        // Moving items can put a literal `-` between two characters, where it
+        // would be read as a range. Write every literal `-` as `\x2D` first.
+        for contents in &mut class.body {
+            if let CharacterClassContents::Character(ch) = contents {
+                if ch.value == '-' as u32 {
+                    ch.kind = CharacterKind::HexadecimalEscape;
+                }
+            }
+        }
         // `sort_by_key` is stable, so the other items keep their order.
         class
             .body
@@ -105,6 +116,8 @@ mod tests {
         );
         // A real surrogate pair is one code point and is kept.
         assert_eq!(isolate(r"𐀀"), r"𐀀");
+        // A literal `-` stays literal after the items are moved.
+        assert_eq!(isolate(r"[a\u{DC00}-\u{DC01}-z]"), r"[\uDC00-\uDC01a\x2Dz]");
         assert_eq!(
             isolate(r"[\u{D800}\u{DC00}a]"),
             r"[\uDC00-\uDC00\uD800-\uD800a]"
