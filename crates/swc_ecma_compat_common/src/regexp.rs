@@ -11,7 +11,6 @@ pub fn regexp(config: Config) -> impl Pass {
     options.unicode_property_regex = config.unicode_property_regex;
     options.unicode_regex = config.unicode_regex;
     options.unicode_sets_regex = config.unicode_sets_regex;
-    options.regexp_modifiers = config.regexp_modifiers;
 
     swc_ecma_transformer::regexp_pass(options)
 }
@@ -36,6 +35,4 @@ pub struct Config {
     pub unicode_regex: bool,
     // [RegExp.prototype.unicodeSets](https://github.com/tc39/proposal-regexp-v-flag)
     pub unicode_sets_regex: bool,
-    /// [RegExp modifiers](https://github.com/tc39/proposal-regexp-modifiers)
-    pub regexp_modifiers: bool,
 }
