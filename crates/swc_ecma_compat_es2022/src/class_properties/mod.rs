@@ -536,7 +536,8 @@ impl ClassProperties {
                 ClassMember::Empty(..) | ClassMember::TsIndexSignature(..) => members.push(member),
 
                 ClassMember::Method(method) => {
-                    // we handle computed key here to preserve the execution order
+                    // we handle computed key here to preserve the execution
+                    // order
                     let key = match method.key {
                         PropName::Computed(ComputedPropName {
                             span: c_span,
@@ -560,8 +561,8 @@ impl ClassProperties {
                                 init: Some(expr),
                                 definite: false,
                             });
-                            // We use computed because `classes` pass converts PropName::Ident to
-                            // string.
+                            // We use computed because `classes` pass converts
+                            // PropName::Ident to string.
                             PropName::Computed(ComputedPropName {
                                 span: c_span,
                                 expr: ident.into(),
@@ -944,10 +945,11 @@ impl ClassProperties {
                 }
 
                 ClassMember::AutoAccessor(accessor) => {
-                    // AutoAccessor nodes should be handled by the decorator transform.
-                    // If we encounter them here, it means decorators are not enabled,
-                    // so we preserve the AutoAccessor as-is. The output environment
-                    // is expected to support auto-accessors natively.
+                    // AutoAccessor nodes should be handled by the decorator
+                    // transform. If we encounter them here, it means decorators
+                    // are not enabled, so we preserve the AutoAccessor as-is.
+                    // The output environment is expected to support
+                    // auto-accessors natively.
                     members.push(ClassMember::AutoAccessor(accessor));
                 }
 

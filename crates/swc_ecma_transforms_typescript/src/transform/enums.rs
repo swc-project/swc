@@ -47,7 +47,8 @@ impl<'a> Transform<'a> {
         node.members.visit_mut_with(self);
         self.container_contexts.pop();
         // Nested declarations consume their own state before this visit ends.
-        // The facts remain borrowed from immutable pre-erasure semantic storage.
+        // The facts remain borrowed from immutable pre-erasure semantic
+        // storage.
         self.enum_emissions.push(EnumEmission {
             object,
             declaration,

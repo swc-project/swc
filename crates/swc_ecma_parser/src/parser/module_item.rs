@@ -492,7 +492,8 @@ impl<I: Tokens> Parser<I> {
 
             if self.input_mut().eat(Token::As) {
                 // `export as namespace A;`
-                // See `parseNamespaceExportDeclaration` in TypeScript's own parser
+                // See `parseNamespaceExportDeclaration` in TypeScript's own
+                // parser
                 expect!(self, Token::Namespace);
                 let id = self.parse_ident(false, false)?;
                 self.expect_general_semi()?;
@@ -612,8 +613,8 @@ impl<I: Tokens> Parser<I> {
                 self.assert_and_bump(Token::Enum);
                 let decl = self.parse_ts_enum_decl(enum_start, false)?;
 
-                // `export default enum` is valid in Flow, but SWC's default export decl AST
-                // variant does not model enum declarations.
+                // `export default enum` is valid in Flow, but SWC's default
+                // export decl AST variant does not model enum declarations.
                 return Ok(ExportDecl {
                     span: self.span(start),
                     decl: Decl::TsEnum(decl),
@@ -1035,8 +1036,9 @@ impl<I: Tokens> Parser<I> {
                     if self.is_ident_ref() && !self.input().is(Token::From)
                         || peek!(self).is_some_and(|cur| cur == Token::From)
                     {
-                        // For defer phase, we expect only namespace imports, so break here
-                        // and let the subsequent code handle validation
+                        // For defer phase, we expect only namespace imports, so
+                        // break here and let the subsequent code handle
+                        // validation
                         if new_phase == ImportPhase::Defer {
                             break 'import_maybe_ident;
                         }

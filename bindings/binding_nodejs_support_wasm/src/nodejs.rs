@@ -450,15 +450,17 @@ impl<'a> ModuleSyntaxTransform<'a> {
             return Some(out);
         }
 
-        // Declare the user's bindings so subsequent REPL inputs can access them.
-        // Like Node's REPL transform, these capture the initial export values;
-        // namespace imports still refer to the live module namespace object.
+        // Declare the user's bindings so subsequent REPL inputs can access
+        // them. Like Node's REPL transform, these capture the initial export
+        // values; namespace imports still refer to the live module namespace
+        // object.
         let mut bindings = Vec::with_capacity(named.len() + usize::from(default_name.is_some()));
         if let Some(default_name) = default_name {
             bindings.push(format!("default: {default_name}"));
         }
         for (local, imported) in named {
-            // Quote arbitrary export names while keeping ordinary names readable.
+            // Quote arbitrary export names while keeping ordinary names
+            // readable.
             let key = if is_identifier_name(&imported) {
                 imported
             } else {

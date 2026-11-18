@@ -1840,10 +1840,11 @@ impl VisitMut for Optimizer<'_> {
             _ => panic!("unable to access unknown nodes"),
         };
         let is_noinline = self.has_noinline(e.ctxt);
-        // If this call produces the value for another receiver-aware callee, such
-        // as a template tag, keep the inner callee as a reference. Replacing its
-        // member expression can expose the returned callable to later callee
-        // rewrites and lose the required `this` form.
+        // If this call produces the value for another receiver-aware callee,
+        // such as a template tag, keep the inner callee as a reference.
+        // Replacing its member expression can expose the returned
+        // callable to later callee rewrites and lose the required
+        // `this` form.
         let can_replace_callee = !self.ctx.bit_ctx.contains(BitCtx::IsThisAwareCallee);
         {
             let ctx = self
@@ -1906,7 +1907,8 @@ impl VisitMut for Optimizer<'_> {
         self.inline_args_of_iife(e);
         self.drop_arguments_of_symbol_call(e);
 
-        // Try to replace static method call with alias (after other transformations)
+        // Try to replace static method call with alias (after other
+        // transformations)
         if let Callee::Expr(callee) = &mut e.callee {
             if self
                 .static_alias_state
@@ -2329,8 +2331,9 @@ impl VisitMut for Optimizer<'_> {
         // If negate_iife is true, it's already handled by
         // visit_mut_children_with(self) above.
         if !self.options.negate_iife {
-            // I(kdy1) don't know why this check if required, but there are two test cases
-            // with `options.expressions` as only difference.
+            // I(kdy1) don't know why this check if required, but there are two
+            // test cases with `options.expressions` as only
+            // difference.
             if !self.options.expr && self.negate_iife_in_cond(&mut n.expr) {
                 need_ignore_return_value = true
             }
@@ -2684,7 +2687,8 @@ impl VisitMut for Optimizer<'_> {
             self.changed = true;
         }
 
-        // Insert var declarations for aliases (only after replacements have happened)
+        // Insert var declarations for aliases (only after replacements have
+        // happened)
         if self.static_alias_state.should_insert_var_decls() {
             let var_decls = self.static_alias_state.take_var_decls();
             let var_stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
@@ -2849,7 +2853,8 @@ impl VisitMut for Optimizer<'_> {
             self.changed = true;
         }
 
-        // Insert var declarations for aliases (only after replacements have happened)
+        // Insert var declarations for aliases (only after replacements have
+        // happened)
         if self.static_alias_state.should_insert_var_decls() {
             let var_decls = self.static_alias_state.take_var_decls();
             let var_stmt = Stmt::Decl(Decl::Var(Box::new(VarDecl {
@@ -3415,7 +3420,8 @@ impl VisitMut for Optimizer<'_> {
             && (self.is_module || !self.ctx.in_top_level())
         {
             if n.kind == VarDeclKind::Const {
-                // If a const variable is reassigned, we should not convert it to `let`
+                // If a const variable is reassigned, we should not convert it
+                // to `let`
                 let no_reassignment = n.decls.iter().all(|var| {
                     let ids = get_ids_of_pat(&var.name);
                     for id in ids {
@@ -3562,23 +3568,26 @@ impl VisitMut for Optimizer<'_> {
                 }
                 side_effects.extend(storage);
 
-                // Dropped. Side effects of the initializer is stored in `side_effects`.
+                // Dropped. Side effects of the initializer is stored in
+                // `side_effects`.
                 if v.name.is_invalid() {
                     continue;
                 }
 
                 if v.init.is_none() {
-                    // Even without an initializer, `let` ends the binding's TDZ here.
-                    // Later initializers may assign to it, so their side effects must
-                    // not be moved before the declaration. `var` is already initialized.
+                    // Even without an initializer, `let` ends the binding's TDZ
+                    // here. Later initializers may assign
+                    // to it, so their side effects must not
+                    // be moved before the declaration. `var` is already
+                    // initialized.
                     if self.ctx.bit_ctx.contains(BitCtx::IsLet) {
                         can_prepend = false;
                     }
                     continue;
                 }
 
-                // We can drop the next variable, as we don't have to worry about the side
-                // effect.
+                // We can drop the next variable, as we don't have to worry
+                // about the side effect.
                 if side_effects.is_empty() {
                     can_prepend = false;
                     continue;
@@ -3710,9 +3719,10 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
         Expr::Arrow(..) => return false,
         Expr::Seq(..) => return true,
         Expr::Member(MemberExpr { obj, prop, .. }) => {
-            // An object-literal arrow property has no receiver-sensitive `this`.
-            // Treating it like a normal member would unnecessarily block safe
-            // call reduction after property inlining.
+            // An object-literal arrow property has no receiver-sensitive
+            // `this`. Treating it like a normal member would
+            // unnecessarily block safe call reduction after
+            // property inlining.
             if let (Expr::Object(obj), MemberProp::Ident(prop)) = (&**obj, prop) {
                 let mut matching_props = obj.props.iter().filter(|item| match item {
                     PropOrSpread::Prop(item) => match &**item {

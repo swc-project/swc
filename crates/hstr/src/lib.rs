@@ -124,8 +124,8 @@ pub const fn inline_atom(s: &str) -> Option<Atom> {
 macro_rules! atom {
     ($s:expr) => {{
         const INLINE: ::core::option::Option<$crate::Atom> = $crate::inline_atom($s);
-        // This condition can be evaluated at compile time to enable inlining as a
-        // simple constant
+        // This condition can be evaluated at compile time to enable inlining as
+        // a simple constant
         if INLINE.is_some() {
             INLINE.unwrap()
         } else {
@@ -315,8 +315,8 @@ impl PartialEq for Atom {
         }
 
         match tag {
-            // Inline atoms encode both their length and bytes in `unsafe_data`, so
-            // different raw values mean different strings.
+            // Inline atoms encode both their length and bytes in `unsafe_data`,
+            // so different raw values mean different strings.
             INLINE_TAG => false,
             DYNAMIC_TAG => {
                 let this = unsafe { crate::dynamic::deref_from(unsafe_data) };
@@ -454,8 +454,8 @@ mod macro_tests {
 
     #[test]
     fn test_inline_atom() {
-        // This is a silly test, just asserts that rustc can evaluate the pattern from
-        // our macro in a constant context.
+        // This is a silly test, just asserts that rustc can evaluate the
+        // pattern from our macro in a constant context.
         const STR: Atom = {
             let inline = inline_atom("hello");
             if inline.is_some() {

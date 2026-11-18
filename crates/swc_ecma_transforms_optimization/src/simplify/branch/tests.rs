@@ -1269,16 +1269,16 @@ fn test_remove_from_label2() {
 #[test]
 fn test_call() {
     test_same("foo(0)");
-    // We use a function with no side-effects, otherwise the entire invocation would
-    // be preserved.
+    // We use a function with no side-effects, otherwise the entire invocation
+    // would be preserved.
     test("Math.sin(0);", "");
     test("1 + Math.sin(0);", "");
 }
 
 #[test]
 fn test_call_containing_spread() {
-    // We use a function with no side-effects, otherwise the entire invocation would
-    // be preserved.
+    // We use a function with no side-effects, otherwise the entire invocation
+    // would be preserved.
     test("Math.sin(...c)", "[...c]");
     test("Math.sin(4, ...c, a)", "[...c, a]");
     test("Math.sin(foo(), ...c, bar())", "[foo(), ...c, bar()]");
@@ -1294,16 +1294,16 @@ fn test_new() {
 #[test]
 #[ignore]
 fn test_new_containing_spread_2() {
-    // We use a function with no side-effects, otherwise the entire invocation would
-    // be preserved.
+    // We use a function with no side-effects, otherwise the entire invocation
+    // would be preserved.
     test("new Date(foo(), ...c, bar())", "(foo(), [...c], bar())");
 }
 
 #[test]
 fn test_tagged_template_lit_simple_template() {
     test_same("foo`Simple`");
-    // We use a function with no side-effects, otherwise the entire invocation would
-    // be preserved.
+    // We use a function with no side-effects, otherwise the entire invocation
+    // would be preserved.
     test("Math.sin`Simple`", "");
     test("1 + Math.sin`Simple`", "");
 }
@@ -1311,8 +1311,8 @@ fn test_tagged_template_lit_simple_template() {
 #[test]
 fn test_tagged_template_lit_substituting_template() {
     test_same("foo`Complex ${butSafe}`");
-    // We use a function with no side-effects, otherwise the entire invocation would
-    // be preserved.
+    // We use a function with no side-effects, otherwise the entire invocation
+    // would be preserved.
     test("Math.sin`Complex ${butSafe}`", "");
     test("Math.sin`Complex ${andDangerous()}`", "andDangerous()");
 }
@@ -1623,8 +1623,8 @@ fn test_do_not_remove_access_if_other_property_is_getter() {
         "var b = {",
         "  property: 0,",
         "};",
-        // This pass should be conservative and not remove this since it sees a getter for
-        // "property"
+        // This pass should be conservative and not remove this since it sees a
+        // getter for "property"
         "b.property;",
     ));
 

@@ -226,11 +226,12 @@ where
             && n.namespace == Namespace::HTML
             && match &*n.tag_name {
                 // Tag omission in text/html:
-                // An html element's start tag can be omitted if the first thing inside the html
-                // element is not a comment.
+                // An html element's start tag can be omitted if the first thing
+                // inside the html element is not a comment.
                 "html" if !matches!(n.children.first(), Some(Child::Comment(..))) => true,
-                // A head element's start tag can be omitted if the element is empty, or if the
-                // first thing inside the head element is an element.
+                // A head element's start tag can be omitted if the element is
+                // empty, or if the first thing inside the head element is an
+                // element.
                 "head"
                     if !self.keep_head_and_body
                         && (n.children.is_empty()
@@ -238,9 +239,10 @@ where
                 {
                     true
                 }
-                // A body element's start tag can be omitted if the element is empty, or if the
-                // first thing inside the body element is not ASCII whitespace or a comment, except
-                // if the first thing inside the body element would be parsed differently outside.
+                // A body element's start tag can be omitted if the element is
+                // empty, or if the first thing inside the body element is not
+                // ASCII whitespace or a comment, except if the first thing
+                // inside the body element would be parsed differently outside.
                 "body"
                     if !self.keep_head_and_body
                         && (n.children.is_empty()
@@ -285,9 +287,10 @@ where
                 {
                     true
                 }
-                // A colgroup element's start tag can be omitted if the first thing inside the
-                // colgroup element is a col element, and if the element is not immediately preceded
-                // by another colgroup element whose end tag has been omitted. (It can't be omitted
+                // A colgroup element's start tag can be omitted if the first
+                // thing inside the colgroup element is a col element, and if
+                // the element is not immediately preceded by another colgroup
+                // element whose end tag has been omitted. (It can't be omitted
                 // if the element is empty.)
                 "colgroup"
                     if match n.children.first() {
@@ -303,9 +306,10 @@ where
                 {
                     true
                 }
-                // A tbody element's start tag can be omitted if the first thing inside the tbody
-                // element is a tr element, and if the element is not immediately preceded by a
-                // tbody, thead, or tfoot element whose end tag has been omitted. (It can't be
+                // A tbody element's start tag can be omitted if the first thing
+                // inside the tbody element is a tr element, and if the element
+                // is not immediately preceded by a tbody, thead, or tfoot
+                // element whose end tag has been omitted. (It can't be
                 // omitted if the element is empty.)
                 "tbody"
                     if match n.children.first() {
@@ -439,15 +443,16 @@ where
                 && match &*n.tag_name {
                     // Tag omission in text/html:
 
-                    // An html element's end tag can be omitted if the html element is not
-                    // immediately followed by a comment.
+                    // An html element's end tag can be omitted if the html
+                    // element is not immediately followed by a comment.
                     //
-                    // A body element's end tag can be omitted if the body element is not
-                    // immediately followed by a comment.
+                    // A body element's end tag can be omitted if the body
+                    // element is not immediately followed by a comment.
                     "html" => !matches!(next, Some(Child::Comment(..))),
                     "body" if !self.keep_head_and_body => !matches!(next, Some(Child::Comment(..))),
-                    // A head element's end tag can be omitted if the head element is not
-                    // immediately followed by ASCII whitespace or a comment.
+                    // A head element's end tag can be omitted if the head
+                    // element is not immediately followed by ASCII whitespace
+                    // or a comment.
                     "head" if !self.keep_head_and_body => match next {
                         Some(Child::Text(text))
                             if text.data.chars().next().unwrap().is_ascii_whitespace() =>
@@ -457,13 +462,15 @@ where
                         Some(Child::Comment(..)) => false,
                         _ => true,
                     },
-                    // A p element's end tag can be omitted if the p element is immediately followed
-                    // by an address, article, aside, blockquote, details, div, dl, fieldset,
-                    // figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, hr,
-                    // main, menu, nav, ol, p, pre, section, table, or ul element, or if there is no
-                    // more content in the parent element and the parent element is an HTML element
-                    // that is not an a, audio, del, ins, map, noscript, or video element, or an
-                    // autonomous custom element.
+                    // A p element's end tag can be omitted if the p element is
+                    // immediately followed by an address, article, aside,
+                    // blockquote, details, div, dl, fieldset, figcaption,
+                    // figure, footer, form, h1, h2, h3, h4, h5, h6, header,
+                    // hgroup, hr, main, menu, nav, ol, p, pre, section, table,
+                    // or ul element, or if there is no more content in the
+                    // parent element and the parent element is an HTML element
+                    // that is not an a, audio, del, ins, map, noscript, or
+                    // video element, or an autonomous custom element.
                     "p" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -541,9 +548,9 @@ where
                         }
                         _ => false,
                     },
-                    // An li element's end tag can be omitted if the li element is immediately
-                    // followed by another li element or if there is no more content in the parent
-                    // element.
+                    // An li element's end tag can be omitted if the li element
+                    // is immediately followed by another li element or if there
+                    // is no more content in the parent element.
                     "li" if match parent {
                         Some(Element {
                             namespace,
@@ -567,8 +574,9 @@ where
                             _ => false,
                         }
                     }
-                    // A dt element's end tag can be omitted if the dt element is immediately
-                    // followed by another dt element or a dd element.
+                    // A dt element's end tag can be omitted if the dt element
+                    // is immediately followed by another dt element or a dd
+                    // element.
                     "dt" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -581,9 +589,10 @@ where
                         }
                         _ => false,
                     },
-                    // A dd element's end tag can be omitted if the dd element is immediately
-                    // followed by another dd element or a dt element, or if there is no more
-                    // content in the parent element.
+                    // A dd element's end tag can be omitted if the dd element
+                    // is immediately followed by another dd element or a dt
+                    // element, or if there is no more content in the parent
+                    // element.
                     "dd" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -597,13 +606,13 @@ where
                         None => true,
                         _ => false,
                     },
-                    // An rt element's end tag can be omitted if the rt element is immediately
-                    // followed by an rt or rp element, or if there is no more content in the parent
-                    // element.
+                    // An rt element's end tag can be omitted if the rt element
+                    // is immediately followed by an rt or rp element, or if
+                    // there is no more content in the parent element.
                     //
-                    // An rp element's end tag can be omitted if the rp element is immediately
-                    // followed by an rt or rp element, or if there is no more content in the parent
-                    // element.
+                    // An rp element's end tag can be omitted if the rp element
+                    // is immediately followed by an rt or rp element, or if
+                    // there is no more content in the parent element.
                     "rt" | "rp" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -617,9 +626,10 @@ where
                         None => true,
                         _ => false,
                     },
-                    // The end tag can be omitted if the element is immediately followed by an <rt>,
-                    // <rtc>, or <rp> element or another <rb> element, or if there is no more
-                    // content in the parent element.
+                    // The end tag can be omitted if the element is immediately
+                    // followed by an <rt>, <rtc>, or <rp> element or another
+                    // <rb> element, or if there is no more content in the
+                    // parent element.
                     "rb" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -636,9 +646,9 @@ where
                         None => true,
                         _ => false,
                     },
-                    // 	The closing tag can be omitted if it is immediately followed by a <rb>,
-                    // <rtc> or <rt> element opening tag or by its parent
-                    // closing tag.
+                    // 	The closing tag can be omitted if it is immediately
+                    // followed by a <rb>, <rtc> or <rt> element opening tag or
+                    // by its parent closing tag.
                     "rtc" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -652,9 +662,10 @@ where
                         None => true,
                         _ => false,
                     },
-                    // An optgroup element's end tag can be omitted if the optgroup element is
-                    // immediately followed by another optgroup element, or if there is no more
-                    // content in the parent element.
+                    // An optgroup element's end tag can be omitted if the
+                    // optgroup element is immediately followed by another
+                    // optgroup element, or if there is no more content in the
+                    // parent element.
                     "optgroup" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -664,9 +675,10 @@ where
                         None => true,
                         _ => false,
                     },
-                    // An option element's end tag can be omitted if the option element is
-                    // immediately followed by another option element, or if it is immediately
-                    // followed by an optgroup element, or if there is no more content in the parent
+                    // An option element's end tag can be omitted if the option
+                    // element is immediately followed by another option
+                    // element, or if it is immediately followed by an optgroup
+                    // element, or if there is no more content in the parent
                     // element.
                     "option" => match next {
                         Some(Child::Element(Element {
@@ -681,11 +693,13 @@ where
                         None => true,
                         _ => false,
                     },
-                    // A caption element's end tag can be omitted if the caption element is not
-                    // immediately followed by ASCII whitespace or a comment.
+                    // A caption element's end tag can be omitted if the caption
+                    // element is not immediately followed by ASCII whitespace
+                    // or a comment.
                     //
-                    // A colgroup element's end tag can be omitted if the colgroup element is not
-                    // immediately followed by ASCII whitespace or a comment.
+                    // A colgroup element's end tag can be omitted if the
+                    // colgroup element is not immediately followed by ASCII
+                    // whitespace or a comment.
                     "caption" | "colgroup" => match next {
                         Some(Child::Text(text))
                             if text.data.chars().next().unwrap().is_ascii_whitespace() =>
@@ -695,8 +709,9 @@ where
                         Some(Child::Comment(..)) => false,
                         _ => true,
                     },
-                    // A tbody element's end tag can be omitted if the tbody element is immediately
-                    // followed by a tbody or tfoot element, or if there is no more content in the
+                    // A tbody element's end tag can be omitted if the tbody
+                    // element is immediately followed by a tbody or tfoot
+                    // element, or if there is no more content in the
                     // parent element.
                     "tbody" => match next {
                         Some(Child::Element(Element {
@@ -711,8 +726,9 @@ where
                         None => true,
                         _ => false,
                     },
-                    // A thead element's end tag can be omitted if the thead element is immediately
-                    // followed by a tbody or tfoot element.
+                    // A thead element's end tag can be omitted if the thead
+                    // element is immediately followed by a tbody or tfoot
+                    // element.
                     "thead" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -725,12 +741,12 @@ where
                         }
                         _ => false,
                     },
-                    // A tfoot element's end tag can be omitted if there is no more content in the
-                    // parent element.
+                    // A tfoot element's end tag can be omitted if there is no
+                    // more content in the parent element.
                     "tfoot" => next.is_none(),
-                    // A tr element's end tag can be omitted if the tr element is immediately
-                    // followed by another tr element, or if there is no more content in the parent
-                    // element.
+                    // A tr element's end tag can be omitted if the tr element
+                    // is immediately followed by another tr element, or if
+                    // there is no more content in the parent element.
                     "tr" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -740,9 +756,9 @@ where
                         None => true,
                         _ => false,
                     },
-                    // A th element's end tag can be omitted if the th element is immediately
-                    // followed by a td or th element, or if there is no more content in the parent
-                    // element.
+                    // A th element's end tag can be omitted if the th element
+                    // is immediately followed by a td or th element, or if
+                    // there is no more content in the parent element.
                     "td" | "th" => match next {
                         Some(Child::Element(Element {
                             namespace,
@@ -1092,7 +1108,8 @@ fn minify_amp(next: char, chars: &mut Peekable<Chars>) -> String {
 
             let mut found_entity = false;
 
-            // No need to validate input, because we reset position if nothing was found
+            // No need to validate input, because we reset position if nothing
+            // was found
             for c in chars {
                 entity_temporary_buffer.push(c);
 

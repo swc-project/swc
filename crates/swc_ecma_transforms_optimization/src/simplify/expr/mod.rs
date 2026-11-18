@@ -594,8 +594,8 @@ where
 /// separately.
 fn nth_char(s: &Wtf8, idx: usize) -> Option<CodePoint> {
     s.to_ill_formed_utf16().nth(idx).map(|c| {
-        // SAFETY: `IllFormedUtf16CodeUnits` always returns code units in the range of
-        // UTF-16.
+        // SAFETY: `IllFormedUtf16CodeUnits` always returns code units in the
+        // range of UTF-16.
         unsafe { CodePoint::from_u32_unchecked(c as u32) }
     })
 }
@@ -633,7 +633,8 @@ impl KnownMemberKey {
 /// exists. If the key does exist, `Some` is returned and the property is
 /// removed from the given properties.
 fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> {
-    // It's impossible to know the value for certain if a spread property exists.
+    // It's impossible to know the value for certain if a spread property
+    // exists.
     let has_spread = props.iter().any(|prop| prop.is_spread());
 
     if has_spread {
@@ -663,11 +664,12 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> 
 
             Prop::KeyValue(prop) => {
                 if key != "__proto__" && prop_name_eq(&prop.key, "__proto__") {
-                    // If __proto__ is defined, we need to check the contents of it,
-                    // as well as any nested __proto__ objects
+                    // If __proto__ is defined, we need to check the contents of
+                    // it, as well as any nested __proto__ objects
                     let Expr::Object(ObjectLit { props, .. }) = &mut *prop.value else {
-                        // __proto__ is not an ObjectLiteral. It's unsafe to keep trying to find
-                        // a value for this key, since __proto__ might also contain the key.
+                        // __proto__ is not an ObjectLiteral. It's unsafe to
+                        // keep trying to find a value for this key, since
+                        // __proto__ might also contain the key.
                         return None;
                     };
 
@@ -764,18 +766,18 @@ pub fn optimize_member_expr(
         _ => return,
     };
 
-    // Note: pristine_globals refers to the compress config option pristine_globals.
-    // Any potential cases where globals are not pristine are handled in compress,
-    // e.g. x[-1] is not changed as the object's prototype may be modified.
-    // For example, Array.prototype[-1] = "foo" will result in [][-1] returning
-    // "foo".
+    // Note: pristine_globals refers to the compress config option
+    // pristine_globals. Any potential cases where globals are not pristine are
+    // handled in compress, e.g. x[-1] is not changed as the object's prototype
+    // may be modified. For example, Array.prototype[-1] = "foo" will result in
+    // [][-1] returning "foo".
 
     match &mut **obj {
         Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
             // 'foo'.length
             //
-            // Prototype changes do not affect .length, so we don't need to worry
-            // about pristine_globals here.
+            // Prototype changes do not affect .length, so we don't need to
+            // worry about pristine_globals here.
             KnownOp::Len => {
                 *changed = true;
 
@@ -797,20 +799,23 @@ pub fn optimize_member_expr(
                     return;
                 };
 
-                // WTF-8 byte length is an upper bound for UTF-16 code-unit length.
+                // WTF-8 byte length is an upper bound for UTF-16 code-unit
+                // length.
                 if index >= value.len() {
                     return;
                 }
 
-                // Prototype changes affect indexing if the index is out of bounds, so we
-                // don't replace out-of-bound indexes. This lookup must use UTF-16 code units,
-                // which are JavaScript's string indexing units, rather than WTF-8 bytes.
+                // Prototype changes affect indexing if the index is out of
+                // bounds, so we don't replace out-of-bound indexes. This lookup
+                // must use UTF-16 code units, which are JavaScript's string
+                // indexing units, rather than WTF-8 bytes.
                 let Some(c) = nth_char(value, index) else {
                     return;
                 };
                 *changed = true;
 
-                // `nth_char` always returns a code point within the UTF-16 range.
+                // `nth_char` always returns a code point within the UTF-16
+                // range.
                 let mut value = Wtf8Buf::with_capacity(2);
                 value.push(c);
 
@@ -866,8 +871,8 @@ pub fn optimize_member_expr(
                         return;
                     };
 
-                    // Out-of-bound indexes are handled in compress because Array's
-                    // prototype may be modified.
+                    // Out-of-bound indexes are handled in compress because
+                    // Array's prototype may be modified.
                     if index >= elems.len() {
                         return;
                     }
@@ -1566,9 +1571,9 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
             if let (Known(lv), Known(rv)) = (lv, rv) {
                 return try_replace(lv, rv, lv * rv);
             }
-            // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
-            // advantage of that without some kind of non-NaN proof.  So the special cases
-            // here only deal with 1*x
+            // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't
+            // take advantage of that without some kind of non-NaN proof.  So
+            // the special cases here only deal with 1*x
             if Known(1.0) == lv {
                 return rv;
             }
@@ -1680,8 +1685,8 @@ fn perform_abstract_rel_cmp(
             left.as_pure_string(expr_ctx),
             right.as_pure_string(expr_ctx),
         ) {
-            // In JS, browsers parse \v differently. So do not compare strings if one
-            // contains \v.
+            // In JS, browsers parse \v differently. So do not compare strings
+            // if one contains \v.
             if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
                 return Unknown;
             } else {

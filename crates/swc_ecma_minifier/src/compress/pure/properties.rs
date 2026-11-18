@@ -65,7 +65,8 @@ impl Pure<'_> {
                         || is_valid_identifier(value, false)
                     {
                         *p = PropName::Ident(IdentName::new(
-                            // SAFETY: reserved words and valid identifiers are valid UTF-8.
+                            // SAFETY: reserved words and valid identifiers are
+                            // valid UTF-8.
                             unsafe { Atom::from_wtf8_unchecked(s.value.clone()) },
                             s.span,
                         ));
@@ -95,7 +96,8 @@ impl Pure<'_> {
                 report_change!("misc: Optimizing string property name");
                 *name = PropName::Ident(IdentName {
                     span: s.span,
-                    // SAFETY: reserved words and valid identifiers are valid UTF-8.
+                    // SAFETY: reserved words and valid identifiers are valid
+                    // UTF-8.
                     sym: unsafe { Atom::from_wtf8_unchecked(s.value.clone()) },
                 });
                 return;

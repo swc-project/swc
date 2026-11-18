@@ -240,8 +240,10 @@ impl State {
             && prev.is_some_and(|prev| prev.is_jsx_tag_start())
         {
             context.pop();
-            context.pop(); // do not consider JSX expr -> JSX open tag ->... anymore
-            context.push(TokenContext::JSXClosingTag); // reconsider as closing tag context
+            context.pop(); // do not consider JSX expr -> JSX open tag ->...
+                           // anymore
+            context.push(TokenContext::JSXClosingTag); // reconsider as closing
+                                                       // tag context
             false
         } else if next.is_dollar_lbrace() {
             context.push(TokenContext::TplQuasi);
@@ -273,8 +275,10 @@ impl State {
             }
             false
         } else if next.is_jsx_tag_start() {
-            context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
-            context.push(TokenContext::JSXOpeningTag); // start opening tag context
+            context.push(TokenContext::JSXExpr); // treat as beginning of JSX
+                                                 // expression
+            context.push(TokenContext::JSXOpeningTag); // start opening tag
+                                                       // context
             false
         } else if next.is_jsx_tag_end() {
             let out = context.pop();

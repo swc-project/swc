@@ -64,7 +64,7 @@ impl From<ModuleDeclOutput> for ModuleDeclaration {
             ModuleDeclOutput::ExportAll(a) => ModuleDeclaration::ExportAll(a),
             _ => panic!(
                 "illegal conversion: Cannot convert {:?} to ModuleDeclaration",
-                &module
+                module
             ),
         }
     }
@@ -112,7 +112,7 @@ fn convert_import_attrs(
                     PropOrSpread::Prop(p) => p,
                     _ => panic!(
                         "illegal conversion: Cannot convert {:?} to Prop",
-                        &prop_or_spread
+                        prop_or_spread
                     ),
                 };
                 let (key, val) = match *prop {
@@ -122,7 +122,7 @@ fn convert_import_attrs(
                             PropName::Str(s) => IdOrString::String(s.babelify(ctx)),
                             _ => panic!(
                                 "illegal conversion: Cannot convert {:?} to Prop::KeyValue",
-                                &keyval.key
+                                keyval.key
                             ),
                         };
                         let val = match *keyval.value {
@@ -130,19 +130,19 @@ fn convert_import_attrs(
                                 Lit::Str(s) => s.babelify(ctx),
                                 _ => panic!(
                                     "illegal conversion: Cannot convert {:?} to Expr::Lit",
-                                    &lit
+                                    lit
                                 ),
                             },
                             _ => panic!(
                                 "illegal conversion: Cannot convert {:?} to Expr::Lit",
-                                &keyval.value
+                                keyval.value
                             ),
                         };
                         (key, val)
                     }
                     _ => panic!(
                         "illegal conversion: Cannot convert {:?} to key, value",
-                        &prop
+                        prop
                     ),
                 };
                 ImportAttribute {

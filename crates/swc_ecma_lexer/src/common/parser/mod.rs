@@ -308,8 +308,8 @@ pub trait Parser<'a>: Sized + Clone {
                 }
             }
 
-            // It is an early Reference Error if LeftHandSideExpression is neither
-            // an ObjectLiteral nor an ArrayLiteral and
+            // It is an early Reference Error if LeftHandSideExpression is
+            // neither an ObjectLiteral nor an ArrayLiteral and
             // IsValidSimpleAssignmentTarget of LeftHandSideExpression is false.
             if !is_eval_or_arguments
                 && !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict))

@@ -13,8 +13,8 @@ use crate::rule::Rule;
 macro_rules! check_dupe_args {
     ($node:expr) => {{
         // This vector allocates only if there are duplicate parameters.
-        // This is used to handle the case where the same parameter is used 3 or more
-        // times.
+        // This is used to handle the case where the same parameter is used 3 or
+        // more times.
         let mut done = Vec::new();
 
         let mut hash_mode = false;
@@ -31,8 +31,9 @@ macro_rules! check_dupe_args {
                     if hash_mode {
                         return;
                     } else if i2 >= 100 {
-                        // While iterating for the first `id1`, we detect that there are more than
-                        // 100 identifiers. We switch to hash mode.
+                        // While iterating for the first `id1`, we detect that
+                        // there are more than 100 identifiers. We switch to
+                        // hash mode.
                         hash_mode = true;
                     }
 

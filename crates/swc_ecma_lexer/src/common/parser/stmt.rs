@@ -625,8 +625,8 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
         // Prevent stack overflow
         crate::maybe_grow(256 * 1024, 1024 * 1024, || {
             // // Annex B
-            // if !p.ctx().contains(Context::Strict) && p.input().is(&P::Token::FUNCTION) {
-            //     // TODO: report error?
+            // if !p.ctx().contains(Context::Strict) &&
+            // p.input().is(&P::Token::FUNCTION) {     // TODO: report error?
             // }
             p.do_outside_of_context(
                 Context::IgnoreElseClause.union(Context::TopLevel),

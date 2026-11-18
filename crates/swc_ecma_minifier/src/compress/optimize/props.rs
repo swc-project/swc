@@ -39,8 +39,8 @@ impl Optimizer<'_> {
                 return None;
             }
 
-            // If a variable is initialized multiple time, we currently don't do anything
-            // smart.
+            // If a variable is initialized multiple time, we currently don't do
+            // anything smart.
             let usage = self.data.vars.get(&name.to_id())?;
             if usage.mutated()
                 || usage.flags.intersects(
@@ -56,10 +56,10 @@ impl Optimizer<'_> {
                 return None;
             }
 
-            // `callee_count` is tracked for the object, not for each property. Once
-            // properties are hoisted, all replacements lose the original object
-            // receiver, so every property must be safe in callee position if any
-            // property is called.
+            // `callee_count` is tracked for the object, not for each property.
+            // Once properties are hoisted, all replacements lose the original
+            // object receiver, so every property must be safe in callee
+            // position if any property is called.
             let may_be_callee = usage.callee_count != 0;
 
             if usage.accessed_props.is_empty() {
@@ -248,7 +248,8 @@ impl Optimizer<'_> {
 fn is_expr_fine_for_hoist_props(value: &Expr, may_be_callee: bool) -> bool {
     match value {
         // We do not track fixed values for every identifier, so detaching an
-        // identifier from an object may change the `this` received by the callee.
+        // identifier from an object may change the `this` received by the
+        // callee.
         Expr::Ident(..) => !may_be_callee,
 
         Expr::Lit(..) | Expr::Class(..) => true,
@@ -257,8 +258,9 @@ fn is_expr_fine_for_hoist_props(value: &Expr, may_be_callee: bool) -> bool {
         Expr::Arrow(..) => true,
 
         Expr::Fn(f) => {
-            // Parameter initializers run with the call receiver too, so checking
-            // only the body can miss receiver-sensitive default values.
+            // Parameter initializers run with the call receiver too, so
+            // checking only the body can miss receiver-sensitive default
+            // values.
             !contains_this_expr(&f.function.params)
                 && !contains_this_expr(&f.function.body)
                 && (!may_be_callee || !contains_eval(&f.function, false))
@@ -394,9 +396,10 @@ impl Optimizer<'_> {
                                 return;
                             }
 
-                            // A later spread can replace this property even if reading the
-                            // spread itself has no observable side effect. Do not detach the
-                            // earlier callee unless it remains the property's final value.
+                            // A later spread can replace this property even if
+                            // reading the spread itself has no observable side
+                            // effect. Do not detach the earlier callee unless
+                            // it remains the property's final value.
                             if self.ctx.bit_ctx.contains(BitCtx::IsCallee)
                                 && obj.props[idx + 1..]
                                     .iter()

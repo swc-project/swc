@@ -118,7 +118,8 @@ impl RustPlugins {
         use anyhow::Context;
         use swc_common::plugin::serialized::PluginSerializedBytes;
 
-        // swc_plugin_macro will not inject proxy to the comments if comments is empty
+        // swc_plugin_macro will not inject proxy to the comments if comments is
+        // empty
         let should_enable_comments_proxy = self.comments.is_some();
 
         // Set comments once per whole plugin transform execution.
@@ -135,11 +136,11 @@ impl RustPlugins {
                 drop(span);
 
                 // Run plugin transformation against current program.
-                // We do not serialize / deserialize between each plugin execution but
-                // copies raw transformed bytes directly into plugin's memory space.
-                // Note: This doesn't mean plugin won't perform any se/deserialization: it
-                // still have to construct from raw bytes internally to perform actual
-                // transform.
+                // We do not serialize / deserialize between each plugin
+                // execution but copies raw transformed bytes directly into
+                // plugin's memory space. Note: This doesn't mean plugin won't
+                // perform any se/deserialization: it still have to construct
+                // from raw bytes internally to perform actual transform.
                 if let Some(plugins) = &mut self.plugins {
                     for p in plugins.drain(..) {
                         let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
@@ -176,7 +177,7 @@ impl RustPlugins {
                             .with_context(|| {
                                 format!(
                                     "failed to invoke `{}` as js transform plugin at {}",
-                                    &p.0, plugin_name
+                                    p.0, plugin_name
                                 )
                             })?;
                         #[cfg(debug_assertions)]
@@ -184,8 +185,8 @@ impl RustPlugins {
                     }
                 }
 
-                // Plugin transformation is done. Deserialize transformed bytes back
-                // into Program
+                // Plugin transformation is done. Deserialize transformed bytes
+                // back into Program
                 serialized.deserialize().map(|v| v.into_inner())
             },
         )
@@ -241,8 +242,8 @@ pub(crate) fn compile_wasm_plugins(
         NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
     );
 
-    // Currently swc enables filesystemcache by default on Embedded runtime plugin
-    // target.
+    // Currently swc enables filesystemcache by default on Embedded runtime
+    // plugin target.
     crate::config::init_plugin_module_cache_once(true, cache_root);
 
     let mut inner_cache = crate::config::PLUGIN_MODULE_CACHE

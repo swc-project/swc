@@ -18,7 +18,8 @@ pub fn bench_files_document(c: &mut Criterion) {
 
         group.bench_function(name, |b| {
             b.iter(|| {
-                // We benchmark full time, including time for creating cm, handler
+                // We benchmark full time, including time for creating cm,
+                // handler
                 run_document(&src)
             })
         });
@@ -47,7 +48,8 @@ pub fn bench_files_document_fragment(c: &mut Criterion) {
 
         group.bench_function(name, |b| {
             b.iter(|| {
-                // We benchmark full time, including time for creating cm, handler
+                // We benchmark full time, including time for creating cm,
+                // handler
                 run_document_fragment(&src)
             })
         });

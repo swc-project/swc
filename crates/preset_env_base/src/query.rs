@@ -135,10 +135,11 @@ pub fn targets_to_versions(v: Option<Targets>, path: Option<PathBuf>) -> Result<
             let distribs = browserslist::execute(&browserslist_opts)
                 .with_context(|| "failed to resolve browserslist query from browserslist config")?;
 
-            // When targets is None, it means the user didn't specify any targets.
-            // We use browserslist config or defaults, so we should NOT treat empty
-            // results as "unknown version". That case is for when a user explicitly
-            // specifies a query like "Chrome > 99999" that returns empty.
+            // When targets is None, it means the user didn't specify any
+            // targets. We use browserslist config or defaults, so we should NOT
+            // treat empty results as "unknown version". That case is for when a
+            // user explicitly specifies a query like "Chrome > 99999" that
+            // returns empty.
             let versions = BrowserData::parse_versions(distribs)
                 .with_context(|| "failed to parse browser version")?;
 

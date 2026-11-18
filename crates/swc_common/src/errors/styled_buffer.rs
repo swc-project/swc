@@ -34,10 +34,12 @@ impl StyledBuffer {
                     tab_pos.push(pos);
                 }
             }
-            // start with the tabs at the end of the line to replace them with 4 space chars
+            // start with the tabs at the end of the line to replace them with 4
+            // space chars
             for pos in tab_pos.iter().rev() {
                 assert_eq!(line.remove(*pos), '\t');
-                // fix the position of the style to match up after replacing the tabs
+                // fix the position of the style to match up after replacing the
+                // tabs
                 let s = self.styles[line_pos].remove(*pos);
                 for _ in 0..4 {
                     line.insert(*pos, ' ');
@@ -62,12 +64,11 @@ impl StyledBuffer {
                 if s != current_style {
                     if !current_text.is_empty() {
                         styled_vec.push(StyledString {
-                            text: current_text,
+                            text: std::mem::take(&mut current_text),
                             style: current_style,
                         });
                     }
                     current_style = s;
-                    current_text = String::new();
                 }
                 current_text.push(c);
             }
@@ -79,9 +80,7 @@ impl StyledBuffer {
             }
 
             // We're done with the row, push and keep going
-            output.push(styled_vec);
-
-            styled_vec = Vec::new();
+            output.push(std::mem::take(&mut styled_vec));
         }
 
         output

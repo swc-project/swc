@@ -92,7 +92,8 @@ impl ThreadSafetyDiagnostics {
             .lock()
             .expect("Failed to access the diagnostics lock");
 
-        // If there are no diagnostics, return empty vector without initializing handler
+        // If there are no diagnostics, return empty vector without initializing
+        // handler
         if diagnostics.is_empty() {
             return Vec::new();
         }

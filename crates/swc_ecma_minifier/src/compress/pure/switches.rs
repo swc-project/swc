@@ -118,16 +118,18 @@ impl Pure<'_> {
                         let test = case.test.take().unwrap();
 
                         if may_fall_through {
-                            // A preceding unknown case may have matched and entered this
-                            // consequent without evaluating this case test. Keep both the
-                            // body and any abrupt completion reachable by that path.
+                            // A preceding unknown case may have matched and
+                            // entered this consequent without evaluating this
+                            // case test. Keep both the body and any abrupt
+                            // completion reachable by that path.
                             case.test = Some(test);
                             cases.push(case.take());
                             may_fall_through = !case_terminates;
                         } else if case.cons.is_empty() && test.may_have_side_effects(self.expr_ctx)
                         {
-                            // This case is already a search-only case from an earlier pass.
-                            // Retain it unchanged so that compression reaches a fixed point.
+                            // This case is already a search-only case from an
+                            // earlier pass. Retain it unchanged so that
+                            // compression reaches a fixed point.
                             case.test = Some(test);
                             cases.push(case.take());
                         } else {
@@ -135,9 +137,11 @@ impl Pure<'_> {
                             var_ids.extend(extract_var_ids(&case.cons));
 
                             if test.may_have_side_effects(self.expr_ctx) {
-                                // Keep the original test in the search path. Its primitive tail is
-                                // known not to match, while an expression statement would evaluate
-                                // it incorrectly after an earlier fallthrough match.
+                                // Keep the original test in the search path.
+                                // Its primitive tail is known not to match,
+                                // while an expression statement would evaluate
+                                // it incorrectly after an earlier fallthrough
+                                // match.
                                 case.test = Some(test);
                                 case.cons = Default::default();
                                 cases.push(case.take());
@@ -336,7 +340,8 @@ impl Pure<'_> {
 
         let default = cases.iter().position(|case| case.test.is_none());
 
-        // if default is before empty cases, we must ensure empty case is preserved
+        // if default is before empty cases, we must ensure empty case is
+        // preserved
         if last < cases.len() && default.map(|idx| idx >= last).unwrap_or(true) {
             self.changed = true;
             report_change!("switches: Removing empty cases at the end");
@@ -426,7 +431,8 @@ impl Pure<'_> {
 
                 block_start = j + 1;
 
-                // To merge cases, the first one should be terminate the switch statement.
+                // To merge cases, the first one should be terminate the switch
+                // statement.
                 //
                 // Otherwise fallthough will be skipped
                 let case_i_terminates = cases[i]
@@ -751,9 +757,9 @@ fn remove_last_break(stmt: &mut Vec<Stmt>) -> bool {
             if let Some(h) = t.handler.as_mut() {
                 changed |= remove_last_break(&mut h.body.stmts);
             }
-            // A break in a finalizer replaces a pending throw or return from the try or
-            // catch block, so removing it changes the completion of the
-            // enclosing switch.
+            // A break in a finalizer replaces a pending throw or return from
+            // the try or catch block, so removing it changes the completion of
+            // the enclosing switch.
             changed
         }
         Some(Stmt::Block(BlockStmt { stmts, .. })) => remove_last_break(stmts),

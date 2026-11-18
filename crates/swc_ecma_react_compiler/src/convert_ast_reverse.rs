@@ -442,8 +442,9 @@ impl ReverseCtx {
             | Statement::DeclareTypeAlias(_)
             | Statement::DeclareOpaqueType(_)
             | Statement::EnumDeclaration(_) => {
-                // This reverse path only handles AST produced by our SWC forward converter;
-                // lossy SWC details are restored from PreservedAst.
+                // This reverse path only handles AST produced by our SWC
+                // forward converter; lossy SWC details are restored from
+                // PreservedAst.
                 unreachable!("unsupported statement in SWC round-trip AST")
             }
         }
@@ -2171,7 +2172,8 @@ impl ReverseCtx {
 
         if !self.preserved_ast.borrow_mut().load_module_item(&mut item) {
             // Skip unrecognized module items.
-            // We believe the React compiler does not emit additional module items.
+            // We believe the React compiler does not emit additional module
+            // items.
             item = swc::Stmt::Empty(swc::EmptyStmt { span }).into();
         }
         item

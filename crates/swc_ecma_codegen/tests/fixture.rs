@@ -169,7 +169,8 @@ fn run(input: &Path, minify: bool) {
             .unwrap();
 
         if config.source_map {
-            // Map zero-based generated line/column pairs to source byte positions.
+            // Map zero-based generated line/column pairs to source byte
+            // positions.
             let mappings = source_map
                 .iter()
                 .map(|(pos, loc)| format!("{}:{} -> {}\n", loc.line, loc.col, pos.0))

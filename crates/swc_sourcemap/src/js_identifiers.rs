@@ -11,9 +11,9 @@ fn is_valid_start(c: char) -> bool {
 
 /// Returns true if `c` is a valid character for an identifier part after start.
 fn is_valid_continue(c: char) -> bool {
-    // As specified by the ECMA-262 spec, U+200C (ZERO WIDTH NON-JOINER) and U+200D
-    // (ZERO WIDTH JOINER) are format-control characters that are used to make
-    // necessary distinctions when forming words or phrases in certain
+    // As specified by the ECMA-262 spec, U+200C (ZERO WIDTH NON-JOINER) and
+    // U+200D (ZERO WIDTH JOINER) are format-control characters that are used to
+    // make necessary distinctions when forming words or phrases in certain
     // languages. They are however not considered by UnicodeID to be universally
     // valid identifier characters.
     c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {

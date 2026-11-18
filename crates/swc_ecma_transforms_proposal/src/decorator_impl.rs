@@ -1501,7 +1501,8 @@ impl DecoratorPass {
         let mut insert_index = 0;
         for (i, member) in c.body.iter().enumerate() {
             if let ClassMember::Constructor(constructor) = member {
-                // decorators occur before typescript's type strip, so skip ctor overloads
+                // decorators occur before typescript's type strip, so skip ctor
+                // overloads
                 if constructor.body.is_some() {
                     if let Some(ClassMember::Constructor(c)) = c.body.get_mut(i) {
                         return c;
@@ -1530,7 +1531,8 @@ impl DecoratorPass {
         let mut insert_index = 0;
         for (i, member) in c.body.iter().enumerate() {
             if let ClassMember::Constructor(constructor) = member {
-                // decorators occur before typescript's type strip, so skip ctor overloads
+                // decorators occur before typescript's type strip, so skip ctor
+                // overloads
                 if constructor.body.is_some() {
                     if let Some(ClassMember::Constructor(c)) = c.body.get_mut(i) {
                         return c;
@@ -2323,13 +2325,13 @@ impl VisitMut for DecoratorPass {
                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                 ..Default::default()
             };
-            // _initProto must run AFTER super() but BEFORE field initialization.
-            // For 2022-03, we avoid injecting into truly private field initializers
-            // because addInitializer callbacks can attempt private access before brand
-            // setup. We still allow private storage generated for public accessors to
-            // preserve ordering.
-            // If there are no suitable fields with initializers, inject into the
-            // constructor.
+            // _initProto must run AFTER super() but BEFORE field
+            // initialization. For 2022-03, we avoid injecting into truly
+            // private field initializers because addInitializer callbacks can
+            // attempt private access before brand setup. We still allow private
+            // storage generated for public accessors to preserve ordering.
+            // If there are no suitable fields with initializers, inject into
+            // the constructor.
             let mut proto_inited = false;
 
             if self.is_2023_11() {

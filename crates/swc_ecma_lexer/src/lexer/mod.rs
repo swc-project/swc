@@ -326,9 +326,9 @@ impl Lexer<'_> {
             Token::BinOp(op)
         };
 
-        // All conflict markers consist of the same character repeated seven times.
-        // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
-        // <<<<<<<
+        // All conflict markers consist of the same character repeated seven
+        // times. If it is a <<<<<<< or >>>>>>> marker then it is also followed
+        // by a space. <<<<<<<
         //   ^
         // >>>>>>>
         //    ^

@@ -54,8 +54,8 @@ pub fn get_transform_plugin_config(
 ) -> i32 {
     let config_value = env.transform_plugin_config.as_ref();
     if let Some(config_value) = config_value {
-        // Lazy as possible as we can - only deserialize json value if transform plugin
-        // actually needs it.
+        // Lazy as possible as we can - only deserialize json value if transform
+        // plugin actually needs it.
         let config = serde_json::to_string(config_value).ok();
         if let Some(config) = config {
             let serialized =

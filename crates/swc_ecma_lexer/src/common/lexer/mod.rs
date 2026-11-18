@@ -75,14 +75,14 @@ const fn pair_to_code_point(high: u32, low: u32) -> u32 {
 /// `\u Hex4Digits`, `\u Hex4Digits \u Hex4Digits`, or `\u{ HexDigits }`.
 #[derive(Debug)]
 pub enum UnicodeEscape {
-    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms a valid Unicode code point.
-    // Char cannot be in range 0xD800..=0xDFFF.
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms a valid Unicode code
+    // point. Char cannot be in range 0xD800..=0xDFFF.
     CodePoint(char),
-    // `\u Hex4Digits \u Hex4Digits`, which forms a valid Unicode astral code point.
-    // Char is in the range 0x10000..=0x10FFFF.
+    // `\u Hex4Digits \u Hex4Digits`, which forms a valid Unicode astral code
+    // point. Char is in the range 0x10000..=0x10FFFF.
     SurrogatePair(char),
-    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms an invalid Unicode code point.
-    // Code unit is in the range 0xD800..=0xDFFF.
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms an invalid Unicode code
+    // point. Code unit is in the range 0xD800..=0xDFFF.
     LoneSurrogate(u32),
 }
 
@@ -442,15 +442,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         let mut is_for_next =
                             had_line_break_before_last || !self.state().can_have_trailing_comment();
 
-                        // If next char is ';' without newline, treat as trailing
+                        // If next char is ';' without newline, treat as
+                        // trailing
                         if !had_line_break_before_last && self.input().is_byte(b';') {
                             is_for_next = false;
                         }
 
                         if self.comments_buffer().is_some() {
                             let src = unsafe {
-                                // Safety: We got slice_start and end from self.input so those are
-                                // valid.
+                                // Safety: We got slice_start and end from
+                                // self.input so those are valid.
                                 self.input_mut().slice(slice_start, end)
                             };
                             let s = &src[..src.len() - 2];
@@ -730,7 +731,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             {
                 let end = self.cur_pos();
                 let raw = unsafe {
-                    // Safety: We got both start and end position from `self.input`
+                    // Safety: We got both start and end position from
+                    // `self.input`
                     self.input_slice(start, end)
                 };
                 let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
@@ -750,7 +752,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     if start.0 != self.last_pos().0 - 1 {
                         let end = self.cur_pos();
                         let raw = unsafe {
-                            // Safety: We got both start and end position from `self.input`
+                            // Safety: We got both start and end position from
+                            // `self.input`
                             self.input_slice(start, end)
                         };
                         let raw = self.atom(raw);
@@ -767,7 +770,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let val = parse_integer::<8>(&s);
                     let end = self.cur_pos();
                     let raw = unsafe {
-                        // Safety: We got both start and end position from `self.input`
+                        // Safety: We got both start and end position from
+                        // `self.input`
                         self.input_slice(start, end)
                     };
                     let raw = self.atom(raw);
@@ -1161,10 +1165,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             return Ok(Some(UnicodeEscape::CodePoint(ch)));
         }
 
-        // The first code unit of a surrogate pair is always in the range from 0xD800 to
-        // 0xDBFF, and is called a high surrogate or a lead surrogate.
-        // Note: `high` must be >= `MIN_HIGH`, otherwise `char::from_u32` would have
-        // returned `Some`, and already exited.
+        // The first code unit of a surrogate pair is always in the range from
+        // 0xD800 to 0xDBFF, and is called a high surrogate or a lead surrogate.
+        // Note: `high` must be >= `MIN_HIGH`, otherwise `char::from_u32` would
+        // have returned `Some`, and already exited.
         debug_assert!(high >= MIN_HIGH);
         let is_pair = high <= MAX_HIGH
             && self.input().cur() == Some(b'\\')
@@ -1184,21 +1188,22 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             return Ok(None);
         };
 
-        // The second code unit of a surrogate pair is always in the range from 0xDC00
-        // to 0xDFFF, and is called a low surrogate or a trail surrogate.
-        // If this isn't a valid pair, rewind to before the 2nd, and return the first
-        // only. The 2nd could be the first part of a valid pair.
+        // The second code unit of a surrogate pair is always in the range from
+        // 0xDC00 to 0xDFFF, and is called a low surrogate or a trail surrogate.
+        // If this isn't a valid pair, rewind to before the 2nd, and return the
+        // first only. The 2nd could be the first part of a valid pair.
         if !(MIN_LOW..=MAX_LOW).contains(&low) {
             unsafe {
-                // Safety: state is valid position because we got it from cur_pos()
+                // Safety: state is valid position because we got it from
+                // cur_pos()
                 self.input_mut().reset_to(before_second);
             }
             return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
         }
 
         let code_point = pair_to_code_point(high, low);
-        // SAFETY: `high` and `low` have been checked to be in ranges which always yield
-        // a `code_point` which is a valid `char`
+        // SAFETY: `high` and `low` have been checked to be in ranges which
+        // always yield a `code_point` which is a valid `char`
         let ch = unsafe { char::from_u32_unchecked(code_point) };
         Ok(Some(UnicodeEscape::SurrogatePair(ch)))
     }
@@ -1260,7 +1265,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
             _ => {
                 unsafe {
-                    // Safety: state is valid position because we got it from cur_pos()
+                    // Safety: state is valid position because we got it from
+                    // cur_pos()
                     self.input_mut().reset_to(state);
                 }
 
@@ -1309,8 +1315,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 if let Ok(cooked) = &mut cooked {
                     let last_pos = self.cur_pos();
                     cooked.push_str(unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
+                        // Safety: Both of start and last_pos are valid position because
+                        // we got them from `self.input`
                         self.input_slice(cooked_slice_start, last_pos)
                     });
                 }
@@ -1350,8 +1356,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         let cooked = if cooked_slice_start == raw_slice_start {
                             let last_pos = self.cur_pos();
                             let s = unsafe {
-                                // Safety: Both of start and last_pos are valid position because we
-                                // got them from `self.input`
+                                // Safety: Both of start and last_pos are valid
+                                // position because we got them from
+                                // `self.input`
                                 self.input_slice(cooked_slice_start, last_pos)
                             };
                             Ok(self.wtf8_atom(Wtf8::from_str(s)))
@@ -1362,8 +1369,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                         let end = self.input().cur_pos();
                         let raw = unsafe {
-                            // Safety: Both of start and last_pos are valid position because we got
-                            // them from `self.input`
+                            // Safety: Both of start and last_pos are valid
+                            // position because we got them from `self.input`
                             self.input_slice(raw_slice_start, end)
                         };
                         let raw = self.atom(raw);
@@ -1395,7 +1402,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.state_mut().mark_had_line_break();
                     consume_cooked!();
 
-                    // Handle carriage return - consume \r and optionally \n, normalize to \n
+                    // Handle carriage return - consume \r and optionally \n,
+                    // normalize to \n
                     self.bump(); // '\r'
                     if self.peek() == Some(b'\n') {
                         self.bump(); // '\n'
@@ -1407,7 +1415,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     cooked_slice_start = self.cur_pos();
                 }
                 b'\\' => {
-                    // Handle escape sequence - fall back to slow path for this part
+                    // Handle escape sequence - fall back to slow path for this
+                    // part
                     consume_cooked!();
 
                     match self.read_escaped_char(true) {
@@ -1615,8 +1624,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         self.bump(); // '/'
 
-        // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
-        // sequence." TODO: check for escape
+        // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode
+        // escape sequence." TODO: check for escape
 
         // Need to use `read_word` because '\uXXXX' sequences are allowed
         // here (don't ask).
@@ -1662,19 +1671,22 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     },
                 };
 
-                // Check if we hit end of identifier or need to fall back to slow path
+                // Check if we hit end of identifier or need to fall back to
+                // slow path
                 if !next_byte.is_ascii() {
-                    // Hit Unicode character, fall back to slow path from current position
+                    // Hit Unicode character, fall back to slow path from
+                    // current position
                     return self.read_word_as_str_with_slow_path(slice_start);
                 } else if next_byte == b'\\' {
-                    // Hit escape sequence, fall back to slow path from current position
+                    // Hit escape sequence, fall back to slow path from current
+                    // position
                     return self.read_word_as_str_with_slow_path(slice_start);
                 } else {
                     // Hit end of identifier (non-continue ASCII char)
                     let end = self.cur_pos();
                     let s = unsafe {
-                        // Safety: slice_start and end are valid position because we got them from
-                        // `self.input`
+                        // Safety: slice_start and end are valid position
+                        // because we got them from `self.input`
                         self.input_slice(slice_start, end)
                     };
 
@@ -1722,8 +1734,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     {
                         let end = self.input().cur_pos();
                         let s = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
+                            // Safety: start and end are valid position because
+                            // we got them from `self.input`
                             self.input_slice(slice_start, start)
                         };
                         buf.push_str(s);
@@ -1779,8 +1791,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let end = self.cur_pos();
         let s = unsafe {
-            // Safety: slice_start and end are valid position because we got them from
-            // `self.input`
+            // Safety: slice_start and end are valid position because we got
+            // them from `self.input`
             self.input_slice(slice_start, end)
         };
         let value = if !has_escape {
@@ -2073,8 +2085,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         // `buf` only exist when there has escape.
                         debug_assert!(unsafe { self.input_slice(start, value_end).contains('\\') });
                         let s = unsafe {
-                            // Safety: slice_start and value_end are valid position because we
-                            // got them from `self.input`
+                            // Safety: slice_start and value_end are valid
+                            // position because we got them from `self.input`
                             self.input_slice(slice_start, value_end)
                         };
                         buf.push_str(s);
@@ -2089,8 +2101,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                     let end = self.cur_pos();
                     let raw = unsafe {
-                        // Safety: start and end are valid position because we got them from
-                        // `self.input`
+                        // Safety: start and end are valid position because we
+                        // got them from `self.input`
                         self.input_slice(start, end)
                     };
                     let raw = self.atom(raw);
@@ -2099,8 +2111,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 b'\\' => {
                     let end = self.cur_pos();
                     let s = unsafe {
-                        // Safety: start and end are valid position because we got them from
-                        // `self.input`
+                        // Safety: start and end are valid position because we
+                        // got them from `self.input`
                         self.input_slice(slice_start, end)
                     };
 
@@ -2120,8 +2132,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 b'\n' | b'\r' => {
                     let end = self.cur_pos();
                     let s = unsafe {
-                        // Safety: start and end are valid position because we got them from
-                        // `self.input`
+                        // Safety: start and end are valid position because we
+                        // got them from `self.input`
                         self.input_slice(slice_start, end)
                     };
 
@@ -2130,8 +2142,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let end = self.cur_pos();
 
                     let raw = unsafe {
-                        // Safety: start and end are valid position because we got them from
-                        // `self.input`
+                        // Safety: start and end are valid position because we
+                        // got them from `self.input`
                         self.input_slice(start, end)
                     };
                     return Ok(Self::Token::str(
@@ -2155,9 +2167,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let (s, has_escape) = self.read_keyword_as_str_with()?;
         if let Some(word) = convert(s.as_ref()) {
             // Note: ctx is store in lexer because of this error.
-            // 'await' and 'yield' may have semantic of reserved word, which means lexer
-            // should know context or parser should handle this error. Our approach to this
-            // problem is former one.
+            // 'await' and 'yield' may have semantic of reserved word, which
+            // means lexer should know context or parser should handle this
+            // error. Our approach to this problem is former one.
             if has_escape && word.is_reserved(self.ctx()) {
                 self.error(
                     start,
@@ -2202,15 +2214,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         // Check if we hit end of identifier or need to fall back to slow path
         if !next_byte.is_ascii() || next_byte == b'\\' {
-            // Hit Unicode character or escape sequence, fall back to slow path from current
-            // position
+            // Hit Unicode character or escape sequence, fall back to slow path
+            // from current position
             self.read_word_as_str_with_slow_path(slice_start)
         } else {
             // Hit end of identifier (non-continue ASCII char)
             let end = self.cur_pos();
             let s = unsafe {
-                // Safety: slice_start and end are valid position because we got them from
-                // `self.input`
+                // Safety: slice_start and end are valid position because we got
+                // them from `self.input`
                 self.input_slice(slice_start, end)
             };
 

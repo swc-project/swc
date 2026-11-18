@@ -566,9 +566,9 @@ impl Visit for IdentCollector {
     }
 
     fn visit_ident_name(&mut self, ident: &IdentName) {
-        // We don't want to specifically include the constructor name in the source map
-        // so that the source map name in thrown errors refers to the class name
-        // instead of the constructor name.
+        // We don't want to specifically include the constructor name in the
+        // source map so that the source map name in thrown errors refers to the
+        // class name instead of the constructor name.
         if ident.sym == "constructor" {
             return;
         }

@@ -574,8 +574,8 @@ impl SemanticBuilder {
     fn resolution_parent_id(&self, scope_id: ScopeId) -> Option<ScopeId> {
         let parent_id = self.scoping.scope_parent_id(scope_id)?;
         if self.scoping.scope_flags(scope_id).is_parameter() {
-            // Parameter initializers run before the function body environment is
-            // visible. Check parameter aliases first, then continue at the
+            // Parameter initializers run before the function body environment
+            // is visible. Check parameter aliases first, then continue at the
             // outer scope instead of the function scope that will hold body
             // bindings in the React Compiler-compatible output model.
             return self.scoping.scope_parent_id(parent_id);
@@ -602,8 +602,8 @@ impl SemanticBuilder {
     fn try_resolve_reference(&mut self, reference_id: ReferenceId, symbol_id: SymbolId) -> bool {
         let symbol_flags = self.scoping.symbol_flags(symbol_id);
 
-        // Only resolve value references here (type references are not needed for React
-        // Compiler).
+        // Only resolve value references here (type references are not needed
+        // for React Compiler).
         if !symbol_flags.can_be_referenced_by_value() {
             return false;
         }
@@ -656,8 +656,9 @@ impl SemanticBuilder {
     ) {
         match pat {
             Pat::Ident(binding_ident) => {
-                // Flow and object-setter `this` pseudo-parameters are represented
-                // as patterns. Other TypeScript functions use `Function::this_param`.
+                // Flow and object-setter `this` pseudo-parameters are
+                // represented as patterns. Other TypeScript functions use
+                // `Function::this_param`.
                 if binding_ident.id.sym.as_str() == "this" {
                     return;
                 }

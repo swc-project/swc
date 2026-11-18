@@ -133,8 +133,8 @@ impl<C> VisitMut for Compiler<C>
 where
     C: TransformConfig,
 {
-    // TODO handle `@counter-style`, CSS modules doesn't support it, but we should
-    // to fix it
+    // TODO handle `@counter-style`, CSS modules doesn't support it, but we
+    // should to fix it
     fn visit_mut_keyframes_name(&mut self, n: &mut KeyframesName) {
         match n {
             KeyframesName::CustomIdent(n) if !self.data.is_global_mode => {
@@ -385,7 +385,8 @@ where
                                         continue;
                                     }
                                     // fill-mode
-                                    // NOTE: `animation: none:` will be trapped here
+                                    // NOTE: `animation: none:` will be trapped
+                                    // here
                                     "none" | "forwards" | "backwards" | "both"
                                         if !fill_mode_visited =>
                                     {

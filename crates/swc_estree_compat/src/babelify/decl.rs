@@ -51,10 +51,10 @@ impl Babelify for ClassDecl {
     fn babelify(self, ctx: &Context) -> Self::Output {
         let is_abstract = self.class.is_abstract;
         // NOTE: The body field needs a bit of special handling because babel
-        // represents the body as a node, whereas swc represents it as a vector of
-        // statements. This means that swc does not have a span corresponding the
-        // class body base node for babel. To solve this, we generate a new span
-        // starting from the end of the identifier to the end of the body.
+        // represents the body as a node, whereas swc represents it as a vector
+        // of statements. This means that swc does not have a span corresponding
+        // the class body base node for babel. To solve this, we generate a new
+        // span starting from the end of the identifier to the end of the body.
         // For example,
         //
         // babel ClassBody node starts here
@@ -66,8 +66,8 @@ impl Babelify for ClassDecl {
         // and ends here
         //
         // TODO: Verify that this implementation of class body span is correct.
-        // It may need to be modified to take into account implements, super classes,
-        // etc.
+        // It may need to be modified to take into account implements, super
+        // classes, etc.
         let body_span = extract_class_body_span(&self.class, ctx);
         let class = self.class.babelify(ctx);
         ClassDeclaration {

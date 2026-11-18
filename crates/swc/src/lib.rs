@@ -479,13 +479,13 @@ impl Compiler {
                                 Some(data_url) => {
                                     let mut map_path = dir.join(data_url);
                                     if !map_path.exists() {
-                                        // Old behavior. This check would prevent
-                                        // regressions.
-                                        // Perhaps it shouldn't be supported. Sometimes
-                                        // developers don't want to expose their source
-                                        // code.
-                                        // Map files are for internal troubleshooting
-                                        // convenience.
+                                        // Old behavior. This check would
+                                        // prevent regressions.
+                                        // Perhaps it shouldn't be supported.
+                                        // Sometimes developers don't want to
+                                        // expose their source code.
+                                        // Map files are for internal
+                                        // troubleshooting convenience.
                                         let fallback_map_path =
                                             PathBuf::from(format!("{}.map", filename.display()));
                                         if fallback_map_path.exists() {
@@ -520,9 +520,9 @@ impl Compiler {
                                     let path = map_path.display().to_string();
                                     let file = File::open(&path);
 
-                                    // If file is not found, we should return None.
-                                    // Some libraries generates source map but omit them from the
-                                    // npm package.
+                                    // If file is not found, we should return
+                                    // None. Some libraries generates source map
+                                    // but omit them from the npm package.
                                     //
                                     // See https://github.com/swc-project/swc/issues/8789#issuecomment-2105055772
                                     if file
@@ -741,7 +741,8 @@ impl Compiler {
                 _ => {
                     if *swcrc {
                         if let FileName::Real(ref path) = name {
-                            // Canonicalize relative paths for proper parent traversal
+                            // Canonicalize relative paths for proper parent
+                            // traversal
                             let abs_path = if path.is_relative() {
                                 root.join(path).canonicalize().ok()
                             } else {

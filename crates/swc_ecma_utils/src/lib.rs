@@ -493,7 +493,8 @@ pub trait StmtExt {
             Ok(match stmt {
                 Stmt::Break(_) => {
                     if in_switch {
-                        // In case of `break` in switch, we should stop the analysis because the
+                        // In case of `break` in switch, we should stop the
+                        // analysis because the
                         // statements after `if (foo) break;` may not execute.
                         //
                         // So the `return 1` in
@@ -2828,10 +2829,10 @@ where
 fn is_immutable_value(expr: &Expr) -> bool {
     // TODO(johnlenz): rename this function.  It is currently being used
     // in two disjoint cases:
-    // 1) We only care about the result of the expression (in which case NOT here
-    //    should return true)
-    // 2) We care that expression is a side-effect free and can't be side-effected
-    //    by other expressions.
+    // 1) We only care about the result of the expression (in which case NOT
+    //    here should return true)
+    // 2) We care that expression is a side-effect free and can't be
+    //    side-effected by other expressions.
     // This should only be used to say the value is immutable and
     // hasSideEffects and canBeSideEffected should be used for the other case.
     match expr {
@@ -3679,7 +3680,8 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                 return false;
             }
 
-            // Check for instance properties (non-static) - they run during construction
+            // Check for instance properties (non-static) - they run during
+            // construction
             for member in &class.body {
                 match member {
                     ClassMember::ClassProp(p) if !p.is_static => return false,
@@ -4229,7 +4231,6 @@ switch (foo) {
 mod ident_usage_finder_parallel_tests {
     use swc_atoms::Atom;
     use swc_common::SyntaxContext;
-    use swc_ecma_ast::*;
 
     use super::*;
 

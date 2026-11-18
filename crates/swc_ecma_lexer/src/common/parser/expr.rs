@@ -324,8 +324,8 @@ pub fn parse_assignment_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>>
     trace_cur!(p, parse_assignment_expr);
 
     if p.input().syntax().typescript() && p.input().is(&P::Token::JSX_TAG_START) {
-        // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
-        // syntax.
+        // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't
+        // valid syntax.
 
         let cur_context = p.input().token_context().current();
         debug_assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
@@ -390,11 +390,11 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
                 let type_parameters = parse_ts_type_params(p, false, true)?;
 
                 // In TSX mode, type parameters that could be mistaken for JSX
-                // (single param without constraint and no trailing comma) are not
-                // allowed. e.g., `<T>() => {}` is invalid in TSX because `<T>`
-                // looks like JSX.
-                // Valid alternatives: `<T,>() => {}` or `<T extends unknown>() =>
-                // {}`
+                // (single param without constraint and no trailing comma) are
+                // not allowed. e.g., `<T>() => {}` is invalid in TSX because
+                // `<T>` looks like JSX.
+                // Valid alternatives: `<T,>() => {}` or `<T extends unknown>()
+                // => {}`
                 if p.input().syntax().jsx()
                     && !p.input().syntax().flow()
                     && type_parameters.params.len() == 1
@@ -484,8 +484,8 @@ pub fn finish_assignment_expr<'a, P: Parser<'a>>(
                 }
             }
         } else {
-            // It is an early Reference Error if IsValidSimpleAssignmentTarget of
-            // LeftHandSideExpression is false.
+            // It is an early Reference Error if IsValidSimpleAssignmentTarget
+            // of LeftHandSideExpression is false.
             if !cond.is_valid_simple_assignment_target(p.ctx().contains(Context::Strict)) {
                 if p.input().syntax().typescript() {
                     p.emit_err(cond.span(), SyntaxError::TS2406);
@@ -638,9 +638,9 @@ fn parse_subscript<'a, P: Parser<'a>>(
 
             let mut obj_opt = Some(obj);
             // tsTryParseAndCatch is expensive, so avoid if not necessary.
-            // There are number of things we are going to "maybe" parse, like type arguments
-            // on tagged template expressions. If any of them fail, walk it back and
-            // continue.
+            // There are number of things we are going to "maybe" parse, like
+            // type arguments on tagged template expressions. If any of them
+            // fail, walk it back and continue.
 
             let mut_obj_opt = &mut obj_opt;
 
@@ -655,8 +655,9 @@ fn parse_subscript<'a, P: Parser<'a>>(
                             },
                         )
                     {
-                        // Almost certainly this is a generic async function `async <T>() => ...
-                        // But it might be a call with a type argument `async<T>();`
+                        // Almost certainly this is a generic async function
+                        // `async <T>() => ... But it might be a call with a
+                        // type argument `async<T>();`
                         let async_arrow_fn = try_parse_ts_generic_async_arrow_fn(p, start)?;
                         if let Some(async_arrow_fn) = async_arrow_fn {
                             return Ok(Some((async_arrow_fn.into(), true)));
@@ -668,8 +669,9 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     let cur = p.input().cur();
 
                     if !no_call && cur.is_lparen() {
-                        // possibleAsync always false here, because we would have handled it
-                        // above. (won't be any undefined arguments)
+                        // possibleAsync always false here, because we would
+                        // have handled it above. (won't be any undefined
+                        // arguments)
                         let args = parse_args(p, is_dynamic_import)?;
 
                         let obj = mut_obj_opt.take().unwrap();
@@ -1034,7 +1036,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
                 expr
             };
 
-            // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+            // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await,
+            // +Tagged]
             let cur = p.input().cur();
             if cur.is_template_head()
                 || cur.is_no_substitution_template_literal()
@@ -1465,12 +1468,12 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
      * a ?? b && c for this example
      * b && c => This is considered as a logical expression in the ast tree
      * a => Identifier
-     * so for ?? operator we need to check in this case the right expression to
-     * have parenthesis second case a && b ?? c
-     * here a && b => This is considered as a logical expression in the ast tree
-     * c => identifier
-     * so now here for ?? operator we need to check the left expression to have
-     * parenthesis if the parenthesis is missing we raise an error and
+     * so for ?? operator we need to check in this case the right expression
+     * to have parenthesis second case a && b ?? c
+     * here a && b => This is considered as a logical expression in the ast
+     * tree c => identifier
+     * so now here for ?? operator we need to check the left expression to
+     * have parenthesis if the parenthesis is missing we raise an error and
      * throw it
      */
     if op == op!("??") {
@@ -1584,8 +1587,8 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         };
 
         if op == op!("delete") {
-            // Skip emitting TS1102 in TypeScript mode because it's a semantic error
-            // that should be handled by the type checker, not the parser.
+            // Skip emitting TS1102 in TypeScript mode because it's a semantic
+            // error that should be handled by the type checker, not the parser.
             // See: https://github.com/swc-project/swc/issues/10558
             if !p.input().syntax().typescript() {
                 if let Expr::Ident(ref i) = *arg {
@@ -1723,8 +1726,9 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
         }
 
         if p.input().is(&P::Token::LESS) && !peek!(p).is_some_and(|peek| peek.is_bang()) {
-            // In case we encounter an lt token here it will always be the start of
-            // jsx as the lt sign is not allowed in places that expect an expression
+            // In case we encounter an lt token here it will always be the start
+            // of jsx as the lt sign is not allowed in places that expect an
+            // expression
 
             // FIXME:
             // p.finishToken(tt.jsxTagStart);
@@ -1857,8 +1861,8 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
     let mut items = Vec::new();
     let mut trailing_comma = None;
 
-    // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
-    // as a pattern instead of reparsing)
+    // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything
+    // else as a pattern instead of reparsing)
     while !p.input().is(&P::Token::RPAREN) {
         // https://github.com/swc-project/swc/issues/410
         let is_async = p.input().is(&P::Token::ASYNC)
@@ -1882,8 +1886,9 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     None
                 };
 
-                // At here, we use parse_bin_expr() instead of parse_assignment_expr()
-                // because `x?: number` should not be parsed as a conditional expression
+                // At here, we use parse_bin_expr() instead of
+                // parse_assignment_expr() because `x?: number` should not be
+                // parsed as a conditional expression
                 let expr = if spread.is_some() {
                     parse_bin_expr(p)?
                 } else {
@@ -1962,9 +1967,9 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
         if optional || (p.input().syntax().typescript() && p.input().is(&P::Token::COLON)) {
             // TODO: `async(...args?: any[]) : any => {}`
             //
-            // if p.input().syntax().typescript() && optional && arg.spread.is_some() {
-            //     p.emit_err(p.input().prev_span(), SyntaxError::TS1047)
-            // }
+            // if p.input().syntax().typescript() && optional &&
+            // arg.spread.is_some() {     p.emit_err(p.input().prev_span(),
+            // SyntaxError::TS1047) }
 
             let mut pat = reparse_expr_as_pat(p, PatType::BindingPat, arg.expr)?;
             if optional {

@@ -737,9 +737,9 @@ impl<'a> ConvertCtx<'a> {
                 Expression::TSInstantiationExpression(self.convert_ts_instantiation(e))
             }
             swc::Expr::TsConstAssertion(e) => {
-                // "as const" → TSAsExpression with typeAnnotation: TSTypeReference { typeName:
-                // Identifier { name: "const" } } This matches Babel's AST
-                // representation of `as const`.
+                // "as const" → TSAsExpression with typeAnnotation:
+                // TSTypeReference { typeName: Identifier { name: "const" } }
+                // This matches Babel's AST representation of `as const`.
                 let type_ann = serde_json::json!({
                     "type": "TSTypeReference",
                     "typeName": {
@@ -1215,7 +1215,8 @@ impl<'a> ConvertCtx<'a> {
             }
             swc::Expr::TsInstantiation(e) => {
                 // PatternLike has no TSInstantiation variant. SWC validates the
-                // wrapped expression as the assignment target, so convert that target.
+                // wrapped expression as the assignment target, so convert that
+                // target.
                 self.convert_expr_as_pat(&e.expr)
             }
             swc::Expr::Paren(e) => self.convert_expr_as_pat(&e.expr),
@@ -1392,9 +1393,9 @@ impl<'a> ConvertCtx<'a> {
                 PatternLike::TSTypeAssertion(self.convert_ts_type_assertion(e))
             }
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::TsInstantiation(e)) => {
-                // PatternLike cannot represent TSInstantiation directly. Preserve a
-                // valid target by converting the wrapped expression, matching SWC's
-                // assignment-target validation.
+                // PatternLike cannot represent TSInstantiation directly.
+                // Preserve a valid target by converting the wrapped expression,
+                // matching SWC's assignment-target validation.
                 self.convert_expr_as_pat(&e.expr)
             }
             swc::AssignTarget::Simple(swc::SimpleAssignTarget::Invalid(invalid)) => {
@@ -1917,7 +1918,8 @@ impl<'a> ConvertCtx<'a> {
             swc::JSXElementChild::JSXText(t) => JSXChild::JSXText(JSXText {
                 base: self.make_base_node(t.span),
                 // SWC stores the Babel-compatible decoded JSX text value here.
-                // Future parser refactors must preserve that decoded value contract.
+                // Future parser refactors must preserve that decoded value
+                // contract.
                 value: decode_jsx_entities(&t.value.to_string_lossy()),
             }),
             swc::JSXElementChild::JSXExprContainer(ec) => {

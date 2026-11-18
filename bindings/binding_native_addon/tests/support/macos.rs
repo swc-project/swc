@@ -32,7 +32,8 @@ pub fn check_cache_policy(node: &OsStr, source: &Path, raw: &[u8], key: &str) {
         Installation::ReadOnly,
     ] {
         let temporary = tempfile::tempdir().unwrap();
-        // Darwin's /var alias is intentionally not accepted by cache validation.
+        // Darwin's /var alias is intentionally not accepted by cache
+        // validation.
         let root = temporary.path().canonicalize().unwrap();
         let installed = root.join("installed");
         fs::create_dir(&installed).unwrap();
@@ -115,7 +116,8 @@ pub fn check_cache_policy(node: &OsStr, source: &Path, raw: &[u8], key: &str) {
                         image_identity,
                         "verified cache hit must reuse the existing image"
                     );
-                    // Same-length damage must be detected by the full-byte digest.
+                    // Same-length damage must be detected by the full-byte
+                    // digest.
                     let mut damaged = raw.to_vec();
                     let last = damaged.last_mut().unwrap();
                     *last ^= 1;

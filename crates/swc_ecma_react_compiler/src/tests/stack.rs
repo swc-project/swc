@@ -104,7 +104,8 @@ fn long_chain_round_trip(input: PathBuf) {
                 assert_eq!(expected.len(), 2 * 1000 + 1);
 
                 // Each converter starts on the 2 MiB worker stack, rather than
-                // inheriting transform's larger budget for the upstream compiler.
+                // inheriting transform's larger budget for the upstream
+                // compiler.
                 let converted = convert_program(&program, &fm.src, None);
                 let round_tripped =
                     convert_program_to_swc(&converted.file, converted.preserved_ast);

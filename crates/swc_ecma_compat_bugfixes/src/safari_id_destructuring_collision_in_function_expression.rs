@@ -73,9 +73,9 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             self.fn_expr_name = old_fn_expr_name;
             self.destructured_id_span = old_span;
         } else {
-            // fn_expr_name assgin empty to express that it is a non-ident-function
-            // Otherwise, it will be treated as a function with an ident name due to the
-            // previous function
+            // fn_expr_name assgin empty to express that it is a
+            // non-ident-function Otherwise, it will be treated as a function
+            // with an ident name due to the previous function
             self.fn_expr_name = atom!("");
             self.in_body = false;
             n.function.params.visit_mut_children_with(self);

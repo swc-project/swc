@@ -83,8 +83,8 @@ impl StmtInjectorStore {
 
 impl VisitMutHook<TraverseCtx> for StmtInjector {
     fn enter_arrow_expr(&mut self, node: &mut ArrowExpr, _: &mut TraverseCtx) {
-        // We convert the arrow body to a block statement with a return statement
-        // because we cannot inject statements after the arrow body.
+        // We convert the arrow body to a block statement with a return
+        // statement because we cannot inject statements after the arrow body.
         if let ArrowFunctionBody::Expr(expr) = &mut *node.body {
             *node.body = ArrowFunctionBody::FunctionBody(FunctionBody {
                 span: DUMMY_SP,
@@ -111,8 +111,8 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
     }
 
     fn exit_module_items(&mut self, node: &mut Vec<ModuleItem>, ctx: &mut TraverseCtx) {
-        // First pass: collect all (index, adjacent_stmts) pairs while addresses are
-        // valid.
+        // First pass: collect all (index, adjacent_stmts) pairs while addresses
+        // are valid.
         let mut insertions = Vec::new();
         let mut insertion_count = 0;
         for (i, item) in node.iter().enumerate() {
@@ -159,8 +159,8 @@ impl VisitMutHook<TraverseCtx> for StmtInjector {
     }
 
     fn exit_stmts(&mut self, stmts: &mut Vec<Stmt>, ctx: &mut TraverseCtx) {
-        // First pass: collect all (index, adjacent_stmts) pairs while addresses are
-        // valid.
+        // First pass: collect all (index, adjacent_stmts) pairs while addresses
+        // are valid.
         let mut insertions = Vec::new();
         let mut insertion_count = 0;
         for (i, stmt) in stmts.iter().enumerate() {

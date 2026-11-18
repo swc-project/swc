@@ -118,8 +118,9 @@ pub struct MinifyOptions {
     force_set_html5_doctype: bool,
     #[serde(default = "default_collapse_whitespaces")]
     collapse_whitespaces: CollapseWhitespaces,
-    // Remove safe empty elements with metadata content, i.e. the `script` and `style` element
-    // without content and attributes, `meta` and `link` elements without attributes and etc
+    // Remove safe empty elements with metadata content, i.e. the `script` and
+    // `style` element without content and attributes, `meta` and `link`
+    // elements without attributes and etc
     #[serde(default = "true_by_default")]
     remove_empty_metadata_elements: bool,
     #[serde(default = "true_by_default")]
@@ -418,8 +419,8 @@ impl MinifyCss for CssMinifier {
                                                 span: DUMMY_SP,
                                                 token: swc_css_ast::Token::LBrace,
                                             },
-                                            // TODO make the `compress_empty` option for CSS
-                                            // minifier and
+                                            // TODO make the `compress_empty`
+                                            // option for CSS minifier and
                                             // remove it
                                             value: vec![swc_css_ast::ComponentValue::Str(
                                                 Box::new(swc_css_ast::Str {

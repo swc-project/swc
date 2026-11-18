@@ -808,8 +808,8 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
         let mut buf = Vec::with_capacity(8);
         while !self.is_ts_list_terminator(kind) {
-            // Skipping "parseListElement" from the TS source since that's just for error
-            // handling.
+            // Skipping "parseListElement" from the TS source since that's just
+            // for error handling.
             buf.push(parse_element(self)?);
         }
         Ok(buf)
@@ -993,7 +993,8 @@ impl<I: Tokens> Parser<I> {
 
         debug_assert!(self.input().syntax().typescript());
 
-        let start = self.input().cur_pos(); // include the leading operator in the start
+        let start = self.input().cur_pos(); // include the leading operator in
+                                            // the start
         self.input_mut().eat(operator);
         trace_cur!(self, parse_ts_union_or_intersection_type__first_type);
 
@@ -1290,9 +1291,9 @@ impl<I: Tokens> Parser<I> {
                 })
             }
         })?;
-        // This reads the next token after the `>` too, so do this in the enclosing
-        // context. But be sure not to parse a regex in the jsx expression
-        // `<C<number> />`, so set exprAllowed = false
+        // This reads the next token after the `>` too, so do this in the
+        // enclosing context. But be sure not to parse a regex in the
+        // jsx expression `<C<number> />`, so set exprAllowed = false
         self.input_mut().set_expr_allowed(false);
         if close == AngleClose::Exact {
             self.expect_without_advance(Token::Gt)?;
@@ -1520,7 +1521,8 @@ impl<I: Tokens> Parser<I> {
                         })
                     };
                     if !should_treat_as_modifier {
-                        // `in` / `out` can be identifiers in Flow type parameters.
+                        // `in` / `out` can be identifiers in Flow type
+                        // parameters.
                         break;
                     }
 
@@ -1669,8 +1671,9 @@ impl<I: Tokens> Parser<I> {
                     if param.default.is_some() {
                         saw_default = true;
                     } else if saw_default {
-                        // Flow requires all subsequent parameters to provide defaults once
-                        // one default is introduced.
+                        // Flow requires all subsequent parameters to provide
+                        // defaults once one default is
+                        // introduced.
                         p.emit_err(param.span, SyntaxError::TS1005);
                     }
                 }
@@ -2166,10 +2169,10 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.cur_pos();
-        // TypeScript allows computed property names with literal expressions in enums.
-        // Non-literal computed properties (like ["a" + "b"]) are rejected.
-        // We normalize literal computed properties (["\t"] → "\t") to keep AST simple.
-        // See https://github.com/swc-project/swc/issues/11160
+        // TypeScript allows computed property names with literal expressions in
+        // enums. Non-literal computed properties (like ["a" + "b"]) are
+        // rejected. We normalize literal computed properties (["\t"] →
+        // "\t") to keep AST simple. See https://github.com/swc-project/swc/issues/11160
         let cur = self.input().cur();
         let id = if cur == Token::Str {
             TsEnumMemberId::Str(self.parse_str_lit())
@@ -2206,7 +2209,8 @@ impl<I: Tokens> Parser<I> {
                     TsEnumMemberId::Str(str_lit)
                 }
                 Expr::Tpl(mut tpl) if tpl.exprs.is_empty() => {
-                    // Template literal without substitution: [`hello`] → "hello"
+                    // Template literal without substitution: [`hello`] →
+                    // "hello"
 
                     let tpl = mem::take(tpl.quasis.first_mut().unwrap());
 
@@ -2957,8 +2961,9 @@ impl<I: Tokens> Parser<I> {
             )?
         };
 
-        // No required elements may follow optional elements. Named elements store
-        // their optional/rest markers on the label instead of the type.
+        // No required elements may follow optional elements. Named elements
+        // store their optional/rest markers on the label instead of the
+        // type.
         let mut seen_optional_element = false;
 
         for elem in elems.iter() {
@@ -2993,8 +2998,9 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().typescript());
 
         if self.input().syntax().flow() {
-            // Braces delimit every member type, so unparenthesized Flow function
-            // types are allowed inside them, as in `parse_ts_object_type_members`.
+            // Braces delimit every member type, so unparenthesized Flow
+            // function types are allowed inside them, as in
+            // `parse_ts_object_type_members`.
             return self.do_outside_of_type_context(
                 TypeContext::DisallowFlowAnonFnType,
                 Self::parse_flow_object_type_starting_with_mapped_member,
@@ -3490,8 +3496,9 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        // Flow declare signatures allow anonymous function type parameters where
-        // normal formal parameters still require a binding pattern.
+        // Flow declare signatures allow anonymous function type parameters
+        // where normal formal parameters still require a binding
+        // pattern.
         Ok(self
             .try_parse_ts(|p| {
                 p.in_type(|p| {
@@ -3846,7 +3853,8 @@ impl<I: Tokens> Parser<I> {
             expect!(self, Token::RBracket);
             (true, key)
         } else {
-            // We check if it's valid for it to be a private name when we push it.
+            // We check if it's valid for it to be a private name when we push
+            // it.
             let cur = self.input().cur();
 
             let key = if cur == Token::Num || cur == Token::Str {
@@ -4274,9 +4282,9 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(self.span(start), SyntaxError::ReservedTypeAssertion);
         }
 
-        // Not actually necessary to set state.inType because we never reach here if JSX
-        // plugin is enabled, but need `tsInType` to satisfy the assertion in
-        // `tsParseType`.
+        // Not actually necessary to set state.inType because we never reach
+        // here if JSX plugin is enabled, but need `tsInType` to satisfy
+        // the assertion in `tsParseType`.
         let type_ann = self.in_type(Self::parse_ts_type)?;
         self.expect_ts_type_gt()?;
         let expr = self.parse_unary_expr()?;
@@ -4387,7 +4395,8 @@ impl<I: Tokens> Parser<I> {
         };
 
         // Imports already consume their own type arguments. Other queries
-        // require a separate `<` token; `<<` belongs to the enclosing expression.
+        // require a separate `<` token; `<<` belongs to the enclosing
+        // expression.
         let type_args = if self.input().is(Token::Lt)
             && !self.input().had_line_break_before_cur()
             && !matches!(expr_name, TsTypeQueryExpr::Import(..))
@@ -4420,7 +4429,8 @@ impl<I: Tokens> Parser<I> {
             enter_grammar_context!(&mut self.grammar_context, ?Yield, ?Await, ~Return);
 
         // Module blocks inherit Yield and Await but clear Return. Apply and
-        // restore parser state directly around the shared module-item body loop.
+        // restore parser state directly around the shared module-item body
+        // loop.
         self.set_type_ctx(
             outer_type_ctx | TypeContext::TsModuleBlock | TypeContext::TsContainerBody,
         );
@@ -4721,9 +4731,10 @@ impl<I: Tokens> Parser<I> {
         } else if self.input().syntax().flow() && cur == Token::QuestionMark {
             self.bump();
 
-            // Parenthesized Flow types decide their function form while parsing.
-            // Include postfixes in the nullable operand: `?T[]` is a nullable
-            // array, whereas `(?T)[]` is an array of nullable elements.
+            // Parenthesized Flow types decide their function form while
+            // parsing. Include postfixes in the nullable operand:
+            // `?T[]` is a nullable array, whereas `(?T)[]` is an
+            // array of nullable elements.
             let inner_type = self.parse_ts_array_type_or_higher(false)?;
             let span = self.span(start);
 
@@ -4804,8 +4815,9 @@ impl<I: Tokens> Parser<I> {
 
         match &*expr.sym {
             "declare" => {
-                // A line break after `declare` terminates the expression statement, so the
-                // following declaration is not ambient.
+                // A line break after `declare` terminates the expression
+                // statement, so the following declaration is
+                // not ambient.
                 if !self.syntax().flow() && self.input().had_line_break_before_cur() {
                     return Ok(None);
                 }
@@ -4818,10 +4830,10 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             "global" => {
-                // `global { }` (with no `declare`) may appear inside an ambient module
-                // declaration.
-                // Would like to use tsParseAmbientExternalModuleDeclaration here, but already
-                // ran past "global".
+                // `global { }` (with no `declare`) may appear inside an ambient
+                // module declaration.
+                // Would like to use tsParseAmbientExternalModuleDeclaration
+                // here, but already ran past "global".
                 if self.input().is(Token::LBrace) {
                     let global = true;
                     let id = TsModuleName::Ident(expr);
@@ -5349,8 +5361,8 @@ impl<I: Tokens> Parser<I> {
                 let type_params = p.parse_ts_type_params(false, false)?;
 
                 // In TSX mode, type parameters that could be mistaken for JSX
-                // (single param without constraint and no trailing comma) are not
-                // allowed.
+                // (single param without constraint and no trailing comma) are
+                // not allowed.
                 if p.input().syntax().jsx()
                     && !p.input().syntax().flow()
                     && type_params.params.len() == 1
@@ -5366,7 +5378,8 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                // Don't use overloaded parseFunctionParams which would look for "<" again.
+                // Don't use overloaded parseFunctionParams which would look for
+                // "<" again.
                 expect!(p, Token::LParen);
                 let params = p.parse_formal_param_patterns()?;
                 expect!(p, Token::RParen);

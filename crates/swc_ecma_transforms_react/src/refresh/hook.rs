@@ -72,8 +72,8 @@ impl HookRegister<'_> {
         .into()
     }
 
-    // The second call is around the function itself. This is used to associate a
-    // type with a signature.
+    // The second call is around the function itself. This is used to associate
+    // a type with a signature.
     // Unlike with $RefreshReg$, this needs to work for nested declarations too.
     fn wrap_with_register(&self, handle: Ident, func: Expr, hooks: Vec<Hook>) -> Expr {
         let mut args = vec![func.as_arg()];
@@ -131,8 +131,9 @@ impl HookRegister<'_> {
                 .map(|id| self.current_scope.contains(&id.ctxt))
                 .unwrap_or(false)
             {
-                // We don't have anything to put in the array because Hook is out of scope.
-                // Since it could potentially have been edited, remount the component.
+                // We don't have anything to put in the array because Hook is
+                // out of scope. Since it could potentially have been edited,
+                // remount the component.
                 should_reset = true;
             } else {
                 custom_hook_in_scope.push(hook);

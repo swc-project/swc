@@ -154,7 +154,8 @@ impl NormalizedOutput {
                     buf
                 })
                 .unwrap_or_else(|_| {
-                    // If xxx.stderr file does not exist, stderr should be empty.
+                    // If xxx.stderr file does not exist, stderr should be
+                    // empty.
                     String::new()
                 })
                 .replace("\r\n", "\n"),

@@ -108,8 +108,8 @@ impl BlockScoping {
     }
 
     fn mark_as_used(&mut self, i: &Ident) {
-        // Only consider the variable used in a non-ScopeKind::Loop, which means it is
-        // captured in a closure
+        // Only consider the variable used in a non-ScopeKind::Loop, which means
+        // it is captured in a closure
         for scope in self
             .scope
             .iter_mut()
@@ -208,7 +208,8 @@ impl BlockScoping {
                     in_function: false,
                 };
 
-                // Modifies identifiers, and add reassignments to break / continue / return
+                // Modifies identifiers, and add reassignments to break /
+                // continue / return
                 body_stmt.visit_mut_with(&mut v);
 
                 if !no_modification

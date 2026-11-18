@@ -138,8 +138,9 @@ pub struct MinifyOptions<CO> {
     pub force_set_html5_doctype: bool,
     #[serde(default)]
     pub collapse_whitespaces: CollapseWhitespaces,
-    // Remove safe empty elements with metadata content, i.e. the `script` and `style` element
-    // without content and attributes, `meta` and `link` elements without attributes and etc
+    // Remove safe empty elements with metadata content, i.e. the `script` and
+    // `style` element without content and attributes, `meta` and `link`
+    // elements without attributes and etc
     #[serde(default = "true_by_default")]
     pub remove_empty_metadata_elements: bool,
     #[serde(default = "true_by_default")]
@@ -176,7 +177,8 @@ pub struct MinifyOptions<CO> {
     #[serde(default = "minify_css_by_default")]
     pub minify_css: MinifyCssOption<CO>,
     // Allow to compress value of custom script elements,
-    // i.e. `<script type="text/html"><div><!-- text --> <div data-foo="bar> Text </div></script>`
+    // i.e. `<script type="text/html"><div><!-- text --> <div data-foo="bar>
+    // Text </div></script>`
     //
     // The first item is tag_name
     // The second is attribute name

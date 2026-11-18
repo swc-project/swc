@@ -25,8 +25,9 @@ impl<I: Tokens> Parser<I> {
             Token::LBrace => Token::RBrace,
             Token::LBracket => Token::RBracket,
             token if token.is_word() => {
-                // A type literal such as `{ a: true }` is not a binding pattern.
-                // Reject invalid bindings before choosing the signature grammar.
+                // A type literal such as `{ a: true }` is not a binding
+                // pattern. Reject invalid bindings before
+                // choosing the signature grammar.
                 self.parse_binding_ident(false)?;
                 return Ok(ParameterStart::Pattern);
             }

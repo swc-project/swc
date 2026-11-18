@@ -84,7 +84,8 @@ fn main() -> Result<(), Error> {
 
                             let terser_output = get_terser_output(&input, true, true)?;
                             if swc_output.trim().len() > terser_output.trim().len() {
-                                // It's interesting, as our output is larger than terser's.
+                                // It's interesting, as our output is larger
+                                // than terser's.
                                 return Ok(());
                             }
 

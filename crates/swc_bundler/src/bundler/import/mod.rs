@@ -252,8 +252,8 @@ where
                         self.info.lazy_imports.push(decl);
                     }
 
-                    // TODO: Uncomment this after implementing an option to make swc_bundler
-                    // includes dynamic imports
+                    // TODO: Uncomment this after implementing an option to make
+                    // swc_bundler includes dynamic imports
                     //
                     //
                     // ExprOrSuper::Expr(ref e) => match &**e {
@@ -281,8 +281,8 @@ where
                 }
 
                 if e.prop.is_computed() {
-                    // If a module is accessed with unknown key, we should import
-                    // everything from it.
+                    // If a module is accessed with unknown key, we should
+                    // import everything from it.
                     self.add_forced_ns_for(obj.to_id());
                     return;
                 }

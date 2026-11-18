@@ -228,7 +228,8 @@ impl Pure<'_> {
                 self.changed = true;
                 report_change!("loops: Compressing for-if-break into a for statement");
 
-                // We negate because this `test` is used as a condition for `break`.
+                // We negate because this `test` is used as a condition for
+                // `break`.
                 self.negate(test, true, false);
 
                 match s.test.take() {
@@ -263,10 +264,11 @@ impl Pure<'_> {
             Stmt::DoWhile(stmt) => {
                 let val = stmt.test.as_pure_bool(self.expr_ctx);
                 if let Value::Known(false) = val {
-                    // A direct break or continue targets this loop and cannot survive
-                    // unwrapping. Even removing a terminal jump along with the loop
-                    // can expose its ancestors to unsafe purity or directive
-                    // simplifications, including during a later minification.
+                    // A direct break or continue targets this loop and cannot
+                    // survive unwrapping. Even removing a terminal jump along
+                    // with the loop can expose its ancestors to unsafe purity
+                    // or directive simplifications, including during a later
+                    // minification.
                     if should_not_inline_loop_body(&stmt.body) {
                         return;
                     }

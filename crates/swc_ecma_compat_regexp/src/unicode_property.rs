@@ -89,7 +89,8 @@ impl VisitMut for UnicodePropertyTransformer {
         for content in contents.drain(..) {
             match content {
                 CharacterClassContents::UnicodePropertyEscape(prop) => {
-                    // Inside a character class, we need to inline the ranges directly
+                    // Inside a character class, we need to inline the ranges
+                    // directly
                     if let Some(ranges) = get_matched_ranges(&prop) {
                         push_ranges(&mut new_contents, &ranges, &prop);
                     } else {
@@ -208,7 +209,8 @@ fn get_unicode_property_ranges(
         // Script_Extensions property
         ("Script_Extensions" | "scx", Some(val)) => get_script_extensions_ranges(val),
 
-        // Lone property name - could be General_Category value or binary property
+        // Lone property name - could be General_Category value or binary
+        // property
         (name_or_value, None) => {
             // First try as General_Category value
             if let Some(ranges) = get_general_category_ranges(name_or_value) {
@@ -340,6 +342,9 @@ fn parse_script_name(name: &str) -> Option<Script> {
 }
 
 /// Gets the ranges for a binary Unicode property.
+// This function returns a set of code point ranges, so a `Vec` holding a
+// single range is intended.
+#[allow(clippy::single_range_in_vec_init)]
 fn get_binary_property_ranges(name: &str) -> Option<Vec<RangeInclusive<u32>>> {
     // Helper macro to reduce boilerplate
     macro_rules! binary_prop {
@@ -423,6 +428,9 @@ fn get_binary_property_ranges(name: &str) -> Option<Vec<RangeInclusive<u32>>> {
 ///
 /// Given a set of ranges representing a character set, returns the ranges
 /// representing all Unicode code points NOT in that set.
+// This function returns a set of code point ranges, so a `Vec` holding a
+// single range is intended.
+#[allow(clippy::single_range_in_vec_init)]
 fn complement_ranges(ranges: &[RangeInclusive<u32>]) -> Vec<RangeInclusive<u32>> {
     const MAX_CODEPOINT: u32 = 0x10ffff;
 
@@ -540,8 +548,8 @@ mod tests {
     #[test]
     fn test_complement_ranges() {
         // Test complement of ASCII range
-        let ascii = vec![0..=0x7fu32];
-        let complement = complement_ranges(&ascii);
+        let ascii = 0..=0x7fu32;
+        let complement = complement_ranges(std::slice::from_ref(&ascii));
         assert_eq!(complement.len(), 1);
         assert_eq!(complement[0], 0x80..=0x10ffff);
 

@@ -106,9 +106,9 @@ pub fn optimize(
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
         //
-        // As terser treats `CONFIG['VALUE']` and `CONFIG.VALUE` differently, we don't
-        // have to see if optimized code matches global definition and we can run
-        // this at startup.
+        // As terser treats `CONFIG['VALUE']` and `CONFIG.VALUE` differently, we
+        // don't have to see if optimized code matches global definition
+        // and we can run this at startup.
 
         if !defs.is_empty() {
             let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();

@@ -136,10 +136,12 @@ macro_rules! byte_search {
                 'inner: loop {
                     let mut i = 0;
                     while i < $crate::lexer::search::SEARCH_BATCH_SIZE {
-                        // Safety: `batch_end < len` and `i < SEARCH_BATCH_SIZE`.
+                        // Safety: `batch_end < len` and `i <
+                        // SEARCH_BATCH_SIZE`.
                         let byte = unsafe { *bytes.add($pos + i) };
                         if $table.matches(byte) {
-                            // We find a matched byte, jump out to check with continue_if
+                            // We find a matched byte, jump out to check with
+                            // continue_if
                             $pos += i;
                             break 'inner byte;
                         }
@@ -160,7 +162,8 @@ macro_rules! byte_search {
                         // Safety: `i < remaining_len`.
                         let byte = unsafe { *bytes.add($pos + i) };
                         if $table.matches(byte) {
-                            // We find a matched byte, jump out to check with continue_if
+                            // We find a matched byte, jump out to check with
+                            // continue_if
                             $pos += i;
                             break 'inner byte;
                         }

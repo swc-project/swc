@@ -229,7 +229,8 @@ where
 
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
     let pass = {
-        // We use a separate options for es2015 transforms because of the pass order.
+        // We use a separate options for es2015 transforms because of the pass
+        // order.
         let mut options = swc_ecma_transformer::Options::default();
 
         options.unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
@@ -363,7 +364,7 @@ where
     );
 
     if env_config.config.debug {
-        println!("Targets: {:?}", &env_config.core_js_config.targets);
+        println!("Targets: {:?}", env_config.core_js_config.targets);
     }
 
     (
@@ -430,9 +431,9 @@ impl Polyfills {
             + VisitMutWith<corejs2::Entry>
             + VisitMutWith<corejs3::Entry>,
     {
-        // If browserslist returned empty (unknown browser version), don't add any
-        // polyfills. This matches Babel's behavior where unknown versions are
-        // assumed to support all features.
+        // If browserslist returned empty (unknown browser version), don't add
+        // any polyfills. This matches Babel's behavior where unknown versions
+        // are assumed to support all features.
         if self.unknown_version {
             return Default::default();
         }
@@ -753,7 +754,8 @@ impl Caniuse for FeatureConfig {
 
         // If browserslist returned empty (unknown browser version), assume all
         // features are supported (like Babel does). This handles cases like
-        // "Chrome > 130" where the version is newer than the browserslist database.
+        // "Chrome > 130" where the version is newer than the browserslist
+        // database.
         if self.unknown_version {
             return true;
         }

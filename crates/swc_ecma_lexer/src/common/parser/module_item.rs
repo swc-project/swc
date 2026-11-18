@@ -224,7 +224,8 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                 && orig_name.sym == "type"
                 && (p.input().cur().is_word() || p.input().cur().is_str())
             {
-                // A string imported name still requires an identifier local binding.
+                // A string imported name still requires an identifier local
+                // binding.
                 if p.input().cur().is_str() {
                     let imported = parse_module_export_name(p)?;
                     expect!(p, &P::Token::AS);
@@ -868,8 +869,8 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
                 if p.is_ident_ref() && !p.input().is(&P::Token::FROM)
                     || peek!(p).is_some_and(|cur| cur.is_from())
                 {
-                    // For defer phase, we expect only namespace imports, so break here
-                    // and let the subsequent code handle validation
+                    // For defer phase, we expect only namespace imports, so
+                    // break here and let the subsequent code handle validation
                     if new_phase == ImportPhase::Defer {
                         break 'import_maybe_ident;
                     }

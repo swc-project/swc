@@ -39,7 +39,8 @@ where
             .apply(resolver(unresolved_mark, top_level_mark, true))
             .apply(strip(unresolved_mark, top_level_mark));
 
-        // Prepare a fresh AST per iteration without timing its clone or final drop.
+        // Prepare a fresh AST per iteration without timing its clone or final
+        // drop.
         b.iter_batched_ref(
             || module.clone(),
             |module| {

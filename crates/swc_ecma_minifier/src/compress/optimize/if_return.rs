@@ -47,9 +47,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        // The directive prologue of a function body must stay at the start of the
-        // body, otherwise it stops being a directive (e.g. `"use strict"` would be
-        // turned into a discarded `void "use strict"` operand of a sequence).
+        // The directive prologue of a function body must stay at the start of
+        // the body, otherwise it stops being a directive (e.g. `"use strict"`
+        // would be turned into a discarded `void "use strict"` operand of a
+        // sequence).
         let prologue_len = if is_fn_body {
             directive_prologue_len(stmts)
         } else {
@@ -171,16 +172,16 @@ impl Optimizer<'_> {
             let stmts = &stmts[skip..=last_idx];
             let return_count: usize = stmts.iter().map(count_leaping_returns).sum();
 
-            // There's no return statement so merging requires injecting unnecessary `void
-            // 0`
+            // There's no return statement so merging requires injecting
+            // unnecessary `void 0`
             if return_count == 0 {
                 log_abort!("if_return: [x] Aborting because we failed to find return");
                 return;
             }
 
-            // If the last statement is a return statement and last - 1 is an if statement
-            // is without return, we don't need to fold it as `void 0` is too much for such
-            // cases.
+            // If the last statement is a return statement and last - 1 is an if
+            // statement is without return, we don't need to fold it as `void 0`
+            // is too much for such cases.
 
             let if_return_count = stmts
                 .iter()

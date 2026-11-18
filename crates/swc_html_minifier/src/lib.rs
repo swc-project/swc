@@ -662,20 +662,20 @@ impl<C: MinifyCss> Minifier<'_, C> {
                             RemoveRedundantAttributes::None => false,
                             RemoveRedundantAttributes::Smart => {
                                 if initial == normalized_value {
-                                    // It is safe to remove deprecated redundant attributes, they
-                                    // should not be used
+                                    // It is safe to remove deprecated redundant
+                                    // attributes, they should not be used
                                     if attribute_info.deprecated == Some(true) {
                                         return true;
                                     }
 
-                                    // It it safe to remove svg redundant attributes, they used for
-                                    // styling
+                                    // It it safe to remove svg redundant
+                                    // attributes, they used for styling
                                     if element.namespace == Namespace::SVG {
                                         return true;
                                     }
 
-                                    // It it safe to remove redundant attributes for metadata
-                                    // elements
+                                    // It it safe to remove redundant attributes
+                                    // for metadata elements
                                     if element.namespace == Namespace::HTML
                                         && matches!(
                                             &*element.tag_name,
@@ -737,11 +737,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
     }
 
     fn is_conditional_comment(&self, data: &Atom) -> bool {
-        if CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data) {
-            return true;
-        }
-
-        false
+        CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data)
     }
 
     fn need_collapse_whitespace(&self) -> bool {
@@ -1205,8 +1201,8 @@ impl<C: MinifyCss> Minifier<'_, C> {
 
     fn allow_styles_to_merge(&self, left: Option<&Child>, right: &Element) -> bool {
         if let Some(Child::Element(left)) = left {
-            // Separate script elements have separate evaluation contexts and DOM
-            // identities.
+            // Separate script elements have separate evaluation contexts and
+            // DOM identities.
             let is_style_tag = matches!(left.namespace, Namespace::HTML | Namespace::SVG)
                 && left.tag_name == "style"
                 && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
@@ -1401,8 +1397,9 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 // Block-level containers:
                                 //
                                 // `Display::Block`    - `display: block flow`
-                                // `Display::ListItem` - `display: block flow list-item`
-                                // `Display::Table`    - `display: block table`
+                                // `Display::ListItem` - `display: block flow
+                                // list-item` `Display::Table`    - `display:
+                                // block table`
                                 //
                                 // + internal table display (only whitespace characters allowed
                                 // there)
@@ -1423,8 +1420,9 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 // And
                                 // Inline box
                                 Some(Display::None) | Some(Display::Inline) => {
-                                    // A custom element can contain any elements, we cannot predict
-                                    // the behavior of spaces
+                                    // A custom element can contain any
+                                    // elements, we cannot predict the behavior
+                                    // of spaces
                                     let is_custom_element =
                                         if let Some(Child::Element(element)) = &prev {
                                             self.is_custom_element(element)
@@ -1482,10 +1480,11 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 // Inline level containers and etc
                                 Some(_) => false,
                                 None => {
-                                    // Template can be used in any place, so let's keep whitespaces
+                                    // Template can be used in any place, so
+                                    // let's keep whitespaces
                                     //
-                                    // For custom elements - an unnamed `<slot>` will be filled with
-                                    // all of the custom
+                                    // For custom elements - an unnamed `<slot>`
+                                    // will be filled with all of the custom
                                     // element's top-level child
                                     // nodes that do not have the slot
                                     // attribute. This includes text nodes.
@@ -1529,8 +1528,9 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 // Block-level containers:
                                 //
                                 // `Display::Block`    - `display: block flow`
-                                // `Display::ListItem` - `display: block flow list-item`
-                                // `Display::Table`    - `display: block table`
+                                // `Display::ListItem` - `display: block flow
+                                // list-item` `Display::Table`    - `display:
+                                // block table`
                                 //
                                 // + internal table display (only whitespace characters allowed
                                 // there)
@@ -1574,7 +1574,8 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 }
                                 Some(_) => false,
                                 None => {
-                                    // Template can be used in any place, so let's keep whitespaces
+                                    // Template can be used in any place, so
+                                    // let's keep whitespaces
                                     let is_template = parent.namespace == Namespace::HTML
                                         && parent.tag_name == "template";
 
@@ -1964,8 +1965,9 @@ impl<C: MinifyCss> Minifier<'_, C> {
 
         let mut document_or_document_fragment = match mode {
             HtmlMinificationMode::ConditionalComments => {
-                // Emulate content inside conditional comments like content inside the
-                // `template` element, because it can be used in any place in source code
+                // Emulate content inside conditional comments like content
+                // inside the `template` element, because it can be used in any
+                // place in source code
                 context_element = Some(Element {
                     span: Default::default(),
                     tag_name: atom!("template"),
@@ -2759,8 +2761,8 @@ impl MinifyCss for DefaultCssMinifier {
                                         span: DUMMY_SP,
                                         token: swc_css_ast::Token::LBrace,
                                     },
-                                    // TODO make the `compress_empty` option for CSS minifier and
-                                    // remove it
+                                    // TODO make the `compress_empty` option for
+                                    // CSS minifier and remove it
                                     value: vec![swc_css_ast::ComponentValue::Str(Box::new(
                                         swc_css_ast::Str {
                                             span: Default::default(),

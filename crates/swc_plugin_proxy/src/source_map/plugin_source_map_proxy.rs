@@ -219,7 +219,8 @@ impl SourceMapper for PluginSourceMapProxy {
     fn merge_spans(&self, sp_lhs: Span, sp_rhs: Span) -> Option<Span> {
         #[cfg(target_arch = "wasm32")]
         unsafe {
-            // We need to `allocate` memory, force creates empty span instead of DUMMY_SP
+            // We need to `allocate` memory, force creates empty span instead of
+            // DUMMY_SP
             let span = Span {
                 lo: BytePos(0),
                 hi: BytePos(0),

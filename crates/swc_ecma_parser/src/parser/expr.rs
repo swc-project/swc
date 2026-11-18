@@ -157,8 +157,8 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_assignment_expr);
 
         if self.input().is(Token::JSXTagStart) && self.input().syntax().typescript() {
-            // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
-            // syntax.
+            // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't
+            // valid syntax.
             let res = self.try_parse_ts(|p| p.parse_assignment_expr_base().map(Some));
             if let Some(res) = res {
                 return Ok(res);
@@ -190,20 +190,23 @@ impl<I: Tokens> Parser<I> {
                 p.try_parse_arrow(false, None, None, |p| {
                     let type_parameters = p.parse_ts_type_params(false, true)?;
 
-                    // In TSX mode, type parameters that could be mistaken for JSX
-                    // (single param without constraint and no trailing comma) are not
-                    // allowed. e.g., `<T>() => {}` is invalid in TSX because `<T>`
-                    // looks like JSX.
-                    // Valid alternatives: `<T,>() => {}` or `<T extends unknown>() =>
-                    // {}`
+                    // In TSX mode, type parameters that could be mistaken for
+                    // JSX (single param without constraint
+                    // and no trailing comma) are not
+                    // allowed. e.g., `<T>() => {}` is invalid in TSX because
+                    // `<T>` looks like JSX.
+                    // Valid alternatives: `<T,>() => {}` or `<T extends
+                    // unknown>() => {}`
                     if p.input().syntax().jsx()
                         && !p.input().syntax().flow()
                         && type_parameters.params.len() == 1
                     {
                         let single_param = &type_parameters.params[0];
-                        // Check if there was a trailing comma by examining spans.
-                        // For `<T>`: decl.span.hi - param.span.hi = 1 (just `>`)
-                        // For `<T,>`: decl.span.hi - param.span.hi > 1 (`,` and `>`)
+                        // Check if there was a trailing comma by examining
+                        // spans. For `<T>`:
+                        // decl.span.hi - param.span.hi = 1 (just `>`)
+                        // For `<T,>`: decl.span.hi - param.span.hi > 1 (`,` and
+                        // `>`)
                         let has_trailing_comma =
                             type_parameters.span.hi.0 - single_param.span.hi.0 > 1;
                         let dominated_by_jsx = single_param.constraint.is_none()
@@ -412,9 +415,9 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(arg.span(), SyntaxError::TS1003);
                     }
 
-                    // Skip emitting TS1102 in TypeScript mode because it's a semantic error
-                    // that should be handled by the type checker, not the parser.
-                    // See: https://github.com/swc-project/swc/issues/10558
+                    // Skip emitting TS1102 in TypeScript mode because it's a
+                    // semantic error that should be handled
+                    // by the type checker, not the parser. See: https://github.com/swc-project/swc/issues/10558
                     if !self.input().syntax().typescript() {
                         if let Expr::Ident(ref i) = *arg {
                             self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
@@ -678,7 +681,8 @@ impl<I: Tokens> Parser<I> {
                         }))
                     )
                 {
-                    // Only a spread can become a rest element with an invalid trailing comma.
+                    // Only a spread can become a rest element with an invalid
+                    // trailing comma.
                     let prev_span = self.input().prev_span();
                     self.state_mut().trailing_commas.insert(start, prev_span);
                 }
@@ -705,9 +709,10 @@ impl<I: Tokens> Parser<I> {
         );
 
         // Spec says
-        // YieldExpression cannot be used within the FormalParameters of a generator
-        // function because any expressions that are part of FormalParameters are
-        // evaluated before the resulting generator object is in a resumable state.
+        // YieldExpression cannot be used within the FormalParameters of a
+        // generator function because any expressions that are part of
+        // FormalParameters are evaluated before the resulting generator
+        // object is in a resumable state.
         if self.syntax_context == SyntaxContext::Parameters {
             syntax_error!(self, self.input().prev_span(), SyntaxError::YieldParamInGen)
         }
@@ -1157,7 +1162,8 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
             } else {
-                // It is an early Reference Error if IsValidSimpleAssignmentTarget of
+                // It is an early Reference Error if
+                // IsValidSimpleAssignmentTarget of
                 // LeftHandSideExpression is false.
                 if !cond.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict)) {
                     if self.input().syntax().typescript() {
@@ -1381,8 +1387,9 @@ impl<I: Tokens> Parser<I> {
                 },
                 |p| {
                     if possible_async {
-                        // Almost certainly this is a generic async function `async <T>() =>
-                        // ... But it might be a call with a
+                        // Almost certainly this is a generic async function
+                        // `async <T>() => ... But it
+                        // might be a call with a
                         // type argument `async<T>();`
                         let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
                         if let Some(async_arrow_fn) = async_arrow_fn {
@@ -1588,7 +1595,8 @@ impl<I: Tokens> Parser<I> {
 
         let expr = callee;
 
-        // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
+        // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await,
+        // +Tagged]
         let cur = self.input().cur();
         if matches!(
             cur,
@@ -2195,8 +2203,9 @@ impl<I: Tokens> Parser<I> {
                     return Ok((left, None));
                 }
 
-                // Keep the binary precedence before the first cast. Nested casts
-                // share this bound, so checking a cast chain stays linear.
+                // Keep the binary precedence before the first cast. Nested
+                // casts share this bound, so checking a cast
+                // chain stays linear.
                 let operand_prec = match &*left {
                     Expr::Bin(expr) => Some(expr.op.precedence()),
                     _ => None,
@@ -2244,7 +2253,8 @@ impl<I: Tokens> Parser<I> {
                             if next_prec > operand_prec
                                 || (next_prec == operand_prec && next_op == op!("**"))
                             {
-                                // Report TS7's restriction without discarding the
+                                // Report TS7's restriction without discarding
+                                // the
                                 // cast or the rest of the expression's AST.
                                 self.emit_err(
                                     self.input().cur_span(),
@@ -2341,15 +2351,15 @@ impl<I: Tokens> Parser<I> {
         };
         /* this check is for all ?? operators
          * a ?? b && c for this example
-         * b && c => This is considered as a logical expression in the ast tree
-         * a => Identifier
-         * so for ?? operator we need to check in this case the right expression to
-         * have parenthesis second case a && b ?? c
-         * here a && b => This is considered as a logical expression in the ast tree
-         * c => identifier
-         * so now here for ?? operator we need to check the left expression to have
-         * parenthesis if the parenthesis is missing we raise an error and
-         * throw it
+         * b && c => This is considered as a logical expression in the ast
+         * tree a => Identifier
+         * so for ?? operator we need to check in this case the right
+         * expression to have parenthesis second case a && b ?? c
+         * here a && b => This is considered as a logical expression in the
+         * ast tree c => identifier
+         * so now here for ?? operator we need to check the left expression
+         * to have parenthesis if the parenthesis is missing we raise
+         * an error and throw it
          */
         if op == op!("??") {
             match *left {
@@ -2457,8 +2467,9 @@ impl<I: Tokens> Parser<I> {
 
         let span = self.span(start);
 
-        // A forbidden await with no operand recovers as an identifier. Its early
-        // error was already emitted, even when this region has the Await flag.
+        // A forbidden await with no operand recovers as an identifier. Its
+        // early error was already emitted, even when this region has
+        // the Await flag.
         if (!self.includes_await_expr() || forbidden_in_initializer)
             && (self.is_general_semi() || {
                 let cur = self.input().cur();
@@ -2557,8 +2568,8 @@ impl<I: Tokens> Parser<I> {
         let mut items = Vec::new();
         let mut trailing_comma = None;
 
-        // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
-        // as a pattern instead of reparsing)
+        // TODO(kdy1): optimize (once we parsed a pattern, we can parse
+        // everything else as a pattern instead of reparsing)
         while !self.input().is(Token::RParen) {
             // https://github.com/swc-project/swc/issues/410
             let is_async = self.input().is(Token::Async)
@@ -2583,10 +2594,12 @@ impl<I: Tokens> Parser<I> {
                         None
                     };
 
-                    // At here, we use parse_bin_expr() instead of parse_assignment_expr()
-                    // because `x?: number` should not be parsed as a conditional expression
+                    // At here, we use parse_bin_expr() instead of
+                    // parse_assignment_expr() because `x?:
+                    // number` should not be parsed as a conditional expression
                     // Operand-form yield recovery must still use the assignment
-                    // production when this cover grammar starts with an identifier.
+                    // production when this cover grammar starts with an
+                    // identifier.
                     let mut expr = if self.input().is(Token::Yield)
                         && self.type_ctx().contains(TypeContext::TsContainerBody)
                         && self.can_recover_await_or_yield_expression()
@@ -2665,9 +2678,10 @@ impl<I: Tokens> Parser<I> {
             if optional || (self.input().syntax().typescript() && self.input().is(Token::Colon)) {
                 // TODO: `async(...args?: any[]) : any => {}`
                 //
-                // if self.input().syntax().typescript() && optional && arg.spread.is_some() {
-                //     self.emit_err(self.input().prev_span(), SyntaxError::TS1047)
-                // }
+                // if self.input().syntax().typescript() && optional &&
+                // arg.spread.is_some() {
+                //     self.emit_err(self.input().prev_span(),
+                // SyntaxError::TS1047) }
 
                 let mut explicit_type_ann = None;
                 #[cfg(feature = "flow")]
@@ -2904,8 +2918,9 @@ impl<I: Tokens> Parser<I> {
 
                     expect!(p, Token::Arrow);
 
-                    // Conversion can fail and consumes its AST. Keep the original
-                    // cover expressions available for the conditional fallback.
+                    // Conversion can fail and consumes its AST. Keep the
+                    // original cover expressions available
+                    // for the conditional fallback.
                     let params =
                         p.parse_paren_items_as_params(paren_items.clone(), trailing_comma)?;
                     let body: Box<ArrowFunctionBody> = p.parse_fn_block_or_expr_body(
@@ -3080,8 +3095,9 @@ impl<I: Tokens> Parser<I> {
                     )
                 })
             {
-                // Flow type casts in grouped sequence expressions must be parenthesized
-                // individually, e.g. `((x: T), y)`.
+                // Flow type casts in grouped sequence expressions must be
+                // parenthesized individually, e.g. `((x: T),
+                // y)`.
                 self.emit_err(paren_items[0].span(), SyntaxError::TS1109);
             }
 
@@ -3198,8 +3214,9 @@ impl<I: Tokens> Parser<I> {
             if id_is_async && cur.is_word() && !p.token_is_reserved(cur) {
                 if !p.input().had_line_break_before_cur() {
                     // An identifier after `async` starts an arrow only when
-                    // followed by `=>`. Keep TS `async as T` on its type-assertion
-                    // path; leave other tokens to the enclosing production.
+                    // followed by `=>`. Keep TS `async as T` on its
+                    // type-assertion path; leave other
+                    // tokens to the enclosing production.
                     let is_type_assertion = p.syntax().typescript() && cur == Token::As;
                     let is_arrow = peek!(p).is_some_and(|peek| peek == Token::Arrow)
                         && !p.input_mut().has_linebreak_between_cur_and_peeked();
@@ -3331,7 +3348,8 @@ impl<I: Tokens> Parser<I> {
             let token_span = self.input.cur_span();
             let exp_end = self.input_mut().expect_regex_token_value();
 
-            let exp_start = token_span.lo + BytePos(1); // +1 to exclude left `/`
+            let exp_start = token_span.lo + BytePos(1); // +1 to exclude left
+                                                        // `/`
             let exp = Atom::new(
                 self.input
                     .iter

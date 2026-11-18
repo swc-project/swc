@@ -18,8 +18,8 @@ impl Babelify for Program {
         let program = match self {
             Program::Module(module) => module.babelify(ctx),
             Program::Script(script) => script.babelify(ctx),
-            // TODO: reenable once experimental_metadata breaking change is merged
-            // _ => unreachable!(),
+            // TODO: reenable once experimental_metadata breaking change is
+            // merged _ => unreachable!(),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         };
@@ -193,9 +193,10 @@ struct CommentCollector {
 impl Visit for CommentCollector {
     fn visit_span(&mut self, sp: &Span) {
         let mut span_comments: Vec<Comment> = Vec::new();
-        // Comments must be deduped since it's possible for a single comment to show up
-        // multiple times since they are not removed from the comments map.
-        // For example, this happens when the first line in a file is a comment.
+        // Comments must be deduped since it's possible for a single comment to
+        // show up multiple times since they are not removed from the comments
+        // map. For example, this happens when the first line in a file is a
+        // comment.
         if let Some(comments) = self.comments.leading.get(&sp.lo) {
             for comment in comments.iter() {
                 if !self.collected.contains(comment) {

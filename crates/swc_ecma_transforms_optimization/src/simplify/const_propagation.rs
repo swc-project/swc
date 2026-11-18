@@ -135,7 +135,8 @@ impl VisitMut for ConstPropagation<'_> {
                                     || var.span.is_dummy()
                                     || init.span.is_dummy() =>
                             {
-                                // This check is required to prevent breaking some codes.
+                                // This check is required to prevent breaking
+                                // some codes.
                                 if let Some(value) = self.scope.vars.get(&init.to_id()).cloned() {
                                     self.scope.vars.insert(name.to_id(), value);
                                 } else {

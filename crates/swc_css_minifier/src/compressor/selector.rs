@@ -246,12 +246,14 @@ impl Compressor {
         if let Some(AttributeSelectorValue::Str(Str { value, span, .. })) =
             &attribute_selector.value
         {
-            // A valid unquoted attribute value in CSS is any string of text that is not the
-            // empty string, is not just a hyphen (-), consists of escaped characters and/or
-            // characters matching [-_a-zA-Z0-9\u00A0-\u10FFFF] entirely, and doesn’t start
+            // A valid unquoted attribute value in CSS is any string of text
+            // that is not the empty string, is not just a hyphen (-), consists
+            // of escaped characters and/or characters matching
+            // [-_a-zA-Z0-9\u00A0-\u10FFFF] entirely, and doesn’t start
             // with a digit or a hyphen followed by a digit.
 
-            // is any string of text that is not the empty string, is not just a hyphen (-)
+            // is any string of text that is not the empty string, is not just a
+            // hyphen (-)
             if value.is_empty() || value == "-" {
                 return;
             }

@@ -1250,12 +1250,7 @@ where
                         has_plus_sign = true;
                     }
                 }
-                let a;
-                let a_raw;
-
-                let n_value;
-
-                match cur!(self) {
+                let (a, a_raw, n_value) = match cur!(self) {
                     Token::Ident {  .. } => {
                         let ident_value = match bump!(self) {
                             Token::Ident { value, .. } => value,
@@ -1274,10 +1269,12 @@ where
                             ));
                         }
 
-                        a = Some(if has_minus_sign { -1 } else {1 });
-                        a_raw = Some(self.input.atom(if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }));
+                        let a = Some(if has_minus_sign { -1 } else {1 });
+                        let a_raw = Some(self.input.atom(if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }));
 
-                        n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
+                        let n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
+
+                        (a, a_raw, n_value)
                     }
                     tok!("dimension") => {
                         let dimension = match bump!(self) {
@@ -1300,9 +1297,7 @@ where
                             ));
                         }
 
-                        a = Some(dimension.0 as i32);
-                        a_raw = Some(dimension.1);
-                        n_value =  (*dimension.2).to_string();
+                        (Some(dimension.0 as i32), Some(dimension.1), (*dimension.2).to_string())
                     }
                     _ => {
                         return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));

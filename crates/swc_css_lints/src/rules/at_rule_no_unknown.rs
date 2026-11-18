@@ -42,7 +42,7 @@ impl Visit for AtRuleNoUnknown {
         if let AtRuleName::Ident(Ident { value, .. }) = &at_rule.name {
             if let Some(AtRulePrelude::ListOfComponentValues(_)) = at_rule.prelude.as_deref() {
                 if self.ignored.iter().all(|item| !item.is_match(value)) {
-                    let message = format!("Unexpected unknown at-rule \"@{}\".", &value);
+                    let message = format!("Unexpected unknown at-rule \"@{}\".", value);
 
                     self.ctx.report(&at_rule.name, message);
                 }

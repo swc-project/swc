@@ -160,7 +160,7 @@ impl<C: Comments> Refresh<C> {
             _ => return Persist::None,
         };
         let reg_str = (
-            format!("{}${}", reg.last().unwrap().1 .0, &hoc_name).into(),
+            format!("{}${}", reg.last().unwrap().1 .0, hoc_name).into(),
             SyntaxContext::empty(),
         );
         match first_arg.as_mut() {
@@ -324,7 +324,8 @@ impl<C: Comments> Refresh<C> {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl:
                         DefaultDecl::Fn(FnExpr {
-                            // We don't currently handle anonymous default exports.
+                            // We don't currently handle anonymous default
+                            // exports.
                             ident: Some(ident),
                             ..
                         }),

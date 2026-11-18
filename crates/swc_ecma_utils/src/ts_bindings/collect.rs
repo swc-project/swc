@@ -75,7 +75,8 @@ impl<O: TsBindingObserver, const TYPE_OWNERS: bool> TsBindingCollector<O, TYPE_O
             self.record_owner(ident.to_id());
         } else if let Some(body) = self.body {
             // Scope ownership is collected before completion visits any
-            // annotations, including forward parameter queries and class bodies.
+            // annotations, including forward parameter queries and class
+            // bodies.
             self.bindings.erased_scopes.insert(ident.ctxt, body);
         }
     }

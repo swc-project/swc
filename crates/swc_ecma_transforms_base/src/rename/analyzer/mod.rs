@@ -126,9 +126,9 @@ impl Analyzer {
             debug_assert!(matches!(v.scope.kind, ScopeKind::Block));
             self.reserve_usage(v.hoisted_vars.len());
             v.hoisted_vars.clone().into_iter().for_each(|id| {
-                // For variables declared in block scope using `var` and `function`,
-                // We should create a fake usage in the block to prevent conflicted
-                // renaming.
+                // For variables declared in block scope using `var` and
+                // `function`, We should create a fake usage in the block to
+                // prevent conflicted renaming.
                 v.add_usage(id);
             });
             match self.scope.kind {

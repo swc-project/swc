@@ -34,9 +34,9 @@ impl<'view, 'map> Iterator for RevTokenIter<'view, 'map> {
             self.token = token.sm.get_token(idx - 1);
         }
 
-        // if we are going to the same line as we did last iteration, we don't have to
-        // scan up to it again.  For normal sourcemaps this should mean we only
-        // ever go to the line once.
+        // if we are going to the same line as we did last iteration, we don't
+        // have to scan up to it again.  For normal sourcemaps this should mean
+        // we only ever go to the line once.
         let (source_line, last_char_offset, last_byte_offset) = if_chain! {
             if let Some((source_line, dst_line, last_char_offset,
                          last_byte_offset)) = self.source_line;

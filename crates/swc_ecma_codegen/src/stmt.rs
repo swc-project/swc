@@ -277,7 +277,8 @@ impl MacroNode for SwitchCase {
         }
 
         let emit_as_single_stmt = self.cons.len() == 1 && {
-            // treat synthesized nodes as located on the same line for emit purposes
+            // treat synthesized nodes as located on the same line for emit
+            // purposes
             self.is_synthesized()
                 || self.cons[0].is_synthesized()
                 || emitter

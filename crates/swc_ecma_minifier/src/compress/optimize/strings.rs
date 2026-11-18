@@ -206,10 +206,11 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8Atom) -> Atom {
                     result.push_str("\\${");
                     code_points.next(); // Consume the '{'
                 }
-                // Escape control characters (0x00-0x1f) except \n (0x0a) and \t (0x09)
-                // which can be safely included in template literals
+                // Escape control characters (0x00-0x1f) except \n (0x0a) and \t
+                // (0x09) which can be safely included in template literals
                 '\x00' => {
-                    // Check if next char is a digit - if so, use \x00 to avoid ambiguity
+                    // Check if next char is a digit - if so, use \x00 to avoid
+                    // ambiguity
                     if code_points
                         .peek()
                         .and_then(|cp| cp.to_char())
@@ -228,7 +229,8 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8Atom) -> Atom {
                 _ => result.push(ch),
             }
         } else {
-            // Unpaired surrogates must remain Unicode escapes in a template raw value.
+            // Unpaired surrogates must remain Unicode escapes in a template raw
+            // value.
             result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
         }
     }

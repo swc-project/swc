@@ -173,11 +173,7 @@ impl Radix {
     }
 
     fn is_satisfying_indent(&self, ident: &Ident) -> bool {
-        if ident.ctxt != self.unresolved_ctxt {
-            return false;
-        }
-
-        true
+        ident.ctxt == self.unresolved_ctxt
     }
 
     fn extract_prop_value(&mut self, prop: &MemberProp) -> Option<Atom> {

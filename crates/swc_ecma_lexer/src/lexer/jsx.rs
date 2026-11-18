@@ -48,7 +48,8 @@ impl Lexer<'_> {
                         self.input.slice(chunk_start, cur_pos)
                     };
                     let value = if value.is_empty() {
-                        // Fast path: We don't need to allocate extra buffer for value
+                        // Fast path: We don't need to allocate extra buffer for
+                        // value
                         self.atoms.wtf8_atom(Wtf8::from_str(s))
                     } else {
                         value.push_str(s);

@@ -24,12 +24,13 @@ pub struct PluginModuleCacheInner {
     fs_cache_root: Option<String>,
     #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
     fs_cache_store: Option<FileSystemCache>,
-    // Stores the string representation of the hash of the plugin module to store into
-    // FileSystemCache. This works since SWC does not revalidates plugin in single process
-    // lifecycle.
+    // Stores the string representation of the hash of the plugin module to
+    // store into FileSystemCache. This works since SWC does not revalidates
+    // plugin in single process lifecycle.
     #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
     fs_cache_hash_store: FxHashMap<String, String>,
-    // Generic in-memory cache to the raw bytes, either read by fs or supplied by bindgen.
+    // Generic in-memory cache to the raw bytes, either read by fs or supplied
+    // by bindgen.
     memory_cache_store: FxHashMap<String, Vec<u8>>,
     // A naive hashmap to the compiled plugin modules.
     // Current it doesn't have any invalidation or expiration logics like lru,
@@ -56,9 +57,9 @@ impl PluginModuleCacheInner {
 
         #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
         {
-            // Instead of accessing FileSystemCache, check if the key have corresponding
-            // hash since FileSystemCache does not have a way to check if the key
-            // exists.
+            // Instead of accessing FileSystemCache, check if the key have
+            // corresponding hash since FileSystemCache does not have a way to
+            // check if the key exists.
             return is_in_cache || self.fs_cache_hash_store.contains_key(key);
         }
 
@@ -98,8 +99,8 @@ impl PluginModuleCacheInner {
     ) -> Result<(), Error> {
         let runtime_name = rt.identifier();
 
-        // The module caches of different runtimes are not compatible, so we cleanup the
-        // old caches.
+        // The module caches of different runtimes are not compatible, so we
+        // cleanup the old caches.
         if *self.current_runtime.get_or_insert(runtime_name) != runtime_name {
             self.current_runtime = Some(runtime_name);
             self.compiled_module_bytes.clear();
@@ -148,8 +149,8 @@ impl PluginModuleCacheInner {
     /// Depends on the cache availability, it may return a raw bytes or a
     /// serialized bytes.
     pub fn get(&self, rt: &dyn runtime::Runtime, key: &str) -> Option<Box<dyn PluginModuleBytes>> {
-        // Look for compiled module bytes first, it is the cheapest way to get compile
-        // wasmer::Module.
+        // Look for compiled module bytes first, it is the cheapest way to get
+        // compile wasmer::Module.
         if let Some(compiled_module) = self.compiled_module_bytes.get(key) {
             let cache = rt.clone_cache(compiled_module)?;
             return Some(Box::new(CompiledPluginModuleBytes::new(
@@ -171,8 +172,8 @@ impl PluginModuleCacheInner {
             }
         }
 
-        // Lastly, look for if there's a raw bytes in memory. This requires compilation
-        // still, but doesn't go through filesystem access.
+        // Lastly, look for if there's a raw bytes in memory. This requires
+        // compilation still, but doesn't go through filesystem access.
         if let Some(memory_cache_bytes) = self.memory_cache_store.get(key) {
             return Some(Box::new(RawPluginModuleBytes::new(
                 key.to_string(),

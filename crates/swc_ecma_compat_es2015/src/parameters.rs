@@ -160,7 +160,8 @@ impl Params {
                     // arguments.length will always be 1 in setter
                     if !(self.c.ignore_function_length || is_setter) {
                         after_default = true;
-                        // access non-existent element in `arguments` is expensive
+                        // access non-existent element in `arguments` is
+                        // expensive
                         decls.push(VarDeclarator {
                             span,
                             name: *left,
@@ -255,8 +256,8 @@ impl Params {
                 Pat::Rest(RestPat { arg, .. }) => {
                     // Inject a for statement
                     //
-                    // for(var _len = arguments.length, a1 = new Array(_len), _key = 0; _key <
-                    // _len; _key++){
+                    // for(var _len = arguments.length, a1 = new Array(_len),
+                    // _key = 0; _key < _len; _key++){
                     //      a1[_key] = arguments[_key];
                     // }
                     assert!(unpack_rest.is_none());

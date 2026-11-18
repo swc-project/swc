@@ -23,8 +23,8 @@ impl<'a> Reader<'a> {
     ) -> Result<Self> {
         // NOTE: This must be `0`.
         // Since `source_text` here may be a slice of the original source text,
-        // using `Span` for `span.source_text(source_text)` will be out of range in some
-        // cases.
+        // using `Span` for `span.source_text(source_text)` will be out of range
+        // in some cases.
         let span_offset = 0;
 
         let units = if parse_string_literal {
@@ -46,8 +46,8 @@ impl<'a> Reader<'a> {
             source_text,
             units,
             index: 0,
-            // If `parse_string_literal` is `true`, the first character is the opening quote.
-            // We need to +1 to skip it.
+            // If `parse_string_literal` is `true`, the first character is the
+            // opening quote. We need to +1 to skip it.
             offset: u32::from(parse_string_literal),
         })
     }

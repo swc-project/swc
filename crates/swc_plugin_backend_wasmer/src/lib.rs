@@ -196,13 +196,15 @@ impl runtime::Runtime for WasmerRuntime {
 
             // Implicitly enable filesystem access for the wasi plugin to cwd.
             //
-            // This allows wasi plugin can read arbitary data (i.e node_modules) or produce
-            // output for post process (i.e .lcov coverage data) directly.
+            // This allows wasi plugin can read arbitary data (i.e node_modules)
+            // or produce output for post process (i.e .lcov coverage data)
+            // directly.
             //
             // TODO: this is not finalized decision
             // - should we support this?
             // - can we limit to allowlisted input / output only?
-            // - should there be a top-level config from .swcrc to manually override this?
+            // - should there be a top-level config from .swcrc to manually
+            //   override this?
             let mut builder = if let Ok(cwd) = std::env::current_dir() {
                 builder
                     .fs(default_fs_backing())
@@ -252,14 +254,14 @@ impl runtime::Runtime for WasmerRuntime {
         table.as_mut(&mut store).alloc_func = Some(alloc_func.clone());
         table.as_mut(&mut store).free_func = Some(free_func.clone());
 
-        // As soon as instance is ready, host calls a fn to read plugin's swc_core pkg
-        // diagnostics as `handshake`. Once read those values will be available across
-        // whole plugin transform execution.
+        // As soon as instance is ready, host calls a fn to read plugin's
+        // swc_core pkg diagnostics as `handshake`. Once read those values will
+        // be available across whole plugin transform execution.
 
         // IMPORTANT NOTE
-        // Note this is `handshake`, which we expect to success ALL TIME. Do not try to
-        // expand `PluginCorePkgDiagnostics` as it'll cause deserialization failure
-        // until we have forward-compat schema changes.
+        // Note this is `handshake`, which we expect to success ALL TIME. Do not
+        // try to expand `PluginCorePkgDiagnostics` as it'll cause
+        // deserialization failure until we have forward-compat schema changes.
         instance
             .exports
             .get_typed_function::<(), u32>(&store, "__get_transform_plugin_core_pkg_diag")?
@@ -295,8 +297,8 @@ impl runtime::Runtime for WasmerRuntime {
         let module = wasmer::Module::deserialize_from_file(store.engine(), path);
 
         if module.is_err() {
-            // If an error occurs while deserializing then we can not trust it anymore
-            // so delete the cache file
+            // If an error occurs while deserializing then we can not trust it
+            // anymore so delete the cache file
             let _ = std::fs::remove_file(path);
         }
 

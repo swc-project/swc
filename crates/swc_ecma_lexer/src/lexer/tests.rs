@@ -730,8 +730,8 @@ fn migrated_0004() {
 fn migrated_0006() {
     // This test seems wrong.
     // assert_eq!(
-    //     vec![LBrace.span(0).lb(), RBrace.span(1), Div.span(3), 42.span(4..6)],
-    //     lex(Syntax::default(), "{} /42")
+    //     vec![LBrace.span(0).lb(), RBrace.span(1), Div.span(3),
+    // 42.span(4..6)],     lex(Syntax::default(), "{} /42")
     // )
 
     assert_eq!(

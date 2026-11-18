@@ -122,8 +122,8 @@ where
         let mut tokens = Vec::new();
         let mut balance_stack: Vec<Option<char>> = Vec::new();
 
-        // The <any-value> production matches any sequence of one or more tokens,
-        // so long as the sequence ...
+        // The <any-value> production matches any sequence of one or more
+        // tokens, so long as the sequence ...
         loop {
             if is!(self, EOF) {
                 break;
@@ -2885,11 +2885,13 @@ where
 
         let mut chars = unicode_range.chars();
 
-        // 1. Skipping the first u token, concatenate the representations of all the
+        // 1. Skipping the first u token, concatenate the representations of all
+        //    the
         // tokens in the production together. Let this be text.
         chars.next();
 
-        // 2. If the first character of text is U+002B PLUS SIGN, consume it. Otherwise,
+        // 2. If the first character of text is U+002B PLUS SIGN, consume it.
+        //    Otherwise,
         // this is an invalid <urange>, and this algorithm must exit.
         let mut next = chars.next();
 
@@ -2902,7 +2904,8 @@ where
             next = chars.next();
         }
 
-        // 3. Consume as many hex digits from text as possible. then consume as many
+        // 3. Consume as many hex digits from text as possible. then consume as
+        //    many
         // U+003F QUESTION MARK (?) code points as possible. If zero code points
         // were consumed, or more than six code points were consumed, this is an
         // invalid <urange>, and this algorithm must exit.
@@ -2950,7 +2953,8 @@ where
 
         // If any U+003F QUESTION MARK (?) code points were consumed, then:
         if has_question_mark {
-            // 1. If there are any code points left in text, this is an invalid <urange>,
+            // 1. If there are any code points left in text, this is an invalid
+            //    <urange>,
             // and this algorithm must exit.
             if next.is_some() {
                 return Err(Error::new(
@@ -2960,12 +2964,14 @@ where
             }
 
             // 2. Interpret the consumed code points
-            // as a hexadecimal number, with the U+003F QUESTION MARK (?) code points
-            // replaced by U+0030 DIGIT ZERO (0) code points. This is the start value.
+            // as a hexadecimal number, with the U+003F QUESTION MARK (?) code
+            // points replaced by U+0030 DIGIT ZERO (0) code points. This is the
+            // start value.
             //
-            // 3. Interpret the consumed code points as a hexadecimal number again, with the
-            // U+003F QUESTION MARK (?) code points replaced by U+0046 LATIN CAPITAL LETTER
-            // F (F) code points. This is the end value.
+            // 3. Interpret the consumed code points as a hexadecimal number
+            //    again, with the
+            // U+003F QUESTION MARK (?) code points replaced by U+0046 LATIN
+            // CAPITAL LETTER F (F) code points. This is the end value.
             //
 
             // 4. Exit this algorithm.
@@ -2977,10 +2983,11 @@ where
             });
         }
 
-        // Otherwise, interpret the consumed code points as a hexadecimal number. This
-        // is the start value.
+        // Otherwise, interpret the consumed code points as a hexadecimal
+        // number. This is the start value.
 
-        // 4. If there are no code points left in text, The end value is the same as the
+        // 4. If there are no code points left in text, The end value is the
+        //    same as the
         // start value. Exit this algorithm.
         if next.is_none() {
             return Ok(UnicodeRange {
@@ -2991,7 +2998,8 @@ where
             });
         }
 
-        // 5. If the next code point in text is U+002D HYPHEN-MINUS (-), consume it.
+        // 5. If the next code point in text is U+002D HYPHEN-MINUS (-), consume
+        //    it.
         // Otherwise, this is an invalid <urange>, and this algorithm must exit.
         if next != Some('-') {
             return Err(Error::new(
@@ -3003,10 +3011,10 @@ where
         }
 
         // 6. Consume as many hex digits as possible from text.
-        // If zero hex digits were consumed, or more than 6 hex digits were consumed,
-        // this is an invalid <urange>, and this algorithm must exit. If there are any
-        // code points left in text, this is an invalid <urange>, and this algorithm
-        // must exit.
+        // If zero hex digits were consumed, or more than 6 hex digits were
+        // consumed, this is an invalid <urange>, and this algorithm must exit.
+        // If there are any code points left in text, this is an invalid
+        // <urange>, and this algorithm must exit.
         let mut end = String::new();
 
         loop {

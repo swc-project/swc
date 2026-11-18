@@ -301,7 +301,8 @@ impl VisitMut for PartialInliner {
                                 let el = TplElement {
                                     span: s.span,
                                     tail: true,
-                                    // TODO possible bug for quotes and surrogates
+                                    // TODO possible bug for quotes and
+                                    // surrogates
                                     raw: Atom::new(s.value.to_string_lossy()),
                                     cooked: Some(s.value.clone()),
                                 };

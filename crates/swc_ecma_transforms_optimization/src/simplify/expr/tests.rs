@@ -1547,8 +1547,8 @@ fn test_fold_object_literal_ref1() {
         "(function(){return this})",
     );
 
-    // It's also okay to inline functions that are immediately called, so long as we
-    // know for sure the function doesn't reference 'this'.
+    // It's also okay to inline functions that are immediately called, so long
+    // as we know for sure the function doesn't reference 'this'.
     fold("({a:function(){return 0}}).a()", "(function(){return 0})()");
 
     // Don't inline setters.
@@ -1610,8 +1610,8 @@ fn test_fold_object_literal_ref1() {
         "var x = {a() { return this; }}.a;",
         "var x = function() { return this; };",
     );
-    // `super` is invisibly captures the object that declared the method so we can't
-    // fold.
+    // `super` is invisibly captures the object that declared the method so we
+    // can't fold.
     fold_same("var x = {a() { return super.a; }}.a;");
     fold(
         "var x = {a: 1, a() { 2; }}.a;",
@@ -1745,7 +1745,8 @@ fn test_issue_8747() {
     fold("({length: 'foo'}).length", "'foo'");
     fold("({length: 'foo'})['length']", "'foo'");
 
-    // Indexing objects has a few special cases that were broken that we test here.
+    // Indexing objects has a few special cases that were broken that we test
+    // here.
     fold("({0.5: 'a'})[0.5]", "'a';");
     fold("({'0.5': 'a'})[0.5]", "'a';");
     fold("({0.5: 'a'})['0.5']", "'a';");

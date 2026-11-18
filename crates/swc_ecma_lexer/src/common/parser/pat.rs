@@ -129,10 +129,11 @@ fn reparse_expr_as_pat_inner<'a>(
 
             _ => match *expr {
                 // It is a Syntax Error if the LeftHandSideExpression is
-                // CoverParenthesizedExpressionAndArrowParameterList:(Expression) and
-                // Expression derives a phrase that would produce a Syntax Error according
-                // to these rules if that phrase were substituted for
-                // LeftHandSideExpression. This rule is recursively applied.
+                // CoverParenthesizedExpressionAndArrowParameterList:
+                // (Expression) and Expression derives a phrase that would
+                // produce a Syntax Error according to these rules if that
+                // phrase were substituted for LeftHandSideExpression. This rule
+                // is recursively applied.
                 Expr::Paren(..) => {
                     return Ok(expr.into());
                 }
@@ -309,7 +310,8 @@ fn reparse_expr_as_pat_inner<'a>(
             let idx_of_rest_not_allowed = if count_of_trailing_comma == 0 {
                 len - 1
             } else {
-                // last element is comma, so rest is not allowed for every pattern element.
+                // last element is comma, so rest is not allowed for every
+                // pattern element.
                 len - count_of_trailing_comma
             };
             for expr in exprs.drain(..idx_of_rest_not_allowed) {
@@ -358,7 +360,8 @@ fn reparse_expr_as_pat_inner<'a>(
                         // TODO: is BindingPat correct?
                         reparse_expr_as_pat(p, pat_ty.element(), expr).map(Some)?
                     }
-                    // TODO: syntax error if last element is ellison and ...rest exists.
+                    // TODO: syntax error if last element is ellison and ...rest
+                    // exists.
                     None => None,
                 };
                 params.push(last);

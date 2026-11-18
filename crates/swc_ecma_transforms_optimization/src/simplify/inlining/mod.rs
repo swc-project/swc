@@ -724,8 +724,8 @@ impl VisitMut for Inlining<'_> {
                             }
                         };
 
-                        // tracing::trace!("({}): Inserting {:?}", self.scope.depth(),
-                        // name.to_id());
+                        // tracing::trace!("({}): Inserting {:?}",
+                        // self.scope.depth(), name.to_id());
 
                         self.declare(name.to_id(), e.map(|e| Cow::Owned(*e)), false, kind);
 

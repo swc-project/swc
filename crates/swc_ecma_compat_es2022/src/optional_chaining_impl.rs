@@ -48,9 +48,9 @@ impl VisitMut for OptionalChaining {
             };
             function_body.visit_mut_with(self);
 
-            // If there are optional chains in this expression, then the visitor will have
-            // injected an VarDecl statement and we need to transform into a
-            // block. If not, then we can keep the expression.
+            // If there are optional chains in this expression, then the visitor
+            // will have injected an VarDecl statement and we need to transform
+            // into a block. If not, then we can keep the expression.
             match &mut function_body.stmts[..] {
                 [Stmt::Return(ReturnStmt {
                     arg: Some(expr), ..
@@ -90,8 +90,8 @@ impl VisitMut for OptionalChaining {
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
-        // The default initializer of an assignment pattern must not leak the memo
-        // variable into the enclosing scope.
+        // The default initializer of an assignment pattern must not leak the
+        // memo variable into the enclosing scope.
         // function(a, b = a?.b) {} -> function(a, b = (() => var _a; …)()) {}
         let Pat::Assign(a) = n else {
             n.visit_mut_children_with(self);
@@ -101,8 +101,8 @@ impl VisitMut for OptionalChaining {
         let uninit = self.vars.take();
         a.right.visit_mut_with(self);
 
-        // If we found an optional chain, we need to transform into an arrow IIFE to
-        // capture the memo variable.
+        // If we found an optional chain, we need to transform into an arrow
+        // IIFE to capture the memo variable.
         if !self.vars.is_empty() {
             let stmts = vec![
                 Stmt::Decl(Decl::Var(Box::new(VarDecl {
@@ -240,8 +240,8 @@ impl OptionalChaining {
         // Stores partially constructed CondExprs for us to assemble later on.
         let mut committed_cond = Vec::with_capacity(count);
 
-        // Stores the memo used to construct an optional chain, so that it can be used
-        // as the this context of an optional call:
+        // Stores the memo used to construct an optional chain, so that it can
+        // be used as the this context of an optional call:
         // foo?.bar?.() ->
         // (_foo = foo) == null
         //   ? void 0
@@ -249,9 +249,9 @@ impl OptionalChaining {
         //     ?  void 0 : _foo_bar.call(_foo)
         let mut ctx = None;
 
-        // In the first pass, we construct a "current" node and several committed
-        // CondExprs. The conditionals will have an invalid alt, waiting for the
-        // second pass to properly construct them.
+        // In the first pass, we construct a "current" node and several
+        // committed CondExprs. The conditionals will have an invalid alt,
+        // waiting for the second pass to properly construct them.
         // We reverse iterate so that we can construct a rightward conditional
         // `(_a = a) == null ? void 0 : (_a_b = _a.b) == null ? void 0 : _a_b.c`
         // instead of a leftward one
@@ -271,7 +271,8 @@ impl OptionalChaining {
                 Gathering::OptCall(mut c, memo) => {
                     let mut call = false;
 
-                    // foo.bar?.() -> (_foo_bar == null) ? void 0 : _foo_bar.call(foo)
+                    // foo.bar?.() -> (_foo_bar == null) ? void 0 :
+                    // _foo_bar.call(foo)
                     match &mut current {
                         Expr::Member(m) => {
                             call = true;
@@ -339,7 +340,8 @@ impl OptionalChaining {
             };
         }
 
-        // At this point, `current` is the right-most expression `_a_b.c` in `a?.b?.c`
+        // At this point, `current` is the right-most expression `_a_b.c` in
+        // `a?.b?.c`
         if is_delete {
             current = UnaryExpr {
                 span: DUMMY_SP,
@@ -349,7 +351,8 @@ impl OptionalChaining {
             .into();
         }
 
-        // We now need to reverse iterate the conditionals to construct out tree.
+        // We now need to reverse iterate the conditionals to construct out
+        // tree.
         for mut cond in committed_cond.into_iter().rev() {
             cond.alt = Box::new(current);
             current = cond.into()

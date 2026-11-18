@@ -102,7 +102,8 @@ impl TransformPluginProgramMetadata {
     /// involves serialization / deserialization.
     #[allow(unreachable_code)]
     pub fn get_raw_experimental_context(&self) -> swc_common::plugin::metadata::Context {
-        // TODO: There is no clear usecase yet - enable when we have a correct usecase.
+        // TODO: There is no clear usecase yet - enable when we have a correct
+        // usecase.
         unimplemented!("Not supported yet");
 
         #[cfg(target_arch = "wasm32")]

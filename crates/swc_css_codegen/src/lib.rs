@@ -1407,8 +1407,8 @@ where
         };
 
         // https://github.com/w3c/csswg-drafts/issues/774
-        // `--foo: ;` and `--foo:;` is valid, but not all browsers support it, currently
-        // we print " " (whitespace) always
+        // `--foo: ;` and `--foo:;` is valid, but not all browsers support it,
+        // currently we print " " (whitespace) always
         if is_custom_property {
             match n.value.first() {
                 None => {
@@ -1479,8 +1479,8 @@ where
 
         let serialized = serialize_ident(&value, self.config.minify);
 
-        // The unit of a <dimension-token> may need escaping to disambiguate with
-        // scientific notation.
+        // The unit of a <dimension-token> may need escaping to disambiguate
+        // with scientific notation.
         // Old browser hacks with `\0` and other - IE
         if self.ctx.is_dimension_unit {
             write_raw!(self, n.span, &serialize_dimension_unit(&serialized));
@@ -2625,12 +2625,13 @@ fn serialize_string(value: &str) -> String {
 
     for c in value.chars() {
         match c {
-            // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
+            // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER
+            // (U+FFFD).
             '\0' => {
                 minified.push('\u{FFFD}');
             }
-            // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, the
-            // character escaped as code point.
+            // If the character is in the range [\1-\1f] (U+0001 to U+001F) or
+            // is U+007F, the character escaped as code point.
             '\x01'..='\x1F' | '\x7F' => {
                 static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
 
@@ -2653,7 +2654,8 @@ fn serialize_string(value: &str) -> String {
 
                 minified.push_str(from_utf8(bytes).unwrap());
             }
-            // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
+            // If the character is '"' (U+0022) or "\" (U+005C), the escaped
+            // character.
             '\\' => {
                 minified.push_str("\\\\");
             }
@@ -2725,12 +2727,13 @@ fn minify_string(value: &str) -> String {
 
     for c in value.chars() {
         match c {
-            // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
+            // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER
+            // (U+FFFD).
             '\0' => {
                 minified.push('\u{FFFD}');
             }
-            // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, the
-            // character escaped as code point.
+            // If the character is in the range [\1-\1f] (U+0001 to U+001F) or
+            // is U+007F, the character escaped as code point.
             '\x01'..='\x1F' | '\x7F' => {
                 static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
 
@@ -2753,9 +2756,9 @@ fn minify_string(value: &str) -> String {
 
                 minified.push_str(from_utf8(bytes).unwrap());
             }
-            // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
-            // We avoid escaping `"` to better string compression - we count the quantity of
-            // quotes to choose the best default quotes
+            // If the character is '"' (U+0022) or "\" (U+005C), the escaped
+            // character. We avoid escaping `"` to better string compression -
+            // we count the quantity of quotes to choose the best default quotes
             '\\' => {
                 minified.push_str("\\\\");
             }
@@ -2802,8 +2805,8 @@ fn serialize_dimension_unit(value: &str) -> Cow<'_, str> {
             char::REPLACEMENT_CHARACTER => {
                 result.push_str("\\0");
             }
-            // The unit of a <dimension-token> may need escaping to disambiguate with scientific
-            // notation.
+            // The unit of a <dimension-token> may need escaping to disambiguate
+            // with scientific notation.
             'e' if i == 0 => {
                 if matches!(chars.peek(), Some((_, '0'..='9'))) {
                     result.push(c);

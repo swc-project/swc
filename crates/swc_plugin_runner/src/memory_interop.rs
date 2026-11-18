@@ -69,7 +69,8 @@ pub fn allocate_return_values_into_guest(
     let (allocated_ptr, allocated_ptr_len) =
         write_into_memory_view(caller, serialized_bytes, |_, _| guest_memory_ptr);
 
-    // We cannot use cbor serialization because it is a variable-length encoding.
+    // We cannot use cbor serialization because it is a variable-length
+    // encoding.
     let allocated_fatptr = {
         let allocated_ptr = allocated_ptr.to_le_bytes();
         let allocated_ptr_len = allocated_ptr_len.to_le_bytes();

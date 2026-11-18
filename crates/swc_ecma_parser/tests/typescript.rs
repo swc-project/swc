@@ -39,8 +39,8 @@ fn shifted(file: PathBuf) {
     {
         // Drop to reduce memory usage.
         //
-        // Because the test suite contains lots of test cases, it results in oom in
-        // github actions.
+        // Because the test suite contains lots of test cases, it results in oom
+        // in github actions.
         let input = {
             let mut buf = String::new();
             File::open(&file).unwrap().read_to_string(&mut buf).unwrap();
@@ -195,8 +195,8 @@ fn run_spec(file: &Path, output_json: &Path) {
     {
         // Drop to reduce memory usage.
         //
-        // Because the test suite contains lots of test cases, it results in oom in
-        // github actions.
+        // Because the test suite contains lots of test cases, it results in oom
+        // in github actions.
         let input = {
             let mut buf = String::new();
             File::open(file).unwrap().read_to_string(&mut buf).unwrap();
@@ -206,7 +206,8 @@ fn run_spec(file: &Path, output_json: &Path) {
         eprintln!("\n\n========== Running reference test {file_name}\nSource:\n{input}\n");
     }
 
-    // AST fixtures normally suppress early errors; regression fixtures can opt in.
+    // AST fixtures normally suppress early errors; regression fixtures can opt
+    // in.
     let config_path = file.with_file_name("config.json");
     let config: TestConfig = match File::open(&config_path) {
         Ok(file) => serde_json::from_reader(file).expect("failed to parse fixture config"),

@@ -35,7 +35,8 @@ fn replacement_carrier(
 ) -> Option<std::path::PathBuf> {
     // APFS self-replacement recompresses the decoded image with ditto and
     // decodes it again for this process. Keep macOS first loads on the verified
-    // cache path, even for writable installations, before resolving the carrier.
+    // cache path, even for writable installations, before resolving the
+    // carrier.
     if cfg!(target_os = "macos") || *mode == CacheMode::Temporary {
         return None;
     }

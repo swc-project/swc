@@ -585,7 +585,8 @@ impl<I: Tokens> Parser<I> {
         let await_token = if self.input().is(Token::Await) {
             self.check_current_keyword_escape()?;
             // For-await-of is only available with the Await grammar parameter.
-            // Program entry may still be selecting or recovering module grammar.
+            // Program entry may still be selecting or recovering module
+            // grammar.
             let at_module_entry = self.syntax_context == SyntaxContext::Program
                 && (self.ctx().contains(Context::Module)
                     || self.program_parse_mode == ProgramParseMode::None);
@@ -726,9 +727,9 @@ impl<I: Tokens> Parser<I> {
             // Prevent stack overflow
             crate::maybe_grow(256 * 1024, 1024 * 1024, || {
                 // // Annex B
-                // if !self.ctx().contains(Context::Strict) && self.input().is(Token::FUNCTION)
-                // {     // TODO: report error?
-                // }
+                // if !self.ctx().contains(Context::Strict) &&
+                // self.input().is(Token::FUNCTION) {     // TODO:
+                // report error? }
                 self.do_outside_of_statement_context(StatementContext::IgnoreElseClause, |p| {
                     p.do_outside_of_boundary_context(BoundaryContext::TopLevel, Self::parse_stmt)
                 })
@@ -2031,8 +2032,9 @@ impl<I: Tokens> Parser<I> {
                 self.assert_and_bump(Token::Await);
                 let v = self.parse_using_decl(start, true)?;
                 if let Some(v) = v {
-                    // Static blocks use +Await, but Contains `await` is an early
-                    // error. Check declarations here; the expression fallback
+                    // Static blocks use +Await, but Contains `await` is an
+                    // early error. Check declarations here;
+                    // the expression fallback
                     // below performs its own check in parse_await_expr.
                     if self.is_await_forbidden_in_initializer() {
                         self.emit_err(await_token, SyntaxError::ExpectedIdent);
@@ -2183,7 +2185,8 @@ impl<I: Tokens> Parser<I> {
             && self.input().syntax().typescript_allows_enum()
             && peek!(self).is_some_and(|peek| peek.is_word())
         {
-            // A line break before an enum name does not terminate the declaration.
+            // A line break before an enum name does not terminate the
+            // declaration.
             let start = self.input().cur_pos();
             self.bump();
             return Ok(self.parse_ts_enum_decl(start, false)?.into());

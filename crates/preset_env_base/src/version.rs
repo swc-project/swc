@@ -181,7 +181,8 @@ pub fn should_enable(target: &Versions, feature: &Versions, default: bool) -> bo
                     maybe_feature_version.or_else(|| match target_name {
                         // Fall back to Chrome versions if Android browser data
                         // is missing from the feature data. It appears the
-                        // Android browser has aligned its versioning with Chrome.
+                        // Android browser has aligned its versioning with
+                        // Chrome.
                         "android" => feature.chrome,
                         _ => None,
                     });

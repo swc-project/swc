@@ -228,7 +228,7 @@ pub fn with_file_parser<T>(
     target: EsVersion,
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
-    op: impl for<'aa> FnOnce(&mut Parser<self::Lexer>) -> PResult<T>,
+    op: impl FnOnce(&mut Parser<self::Lexer>) -> PResult<T>,
 ) -> PResult<T> {
     let lexer = self::Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
     let mut p = Parser::new_from(lexer);

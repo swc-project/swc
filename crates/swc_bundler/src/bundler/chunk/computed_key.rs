@@ -302,8 +302,9 @@ impl Fold for ExportToReturn {
                         ExportSpecifier::Default(_) => {}
                         ExportSpecifier::Named(named) => match &named.exported {
                             Some(ModuleExportName::Ident(exported)) => {
-                                // As injected named exports are converted to variables by other
-                                // passes, we should not create a variable for it.
+                                // As injected named exports are converted to
+                                // variables by other passes, we should not
+                                // create a variable for it.
                                 if let ModuleExportName::Ident(orig) = &named.orig {
                                     self.export_key_value(exported.clone(), orig.clone());
                                 } else {

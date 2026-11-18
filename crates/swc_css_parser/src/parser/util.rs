@@ -361,9 +361,10 @@ where
 
     // The <declaration-value> production matches any sequence of one or more
     // tokens, so long as the sequence does not contain <bad-string-token>,
-    // <bad-url-token>, unmatched <)-token>, <]-token>, or <}-token>, or top-level
-    // <semicolon-token> tokens or <delim-token> tokens with a value of "!". It
-    // represents the entirety of what a valid declaration can have as its value.
+    // <bad-url-token>, unmatched <)-token>, <]-token>, or <}-token>, or
+    // top-level <semicolon-token> tokens or <delim-token> tokens with a value
+    // of "!". It represents the entirety of what a valid declaration can have
+    // as its value.
     pub(super) fn validate_declaration_value(
         &mut self,
         component_value: &ComponentValue,
