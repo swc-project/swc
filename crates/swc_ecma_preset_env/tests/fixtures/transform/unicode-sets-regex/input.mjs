@@ -25,3 +25,6 @@ export const constructorCall = new RegExp("[[a-z]--b]", "v");
 
 // A property of strings without data is only converted to a `RegExp` call.
 export const unsupported = /\p{RGI_Emoji}/v;
+
+// Two lone surrogates are not one code point.
+export const loneSurrogates = /\u{D800}\u{DC00}+/v;

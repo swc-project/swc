@@ -18,3 +18,13 @@ export const notModifiers = /\(?i:[a--b]/v;
 export const backreference = /(a)(?i:\1)/;
 
 export const constructorCall = new RegExp("(?i:a)b", "g");
+
+// Lowering can add a flag, so a call without flags gets a flags argument.
+export const constructorWithoutFlags = new RegExp("(?s:.)");
+export const callWithoutFlags = RegExp("(?m:^a$)");
+
+// The flags of the call replace the flags of a regex literal argument.
+export const literalWithFlags = new RegExp(/(?-i:a)/, "i");
+export const literalWithEmptyFlags = new RegExp(/(?s:.)/, "");
+// The flags are unknown, so the literal is kept.
+export const literalWithDynamicFlags = new RegExp(/(?i:a)/, flags);

@@ -33,11 +33,19 @@ use crate::{
 /// `flags` are the flags of the pattern. The pattern must not have the `v`
 /// flag; lower it with [`crate::transform_unicode_sets`] first.
 ///
+/// `allow_dot_all_flag` is whether the `s` flag may be added to the pattern.
+/// Pass `false` for a target that does not support the `s` flag; `.` is then
+/// always rewritten to `[\s\S]`.
+///
+/// The rewrite of `^` for `m`, and of `\b` and `\B` for `i` with the `u` flag,
+/// uses lookbehind. A target without lookbehind cannot parse the result.
+///
 /// Returns `Ok(None)` if the pattern has no modifiers, or the new flags. On
 /// error, the pattern may be partially rewritten and must be discarded.
 pub fn transform_modifiers(
     pattern: &mut Pattern,
     flags: &str,
+    allow_dot_all_flag: bool,
 ) -> Result<Option<String>, LowerError> {
     if flags.contains('v') {
         return Err(LowerError::UnicodeSetsFlag);
@@ -69,7 +77,11 @@ pub fn transform_modifiers(
     if !global.contains(Modifier::M) && scope.anchors_with_m && !scope.anchors_without_m {
         promoted |= Modifier::M;
     }
-    if !global.contains(Modifier::S) && scope.dots_with_s && !scope.dots_without_s {
+    if allow_dot_all_flag
+        && !global.contains(Modifier::S)
+        && scope.dots_with_s
+        && !scope.dots_without_s
+    {
         promoted |= Modifier::S;
     }
 
@@ -477,7 +489,7 @@ mod tests {
         let mut ast = LiteralParser::new(pattern, Some(flags), Options::default())
             .parse()
             .unwrap();
-        let Some(new_flags) = transform_modifiers(&mut ast, flags)? else {
+        let Some(new_flags) = transform_modifiers(&mut ast, flags, true)? else {
             return Ok(None);
         };
         let lowered = ast.to_string();
@@ -540,6 +552,15 @@ mod tests {
         // the pattern instead of rewriting the terms.
         assert_eq!(lowered("(?m:^a$)b", "g"), ("(?:^a$)b".into(), "gm".into()));
         assert_eq!(lowered("(?s:a.)b", ""), ("(?:a.)b".into(), "s".into()));
+        // The target does not support the `s` flag.
+        let mut ast = LiteralParser::new("(?s:a.)b", Some(""), Options::default())
+            .parse()
+            .unwrap();
+        assert_eq!(
+            transform_modifiers(&mut ast, "", false),
+            Ok(Some("".into()))
+        );
+        assert_eq!(ast.to_string(), r"(?:a[\s\S])b");
         // A `.` outside of the group needs the rewrite.
         assert_eq!(lowered("(?s:.).", ""), (r"(?:[\s\S]).".into(), "".into()));
     }
@@ -579,7 +600,7 @@ mod tests {
             .parse()
             .unwrap();
         assert_eq!(
-            transform_modifiers(&mut ast, "v"),
+            transform_modifiers(&mut ast, "v", true),
             Err(LowerError::UnicodeSetsFlag)
         );
     }

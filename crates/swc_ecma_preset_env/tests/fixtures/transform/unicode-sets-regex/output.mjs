@@ -15,3 +15,4 @@ export const reservedPunctuators = /[\x26\x28\x2D\x5D]/u;
 export const namedGroups = /(?<word>[A-Z_a-z]+)/u;
 export const constructorCall = new RegExp("[ac-z]", "u");
 export const unsupported = RegExp("\\p{RGI_Emoji}", "v");
+export const loneSurrogates = /[\uD800-\uD800][\uDC00-\uDC00]+/u;
