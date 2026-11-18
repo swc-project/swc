@@ -95,7 +95,7 @@ rand = { version = "0.8.5", default-features = false }
 rayon = { version = "1.7.0", default-features = false }
 regex = { version = "1.5.4", features = ["std", "unicode"], default-features = false }
 regress = { version = "0.11.1", features = ["std"], default-features = false }
-relative-path = { version = "2.0.0", default-features = false }
+relative-path = { version = "2.0.0", default-features = false, features = ["std", "alloc"] }
 reqwest = { version = "0.12", default-features = false }
 rustc-hash = { version = "2", default-features = false }
 ryu-js = { version = "1.0.0", default-features = false }
