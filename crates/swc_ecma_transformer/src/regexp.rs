@@ -1,4 +1,6 @@
-use rustc_hash::FxHashMap;
+use std::cell::RefCell;
+
+use rustc_hash::FxHashSet;
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{errors::HANDLER, util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -12,9 +14,7 @@ use swc_ecma_regexp::{
 };
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use crate::TraverseCtx;
@@ -66,6 +66,16 @@ pub struct RegExpOptions {
     /// When an `m` modifier applies only to some `^` or `$`, and for `\b` or
     /// `\B` in an `i` modifier group with the `u` flag, the rewrite uses
     /// lookbehind. Targets without lookbehind cannot parse the result.
+    ///
+    /// The rewritten pattern assumes the flags of the literal, and an
+    /// `(?m:...)` group that contains every `^` and `$` becomes the `m`
+    /// flag. A literal that is the direct pattern argument of a
+    /// `RegExp(...)` call with a flags argument is kept, because the call
+    /// replaces its flags. Like Babel, other ways to reuse a literal with
+    /// other flags are not followed, and they can match differently: a
+    /// variable, an alias such as `const R = RegExp`, `RegExp.call`,
+    /// `RegExp.apply`, `Reflect.construct` and `.source`. This applies to
+    /// the `v` flag as well.
     pub regexp_modifiers: bool,
     /// The syntax context of unresolved (global) identifiers.
     ///
@@ -122,19 +132,9 @@ struct RegexpPass {
     /// transform replaced it, the entries that it added are removed, so that
     /// no stale address stays in the list.
     constructor_marks: Vec<(usize, usize)>,
-    /// Bindings that were assigned the global `RegExp` or the global object,
-    /// for example the temporary `_RegExp` that optional chaining lowering
-    /// creates for `RegExp?.(...)`.
-    aliases: FxHashMap<Id, Alias>,
-}
-
-/// What an alias binding holds. See [`RegexpPass::track_alias`].
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum Alias {
-    /// The global `RegExp`.
-    RegExp,
-    /// The global object (`globalThis`, `window` or `self`).
-    GlobalObject,
+    /// The spans that a warning was reported for, so that a regex is reported
+    /// once even when it is visited again as part of a generated call.
+    warned: RefCell<FxHashSet<Span>>,
 }
 
 /// What a callee named `RegExp` refers to.
@@ -146,11 +146,6 @@ enum RegExpCallee {
     /// A resolved identifier, but the pass does not know the unresolved
     /// context, so it cannot tell a local binding from the global one.
     Unknown,
-    /// A binding that was assigned the global `RegExp` somewhere, or a call
-    /// through `RegExp.call`. The binding may hold another value by the time
-    /// of the call, so only the regex literals of the call are kept. Its
-    /// arguments are not rewritten and not reported.
-    MaybeAlias,
 }
 
 impl RegexpPass {
@@ -159,17 +154,20 @@ impl RegexpPass {
             options,
             constructor_literals: Vec::new(),
             constructor_marks: Vec::new(),
-            aliases: FxHashMap::default(),
+            warned: Default::default(),
         }
     }
 
     /// Returns what `callee` refers to, or `None` if it is not `RegExp` or is a
     /// local binding named `RegExp`.
+    ///
+    /// Only direct references are recognized. Indirect ones, such as an alias
+    /// (`const R = RegExp`), `RegExp.call`, `RegExp.apply` or
+    /// `Reflect.construct`, are not followed. See
+    /// [`RegExpOptions::regexp_modifiers`].
     fn regexp_callee(&self, callee: &Expr) -> Option<RegExpCallee> {
         match callee.unwrap_parens() {
             Expr::Ident(ident) if ident.sym == "RegExp" => self.global_ident(ident),
-            Expr::Ident(ident) => (self.aliases.get(&ident.to_id()) == Some(&Alias::RegExp))
-                .then_some(RegExpCallee::MaybeAlias),
             // `globalThis.RegExp`, `window["RegExp"]` and `self?.RegExp`.
             Expr::Member(member) => self.global_member_regexp(member),
             Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
@@ -193,39 +191,7 @@ impl RegexpPass {
         if !is_regexp {
             return None;
         }
-        // A global `RegExp` through an alias of the global object is only a
-        // possible alias.
         self.global_object(&member.obj)
-    }
-
-    /// Returns the arguments of a `RegExp` call that are passed to `RegExp`.
-    /// For `RegExp.call(thisArg, pattern, flags)`, the first argument is
-    /// skipped and the call counts as [`RegExpCallee::MaybeAlias`].
-    fn regexp_call_args<'a>(
-        &self,
-        callee: &Expr,
-        args: &'a mut [ExprOrSpread],
-    ) -> Option<(RegExpCallee, &'a mut [ExprOrSpread])> {
-        if let Some(kind) = self.regexp_callee(callee) {
-            return Some((kind, args));
-        }
-        let Expr::Member(MemberExpr {
-            obj,
-            prop: MemberProp::Ident(prop),
-            ..
-        }) = callee.unwrap_parens()
-        else {
-            return None;
-        };
-        if prop.sym != "call" || self.regexp_callee(obj).is_none() {
-            return None;
-        }
-        match args.split_first_mut() {
-            Some((this_arg, rest)) if this_arg.spread.is_none() => {
-                Some((RegExpCallee::MaybeAlias, rest))
-            }
-            _ => None,
-        }
     }
 
     /// Returns whether `expr` refers to the global object.
@@ -234,56 +200,29 @@ impl RegexpPass {
             Expr::Ident(ident) if matches!(&*ident.sym, "globalThis" | "window" | "self") => {
                 self.global_ident(ident)
             }
-            Expr::Ident(ident) => (self.aliases.get(&ident.to_id()) == Some(&Alias::GlobalObject))
-                .then_some(RegExpCallee::MaybeAlias),
             _ => None,
         }
     }
 
-    /// Records `x = RegExp` and `x = globalThis`, so that `x(...)` and
-    /// `x.RegExp(...)` are recognized as possible calls to the global
-    /// `RegExp`.
-    ///
-    /// Optional chaining lowering turns `RegExp?.(/re/, "i")` into
-    /// `(_RegExp = RegExp) == null ? void 0 : _RegExp(/re/, "i")` before this
-    /// pass runs. The assignment is visited before the call.
-    fn track_alias(&mut self, expr: &Expr) {
-        let Expr::Assign(AssignExpr {
-            op: op!("="),
-            left: AssignTarget::Simple(SimpleAssignTarget::Ident(binding)),
-            right,
-            ..
-        }) = expr
-        else {
-            return;
-        };
-        self.record_alias(&binding.id, right);
+    /// Reports that a regular expression keeps syntax that the targets may not
+    /// support. A span is reported once.
+    fn warn(&self, span: Span, feature: &str, reason: impl std::fmt::Display) {
+        self.warn_message(
+            span,
+            &format!(
+                "Cannot lower {feature} in this regular expression for the configured targets: \
+                 {reason}. The regular expression is kept, and it can fail on those targets."
+            ),
+        );
     }
 
-    /// Records `const x = RegExp` and `const x = globalThis`. See
-    /// [`Self::track_alias`].
-    fn track_declarator_alias(&mut self, declarator: &VarDeclarator) {
-        if let (Pat::Ident(binding), Some(init)) = (&declarator.name, &declarator.init) {
-            self.record_alias(&binding.id, init);
+    /// Reports `message` at `span`, unless a warning was already reported for
+    /// the span.
+    fn warn_message(&self, span: Span, message: &str) {
+        if !span.is_dummy() && !self.warned.borrow_mut().insert(span) {
+            return;
         }
-    }
-
-    /// Records that `binding` may hold the global `RegExp` or the global
-    /// object, if `value` is one of them.
-    ///
-    /// An alias is never removed. The pass visits code in source order, not
-    /// in execution order, so it cannot tell which value a binding holds at a
-    /// call. A possible alias only keeps the regex literals of a call, which
-    /// is always safe.
-    fn record_alias(&mut self, binding: &Ident, value: &Expr) {
-        let alias = if self.regexp_callee(value).is_some() {
-            Alias::RegExp
-        } else if self.global_object(value).is_some() {
-            Alias::GlobalObject
-        } else {
-            return;
-        };
-        self.aliases.insert(binding.to_id(), alias);
+        emit_warning(span, message);
     }
 
     /// Returns an identifier for the global `RegExp`, for generated calls.
@@ -326,12 +265,18 @@ impl RegexpPass {
         }
     }
 
-    /// Returns true if `expr` is the global `undefined`.
+    /// Returns true if `expr` is the global `undefined`, or `void` of a
+    /// literal (for example `void 0`).
     fn is_global_undefined(&self, expr: &Expr) -> bool {
         match expr.unwrap_parens() {
             Expr::Ident(ident) if ident.sym == "undefined" => {
                 self.global_ident(ident) == Some(RegExpCallee::Global)
             }
+            Expr::Unary(UnaryExpr {
+                op: op!("void"),
+                arg,
+                ..
+            }) => matches!(arg.unwrap_parens(), Expr::Lit(_)),
             _ => false,
         }
     }
@@ -375,15 +320,13 @@ impl RegexpPass {
     /// regex literal that the pattern argument can evaluate to is then kept as
     /// it is (for example also in `cond ? /a/ : /b/` or `re || /a/`).
     fn prepare_constructor(&mut self, expr: &mut Expr) {
-        self.track_alias(expr);
-
         let address = expr as *const Expr as usize;
         let Some((callee, args)) = regexp_call_parts(expr) else {
             return;
         };
-        let Some((_, args)) = self.regexp_call_args(callee, args) else {
+        if self.regexp_callee(callee).is_none() {
             return;
-        };
+        }
         // Removed in `transform_expr` when the expression at `address` is
         // left.
         self.constructor_marks
@@ -435,11 +378,11 @@ impl RegexpPass {
                     // the parser rejects (for example a script name that it does
                     // not know) keeps the `v` flag.
                     if lower_unicode_sets {
-                        warn_not_lowered(span, "the `v` flag", "the pattern cannot be parsed");
+                        self.warn(span, "the `v` flag", "the pattern cannot be parsed");
                     } else {
                         // The text check for modifier groups can report a false
                         // positive, so do not claim that the pattern has one.
-                        warn_not_lowered(
+                        self.warn(
                             span,
                             "possible regexp modifiers",
                             "the pattern cannot be parsed",
@@ -464,11 +407,11 @@ impl RegexpPass {
             if let Err(err) = transform_unicode_sets(&mut ast, flags.contains('i')) {
                 debug!(%pattern, %flags, %err, "cannot lower the `v` flag");
                 if lower_unicode_sets {
-                    warn_not_lowered(span, "the `v` flag", err);
+                    self.warn(span, "the `v` flag", err);
                 } else {
                     // The target supports the `v` flag, but the modifiers can
                     // only be lowered in a `u` pattern.
-                    warn_not_lowered(
+                    self.warn(
                         span,
                         "regexp modifiers",
                         format!("the `v` flag must be lowered first, but {err}"),
@@ -479,10 +422,11 @@ impl RegexpPass {
             flags = flags.replace('v', "u");
             changed = true;
             if self.options.unicode_regex {
-                warn_not_lowered(
+                self.warn_message(
                     span,
-                    "the `u` flag",
-                    "the lowered `v` pattern needs the `u` flag",
+                    "The `v` flag of this regular expression is lowered to the `u` flag, which \
+                     the configured targets do not support. The regular expression can fail on \
+                     those targets.",
                 );
             }
         }
@@ -496,7 +440,7 @@ impl RegexpPass {
                 Ok(None) => {}
                 Err(err) => {
                     debug!(%pattern, %flags, %err, "cannot lower regexp modifiers");
-                    warn_not_lowered(span, "regexp modifiers", err);
+                    self.warn(span, "regexp modifiers", err);
                     return None;
                 }
             }
@@ -608,7 +552,7 @@ impl RegexpPass {
                 Expr::Lit(Lit::Regex(regex)) if regex.flags.contains('v')
             );
             if uses_unicode_sets && !reported_by_literal {
-                warn_not_lowered(pattern.span(), "the `v` flag", REASON);
+                self.warn(pattern.span(), "the `v` flag", REASON);
             }
             return;
         };
@@ -618,7 +562,7 @@ impl RegexpPass {
         let lossy = value.to_atom_lossy();
         let pattern = &**lossy;
         if uses_unicode_sets {
-            warn_not_lowered(span, "the `v` flag", REASON);
+            self.warn(span, "the `v` flag", REASON);
             return;
         }
         if self.options.regexp_modifiers
@@ -627,7 +571,7 @@ impl RegexpPass {
                 .parse()
                 .map_or(true, |ast| has_modifiers(&ast))
         {
-            warn_not_lowered(span, "regexp modifiers", REASON);
+            self.warn(span, "regexp modifiers", REASON);
             return;
         }
         // Duplicate names do not depend on the flags.
@@ -647,7 +591,7 @@ impl RegexpPass {
         let mut mapping = Vec::new();
         collect_named_groups(&ast.body, &mut 0, &mut mapping);
         if mapping.iter().any(|(_, indices)| indices.len() > 1) {
-            warn_not_lowered(
+            self.warn(
                 span,
                 "duplicate named capturing groups",
                 "only regex literals are lowered, not a `RegExp` call",
@@ -701,7 +645,7 @@ impl RegexpPass {
         };
         stripper.strip_disjunction(&mut ast.body);
         if stripper.unsupported {
-            warn_not_lowered(
+            self.warn(
                 span,
                 "duplicate named capturing groups",
                 "a backreference refers to a duplicated group name",
@@ -781,10 +725,6 @@ impl VisitMutHook<TraverseCtx> for RegexpPass {
         self.prepare_constructor(expr);
     }
 
-    fn enter_var_declarator(&mut self, declarator: &mut VarDeclarator, _: &mut TraverseCtx) {
-        self.track_declarator_alias(declarator);
-    }
-
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
         self.transform_expr(expr);
     }
@@ -797,11 +737,6 @@ impl VisitMut for RegexpPass {
         self.prepare_constructor(expr);
         expr.visit_mut_children_with(self);
         self.transform_expr(expr);
-    }
-
-    fn visit_mut_var_declarator(&mut self, declarator: &mut VarDeclarator) {
-        self.track_declarator_alias(declarator);
-        declarator.visit_mut_children_with(self);
     }
 }
 
@@ -825,8 +760,13 @@ impl RegexpPass {
                     None => false,
                 };
 
-                if in_constructor && self.has_syntax_to_lower(&regex.exp, &regex.flags) {
-                    warn_not_lowered(
+                let lowers_named_groups = (self.options.named_capturing_groups_regex
+                    || self.options.duplicate_named_capturing_groups_regex)
+                    && may_have_named_groups(&regex.exp);
+                if in_constructor
+                    && (lowers_named_groups || self.has_syntax_to_lower(&regex.exp, &regex.flags))
+                {
+                    self.warn(
                         regex.span,
                         "the syntax",
                         "the enclosing `RegExp` call can replace the flags of this literal",
@@ -841,11 +781,10 @@ impl RegexpPass {
                     regex.flags = flags.into();
                 }
 
-                // Try named groups transform first
-                if (self.options.named_capturing_groups_regex
-                    || self.options.duplicate_named_capturing_groups_regex)
-                    && regex.exp.contains("(?<")
-                {
+                // Try named groups transform first. A literal in a `RegExp` call
+                // is kept, because the call copies only the pattern, not the
+                // group names that `_wrap_reg_exp` restores.
+                if !in_constructor && lowers_named_groups {
                     let original_exp = regex.exp.clone();
 
                     if let Some((stripped_exp, group_mapping)) =
@@ -907,8 +846,12 @@ impl RegexpPass {
                     }
                 }
 
-                // Non-named-group transforms (or named group extraction failed)
-                let needs_transform = self.needs_regexp_constructor(&regex.exp, &regex.flags);
+                // Non-named-group transforms (or named group extraction failed).
+                // Named groups that a target may not parse are kept in a
+                // `RegExp` call, so that the target rejects only this
+                // expression, not the whole script.
+                let needs_transform = self.needs_regexp_constructor(&regex.exp, &regex.flags)
+                    || (in_constructor && lowers_named_groups);
 
                 if needs_transform {
                     let Regex { exp, flags, span } = regex.take();
@@ -937,10 +880,8 @@ impl RegexpPass {
             }
             _ => {
                 if let Some((callee, args)) = regexp_call_parts(expr) {
-                    if let Some((callee, args)) = self.regexp_call_args(callee, args) {
-                        if callee != RegExpCallee::MaybeAlias {
-                            self.transform_regexp_args(args, callee);
-                        }
+                    if let Some(callee) = self.regexp_callee(callee) {
+                        self.transform_regexp_args(args, callee);
                     }
                 }
             }
@@ -986,24 +927,15 @@ fn regexp_call_parts(expr: &mut Expr) -> Option<(&Expr, &mut Vec<ExprOrSpread>)>
 /// Collects the addresses of the regex literals that the pattern argument of a
 /// `RegExp` call can evaluate to.
 ///
-/// Known value positions are followed: parentheses, both branches of a
+/// Only direct value positions are followed: parentheses, both branches of a
 /// conditional (not the test), logical operators, the last expression of a
 /// sequence, the right side of an assignment and the elements of an array
-/// (for a spread). Expressions that cannot produce a regex, such as other
-/// binary operators, are skipped. For any other expression, such as a call,
-/// every regex literal inside is collected, because it may be returned.
+/// (for a spread). A literal elsewhere, for example in a call that computes
+/// the pattern, is not passed to `RegExp` directly, so it is lowered as
+/// usual.
 fn collect_pattern_literals(expr: &Expr, literals: &mut Vec<usize>) {
     match expr {
         Expr::Lit(Lit::Regex(regex)) => literals.push(regex as *const Regex as usize),
-        Expr::Lit(_)
-        | Expr::Ident(_)
-        | Expr::This(_)
-        | Expr::Tpl(_)
-        | Expr::Unary(_)
-        | Expr::Update(_)
-        | Expr::Arrow(_)
-        | Expr::Fn(_)
-        | Expr::Class(_) => {}
         Expr::Paren(paren) => collect_pattern_literals(&paren.expr, literals),
         Expr::Cond(cond) => {
             collect_pattern_literals(&cond.cons, literals);
@@ -1013,7 +945,6 @@ fn collect_pattern_literals(expr: &Expr, literals: &mut Vec<usize>) {
             collect_pattern_literals(&bin.left, literals);
             collect_pattern_literals(&bin.right, literals);
         }
-        Expr::Bin(_) => {}
         Expr::Seq(seq) => {
             if let Some(last) = seq.exprs.last() {
                 collect_pattern_literals(last, literals);
@@ -1025,23 +956,7 @@ fn collect_pattern_literals(expr: &Expr, literals: &mut Vec<usize>) {
                 collect_pattern_literals(&elem.expr, literals);
             }
         }
-        _ => {
-            let mut collector = RegexLiteralCollector { literals };
-            expr.visit_with(&mut collector);
-        }
-    }
-}
-
-/// Collects the addresses of all regex literals in an expression.
-struct RegexLiteralCollector<'a> {
-    literals: &'a mut Vec<usize>,
-}
-
-impl Visit for RegexLiteralCollector<'_> {
-    noop_visit_type!(fail);
-
-    fn visit_regex(&mut self, regex: &Regex) {
-        self.literals.push(regex as *const Regex as usize);
+        _ => {}
     }
 }
 
@@ -1059,25 +974,23 @@ fn static_string(expr: &Expr) -> Option<(Span, &Wtf8Atom)> {
     }
 }
 
-/// Reports that a regular expression keeps syntax that the target may not
-/// support.
-fn warn_not_lowered(span: Span, feature: &str, err: impl std::fmt::Display) {
+/// Reports a warning at `span`.
+fn emit_warning(span: Span, message: &str) {
     if !HANDLER.is_set() {
         return;
     }
 
     HANDLER.with(|handler| {
-        handler
-            .struct_span_warn(
-                span,
-                &format!(
-                    "Cannot lower {feature} in this regular expression for the configured \
-                     targets: {err}. The regular expression is kept, and it can fail on those \
-                     targets."
-                ),
-            )
-            .emit();
+        handler.struct_span_warn(span, message).emit();
     });
+}
+
+/// Returns true if `pattern` may contain a named group such as `(?<name>`. A
+/// lookbehind (`(?<=`, `(?<!`) is not a named group.
+fn may_have_named_groups(pattern: &str) -> bool {
+    pattern
+        .match_indices("(?<")
+        .any(|(idx, _)| !matches!(pattern.as_bytes().get(idx + 3), Some(b'=' | b'!')))
 }
 
 /// Returns true if `pattern` may contain a modifier group such as `(?i:` or

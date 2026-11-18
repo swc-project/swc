@@ -1,32 +1,9 @@
   ! Cannot lower the syntax in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags of this literal. The regular expression is kept, and it can fail on those targets.
-   ,-[$DIR/tests/compile/regexp/modifiers/aliases/input/index.js:4:1]
- 1 | // A binding that may hold the global `RegExp` keeps the literal, because the
- 2 | // call replaces its flags.
- 3 | const R = RegExp;
- 4 | export const constAlias = R(/(?-i:a)/, "i");
-   :                             ^^^^^^^^^
- 5 | export const callMethod = RegExp.call(null, /(?-i:a)/, "i");
- 6 | // An empty spread can come before the pattern.
- 7 | export const leadingSpread = RegExp(...[], /(?-i:a)/, "i");
+   ,-[$DIR/tests/compile/regexp/modifiers/aliases/input/index.js:2:1]
+ 1 | // An empty spread can come before the pattern, so the literal is kept.
+ 2 | export const leadingSpread = RegExp(...[], /(?-i:a)/, "i");
+   :                                            ^^^^^^^^^
+ 3 | 
+ 4 | // Aliases are not followed, so the string arguments of a binding that was
+ 5 | // assigned `RegExp` somewhere are not rewritten.
    `----
-  ! Cannot lower the syntax in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags of this literal. The regular expression is kept, and it can fail on those targets.
-   ,-[$DIR/tests/compile/regexp/modifiers/aliases/input/index.js:5:1]
- 2 | // call replaces its flags.
- 3 | const R = RegExp;
- 4 | export const constAlias = R(/(?-i:a)/, "i");
- 5 | export const callMethod = RegExp.call(null, /(?-i:a)/, "i");
-   :                                             ^^^^^^^^^
- 6 | // An empty spread can come before the pattern.
- 7 | export const leadingSpread = RegExp(...[], /(?-i:a)/, "i");
-   `----
-  ! Cannot lower the syntax in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags of this literal. The regular expression is kept, and it can fail on those targets.
-    ,-[$DIR/tests/compile/regexp/modifiers/aliases/input/index.js:7:1]
-  4 | export const constAlias = R(/(?-i:a)/, "i");
-  5 | export const callMethod = RegExp.call(null, /(?-i:a)/, "i");
-  6 | // An empty spread can come before the pattern.
-  7 | export const leadingSpread = RegExp(...[], /(?-i:a)/, "i");
-    :                                            ^^^^^^^^^
-  8 | 
-  9 | // The binding may hold another value at the call, so its string arguments are
- 10 | // not rewritten.
-    `----

@@ -46,3 +46,6 @@ export function supportsUnicodeSets() {
 export const computedMember = globalThis["RegExp"](RegExp("(?-i:a)"), "i");
 export const optionalMember = globalThis?.RegExp(RegExp("(?-i:a)"), "i");
 export const conditionalTest = RegExp(/(?:[Aa])/.test("A") ? "b" : "c", "g");
+export const voidFlags = RegExp(/(?:[Aa])/, void 0);
+export const replacePattern = (s)=>new RegExp(s.replace(/(?:[Aa])/g, ""), "g");
+export const namedGroupsInCall = new RegExp(RegExp("(?<x>a)|(?<x>b)"), "g");

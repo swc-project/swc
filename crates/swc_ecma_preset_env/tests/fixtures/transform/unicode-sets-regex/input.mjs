@@ -70,3 +70,10 @@ export const optionalMember = globalThis?.RegExp(/(?-i:a)/, "i");
 // A literal used only in the test of a conditional is not the pattern, so it
 // is lowered.
 export const conditionalTest = RegExp(/(?i:a)/.test("A") ? "b" : "c", "g");
+// `void 0` means no flags, so the call keeps the flags of the literal.
+export const voidFlags = RegExp(/(?i:a)/, void 0);
+// A literal that only computes the pattern is not passed to `RegExp`.
+export const replacePattern = (s) => new RegExp(s.replace(/(?i:a)/g, ""), "g");
+// A literal with named groups is kept for the call, which does not copy the
+// group names.
+export const namedGroupsInCall = new RegExp(/(?<x>a)|(?<x>b)/, "g");
