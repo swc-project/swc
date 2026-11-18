@@ -92,8 +92,9 @@ impl serde::ser::Serialize for Wtf8Atom {
 
             while let Some(code_point) = iter.next() {
                 if let Some(c) = code_point.to_char() {
-                    // Escape literal '\u' sequences to avoid ambiguity with surrogate encoding.
-                    // Without this escaping, we couldn't distinguish between:
+                    // Escape literal '\u' sequences to avoid ambiguity with
+                    // surrogate encoding. Without this escaping, we couldn't
+                    // distinguish between:
                     // - JavaScript's "\uD800" (actual unpaired surrogate)
                     // - JavaScript's "\\uD800" (literal text '\uD800')
                     //
@@ -101,11 +102,13 @@ impl serde::ser::Serialize for Wtf8Atom {
                     // - Unpaired surrogates serialize as '\uXXXX'
                     // - Literal '\u' text serializes as '\\uXXXX'
                     //
-                    // However, we should only escape '\u' if it's followed by exactly 4 hex digits,
-                    // which would indicate a Unicode escape sequence. Otherwise, '\u' followed by
+                    // However, we should only escape '\u' if it's followed by
+                    // exactly 4 hex digits, which would indicate a Unicode
+                    // escape sequence. Otherwise, '\u' followed by
                     // non-hex characters (like '\util') should not be escaped.
                     if c == '\\' && iter.peek().map(|cp| cp.to_u32()) == Some('u' as u32) {
-                        // Look ahead to see if this is followed by exactly 4 hex digits
+                        // Look ahead to see if this is followed by exactly 4
+                        // hex digits
                         let mut lookahead = iter.clone();
                         lookahead.next(); // skip 'u'
 
@@ -130,7 +133,8 @@ impl serde::ser::Serialize for Wtf8Atom {
                             }
                         }
 
-                        // Only escape if we have exactly 4 hex digits after '\u'
+                        // Only escape if we have exactly 4 hex digits after
+                        // '\u'
                         if hex_count == 4 && all_hex {
                             iter.next(); // skip 'u'
                             result.push_str("\\\\u");
@@ -258,8 +262,8 @@ impl PartialEq for Wtf8Atom {
         }
 
         match tag {
-            // Inline atoms encode both their length and bytes in `unsafe_data`, so
-            // different raw values mean different strings.
+            // Inline atoms encode both their length and bytes in `unsafe_data`,
+            // so different raw values mean different strings.
             INLINE_TAG => false,
             DYNAMIC_TAG => {
                 let this = unsafe { crate::dynamic::deref_from(unsafe_data) };
@@ -483,7 +487,8 @@ mod tests {
     #[cfg(feature = "serde")]
     #[test]
     fn test_deserialize_unpaired_surrogates() {
-        let json = "\"\\\\uD800\""; // Use escaped format that matches serialization
+        let json = "\"\\\\uD800\""; // Use escaped format that matches
+                                    // serialization
         let atom: Wtf8Atom = serde_json::from_str(json).unwrap();
         // Should contain an unpaired surrogate, so as_str() returns None
         assert_eq!(atom.as_str(), None);
@@ -525,12 +530,15 @@ mod tests {
     #[cfg(feature = "serde")]
     #[test]
     fn test_round_trip_mixed_content() {
-        // Create a complex string with normal text, emojis, and unpaired surrogates
+        // Create a complex string with normal text, emojis, and unpaired
+        // surrogates
         let mut wtf8 = Wtf8Buf::new();
         wtf8.push_str("Hello 世界 🌍 ");
-        wtf8.push(unsafe { CodePoint::from_u32_unchecked(0xd83d) }); // Unpaired high
+        wtf8.push(unsafe { CodePoint::from_u32_unchecked(0xd83d) }); // Unpaired
+                                                                     // high
         wtf8.push_str(" test ");
-        wtf8.push(unsafe { CodePoint::from_u32_unchecked(0xdca9) }); // Unpaired low
+        wtf8.push(unsafe { CodePoint::from_u32_unchecked(0xdca9) }); // Unpaired
+                                                                     // low
         let original = Wtf8Atom::from(wtf8);
 
         let serialized = serde_json::to_string(&original).unwrap();
@@ -592,21 +600,23 @@ mod tests {
     #[test]
     fn test_deserialize_incomplete_escape() {
         // Test handling of incomplete escape sequences from our custom format
-        let json = "\"\\\\\\\\u123\""; // Escaped backslash + incomplete sequence
+        let json = "\"\\\\\\\\u123\""; // Escaped backslash + incomplete
+                                       // sequence
         let atom: Wtf8Atom = serde_json::from_str(json).unwrap();
-        // JSON decodes \\\\u123 to \\u123, then our deserializer sees \u123 and treats
-        // it as literal
+        // JSON decodes \\\\u123 to \\u123, then our deserializer sees \u123 and
+        // treats it as literal
         assert_eq!(atom.as_str(), Some("\\u123"));
     }
 
     #[cfg(feature = "serde")]
     #[test]
     fn test_deserialize_invalid_hex() {
-        // Test handling of invalid hex in escape sequences from our custom format
+        // Test handling of invalid hex in escape sequences from our custom
+        // format
         let json = "\"\\\\\\\\uGGGG\""; // Escaped backslash + invalid hex
         let atom: Wtf8Atom = serde_json::from_str(json).unwrap();
-        // JSON decodes \\\\uGGGG to \\uGGGG, then our deserializer sees \uGGGG and
-        // treats it as literal
+        // JSON decodes \\\\uGGGG to \\uGGGG, then our deserializer sees \uGGGG
+        // and treats it as literal
         assert_eq!(atom.as_str(), Some("\\uGGGG"));
     }
 

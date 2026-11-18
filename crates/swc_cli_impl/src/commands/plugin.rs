@@ -118,9 +118,9 @@ impl super::CommandRunner for PluginScaffoldOptions {
 
         let name = get_name(self)?;
 
-        // Choose to rely on system's git binary instead of depends on git lib for now
-        // to avoid bring in large / heavy dependencies into cli binaries.
-        // Depends on our usecase grows, we can revisit this.
+        // Choose to rely on system's git binary instead of depends on git lib
+        // for now to avoid bring in large / heavy dependencies into cli
+        // binaries. Depends on our usecase grows, we can revisit this.
         let mut base_git_cmd = if cfg!(target_os = "windows") {
             let mut c = std::process::Command::new("cmd");
             c.arg("/C").arg("git");

@@ -409,8 +409,8 @@ impl Options {
 
         // Do a resolver pass before everything.
         //
-        // We do this before creating custom passes, so custom passses can use the
-        // variable management system based on the syntax contexts.
+        // We do this before creating custom passes, so custom passses can use
+        // the variable management system based on the syntax contexts.
         if syntax.typescript() {
             assumptions.set_class_methods |= !transform.use_define_for_class_fields.into_bool();
         }
@@ -645,9 +645,9 @@ impl Options {
             }
         });
 
-        // inline_script defaults to true, but it's case only if minify is enabled.
-        // This is because minifier API is compatible with Terser, and Terser
-        // defaults to true, while by default swc itself doesn't enable
+        // inline_script defaults to true, but it's case only if minify is
+        // enabled. This is because minifier API is compatible with Terser, and
+        // Terser defaults to true, while by default swc itself doesn't enable
         // inline_script by default.
         let codegen_inline_script = js_minify.as_ref().is_some_and(|v| v.format.inline_script);
 
@@ -747,9 +747,9 @@ impl Options {
                 rewrite_relative_import_extensions.into_bool(),
             );
 
-            // swc_import_rewriter should be in front of typescript_import_rewriter
-            // because path aliases should be resolved before rewriting relative import
-            // extensions
+            // swc_import_rewriter should be in front of
+            // typescript_import_rewriter because path aliases should be
+            // resolved before rewriting relative import extensions
             Box::new((swc_import_rewriter, typescript_import_rewriter))
         };
         #[cfg(not(feature = "module"))]
@@ -767,8 +767,9 @@ impl Options {
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer,
             ),
-            // Rewrite import pass should be before inject_helpers pass because typescript import
-            // rewriter may require ts_rewrite_relative_import_extension helper
+            // Rewrite import pass should be before inject_helpers pass because
+            // typescript import rewriter may require
+            // ts_rewrite_relative_import_extension helper
             rewrite_import_pass,
             Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
             ModuleConfig::build(
@@ -875,9 +876,11 @@ impl Options {
             }
 
             // Native runtime plugin target, based on assumption we have
-            // 1. no filesystem access, loading binary / cache management should be
+            // 1. no filesystem access, loading binary / cache management should
+            //    be
             // performed externally
-            // 2. native runtime compiles & execute wasm (i.e v8 on node, chrome)
+            // 2. native runtime compiles & execute wasm (i.e v8 on node,
+            //    chrome)
             #[cfg(all(feature = "plugin", target_arch = "wasm32"))]
             {
                 handler.warn(
@@ -957,8 +960,8 @@ impl Options {
                         explicit_resource_management(),
                         syntax.explicit_resource_management(),
                     ),
-                    // The transform strips import assertions, so it's only enabled if
-                    // keep_import_assertions is false.
+                    // The transform strips import assertions, so it's only
+                    // enabled if keep_import_assertions is false.
                     Optional::new(import_attributes(), !keep_import_attributes),
                 ),
                 ({

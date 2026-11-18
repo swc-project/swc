@@ -339,7 +339,8 @@ impl<I: Tokens> Buffer<I> {
 
     #[inline(always)]
     pub(crate) fn has_escaped_keyword(&self) -> bool {
-        // Keyword tokens only carry a word value when their spelling has escapes.
+        // Keyword tokens only carry a word value when their spelling has
+        // escapes.
         (self.cur().is_keyword() || self.cur().is_known_ident())
             && matches!(self.get_token_value(), Some(TokenValue::Word(_)))
     }

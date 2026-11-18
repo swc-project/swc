@@ -380,8 +380,8 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
     fn serialize_type_ref(class_name: &str, ty: &TsTypeRef) -> Expr {
         match &ty.type_name {
-            // We should omit references to self (class) since it will throw a ReferenceError at
-            // runtime due to babel transpile output.
+            // We should omit references to self (class) since it will throw a
+            // ReferenceError at runtime due to babel transpile output.
             TsEntityName::Ident(i) if &*i.sym == class_name => {
                 return quote_ident!("Object").into()
             }
@@ -390,11 +390,11 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
         let member_expr = ts_entity_to_member_expr(&ty.type_name);
 
-        // We don't know if type is just a type (interface, etc.) or a concrete value
-        // (class, etc.)
+        // We don't know if type is just a type (interface, etc.) or a concrete
+        // value (class, etc.)
         //
-        // `typeof` operator allows us to use the expression even if it is not defined,
-        // fallback is just `Object`.
+        // `typeof` operator allows us to use the expression even if it is not
+        // defined, fallback is just `Object`.
 
         CondExpr {
             span: DUMMY_SP,
@@ -422,8 +422,8 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                     continue;
                 }
 
-                // Elide null and undefined from unions for metadata, just like what we did prior to
-                // the implementation of strict null checks
+                // Elide null and undefined from unions for metadata, just like
+                // what we did prior to the implementation of strict null checks
                 TsType::TsKeywordType(TsKeywordType {
                     kind: TsKeywordTypeKind::TsNullKeyword,
                     ..

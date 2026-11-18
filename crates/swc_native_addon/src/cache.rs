@@ -210,9 +210,10 @@ fn temporary_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
         .map_err(|e| io_error("prepare temporary addon", file.path(), e))?;
     payload.decode_into(file.as_file_mut())?;
     // File writes are already visible to the image loader. This process-local
-    // image does not need to survive power loss, so no durability flush is needed.
-    // Close the writable file before mapping an image on Windows. Retaining a
-    // write handle can conflict with the OS image loader's sharing requirements.
+    // image does not need to survive power loss, so no durability flush is
+    // needed. Close the writable file before mapping an image on Windows.
+    // Retaining a write handle can conflict with the OS image loader's sharing
+    // requirements.
     let path = file.into_temp_path();
     // Arm cleanup before LoadLibrary. The pipe writer is not inherited by
     // other children and closes even on forced termination of this process.
@@ -359,8 +360,8 @@ pub fn cached_at(payload: &Payload<'_>, root: &Path) -> Result<Materialized> {
             .map_err(|e| io_error("prepare staged cache image", staged.path(), e))?;
         payload.decode_into(staged.as_file_mut())?;
         payload.verify_image(staged.as_file_mut())?;
-        // All cooperating readers hold the digest lock, including during repair.
-        // No writer ever truncates the canonical filename in place.
+        // All cooperating readers hold the digest lock, including during
+        // repair. No writer ever truncates the canonical filename in place.
         let staged = staged.into_temp_path();
         platform::replace_file(&staged, &path)
             .map_err(|e| io_error("atomically publish cache entry", &path, e))?;

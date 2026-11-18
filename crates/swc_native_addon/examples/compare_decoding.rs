@@ -50,7 +50,8 @@ fn process_cpu_seconds() -> Option<f64> {
         tv_sec: 0,
         tv_nsec: 0,
     };
-    // Measure CPU consumed by this benchmark process, excluding scheduler waits.
+    // Measure CPU consumed by this benchmark process, excluding scheduler
+    // waits.
     let result = unsafe { libc::clock_gettime(libc::CLOCK_PROCESS_CPUTIME_ID, &mut time) };
     (result == 0).then(|| time.tv_sec as f64 + time.tv_nsec as f64 / 1_000_000_000.0)
 }

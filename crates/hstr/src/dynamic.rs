@@ -167,8 +167,9 @@ pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
             Some(tag) => tag,
             None => unreachable!(),
         });
-        // This odd pattern is needed because we cannot create slices from ranges or
-        // ranges at all in constant context.  So we write our own copying loop.
+        // This odd pattern is needed because we cannot create slices from
+        // ranges or ranges at all in constant context.  So we write our own
+        // copying loop.
         unsafe {
             let data = unsafe_data.data_mut();
             let bytes = text.as_bytes();
@@ -263,7 +264,8 @@ mod tests {
     use crate::{dynamic::GLOBAL_DATA, global_atom_store_gc, Atom};
 
     fn expect_size(expected: usize) {
-        // This is a helper function to count the number of bytes in the global store.
+        // This is a helper function to count the number of bytes in the global
+        // store.
         GLOBAL_DATA.with(|global| {
             let store = global.borrow();
             assert_eq!(store.data.len(), expected);
@@ -274,8 +276,8 @@ mod tests {
     fn global_ref_count_dynamic_0() {
         expect_size(0);
 
-        // The strings should be long enough so that they are not inline even under
-        // feature `atom_size_128`
+        // The strings should be long enough so that they are not inline even
+        // under feature `atom_size_128`
         let atom1 = Atom::new("Hello, beautiful world!");
 
         expect_size(1);

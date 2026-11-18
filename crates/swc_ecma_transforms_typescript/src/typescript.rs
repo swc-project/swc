@@ -189,10 +189,10 @@ where
     C: Comments,
 {
     fn visit_mut_module(&mut self, n: &mut Module) {
-        // We count `React` or pragma from config as ident usage and do not strip it
-        // from import statement.
-        // But in `verbatim_module_syntax` mode, we do not remove any unused imports.
-        // So we do not need to collect usage info.
+        // We count `React` or pragma from config as ident usage and do not
+        // strip it from import statement.
+        // But in `verbatim_module_syntax` mode, we do not remove any unused
+        // imports. So we do not need to collect usage info.
         if !self.config.verbatim_module_syntax {
             let pragma = parse_expr_for_jsx(
                 &self.cm,

@@ -41,9 +41,9 @@ impl CustomMediaHandler {
     }
 
     pub(crate) fn process_media_query(&mut self, n: &mut MediaQuery) {
-        // Limited support for `modifier` and `media_type`, it is impossible to lowering
-        // syntax for multiple media types, so we handle only case when only one media
-        // type exists.
+        // Limited support for `modifier` and `media_type`, it is impossible to
+        // lowering syntax for multiple media types, so we handle only case when
+        // only one media type exists.
         if let Some((modifier, media_type)) = self.modifier_and_media_type.take() {
             n.modifier = modifier;
             n.media_type = media_type;
@@ -238,7 +238,8 @@ impl CustomMediaHandler {
 
                 let queries = match &custom_media.media {
                     CustomMediaQueryMediaType::Ident(_) => {
-                        // TODO make me warning, we should keep code as is in such cases
+                        // TODO make me warning, we should keep code as is in
+                        // such cases
                         unimplemented!(
                             "Boolean logic in @custom-media at-rules is not supported by swc"
                         );

@@ -245,8 +245,9 @@ impl Visit for TypeUsageAnalyzer<'_> {
             }
             Decl::Var(var_decl) => {
                 for decl in &var_decl.decls {
-                    // When the name of the decl is a binding ident, the usage of its type
-                    // annotation should also depend on the usage of the ident name
+                    // When the name of the decl is a binding ident, the usage
+                    // of its type annotation should also depend on the usage of
+                    // the ident name
                     if let Some(name) = decl.name.as_ident() {
                         name.id.visit_with(self);
                         self.with_source_ident(
@@ -263,8 +264,9 @@ impl Visit for TypeUsageAnalyzer<'_> {
             }
             Decl::Using(using_decl) => {
                 for decl in &using_decl.decls {
-                    // When the name of the decl is a binding ident, the usage of its type
-                    // annotation should also depend on the usage of the ident name
+                    // When the name of the decl is a binding ident, the usage
+                    // of its type annotation should also depend on the usage of
+                    // the ident name
                     if let Some(name) = decl.name.as_ident() {
                         name.id.visit_with(self);
                         self.with_source_ident(
@@ -313,8 +315,9 @@ impl Visit for TypeUsageAnalyzer<'_> {
                         ts_module_decl.body.visit_with(this)
                     });
                 } else if let Some(ident) = ts_module_decl.id.as_ident() {
-                    // Push a new scope and set current scope to None, which indicates that
-                    // non-exported elements in ts module block are unreachable
+                    // Push a new scope and set current scope to None, which
+                    // indicates that non-exported elements in ts module block
+                    // are unreachable
                     let symbol = Symbol::new(ident.to_id(), SymbolFlags::Type);
                     self.add_edge(symbol.clone(), false);
                     let id = *self
@@ -344,8 +347,9 @@ impl Visit for TypeUsageAnalyzer<'_> {
             for specifier in &node.specifiers {
                 if let Some(name) = specifier.as_named() {
                     if let ModuleExportName::Ident(ident) = &name.orig {
-                        // We should add egdes for all three possible namespaces because there's no
-                        // mechanism to merge SymbolFlags with same Ids
+                        // We should add egdes for all three possible namespaces
+                        // because there's no mechanism to merge SymbolFlags
+                        // with same Ids
                         this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Type), true);
                         if !node.type_only {
                             this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Value), true);
@@ -366,8 +370,8 @@ impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
         self.with_source(self.source, |this| {
             if let Some(ident) = node.expr.as_ident() {
-                // We should add egdes for all three possible namespaces because there's no
-                // mechanism to merge SymbolFlags with same Ids
+                // We should add egdes for all three possible namespaces because
+                // there's no mechanism to merge SymbolFlags with same Ids
                 this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Type), true);
                 this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Value), true);
                 this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::all()), true);

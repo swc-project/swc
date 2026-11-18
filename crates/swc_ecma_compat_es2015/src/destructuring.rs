@@ -795,8 +795,8 @@ impl VisitMut for AssignFolder {
                                     }
                                     Expr::Array(..) => right.take(),
                                     _ => {
-                                        // if left has rest then need `_to_array`
-                                        // else `_sliced_to_array`
+                                        // if left has rest then need
+                                        // `_to_array` else `_sliced_to_array`
                                         if elems
                                             .iter()
                                             .any(|elem| matches!(elem, Some(Pat::Rest(..))))
@@ -967,7 +967,8 @@ impl VisitMut for AssignFolder {
                                     .into()
                                 };
 
-                                // The return value of intermediate expressions is not used
+                                // The return value of intermediate expressions
+                                // is not used
                                 let ignore_return_value = self.ignore_return_value.replace(());
                                 expr.visit_mut_with(self);
                                 self.ignore_return_value = ignore_return_value;

@@ -11915,7 +11915,8 @@ printError()
 #[test]
 fn issue_11517() {
     // Test that the minifier does not incorrectly merge if statements with
-    // similar structures but different string literal values in local variables.
+    // similar structures but different string literal values in local
+    // variables.
     run_default_exec_test(
         "
 const buildErrorLog = ({

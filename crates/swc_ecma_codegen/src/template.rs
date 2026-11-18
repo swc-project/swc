@@ -43,7 +43,8 @@ pub(crate) fn decode_unicode_escape(
 fn read_unicode_escape(iter: &mut Peekable<Chars<'_>>) -> Option<u32> {
     let mut value = 0u32;
     if iter.next_if_eq(&'{').is_some() {
-        // Read at least one digit; leading zeroes are allowed in braced escapes.
+        // Read at least one digit; leading zeroes are allowed in braced
+        // escapes.
         value = iter.next()?.to_digit(16)?;
         loop {
             let c = iter.next()?;

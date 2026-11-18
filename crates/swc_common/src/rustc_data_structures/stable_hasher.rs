@@ -131,11 +131,11 @@ impl Hasher for StableHasher {
 
     #[inline]
     fn write_isize(&mut self, i: isize) {
-        // Always treat isize as a 64-bit number so we get the same results on 32 and 64
-        // bit platforms. This is important for symbol hashes when cross
-        // compiling, for example. Sign extending here is preferable as it means
-        // that the same negative number hashes the same on both 32 and 64 bit
-        // platforms.
+        // Always treat isize as a 64-bit number so we get the same results on
+        // 32 and 64 bit platforms. This is important for symbol hashes when
+        // cross compiling, for example. Sign extending here is preferable as it
+        // means that the same negative number hashes the same on both 32 and 64
+        // bit platforms.
         let value = i as u64;
 
         // Cold path
@@ -153,14 +153,16 @@ impl Hasher for StableHasher {
         // values that have the same bit pattern when they are swapped. See https://github.com/rust-lang/rust/pull/93014 for context.
         //
         // Therefore, we employ the following strategy:
-        // 1) When we encounter a value that fits within a single byte (the most common
+        // 1) When we encounter a value that fits within a single byte (the most
+        //    common
         // case), we hash just that byte. This is the most common case that is
         // being optimized. However, we do not do this for the value 0xFF, as
         // that is a reserved prefix (a bit like in UTF-8). 2) When we encounter
         // a larger value, we hash a "marker" 0xFF and then the corresponding
-        // 8 bytes. Since this prefix cannot occur when we hash a single byte, when we
-        // hash two `isize`s that fit within a different amount of bytes, they
-        // should always produce a different byte stream for the hasher.
+        // 8 bytes. Since this prefix cannot occur when we hash a single byte,
+        // when we hash two `isize`s that fit within a different amount of
+        // bytes, they should always produce a different byte stream for the
+        // hasher.
         if value < 0xff {
             self.state.write_u8(value as u8);
         } else {

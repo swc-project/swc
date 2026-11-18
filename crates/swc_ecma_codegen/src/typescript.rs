@@ -1159,7 +1159,8 @@ impl MacroNode for TsTypeAssertion {
 
         punct!(emitter, "<");
         if type_starts_with_lt(&self.type_ann) {
-            // Keep the assertion and generic parameter openers from becoming `<<`.
+            // Keep the assertion and generic parameter openers from becoming
+            // `<<`.
             space!(emitter);
         }
         emit!(self.type_ann);

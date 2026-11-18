@@ -54,7 +54,8 @@ impl VisitMutHook<TraverseCtx> for TypeofSymbolPass {
             _ => return,
         }
 
-        // If comparing typeof with a non-symbol literal, skip transforming children
+        // If comparing typeof with a non-symbol literal, skip transforming
+        // children
         if let Expr::Unary(UnaryExpr {
             op: op!("typeof"), ..
         }) = *expr.left
@@ -101,8 +102,8 @@ impl VisitMutHook<TraverseCtx> for TypeofSymbolPass {
     }
 
     fn exit_expr(&mut self, expr: &mut Expr, _ctx: &mut TraverseCtx) {
-        // Skip transformation if we're inside a binary comparison with non-symbol
-        // literals or inside a helper function
+        // Skip transformation if we're inside a binary comparison with
+        // non-symbol literals or inside a helper function
         if self.skip_depth > 0 || self.in_helper_fn > 0 {
             return;
         }

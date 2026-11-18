@@ -22,7 +22,8 @@ where
             if !self.config.disable_dce {
                 node.visit_mut_with(&mut Repeat::new(dce::dce(
                     dce::Config {
-                        // TODO(kdy1): Apply mark to wrapped esms and use it at here.
+                        // TODO(kdy1): Apply mark to wrapped esms and use it at
+                        // here.
                         module_mark: None,
                         top_level: true,
                         top_retain: Default::default(),

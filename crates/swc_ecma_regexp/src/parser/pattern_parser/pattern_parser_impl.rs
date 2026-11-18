@@ -42,14 +42,15 @@ impl<'a> PatternParser<'a> {
         //
         // NOTE: It means that this perform 2 loops for every cases.
         // - Pros: Code is simple enough and easy to understand
-        // - Cons: 1st pass is completely useless if the pattern does not contain any
-        //   capturing groups
-        // We may re-consider this if we need more performance rather than simplicity.
+        // - Cons: 1st pass is completely useless if the pattern does not
+        //   contain any capturing groups
+        // We may re-consider this if we need more performance rather than
+        // simplicity.
         let checkpoint = self.reader.checkpoint();
 
         // [SS:EE] Pattern :: Disjunction
-        // It is a Syntax Error if Pattern contains two or more GroupSpecifiers for
-        // which the CapturingGroupName of GroupSpecifier is the same.
+        // It is a Syntax Error if Pattern contains two or more GroupSpecifiers
+        // for which the CapturingGroupName of GroupSpecifier is the same.
         self.state
             .initialize_with_parsing(&mut self.reader)
             .map_err(|offsets| {
@@ -63,7 +64,8 @@ impl<'a> PatternParser<'a> {
         self.reader.rewind(checkpoint);
 
         // [SS:EE] Pattern :: Disjunction
-        // It is a Syntax Error if CountLeftCapturingParensWithin(Pattern) ≥ 2**32 - 1.
+        // It is a Syntax Error if CountLeftCapturingParensWithin(Pattern) ≥
+        // 2**32 - 1.
         //
         // If this is greater than `u32::MAX`, it is memory overflow, though.
         // But I never seen such a gigantic pattern with 4,294,967,295 parens!
@@ -178,7 +180,8 @@ impl<'a> PatternParser<'a> {
         // [~UnicodeMode] ExtendedAtom
         let span_start = self.reader.offset();
         if let Some(assertion) = self.parse_assertion()? {
-            // `QuantifiableAssertion` = (Negative)Lookahead: `(?=...)` or `(?!...)`
+            // `QuantifiableAssertion` = (Negative)Lookahead: `(?=...)` or
+            // `(?!...)`
             if let ast::Term::LookAroundAssertion(look_around) = &assertion {
                 if matches!(
                     look_around.kind,
@@ -348,11 +351,11 @@ impl<'a> PatternParser<'a> {
             return Ok(Some(ast::Term::CapturingGroup(Box::new(capturing_group))));
         }
 
-        // (?: Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups] )
-        // (? RegularExpressionModifiers : Disjunction[~UnicodeMode, ~UnicodeSetsMode,
-        // ?NamedCaptureGroups] ) (? RegularExpressionModifiers -
-        // RegularExpressionModifiers : Disjunction[~UnicodeMode, ~UnicodeSetsMode,
-        // ?NamedCaptureGroups] )
+        // (?: Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups]
+        // ) (? RegularExpressionModifiers : Disjunction[~UnicodeMode,
+        // ~UnicodeSetsMode, ?NamedCaptureGroups] ) (?
+        // RegularExpressionModifiers - RegularExpressionModifiers :
+        // Disjunction[~UnicodeMode, ~UnicodeSetsMode, ?NamedCaptureGroups] )
         if let Some(ignore_group) = self.parse_ignore_group()? {
             return Ok(Some(ast::Term::IgnoreGroup(Box::new(ignore_group))));
         }
@@ -414,11 +417,11 @@ impl<'a> PatternParser<'a> {
             return Ok(Some(ast::Term::CapturingGroup(Box::new(capturing_group))));
         }
 
-        // (?: Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups] )
-        // (? RegularExpressionModifiers : Disjunction[~UnicodeMode, ~UnicodeSetsMode,
-        // ?NamedCaptureGroups] ) (? RegularExpressionModifiers -
-        // RegularExpressionModifiers : Disjunction[~UnicodeMode, ~UnicodeSetsMode,
-        // ?NamedCaptureGroups] )
+        // (?: Disjunction[?UnicodeMode, ?UnicodeSetsMode, ?NamedCaptureGroups]
+        // ) (? RegularExpressionModifiers : Disjunction[~UnicodeMode,
+        // ~UnicodeSetsMode, ?NamedCaptureGroups] ) (?
+        // RegularExpressionModifiers - RegularExpressionModifiers :
+        // Disjunction[~UnicodeMode, ~UnicodeSetsMode, ?NamedCaptureGroups] )
         if let Some(ignore_group) = self.parse_ignore_group()? {
             return Ok(Some(ast::Term::IgnoreGroup(Box::new(ignore_group))));
         }
@@ -427,8 +430,8 @@ impl<'a> PatternParser<'a> {
         let span_start = self.reader.offset();
         if self.consume_quantifier()?.is_some() {
             // [SS:EE] ExtendedAtom :: InvalidBracedQuantifier
-            // It is a Syntax Error if any source text is matched by this production.
-            // (Annex B)
+            // It is a Syntax Error if any source text is matched by this
+            // production. (Annex B)
             return Err(diagnostics::invalid_braced_quantifier(
                 self.span_factory.create(span_start, self.reader.offset()),
             ));
@@ -462,8 +465,9 @@ impl<'a> PatternParser<'a> {
         if let Some(index) = self.consume_decimal_escape()? {
             if self.state.unicode_mode {
                 // [SS:EE] AtomEscape :: DecimalEscape
-                // It is a Syntax Error if the CapturingGroupNumber of DecimalEscape is strictly
-                // greater than CountLeftCapturingParensWithin(the Pattern containing
+                // It is a Syntax Error if the CapturingGroupNumber of
+                // DecimalEscape is strictly greater than
+                // CountLeftCapturingParensWithin(the Pattern containing
                 // AtomEscape).
                 if self.state.num_of_capturing_groups < index {
                     return Err(diagnostics::invalid_indexed_reference(
@@ -514,7 +518,8 @@ impl<'a> PatternParser<'a> {
         if self.state.named_capture_groups && self.reader.eat('k') {
             if let Some(name) = self.consume_group_name()? {
                 // [SS:EE] AtomEscape :: k GroupName
-                // It is a Syntax Error if GroupSpecifiersThatMatch(GroupName) is empty.
+                // It is a Syntax Error if GroupSpecifiersThatMatch(GroupName)
+                // is empty.
                 if !self.state.capturing_group_names.contains(&name) {
                     return Err(diagnostics::empty_group_specifier(
                         self.span_factory.create(span_start, self.reader.offset()),
@@ -598,13 +603,14 @@ impl<'a> PatternParser<'a> {
                 self.consume_unicode_property_value_expression()?
             {
                 if self.reader.eat('}') {
-                    // [SS:EE] CharacterClassEscape :: P{ UnicodePropertyValueExpression }
-                    // It is a Syntax Error if MayContainStrings of the
-                    // UnicodePropertyValueExpression is true. MayContainStrings
-                    // is true
-                    // - if the UnicodePropertyValueExpression is LoneUnicodePropertyNameOrValue
-                    //   - and it is binary property of strings(can be true only with
-                    //     `UnicodeSetsMode`)
+                    // [SS:EE] CharacterClassEscape :: P{
+                    // UnicodePropertyValueExpression } It is a Syntax Error if
+                    // MayContainStrings of the UnicodePropertyValueExpression
+                    // is true. MayContainStrings is true
+                    // - if the UnicodePropertyValueExpression is
+                    //   LoneUnicodePropertyNameOrValue
+                    //   - and it is binary property of strings(can be true only
+                    //     with `UnicodeSetsMode`)
                     if negative && strings {
                         return Err(diagnostics::invalid_unicode_property_name_negative_strings(
                             self.span_factory.create(span_start, self.reader.offset()),
@@ -710,7 +716,8 @@ impl<'a> PatternParser<'a> {
             if let Some(cp) = self.consume_legacy_octal_escape_sequence() {
                 let span = self.span_factory.create(span_start, self.reader.offset());
                 // Keep original digits for `to_string()`
-                // Otherwise `\0022`(octal \002 + symbol 2) will be `\22`(octal \22)
+                // Otherwise `\0022`(octal \002 + symbol 2) will be `\22`(octal
+                // \22)
                 let digits = span.hi.0 - span.lo.0 - 1; // -1 for '\'
 
                 return Ok(Some(ast::Character {
@@ -753,7 +760,8 @@ impl<'a> PatternParser<'a> {
                 let strings = PatternParser::may_contain_strings_in_class_contents(kind, &body);
 
                 // [SS:EE] CharacterClass :: [^ ClassContents ]
-                // It is a Syntax Error if MayContainStrings of the ClassContents is true.
+                // It is a Syntax Error if MayContainStrings of the
+                // ClassContents is true.
                 if negative && strings {
                     return Err(diagnostics::invalid_character_class(
                         self.span_factory.create(span_start, self.reader.offset()),
@@ -847,27 +855,30 @@ impl<'a> PatternParser<'a> {
             }));
 
             let Some(class_atom_to) = self.parse_class_atom()? else {
-                // ClassAtom[?UnicodeMode] NonemptyClassRangesNoDash[?UnicodeMode]
-                // => ClassAtom[?UnicodeMode] ClassAtom[?UnicodeMode]
-                // => ClassAtom[?UnicodeMode] -
+                // ClassAtom[?UnicodeMode]
+                // NonemptyClassRangesNoDash[?UnicodeMode] => ClassAtom[?
+                // UnicodeMode] ClassAtom[?UnicodeMode] => ClassAtom[?
+                // UnicodeMode] -
                 body.push(class_atom);
                 body.push(dash);
                 continue;
             };
 
-            // ClassAtom[?UnicodeMode] - ClassAtom[?UnicodeMode] ClassContents[?UnicodeMode,
-            // ~UnicodeSetsMode] If both sides are characters, it is a range.
+            // ClassAtom[?UnicodeMode] - ClassAtom[?UnicodeMode]
+            // ClassContents[?UnicodeMode, ~UnicodeSetsMode] If both sides are
+            // characters, it is a range.
             if let (
                 ast::CharacterClassContents::Character(from),
                 ast::CharacterClassContents::Character(to),
             ) = (&class_atom, &class_atom_to)
             {
-                // [SS:EE] NonemptyClassRanges :: ClassAtom - ClassAtom ClassContents
-                // [SS:EE] NonemptyClassRangesNoDash :: ClassAtomNoDash - ClassAtom
-                // ClassContents It is a Syntax Error if IsCharacterClass of the
-                // first ClassAtom is false, IsCharacterClass of the second ClassAtom is false,
-                // and the CharacterValue of the first ClassAtom is strictly greater than the
-                // CharacterValue of the second ClassAtom.
+                // [SS:EE] NonemptyClassRanges :: ClassAtom - ClassAtom
+                // ClassContents [SS:EE] NonemptyClassRangesNoDash ::
+                // ClassAtomNoDash - ClassAtom ClassContents It is a Syntax
+                // Error if IsCharacterClass of the first ClassAtom is false,
+                // IsCharacterClass of the second ClassAtom is false,
+                // and the CharacterValue of the first ClassAtom is strictly
+                // greater than the CharacterValue of the second ClassAtom.
                 if to.value < from.value {
                     return Err(diagnostics::character_class_range_out_of_order(
                         self.span_factory.create(span_start, self.reader.offset()),
@@ -887,10 +898,11 @@ impl<'a> PatternParser<'a> {
 
             // If not, it is just a union of characters.
 
-            // [SS:EE] NonemptyClassRanges :: ClassAtom - ClassAtom ClassContents
-            // [SS:EE] NonemptyClassRangesNoDash :: ClassAtomNoDash - ClassAtom
-            // ClassContents It is a Syntax Error if IsCharacterClass of the
-            // first ClassAtom is true or IsCharacterClass of the second ClassAtom is true
+            // [SS:EE] NonemptyClassRanges :: ClassAtom - ClassAtom
+            // ClassContents [SS:EE] NonemptyClassRangesNoDash ::
+            // ClassAtomNoDash - ClassAtom ClassContents It is a Syntax Error if
+            // IsCharacterClass of the first ClassAtom is true or
+            // IsCharacterClass of the second ClassAtom is true
             // and this production has a [UnicodeMode] parameter. (Annex B)
             if self.state.unicode_mode {
                 return Err(diagnostics::character_class_range_invalid_atom(
@@ -1231,9 +1243,11 @@ impl<'a> PatternParser<'a> {
         if let Some(class_set_character) = self.parse_class_set_character()? {
             if self.reader.eat('-') {
                 if let Some(class_set_character_to) = self.parse_class_set_character()? {
-                    // [SS:EE] ClassSetRange :: ClassSetCharacter - ClassSetCharacter
-                    // It is a Syntax Error if the CharacterValue of the first ClassSetCharacter is
-                    // strictly greater than the CharacterValue of the second ClassSetCharacter.
+                    // [SS:EE] ClassSetRange :: ClassSetCharacter -
+                    // ClassSetCharacter It is a Syntax Error if the
+                    // CharacterValue of the first ClassSetCharacter is strictly
+                    // greater than the CharacterValue of the second
+                    // ClassSetCharacter.
                     if class_set_character_to.value < class_set_character.value {
                         return Err(diagnostics::character_class_range_out_of_order(
                             class_set_character
@@ -1323,7 +1337,8 @@ impl<'a> PatternParser<'a> {
                 let strings = PatternParser::may_contain_strings_in_class_contents(kind, &body);
 
                 // [SS:EE] NestedClass :: [^ ClassContents ]
-                // It is a Syntax Error if MayContainStrings of the ClassContents is true.
+                // It is a Syntax Error if MayContainStrings of the
+                // ClassContents is true.
                 if negative && strings {
                     return Err(diagnostics::character_class_contents_invalid_operands(
                         self.span_factory.create(span_start, self.reader.offset()),
@@ -1498,10 +1513,12 @@ impl<'a> PatternParser<'a> {
         if self.reader.eat('(') {
             let mut group_name = None;
 
-            // GroupSpecifier is optional, but if it exists, `?` is also required
+            // GroupSpecifier is optional, but if it exists, `?` is also
+            // required
             if self.reader.eat('?') {
                 let Some(name) = self.consume_group_name()? else {
-                    // If GroupSpecifier is not found, fallback to `parse_ignore_group()` branch
+                    // If GroupSpecifier is not found, fallback to
+                    // `parse_ignore_group()` branch
                     self.reader.rewind(checkpoint);
                     return Ok(None);
                 };
@@ -1644,17 +1661,17 @@ impl<'a> PatternParser<'a> {
         }
 
         // [SS:EE] Atom :: (? RegularExpressionModifiers : Disjunction )
-        // It is a Syntax Error if the source text matched by RegularExpressionModifiers
-        // contains the same code point more than once. [SS:EE] Atom :: (?
-        // RegularExpressionModifiers - RegularExpressionModifiers : Disjunction )
-        // It is a Syntax Error if the source text matched by the first
-        // RegularExpressionModifiers and the source text matched by the second
-        // RegularExpressionModifiers are both empty. It is a Syntax Error if
-        // the source text matched by the first RegularExpressionModifiers contains the
-        // same code point more than once. It is a Syntax Error if any code
-        // point in the source text matched by the first RegularExpressionModifiers is
-        // also contained in the source text matched by the second
-        // RegularExpressionModifiers.
+        // It is a Syntax Error if the source text matched by
+        // RegularExpressionModifiers contains the same code point more than
+        // once. [SS:EE] Atom :: (? RegularExpressionModifiers -
+        // RegularExpressionModifiers : Disjunction ) It is a Syntax Error if
+        // the source text matched by the first RegularExpressionModifiers and
+        // the source text matched by the second RegularExpressionModifiers are
+        // both empty. It is a Syntax Error if the source text matched by the
+        // first RegularExpressionModifiers contains the same code point more
+        // than once. It is a Syntax Error if any code point in the source text
+        // matched by the first RegularExpressionModifiers is also contained in
+        // the source text matched by the second RegularExpressionModifiers.
         if enabling.is_empty() && disabling.is_empty()
             || duplicate
             || [ast::Modifier::I, ast::Modifier::M, ast::Modifier::S]
@@ -1731,9 +1748,11 @@ impl<'a> PatternParser<'a> {
                     if let Some(max) = self.consume_decimal_digits()? {
                         if self.reader.eat('}') {
                             if max < min {
-                                // [SS:EE] QuantifierPrefix :: { DecimalDigits , DecimalDigits }
-                                // It is a Syntax Error if the MV of the first DecimalDigits is
-                                // strictly greater than the MV of the second DecimalDigits.
+                                // [SS:EE] QuantifierPrefix :: { DecimalDigits ,
+                                // DecimalDigits } It is a Syntax Error if the
+                                // MV of the first DecimalDigits is
+                                // strictly greater than the MV of the second
+                                // DecimalDigits.
                                 return Err(diagnostics::braced_quantifier_out_of_order(
                                     self.span_factory.create(span_start, self.reader.offset()),
                                 ));
@@ -1834,15 +1853,18 @@ impl<'a> PatternParser<'a> {
                 let span_start = self.reader.offset();
 
                 if let Some(value) = self.consume_unicode_property_value() {
-                    // [SS:EE] UnicodePropertyValueExpression :: UnicodePropertyName =
-                    // UnicodePropertyValue It is a Syntax Error if the source
-                    // text matched by UnicodePropertyName is not a Unicode property name or
-                    // property alias listed in the “Property name and aliases” column of Table 65.
-                    // [SS:EE] UnicodePropertyValueExpression :: UnicodePropertyName =
-                    // UnicodePropertyValue It is a Syntax Error if the source
-                    // text matched by UnicodePropertyValue is not a property value or property
-                    // value alias for the Unicode property or property alias given by the source
-                    // text matched by UnicodePropertyName listed in PropertyValueAliases.txt.
+                    // [SS:EE] UnicodePropertyValueExpression ::
+                    // UnicodePropertyName = UnicodePropertyValue It is a Syntax
+                    // Error if the source text matched by UnicodePropertyName
+                    // is not a Unicode property name or property alias listed
+                    // in the “Property name and aliases” column of Table 65.
+                    // [SS:EE] UnicodePropertyValueExpression ::
+                    // UnicodePropertyName = UnicodePropertyValue It is a Syntax
+                    // Error if the source text matched by UnicodePropertyValue
+                    // is not a property value or property value alias for the
+                    // Unicode property or property alias given by the source
+                    // text matched by UnicodePropertyName listed in
+                    // PropertyValueAliases.txt.
                     if !unicode_property::is_valid_unicode_property(&name, &value) {
                         return Err(diagnostics::invalid_unicode_property(
                             self.span_factory.create(span_start, self.reader.offset()),
@@ -1859,13 +1881,14 @@ impl<'a> PatternParser<'a> {
         let span_start = self.reader.offset();
         // LoneUnicodePropertyNameOrValue
         if let Some(name_or_value) = self.consume_unicode_property_value() {
-            // [SS:EE] UnicodePropertyValueExpression :: LoneUnicodePropertyNameOrValue
-            // It is a Syntax Error if the source text matched by
-            // LoneUnicodePropertyNameOrValue is not a Unicode property value or property
-            // value alias for the General_Category (gc) property listed in
-            // PropertyValueAliases.txt, nor a binary property or binary property alias
-            // listed in the “Property name and aliases” column of Table 66, nor a binary
-            // property of strings listed in the “Property name” column of Table 67.
+            // [SS:EE] UnicodePropertyValueExpression ::
+            // LoneUnicodePropertyNameOrValue It is a Syntax Error if the source
+            // text matched by LoneUnicodePropertyNameOrValue is not a Unicode
+            // property value or property value alias for the General_Category
+            // (gc) property listed in PropertyValueAliases.txt, nor a binary
+            // property or binary property alias listed in the “Property name
+            // and aliases” column of Table 66, nor a binary property of strings
+            // listed in the “Property name” column of Table 67.
             if unicode_property::is_valid_unicode_property("General_Category", &name_or_value) {
                 return Ok(Some((
                     atom!("General_Category"),
@@ -1876,11 +1899,12 @@ impl<'a> PatternParser<'a> {
             if unicode_property::is_valid_lone_unicode_property(&name_or_value) {
                 return Ok(Some((name_or_value, None, false)));
             }
-            // [SS:EE] UnicodePropertyValueExpression :: LoneUnicodePropertyNameOrValue
-            // It is a Syntax Error if the enclosing Pattern does not have a
-            // [UnicodeSetsMode] parameter and the source text matched by
-            // LoneUnicodePropertyNameOrValue is a binary property of strings listed in the
-            // “Property name” column of Table 67.
+            // [SS:EE] UnicodePropertyValueExpression ::
+            // LoneUnicodePropertyNameOrValue It is a Syntax Error if the
+            // enclosing Pattern does not have a [UnicodeSetsMode] parameter and
+            // the source text matched by LoneUnicodePropertyNameOrValue is a
+            // binary property of strings listed in the “Property name” column
+            // of Table 67.
             if unicode_property::is_valid_lone_unicode_property_of_strings(&name_or_value) {
                 if !self.state.unicode_sets_mode {
                     return Err(diagnostics::invalid_unicode_property_of_strings(
@@ -1989,10 +2013,11 @@ impl<'a> PatternParser<'a> {
         let span_start = self.reader.offset();
         if self.reader.eat('\\') {
             if let Some(cp) = self.consume_reg_exp_unicode_escape_sequence(true)? {
-                // [SS:EE] RegExpIdentifierStart :: \ RegExpUnicodeEscapeSequence
-                // It is a Syntax Error if the CharacterValue of RegExpUnicodeEscapeSequence is
-                // not the numeric value of some code point matched by the IdentifierStartChar
-                // lexical grammar production.
+                // [SS:EE] RegExpIdentifierStart :: \
+                // RegExpUnicodeEscapeSequence It is a Syntax Error if the
+                // CharacterValue of RegExpUnicodeEscapeSequence is
+                // not the numeric value of some code point matched by the
+                // IdentifierStartChar lexical grammar production.
                 if !character::is_identifier_start_char(cp) {
                     return Err(diagnostics::invalid_unicode_escape_sequence(
                         self.span_factory.create(span_start, self.reader.offset()),
@@ -2025,10 +2050,10 @@ impl<'a> PatternParser<'a> {
                     let cp =
                         surrogate_pair::combine_surrogate_pair(lead_surrogate, trail_surrogate);
 
-                    // [SS:EE] RegExpIdentifierStart :: UnicodeLeadSurrogate UnicodeTrailSurrogate
-                    // It is a Syntax Error if the RegExpIdentifierCodePoint of
-                    // RegExpIdentifierStart is not matched by the UnicodeIDStart lexical grammar
-                    // production.
+                    // [SS:EE] RegExpIdentifierStart :: UnicodeLeadSurrogate
+                    // UnicodeTrailSurrogate It is a Syntax Error if the
+                    // RegExpIdentifierCodePoint of RegExpIdentifierStart is not
+                    // matched by the UnicodeIDStart lexical grammar production.
                     if !character::is_unicode_id_start(cp) {
                         return Err(diagnostics::invalid_surrogate_pair(
                             self.span_factory.create(span_start, self.reader.offset()),
@@ -2063,9 +2088,10 @@ impl<'a> PatternParser<'a> {
         if self.reader.eat('\\') {
             if let Some(cp) = self.consume_reg_exp_unicode_escape_sequence(true)? {
                 // [SS:EE] RegExpIdentifierPart :: \ RegExpUnicodeEscapeSequence
-                // It is a Syntax Error if the CharacterValue of RegExpUnicodeEscapeSequence is
-                // not the numeric value of some code point matched by the IdentifierPartChar
-                // lexical grammar production.
+                // It is a Syntax Error if the CharacterValue of
+                // RegExpUnicodeEscapeSequence is not the numeric value of some
+                // code point matched by the IdentifierPartChar lexical grammar
+                // production.
                 if !character::is_identifier_part_char(cp) {
                     return Err(diagnostics::invalid_unicode_escape_sequence(
                         self.span_factory.create(span_start, self.reader.offset()),
@@ -2098,9 +2124,11 @@ impl<'a> PatternParser<'a> {
 
                     let cp =
                         surrogate_pair::combine_surrogate_pair(lead_surrogate, trail_surrogate);
-                    // [SS:EE] RegExpIdentifierPart :: UnicodeLeadSurrogate UnicodeTrailSurrogate
-                    // It is a Syntax Error if the RegExpIdentifierCodePoint of RegExpIdentifierPart
-                    // is not matched by the UnicodeIDContinue lexical grammar production.
+                    // [SS:EE] RegExpIdentifierPart :: UnicodeLeadSurrogate
+                    // UnicodeTrailSurrogate It is a Syntax Error if the
+                    // RegExpIdentifierCodePoint of RegExpIdentifierPart
+                    // is not matched by the UnicodeIDContinue lexical grammar
+                    // production.
                     if !character::is_unicode_id_continue(cp) {
                         return Err(diagnostics::invalid_surrogate_pair(
                             self.span_factory.create(span_start, self.reader.offset()),
@@ -2330,7 +2358,8 @@ impl<'a> PatternParser<'a> {
 
         let mut value: u32 = 0;
         while let Some(hex) = self.reader.peek().and_then(character::map_hex_digit) {
-            // To prevent panic on overflow cases like `\u{FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}`
+            // To prevent panic on overflow cases like
+            // `\u{FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}`
             if let Some(v) = value.checked_mul(16).and_then(|v| v.checked_add(hex)) {
                 value = v;
                 self.reader.advance();
@@ -2375,8 +2404,10 @@ impl<'a> PatternParser<'a> {
         let may_contain_strings = |item: &ast::CharacterClassContents| match item {
             // MayContainStrings is true
             // - if ClassContents contains UnicodePropertyValueExpression
-            //   - && UnicodePropertyValueExpression is LoneUnicodePropertyNameOrValue
-            //     - && it is binary property of strings(can be true only with `UnicodeSetsMode`)
+            //   - && UnicodePropertyValueExpression is
+            //     LoneUnicodePropertyNameOrValue
+            //     - && it is binary property of strings(can be true only with
+            //       `UnicodeSetsMode`)
             ast::CharacterClassContents::UnicodePropertyEscape(item) => item.strings,
             // MayContainStrings is true
             // - if ClassStringDisjunction is [empty]

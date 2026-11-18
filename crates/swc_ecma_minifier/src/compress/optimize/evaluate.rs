@@ -361,9 +361,11 @@ impl Optimizer<'_> {
                                     Prop::Shorthand(p) => (p.sym.clone().into(), p.span),
                                     Prop::KeyValue(p) => match &p.key {
                                         PropName::Ident(key) => {
-                                            // A non-computed `__proto__` key-value property sets
-                                            // the object's prototype instead of defining an own
-                                            // property, so it is not returned by `Object.keys`.
+                                            // A non-computed `__proto__`
+                                            // key-value property sets
+                                            // the object's prototype instead of
+                                            // defining an own property, so it
+                                            // is not returned by `Object.keys`.
                                             if key.sym == "__proto__" {
                                                 continue;
                                             }
@@ -371,9 +373,12 @@ impl Optimizer<'_> {
                                             (key.sym.clone().into(), key.span)
                                         }
                                         PropName::Str(key) => {
-                                            // String-literal `__proto__` key-value properties have
-                                            // the same prototype-setter semantics as identifier
-                                            // keys. Computed keys remain ineligible for folding.
+                                            // String-literal `__proto__`
+                                            // key-value properties have
+                                            // the same prototype-setter
+                                            // semantics as identifier
+                                            // keys. Computed keys remain
+                                            // ineligible for folding.
                                             if key.value.as_str() == Some("__proto__") {
                                                 continue;
                                             }
@@ -689,10 +694,10 @@ fn math_fold_grows(call: &Expr, value: f64) -> bool {
 
     let mut detect_dot = false;
 
-    // Rejected on ties as well: an equally long literal saves nothing by itself,
-    // and later passes may inline it into several places. `Math.sqrt(Math.PI)`
-    // and `1.7724538509055159` are both 18 characters, but folding the former
-    // lets the inliner replace a 2 character binding with 18 characters twice,
-    // which grew three.js by 8 bytes.
+    // Rejected on ties as well: an equally long literal saves nothing by
+    // itself, and later passes may inline it into several places.
+    // `Math.sqrt(Math.PI)` and `1.7724538509055159` are both 18 characters, but
+    // folding the former lets the inliner replace a 2 character binding with 18
+    // characters twice, which grew three.js by 8 bytes.
     minify_number(value, &mut detect_dot).len() >= original
 }

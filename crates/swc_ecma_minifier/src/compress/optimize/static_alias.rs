@@ -81,12 +81,14 @@ const fn min_usages_for_name(name_len: usize) -> usize {
 
 /// Object methods (Object.xxx) - "Object." is 7 chars
 const MIN_USAGES_OBJECT_ASSIGN: usize = min_usages_for_name(13); // "Object.assign" = 2
-const MIN_USAGES_OBJECT_KEYS: usize = min_usages_for_name(11); // "Object.keys" = 2
+const MIN_USAGES_OBJECT_KEYS: usize = min_usages_for_name(11); // "Object.keys"
+                                                               // = 2
 const MIN_USAGES_OBJECT_VALUES: usize = min_usages_for_name(13); // "Object.values" = 2
 const MIN_USAGES_OBJECT_ENTRIES: usize = min_usages_for_name(14); // "Object.entries" = 2
 const MIN_USAGES_OBJECT_FROM_ENTRIES: usize = min_usages_for_name(18); // "Object.fromEntries" = 2
 const MIN_USAGES_OBJECT_FREEZE: usize = min_usages_for_name(13); // "Object.freeze" = 2
-const MIN_USAGES_OBJECT_SEAL: usize = min_usages_for_name(11); // "Object.seal" = 2
+const MIN_USAGES_OBJECT_SEAL: usize = min_usages_for_name(11); // "Object.seal"
+                                                               // = 2
 const MIN_USAGES_OBJECT_PREVENT_EXTENSIONS: usize = min_usages_for_name(24); // "Object.preventExtensions" = 2
 const MIN_USAGES_OBJECT_IS_FROZEN: usize = min_usages_for_name(15); // "Object.isFrozen" = 2
 const MIN_USAGES_OBJECT_IS_SEALED: usize = min_usages_for_name(15); // "Object.isSealed" = 2
@@ -105,7 +107,8 @@ const MIN_USAGES_OBJECT_IS: usize = min_usages_for_name(9); // "Object.is" = 2
 
 /// Array methods (Array.xxx) - "Array." is 6 chars
 const MIN_USAGES_ARRAY_IS_ARRAY: usize = min_usages_for_name(13); // "Array.isArray" = 2
-const MIN_USAGES_ARRAY_FROM: usize = min_usages_for_name(10); // "Array.from" = 2
+const MIN_USAGES_ARRAY_FROM: usize = min_usages_for_name(10); // "Array.from" =
+                                                              // 2
 const MIN_USAGES_ARRAY_OF: usize = min_usages_for_name(8); // "Array.of" = 3
 
 /// Reflect methods (Reflect.xxx) - "Reflect." is 8 chars
@@ -113,57 +116,75 @@ const MIN_USAGES_REFLECT_APPLY: usize = min_usages_for_name(13); // "Reflect.app
 const MIN_USAGES_REFLECT_CONSTRUCT: usize = min_usages_for_name(17); // "Reflect.construct" = 2
 const MIN_USAGES_REFLECT_DEFINE_PROPERTY: usize = min_usages_for_name(22); // "Reflect.defineProperty" = 2
 const MIN_USAGES_REFLECT_DELETE_PROPERTY: usize = min_usages_for_name(22); // "Reflect.deleteProperty" = 2
-const MIN_USAGES_REFLECT_GET: usize = min_usages_for_name(11); // "Reflect.get" = 2
+const MIN_USAGES_REFLECT_GET: usize = min_usages_for_name(11); // "Reflect.get"
+                                                               // = 2
 const MIN_USAGES_REFLECT_GET_OWN_PROP_DESC: usize = min_usages_for_name(32); // "Reflect.getOwnPropertyDescriptor" = 2
 const MIN_USAGES_REFLECT_GET_PROTOTYPE_OF: usize = min_usages_for_name(22); // "Reflect.getPrototypeOf" = 2
-const MIN_USAGES_REFLECT_HAS: usize = min_usages_for_name(11); // "Reflect.has" = 2
+const MIN_USAGES_REFLECT_HAS: usize = min_usages_for_name(11); // "Reflect.has"
+                                                               // = 2
 const MIN_USAGES_REFLECT_IS_EXTENSIBLE: usize = min_usages_for_name(20); // "Reflect.isExtensible" = 2
 const MIN_USAGES_REFLECT_OWN_KEYS: usize = min_usages_for_name(15); // "Reflect.ownKeys" = 2
 const MIN_USAGES_REFLECT_PREVENT_EXTENSIONS: usize = min_usages_for_name(25); // "Reflect.preventExtensions" = 2
-const MIN_USAGES_REFLECT_SET: usize = min_usages_for_name(11); // "Reflect.set" = 2
+const MIN_USAGES_REFLECT_SET: usize = min_usages_for_name(11); // "Reflect.set"
+                                                               // = 2
 const MIN_USAGES_REFLECT_SET_PROTOTYPE_OF: usize = min_usages_for_name(22); // "Reflect.setPrototypeOf" = 2
 
 /// Math methods (Math.xxx) - "Math." is 5 chars
 const MIN_USAGES_MATH_ABS: usize = min_usages_for_name(8); // "Math.abs" = 3
 const MIN_USAGES_MATH_ACOS: usize = min_usages_for_name(9); // "Math.acos" = 2
-const MIN_USAGES_MATH_ACOSH: usize = min_usages_for_name(10); // "Math.acosh" = 2
+const MIN_USAGES_MATH_ACOSH: usize = min_usages_for_name(10); // "Math.acosh" =
+                                                              // 2
 const MIN_USAGES_MATH_ASIN: usize = min_usages_for_name(9); // "Math.asin" = 2
-const MIN_USAGES_MATH_ASINH: usize = min_usages_for_name(10); // "Math.asinh" = 2
+const MIN_USAGES_MATH_ASINH: usize = min_usages_for_name(10); // "Math.asinh" =
+                                                              // 2
 const MIN_USAGES_MATH_ATAN: usize = min_usages_for_name(9); // "Math.atan" = 2
-const MIN_USAGES_MATH_ATAN2: usize = min_usages_for_name(10); // "Math.atan2" = 2
-const MIN_USAGES_MATH_ATANH: usize = min_usages_for_name(10); // "Math.atanh" = 2
+const MIN_USAGES_MATH_ATAN2: usize = min_usages_for_name(10); // "Math.atan2" =
+                                                              // 2
+const MIN_USAGES_MATH_ATANH: usize = min_usages_for_name(10); // "Math.atanh" =
+                                                              // 2
 const MIN_USAGES_MATH_CBRT: usize = min_usages_for_name(9); // "Math.cbrt" = 2
 const MIN_USAGES_MATH_CEIL: usize = min_usages_for_name(9); // "Math.ceil" = 2
-const MIN_USAGES_MATH_CLZ32: usize = min_usages_for_name(10); // "Math.clz32" = 2
+const MIN_USAGES_MATH_CLZ32: usize = min_usages_for_name(10); // "Math.clz32" =
+                                                              // 2
 const MIN_USAGES_MATH_COS: usize = min_usages_for_name(8); // "Math.cos" = 3
 const MIN_USAGES_MATH_COSH: usize = min_usages_for_name(9); // "Math.cosh" = 2
 const MIN_USAGES_MATH_EXP: usize = min_usages_for_name(8); // "Math.exp" = 3
-const MIN_USAGES_MATH_EXPM1: usize = min_usages_for_name(10); // "Math.expm1" = 2
-const MIN_USAGES_MATH_FLOOR: usize = min_usages_for_name(10); // "Math.floor" = 2
-const MIN_USAGES_MATH_FROUND: usize = min_usages_for_name(11); // "Math.fround" = 2
-const MIN_USAGES_MATH_HYPOT: usize = min_usages_for_name(10); // "Math.hypot" = 2
+const MIN_USAGES_MATH_EXPM1: usize = min_usages_for_name(10); // "Math.expm1" =
+                                                              // 2
+const MIN_USAGES_MATH_FLOOR: usize = min_usages_for_name(10); // "Math.floor" =
+                                                              // 2
+const MIN_USAGES_MATH_FROUND: usize = min_usages_for_name(11); // "Math.fround"
+                                                               // = 2
+const MIN_USAGES_MATH_HYPOT: usize = min_usages_for_name(10); // "Math.hypot" =
+                                                              // 2
 const MIN_USAGES_MATH_IMUL: usize = min_usages_for_name(9); // "Math.imul" = 2
 const MIN_USAGES_MATH_LOG: usize = min_usages_for_name(8); // "Math.log" = 3
-const MIN_USAGES_MATH_LOG10: usize = min_usages_for_name(10); // "Math.log10" = 2
-const MIN_USAGES_MATH_LOG1P: usize = min_usages_for_name(10); // "Math.log1p" = 2
+const MIN_USAGES_MATH_LOG10: usize = min_usages_for_name(10); // "Math.log10" =
+                                                              // 2
+const MIN_USAGES_MATH_LOG1P: usize = min_usages_for_name(10); // "Math.log1p" =
+                                                              // 2
 const MIN_USAGES_MATH_LOG2: usize = min_usages_for_name(9); // "Math.log2" = 2
 const MIN_USAGES_MATH_MAX: usize = min_usages_for_name(8); // "Math.max" = 3
 const MIN_USAGES_MATH_MIN: usize = min_usages_for_name(8); // "Math.min" = 3
 const MIN_USAGES_MATH_POW: usize = min_usages_for_name(8); // "Math.pow" = 3
-const MIN_USAGES_MATH_RANDOM: usize = min_usages_for_name(11); // "Math.random" = 2
-const MIN_USAGES_MATH_ROUND: usize = min_usages_for_name(10); // "Math.round" = 2
+const MIN_USAGES_MATH_RANDOM: usize = min_usages_for_name(11); // "Math.random"
+                                                               // = 2
+const MIN_USAGES_MATH_ROUND: usize = min_usages_for_name(10); // "Math.round" =
+                                                              // 2
 const MIN_USAGES_MATH_SIGN: usize = min_usages_for_name(9); // "Math.sign" = 2
 const MIN_USAGES_MATH_SIN: usize = min_usages_for_name(8); // "Math.sin" = 3
 const MIN_USAGES_MATH_SINH: usize = min_usages_for_name(9); // "Math.sinh" = 2
 const MIN_USAGES_MATH_SQRT: usize = min_usages_for_name(9); // "Math.sqrt" = 2
 const MIN_USAGES_MATH_TAN: usize = min_usages_for_name(8); // "Math.tan" = 3
 const MIN_USAGES_MATH_TANH: usize = min_usages_for_name(9); // "Math.tanh" = 2
-const MIN_USAGES_MATH_TRUNC: usize = min_usages_for_name(10); // "Math.trunc" = 2
+const MIN_USAGES_MATH_TRUNC: usize = min_usages_for_name(10); // "Math.trunc" =
+                                                              // 2
 
 /// String methods (String.xxx) - "String." is 7 chars
 const MIN_USAGES_STRING_FROM_CHAR_CODE: usize = min_usages_for_name(19); // "String.fromCharCode" = 2
 const MIN_USAGES_STRING_FROM_CODE_POINT: usize = min_usages_for_name(20); // "String.fromCodePoint" = 2
-const MIN_USAGES_STRING_RAW: usize = min_usages_for_name(10); // "String.raw" = 2
+const MIN_USAGES_STRING_RAW: usize = min_usages_for_name(10); // "String.raw" =
+                                                              // 2
 
 /// Number methods (Number.xxx) - "Number." is 7 chars
 const MIN_USAGES_NUMBER_IS_FINITE: usize = min_usages_for_name(15); // "Number.isFinite" = 2
@@ -174,20 +195,24 @@ const MIN_USAGES_NUMBER_PARSE_FLOAT: usize = min_usages_for_name(17); // "Number
 const MIN_USAGES_NUMBER_PARSE_INT: usize = min_usages_for_name(15); // "Number.parseInt" = 2
 
 /// JSON methods (JSON.xxx) - "JSON." is 5 chars
-const MIN_USAGES_JSON_PARSE: usize = min_usages_for_name(10); // "JSON.parse" = 2
+const MIN_USAGES_JSON_PARSE: usize = min_usages_for_name(10); // "JSON.parse" =
+                                                              // 2
 const MIN_USAGES_JSON_STRINGIFY: usize = min_usages_for_name(14); // "JSON.stringify" = 2
 
 /// Promise methods (Promise.xxx) - "Promise." is 8 chars
-const MIN_USAGES_PROMISE_ALL: usize = min_usages_for_name(11); // "Promise.all" = 2
+const MIN_USAGES_PROMISE_ALL: usize = min_usages_for_name(11); // "Promise.all"
+                                                               // = 2
 const MIN_USAGES_PROMISE_ALL_SETTLED: usize = min_usages_for_name(18); // "Promise.allSettled" = 2
-const MIN_USAGES_PROMISE_ANY: usize = min_usages_for_name(11); // "Promise.any" = 2
+const MIN_USAGES_PROMISE_ANY: usize = min_usages_for_name(11); // "Promise.any"
+                                                               // = 2
 const MIN_USAGES_PROMISE_RACE: usize = min_usages_for_name(12); // "Promise.race" = 2
 const MIN_USAGES_PROMISE_REJECT: usize = min_usages_for_name(14); // "Promise.reject" = 2
 const MIN_USAGES_PROMISE_RESOLVE: usize = min_usages_for_name(15); // "Promise.resolve" = 2
 const MIN_USAGES_PROMISE_WITH_RESOLVERS: usize = min_usages_for_name(21); // "Promise.withResolvers" = 2
 
 /// Symbol methods (Symbol.xxx) - "Symbol." is 7 chars
-const MIN_USAGES_SYMBOL_FOR: usize = min_usages_for_name(10); // "Symbol.for" = 2
+const MIN_USAGES_SYMBOL_FOR: usize = min_usages_for_name(10); // "Symbol.for" =
+                                                              // 2
 const MIN_USAGES_SYMBOL_KEY_FOR: usize = min_usages_for_name(13); // "Symbol.keyFor" = 2
 
 // Pre-computed minimum usage thresholds for known global objects.
@@ -201,29 +226,39 @@ const MIN_USAGES_DATE: usize = min_usages_for_name(4); // "Date" = 4
 const MIN_USAGES_REGEXP: usize = min_usages_for_name(6); // "RegExp" = 3
 const MIN_USAGES_ERROR: usize = min_usages_for_name(5); // "Error" = 3
 const MIN_USAGES_TYPE_ERROR: usize = min_usages_for_name(9); // "TypeError" = 2
-const MIN_USAGES_RANGE_ERROR: usize = min_usages_for_name(10); // "RangeError" = 2
-const MIN_USAGES_SYNTAX_ERROR: usize = min_usages_for_name(11); // "SyntaxError" = 2
+const MIN_USAGES_RANGE_ERROR: usize = min_usages_for_name(10); // "RangeError" =
+                                                               // 2
+const MIN_USAGES_SYNTAX_ERROR: usize = min_usages_for_name(11); // "SyntaxError"
+                                                                // = 2
 const MIN_USAGES_REFERENCE_ERROR: usize = min_usages_for_name(14); // "ReferenceError" = 2
 const MIN_USAGES_URI_ERROR: usize = min_usages_for_name(8); // "URIError" = 3
 const MIN_USAGES_EVAL_ERROR: usize = min_usages_for_name(9); // "EvalError" = 2
-const MIN_USAGES_ARRAY_BUFFER: usize = min_usages_for_name(11); // "ArrayBuffer" = 2
+const MIN_USAGES_ARRAY_BUFFER: usize = min_usages_for_name(11); // "ArrayBuffer"
+                                                                // = 2
 const MIN_USAGES_SHARED_ARRAY_BUFFER: usize = min_usages_for_name(17); // "SharedArrayBuffer" = 2
 const MIN_USAGES_DATA_VIEW: usize = min_usages_for_name(8); // "DataView" = 3
 const MIN_USAGES_INT8_ARRAY: usize = min_usages_for_name(9); // "Int8Array" = 2
-const MIN_USAGES_UINT8_ARRAY: usize = min_usages_for_name(10); // "Uint8Array" = 2
+const MIN_USAGES_UINT8_ARRAY: usize = min_usages_for_name(10); // "Uint8Array" =
+                                                               // 2
 const MIN_USAGES_UINT8_CLAMPED_ARRAY: usize = min_usages_for_name(17); // "Uint8ClampedArray" = 2
-const MIN_USAGES_INT16_ARRAY: usize = min_usages_for_name(10); // "Int16Array" = 2
-const MIN_USAGES_UINT16_ARRAY: usize = min_usages_for_name(11); // "Uint16Array" = 2
-const MIN_USAGES_INT32_ARRAY: usize = min_usages_for_name(10); // "Int32Array" = 2
-const MIN_USAGES_UINT32_ARRAY: usize = min_usages_for_name(11); // "Uint32Array" = 2
+const MIN_USAGES_INT16_ARRAY: usize = min_usages_for_name(10); // "Int16Array" =
+                                                               // 2
+const MIN_USAGES_UINT16_ARRAY: usize = min_usages_for_name(11); // "Uint16Array"
+                                                                // = 2
+const MIN_USAGES_INT32_ARRAY: usize = min_usages_for_name(10); // "Int32Array" =
+                                                               // 2
+const MIN_USAGES_UINT32_ARRAY: usize = min_usages_for_name(11); // "Uint32Array"
+                                                                // = 2
 const MIN_USAGES_FLOAT32_ARRAY: usize = min_usages_for_name(12); // "Float32Array" = 2
 const MIN_USAGES_FLOAT64_ARRAY: usize = min_usages_for_name(12); // "Float64Array" = 2
 const MIN_USAGES_BIG_INT64_ARRAY: usize = min_usages_for_name(13); // "BigInt64Array" = 2
 const MIN_USAGES_BIG_UINT64_ARRAY: usize = min_usages_for_name(14); // "BigUint64Array" = 2
 const MIN_USAGES_URL: usize = min_usages_for_name(3); // "URL" = 5
 const MIN_USAGES_URL_SEARCH_PARAMS: usize = min_usages_for_name(15); // "URLSearchParams" = 2
-const MIN_USAGES_TEXT_ENCODER: usize = min_usages_for_name(11); // "TextEncoder" = 2
-const MIN_USAGES_TEXT_DECODER: usize = min_usages_for_name(11); // "TextDecoder" = 2
+const MIN_USAGES_TEXT_ENCODER: usize = min_usages_for_name(11); // "TextEncoder"
+                                                                // = 2
+const MIN_USAGES_TEXT_DECODER: usize = min_usages_for_name(11); // "TextDecoder"
+                                                                // = 2
 
 /// Get the minimum usages threshold for a known static method.
 /// Returns `None` if the method is not known/hoistable.

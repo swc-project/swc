@@ -107,7 +107,8 @@ impl ClassStaticBlock {
             let stmt = stmts.pop().unwrap();
             match stmt {
                 Stmt::Expr(ExprStmt { expr, .. }) => {
-                    // Single expression statement - use the expression directly (no clone)
+                    // Single expression statement - use the expression directly
+                    // (no clone)
                     Some(expr)
                 }
                 other => {
@@ -174,19 +175,21 @@ impl ClassStaticBlock {
 impl VisitMutHook<TraverseCtx> for ClassStaticBlock {
     fn enter_class(&mut self, _class: &mut Class, _ctx: &mut TraverseCtx) {
         // Push an empty set for this class level
-        // We'll collect names in exit_class after nested classes are transformed
+        // We'll collect names in exit_class after nested classes are
+        // transformed
         self.existing_names_stack.push(FxHashSet::default());
     }
 
     fn exit_class(&mut self, class: &mut Class, _ctx: &mut TraverseCtx) {
-        // Pop the parent set (not used currently but maintained for stack integrity)
+        // Pop the parent set (not used currently but maintained for stack
+        // integrity)
         let _parent_names = self.existing_names_stack.pop().expect(
             "existing_names_stack underflow: exit_class called without matching enter_class",
         );
 
-        // Collect existing private names after nested classes have been transformed
-        // This ensures we see all private names including those generated from
-        // static blocks in nested classes
+        // Collect existing private names after nested classes have been
+        // transformed This ensures we see all private names including those
+        // generated from static blocks in nested classes
         let mut existing_names = self.collect_existing_private_names(class);
 
         // Transform all static blocks in the class body

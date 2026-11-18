@@ -791,7 +791,8 @@ impl SourceMap {
         self.sources[idx as usize] = value.clone();
 
         if let Some(sources_prefixed) = self.sources_prefixed.as_mut() {
-            // If sources_prefixed is `Some`, we must have a nonempty `source_root`.
+            // If sources_prefixed is `Some`, we must have a nonempty
+            // `source_root`.
             sources_prefixed[idx as usize] =
                 Self::prefix_source(self.source_root.as_ref().unwrap(), &value);
         }
@@ -990,28 +991,30 @@ pub(crate) fn adjust_mappings(
     // The algorithm works by going through the tokens in `self` in order and
     // adjusting them depending on the token in `adjustment` they're "covered"
     // by. For example:
-    // Let `l` be a token in `adjustment` mapping `(17, 23)` to `(8, 30)` and let
-    // `r₁ : (8, 28) -> (102, 35)`, `r₂ : (8, 40) -> (102, 50)`, and
-    // `r₃ : (9, 10) -> (103, 12)` be the tokens in `self` that fall in the range of
-    // `l`. `l` offsets these tokens by `(+9, -7)`, so `r₁, … , r₃` must be
-    // offset by the same amount. Thus, the adjusted sourcemap will contain the
-    // tokens `c₁ : (17, 23) -> (102, 35)`, `c₂ : (17, 33) -> (102, 50)`, and
-    // `c3 : (18, 3) -> (103, 12)`.
+    // Let `l` be a token in `adjustment` mapping `(17, 23)` to `(8, 30)` and
+    // let `r₁ : (8, 28) -> (102, 35)`, `r₂ : (8, 40) -> (102, 50)`, and
+    // `r₃ : (9, 10) -> (103, 12)` be the tokens in `self` that fall in the
+    // range of `l`. `l` offsets these tokens by `(+9, -7)`, so `r₁, … , r₃`
+    // must be offset by the same amount. Thus, the adjusted sourcemap will
+    // contain the tokens `c₁ : (17, 23) -> (102, 35)`, `c₂ : (17, 33) -> (102,
+    // 50)`, and `c3 : (18, 3) -> (103, 12)`.
     //
     // Or, in diagram form:
     //
-    //    (17, 23)                                    (position in the edited source
-    // file)    ↓ l
+    //    (17, 23)                                    (position in the edited
+    // source file)    ↓ l
     //    (8, 30)
     // (8, 28)        (8, 40)        (9, 10)          (positions in the original
     // source file) ↓ r₁           ↓ r₂           ↓ r₃
-    // (102, 35)      (102, 50)      (103, 12)        (positions in the target file)
+    // (102, 35)      (102, 50)      (103, 12)        (positions in the target
+    // file)
     //
     // becomes
     //
     //    (17, 23)       (17, 33)       (18, 3)       (positions in the edited
     // source file)    ↓ c₁           ↓ c₂           ↓ c₃
-    //    (102, 35)      (102, 50)      (103, 12)     (positions in the target file)
+    //    (102, 35)      (102, 50)      (103, 12)     (positions in the target
+    // file)
 
     // Helper struct that makes it easier to compare tokens by the start and end
     // of the range they cover.
@@ -1034,8 +1037,8 @@ pub(crate) fn adjust_mappings(
         while let Some(t) = token_iter.next() {
             let start = key(t);
             let next_start = token_iter.peek().map_or((u32::MAX, u32::MAX), |t| key(t));
-            // A token extends either to the start of the next token or the end of the line,
-            // whichever comes sooner
+            // A token extends either to the start of the next token or the end
+            // of the line, whichever comes sooner
             let end = std::cmp::min(next_start, (start.0, u32::MAX));
             ranges.push(Range {
                 start,
@@ -1049,10 +1052,10 @@ pub(crate) fn adjust_mappings(
 
     let mut new_tokens = Vec::with_capacity(self_tokens.len());
 
-    // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we have
-    // easy access to both start and end.
-    // We want to compare `self` and `adjustment` tokens by line/column numbers in
-    // the "original source" file. These line/column numbers are the
+    // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we
+    // have easy access to both start and end.
+    // We want to compare `self` and `adjustment` tokens by line/column numbers
+    // in the "original source" file. These line/column numbers are the
     // `dst_line/col` for the `self` tokens and `src_line/col` for the
     // `adjustment` tokens.
     let original_ranges = create_ranges(&mut self_tokens, |t| (t.dst_line, t.dst_col));
@@ -1066,17 +1069,18 @@ pub(crate) fn adjust_mappings(
         None => return self_tokens,
     };
 
-    // Iterate over `adjustment_ranges` (sorted by `src_line/col`). For each such
-    // range, consider all `original_ranges` which overlap with it.
+    // Iterate over `adjustment_ranges` (sorted by `src_line/col`). For each
+    // such range, consider all `original_ranges` which overlap with it.
     'outer: for &adjustment_range in &adjustment_ranges {
-        // The `adjustment_range` offsets lines and columns by a certain amount. All
-        // `original_ranges` it covers will get the same offset.
+        // The `adjustment_range` offsets lines and columns by a certain amount.
+        // All `original_ranges` it covers will get the same offset.
         let (line_diff, col_diff) = (
             adjustment_range.value.dst_line as i32 - adjustment_range.value.src_line as i32,
             adjustment_range.value.dst_col as i32 - adjustment_range.value.src_col as i32,
         );
 
-        // Skip `original_ranges` that are entirely before the `adjustment_range`.
+        // Skip `original_ranges` that are entirely before the
+        // `adjustment_range`.
         while original_range.end <= adjustment_range.start {
             match original_ranges_iter.next() {
                 Some(r) => original_range = r,
@@ -1086,11 +1090,11 @@ pub(crate) fn adjust_mappings(
 
         // At this point `original_range.end` > `adjustment_range.start`
 
-        // Iterate over `original_ranges` that fall at least partially within the
-        // `adjustment_range`.
+        // Iterate over `original_ranges` that fall at least partially within
+        // the `adjustment_range`.
         while original_range.start < adjustment_range.end {
-            // If `original_range` started before `adjustment_range`, cut off the token's
-            // start.
+            // If `original_range` started before `adjustment_range`, cut off
+            // the token's start.
             let (dst_line, dst_col) = std::cmp::max(original_range.start, adjustment_range.start);
             let mut token = RawToken {
                 dst_line,
@@ -1104,8 +1108,9 @@ pub(crate) fn adjust_mappings(
             new_tokens.push(token);
 
             if original_range.end >= adjustment_range.end {
-                // There are surely no more `original_ranges` for this `adjustment_range`.
-                // Break the loop without advancing the `original_range`.
+                // There are surely no more `original_ranges` for this
+                // `adjustment_range`. Break the loop without advancing the
+                // `original_range`.
                 break;
             } else {
                 //  Advance the `original_range`.
@@ -1153,8 +1158,8 @@ pub fn adjust_mappings_from_multiple(
             let next_start = token_iter
                 .peek()
                 .map_or((u32::MAX, u32::MAX), |(_, t)| key(t));
-            // A token extends either to the start of the next token or the end of the line,
-            // whichever comes sooner
+            // A token extends either to the start of the next token or the end
+            // of the line, whichever comes sooner
             let end = std::cmp::min(next_start, (start.0, u32::MAX));
             ranges.push(Range {
                 start,
@@ -1167,10 +1172,10 @@ pub fn adjust_mappings_from_multiple(
         ranges
     }
 
-    // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we have
-    // easy access to both start and end.
-    // We want to compare `self` and `adjustment` tokens by line/column numbers in
-    // the "original source" file. These line/column numbers are the
+    // Turn `self.tokens` and `adjustment.tokens` into vectors of ranges so we
+    // have easy access to both start and end.
+    // We want to compare `self` and `adjustment` tokens by line/column numbers
+    // in the "original source" file. These line/column numbers are the
     // `dst_line/col` for the `self` tokens and `src_line/col` for the
     // `adjustment` tokens.
     let mut input_tokens = input_maps
@@ -1240,8 +1245,8 @@ pub fn adjust_mappings_from_multiple(
         );
     };
 
-    // Iterate over `self_ranges` (sorted by `src_line/col`). For each such range,
-    // consider all `self_ranges` which overlap with it.
+    // Iterate over `self_ranges` (sorted by `src_line/col`). For each such
+    // range, consider all `self_ranges` which overlap with it.
     for &self_range in &self_ranges {
         // The `self_range` offsets lines and columns by a certain amount. All
         // `input_ranges` it covers will get the same offset.
@@ -1264,8 +1269,8 @@ pub fn adjust_mappings_from_multiple(
                         Some(src) != input_maps[(input_range.map_idx - 1) as usize].file()
                     })
         }) {
-            // No input range matches this range, keep the mapping though if this file isn't
-            // covered by any input sourcemap
+            // No input range matches this range, keep the mapping though if
+            // this file isn't covered by any input sourcemap
             if this
                 .get_source(self_range.value.src_id)
                 .map_or(true, |f| !covered_input_files.contains(f))
@@ -1284,10 +1289,11 @@ pub fn adjust_mappings_from_multiple(
             }
         } else {
             let mut input_range_value = input_range.unwrap();
-            // Iterate over `input_range` that fall at least partially within the
-            // `self_ranges`.
+            // Iterate over `input_range` that fall at least partially within
+            // the `self_ranges`.
             while input_range_value.start < self_range.end {
-                // If `input_range` started before `self_range`, cut off the token's start.
+                // If `input_range` started before `self_range`, cut off the
+                // token's start.
                 let (dst_line, dst_col) = std::cmp::max(input_range_value.start, self_range.start);
                 add_mapping(
                     &mut input_maps,
@@ -1302,8 +1308,9 @@ pub fn adjust_mappings_from_multiple(
                 );
 
                 if input_range_value.end >= self_range.end {
-                    // There are surely no more `input_ranges` for this `self_range`.
-                    // Break the loop without advancing the `input_range`.
+                    // There are surely no more `input_ranges` for this
+                    // `self_range`. Break the loop without advancing the
+                    // `input_range`.
                     break;
                 } else {
                     //  Advance the `input_range`.
@@ -1529,8 +1536,8 @@ impl SourceMapIndex {
                     token.get_dst_col()
                 };
 
-                // Use u32 -> u32 map instead of using the hash map in SourceMapBuilder for
-                // better performance
+                // Use u32 -> u32 map instead of using the hash map in
+                // SourceMapBuilder for better performance
                 let original_src_id = token.raw.src_id;
                 let src_id = if original_src_id == !0 {
                     None
@@ -1740,20 +1747,21 @@ mod tests {
         //
         // For each bundler:
         // * `bundle.js` and `bundle.js.map` are taken from https://github.com/kamilogorek/sourcemaps-playground/.
-        // * `injected.bundle.js` and `injected.bundle.js.map` were created using the
-        //   function`fixup_js_file` in `sentry-cli`. `injected.bundle.js.map` maps from
-        //   `injected.bundle.js` to `bundle.js`.
-        // * `composed.bundle.js.map` is the result of calling `adjust_mappings` on
-        //   `bundle.js.map` and `injected.bundle.js.map`.
+        // * `injected.bundle.js` and `injected.bundle.js.map` were created
+        //   using the function`fixup_js_file` in `sentry-cli`.
+        //   `injected.bundle.js.map` maps from `injected.bundle.js` to
+        //   `bundle.js`.
+        // * `composed.bundle.js.map` is the result of calling `adjust_mappings`
+        //   on `bundle.js.map` and `injected.bundle.js.map`.
         //
-        // If everything is working as intended, `composed.bundle.js.map` is a (good)
-        // sourcemap from `injected.bundle.js` to the original sources. To
-        // verify that this is indeed the case, you can compare `bundle.js` /
+        // If everything is working as intended, `composed.bundle.js.map` is a
+        // (good) sourcemap from `injected.bundle.js` to the original sources.
+        // To verify that this is indeed the case, you can compare `bundle.js` /
         // `bundle.js.map` with `injected.bundle.js` / `composed.bundle.js.map` using https://sokra.github.io/source-map-visualization/#custom.
         //
-        // NB: In the case of `rspack`, the sourcemap generated by the bundler is
-        // *horrible*. It's probably not useful, but `adjust_mappings` preserves
-        // it as far as it goes.
+        // NB: In the case of `rspack`, the sourcemap generated by the bundler
+        // is *horrible*. It's probably not useful, but `adjust_mappings`
+        // preserves it as far as it goes.
         for bundler in ["esbuild", "rollup", "vite", "webpack", "rspack"] {
             let original_map_file = std::fs::File::open(format!(
                 "tests/fixtures/adjust_mappings/{bundler}.bundle.js.map"
@@ -1814,8 +1822,8 @@ mod tests {
         let mut result = vec![];
         bundled_map.to_writer(&mut result).unwrap();
         let result = String::from_utf8(result).unwrap();
-        // std::fs::write("tests/fixtures/adjust_mappings_from_multiple/merged.js.map",
-        // result).unwrap();
+        // std::fs::write("tests/fixtures/adjust_mappings_from_multiple/merged.
+        // js.map", result).unwrap();
 
         let bundled_map_file =
             std::fs::read_to_string("tests/fixtures/adjust_mappings_from_multiple/merged.js.map")

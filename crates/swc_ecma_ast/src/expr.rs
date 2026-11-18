@@ -274,15 +274,16 @@ impl Expr {
 
         loop {
             // SAFETY:
-            // - `cur` starts as the pointer behind the exclusive `'root` borrow, and is
-            //   only replaced with a pointer obtained from the callback's exclusive return
-            //   value.
-            // - The higher-ranked bound gives every call its own lifetime, so safe callback
-            //   code cannot retain this reborrow in captured state. While `op` runs, no
-            //   other reference is created from `cur`.
-            // - A returned reference is consumed into `cur` before the next iteration. Safe
-            //   code cannot return a reference whose storage expires at the end of the
-            //   call.
+            // - `cur` starts as the pointer behind the exclusive `'root`
+            //   borrow, and is only replaced with a pointer obtained from the
+            //   callback's exclusive return value.
+            // - The higher-ranked bound gives every call its own lifetime, so
+            //   safe callback code cannot retain this reborrow in captured
+            //   state. While `op` runs, no other reference is created from
+            //   `cur`.
+            // - A returned reference is consumed into `cur` before the next
+            //   iteration. Safe code cannot return a reference whose storage
+            //   expires at the end of the call.
             match unsafe { op(&mut *cur) } {
                 Some(next) => cur = next,
                 None => {

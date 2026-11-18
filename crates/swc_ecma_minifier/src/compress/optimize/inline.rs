@@ -124,10 +124,10 @@ impl Optimizer<'_> {
 
             let id = ident.to_id();
 
-            // We inline arrays partially if it's pure (all elements are literal), and not
-            // modified.
-            // We don't drop definition, but we just inline array accesses with numeric
-            // literal key.
+            // We inline arrays partially if it's pure (all elements are
+            // literal), and not modified.
+            // We don't drop definition, but we just inline array accesses with
+            // numeric literal key.
             //
             // TODO: Allow `length` in usage.accessed_props
             if usage.flags.contains(VarUsageInfoFlags::DECLARED)
@@ -273,8 +273,8 @@ impl Optimizer<'_> {
 
                     Expr::Lit(lit) => match lit {
                         Lit::Str(s) => {
-                            // If the string literal is declared without initializer and assigned
-                            // once, we can inline it.
+                            // If the string literal is declared without
+                            // initializer and assigned once, we can inline it.
                             if (ref_count == 1
                                 || (ref_count == 2
                                     && usage.assign_count == 1
@@ -568,7 +568,8 @@ impl Optimizer<'_> {
             return;
         }
 
-        // `var arguments;` in a non-arrow function refers to the arguments object.
+        // `var arguments;` in a non-arrow function refers to the arguments
+        // object.
         if ident.sym == "arguments" {
             return;
         }
@@ -712,7 +713,8 @@ impl Optimizer<'_> {
         usage: &VarUsageInfo,
     ) -> bool {
         let param_cost = param_count * 2;
-        // if it's passed as value but not called, the function expr cannot be removed
+        // if it's passed as value but not called, the function expr cannot be
+        // removed
         let func_body_cost = if usage.ref_count == usage.callee_count {
             // length of "function c(){}"
             14 / usage.usage_count
@@ -882,8 +884,10 @@ impl Optimizer<'_> {
                                 match &param.pat {
                                     Pat::Rest(..) => return,
                                     Pat::Assign(assign) => {
-                                        // Multi-use function inlining with default params is only
-                                        // safe for defaults that are never observed directly.
+                                        // Multi-use function inlining with
+                                        // default params is only
+                                        // safe for defaults that are never
+                                        // observed directly.
                                         let Pat::Ident(param) = &*assign.left else {
                                             return;
                                         };
@@ -960,11 +964,12 @@ impl Optimizer<'_> {
 
             // TODO(kdy1):
             //
-            // (usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) || self.options.inline
-            // == 3)
+            // (usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) ||
+            // self.options.inline == 3)
             //
             // seems like a correct check, but it's way to aggressive.
-            // It does not break the code, but everything like _asyncToGenerator is inlined.
+            // It does not break the code, but everything like _asyncToGenerator
+            // is inlined.
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
@@ -1095,8 +1100,8 @@ impl Optimizer<'_> {
                 return None;
             }
 
-            // currently renamer relies on the fact no distinct var has same ctxt, we need
-            // to remap all new bindings.
+            // currently renamer relies on the fact no distinct var has same
+            // ctxt, we need to remap all new bindings.
             let bindings: FxHashSet<Id> = collect_decls(value);
             let new_mark = Mark::new();
             let mut cache = FxHashMap::default();

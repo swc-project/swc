@@ -237,9 +237,10 @@ where
             // See https://github.com/denoland/deno/issues/8725
             //
             // Let's say D is a dependency which contains export * from './foo';
-            // If an user import and export from D, the transitive syntax context map
-            // contains a entry from D to foo because it's reexported and
-            // the variable (reexported from D) exist because it's imported.
+            // If an user import and export from D, the transitive syntax
+            // context map contains a entry from D to foo because it's
+            // reexported and the variable (reexported from D) exist because
+            // it's imported.
             let mut declared_ids = FxHashSet::<_>::default();
 
             for (_, stmt) in entry.iter() {
@@ -702,11 +703,12 @@ where
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                         // At here, we create multiple items.
                         //
-                        // One item is `const local_default = expr` and another one is
-                        // `export { local_default as default }`.
+                        // One item is `const local_default = expr` and another
+                        // one is `export { local_default as default }`.
                         //
-                        // To allow using identifier of the declaration in the original module, we
-                        // create `const local_default = orig_ident` if original identifier exists.
+                        // To allow using identifier of the declaration in the
+                        // original module, we create `const local_default =
+                        // orig_ident` if original identifier exists.
 
                         let local = Ident::new(atom!("default"), DUMMY_SP, info.local_ctxt());
 
@@ -759,8 +761,8 @@ where
                                         ))
                                     }
                                     None => {
-                                        // We should inject a function declaration because of
-                                        // dependencies.
+                                        // We should inject a function
+                                        // declaration because of dependencies.
                                         //
                                         // See: https://github.com/denoland/deno/issues/9346
                                         let ident = private_ident!("default");
@@ -881,8 +883,8 @@ where
                     }
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export)) => {
-                        // Idea is almost same as above. But we uses symbol of the declaration
-                        // instead of using `default`.
+                        // Idea is almost same as above. But we uses symbol of
+                        // the declaration instead of using `default`.
 
                         let local = match export.decl {
                             Decl::Class(c) => {
@@ -1196,7 +1198,8 @@ where
                                                     self.scope.wrapped_esm_id(src.module_id);
                                                 match wrapped_esm_id {
                                                     Some(module_var) => {
-                                                        // Create variable for the namespaced
+                                                        // Create variable for
+                                                        // the namespaced
                                                         // export.
                                                         extra.push(
                                                             module_var
@@ -1238,7 +1241,8 @@ where
                                                     }
                                                 }
 
-                                                // Remove `export * as foo from ''`
+                                                // Remove `export * as foo from
+                                                // ''`
                                                 continue;
                                             }
                                             ModuleExportName::Str(..) => {

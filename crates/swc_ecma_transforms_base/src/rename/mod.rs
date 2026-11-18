@@ -458,12 +458,12 @@ where
 
         // If we have eval, we cannot rename a whole program at once.
         //
-        // Still, we can, and should rename some identifiers, if the containing scope
-        // (function-like nodes) does not have eval. This `eval` check includes
-        // `eval` in children.
+        // Still, we can, and should rename some identifiers, if the containing
+        // scope (function-like nodes) does not have eval. This `eval` check
+        // includes `eval` in children.
         //
-        // We calculate the top level map first, rename children, and then rename the
-        // top level.
+        // We calculate the top level map first, rename children, and then
+        // rename the top level.
         //
         //
         // Order:
@@ -473,8 +473,8 @@ where
         // 3. Per-unit renaming
         // 4. Top level renaming
         //
-        // This is because the top level map may contain a mapping which conflicts
-        // with a map from one of the children.
+        // This is because the top level map may contain a mapping which
+        // conflicts with a map from one of the children.
         //
         // See https://github.com/swc-project/swc/pull/7615
         if has_eval {

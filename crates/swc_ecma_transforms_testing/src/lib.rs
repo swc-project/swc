@@ -67,7 +67,8 @@ impl Tester<'_> {
                 HELPERS.set(&Default::default(), || {
                     let cmts = comments.clone();
                     let c = Box::new(unsafe {
-                        // Safety: This is unsafe but it's used only for testing.
+                        // Safety: This is unsafe but it's used only for
+                        // testing.
                         transmute::<&dyn Comments, &'static dyn Comments>(&*cmts)
                     }) as Box<dyn Comments>;
                     swc_common::comments::COMMENTS.set(&c, || {
@@ -949,8 +950,8 @@ fn test_fixture_inner<'a>(
         match result {
             Some(src) => (src, true),
             None => {
-                // Expected file contains invalid code. When UPDATE=1, we should not
-                // update the file. Print a warning and skip the comparison.
+                // Expected file contains invalid code. When UPDATE=1, we should
+                // not update the file. Print a warning and skip the comparison.
                 eprintln!(
                     "----- {} -----",
                     Color::Red.paint("Warning: expected output file contains invalid code")

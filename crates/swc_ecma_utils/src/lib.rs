@@ -493,8 +493,9 @@ pub trait StmtExt {
             Ok(match stmt {
                 Stmt::Break(_) => {
                     if in_switch {
-                        // In case of `break` in switch, we should stop the analysis because the
-                        // statements after `if (foo) break;` may not execute.
+                        // In case of `break` in switch, we should stop the
+                        // analysis because the statements after `if (foo)
+                        // break;` may not execute.
                         //
                         // So the `return 1` in
                         //
@@ -2828,10 +2829,10 @@ where
 fn is_immutable_value(expr: &Expr) -> bool {
     // TODO(johnlenz): rename this function.  It is currently being used
     // in two disjoint cases:
-    // 1) We only care about the result of the expression (in which case NOT here
-    //    should return true)
-    // 2) We care that expression is a side-effect free and can't be side-effected
-    //    by other expressions.
+    // 1) We only care about the result of the expression (in which case NOT
+    //    here should return true)
+    // 2) We care that expression is a side-effect free and can't be
+    //    side-effected by other expressions.
     // This should only be used to say the value is immutable and
     // hasSideEffects and canBeSideEffected should be used for the other case.
     match *expr {
@@ -3658,8 +3659,9 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
 /// - But `new (class {})()` can be pure if the class has no side effects
 fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     match expr {
-        // Only an empty non-async, non-generator function expression is pure for `new`.
-        // Async and generator functions are not constructible, so `new` throws.
+        // Only an empty non-async, non-generator function expression is pure
+        // for `new`. Async and generator functions are not constructible, so
+        // `new` throws.
         Expr::Fn(FnExpr { function: f, .. })
             if !f.is_async
                 && !f.is_generator
@@ -3671,11 +3673,12 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
         }
 
         // A class expression is pure for `new` if:
-        // 1. It has no side effects from definition (computed keys, property initializers, static
-        //    blocks)
+        // 1. It has no side effects from definition (computed keys, property
+        //    initializers, static blocks)
         // 2. It has no super class (calling super() may have side effects)
         // 3. Either has no constructor, or constructor body is empty
-        // 4. Has no instance properties (they are initialized in the constructor)
+        // 4. Has no instance properties (they are initialized in the
+        //    constructor)
         Expr::Class(c) => {
             let class = &c.class;
 
@@ -3689,13 +3692,14 @@ fn is_pure_new_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                 return false;
             }
 
-            // Check for instance properties (non-static) - they run during construction
+            // Check for instance properties (non-static) - they run during
+            // construction
             for member in &class.body {
                 match member {
                     ClassMember::ClassProp(p) if !p.is_static => return false,
                     ClassMember::PrivateProp(p) if !p.is_static => return false,
-                    // Auto-accessor initializers run when the instance is constructed,
-                    // just like instance field initializers.
+                    // Auto-accessor initializers run when the instance is
+                    // constructed, just like instance field initializers.
                     ClassMember::AutoAccessor(p) if !p.is_static => return false,
                     _ => {}
                 }
@@ -3868,9 +3872,10 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             true
         }
 
-        // A new expression is side-effect free if callee is pure for `new` and args are
-        // side-effect free. Note: we use is_pure_new_callee instead of is_pure_callee because
-        // class expressions are valid for `new` but calling them throws TypeError.
+        // A new expression is side-effect free if callee is pure for `new` and
+        // args are side-effect free. Note: we use is_pure_new_callee instead of
+        // is_pure_callee because class expressions are valid for `new` but
+        // calling them throws TypeError.
         Expr::New(NewExpr { callee, args, .. }) if is_pure_new_callee(callee, ctx) => args
             .iter()
             .flatten()

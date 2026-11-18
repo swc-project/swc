@@ -201,10 +201,12 @@ fn does_key_exist(key: &str, props: &Vec<PropOrSpread>) -> Option<bool> {
 
                 Prop::KeyValue(prop) => {
                     if key != "__proto__" && prop_name_eq(&prop.key, "__proto__") {
-                        // If __proto__ is defined, we need to check the contents of it,
-                        // as well as any nested __proto__ objects
+                        // If __proto__ is defined, we need to check the
+                        // contents of it, as well as any nested __proto__
+                        // objects
                         if let Some(object) = prop.value.as_object() {
-                            // __proto__ is an ObjectLiteral, check if key exists in it
+                            // __proto__ is an ObjectLiteral, check if key
+                            // exists in it
                             let exists = does_key_exist(key, &object.props);
                             if exists.is_none() {
                                 return None;
@@ -212,8 +214,8 @@ fn does_key_exist(key: &str, props: &Vec<PropOrSpread>) -> Option<bool> {
                                 return Some(true);
                             }
                         } else {
-                            // __proto__ is not a literal, it is impossible to know if the
-                            // key exists or not
+                            // __proto__ is not a literal, it is impossible to
+                            // know if the key exists or not
                             return None;
                         }
                     } else {
@@ -340,8 +342,9 @@ impl Pure<'_> {
             Expr::Lit(Lit::Str(Str { value, span, .. })) => {
                 match op.index {
                     Some(index) => {
-                        // JavaScript indexes strings by UTF-16 code unit, not by WTF-8 byte.
-                        // WTF-8 byte length remains a safe upper bound for a fast rejection.
+                        // JavaScript indexes strings by UTF-16 code unit, not
+                        // by WTF-8 byte. WTF-8 byte length remains a safe upper
+                        // bound for a fast rejection.
                         let is_out_of_bounds = index >= value.len()
                             || value.to_ill_formed_utf16().nth(index).is_none();
 
@@ -496,10 +499,10 @@ impl Pure<'_> {
             Expr::Object(ObjectLit { props, span }) => {
                 // Do nothing if there are invalid keys.
                 //
-                // Objects with one or more keys that are not literals or identifiers
-                // are impossible to optimize as we don't know for certain if a given
-                // key is actually invalid, e.g. `{[bar()]: 5}`, since we don't know
-                // what `bar()` returns.
+                // Objects with one or more keys that are not literals or
+                // identifiers are impossible to optimize as we don't know for
+                // certain if a given key is actually invalid, e.g. `{[bar()]:
+                // 5}`, since we don't know what `bar()` returns.
                 let contains_invalid_key = props
                     .iter()
                     .any(|prop| !matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::KeyValue(kv) if kv.key.is_ident() || kv.key.is_str() || kv.key.is_num())));
@@ -523,8 +526,9 @@ impl Pure<'_> {
 
                 let is_known_symbol = is_object_symbol(&key);
                 if is_known_symbol {
-                    // Like with arrays, we need to check if this is already optimized
-                    // before returning Some so we don't end up in an infinite loop.
+                    // Like with arrays, we need to check if this is already
+                    // optimized before returning Some so we don't end up in an
+                    // infinite loop.
                     //
                     // The same logic with arrays applies; read above.
                     let optimized_len = props
@@ -557,7 +561,8 @@ impl Pure<'_> {
                         }
                         .into()
                     } else {
-                        // Invalid key. Replace with side effects plus `undefined`.
+                        // Invalid key. Replace with side effects plus
+                        // `undefined`.
                         Expr::undefined(*span)
                     },
                     props.drain(..).map(|x| match x {

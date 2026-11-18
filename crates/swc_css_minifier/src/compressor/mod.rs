@@ -98,8 +98,8 @@ impl VisitMut for Compressor {
             ..self.ctx
         }));
 
-        // Don't touch `@supports`, it can be used to check a browser's support for one
-        // or more specific CSS features
+        // Don't touch `@supports`, it can be used to check a browser's support
+        // for one or more specific CSS features
         if !self.in_supports_condition {
             self.compress_calc_sum(n);
         }

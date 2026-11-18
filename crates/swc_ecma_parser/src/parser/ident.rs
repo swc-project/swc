@@ -52,8 +52,9 @@ impl<I: Tokens> Parser<I> {
     #[cfg(feature = "typescript")]
     pub(super) fn parse_ident_name_with_escape_check(&mut self) -> PResult<IdentName> {
         if let Some(error) = self.input().escaped_keyword_error() {
-            // Escape errors must survive successful speculation. Parser checkpoints
-            // discard them if the binding interpretation is rolled back.
+            // Escape errors must survive successful speculation. Parser
+            // checkpoints discard them if the binding interpretation is rolled
+            // back.
             self.input_mut().iter_mut().add_error(error);
         }
         self.parse_ident_name()
@@ -192,9 +193,10 @@ impl<I: Tokens> Parser<I> {
         let t = token_and_span.token;
 
         // Spec:
-        // It is a Syntax Error if this phrase is contained in strict mode code and the
-        // StringValue of IdentifierName is: "implements", "interface", "let",
-        // "package", "private", "protected", "public", "static", or "yield".
+        // It is a Syntax Error if this phrase is contained in strict mode code
+        // and the StringValue of IdentifierName is: "implements", "interface",
+        // "let", "package", "private", "protected", "public", "static", or
+        // "yield".
         if t == Token::Enum {
             let word = self.input_mut().expect_word_token_and_bump();
             self.emit_err(span, SyntaxError::InvalidIdentInStrict(word.clone()));
@@ -217,8 +219,9 @@ impl<I: Tokens> Parser<I> {
         let word;
 
         // Spec:
-        // It is a Syntax Error if StringValue of IdentifierName is the same String
-        // value as the StringValue of any ReservedWord except for yield or await.
+        // It is a Syntax Error if StringValue of IdentifierName is the same
+        // String value as the StringValue of any ReservedWord except for yield
+        // or await.
         if t == Token::Await {
             if self.type_ctx().contains(TypeContext::InDeclare) {
                 word = atom!("await");

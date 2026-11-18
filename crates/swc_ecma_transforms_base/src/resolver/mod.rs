@@ -755,7 +755,8 @@ impl VisitMut for Resolver<'_> {
 
         n.class.decorators.visit_mut_with(self);
 
-        // Create a child scope. The class name is only accessible within the class.
+        // Create a child scope. The class name is only accessible within the
+        // class.
 
         self.with_child(ScopeKind::Fn, |child| {
             child.ident_type = IdentType::Ref;
@@ -768,7 +769,8 @@ impl VisitMut for Resolver<'_> {
         if self.in_erased_type {
             self.namespace_state.get().require_type_scopes();
         }
-        // Create a child scope. The class name is only accessible within the class.
+        // Create a child scope. The class name is only accessible within the
+        // class.
 
         n.class.super_class.visit_mut_with(self);
 
@@ -1106,8 +1108,9 @@ impl VisitMut for Resolver<'_> {
     }
 
     fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
-        // Always resolve the import declaration identifiers even if it's type only.
-        // We need to analyze these identifiers for type stripping purposes.
+        // Always resolve the import declaration identifiers even if it's type
+        // only. We need to analyze these identifiers for type stripping
+        // purposes.
         self.ident_type = IdentType::Binding;
         let old_in_type = self.in_type;
         self.in_type = n.type_only;
@@ -1378,9 +1381,9 @@ impl VisitMut for Resolver<'_> {
         self.modify(&mut decl.id, DeclKind::Lexical);
 
         self.with_child(ScopeKind::Block, |child| {
-            // Predeclare enum members in a child scope marked with `unresolved_mark`.
-            // Enum initializers may reference other members, including quoted names whose
-            // text is a valid identifier:
+            // Predeclare enum members in a child scope marked with
+            // `unresolved_mark`. Enum initializers may reference other members,
+            // including quoted names whose text is a valid identifier:
             //
             // ```TypeScript
             //   enum E {
@@ -1390,10 +1393,10 @@ impl VisitMut for Resolver<'_> {
             //   }
             // ```
             //
-            // This keeps references like `A`, `B`, and `b = a` in the unresolved
-            // context instead of resolving them to the enum's lexical scope, so the
-            // TypeScript enum transform can interpret them later through the
-            // current enum's typed member index.
+            // This keeps references like `A`, `B`, and `b = a` in the
+            // unresolved context instead of resolving them to the enum's
+            // lexical scope, so the TypeScript enum transform can interpret
+            // them later through the current enum's typed member index.
             child.current.set_mark(self.config.unresolved_mark);
             // add the enum member names as declared symbols for this scope
             // Ex. `enum Foo { a, b = a }`
@@ -1879,8 +1882,8 @@ impl VisitMut for Hoister<'_, '_> {
         // let mut excluded = find_ids::<_, Id>(&c.body);
 
         // excluded.retain(|id| {
-        //     // If we already have a declartion named a, `var a` in the catch body is
-        //     // different var.
+        //     // If we already have a declartion named a, `var a` in the catch
+        // body is     // different var.
 
         //     self.resolver.mark_for_ref(&id.0).is_none()
         // });
@@ -1998,8 +2001,9 @@ impl VisitMut for Hoister<'_, '_> {
             if self.resolver.strict_mode {
                 return;
             }
-            // If we are in nested block, and variable named `foo` is lexically declared or
-            // a parameter, we should ignore function foo while handling upper scopes.
+            // If we are in nested block, and variable named `foo` is lexically
+            // declared or a parameter, we should ignore function foo while
+            // handling upper scopes.
             if let Some(DeclKind::Lexical | DeclKind::Param) =
                 self.resolver.current.is_declared(&node.ident.sym)
             {

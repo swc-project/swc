@@ -265,7 +265,8 @@ fn create_matrix(entry: &Path, config: &ExecConfig, swcrc: Option<&Config>) -> V
                 options.config.merge(swcrc.cloned().unwrap_or_default());
 
                 // `env` and `jsc.target` are mutually exclusive. Keep the file
-                // intact and exercise both lowering strategies in separate rows.
+                // intact and exercise both lowering strategies in separate
+                // rows.
                 match target {
                     MatrixTarget::Version(version) => {
                         options.config.env = None;
@@ -388,7 +389,8 @@ fn get_expected_stdout(input: &Path, mut reference: Config) -> Result<String, Er
                         ..Default::default()
                     });
                     // Keep the reference independent of the configuration under
-                    // test, just as the original runner did with swcrc disabled.
+                    // test, just as the original runner did with swcrc
+                    // disabled.
 
                     let res = c
                         .process_js_file(

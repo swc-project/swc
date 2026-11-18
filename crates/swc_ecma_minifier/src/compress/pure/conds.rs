@@ -371,8 +371,8 @@ impl Pure<'_> {
             return;
         };
 
-        // If catch block is not specified and finally block is empty, fold it to simple
-        // block.
+        // If catch block is not specified and finally block is empty, fold it
+        // to simple block.
         if ts.handler.is_none() && ts.finalizer.is_empty() {
             report_change!("conditionals: Optimizing meaningless try block");
             self.changed = true;

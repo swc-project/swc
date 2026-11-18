@@ -306,9 +306,10 @@ fn validate_ancestor_dacl(
     is_volume_root: bool,
 ) -> io::Result<()> {
     let denied = |message| io::Error::new(io::ErrorKind::PermissionDenied, message);
-    // A volume/share root cannot itself be removed through DELETE. Keep checking
-    // rights that can replace its children or change its security descriptor.
-    // Non-root ancestors still need DELETE protection against substitution.
+    // A volume/share root cannot itself be removed through DELETE. Keep
+    // checking rights that can replace its children or change its security
+    // descriptor. Non-root ancestors still need DELETE protection against
+    // substitution.
     let dangerous_access = if is_volume_root {
         DANGEROUS_DIRECTORY_ACCESS & !DELETE
     } else {

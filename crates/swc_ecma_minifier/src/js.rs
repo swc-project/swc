@@ -202,7 +202,8 @@ pub struct JsMinifyFormatOptions {
 
 impl Default for JsMinifyFormatOptions {
     fn default() -> Self {
-        // Well, this should be a macro IMHO, but it's not so let's just use hacky way.
+        // Well, this should be a macro IMHO, but it's not so let's just use
+        // hacky way.
         serde_json::from_str("{}").unwrap()
     }
 }

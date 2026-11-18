@@ -70,8 +70,8 @@ pub fn is_irregular_whitespace(c: char) -> bool {
 pub fn is_white_space_single_line(c: char) -> bool {
     // Note: nextLine is in the Zs space, and should be considered to be a
     // whitespace.
-    // It is explicitly not a line-break as it isn't in the exact set specified by
-    // EcmaScript.
+    // It is explicitly not a line-break as it isn't in the exact set specified
+    // by EcmaScript.
     matches!(c, SP | TAB) || is_irregular_whitespace(c)
 }
 

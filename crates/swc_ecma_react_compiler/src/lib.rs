@@ -23,7 +23,8 @@ use convert_ast_reverse::convert_program_to_swc;
 use diagnostics::{compile_result_to_diagnostics, DiagnosticMessage};
 use prefilter::has_resource_management_declarations;
 use react_compiler::entrypoint::compile_result::LoggerEvent;
-// Re-exported so integrations needn't depend on the upstream `react_compiler` crate.
+// Re-exported so integrations needn't depend on the upstream `react_compiler`
+// crate.
 pub use react_compiler::entrypoint::plugin_options::{
     CompilerTarget, DynamicGatingConfig, GatingConfig, PluginOptions,
 };

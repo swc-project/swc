@@ -35,7 +35,8 @@ fn fixture(input: PathBuf) {
             Assumptions::default()
         }
     });
-    // SWC applies set semantics after stripping types and before compat lowering.
+    // SWC applies set semantics after stripping types and before compat
+    // lowering.
     let use_set =
         !options.jsc.transform.use_define_for_class_fields || assumptions.set_public_class_fields;
     let env = options.env;

@@ -1872,8 +1872,8 @@ fn generate_visit_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
         let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
         let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
 
-        // Nested execution: first.enter -> second.enter -> ... -> second.exit ->
-        // first.exit
+        // Nested execution: first.enter -> second.enter -> ... -> second.exit
+        // -> first.exit
         impl_methods.push(parse_quote!(
             #[inline]
             fn #enter_method_name(&mut self, node: &#node_type, ctx: &mut C) {
@@ -2192,8 +2192,8 @@ fn generate_composite_hook(all_types: &[FieldType]) -> Vec<Item> {
         let enter_method_name = Ident::new(&format!("enter_{method_name_base}"), Span::call_site());
         let exit_method_name = Ident::new(&format!("exit_{method_name_base}"), Span::call_site());
 
-        // Nested execution: first.enter -> second.enter -> ... -> second.exit ->
-        // first.exit
+        // Nested execution: first.enter -> second.enter -> ... -> second.exit
+        // -> first.exit
         impl_methods.push(parse_quote!(
             #[inline]
             fn #enter_method_name(&mut self, node: &mut #type_name, ctx: &mut C) {

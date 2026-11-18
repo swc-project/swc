@@ -528,8 +528,8 @@ impl Optimizer<'_> {
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
-                // Test expr may change the variables that cons and alt **may use** in their
-                // common args. For example:
+                // Test expr may change the variables that cons and alt **may
+                // use** in their common args. For example:
                 // from (a = 1) ? f(a, true) : f(a, false)
                 // to   f(a, a = 1 ? true : false)
                 let side_effects_in_test = test.may_have_side_effects(self.ctx.expr_ctx);

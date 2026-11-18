@@ -593,8 +593,8 @@ impl VisitMut for Remover {
                         };
                     }
 
-                    // If catch block is not specified and finally block is empty, fold it to simple
-                    // block.
+                    // If catch block is not specified and finally block is
+                    // empty, fold it to simple block.
                     if handler.is_none() && finalizer.is_empty() {
                         if cfg!(feature = "debug") {
                             #[cfg(debug_assertions)]
@@ -1330,7 +1330,8 @@ impl Remover {
                         | Stmt::Return { .. }
                         | Stmt::Continue { .. }
                         | Stmt::Break { .. } => {
-                            // Hoist function and `var` declarations above return.
+                            // Hoist function and `var` declarations above
+                            // return.
                             let mut decls = Vec::new();
                             let mut hoisted_fns = Vec::new();
                             for t in iter {

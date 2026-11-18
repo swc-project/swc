@@ -36,8 +36,8 @@ impl<Node: EqIgnoreSpan + ToOwned + Debug> Eq for NodeIgnoringSpan<'_, Node> {}
 // `hash_ignore_span` for each node in the end.
 impl Hash for NodeIgnoringSpan<'_, Expr> {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        // In pratice, most of cases/input we are dealing with are Expr::Member or
-        // Expr::Ident.
+        // In pratice, most of cases/input we are dealing with are Expr::Member
+        // or Expr::Ident.
         match &*self.0 {
             Expr::Ident(i) => {
                 i.sym.hash(state);

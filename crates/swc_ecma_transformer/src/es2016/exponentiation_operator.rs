@@ -161,7 +161,8 @@ impl ExponentiationOperatorPass {
         };
 
         match prop {
-            // obj.prop **= right -> (_obj = obj, _obj.prop = Math.pow(_obj.prop, right))
+            // obj.prop **= right -> (_obj = obj, _obj.prop =
+            // Math.pow(_obj.prop, right))
             MemberProp::Ident(prop_name) => {
                 // Create Math.pow(obj.prop, right)
                 let pow_left = Box::new(Expr::Member(MemberExpr {
@@ -193,8 +194,8 @@ impl ExponentiationOperatorPass {
                     *expr = assignment;
                 }
             }
-            // obj[computed] **= right -> (_obj = obj, _prop = prop, _obj[_prop] =
-            // Math.pow(_obj[_prop], right))
+            // obj[computed] **= right -> (_obj = obj, _prop = prop, _obj[_prop]
+            // = Math.pow(_obj[_prop], right))
             MemberProp::Computed(computed) => {
                 let computed_prop = computed.expr;
 

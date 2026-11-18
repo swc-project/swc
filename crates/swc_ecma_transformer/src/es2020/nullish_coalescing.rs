@@ -95,7 +95,8 @@ impl NullishCoalescingPass {
 
         // Create the test expression and consequent
         let (test_expr, cons_expr) = if needs_temp {
-            // Complex left side: (_ref = left) !== null && _ref !== void 0 ? _ref : right
+            // Complex left side: (_ref = left) !== null && _ref !== void 0 ?
+            // _ref : right
             let assign_expr = Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: AssignOp::Assign,
@@ -137,7 +138,8 @@ impl NullishCoalescingPass {
         };
 
         match &mut assign_expr.left {
-            // Simple identifier: `x ??= right` -> `x = x !== null && x !== void 0 ? x : right`
+            // Simple identifier: `x ??= right` -> `x = x !== null && x !== void
+            // 0 ? x : right`
             AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) => {
                 let ident_ref = ident.id.clone();
                 let right = assign_expr.right.take();
@@ -173,7 +175,8 @@ impl NullishCoalescingPass {
                 let right = assign_expr.right.take();
                 let left_clone = left.clone();
 
-                // Create: (_ref = left) !== null && _ref !== void 0 ? _ref : (left = right)
+                // Create: (_ref = left) !== null && _ref !== void 0 ? _ref :
+                // (left = right)
                 let assign_to_temp = Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: AssignOp::Assign,
@@ -195,8 +198,8 @@ impl NullishCoalescingPass {
                     right,
                 }));
 
-                // Final: _ref = (_ref = left) !== null && _ref !== void 0 ? _ref : (left =
-                // right)
+                // Final: _ref = (_ref = left) !== null && _ref !== void 0 ?
+                // _ref : (left = right)
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: AssignOp::Assign,

@@ -121,7 +121,8 @@ where
     fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
         match item {
             // TODO: Optimize pure constants
-            //            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+            //
+            // ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
             //                decl: Decl::Var(v),
             //                ..
             //            })) if v.kind == VarDeclKind::Const
@@ -148,8 +149,8 @@ where
             //                        };
             //                        (id, lit)
             //                    }));
-            //                return ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
-            //            }
+            //                return ModuleItem::Stmt(Stmt::Empty(EmptyStmt {
+            // span: DUMMY_SP }));            }
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(decl)) => {
                 let v = self.info.items.entry(None).or_default();
                 v.push({

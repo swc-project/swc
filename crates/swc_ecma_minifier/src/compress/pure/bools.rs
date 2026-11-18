@@ -96,7 +96,8 @@ impl Pure<'_> {
                 if in_bool_ctx {
                     match *op {
                         op!("||") => {
-                            // `a || false` => `a` (as it will be casted to boolean anyway)
+                            // `a || false` => `a` (as it will be casted to
+                            // boolean anyway)
 
                             if let Value::Known(false) = right.as_pure_bool(self.expr_ctx) {
                                 report_change!(
@@ -109,7 +110,8 @@ impl Pure<'_> {
                         }
 
                         op!("&&") => {
-                            // false && foo => false (as it will be always false)
+                            // false && foo => false (as it will be always
+                            // false)
 
                             if let (_, Value::Known(false)) = left.cast_to_bool(self.expr_ctx) {
                                 report_change!(
@@ -415,8 +417,9 @@ impl Pure<'_> {
 
             e if is_pure_undefined(self.expr_ctx, e) => true,
 
-            // Deleting a declared binding is false in sloppy mode. Keep unresolved
-            // identifiers untouched because they may refer to a deletable global property.
+            // Deleting a declared binding is false in sloppy mode. Keep
+            // unresolved identifiers untouched because they may refer to a
+            // deletable global property.
             Expr::Ident(i) if i.ctxt != self.expr_ctx.unresolved_ctxt => {
                 self.changed = true;
                 let span = delete.arg.span();
@@ -505,8 +508,8 @@ impl Pure<'_> {
                 right,
                 ..
             }) => {
-                // Regardless if it's truthy or falsy, we can optimize it because it will be
-                // casted as bool anyway.
+                // Regardless if it's truthy or falsy, we can optimize it
+                // because it will be casted as bool anyway.
                 self.optimize_expr_in_bool_ctx(left, false);
                 self.optimize_expr_in_bool_ctx(right, is_return_value_ignored);
                 return;

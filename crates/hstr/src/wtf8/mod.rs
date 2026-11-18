@@ -1468,8 +1468,10 @@ mod tests {
 
         // Valid WTF-8 with unpaired surrogates
         assert!(Wtf8Buf::from_bytes(b"\xED\xA0\x80".to_vec()).is_ok()); // lead surrogate
-        assert!(Wtf8Buf::from_bytes(b"\xED\xB0\x80".to_vec()).is_ok()); // trail surrogate
-        assert!(Wtf8Buf::from_bytes(b"a\xED\xA0\xBD".to_vec()).is_ok()); // text + lead
+        assert!(Wtf8Buf::from_bytes(b"\xED\xB0\x80".to_vec()).is_ok()); // trail
+                                                                        // surrogate
+        assert!(Wtf8Buf::from_bytes(b"a\xED\xA0\xBD".to_vec()).is_ok()); // text
+                                                                         // + lead
         assert!(Wtf8Buf::from_bytes(b"\xED\xB2\xA9z".to_vec()).is_ok()); // trail + text
         assert!(Wtf8Buf::from_bytes(b"\xED\xB2\xA9\xED\xA0\xBD".to_vec()).is_ok());
         // trail + lead

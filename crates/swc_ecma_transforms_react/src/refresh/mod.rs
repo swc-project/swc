@@ -324,7 +324,8 @@ impl<C: Comments> Refresh<C> {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl:
                         DefaultDecl::Fn(FnExpr {
-                            // We don't currently handle anonymous default exports.
+                            // We don't currently handle anonymous default
+                            // exports.
                             ident: Some(ident),
                             ..
                         }),

@@ -194,7 +194,8 @@ impl Visit for UsageVisitor {
         //    }
         //
         //    if (has(STATIC_PROPERTIES, evaluatedPropType)) {
-        //        const BuiltInProperties = STATIC_PROPERTIES[evaluatedPropType];
+        //        const BuiltInProperties =
+        // STATIC_PROPERTIES[evaluatedPropType];
         //        if (has(BuiltInProperties, propertyName)) {
         //            const StaticPropertyDependencies =
         // BuiltInProperties[propertyName];
@@ -202,8 +203,8 @@ impl Visit for UsageVisitor {
         //    }
         //
         //    if (has(INSTANCE_PROPERTIES, propertyName)) {
-        //        let InstancePropertyDependencies = INSTANCE_PROPERTIES[propertyName];
-        //        if (instanceType) {
+        //        let InstancePropertyDependencies =
+        // INSTANCE_PROPERTIES[propertyName];        if (instanceType) {
         //            InstancePropertyDependencies =
         // InstancePropertyDependencies.filter(                module =>
         // module.includes(instanceType),            );

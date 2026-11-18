@@ -233,10 +233,10 @@ impl Ord for Atom {
 impl Borrow<Wtf8Atom> for Atom {
     fn borrow(&self) -> &Wtf8Atom {
         // SAFETY:
-        // 1. Wtf8Atom is #[repr(transparent)] over hstr::Wtf8Atom, so as hstr::Wtf8Atom
+        // 1. Wtf8Atom is #[repr(transparent)] over hstr::Wtf8Atom, so as
+        //    hstr::Wtf8Atom over TaggedValue
+        // 2. Atom is #[repr(transparent)] over hstr::Atom, so as hstr::Atom
         //    over TaggedValue
-        // 2. Atom is #[repr(transparent)] over hstr::Atom, so as hstr::Atom over
-        //    TaggedValue
         // 3. hstr::Atom and hstr::Wtf8Atom share the same TaggedValue
         const _: () = assert!(std::mem::size_of::<Atom>() == std::mem::size_of::<Wtf8Atom>());
         const _: () = assert!(std::mem::align_of::<Atom>() == std::mem::align_of::<Wtf8Atom>());

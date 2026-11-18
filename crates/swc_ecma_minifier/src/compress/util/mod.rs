@@ -500,20 +500,22 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
             }) = &**callee
             {
                 match &**obj {
-                    // `Math` is matched by name only, so every arm below assumes
-                    // the identifier resolves to the global object rather than to
-                    // a local binding. `function f(Math) { return Math.sqrt(4) }`
-                    // is therefore folded as if the built-in were in scope.
+                    // `Math` is matched by name only, so every arm below
+                    // assumes the identifier resolves to the global object
+                    // rather than to a local binding. `function f(Math) {
+                    // return Math.sqrt(4) }` is therefore folded as if the
+                    // built-in were in scope.
                     //
                     // This assumption is narrower than the ones listed in this
                     // crate's `AGENTS.md`, hence this comment. Checking
-                    // `obj.ctxt == expr_ctx.unresolved_ctxt` would make it exact,
-                    // as `eval_global_vars` does for `Number`.
+                    // `obj.ctxt == expr_ctx.unresolved_ctxt` would make it
+                    // exact, as `eval_global_vars` does for `Number`.
                     //
                     // Every arm also relies on `Math`'s methods not having been
-                    // reassigned (e.g. `Math.ceil = () => 7`), but that one *is*
-                    // already covered by this crate's `AGENTS.md`: "built-in
-                    // object implementations have not been overridden".
+                    // reassigned (e.g. `Math.ceil = () => 7`), but that one
+                    // *is* already covered by this crate's `AGENTS.md`:
+                    // "built-in object implementations have not been
+                    // overridden".
                     Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
                         "cos" => {
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;

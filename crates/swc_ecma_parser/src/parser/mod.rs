@@ -369,8 +369,8 @@ impl<I: Tokens> Parser<I> {
 
         // consume EOF
         p.input.first_bump();
-        // This is a workaround to make comments work when there are only comments in a
-        // source file.
+        // This is a workaround to make comments work when there are only
+        // comments in a source file.
         if p.input.cur.token == Token::Eof {
             p.input.cur.span = Span::new_with_checked(start_pos, start_pos);
         }
@@ -533,9 +533,10 @@ impl<I: Tokens> Parser<I> {
         }
 
         // Keep the first Module result and its diagnostics intact while probing
-        // Script. If both probes report errors, preserve Module only for a fatal
-        // Module failure or a known grammar ambiguity; otherwise the absence of
-        // module syntax still classifies the recoverable program as Script.
+        // Script. If both probes report errors, preserve Module only for a
+        // fatal Module failure or a known grammar ambiguity; otherwise the
+        // absence of module syntax still classifies the recoverable program as
+        // Script.
         let mut script_parser = self.clone();
         script_parser.program_checkpoint_load(module_checkpoint);
         script_parser.enter_unambiguous_script_context();
@@ -605,8 +606,9 @@ impl<I: Tokens> Parser<I> {
                     .iter()
                     .any(|item| matches!(item, ModuleItem::ModuleDecl(..)));
                 if requires_module_ast {
-                    // TypeScript internal import aliases use Script grammar, but the AST can
-                    // only represent them as module declarations.
+                    // TypeScript internal import aliases use Script grammar,
+                    // but the AST can only represent them as module
+                    // declarations.
                     Program::Module(Module {
                         span: self.span(start),
                         body,
@@ -1413,8 +1415,8 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            // It is an early Reference Error if LeftHandSideExpression is neither
-            // an ObjectLiteral nor an ArrayLiteral and
+            // It is an early Reference Error if LeftHandSideExpression is
+            // neither an ObjectLiteral nor an ArrayLiteral and
             // IsValidSimpleAssignmentTarget of LeftHandSideExpression is false.
             if !is_eval_or_arguments
                 && !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict))

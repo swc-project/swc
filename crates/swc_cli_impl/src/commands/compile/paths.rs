@@ -213,7 +213,8 @@ mod tests {
 
     #[test]
     fn declaration_path_follows_output_extension() {
-        // Issue #12554: `tsc` pairs `.mjs` with `.d.mts` and `.cjs` with `.d.cts`.
+        // Issue #12554: `tsc` pairs `.mjs` with `.d.mts` and `.cjs` with
+        // `.d.cts`.
         for (output, expected) in [
             ("dist/a.mjs", "dist/a.d.mts"),
             ("dist/b.cjs", "dist/b.d.cts"),

@@ -480,10 +480,10 @@ impl Span {
     pub fn to(self, end: Span) -> Span {
         let span_data = self;
         let end_data = end;
-        // FIXME(jseyfried): self.ctxt should always equal end.ctxt here (c.f. issue
-        // #23480) Return the macro span on its own to avoid weird diagnostic
-        // output. It is preferable to have an incomplete span than a completely
-        // nonsensical one.
+        // FIXME(jseyfried): self.ctxt should always equal end.ctxt here (c.f.
+        // issue #23480) Return the macro span on its own to avoid weird
+        // diagnostic output. It is preferable to have an incomplete span than a
+        // completely nonsensical one.
 
         Span::new(
             cmp::min(span_data.lo, end_data.lo),
@@ -813,8 +813,8 @@ impl cbor4ii::core::enc::Encode for SourceFile {
         writer: &mut W,
     ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
         // This is intentionally the historical plugin wire format, not the
-        // in-memory SourceFile layout. Plugins compiled before SourceFile hashes
-        // became lazy (notably @swc/plugin-styled-components) read
+        // in-memory SourceFile layout. Plugins compiled before SourceFile
+        // hashes became lazy (notably @swc/plugin-styled-components) read
         // `Loc.file.src_hash`, so the wire format must still include virtual
         // `src_hash` and `name_hash` slots.
         //
@@ -1507,7 +1507,8 @@ mod encoding_helper {
             &self,
             writer: &mut W,
         ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
-            // when MSRV supports version 1.75.0 and later, `.as_slice()` should be used.
+            // when MSRV supports version 1.75.0 and later, `.as_slice()` should
+            // be used.
             let v = self.0.as_deref();
             cbor4ii::core::types::Array::bounded(v.is_some() as usize, writer)?;
             if let Some(v) = v {

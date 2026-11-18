@@ -213,11 +213,12 @@ impl CodeSuggestion {
                 assert!(!lines.lines.is_empty());
 
                 // To build up the result, we do this for each span:
-                // - push the line segment trailing the previous span (at the beginning a
-                //   "phantom" span pointing at the start of the line)
+                // - push the line segment trailing the previous span (at the
+                //   beginning a "phantom" span pointing at the start of the
+                //   line)
                 // - push lines between the previous and current span (if any)
-                // - if the previous and current span are not on the same line push the line
-                //   segment leading up to the current span
+                // - if the previous and current span are not on the same line
+                //   push the line segment leading up to the current span
                 // - splice in the span substitution
                 //
                 // Finally push the trailing line segment of the last span
@@ -234,7 +235,8 @@ impl CodeSuggestion {
                         push_trailing(&mut buf, prev_line.as_ref(), &prev_hi, Some(&cur_lo));
                     } else {
                         push_trailing(&mut buf, prev_line.as_ref(), &prev_hi, None);
-                        // push lines between the previous and current span (if any)
+                        // push lines between the previous and current span (if
+                        // any)
                         for idx in prev_hi.line..(cur_lo.line - 1) {
                             if let Some(line) = fm.get_line(idx) {
                                 buf.push_str(line.as_ref());
@@ -249,7 +251,8 @@ impl CodeSuggestion {
                     prev_hi = cm.lookup_char_pos(part.span.hi());
                     prev_line = fm.get_line(prev_hi.line - 1);
                 }
-                // if the replacement already ends with a newline, don't print the next line
+                // if the replacement already ends with a newline, don't print
+                // the next line
                 if !buf.ends_with('\n') {
                     push_trailing(&mut buf, prev_line.as_ref(), &prev_hi, None);
                 }
@@ -564,8 +567,8 @@ impl Handler {
         result
     }
 
-    // FIXME: This method should be removed (every error should have an associated
-    // error code).
+    // FIXME: This method should be removed (every error should have an
+    // associated error code).
     pub fn struct_err<'a>(&'a self, msg: &str) -> DiagnosticBuilder<'a> {
         DiagnosticBuilder::new(self, Level::Error, msg)
     }

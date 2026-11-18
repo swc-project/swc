@@ -87,9 +87,9 @@ impl Fold for TemplateLiteralCaching {
 
                 let helper_ident = self.helper_ident.as_ref().unwrap();
 
-                // Use the identity function helper to get a reference to the template's
-                // Strings. We replace all expressions with `0` ensure Strings has
-                // the same shape.   identity`a${0}`
+                // Use the identity function helper to get a reference to the
+                // template's Strings. We replace all expressions with `0`
+                // ensure Strings has the same shape.   identity`a${0}`
                 let template = TaggedTpl {
                     span: DUMMY_SP,
                     tag: helper_ident.clone().into(),
@@ -101,8 +101,8 @@ impl Fold for TemplateLiteralCaching {
                     ..Default::default()
                 };
 
-                // Install an inline cache at the callsite using the global variable:
-                //   _t || (_t = identity`a${0}`)
+                // Install an inline cache at the callsite using the global
+                // variable:   _t || (_t = identity`a${0}`)
                 let t = private_ident!("t");
                 self.create_binding(t.clone(), None);
                 let inline_cache: Expr = BinExpr {

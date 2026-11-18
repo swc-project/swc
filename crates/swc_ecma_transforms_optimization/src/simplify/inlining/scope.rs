@@ -336,8 +336,8 @@ impl<'a> Scope<'a> {
                 _ => {}
             }
 
-            // If it's already hoisted, it means that it is already processed by child
-            // scope.
+            // If it's already hoisted, it means that it is already processed by
+            // child scope.
             if v.hoisted.get() {
                 return false;
             }

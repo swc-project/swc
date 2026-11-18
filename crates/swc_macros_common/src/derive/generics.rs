@@ -17,7 +17,8 @@ impl<'a> Derive<'a> {
                 if let Some(seg) = path.segments.last() {
                     if seg.ident == "PhantomData" {
                         // Hardcoded exception.
-                        // This assumes name of the associated type is not PhantomData.
+                        // This assumes name of the associated type is not
+                        // PhantomData.
                         return;
                     }
                 }

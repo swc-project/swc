@@ -89,7 +89,8 @@ impl VisitMut for UnicodePropertyTransformer {
         for content in contents.drain(..) {
             match content {
                 CharacterClassContents::UnicodePropertyEscape(prop) => {
-                    // Inside a character class, we need to inline the ranges directly
+                    // Inside a character class, we need to inline the ranges
+                    // directly
                     if let Some(ranges) = get_matched_ranges(&prop) {
                         push_ranges(&mut new_contents, &ranges, &prop);
                     } else {
@@ -208,7 +209,8 @@ fn get_unicode_property_ranges(
         // Script_Extensions property
         ("Script_Extensions" | "scx", Some(val)) => get_script_extensions_ranges(val),
 
-        // Lone property name - could be General_Category value or binary property
+        // Lone property name - could be General_Category value or binary
+        // property
         (name_or_value, None) => {
             // First try as General_Category value
             if let Some(ranges) = get_general_category_ranges(name_or_value) {

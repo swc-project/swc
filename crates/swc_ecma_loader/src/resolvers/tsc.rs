@@ -150,7 +150,8 @@ where
                     false
                 };
 
-                // If node_modules is in path, we should return module specifier.
+                // If node_modules is in path, we should return module
+                // specifier.
                 if !is_base_in_node_modules && is_target_in_node_modules {
                     return Ok(Resolution {
                         filename: FileName::Real(module_specifier.into()),
@@ -286,14 +287,17 @@ where
                                 .unwrap()
                                 .into();
 
-                            // `replaced` is relative to `baseUrl`, not to the process directory
-                            // or to `base`. Anchor it at `baseUrl` so that callers do not
-                            // reinterpret it relative to a (possibly relative) input filename.
-                            // `Path::join` keeps an absolute `replaced` as it is.
+                            // `replaced` is relative to `baseUrl`, not to the
+                            // process directory or to `base`. Anchor it at
+                            // `baseUrl` so that callers do not reinterpret it
+                            // relative to a (possibly relative) input filename.
+                            // `Path::join` keeps an absolute `replaced` as it
+                            // is.
                             //
-                            // Bare specifiers (e.g. a mapping to a package name) are anchored
-                            // as well; callers already treat such targets as paths under
-                            // `baseUrl` when the input filename is absolute.
+                            // Bare specifiers (e.g. a mapping to a package
+                            // name) are anchored as well; callers already treat
+                            // such targets as paths under `baseUrl` when the
+                            // input filename is absolute.
                             return Ok(Resolution {
                                 slug: Some(slug),
                                 filename: FileName::Real(self.base_url.join(&replaced)),

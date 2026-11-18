@@ -87,8 +87,8 @@ impl RegexpPass {
     /// Transform the regex pattern if it contains unicode property escapes.
     /// Returns the transformed pattern string.
     fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
-        // Only transform if unicode_property_regex is enabled and pattern contains
-        // \p{ or \P{
+        // Only transform if unicode_property_regex is enabled and pattern
+        // contains \p{ or \P{
         if !self.options.unicode_property_regex {
             return None;
         }
@@ -362,7 +362,8 @@ impl RegexpPass {
                 if needs_transform {
                     let Regex { exp, flags, span } = regex.take();
 
-                    // Transform the pattern if it contains unicode property escapes
+                    // Transform the pattern if it contains unicode property
+                    // escapes
                     let transformed_pattern = self
                         .transform_pattern(&exp, &flags)
                         .unwrap_or_else(|| exp.to_string());

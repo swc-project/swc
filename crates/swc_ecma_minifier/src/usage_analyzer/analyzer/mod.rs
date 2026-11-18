@@ -1535,8 +1535,9 @@ where
                         .store_param_count(Value::Unknown),
                 }
             } else {
-                // Destructuring pulls values from an external object or iterable, so the
-                // callable arity of each binding is not known from this declaration.
+                // Destructuring pulls values from an external object or
+                // iterable, so the callable arity of each binding is not known
+                // from this declaration.
                 for id in find_pat_ids(&decl.name) {
                     self.data
                         .var_or_default(id)
@@ -1697,7 +1698,8 @@ fn for_each_id_ref_in_member_obj(e: &Expr, op: &mut impl FnMut(&Ident)) {
             if let Some(i) = a.left.as_ident() {
                 op(&i.id);
             }
-            // Arithmetic assignments produce a primitive, not an alias of the RHS.
+            // Arithmetic assignments produce a primitive, not an alias of the
+            // RHS.
             if matches!(a.op, op!("=") | op!("&&=") | op!("||=") | op!("??=")) {
                 for_each_id_ref_in_member_obj(&a.right, op);
             }
@@ -1753,8 +1755,8 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                     Prop::Assign(p) => {
                         for_each_id_ref_in_expr(&p.value, op);
                     }
-                    // Function bodies and parameter defaults run on invocation, so
-                    // only computed keys can contribute references here.
+                    // Function bodies and parameter defaults run on invocation,
+                    // so only computed keys can contribute references here.
                     Prop::Getter(p) => {
                         for_each_id_ref_in_prop_name(&p.key, op);
                     }

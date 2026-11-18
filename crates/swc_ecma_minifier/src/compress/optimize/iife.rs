@@ -279,7 +279,8 @@ impl Optimizer<'_> {
                             continue;
                         }
 
-                        // Removing default parameters can change `.length` for named functions.
+                        // Removing default parameters can change `.length` for
+                        // named functions.
                         if has_named_fn {
                             continue;
                         }
@@ -315,8 +316,9 @@ impl Optimizer<'_> {
                             continue;
                         }
 
-                        // `b = a` depends on parameter evaluation order. We only inline
-                        // defaults that are independent of earlier parameters.
+                        // `b = a` depends on parameter evaluation order. We
+                        // only inline defaults that are independent of earlier
+                        // parameters.
                         let references_earlier_param =
                             param_idents.iter().take(idx).any(|earlier_param| {
                                 let Some(earlier_param) = earlier_param else {
@@ -348,12 +350,14 @@ impl Optimizer<'_> {
                                     continue;
                                 }
 
-                                // The rest array is allocated once per call. If its only
-                                // reference can run more than once (in a loop or in a nested
-                                // function), inlining allocates a new array on every
-                                // evaluation, so `args.push(x)` or `args.shift()` no longer
-                                // sees the previous one. There, inline only reads of `length`
-                                // or of an element at a literal index, and only when the array
+                                // The rest array is allocated once per call. If
+                                // its only reference can run more than once (in
+                                // a loop or in a nested function), inlining
+                                // allocates a new array on every evaluation, so
+                                // `args.push(x)` or `args.shift()` no longer
+                                // sees the previous one. There, inline only
+                                // reads of `length` or of an element at a
+                                // literal index, and only when the array
                                 // does not escape.
                                 if (usage
                                     .flags
@@ -378,8 +382,10 @@ impl Optimizer<'_> {
                                     }
 
                                     match &*arg.expr {
-                                        // RegExp literals allocate on each evaluation; moving one
-                                        // into a returned closure changes its identity.
+                                        // RegExp literals allocate on each
+                                        // evaluation; moving one
+                                        // into a returned closure changes its
+                                        // identity.
                                         Expr::Lit(Lit::Regex(..)) => true,
                                         Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => true,
                                         Expr::Lit(..) => false,
@@ -503,7 +509,8 @@ impl Optimizer<'_> {
         let first_spread = e.args.iter().position(|arg| arg.spread.is_some());
 
         for idx in removed {
-            // Arguments at and after a dynamic spread no longer map to parameters by index.
+            // Arguments at and after a dynamic spread no longer map to
+            // parameters by index.
             if matches!(first_spread, Some(first_spread) if idx >= first_spread) {
                 break;
             }
@@ -912,8 +919,8 @@ impl Optimizer<'_> {
         }
 
         if !self.may_add_ident() {
-            // cannot add new ident, but sometimes inline or unused pass could remove those
-            // new vars
+            // cannot add new ident, but sometimes inline or unused pass could
+            // remove those new vars
             // but not when there's eval
 
             if self
@@ -1023,11 +1030,12 @@ impl Optimizer<'_> {
                 .iter()
                 .flat_map(|case| case.cons.iter())
                 .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
-            // Other statements (`try`, `do-while`, `for`, `for-in`, `for-of`, `with`,
-            // labeled statements, ...) are not inspected statement by statement, but a `var`
-            // nested in them is hoisted to the function scope just like a top-level one.
-            // If the call is executed multiple times, inlining it would make all
-            // iterations share a single binding, which is observable by closures.
+            // Other statements (`try`, `do-while`, `for`, `for-in`, `for-of`,
+            // `with`, labeled statements, ...) are not inspected statement by
+            // statement, but a `var` nested in them is hoisted to the function
+            // scope just like a top-level one. If the call is executed multiple
+            // times, inlining it would make all iterations share a single
+            // binding, which is observable by closures.
             _ => {
                 for_stmt
                     && !(self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime)
@@ -1211,8 +1219,9 @@ impl Optimizer<'_> {
 
                             for id in ids {
                                 if let Some(usage) = self.data.vars.get_mut(&id) {
-                                    // as we turn var declaration into assignment
-                                    // we need to maintain correct var usage
+                                    // as we turn var declaration into
+                                    // assignment we need to maintain correct
+                                    // var usage
                                     usage.ref_count += 1;
                                 }
                             }
@@ -1678,7 +1687,8 @@ impl Optimizer<'_> {
     pub(super) fn invoke_iife_in_seq_expr(&mut self, seq: &mut SeqExpr) {
         trace_op!("iife: invoke_iife_in_seq_expr");
 
-        // Process each expression in the sequence to look for IIFE opportunities
+        // Process each expression in the sequence to look for IIFE
+        // opportunities
         for expr in &mut seq.exprs {
             // Apply IIFE optimization to each expression in the sequence
             self.invoke_iife(expr);
@@ -1695,7 +1705,8 @@ impl Optimizer<'_> {
         let mut changed = false;
 
         for i in 0..seq.exprs.len() {
-            // First, check if this expression can be optimized without borrowing conflicts
+            // First, check if this expression can be optimized without
+            // borrowing conflicts
             let can_optimize = if let Expr::Call(call) = &*seq.exprs[i] {
                 if let Callee::Expr(callee) = &call.callee {
                     if let Expr::Arrow(arrow) = &**callee {
@@ -1718,8 +1729,9 @@ impl Optimizer<'_> {
 
             // If we can optimize, perform the mutation
             if can_optimize {
-                // Extract a fresh mutable reference to avoid borrowing conflicts
-                // This block ensures all previous borrows are dropped before we create new ones
+                // Extract a fresh mutable reference to avoid borrowing
+                // conflicts This block ensures all previous borrows are dropped
+                // before we create new ones
                 let expr = &mut seq.exprs[i];
                 if let Expr::Call(call) = &mut **expr {
                     if let Callee::Expr(callee) = &call.callee {
@@ -1763,7 +1775,8 @@ impl Optimizer<'_> {
             return false;
         }
 
-        // Check if the arrow function body is simple enough for sequence optimization
+        // Check if the arrow function body is simple enough for sequence
+        // optimization
         if let ArrowFunctionBody::Expr(body) = &*arrow.body {
             self.is_simple_expr_for_seq_optimization(body)
         } else {

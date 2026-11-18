@@ -40,8 +40,8 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
     {
         // Drop to reduce memory usage.
         //
-        // Because the test suite contains lots of test cases, it results in oom in
-        // github actions.
+        // Because the test suite contains lots of test cases, it results in oom
+        // in github actions.
         let input = {
             let mut buf = String::new();
             File::open(file).unwrap().read_to_string(&mut buf).unwrap();
@@ -119,8 +119,8 @@ where
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
-        // Try to load EsSyntax configuration from config.json in the same directory as
-        // the test file
+        // Try to load EsSyntax configuration from config.json in the same
+        // directory as the test file
         let syntax = {
             let mut config_str = String::new();
             File::open(config_path)

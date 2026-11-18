@@ -710,8 +710,8 @@ fn parse_fn_body<'a, P: Parser<'a>, T>(
         && p.input().is(&P::Token::LBRACE)
     {
         //            p.emit_err(
-        //                p.ctx().span_of_fn_name.expect("we are not in function"),
-        //                SyntaxError::TS1183,
+        //                p.ctx().span_of_fn_name.expect("we are not in
+        // function"),                SyntaxError::TS1183,
         //            );
         p.emit_err(p.input().cur_span(), SyntaxError::TS1183);
     }
@@ -1147,9 +1147,11 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
             }
 
             if p.syntax().typescript() && body.is_none() {
-                // Declare constructors cannot have assignment pattern in parameters
+                // Declare constructors cannot have assignment pattern in
+                // parameters
                 for param in &params {
-                    // TODO: Search deeply for assignment pattern using a Visitor
+                    // TODO: Search deeply for assignment pattern using a
+                    // Visitor
 
                     let span = match *param {
                         ParamOrTsParamProp::Param(ref param) => match param.pat {
@@ -1215,7 +1217,8 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     let is_next_line_generator =
         p.input_mut().had_line_break_before_cur() && p.input().is(&P::Token::MUL);
     let getter_or_setter_ident = match key {
-        // `get\n*` is an uninitialized property named 'get' followed by a generator.
+        // `get\n*` is an uninitialized property named 'get' followed by a
+        // generator.
         Key::Public(PropName::Ident(ref i))
             if (i.sym == "get" || i.sym == "set")
                 && !is_class_property(p, /* asi */ false)

@@ -133,7 +133,8 @@ impl FastDts {
         // 5. Remove unused imports and decls
         self.remove_ununsed(items, in_global_or_lit_module);
 
-        // 6. Add empty export mark if there's any declaration that is used but not
+        // 6. Add empty export mark if there's any declaration that is used but
+        //    not
         // exported to keep its privacy.
         let mut has_non_exported_stmt = false;
         let mut has_export = false;

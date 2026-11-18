@@ -1323,9 +1323,10 @@ where
         let mut queries = vec![query];
 
         // TODO error recovery
-        // To parse a <media-query-list> production, parse a comma-separated list of
-        // component values, then parse each entry in the returned list as a
-        // <media-query>. Its value is the list of <media-query>s so produced.
+        // To parse a <media-query-list> production, parse a comma-separated
+        // list of component values, then parse each entry in the returned list
+        // as a <media-query>. Its value is the list of <media-query>s so
+        // produced.
         loop {
             self.input.skip_ws();
 
@@ -1702,8 +1703,9 @@ where
         self.input.skip_ws();
 
         match cur!(self) {
-            // The <extension-name> can then be used in a media feature. It must be used in a
-            // boolean context; using them in a normal or range context is a syntax error.
+            // The <extension-name> can then be used in a media feature. It must
+            // be used in a boolean context; using them in a normal or range
+            // context is a syntax error.
             Token::Ident { value, .. } if value.starts_with("--") => {
                 let name = MediaFeatureName::ExtensionName(self.parse()?);
 
@@ -2535,12 +2537,13 @@ where
             return Err(Error::new(span, ErrorKind::Expected("indent token")));
         }
 
-        // All extensions defined in this specification use a common syntax for defining
-        // their ”names”: the <extension-name> production. An <extension-name> is any
-        // identifier that starts with two dashes (U+002D HYPHEN-MINUS), like --foo, or
-        // even exotic names like -- or ------. The CSS language will never use
-        // identifiers of this form for any language-defined purpose, so it’s safe to
-        // use them for author-defined purposes without ever having to worry about
+        // All extensions defined in this specification use a common syntax for
+        // defining their ”names”: the <extension-name> production. An
+        // <extension-name> is any identifier that starts with two dashes
+        // (U+002D HYPHEN-MINUS), like --foo, or even exotic names like -- or
+        // ------. The CSS language will never use identifiers of this form for
+        // any language-defined purpose, so it’s safe to use them for
+        // author-defined purposes without ever having to worry about
         // colliding with CSS-defined names.
         match bump!(self) {
             Token::Ident { value, raw, .. } => {

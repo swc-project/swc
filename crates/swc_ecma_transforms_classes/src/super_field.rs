@@ -85,8 +85,8 @@ impl VisitMut for SuperFieldAccessFolder<'_> {
                 )
                 .into();
             }
-            // We pretend method folding mode for while folding injected `_define_property`
-            // calls.
+            // We pretend method folding mode for while folding injected
+            // `_define_property` calls.
             Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
                 ..
@@ -318,7 +318,8 @@ impl SuperFieldAccessFolder<'_> {
                     Some(mark) => {
                         let ident =
                             quote_ident!(SyntaxContext::empty().apply_mark(mark), "_this").as_arg();
-                        // in constant super, call will be the only place where a assert is needed
+                        // in constant super, call will be the only place where
+                        // a assert is needed
                         if self.constant_super {
                             CallExpr {
                                 span: DUMMY_SP,

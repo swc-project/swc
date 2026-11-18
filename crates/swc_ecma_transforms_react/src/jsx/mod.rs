@@ -84,8 +84,8 @@ pub struct Options {
     #[serde(default)]
     pub development: Option<bool>,
 
-    // @babel/plugin-transform-react-jsx: Since "useBuiltIns" is removed in Babel 8, you can remove
-    // it from the config.
+    // @babel/plugin-transform-react-jsx: Since "useBuiltIns" is removed in
+    // Babel 8, you can remove it from the config.
     #[deprecated(
         since = "0.167.4",
         note = r#"Since `useBuiltIns` is removed in swc, you can remove it from the config."#
@@ -93,9 +93,9 @@ pub struct Options {
     #[serde(default, alias = "useBuiltIns")]
     pub use_builtins: Option<bool>,
 
-    // '@babel/plugin-transform-react-jsx: Since Babel 8, an inline object with spread elements is
-    // always used, and the "useSpread" option is no longer available. Please remove it from your
-    // config.',
+    // '@babel/plugin-transform-react-jsx: Since Babel 8, an inline object with
+    // spread elements is always used, and the "useSpread" option is no longer
+    // available. Please remove it from your config.',
     #[deprecated(
         since = "0.167.4",
         note = r#"An inline object with spread elements is always used, and the `useSpread` option is no longer available. Please remove it from your config."#
@@ -749,7 +749,8 @@ where
 
         match self.runtime {
             Runtime::Automatic => {
-                // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
+                // function jsx(tagName: string, props: { children: Node[], ...
+                // }, key: string)
 
                 // Pre-allocate with estimated capacity
                 let estimated_props_capacity = el.opening.attrs.len() + 1; // attrs + potential children
@@ -1645,8 +1646,8 @@ fn jsx_text_to_str_with_entity_mask(t: &Wtf8, entity_mask: &[bool]) -> Wtf8Atom 
     let has_line_terminator = chars.iter().any(|(_, _, c)| is_line_terminator(*c));
 
     // For single-line text, we keep all whitespace (matching original behavior)
-    // The original jsx_text_to_str_impl preserves leading/trailing whitespace on
-    // single-line text
+    // The original jsx_text_to_str_impl preserves leading/trailing whitespace
+    // on single-line text
     if !t.is_empty() && !has_line_terminator {
         return t.into();
     }
@@ -1662,8 +1663,8 @@ fn jsx_text_to_str_with_entity_mask(t: &Wtf8, entity_mask: &[bool]) -> Wtf8Atom 
         let is_from_entity = *entity_mask.get(char_idx).unwrap_or(&false);
 
         if is_line_terminator(*c) {
-            // Process current line - trim both leading AND trailing (intermediate
-            // line)
+            // Process current line - trim both leading AND trailing
+            // (intermediate line)
             if let (Some(start), Some(end)) = (line_start, line_end) {
                 let line_range =
                     extract_line_content(&chars, start, end, entity_mask, !is_first_line, true);
@@ -1794,7 +1795,8 @@ where
 /// Handle JSX text with surrogates
 fn jsx_text_to_str_wtf8_impl(t: &Wtf8) -> Wtf8Atom {
     let mut acc: Option<Wtf8Buf> = None;
-    let mut only_line: Option<(usize, usize)> = None; // (start, end) byte positions
+    let mut only_line: Option<(usize, usize)> = None; // (start, end) byte
+                                                      // positions
     let mut first_non_whitespace: Option<usize> = Some(0);
     let mut last_non_whitespace: Option<usize> = None;
 
@@ -1936,15 +1938,16 @@ fn add_line_of_jsx_text<'a>(
     only_line: &mut Option<&'a str>,
 ) {
     if let Some(buffer) = acc.as_mut() {
-        // Already some text in accumulator. Push a space before this line is added to
-        // `acc`.
+        // Already some text in accumulator. Push a space before this line is
+        // added to `acc`.
         buffer.push(' ');
     } else if let Some(only_line_content) = only_line.take() {
-        // This is the 2nd line containing text. Previous line did not contain any HTML
-        // entities. Generate an accumulator containing previous line and a
-        // trailing space. Current line will be added to the accumulator after
-        // it.
-        let mut buffer = String::with_capacity(trimmed_line.len() * 2); // rough estimate
+        // This is the 2nd line containing text. Previous line did not contain
+        // any HTML entities. Generate an accumulator containing previous line
+        // and a trailing space. Current line will be added to the accumulator
+        // after it.
+        let mut buffer = String::with_capacity(trimmed_line.len() * 2); // rough
+                                                                        // estimate
         buffer.push_str(only_line_content);
         buffer.push(' ');
         *acc = Some(buffer);
@@ -1956,10 +1959,10 @@ fn add_line_of_jsx_text<'a>(
     if let Some(buffer) = acc.as_mut() {
         buffer.push_str(trimmed_line);
     } else {
-        // This is the first line containing text, and there are no HTML entities in
-        // this line. Record this line in `only_line`.
-        // If this turns out to be the only line, we won't need to construct a String,
-        // so avoid all copying.
+        // This is the first line containing text, and there are no HTML
+        // entities in this line. Record this line in `only_line`.
+        // If this turns out to be the only line, we won't need to construct a
+        // String, so avoid all copying.
         *only_line = Some(trimmed_line);
     }
 }

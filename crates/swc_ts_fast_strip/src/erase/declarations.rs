@@ -105,7 +105,8 @@ fn is_whole_type_declaration(declaration: &Decl) -> bool {
 
 fn is_type_only_module(module: &TsModuleDecl) -> bool {
     // Legacy `module` syntax is controlled by `deprecated_ts_module_as_error`
-    // before erasure. When allowed, it has the same runtime effect as a namespace.
+    // before erasure. When allowed, it has the same runtime effect as a
+    // namespace.
     module.declare
         || module.global
         || module.id.is_str()

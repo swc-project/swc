@@ -191,7 +191,8 @@ impl SwcReportHandler {
             // And _now_ we can print out the line text itself!
             self.render_line_text(f, &line.text)?;
 
-            // Next, we write all the highlights that apply to this particular line.
+            // Next, we write all the highlights that apply to this particular
+            // line.
             let (single_line, multi_line): (Vec<_>, Vec<_>) = labels
                 .iter()
                 .filter(|hl| line.span_applies(hl))
@@ -366,8 +367,8 @@ impl SwcReportHandler {
         }
 
         // keeps track of how many columns wide the gutter is
-        // important for ansi since simply measuring the size of the final string
-        // gives the wrong result when the string contains ansi codes.
+        // important for ansi since simply measuring the size of the final
+        // string gives the wrong result when the string contains ansi codes.
         let mut gutter_cols = 0;
 
         let chars = &self.theme.characters;
@@ -376,15 +377,16 @@ impl SwcReportHandler {
         for (i, hl) in applicable.enumerate() {
             if !line.span_line_only(hl) && line.span_ends(hl) {
                 if render_mode == LabelRenderMode::MultiLineRest {
-                    // this is to make multiline labels work. We want to make the right amount
-                    // of horizontal space for them, but not actually draw the lines
+                    // this is to make multiline labels work. We want to make
+                    // the right amount of horizontal space for them, but not
+                    // actually draw the lines
                     let horizontal_space = max_gutter.saturating_sub(i) + 2;
                     for _ in 0..horizontal_space {
                         gutter.push(' ');
                     }
-                    // account for one more horizontal space, since in multiline mode
-                    // we also add in the vertical line before the label like this:
-                    // 2 │ ╭─▶   text
+                    // account for one more horizontal space, since in multiline
+                    // mode we also add in the vertical line before the label
+                    // like this: 2 │ ╭─▶   text
                     // 3 │ ├─▶     here
                     //   · ╰──┤ these two lines
                     //   ·    │ are the problem
@@ -413,10 +415,10 @@ impl SwcReportHandler {
                             .to_string(),
                     );
 
-                    // we count 1 for the lbot char, and then a few more, the same number
-                    // as we just repeated for. For each repeat we only add 1, even though
-                    // due to ansi escape codes the number of bytes in the string could grow
-                    // a lot each time.
+                    // we count 1 for the lbot char, and then a few more, the
+                    // same number as we just repeated for. For each repeat we
+                    // only add 1, even though due to ansi escape codes the
+                    // number of bytes in the string could grow a lot each time.
                     gutter_cols += num_repeat + 1;
                 }
                 break;
@@ -424,13 +426,14 @@ impl SwcReportHandler {
                 gutter.push_str(&chars.vbar.style(hl.style).to_string());
 
                 // we may push many bytes for the ansi escape codes style adds,
-                // but we still only add a single character-width to the string in a terminal
+                // but we still only add a single character-width to the string
+                // in a terminal
                 gutter_cols += 1;
             }
         }
 
-        // now calculate how many spaces to add based on how many columns we just
-        // created. it's the max width of the gutter, minus how many
+        // now calculate how many spaces to add based on how many columns we
+        // just created. it's the max width of the gutter, minus how many
         // character-widths we just generated capped at 0 (though this should
         // never go below in reality), and then we add 3 to account for
         // arrowheads when a gutter line ends

@@ -89,7 +89,8 @@ impl VisitMut for Spread {
 
                     Expr::Member(MemberExpr { obj, .. }) if obj.is_this() => (obj.clone(), None),
 
-                    // Injected variables can be accessed without any side effect
+                    // Injected variables can be accessed without any side
+                    // effect
                     Expr::Member(MemberExpr { obj, .. })
                         if obj.as_ident().is_some() && obj.as_ident().unwrap().span.is_dummy() =>
                     {
@@ -280,8 +281,8 @@ impl Spread {
                             );
                             current_elems = Vec::new();
                         }
-                        // Special handling for `arguments` to call Array.prototype.slice
-                        // https://github.com/babel/babel/blob/61ad8555b875cb0c0996f18f803b6bf1d2150173/packages/babel-plugin-transform-spread/src/index.ts#L43-L47
+                        // Special handling for `arguments` to call
+                        // Array.prototype.slice https://github.com/babel/babel/blob/61ad8555b875cb0c0996f18f803b6bf1d2150173/packages/babel-plugin-transform-spread/src/index.ts#L43-L47
                         let expr = match *expr {
                             Expr::Ident(Ident { ref sym, ctxt, .. })
                                 if &**sym == "arguments" && ctxt == self.unresolved_ctxt =>
@@ -404,7 +405,8 @@ impl Spread {
                                         to_consumable_array(expr, span).into()
                                     };
                                 }
-                                // [].concat(arr) is shorter than _to_consumable_array(arr)
+                                // [].concat(arr) is shorter than
+                                // _to_consumable_array(arr)
                                 if args_len == 1 {
                                     return if self.c.loose {
                                         CallExpr {

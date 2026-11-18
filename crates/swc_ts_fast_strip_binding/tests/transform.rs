@@ -236,7 +236,8 @@ mod strip_only_mode {
         let err = result.unwrap_err();
         assert!(!err.is_empty(), "should have error diagnostics");
 
-        // Check that the error message doesn't contain "Caused by: failed to parse"
+        // Check that the error message doesn't contain "Caused by: failed to
+        // parse"
         let error_messages: Vec<String> = err
             .iter()
             .map(|d| serde_json::to_string(d).unwrap())

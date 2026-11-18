@@ -34,10 +34,12 @@ impl StyledBuffer {
                     tab_pos.push(pos);
                 }
             }
-            // start with the tabs at the end of the line to replace them with 4 space chars
+            // start with the tabs at the end of the line to replace them with 4
+            // space chars
             for pos in tab_pos.iter().rev() {
                 assert_eq!(line.remove(*pos), '\t');
-                // fix the position of the style to match up after replacing the tabs
+                // fix the position of the style to match up after replacing the
+                // tabs
                 let s = self.styles[line_pos].remove(*pos);
                 for _ in 0..4 {
                     line.insert(*pos, ' ');

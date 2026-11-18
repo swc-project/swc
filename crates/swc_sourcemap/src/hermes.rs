@@ -37,10 +37,12 @@ pub struct HermesFunctionMap {
 #[derive(Debug, Clone, PartialEq)]
 pub struct SourceMapHermes {
     pub(crate) sm: SourceMap,
-    // There should be one `HermesFunctionMap` per each `sources` entry in the main SourceMap.
+    // There should be one `HermesFunctionMap` per each `sources` entry in the
+    // main SourceMap.
     function_maps: Vec<Option<HermesFunctionMap>>,
-    // XXX: right now, I am too lazy to actually serialize the above `function_maps`
-    // back into json types, so just keep the original json. Might be a bit inefficient, but meh.
+    // XXX: right now, I am too lazy to actually serialize the above
+    // `function_maps` back into json types, so just keep the original json.
+    // Might be a bit inefficient, but meh.
     raw_facebook_sources: FacebookSources,
 }
 
@@ -115,8 +117,8 @@ impl SourceMapHermes {
 
         // Find the closest mapping, just like here:
         // https://github.com/facebook/metro/blob/63b523eb20e7bdf62018aeaf195bb5a3a1a67f36/packages/metro-symbolicate/src/SourceMetadataMapConsumer.js#L204-L231
-        // Mappings use 1-based index for lines, and 0-based index for cols, as seen
-        // here: https://github.com/facebook/metro/blob/f2d80cebe66d3c64742f67259f41da26e83a0d8d/packages/metro/src/Server/symbolicate.js#L58-L60
+        // Mappings use 1-based index for lines, and 0-based index for cols, as
+        // seen here: https://github.com/facebook/metro/blob/f2d80cebe66d3c64742f67259f41da26e83a0d8d/packages/metro/src/Server/symbolicate.js#L58-L60
         let (_mapping_idx, mapping) = greatest_lower_bound(
             &function_map.mappings,
             &(token.get_src_line() + 1, token.get_src_col()),

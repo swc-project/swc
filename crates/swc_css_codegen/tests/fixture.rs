@@ -72,8 +72,9 @@ fn run(input: &Path, minify: bool) {
         // let source_map = cm.build_source_map(&mut src_map_buf);
         // let mut source_map_output: Vec<u8> = Vec::new();
         // source_map.to_writer(&mut source_map_output).unwrap();
-        // let str_source_map_output = String::from_utf8_lossy(&source_map_output);
-        // std::fs::write(map, &*str_source_map_output).expect("Unable to write file");
+        // let str_source_map_output =
+        // String::from_utf8_lossy(&source_map_output); std::fs::write(map,
+        // &*str_source_map_output).expect("Unable to write file");
 
         let fm_output = cm.load_file(&output).unwrap();
 
@@ -82,8 +83,8 @@ fn run(input: &Path, minify: bool) {
             .unwrap();
 
         if minify {
-            // We lowercase identifiers to make gzip compression rate better, so we cannot
-            // make the output equal to the input
+            // We lowercase identifiers to make gzip compression rate better, so
+            // we cannot make the output equal to the input
             return Ok(());
         }
 
@@ -195,8 +196,8 @@ impl VisitMut for NormalizeTest {
         n.raw = None;
     }
 
-    // TODO - we should parse only some properties as `<integer>`, but it requires
-    // more work, let's postpone it to avoid breaking code
+    // TODO - we should parse only some properties as `<integer>`, but it
+    // requires more work, let's postpone it to avoid breaking code
     fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
         n.visit_mut_children_with(self);
 

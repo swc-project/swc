@@ -126,8 +126,8 @@ impl Data {
     fn drop_usage(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurrence count, so the value is not
-            // correct representation of the actual usage.
+            // We subtract the cycle count from the occurrence count, so the
+            // value is not correct representation of the actual usage.
             e.usage = e.usage.saturating_sub(1);
 
             if e.usage == 0 && e.assign == 0 {
@@ -143,8 +143,8 @@ impl Data {
     fn drop_assign(&mut self, id: &Id) {
         if let Some(e) = self.used_names.get_mut(id) {
             // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurrence count, so the value is not
-            // correct representation of the actual usage.
+            // We subtract the cycle count from the occurrence count, so the
+            // value is not correct representation of the actual usage.
             e.assign = e.assign.saturating_sub(1);
 
             if e.usage == 0 && e.assign == 0 {
@@ -204,8 +204,8 @@ impl Data {
                 continue;
             }
 
-            // We have to exclude cycle from remove list if an outer node refences an item
-            // of cycle.
+            // We have to exclude cycle from remove list if an outer node
+            // refences an item of cycle.
             for &node in &cycle {
                 // It's referenced by an outer node.
                 if self.entries.contains(&node) {
@@ -596,11 +596,12 @@ fn can_attribute_initializer_refs_to_binding(expr: &Expr, expr_ctx: ExprCtx) -> 
     match expr {
         Expr::Fn(_) | Expr::Arrow(_) => true,
         Expr::Class(c) => {
-            // Class heritage is evaluated while defining the class and can throw
-            // even when evaluating the heritage expression itself is pure. The
-            // remaining checks reject decorators, computed keys, and static
-            // initialization, leaving only dependencies evaluated after the class
-            // value is used (for example, method and constructor bodies).
+            // Class heritage is evaluated while defining the class and can
+            // throw even when evaluating the heritage expression itself is
+            // pure. The remaining checks reject decorators, computed keys, and
+            // static initialization, leaving only dependencies evaluated after
+            // the class value is used (for example, method and constructor
+            // bodies).
             c.class.super_class.is_none()
                 && class_def_is_trivial(&c.class)
                 && class_def_is_side_effect_free(&c.class, expr_ctx)
@@ -637,18 +638,20 @@ impl Visit for Analyzer<'_> {
         // and preserves any cycle it belongs to. This keeps TDZ-observable
         // cycles such as `class A extends B {} class B extends A {}` (which
         // throws at runtime) from being eliminated.
-        // The backward-reference optimization (attributing the `extends` edge to
-        // the subclass so an unreachable cycle can collapse) is only applied when
-        // it is provably safe. It requires the superclass to be an identifier
-        // already initialized earlier in this scope, AND:
-        //   - the subclass carries no decorators, and the superclass is not decorated
-        //     either — a decorator runs at definition time and keeps a class observable
-        //     independently of the cycle, so collapsing it could drop a sibling the
-        //     decorator still needs;
-        //   - neither class is in `top_retain`, which keeps it externally reachable.
+        // The backward-reference optimization (attributing the `extends` edge
+        // to the subclass so an unreachable cycle can collapse) is only applied
+        // when it is provably safe. It requires the superclass to be an
+        // identifier already initialized earlier in this scope, AND:
+        //   - the subclass carries no decorators, and the superclass is not
+        //     decorated either — a decorator runs at definition time and keeps
+        //     a class observable independently of the cycle, so collapsing it
+        //     could drop a sibling the decorator still needs;
+        //   - neither class is in `top_retain`, which keeps it externally
+        //     reachable.
         // Anything else falls back to the original behavior (the heritage
         // reference pins the referent as an entry, preserving the cycle).
-        // Preserving an unused cycle is always safe; dropping a live one is the bug.
+        // Preserving an unused cycle is always safe; dropping a live one is the
+        // bug.
         let super_id = n.class.super_class.as_deref().and_then(|sc| match sc {
             Expr::Ident(i) => Some(i.to_id()),
             _ => None,
@@ -709,7 +712,8 @@ impl Visit for Analyzer<'_> {
     fn visit_class_expr(&mut self, n: &ClassExpr) {
         if let Some(ident) = &n.ident {
             // ClassDefinitionEvaluation creates a lexical binding for a named
-            // class expression that is visible only inside the class definition.
+            // class expression that is visible only inside the class
+            // definition.
             let old = self.cur_class_id.replace(ident.to_id());
             n.visit_children_with(self);
             self.cur_class_id = old;
@@ -842,10 +846,10 @@ impl Visit for Analyzer<'_> {
 
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(ident) = &n.ident {
-            // `InstantiateOrdinaryFunctionExpression` creates a binding for a named
-            // function expression in an environment local to the function. It is
-            // therefore a self-reference, not a reference to an outer declaration
-            // with the same symbol.
+            // `InstantiateOrdinaryFunctionExpression` creates a binding for a
+            // named function expression in an environment local to the
+            // function. It is therefore a self-reference, not a reference to an
+            // outer declaration with the same symbol.
             let old = self.cur_fn_id.replace(ident.to_id());
             n.visit_children_with(self);
             self.cur_fn_id = old;
@@ -888,11 +892,11 @@ impl Visit for Analyzer<'_> {
 
         self.in_var_decl = false;
         match (&n.name, n.init.as_deref()) {
-            // When a function or a side-effect-free class directly initializes a
-            // variable, its deferred references are dependencies of that variable
-            // rather than top-level entries. Keep this limited to direct values:
-            // attributing an arbitrary initializer to the binding could hide its
-            // eager side effects or TDZ errors.
+            // When a function or a side-effect-free class directly initializes
+            // a variable, its deferred references are dependencies of that
+            // variable rather than top-level entries. Keep this limited to
+            // direct values: attributing an arbitrary initializer to the
+            // binding could hide its eager side effects or TDZ errors.
             (Pat::Ident(binding), Some(init))
                 if can_attribute_initializer_refs_to_binding(init, self.expr_ctx) =>
             {
@@ -1382,8 +1386,9 @@ impl VisitMut for TreeShaker {
                         }
                     }
 
-                    // Also pin `var`s hoisted out of nested top-level statements
-                    // (e.g. `if (c) { var x }`), visible to a root `eval`.
+                    // Also pin `var`s hoisted out of nested top-level
+                    // statements (e.g. `if (c) { var x }`), visible to a root
+                    // `eval`.
                     let mut hoisted = RootHoistedVars::default();
                     m.visit_with(&mut hoisted);
                     ids.extend(hoisted.ids);
@@ -1391,8 +1396,8 @@ impl VisitMut for TreeShaker {
                     for id in ids {
                         // Pin as a graph entry so `subtract_cycles` never
                         // subtracts it (survives Repeat passes), and bump usage
-                        // so a lone binding — which has no in-graph references —
-                        // isn't dropped by `can_drop_binding`.
+                        // so a lone binding — which has no in-graph references
+                        // — isn't dropped by `can_drop_binding`.
                         let ix = analyzer.data.node(&id);
                         analyzer.data.entries.insert(ix);
                         analyzer.data.used_names.entry(id).or_default().usage += 1;
@@ -1482,8 +1487,9 @@ impl VisitMut for TreeShaker {
                         }
                     }
 
-                    // Also pin `var`s hoisted out of nested top-level statements
-                    // (e.g. `if (c) { var x }`), visible to a root `eval`.
+                    // Also pin `var`s hoisted out of nested top-level
+                    // statements (e.g. `if (c) { var x }`), visible to a root
+                    // `eval`.
                     let mut hoisted = RootHoistedVars::default();
                     m.visit_with(&mut hoisted);
                     ids.extend(hoisted.ids);
@@ -1491,8 +1497,8 @@ impl VisitMut for TreeShaker {
                     for id in ids {
                         // Pin as a graph entry so `subtract_cycles` never
                         // subtracts it (survives Repeat passes), and bump usage
-                        // so a lone binding — which has no in-graph references —
-                        // isn't dropped by `can_drop_binding`.
+                        // so a lone binding — which has no in-graph references
+                        // — isn't dropped by `can_drop_binding`.
                         let ix = analyzer.data.node(&id);
                         analyzer.data.entries.insert(ix);
                         analyzer.data.used_names.entry(id).or_default().usage += 1;

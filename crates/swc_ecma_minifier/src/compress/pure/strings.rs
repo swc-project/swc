@@ -237,14 +237,14 @@ impl Pure<'_> {
                         }
                         _ => {
                             // When the target environment is below ES2015
-                            // and non-BMP characters (like emojis) are encountered,
-                            // we stop the conversion.
+                            // and non-BMP characters (like emojis) are
+                            // encountered, we stop the conversion.
                             //
                             // This is because:
-                            // 1. Tpl: `🦀` (may output directly in source code or require minimal
-                            //    escaping) -> shorter
-                            // 2. Str (in ES5 mode): `\uD83E\uDD80` (escape sequence for surrogate
-                            //    pair) -> extremely long
+                            // 1. Tpl: `🦀` (may output directly in source code
+                            //    or require minimal escaping) -> shorter
+                            // 2. Str (in ES5 mode): `\uD83E\uDD80` (escape
+                            //    sequence for surrogate pair) -> extremely long
                             if self.options.ecma < EsVersion::Es2015 && ch > '\u{ffff}' {
                                 return;
                             }
@@ -317,8 +317,8 @@ impl Pure<'_> {
                         cur_cooked.push_str("");
                     }
                 } else {
-                    // If cooked is None, it means that the template literal contains invalid escape
-                    // sequences.
+                    // If cooked is None, it means that the template literal
+                    // contains invalid escape sequences.
                     cur_cooked = None;
                 }
             } else {
@@ -355,8 +355,8 @@ impl Pure<'_> {
                         cur_cooked.push_wtf8(&cooked);
                     }
                 } else {
-                    // If cooked is None, it means that the template literal contains invalid escape
-                    // sequences.
+                    // If cooked is None, it means that the template literal
+                    // contains invalid escape sequences.
                     cur_cooked = None;
                 }
             } else {
@@ -759,8 +759,8 @@ mod tests {
             EsVersion::Es5,
             EsVersion::Es5,
             |output| {
-                // In ES5, the template should remain as-is or the string should have
-                // surrogate pairs which would be longer
+                // In ES5, the template should remain as-is or the string should
+                // have surrogate pairs which would be longer
                 // Template literals with emoji should NOT become strings in ES5
                 assert!(
                     output.contains('`') || !output.contains("\\u"),
@@ -1243,9 +1243,9 @@ mod tests {
             EsVersion::Es5,
             EsVersion::Es5,
             |tpl_output| {
-                // The template should be kept because converting would be longer
-                // `🦀` = 4 chars (backticks + emoji as 1 char visually but 2 code units)
-                // "\uD83E\uDD80" = 16 chars
+                // The template should be kept because converting would be
+                // longer `🦀` = 4 chars (backticks + emoji as 1 char visually
+                // but 2 code units) "\uD83E\uDD80" = 16 chars
                 assert!(
                     tpl_output.contains('`'),
                     "ES5 should prefer shorter template form. Got: {tpl_output}",
@@ -1262,8 +1262,8 @@ mod tests {
             EsVersion::Es5,
             EsVersion::Es5,
             |output| {
-                // 4 emojis would become 4 * 12 chars = 48 chars in surrogate pairs
-                // vs ~6 chars in template
+                // 4 emojis would become 4 * 12 chars = 48 chars in surrogate
+                // pairs vs ~6 chars in template
                 assert!(
                     output.contains('`'),
                     "ES5 should definitely keep template with multiple emojis. Got: {output}",

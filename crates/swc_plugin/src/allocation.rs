@@ -47,8 +47,8 @@ pub extern "C" fn __free(ptr: *mut u8, size: i32) -> i32 {
 pub unsafe fn __alloc(size: usize) -> usize {
     let layout = match Layout::from_size_align(size as usize, std::mem::align_of::<u8>()) {
         Ok(layout) => layout,
-        // in this case a err may occur only in a case of too long allocated size,
-        // so just return 0
+        // in this case a err may occur only in a case of too long allocated
+        // size, so just return 0
         Err(_) => return 0 as _,
     };
 
@@ -66,8 +66,8 @@ pub unsafe fn __alloc(size: usize) -> usize {
 pub unsafe fn __free(ptr: *mut u8, size: usize) {
     let layout = match Layout::from_size_align(size as usize, std::mem::align_of::<u8>()) {
         Ok(layout) => layout,
-        // in this case a err may occur only in a case of too long allocated size,
-        // so just done nothing
+        // in this case a err may occur only in a case of too long allocated
+        // size, so just done nothing
         Err(_) => return 0 as _,
     };
 

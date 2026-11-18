@@ -59,8 +59,9 @@ mod supported {
         {
             return Ok(None);
         }
-        // Lock the original inode. Competing first loads holding that inode must
-        // recheck the pathname after acquiring the lock; only one can replace it.
+        // Lock the original inode. Competing first loads holding that inode
+        // must recheck the pathname after acquiring the lock; only one can
+        // replace it.
         platform::lock_exclusive(&original).map_err(|e| fail("lock carrier", e))?;
         if !same_file(carrier, &metadata)? {
             return Ok(None);
@@ -186,8 +187,8 @@ mod supported {
     #[cfg(target_os = "linux")]
     fn compress(stage: tempfile::NamedTempFile) -> Result<tempfile::TempPath> {
         // These ioctl encodings are shared by the supported 64-bit Linux ABIs.
-        // Set the inode policy AND rewrite already-written extents: setting only
-        // FS_COMPR_FL does not retroactively compress the decoded file.
+        // Set the inode policy AND rewrite already-written extents: setting
+        // only FS_COMPR_FL does not retroactively compress the decoded file.
         #[repr(C)]
         struct DefragRange {
             start: u64,
@@ -235,7 +236,8 @@ mod supported {
             .map_err(|e| fail("stage APFS compression", e))?
             .into_temp_path();
         // Apple's installed copier maintains the decmpfs resource-fork format.
-        // Only a private staging file is passed to it, never the mapped carrier.
+        // Only a private staging file is passed to it, never the mapped
+        // carrier.
         let output = Command::new("/usr/bin/ditto")
             .args(["--hfsCompression", "--rsrc", "--extattr", "--acl", "--qtn"])
             .arg(stage.path())

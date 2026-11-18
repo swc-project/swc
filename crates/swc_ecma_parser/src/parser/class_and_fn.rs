@@ -279,8 +279,8 @@ impl<I: Tokens> Parser<I> {
             }) => Ok((expr, Some(type_args))),
             _ => {
                 // We still need to parse TS type arguments,
-                // because in some cases "super class" returned by `parse_lhs_expr`
-                // may not include `TsExprWithTypeArgs`
+                // because in some cases "super class" returned by
+                // `parse_lhs_expr` may not include `TsExprWithTypeArgs`
                 // but it's a super class with type params, for example, in JSX.
                 if self.syntax().typescript() && self.input().is(Token::Lt) {
                     let ret = self.parse_ts_type_args()?;
@@ -379,8 +379,9 @@ impl<I: Tokens> Parser<I> {
             let (this_param, params) = p.without_async_arrow_param_await_collection(|p| {
                 p.do_inside_of_boundary_context(BoundaryContext::InParameters, |p| {
                     p.with_syntax_context(SyntaxContext::Parameters, |p| {
-                        // FormalParameters use the function kind's derived arguments;
-                        // their FormalParameter children inherit both parameters.
+                        // FormalParameters use the function kind's derived
+                        // arguments; their FormalParameter children inherit
+                        // both parameters.
                         with_grammar_context!(p, [?Yield, ?Await], |p| {
                             let this_param = parse_ts_this_param(p)?;
                             parse_args(p).map(|params| (this_param, params))
@@ -428,9 +429,11 @@ impl<I: Tokens> Parser<I> {
             }
 
             if p.syntax().typescript() && body.is_none() {
-                // Declare functions cannot have assignment pattern in parameters
+                // Declare functions cannot have assignment pattern in
+                // parameters
                 for param in &params {
-                    // TODO: Search deeply for assignment pattern using a Visitor
+                    // TODO: Search deeply for assignment pattern using a
+                    // Visitor
 
                     let span = match &param.pat {
                         Pat::Assign(ref p) => Some(p.span()),
@@ -460,7 +463,8 @@ impl<I: Tokens> Parser<I> {
         // Ordinary functions and methods establish their own Await grammar
         // parameter, including their parameter lists, inside static blocks.
         self.do_outside_of_boundary_context(BoundaryContext::InStaticBlock, |p| {
-            // Function, generator, async-function, and async-generator parameters.
+            // Function, generator, async-function, and async-generator
+            // parameters.
             match (is_generator, is_async) {
                 (false, false) => with_grammar_context!(p, [~Yield, ~Await], f),
                 (true, false) => with_grammar_context!(p, [+Yield, ~Await], f),
@@ -529,10 +533,11 @@ impl<I: Tokens> Parser<I> {
                     | BoundaryContext::InClassField
                     | BoundaryContext::InStaticBlock,
                 |p| {
-                    // Expression names use the function kind's BindingIdentifier
-                    // arguments; declaration names inherit the enclosing grammar.
-                    // These names also lie outside the enclosing async arrow's
-                    // parameter Await check, just like the function's parameters.
+                    // Expression names use the function kind's
+                    // BindingIdentifier arguments; declaration names inherit
+                    // the enclosing grammar. These names also lie outside the
+                    // enclosing async arrow's parameter Await check, just like
+                    // the function's parameters.
                     let parse_name = |p: &mut Self| {
                         p.without_async_arrow_param_await_collection(|p| {
                             p.parse_maybe_opt_function_ident(is_ident_required)
@@ -547,7 +552,8 @@ impl<I: Tokens> Parser<I> {
                 },
             )?
         } else {
-            // function declaration does not change context for `BindingIdentifier`.
+            // function declaration does not change context for
+            // `BindingIdentifier`.
             self.do_outside_of_boundary_context(
                 BoundaryContext::AllowDirectSuper.union(BoundaryContext::InClassField),
                 |p| {
@@ -773,8 +779,8 @@ impl<I: Tokens> Parser<I> {
             && (!self.syntax().flow() || !self.type_ctx().contains(TypeContext::TsModuleBlock))
         {
             //            self.emit_err(
-            //                self.ctx().span_of_fn_name.expect("we are not in function"),
-            //                SyntaxError::TS1183,
+            //                self.ctx().span_of_fn_name.expect("we are not in
+            // function"),                SyntaxError::TS1183,
             //            );
             self.emit_err(self.input().cur_span(), SyntaxError::TS1183);
         }
@@ -1092,9 +1098,9 @@ impl<I: Tokens> Parser<I> {
             BoundaryContext::InStaticBlock | BoundaryContext::InClassField,
             |p| {
                 p.do_inside_of_statement_context(StatementContext::AllowUsingDecl, |p| {
-                    // Static blocks have StatementList[~Yield, +Await, ~Return].
-                    // Await is recognized, but rejected by the static-block early error.
-                    // https://tc39.es/ecma262/#prod-ClassStaticBlockStatementList
+                    // Static blocks have StatementList[~Yield, +Await,
+                    // ~Return]. Await is recognized, but rejected by the
+                    // static-block early error. https://tc39.es/ecma262/#prod-ClassStaticBlockStatementList
                     with_grammar_context!(p, [+In, ~Yield, +Await, ~Return], |p| {
                         p.with_syntax_context(SyntaxContext::Nested, |p| {
                             p.parse_block(false)
@@ -1386,10 +1392,11 @@ impl<I: Tokens> Parser<I> {
 
                 let prev_allow_super_call = self.allow_super_call();
                 self.set_allow_super_call(true);
-                // Ordinary methods, including constructors, use [~Yield, ~Await] for
-                // UniqueFormalParameters and FunctionBody. Also clear enclosing field
-                // and static-block contexts so their await/arguments restrictions do
-                // not leak into constructor parameters or the body.
+                // Ordinary methods, including constructors, use [~Yield,
+                // ~Await] for UniqueFormalParameters and FunctionBody. Also
+                // clear enclosing field and static-block contexts so their
+                // await/arguments restrictions do not leak into constructor
+                // parameters or the body.
                 let ctor_sig_and_body = self.do_outside_of_boundary_context(
                     BoundaryContext::InClassField | BoundaryContext::InStaticBlock,
                     |p| {
@@ -1448,9 +1455,11 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if self.syntax().typescript() && body.is_none() {
-                    // Declare constructors cannot have assignment pattern in parameters
+                    // Declare constructors cannot have assignment pattern in
+                    // parameters
                     for param in &params {
-                        // TODO: Search deeply for assignment pattern using a Visitor
+                        // TODO: Search deeply for assignment pattern using a
+                        // Visitor
 
                         let span = match *param {
                             ParamOrTsParamProp::Param(ref param) => match param.pat {
@@ -1516,7 +1525,8 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().had_line_break_before_cur() && self.input().is(Token::Asterisk);
         let getter_or_setter_ident = match key_token {
             // `get?` and `set?` are optional fields at this point.
-            // `get\n*` is an uninitialized property named 'get' followed by a generator.
+            // `get\n*` is an uninitialized property named 'get' followed by a
+            // generator.
             Token::Get | Token::Set if !is_optional => {
                 !self.is_class_property(/* asi */ false) && !is_next_line_generator
             }
@@ -1761,8 +1771,9 @@ impl<I: Tokens> Parser<I> {
 
         let static_token = {
             let start = self.cur_pos();
-            // Escaped keywords are property names, never modifiers. In particular,
-            // an escaped `static` followed by a line break must allow field ASI.
+            // Escaped keywords are property names, never modifiers. In
+            // particular, an escaped `static` followed by a line break must
+            // allow field ASI.
             if self.input().is(Token::Static) && !self.input().has_escaped_keyword() {
                 self.bump();
                 let span = self.span(start);
@@ -2139,8 +2150,8 @@ impl<I: Tokens> Parser<I> {
 
             let body = p.parse_class_body(super_class.is_some())?;
 
-            // Consuming `}` also lexes the next token, which belongs to the enclosing
-            // scope and must not inherit the class's strict mode.
+            // Consuming `}` also lexes the next token, which belongs to the
+            // enclosing scope and must not inherit the class's strict mode.
             p.set_ctx(outer_ctx);
             if p.input().cur() == Token::Eof {
                 let eof_text = p.input_mut().dump_cur();

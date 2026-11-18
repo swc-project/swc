@@ -56,7 +56,8 @@ impl ConstantExpr {
         match expression {
             Expr::Ident(ident) => {
                 // Resolver deliberately gives bare enum members its unresolved
-                // sentinel. Only this enum's declared member set can interpret it.
+                // sentinel. Only this enum's declared member set can interpret
+                // it.
                 if ident.ctxt == unresolved {
                     let member = enum_owner
                         .and_then(|owner| bindings.named_member(owner, &ident.sym.clone().into()));

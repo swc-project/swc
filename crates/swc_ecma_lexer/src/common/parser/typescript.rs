@@ -64,8 +64,8 @@ where
     debug_assert!(p.input().syntax().typescript());
     let mut buf = Vec::with_capacity(8);
     while !is_ts_list_terminator(p, kind) {
-        // Skipping "parseListElement" from the TS source since that's just for error
-        // handling.
+        // Skipping "parseListElement" from the TS source since that's just for
+        // error handling.
         buf.push(parse_element(p)?);
     }
     Ok(buf)
@@ -282,7 +282,8 @@ where
 
     debug_assert!(p.input().syntax().typescript());
 
-    let start = p.input().cur_pos(); // include the leading operator in the start
+    let start = p.input().cur_pos(); // include the leading operator in the
+                                     // start
     p.input_mut().eat(operator);
     trace_cur!(p, parse_ts_union_or_intersection_type__first_type);
 
@@ -467,8 +468,8 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
 
     let start = p.input().cur_pos();
     let params = p.in_type(|p| {
-        // Temporarily remove a JSX parsing context, which makes us scan different
-        // tokens.
+        // Temporarily remove a JSX parsing context, which makes us scan
+        // different tokens.
         p.ts_in_no_context(|p| {
             if p.input().is(&P::Token::LSHIFT) {
                 p.input_mut().cut_lshift();
@@ -955,10 +956,10 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
     debug_assert!(p.input().syntax().typescript());
 
     let start = p.cur_pos();
-    // TypeScript allows computed property names with literal expressions in enums.
-    // Non-literal computed properties (like ["a" + "b"]) are rejected.
-    // We normalize literal computed properties (["\t"] → "\t") to keep AST simple.
-    // See https://github.com/swc-project/swc/issues/11160
+    // TypeScript allows computed property names with literal expressions in
+    // enums. Non-literal computed properties (like ["a" + "b"]) are rejected.
+    // We normalize literal computed properties (["\t"] → "\t") to keep AST
+    // simple. See https://github.com/swc-project/swc/issues/11160
     let cur = p.input().cur();
     let id = if cur.is_str() {
         TsEnumMemberId::Str(parse_str_lit(p))
@@ -1965,7 +1966,8 @@ fn parse_ts_property_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<(bool, Box<Ex
         (true, key)
     } else {
         p.do_inside_of_context(Context::InPropertyName, |p| {
-            // We check if it's valid for it to be a private name when we push it.
+            // We check if it's valid for it to be a private name when we push
+            // it.
             let cur = p.input().cur();
 
             let key = if cur.is_num() || cur.is_str() {
@@ -2211,8 +2213,8 @@ pub fn parse_ts_type_assertion<'a, P: Parser<'a>>(
         p.emit_err(p.span(start), SyntaxError::ReservedTypeAssertion);
     }
 
-    // Not actually necessary to set state.inType because we never reach here if JSX
-    // plugin is enabled, but need `tsInType` to satisfy the assertion in
+    // Not actually necessary to set state.inType because we never reach here if
+    // JSX plugin is enabled, but need `tsInType` to satisfy the assertion in
     // `tsParseType`.
     let type_ann = p.in_type(parse_ts_type)?;
     expect!(p, &P::Token::GREATER);
@@ -2625,10 +2627,10 @@ pub fn parse_ts_expr_stmt<'a, P: Parser<'a>>(
             }
         }
         "global" => {
-            // `global { }` (with no `declare`) may appear inside an ambient module
-            // declaration.
-            // Would like to use tsParseAmbientExternalModuleDeclaration here, but already
-            // ran past "global".
+            // `global { }` (with no `declare`) may appear inside an ambient
+            // module declaration.
+            // Would like to use tsParseAmbientExternalModuleDeclaration here,
+            // but already ran past "global".
             if p.input().is(&P::Token::LBRACE) {
                 let global = true;
                 let id = TsModuleName::Ident(expr);
@@ -2906,7 +2908,8 @@ pub fn try_parse_ts_generic_async_arrow_fn<'a, P: Parser<'a>>(
                 }
             }
 
-            // Don't use overloaded parseFunctionParams which would look for "<" again.
+            // Don't use overloaded parseFunctionParams which would look for "<"
+            // again.
             expect!(p, &P::Token::LPAREN);
             let params: Vec<Pat> = parse_formal_params(p)?.into_iter().map(|p| p.pat).collect();
             expect!(p, &P::Token::RPAREN);
