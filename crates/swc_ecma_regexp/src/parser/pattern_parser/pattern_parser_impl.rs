@@ -1767,6 +1767,16 @@ impl<'a> PatternParser<'a> {
     //   NonZeroDigit DecimalDigits[~Sep][opt] [lookahead ∉ DecimalDigit]
     // ```
     fn consume_decimal_escape(&mut self) -> Result<Option<u32>> {
+        // DecimalEscape :: NonZeroDigit DecimalDigits?
+        // A leading `0` (for example `\01`) is a legacy octal escape instead.
+        if !self
+            .reader
+            .peek()
+            .is_some_and(|cp| ('1' as u32..='9' as u32).contains(&cp))
+        {
+            return Ok(None);
+        }
+
         let checkpoint = self.reader.checkpoint();
 
         if let Some(index) = self.consume_decimal_digits()? {
