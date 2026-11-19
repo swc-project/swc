@@ -111,3 +111,6 @@ export const conditionalSpread = (enabled) => RegExp(...(enabled ? ["x", "g", /(
 // An array as the pattern is converted to a string, so its literal keeps its
 // own flags and is lowered.
 export const arrayPattern = new RegExp([/(?i:a)/], "g");
+// The spread supplies at most one argument, so there are no flags to replace
+// and the literal is lowered.
+export const singleArgumentSpread = (enabled) => RegExp(...(enabled ? [/(?i:a)/] : []));

@@ -456,7 +456,12 @@ impl RegexpPass {
         // argument that is not spread, or an element of a spread array), or a
         // value of an unknown spread before it. A later value cannot be the
         // pattern.
-        let kind = ConstructorUse::ReplacesFlags(None);
+        // Without a second argument there are no flags to replace.
+        let kind = if max_argument_count(args).is_some_and(|count| count <= 1) {
+            ConstructorUse::CopiesPattern
+        } else {
+            ConstructorUse::ReplacesFlags(None)
+        };
         for arg in args.iter() {
             if arg.spread.is_none() {
                 collect_pattern_literals(&arg.expr, false, kind, &mut self.constructor_literals);
@@ -1246,6 +1251,38 @@ fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<Option<&Expr>>, bool) {
         }
     }
     (prefix, true)
+}
+
+/// Returns the largest number of arguments that `args` can supply, or `None`
+/// if a spread has an unknown length. A spread of a conditional supplies the
+/// longer of its two branches.
+fn max_argument_count(args: &[ExprOrSpread]) -> Option<usize> {
+    fn spread_len(expr: &Expr) -> Option<usize> {
+        match expr.unwrap_parens() {
+            Expr::Array(array) => array.elems.iter().try_fold(0usize, |count, elem| {
+                Some(
+                    count
+                        + match elem {
+                            Some(elem) if elem.spread.is_some() => spread_len(&elem.expr)?,
+                            _ => 1,
+                        },
+                )
+            }),
+            Expr::Cond(cond) => Some(spread_len(&cond.cons)?.max(spread_len(&cond.alt)?)),
+            _ => None,
+        }
+    }
+
+    args.iter().try_fold(0usize, |count, arg| {
+        Some(
+            count
+                + if arg.spread.is_some() {
+                    spread_len(&arg.expr)?
+                } else {
+                    1
+                },
+        )
+    })
 }
 
 /// Collects the addresses of the regex literals that the pattern argument of a
