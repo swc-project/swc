@@ -5,7 +5,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_ident_ref, contains_this_expr, find_pat_ids, private_ident, ExprExt, IsEmpty, Value,
+    contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, IsEmpty, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -94,7 +94,7 @@ impl Optimizer<'_> {
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub(super) fn drop_unused_params(&mut self, params: &mut [Param], arg_is_empty: bool) {
+    pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>, arg_is_empty: bool) {
         if !self.options.unused && !self.options.reduce_fns {
             return;
         }
@@ -142,6 +142,8 @@ impl Optimizer<'_> {
                 }
             }
         }
+
+        params.retain(|p| !p.pat.is_invalid());
     }
 
     #[cfg_attr(
@@ -1457,16 +1459,6 @@ impl Optimizer<'_> {
                 }
             }
         }
-    }
-}
-
-pub(crate) fn fix_setter_param(f: &mut Function) {
-    if f.params.is_empty() {
-        f.params.push(Param {
-            span: DUMMY_SP,
-            decorators: Vec::new(),
-            pat: Pat::Ident(private_ident!("_").into()),
-        });
     }
 }
 
