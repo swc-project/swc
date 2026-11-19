@@ -80,3 +80,6 @@ export const conditionalSpread = (enabled)=>RegExp(...enabled ? [
         "g",
         /(?:[Aa])/
     ] : []);
+export const arrayPattern = new RegExp([
+    /(?:[Aa])/
+], "g");

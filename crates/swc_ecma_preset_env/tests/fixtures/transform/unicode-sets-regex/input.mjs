@@ -108,3 +108,6 @@ export const holeFlags = RegExp(/(?i:a)/, ...[, "g"]);
 // Only the first element of a spread array can be the pattern, so the third
 // one is lowered.
 export const conditionalSpread = (enabled) => RegExp(...(enabled ? ["x", "g", /(?i:a)/] : []));
+// An array as the pattern is converted to a string, so its literal keeps its
+// own flags and is lowered.
+export const arrayPattern = new RegExp([/(?i:a)/], "g");

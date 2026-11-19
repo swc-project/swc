@@ -447,7 +447,7 @@ impl RegexpPass {
                 }
                 CallFlags::Unknown => ConstructorUse::ReplacesFlags(None),
             };
-            collect_pattern_literals(pattern, kind, &mut self.constructor_literals);
+            collect_pattern_literals(pattern, false, kind, &mut self.constructor_literals);
             return;
         }
 
@@ -459,11 +459,11 @@ impl RegexpPass {
         let kind = ConstructorUse::ReplacesFlags(None);
         for arg in args.iter() {
             if arg.spread.is_none() {
-                collect_pattern_literals(&arg.expr, kind, &mut self.constructor_literals);
+                collect_pattern_literals(&arg.expr, false, kind, &mut self.constructor_literals);
                 return;
             }
             let Expr::Array(array) = arg.expr.unwrap_parens() else {
-                collect_pattern_literals(&arg.expr, kind, &mut self.constructor_literals);
+                collect_pattern_literals(&arg.expr, true, kind, &mut self.constructor_literals);
                 continue;
             };
             for elem in &array.elems {
@@ -471,7 +471,12 @@ impl RegexpPass {
                     // A hole supplies `undefined`, which is a value too.
                     None => return,
                     Some(elem) => {
-                        collect_pattern_literals(&elem.expr, kind, &mut self.constructor_literals);
+                        collect_pattern_literals(
+                            &elem.expr,
+                            elem.spread.is_some(),
+                            kind,
+                            &mut self.constructor_literals,
+                        );
                         if elem.spread.is_none() {
                             return;
                         }
@@ -1252,26 +1257,31 @@ fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<Option<&Expr>>, bool) {
 /// of an array (for a spread). A literal elsewhere, for example in a call that
 /// computes the pattern, is not passed to `RegExp` directly, so it is lowered
 /// as usual.
-fn collect_pattern_literals(expr: &Expr, kind: ConstructorUse, literals: &mut ConstructorLiterals) {
+fn collect_pattern_literals(
+    expr: &Expr,
+    spread: bool,
+    kind: ConstructorUse,
+    literals: &mut ConstructorLiterals,
+) {
     match expr {
         Expr::Lit(Lit::Regex(regex)) => literals.push(regex as *const Regex as usize, kind),
-        Expr::Paren(paren) => collect_pattern_literals(&paren.expr, kind, literals),
+        Expr::Paren(paren) => collect_pattern_literals(&paren.expr, spread, kind, literals),
         Expr::Cond(cond) => {
-            collect_pattern_literals(&cond.cons, kind, literals);
-            collect_pattern_literals(&cond.alt, kind, literals);
+            collect_pattern_literals(&cond.cons, spread, kind, literals);
+            collect_pattern_literals(&cond.alt, spread, kind, literals);
         }
         Expr::Bin(bin) if matches!(bin.op, op!("||") | op!("??")) => {
-            collect_pattern_literals(&bin.left, kind, literals);
-            collect_pattern_literals(&bin.right, kind, literals);
+            collect_pattern_literals(&bin.left, spread, kind, literals);
+            collect_pattern_literals(&bin.right, spread, kind, literals);
         }
         // `a && b` evaluates to `a` only if `a` is falsy, and a regex is
         // truthy.
         Expr::Bin(bin) if bin.op == op!("&&") => {
-            collect_pattern_literals(&bin.right, kind, literals);
+            collect_pattern_literals(&bin.right, spread, kind, literals);
         }
         Expr::Seq(seq) => {
             if let Some(last) = seq.exprs.last() {
-                collect_pattern_literals(last, kind, literals);
+                collect_pattern_literals(last, spread, kind, literals);
             }
         }
         // `a = b` and the logical assignments can evaluate to `b`. The other
@@ -1279,18 +1289,20 @@ fn collect_pattern_literals(expr: &Expr, kind: ConstructorUse, literals: &mut Co
         Expr::Assign(assign)
             if matches!(assign.op, op!("=") | op!("||=") | op!("&&=") | op!("??=")) =>
         {
-            collect_pattern_literals(&assign.right, kind, literals)
+            collect_pattern_literals(&assign.right, spread, kind, literals)
         }
         // The elements of an array that is spread into the arguments. Only
         // the first element that is known to exist can be the pattern; a
         // nested spread before it can supply nothing.
-        Expr::Array(array) => {
+        // An array that is the pattern itself is converted to a string, so
+        // its literals are not reused.
+        Expr::Array(array) if spread => {
             for elem in &array.elems {
                 let Some(elem) = elem else {
                     // A hole supplies `undefined` as the pattern.
                     break;
                 };
-                collect_pattern_literals(&elem.expr, kind, literals);
+                collect_pattern_literals(&elem.expr, elem.spread.is_some(), kind, literals);
                 if elem.spread.is_none() {
                     break;
                 }
