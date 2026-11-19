@@ -294,22 +294,32 @@ where
         } else {
             formatting_space!(self);
         }
-        self.emit_expr_with_precedence(&node.callee, ExprPrecedence::POSTFIX)?;
+        // A generic constructor needs `()` to keep its type arguments
+        // distinct from following relational, shift, or unary operators.
+        let emits_args = node.args.as_ref().is_some_and(|args| {
+            !(self.cfg.minify
+                && args.is_empty()
+                && should_ignore_empty_args
+                && node.type_args.is_none())
+        });
+
+        match &*node.callee {
+            // Keep the `()` of an inner `new` when this expression prints type
+            // arguments or arguments after it. In `new new F()(x)`, `x` is
+            // passed to the constructed value, but in `new new F(x)`, `x` is
+            // passed to `F`.
+            Expr::New(callee) if emits_args || node.type_args.is_some() => {
+                self.emit_new(callee, false)?;
+            }
+            _ => self.emit_expr_with_precedence(&node.callee, ExprPrecedence::POSTFIX)?,
+        }
 
         if let Some(type_args) = &node.type_args {
             emit!(self, type_args);
         }
 
-        if let Some(ref args) = node.args {
-            // A generic constructor needs `()` to keep its type arguments
-            // distinct from following relational, shift, or unary operators.
-            let omit_args = self.cfg.minify
-                && args.is_empty()
-                && should_ignore_empty_args
-                && node.type_args.is_none();
-            if !omit_args {
-                self.emit_arguments(node.span(), args, ListFormat::NewExpressionArguments)?;
-            }
+        if let (true, Some(args)) = (emits_args, &node.args) {
+            self.emit_arguments(node.span(), args, ListFormat::NewExpressionArguments)?;
         }
 
         // srcmap!(self, node, false);
