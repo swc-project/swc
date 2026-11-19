@@ -869,7 +869,8 @@ impl Caniuse for EsVersion {
             | Feature::BugfixTransformV8SpreadParametersInOptionalChaining
             | Feature::BugfixTransformV8StaticClassFieldsRedefineReadonly
             | Feature::BugfixTransformFirefoxClassInComputedClassKey
-            | Feature::BugfixTransformSafariClassFieldInitializerScope => true,
+            | Feature::BugfixTransformSafariClassFieldInitializerScope
+            | Feature::BugfixTransformSafariRestDestructuringRhsArray => true,
 
             _ => true,
         }

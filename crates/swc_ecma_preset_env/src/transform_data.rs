@@ -203,6 +203,9 @@ pub enum Feature {
     /// `bugfix/transform-safari-class-field-initializer-scope`
     BugfixTransformSafariClassFieldInitializerScope, // TODO
 
+    /// `bugfix/transform-safari-rest-destructuring-rhs-array`
+    BugfixTransformSafariRestDestructuringRhsArray, // TODO
+
     /// `transform-explicit-resource-management`
     #[string_enum(alias("proposal-explicit-resource-management"))]
     ExplicitResourceManagement,

@@ -602,5 +602,31 @@
     "es.uint8-array.set-from-hex",
     "es.uint8-array.to-base64",
     "es.uint8-array.to-hex"
+  ],
+  "3.47": [
+    "es.iterator.concat",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json"
+  ],
+  "3.48": [
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed"
+  ],
+  "3.50": [
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
+    "esnext.promise.all-keyed",
+    "esnext.promise.all-settled-keyed"
+  ],
+  "3.51": [
+    "es.iterator.chunks",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.windows"
   ]
 }

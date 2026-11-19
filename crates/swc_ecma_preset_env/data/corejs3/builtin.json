@@ -406,14 +406,14 @@
         "es.typed-array.to-sorted",
         "es.typed-array.to-string",
         "es.typed-array.with",
+        "es.uint8-array.set-from-base64",
+        "es.uint8-array.set-from-hex",
+        "es.uint8-array.to-base64",
+        "es.uint8-array.to-hex",
         "esnext.typed-array.filter-reject",
         "esnext.typed-array.group-by",
         "esnext.typed-array.to-spliced",
-        "esnext.typed-array.unique-by",
-        "esnext.uint8-array.set-from-base64",
-        "esnext.uint8-array.set-from-hex",
-        "esnext.uint8-array.to-base64",
-        "esnext.uint8-array.to-hex"
+        "esnext.typed-array.unique-by"
       ]
     },
     "Uint8ClampedArray": {
@@ -569,6 +569,8 @@
       "global": [
         "es.array.iterator",
         "es.map",
+        "es.map.get-or-insert",
+        "es.map.get-or-insert-computed",
         "es.object.to-string",
         "es.string.iterator",
         "esnext.map.delete-all",
@@ -577,8 +579,6 @@
         "esnext.map.filter",
         "esnext.map.find",
         "esnext.map.find-key",
-        "esnext.map.get-or-insert",
-        "esnext.map.get-or-insert-computed",
         "esnext.map.includes",
         "esnext.map.key-of",
         "esnext.map.map-keys",
@@ -767,10 +767,10 @@
         "es.object.to-string",
         "es.string.iterator",
         "es.weak-map",
+        "es.weak-map.get-or-insert",
+        "es.weak-map.get-or-insert-computed",
         "esnext.weak-map.delete-all",
         "esnext.weak-map.emplace",
-        "esnext.weak-map.get-or-insert",
-        "esnext.weak-map.get-or-insert-computed",
         "web.dom-collections.iterator"
       ]
     },
@@ -1048,14 +1048,14 @@
     },
     "Iterator": {
       "concat": {
-        "name": "esnext.iterator.concat",
+        "name": "es.iterator.concat",
         "pure": "iterator/concat",
         "global": [
           "es.array.iterator",
           "es.iterator.constructor",
+          "es.iterator.concat",
           "es.object.to-string",
           "es.string.iterator",
-          "esnext.iterator.concat",
           "web.dom-collections.iterator"
         ]
       },
@@ -1109,31 +1109,31 @@
     },
     "JSON": {
       "isRawJSON": {
-        "name": "esnext.json.is-raw-json",
+        "name": "es.json.is-raw-json",
         "pure": "json/is-raw-json",
         "global": [
-          "esnext.json.is-raw-json"
+          "es.json.is-raw-json"
         ]
       },
       "parse": {
-        "name": "esnext.json.parse",
+        "name": "es.json.parse",
         "pure": "json/parse",
         "global": [
-          "es.object.keys",
-          "esnext.json.parse"
+          "es.json.parse",
+          "es.object.keys"
         ]
       },
       "rawJSON": {
-        "name": "esnext.json.raw-json",
+        "name": "es.json.raw-json",
         "pure": "json/raw-json",
         "global": [
+          "es.json.raw-json",
           "es.object.create",
-          "es.object.freeze",
-          "esnext.json.raw-json"
+          "es.object.freeze"
         ]
       },
       "stringify": {
-        "name": "es.symbol",
+        "name": "es.json.stringify",
         "pure": "json/stringify",
         "global": [
           "es.date.to-json",
@@ -1339,11 +1339,11 @@
         ]
       },
       "sumPrecise": {
-        "name": "esnext.math.sum-precise",
+        "name": "es.math.sum-precise",
         "pure": "math/sum-precise",
         "global": [
           "es.array.iterator",
-          "esnext.math.sum-precise"
+          "es.math.sum-precise"
         ]
       },
       "tanh": {
@@ -1375,6 +1375,8 @@
         "global": [
           "es.array.iterator",
           "es.map",
+          "es.map.get-or-insert",
+          "es.map.get-or-insert-computed",
           "es.object.to-string",
           "es.string.iterator",
           "esnext.map.delete-all",
@@ -1384,8 +1386,6 @@
           "esnext.map.find",
           "esnext.map.find-key",
           "esnext.map.from",
-          "esnext.map.get-or-insert",
-          "esnext.map.get-or-insert-computed",
           "esnext.map.includes",
           "esnext.map.key-of",
           "esnext.map.map-keys",
@@ -1404,6 +1404,8 @@
           "es.array.iterator",
           "es.map",
           "es.map.group-by",
+          "es.map.get-or-insert",
+          "es.map.get-or-insert-computed",
           "es.object.to-string",
           "es.string.iterator",
           "esnext.map.delete-all",
@@ -1412,8 +1414,6 @@
           "esnext.map.filter",
           "esnext.map.find",
           "esnext.map.find-key",
-          "esnext.map.get-or-insert",
-          "esnext.map.get-or-insert-computed",
           "esnext.map.includes",
           "esnext.map.key-of",
           "esnext.map.map-keys",
@@ -1431,6 +1431,8 @@
         "global": [
           "es.array.iterator",
           "es.map",
+          "es.map.get-or-insert",
+          "es.map.get-or-insert-computed",
           "es.object.to-string",
           "es.string.iterator",
           "esnext.map.delete-all",
@@ -1439,8 +1441,6 @@
           "esnext.map.filter",
           "esnext.map.find",
           "esnext.map.find-key",
-          "esnext.map.get-or-insert",
-          "esnext.map.get-or-insert-computed",
           "esnext.map.includes",
           "esnext.map.key-by",
           "esnext.map.key-of",
@@ -1459,6 +1459,8 @@
         "global": [
           "es.array.iterator",
           "es.map",
+          "es.map.get-or-insert",
+          "es.map.get-or-insert-computed",
           "es.object.to-string",
           "es.string.iterator",
           "esnext.map.delete-all",
@@ -1467,8 +1469,6 @@
           "esnext.map.filter",
           "esnext.map.find",
           "esnext.map.find-key",
-          "esnext.map.get-or-insert",
-          "esnext.map.get-or-insert-computed",
           "esnext.map.includes",
           "esnext.map.key-of",
           "esnext.map.map-keys",
@@ -2300,11 +2300,11 @@
           "es.object.to-string",
           "es.string.iterator",
           "es.weak-map",
+          "es.weak-map.get-or-insert",
+          "es.weak-map.get-or-insert-computed",
           "esnext.weak-map.delete-all",
           "esnext.weak-map.from",
           "esnext.weak-map.emplace",
-          "esnext.weak-map.get-or-insert",
-          "esnext.weak-map.get-or-insert-computed",
           "web.dom-collections.iterator"
         ]
       },
@@ -2316,11 +2316,11 @@
           "es.object.to-string",
           "es.string.iterator",
           "es.weak-map",
+          "es.weak-map.get-or-insert",
+          "es.weak-map.get-or-insert-computed",
           "esnext.weak-map.delete-all",
           "esnext.weak-map.of",
           "esnext.weak-map.emplace",
-          "esnext.weak-map.get-or-insert",
-          "esnext.weak-map.get-or-insert-computed",
           "web.dom-collections.iterator"
         ]
       }
@@ -2514,7 +2514,7 @@
     },
     "Uint8Array": {
       "fromBase64": {
-        "name": "esnext.uint8-array.from-base64",
+        "name": "es.uint8-array.from-base64",
         "pure": null,
         "global": [
           "es.array.iterator",
@@ -2555,15 +2555,15 @@
           "es.typed-array.to-sorted",
           "es.typed-array.to-string",
           "es.typed-array.with",
+          "es.uint8-array.from-base64",
           "esnext.typed-array.filter-reject",
           "esnext.typed-array.group-by",
           "esnext.typed-array.to-spliced",
-          "esnext.typed-array.unique-by",
-          "esnext.uint8-array.from-base64"
+          "esnext.typed-array.unique-by"
         ]
       },
       "fromHex": {
-        "name": "esnext.uint8-array.from-hex",
+        "name": "es.uint8-array.from-hex",
         "pure": null,
         "global": [
           "es.array.iterator",
@@ -2604,11 +2604,11 @@
           "es.typed-array.to-sorted",
           "es.typed-array.to-string",
           "es.typed-array.with",
+          "es.uint8-array.from-hex",
           "esnext.typed-array.filter-reject",
           "esnext.typed-array.group-by",
           "esnext.typed-array.to-spliced",
-          "esnext.typed-array.unique-by",
-          "esnext.uint8-array.from-hex"
+          "esnext.typed-array.unique-by"
         ]
       },
       "from": {
@@ -4042,7 +4042,7 @@
     },
     "clamp": {
       "name": "esnext.number.clamp",
-      "pure": null,
+      "pure": "instance/clamp",
       "global": [
         "esnext.number.clamp"
       ]
@@ -4165,7 +4165,7 @@
     },
     "filterReject": {
       "name": "esnext.array.filter-reject",
-      "pure": "instance/filterReject",
+      "pure": "instance/filter-reject",
       "global": [
         "esnext.array.filter-reject"
       ]
@@ -4372,7 +4372,7 @@
         "es.string.is-well-formed"
       ]
     },
-    "italic": {
+    "italics": {
       "name": "es.string.italics",
       "pure": null,
       "global": [
@@ -4575,6 +4575,15 @@
       "pure": "instance/slice",
       "global": [
         "es.array.slice"
+      ]
+    },
+    "sliding": {
+      "name": "esnext.iterator.sliding",
+      "pure": null,
+      "global": [
+        "es.iterator.constructor",
+        "es.object.to-string",
+        "esnext.iterator.sliding"
       ]
     },
     "small": {

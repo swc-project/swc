@@ -85,6 +85,8 @@
     "es.function.name",
     "es.global-this",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -93,15 +95,25 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.math.acosh",
     "es.math.asinh",
     "es.math.atanh",
@@ -288,6 +300,8 @@
     "es.uint8-array.to-hex",
     "es.unescape",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "es.weak-set",
     "esnext.aggregate-error",
     "esnext.suppressed-error.constructor",
@@ -356,7 +370,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -417,7 +433,9 @@
     "esnext.object.iterate-values",
     "esnext.object.group-by",
     "esnext.observable",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -613,6 +631,8 @@
     "es.function.name",
     "es.global-this",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -621,15 +641,25 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.math.acosh",
     "es.math.asinh",
     "es.math.atanh",
@@ -816,6 +846,8 @@
     "es.uint8-array.to-hex",
     "es.unescape",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "es.weak-set",
     "esnext.aggregate-error",
     "esnext.suppressed-error.constructor",
@@ -856,6 +888,7 @@
     "esnext.function.metadata",
     "esnext.global-this",
     "esnext.iterator.constructor",
+    "esnext.iterator.chunks",
     "esnext.iterator.concat",
     "esnext.iterator.dispose",
     "esnext.iterator.drop",
@@ -865,12 +898,17 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
     "esnext.iterator.to-async",
+    "esnext.iterator.windows",
+    "esnext.iterator.zip",
+    "esnext.iterator.zip-keyed",
     "esnext.json.is-raw-json",
     "esnext.json.parse",
     "esnext.json.raw-json",
@@ -881,7 +919,9 @@
     "esnext.math.sum-precise",
     "esnext.object.has-own",
     "esnext.object.group-by",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -936,7 +976,15 @@
     "web.url-search-params.has",
     "web.url-search-params.size"
   ],
-  "core-js/actual/aggregate-error": [],
+  "core-js/actual/aggregate-error": [
+    "es.error.cause",
+    "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.iterator",
+    "es.string.iterator",
+    "esnext.aggregate-error",
+    "web.dom-collections.iterator"
+  ],
   "core-js/actual/array": [
     "es.array.at",
     "es.array.concat",
@@ -1894,6 +1942,8 @@
   "core-js/actual/iterator": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -1902,15 +1952,23 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.object.create",
     "es.object.to-string",
     "es.promise",
+    "es.reflect.own-keys",
     "es.string.iterator",
     "esnext.iterator.constructor",
+    "esnext.iterator.chunks",
     "esnext.iterator.concat",
     "esnext.iterator.dispose",
     "esnext.iterator.drop",
@@ -1920,31 +1978,51 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
     "esnext.iterator.to-async",
+    "esnext.iterator.windows",
+    "esnext.iterator.zip",
+    "esnext.iterator.zip-keyed",
     "web.dom-collections.iterator"
+  ],
+  "core-js/actual/iterator/chunks": [
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.object.to-string",
+    "esnext.iterator.chunks"
   ],
   "core-js/actual/iterator/concat": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.string.iterator",
+    "esnext.iterator.chunks",
     "esnext.iterator.concat",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
+    "esnext.iterator.windows",
     "web.dom-collections.iterator"
   ],
   "core-js/actual/iterator/dispose": [
@@ -1997,6 +2075,7 @@
   "core-js/actual/iterator/from": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
@@ -2004,15 +2083,19 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.promise",
     "es.string.iterator",
     "esnext.iterator.constructor",
+    "esnext.iterator.chunks",
     "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
@@ -2021,13 +2104,28 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
     "esnext.iterator.to-async",
+    "esnext.iterator.windows",
     "web.dom-collections.iterator"
+  ],
+  "core-js/actual/iterator/includes": [
+    "es.iterator.constructor",
+    "es.iterator.includes",
+    "es.object.to-string",
+    "esnext.iterator.includes"
+  ],
+  "core-js/actual/iterator/join": [
+    "es.iterator.constructor",
+    "es.iterator.join",
+    "es.object.to-string",
+    "esnext.iterator.join"
   ],
   "core-js/actual/iterator/map": [
     "es.iterator.constructor",
@@ -2071,8 +2169,75 @@
     "esnext.iterator.constructor",
     "esnext.iterator.to-async"
   ],
+  "core-js/actual/iterator/windows": [
+    "es.iterator.constructor",
+    "es.iterator.windows",
+    "es.object.to-string",
+    "esnext.iterator.windows"
+  ],
+  "core-js/actual/iterator/zip": [
+    "es.array.iterator",
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.object.to-string",
+    "es.string.iterator",
+    "esnext.iterator.chunks",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
+    "esnext.iterator.windows",
+    "esnext.iterator.zip",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/iterator/zip-keyed": [
+    "es.array.iterator",
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip-keyed",
+    "es.object.create",
+    "es.object.to-string",
+    "es.reflect.own-keys",
+    "es.string.iterator",
+    "esnext.iterator.chunks",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
+    "esnext.iterator.windows",
+    "esnext.iterator.zip-keyed",
+    "web.dom-collections.iterator"
+  ],
   "core-js/actual/json": [
     "es.date.to-json",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.object.create",
@@ -2083,13 +2248,17 @@
     "esnext.json.raw-json"
   ],
   "core-js/actual/json/is-raw-json": [
+    "es.json.is-raw-json",
     "esnext.json.is-raw-json"
   ],
   "core-js/actual/json/parse": [
+    "es.json.parse",
     "es.object.keys",
     "esnext.json.parse"
   ],
   "core-js/actual/json/raw-json": [
+    "es.json.raw-json",
+    "es.json.stringify",
     "es.object.create",
     "es.object.freeze",
     "esnext.json.raw-json"
@@ -2105,6 +2274,8 @@
     "es.array.iterator",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.map.get-or-insert",
@@ -2114,16 +2285,22 @@
   ],
   "core-js/actual/map/get-or-insert": [
     "es.map",
+    "es.map.get-or-insert",
     "esnext.map.get-or-insert"
   ],
   "core-js/actual/map/get-or-insert-computed": [
     "es.map",
+    "es.map.get-or-insert-computed",
     "esnext.map.get-or-insert-computed"
   ],
   "core-js/actual/map/group-by": [
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string",
+    "esnext.map.get-or-insert",
+    "esnext.map.get-or-insert-computed",
     "esnext.map.group-by"
   ],
   "core-js/actual/math": [
@@ -2421,6 +2598,7 @@
   "core-js/actual/promise": [
     "es.aggregate-error",
     "es.array.iterator",
+    "es.object.create",
     "es.object.to-string",
     "es.promise",
     "es.promise.all-settled",
@@ -2428,10 +2606,20 @@
     "es.promise.finally",
     "es.promise.try",
     "es.promise.with-resolvers",
+    "es.reflect.own-keys",
     "es.string.iterator",
+    "esnext.promise.all-keyed",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
     "web.dom-collections.iterator"
+  ],
+  "core-js/actual/promise/all-keyed": [
+    "es.object.create",
+    "es.object.to-string",
+    "es.promise",
+    "es.reflect.own-keys",
+    "esnext.promise.all-keyed"
   ],
   "core-js/actual/promise/all-settled": [
     "es.array.iterator",
@@ -2440,6 +2628,13 @@
     "es.promise.all-settled",
     "es.string.iterator",
     "web.dom-collections.iterator"
+  ],
+  "core-js/actual/promise/all-settled-keyed": [
+    "es.object.create",
+    "es.object.to-string",
+    "es.promise",
+    "es.reflect.own-keys",
+    "esnext.promise.all-settled-keyed"
   ],
   "core-js/actual/promise/any": [
     "es.aggregate-error",
@@ -2977,7 +3172,12 @@
     "web.dom-exception.to-string-tag",
     "web.structured-clone"
   ],
-  "core-js/actual/suppressed-error": [],
+  "core-js/actual/suppressed-error": [
+    "es.error.cause",
+    "es.error.to-string",
+    "es.suppressed-error.constructor",
+    "esnext.suppressed-error.constructor"
+  ],
   "core-js/actual/symbol": [
     "es.symbol",
     "es.symbol.description",
@@ -3882,16 +4082,20 @@
     "es.array.iterator",
     "es.object.to-string",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "esnext.weak-map.get-or-insert",
     "esnext.weak-map.get-or-insert-computed",
     "web.dom-collections.iterator"
   ],
   "core-js/actual/weak-map/get-or-insert": [
     "es.weak-map",
+    "es.weak-map.get-or-insert",
     "esnext.weak-map.get-or-insert"
   ],
   "core-js/actual/weak-map/get-or-insert-computed": [
     "es.weak-map",
+    "es.weak-map.get-or-insert-computed",
     "esnext.weak-map.get-or-insert-computed"
   ],
   "core-js/actual/weak-set": [
@@ -3986,6 +4190,8 @@
     "es.function.name",
     "es.global-this",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -3994,15 +4200,25 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.math.acosh",
     "es.math.asinh",
     "es.math.atanh",
@@ -4189,9 +4405,17 @@
     "es.uint8-array.to-hex",
     "es.unescape",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "es.weak-set"
   ],
-  "core-js/es/aggregate-error": [],
+  "core-js/es/aggregate-error": [
+    "es.error.cause",
+    "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.iterator",
+    "es.string.iterator"
+  ],
   "core-js/es/array": [
     "es.array.at",
     "es.array.concat",
@@ -4869,6 +5093,8 @@
   "core-js/es/iterator": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -4877,13 +5103,48 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.object.create",
     "es.object.to-string",
+    "es.reflect.own-keys",
     "es.string.iterator"
+  ],
+  "core-js/es/iterator/chunks": [
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.object.to-string"
+  ],
+  "core-js/es/iterator/concat": [
+    "es.array.iterator",
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.object.to-string",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
   ],
   "core-js/es/iterator/dispose": [
     "es.iterator.dispose"
@@ -4922,6 +5183,7 @@
   "core-js/es/iterator/from": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
@@ -4929,13 +5191,26 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.string.iterator"
+  ],
+  "core-js/es/iterator/includes": [
+    "es.iterator.constructor",
+    "es.iterator.includes",
+    "es.object.to-string"
+  ],
+  "core-js/es/iterator/join": [
+    "es.iterator.constructor",
+    "es.iterator.join",
+    "es.object.to-string"
   ],
   "core-js/es/iterator/map": [
     "es.iterator.constructor",
@@ -4962,10 +5237,81 @@
     "es.iterator.to-array",
     "es.object.to-string"
   ],
+  "core-js/es/iterator/windows": [
+    "es.iterator.constructor",
+    "es.iterator.windows",
+    "es.object.to-string"
+  ],
+  "core-js/es/iterator/zip": [
+    "es.array.iterator",
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.object.to-string",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/es/iterator/zip-keyed": [
+    "es.array.iterator",
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip-keyed",
+    "es.object.create",
+    "es.object.to-string",
+    "es.reflect.own-keys",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
   "core-js/es/json": [
     "es.date.to-json",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
-    "es.json.to-string-tag"
+    "es.json.to-string-tag",
+    "es.object.create",
+    "es.object.freeze",
+    "es.object.keys"
+  ],
+  "core-js/es/json/is-raw-json": [
+    "es.json.is-raw-json"
+  ],
+  "core-js/es/json/parse": [
+    "es.json.parse",
+    "es.object.keys"
+  ],
+  "core-js/es/json/raw-json": [
+    "es.json.raw-json",
+    "es.object.create",
+    "es.object.freeze"
   ],
   "core-js/es/json/stringify": [
     "es.date.to-json",
@@ -4978,12 +5324,24 @@
     "es.array.iterator",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string",
     "es.string.iterator"
+  ],
+  "core-js/es/map/get-or-insert": [
+    "es.map",
+    "es.map.get-or-insert"
+  ],
+  "core-js/es/map/get-or-insert-computed": [
+    "es.map",
+    "es.map.get-or-insert-computed"
   ],
   "core-js/es/map/group-by": [
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string"
   ],
   "core-js/es/math": [
@@ -5771,7 +6129,11 @@
   "core-js/es/string/virtual/trim-start": [
     "es.string.trim-start"
   ],
-  "core-js/es/suppressed-error": [],
+  "core-js/es/suppressed-error": [
+    "es.error.cause",
+    "es.error.to-string",
+    "es.suppressed-error.constructor"
+  ],
   "core-js/es/symbol": [
     "es.symbol",
     "es.symbol.description",
@@ -6489,7 +6851,17 @@
   "core-js/es/weak-map": [
     "es.array.iterator",
     "es.object.to-string",
-    "es.weak-map"
+    "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed"
+  ],
+  "core-js/es/weak-map/get-or-insert": [
+    "es.weak-map",
+    "es.weak-map.get-or-insert"
+  ],
+  "core-js/es/weak-map/get-or-insert-computed": [
+    "es.weak-map",
+    "es.weak-map.get-or-insert-computed"
   ],
   "core-js/es/weak-set": [
     "es.array.iterator",
@@ -6582,6 +6954,8 @@
     "es.function.name",
     "es.global-this",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -6590,15 +6964,25 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.math.acosh",
     "es.math.asinh",
     "es.math.atanh",
@@ -6785,6 +7169,8 @@
     "es.uint8-array.to-hex",
     "es.unescape",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "es.weak-set",
     "esnext.aggregate-error",
     "esnext.suppressed-error.constructor",
@@ -6853,7 +7239,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -6914,7 +7302,9 @@
     "esnext.object.iterate-values",
     "esnext.object.group-by",
     "esnext.observable",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -7024,7 +7414,15 @@
     "web.url-search-params.has",
     "web.url-search-params.size"
   ],
-  "core-js/features/aggregate-error": [],
+  "core-js/features/aggregate-error": [
+    "es.error.cause",
+    "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.iterator",
+    "es.string.iterator",
+    "esnext.aggregate-error",
+    "web.dom-collections.iterator"
+  ],
   "core-js/features/array": [
     "es.array.at",
     "es.array.concat",
@@ -8114,6 +8512,8 @@
   "core-js/features/iterator": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -8122,13 +8522,20 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.object.create",
     "es.object.to-string",
     "es.promise",
+    "es.reflect.own-keys",
     "es.string.iterator",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -8142,7 +8549,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -8163,27 +8572,35 @@
   ],
   "core-js/features/iterator/chunks": [
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.object.to-string",
     "esnext.iterator.chunks"
   ],
   "core-js/features/iterator/concat": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.iterator.chunks",
     "esnext.iterator.concat",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.sliding",
     "esnext.iterator.windows",
     "web.dom-collections.iterator"
@@ -8238,6 +8655,7 @@
   "core-js/features/iterator/from": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
@@ -8245,11 +8663,14 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.promise",
     "es.string.iterator",
@@ -8263,6 +8684,8 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.sliding",
@@ -8273,10 +8696,22 @@
     "esnext.iterator.windows",
     "web.dom-collections.iterator"
   ],
+  "core-js/features/iterator/includes": [
+    "es.iterator.constructor",
+    "es.iterator.includes",
+    "es.object.to-string",
+    "esnext.iterator.includes"
+  ],
   "core-js/features/iterator/indexed": [
     "es.object.to-string",
     "esnext.iterator.constructor",
     "esnext.iterator.indexed"
+  ],
+  "core-js/features/iterator/join": [
+    "es.iterator.constructor",
+    "es.iterator.join",
+    "es.object.to-string",
+    "esnext.iterator.join"
   ],
   "core-js/features/iterator/map": [
     "es.iterator.constructor",
@@ -8288,21 +8723,27 @@
   "core-js/features/iterator/range": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.iterator.constructor",
     "esnext.iterator.chunks",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.range",
     "esnext.iterator.sliding",
     "esnext.iterator.windows",
@@ -8350,26 +8791,34 @@
   ],
   "core-js/features/iterator/windows": [
     "es.iterator.constructor",
+    "es.iterator.windows",
     "es.object.to-string",
     "esnext.iterator.windows"
   ],
   "core-js/features/iterator/zip": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.iterator.chunks",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.sliding",
     "esnext.iterator.windows",
     "esnext.iterator.zip",
@@ -8378,22 +8827,29 @@
   "core-js/features/iterator/zip-keyed": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip-keyed",
     "es.object.create",
     "es.object.to-string",
     "es.reflect.own-keys",
     "es.string.iterator",
     "esnext.iterator.chunks",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.sliding",
     "esnext.iterator.windows",
     "esnext.iterator.zip-keyed",
@@ -8401,6 +8857,9 @@
   ],
   "core-js/features/json": [
     "es.date.to-json",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.object.create",
@@ -8411,13 +8870,17 @@
     "esnext.json.raw-json"
   ],
   "core-js/features/json/is-raw-json": [
+    "es.json.is-raw-json",
     "esnext.json.is-raw-json"
   ],
   "core-js/features/json/parse": [
+    "es.json.parse",
     "es.object.keys",
     "esnext.json.parse"
   ],
   "core-js/features/json/raw-json": [
+    "es.json.raw-json",
+    "es.json.stringify",
     "es.object.create",
     "es.object.freeze",
     "esnext.json.raw-json"
@@ -8433,6 +8896,8 @@
     "es.array.iterator",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.map.delete-all",
@@ -8509,15 +8974,19 @@
   ],
   "core-js/features/map/get-or-insert": [
     "es.map",
+    "es.map.get-or-insert",
     "esnext.map.get-or-insert"
   ],
   "core-js/features/map/get-or-insert-computed": [
     "es.map",
+    "es.map.get-or-insert-computed",
     "esnext.map.get-or-insert-computed"
   ],
   "core-js/features/map/group-by": [
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string",
     "esnext.map.delete-all",
     "esnext.map.emplace",
@@ -9005,6 +9474,7 @@
   "core-js/features/promise": [
     "es.aggregate-error",
     "es.array.iterator",
+    "es.object.create",
     "es.object.to-string",
     "es.promise",
     "es.promise.all-settled",
@@ -9012,13 +9482,23 @@
     "es.promise.finally",
     "es.promise.try",
     "es.promise.with-resolvers",
+    "es.reflect.own-keys",
     "es.string.iterator",
     "esnext.aggregate-error",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
     "web.dom-collections.iterator"
+  ],
+  "core-js/features/promise/all-keyed": [
+    "es.object.create",
+    "es.object.to-string",
+    "es.promise",
+    "es.reflect.own-keys",
+    "esnext.promise.all-keyed"
   ],
   "core-js/features/promise/all-settled": [
     "es.array.iterator",
@@ -9028,6 +9508,13 @@
     "es.string.iterator",
     "esnext.promise.all-settled",
     "web.dom-collections.iterator"
+  ],
+  "core-js/features/promise/all-settled-keyed": [
+    "es.object.create",
+    "es.object.to-string",
+    "es.promise",
+    "es.reflect.own-keys",
+    "esnext.promise.all-settled-keyed"
   ],
   "core-js/features/promise/any": [
     "es.aggregate-error",
@@ -9764,7 +10251,12 @@
     "web.dom-exception.to-string-tag",
     "web.structured-clone"
   ],
-  "core-js/features/suppressed-error": [],
+  "core-js/features/suppressed-error": [
+    "es.error.cause",
+    "es.error.to-string",
+    "es.suppressed-error.constructor",
+    "esnext.suppressed-error.constructor"
+  ],
   "core-js/features/symbol": [
     "es.symbol",
     "es.symbol.description",
@@ -10819,6 +11311,8 @@
     "es.object.to-string",
     "es.string.iterator",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -10850,10 +11344,12 @@
   ],
   "core-js/features/weak-map/get-or-insert": [
     "es.weak-map",
+    "es.weak-map.get-or-insert",
     "esnext.weak-map.get-or-insert"
   ],
   "core-js/features/weak-map/get-or-insert-computed": [
     "es.weak-map",
+    "es.weak-map.get-or-insert-computed",
     "esnext.weak-map.get-or-insert-computed"
   ],
   "core-js/features/weak-map/of": [
@@ -10993,6 +11489,8 @@
     "es.function.name",
     "es.global-this",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -11001,15 +11499,25 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.math.acosh",
     "es.math.asinh",
     "es.math.atanh",
@@ -11196,6 +11704,8 @@
     "es.uint8-array.to-hex",
     "es.unescape",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "es.weak-set",
     "esnext.aggregate-error",
     "esnext.suppressed-error.constructor",
@@ -11264,7 +11774,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -11325,7 +11837,9 @@
     "esnext.object.iterate-values",
     "esnext.object.group-by",
     "esnext.observable",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -11435,7 +11949,15 @@
     "web.url-search-params.has",
     "web.url-search-params.size"
   ],
-  "core-js/full/aggregate-error": [],
+  "core-js/full/aggregate-error": [
+    "es.error.cause",
+    "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.iterator",
+    "es.string.iterator",
+    "esnext.aggregate-error",
+    "web.dom-collections.iterator"
+  ],
   "core-js/full/array": [
     "es.array.at",
     "es.array.concat",
@@ -12525,6 +13047,8 @@
   "core-js/full/iterator": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -12533,13 +13057,20 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.object.create",
     "es.object.to-string",
     "es.promise",
+    "es.reflect.own-keys",
     "es.string.iterator",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
@@ -12553,7 +13084,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -12574,27 +13107,35 @@
   ],
   "core-js/full/iterator/chunks": [
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.object.to-string",
     "esnext.iterator.chunks"
   ],
   "core-js/full/iterator/concat": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.iterator.chunks",
     "esnext.iterator.concat",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.sliding",
     "esnext.iterator.windows",
     "web.dom-collections.iterator"
@@ -12649,6 +13190,7 @@
   "core-js/full/iterator/from": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
@@ -12656,11 +13198,14 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.promise",
     "es.string.iterator",
@@ -12674,6 +13219,8 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.sliding",
@@ -12684,10 +13231,22 @@
     "esnext.iterator.windows",
     "web.dom-collections.iterator"
   ],
+  "core-js/full/iterator/includes": [
+    "es.iterator.constructor",
+    "es.iterator.includes",
+    "es.object.to-string",
+    "esnext.iterator.includes"
+  ],
   "core-js/full/iterator/indexed": [
     "es.object.to-string",
     "esnext.iterator.constructor",
     "esnext.iterator.indexed"
+  ],
+  "core-js/full/iterator/join": [
+    "es.iterator.constructor",
+    "es.iterator.join",
+    "es.object.to-string",
+    "esnext.iterator.join"
   ],
   "core-js/full/iterator/map": [
     "es.iterator.constructor",
@@ -12699,21 +13258,27 @@
   "core-js/full/iterator/range": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.iterator.constructor",
     "esnext.iterator.chunks",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.range",
     "esnext.iterator.sliding",
     "esnext.iterator.windows",
@@ -12761,26 +13326,34 @@
   ],
   "core-js/full/iterator/windows": [
     "es.iterator.constructor",
+    "es.iterator.windows",
     "es.object.to-string",
     "esnext.iterator.windows"
   ],
   "core-js/full/iterator/zip": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.iterator.chunks",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.sliding",
     "esnext.iterator.windows",
     "esnext.iterator.zip",
@@ -12789,22 +13362,29 @@
   "core-js/full/iterator/zip-keyed": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
     "es.iterator.find",
     "es.iterator.flat-map",
     "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip-keyed",
     "es.object.create",
     "es.object.to-string",
     "es.reflect.own-keys",
     "es.string.iterator",
     "esnext.iterator.chunks",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.sliding",
     "esnext.iterator.windows",
     "esnext.iterator.zip-keyed",
@@ -12812,6 +13392,9 @@
   ],
   "core-js/full/json": [
     "es.date.to-json",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.object.create",
@@ -12822,13 +13405,17 @@
     "esnext.json.raw-json"
   ],
   "core-js/full/json/is-raw-json": [
+    "es.json.is-raw-json",
     "esnext.json.is-raw-json"
   ],
   "core-js/full/json/parse": [
+    "es.json.parse",
     "es.object.keys",
     "esnext.json.parse"
   ],
   "core-js/full/json/raw-json": [
+    "es.json.raw-json",
+    "es.json.stringify",
     "es.object.create",
     "es.object.freeze",
     "esnext.json.raw-json"
@@ -12844,6 +13431,8 @@
     "es.array.iterator",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string",
     "es.string.iterator",
     "esnext.map.delete-all",
@@ -12920,15 +13509,19 @@
   ],
   "core-js/full/map/get-or-insert": [
     "es.map",
+    "es.map.get-or-insert",
     "esnext.map.get-or-insert"
   ],
   "core-js/full/map/get-or-insert-computed": [
     "es.map",
+    "es.map.get-or-insert-computed",
     "esnext.map.get-or-insert-computed"
   ],
   "core-js/full/map/group-by": [
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string",
     "esnext.map.delete-all",
     "esnext.map.emplace",
@@ -13416,6 +14009,7 @@
   "core-js/full/promise": [
     "es.aggregate-error",
     "es.array.iterator",
+    "es.object.create",
     "es.object.to-string",
     "es.promise",
     "es.promise.all-settled",
@@ -13423,13 +14017,23 @@
     "es.promise.finally",
     "es.promise.try",
     "es.promise.with-resolvers",
+    "es.reflect.own-keys",
     "es.string.iterator",
     "esnext.aggregate-error",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
     "web.dom-collections.iterator"
+  ],
+  "core-js/full/promise/all-keyed": [
+    "es.object.create",
+    "es.object.to-string",
+    "es.promise",
+    "es.reflect.own-keys",
+    "esnext.promise.all-keyed"
   ],
   "core-js/full/promise/all-settled": [
     "es.array.iterator",
@@ -13439,6 +14043,13 @@
     "es.string.iterator",
     "esnext.promise.all-settled",
     "web.dom-collections.iterator"
+  ],
+  "core-js/full/promise/all-settled-keyed": [
+    "es.object.create",
+    "es.object.to-string",
+    "es.promise",
+    "es.reflect.own-keys",
+    "esnext.promise.all-settled-keyed"
   ],
   "core-js/full/promise/any": [
     "es.aggregate-error",
@@ -14175,7 +14786,12 @@
     "web.dom-exception.to-string-tag",
     "web.structured-clone"
   ],
-  "core-js/full/suppressed-error": [],
+  "core-js/full/suppressed-error": [
+    "es.error.cause",
+    "es.error.to-string",
+    "es.suppressed-error.constructor",
+    "esnext.suppressed-error.constructor"
+  ],
   "core-js/full/symbol": [
     "es.symbol",
     "es.symbol.description",
@@ -15230,6 +15846,8 @@
     "es.object.to-string",
     "es.string.iterator",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "esnext.weak-map.delete-all",
     "esnext.weak-map.from",
     "esnext.weak-map.of",
@@ -15261,10 +15879,12 @@
   ],
   "core-js/full/weak-map/get-or-insert": [
     "es.weak-map",
+    "es.weak-map.get-or-insert",
     "esnext.weak-map.get-or-insert"
   ],
   "core-js/full/weak-map/get-or-insert-computed": [
     "es.weak-map",
+    "es.weak-map.get-or-insert-computed",
     "esnext.weak-map.get-or-insert-computed"
   ],
   "core-js/full/weak-map/of": [
@@ -15531,6 +16151,12 @@
   "core-js/modules/es.global-this": [
     "es.global-this"
   ],
+  "core-js/modules/es.iterator.chunks": [
+    "es.iterator.chunks"
+  ],
+  "core-js/modules/es.iterator.concat": [
+    "es.iterator.concat"
+  ],
   "core-js/modules/es.iterator.constructor": [
     "es.iterator.constructor"
   ],
@@ -15558,6 +16184,12 @@
   "core-js/modules/es.iterator.from": [
     "es.iterator.from"
   ],
+  "core-js/modules/es.iterator.includes": [
+    "es.iterator.includes"
+  ],
+  "core-js/modules/es.iterator.join": [
+    "es.iterator.join"
+  ],
   "core-js/modules/es.iterator.map": [
     "es.iterator.map"
   ],
@@ -15573,6 +16205,24 @@
   "core-js/modules/es.iterator.to-array": [
     "es.iterator.to-array"
   ],
+  "core-js/modules/es.iterator.windows": [
+    "es.iterator.windows"
+  ],
+  "core-js/modules/es.iterator.zip": [
+    "es.iterator.zip"
+  ],
+  "core-js/modules/es.iterator.zip-keyed": [
+    "es.iterator.zip-keyed"
+  ],
+  "core-js/modules/es.json.is-raw-json": [
+    "es.json.is-raw-json"
+  ],
+  "core-js/modules/es.json.parse": [
+    "es.json.parse"
+  ],
+  "core-js/modules/es.json.raw-json": [
+    "es.json.raw-json"
+  ],
   "core-js/modules/es.json.stringify": [
     "es.json.stringify"
   ],
@@ -15584,6 +16234,12 @@
   ],
   "core-js/modules/es.map.constructor": [
     "es.map.constructor"
+  ],
+  "core-js/modules/es.map.get-or-insert": [
+    "es.map.get-or-insert"
+  ],
+  "core-js/modules/es.map.get-or-insert-computed": [
+    "es.map.get-or-insert-computed"
   ],
   "core-js/modules/es.map.group-by": [
     "es.map.group-by"
@@ -16233,6 +16889,12 @@
   "core-js/modules/es.weak-map.constructor": [
     "es.weak-map.constructor"
   ],
+  "core-js/modules/es.weak-map.get-or-insert": [
+    "es.weak-map.get-or-insert"
+  ],
+  "core-js/modules/es.weak-map.get-or-insert-computed": [
+    "es.weak-map.get-or-insert-computed"
+  ],
   "core-js/modules/es.weak-set": [
     "es.weak-set"
   ],
@@ -16437,8 +17099,14 @@
   "core-js/modules/esnext.iterator.from": [
     "esnext.iterator.from"
   ],
+  "core-js/modules/esnext.iterator.includes": [
+    "esnext.iterator.includes"
+  ],
   "core-js/modules/esnext.iterator.indexed": [
     "esnext.iterator.indexed"
+  ],
+  "core-js/modules/esnext.iterator.join": [
+    "esnext.iterator.join"
   ],
   "core-js/modules/esnext.iterator.map": [
     "esnext.iterator.map"
@@ -16629,8 +17297,14 @@
   "core-js/modules/esnext.observable.of": [
     "esnext.observable.of"
   ],
+  "core-js/modules/esnext.promise.all-keyed": [
+    "esnext.promise.all-keyed"
+  ],
   "core-js/modules/esnext.promise.all-settled": [
     "esnext.promise.all-settled"
+  ],
+  "core-js/modules/esnext.promise.all-settled-keyed": [
+    "esnext.promise.all-settled-keyed"
   ],
   "core-js/modules/esnext.promise.any": [
     "esnext.promise.any"
@@ -17050,7 +17724,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -17111,7 +17787,9 @@
     "esnext.object.iterate-values",
     "esnext.object.group-by",
     "esnext.observable",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -17312,6 +17990,10 @@
     "esnext.async-iterator.to-array",
     "esnext.iterator.to-async"
   ],
+  "core-js/proposals/await-dictionary": [
+    "esnext.promise.all-keyed",
+    "esnext.promise.all-settled-keyed"
+  ],
   "core-js/proposals/change-array-by-copy": [
     "esnext.array.to-reversed",
     "esnext.array.to-sorted",
@@ -17432,6 +18114,10 @@
     "esnext.iterator.sliding",
     "esnext.iterator.windows"
   ],
+  "core-js/proposals/iterator-chunking-v2": [
+    "esnext.iterator.chunks",
+    "esnext.iterator.windows"
+  ],
   "core-js/proposals/iterator-helpers": [
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
@@ -17508,6 +18194,12 @@
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array"
+  ],
+  "core-js/proposals/iterator-includes": [
+    "esnext.iterator.includes"
+  ],
+  "core-js/proposals/iterator-join": [
+    "esnext.iterator.join"
   ],
   "core-js/proposals/iterator-range": [
     "esnext.iterator.constructor",
@@ -17829,6 +18521,8 @@
     "es.function.name",
     "es.global-this",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -17837,15 +18531,25 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
     "es.json.to-string-tag",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.math.acosh",
     "es.math.asinh",
     "es.math.atanh",
@@ -18032,6 +18736,8 @@
     "es.uint8-array.to-hex",
     "es.unescape",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "es.weak-set",
     "web.atob",
     "web.btoa",
@@ -18054,7 +18760,15 @@
     "web.url-search-params.has",
     "web.url-search-params.size"
   ],
-  "core-js/stable/aggregate-error": [],
+  "core-js/stable/aggregate-error": [
+    "es.error.cause",
+    "es.aggregate-error",
+    "es.aggregate-error.cause",
+    "es.array.iterator",
+    "es.string.iterator",
+    "esnext.aggregate-error",
+    "web.dom-collections.iterator"
+  ],
   "core-js/stable/array": [
     "es.array.at",
     "es.array.concat",
@@ -18785,6 +19499,8 @@
   "core-js/stable/iterator": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
     "es.iterator.dispose",
     "es.iterator.drop",
     "es.iterator.every",
@@ -18793,13 +19509,49 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.iterator.zip-keyed",
+    "es.object.create",
+    "es.object.to-string",
+    "es.reflect.own-keys",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/stable/iterator/chunks": [
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.object.to-string"
+  ],
+  "core-js/stable/iterator/concat": [
+    "es.array.iterator",
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.concat",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.string.iterator",
+    "esnext.iterator.concat",
     "web.dom-collections.iterator"
   ],
   "core-js/stable/iterator/dispose": [
@@ -18840,6 +19592,7 @@
   "core-js/stable/iterator/from": [
     "es.array.iterator",
     "es.iterator.constructor",
+    "es.iterator.chunks",
     "es.iterator.drop",
     "es.iterator.every",
     "es.iterator.filter",
@@ -18847,14 +19600,27 @@
     "es.iterator.flat-map",
     "es.iterator.for-each",
     "es.iterator.from",
+    "es.iterator.includes",
+    "es.iterator.join",
     "es.iterator.map",
     "es.iterator.reduce",
     "es.iterator.some",
     "es.iterator.take",
     "es.iterator.to-array",
+    "es.iterator.windows",
     "es.object.to-string",
     "es.string.iterator",
     "web.dom-collections.iterator"
+  ],
+  "core-js/stable/iterator/includes": [
+    "es.iterator.constructor",
+    "es.iterator.includes",
+    "es.object.to-string"
+  ],
+  "core-js/stable/iterator/join": [
+    "es.iterator.constructor",
+    "es.iterator.join",
+    "es.object.to-string"
   ],
   "core-js/stable/iterator/map": [
     "es.iterator.constructor",
@@ -18881,10 +19647,81 @@
     "es.iterator.to-array",
     "es.object.to-string"
   ],
+  "core-js/stable/iterator/windows": [
+    "es.iterator.constructor",
+    "es.iterator.windows",
+    "es.object.to-string"
+  ],
+  "core-js/stable/iterator/zip": [
+    "es.array.iterator",
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip",
+    "es.object.to-string",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/stable/iterator/zip-keyed": [
+    "es.array.iterator",
+    "es.iterator.constructor",
+    "es.iterator.chunks",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.includes",
+    "es.iterator.join",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.iterator.windows",
+    "es.iterator.zip-keyed",
+    "es.object.create",
+    "es.object.to-string",
+    "es.reflect.own-keys",
+    "es.string.iterator",
+    "web.dom-collections.iterator"
+  ],
   "core-js/stable/json": [
     "es.date.to-json",
+    "es.json.is-raw-json",
+    "es.json.parse",
+    "es.json.raw-json",
     "es.json.stringify",
-    "es.json.to-string-tag"
+    "es.json.to-string-tag",
+    "es.object.create",
+    "es.object.freeze",
+    "es.object.keys"
+  ],
+  "core-js/stable/json/is-raw-json": [
+    "es.json.is-raw-json"
+  ],
+  "core-js/stable/json/parse": [
+    "es.json.parse",
+    "es.object.keys"
+  ],
+  "core-js/stable/json/raw-json": [
+    "es.json.raw-json",
+    "es.object.create",
+    "es.object.freeze"
   ],
   "core-js/stable/json/stringify": [
     "es.date.to-json",
@@ -18897,13 +19734,25 @@
     "es.array.iterator",
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string",
     "es.string.iterator",
     "web.dom-collections.iterator"
   ],
+  "core-js/stable/map/get-or-insert": [
+    "es.map",
+    "es.map.get-or-insert"
+  ],
+  "core-js/stable/map/get-or-insert-computed": [
+    "es.map",
+    "es.map.get-or-insert-computed"
+  ],
   "core-js/stable/map/group-by": [
     "es.map",
     "es.map.group-by",
+    "es.map.get-or-insert",
+    "es.map.get-or-insert-computed",
     "es.object.to-string"
   ],
   "core-js/stable/math": [
@@ -19723,7 +20572,11 @@
     "web.dom-exception.to-string-tag",
     "web.structured-clone"
   ],
-  "core-js/stable/suppressed-error": [],
+  "core-js/stable/suppressed-error": [
+    "es.error.cause",
+    "es.error.to-string",
+    "es.suppressed-error.constructor"
+  ],
   "core-js/stable/symbol": [
     "es.symbol",
     "es.symbol.description",
@@ -20472,7 +21325,17 @@
     "es.array.iterator",
     "es.object.to-string",
     "es.weak-map",
+    "es.weak-map.get-or-insert",
+    "es.weak-map.get-or-insert-computed",
     "web.dom-collections.iterator"
+  ],
+  "core-js/stable/weak-map/get-or-insert": [
+    "es.weak-map",
+    "es.weak-map.get-or-insert"
+  ],
+  "core-js/stable/weak-map/get-or-insert-computed": [
+    "es.weak-map",
+    "es.weak-map.get-or-insert-computed"
   ],
   "core-js/stable/weak-set": [
     "es.array.iterator",
@@ -20550,7 +21413,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -20611,7 +21476,9 @@
     "esnext.object.iterate-values",
     "esnext.object.group-by",
     "esnext.observable",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -20779,7 +21646,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -20840,7 +21709,9 @@
     "esnext.object.iterate-values",
     "esnext.object.group-by",
     "esnext.observable",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -20994,7 +21865,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -21051,7 +21924,9 @@
     "esnext.object.iterate-values",
     "esnext.object.group-by",
     "esnext.observable",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -21185,7 +22060,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -21209,7 +22086,9 @@
     "esnext.number.clamp",
     "esnext.object.has-own",
     "esnext.object.group-by",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -21301,6 +22180,7 @@
     "esnext.function.metadata",
     "esnext.global-this",
     "esnext.iterator.constructor",
+    "esnext.iterator.chunks",
     "esnext.iterator.concat",
     "esnext.iterator.dispose",
     "esnext.iterator.drop",
@@ -21310,12 +22190,16 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
+    "esnext.iterator.sliding",
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
     "esnext.iterator.to-async",
+    "esnext.iterator.windows",
     "esnext.iterator.zip",
     "esnext.iterator.zip-keyed",
     "esnext.json.is-raw-json",
@@ -21328,7 +22212,9 @@
     "esnext.math.sum-precise",
     "esnext.object.has-own",
     "esnext.object.group-by",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -21404,6 +22290,7 @@
     "esnext.function.metadata",
     "esnext.global-this",
     "esnext.iterator.constructor",
+    "esnext.iterator.chunks",
     "esnext.iterator.concat",
     "esnext.iterator.dispose",
     "esnext.iterator.drop",
@@ -21413,12 +22300,17 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
     "esnext.iterator.to-async",
+    "esnext.iterator.windows",
+    "esnext.iterator.zip",
+    "esnext.iterator.zip-keyed",
     "esnext.json.is-raw-json",
     "esnext.json.parse",
     "esnext.json.raw-json",
@@ -21429,7 +22321,9 @@
     "esnext.math.sum-precise",
     "esnext.object.has-own",
     "esnext.object.group-by",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
@@ -21487,6 +22381,8 @@
     "esnext.error.is-error",
     "esnext.global-this",
     "esnext.iterator.constructor",
+    "esnext.iterator.chunks",
+    "esnext.iterator.concat",
     "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
@@ -21495,11 +22391,19 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
     "esnext.iterator.take",
     "esnext.iterator.to-array",
+    "esnext.iterator.windows",
+    "esnext.json.is-raw-json",
+    "esnext.json.parse",
+    "esnext.json.raw-json",
+    "esnext.map.get-or-insert",
+    "esnext.map.get-or-insert-computed",
     "esnext.map.group-by",
     "esnext.math.f16round",
     "esnext.math.sum-precise",
@@ -21534,7 +22438,9 @@
     "esnext.uint8-array.set-from-base64",
     "esnext.uint8-array.set-from-hex",
     "esnext.uint8-array.to-base64",
-    "esnext.uint8-array.to-hex"
+    "esnext.uint8-array.to-hex",
+    "esnext.weak-map.get-or-insert",
+    "esnext.weak-map.get-or-insert-computed"
   ],
   "core-js/stage/pre": [
     "es.map",
@@ -21606,7 +22512,9 @@
     "esnext.iterator.flat-map",
     "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.includes",
     "esnext.iterator.indexed",
+    "esnext.iterator.join",
     "esnext.iterator.map",
     "esnext.iterator.range",
     "esnext.iterator.reduce",
@@ -21667,7 +22575,9 @@
     "esnext.object.iterate-values",
     "esnext.object.group-by",
     "esnext.observable",
+    "esnext.promise.all-keyed",
     "esnext.promise.all-settled",
+    "esnext.promise.all-settled-keyed",
     "esnext.promise.any",
     "esnext.promise.try",
     "esnext.promise.with-resolvers",
