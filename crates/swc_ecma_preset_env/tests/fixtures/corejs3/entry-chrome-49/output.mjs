@@ -20,6 +20,7 @@ import "core-js/modules/es.function.has-instance.js";
 import "core-js/modules/es.json.to-string-tag.js";
 import "core-js/modules/es.map.js";
 import "core-js/modules/es.math.acosh.js";
+import "core-js/modules/es.math.asinh.js";
 import "core-js/modules/es.math.hypot.js";
 import "core-js/modules/es.math.to-string-tag.js";
 import "core-js/modules/es.object.define-getter.js";
