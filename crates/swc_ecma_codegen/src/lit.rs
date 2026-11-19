@@ -69,7 +69,8 @@ impl MacroNode for Lit {
             }
             Lit::Regex(ref n) => {
                 punct!(emitter, "/");
-                // Encode non-ASCII characters in regex pattern when ascii_only is enabled
+                // Encode non-ASCII characters in regex pattern when ascii_only
+                // is enabled
                 let encoded_exp = encode_regex_for_ascii(&n.exp, emitter.cfg.ascii_only);
                 let encoded_exp = if emitter.cfg.inline_script {
                     escape_inline_script_regex(&encoded_exp)
@@ -118,8 +119,8 @@ impl MacroNode for Str {
             if let Some(raw) = &self.raw {
                 let es5_safe = match emitter.cfg.target {
                     EsVersion::Es3 | EsVersion::Es5 => {
-                        // Block raw strings containing ES6+ Unicode escapes (\u{...}) for ES3/ES5
-                        // targets
+                        // Block raw strings containing ES6+ Unicode escapes
+                        // (\u{...}) for ES3/ES5 targets
                         !raw.contains("\\u{")
                     }
                     _ => true,
@@ -455,11 +456,7 @@ where
             .unwrap_or_else(|| {
                 let bytes = value.as_bytes();
 
-                if !bytes.contains(&b'.') && !bytes.contains(&b'e') {
-                    return true;
-                }
-
-                false
+                !bytes.contains(&b'.') && !bytes.contains(&b'e')
             }))
     }
 }
@@ -497,7 +494,8 @@ pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr<'_> {
             // Characters above \xff use \uHHHH format
             _ => {
                 if c > '\u{FFFF}' {
-                    // Characters beyond BMP are encoded as surrogate pairs for compatibility
+                    // Characters beyond BMP are encoded as surrogate pairs for
+                    // compatibility
                     let code_point = c as u32;
                     let h = ((code_point - 0x10000) / 0x400) + 0xd800;
                     let l = ((code_point - 0x10000) % 0x400) + 0xdc00;
@@ -572,14 +570,15 @@ pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (Ascii
                 AsciiChar::Quotation
             };
 
-            // If there are no quotes to escape, we can return the original string
+            // If there are no quotes to escape, we can return the original
+            // string
             if (quote_char == AsciiChar::Apostrophe && single_quote_count == 0)
                 || (quote_char == AsciiChar::Quotation && double_quote_count == 0)
             {
                 return (
                     quote_char,
-                    // SAFETY: We have checked that the string is ASCII. So it does not contain any
-                    // unpaired surrogate.
+                    // SAFETY: We have checked that the string is ASCII. So it
+                    // does not contain any unpaired surrogate.
                     CowStr::Borrowed(v.as_str().unwrap()),
                 );
             }
@@ -678,8 +677,9 @@ pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (Ascii
                     } else if ascii_only {
                         write!(&mut buf, "\\u{{{:04X}}}", c.to_u32()).unwrap();
                     } else {
-                        // SAFETY: c is a valid Rust char. (> U+FFFF && <= U+10FFFF)
-                        // The latter condition is guaranteed by CodePoint.
+                        // SAFETY: c is a valid Rust char. (> U+FFFF && <=
+                        // U+10FFFF) The latter condition is guaranteed by
+                        // CodePoint.
                         buf.push(c.to_char().unwrap());
                     }
                 } else if c >= SURROGATE_START && c <= SURROGATE_END {
@@ -689,8 +689,8 @@ pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (Ascii
                 } else if ascii_only {
                     write!(&mut buf, "\\u{:04X}", c.to_u32() as u16).unwrap();
                 } else {
-                    // SAFETY: c is a valid Rust char. (>= U+0080 && <= U+FFFF, excluding
-                    // surrogates)
+                    // SAFETY: c is a valid Rust char. (>= U+0080 && <= U+FFFF,
+                    // excluding surrogates)
                     buf.push(c.to_char().unwrap());
                 }
             }

@@ -305,7 +305,8 @@ mod tests {
             false
         ));
 
-        // Don't enable it with the bugfixes option. Bugfix pass enabled instead.
+        // Don't enable it with the bugfixes option. Bugfix pass enabled
+        // instead.
         assert!(!Feature::TemplateLiterals.should_enable(
             &BrowserData {
                 safari: Some("9.0.0".parse().unwrap()),
@@ -355,7 +356,8 @@ mod tests {
             false
         ));
 
-        // Don't enable it with the bugfixes option. Bugfix pass enabled instead.
+        // Don't enable it with the bugfixes option. Bugfix pass enabled
+        // instead.
         assert!(!Feature::Parameters.should_enable(
             &BrowserData {
                 edge: Some("17.0.0".parse().unwrap()),
@@ -405,7 +407,8 @@ mod tests {
             false
         ));
 
-        // Don't enable it with the bugfixes option. Bugfix pass enabled instead.
+        // Don't enable it with the bugfixes option. Bugfix pass enabled
+        // instead.
         assert!(!Feature::AsyncToGenerator.should_enable(
             &BrowserData {
                 safari: Some("10.1.0".parse().unwrap()),

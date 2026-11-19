@@ -209,9 +209,9 @@ impl<'a> SourceMapBuilder<'a> {
         if id == count {
             // New source
             self.sources.push(MaybeRawValue::RawValue(src_raw));
-            // Ensure source_contents has a corresponding entry, defaulting to None.
-            // This logic ensures source_contents is always same length as sources if new
-            // one added.
+            // Ensure source_contents has a corresponding entry, defaulting to
+            // None. This logic ensures source_contents is always same length as
+            // sources if new one added.
             self.source_contents.resize(self.sources.len(), None);
         }
         id
@@ -564,8 +564,8 @@ impl<'a> SourceMapIndex<'a> {
                     token.dst_col
                 };
 
-                // Use u32 -> u32 map instead of using the hash map in SourceMapBuilder for
-                // better performance
+                // Use u32 -> u32 map instead of using the hash map in
+                // SourceMapBuilder for better performance
                 let original_src_id = token.src_id;
                 let src_id = if original_src_id == !0 {
                     None

@@ -189,12 +189,14 @@ fn push_blank(output: &mut String, mut source: &str) {
         if let Some(bytes) = source.as_bytes().get(..8) {
             let word = u64::from_le_bytes(bytes.try_into().expect("eight-byte slice"));
             if word & HIGH_BITS == 0 {
-                // Each lane is ASCII, so these additions cannot carry between bytes.
+                // Each lane is ASCII, so these additions cannot carry between
+                // bytes.
                 let below = !(word + 0x7777_7777_7777_7777) & HIGH_BITS;
                 let above = (word + 0x7272_7272_7272_7272) & HIGH_BITS;
                 let blank = ((below | above) >> 7) * 0xff;
                 let bytes = ((word & !blank) | (0x2020_2020_2020_2020 & blank)).to_le_bytes();
-                // SAFETY: Each byte is preserved ASCII whitespace or an ASCII space.
+                // SAFETY: Each byte is preserved ASCII whitespace or an ASCII
+                // space.
                 output.push_str(unsafe { std::str::from_utf8_unchecked(&bytes) });
                 source = &source[8..];
                 continue;

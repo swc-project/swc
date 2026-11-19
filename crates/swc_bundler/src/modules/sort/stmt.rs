@@ -153,11 +153,11 @@ fn iter<'a>(
             //         eprintln!("(`{}`) Declare var: `{:?}`", idx, ids);
             //     }
             //     ModuleItem::Stmt(Stmt::Decl(Decl::Class(cls))) => {
-            //         eprintln!("(`{}`) Declare class: `{:?}`", idx, Id::from(&cls.ident));
-            //     }
+            //         eprintln!("(`{}`) Declare class: `{:?}`", idx,
+            // Id::from(&cls.ident));     }
             //     ModuleItem::Stmt(Stmt::Decl(Decl::Fn(f))) => {
-            //         eprintln!("(`{}`) Declare fn: `{:?}`", idx, Id::from(&f.ident));
-            //     }
+            //         eprintln!("(`{}`) Declare fn: `{:?}`", idx,
+            // Id::from(&f.ident));     }
             //     _ => eprintln!("(`{}`) Stmt", idx,),
             // }
 
@@ -245,11 +245,13 @@ fn iter<'a>(
                     // dbg!(&deps_to_push);
 
                     if !deps_to_push.is_empty() {
-                        // We should check idx again after emitting dependencies.
+                        // We should check idx again after emitting
+                        // dependencies.
                         stack.push_front(idx);
 
                         for dep in deps_to_push {
-                            // eprintln!("[Move]{} => {}; kind = dep", idx, dep);
+                            // eprintln!("[Move]{} => {}; kind = dep", idx,
+                            // dep);
                             stack.push_front(dep)
                         }
 
@@ -283,15 +285,16 @@ fn iter<'a>(
 
                     // dbg!(&dependants);
 
-                    // We only emit free items because we want to emit statements from same module
-                    // to emitted closely.
+                    // We only emit free items because we want to emit
+                    // statements from same module to emitted closely.
                     for dependant in dependants {
                         if !done.contains(&dependant) && free.contains(&dependant) {
                             stack.push_front(dependant);
                         }
                     }
 
-                    // It's not within a module, so explicit ordering is not required.
+                    // It's not within a module, so explicit ordering is not
+                    // required.
                     graph.remove_node(idx);
                     done.insert(idx);
                     return Some(idx);
@@ -300,7 +303,8 @@ fn iter<'a>(
 
             // We should respect original order of statements within a module.
             for preceding in current_range.clone() {
-                // We should select first statement in module which is not emitted yet.
+                // We should select first statement in module which is not
+                // emitted yet.
                 if done.contains(&preceding) {
                     continue;
                 }
@@ -323,8 +327,8 @@ fn iter<'a>(
 
                 // dbg!(&dependants);
 
-                // We only emit free items because we want to emit statements from same module
-                // to emitted closely.
+                // We only emit free items because we want to emit statements
+                // from same module to emitted closely.
                 for dependant in dependants {
                     if !done.contains(&dependant) && free.contains(&dependant) {
                         stack.push_front(dependant);
@@ -668,18 +672,20 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);
 
-        // We start by calculating ids created by statements. Note that we don't need to
-        // analyze bodies of functions nor members of classes, because it's not
-        // evaluated until they are called.
+        // We start by calculating ids created by statements. Note that we don't
+        // need to analyze bodies of functions nor members of classes, because
+        // it's not evaluated until they are called.
 
         match item {
-            // We only check declarations because ids are created by declarations.
+            // We only check declarations because ids are created by
+            // declarations.
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
             | ModuleItem::Stmt(Stmt::Decl(decl)) => {
                 //
                 match decl {
                     Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                        // eprintln!("Decl: `{}` declares {:?}`", idx, Id::from(ident));
+                        // eprintln!("Decl: `{}` declares {:?}`", idx,
+                        // Id::from(ident));
                         declared_by.entry(Id::from(ident)).or_default().push(idx);
                     }
                     Decl::Var(vars) => {
@@ -691,7 +697,8 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
                                     uninitialized_ids.insert(id.clone(), idx);
                                 }
 
-                                // eprintln!("Decl: `{}` declares {:?}`", idx, id);
+                                // eprintln!("Decl: `{}` declares {:?}`", idx,
+                                // id);
                                 declared_by.entry(id).or_default().push(idx);
                             }
                         }
@@ -764,8 +771,8 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
 
     for (idx, item) in new.iter().enumerate() {
         // We then calculate which ids a statement require to be executed.
-        // Again, we don't need to analyze non-top-level identifiers because they
-        // are not evaluated while loading module.
+        // Again, we don't need to analyze non-top-level identifiers because
+        // they are not evaluated while loading module.
 
         let mut visitor = RequirementCalculator::default();
 

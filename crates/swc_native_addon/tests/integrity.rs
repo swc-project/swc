@@ -84,7 +84,8 @@ fn runtime_integrity_is_required_after_custom_cache_fallback() {
     assert_eq!(fs::read(entry.path()).unwrap(), raw);
     entry.loaded().unwrap();
     drop(entry);
-    // A populated SHA-512 cache key cannot make a bad runtime digest acceptable.
+    // A populated SHA-512 cache key cannot make a bad runtime digest
+    // acceptable.
     let mut damaged = metadata;
     damaged[INTEGRITY_LEN - 1] ^= 1;
     let invalid = Payload::parse(&packed)
@@ -122,7 +123,8 @@ fn runtime_integrity_preserves_sha512_identity_and_verifies_every_byte() {
     payload.verify_image(&mut decoded).unwrap();
 
     // A second load of the same filename must read all bytes again. Corruption
-    // outside the native header cannot reuse an earlier successful verification.
+    // outside the native header cannot reuse an earlier successful
+    // verification.
     let root = tempfile::tempdir().unwrap();
     let entry = cache::cached_at(&payload, root.path()).unwrap();
     let path = entry.path().to_owned();

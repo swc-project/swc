@@ -96,8 +96,9 @@ where
 
         f(comments, byte_pos, serialized);
 
-        // This is not strictly required, but will help to ensure to access previous
-        // call's buffer when we make some mistakes for the execution order.
+        // This is not strictly required, but will help to ensure to access
+        // previous call's buffer when we make some mistakes for the execution
+        // order.
         comment_byte.clear();
     });
 }

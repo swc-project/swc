@@ -1,4 +1,4 @@
-use std::{cmp::Ordering, f64};
+use std::cmp::Ordering;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -216,17 +216,15 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: ExprCtx, rhs: &Expr) -> bool {
         }
 
         _ => {
-            if !rhs.may_have_side_effects(expr_ctx) {
-                return true;
-            }
+            let ok = !rhs.may_have_side_effects(expr_ctx);
 
             #[cfg(feature = "debug")]
-            {
+            if !ok {
                 #[cfg(debug_assertions)]
                 tracing::warn!("unimplemented: is_ok_to_negate_rhs: `{}`", dump(rhs, false));
             }
 
-            false
+            ok
         }
     }
 }
@@ -500,20 +498,22 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
             }) = &**callee
             {
                 match &**obj {
-                    // `Math` is matched by name only, so every arm below assumes
-                    // the identifier resolves to the global object rather than to
-                    // a local binding. `function f(Math) { return Math.sqrt(4) }`
-                    // is therefore folded as if the built-in were in scope.
+                    // `Math` is matched by name only, so every arm below
+                    // assumes the identifier resolves to the global object
+                    // rather than to a local binding. `function f(Math) {
+                    // return Math.sqrt(4) }` is therefore folded as if the
+                    // built-in were in scope.
                     //
                     // This assumption is narrower than the ones listed in this
                     // crate's `AGENTS.md`, hence this comment. Checking
-                    // `obj.ctxt == expr_ctx.unresolved_ctxt` would make it exact,
-                    // as `eval_global_vars` does for `Number`.
+                    // `obj.ctxt == expr_ctx.unresolved_ctxt` would make it
+                    // exact, as `eval_global_vars` does for `Number`.
                     //
                     // Every arm also relies on `Math`'s methods not having been
-                    // reassigned (e.g. `Math.ceil = () => 7`), but that one *is*
-                    // already covered by this crate's `AGENTS.md`: "built-in
-                    // object implementations have not been overridden".
+                    // reassigned (e.g. `Math.ceil = () => 7`), but that one
+                    // *is* already covered by this crate's `AGENTS.md`:
+                    // "built-in object implementations have not been
+                    // overridden".
                     Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
                         "cos" => {
                             let v = eval_as_number(expr_ctx, &args.first()?.expr)?;
@@ -610,9 +610,9 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
             ..
         }) => match &**obj {
             Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
-                "PI" => return Some(f64::consts::PI),
-                "E" => return Some(f64::consts::E),
-                "LN10" => return Some(f64::consts::LN_10),
+                "PI" => return Some(std::f64::consts::PI),
+                "E" => return Some(std::f64::consts::E),
+                "LN10" => return Some(std::f64::consts::LN_10),
                 _ => {}
             },
             _ => {}

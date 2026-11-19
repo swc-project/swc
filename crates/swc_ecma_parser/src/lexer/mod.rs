@@ -157,14 +157,14 @@ const fn pair_to_code_point(high: u32, low: u32) -> u32 {
 /// `\u Hex4Digits`, `\u Hex4Digits \u Hex4Digits`, or `\u{ HexDigits }`.
 #[derive(Debug)]
 pub enum UnicodeEscape {
-    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms a valid Unicode code point.
-    // Char cannot be in range 0xD800..=0xDFFF.
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms a valid Unicode code
+    // point. Char cannot be in range 0xD800..=0xDFFF.
     CodePoint(char),
-    // `\u Hex4Digits \u Hex4Digits`, which forms a valid Unicode astral code point.
-    // Char is in the range 0x10000..=0x10FFFF.
+    // `\u Hex4Digits \u Hex4Digits`, which forms a valid Unicode astral code
+    // point. Char is in the range 0x10000..=0x10FFFF.
     SurrogatePair(char),
-    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms an invalid Unicode code point.
-    // Code unit is in the range 0xD800..=0xDFFF.
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms an invalid Unicode code
+    // point. Code unit is in the range 0xD800..=0xDFFF.
     LoneSurrogate(u32),
 }
 
@@ -184,20 +184,21 @@ pub type LexResult<T> = Result<T, crate::error::Error>;
 fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
     if has_underscore {
         debug_assert!(s.contains('_'));
-        // Numeric literal text in lexer hot paths is ASCII, so byte-level filtering
-        // avoids UTF-8 char iteration overhead.
+        // Numeric literal text in lexer hot paths is ASCII, so byte-level
+        // filtering avoids UTF-8 char iteration overhead.
         let bytes = s.as_bytes();
         let mut stripped: Vec<u8> = Vec::with_capacity(bytes.len());
 
-        // PERF: Filtering cannot grow the input. Reserving its full length lets us
-        // avoid `Vec::push` capacity checks and update the vector's length only once.
+        // PERF: Filtering cannot grow the input. Reserving its full length lets
+        // us avoid `Vec::push` capacity checks and update the vector's length
+        // only once.
         let dst = stripped.as_mut_ptr();
         let mut len = 0;
         for &b in bytes {
             if b != b'_' {
-                // SAFETY: Each input byte produces at most one write, so `len < bytes.len()`
-                // at every write. The buffer has at least that capacity and does not
-                // reallocate while `dst` is in use.
+                // SAFETY: Each input byte produces at most one write, so `len <
+                // bytes.len()` at every write. The buffer has at least that
+                // capacity and does not reallocate while `dst` is in use.
                 unsafe {
                     *dst.add(len) = b;
                 }
@@ -210,8 +211,8 @@ fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
             stripped.set_len(len);
         }
 
-        // Safety: `stripped` is derived from valid UTF-8 by removing only `_` (0x5F),
-        // which is a single-byte ASCII code point.
+        // Safety: `stripped` is derived from valid UTF-8 by removing only `_`
+        // (0x5F), which is a single-byte ASCII code point.
         Cow::Owned(unsafe { String::from_utf8_unchecked(stripped) })
     } else {
         debug_assert!(!s.contains('_'));
@@ -486,9 +487,9 @@ impl Lexer<'_> {
             op
         };
 
-        // All conflict markers consist of the same character repeated seven times.
-        // If it is a <<<<<<< or >>>>>>> marker then it is also followed by a space.
-        // <<<<<<<
+        // All conflict markers consist of the same character repeated seven
+        // times. If it is a <<<<<<< or >>>>>>> marker then it is also followed
+        // by a space. <<<<<<<
         //   ^
         // >>>>>>>
         //    ^
@@ -527,8 +528,8 @@ impl Lexer<'_> {
                 if let Ok(cooked) = &mut cooked {
                     let last_pos = self.cur_pos();
                     cooked.push_str(unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
+                        // Safety: Both of start and last_pos are valid position because
+                        // we got them from `self.input`
                         self.input.slice(cooked_slice_start, last_pos)
                     });
                 }
@@ -1535,10 +1536,10 @@ impl<'a> Lexer<'a> {
             return Ok(Some(UnicodeEscape::CodePoint(ch)));
         }
 
-        // The first code unit of a surrogate pair is always in the range from 0xD800 to
-        // 0xDBFF, and is called a high surrogate or a lead surrogate.
-        // Note: `high` must be >= `MIN_HIGH`, otherwise `char::from_u32` would have
-        // returned `Some`, and already exited.
+        // The first code unit of a surrogate pair is always in the range from
+        // 0xD800 to 0xDBFF, and is called a high surrogate or a lead surrogate.
+        // Note: `high` must be >= `MIN_HIGH`, otherwise `char::from_u32` would
+        // have returned `Some`, and already exited.
         debug_assert!(high >= MIN_HIGH);
         let is_pair = high <= MAX_HIGH
             && self.input().cur() == Some(b'\\')
@@ -1558,21 +1559,22 @@ impl<'a> Lexer<'a> {
             return Ok(None);
         };
 
-        // The second code unit of a surrogate pair is always in the range from 0xDC00
-        // to 0xDFFF, and is called a low surrogate or a trail surrogate.
-        // If this isn't a valid pair, rewind to before the 2nd, and return the first
-        // only. The 2nd could be the first part of a valid pair.
+        // The second code unit of a surrogate pair is always in the range from
+        // 0xDC00 to 0xDFFF, and is called a low surrogate or a trail surrogate.
+        // If this isn't a valid pair, rewind to before the 2nd, and return the
+        // first only. The 2nd could be the first part of a valid pair.
         if !(MIN_LOW..=MAX_LOW).contains(&low) {
             unsafe {
-                // Safety: state is valid position because we got it from cur_pos()
+                // Safety: state is valid position because we got it from
+                // cur_pos()
                 self.input_mut().reset_to(before_second);
             }
             return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
         }
 
         let code_point = pair_to_code_point(high, low);
-        // SAFETY: `high` and `low` have been checked to be in ranges which always yield
-        // a `code_point` which is a valid `char`
+        // SAFETY: `high` and `low` have been checked to be in ranges which
+        // always yield a `code_point` which is a valid `char`
         let ch = unsafe { char::from_u32_unchecked(code_point) };
         Ok(Some(UnicodeEscape::SurrogatePair(ch)))
     }
@@ -1634,7 +1636,8 @@ impl<'a> Lexer<'a> {
             }
             _ => {
                 unsafe {
-                    // Safety: state is valid position because we got it from cur_pos()
+                    // Safety: state is valid position because we got it from
+                    // cur_pos()
                     self.input_mut().reset_to(state);
                 }
 
@@ -1847,12 +1850,13 @@ impl<'a> Lexer<'a> {
 
         self.bump(1); // '/'
 
-        // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode escape
-        // sequence."
-        // Need to use `read_word` because '\uXXXX' sequences are accepted by the
-        // scanner — we still reject them as an early error below.
-        // Use `cur_as_char` so non-ASCII IdentifierPart flags (e.g. `/a/π\u0067`)
-        // are scanned; `cur()` only yields the first UTF-8 byte and would miss them.
+        // Spec says "It is a Syntax Error if IdentifierPart contains a Unicode
+        // escape sequence."
+        // Need to use `read_word` because '\uXXXX' sequences are accepted by
+        // the scanner — we still reject them as an early error below.
+        // Use `cur_as_char` so non-ASCII IdentifierPart flags (e.g.
+        // `/a/π\u0067`) are scanned; `cur()` only yields the first UTF-8 byte
+        // and would miss them.
         let flags = {
             match self.cur_as_char() {
                 Some(c) if c == '\\' || c.is_ident_part() => {
@@ -1917,7 +1921,8 @@ impl<'a> Lexer<'a> {
         let mut first = true;
         let mut has_escape = false;
 
-        // Unescaped Unicode identifiers can borrow the source just like ASCII ones.
+        // Unescaped Unicode identifiers can borrow the source just like ASCII
+        // ones.
         let mut buf = String::new();
         loop {
             if let Some(c) = self.input().cur_as_ascii() {
@@ -1947,8 +1952,8 @@ impl<'a> Lexer<'a> {
                     {
                         let end = self.input().cur_pos();
                         let s = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
+                            // Safety: start and end are valid position because
+                            // we got them from `self.input`
                             self.input_slice_str(slice_start, start)
                         };
                         buf.push_str(s);
@@ -2004,8 +2009,8 @@ impl<'a> Lexer<'a> {
 
         let end = self.cur_pos();
         let s = unsafe {
-            // Safety: slice_start and end are valid position because we got them from
-            // `self.input`
+            // Safety: slice_start and end are valid position because we got
+            // them from `self.input`
             self.input_slice(slice_start, end)
         };
         let value = if !has_escape {
@@ -2283,8 +2288,8 @@ impl<'a> Lexer<'a> {
                         // `buf` only exist when there has escape.
                         debug_assert!(unsafe { self.input_slice(start, value_end).contains('\\') });
                         let s = unsafe {
-                            // Safety: slice_start and value_end are valid position because we
-                            // got them from `self.input`
+                            // Safety: slice_start and value_end are valid
+                            // position because we got them from `self.input`
                             self.input_slice(slice_start, value_end)
                         };
                         buf.push_str(s);
@@ -2300,8 +2305,8 @@ impl<'a> Lexer<'a> {
                 b'\\' => {
                     let end = self.cur_pos();
                     let s = unsafe {
-                        // Safety: start and end are valid position because we got them from
-                        // `self.input`
+                        // Safety: start and end are valid position because we
+                        // got them from `self.input`
                         self.input_slice(slice_start, end)
                     };
 
@@ -2321,8 +2326,8 @@ impl<'a> Lexer<'a> {
                 b'\n' | b'\r' => {
                     let end = self.cur_pos();
                     let s = unsafe {
-                        // Safety: start and end are valid position because we got them from
-                        // `self.input`
+                        // Safety: start and end are valid position because we
+                        // got them from `self.input`
                         self.input_slice(slice_start, end)
                     };
 
@@ -2339,8 +2344,9 @@ impl<'a> Lexer<'a> {
 
         let (s, has_escape) = self.read_ascii_word_as_str()?;
         if let Some(word) = convert(s.as_ref()) {
-            // Keep escaped keyword spellings until the parser knows whether this
-            // is a keyword or an IdentifierName (for example, a property name).
+            // Keep escaped keyword spellings until the parser knows whether
+            // this is a keyword or an IdentifierName (for example, a property
+            // name).
             let value = has_escape.then(|| TokenValue::Word(self.atom(s)));
             self.set_token_value(value);
             Ok(word)
@@ -2374,14 +2380,14 @@ impl<'a> Lexer<'a> {
 
         // Check if we hit end of identifier or need to fall back to slow path
         if !next_byte.is_ascii() || next_byte == b'\\' {
-            // Hit Unicode character or escape sequence, fall back to slow path from current
-            // position
+            // Hit Unicode character or escape sequence, fall back to slow path
+            // from current position
             self.read_word_as_str_with_slow_path(slice_start)
         } else {
             // Hit end of identifier (non-continue ASCII char)
             let s = unsafe {
-                // Safety: slice_start and end are valid position because we got them from
-                // `self.input`
+                // Safety: slice_start and end are valid position because we got
+                // them from `self.input`
                 self.input_slice_str(slice_start, self.cur_pos())
             };
 

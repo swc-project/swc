@@ -66,7 +66,8 @@ where
             .into_par_iter()
             .map(|id| -> Result<_, Error> {
                 self.run(|| {
-                    // TODO: is_entry should be false if it's dep of other entry.
+                    // TODO: is_entry should be false if it's dep of other
+                    // entry.
                     let is_entry = plan.entries.contains_key(id);
                     let module = self.get_for_merging(&ctx, *id, is_entry)?;
 

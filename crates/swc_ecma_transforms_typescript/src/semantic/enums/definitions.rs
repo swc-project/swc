@@ -68,8 +68,9 @@ impl<'a> Definitions<'a> {
             ambient: false,
             constant: false,
         };
-        // This walk does not mutate syntax. Sharing the mutable execution-region
-        // visitor with substitution keeps both walks on exactly the same model.
+        // This walk does not mutate syntax. Sharing the mutable
+        // execution-region visitor with substitution keeps both walks on
+        // exactly the same model.
         program.visit_mut_with(&mut collector);
         collector.definitions.availability = collector.order.finish();
         collector.definitions

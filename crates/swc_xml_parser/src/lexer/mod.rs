@@ -171,11 +171,12 @@ where
             phantom: std::marker::PhantomData,
         };
 
-        // A leading Byte Order Mark (BOM) causes the character encoding argument to be
-        // ignored and will itself be skipped.
+        // A leading Byte Order Mark (BOM) causes the character encoding
+        // argument to be ignored and will itself be skipped.
         if lexer.input.is_at_start() && lexer.input.cur_as_char() == Some('\u{feff}') {
             unsafe {
-                // Safety: cur_as_char() is Some('\u{feff}'), which is 3 bytes (EF BB BF)
+                // Safety: cur_as_char() is Some('\u{feff}'), which is 3 bytes
+                // (EF BB BF)
                 lexer.input.bump_bytes(3);
             }
         }
@@ -227,10 +228,11 @@ where
         self.input.cur_as_char()
     }
 
-    // Any occurrences of surrogates are surrogate-in-input-stream parse errors. Any
-    // occurrences of noncharacters are noncharacter-in-input-stream parse errors
-    // and any occurrences of controls other than ASCII whitespace and U+0000 NULL
-    // characters are control-character-in-input-stream parse errors.
+    // Any occurrences of surrogates are surrogate-in-input-stream parse errors.
+    // Any occurrences of noncharacters are noncharacter-in-input-stream parse
+    // errors and any occurrences of controls other than ASCII whitespace and
+    // U+0000 NULL characters are control-character-in-input-stream parse
+    // errors.
     //
     // Postpone validation for each character for perf reasons and do it in
     // `anything else`
@@ -276,11 +278,11 @@ where
 
     #[inline(always)]
     fn consume_next_char(&mut self) -> Option<char> {
-        // The next input character is the first character in the input stream that has
-        // not yet been consumed or explicitly ignored by the requirements in this
-        // section. Initially, the next input character is the first character in the
-        // input. The current input character is the last character to have been
-        // consumed.
+        // The next input character is the first character in the input stream
+        // that has not yet been consumed or explicitly ignored by the
+        // requirements in this section. Initially, the next input character is
+        // the first character in the input. The current input character is the
+        // last character to have been consumed.
         let c = self.next();
 
         self.consume();
@@ -317,19 +319,20 @@ where
             }
         };
 
-        // This section defines how to consume a character reference, optionally with an
-        // additional allowed character, which, if specified where the algorithm is
-        // invoked, adds a character to the list of characters that cause there to not
-        // be a character reference.
+        // This section defines how to consume a character reference, optionally
+        // with an additional allowed character, which, if specified where the
+        // algorithm is invoked, adds a character to the list of characters that
+        // cause there to not be a character reference.
         //
-        // This definition is used when parsing character in text and in attributes.
+        // This definition is used when parsing character in text and in
+        // attributes.
         //
-        // The behavior depends on identity of next character (the one immediately after
-        // the U+0026 AMPERSAND character), as follows:
+        // The behavior depends on identity of next character (the one
+        // immediately after the U+0026 AMPERSAND character), as follows:
         match self.consume_next_char() {
             // The additional allowed character if there is one
-            // Not a character reference. No characters are consumed and nothing is returned (This
-            // is not an error, either).
+            // Not a character reference. No characters are consumed and nothing
+            // is returned (This is not an error, either).
             Some(c) if self.additional_allowed_character == Some(c) => {
                 self.emit_error(ErrorKind::InvalidEntityCharacter);
                 self.cur_pos = cur_pos;
@@ -680,7 +683,8 @@ where
 
     fn start_new_attribute(&mut self, c: Option<char>) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-            // The longest known HTML attribute is "allowpaymentrequest" for "iframe".
+            // The longest known HTML attribute is "allowpaymentrequest" for
+            // "iframe".
             let mut name = String::with_capacity(19);
             let mut raw_name = String::with_capacity(19);
 
@@ -730,7 +734,8 @@ where
                     }
 
                     if let Some(c) = value.2 {
-                        // Quote for attribute was found, so we set empty value by default
+                        // Quote for attribute was found, so we set empty value
+                        // by default
                         if value.0 && attribute.value.is_none() {
                             attribute.value = Some(String::with_capacity(255));
                         }
@@ -1077,7 +1082,8 @@ where
                         return Ok(());
                     }
                     // Anything else
-                    // Emit the current input character as character. Stay in this state.
+                    // Emit the current input character as character. Stay in
+                    // this state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.handle_raw_and_emit_character_token(c);
@@ -1088,7 +1094,8 @@ where
                 // Switch to the data state.
                 // Attempt to consume a character reference.
                 //
-                // If nothing is returned emit a U+0026 AMPERSAND character (&) token.
+                // If nothing is returned emit a U+0026 AMPERSAND character (&)
+                // token.
                 //
                 // Otherwise, emit character tokens that were returned.
                 self.state = State::Data;
@@ -1123,7 +1130,8 @@ where
                     }
                     // U+003F QUESTION MARK(?)
                     // Emit error
-                    // Reprocess the current input character in the pi end state (recovery mode).
+                    // Reprocess the current input character in the pi end state
+                    // (recovery mode).
                     Some('?') => {
                         self.emit_error(ErrorKind::NoTargetNameInProcessingInstruction);
                         self.create_processing_instruction_token();
@@ -1148,8 +1156,9 @@ where
                         self.state = State::PiTargetAfter;
                     }
                     // EOF
-                    // Parse error. Emit the current processing instruction token and then reprocess
-                    // the current input character in the data state.
+                    // Parse error. Emit the current processing instruction
+                    // token and then reprocess the current input character in
+                    // the data state.
                     None => {
                         self.emit_error(ErrorKind::EofInProcessingInstruction);
                         self.emit_current_processing_instruction();
@@ -1161,8 +1170,8 @@ where
                         self.state = State::PiTargetQuestion;
                     }
                     // Anything else
-                    // Append the current input character to the processing instruction target and
-                    // stay in the current state.
+                    // Append the current input character to the processing
+                    // instruction target and stay in the current state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.set_processing_instruction_token(Some(c), None);
@@ -1197,7 +1206,8 @@ where
                         self.skip_next_lf(c);
                     }
                     // Anything else
-                    // Reprocess the current input character in the pi data state.
+                    // Reprocess the current input character in the pi data
+                    // state.
                     _ => {
                         self.reconsume_in_state(State::PiData);
                     }
@@ -1212,16 +1222,17 @@ where
                         self.state = State::PiEnd;
                     }
                     // EOF
-                    // Parse error. Emit the current processing instruction token and then reprocess
-                    // the current input character in the data state.
+                    // Parse error. Emit the current processing instruction
+                    // token and then reprocess the current input character in
+                    // the data state.
                     None => {
                         self.emit_error(ErrorKind::EofInProcessingInstruction);
                         self.emit_current_processing_instruction();
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Append the current input character to the pi’s data and stay in the current
-                    // state.
+                    // Append the current input character to the pi’s data and
+                    // stay in the current state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.set_processing_instruction_token(None, Some(c));
@@ -1238,15 +1249,17 @@ where
                         self.state = State::Data;
                     }
                     // EOF
-                    // Parse error. Emit the current processing instruction token and then reprocess
-                    // the current input character in the data state.
+                    // Parse error. Emit the current processing instruction
+                    // token and then reprocess the current input character in
+                    // the data state.
                     None => {
                         self.emit_error(ErrorKind::EofInProcessingInstruction);
                         self.emit_current_processing_instruction();
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Reprocess the current input character in the pi data state.
+                    // Reprocess the current input character in the pi data
+                    // state.
                     _ => {
                         self.set_processing_instruction_token(None, Some('?'));
                         self.reconsume_in_state(State::PiData);
@@ -1270,8 +1283,9 @@ where
                 // If the next few characters are:
                 match self.consume_next_char() {
                     // Two U+002D HYPEN-MINUS characters (-)
-                    // Consume those two characters, create a comment token whose data is the empty
-                    // string and switch to comment start state.
+                    // Consume those two characters, create a comment token
+                    // whose data is the empty string and switch to comment
+                    // start state.
                     Some('-') => match self.consume_next_char() {
                         Some('-') => {
                             self.create_comment_token(None, "<!--");
@@ -1330,9 +1344,10 @@ where
                             anything_else(self);
                         }
                     },
-                    // Exact match for word "[CDATA[" with a (the five uppercase letters "CDATA"
-                    // with a U+005B LEFT SQUARE BRACKET character before and after)
-                    // Consume those characters and switch to CDATA state
+                    // Exact match for word "[CDATA[" with a (the five uppercase
+                    // letters "CDATA" with a U+005B LEFT SQUARE BRACKET
+                    // character before and after) Consume those characters and
+                    // switch to CDATA state
                     Some('[') => match self.consume_next_char() {
                         Some(c @ 'C') => match self.consume_next_char() {
                             Some(d @ 'D') => match self.consume_next_char() {
@@ -1377,8 +1392,9 @@ where
                         }
                     },
                     // Anything else
-                    // Emit an error. Create a comment token whose data is an empty string. Switch
-                    // to bogus comment state (don’t consume any characters)
+                    // Emit an error. Create a comment token whose data is an
+                    // empty string. Switch to bogus comment state (don’t
+                    // consume any characters)
                     _ => {
                         anything_else(self);
                     }
@@ -1393,8 +1409,8 @@ where
                         self.state = State::CommentStartDash;
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // This is an abrupt-closing-of-empty-comment parse error. Switch to the
-                    // data state. Emit the current comment token.
+                    // This is an abrupt-closing-of-empty-comment parse error.
+                    // Switch to the data state. Emit the current comment token.
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptClosingOfEmptyComment);
                         self.state = State::Data;
@@ -1416,16 +1432,16 @@ where
                         self.state = State::CommentEnd;
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // This is an abrupt-closing-of-empty-comment parse error. Switch to the
-                    // data state. Emit the current comment token.
+                    // This is an abrupt-closing-of-empty-comment parse error.
+                    // Switch to the data state. Emit the current comment token.
                     Some('>') => {
                         self.emit_error(ErrorKind::AbruptClosingOfEmptyComment);
                         self.state = State::Data;
                         self.emit_comment_token(Some("->"));
                     }
                     // EOF
-                    // This is an eof-in-comment parse error. Emit the current comment token.
-                    // Emit an end-of-file token.
+                    // This is an eof-in-comment parse error. Emit the current
+                    // comment token. Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
                         self.emit_comment_token(None);
@@ -1434,8 +1450,8 @@ where
                         return Ok(());
                     }
                     // Anything else
-                    // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
-                    // Reconsume in the comment state.
+                    // Append a U+002D HYPHEN-MINUS character (-) to the comment
+                    // token's data. Reconsume in the comment state.
                     _ => {
                         self.append_to_comment_token('-', '-');
                         self.reconsume_in_state(State::Comment);
@@ -1446,8 +1462,8 @@ where
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+003C LESS-THAN SIGN (<)
-                    // Append the current input character to the comment token's data. Switch to
-                    // the comment less-than sign state.
+                    // Append the current input character to the comment token's
+                    // data. Switch to the comment less-than sign state.
                     Some(c @ '<') => {
                         self.append_to_comment_token(c, c);
                         self.state = State::CommentLessThanSign;
@@ -1458,8 +1474,8 @@ where
                         self.state = State::CommentEndDash;
                     }
                     // EOF
-                    // This is an eof-in-comment parse error. Emit the current comment token.
-                    // Emit an end-of-file token.
+                    // This is an eof-in-comment parse error. Emit the current
+                    // comment token. Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
                         self.emit_comment_token(None);
@@ -1468,7 +1484,8 @@ where
                         return Ok(());
                     }
                     // Anything else
-                    // Append the current input character to the comment token's data.
+                    // Append the current input character to the comment token's
+                    // data.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.handle_raw_and_append_to_comment_token(c);
@@ -1480,14 +1497,15 @@ where
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+0021 EXCLAMATION MARK (!)
-                    // Append the current input character to the comment token's data. Switch to
-                    // the comment less-than sign bang state.
+                    // Append the current input character to the comment token's
+                    // data. Switch to the comment less-than sign bang state.
                     Some(c @ '!') => {
                         self.append_to_comment_token(c, c);
                         self.state = State::CommentLessThanSignBang;
                     }
                     // U+003C LESS-THAN SIGN (<)
-                    // Append the current input character to the comment token's data.
+                    // Append the current input character to the comment token's
+                    // data.
                     Some(c @ '<') => {
                         self.append_to_comment_token(c, c);
                     }
@@ -1519,7 +1537,8 @@ where
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+002D HYPHEN-MINUS (-)
-                    // Switch to the comment less-than sign bang dash dash state.
+                    // Switch to the comment less-than sign bang dash dash
+                    // state.
                     Some('-') => {
                         self.state = State::CommentLessThanSignBangDashDash;
                     }
@@ -1541,7 +1560,8 @@ where
                         self.reconsume_in_state(State::CommentEnd);
                     }
                     // Anything else
-                    // This is a nested-comment parse error. Reconsume in the comment end state.
+                    // This is a nested-comment parse error. Reconsume in the
+                    // comment end state.
                     _ => {
                         self.emit_error(ErrorKind::NestedComment);
                         self.reconsume_in_state(State::CommentEnd);
@@ -1558,8 +1578,8 @@ where
                         self.state = State::CommentEnd;
                     }
                     // EOF
-                    // This is an eof-in-comment parse error. Emit the current comment token.
-                    // Emit an end-of-file token.
+                    // This is an eof-in-comment parse error. Emit the current
+                    // comment token. Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
                         self.emit_comment_token(None);
@@ -1568,8 +1588,8 @@ where
                         return Ok(());
                     }
                     // Anything else
-                    // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
-                    // Reconsume in the comment state.
+                    // Append a U+002D HYPHEN-MINUS character (-) to the comment
+                    // token's data. Reconsume in the comment state.
                     _ => {
                         self.append_to_comment_token('-', '-');
                         self.reconsume_in_state(State::Comment);
@@ -1592,14 +1612,15 @@ where
                         self.state = State::CommentEndBang;
                     }
                     // U+002D HYPHEN-MINUS (-)
-                    // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
+                    // Append a U+002D HYPHEN-MINUS character (-) to the comment
+                    // token's data.
                     Some(c @ '-') => {
                         self.append_to_comment_token(c, c);
                         self.emit_error(ErrorKind::DoubleHyphenWithInComment);
                     }
                     // EOF
-                    // This is an eof-in-comment parse error. Emit the current comment token.
-                    // Emit an end-of-file token.
+                    // This is an eof-in-comment parse error. Emit the current
+                    // comment token. Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
                         self.emit_comment_token(None);
@@ -1608,8 +1629,9 @@ where
                         return Ok(());
                     }
                     // Anything else
-                    // Append two U+002D (-) characters and the current input character to the
-                    // comment token’s data. Reconsume in the comment state.
+                    // Append two U+002D (-) characters and the current input
+                    // character to the comment token’s data. Reconsume in the
+                    // comment state.
                     _ => {
                         self.append_to_comment_token('-', '-');
                         self.append_to_comment_token('-', '-');
@@ -1622,23 +1644,25 @@ where
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+002D HYPHEN-MINUS (-)
-                    // Append a U+002D HYPHEN-MINUS character (-) and U+0021 EXCLAMATION MARK
-                    // character(!) to the comment token’s data. Switch to the comment end dash
-                    // state.
+                    // Append a U+002D HYPHEN-MINUS character (-) and U+0021
+                    // EXCLAMATION MARK character(!) to the comment token’s
+                    // data. Switch to the comment end dash state.
                     Some('-') => {
                         self.append_to_comment_token('-', '-');
                         self.append_to_comment_token('!', '!');
                         self.state = State::CommentEndDash;
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // Parse error. Switch to the data state.Emit the comment token.
+                    // Parse error. Switch to the data state.Emit the comment
+                    // token.
                     Some('>') => {
                         self.emit_error(ErrorKind::IncorrectlyClosedComment);
                         self.state = State::Data;
                         self.emit_comment_token(Some(">"));
                     }
                     // EOF
-                    // Parse error. Emit the comment token. Emit an end-of-file token.
+                    // Parse error. Emit the comment token. Emit an end-of-file
+                    // token.
                     None => {
                         self.emit_error(ErrorKind::EofInComment);
                         self.emit_comment_token(None);
@@ -1648,8 +1672,9 @@ where
                     }
                     // Anything else
                     // Anything else
-                    // Append two U+002D (-) characters and U+0021 EXCLAMATION MARK character(!) to
-                    // the comment token’s data. Reconsume in the comment state.
+                    // Append two U+002D (-) characters and U+0021 EXCLAMATION
+                    // MARK character(!) to the comment token’s data. Reconsume
+                    // in the comment state.
                     _ => {
                         self.append_to_comment_token('-', '-');
                         self.append_to_comment_token('-', '-');
@@ -1667,14 +1692,15 @@ where
                         self.state = State::CdataBracket;
                     }
                     // EOF
-                    // Parse error. Reprocess the current input character in the data state.
+                    // Parse error. Reprocess the current input character in the
+                    // data state.
                     None => {
                         self.emit_error(ErrorKind::EofInCdata);
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Append the current input character to the cdata dta. Stay in the current
-                    // state.
+                    // Append the current input character to the cdata dta. Stay
+                    // in the current state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_to_cdata_token(Some(c), Some(c));
@@ -1690,14 +1716,15 @@ where
                         self.state = State::CdataEnd;
                     }
                     // EOF
-                    // Parse error. Reconsume the current input character in the data state.
+                    // Parse error. Reconsume the current input character in the
+                    // data state.
                     None => {
                         self.emit_error(ErrorKind::EofInCdata);
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Emit a U+005D RIGHT SQUARE BRACKET character token. Reconsume in the
-                    // CDATA section state.
+                    // Emit a U+005D RIGHT SQUARE BRACKET character token.
+                    // Reconsume in the CDATA section state.
                     Some(c) => {
                         self.append_to_cdata_token(Some(']'), Some(']'));
                         self.append_to_cdata_token(Some(c), Some(c));
@@ -1718,21 +1745,22 @@ where
                         self.state = State::Data;
                     }
                     // U+005D RIGHT SQUARE BRACKET (])
-                    // Emit the current input character as character token. Stay in the current
-                    // state.
+                    // Emit the current input character as character token. Stay
+                    // in the current state.
                     Some(c @ ']') => {
                         self.append_to_cdata_token(Some(c), Some(c));
                     }
                     // EOF
-                    // Parse error. Reconsume the current input character in the data state.
+                    // Parse error. Reconsume the current input character in the
+                    // data state.
                     None => {
                         self.emit_error(ErrorKind::EofInCdata);
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Emit two U+005D RIGHT SQUARE BRACKET (]) characters as character tokens and
-                    // also emit the current input character as character token. Switch to the CDATA
-                    // state.
+                    // Emit two U+005D RIGHT SQUARE BRACKET (]) characters as
+                    // character tokens and also emit the current input
+                    // character as character token. Switch to the CDATA state.
                     Some(c) => {
                         self.append_to_cdata_token(Some(']'), Some(']'));
                         self.append_to_cdata_token(Some(']'), Some(']'));
@@ -1760,15 +1788,15 @@ where
                         self.state = State::Pi;
                     }
                     // Name start character
-                    // Create a new tag token and set its name to the input character, then switch
-                    // to the tag name state.
+                    // Create a new tag token and set its name to the input
+                    // character, then switch to the tag name state.
                     Some(c) if is_name_start_char(c) => {
                         self.create_tag_token(TagKind::Start);
                         self.reconsume_in_state(State::TagName);
                     }
                     // EOF
-                    // This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN
-                    // character token and an end-of-file token.
+                    // This is an eof-before-tag-name parse error. Emit a U+003C
+                    // LESS-THAN SIGN character token and an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofBeforeTagName);
                         self.emit_character_token(('<', '<'));
@@ -1777,8 +1805,9 @@ where
                         return Ok(());
                     }
                     // Anything else
-                    // This is an invalid-first-character-of-tag-name parse error. Emit a U+003C
-                    // LESS-THAN SIGN character token. Reconsume in the data state.
+                    // This is an invalid-first-character-of-tag-name parse
+                    // error. Emit a U+003C LESS-THAN SIGN character token.
+                    // Reconsume in the data state.
                     _ => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
                         self.emit_character_token(('<', '<'));
@@ -1790,22 +1819,23 @@ where
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // ASCII alpha
-                    // Create a new end tag token, set its tag name to the empty string.
-                    // Reconsume in the tag name state.
+                    // Create a new end tag token, set its tag name to the empty
+                    // string. Reconsume in the tag name state.
                     Some(c) if is_name_char(c) => {
                         self.create_tag_token(TagKind::End);
                         self.reconsume_in_state(State::TagName);
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // This is a missing-end-tag-name parse error. Switch to the data state.
+                    // This is a missing-end-tag-name parse error. Switch to the
+                    // data state.
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingEndTagName);
                         self.state = State::Data;
                     }
                     // EOF
-                    // This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN
-                    // character token, a U+002F SOLIDUS character token and an end-of-file
-                    // token.
+                    // This is an eof-before-tag-name parse error. Emit a U+003C
+                    // LESS-THAN SIGN character token, a U+002F SOLIDUS
+                    // character token and an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofBeforeTagName);
                         self.emit_character_token(('<', '<'));
@@ -1815,9 +1845,9 @@ where
                         return Ok(());
                     }
                     // Anything else
-                    // This is an invalid-first-character-of-tag-name parse error. Create a
-                    // comment token whose data is the empty string. Reconsume in the bogus
-                    // comment state.
+                    // This is an invalid-first-character-of-tag-name parse
+                    // error. Create a comment token whose data is the empty
+                    // string. Reconsume in the bogus comment state.
                     _ => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
                         self.emit_character_token(('<', '<'));
@@ -1838,7 +1868,8 @@ where
                         self.state = State::TagAttributeNameBefore;
                     }
                     // U+002F SOLIDUS (/)
-                    // Set current tag to empty tag. Switch to the empty tag state.
+                    // Set current tag to empty tag. Switch to the empty tag
+                    // state.
                     Some('/') => {
                         self.set_tag_to_empty_tag();
                         self.state = State::EmptyTag;
@@ -1850,7 +1881,8 @@ where
                         self.emit_tag_token(None);
                     }
                     // EOF
-                    // This is an eof-in-tag parse error. Emit an end-of-file token.
+                    // This is an eof-in-tag parse error. Emit an end-of-file
+                    // token.
                     None => {
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_tag_token(None);
@@ -1858,15 +1890,15 @@ where
                         return Ok(());
                     }
                     // Name character
-                    // Append the current input character to the tag name and stay in the current
-                    // state.
+                    // Append the current input character to the tag name and
+                    // stay in the current state.
                     Some(c) if is_name_char(c) => {
                         self.validate_input_stream_character(c);
                         self.append_to_tag_token_name(c);
                     }
                     // Anything else
-                    // Parse error. Append the current input character to the tag name and stay in
-                    // the current state.
+                    // Parse error. Append the current input character to the
+                    // tag name and stay in the current state.
                     Some(c) => {
                         self.emit_error(ErrorKind::InvalidCharacterInTag);
                         self.validate_input_stream_character(c);
@@ -1878,15 +1910,15 @@ where
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+003E GREATER-THAN SIGN (>)
-                    // Emit the current tag token as empty tag token and then switch to the data
-                    // state.
+                    // Emit the current tag token as empty tag token and then
+                    // switch to the data state.
                     Some('>') => {
                         self.emit_tag_token(Some(TagKind::Empty));
                         self.state = State::Data;
                     }
                     // Anything else
-                    // Parse error. Reprocess the current input character in the tag attribute name
-                    // before state.
+                    // Parse error. Reprocess the current input character in the
+                    // tag attribute name before state.
                     _ => {
                         self.emit_error(ErrorKind::UnexpectedSolidusInTag);
                         self.reconsume_in_state(State::TagAttributeNameBefore);
@@ -1910,7 +1942,8 @@ where
                         self.state = State::Data;
                     }
                     // U+002F SOLIDUS (/)
-                    // Set current tag to empty tag. Switch to the empty tag state.
+                    // Set current tag to empty tag. Switch to the empty tag
+                    // state.
                     Some('/') => {
                         self.set_tag_to_empty_tag();
                         self.state = State::EmptyTag;
@@ -1921,17 +1954,18 @@ where
                         self.emit_error(ErrorKind::UnexpectedColonBeforeAttributeName);
                     }
                     // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
+                    // Parse error. Emit the current token and then reprocess
+                    // the current input character in the data state.
                     None => {
                         self.emit_error(ErrorKind::EofBeforeTagName);
                         self.emit_tag_token(None);
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Start a new attribute in the current tag token. Set that attribute’s name to
-                    // the current input character and its value to the empty string and then switch
-                    // to the tag attribute name state.
+                    // Start a new attribute in the current tag token. Set that
+                    // attribute’s name to the current input character and its
+                    // value to the empty string and then switch to the tag
+                    // attribute name state.
                     _ => {
                         self.start_new_attribute(None);
                         self.reconsume_in_state(State::TagAttributeName);
@@ -1947,7 +1981,8 @@ where
                         self.state = State::TagAttributeValueBefore;
                     }
                     // U+003E GREATER-THEN SIGN (>)
-                    // Emit the current token as start tag token. Switch to the data state.
+                    // Emit the current token as start tag token. Switch to the
+                    // data state.
                     Some('>') => {
                         self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.emit_tag_token(None);
@@ -1963,22 +1998,25 @@ where
                         self.reconsume_in_state(State::TagAttributeNameAfter);
                     }
                     // U+002F SOLIDUS (/)
-                    // Set current tag to empty tag. Switch to the empty tag state.
+                    // Set current tag to empty tag. Switch to the empty tag
+                    // state.
                     Some('/') => {
                         self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.set_tag_to_empty_tag();
                         self.state = State::EmptyTag;
                     }
                     // EOF
-                    // Parse error. Emit the current token as start tag token and then reprocess the
-                    // current input character in the data state.
+                    // Parse error. Emit the current token as start tag token
+                    // and then reprocess the current input character in the
+                    // data state.
                     None => {
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_tag_token(Some(TagKind::Start));
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Append the current input character to the current attribute's name.
+                    // Append the current input character to the current
+                    // attribute's name.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_to_attribute(Some((c, c)), None);
@@ -2017,23 +2055,25 @@ where
                         self.state = State::Data;
                     }
                     // U+002F SOLIDUS (/)
-                    // Set current tag to empty tag. Switch to the empty tag state.
+                    // Set current tag to empty tag. Switch to the empty tag
+                    // state.
                     Some('/') => {
                         self.set_tag_to_empty_tag();
                         self.state = State::EmptyTag;
                     }
                     // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
+                    // Parse error. Emit the current token and then reprocess
+                    // the current input character in the data state.
                     None => {
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_tag_token(None);
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Start a new attribute in the current tag token. Set that attribute’s name to
-                    // the current input character and its value to the empty string and then switch
-                    // to the tag attribute name state.
+                    // Start a new attribute in the current tag token. Set that
+                    // attribute’s name to the current input character and its
+                    // value to the empty string and then switch to the tag
+                    // attribute name state.
                     Some(c) => {
                         self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.validate_input_stream_character(c);
@@ -2071,16 +2111,17 @@ where
                         self.state = State::Data;
                     }
                     // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
+                    // Parse error. Emit the current token and then reprocess
+                    // the current input character in the data state.
                     None => {
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_tag_token(None);
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Append the current input character to the current attribute’s value and then
-                    // switch to the tag attribute value unquoted state.
+                    // Append the current input character to the current
+                    // attribute’s value and then switch to the tag attribute
+                    // value unquoted state.
                     Some(c) => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeAttributeValue);
                         self.validate_input_stream_character(c);
@@ -2100,8 +2141,9 @@ where
                         self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
-                    // Switch to character reference in attribute value state, with the additional
-                    // allowed character being U+0022 QUOTATION MARK(").
+                    // Switch to character reference in attribute value state,
+                    // with the additional allowed character being U+0022
+                    // QUOTATION MARK(").
                     Some('&') => {
                         self.return_state = Some(self.state.clone());
                         self.state = State::CharacterReferenceInAttributeValue;
@@ -2113,16 +2155,16 @@ where
                         self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                     // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
+                    // Parse error. Emit the current token and then reprocess
+                    // the current input character in the data state.
                     None => {
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_tag_token(None);
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Append the input character to the current attribute’s value. Stay in the
-                    // current state.
+                    // Append the input character to the current attribute’s
+                    // value. Stay in the current state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_to_attribute(None, Some((false, Some(c), Some(c))));
@@ -2140,8 +2182,9 @@ where
                         self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
-                    // Switch to character reference in attribute value state, with the additional
-                    // allowed character being APOSTROPHE (').
+                    // Switch to character reference in attribute value state,
+                    // with the additional allowed character being APOSTROPHE
+                    // (').
                     Some('&') => {
                         self.return_state = Some(self.state.clone());
                         self.state = State::CharacterReferenceInAttributeValue;
@@ -2153,15 +2196,16 @@ where
                         self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                     // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
+                    // Parse error. Emit the current token and then reprocess
+                    // the current input character in the data state.
                     None => {
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_tag_token(None);
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Append the current input character to the current attribute's value.
+                    // Append the current input character to the current
+                    // attribute's value.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_to_attribute(None, Some((false, Some(c), Some(c))));
@@ -2181,8 +2225,8 @@ where
                         self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
-                    // Set the return state to the attribute value (unquoted) state. Switch to
-                    // the character reference state.
+                    // Set the return state to the attribute value (unquoted)
+                    // state. Switch to the character reference state.
                     Some('&') => {
                         self.return_state = Some(self.state.clone());
                         self.state = State::CharacterReferenceInAttributeValue;
@@ -2194,15 +2238,17 @@ where
                         self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // Emit the current token as start tag token and then switch to the data state.
+                    // Emit the current token as start tag token and then switch
+                    // to the data state.
                     Some('>') => {
                         self.update_attribute_span();
                         self.emit_tag_token(Some(TagKind::Start));
                         self.state = State::Data;
                     }
                     // EOF
-                    // Parse error. Emit the current token as start tag token and then reprocess the
-                    // current input character in the data state.
+                    // Parse error. Emit the current token as start tag token
+                    // and then reprocess the current input character in the
+                    // data state.
                     None => {
                         self.emit_error(ErrorKind::EofInTag);
                         self.update_attribute_span();
@@ -2210,8 +2256,8 @@ where
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Append the input character to the current attribute’s value. Stay in the
-                    // current state.
+                    // Append the input character to the current attribute’s
+                    // value. Stay in the current state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_to_attribute(None, Some((false, Some(c), Some(c))));
@@ -2239,12 +2285,14 @@ where
             State::CharacterReferenceInAttributeValue => {
                 // Attempt to consume a character reference.
                 //
-                // If nothing is returned, append a U+0026 AMPERSAND (&) character to current
+                // If nothing is returned, append a U+0026 AMPERSAND (&)
+                // character to current attribute’s value.
+                //
+                // Otherwise append returned character tokens to current
                 // attribute’s value.
                 //
-                // Otherwise append returned character tokens to current attribute’s value.
-                //
-                // Finally, switch back to attribute value state that switched to this state.
+                // Finally, switch back to attribute value state that switched
+                // to this state.
 
                 let character_reference = self.consume_character_reference();
 
@@ -2259,11 +2307,12 @@ where
                 }
             }
             State::BogusComment => {
-                // Consume every character up to the first U+003E GREATER-THAN SIGN (>) or EOF,
-                // whichever comes first. Emit a comment token whose data is the concatenation
-                // of all those consumed characters. Then consume the next input character and
-                // switch to the data state reprocessing the EOF character if that was the
-                // character consumed.
+                // Consume every character up to the first U+003E GREATER-THAN
+                // SIGN (>) or EOF, whichever comes first. Emit a comment token
+                // whose data is the concatenation of all those consumed
+                // characters. Then consume the next input character and
+                // switch to the data state reprocessing the EOF character if
+                // that was the character consumed.
                 match self.consume_next_char() {
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current comment token.
@@ -2279,7 +2328,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // Append the current input character to the comment token's data.
+                    // Append the current input character to the comment token's
+                    // data.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.handle_raw_and_append_to_comment_token(c);
@@ -2299,8 +2349,8 @@ where
                         self.state = State::BeforeDoctypeName;
                     }
                     // EOF
-                    // Parse error. Switch to data state. Create new Doctype token. Emit Doctype
-                    // token. Reconsume the EOF character.
+                    // Parse error. Switch to data state. Create new Doctype
+                    // token. Emit Doctype token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2309,8 +2359,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // This is a missing-whitespace-before-doctype-name parse error. Reconsume
-                    // in the before DOCTYPE name state.
+                    // This is a missing-whitespace-before-doctype-name parse
+                    // error. Reconsume in the before DOCTYPE name state.
                     _ => {
                         self.emit_error(ErrorKind::MissingWhitespaceBeforeDoctypeName);
                         self.reconsume_in_state(State::BeforeDoctypeName);
@@ -2329,17 +2379,18 @@ where
                         self.append_raw_to_doctype_token(c);
                     }
                     // Uppercase ASCII letter
-                    // Create a new DOCTYPE token. Set the token name to lowercase version of the
-                    // current input character. Switch to the DOCTYPE name state.
+                    // Create a new DOCTYPE token. Set the token name to
+                    // lowercase version of the current input character. Switch
+                    // to the DOCTYPE name state.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.create_doctype_token(Some(c.to_ascii_lowercase()));
                         self.state = State::DoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // This is a missing-doctype-name parse error. Create a new DOCTYPE token.
-                    // Set its force-quirks flag to on. Switch to the data state. Emit the
-                    // current token.
+                    // This is a missing-doctype-name parse error. Create a new
+                    // DOCTYPE token. Set its force-quirks flag to on. Switch to
+                    // the data state. Emit the current token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingDoctypeName);
@@ -2348,8 +2399,8 @@ where
                         self.state = State::Data;
                     }
                     // EOF
-                    // Parse error. Switch to data state. Create new Doctype token. Emit Doctype
-                    // token. Reconsume the EOF character.
+                    // Parse error. Switch to data state. Create new Doctype
+                    // token. Emit Doctype token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2358,8 +2409,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // Create new DOCTYPE token. Set the token’s name to current input character.
-                    // Switch to DOCTYPE name state.
+                    // Create new DOCTYPE token. Set the token’s name to current
+                    // input character. Switch to DOCTYPE name state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
@@ -2381,8 +2432,9 @@ where
                         self.state = State::AfterDoctypeName;
                     }
                     // ASCII upper alpha
-                    // Append the lowercase version of the current input character (add 0x0020
-                    // to the character's code point) to the current DOCTYPE token's name.
+                    // Append the lowercase version of the current input
+                    // character (add 0x0020 to the character's code point) to
+                    // the current DOCTYPE token's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.append_to_doctype_token(Some(c.to_ascii_lowercase()), None, None);
@@ -2394,8 +2446,8 @@ where
                         self.state = State::Data;
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2403,7 +2455,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // Append the current input character to the current DOCTYPE token's name.
+                    // Append the current input character to the current DOCTYPE
+                    // token's name.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
@@ -2438,8 +2491,8 @@ where
                         self.state = State::DoctypeTypeInternalSubSet;
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2447,18 +2500,21 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // If the six characters starting from the current input character are an
-                    // ASCII case-insensitive match for the word "PUBLIC", then consume those
-                    // characters and switch to the after DOCTYPE public keyword state.
+                    // If the six characters starting from the current input
+                    // character are an ASCII case-insensitive match for the
+                    // word "PUBLIC", then consume those characters and switch
+                    // to the after DOCTYPE public keyword state.
                     //
-                    // Otherwise, if the six characters starting from the current input
-                    // character are an ASCII case-insensitive match for the word "SYSTEM", then
-                    // consume those characters and switch to the after DOCTYPE system keyword
+                    // Otherwise, if the six characters starting from the
+                    // current input character are an ASCII case-insensitive
+                    // match for the word "SYSTEM", then consume those
+                    // characters and switch to the after DOCTYPE system keyword
                     // state.
                     //
-                    // Otherwise, this is an invalid-character-sequence-after-doctype-name parse
-                    // error. Set the current DOCTYPE token's force-quirks flag to on. Reconsume
-                    // in the bogus DOCTYPE state.
+                    // Otherwise, this is an
+                    // invalid-character-sequence-after-doctype-name parse
+                    // error. Set the current DOCTYPE token's force-quirks flag
+                    // to on. Reconsume in the bogus DOCTYPE state.
                     Some(c) => {
                         let mut first_six_chars = String::with_capacity(6);
 
@@ -2493,7 +2549,8 @@ where
                             _ => {
                                 self.cur_pos = cur_pos;
                                 unsafe {
-                                    // Safety: We got cur_pos from self.input.cur_pos()
+                                    // Safety: We got cur_pos from
+                                    // self.input.cur_pos()
                                     self.input.reset_to(cur_pos);
                                 }
                                 self.emit_error(
@@ -2518,10 +2575,10 @@ where
                         self.state = State::BeforeDoctypePublicIdentifier;
                     }
                     // U+0022 QUOTATION MARK (")
-                    // This is a missing-whitespace-after-doctype-public-keyword parse error.
-                    // Set the current DOCTYPE token's public identifier to the empty string
-                    // (not missing), then switch to the DOCTYPE public identifier
-                    // (double-quoted) state.
+                    // This is a missing-whitespace-after-doctype-public-keyword
+                    // parse error. Set the current DOCTYPE token's public
+                    // identifier to the empty string (not missing), then switch
+                    // to the DOCTYPE public identifier (double-quoted) state.
                     Some(c @ '"') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
@@ -2529,10 +2586,10 @@ where
                         self.state = State::DoctypePublicIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
-                    // This is a missing-whitespace-after-doctype-public-keyword parse error.
-                    // Set the current DOCTYPE token's public identifier to the empty string
-                    // (not missing), then switch to the DOCTYPE public identifier
-                    // (single-quoted) state.
+                    // This is a missing-whitespace-after-doctype-public-keyword
+                    // parse error. Set the current DOCTYPE token's public
+                    // identifier to the empty string (not missing), then switch
+                    // to the DOCTYPE public identifier (single-quoted) state.
                     Some(c @ '\'') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
@@ -2540,9 +2597,9 @@ where
                         self.state = State::DoctypePublicIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // This is a missing-doctype-public-identifier parse error. Set the current
-                    // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
-                    // the current DOCTYPE token.
+                    // This is a missing-doctype-public-identifier parse error.
+                    // Set the current DOCTYPE token's force-quirks flag to on.
+                    // Switch to the data state. Emit the current DOCTYPE token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypePublicKeyword);
@@ -2550,8 +2607,8 @@ where
                         self.state = State::DoctypePublicIdentifierSingleQuoted;
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit that DOCTYPE token. Reconsume the
-                    // EOF character.
+                    // Parse error. Switch to the data state. Emit that DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2559,8 +2616,8 @@ where
                         self.reconsume()
                     }
                     // Anything else
-                    // Parse error. Switch to the bogus DOCTYPE state. Emit that DOCTYPE token.
-                    // Reconsume the EOF character.
+                    // Parse error. Switch to the bogus DOCTYPE state. Emit that
+                    // DOCTYPE token. Reconsume the EOF character.
                     _ => {
                         self.emit_error(ErrorKind::MissingQuoteBeforeDoctypePublicIdentifier);
                         self.reconsume_in_state(State::BogusDoctype);
@@ -2582,10 +2639,10 @@ where
                         self.state = State::BeforeDoctypeSystemIdentifier;
                     }
                     // U+0022 QUOTATION MARK (")
-                    // This is a missing-whitespace-after-doctype-system-keyword parse error.
-                    // Set the current DOCTYPE token's system identifier to the empty string
-                    // (not missing), then switch to the DOCTYPE system identifier
-                    // (double-quoted) state.
+                    // This is a missing-whitespace-after-doctype-system-keyword
+                    // parse error. Set the current DOCTYPE token's system
+                    // identifier to the empty string (not missing), then switch
+                    // to the DOCTYPE system identifier (double-quoted) state.
                     Some(c @ '"') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
@@ -2593,10 +2650,10 @@ where
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
-                    // This is a missing-whitespace-after-doctype-system-keyword parse error.
-                    // Set the current DOCTYPE token's system identifier to the empty string
-                    // (not missing), then switch to the DOCTYPE system identifier
-                    // (single-quoted) state.
+                    // This is a missing-whitespace-after-doctype-system-keyword
+                    // parse error. Set the current DOCTYPE token's system
+                    // identifier to the empty string (not missing), then switch
+                    // to the DOCTYPE system identifier (single-quoted) state.
                     Some(c @ '\'') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
@@ -2604,9 +2661,10 @@ where
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN(>)
-                    // Parse error. Set the DOCTYPE token’s public identifier current DOCTYPE token
-                    // to the empty string (not missing), then switch to the DOCTYPE system
-                    // identifier (single-quoted) state.
+                    // Parse error. Set the DOCTYPE token’s public identifier
+                    // current DOCTYPE token to the empty string (not missing),
+                    // then switch to the DOCTYPE system identifier
+                    // (single-quoted) state.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingWhitespaceAfterDoctypeSystemKeyword);
@@ -2614,8 +2672,8 @@ where
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit that DOCTYPE token. Reconsume the
-                    // EOF character.
+                    // Parse error. Switch to the data state. Emit that DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2643,27 +2701,27 @@ where
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+0022 QUOTATION MARK (")
-                    // Set the current DOCTYPE token's system identifier to the empty string
-                    // (not missing), then switch to the DOCTYPE system identifier
-                    // (double-quoted) state.
+                    // Set the current DOCTYPE token's system identifier to the
+                    // empty string (not missing), then switch to the DOCTYPE
+                    // system identifier (double-quoted) state.
                     Some(c @ '"') => {
                         self.append_raw_to_doctype_token(c);
                         self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
-                    // Set the current DOCTYPE token's system identifier to the empty string
-                    // (not missing), then switch to the DOCTYPE system identifier
-                    // (single-quoted) state.
+                    // Set the current DOCTYPE token's system identifier to the
+                    // empty string (not missing), then switch to the DOCTYPE
+                    // system identifier (single-quoted) state.
                     Some(c @ '\'') => {
                         self.append_raw_to_doctype_token(c);
                         self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // This is a missing-doctype-system-identifier parse error. Set the current
-                    // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
-                    // the current DOCTYPE token.
+                    // This is a missing-doctype-system-identifier parse error.
+                    // Set the current DOCTYPE token's force-quirks flag to on.
+                    // Switch to the data state. Emit the current DOCTYPE token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::EofInDoctype);
@@ -2671,8 +2729,8 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2700,25 +2758,26 @@ where
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+0022 QUOTATION MARK (")
-                    // Set the current DOCTYPE token's public identifier to the empty string
-                    // (not missing), then switch to the DOCTYPE public identifier
-                    // (double-quoted) state.
+                    // Set the current DOCTYPE token's public identifier to the
+                    // empty string (not missing), then switch to the DOCTYPE
+                    // public identifier (double-quoted) state.
                     Some(c @ '"') => {
                         self.append_raw_to_doctype_token(c);
                         self.set_doctype_token_public_id();
                         self.state = State::DoctypePublicIdentifierDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
-                    // Set the current DOCTYPE token's public identifier to the empty string
-                    // (not missing), then switch to the DOCTYPE public identifier
-                    // (single-quoted) state.
+                    // Set the current DOCTYPE token's public identifier to the
+                    // empty string (not missing), then switch to the DOCTYPE
+                    // public identifier (single-quoted) state.
                     Some(c @ '\'') => {
                         self.append_raw_to_doctype_token(c);
                         self.set_doctype_token_public_id();
                         self.state = State::DoctypePublicIdentifierSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN(>)
-                    // Parse error. Switch to data state. Emit current DOCTYPE token.
+                    // Parse error. Switch to data state. Emit current DOCTYPE
+                    // token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingDoctypePublicIdentifier);
@@ -2726,9 +2785,9 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
-                    // force-quirks flag to on. Emit the current DOCTYPE token. Emit an
-                    // end-of-file token.
+                    // This is an eof-in-doctype parse error. Set the current
+                    // DOCTYPE token's force-quirks flag to on. Emit the current
+                    // DOCTYPE token. Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2754,7 +2813,8 @@ where
                         self.state = State::AfterDoctypePublicIdentifier;
                     }
                     // U+003E GREATER-THAN SIGN(>)
-                    // Parse error. Switch to data state. Emit current DOCTYPE token.
+                    // Parse error. Switch to data state. Emit current DOCTYPE
+                    // token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
@@ -2762,8 +2822,8 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2771,8 +2831,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // Append the current input character to the current DOCTYPE token’s public
-                    // identifier.
+                    // Append the current input character to the current DOCTYPE
+                    // token’s public identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
@@ -2790,7 +2850,8 @@ where
                         self.state = State::AfterDoctypePublicIdentifier;
                     }
                     // U+003E GREATER-THAN SIGN(>)
-                    // Parse error. Switch to data state. Emit current DOCTYPE token.
+                    // Parse error. Switch to data state. Emit current DOCTYPE
+                    // token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
@@ -2798,8 +2859,8 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2807,8 +2868,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // Append the current input character to the current DOCTYPE token’s public
-                    // identifier.
+                    // Append the current input character to the current DOCTYPE
+                    // token’s public identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
@@ -2823,15 +2884,16 @@ where
                     // U+000A LINE FEED (LF)
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
-                    // Switch to the between DOCTYPE public and system identifiers state.
+                    // Switch to the between DOCTYPE public and system
+                    // identifiers state.
                     Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BetweenDoctypePublicAndSystemIdentifiers;
                     }
                     // U+0027 APOSTROPHE (')
-                    // Parse error. Set the DOCTYPE token’s system identifier to the empty string
-                    // (not missing) then switch to the DOCTYPE system identifier (single-quoted)
-                    // state.
+                    // Parse error. Set the DOCTYPE token’s system identifier to
+                    // the empty string (not missing) then switch to the DOCTYPE
+                    // system identifier (single-quoted) state.
                     Some(c @ '\'') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(
@@ -2841,9 +2903,9 @@ where
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // U+0022 QUOTATION MARK (")
-                    // Parse error. Set the DOCTYPE token’s system identifier to the empty string
-                    // (not missing) then switch to the DOCTYPE system identifier (double-quoted)
-                    // state.
+                    // Parse error. Set the DOCTYPE token’s system identifier to
+                    // the empty string (not missing) then switch to the DOCTYPE
+                    // system identifier (double-quoted) state.
                     Some(c @ '"') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(
@@ -2860,8 +2922,8 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2896,25 +2958,27 @@ where
                         self.emit_doctype_token();
                     }
                     // U+0027 APOSTROPHE(')
-                    // Set the DOCTYPE token’s system identifier to the empty string (not missing)
-                    // then switch to the DOCTYPE system identifier (single-quoted) state.
+                    // Set the DOCTYPE token’s system identifier to the empty
+                    // string (not missing) then switch to the DOCTYPE system
+                    // identifier (single-quoted) state.
                     Some(c @ '\'') => {
                         self.append_raw_to_doctype_token(c);
                         self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierSingleQuoted;
                     }
                     // U+0022 QUOTATION MARK(")
-                    // Set the DOCTYPE token’s system identifier to the empty string (not missing)
-                    // then switch to the DOCTYPE system identifier (double-quoted) state.
+                    // Set the DOCTYPE token’s system identifier to the empty
+                    // string (not missing) then switch to the DOCTYPE system
+                    // identifier (double-quoted) state.
                     Some(c @ '"') => {
                         self.append_raw_to_doctype_token(c);
                         self.set_doctype_token_system_id();
                         self.state = State::DoctypeSystemIdentifierDoubleQuoted;
                     }
                     // EOF
-                    // This is an eof-in-doctype parse error. Set the current DOCTYPE token's
-                    // force-quirks flag to on. Emit the current DOCTYPE token. Emit an
-                    // end-of-file token.
+                    // This is an eof-in-doctype parse error. Set the current
+                    // DOCTYPE token's force-quirks flag to on. Emit the current
+                    // DOCTYPE token. Emit an end-of-file token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2940,7 +3004,8 @@ where
                         self.state = State::AfterDoctypeSystemIdentifier;
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // Parse error. Switch to data state. Emit current DOCTYPE token.
+                    // Parse error. Switch to data state. Emit current DOCTYPE
+                    // token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
@@ -2948,8 +3013,8 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2957,8 +3022,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // Append the current input character to the current DOCTYPE token's system
-                    // identifier.
+                    // Append the current input character to the current DOCTYPE
+                    // token's system identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
@@ -2976,7 +3041,8 @@ where
                         self.state = State::AfterDoctypeSystemIdentifier;
                     }
                     // U+003E GREATER-THAN SIGN (>)
-                    // Parse error. Switch to data state. Emit current DOCTYPE token.
+                    // Parse error. Switch to data state. Emit current DOCTYPE
+                    // token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
@@ -2984,8 +3050,8 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -2993,8 +3059,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // Append the current input character to the current DOCTYPE token's system
-                    // identifier.
+                    // Append the current input character to the current DOCTYPE
+                    // token's system identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
@@ -3027,8 +3093,8 @@ where
                         self.state = State::DoctypeTypeInternalSubSet;
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -3054,8 +3120,8 @@ where
                         self.state = State::AfterDoctypeName;
                     }
                     // EOF
-                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
-                    // character.
+                    // Parse error. Switch to the data state. Emit DOCTYPE
+                    // token. Reconsume the EOF character.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.state = State::Data;
@@ -3063,8 +3129,8 @@ where
                         self.reconsume();
                     }
                     // Anything else
-                    // Append the current input character to the current DOCTYPE token's system
-                    // identifier.
+                    // Append the current input character to the current DOCTYPE
+                    // token's system identifier.
                     Some(c) => {
                         // TODO improve parse legacy declarations
                         self.validate_input_stream_character(c);
@@ -3083,7 +3149,8 @@ where
                         self.emit_doctype_token();
                     }
                     // EOF
-                    // Switch to the data state. Emit DOCTYPE token. Reconsume the EOF character.
+                    // Switch to the data state. Emit DOCTYPE token. Reconsume
+                    // the EOF character.
                     None => {
                         self.state = State::Data;
                         self.emit_doctype_token();

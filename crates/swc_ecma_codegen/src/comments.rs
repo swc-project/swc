@@ -89,10 +89,7 @@ where
             return None;
         }
 
-        let comments = match self.comments {
-            Some(ref comments) => comments,
-            None => return None,
-        };
+        let comments = self.comments?;
 
         comments.take_trailing(pos)
     }

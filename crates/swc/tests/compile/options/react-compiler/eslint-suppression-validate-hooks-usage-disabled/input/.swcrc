@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "transform": {
+            "reactCompiler": {
+                "eslintSuppressionRules": ["react-hooks/exhaustive-deps"],
+                "environment": {
+                    "validateHooksUsage": false
+                }
+            }
+        }
+    }
+}

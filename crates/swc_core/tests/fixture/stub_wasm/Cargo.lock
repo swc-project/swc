@@ -95,7 +95,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "81.0.0"
+version = "82.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -330,9 +330,9 @@ dependencies = [
 
 [[package]]
 name = "dragonbox_ecma"
-version = "0.1.0"
+version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6a5577f010d4e1bb3f3c4d6081e05718eb6992cf20119cab4d3abadff198b5ae"
+checksum = "fd8e701084c37e7ef62d3f9e453b618130cbc0ef3573847785952a3ac3f746bf"
 
 [[package]]
 name = "either"
@@ -429,7 +429,6 @@ version = "0.14.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 dependencies = [
- "ahash",
  "allocator-api2",
 ]
 
@@ -447,15 +446,6 @@ checksum = "5419bdc4f6a9207fbeba6d11b604d481addf78ecd10c11ad51e76c2f6482748d"
 dependencies = [
  "allocator-api2",
  "equivalent",
- "foldhash 0.2.0",
-]
-
-[[package]]
-name = "hashbrown"
-version = "0.17.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
-dependencies = [
  "foldhash 0.2.0",
 ]
 
@@ -787,9 +777,6 @@ name = "lru"
 version = "0.18.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ef9ac18847474e638e3702b76c65d4eb93428471a74778ef0f1be711717f89b5"
-dependencies = [
- "hashbrown 0.17.1",
-]
 
 [[package]]
 name = "memchr"
@@ -804,21 +791,9 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5f98efec8807c63c752b5bd61f862c165c115b0a35685bdcfd9238c7aeb592b7"
 dependencies = [
  "cfg-if",
- "miette-derive",
  "owo-colors",
  "textwrap",
  "unicode-width 0.1.14",
-]
-
-[[package]]
-name = "miette-derive"
-version = "7.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db5b29714e950dbb20d5e6f74f9dcec4edbcc1067bb7f8ed198c097b8c1a818b"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -1046,7 +1021,7 @@ checksum = "84350ffee5cedfabf9bee3e8825721f651da8ff79d50fe7a37cf0ca015c428ee"
 
 [[package]]
 name = "preset_env_base"
-version = "10.0.0"
+version = "11.0.0"
 dependencies = [
  "anyhow",
  "browserslist-rs",
@@ -1344,7 +1319,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "81.0.2"
+version = "82.0.5"
 dependencies = [
  "anyhow",
  "base64",
@@ -1355,9 +1330,7 @@ dependencies = [
  "jsonc-parser",
  "once_cell",
  "par-core",
- "par-iter",
  "parking_lot",
- "regex",
  "rustc-hash",
  "serde",
  "serde_json",
@@ -1485,7 +1458,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "83.1.1"
+version = "84.2.0"
 dependencies = [
  "binding_macros",
  "swc",
@@ -1500,7 +1473,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "30.0.1"
+version = "30.0.2"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1518,7 +1491,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "33.0.0"
+version = "33.0.2"
 dependencies = [
  "ascii",
  "compact_str",
@@ -1564,7 +1537,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "47.0.0"
+version = "47.1.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -1574,7 +1547,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "57.0.0"
+version = "57.0.1"
 dependencies = [
  "arrayvec",
  "indexmap",
@@ -1720,7 +1693,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "28.0.0"
+version = "28.0.1"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -1740,7 +1713,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "64.0.1"
+version = "64.0.8"
 dependencies = [
  "arrayvec",
  "bitflags",
@@ -1773,7 +1746,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "47.0.0"
+version = "47.1.0"
 dependencies = [
  "bitflags",
  "either",
@@ -1790,7 +1763,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "67.0.0"
+version = "68.0.1"
 dependencies = [
  "anyhow",
  "foldhash 0.1.5",
@@ -1853,7 +1826,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "23.0.1"
+version = "23.1.0"
 dependencies = [
  "rustc-hash",
  "swc_atoms",
@@ -1870,7 +1843,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "65.0.0"
+version = "65.0.1"
 dependencies = [
  "par-core",
  "swc_common",
@@ -1886,7 +1859,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "51.0.1"
+version = "51.0.3"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -1917,7 +1890,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "59.0.0"
+version = "59.0.3"
 dependencies = [
  "indexmap",
  "par-core",
@@ -1992,7 +1965,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "57.0.1"
+version = "57.0.2"
 dependencies = [
  "base64",
  "bytes-str",
@@ -2015,7 +1988,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "57.0.2"
+version = "57.0.3"
 dependencies = [
  "bytes-str",
  "rustc-hash",
@@ -2031,7 +2004,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "36.1.0"
+version = "36.1.1"
 dependencies = [
  "dragonbox_ecma",
  "hashbrown 0.14.5",
@@ -2101,7 +2074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_sourcemap"
-version = "10.0.2"
+version = "10.0.3"
 dependencies = [
  "base64-simd",
  "bitvec",
@@ -2247,10 +2220,6 @@ name = "triomphe"
 version = "0.1.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ef8f7726da4807b58ea5c96fdc122f80702030edc33b35aff9190a51148ccc85"
-dependencies = [
- "serde",
- "stable_deref_trait",
-]
 
 [[package]]
 name = "typenum"

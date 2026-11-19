@@ -84,11 +84,11 @@ impl Babelify for Param {
             })),
             Pat::Expr(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to BabelParam",
-                &self.pat
+                self.pat
             ),
             Pat::Invalid(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to BabelParam",
-                &self.pat
+                self.pat
             ),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),

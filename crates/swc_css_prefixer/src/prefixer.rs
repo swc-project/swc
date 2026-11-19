@@ -73,9 +73,10 @@ fn should_enable(
                 if let Some(low_or_fallback_version) = low_or_fallback_version {
                     if target_version >= low_or_fallback_version {
                         let high_or_fallback_version = maybe_high_version.or(match target_name {
-                            // Fall back to Chrome versions if Android browser data
-                            // is missing from the feature data. It appears the
-                            // Android browser has aligned its versioning with Chrome.
+                            // Fall back to Chrome versions if Android browser
+                            // data is missing from the feature data. It appears
+                            // the Android browser has aligned its versioning
+                            // with Chrome.
                             "android" => high_versions.chrome,
                             _ => None,
                         });
@@ -856,7 +857,8 @@ impl Prefixer {
     ) {
         if should_prefix(property, &self.env, true) {
             // Use only specific prefix in prefixed at-rules or rule, i.e.
-            // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
+            // don't use `-moz` prefix for properties in `@-webkit-keyframes`
+            // at-rule
             if self.rule_prefix == Some(prefix) || self.rule_prefix.is_none() {
                 // Check we don't have prefixed property
                 if !self.is_duplicate(property) {

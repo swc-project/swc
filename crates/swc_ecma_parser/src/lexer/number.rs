@@ -51,8 +51,9 @@ fn parse_radix_slow<const RADIX: u8>(raw: &str) -> f64 {
     }
 
     let bits_per_digit = RADIX.trailing_zeros() as usize;
-    // Bound the length before multiplication, including inputs larger than usize
-    // can represent in bits. One leading digit may use fewer bits than the rest.
+    // Bound the length before multiplication, including inputs larger than
+    // usize can represent in bits. One leading digit may use fewer bits than
+    // the rest.
     if raw.len() > (MAX_EXPONENT + 1) / bits_per_digit + 1 {
         return f64::INFINITY;
     }
@@ -72,7 +73,8 @@ fn parse_radix_slow<const RADIX: u8>(raw: &str) -> f64 {
     }
 
     // Read enough whole digits for the significand and guard bit. Any extra
-    // bits in that prefix and all remaining digits contribute to the sticky bit.
+    // bits in that prefix and all remaining digits contribute to the sticky
+    // bit.
     let prefix_len = 1 + (SIGNIFICAND_BITS + 1 - first_bits).div_ceil(bits_per_digit);
     let prefix = u64::from_str_radix(&raw[..prefix_len], RADIX as u32).unwrap();
     let prefix_bits = first_bits + (prefix_len - 1) * bits_per_digit;

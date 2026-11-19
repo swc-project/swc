@@ -180,7 +180,8 @@ pub struct TsBindings {
     // one owner per scope rather than a declaration for every parameter.
     erased_scopes: ScopeOwners,
     // Full declaration identities avoid scanning every same-named binding.
-    // The declarations own the names; this index only stores handles and targets.
+    // The declarations own the names; this index only stores handles and
+    // targets.
     runtime_values: Option<HashTable<(TsDeclarationId, TsValueTarget)>>,
 }
 

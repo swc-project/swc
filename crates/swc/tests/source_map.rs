@@ -48,8 +48,8 @@ fn file(f: &str, config: Config) -> Result<(), StdErr> {
         let js_path = path.parent().unwrap().join("index.g.js");
         std::fs::write(&js_path, s.code.as_bytes()).unwrap();
 
-        // Name the map after the generated file. `index.js.map` would be read as
-        // the input source map of `index.js` when the test runs again.
+        // Name the map after the generated file. `index.js.map` would be read
+        // as the input source map of `index.js` when the test runs again.
         let map_path = path.parent().unwrap().join("index.g.js.map");
         std::fs::write(&map_path, s.map.unwrap().as_bytes()).unwrap();
 
@@ -271,8 +271,8 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     //
     // - Node.js 20 and 22 print two blank lines between the source line and the
     //   error message, but Node.js 24 and later print one.
-    // - Node.js 22 prints frames of built-in modules other than `node:internal`,
-    //   such as `node:diagnostics_channel`.
+    // - Node.js 22 prints frames of built-in modules other than
+    //   `node:internal`, such as `node:diagnostics_channel`.
     // - Node.js 24 and later prefix some source-mapped function names with the
     //   receiver type, for example `Object.console` instead of `console`.
     let stacks = stderr

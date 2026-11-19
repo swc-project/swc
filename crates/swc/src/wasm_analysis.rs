@@ -168,7 +168,7 @@ impl Compiler {
                         .with_context(|| {
                             format!(
                                 "failed to invoke `{}` as js analysis plugin at {}",
-                                &p.0, plugin_name
+                                p.0, plugin_name
                             )
                         })
                 });

@@ -83,8 +83,8 @@ impl Optimizer<'_> {
                                 return false;
                             }
 
-                            // If an expression contains `in` and following statement is for loop,
-                            // we should not merge it.
+                            // If an expression contains `in` and following
+                            // statement is for loop, we should not merge it.
 
                             // TODO: Check for `in`
 
@@ -223,17 +223,21 @@ impl Optimizer<'_> {
                                             .iter()
                                             .any(|id| ids_used_by_first_expr.contains(id));
 
-                                        // I(kdy1) don't know why we need this, but terser appends
-                                        // instead of prependig if initializer is (exactly)
+                                        // I(kdy1) don't know why we need this,
+                                        // but terser appends instead of
+                                        // prependig if initializer is (exactly)
                                         //
                                         // "identifier" = "literal".
                                         //
-                                        // Note that only the form above makes terser to append.
+                                        // Note that only the form above makes
+                                        // terser to append.
                                         //
-                                        // When I tested in by changing input multiple times, terser
-                                        // seems to be aware of side effects.
+                                        // When I tested in by changing input
+                                        // multiple times, terser seems to be
+                                        // aware of side effects.
                                         //
-                                        // Maybe there exists an optimization related to it in v8.
+                                        // Maybe there exists an optimization
+                                        // related to it in v8.
                                         if let Expr::Assign(AssignExpr {
                                             op: op!("="),
                                             left,
@@ -635,7 +639,8 @@ impl Optimizer<'_> {
             match stmt.as_stmt_mut() {
                 Some(Stmt::Decl(Decl::Var(v))) => {
                     v.decls.retain(|decl| {
-                        // We dropped variable declarations using sequential inlining
+                        // We dropped variable declarations using sequential
+                        // inlining
                         if matches!(decl.name, Pat::Invalid(..)) {
                             return false;
                         }
@@ -716,8 +721,8 @@ impl Optimizer<'_> {
 
         let _ = self.merge_sequences_in_exprs(&mut exprs);
 
-        // As we don't have Mergable::Var here, we don't need to check for dropped
-        // variables.
+        // As we don't have Mergable::Var here, we don't need to check for
+        // dropped variables.
 
         e.exprs.retain(|e| !e.is_invalid());
     }
@@ -753,11 +758,12 @@ impl Optimizer<'_> {
                         if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut *b) {
                             // We try dropping variable assignments first.
 
-                            // Currently, we only drop variable declarations if they have the same
-                            // name.
+                            // Currently, we only drop variable declarations if
+                            // they have the same name.
                             if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
                                 if an.ctxt == bn.ctxt && an.sym == bn.sym {
-                                    // We need to preserve side effect of `av.init`
+                                    // We need to preserve side effect of
+                                    // `av.init`
 
                                     match bv.init.as_deref_mut() {
                                         Some(b_init) => {
@@ -795,7 +801,8 @@ impl Optimizer<'_> {
                                             }
                                         }
                                         None => {
-                                            // As variable name is same, we can move initializer
+                                            // As variable name is same, we can
+                                            // move initializer
 
                                             // Th code below
                                             //
@@ -912,7 +919,8 @@ impl Optimizer<'_> {
                     // console.log(b);
                     //
                     //
-                    // at the code above, c cannot be shifted to `c` in `c || (b = a)`
+                    // at the code above, c cannot be shifted to `c` in `c || (b
+                    // = a)`
                     //
 
                     match a {
@@ -966,9 +974,9 @@ impl Optimizer<'_> {
 
                         // Function declaration is side-effect free.
                         //
-                        // TODO(kdy1): Paramters with default value can have side effect. But this
-                        // is very unrealistic in real-world code, so I'm
-                        // postponing handling for it.
+                        // TODO(kdy1): Paramters with default value can have
+                        // side effect. But this is very unrealistic in
+                        // real-world code, so I'm postponing handling for it.
                         Mergable::FnDecl(f) => {
                             if f.function
                                 .params
@@ -1039,13 +1047,7 @@ impl Optimizer<'_> {
 
                 true
             }
-            Pat::Rest(p) => {
-                if !self.is_pat_skippable_for_seq(a, &p.arg) {
-                    return false;
-                }
-
-                true
-            }
+            Pat::Rest(p) => self.is_pat_skippable_for_seq(a, &p.arg),
             Pat::Object(p) => {
                 for prop in &p.props {
                     match prop {
@@ -1116,8 +1118,9 @@ impl Optimizer<'_> {
                 }
 
                 Mergable::FnDecl(a) => {
-                    // TODO(kdy1): I'm not sure if we can remove this check. I added this
-                    // just to be safe, and we may remove this check in future.
+                    // TODO(kdy1): I'm not sure if we can remove this check. I
+                    // added this just to be safe, and we may remove this check
+                    // in future.
                     if is_ident_used_by(e, &**a) {
                         log_abort!("ident used by a (fn)");
                         return false;
@@ -1234,7 +1237,8 @@ impl Optimizer<'_> {
                             }
                         }
                         Mergable::FnDecl(a) => {
-                            // TODO(kdy1): I'm not sure if this check is required.
+                            // TODO(kdy1): I'm not sure if this check is
+                            // required.
                             if is_ident_used_by(left_id, &**a) {
                                 log_abort!("e.left is used by a ()");
                                 return false;
@@ -1316,7 +1320,8 @@ impl Optimizer<'_> {
 
             Expr::Array(e) => {
                 for elem in e.elems.iter().flatten() {
-                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    // Spreading reads the contents of the iterable, which `a`
+                    // may have modified.
                     if elem.spread.is_some() {
                         log_abort!("array spread");
                         return false;
@@ -1675,8 +1680,8 @@ impl Optimizer<'_> {
                     return Ok(false);
                 }
 
-                // We can't merge into `[]` in some cases because `obj` is **resolved** before
-                // evaluating `[]`.
+                // We can't merge into `[]` in some cases because `obj` is
+                // **resolved** before evaluating `[]`.
                 //
                 // See https://github.com/swc-project/swc/pull/6509
 
@@ -1843,7 +1848,8 @@ impl Optimizer<'_> {
                         return Ok(true);
                     }
 
-                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    // Spreading reads the contents of the iterable, which `a`
+                    // may have modified.
                     if elem.spread.is_some() {
                         break;
                     }
@@ -1909,7 +1915,8 @@ impl Optimizer<'_> {
                         return Ok(true);
                     }
 
-                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    // Spreading reads the contents of the iterable, which `a`
+                    // may have modified.
                     if arg.spread.is_some() {
                         return Ok(false);
                     }
@@ -1930,15 +1937,17 @@ impl Optimizer<'_> {
                 trace_op!("seq: Try args of super call");
 
                 // For super() calls, we need to be careful with arguments
-                // because they are evaluated before the super constructor is called.
-                // Similar to normal function calls, we check if arguments are skippable.
+                // because they are evaluated before the super constructor is
+                // called. Similar to normal function calls, we check if
+                // arguments are skippable.
                 for arg in b_args {
                     trace_op!("seq: Try arg of super");
                     if self.merge_sequential_expr(a, &mut arg.expr)? {
                         return Ok(true);
                     }
 
-                    // Spreading reads the contents of the iterable, which `a` may have modified.
+                    // Spreading reads the contents of the iterable, which `a`
+                    // may have modified.
                     if arg.spread.is_some() {
                         return Ok(false);
                     }
@@ -1973,8 +1982,8 @@ impl Optimizer<'_> {
                             return Ok(true);
                         }
 
-                        // Spreading reads the contents of the iterable, which `a` may have
-                        // modified.
+                        // Spreading reads the contents of the iterable, which
+                        // `a` may have modified.
                         if arg.spread.is_some() {
                             return Ok(false);
                         }
@@ -2443,7 +2452,8 @@ impl Optimizer<'_> {
                 Mergable::Var(a) => {
                     if self.options.unused {
                         if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
-                            // We are eliminating one usage, so we use 1 instead of 0
+                            // We are eliminating one usage, so we use 1 instead
+                            // of 0
                             if !force_drop
                                 && usage.ref_count == 1
                                 && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
@@ -2488,7 +2498,8 @@ impl Optimizer<'_> {
                 }
 
                 Mergable::FnDecl(a) => {
-                    // We can inline a function declaration as a function expression.
+                    // We can inline a function declaration as a function
+                    // expression.
 
                     FnExpr {
                         ident: Some(a.ident.take()),
@@ -2865,8 +2876,8 @@ fn remaining_trivial_lit_budget(e: &Expr, budget: usize) -> Option<usize> {
     match e {
         Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => Some(budget),
         Expr::Paren(e) => remaining_trivial_lit_budget(&e.expr, budget),
-        // The right operand only gets the budget the left operand did not use, so
-        // this bounds the total number of nodes rather than the depth.
+        // The right operand only gets the budget the left operand did not use,
+        // so this bounds the total number of nodes rather than the depth.
         Expr::Bin(e) => {
             remaining_trivial_lit_budget(&e.right, remaining_trivial_lit_budget(&e.left, budget)?)
         }

@@ -70,7 +70,8 @@ impl QueryRef for ImportQuery {
     }
 
     fn query_jsx(&self, _: &Ident) -> Option<JSXElementName> {
-        // We do not need to handle JSX since there is no jsx preserve option in swc
+        // We do not need to handle JSX since there is no jsx preserve option in
+        // swc
         None
     }
 

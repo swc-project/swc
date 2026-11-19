@@ -3,7 +3,8 @@ type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> u32>;
 
 /// Lookup table for whitespace
 static BYTE_HANDLERS: [ByteHandler; 256] = [
-    //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
+    //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E
+    // F   //
     ___, ___, ___, ___, ___, ___, ___, ___, ___, SPC, NLN, SPC, SPC, NLN, ___, ___, // 0
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
     SPC, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 2
@@ -37,7 +38,8 @@ const SPC: ByteHandler = Some(|_| 1);
 
 /// Unicode
 const UNI: ByteHandler = Some(|skip| {
-    // Check byte patterns directly for more efficient Unicode character processing
+    // Check byte patterns directly for more efficient Unicode character
+    // processing
     let bytes = skip.input.as_bytes();
     let i = skip.offset as usize;
 
@@ -143,7 +145,8 @@ impl SkipWhitespace<'_> {
         }
 
         loop {
-            // Optimization 1: Process consecutive spaces (most common case) at once
+            // Optimization 1: Process consecutive spaces (most common case) at
+            // once
             let mut byte = unsafe { *bytes.get_unchecked(pos) };
 
             // Handle consecutive space characters (very common case)

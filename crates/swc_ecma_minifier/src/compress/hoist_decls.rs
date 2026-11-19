@@ -112,8 +112,9 @@ impl Hoister<'_> {
 
                                 for id in ids {
                                     if done.insert(id.to_id()) {
-                                        // If the enclosing function declares parameter with same
-                                        // name, we can drop a varaible.
+                                        // If the enclosing function declares
+                                        // parameter with same name, we can drop
+                                        // a varaible.
                                         if decl.init.is_none()
                                             && self
                                                 .data
@@ -181,7 +182,8 @@ impl Hoister<'_> {
                                 }
                             ) =>
                         {
-                            // It can be merged because we didn't found normal statement.
+                            // It can be merged because we didn't found normal
+                            // statement.
                             //
                             // Code like
                             //
@@ -198,8 +200,10 @@ impl Hoister<'_> {
 
                                 let preserve = match &decl.name {
                                     Pat::Ident(name) => {
-                                        // If the enclosing function declares parameter with same
-                                        // name, we can drop a varaible. (If it's side-effect free).
+                                        // If the enclosing function declares
+                                        // parameter with same name, we can drop
+                                        // a varaible. (If it's side-effect
+                                        // free).
                                         if decl.init.is_none()
                                             && self
                                                 .data

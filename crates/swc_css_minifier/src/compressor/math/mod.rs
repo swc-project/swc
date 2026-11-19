@@ -68,7 +68,8 @@ pub fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> Opti
         CalcValue::Constant(_) => {
             // https://www.w3.org/TR/css-values-4/#calc-constants
             // "These keywords are only usable within a calculation"
-            // "If used outside of a calculation, they’re treated like any other keyword"
+            // "If used outside of a calculation, they’re treated like any other
+            // keyword"
             None
         }
         CalcValue::Sum(_) => {

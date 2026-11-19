@@ -119,8 +119,8 @@ impl Pure<'_> {
             _ => return,
         };
 
-        // If left operand of a binary expression is not same as lhs, this method has
-        // nothing to do.
+        // If left operand of a binary expression is not same as lhs, this
+        // method has nothing to do.
         let (op, right) = match &mut *e.right {
             Expr::Bin(BinExpr {
                 left, op, right, ..
@@ -224,8 +224,8 @@ impl Pure<'_> {
                 left, op, right, ..
             }) => match &**right {
                 Expr::Ident(r) if lhs.sym == r.sym && lhs.ctxt == r.ctxt => {
-                    // We need this check because a function call like below can change value of
-                    // operand.
+                    // We need this check because a function call like below can
+                    // change value of operand.
                     //
                     // x = g() * x;
 
@@ -758,9 +758,9 @@ impl Pure<'_> {
             return None; // Pure literal case will be handled elsewhere
         }
 
-        // For non-empty separators, only optimize if we have at least 2 consecutive
-        // literals This prevents infinite loop and ensures meaningful
-        // optimization
+        // For non-empty separators, only optimize if we have at least 2
+        // consecutive literals This prevents infinite loop and ensures
+        // meaningful optimization
         if !separator.is_empty() {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
@@ -787,13 +787,15 @@ impl Pure<'_> {
                 return None;
             }
 
-            // Only optimize for single-character separators to avoid bloating the code
-            // Long separators like "really-long-separator" should not be optimized
+            // Only optimize for single-character separators to avoid bloating
+            // the code Long separators like "really-long-separator" should not
+            // be optimized
             if separator.len() > 1 {
                 return None;
             }
 
-            // For comma separator, require a higher threshold to avoid infinite loops
+            // For comma separator, require a higher threshold to avoid infinite
+            // loops
             if separator == "," && max_consecutive < 6 {
                 return None;
             }
@@ -803,7 +805,8 @@ impl Pure<'_> {
             // these as long as there are mixed expressions and literals
         }
 
-        // Group consecutive literals and create a string concatenation expression
+        // Group consecutive literals and create a string concatenation
+        // expression
         let mut groups = Vec::new();
         let mut current_group = Vec::new();
 
@@ -823,8 +826,7 @@ impl Pure<'_> {
                 current_group.push(elem.as_ref());
             } else {
                 if !current_group.is_empty() {
-                    groups.push(GroupType::Literals(current_group));
-                    current_group = Vec::new();
+                    groups.push(GroupType::Literals(std::mem::take(&mut current_group)));
                 }
                 groups.push(GroupType::Expression(elem.as_ref().unwrap()));
             }
@@ -858,18 +860,19 @@ impl Pure<'_> {
             // Convert to string concatenation
             let mut result_parts = Vec::new();
 
-            // Only add empty string prefix when the first element is a non-string
-            // expression that needs coercion to string AND there's no string
-            // literal early enough to provide coercion.
+            // Only add empty string prefix when the first element is a
+            // non-string expression that needs coercion to string AND there's
+            // no string literal early enough to provide coercion.
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
                     let first_needs_coercion = match &*first_expr.expr {
                         Expr::Bin(BinExpr {
                             op: op!(bin, "+"), ..
                         }) => {
-                            // `+` is only already a string concatenation when its
-                            // result is proven to be a string. Otherwise adjacent
-                            // join elements could be added numerically first.
+                            // `+` is only already a string concatenation when
+                            // its result is proven to be a string. Otherwise
+                            // adjacent join elements could be added numerically
+                            // first.
                             first_expr.expr.get_type(self.expr_ctx) != Value::Known(Type::Str)
                         }
                         Expr::Lit(Lit::Str(..)) => false,
@@ -878,7 +881,8 @@ impl Pure<'_> {
                     };
 
                     // A following literal provides the string coercion for the
-                    // first element before the next dynamic element is evaluated.
+                    // first element before the next dynamic element is
+                    // evaluated.
                     if first_needs_coercion {
                         !matches!(groups.get(1), Some(GroupType::Literals(_)))
                     } else {
@@ -1067,9 +1071,10 @@ impl Pure<'_> {
                 }) {
                     None
                 } else {
-                    // SAFETY: We've verified that the string is valid UTF-8 in the if condition
-                    // above. For this branch, the string contains only ASCII alphanumeric
-                    // characters and a few special characters.
+                    // SAFETY: We've verified that the string is valid UTF-8 in
+                    // the if condition above. For this branch, the string
+                    // contains only ASCII alphanumeric characters and a few
+                    // special characters.
                     Some(unsafe { Atom::from_wtf8_unchecked(s.value.clone()) })
                 }
             } else {
@@ -1093,8 +1098,8 @@ impl Pure<'_> {
                     }
                 }
 
-                // SAFETY: matches above ensure that the string is valid UTF-8 ('g', 'i', 'm',
-                // 'u', 'y', 's', 'd')
+                // SAFETY: matches above ensure that the string is valid UTF-8
+                // ('g', 'i', 'm', 'u', 'y', 's', 'd')
                 Some(unsafe { Atom::from_wtf8_unchecked(s.value.clone()) })
             } else {
                 None
@@ -1595,8 +1600,9 @@ impl Pure<'_> {
                 };
 
                 if let Some(s) = &mut s.finalizer {
-                    // A finalizer return overrides the pending completion, so only its value can
-                    // be removed when the IIFE result is ignored.
+                    // A finalizer return overrides the pending completion, so
+                    // only its value can be removed when the IIFE result is
+                    // ignored.
                     for stmt in &mut s.stmts {
                         self.ignore_return_value_of_return_stmt(
                             stmt,
@@ -2307,9 +2313,10 @@ impl Pure<'_> {
 
         if self.options.side_effects && self.options.pristine_globals {
             match e {
-                // Map and Set synchronously consume their iterable argument. Keeping only the
-                // argument expression would skip observable iterator acquisition and iteration.
-                // Construction without arguments or with a nullish first argument does not
+                // Map and Set synchronously consume their iterable argument.
+                // Keeping only the argument expression would skip observable
+                // iterator acquisition and iteration. Construction without
+                // arguments or with a nullish first argument does not
                 // consume an iterable and is still pure.
                 Expr::New(NewExpr {
                     span, callee, args, ..
@@ -2399,9 +2406,10 @@ impl Pure<'_> {
                         .iter()
                         .any(|e| e.as_ref().and_then(|e| e.spread).is_some())
                     {
-                        // The earlier array arm already reduced ordinary elements and removed
-                        // holes. Keep the array to consume the spread iterators, without
-                        // recursively reducing its elements a second time.
+                        // The earlier array arm already reduced ordinary
+                        // elements and removed holes. Keep the array to consume
+                        // the spread iterators, without recursively reducing
+                        // its elements a second time.
                         return;
                     }
 
@@ -2452,7 +2460,8 @@ impl Pure<'_> {
                         }) =>
                     {
                         // Accessing getters and setters may cause side effect
-                        // More precision is possible if comparing the lit prop names
+                        // More precision is possible if comparing the lit prop
+                        // names
                         let mut exprs = collect_exprs_from_object(object);
                         exprs.push(prop.expr.take());
                         *e = self

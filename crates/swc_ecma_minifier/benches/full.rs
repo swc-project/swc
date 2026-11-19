@@ -30,7 +30,8 @@ fn bench_libs(c: &mut Criterion) {
 
         group.bench_function(format!("es/minifier/libs/{name}"), |b| {
             b.iter(|| {
-                // We benchmark full time, including time for creating cm, handler
+                // We benchmark full time, including time for creating cm,
+                // handler
 
                 run(&src)
             })

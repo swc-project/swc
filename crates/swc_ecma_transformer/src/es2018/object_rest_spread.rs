@@ -165,8 +165,9 @@ impl VisitMutHook<TraverseCtx> for ObjectRestSpreadPass {
             return;
         }
 
-        // Preserve the RHS value for every extraction and the assignment result.
-        // Even an identifier may be overwritten by the pattern or its side effects.
+        // Preserve the RHS value for every extraction and the assignment
+        // result. Even an identifier may be overwritten by the pattern or its
+        // side effects.
         let mut out = ExprOutput::new(ctx);
         let ref_ident = out.declare_temp("_ref");
         out.assign(ref_ident.clone().into(), right.take());
@@ -1180,8 +1181,8 @@ impl<'a> ParamCollector<'a> {
         let has_rest = self.collected_pats.iter().any(has_object_rest_in_pat);
 
         if has_rest {
-            // Need special handling: create array variable first, then destructure
-            // iteratively
+            // Need special handling: create array variable first, then
+            // destructure iteratively
             let mut decls = Vec::new();
 
             // Step 1: Create array variable: _ref = [temps...]
@@ -1218,7 +1219,8 @@ impl<'a> ParamCollector<'a> {
                     // Pattern needs lowering - create temp
                     let temp = private_ident!("_ref");
 
-                    // Create the element pattern, preserving default value if present
+                    // Create the element pattern, preserving default value if
+                    // present
                     let elem_pat = if let Pat::Assign(ref assign_pat) = pat {
                         Pat::Assign(AssignPat {
                             span: DUMMY_SP,
@@ -1231,7 +1233,8 @@ impl<'a> ParamCollector<'a> {
 
                     // Destructure array to extract this pattern
                     if is_last {
-                        // Last element: [temp] = current_array or [temp = default] = current_array
+                        // Last element: [temp] = current_array or [temp =
+                        // default] = current_array
                         decls.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: ArrayPat {
@@ -1245,8 +1248,8 @@ impl<'a> ParamCollector<'a> {
                             definite: false,
                         });
                     } else {
-                        // Not last: [temp, ...rest] = current_array or [temp = default, ...rest] =
-                        // current_array
+                        // Not last: [temp, ...rest] = current_array or [temp =
+                        // default, ...rest] = current_array
                         let rest = private_ident!("_rest");
                         decls.push(VarDeclarator {
                             span: DUMMY_SP,

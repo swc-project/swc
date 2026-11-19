@@ -73,8 +73,8 @@ fn parse_capturing_groups<'a>(
     // At the same time, check duplicates
     // If you want to process this most efficiently:
     // - define a scope for each Disjunction
-    // - then check for duplicates for each `|` while inheriting the parent-child
-    //   relationship
+    // - then check for duplicates for each `|` while inheriting the
+    //   parent-child relationship
     // ref. https://source.chromium.org/chromium/chromium/src/+/main:v8/src/regexp/regexp-parser.cc;l=1644
     // However, duplicates are rare in the first place.
     // And as long as it works simply, this may be enough.
@@ -173,7 +173,8 @@ fn parse_capturing_groups<'a>(
                         depth += 1;
                     }
                     SimpleUnit::Close => {
-                        // May panic if the pattern has invalid, unbalanced parens
+                        // May panic if the pattern has invalid, unbalanced
+                        // parens
                         depth = depth.saturating_sub(1);
                     }
                     SimpleUnit::Pipe => {
@@ -198,7 +199,8 @@ fn parse_capturing_groups<'a>(
                         //  ^ depth: 0
                         for i in (0..depth).rev() {
                             if alternative_depth.contains(&i) {
-                                // Remove it, next duplicates requires another `|`
+                                // Remove it, next duplicates requires another
+                                // `|`
                                 alternative_depth.remove(&i);
                                 continue 'outer;
                             }

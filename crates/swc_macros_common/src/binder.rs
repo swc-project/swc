@@ -254,8 +254,8 @@ impl<'a> VariantBinder<'a> {
             }
         };
 
-        // if we don't need to move fields, we should match on reference to make tuple
-        // work.
+        // if we don't need to move fields, we should match on reference to make
+        // tuple work.
 
         // let pat = match by_ref {
         //     Some(ref_token) => Pat::Ref(PatRef {

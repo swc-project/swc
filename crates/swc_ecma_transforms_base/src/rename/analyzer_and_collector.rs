@@ -267,12 +267,13 @@ impl Visit for AnalyzerAndCollector {
         // We need to check for assign pattern because safari has a bug.
         // https://github.com/swc-project/swc/issues/9015
         //
-        // Safari also has a bug with duplicate parameter names in destructuring.
-        // https://github.com/swc-project/swc/issues/11083
+        // Safari also has a bug with duplicate parameter names in
+        // destructuring. https://github.com/swc-project/swc/issues/11083
         //
-        // Note: The destructuring pattern check (is_object/is_array) only applies
-        // in mangle mode to prevent the minifier from creating collisions. In normal
-        // hygiene mode, existing collisions in source code should be preserved.
+        // Note: The destructuring pattern check (is_object/is_array) only
+        // applies in mangle mode to prevent the minifier from creating
+        // collisions. In normal hygiene mode, existing collisions in source
+        // code should be preserved.
         let has_rest = node.function.params.iter().any(|p| {
             p.pat.is_rest()
                 || p.pat.is_assign()
@@ -295,7 +296,8 @@ impl Visit for AnalyzerAndCollector {
         let old_analyzer = self.analyzer.enter_fn_scope();
 
         if !need_skip_analyzer_record && has_rest {
-            // self.analyzer is different from above because we are in a function scope
+            // self.analyzer is different from above because we are in a
+            // function scope
             self.analyzer.add_usage(node.ident.to_id());
         }
 
@@ -318,12 +320,13 @@ impl Visit for AnalyzerAndCollector {
             // We need to check for assign pattern because safari has a bug.
             // https://github.com/swc-project/swc/issues/9015
             //
-            // Safari also has a bug with duplicate parameter names in destructuring.
-            // https://github.com/swc-project/swc/issues/11083
+            // Safari also has a bug with duplicate parameter names in
+            // destructuring. https://github.com/swc-project/swc/issues/11083
             //
-            // Note: The destructuring pattern check (is_object/is_array) only applies
-            // in mangle mode to prevent the minifier from creating collisions. In normal
-            // hygiene mode, existing collisions in source code should be preserved.
+            // Note: The destructuring pattern check (is_object/is_array) only
+            // applies in mangle mode to prevent the minifier from creating
+            // collisions. In normal hygiene mode, existing collisions in source
+            // code should be preserved.
             if node.function.params.iter().any(|p| {
                 p.pat.is_rest()
                     || p.pat.is_assign()

@@ -301,8 +301,8 @@ where
         }
 
         if let Some(ref args) = node.args {
-            // A generic constructor needs `()` to keep its type arguments distinct
-            // from following relational, shift, or unary operators.
+            // A generic constructor needs `()` to keep its type arguments
+            // distinct from following relational, shift, or unary operators.
             let omit_args = self.cfg.minify
                 && args.is_empty()
                 && should_ignore_empty_args
@@ -369,7 +369,8 @@ where
             if is_kwd_op {
                 node.left.ends_with_alpha_num()
             } else if matches!(node.op, op!("==") | op!("===")) {
-                // Keep postfix `!` and type argument `>` from becoming `!=` or `>=`.
+                // Keep postfix `!` and type argument `>` from becoming `!=` or
+                // `>=`.
                 node.left.trailing_token().is_some()
             } else if matches!(node.op, op!(">") | op!(">>") | op!(">>>") | op!(">=")) {
                 // Inspect the suffix only when the operator can merge with it.
@@ -665,8 +666,8 @@ where
             //          /* Parameter a */
             //          a
             // /* End of parameter a */
-            // -> this comment isn't considered to be trailing comment of parameter "a" due
-            // to newline ,
+            // -> this comment isn't considered to be trailing comment of
+            // parameter "a" due to newline ,
             if format.contains(ListFormat::DelimitersMask)
                 && previous_sibling.hi != parent_node.hi()
                 && self.comments.is_some()
@@ -676,7 +677,8 @@ where
 
             self.write_delim(format)?;
 
-            // Write either a line terminator or whitespace to separate the elements.
+            // Write either a line terminator or whitespace to separate the
+            // elements.
 
             if self.cm.should_write_separating_line_terminator(
                 Some(previous_sibling),
@@ -755,7 +757,8 @@ where
             let emit_trailing_comments = {
                 // TODO:
                 //
-                // !(getEmitFlags(previousSibling).contains(EmitFlags::NoTrailingComments))
+                // !(getEmitFlags(previousSibling).
+                // contains(EmitFlags::NoTrailingComments))
 
                 true
             };
@@ -1026,20 +1029,10 @@ where
             SimpleAssignTarget::Ident(i) => {
                 span_has_leading_comment(self.comments.as_ref().unwrap(), i.span)
             }
-            SimpleAssignTarget::Member(m) => {
-                if self.has_leading_comment(&m.obj) {
-                    return true;
-                }
-
-                false
-            }
+            SimpleAssignTarget::Member(m) => self.has_leading_comment(&m.obj),
 
             SimpleAssignTarget::SuperProp(m) => {
-                if span_has_leading_comment(self.comments.as_ref().unwrap(), m.span) {
-                    return true;
-                }
-
-                false
+                span_has_leading_comment(self.comments.as_ref().unwrap(), m.span)
             }
 
             _ => false,
@@ -1273,7 +1266,8 @@ fn get_template_element_from_raw(
                         template::decode_unicode_escape(&mut iter, ascii_only)
                     } {
                         Some(c @ ('\\' | '`')) => {
-                            // Decoded delimiters must not become template syntax or escapes.
+                            // Decoded delimiters must not become template
+                            // syntax or escapes.
                             buf.push('\\');
                             Some(c)
                         }
@@ -1306,7 +1300,8 @@ fn get_template_element_from_raw(
 
         match unescape {
             Some('{') if buf.ends_with('$') => {
-                // Adjacent decoded characters must not introduce an interpolation.
+                // Adjacent decoded characters must not introduce an
+                // interpolation.
                 buf.push_str("\\{");
             }
             Some('\x00') => {
@@ -1314,14 +1309,16 @@ fn get_template_element_from_raw(
                 null_escape_end = Some(buf.len());
             }
             Some(c @ '0'..='9') if null_escape_end == Some(buf.len()) => {
-                // Decide after decoding the next character: an escaped digit or a
-                // removed line continuation can otherwise turn \0 into an octal escape.
+                // Decide after decoding the next character: an escaped digit or
+                // a removed line continuation can otherwise turn \0 into an
+                // octal escape.
                 buf.truncate(buf.len() - 2);
                 buf.push_str("\\x00");
                 buf.push(c);
             }
-            // Octal doesn't supported in template literals, except in tagged templates, but
-            // we don't use this for tagged templates, they are printing as is
+            // Octal doesn't supported in template literals, except in tagged
+            // templates, but we don't use this for tagged templates, they are
+            // printing as is
             Some('\u{0008}') => buf.push_str("\\b"),
             Some('\u{000c}') => buf.push_str("\\f"),
             Some('\n') => buf.push('\n'),
@@ -1513,11 +1510,11 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
                 if c.is_ascii() {
                     buf.push(c);
                 } else if c > '\u{FFFF}' {
-                    // if we've got this far the char isn't reserved and if the callee has specified
-                    // we should output unicode for non-ascii chars then we have
-                    // to make sure we output unicode that is safe for the target
-                    // Es5 does not support code point escapes and so surrograte formula must be
-                    // used
+                    // if we've got this far the char isn't reserved and if the
+                    // callee has specified we should output unicode for
+                    // non-ascii chars then we have to make sure we output
+                    // unicode that is safe for the target Es5 does not support
+                    // code point escapes and so surrograte formula must be used
                     if target <= EsVersion::Es5 {
                         // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
                         let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
@@ -2059,8 +2056,8 @@ impl MacroNode for ArrowExpr {
             punct!(emitter, "*")
         }
 
-        // TypeScript annotations, optional parameters, and generic arrows require
-        // a parenthesized parameter list even with a single identifier.
+        // TypeScript annotations, optional parameters, and generic arrows
+        // require a parenthesized parameter list even with a single identifier.
         let parens = !emitter.cfg.minify
             || self.type_params.is_some()
             || self.return_type.is_some()
@@ -2073,7 +2070,8 @@ impl MacroNode for ArrowExpr {
 
         if let Some(type_params) = &self.type_params {
             // The emitter has no TSX mode. Disambiguate single unconstrained
-            // generic arrows in both TypeScript and TSX instead of emitting JSX.
+            // generic arrows in both TypeScript and TSX instead of emitting
+            // JSX.
             let needs_comma = matches!(
                 type_params.params.as_slice(),
                 [param] if param.constraint.is_none() && param.default.is_none()
@@ -2163,7 +2161,8 @@ impl MacroNode for AssignExpr {
 
         emit!(self.left);
         if emitter.cfg.minify && self.op == op!("=") && self.left.trailing_token().is_some() {
-            // Keep postfix `!` and type argument `>` from becoming `!=` or `>=`.
+            // Keep postfix `!` and type argument `>` from becoming `!=` or
+            // `>=`.
             space!(emitter);
         } else {
             formatting_space!(emitter);
@@ -2393,8 +2392,9 @@ impl MacroNode for TplElement {
                     .filter_map(|c| c.get(1))
                     .filter(|m| reduce_escaped_newline || m.as_str().ends_with('\n')),
             ) {
-                // If the string starts with a newline char, then adding a mark is redundant.
-                // This catches both "no newlines" and "newline after several chars".
+                // If the string starts with a newline char, then adding a mark
+                // is redundant. This catches both "no newlines" and "newline
+                // after several chars".
                 if offset_gen != 0 {
                     emitter
                         .wr
@@ -2484,7 +2484,8 @@ impl MacroNode for UpdateExpr {
 
         if self.prefix {
             operator!(emitter, self.op.as_str());
-            //TODO: Check if we should use should_emit_whitespace_before_operand
+            //TODO: Check if we should use
+            // should_emit_whitespace_before_operand
             emit!(self.arg);
         } else {
             emit!(self.arg);

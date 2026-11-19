@@ -13,12 +13,12 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Stylesheet> {
-        // Create a new stylesheet, with its location set to location (or null, if
-        // location was not passed).
+        // Create a new stylesheet, with its location set to location (or null,
+        // if location was not passed).
         let start = self.input.cur_span();
 
-        // Consume a list of rules from input, with the top-level flag set, and set the
-        // stylesheet’s value to the result.
+        // Consume a list of rules from input, with the top-level flag set, and
+        // set the stylesheet’s value to the result.
         let rules = self
             .with_ctx(Ctx {
                 is_top_level: true,
@@ -81,19 +81,19 @@ where
                     }
                 }
                 // <at-keyword-token>
-                // Reconsume the current input token. Consume an at-rule, and append the returned
-                // value to the list of rules.
+                // Reconsume the current input token. Consume an at-rule, and
+                // append the returned value to the list of rules.
                 tok!("@") => {
                     let at_rule = self.with_ctx(ctx).parse_as::<Box<AtRule>>()?;
 
                     rules.push(Rule::AtRule(at_rule));
                 }
                 // anything else
-                // Reconsume the current input token. Consume a qualified rule. If anything is
-                // returned, append it to the list of rules.
+                // Reconsume the current input token. Consume a qualified rule.
+                // If anything is returned, append it to the list of rules.
                 //
-                // For better recovery we parse broken code into the list of component values and
-                // append it to the list of rules.
+                // For better recovery we parse broken code into the list of
+                // component values and append it to the list of rules.
                 _ => {
                     let state = self.input.state();
                     let qualified_rule = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
@@ -137,9 +137,9 @@ where
     fn parse(&mut self) -> PResult<AtRule> {
         // To consume an at-rule:
 
-        // Consume the next input token. Create a new at-rule with its name set to the
-        // value of the current input token, its prelude initially set to an empty list,
-        // and its value initially set to nothing.
+        // Consume the next input token. Create a new at-rule with its name set
+        // to the value of the current input token, its prelude initially set to
+        // an empty list, and its value initially set to nothing.
         let span = self.input.cur_span();
         let at_keyword_name = match bump!(self) {
             Token::AtKeyword { value, raw } => (value, raw),
@@ -216,7 +216,8 @@ where
                     return Ok(at_rule);
                 }
                 // <{-token>
-                // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
+                // Consume a simple block and assign it to the at-rule’s block.
+                // Return the at-rule.
                 tok!("{") => {
                     let block = self.parse_as::<SimpleBlock>()?;
 
@@ -235,8 +236,8 @@ where
                     return Ok(at_rule);
                 }
                 // anything else
-                // Reconsume the current input token. Consume a component value. Append the returned
-                // value to the at-rule’s prelude.
+                // Reconsume the current input token. Consume a component value.
+                // Append the returned value to the at-rule’s prelude.
                 _ => {
                     let component_value = self.parse_as::<ComponentValue>()?;
                     prelude.push(component_value);
@@ -253,8 +254,8 @@ where
     fn parse(&mut self) -> PResult<QualifiedRule> {
         // To consume a qualified rule:
 
-        // Create a new qualified rule with its prelude initially set to an empty list,
-        // and its value initially set to nothing.
+        // Create a new qualified rule with its prelude initially set to an
+        // empty list, and its value initially set to nothing.
         let span = self.input.cur_span();
         let mut prelude = Vec::new();
 
@@ -271,8 +272,9 @@ where
 
             match cur!(self) {
                 // <semicolon-token>
-                // If mixed with declarations is true, this is a parse error; return nothing.
-                // Otherwise, append a <semicolon-token> to the qualified rule’s prelude.
+                // If mixed with declarations is true, this is a parse error;
+                // return nothing. Otherwise, append a <semicolon-token> to the
+                // qualified rule’s prelude.
                 tok!(";") => {
                     if self.ctx.mixed_with_declarations {
                         let span = self.input.cur_span();
@@ -285,8 +287,8 @@ where
                     }
                 }
                 // <{-token>
-                // Consume a simple block and assign it to the qualified rule’s block. Return the
-                // qualified rule.
+                // Consume a simple block and assign it to the qualified rule’s
+                // block. Return the qualified rule.
                 tok!("{") => {
                     let block = self.parse_as::<SimpleBlock>()?;
                     let mut qualified_rule = QualifiedRule {
@@ -306,8 +308,8 @@ where
 
                     return Ok(qualified_rule);
                 }
-                // Reconsume the current input token. Consume a component value. Append the returned
-                // value to the qualified rule’s prelude.
+                // Reconsume the current input token. Consume a component value.
+                // Append the returned value to the qualified rule’s prelude.
                 _ => {
                     let component_value = self.parse_as::<ComponentValue>()?;
 
@@ -358,8 +360,8 @@ where
                     }
                 }
                 // <at-keyword-token>
-                // Reconsume the current input token. Consume an at-rule, and append the result to
-                // rules.
+                // Reconsume the current input token. Consume an at-rule, and
+                // append the result to rules.
                 tok!("@") => {
                     let at_rule = self.parse()?;
 
@@ -369,17 +371,19 @@ where
                 // <function-token>
                 // <function>
                 //
-                // Reconsume the current input token. Initialize a temporary list, initially empty.
-                // As long as the next input token is anything other than a <semicolon-token> or
-                // <EOF-token>, consume a component value and append it to the temporary list.
-                // Consume a declaration from the temporary list. If anything was returned, append
-                // it to decls.
+                // Reconsume the current input token. Initialize a temporary
+                // list, initially empty. As long as the next input token is
+                // anything other than a <semicolon-token> or <EOF-token>,
+                // consume a component value and append it to the temporary
+                // list. Consume a declaration from the temporary list. If
+                // anything was returned, append it to decls.
                 tok!("ident") | tok!("function") => {
-                    // Legacy nested parsing conflict with custom properties, but selectors can't
-                    // start with `--`, so it is safe to ignore them.
+                    // Legacy nested parsing conflict with custom properties,
+                    // but selectors can't start with `--`, so it is safe to
+                    // ignore them.
                     //
-                    // Constructions like `a { prop: {value}; }` still affected this problem, but
-                    // `{`/`}` doesn't used in declarations
+                    // Constructions like `a { prop: {value}; }` still affected
+                    // this problem, but `{`/`}` doesn't used in declarations
                     if self.config.legacy_nesting
                         && matches!(self.input.cur(), Some(Token::Ident { value, .. }) if !value.starts_with("--"))
                     {
@@ -417,8 +421,9 @@ where
                     declarations.push(decl_or_list_of_component_values);
                 }
                 // anything else
-                // Reconsume the current input token. Consume a qualified rule, with mixed with
-                // declarations set to true. If anything was returned, append it to rules.
+                // Reconsume the current input token. Consume a qualified rule,
+                // with mixed with declarations set to true. If anything was
+                // returned, append it to rules.
                 _ => {
                     let state = self.input.state();
                     let qualified_rule = self
@@ -505,8 +510,8 @@ where
                     }
                 }
                 // <at-keyword-token>
-                // Reconsume the current input token. Consume an at-rule. Append the returned rule
-                // to the list of declarations.
+                // Reconsume the current input token. Consume an at-rule. Append
+                // the returned rule to the list of declarations.
                 tok!("@") => {
                     let at_rule = self
                         .with_ctx(Ctx {
@@ -518,11 +523,12 @@ where
                     declarations.push(DeclarationOrAtRule::AtRule(Box::new(at_rule)));
                 }
                 // <ident-token>
-                // Initialize a temporary list initially filled with the current input token. As
-                // long as the next input token is anything other than a <semicolon-token> or
-                // <EOF-token>, consume a component value and append it to the temporary list.
-                // Consume a declaration from the temporary list. If anything was returned, append
-                // it to the list of declarations.
+                // Initialize a temporary list initially filled with the current
+                // input token. As long as the next input token is anything
+                // other than a <semicolon-token> or <EOF-token>, consume a
+                // component value and append it to the temporary list.
+                // Consume a declaration from the temporary list. If anything
+                // was returned, append it to the list of declarations.
                 tok!("ident") => {
                     let span = self.input.cur_span();
                     let mut temporary_list = ListOfComponentValues {
@@ -551,12 +557,13 @@ where
                     declarations.push(decl_or_list_of_component_values);
                 }
                 // anything else
-                // This is a parse error. Reconsume the current input token. As long as the next
-                // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
-                // component value and throw away the returned value.
+                // This is a parse error. Reconsume the current input token. As
+                // long as the next input token is anything other than a
+                // <semicolon-token> or <EOF-token>, consume a component value
+                // and throw away the returned value.
                 //
-                // We don't throw away the return value because of the recovery mode and return list
-                // of components values in this case
+                // We don't throw away the return value because of the recovery
+                // mode and return list of components values in this case
                 _ => {
                     let span = self.input.cur_span();
 
@@ -595,8 +602,8 @@ where
     fn parse(&mut self) -> PResult<Declaration> {
         // To consume a declaration:
 
-        // Let decl be a new declaration, with an initially empty name and a value set
-        // to an empty list.
+        // Let decl be a new declaration, with an initially empty name and a
+        // value set to an empty list.
 
         // TODO improve me
         // Consume a component value.
@@ -634,19 +641,23 @@ where
             important: None,
         };
 
-        // 2. While the next input token is a <whitespace-token>, consume the next input
+        // 2. While the next input token is a <whitespace-token>, consume the
+        //    next input
         // token.
         self.input.skip_ws();
 
-        // 3. If the next input token is anything other than a <colon-token>, this is a
+        // 3. If the next input token is anything other than a <colon-token>,
+        //    this is a
         // parse error. Return nothing. Otherwise, consume the next input token.
         expect!(self, ":");
 
-        // 4. While the next input token is a <whitespace-token>, consume the next input
+        // 4. While the next input token is a <whitespace-token>, consume the
+        //    next input
         // token.
         self.input.skip_ws();
 
-        // 5. As long as the next input token is anything other than an <EOF-token>,
+        // 5. As long as the next input token is anything other than an
+        //    <EOF-token>,
         // consume a component value and append it to the declaration’s value.
         let mut is_valid_to_canonicalize = true;
         let mut last_whitespaces = (0, 0, 0);
@@ -733,10 +744,12 @@ where
             declaration.value.push(component_value);
         }
 
-        // 6. If the last two non-<whitespace-token>s in the declaration’s value are a
-        // <delim-token> with the value "!" followed by an <ident-token> with a value
-        // that is an ASCII case-insensitive match for "important", remove them from the
-        // declaration’s value and set the declaration’s important flag to true.
+        // 6. If the last two non-<whitespace-token>s in the declaration’s value
+        //    are a
+        // <delim-token> with the value "!" followed by an <ident-token> with a
+        // value that is an ASCII case-insensitive match for "important", remove
+        // them from the declaration’s value and set the declaration’s important
+        // flag to true.
         if let (Some(exclamation_point_span), Some(important_ident)) =
             (exclamation_point_span, important_ident)
         {
@@ -756,7 +769,8 @@ where
             declaration.important = Some(ImportantFlag { span, value });
         }
 
-        // 7. While the last token in the declaration’s value is a <whitespace-token>,
+        // 7. While the last token in the declaration’s value is a
+        //    <whitespace-token>,
         // remove that token.
         let len = if declaration.important.is_some() {
             declaration.value.len()
@@ -793,15 +807,15 @@ where
 {
     fn parse(&mut self) -> PResult<ComponentValue> {
         match cur!(self) {
-            // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a
-            // simple block and return it.
+            // If the current input token is a <{-token>, <[-token>, or
+            // <(-token>, consume a simple block and return it.
             tok!("[") | tok!("(") | tok!("{") => {
                 let block = self.parse()?;
 
                 Ok(ComponentValue::SimpleBlock(block))
             }
-            // Otherwise, if the current input token is a <function-token>, consume a
-            // function and return it.
+            // Otherwise, if the current input token is a <function-token>,
+            // consume a function and return it.
             tok!("function") => {
                 let function = self
                     .with_ctx({
@@ -837,8 +851,8 @@ where
     fn parse(&mut self) -> PResult<SimpleBlock> {
         // To consume a simple block:
 
-        // Create a simple block with its associated token set to the current input
-        // token and with its value initially set to an empty list.
+        // Create a simple block with its associated token set to the current
+        // input token and with its value initially set to an empty list.
         let span = self.input.cur_span();
         let name = match cur!(self) {
             tok!("{") | tok!("(") | tok!("[") => self.input.bump().unwrap(),
@@ -896,8 +910,8 @@ where
                     break;
                 }
                 // anything else
-                // Reconsume the current input token. Consume a component value and append it to the
-                // value of the block.
+                // Reconsume the current input token. Consume a component value
+                // and append it to the value of the block.
                 _ => {
                     let component_value = self.parse()?;
 
@@ -917,13 +931,13 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Function> {
-        // Note: This algorithm assumes that the current input token has already been
-        // checked to be a <function-token>.
+        // Note: This algorithm assumes that the current input token has already
+        // been checked to be a <function-token>.
         //
         // To consume a function:
 
-        // Create a function with its name equal to the value of the current input token
-        // and with its value initially set to an empty list.
+        // Create a function with its name equal to the value of the current
+        // input token and with its value initially set to an empty list.
         let span = self.input.cur_span();
         let function_name = match bump!(self) {
             Token::Function { value, raw } => (value, raw),
@@ -973,8 +987,8 @@ where
                     break;
                 }
                 // anything else
-                // Reconsume the current input token. Consume a component value and append the
-                // returned value to the function’s value.
+                // Reconsume the current input token. Consume a component value
+                // and append the returned value to the function’s value.
                 _ => {
                     let component_value = self.parse_as::<ComponentValue>()?;
 
@@ -1002,9 +1016,9 @@ where
         let span = self.input.cur_span();
         let mut children = Vec::new();
 
-        // Repeatedly consume a component value from input until an <EOF-token> is
-        // returned, appending the returned values (except the final <EOF-token>) into a
-        // list. Return the list.
+        // Repeatedly consume a component value from input until an <EOF-token>
+        // is returned, appending the returned values (except the final
+        // <EOF-token>) into a list. Return the list.
         loop {
             if is!(self, EOF) {
                 break;

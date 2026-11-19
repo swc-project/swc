@@ -106,8 +106,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         function.is_async = false;
         function.is_generator = false;
         if !fn_state.use_arguments {
-            // Errors thrown during argument evaluation must reject the resulting promise,
-            // which needs more complex code to handle
+            // Errors thrown during argument evaluation must reject the
+            // resulting promise, which needs more complex code to handle
             fn_state.use_arguments =
                 could_potentially_throw(&function.params, self.unresolved_ctxt);
         }
@@ -150,7 +150,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             stmts,
         });
 
-        // Restore the previous fn_state from stack after processing async function
+        // Restore the previous fn_state from stack after processing async
+        // function
         self.fn_state = self.fn_state_stack.pop();
     }
 
@@ -202,8 +203,9 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
 
         let fn_state = self.fn_state.take().unwrap();
 
-        // Restore the previous fn_state from stack. Preserved async arrows still
-        // capture lexical references from a parent that may be transformed.
+        // Restore the previous fn_state from stack. Preserved async arrows
+        // still capture lexical references from a parent that may be
+        // transformed.
         let parent_fn_state = self.fn_state_stack.pop();
 
         if let Some(mut parent_fn_state) = parent_fn_state {
@@ -281,7 +283,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
             return;
         }
 
-        // Save the current fn_state to stack before entering nested arrow function
+        // Save the current fn_state to stack before entering nested arrow
+        // function
         let in_constructor = self
             .fn_state
             .as_ref()
@@ -334,7 +337,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
         if self.in_subclass {
             let fn_state = self.fn_state.take();
 
-            // If any async arrows used `this`, we need to add var _this and _this = this
+            // If any async arrows used `this`, we need to add var _this and
+            // _this = this
             if let Some(FunctionBody { stmts, .. }) = &mut constructor.body {
                 if let Some(fn_state) = &fn_state {
                     if fn_state.use_this {
@@ -431,7 +435,8 @@ impl VisitMutHook<TraverseCtx> for AsyncToGeneratorPass {
     fn enter_stmt(&mut self, stmt: &mut Stmt, _ctx: &mut TraverseCtx) {
         if matches!(stmt, Stmt::Labeled(..)) {
             if let Some(mode) = self.fn_state.as_ref().and_then(|s| s.await_for_mode) {
-                // A label must stay attached to the generated iteration statement.
+                // A label must stay attached to the generated iteration
+                // statement.
                 handle_await_for(stmt, mode, self.unresolved_ctxt);
             }
         }
@@ -565,7 +570,8 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
 
         let mut for_loop_body = Vec::new();
         if matches!(mode, AwaitForMode::NativeAsync) {
-            // Validate the awaited iterator result before accessing its properties.
+            // Validate the awaited iterator result before accessing its
+            // properties.
             let iter_next: Expr = CallExpr {
                 span: DUMMY_SP,
                 callee: quote_ident!(unresolved_ctxt, "Reflect")
@@ -776,7 +782,8 @@ fn handle_await_for(stmt: &mut Stmt, mode: AwaitForMode, unresolved_ctxt: Syntax
                 }
                 .into(),
             ),
-            // _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done
+            // _iteratorAbruptCompletion = !(_step = yield
+            // _iterator.next()).done
             test: if matches!(mode, AwaitForMode::NativeAsync) {
                 None
             } else {
@@ -1497,12 +1504,13 @@ fn replace_this_in_expr(expr: &mut Expr, this_var: &Ident) {
         Expr::OptChain(opt) => {
             replace_this_in_opt_chain_base(&mut opt.base, this_var);
         }
-        // Arrow functions don't have their own `this` context - they inherit from the
-        // enclosing scope, so we need to traverse into them
+        // Arrow functions don't have their own `this` context - they inherit
+        // from the enclosing scope, so we need to traverse into them
         Expr::Arrow(arrow) => {
             replace_this_in_arrow_function_body(&mut arrow.body, this_var);
         }
-        // Don't traverse into nested functions/classes as they have their own `this` context
+        // Don't traverse into nested functions/classes as they have their own
+        // `this` context
         Expr::Fn(_) | Expr::Class(_) => {}
         // These don't contain expressions that could have `this`
         Expr::Ident(_)

@@ -966,7 +966,8 @@ fn root_mode_root_ignores_parent_config() -> Result<()> {
 
     cmd.assert().success();
 
-    // Parent .swcrc should be ignored, so default es5 transforms arrow to function
+    // Parent .swcrc should be ignored, so default es5 transforms arrow to
+    // function
     let output = fs::read_to_string(subdir.join("output.js"))?;
     assert!(
         output.contains("function"),

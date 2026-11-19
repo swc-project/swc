@@ -61,10 +61,10 @@ impl PluginCommentsProxy {
             .expect("Should able to serialize value");
             let (serialized_comment_ptr, serialized_comment_ptr_len) = serialized.as_ptr();
             unsafe {
-                // We need to copy PluginCommentProxy's param for add_leading (Comment, or
-                // Vec<Comment>) to the host, before calling proxy to the host. This'll fill in
-                // CommentHostEnvironment's buffer, subsequent proxy call will read &
-                // deserialize it.
+                // We need to copy PluginCommentProxy's param for add_leading
+                // (Comment, or Vec<Comment>) to the host, before calling proxy
+                // to the host. This'll fill in CommentHostEnvironment's buffer,
+                // subsequent proxy call will read & deserialize it.
                 __copy_comment_to_host_env(
                     serialized_comment_ptr as u32,
                     serialized_comment_ptr_len

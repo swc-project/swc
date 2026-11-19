@@ -252,7 +252,8 @@ impl VisitMut for TemplateLiteral {
                     is_generator: false,
                     params: Vec::new(),
                     body: {
-                        // const data = _tagged_template_literal(["first", "second"]);
+                        // const data = _tagged_template_literal(["first",
+                        // "second"]);
                         let data_decl = VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Const,

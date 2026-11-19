@@ -191,11 +191,12 @@ impl DerefMut for GlobalDefs {
 impl Hash for GlobalDefs {
     fn hash<H: Hasher>(&self, state: &mut H) {
         // Use iteration order-independent hash combination.
-        // Method: Mix all key-value pair hashes with XOR, and include the length for
-        // distinction.
+        // Method: Mix all key-value pair hashes with XOR, and include the
+        // length for distinction.
         let mut hash = 0u64;
         for (k, v) in &self.0 {
-            // let mut pair_hasher = std::collections::hash_map::DefaultHasher::new();
+            // let mut pair_hasher =
+            // std::collections::hash_map::DefaultHasher::new();
             let mut pair_hasher = FxHasher::default();
             k.hash(&mut pair_hasher);
             v.hash(&mut pair_hasher);

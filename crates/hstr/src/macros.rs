@@ -9,8 +9,8 @@ macro_rules! get_hash {
                     .hash
             }
             INLINE_TAG => {
-                // This is passed as input to the caller's `Hasher` implementation, so it's okay
-                // that this isn't really a hash
+                // This is passed as input to the caller's `Hasher` implementation,
+                // so it's okay that this isn't really a hash
                 $self.unsafe_data.hash()
             }
             _ => unsafe { debug_unreachable!() },

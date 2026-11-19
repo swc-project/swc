@@ -33,10 +33,7 @@ impl Babelify for Pat {
             Pat::Object(o) => PatOutput::Object(o.babelify(ctx)),
             Pat::Assign(a) => PatOutput::Assign(a.babelify(ctx)),
             Pat::Expr(e) => PatOutput::Expr(Box::alloc().init(e.babelify(ctx).into())),
-            Pat::Invalid(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to PatOutput",
-                &self
-            ),
+            Pat::Invalid(_) => panic!("illegal conversion: Cannot convert {:?} to PatOutput", self),
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
@@ -49,7 +46,7 @@ impl From<PatOutput> for Pattern {
             PatOutput::Assign(a) => Pattern::Assignment(a),
             PatOutput::Array(a) => Pattern::Array(a),
             PatOutput::Object(o) => Pattern::Object(o),
-            _ => panic!("illegal conversion: Cannot convert {:?} to Pattern", &pat),
+            _ => panic!("illegal conversion: Cannot convert {:?} to Pattern", pat),
         }
     }
 }
@@ -77,7 +74,7 @@ impl From<PatOutput> for LVal {
             PatOutput::Assign(a) => LVal::AssignmentPat(a),
             PatOutput::Expr(expr) => match *expr {
                 Expression::Member(e) => LVal::MemberExpr(e),
-                _ => panic!("illegal conversion: Cannot convert {:?} to LVal", &expr),
+                _ => panic!("illegal conversion: Cannot convert {:?} to LVal", expr),
             },
         }
     }
@@ -91,7 +88,7 @@ impl From<PatOutput> for PatternLike {
             PatOutput::Rest(r) => PatternLike::RestEl(r),
             PatOutput::Object(o) => PatternLike::ObjectPat(o),
             PatOutput::Assign(a) => PatternLike::AssignmentPat(a),
-            PatOutput::Expr(_) => panic!("illegal conversion: Cannot convert {:?} to LVal", &pat),
+            PatOutput::Expr(_) => panic!("illegal conversion: Cannot convert {:?} to LVal", pat),
         }
     }
 }
@@ -106,16 +103,16 @@ impl From<PatOutput> for AssignmentPatternLeft {
                 Expression::Member(e) => AssignmentPatternLeft::Member(e),
                 _ => panic!(
                     "illegal conversion: Cannot convert {:?} to AssignmentPatternLeft",
-                    &expr
+                    expr
                 ),
             },
             PatOutput::Rest(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to AssignmentPatternLeft",
-                &pat
+                pat
             ),
             PatOutput::Assign(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to AssignmentPatternLeft",
-                &pat
+                pat
             ),
         }
     }
@@ -142,7 +139,7 @@ impl From<PatOutput> for CatchClauseParam {
             PatOutput::Object(o) => CatchClauseParam::Object(o),
             _ => panic!(
                 "illegal conversion: Cannot convert {:?} to CatchClauseParam",
-                &pat
+                pat
             ),
         }
     }

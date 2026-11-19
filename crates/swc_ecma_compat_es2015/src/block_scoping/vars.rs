@@ -78,7 +78,8 @@ impl BlockScopedVars {
         self.scope.rename(parent, &mut rename_map, true);
         self.scope.rename(parent, &mut rename_map, false);
 
-        // No identifiers change when conflict analysis produces no replacements.
+        // No identifiers change when conflict analysis produces no
+        // replacements.
         if rename_map.is_empty() {
             return;
         }
@@ -222,8 +223,8 @@ impl Scope {
             //      var _a = 2;
             // }
             //
-            // We can avoid this by detecting variable names, but using different syntax
-            // context is much easier.
+            // We can avoid this by detecting variable names, but using
+            // different syntax context is much easier.
             let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
             rename_map.insert(id.clone(), (sym.into(), ctxt));

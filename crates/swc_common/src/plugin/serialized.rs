@@ -197,7 +197,8 @@ mod tests {
         let (ptr, len) = serialized.as_ptr();
 
         // SAFETY: `ptr` and `len` describe the initialized allocation owned by
-        // `serialized`, which remains alive until after `from_raw_ptr` copies it.
+        // `serialized`, which remains alive until after `from_raw_ptr` copies
+        // it.
         let copied = unsafe { PluginSerializedBytes::from_raw_ptr(ptr, len) };
         let value: u32 = copied
             .deserialize()

@@ -573,16 +573,19 @@ impl Pure<'_> {
         if &*method.sym == "toFixed" {
             // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
             //
-            // Note 1: This method returns a String containing this Number value represented
-            // in decimal fixed-point notation with fractionDigits digits after the decimal
-            // point. If fractionDigits is undefined, 0 is assumed.
+            // Note 1: This method returns a String containing this Number value
+            // represented in decimal fixed-point notation with fractionDigits
+            // digits after the decimal point. If fractionDigits is undefined, 0
+            // is assumed.
 
-            // Note 2: The output of toFixed may be more precise than toString for some
-            // values because toString only prints enough significant digits to distinguish
-            // the number from adjacent Number values. For example,
+            // Note 2: The output of toFixed may be more precise than toString
+            // for some values because toString only prints enough significant
+            // digits to distinguish the number from adjacent Number values. For
+            // example,
             //
-            // (1000000000000000128).toString() returns "1000000000000000100", while
-            // (1000000000000000128).toFixed(0) returns "1000000000000000128".
+            // (1000000000000000128).toString() returns "1000000000000000100",
+            // while (1000000000000000128).toFixed(0) returns
+            // "1000000000000000128".
 
             // 1. Let x be ? thisNumberValue(this value).
             // 2. Let f be ? ToIntegerOrInfinity(fractionDigits).
@@ -592,9 +595,9 @@ impl Pure<'_> {
             // 4. If f is not finite, throw a RangeError exception.
             // 5. If f < 0 or f > 100, throw a RangeError exception.
             let f = to_integer_or_infinity(precision);
-            // Note: ES2018 increased the maximum number of fraction digits from 20 to 100.
-            // Preserve the optimizer's existing conservative folding range. Wider valid
-            // values are left to runtime.
+            // Note: ES2018 increased the maximum number of fraction digits from
+            // 20 to 100. Preserve the optimizer's existing conservative folding
+            // range. Wider valid values are left to runtime.
             let Some(f) = to_u8_if_in_range(f, 0..=20) else {
                 return;
             };
@@ -646,8 +649,8 @@ impl Pure<'_> {
 
                 let value = if num.value.is_finite() {
                     // 5. If p < 1 or p > 100, throw a RangeError exception.
-                    // Preserve the optimizer's existing conservative folding range. Wider valid
-                    // values are left to runtime.
+                    // Preserve the optimizer's existing conservative folding
+                    // range. Wider valid values are left to runtime.
                     let Some(p) = to_u8_if_in_range(p, 1..=21) else {
                         return;
                     };
@@ -701,8 +704,8 @@ impl Pure<'_> {
 
                 let value = if num.value.is_finite() {
                     // 5. If f < 0 or f > 100, throw a RangeError exception.
-                    // Preserve the optimizer's existing conservative folding range. Wider valid
-                    // values are left to runtime.
+                    // Preserve the optimizer's existing conservative folding
+                    // range. Wider valid values are left to runtime.
                     let Some(p) = to_u8_if_in_range(p, 0..=20) else {
                         return;
                     };
@@ -1120,23 +1123,24 @@ fn f64_to_precision(value: f64, precision: usize) -> String {
     let mut m: String;
     let mut e: i32;
 
-    // 8. If x < 0, then a. Set s to the code unit 0x002D (HYPHEN-MINUS). b. Set x
-    //    to -x.
+    // 8. If x < 0, then a. Set s to the code unit 0x002D (HYPHEN-MINUS). b. Set
+    //    x to -x.
     if x < 0. {
         s.push('-');
         x = -x;
     }
 
-    // 9. If x = 0, then a. Let m be the String value consisting of p occurrences of
-    //    the code unit 0x0030 (DIGIT ZERO). b. Let e be 0.
+    // 9. If x = 0, then a. Let m be the String value consisting of p
+    //    occurrences of the code unit 0x0030 (DIGIT ZERO). b. Let e be 0.
     if x == 0.0 {
         m = "0".repeat(precision);
         e = 0;
     // 10
     } else {
-        // Use the exact decimal expansion of the binary float. A fixed-size decimal
-        // intermediate can round through an arbitrary carry chain before the requested
-        // precision is applied, which changes the result of `Number#toPrecision`.
+        // Use the exact decimal expansion of the binary float. A fixed-size
+        // decimal intermediate can round through an arbitrary carry chain
+        // before the requested precision is applied, which changes the result
+        // of `Number#toPrecision`.
         (m, e) = f64_to_decimal_digits(x);
         // impl: having exactly `precision` digits in `suffix`
         if round_to_precision(&mut m, precision) {

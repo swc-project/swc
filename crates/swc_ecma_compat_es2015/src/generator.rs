@@ -632,10 +632,12 @@ impl VisitMut for Generator {
                     }
                 }
                 if node.op != op!("=") {
-                    // Compound assignment: a.b += yield -> a.b = cache(a.b) + yield
-                    // Following TypeScript's visitRightAssociativeBinaryExpression
+                    // Compound assignment: a.b += yield -> a.b = cache(a.b) +
+                    // yield Following TypeScript's
+                    // visitRightAssociativeBinaryExpression
 
-                    // 1. Save target (the already-processed left, e.g., _._value)
+                    // 1. Save target (the already-processed left, e.g.,
+                    //    _._value)
                     let target = node.left.clone();
 
                     // 2. Cache target's value for right-side computation
@@ -1890,8 +1892,8 @@ impl Generator {
                 None,
             );
 
-            // Check if key still exists in object (handles property deletion during
-            // iteration)
+            // Check if key still exists in object (handles property deletion
+            // during iteration)
             self.emit_break_when_false(
                 increment_label,
                 Box::new(key.clone().make_bin(op!("in"), obj)),
@@ -2651,9 +2653,9 @@ impl Generator {
             if let Some(label_text) = label_text {
                 // For labeled break, only match LabeledBlocks.
                 // Unlike `continue`, we don't need to check Switch/Loop blocks
-                // because LabeledBlocks always have break_label, and the labeled
-                // break should exit to the LabeledBlock's end, not the inner
-                // Switch/Loop's end.
+                // because LabeledBlocks always have break_label, and the
+                // labeled break should exit to the LabeledBlock's end, not the
+                // inner Switch/Loop's end.
                 for block in block_stack.iter().rev() {
                     if self.supports_labeled_break_or_continue(&block.borrow())
                         && block.borrow().label_text().unwrap() == label_text
@@ -3015,8 +3017,8 @@ impl Generator {
             return true;
         }
 
-        // if there are no labels defined or referenced, then the final label is not
-        // reachable.
+        // if there are no labels defined or referenced, then the final label is
+        // not reachable.
         if self.label_offsets.is_none() || self.label_exprs.is_none() {
             return false;
         }

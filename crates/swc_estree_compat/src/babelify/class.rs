@@ -73,7 +73,7 @@ impl Babelify for ClassMember {
             ClassMember::TsIndexSignature(s) => ClassBodyEl::TSIndex(s.babelify(ctx)),
             ClassMember::Empty(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ClassBodyEl",
-                &self
+                self
             ),
             ClassMember::StaticBlock(s) => ClassBodyEl::StaticBlock(s.babelify(ctx)),
             ClassMember::AutoAccessor(..) => todo!("auto accessor"),

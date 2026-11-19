@@ -59,9 +59,10 @@ impl VisitMut for ClassNameTdzFolder<'_> {
                 call.callee.visit_mut_with(self);
 
                 for (idx, arg) in call.args.iter_mut().enumerate() {
-                    // Static-private helper's second argument is the class reference.
-                    // Rewriting it with class_name_tdz_error breaks delayed private access
-                    // that should resolve after class initialization.
+                    // Static-private helper's second argument is the class
+                    // reference. Rewriting it with class_name_tdz_error breaks
+                    // delayed private access that should resolve after class
+                    // initialization.
                     if is_static_private_helper && idx == 1 {
                         continue;
                     }

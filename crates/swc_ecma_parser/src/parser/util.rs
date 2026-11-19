@@ -104,12 +104,7 @@ pub trait ExprExt {
     /// "IsValidSimpleAssignmentTarget" from spec.
     fn is_valid_simple_assignment_target(&self, strict: bool) -> bool {
         match self.as_expr() {
-            Expr::Ident(ident) => {
-                if strict && ident.is_reserved_in_strict_bind() {
-                    return false;
-                }
-                true
-            }
+            Expr::Ident(ident) => !(strict && ident.is_reserved_in_strict_bind()),
 
             Expr::This(..)
             | Expr::Lit(..)

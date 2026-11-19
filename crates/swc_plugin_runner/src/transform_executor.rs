@@ -73,8 +73,8 @@ impl PluginTransformState {
         self.instance.cleanup()?;
 
         // Construct serialized struct from raw bytes.
-        // Since we have finished transformation, it's safe to fetch the data from
-        // Arc<Mutex<T>>
+        // Since we have finished transformation, it's safe to fetch the data
+        // from Arc<Mutex<T>>
         drop(self.instance);
         let transformed_result = Arc::try_unwrap(self.transform_result)
             .map_err(|_| {
@@ -183,8 +183,8 @@ impl TransformExecutor {
         }
     }
 
-    // Import, export, and create memory for the plugin to communicate between host
-    // and guest then acquire necessary exports from the plugin.
+    // Import, export, and create memory for the plugin to communicate between
+    // host and guest then acquire necessary exports from the plugin.
     fn setup_plugin_env_exports(&mut self) -> Result<PluginTransformState, Error> {
         // First, compile plugin module bytes into wasmer::Module and get the
         // corresponding store

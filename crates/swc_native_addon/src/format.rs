@@ -235,8 +235,9 @@ impl<'a> Payload<'a> {
             ));
         }
         let compressed = &bytes[HEADER_LEN..];
-        // Reject skippable frames, concatenated frames, and trailing bytes before
-        // consulting the cache. find_frame_compressed_size does not decompress.
+        // Reject skippable frames, concatenated frames, and trailing bytes
+        // before consulting the cache. find_frame_compressed_size does not
+        // decompress.
         if !compressed.starts_with(&[0x28, 0xb5, 0x2f, 0xfd]) {
             return Err(invalid("payload is not an ordinary zstd frame"));
         }
@@ -359,8 +360,9 @@ impl<'a> Payload<'a> {
             .map_err(|e| Error::io(ErrorKind::Compression, "initialize zstd decoder", e))?
             .single_frame();
         // A small claimed output must not allocate a maliciously large window.
-        // Also check the descriptor above: zstd's direct-output optimization can
-        // bypass its configured window limit when the entire output fits at once.
+        // Also check the descriptor above: zstd's direct-output optimization
+        // can bypass its configured window limit when the entire output fits at
+        // once.
         decoder
             .window_log_max(window_log)
             .map_err(|e| Error::io(ErrorKind::Compression, "limit zstd window", e))?;

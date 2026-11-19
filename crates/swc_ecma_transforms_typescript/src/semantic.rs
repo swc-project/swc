@@ -120,7 +120,8 @@ pub(crate) fn analyze_program(
                     )
                 });
             // Substitute while original declaration order and execution regions
-            // are intact. Later erasure/lowering never reconstructs use positions.
+            // are intact. Later erasure/lowering never reconstructs use
+            // positions.
             let runtime_usage = usage::analyze(
                 program,
                 &info.bindings,

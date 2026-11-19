@@ -215,8 +215,8 @@ impl Swcify for TSExpressionWithTypeArguments {
     type Output = TsExprWithTypeArgs;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        // The reason why we have special logic for converting `TSEntityName` here,
-        // instead of updating or using logic of `TSEntityName`,
+        // The reason why we have special logic for converting `TSEntityName`
+        // here, instead of updating or using logic of `TSEntityName`,
         // is that `TSEntityName` can be used somewhere,
         // if we change its conversion logic, it will break.
         fn swcify_expr(expr: TSEntityName, ctx: &Context) -> Box<Expr> {

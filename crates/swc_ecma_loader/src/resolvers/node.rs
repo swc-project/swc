@@ -201,15 +201,15 @@ impl NodeModulesResolver {
                 }
             }
 
-            // TypeScript-specific behavior: if the extension is ".js" or ".jsx",
-            // try replacing it with ".ts" or ".tsx".
+            // TypeScript-specific behavior: if the extension is ".js" or
+            // ".jsx", try replacing it with ".ts" or ".tsx".
             ext_path.set_file_name(name.into_owned());
             let old_ext = path.extension().and_then(|ext| ext.to_str());
 
             if let Some(old_ext) = old_ext {
                 let extensions: &[&str] = match old_ext {
-                    // Note that the official compiler code always tries ".ts" before
-                    // ".tsx" even if the original extension was ".jsx".
+                    // Note that the official compiler code always tries ".ts"
+                    // before ".tsx" even if the original extension was ".jsx".
                     "js" => &["ts", "tsx"],
                     "jsx" => &["ts", "tsx"],
                     "mjs" => &["mts"],
@@ -316,7 +316,8 @@ impl NodeModulesResolver {
                                 let target_key = Path::new(k);
                                 let mut components = target_key.components();
 
-                                // Relative file paths are sources for this package
+                                // Relative file paths are sources for this
+                                // package
                                 let source = if let Some(Component::CurDir) = components.next() {
                                     let path = pkg_dir.join(k);
                                     if let Ok(file) = self
@@ -352,8 +353,9 @@ impl NodeModulesResolver {
                                         }
                                     }
                                     StringOrBool::Bool(flag) => {
-                                        // If somebody set boolean `true` which is an
-                                        // invalid value we will just ignore it
+                                        // If somebody set boolean `true` which
+                                        // is an invalid value we will just
+                                        // ignore it
                                         if !flag {
                                             if let Some(source) = source {
                                                 bucket.ignores.insert(source);

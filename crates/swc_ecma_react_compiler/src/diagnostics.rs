@@ -139,8 +139,9 @@ fn error_detail_to_diagnostic(
         format!("[ReactCompiler] {}: {}", detail.category, detail.reason)
     };
 
-    // This is React Compiler's display severity for the diagnostic detail. Fatal
-    // transform errors are represented separately by `CompileResult::Error`.
+    // This is React Compiler's display severity for the diagnostic detail.
+    // Fatal transform errors are represented separately by
+    // `CompileResult::Error`.
     let severity = match detail.severity.as_str() {
         "Off" => return None,
         "Error" if suppress_error_diagnostics => return None,

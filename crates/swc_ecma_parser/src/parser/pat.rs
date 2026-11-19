@@ -414,13 +414,20 @@ impl<I: Tokens> Parser<I> {
                                             Pat::Invalid(Invalid { span })
                                         }
                                     } else if is_array_or_object_literal_rest_target(&expr) {
-                                        // Per ECMA-262 13.15.5.1, AssignmentRestProperty's
-                                        // DestructuringAssignmentTarget may not be an
-                                        // ArrayLiteral or ObjectLiteral.  Parenthesized forms
-                                        // are rejected too, matching V8 / SpiderMonkey behavior.
-                                        // Other shapes (member access, optional chain, calls)
-                                        // are syntactically valid per spec and either reparse
-                                        // successfully or throw at runtime.  Closes #11543.
+                                        // Per ECMA-262 13.15.5.1,
+                                        // AssignmentRestProperty's
+                                        // DestructuringAssignmentTarget may not
+                                        // be an
+                                        // ArrayLiteral or ObjectLiteral.
+                                        // Parenthesized forms
+                                        // are rejected too, matching V8 /
+                                        // SpiderMonkey behavior.
+                                        // Other shapes (member access, optional
+                                        // chain, calls)
+                                        // are syntactically valid per spec and
+                                        // either reparse
+                                        // successfully or throw at runtime.
+                                        // Closes #11543.
                                         self.emit_err(span, SyntaxError::NotSimpleAssign);
                                         Pat::Invalid(Invalid { span })
                                     } else {
@@ -450,8 +457,9 @@ impl<I: Tokens> Parser<I> {
             Expr::Array(ArrayLit { elems: exprs, .. }) => {
                 let len = exprs.len();
                 let mut params = Vec::with_capacity(len);
-                // Array literals do not store a trailing comma as an element. Every `None`,
-                // including a trailing one, is an elision that advances the iterator in both
+                // Array literals do not store a trailing comma as an element.
+                // Every `None`, including a trailing one, is an
+                // elision that advances the iterator in both
                 // binding and assignment patterns.
                 for (idx, expr) in exprs.into_iter().enumerate() {
                     let pat = match expr {
@@ -989,7 +997,8 @@ impl<I: Tokens> Parser<I> {
 
             if !self.input().is(Token::RParen) {
                 expect!(self, Token::Comma);
-                // Ambient TypeScript signatures allow a trailing comma after rest.
+                // Ambient TypeScript signatures allow a trailing comma after
+                // rest.
                 if current_rest.is_some()
                     && self.input().is(Token::RParen)
                     && (!self.type_ctx().contains(TypeContext::InDeclare) || self.syntax().flow())

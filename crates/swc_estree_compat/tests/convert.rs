@@ -4,11 +4,11 @@ extern crate test;
 use std::{
     env, fs,
     path::{Path, PathBuf},
+    process::ExitCode,
     sync::Arc,
 };
 
 use anyhow::{Context as AnyhowContext, Error};
-use copyless::BoxHelper;
 use pretty_assertions::assert_eq;
 use serde_json::{Number, Value};
 use swc::{config::IsModule, Compiler};
@@ -58,9 +58,9 @@ fn fixtures() -> Result<(), Error> {
             &js_path
         };
         let input = fs::read_to_string(input_path)
-            .with_context(|| format!("Failed to open file: {}", &js_path.to_string_lossy()))?;
+            .with_context(|| format!("Failed to open file: {}", js_path.to_string_lossy()))?;
         let output = fs::read_to_string(&output_path)
-            .with_context(|| format!("Failed to open file: {}", &output_path.to_string_lossy()))?;
+            .with_context(|| format!("Failed to open file: {}", output_path.to_string_lossy()))?;
 
         tests.push(TestDescAndFn {
             desc: TestDesc {
@@ -80,7 +80,7 @@ fn fixtures() -> Result<(), Error> {
                 end_line: 0,
                 end_col: 0,
             },
-            testfn: DynTestFn(Box::alloc().init(move || {
+            testfn: DynTestFn(Arc::new(move || {
                 GLOBALS.set(&Default::default(), || {
                     let syntax = if is_typescript {
                         Syntax::Typescript(Default::default())
@@ -92,7 +92,7 @@ fn fixtures() -> Result<(), Error> {
                     } else {
                         Syntax::Es(Default::default())
                     };
-                    run_test(input, output, syntax, is_module);
+                    run_test(input.clone(), output.clone(), syntax, is_module);
 
                     Ok(())
                 })
@@ -100,10 +100,10 @@ fn fixtures() -> Result<(), Error> {
         })
     }
 
-    test_main(
-        &env::args().collect::<Vec<_>>(),
-        tests,
-        Some(test::Options::new()),
+    let tests = tests.iter().collect::<Vec<_>>();
+    assert_eq!(
+        test_main(&env::args().collect::<Vec<_>>(), &tests),
+        ExitCode::SUCCESS
     );
 
     Ok(())

@@ -17,7 +17,8 @@ fn fixture(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/template-raw/*.ts")]
 fn missing_cooked(input: PathBuf) {
-    // The same declarations must be emitted for parsed and synthesized templates.
+    // The same declarations must be emitted for parsed and synthesized
+    // templates.
     run_fixture(input, true);
 }
 

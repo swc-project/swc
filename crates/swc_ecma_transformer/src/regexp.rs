@@ -507,28 +507,29 @@ impl RegexpPass {
             return None;
         }
 
-        let mut ast =
-            match LiteralParser::new(pattern, Some(flags), RegexpOptions::default()).parse() {
-                Ok(ast) => ast,
-                Err(err) => {
-                    debug!(%pattern, %flags, ?err, "cannot parse a regex to lower its syntax");
-                    // A `v` flag is lowered only after parsing, so a pattern that
-                    // the parser rejects (for example a script name that it does
-                    // not know) keeps the `v` flag.
-                    if lower_unicode_sets {
-                        self.warn(span, "the `v` flag", "the pattern cannot be parsed");
-                    } else {
-                        // The text check for modifier groups can report a false
-                        // positive, so do not claim that the pattern has one.
-                        self.warn(
-                            span,
-                            "possible regexp modifiers",
-                            "the pattern cannot be parsed",
-                        );
-                    }
-                    return None;
+        let mut ast = match LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+            .parse()
+        {
+            Ok(ast) => ast,
+            Err(err) => {
+                debug!(%pattern, %flags, ?err, "cannot parse a regex to lower its syntax");
+                // A `v` flag is lowered only after parsing, so a pattern that
+                // the parser rejects (for example a script name that it does
+                // not know) keeps the `v` flag.
+                if lower_unicode_sets {
+                    self.warn(span, "the `v` flag", "the pattern cannot be parsed");
+                } else {
+                    // The text check for modifier groups can report a false
+                    // positive, so do not claim that the pattern has one.
+                    self.warn(
+                        span,
+                        "possible regexp modifiers",
+                        "the pattern cannot be parsed",
+                    );
                 }
-            };
+                return None;
+            }
+        };
         // `may_have_modifiers` can report a false positive, such as `\(?i:`.
         // Confirm it on the AST, so that a supported `v` flag is not lowered
         // for nothing.
@@ -595,8 +596,8 @@ impl RegexpPass {
     /// Transform the regex pattern if it contains unicode property escapes.
     /// Returns the transformed pattern string.
     fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
-        // Only transform if unicode_property_regex is enabled and pattern contains
-        // \p{ or \P{
+        // Only transform if unicode_property_regex is enabled and pattern
+        // contains \p{ or \P{
         if !self.options.unicode_property_regex {
             return None;
         }
@@ -795,26 +796,27 @@ impl RegexpPass {
         flags: &str,
         keep_spelling: bool,
     ) -> NamedGroups {
-        let mut ast =
-            match LiteralParser::new(pattern, Some(flags), RegexpOptions::default()).parse() {
-                Ok(ast) => ast,
-                Err(_) => {
-                    // A pattern that the parser rejects can still be valid on newer
-                    // engines. Report it if it seems to reuse a group name.
-                    if self.options.duplicate_named_capturing_groups_regex
-                        && has_repeated_group_name(pattern)
-                    {
-                        self.warn(
-                            span,
-                            "possible duplicate named capturing groups",
-                            "the pattern cannot be parsed: it is invalid, or it uses syntax that \
-                             the parser does not know",
-                        );
-                        return NamedGroups::Kept;
-                    }
-                    return NamedGroups::NotLowered;
+        let mut ast = match LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+            .parse()
+        {
+            Ok(ast) => ast,
+            Err(_) => {
+                // A pattern that the parser rejects can still be valid on newer
+                // engines. Report it if it seems to reuse a group name.
+                if self.options.duplicate_named_capturing_groups_regex
+                    && has_repeated_group_name(pattern)
+                {
+                    self.warn(
+                        span,
+                        "possible duplicate named capturing groups",
+                        "the pattern cannot be parsed: it is invalid, or it uses syntax that the \
+                         parser does not know",
+                    );
+                    return NamedGroups::Kept;
                 }
-            };
+                return NamedGroups::NotLowered;
+            }
+        };
 
         // First pass: collect all named capturing groups and their indices
         let mut mapping = Vec::new();
@@ -1126,7 +1128,8 @@ impl RegexpPass {
                     }
                 }
 
-                // Non-named-group transforms (or named group extraction failed).
+                // Non-named-group transforms (or named group extraction
+                // failed).
                 if named_groups_kept || self.needs_regexp_constructor(&regex.exp, &regex.flags) {
                     let Regex { exp, flags, span } = regex.take();
 

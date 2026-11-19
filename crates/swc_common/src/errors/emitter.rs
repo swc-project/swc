@@ -66,8 +66,8 @@ impl Emitter for EmitterWriter {
             {
                 let substitution = &sugg.substitutions[0].parts[0].snippet.trim();
                 let msg = if substitution.is_empty() || !sugg.show_code_when_inline {
-                    // This substitution is only removal or we explicitly don't want to show the
-                    // code inline, don't show it
+                    // This substitution is only removal or we explicitly don't
+                    // want to show the code inline, don't show it
                     format!("help: {}", sugg.msg)
                 } else {
                     format!("help: {}: `{}`", sugg.msg, substitution)
@@ -305,8 +305,8 @@ impl EmitterWriter {
             let ann = item.1;
             for item in multiline_annotations.iter_mut() {
                 let a = &mut item.1;
-                // Move all other multiline annotations overlapping with this one
-                // one level to the right.
+                // Move all other multiline annotations overlapping with this
+                // one one level to the right.
                 if &ann != a
                     && num_overlap(ann.line_start, ann.line_end, a.line_start, a.line_end, true)
                 {
@@ -371,9 +371,9 @@ impl EmitterWriter {
 
         draw_col_separator(buffer, line_offset, width_offset - 2);
 
-        // Special case when there's only one annotation involved, it is the start of a
-        // multiline span and there's no text at the beginning of the code line.
-        // Instead of doing the whole graph:
+        // Special case when there's only one annotation involved, it is the
+        // start of a multiline span and there's no text at the beginning of the
+        // code line. Instead of doing the whole graph:
         //
         // 2 |   fn foo() {
         //   |  _^
@@ -637,8 +637,8 @@ impl EmitterWriter {
             }
         }
 
-        // Write the vertical lines for labels that are on a different line as the
-        // underline.
+        // Write the vertical lines for labels that are on a different line as
+        // the underline.
         //
         // After this we will have:
         //
@@ -803,7 +803,8 @@ impl EmitterWriter {
             let mut before_after: Vec<(Span, Span)> = Vec::new();
             let new_labels: Vec<(Span, String)> = Vec::new();
 
-            // First, find all the spans in <*macros> and point instead at their use site
+            // First, find all the spans in <*macros> and point instead at their
+            // use site
             for sp in span.primary_spans() {
                 if sp.is_dummy() {
                     continue;
@@ -821,8 +822,8 @@ impl EmitterWriter {
                     continue;
                 }
             }
-            // After we have them, make sure we replace these 'bad' def sites with their use
-            // sites
+            // After we have them, make sure we replace these 'bad' def sites
+            // with their use sites
             for (before, after) in before_after {
                 span.replace(before, after);
                 spans_updated = true;
@@ -832,8 +833,8 @@ impl EmitterWriter {
         spans_updated
     }
 
-    // This does a small "fix" for multispans by looking to see if it can find any
-    // that point directly at <*macros>. Since these are often difficult to
+    // This does a small "fix" for multispans by looking to see if it can find
+    // any that point directly at <*macros>. Since these are often difficult to
     // read, this will change the span to point at the use site.
     fn fix_multispans_in_std_macros(
         &mut self,
@@ -870,7 +871,8 @@ impl EmitterWriter {
         label: &str,
         override_style: Option<Style>,
     ) {
-        // The extra 5 ` ` is padding that's always needed to align to the `note: `:
+        // The extra 5 ` ` is padding that's always needed to align to the
+        // `note: `:
         //
         //   error: message
         //     --> file.rs:13:20
@@ -903,8 +905,8 @@ impl EmitterWriter {
         //
         //     let msg = vec![
         //       ("
-        //       ("highlighted multiline\nstring to\nsee how it ", Style::NoStyle),
-        //       ("looks", Style::Highlight),
+        //       ("highlighted multiline\nstring to\nsee how it ",
+        // Style::NoStyle),       ("looks", Style::Highlight),
         //       ("with\nvery ", Style::NoStyle),
         //       ("weird", Style::Highlight),
         //       (" formats\n", Style::NoStyle),
@@ -986,8 +988,8 @@ impl EmitterWriter {
             }
         }
 
-        // Preprocess all the annotations so that they are grouped by file and by line
-        // number This helps us quickly iterate over the whole message
+        // Preprocess all the annotations so that they are grouped by file and
+        // by line number This helps us quickly iterate over the whole message
         // (including secondary file spans)
         let mut annotated_files = self.preprocess_annotations(msp);
 
@@ -1014,13 +1016,15 @@ impl EmitterWriter {
 
         // Print out the annotate source lines that correspond with the error
         for annotated_file in annotated_files {
-            // print out the span location and spacer before we print the annotated source
-            // to do this, we need to know if this span will be primary
+            // print out the span location and spacer before we print the
+            // annotated source to do this, we need to know if this span will be
+            // primary
             let is_primary = primary_lo.file.name == annotated_file.file.name;
             if is_primary {
                 let loc = primary_lo.clone();
                 if !self.short_message {
-                    // remember where we are in the output buffer for easy reference
+                    // remember where we are in the output buffer for easy
+                    // reference
                     let buffer_msg_line_offset = buffer.num_lines();
 
                     if !self.skip_filename {
@@ -1092,7 +1096,8 @@ impl EmitterWriter {
                     max_line_num_len + 1,
                 );
 
-                // Contains the vertical lines' positions for active multiline annotations
+                // Contains the vertical lines' positions for active multiline
+                // annotations
                 let mut multilines = HashMap::<_, _>::default();
 
                 // Next, output the annotate source for this file
@@ -1124,15 +1129,15 @@ impl EmitterWriter {
                         }
                     }
 
-                    // Set the multiline annotation vertical lines to the left of
-                    // the code in this line.
+                    // Set the multiline annotation vertical lines to the left
+                    // of the code in this line.
                     for (depth, style) in &multilines {
                         for line in previous_buffer_line..buffer.num_lines() {
                             draw_multiline_line(&mut buffer, line, width_offset, *depth, *style);
                         }
                     }
-                    // check to see if we need to print out or elide lines that come between
-                    // this annotated line and the next one.
+                    // check to see if we need to print out or elide lines that
+                    // come between this annotated line and the next one.
                     if line_idx < (annotated_file.lines.len() - 1) {
                         let line_idx_delta = annotated_file.lines[line_idx + 1].line_index
                             - annotated_file.lines[line_idx].line_index;
@@ -1140,7 +1145,8 @@ impl EmitterWriter {
                             let last_buffer_line_num = buffer.num_lines();
                             buffer.puts(last_buffer_line_num, 0, "...", Style::LineNumber);
 
-                            // Set the multiline annotation vertical lines on `...` bridging line.
+                            // Set the multiline annotation vertical lines on
+                            // `...` bridging line.
                             for (depth, style) in &multilines {
                                 draw_multiline_line(
                                     &mut buffer,
@@ -1229,9 +1235,10 @@ impl EmitterWriter {
 
             let mut row_num = 2;
             for (complete, parts) in suggestions.iter().take(MAX_SUGGESTIONS) {
-                // Only show underline if the suggestion spans a single line and doesn't cover
-                // the entirety of the code output. If you have multiple
-                // replacements in the same line of code, show the underline.
+                // Only show underline if the suggestion spans a single line and
+                // doesn't cover the entirety of the code output. If you have
+                // multiple replacements in the same line of code, show the
+                // underline.
                 let show_underline = !(parts.len() == 1
                     && parts[0].snippet.trim() == complete.trim())
                     && complete.lines().count() == 1;
@@ -1257,11 +1264,12 @@ impl EmitterWriter {
                     row_num += 1;
                 }
 
-                // This offset and the ones below need to be signed to account for replacement
-                // code that is shorter than the original code.
+                // This offset and the ones below need to be signed to account
+                // for replacement code that is shorter than the original code.
                 let mut offset: isize = 0;
-                // Only show an underline in the suggestions if the suggestion is not the
-                // entirety of the code being shown and the displayed code is not multiline.
+                // Only show an underline in the suggestions if the suggestion
+                // is not the entirety of the code being shown and the displayed
+                // code is not multiline.
                 if show_underline {
                     draw_col_separator(&mut buffer, row_num, max_line_num_len + 1);
                     for part in parts {
@@ -1273,8 +1281,8 @@ impl EmitterWriter {
                             .snippet
                             .len()
                             .saturating_sub(part.snippet.trim_start().len());
-                        // ...or trailing spaces. Account for substitutions containing unicode
-                        // characters.
+                        // ...or trailing spaces. Account for substitutions
+                        // containing unicode characters.
                         let sub_len = part.snippet.trim().chars().fold(0, |acc, ch| {
                             acc + unicode_width::UnicodeWidthChar::width(ch).unwrap_or(0)
                         });
@@ -1308,8 +1316,8 @@ impl EmitterWriter {
 
                         // length of the code to be substituted
                         let snippet_len = span_end_pos as isize - span_start_pos as isize;
-                        // For multiple substitutions, use the position *after* the previous
-                        // substitutions have happened.
+                        // For multiple substitutions, use the position *after*
+                        // the previous substitutions have happened.
                         offset += full_sub_len - snippet_len;
                     }
                     row_num += 1;
@@ -1475,20 +1483,20 @@ fn emit_to_destination(
 
     let mut dst = dst.writable();
 
-    // In order to prevent error message interleaving, where multiple error lines
-    // get intermixed when multiple compiler processes error simultaneously, we
-    // emit errors with additional steps.
+    // In order to prevent error message interleaving, where multiple error
+    // lines get intermixed when multiple compiler processes error
+    // simultaneously, we emit errors with additional steps.
     //
-    // On Unix systems, we write into a buffered terminal rather than directly to a
-    // terminal. When the .flush() is called we take the buffer created from the
-    // buffered writes and write it at one shot.  Because the Unix systems use
-    // ANSI for the colors, which is a text-based styling scheme, this buffered
-    // approach works and maintains the styling.
+    // On Unix systems, we write into a buffered terminal rather than directly
+    // to a terminal. When the .flush() is called we take the buffer created
+    // from the buffered writes and write it at one shot.  Because the Unix
+    // systems use ANSI for the colors, which is a text-based styling scheme,
+    // this buffered approach works and maintains the styling.
     //
-    // On Windows, styling happens through calls to a terminal API. This prevents us
-    // from using the same buffering approach.  Instead, we use a global Windows
-    // mutex, which we acquire long enough to output the full error message,
-    // then we release.
+    // On Windows, styling happens through calls to a terminal API. This
+    // prevents us from using the same buffering approach.  Instead, we use a
+    // global Windows mutex, which we acquire long enough to output the full
+    // error message, then we release.
     let _buffer_lock = lock::acquire_global_lock("rustc_errors");
     for (pos, line) in rendered_buffer.iter().enumerate() {
         for part in line {

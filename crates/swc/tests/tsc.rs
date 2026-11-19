@@ -361,7 +361,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                 let mut vary_name = Vec::new();
 
                 if modules.len() > 1 {
-                    vary_name.push(format!("module={}", &module));
+                    vary_name.push(format!("module={}", module));
                 }
 
                 if targets.len() > 1 {

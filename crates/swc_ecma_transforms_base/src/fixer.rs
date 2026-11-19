@@ -269,7 +269,8 @@ impl VisitMut for Fixer<'_> {
                         Ok(target) => *n = target,
                         // Parser recovery can retain expressions that have no
                         // assignment-target variant. Keep their wrapper so
-                        // the recovered expression is neither lost nor invalidated.
+                        // the recovered expression is neither lost nor
+                        // invalidated.
                         Err(expr) => s.expr = expr,
                     }
                 }
@@ -613,10 +614,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
-        // `("use strict");` is an expression statement, but without the parentheses
-        // it is a directive, and no later pass could tell the two apart. Keep one
-        // pair, also in `paren_remover` and outside of a directive prologue, because
-        // later passes can move the statement into one.
+        // `("use strict");` is an expression statement, but without the
+        // parentheses it is a directive, and no later pass could tell the two
+        // apart. Keep one pair, also in `paren_remover` and outside of a
+        // directive prologue, because later passes can move the statement into
+        // one.
         if let Expr::Paren(ParenExpr { expr, .. }) = &mut *s.expr {
             if let Expr::Lit(Lit::Str(..)) = expr.unwrap_parens() {
                 self.unwrap_expr(expr);
@@ -1123,13 +1125,14 @@ impl Fixer<'_> {
         match e {
             Expr::Bin(BinExpr { op: op!("in"), .. }) if self.in_for_stmt_head => {
                 // TODO:
-                // if the in expression is in a parentheses, we should not wrap it with a
-                // parentheses again. But the parentheses is added later,
-                // so we don't have enough information to detect it at this moment.
-                // Example:
+                // if the in expression is in a parentheses, we should not wrap
+                // it with a parentheses again. But the parentheses is added
+                // later, so we don't have enough information to detect it at
+                // this moment. Example:
                 // for(var a = 1 + (2 || b in c) in {});
                 //                 |~~~~~~~~~~~|
-                // this parentheses is removed by unwrap_expr and added again later
+                // this parentheses is removed by unwrap_expr and added again
+                // later
                 self.wrap(e);
             }
 
@@ -1232,7 +1235,8 @@ impl Fixer<'_> {
                                 callee: Callee::Expr(callee_expr),
                                 ..
                             }) if callee_expr.is_fn_expr() => self.wrap(callee_expr),
-                            // Also handle when the call is inside a binary expression
+                            // Also handle when the call is inside a binary
+                            // expression
                             Expr::Bin(BinExpr { left, .. }) => {
                                 if let Expr::Call(CallExpr {
                                     callee: Callee::Expr(callee_expr),

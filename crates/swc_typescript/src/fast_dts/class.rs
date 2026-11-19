@@ -353,7 +353,8 @@ impl FastDts {
                 (binding_ident.optional, &mut binding_ident.type_ann)
             }
             TsParamPropParam::Assign(assign_pat) => {
-                // Capture whether there was an explicit '?' on the left pattern.
+                // Capture whether there was an explicit '?' on the left
+                // pattern.
                 let is_optional = match assign_pat.left.as_ref() {
                     Pat::Ident(ident) => ident.optional,
                     Pat::Array(array_pat) => array_pat.optional,

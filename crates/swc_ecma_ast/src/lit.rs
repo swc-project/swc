@@ -276,8 +276,9 @@ impl Str {
                                         );
                                         break;
                                     };
-                                    // Saturation keeps arbitrarily long invalid escapes from
-                                    // overflowing while allowing leading zeroes in valid ones.
+                                    // Saturation keeps arbitrarily long invalid
+                                    // escapes from overflowing while allowing
+                                    // leading zeroes in valid ones.
                                     result = result.saturating_mul(16).saturating_add(digit);
                                     count += 1;
                                     if !braced && count == digits {
@@ -291,8 +292,9 @@ impl Str {
                                     );
                                 }
                                 if let Some(code_point) = CodePoint::from_u32(result) {
-                                    // Wtf8Buf joins adjacent surrogate pairs and preserves
-                                    // unpaired surrogates without lookahead or buffering.
+                                    // Wtf8Buf joins adjacent surrogate pairs
+                                    // and preserves unpaired surrogates without
+                                    // lookahead or buffering.
                                     buf.push(code_point);
                                 } else {
                                     emit_span_error(
@@ -311,7 +313,8 @@ impl Str {
                                                 continue;
                                             }
                                         }
-                                        // \0 is not an octal literal nor decimal literal.
+                                        // \0 is not an octal literal nor
+                                        // decimal literal.
                                         _ => {
                                             buf.push_char('\u{0000}');
                                             continue;

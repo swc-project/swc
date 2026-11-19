@@ -82,8 +82,8 @@ macro_rules! byte_search {
     ) => {{
         $table.use_table();
         loop {
-            // Open a new scope so the immutable borrow (slice/bytes) ends before we
-            // call `bump_bytes`, which requires `&mut`.
+            // Open a new scope so the immutable borrow (slice/bytes) ends
+            // before we call `bump_bytes`, which requires `&mut`.
             let (found_idx, $byte) = {
                 let slice = $lexer.input().as_str();
                 if slice.is_empty() {

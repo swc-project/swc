@@ -67,7 +67,8 @@ where
 
     let allocated_bytes_ptr = allocated_bytes_ptr.into_inner();
 
-    // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated bytes
+    // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated
+    // bytes
     Some(AllocatedBytesPtr(
         allocated_bytes_ptr[0],
         allocated_bytes_ptr[1],
@@ -101,9 +102,9 @@ where
         // SAFETY: On a successful return, the host ABI allocated
         // `allocated_returned_value_ptr.1` bytes in guest memory through
         // `__alloc`, initialized all of them with the serialized result, and
-        // returned the allocation's non-null pointer. `allocated_returned_value_ptr`
-        // owns that allocation until this closure returns, so it remains readable
-        // for the duration of the copy.
+        // returned the allocation's non-null pointer.
+        // `allocated_returned_value_ptr` owns that allocation until this
+        // closure returns, so it remains readable for the duration of the copy.
         let serialized = unsafe {
             PluginSerializedBytes::from_raw_ptr(
                 allocated_returned_value_ptr.0 as _,

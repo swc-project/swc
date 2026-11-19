@@ -82,7 +82,8 @@ impl VisitMutHook<TraverseCtx> for ReservedWordHook {
         }
     }
 
-    // Handle import specifiers specially - set imported before the ident is visited
+    // Handle import specifiers specially - set imported before the ident is
+    // visited
     fn enter_import_named_specifier(
         &mut self,
         s: &mut ImportNamedSpecifier,
@@ -104,7 +105,8 @@ impl VisitMutHook<TraverseCtx> for ReservedWordHook {
         ctx.es3.skip_imported = false;
     }
 
-    // Handle export specifiers specially - set exported before the ident is visited
+    // Handle export specifiers specially - set exported before the ident is
+    // visited
     fn enter_export_named_specifier(
         &mut self,
         n: &mut ExportNamedSpecifier,
@@ -130,8 +132,8 @@ impl VisitMutHook<TraverseCtx> for ReservedWordHook {
             n.exported = Some(n.orig.clone());
         }
 
-        // If either orig or exported contains a reserved word, we need to skip the
-        // exported field
+        // If either orig or exported contains a reserved word, we need to skip
+        // the exported field
         if orig_is_reserved || exported_is_reserved {
             ctx.es3.in_reserved_export_specifier = true;
             ctx.es3.export_specifier_module_export_name_count = 0;
@@ -148,8 +150,8 @@ impl VisitMutHook<TraverseCtx> for ReservedWordHook {
         ctx.es3.export_specifier_module_export_name_count = 0;
     }
 
-    // Track ModuleExportName visits within export specifiers to skip the second one
-    // (exported)
+    // Track ModuleExportName visits within export specifiers to skip the second
+    // one (exported)
     fn enter_module_export_name(&mut self, _n: &mut ModuleExportName, ctx: &mut TraverseCtx) {
         // Handle import specifiers - skip the imported field
         if ctx.es3.skip_imported {
@@ -157,7 +159,8 @@ impl VisitMutHook<TraverseCtx> for ReservedWordHook {
             return;
         }
 
-        // Handle export specifiers - skip the second ModuleExportName (exported)
+        // Handle export specifiers - skip the second ModuleExportName
+        // (exported)
         if ctx.es3.in_reserved_export_specifier {
             ctx.es3.export_specifier_module_export_name_count += 1;
             // The second ModuleExportName is the exported field - skip it
@@ -216,7 +219,8 @@ impl VisitMutHook<TraverseCtx> for ReservedWordHook {
                     };
 
                     if ident.is_reserved_in_es3() {
-                        // Take the declaration out and make it a regular statement
+                        // Take the declaration out and make it a regular
+                        // statement
                         let new_decl = decl.take();
                         *module_item = new_decl.into();
 
@@ -224,7 +228,8 @@ impl VisitMutHook<TraverseCtx> for ReservedWordHook {
                         let mut orig = ident.clone();
                         rename_reserved_ident(&mut orig, self.preserve_import);
 
-                        // Add an export with the original name as the exported name
+                        // Add an export with the original name as the exported
+                        // name
                         extra_exports.push(
                             ExportNamedSpecifier {
                                 span: DUMMY_SP,

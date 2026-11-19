@@ -151,8 +151,8 @@ pub fn parse_ident<'a>(
     let t = token_and_span.token();
 
     // Spec:
-    // It is a Syntax Error if this phrase is contained in strict mode code and the
-    // StringValue of IdentifierName is: "implements", "interface", "let",
+    // It is a Syntax Error if this phrase is contained in strict mode code and
+    // the StringValue of IdentifierName is: "implements", "interface", "let",
     // "package", "private", "protected", "public", "static", or "yield".
     if t.is_enum() {
         let word = p.input_mut().expect_word_token_and_bump();

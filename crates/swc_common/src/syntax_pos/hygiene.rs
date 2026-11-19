@@ -117,8 +117,8 @@ extern "C" {
     fn __syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u32;
     fn __syntax_context_outer_proxy(self_mark: u32) -> u32;
 
-    // These are proxy fn uses serializable context to pass forward mutated param
-    // with return value back to the guest.
+    // These are proxy fn uses serializable context to pass forward mutated
+    // param with return value back to the guest.
     fn __mark_is_descendant_of_proxy(self_mark: u32, ancestor: u32, allocated_ptr: i32);
     fn __mark_least_ancestor(a: u32, b: u32, allocated_ptr: i32);
     fn __syntax_context_remove_mark_proxy(self_mark: u32, allocated_ptr: i32);
@@ -140,8 +140,8 @@ impl Mark {
         return Mark(unsafe { __mark_fresh_proxy(parent.as_u32()) });
 
         // https://github.com/swc-project/swc/pull/3492#discussion_r802224857
-        // We loosen conditions here for the cases like running plugin's test without
-        // targeting wasm32-*.
+        // We loosen conditions here for the cases like running plugin's test
+        // without targeting wasm32-*.
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         return with_marks(|marks| {
             marks.push(MarkData { parent });
@@ -282,7 +282,8 @@ impl Mark {
                 a = marks[a.0 as usize].parent;
             }
 
-            // While the path from b to the root hasn't intersected, move up the tree
+            // While the path from b to the root hasn't intersected, move up the
+            // tree
             while !a_path.contains(&b) {
                 b = marks[b.0 as usize].parent;
             }

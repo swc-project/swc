@@ -313,7 +313,8 @@ impl VisitMut for DropSpan {
         n.visit_mut_children_with(self);
 
         // In normal output we respect `is_self_closing`
-        // In minified output we always avoid end tag for SVG and MathML namespace
+        // In minified output we always avoid end tag for SVG and MathML
+        // namespace
         n.is_self_closing = Default::default();
     }
 

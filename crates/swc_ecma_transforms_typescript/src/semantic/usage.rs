@@ -254,7 +254,8 @@ impl VisitMut for UsageCollector<'_> {
                         *node = value;
                         return;
                     }
-                    // Unresolved member names can still retain an enum initializer's owner.
+                    // Unresolved member names can still retain an enum
+                    // initializer's owner.
                     self.require_unresolved_enum_member(ident, owner);
                 }
                 return;

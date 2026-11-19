@@ -363,8 +363,8 @@ impl crate::input::Tokens for Lexer<'_> {
             let mut value = String::new();
             if token.is_known_ident() || token.is_keyword() {
                 let prefix = unsafe {
-                    // Safety: start and end are valid position because we got them from
-                    // `self.input`
+                    // Safety: start and end are valid position because we got
+                    // them from `self.input`
                     self.input_slice_str(start, prefix_end)
                 };
                 value.reserve(prefix.len() + v.len());
@@ -374,8 +374,8 @@ impl crate::input::Tokens for Lexer<'_> {
                 value.push_str(&prefix);
             } else {
                 let prefix = unsafe {
-                    // Safety: start and end are valid position because we got them from
-                    // `self.input`
+                    // Safety: start and end are valid position because we got
+                    // them from `self.input`
                     self.input_slice_str(start, prefix_end)
                 };
                 value.reserve(prefix.len() + v.len());
@@ -385,8 +385,8 @@ impl crate::input::Tokens for Lexer<'_> {
             self.atom(value)
         } else if token.is_known_ident() || token.is_keyword() {
             let prefix = unsafe {
-                // Safety: start and end are valid position because we got them from
-                // `self.input`
+                // Safety: start and end are valid position because we got them
+                // from `self.input`
                 self.input_slice_str(start, prefix_end)
             };
             self.atom(prefix)
@@ -473,14 +473,15 @@ impl Lexer<'_> {
     #[inline]
     fn jsx_text_allows_raw_gt(&self, start: BytePos, pos: BytePos) -> bool {
         let prefix = unsafe {
-            // Safety: `start..pos` is within the current token and `pos` comes from a
-            // JSX-safe search boundary.
+            // Safety: `start..pos` is within the current token and `pos` comes
+            // from a JSX-safe search boundary.
             self.input_slice_str(start, pos)
         };
 
-        // Only allow raw `>` when it is already part of in-text arrow prose like `->`.
-        // A leading raw `>` immediately after the opening tag must keep producing the
-        // legacy JSX error from `tests/jsx/errors/issue-10635/index.js`.
+        // Only allow raw `>` when it is already part of in-text arrow prose
+        // like `->`. A leading raw `>` immediately after the opening
+        // tag must keep producing the legacy JSX error from
+        // `tests/jsx/errors/issue-10635/index.js`.
         prefix.as_bytes().last().copied() == Some(b'-')
     }
 
@@ -601,8 +602,8 @@ impl Lexer<'_> {
                 };
 
                 let s = unsafe {
-                    // Safety: start and end are valid position because we got them from
-                    // `self.input`
+                    // Safety: start and end are valid position because we got
+                    // them from `self.input`
                     self.input_slice_str(start, self.cur_pos())
                 };
 
@@ -717,8 +718,8 @@ impl Lexer<'_> {
                     }
 
                     let chunk = unsafe {
-                        // Safety: start and end are valid position because we got them from
-                        // `self.input`.
+                        // Safety: start and end are valid position because we
+                        // got them from `self.input`.
                         self.input_slice_str(chunk_start, self.cur_pos())
                     };
                     v.push_str(chunk);

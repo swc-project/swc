@@ -57,7 +57,7 @@ impl Babelify for Prop {
             Prop::Method(m) => ObjectMember::Method(m.babelify(ctx)),
             _ => panic!(
                 "illegal conversion: Cannot convert {:?} to ObjectMember",
-                &self
+                self
             ),
         }
     }

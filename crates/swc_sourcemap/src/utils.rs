@@ -121,17 +121,17 @@ pub fn greatest_lower_bound<'a, T, K: Ord, F: Fn(&'a T) -> K>(
     let mut idx = match slice.binary_search_by_key(key, &map) {
         Ok(index) => index,
         Err(index) => {
-            // If there is no match, then we know for certain that the index is where we
-            // should insert a new token, and that the token directly before is
-            // the greatest lower bound.
+            // If there is no match, then we know for certain that the index is
+            // where we should insert a new token, and that the token directly
+            // before is the greatest lower bound.
             return slice.get(index.checked_sub(1)?).map(|res| (index, res));
         }
     };
 
-    // If we get an exact match, then we need to continue looking at previous tokens
-    // to see if they also match. We use a linear search because the number of
-    // exact matches is generally very small, and almost certainly smaller than
-    // the number of tokens before the index.
+    // If we get an exact match, then we need to continue looking at previous
+    // tokens to see if they also match. We use a linear search because the
+    // number of exact matches is generally very small, and almost certainly
+    // smaller than the number of tokens before the index.
     for i in (0..idx).rev() {
         if map(&slice[i]) == *key {
             idx = i;

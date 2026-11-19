@@ -189,15 +189,15 @@ impl NodeResolver {
                 }
             }
 
-            // TypeScript-specific behavior: if the extension is ".js" or ".jsx",
-            // try replacing it with ".ts" or ".tsx".
+            // TypeScript-specific behavior: if the extension is ".js" or
+            // ".jsx", try replacing it with ".ts" or ".tsx".
             ext_path.set_file_name(name.into_owned());
             let old_ext = path.extension().and_then(|ext| ext.to_str());
 
             if let Some(old_ext) = old_ext {
                 let extensions = match old_ext {
-                    // Note that the official compiler code always tries ".ts" before
-                    // ".tsx" even if the original extension was ".jsx".
+                    // Note that the official compiler code always tries ".ts"
+                    // before ".tsx" even if the original extension was ".jsx".
                     "js" => ["ts", "tsx"].as_slice(),
                     "jsx" => ["ts", "tsx"].as_slice(),
                     "mjs" => ["mts"].as_slice(),
@@ -243,7 +243,8 @@ impl NodeResolver {
     /// Resolve a directory to its index.EXT.
     fn resolve_index(&self, path: &Path) -> Result<PathBuf, Error> {
         // 1. If X/index.js is a file, load X/index.js as JavaScript text.
-        // 2. If X/index.json is a file, parse X/index.json to a JavaScript object.
+        // 2. If X/index.json is a file, parse X/index.json to a JavaScript
+        //    object.
         // 3. If X/index.node is a file, load X/index.node as binary addon.
         for ext in EXTENSIONS {
             let ext_path = path.join(format!("index.{ext}"));

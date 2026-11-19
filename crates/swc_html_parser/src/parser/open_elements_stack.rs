@@ -160,15 +160,16 @@ impl OpenElementsStack {
     }
 
     // The stack of open elements is said to have an element target node in a
-    // specific scope consisting of a list of element types list when the following
-    // algorithm terminates in a match state:
+    // specific scope consisting of a list of element types list when the
+    // following algorithm terminates in a match state:
     fn has_element_target_node_in_specific_scope(
         &self,
         tag_name: &str,
         list: &[(&str, Namespace)],
     ) -> bool {
         let mut iter = self.items.iter().rev();
-        // 1. Initialize node to be the current node (the bottommost node of the stack).
+        // 1. Initialize node to be the current node (the bottommost node of the
+        //    stack).
         let mut node = iter.next();
 
         while let Some(inner_node) = node {
@@ -179,7 +180,8 @@ impl OpenElementsStack {
                 return true;
             }
 
-            // 3. Otherwise, if node is one of the element types in list, terminate in a
+            // 3. Otherwise, if node is one of the element types in list,
+            //    terminate in a
             // failure state.
             for element_and_ns in list {
                 if get_tag_name!(inner_node) == element_and_ns.0
@@ -189,19 +191,20 @@ impl OpenElementsStack {
                 }
             }
 
-            // 4. Otherwise, set node to the previous entry in the stack of open elements
-            // and return to step 2. (This will never fail, since the loop will always
-            // terminate in the previous step if the top of the stack — an html element — is
-            // reached.)
+            // 4. Otherwise, set node to the previous entry in the stack of open
+            //    elements
+            // and return to step 2. (This will never fail, since the loop will
+            // always terminate in the previous step if the top of the stack —
+            // an html element — is reached.)
             node = iter.next();
         }
 
         false
     }
 
-    // The stack of open elements is said to have a particular element in scope when
-    // it has that element in the specific scope consisting of the following element
-    // types:
+    // The stack of open elements is said to have a particular element in scope
+    // when it has that element in the specific scope consisting of the
+    // following element types:
     //
     // applet
     // caption
@@ -227,7 +230,8 @@ impl OpenElementsStack {
 
     pub fn has_node_in_scope(&self, target: &RcNode) -> bool {
         let mut iter = self.items.iter().rev();
-        // 1. Initialize node to be the current node (the bottommost node of the stack).
+        // 1. Initialize node to be the current node (the bottommost node of the
+        //    stack).
         let mut node = iter.next();
 
         while let Some(inner_node) = node {
@@ -236,7 +240,8 @@ impl OpenElementsStack {
                 return true;
             }
 
-            // 3. Otherwise, if node is one of the element types in list, terminate in a
+            // 3. Otherwise, if node is one of the element types in list,
+            //    terminate in a
             // failure state.
             for element_and_ns in SPECIFIC_SCOPE {
                 if get_tag_name!(inner_node) == element_and_ns.0
@@ -246,22 +251,23 @@ impl OpenElementsStack {
                 }
             }
 
-            // 4. Otherwise, set node to the previous entry in the stack of open elements
-            // and return to step 2. (This will never fail, since the loop will always
-            // terminate in the previous step if the top of the stack — an html element — is
-            // reached.)
+            // 4. Otherwise, set node to the previous entry in the stack of open
+            //    elements
+            // and return to step 2. (This will never fail, since the loop will
+            // always terminate in the previous step if the top of the stack —
+            // an html element — is reached.)
             node = iter.next();
         }
 
         false
     }
 
-    // The stack of open elements is said to have a particular element in list item
-    // scope when it has that element in the specific scope consisting of the
-    // following element types:
+    // The stack of open elements is said to have a particular element in list
+    // item scope when it has that element in the specific scope consisting of
+    // the following element types:
     //
-    // All the element types listed above for the has an element in scope algorithm.
-    // ol in the HTML namespace
+    // All the element types listed above for the has an element in scope
+    // algorithm. ol in the HTML namespace
     // ul in the HTML namespace
     pub fn has_in_list_item_scope(&self, tag_name: &str) -> bool {
         self.has_element_target_node_in_specific_scope(tag_name, LIST_ITEM_SCOPE)
@@ -271,8 +277,8 @@ impl OpenElementsStack {
     // scope when it has that element in the specific scope consisting of the
     // following element types:
     //
-    // All the element types listed above for the has an element in scope algorithm.
-    // button in the HTML namespace
+    // All the element types listed above for the has an element in scope
+    // algorithm. button in the HTML namespace
     pub fn has_in_button_scope(&self, tag_name: &str) -> bool {
         self.has_element_target_node_in_specific_scope(tag_name, BUTTON_SCOPE)
     }
@@ -296,7 +302,8 @@ impl OpenElementsStack {
     // option in the HTML namespace
     pub fn has_in_select_scope(&self, tag_name: &str) -> bool {
         let mut iter = self.items.iter().rev();
-        // 1. Initialize node to be the current node (the bottommost node of the stack).
+        // 1. Initialize node to be the current node (the bottommost node of the
+        //    stack).
         let mut node = iter.next();
 
         while let Some(inner_node) = node {
@@ -307,7 +314,8 @@ impl OpenElementsStack {
                 return true;
             }
 
-            // 3. Otherwise, if node is one of the element types in list, terminate in a
+            // 3. Otherwise, if node is one of the element types in list,
+            //    terminate in a
             // failure state.
             if SELECT_SCOPE.iter().all(|(tag_name, namespace)| {
                 get_tag_name!(inner_node) != *tag_name && get_namespace!(inner_node) != *namespace
@@ -315,10 +323,11 @@ impl OpenElementsStack {
                 return false;
             }
 
-            // 4. Otherwise, set node to the previous entry in the stack of open elements
-            // and return to step 2. (This will never fail, since the loop will always
-            // terminate in the previous step if the top of the stack — an html element — is
-            // reached.)
+            // 4. Otherwise, set node to the previous entry in the stack of open
+            //    elements
+            // and return to step 2. (This will never fail, since the loop will
+            // always terminate in the previous step if the top of the stack —
+            // an html element — is reached.)
             node = iter.next();
         }
 
@@ -326,8 +335,9 @@ impl OpenElementsStack {
     }
 
     // When the steps above require the UA to clear the stack back to a table
-    // context, it means that the UA must, while the current node is not a table,
-    // template, or html element, pop elements from the stack of open elements.
+    // context, it means that the UA must, while the current node is not a
+    // table, template, or html element, pop elements from the stack of open
+    // elements.
     pub fn clear_back_to_table_context(&mut self) {
         while let Some(node) = self.items.last() {
             if !is_html_element!(node, "table" | "template" | "html") {
@@ -338,9 +348,10 @@ impl OpenElementsStack {
         }
     }
 
-    // When the steps above require the UA to clear the stack back to a table row
-    // context, it means that the UA must, while the current node is not a tr,
-    // template, or html element, pop elements from the stack of open elements.
+    // When the steps above require the UA to clear the stack back to a table
+    // row context, it means that the UA must, while the current node is not a
+    // tr, template, or html element, pop elements from the stack of open
+    // elements.
     pub fn clear_back_to_table_row_context(&mut self) {
         while let Some(node) = self.items.last() {
             if !is_html_element!(node, "tr" | "template" | "html") {
@@ -351,10 +362,10 @@ impl OpenElementsStack {
         }
     }
 
-    // When the steps above require the UA to clear the stack back to a table body
-    // context, it means that the UA must, while the current node is not a tbody,
-    // tfoot, thead, template, or html element, pop elements from the stack of open
-    // elements.
+    // When the steps above require the UA to clear the stack back to a table
+    // body context, it means that the UA must, while the current node is not a
+    // tbody, tfoot, thead, template, or html element, pop elements from the
+    // stack of open elements.
     pub fn clear_back_to_table_body_context(&mut self) {
         while let Some(node) = self.items.last() {
             if !is_html_element!(node, "thead" | "tfoot" | "tbody" | "template" | "html") {
@@ -365,15 +376,15 @@ impl OpenElementsStack {
         }
     }
 
-    // When the steps below require the UA to generate implied end tags, then, while
-    // the current node is a dd element, a dt element, an li element, an optgroup
-    // element, an option element, a p element, an rb element, an rp element, an rt
-    // element, or an rtc element, the UA must pop the current node off the stack of
-    // open elements.
+    // When the steps below require the UA to generate implied end tags, then,
+    // while the current node is a dd element, a dt element, an li element, an
+    // optgroup element, an option element, a p element, an rb element, an rp
+    // element, an rt element, or an rtc element, the UA must pop the current
+    // node off the stack of open elements.
     //
-    // If a step requires the UA to generate implied end tags but lists an element
-    // to exclude from the process, then the UA must perform the above steps as if
-    // that element was not in the above list.
+    // If a step requires the UA to generate implied end tags but lists an
+    // element to exclude from the process, then the UA must perform the above
+    // steps as if that element was not in the above list.
     pub fn generate_implied_end_tags(&mut self) {
         while let Some(node) = self.items.last() {
             if IMPLICIT_END_TAG_REQUIRED.contains(&get_tag_name!(node))
@@ -404,11 +415,11 @@ impl OpenElementsStack {
 
     // When the steps below require the UA to generate all implied end tags
     // thoroughly, then, while the current node is a caption element, a colgroup
-    // element, a dd element, a dt element, an li element, an optgroup element, an
-    // option element, a p element, an rb element, an rp element, an rt element, an
-    // rtc element, a tbody element, a td element, a tfoot element, a th element, a
-    // thead element, or a tr element, the UA must pop the current node off the
-    // stack of open elements.
+    // element, a dd element, a dt element, an li element, an optgroup element,
+    // an option element, a p element, an rb element, an rp element, an rt
+    // element, an rtc element, a tbody element, a td element, a tfoot element,
+    // a th element, a thead element, or a tr element, the UA must pop the
+    // current node off the stack of open elements.
     pub fn generate_implied_end_tags_thoroughly(&mut self) {
         while let Some(node) = self.items.last() {
             if IMPLICIT_END_TAG_REQUIRED_THOROUGHLY.contains(&get_tag_name!(node))

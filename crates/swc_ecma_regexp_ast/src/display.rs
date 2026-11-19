@@ -259,7 +259,7 @@ impl Display for CapturingGroup {
         if let Some(name) = &self.name {
             write!(f, "?<{name}>")?;
         }
-        write!(f, "{})", &self.body)
+        write!(f, "{})", self.body)
     }
 }
 

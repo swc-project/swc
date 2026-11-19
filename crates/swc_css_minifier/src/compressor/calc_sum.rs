@@ -162,8 +162,8 @@ fn simplify_calc_operator_node_invert(calc_node: &CalcNode) -> CalcNode {
     let calc_node = simplify_calc_node(calc_node);
     match &calc_node {
         CalcNode::Number(n) => {
-            // If root’s child is a number (not a percentage or dimension) return the
-            // reciprocal of the child’s value.
+            // If root’s child is a number (not a percentage or dimension)
+            // return the reciprocal of the child’s value.
             if let Some(result) = try_to_divide_values(1.0, n.value) {
                 CalcNode::Number(Number {
                     value: result,
@@ -208,8 +208,8 @@ fn simplify_calc_operator_node_negate(calc_node: &CalcNode) -> CalcNode {
 fn simplify_calc_operator_node_product(nodes: &[CalcNode]) -> CalcNode {
     let mut nodes = nodes.to_vec();
 
-    // For each of root’s children that are Product nodes, replace them with their
-    // children.
+    // For each of root’s children that are Product nodes, replace them with
+    // their children.
     let mut idx = 0;
     while idx < nodes.len() {
         nodes[idx] = simplify_calc_node(&nodes[idx]);
@@ -271,13 +271,13 @@ fn simplify_calc_operator_node_product(nodes: &[CalcNode]) -> CalcNode {
         }
     }
 
-    // If root contains only numeric values and/or Invert nodes containing numeric
-    // values, and multiplying the types of all the children (noting that the
-    // type of an Invert node is the inverse of its child’s type) results in a
-    // type that matches any of the types that a math function can resolve to,
-    // return the result of multiplying all the values of the children
-    // (noting that the value of an Invert node is the reciprocal of its child’s
-    // value), expressed in the result’s canonical unit.
+    // If root contains only numeric values and/or Invert nodes containing
+    // numeric values, and multiplying the types of all the children (noting
+    // that the type of an Invert node is the inverse of its child’s type)
+    // results in a type that matches any of the types that a math function can
+    // resolve to, return the result of multiplying all the values of the
+    // children (noting that the value of an Invert node is the reciprocal of
+    // its child’s value), expressed in the result’s canonical unit.
     nodes = try_to_multiply_all_numeric_and_invert_nodes(&nodes);
 
     if nodes.len() == 1 {
@@ -306,8 +306,8 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
         }
     }
 
-    // For each set of root’s children that are numeric values with identical units,
-    // remove those children and replace them with a single numeric value
+    // For each set of root’s children that are numeric values with identical
+    // units, remove those children and replace them with a single numeric value
     // containing the sum of the removed nodes, and with the same unit. (E.g.
     // combine numbers, combine percentages, combine px values, etc.)
     let mut number: Option<usize> = None;
@@ -365,8 +365,8 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
     // Impl. node: try to convert some units
     try_to_reduce_node_with_dimensions(&mut dimensions, &mut nodes);
 
-    // If root has only a single child at this point, return the child. Otherwise,
-    // return root.
+    // If root has only a single child at this point, return the child.
+    // Otherwise, return root.
     if nodes.len() == 1 {
         nodes[0].clone()
     } else {
@@ -401,8 +401,8 @@ fn try_to_switch_sign_of_nodes(nodes: &[CalcNode]) -> Option<CalcNode> {
     while idx < nodes.len() {
         let calc_node = &nodes[idx];
         nodes[idx] = match calc_node {
-            // If root’s child is a numeric value, return an equivalent numeric value, but with the
-            // value negated (0 - value).
+            // If root’s child is a numeric value, return an equivalent numeric
+            // value, but with the value negated (0 - value).
             CalcNode::Number(_) | CalcNode::Dimension(_) | CalcNode::Percentage(_) => {
                 let mut negated_node = calc_node.clone();
                 set_value(&mut negated_node, -get_value(calc_node));
@@ -410,11 +410,12 @@ fn try_to_switch_sign_of_nodes(nodes: &[CalcNode]) -> Option<CalcNode> {
             }
             CalcNode::OperatorNode(op) => {
                 match &**op {
-                    // If root’s child is a Negate node, return the child’s child.
+                    // If root’s child is a Negate node, return the child’s
+                    // child.
                     CalcOperatorNode::Negate(node) => node.clone(),
                     CalcOperatorNode::Sum(nodes) => {
-                        // Impl. note: not in the spec, but we try to propagate the sign before
-                        // continuing the simplification process
+                        // Impl. note: not in the spec, but we try to propagate
+                        // the sign before continuing the simplification process
                         try_to_switch_sign_of_nodes(nodes)?
                     }
                     _ => return None,
@@ -606,13 +607,10 @@ fn try_to_multiply_all_numeric_sum_children_by_value(
         match calc_node {
             CalcNode::Number(_) | CalcNode::Dimension(_) | CalcNode::Percentage(_) => {
                 let node_value = get_value(calc_node);
-                if let Some(result) = try_to_multiply_values(node_value, value) {
-                    let mut node = calc_node.clone();
-                    set_value(&mut node, result);
-                    operands.push(node);
-                } else {
-                    return None;
-                }
+                let result = try_to_multiply_values(node_value, value)?;
+                let mut node = calc_node.clone();
+                set_value(&mut node, result);
+                operands.push(node);
             }
             _ => return None,
         }
@@ -849,7 +847,8 @@ fn serialize_calculation_node_into_calc_sum(calc_node: &CalcNode) -> CalcSum {
                         CalcNode::Number(_) | CalcNode::Dimension(_) | CalcNode::Percentage(_) => {
                             let value = get_value(calc_node);
                             if value.is_sign_negative() {
-                                // Instead of serializing "x + -10", we want to have "x - 10"
+                                // Instead of serializing "x + -10", we want to
+                                // have "x - 10"
                                 let mut node = calc_node.clone();
                                 set_value(&mut node, -value);
                                 expr.push(CalcProductOrOperator::Operator(CalcOperator {
@@ -1051,7 +1050,8 @@ fn sort_calculations_children(nodes: &[CalcNode]) -> Vec<CalcNode> {
         .collect();
     ret.append(&mut numbers);
 
-    // If nodes contains a percentage, remove it from nodes and append it to ret.
+    // If nodes contains a percentage, remove it from nodes and append it to
+    // ret.
     let mut percentages: Vec<CalcNode> = nodes
         .iter()
         .filter(|n| match n {
@@ -1062,8 +1062,8 @@ fn sort_calculations_children(nodes: &[CalcNode]) -> Vec<CalcNode> {
         .collect();
     ret.append(&mut percentages);
 
-    // If nodes contains any dimensions, remove them from nodes, sort them by their
-    // units, ordered ASCII case-insensitively, and append them to ret.
+    // If nodes contains any dimensions, remove them from nodes, sort them by
+    // their units, ordered ASCII case-insensitively, and append them to ret.
     let mut dimensions: Vec<CalcNode> = nodes
         .iter()
         .filter(|n| match n {
@@ -1172,8 +1172,8 @@ impl Compressor {
         component_value: &mut ComponentValue,
     ) {
         match &component_value {
-            // Transform "calc(calc-sum)" into "simple value" when calc-sum is not a complex
-            // expression
+            // Transform "calc(calc-sum)" into "simple value" when calc-sum is
+            // not a complex expression
             ComponentValue::Function(function)
                 if is_calc_function_name(&function.name) && function.value.len() == 1 =>
             {

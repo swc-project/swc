@@ -61,9 +61,10 @@ fn lower_term(term: &mut Term, ignore_case: bool) -> Result<(), LowerError> {
             *term = class_set_term(class.span, set, MAX_CODE_POINT);
         }
         Term::UnicodePropertyEscape(prop) => {
-            // A property of strings has no `u` equivalent. With case-insensitive
-            // matching, `\P{...}` complements the folded property in a `v`
-            // pattern, but the plain property in a `u` pattern. Other property
+            // A property of strings has no `u` equivalent. With
+            // case-insensitive matching, `\P{...}` complements the
+            // folded property in a `v` pattern, but the plain
+            // property in a `u` pattern. Other property
             // escapes have the same meaning in both modes.
             if prop.strings || (prop.negative && ignore_case) {
                 let span = prop.span;

@@ -501,8 +501,9 @@ impl ForOf {
         }
         .into();
 
-        // Every loop label must remain inside the try, attached to the iteration
-        // statement, so labeled continue targets the loop rather than the try.
+        // Every loop label must remain inside the try, attached to the
+        // iteration statement, so labeled continue targets the loop rather than
+        // the try.
         let for_stmt = labels.wrap(for_stmt);
 
         TryStmt {

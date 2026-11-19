@@ -230,7 +230,8 @@ pub(super) fn analyze(
         }
         if !definition.ambient {
             // Ambient bodies contribute constant evaluation and container
-            // facts, but neither runtime usage nor emission visits their bodies.
+            // facts, but neither runtime usage nor emission visits their
+            // bodies.
             facts.declarations.insert(
                 definition.declaration,
                 EnumDeclaration {

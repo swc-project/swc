@@ -205,8 +205,9 @@ impl SourceMap {
     }
 
     fn next_start_pos(&self, len: usize) -> usize {
-        // Add one so there is some space between files. This lets us distinguish
-        // positions in the source_map, even in the presence of zero-length files.
+        // Add one so there is some space between files. This lets us
+        // distinguish positions in the source_map, even in the presence of
+        // zero-length files.
         self.start_pos.fetch_add(len + 1, SeqCst)
     }
 
@@ -227,11 +228,11 @@ impl SourceMap {
     fn new_source_file_impl(&self, filename: Lrc<FileName>, mut src: BytesStr) -> Lrc<SourceFile> {
         remove_bom(&mut src);
 
-        // The path is used to determine the directory for loading submodules and
-        // include files, so it must be before remapping.
-        // Note that filename may not be a valid path, eg it may be `<anon>` etc,
-        // but this is okay because the directory determined by `path.pop()` will
-        // be empty, so the working directory will be used.
+        // The path is used to determine the directory for loading submodules
+        // and include files, so it must be before remapping.
+        // Note that filename may not be a valid path, eg it may be `<anon>`
+        // etc, but this is okay because the directory determined by
+        // `path.pop()` will be empty, so the working directory will be used.
         let unmapped_path = filename.clone();
 
         let (filename, was_remapped) = match &*filename {
@@ -874,10 +875,10 @@ impl SourceMap {
         let start_of_next_point = sp.hi().0;
 
         let width = self.find_width_of_character_at_span(sp, true);
-        // If the width is 1, then the next span should point to the same `lo` and `hi`.
-        // However, in the case of a multibyte character, where the width != 1,
-        // the next span should span multiple bytes to include the whole
-        // character.
+        // If the width is 1, then the next span should point to the same `lo`
+        // and `hi`. However, in the case of a multibyte character, where the
+        // width != 1, the next span should span multiple bytes to include the
+        // whole character.
         let end_of_next_point = start_of_next_point
             .checked_add(width - 1)
             .unwrap_or(start_of_next_point);
@@ -912,8 +913,8 @@ impl SourceMap {
             start_index, end_index
         );
 
-        // Disregard indexes that are at the start or end of their spans, they can't fit
-        // bigger characters.
+        // Disregard indexes that are at the start or end of their spans, they
+        // can't fit bigger characters.
         if (!forwards && end_index == usize::MIN) || (forwards && start_index == usize::MAX) {
             #[cfg(debug_assertions)]
             debug!("find_width_of_character_at_span: start or end of span, cannot be multibyte");
@@ -933,9 +934,9 @@ impl SourceMap {
             return 1;
         }
 
-        // We need to extend the snippet to the end of the src rather than to end_index
-        // so when searching forwards for boundaries we've got somewhere to
-        // search.
+        // We need to extend the snippet to the end of the src rather than to
+        // end_index so when searching forwards for boundaries we've got
+        // somewhere to search.
         let src = &local_begin.sf.src;
         let snippet = {
             let len = src.len();
@@ -1138,8 +1139,8 @@ impl SourceMap {
     /// or something similar, please consider updating the source_map
     /// functions and this function to something more robust.
     pub fn generate_local_type_param_snippet(&self, span: Span) -> Option<(Span, String)> {
-        // Try to extend the span to the previous "fn" keyword to retrieve the function
-        // signature
+        // Try to extend the span to the previous "fn" keyword to retrieve the
+        // function signature
         let sugg_span = self.span_extend_to_prev_str(span, "fn", false);
         if sugg_span != span {
             if let Ok(snippet) = self.span_to_snippet(sugg_span) {
@@ -1162,11 +1163,13 @@ impl SourceMap {
                     last_char = Some(c);
                 }
 
-                // Adjust the suggestion span to encompass the function name with its generics
+                // Adjust the suggestion span to encompass the function name
+                // with its generics
                 let sugg_span = sugg_span.with_hi(BytePos(sugg_span.lo().0 + offset as u32));
 
-                // Prepare the new suggested snippet to append the type parameter that triggered
-                // the error in the generics of the function signature
+                // Prepare the new suggested snippet to append the type
+                // parameter that triggered the error in the generics of the
+                // function signature
                 let mut new_snippet = if last_char == Some('>') {
                     format!("{}, ", &snippet[..(offset - '>'.len_utf8())])
                 } else {
@@ -1337,8 +1340,8 @@ pub fn build_source_map(
 
         let lc = *lc;
 
-        // If pos is same as a DUMMY_SP (eg BytePos(0)) or if line and col are 0,
-        // ignore the mapping.
+        // If pos is same as a DUMMY_SP (eg BytePos(0)) or if line and col are
+        // 0, ignore the mapping.
         if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
             continue;
         }
@@ -1362,12 +1365,14 @@ pub fn build_source_map(
                     continue;
                 }
                 src_id = builder.add_source(config.file_name_to_source(&f.name).into());
-                // orig.adjust_mappings below will throw this out if orig is Some
+                // orig.adjust_mappings below will throw this out if orig is
+                // Some
                 if orig.is_none() && config.ignore_list(&f.name) {
                     builder.add_to_ignore_list(src_id);
                 }
 
-                // orig.adjust_mappings below will throw this out if orig is Some
+                // orig.adjust_mappings below will throw this out if orig is
+                // Some
                 let inline_sources_content =
                     orig.is_none() && config.inline_sources_content(&f.name);
                 if inline_sources_content {
@@ -1759,8 +1764,8 @@ mod tests {
         // check that we are extracting the text we thought we were extracting
         assert_eq!(&sm.span_to_snippet(span).unwrap(), "BB\nCCC\nDDDDD");
 
-        // check that span_to_lines gives us the complete result with the lines/cols we
-        // expected
+        // check that span_to_lines gives us the complete result with the
+        // lines/cols we expected
         let lines = sm.span_to_lines(span).unwrap();
         let expected = vec![
             LineInfo {

@@ -58,8 +58,8 @@ impl CompiledPluginModuleBytes {
         }
     }
 
-    // Allow to `pre` compile wasm module when there is a raw bytes, want to avoid
-    // to skip the compilation step per each trasform.
+    // Allow to `pre` compile wasm module when there is a raw bytes, want to
+    // avoid to skip the compilation step per each trasform.
     pub fn from_raw_module(rt: &dyn runtime::Runtime, raw: RawPluginModuleBytes) -> Self {
         let cache = rt.prepare_module(&raw.bytes).unwrap();
         CompiledPluginModuleBytes {

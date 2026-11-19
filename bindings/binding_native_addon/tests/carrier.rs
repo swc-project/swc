@@ -254,7 +254,8 @@ fn real_carrier_forwards_registration_and_throws_loader_errors() {
             .env("SWC_NATIVE_BINDING_CACHE", "relative-root"),
     );
     // Each child traverses the real N-API entry point against the same cold
-    // cache/carrier. This covers registration as well as atomic materialization.
+    // cache/carrier. This covers registration as well as atomic
+    // materialization.
     let cache = directory
         .path()
         .canonicalize()

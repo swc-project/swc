@@ -412,8 +412,9 @@ impl<I: Tokens> Parser<I> {
         self.expect(Token::Lt)?;
 
         // Handle JSX fragment opening followed by '=': '<>='
-        // When lexer sees '>=' it combines into GtEq, but JSX fragment only needs '>'
-        // Use rescan_jsx_open_el_terminal_token to split >= back into >
+        // When lexer sees '>=' it combines into GtEq, but JSX fragment only
+        // needs '>' Use rescan_jsx_open_el_terminal_token to split >= back into
+        // >
         self.input_mut().rescan_jsx_open_el_terminal_token();
 
         #[cfg(feature = "tsrx")]
@@ -485,8 +486,9 @@ impl<I: Tokens> Parser<I> {
                 self.expect(Token::Slash)?;
 
                 // Handle JSX self-closing tag followed by '=': '<tag/>='
-                // When lexer sees '>=' it combines into GtEq, but JSX only needs '>'
-                // Use rescan_jsx_open_el_terminal_token to split >= back into >
+                // When lexer sees '>=' it combines into GtEq, but JSX only
+                // needs '>' Use rescan_jsx_open_el_terminal_token to split >=
+                // back into >
                 self.input_mut().rescan_jsx_open_el_terminal_token();
                 self.expect_without_advance(Token::Gt)?;
 

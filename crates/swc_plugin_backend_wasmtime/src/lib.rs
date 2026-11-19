@@ -103,8 +103,8 @@ impl runtime::Runtime for WasmtimeRuntime {
         };
 
         // If a write failure or process interruption occurs here,
-        // the tmp file cannot be rename, and the cache will never be successfully
-        // created.
+        // the tmp file cannot be rename, and the cache will never be
+        // successfully created.
         //
         // But it should be a low-probability event and will not affect program
         // operation. Users can manually delete the cache.

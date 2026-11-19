@@ -96,7 +96,7 @@ impl From<TsFnParamOutput> for IdOrRest {
         match o {
             TsFnParamOutput::Id(i) => IdOrRest::Id(i),
             TsFnParamOutput::Rest(r) => IdOrRest::Rest(r),
-            _ => panic!("illegal conversion: Cannot convert {:?} to IdOrRest", &o),
+            _ => panic!("illegal conversion: Cannot convert {:?} to IdOrRest", o),
         }
     }
 }
@@ -105,7 +105,7 @@ impl From<TsFnParamOutput> for Identifier {
     fn from(o: TsFnParamOutput) -> Self {
         match o {
             TsFnParamOutput::Id(i) => i,
-            _ => panic!("illegal conversion: Cannot convert {:?} to Identifier", &o),
+            _ => panic!("illegal conversion: Cannot convert {:?} to Identifier", o),
         }
     }
 }
@@ -614,13 +614,10 @@ impl Babelify for TsTupleElement {
                         Pat::Ident(id) => id.babelify(ctx),
                         _ => panic!(
                             "illegal conversion: Cannot convert {:?} to Identifier",
-                            &rest.arg
+                            rest.arg
                         ),
                     },
-                    _ => panic!(
-                        "illegal conversion: Cannot convert {:?} to Identifier",
-                        &pat
-                    ),
+                    _ => panic!("illegal conversion: Cannot convert {:?} to Identifier", pat),
                 },
                 element_type: self.ty.babelify(ctx),
                 optional: Default::default(),
@@ -811,7 +808,7 @@ impl Babelify for TsLit {
             TsLit::BigInt(i) => TSLiteralTypeLiteral::BigInt(i.babelify(ctx)),
             _ => panic!(
                 "illegal conversion: Cannot convert {:?} to TSLiteralTypeLiteral",
-                &self
+                self
             ),
         }
     }

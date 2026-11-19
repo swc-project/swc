@@ -54,9 +54,10 @@ impl Resolver {
     ) -> Expr {
         let src = self.resolve(src);
 
-        // Use the module specifier span for the call and the `require` callee, so
-        // that the generated source map points runtime frames of the call back to
-        // the original import. Otherwise only the string argument is mapped.
+        // Use the module specifier span for the call and the `require` callee,
+        // so that the generated source map points runtime frames of the call
+        // back to the original import. Otherwise only the string argument is
+        // mapped.
         CallExpr {
             span: src_span,
             callee: quote_ident!(
@@ -358,10 +359,10 @@ where
                 target = absolute_path(self.config.base_dir.as_deref(), &target)?;
             }
         } else if target.is_absolute() {
-            // A target anchored at `jsc.baseUrl` (e.g. from `jsc.paths` that points
-            // to a missing file) may contain `..` components, and so may the input
-            // filename. `diff_paths` does not resolve them lexically, so clean both
-            // paths first.
+            // A target anchored at `jsc.baseUrl` (e.g. from `jsc.paths` that
+            // points to a missing file) may contain `..` components, and so may
+            // the input filename. `diff_paths` does not resolve them lexically,
+            // so clean both paths first.
             if target.components().any(|c| c == Component::ParentDir) {
                 target = target.clean();
             }
@@ -420,7 +421,8 @@ where
         // hidden directories like `.foo`, which need a `./` prefix to be valid
         // relative imports. See https://github.com/swc-project/swc/issues/9551
         //
-        // On Windows, we also need to check for backslash variants (.\ and ..\).
+        // On Windows, we also need to check for backslash variants (.\ and
+        // ..\).
         let s = if s.starts_with("./")
             || s.starts_with("../")
             || s.starts_with(".\\")

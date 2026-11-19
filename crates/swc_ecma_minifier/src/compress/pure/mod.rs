@@ -1319,12 +1319,12 @@ impl VisitMut for Pure<'_> {
 
         e.exprs.retain(|e| !e.is_invalid());
 
-        // Keep a `0` placeholder in front of the last expression if removing the
-        // sequence would change the semantics of the surrounding code:
+        // Keep a `0` placeholder in front of the last expression if removing
+        // the sequence would change the semantics of the surrounding code:
         //
         //  - `this` of a call would change (`(0, a.b)()`).
-        //  - the inferred `name` of an anonymous function or class would change (`var f
-        //    = (0, function () {})`) and the user asked to keep names.
+        //  - the inferred `name` of an anonymous function or class would change
+        //    (`var f = (0, function () {})`) and the user asked to keep names.
         if e.exprs.len() == 1 && (!can_change_this || self.is_name_inference_sensitive(&e.exprs[0]))
         {
             e.exprs.insert(0, 0.into());

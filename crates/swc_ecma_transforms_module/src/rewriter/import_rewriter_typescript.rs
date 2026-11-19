@@ -24,8 +24,8 @@ impl VisitMut for Rewriter {
         e.visit_mut_children_with(self);
 
         // In TypeScript, `require` is handled only in JavaScript files.
-        // I don't know how to check if the current file is a JavaScript file in swc,
-        // So I'll temporarily just simplify.
+        // I don't know how to check if the current file is a JavaScript file in
+        // swc, So I'll temporarily just simplify.
         if !e.callee.is_import()
             && !e
                 .callee

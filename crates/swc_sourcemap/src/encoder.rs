@@ -216,7 +216,8 @@ impl Encodable for SourceMapIndex {
             x_metro_module_paths: None,
             x_facebook_sources: None,
             debug_id: None,
-            // Put the debug ID on _debug_id_new to serialize it to the debugId field.
+            // Put the debug ID on _debug_id_new to serialize it to the debugId
+            // field.
             _debug_id_new: self.debug_id(),
         }
     }

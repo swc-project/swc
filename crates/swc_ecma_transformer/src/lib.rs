@@ -77,7 +77,8 @@ pub fn transform_hook(options: Options) -> impl VisitMutHook<TraverseCtx> {
 
     // VarDeclarations must run after all transforms that may queue generated
     // declarations. Most transformer passes do not need it, and keeping it in
-    // the hook chain for those passes only pushes/pops empty declaration scopes.
+    // the hook chain for those passes only pushes/pops empty declaration
+    // scopes.
     let hook = hook.chain(if needs_var_declarations {
         Some(common::VarDeclarations::default())
     } else {

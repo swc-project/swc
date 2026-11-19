@@ -14,10 +14,9 @@ impl From<BinaryOpOutput> for BinaryExprOp {
     fn from(o: BinaryOpOutput) -> Self {
         match o {
             BinaryOpOutput::BinOp(op) => op,
-            BinaryOpOutput::LogicOp(_) => panic!(
-                "illegal conversion: Cannot convert {:?} to BinaryExprOp",
-                &o
-            ),
+            BinaryOpOutput::LogicOp(_) => {
+                panic!("illegal conversion: Cannot convert {:?} to BinaryExprOp", o)
+            }
         }
     }
 }
@@ -28,7 +27,7 @@ impl From<BinaryOpOutput> for LogicalExprOp {
             BinaryOpOutput::LogicOp(op) => op,
             BinaryOpOutput::BinOp(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to LogicalExprOp",
-                &o
+                o
             ),
         }
     }

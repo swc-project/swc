@@ -277,8 +277,8 @@ fn issue_1878() {
         assert!(leading.borrow().get(&BytePos(1)).is_some());
     }
 
-    // file with shebang and comments should still work with the comments trailing
-    // the shebang
+    // file with shebang and comments should still work with the comments
+    // trailing the shebang
     {
         let c = SingleThreadedComments::default();
         let s = "#!/foo/bar
@@ -395,7 +395,8 @@ fn issue_2264_3() {
 #[test]
 fn issue_2339_1() {
     let c = SingleThreadedComments::default();
-    // Use `<T,>` instead of `<T>` because `<T>` is ambiguous with JSX in TSX mode
+    // Use `<T,>` instead of `<T>` because `<T>` is ambiguous with JSX in TSX
+    // mode
     let s = "
         const t = <T,>() => {
             // 1

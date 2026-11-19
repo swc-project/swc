@@ -41,9 +41,9 @@ pub fn parse_regexp_literal(
 
 pub struct Parser {
     // NOTE: In JavaScript, string literals are UTF-16 encoded,
-    // so we need to be aware of surrogate pairs, while collecting offsets for `Span`.
-    // Rather than using `encode_utf16()`, split surrogate pairs manually is easier
-    // to detect the start and end of each code point.
+    // so we need to be aware of surrogate pairs, while collecting offsets for
+    // `Span`. Rather than using `encode_utf16()`, split surrogate pairs
+    // manually is easier to detect the start and end of each code point.
     chars: Vec<char>,
     index: usize,
     offset: u32,
@@ -64,7 +64,8 @@ impl Parser {
             // If the code point is in the BMP or if forced, just push it
             body.push(ast::CodePoint { span, value: cp });
         } else {
-            // Otherwise, split the code point into a surrogate pair, sharing the same span
+            // Otherwise, split the code point into a surrogate pair, sharing
+            // the same span
             let (lead, trail) = (
                 0xd800 + ((cp - 0x10000) >> 10),
                 0xdc00 + ((cp - 0x10000) & 0x3ff),
@@ -416,7 +417,8 @@ impl Parser {
             }
             // NOTE: CR+LF can not represent as a single code point.
             // I don't know the best way to handle this.
-            // To distinguish this from CR and LF, structural change is needed...
+            // To distinguish this from CR and LF, structural change is
+            // needed...
             if self.peek() == Some(CR) && self.peek2() == Some(LF) {
                 self.advance();
                 self.advance();
@@ -487,7 +489,8 @@ impl Parser {
             .filter(char::is_ascii_hexdigit)
             .and_then(|ch| ch.to_digit(16))
         {
-            // To prevent panic on overflow cases like `\u{FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}`
+            // To prevent panic on overflow cases like
+            // `\u{FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}`
             if let Some(v) = value.checked_mul(16).and_then(|v| v.checked_add(hex)) {
                 value = v;
                 self.advance();

@@ -274,15 +274,13 @@ fn classify_console_call(e: &Expr, unresolved_ctxt: SyntaxContext) -> Option<Dro
                 first_hop_optional = false;
                 cur = &member.obj;
             }
-            Expr::OptChain(opt_chain) => match opt_chain.base.as_member() {
-                Some(member) => {
-                    depth += 1;
-                    first_hop = Some(&member.prop);
-                    first_hop_optional = opt_chain.optional;
-                    cur = &member.obj;
-                }
-                None => return None,
-            },
+            Expr::OptChain(opt_chain) => {
+                let member = opt_chain.base.as_member()?;
+                depth += 1;
+                first_hop = Some(&member.prop);
+                first_hop_optional = opt_chain.optional;
+                cur = &member.obj;
+            }
             _ => return None,
         }
     }

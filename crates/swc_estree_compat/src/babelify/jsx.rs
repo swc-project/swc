@@ -138,8 +138,9 @@ impl Babelify for JSXAttrOrSpread {
         match self {
             JSXAttrOrSpread::JSXAttr(a) => JSXOpeningElAttr::Attr(a.babelify(ctx)),
             JSXAttrOrSpread::SpreadElement(spread) => {
-                // For JSX spread elements, babel includes the curly braces, and swc
-                // does not. So we extend the span to include the braces here.
+                // For JSX spread elements, babel includes the curly braces, and
+                // swc does not. So we extend the span to include the braces
+                // here.
                 let span = extend_spread_span_to_braces(spread.span(), ctx);
                 JSXOpeningElAttr::Spread(JSXSpreadAttribute {
                     base: ctx.base(span),

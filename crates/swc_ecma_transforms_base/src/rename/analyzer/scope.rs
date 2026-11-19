@@ -277,8 +277,8 @@ impl Scope {
 
     fn can_rename(&self, id: &Id, symbol: &Atom, reverse: &ReverseMap) -> bool {
         // We can optimize this
-        // We only need to check the current scope and parents (ignoring `a` generated
-        // for unrelated scopes)
+        // We only need to check the current scope and parents (ignoring `a`
+        // generated for unrelated scopes)
         for left in reverse.get(symbol) {
             if left.1 == id.1 && *left.0 == id.0 {
                 continue;

@@ -64,7 +64,8 @@ fn temporary_images_do_not_inherit_compression() {
     let root = tempfile::tempdir().unwrap();
     support::ntfs::compress(root.path()).unwrap();
     assert!(support::ntfs::is_compressed(root.path()));
-    // Isolate process-global LOCALAPPDATA from other concurrently running tests.
+    // Isolate process-global LOCALAPPDATA from other concurrently running
+    // tests.
     let result = Command::new(std::env::current_exe().unwrap())
         .args(["--exact", "temporary_image_worker", "--nocapture"])
         .env("LOCALAPPDATA", root.path())

@@ -274,8 +274,8 @@ impl Storage for ProgramData {
                     }
 
                     if var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
-                        // If it is inited in some other child scope and also inited in current
-                        // scope
+                        // If it is inited in some other child scope and also
+                        // inited in current scope
                         if e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) || e.ref_count > 0 {
                             e.flags.insert(VarUsageInfoFlags::REASSIGNED);
                         } else {
@@ -284,8 +284,9 @@ impl Storage for ProgramData {
                             e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
                         }
                     } else {
-                        // If it is inited in some other child scope, but referenced in
-                        // current child scope
+                        // If it is inited in some other child scope, but
+                        // referenced in current child
+                        // scope
                         if !inited
                             && e.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
                             && var_info.ref_count > 0
@@ -344,8 +345,8 @@ impl Storage for ProgramData {
                     *e_flags |= var_info_flags & VarUsageInfoFlags::USED_RECURSIVELY;
                     *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_NON_CHILD_FN;
 
-                    // If a var is registered at a parent scope, it means that it's delcared before
-                    // usages.
+                    // If a var is registered at a parent scope, it means that
+                    // it's delcared before usages.
                     //
                     // e.get_mut().used_above_decl |= var_info.used_above_decl;
 
@@ -726,7 +727,8 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn mark_as_externally_mutable(&mut self) {
-        // External writes are invisible to assignment counts and scope analysis.
+        // External writes are invisible to assignment counts and scope
+        // analysis.
         self.flags.insert(VarUsageInfoFlags::EXTERNALLY_MUTABLE);
         self.flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
     }

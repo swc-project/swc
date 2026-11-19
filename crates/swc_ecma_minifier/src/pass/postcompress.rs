@@ -90,7 +90,8 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
                                 .unwrap_or_else(|| ModuleExportName::Ident(n.local.clone()));
                             let local_id = n.local.clone();
 
-                            // If remote is "default", classify as default import
+                            // If remote is "default", classify as default
+                            // import
                             if &*remote.atom() == "default" {
                                 record.defaults.push_back(local_id);
                             } else {
@@ -112,7 +113,8 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
 
                 if let Some(ref src) = export_named.src {
                     // Re-export: `export { foo } from 'm.js'`
-                    // Only collect named specifiers; namespace/default can't be merged
+                    // Only collect named specifiers; namespace/default can't be
+                    // merged
                     let has_non_named = export_named.specifiers.iter().any(|s| {
                         matches!(
                             s,
@@ -200,7 +202,8 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
                         }));
                     }
                 } else {
-                    // No namespace: take one default + remaining defaults as named + all named
+                    // No namespace: take one default + remaining defaults as
+                    // named + all named
                     if let Some(local) = record.defaults.pop_front() {
                         new_specs.push(ImportSpecifier::Default(ImportDefaultSpecifier {
                             span: DUMMY_SP,
@@ -227,8 +230,8 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
 
                     // All named imports
                     for (remote, local) in record.named.drain(..) {
-                        // A string module export name must remain quoted, even when its value
-                        // equals the local binding name.
+                        // A string module export name must remain quoted, even
+                        // when its value equals the local binding name.
                         let imported = match &remote {
                             ModuleExportName::Ident(imported) if imported.sym == local.sym => None,
                             _ => Some(remote),
@@ -259,7 +262,8 @@ pub fn postcompress_optimizer(program: &mut Program, options: &CompressOptions) 
 
                 if let Some(ref src) = export_named.src {
                     // Re-export: `export { foo } from 'm.js'`
-                    // Statements with namespace/default specifiers are kept as-is
+                    // Statements with namespace/default specifiers are kept
+                    // as-is
                     let has_non_named = export_named.specifiers.iter().any(|s| {
                         matches!(
                             s,

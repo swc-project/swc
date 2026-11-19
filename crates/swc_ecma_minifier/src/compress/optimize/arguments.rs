@@ -46,7 +46,8 @@ impl Optimizer<'_> {
                         let name = s.take().value;
                         *prop = MemberProp::Ident(IdentName {
                             span: s.span,
-                            // SAFETY: s.value is guaranteed to be valid UTF-8 sequence from above.
+                            // SAFETY: s.value is guaranteed to be valid UTF-8
+                            // sequence from above.
                             sym: name.try_into_atom().unwrap(),
                         })
                     }
@@ -73,7 +74,8 @@ impl Optimizer<'_> {
                         let name = s.take().value;
                         *prop = SuperProp::Ident(IdentName {
                             span: s.span,
-                            // SAFETY: s.value is guaranteed to be valid UTF-8 sequence from above.
+                            // SAFETY: s.value is guaranteed to be valid UTF-8
+                            // sequence from above.
                             sym: name.try_into_atom().unwrap(),
                         })
                     }
@@ -95,7 +97,8 @@ impl Optimizer<'_> {
                 return;
             };
 
-            // A parameter named `arguments` shadows the implicit arguments object.
+            // A parameter named `arguments` shadows the implicit arguments
+            // object.
             if i.id.sym == "arguments" {
                 return;
             }
@@ -105,9 +108,9 @@ impl Optimizer<'_> {
                 continue;
             };
 
-            // A parameter redeclared in the function body cannot safely replace an
-            // arguments access, but reassignment affects only its corresponding
-            // arguments index.
+            // A parameter redeclared in the function body cannot safely replace
+            // an arguments access, but reassignment affects only its
+            // corresponding arguments index.
             if usage.declared_count >= 2 {
                 return;
             }
@@ -118,12 +121,7 @@ impl Optimizer<'_> {
         {
             // If a function has a variable named `arguments`, we abort.
             let data: Vec<Id> = find_pat_ids(&f.body);
-            if data.iter().any(|id| {
-                if id.0 == "arguments" {
-                    return true;
-                }
-                false
-            }) {
+            if data.iter().any(|id| id.0 == "arguments") {
                 return;
             }
         }
@@ -136,7 +134,8 @@ impl Optimizer<'_> {
             prevent: false,
         };
 
-        // Visit the body twice to keep parameter injection local to each access.
+        // Visit the body twice to keep parameter injection local to each
+        // access.
         f.body.visit_mut_children_with(&mut v);
         f.body.visit_mut_children_with(&mut v);
 

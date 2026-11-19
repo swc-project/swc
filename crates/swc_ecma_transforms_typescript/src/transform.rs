@@ -103,7 +103,8 @@ struct ContainerContext<'a> {
 impl Transform<'_> {
     fn retain_decl(&self, declaration: &Decl) -> bool {
         if let Decl::TsModule(declaration) = declaration {
-            // No namespace bindings means analysis found only erased namespaces.
+            // No namespace bindings means analysis found only erased
+            // namespaces.
             return self.semantic.bindings.namespace_body(0).is_some()
                 && !declaration.declare
                 && !declaration.global
@@ -903,8 +904,8 @@ impl Transform<'_> {
                 type_only: false,
                 ..
             })) if !specifiers.is_empty() => {
-                // Match tsc behavior: keep empty original imports, but strip specifiers by
-                // usage.
+                // Match tsc behavior: keep empty original imports, but strip
+                // specifiers by usage.
                 specifiers.retain(|import_specifier| match import_specifier {
                     ImportSpecifier::Named(named) => {
                         if named.is_type_only {
@@ -1373,8 +1374,9 @@ impl Transform<'_> {
         let require = private_ident!("__require");
 
         // NOTE: This is not correct!
-        // However, all unresolved_span are used in TsImportExportAssignConfig::Classic
-        // which is deprecated and not used in real world.
+        // However, all unresolved_span are used in
+        // TsImportExportAssignConfig::Classic which is deprecated and not used
+        // in real world.
         let unresolved_ctxt = self.unresolved_ctxt;
         let cjs_require = quote_ident!(unresolved_ctxt, "require");
         let cjs_exports = quote_ident!(unresolved_ctxt, "exports");
@@ -1396,7 +1398,8 @@ impl Transform<'_> {
                         TsModuleRef::TsEntityName(ts_entity_name) => {
                             let mut init = Self::ts_entity_name_to_expr(ts_entity_name.clone());
                             if matches!(self.enum_inlining, EnumInlining::Applied) {
-                                // This expression did not exist during reference analysis.
+                                // This expression did not exist during
+                                // reference analysis.
                                 let enum_inlining =
                                     mem::replace(&mut self.enum_inlining, EnumInlining::Emit);
                                 init.visit_mut_with(self);

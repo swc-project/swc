@@ -21,19 +21,20 @@ impl ActiveFormattingElementStack {
 
     pub fn push(&mut self, value: ActiveFormattingElement) {
         // When the steps below require the UA to push onto the list of active
-        // formatting elements an element element, the UA must perform the following
-        // steps:
+        // formatting elements an element element, the UA must perform the
+        // following steps:
 
-        // 1. If there are already three elements in the list of active formatting
+        // 1. If there are already three elements in the list of active
+        //    formatting
         // elements after the last marker, if any, or anywhere in the list if
         // there are no markers, that have the same tag name, namespace, and
         // attributes as element, then remove the earliest such element from the
-        // list of active formatting elements. For these purposes, the attributes
-        // must be compared as they were when the elements were created by the parser;
-        // two elements have the same attributes if all their parsed attributes
-        // can be paired such that the two attributes in each pair have
-        // identical names, namespaces, and values (the order of the attributes
-        // does not matter).
+        // list of active formatting elements. For these purposes, the
+        // attributes must be compared as they were when the elements were
+        // created by the parser; two elements have the same attributes if all
+        // their parsed attributes can be paired such that the two attributes in
+        // each pair have identical names, namespaces, and values (the order of
+        // the attributes does not matter).
         let mut count = 0;
         let new_element = match &value {
             ActiveFormattingElement::Element(node, token_and_info) => (node, token_and_info),
