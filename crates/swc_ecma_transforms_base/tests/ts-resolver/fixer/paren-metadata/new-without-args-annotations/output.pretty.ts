@@ -3,8 +3,12 @@
 (/* @__PURE__ */ new Handler)?.();
 (/* @__PURE__ */ createHandler())?.();
 new (/* @__PURE__ */ new Handler)(x);
-(/* a */ /* @__PURE__ */ foo()).m();
-(/* b */ /* @__PURE__ */ foo())();
-(/* c */ /* @__PURE__ */ new F).m();
-new (/* d */ /* @__PURE__ */ new F)(x);
-new (/*! @license ACME */ /* @__PURE__ */ new F)();
+/* a */ (/* @__PURE__ */ foo()).m();
+/* b */ (/* @__PURE__ */ foo())();
+/* c */ (/* @__PURE__ */ new F).m();
+new /* d */ (/* @__PURE__ */ new F)(x);
+new /*! @license ACME */ (/* @__PURE__ */ new F)();
+/*! @license ACME */ (/* @__PURE__ */ new F).m();
+/* @__PURE__ */ (/* @__PURE__ */ new F).m();
+new /* @__PURE__ */ (/* @__PURE__ */ new F)(x);
+(/*! @license ACME */ new F).m();

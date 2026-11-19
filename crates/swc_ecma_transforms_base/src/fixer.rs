@@ -1,6 +1,10 @@
 use std::mem;
 
-use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    comments::{Comment, CommentKind, Comments},
+    util::take::Take,
+    Span, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -117,25 +121,30 @@ impl Fixer<'_> {
 
     /// Returns whether `e` starts with an annotation comment such as
     /// `/* @__PURE__ */` or `/* @__NO_SIDE_EFFECTS__ */`.
+    ///
+    /// This reads the comments with `get_leading`, because the default
+    /// implementation of `Comments::has_flag` moves the leading comments it
+    /// checks to the trailing comments.
     fn has_annotation(&self, e: &Expr) -> bool {
         let span = e.span();
         !span.is_dummy()
             && self.comments.is_some_and(|c| {
-                c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+                c.get_leading(span.lo)
+                    .is_some_and(|comments| comments.iter().any(is_annotation))
             })
     }
 
-    /// Wraps an annotated expression in parentheses that have no source span.
+    /// Wraps an annotated expression in parentheses, so that the annotation
+    /// stays inside them and does not apply to the outer expression. See
+    /// issue #12019.
     ///
-    /// A paren with the restored source span would make codegen print the
-    /// annotation before `(`, so that it applies to the outer expression.
-    /// See issue #12019.
+    /// If this pass removed parentheses around `e`, their source span is
+    /// restored as `wrap` does. Comments before the removed `(` are then
+    /// printed before the new `(`, and the annotation of `e` inside it.
     ///
-    /// The annotation comments before the removed `(` are not moved onto
-    /// `e`. Such a comment, like the outer annotation in
-    /// `/* @__PURE__ */ (/* @__PURE__ */ new F).m()`, stays at the start of
-    /// the outer expression and is printed before the new `(`. Other comments
-    /// of the removed paren are moved onto `e` as usual.
+    /// Otherwise the parentheses get no span. A paren with the span of `e`
+    /// would make codegen print the annotation before `(`, so that it applies
+    /// to the outer expression.
     ///
     /// Known limitation: `paren_remover` moves the comments at `(` onto the
     /// inner expression before this pass runs, so after it the fixer cannot
@@ -145,14 +154,14 @@ impl Fixer<'_> {
     /// call with side effects, but the outer call of the first form is no
     /// longer marked as pure.
     fn wrap_annotated(&mut self, e: &mut Expr) {
-        self.span_map.keep_leading_annotations(e.span());
+        let span = self
+            .span_map
+            .remove(e.span())
+            .filter(|span| !span.is_pure())
+            .unwrap_or(DUMMY_SP);
 
         let expr = Box::new(e.take());
-        *e = ParenExpr {
-            expr,
-            span: DUMMY_SP,
-        }
-        .into();
+        *e = ParenExpr { expr, span }.into();
     }
 
     /// Wraps a `new` expression without arguments, such as `new F`, that is
@@ -1488,6 +1497,20 @@ impl Fixer<'_> {
             _ => {}
         }
     }
+}
+
+/// Returns whether `comment` is a `/* @__PURE__ */` or
+/// `/* @__NO_SIDE_EFFECTS__ */` annotation, with the same rules as
+/// `Comments::has_flag`.
+fn is_annotation(comment: &Comment) -> bool {
+    comment.kind == CommentKind::Block
+        && comment.text.lines().any(|line| {
+            let line = line.trim_start_matches(['*', ' ']).trim();
+            line.strip_prefix("#__")
+                .or_else(|| line.strip_prefix("@__"))
+                .and_then(|line| line.strip_suffix("__"))
+                .is_some_and(|flag| flag == "PURE" || flag == "NO_SIDE_EFFECTS")
+        })
 }
 
 fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<Box<Expr>> {

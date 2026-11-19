@@ -8,3 +8,7 @@ foo()();
 (new F).m();
 new (new F)(x);
 new (new F)();
+(new F).m();
+(new F).m();
+new (new F)(x);
+(new F).m();

@@ -1,13 +1,13 @@
 Source, remove_only=false:
-paren 0..0, operand 17..26
+paren 2..27, operand 17..26
 paren 41..64, operand 53..63
 
 Source, remove_only=true:
 
 Duplicated, remove_only=false:
-paren 0..0, operand 17..26
+paren 2..27, operand 17..26
 paren 41..64, operand 53..63
-paren 0..0, operand 17..26
+paren 2..27, operand 17..26
 paren 41..64, operand 53..63
 
 Duplicated, remove_only=true:

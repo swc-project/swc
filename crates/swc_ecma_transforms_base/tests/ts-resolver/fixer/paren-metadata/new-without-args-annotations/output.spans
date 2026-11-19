@@ -1,42 +1,58 @@
 Source, remove_only=false:
-paren 0..0, operand 34..45
-paren 0..0, operand 69..80
-paren 0..0, operand 102..113
-paren 0..0, operand 137..152
-paren 0..0, operand 180..191
-paren 0..0, operand 223..228
-paren 0..0, operand 262..267
-paren 0..0, operand 299..304
-paren 0..0, operand 341..346
-paren 0..0, operand 394..399
+paren 17..46, operand 34..45
+paren 52..81, operand 69..80
+paren 85..114, operand 102..113
+paren 120..153, operand 137..152
+paren 163..192, operand 180..191
+paren 206..229, operand 223..228
+paren 245..268, operand 262..267
+paren 282..305, operand 299..304
+paren 324..347, operand 341..346
+paren 377..400, operand 394..399
+paren 426..449, operand 443..448
+paren 473..496, operand 490..495
+paren 523..546, operand 540..545
+paren 551..579, operand 573..578
 
 Source, remove_only=true:
 
 Duplicated, remove_only=false:
-paren 0..0, operand 34..45
-paren 0..0, operand 69..80
-paren 0..0, operand 102..113
-paren 0..0, operand 137..152
-paren 0..0, operand 180..191
-paren 0..0, operand 223..228
-paren 0..0, operand 262..267
-paren 0..0, operand 299..304
-paren 0..0, operand 341..346
-paren 0..0, operand 394..399
-paren 0..0, operand 34..45
-paren 0..0, operand 69..80
-paren 0..0, operand 102..113
-paren 0..0, operand 137..152
-paren 0..0, operand 180..191
-paren 0..0, operand 223..228
-paren 0..0, operand 262..267
-paren 0..0, operand 299..304
-paren 0..0, operand 341..346
-paren 0..0, operand 394..399
+paren 17..46, operand 34..45
+paren 52..81, operand 69..80
+paren 85..114, operand 102..113
+paren 120..153, operand 137..152
+paren 163..192, operand 180..191
+paren 206..229, operand 223..228
+paren 245..268, operand 262..267
+paren 282..305, operand 299..304
+paren 324..347, operand 341..346
+paren 377..400, operand 394..399
+paren 426..449, operand 443..448
+paren 473..496, operand 490..495
+paren 523..546, operand 540..545
+paren 551..579, operand 573..578
+paren 17..46, operand 34..45
+paren 52..81, operand 69..80
+paren 85..114, operand 102..113
+paren 120..153, operand 137..152
+paren 163..192, operand 180..191
+paren 206..229, operand 223..228
+paren 245..268, operand 262..267
+paren 282..305, operand 299..304
+paren 324..347, operand 341..346
+paren 377..400, operand 394..399
+paren 426..449, operand 443..448
+paren 473..496, operand 490..495
+paren 523..546, operand 540..545
+paren 551..579, operand 573..578
 
 Duplicated, remove_only=true:
 
 Dummy, remove_only=false:
+paren 0..0, operand 0..0
+paren 0..0, operand 0..0
+paren 0..0, operand 0..0
+paren 0..0, operand 0..0
 paren 0..0, operand 0..0
 paren 0..0, operand 0..0
 paren 0..0, operand 0..0
@@ -55,10 +71,18 @@ paren 1..2, operand 1..2
 paren 1..2, operand 1..2
 paren 1..2, operand 1..2
 paren 1..2, operand 1..2
+paren 1..2, operand 1..2
+paren 1..2, operand 1..2
+paren 1..2, operand 1..2
+paren 1..2, operand 1..2
 
 Shared, remove_only=true:
 
 Pure, remove_only=false:
+paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 4294967294..4294967294
 paren 0..0, operand 4294967294..4294967294
 paren 0..0, operand 4294967294..4294967294
 paren 0..0, operand 4294967294..4294967294
@@ -73,11 +97,15 @@ Mixed, remove_only=false:
 paren 0..0, operand 0..0
 paren 52..81, operand 4294967294..4294967294
 paren 0..0, operand 0..0
-paren 0..0, operand 137..152
+paren 1..2, operand 137..152
 paren 0..0, operand 1..2
 paren 282..305, operand 1..2
 paren 0..0, operand 3..4
 paren 0..0, operand 4294967294..4294967294
+paren 0..0, operand 443..448
+paren 473..496, operand 490..495
+paren 523..546, operand 3..4
+paren 551..579, operand 573..578
 
 Mixed, remove_only=true:
 
