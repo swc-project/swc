@@ -1,4 +1,14 @@
 Source, remove_only=false:
+leading BytePos(651) -> BytePos(668)
+trailing BytePos(674) -> BytePos(673)
+leading BytePos(634) -> BytePos(651)
+trailing BytePos(675) -> BytePos(674)
+leading BytePos(602) -> BytePos(619)
+trailing BytePos(627) -> BytePos(626)
+leading BytePos(585) -> BytePos(602)
+trailing BytePos(628) -> BytePos(627)
+leading BytePos(523) -> BytePos(540)
+trailing BytePos(546) -> BytePos(545)
 leading BytePos(472) -> BytePos(473)
 trailing BytePos(497) -> BytePos(496)
 leading BytePos(425) -> BytePos(426)
@@ -29,11 +39,20 @@ leading at BytePos(426): [Comment { kind: Block, span: 404..424, text: "! @licen
 leading at BytePos(443): [Comment { kind: Block, span: 427..442, text: " @__PURE__ " }]
 leading at BytePos(473): [Comment { kind: Block, span: 456..471, text: " @__PURE__ " }]
 leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE__ " }]
-leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
-leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
+leading at BytePos(540): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }, Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(619): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }, Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }, Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Source, remove_only=true:
+leading BytePos(651) -> BytePos(668)
+trailing BytePos(674) -> BytePos(673)
+leading BytePos(634) -> BytePos(651)
+trailing BytePos(675) -> BytePos(674)
+leading BytePos(602) -> BytePos(619)
+trailing BytePos(627) -> BytePos(626)
+leading BytePos(585) -> BytePos(602)
+trailing BytePos(628) -> BytePos(627)
 leading BytePos(551) -> BytePos(573)
 trailing BytePos(579) -> BytePos(578)
 leading BytePos(523) -> BytePos(540)
@@ -88,8 +107,20 @@ leading at BytePos(473): [Comment { kind: Block, span: 456..471, text: " @__PURE
 leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }, Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(619): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }, Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }, Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Duplicated, remove_only=false:
+leading BytePos(651) -> BytePos(668)
+trailing BytePos(674) -> BytePos(673)
+leading BytePos(634) -> BytePos(651)
+trailing BytePos(675) -> BytePos(674)
+leading BytePos(602) -> BytePos(619)
+trailing BytePos(627) -> BytePos(626)
+leading BytePos(585) -> BytePos(602)
+trailing BytePos(628) -> BytePos(627)
+leading BytePos(523) -> BytePos(540)
+trailing BytePos(546) -> BytePos(545)
 leading BytePos(472) -> BytePos(473)
 trailing BytePos(497) -> BytePos(496)
 leading BytePos(425) -> BytePos(426)
@@ -120,11 +151,20 @@ leading at BytePos(426): [Comment { kind: Block, span: 404..424, text: "! @licen
 leading at BytePos(443): [Comment { kind: Block, span: 427..442, text: " @__PURE__ " }]
 leading at BytePos(473): [Comment { kind: Block, span: 456..471, text: " @__PURE__ " }]
 leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE__ " }]
-leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
-leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
+leading at BytePos(540): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }, Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(619): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }, Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }, Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Duplicated, remove_only=true:
+leading BytePos(651) -> BytePos(668)
+trailing BytePos(674) -> BytePos(673)
+leading BytePos(634) -> BytePos(651)
+trailing BytePos(675) -> BytePos(674)
+leading BytePos(602) -> BytePos(619)
+trailing BytePos(627) -> BytePos(626)
+leading BytePos(585) -> BytePos(602)
+trailing BytePos(628) -> BytePos(627)
 leading BytePos(551) -> BytePos(573)
 trailing BytePos(579) -> BytePos(578)
 leading BytePos(523) -> BytePos(540)
@@ -179,6 +219,8 @@ leading at BytePos(473): [Comment { kind: Block, span: 456..471, text: " @__PURE
 leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }, Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(619): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }, Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }, Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Dummy, remove_only=false:
 leading at BytePos(17): [Comment { kind: Block, span: 1..16, text: " @__PURE__ " }]
@@ -204,6 +246,10 @@ leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE
 leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(602): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }]
+leading at BytePos(619): [Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(651): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Dummy, remove_only=true:
 leading BytePos(0) -> BytePos(0)
@@ -231,6 +277,10 @@ leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE
 leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(602): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }]
+leading at BytePos(619): [Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(651): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Shared, remove_only=false:
 leading at BytePos(17): [Comment { kind: Block, span: 1..16, text: " @__PURE__ " }]
@@ -256,6 +306,10 @@ leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE
 leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(602): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }]
+leading at BytePos(619): [Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(651): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Shared, remove_only=true:
 leading BytePos(1) -> BytePos(1)
@@ -283,6 +337,10 @@ leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE
 leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(602): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }]
+leading at BytePos(619): [Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(651): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Pure, remove_only=false:
 leading at BytePos(17): [Comment { kind: Block, span: 1..16, text: " @__PURE__ " }]
@@ -308,6 +366,10 @@ leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE
 leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(602): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }]
+leading at BytePos(619): [Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(651): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Pure, remove_only=true:
 leading BytePos(4294967294) -> BytePos(4294967294)
@@ -335,14 +397,22 @@ leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE
 leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(602): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }]
+leading at BytePos(619): [Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(651): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Mixed, remove_only=false:
+leading BytePos(0) -> BytePos(3)
+trailing BytePos(0) -> BytePos(4)
+leading BytePos(0) -> BytePos(4294967294)
+trailing BytePos(0) -> BytePos(4294967294)
 leading BytePos(4294967294) -> BytePos(473)
 trailing BytePos(4294967294) -> BytePos(496)
 leading BytePos(3) -> BytePos(282)
 trailing BytePos(4) -> BytePos(305)
-leading BytePos(4294967294) -> BytePos(0)
-trailing BytePos(4294967294) -> BytePos(0)
+leading BytePos(3) -> BytePos(0)
+trailing BytePos(4) -> BytePos(0)
 leading at BytePos(17): [Comment { kind: Block, span: 1..16, text: " @__PURE__ " }]
 leading at BytePos(34): [Comment { kind: Block, span: 18..33, text: " @__PURE__ " }]
 leading at BytePos(69): [Comment { kind: Block, span: 53..68, text: " @__PURE__ " }]
@@ -366,8 +436,14 @@ leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE
 leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(602): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }]
+leading at BytePos(619): [Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(651): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 
 Mixed, remove_only=true:
+leading BytePos(3) -> BytePos(668)
+trailing BytePos(4) -> BytePos(673)
 leading BytePos(551) -> BytePos(573)
 trailing BytePos(579) -> BytePos(578)
 leading BytePos(473) -> BytePos(490)
@@ -376,8 +452,8 @@ leading BytePos(4294967294) -> BytePos(473)
 trailing BytePos(4294967294) -> BytePos(496)
 leading BytePos(0) -> BytePos(443)
 trailing BytePos(0) -> BytePos(448)
-leading BytePos(523) -> BytePos(3)
-trailing BytePos(546) -> BytePos(4)
+leading BytePos(0) -> BytePos(3)
+trailing BytePos(0) -> BytePos(4)
 leading BytePos(3) -> BytePos(282)
 trailing BytePos(4) -> BytePos(305)
 leading BytePos(282) -> BytePos(1)
@@ -386,13 +462,13 @@ leading BytePos(1) -> BytePos(137)
 trailing BytePos(2) -> BytePos(152)
 leading BytePos(0) -> BytePos(4294967294)
 trailing BytePos(0) -> BytePos(4294967294)
-leading BytePos(4294967294) -> BytePos(0)
-trailing BytePos(4294967294) -> BytePos(0)
+leading BytePos(3) -> BytePos(0)
+trailing BytePos(4) -> BytePos(0)
 leading at BytePos(17): [Comment { kind: Block, span: 1..16, text: " @__PURE__ " }]
 leading at BytePos(34): [Comment { kind: Block, span: 18..33, text: " @__PURE__ " }]
 leading at BytePos(69): [Comment { kind: Block, span: 53..68, text: " @__PURE__ " }]
 leading at BytePos(102): [Comment { kind: Block, span: 86..101, text: " @__PURE__ " }]
-leading at BytePos(137): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }, Comment { kind: Block, span: 274..281, text: " c " }, Comment { kind: Block, span: 121..136, text: " @__PURE__ " }]
+leading at BytePos(137): [Comment { kind: Block, span: 274..281, text: " c " }, Comment { kind: Block, span: 121..136, text: " @__PURE__ " }]
 leading at BytePos(180): [Comment { kind: Block, span: 164..179, text: " @__PURE__ " }]
 leading at BytePos(206): [Comment { kind: Block, span: 198..205, text: " a " }]
 leading at BytePos(223): [Comment { kind: Block, span: 207..222, text: " @__PURE__ " }]
@@ -407,6 +483,11 @@ leading at BytePos(425): [Comment { kind: Block, span: 404..424, text: "! @licen
 leading at BytePos(443): [Comment { kind: Block, span: 427..442, text: " @__PURE__ " }]
 leading at BytePos(472): [Comment { kind: Block, span: 456..471, text: " @__PURE__ " }]
 leading at BytePos(490): [Comment { kind: Block, span: 474..489, text: " @__PURE__ " }]
+leading at BytePos(523): [Comment { kind: Block, span: 507..522, text: " @__PURE__ " }]
 leading at BytePos(540): [Comment { kind: Block, span: 524..539, text: " @__PURE__ " }]
 leading at BytePos(573): [Comment { kind: Block, span: 552..572, text: "! @license ACME " }]
+leading at BytePos(602): [Comment { kind: Block, span: 586..601, text: " @__PURE__ " }]
+leading at BytePos(619): [Comment { kind: Block, span: 603..618, text: " @__PURE__ " }]
+leading at BytePos(651): [Comment { kind: Block, span: 635..650, text: " @__PURE__ " }]
+leading at BytePos(668): [Comment { kind: Block, span: 652..667, text: " @__PURE__ " }]
 

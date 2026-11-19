@@ -12,3 +12,5 @@ new /*! @license ACME */ (/* @__PURE__ */ new F)();
 /* @__PURE__ */ ((/* @__PURE__ */ new F)).m();
 new /* @__PURE__ */ (/* @__PURE__ */ new F)(x);
 (/*! @license ACME */ new F).m();
+(/* @__PURE__ */ (/* @__PURE__ */ new F())).m();
+(/* @__PURE__ */ (/* @__PURE__ */ new F)).m();

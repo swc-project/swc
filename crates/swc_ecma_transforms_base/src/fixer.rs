@@ -3,7 +3,7 @@ use std::mem;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     util::take::Take,
-    Span, Spanned, DUMMY_SP,
+    BytePos, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -121,30 +121,40 @@ impl Fixer<'_> {
 
     /// Returns whether `e` starts with an annotation comment such as
     /// `/* @__PURE__ */` or `/* @__NO_SIDE_EFFECTS__ */`.
+    fn has_annotation(&self, e: &Expr) -> bool {
+        let span = e.span();
+        // A span from `Span::dummy_with_cmt` is reserved for comments.
+        !span.is_dummy_ignoring_cmt() && self.has_annotation_at(span.lo)
+    }
+
+    /// Returns whether the leading comments at `pos` contain an annotation.
     ///
     /// This reads the comments with `get_leading`, because the default
     /// implementation of `Comments::has_flag` moves the leading comments it
     /// checks to the trailing comments.
-    fn has_annotation(&self, e: &Expr) -> bool {
-        let span = e.span();
-        !span.is_dummy()
-            && self.comments.is_some_and(|c| {
-                c.get_leading(span.lo)
-                    .is_some_and(|comments| comments.iter().any(is_annotation))
-            })
+    fn has_annotation_at(&self, pos: BytePos) -> bool {
+        self.comments.is_some_and(|c| {
+            c.get_leading(pos)
+                .is_some_and(|comments| comments.iter().any(is_annotation))
+        })
     }
 
     /// Wraps an annotated expression in parentheses, so that the annotation
     /// stays inside them and does not apply to the outer expression. See
-    /// issue #12019.
+    /// issue #12019. `outer_lo` is the start of the expression that contains
+    /// `e`, such as the call whose callee is `e`.
     ///
     /// If this pass removed parentheses around `e`, their source span is
-    /// restored as `wrap` does. Comments before the removed `(` are then
-    /// printed before the new `(`, and the annotation of `e` inside it.
+    /// restored as `wrap` does, so that comments before the removed `(` are
+    /// printed before the new `(`. This is done only if the removed `(` is at
+    /// the start of the outer expression, or if no annotation is before it.
+    /// Otherwise, as in `(/* @__PURE__ */ (/* @__PURE__ */ f())).m()` after
+    /// the redundant outer parentheses are removed, an annotation inside them
+    /// would be printed before the receiver and apply to the call of `m`.
     ///
-    /// Otherwise the parentheses get no span. A paren with the span of `e`
-    /// would make codegen print the annotation before `(`, so that it applies
-    /// to the outer expression.
+    /// In the other cases the parentheses get no span, and the comments of a
+    /// removed paren move onto `e`. A paren with the span of `e` would make
+    /// codegen print the annotation of `e` before `(`.
     ///
     /// Known limitation: `paren_remover` moves the comments at `(` onto the
     /// inner expression before this pass runs, so after it the fixer cannot
@@ -153,41 +163,47 @@ impl Fixer<'_> {
     /// never makes an outer call pure, which would let a minifier remove a
     /// call with side effects, but the outer call of the first form is no
     /// longer marked as pure.
-    fn wrap_annotated(&mut self, e: &mut Expr) {
-        let span = self
-            .span_map
-            .remove(e.span())
-            .filter(|span| !span.is_pure())
-            .unwrap_or(DUMMY_SP);
+    fn wrap_annotated(&mut self, e: &mut Expr, outer_lo: BytePos) {
+        let span = match self.span_map.get(e.span()) {
+            Some(paren)
+                if !paren.is_pure()
+                    && (paren.lo == outer_lo || !self.has_annotation_at(paren.lo)) =>
+            {
+                self.span_map.remove(e.span());
+                paren
+            }
+            _ => DUMMY_SP,
+        };
 
         let expr = Box::new(e.take());
         *e = ParenExpr { expr, span }.into();
     }
 
     /// Wraps a `new` expression without arguments, such as `new F`, that is
-    /// used as a callee or as a member object.
+    /// used as a callee or as a member object. `outer_lo` is the start of the
+    /// expression that contains `e`.
     ///
     /// `(new F)()` calls the constructed value, but `new F()` only constructs
     /// `F`, and `new F?.()` is a syntax error. A leading annotation stays
     /// inside the parentheses.
-    fn wrap_new_without_args(&mut self, e: &mut Expr) {
+    fn wrap_new_without_args(&mut self, e: &mut Expr, outer_lo: BytePos) {
         if self.remove_only {
             return;
         }
 
         if self.has_annotation(e) {
-            self.wrap_annotated(e);
+            self.wrap_annotated(e, outer_lo);
         } else {
             self.wrap(e);
         }
     }
 
     /// Wraps a call callee that would otherwise print with a different
-    /// meaning.
-    fn wrap_callee(&mut self, e: &mut Expr) {
+    /// meaning. `outer_lo` is the start of the call.
+    fn wrap_callee(&mut self, e: &mut Expr, outer_lo: BytePos) {
         match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
-            Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e),
+            Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e, outer_lo),
             Expr::Cond(..)
             | Expr::Class(..)
             | Expr::Bin(..)
@@ -545,12 +561,13 @@ impl VisitMut for Fixer<'_> {
         let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
 
         node.callee.visit_mut_with(self);
+        let outer_lo = node.span.lo;
         if let Callee::Expr(e) = &mut node.callee {
             match &**e {
                 Expr::OptChain(..) | Expr::TsNonNull(..) if continues_optional_chain(e) => {
                     self.wrap(e)
                 }
-                Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e),
+                Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e, outer_lo),
                 // Preserve parentheses around callees that carry a leading
                 // annotation like `/* @__PURE__ */` so downstream tools do not
                 // interpret the annotation as applying to the outer chained
@@ -558,9 +575,9 @@ impl VisitMut for Fixer<'_> {
                 Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
                     if !self.remove_only && self.has_annotation(e) =>
                 {
-                    self.wrap_annotated(e)
+                    self.wrap_annotated(e, outer_lo)
                 }
-                _ => self.wrap_callee(e),
+                _ => self.wrap_callee(e, outer_lo),
             }
         }
 
@@ -827,7 +844,9 @@ impl VisitMut for Fixer<'_> {
             | Expr::TsInstantiation(..) => {
                 self.wrap(&mut n.obj);
             }
-            Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(&mut n.obj),
+            Expr::New(NewExpr { args: None, .. }) => {
+                self.wrap_new_without_args(&mut n.obj, n.span.lo)
+            }
             Expr::Call(..) if self.ctx == Context::Callee { is_new: true } => {
                 self.wrap(&mut n.obj);
             }
@@ -843,7 +862,7 @@ impl VisitMut for Fixer<'_> {
             Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
                 if !self.remove_only && self.has_annotation(&n.obj) =>
             {
-                self.wrap_annotated(&mut n.obj)
+                self.wrap_annotated(&mut n.obj, n.span.lo)
             }
             _ => {}
         }
@@ -874,7 +893,7 @@ impl VisitMut for Fixer<'_> {
             Expr::New(NewExpr { args: None, .. })
                 if node.args.is_some() || node.type_args.is_some() =>
             {
-                self.wrap_new_without_args(&mut node.callee)
+                self.wrap_new_without_args(&mut node.callee, node.span.lo)
             }
             // `new foo()`bar`() constructs `foo`, while `new (foo()`bar`)()`
             // constructs the class returned by the tagged template expression.
@@ -913,9 +932,9 @@ impl VisitMut for Fixer<'_> {
             Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
                 if !self.remove_only && self.has_annotation(&node.callee) =>
             {
-                self.wrap_annotated(&mut node.callee)
+                self.wrap_annotated(&mut node.callee, node.span.lo)
             }
-            _ => self.wrap_callee(&mut node.callee),
+            _ => self.wrap_callee(&mut node.callee, node.span.lo),
         }
 
         self.in_opt_chain = in_opt_chain;
@@ -1613,6 +1632,53 @@ mod tests {
             true,
             Default::default,
         );
+    }
+
+    /// A synthesized `new F` whose span comes from `Span::dummy_with_cmt` and
+    /// carries `/* @__PURE__ */` is still annotated, so its parentheses are
+    /// kept without a span and the annotation is not printed before `.m()`.
+    #[test]
+    fn annotated_new_with_comment_span_is_wrapped() {
+        use swc_common::{
+            comments::{Comment, CommentKind, Comments, SingleThreadedComments},
+            Span, DUMMY_SP,
+        };
+        use swc_ecma_ast::{Ident, IdentName, MemberExpr, MemberProp, NewExpr};
+        use swc_ecma_visit::VisitMutWith;
+
+        crate::tests::Tester::run(|_| {
+            let comments = SingleThreadedComments::default();
+            let new_span = Span::dummy_with_cmt();
+            comments.add_leading(
+                new_span.lo,
+                Comment {
+                    kind: CommentKind::Block,
+                    span: DUMMY_SP,
+                    text: "#__PURE__".into(),
+                },
+            );
+
+            let mut expr = Expr::Member(MemberExpr {
+                span: DUMMY_SP,
+                obj: Box::new(Expr::New(NewExpr {
+                    span: new_span,
+                    callee: Box::new(Ident::new_no_ctxt("F".into(), DUMMY_SP).into()),
+                    ..Default::default()
+                })),
+                prop: MemberProp::Ident(IdentName::new("m".into(), DUMMY_SP)),
+            });
+            expr.visit_mut_with(&mut super::fixer(Some(&comments)));
+
+            let Expr::Member(MemberExpr { obj, .. }) = &expr else {
+                panic!("expected member expression");
+            };
+            let Expr::Paren(ParenExpr { span, expr }) = &**obj else {
+                panic!("expected wrapped receiver, got {obj:?}");
+            };
+            assert_eq!(*span, DUMMY_SP);
+            assert!(expr.is_new());
+            Ok(())
+        });
     }
 
     macro_rules! test_fixer {

@@ -11,8 +11,10 @@ paren 324..347, operand 341..346
 paren 377..400, operand 394..399
 paren 426..449, operand 443..448
 paren 473..496, operand 490..495
-paren 523..546, operand 540..545
+paren 0..0, operand 540..545
 paren 551..579, operand 573..578
+paren 0..0, operand 619..626
+paren 0..0, operand 668..673
 
 Source, remove_only=true:
 
@@ -29,8 +31,10 @@ paren 324..347, operand 341..346
 paren 377..400, operand 394..399
 paren 426..449, operand 443..448
 paren 473..496, operand 490..495
-paren 523..546, operand 540..545
+paren 0..0, operand 540..545
 paren 551..579, operand 573..578
+paren 0..0, operand 619..626
+paren 0..0, operand 668..673
 paren 17..46, operand 34..45
 paren 52..81, operand 69..80
 paren 85..114, operand 102..113
@@ -43,12 +47,15 @@ paren 324..347, operand 341..346
 paren 377..400, operand 394..399
 paren 426..449, operand 443..448
 paren 473..496, operand 490..495
-paren 523..546, operand 540..545
+paren 0..0, operand 540..545
 paren 551..579, operand 573..578
+paren 0..0, operand 619..626
+paren 0..0, operand 668..673
 
 Duplicated, remove_only=true:
 
 Dummy, remove_only=false:
+paren 0..0, operand 0..0
 paren 0..0, operand 0..0
 paren 0..0, operand 0..0
 paren 0..0, operand 0..0
@@ -75,10 +82,12 @@ paren 1..2, operand 1..2
 paren 1..2, operand 1..2
 paren 1..2, operand 1..2
 paren 1..2, operand 1..2
+paren 1..2, operand 1..2
 
 Shared, remove_only=true:
 
 Pure, remove_only=false:
+paren 0..0, operand 4294967294..4294967294
 paren 0..0, operand 4294967294..4294967294
 paren 0..0, operand 4294967294..4294967294
 paren 0..0, operand 4294967294..4294967294
@@ -106,6 +115,7 @@ paren 0..0, operand 443..448
 paren 473..496, operand 490..495
 paren 523..546, operand 3..4
 paren 551..579, operand 573..578
+paren 3..4, operand 668..673
 
 Mixed, remove_only=true:
 

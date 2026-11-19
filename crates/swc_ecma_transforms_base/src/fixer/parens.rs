@@ -38,6 +38,12 @@ impl ParenSpans {
         }
     }
 
+    /// Returns the removed paren around `span` without consuming it.
+    pub(super) fn get(&self, span: Span) -> Option<Span> {
+        let index = *self.indices.get(&span)?;
+        self.spans[index].paren
+    }
+
     pub(super) fn remove(&mut self, span: Span) -> Option<Span> {
         let index = self.indices.remove(&span)?;
         let paren = self.spans[index].paren.take();
