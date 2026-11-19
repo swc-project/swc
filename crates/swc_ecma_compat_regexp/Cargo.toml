@@ -13,7 +13,7 @@ version       = "10.0.1"
 bench = false
 
 [dependencies]
-icu_properties = { version = "2.0.0", default-features = false, features = [
+icu_properties = { version = "~2.1.1", default-features = false, features = [
   "compiled_data",
   "alloc",
 ] }
