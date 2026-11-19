@@ -1,6 +1,6 @@
 export const a = {
-    set g (_){}
+    set g (t = 1){}
 };
 export class A {
-    set g(_) {}
+    set g(t = 1) {}
 }

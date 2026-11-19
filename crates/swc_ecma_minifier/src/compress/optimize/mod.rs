@@ -26,10 +26,7 @@ use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::{
-        optimize::{unused::fix_setter_param, util::get_ids_of_pat},
-        util::is_pure_undefined,
-    },
+    compress::{optimize::util::get_ids_of_pat, util::is_pure_undefined},
     debug::AssertValid,
     maybe_par,
     mode::Mode,
@@ -1982,8 +1979,8 @@ impl VisitMut for Optimizer<'_> {
                     .function
                     .visit_mut_with(&mut *self.with_ctx(ctx));
 
-                if class_method.kind == MethodKind::Setter {
-                    fix_setter_param(&mut class_method.function);
+                if class_method.kind == MethodKind::Method {
+                    self.drop_unused_params(&mut class_method.function.params, false);
                 }
             }
             ClassMember::AutoAccessor(auto_accessor) => {
@@ -1996,8 +1993,8 @@ impl VisitMut for Optimizer<'_> {
             ClassMember::PrivateMethod(private_method) => {
                 private_method.visit_mut_with(&mut *self.with_ctx(ctx));
 
-                if private_method.kind == MethodKind::Setter {
-                    fix_setter_param(&mut private_method.function);
+                if private_method.kind == MethodKind::Method {
+                    self.drop_unused_params(&mut private_method.function.params, false);
                 }
             }
 
@@ -2419,6 +2416,8 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsLhsOfAssign, false)
             .with(BitCtx::IsExactLhsOfAssign, false);
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        self.drop_unused_params(&mut f.function.params, false);
     }
 
     #[cfg_attr(
@@ -2446,6 +2445,8 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsExactLhsOfAssign, false)
             .with(BitCtx::InFnLike, true);
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        self.drop_unused_params(&mut e.function.params, false);
     }
 
     #[cfg_attr(
@@ -2794,14 +2795,6 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(&mut *o);
     }
 
-    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
-        n.visit_mut_children_with(self);
-
-        self.drop_unused_params(&mut *n, false);
-
-        n.retain(|p| !p.pat.is_invalid());
-    }
-
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
 
@@ -2813,8 +2806,8 @@ impl VisitMut for Optimizer<'_> {
                     self.changed = true;
                 }
             }
-            Prop::Setter(s) => {
-                fix_setter_param(&mut s.function);
+            Prop::Method(m) => {
+                self.drop_unused_params(&mut m.function.params, false);
             }
             _ => (),
         }
