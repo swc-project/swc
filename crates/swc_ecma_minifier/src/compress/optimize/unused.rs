@@ -144,6 +144,8 @@ impl Optimizer<'_> {
                     }
                     _ => (),
                 }
+
+                can_remove_assign &= p.pat.is_invalid();
             }
         }
 
@@ -196,12 +198,16 @@ impl Optimizer<'_> {
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub(super) fn drop_unused_arrow_params(&mut self, params: &mut [Pat], arg_is_empty: bool) {
+    pub(super) fn drop_unused_arrow_params(
+        &mut self,
+        ArrowExpr { ctxt, params, .. }: &mut ArrowExpr,
+        arg_is_empty: bool,
+    ) {
         if !self.options.unused && !self.options.reduce_fns {
             return;
         }
 
-        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(*ctxt) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
@@ -218,7 +224,7 @@ impl Optimizer<'_> {
         } else {
             let mut can_remove_assign = true;
 
-            for p in params {
+            for p in params.iter_mut().rev() {
                 can_remove_assign &= match p {
                     Pat::Rest(_) => false,
                     Pat::Assign(a) => !a.right.may_have_side_effects(self.ctx.expr_ctx),
@@ -236,8 +242,12 @@ impl Optimizer<'_> {
                     }
                     _ => (),
                 }
+
+                can_remove_assign &= p.is_invalid();
             }
         }
+
+        params.retain(|p| !p.is_invalid());
     }
 
     #[cfg_attr(
