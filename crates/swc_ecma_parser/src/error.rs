@@ -816,7 +816,9 @@ impl Error {
     }
 }
 
+/// `Error` boxes its payload, so it must stay pointer-sized on every target
+/// (4 bytes on 32-bit targets, 8 bytes on 64-bit targets).
 #[test]
 fn size_of_error() {
-    assert_eq!(std::mem::size_of::<Error>(), 8);
+    assert_eq!(std::mem::size_of::<Error>(), std::mem::size_of::<usize>());
 }
