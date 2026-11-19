@@ -118,14 +118,16 @@ impl Optimizer<'_> {
                 }
             }
         } else {
-            let can_remove_assign = params.iter().any(|p| match &p.pat {
-                Pat::Rest(_) => false,
-                Pat::Assign(a) => !a.right.may_have_side_effects(self.ctx.expr_ctx),
-                Pat::Ident(_) | Pat::Array(_) | Pat::Object(_) => self.options.keep_fargs,
-                _ => true,
-            });
+            let mut can_remove_assign = true;
 
-            for p in params {
+            for p in params.iter_mut().rev() {
+                can_remove_assign &= match &p.pat {
+                    Pat::Rest(_) => false,
+                    Pat::Assign(a) => !a.right.may_have_side_effects(self.ctx.expr_ctx),
+                    Pat::Ident(_) | Pat::Array(_) | Pat::Object(_) => self.options.keep_fargs,
+                    _ => true,
+                };
+
                 match &p.pat {
                     Pat::Ident(_) => (),
                     Pat::Array(_) | Pat::Object(_) => {
@@ -208,14 +210,16 @@ impl Optimizer<'_> {
                 }
             }
         } else {
-            let can_remove_assign = params.iter().any(|p| match p {
-                Pat::Rest(_) => false,
-                Pat::Assign(a) => !a.right.may_have_side_effects(self.ctx.expr_ctx),
-                Pat::Ident(_) | Pat::Array(_) | Pat::Object(_) => self.options.keep_fargs,
-                _ => true,
-            });
+            let mut can_remove_assign = true;
 
             for p in params {
+                can_remove_assign &= match p {
+                    Pat::Rest(_) => false,
+                    Pat::Assign(a) => !a.right.may_have_side_effects(self.ctx.expr_ctx),
+                    Pat::Ident(_) | Pat::Array(_) | Pat::Object(_) => self.options.keep_fargs,
+                    _ => true,
+                };
+
                 match p {
                     Pat::Ident(_) => (),
                     Pat::Array(_) | Pat::Object(_) => self.take_pat_if_unused(p, None, false),
