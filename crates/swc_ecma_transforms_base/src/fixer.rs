@@ -130,7 +130,22 @@ impl Fixer<'_> {
     /// A paren with the restored source span would make codegen print the
     /// annotation before `(`, so that it applies to the outer expression.
     /// See issue #12019.
-    fn wrap_annotated(e: &mut Expr) {
+    ///
+    /// The removed paren is consumed, so that its leading comments are not
+    /// moved onto `e`. A comment before the removed `(`, such as the outer
+    /// annotation in `/* @__PURE__ */ (/* @__PURE__ */ new F).m()`, stays at
+    /// the start of the outer expression and is printed before the new `(`.
+    ///
+    /// Known limitation: `paren_remover` moves the comments at `(` onto the
+    /// inner expression before this pass runs, so after it the fixer cannot
+    /// tell `/* @__PURE__ */ (new F).m()` from `(/* @__PURE__ */ new F).m()`.
+    /// Both are printed with the annotation inside the parentheses. This
+    /// never makes an outer call pure, which would let a minifier remove a
+    /// call with side effects, but the outer call of the first form is no
+    /// longer marked as pure.
+    fn wrap_annotated(&mut self, e: &mut Expr) {
+        self.span_map.remove(e.span());
+
         let expr = Box::new(e.take());
         *e = ParenExpr {
             expr,
@@ -151,7 +166,7 @@ impl Fixer<'_> {
         }
 
         if self.has_annotation(e) {
-            Self::wrap_annotated(e);
+            self.wrap_annotated(e);
         } else {
             self.wrap(e);
         }
@@ -533,7 +548,7 @@ impl VisitMut for Fixer<'_> {
                 Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
                     if !self.remove_only && self.has_annotation(e) =>
                 {
-                    Self::wrap_annotated(e)
+                    self.wrap_annotated(e)
                 }
                 _ => self.wrap_callee(e),
             }
@@ -818,7 +833,7 @@ impl VisitMut for Fixer<'_> {
             Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
                 if !self.remove_only && self.has_annotation(&n.obj) =>
             {
-                Self::wrap_annotated(&mut n.obj)
+                self.wrap_annotated(&mut n.obj)
             }
             _ => {}
         }
@@ -888,7 +903,7 @@ impl VisitMut for Fixer<'_> {
             Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
                 if !self.remove_only && self.has_annotation(&node.callee) =>
             {
-                Self::wrap_annotated(&mut node.callee)
+                self.wrap_annotated(&mut node.callee)
             }
             _ => self.wrap_callee(&mut node.callee),
         }
