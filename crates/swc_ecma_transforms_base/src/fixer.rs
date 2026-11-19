@@ -115,9 +115,14 @@ impl Fixer<'_> {
         }
     }
 
+    /// Wraps a call callee that would otherwise print with a different
+    /// meaning.
     fn wrap_callee(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
+            // `(new F)()` calls the constructed value, but `new F()` only
+            // constructs `F`, and `new F?.()` is a syntax error.
+            Expr::New(NewExpr { args: None, .. }) => self.wrap(e),
             Expr::Cond(..)
             | Expr::Class(..)
             | Expr::Bin(..)
@@ -480,6 +485,7 @@ impl VisitMut for Fixer<'_> {
                 Expr::OptChain(..) | Expr::TsNonNull(..) if continues_optional_chain(e) => {
                     self.wrap(e)
                 }
+                Expr::New(NewExpr { args: None, .. }) => self.wrap_callee(e),
                 // Preserve parentheses around callees that carry a leading
                 // annotation like `/* @__PURE__ */` so downstream tools do not
                 // interpret the annotation as applying to the outer chained

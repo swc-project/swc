@@ -1866,8 +1866,14 @@ impl MacroNode for OptChainExpr {
                 }
             }
             OptChainBase::Call(e) => {
-                debug_assert!(!e.callee.is_new());
-                emitter.emit_expr_with_precedence(&e.callee, ExprPrecedence::POSTFIX)?;
+                // Keep the `()` of `new F()` in minified output, because
+                // `new F?.()` is a syntax error. The fixer wraps a `new`
+                // callee without arguments in parentheses.
+                if let Expr::New(new) = &*e.callee {
+                    emitter.emit_new(new, false)?;
+                } else {
+                    emitter.emit_expr_with_precedence(&e.callee, ExprPrecedence::POSTFIX)?;
+                }
 
                 if self.optional {
                     punct!(emitter, "?.");
