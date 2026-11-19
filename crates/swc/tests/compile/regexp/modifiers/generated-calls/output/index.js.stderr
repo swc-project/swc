@@ -93,14 +93,35 @@
  21 | export const holePattern = RegExp(...[, "v"]);
     :                                      ^^^^^^^
  22 | // The call replaces the flags, and `\u{61}` cannot be printed again as
- 23 | // written, so the duplicate names are kept, with a warning.
- 24 | export const replacedFlagsSpelling = new RegExp(/^(?:(?<x>\u{61})|(?<x>b))\k<x>$/u, "");
+ 23 | // written, so the duplicate names are kept in a `RegExp` call, with a
+ 24 | // warning.
     `----
   ! Cannot lower named capturing groups in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags, and the pattern cannot be printed again as written. The regular expression is kept, and it can fail on those targets.
-    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:24:1]
- 21 | export const holePattern = RegExp(...[, "v"]);
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:25:1]
  22 | // The call replaces the flags, and `\u{61}` cannot be printed again as
- 23 | // written, so the duplicate names are kept, with a warning.
- 24 | export const replacedFlagsSpelling = new RegExp(/^(?:(?<x>\u{61})|(?<x>b))\k<x>$/u, "");
+ 23 | // written, so the duplicate names are kept in a `RegExp` call, with a
+ 24 | // warning.
+ 25 | export const replacedFlagsSpelling = new RegExp(/^(?:(?<x>\u{61})|(?<x>b))\k<x>$/u, "");
     :                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 | // Printing the pattern again changes `a{1,}` to `a+`, so the names cannot be
+ 27 | // removed for the call. The literal becomes a `RegExp` call, so that the
+ 28 | // target rejects only this expression.
+    `----
+  ! Cannot lower named capturing groups in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags, and the pattern cannot be printed again as written. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:29:1]
+ 26 | // Printing the pattern again changes `a{1,}` to `a+`, so the names cannot be
+ 27 | // removed for the call. The literal becomes a `RegExp` call, so that the
+ 28 | // target rejects only this expression.
+ 29 | export const keptForCall = () => new RegExp(/(?<x>a{1,})|(?<x>b)/, "g");
+    :                                             ^^^^^^^^^^^^^^^^^^^^^
+ 30 | // The parser rejects the script name, but the names repeat.
+ 31 | export const unparsedDuplicateString = new RegExp("(?<x>\\p{Script=Sidetic})|(?<x>b)", "u");
+    `----
+  ! Cannot lower possible duplicate named capturing groups in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:31:1]
+ 28 | // target rejects only this expression.
+ 29 | export const keptForCall = () => new RegExp(/(?<x>a{1,})|(?<x>b)/, "g");
+ 30 | // The parser rejects the script name, but the names repeat.
+ 31 | export const unparsedDuplicateString = new RegExp("(?<x>\\p{Script=Sidetic})|(?<x>b)", "u");
+    :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----

@@ -8,3 +8,10 @@ export const replacedFlags = new RegExp(RegExp("^\\p{Script=Deseret}$", "u"), ""
 // The flags of the call have the same Unicode mode, so the expansion is still
 // valid and is done.
 export const sameUnicodeMode = new RegExp(RegExp("^[\\u{10400}-\\u{1044F}]$", "u"), "gu");
+// After an unknown spread, `"a"` is the last value that can be the pattern,
+// so the third element is expanded as usual.
+export const ignoredAfterSpread = (prefix)=>RegExp(...prefix, ...[
+        "a",
+        "g",
+        RegExp("[\\u0000-\\u007F]", "u")
+    ]);

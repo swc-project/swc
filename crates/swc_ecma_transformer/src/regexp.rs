@@ -415,17 +415,31 @@ impl RegexpPass {
         }
 
         // A leading spread can supply the pattern and the flags, or nothing.
-        // The pattern is then the first argument that is not spread, or an
-        // element of a spread before it. A later argument cannot be the
+        // The pattern is then the first value that is known to exist (an
+        // argument that is not spread, or an element of a spread array), or a
+        // value of an unknown spread before it. A later value cannot be the
         // pattern.
+        let kind = ConstructorUse::ReplacesFlags(None);
         for arg in args.iter() {
-            collect_pattern_literals(
-                &arg.expr,
-                ConstructorUse::ReplacesFlags(None),
-                &mut self.constructor_literals,
-            );
             if arg.spread.is_none() {
-                break;
+                collect_pattern_literals(&arg.expr, kind, &mut self.constructor_literals);
+                return;
+            }
+            let Expr::Array(array) = arg.expr.unwrap_parens() else {
+                collect_pattern_literals(&arg.expr, kind, &mut self.constructor_literals);
+                continue;
+            };
+            for elem in &array.elems {
+                match elem {
+                    // A hole supplies `undefined`, which is a value too.
+                    None => return,
+                    Some(elem) => {
+                        collect_pattern_literals(&elem.expr, kind, &mut self.constructor_literals);
+                        if elem.spread.is_none() {
+                            return;
+                        }
+                    }
+                }
             }
         }
     }
@@ -692,6 +706,15 @@ impl RegexpPass {
         }
         let Ok(ast) = LiteralParser::new(pattern, Some(flags), RegexpOptions::default()).parse()
         else {
+            // A pattern that the parser rejects can still be valid on newer
+            // engines. Report it if it seems to reuse a group name.
+            if has_repeated_group_name(pattern) {
+                self.warn(
+                    span,
+                    "possible duplicate named capturing groups",
+                    "only regex literals are lowered, not a `RegExp` call",
+                );
+            }
             return;
         };
         let mut mapping = Vec::new();
@@ -724,7 +747,7 @@ impl RegexpPass {
         pattern: &str,
         flags: &str,
         keep_spelling: bool,
-    ) -> Option<(String, Vec<(Atom, Vec<u32>)>)> {
+    ) -> NamedGroups {
         let mut ast =
             match LiteralParser::new(pattern, Some(flags), RegexpOptions::default()).parse() {
                 Ok(ast) => ast,
@@ -739,8 +762,9 @@ impl RegexpPass {
                             "possible duplicate named capturing groups",
                             "the pattern cannot be parsed",
                         );
+                        return NamedGroups::Kept;
                     }
-                    return None;
+                    return NamedGroups::NotLowered;
                 }
             };
 
@@ -750,21 +774,26 @@ impl RegexpPass {
         collect_named_groups(&ast.body, &mut counter, &mut mapping);
 
         if mapping.is_empty() {
-            return None;
+            return NamedGroups::NotLowered;
         }
 
         let has_duplicates = mapping.iter().any(|(_, indices)| indices.len() > 1);
         if !(self.options.named_capturing_groups_regex
             || (self.options.duplicate_named_capturing_groups_regex && has_duplicates))
         {
-            return None;
+            return NamedGroups::NotLowered;
         }
         // The parser checks only roughly whether groups with the same name can
         // both take part in a match (it scans for `|` outside the AST). Keep
         // such a pattern: it is invalid, and the target must still reject it.
         if has_duplicates && !duplicate_groups_are_exclusive(&ast.body) {
             debug!(%pattern, "groups with the same name can both take part in a match");
-            return None;
+            self.warn(
+                span,
+                "duplicate named capturing groups",
+                "groups with the same name can both take part in a match, which is invalid",
+            );
+            return NamedGroups::Kept;
         }
 
         // An escape can be printed in another form (`\u{61}` as `\u0061`),
@@ -776,7 +805,7 @@ impl RegexpPass {
                 "the enclosing `RegExp` call can replace the flags, and the pattern cannot be \
                  printed again as written",
             );
-            return None;
+            return NamedGroups::Kept;
         }
 
         // Second pass: strip names from groups and convert named references
@@ -792,10 +821,10 @@ impl RegexpPass {
                 "a `\\q{...}` string has a lone lead surrogate followed by a lone trail \
                  surrogate, which cannot be printed again as two characters",
             );
-            return None;
+            return NamedGroups::Kept;
         }
 
-        Some((ast.to_string(), mapping))
+        NamedGroups::Lowered(ast.to_string(), mapping)
     }
 
     /// Check if non-named-group transforms require converting to RegExp()
@@ -833,8 +862,17 @@ impl RegexpPass {
             }))
         };
 
-        let mut proto = None;
-        let mut props = Vec::with_capacity(mapping.len());
+        // `__proto__: value` sets the prototype of the object, but the helper
+        // reads the own properties. A computed key creates an own property,
+        // but loose mode lowers it to an assignment, which sets the prototype
+        // again. So `__proto__` and every later name are defined with
+        // `_define_property`, which keeps the order of the names in every
+        // mode.
+        let mut object = Expr::Object(ObjectLit {
+            span: DUMMY_SP,
+            props: Vec::with_capacity(mapping.len()),
+        });
+        let mut defining = false;
         for (name, indices) in mapping {
             // A unique name maps to a number, a duplicated one to an array of
             // numbers. `_wrap_reg_exp` picks the participating group.
@@ -849,43 +887,29 @@ impl RegexpPass {
                 }),
             };
 
-            if name == "__proto__" {
-                proto = Some(value);
-                continue;
+            defining |= name == "__proto__";
+            match &mut object {
+                Expr::Object(ObjectLit { props, .. }) if !defining => {
+                    props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(IdentName {
+                            span: DUMMY_SP,
+                            sym: name,
+                        }),
+                        value: Box::new(value),
+                    }))));
+                }
+                _ => {
+                    object = CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(define_property),
+                        args: vec![object.as_arg(), Expr::from(name).as_arg(), value.as_arg()],
+                        ..Default::default()
+                    }
+                    .into();
+                }
             }
-
-            props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                key: PropName::Ident(IdentName {
-                    span: DUMMY_SP,
-                    sym: name,
-                }),
-                value: Box::new(value),
-            }))));
         }
-
-        let object = Expr::Object(ObjectLit {
-            span: DUMMY_SP,
-            props,
-        });
-
-        // `__proto__: value` sets the prototype of the object, but the helper
-        // reads the own properties. A computed key creates an own property,
-        // but loose mode lowers it to an assignment, which sets the prototype
-        // again. `_define_property` creates an own property in every mode.
-        match proto {
-            None => object,
-            Some(value) => CallExpr {
-                span: DUMMY_SP,
-                callee: helper!(define_property),
-                args: vec![
-                    object.as_arg(),
-                    Expr::from(Atom::from("__proto__")).as_arg(),
-                    value.as_arg(),
-                ],
-                ..Default::default()
-            }
-            .into(),
-        }
+        object
     }
 }
 
@@ -957,20 +981,21 @@ impl RegexpPass {
                 }
 
                 // Try named groups transform first.
+                let mut named_groups_kept = false;
                 if (self.options.named_capturing_groups_regex
                     || self.options.duplicate_named_capturing_groups_regex)
                     && may_have_named_groups(&regex.exp)
                 {
                     let original_exp = regex.exp.clone();
 
-                    if let Some((stripped_exp, group_mapping)) = self
-                        .extract_and_strip_named_groups(
-                            regex.span,
-                            &original_exp,
-                            &regex.flags,
-                            in_constructor,
-                        )
-                    {
+                    let named_groups = self.extract_and_strip_named_groups(
+                        regex.span,
+                        &original_exp,
+                        &regex.flags,
+                        in_constructor,
+                    );
+                    named_groups_kept = matches!(named_groups, NamedGroups::Kept);
+                    if let NamedGroups::Lowered(stripped_exp, group_mapping) = named_groups {
                         if constructor_use.is_some() {
                             // The call can copy the pattern of the wrapped
                             // regex, but not the group names that
@@ -1045,7 +1070,7 @@ impl RegexpPass {
                 }
 
                 // Non-named-group transforms (or named group extraction failed).
-                if self.needs_regexp_constructor(&regex.exp, &regex.flags) {
+                if named_groups_kept || self.needs_regexp_constructor(&regex.exp, &regex.flags) {
                     let Regex { exp, flags, span } = regex.take();
 
                     // Transform the pattern if it contains unicode property
@@ -1083,6 +1108,19 @@ impl RegexpPass {
             }
         }
     }
+}
+
+/// The result of [`RegexpPass::extract_and_strip_named_groups`].
+enum NamedGroups {
+    /// No group needs lowering, or the pattern cannot be parsed and does not
+    /// seem to need it.
+    NotLowered,
+    /// The pattern without group names, and the name-to-indices mapping.
+    Lowered(String, Vec<(Atom, Vec<u32>)>),
+    /// Groups need lowering, but the pattern cannot be lowered. A warning was
+    /// reported. The literal must become a `RegExp` call, so that the target
+    /// rejects only this expression when it runs, not the whole script.
+    Kept,
 }
 
 /// The flags argument of a `RegExp` call.

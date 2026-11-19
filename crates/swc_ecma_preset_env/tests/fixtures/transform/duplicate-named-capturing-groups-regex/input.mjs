@@ -22,10 +22,13 @@ export const digitAfterReference = /^(?:(?<x>a)|(?<x>b))\k<x>(?<z>c)\k<z>0$/u;
 export const loneSurrogates = /^(?:(?<x>\u{D800}\u{DC00})|(?<x>z))\k<x>$/u;
 // Groups with the same name that can both take part are invalid, and so is
 // an escaped name that equals another name in the same alternative. They are
-// kept for the target to reject.
+// kept for the target to reject, the first one in a `RegExp` call so that only
+// that expression fails.
 export const bothParticipate = /(?:(?<x>a)|z)(?:(?<x>b))\k<x>/;
 export const escapedNameInOneAlternative = /(?<x>a)(?<\u0078>b)/;
 // `__proto__` must be an own property of the mapping object.
 export const protoName = /(?<__proto__>a)|(?<__proto__>b)/;
 // A reference with an escaped name refers to the same groups.
 export const escapedReference = /(?:(?<x>a)|(?<x>b))\k<\u0078>/;
+// `__proto__` keeps its place in the order of the names.
+export const protoFirst = /(?<__proto__>a)(?<later>c)|(?<__proto__>b)/;
