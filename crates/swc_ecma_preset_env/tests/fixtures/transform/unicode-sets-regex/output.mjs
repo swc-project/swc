@@ -69,5 +69,9 @@ export const trailingUnknownSpread = (extra)=>RegExp(...[
         "g",
         /(?:[Bb])/
     ], ...extra);
-export const voidFlags = (n)=>RegExp(/(?:[Aa])/, void n++);
+export const voidExpressionFlags = (n)=>RegExp(/(?:[Aa])/, void n++);
 export const arithmeticAssignment = (n)=>RegExp(n *= /(?:[Aa])/, "g");
+export const holeFlags = RegExp(/(?:[Aa])/, ...[
+    ,
+    "g"
+]);

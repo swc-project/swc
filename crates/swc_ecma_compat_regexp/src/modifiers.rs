@@ -95,8 +95,10 @@ pub fn transform_modifiers(
     };
     lowerer.lower_disjunction(&mut pattern.body, global)?;
     if lowerer.unicode {
-        // The rewritten pattern is printed again.
-        isolate_lone_surrogates(pattern);
+        // The rewritten pattern is printed again. A `v` pattern is lowered to
+        // `u` first, so it has no `\q{...}` that could stop the printing.
+        let printable = isolate_lone_surrogates(pattern);
+        debug_assert!(printable);
     }
 
     let mut new_flags: String = flags

@@ -162,12 +162,18 @@ enum RegExpCallee {
 
 impl RegexpPass {
     /// Returns the pattern argument of a `RegExp` call and its flags, or
-    /// `None` if a leading spread makes the pattern position unknown.
-    fn pattern_and_flags<'a>(&self, args: &'a [ExprOrSpread]) -> Option<(&'a Expr, CallFlags<'a>)> {
+    /// `None` if a leading spread makes the pattern position unknown. The
+    /// pattern is `None` if a hole of a spread array supplies it.
+    fn pattern_and_flags<'a>(
+        &self,
+        args: &'a [ExprOrSpread],
+    ) -> Option<(Option<&'a Expr>, CallFlags<'a>)> {
         let (prefix, complete) = static_call_prefix(args);
         let pattern = *prefix.first()?;
         let flags = match prefix.get(1) {
-            Some(flags) => self.flags_of(Some(flags)),
+            Some(Some(flags)) => self.flags_of(Some(flags)),
+            // A hole supplies `undefined`.
+            Some(None) => CallFlags::Undefined,
             None if complete => CallFlags::Absent,
             // A spread after the pattern can supply the flags.
             None => CallFlags::Unknown,
@@ -369,6 +375,9 @@ impl RegexpPass {
         // A spread of an array literal supplies its elements in order, so the
         // pattern and the flags are known by position.
         if let Some((pattern, flags)) = self.pattern_and_flags(args) {
+            let Some(pattern) = pattern else {
+                return;
+            };
             let kind = match flags {
                 CallFlags::Absent | CallFlags::Undefined => ConstructorUse::CopiesPattern,
                 CallFlags::Known(_) | CallFlags::Unknown => ConstructorUse::ReplacesFlags,
@@ -522,8 +531,10 @@ impl RegexpPass {
         transform_unicode_property_escapes(&mut ast);
         // The expansion can put a lone lead surrogate next to a lone trail
         // surrogate, which a `u` pattern reads as one code point.
+        // `v` patterns are not expanded, so there is no `\q{...}`.
         if flags.contains('u') {
-            isolate_lone_surrogates(&mut ast);
+            let printable = isolate_lone_surrogates(&mut ast);
+            debug_assert!(printable);
         }
 
         // Serialize back to string
@@ -538,7 +549,7 @@ impl RegexpPass {
     /// reported, because a call can be a runtime feature check.
     fn transform_regexp_args(&mut self, args: &mut [ExprOrSpread], callee: RegExpCallee) {
         if callee == RegExpCallee::Global {
-            if let Some((pattern, flags)) = self.pattern_and_flags(args) {
+            if let Some((Some(pattern), flags)) = self.pattern_and_flags(args) {
                 self.warn_unlowered_call(pattern, flags);
             }
         }
@@ -695,8 +706,11 @@ impl RegexpPass {
         // Second pass: strip names from groups and convert named references
         NamedGroupStripper { mapping: &mapping }.strip_disjunction(&mut ast.body);
         // A `u` or `v` pattern reads two printed surrogates as one code point.
-        if flags.contains(['u', 'v']) {
-            isolate_lone_surrogates(&mut ast);
+        // A `\q{...}` string with such surrogates cannot be printed, so the
+        // pattern is kept as written.
+        if flags.contains(['u', 'v']) && !isolate_lone_surrogates(&mut ast) {
+            debug!(%pattern, "a `\\q{{...}}` string cannot be printed with separate surrogates");
+            return None;
         }
 
         Some((ast.to_string(), mapping))
@@ -816,7 +830,14 @@ impl RegexpPass {
                     .map(|idx| self.constructor_literals.swap_remove(idx).1);
                 let in_constructor = constructor_use == Some(ConstructorUse::ReplacesFlags);
 
-                if in_constructor && self.has_syntax_to_lower(&regex.exp, &regex.flags) {
+                // Unicode property escapes are not expanded for such a call
+                // either. See `transform_pattern` below.
+                let property_escape = self.options.unicode_property_regex
+                    && regex.flags.contains('u')
+                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{"));
+                if in_constructor
+                    && (property_escape || self.has_syntax_to_lower(&regex.exp, &regex.flags))
+                {
                     self.warn(
                         regex.span,
                         "the syntax",
@@ -863,9 +884,13 @@ impl RegexpPass {
                             self.needs_regexp_constructor(&stripped_exp, &flags);
 
                         let regex_arg: Expr = if needs_constructor {
-                            // Apply unicode property transform if needed
-                            let pattern = self
-                                .transform_pattern(&stripped_exp, &flags)
+                            // Apply unicode property transform if needed. When
+                            // the enclosing call replaces the flags, an
+                            // expansion for the flags of the literal can be
+                            // invalid with the other flags.
+                            let pattern = (!in_constructor)
+                                .then(|| self.transform_pattern(&stripped_exp, &flags))
+                                .flatten()
                                 .unwrap_or(stripped_exp);
 
                             let exp: Expr = Atom::from(pattern).into();
@@ -915,9 +940,13 @@ impl RegexpPass {
                 if self.needs_regexp_constructor(&regex.exp, &regex.flags) {
                     let Regex { exp, flags, span } = regex.take();
 
-                    // Transform the pattern if it contains unicode property escapes
-                    let transformed_pattern = self
-                        .transform_pattern(&exp, &flags)
+                    // Transform the pattern if it contains unicode property
+                    // escapes. When the enclosing call replaces the flags, an
+                    // expansion for the flags of the literal can be invalid
+                    // with the other flags, so the pattern is kept.
+                    let transformed_pattern = (!in_constructor)
+                        .then(|| self.transform_pattern(&exp, &flags))
+                        .flatten()
                         .unwrap_or_else(|| exp.to_string());
 
                     let exp: Expr = Atom::from(transformed_pattern).into();
@@ -985,12 +1014,12 @@ fn regexp_call_parts(expr: &mut Expr) -> Option<(&Expr, &mut Vec<ExprOrSpread>)>
 
 /// Returns the leading arguments of a call whose positions are known, with
 /// spreads of array literals expanded, and whether that is all of the
-/// arguments.
+/// arguments. `None` is a hole of a spread array, which supplies `undefined`.
 ///
-/// The prefix ends at the first spread of something else, at a hole or at a
-/// nested spread, because the number of values that they supply is not
-/// known. Only the first two positions are needed, so the walk stops there.
-fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<&Expr>, bool) {
+/// The prefix ends at the first spread of something else or at a nested
+/// spread, because the number of values that they supply is not known. Only
+/// the first two positions are needed, so the walk stops there.
+fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<Option<&Expr>>, bool) {
     const NEEDED: usize = 2;
 
     let mut prefix = Vec::with_capacity(NEEDED);
@@ -1000,7 +1029,7 @@ fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<&Expr>, bool) {
             return (prefix, false);
         }
         if arg.spread.is_none() {
-            prefix.push(&*arg.expr);
+            prefix.push(Some(&*arg.expr));
             continue;
         }
         let Expr::Array(array) = arg.expr.unwrap_parens() else {
@@ -1008,10 +1037,10 @@ fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<&Expr>, bool) {
         };
         for elem in &array.elems {
             match elem {
-                Some(elem) if elem.spread.is_none() => prefix.push(&*elem.expr),
-                // A hole would be `undefined`, but a nested spread has an
-                // unknown length. Both are rare, so stop at either.
-                _ => return (prefix, false),
+                Some(elem) if elem.spread.is_none() => prefix.push(Some(&*elem.expr)),
+                None => prefix.push(None),
+                // A nested spread has an unknown length.
+                Some(_) => return (prefix, false),
             }
         }
     }

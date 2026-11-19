@@ -24,3 +24,10 @@ export const duplicateNamesWithSubtraction = _wrap_reg_exp(/([a--\uDC00])|(b)/v,
         2
     ]
 }, "(?<x>[a--\\u{DC00}])|(?<x>b)");
+export const punctuatorsAroundSurrogate = _wrap_reg_exp(/([\uDC00-\uDC00\x21\x21])|(z)/v, {
+    x: [
+        1,
+        2
+    ]
+}, "(?<x>[!\\u{DC00}!])|(?<x>z)");
+export const surrogatesInString = /^(?:(?<x>[\q{\u{D83D}\u{DE00}}&&😀])|(?<x>z))\k<x>$/v;

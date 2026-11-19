@@ -22,23 +22,37 @@ use crate::{char_set::CharSet, emit::char_class_of};
 /// operands of `&&` and `--` are kept as they are, because the operators keep
 /// them apart and their order matters; only nested classes in them are
 /// rewritten.
-pub fn isolate_lone_surrogates(pattern: &mut Pattern) {
-    isolate_disjunction(&mut pattern.body);
+///
+/// Returns false if a string of `\q{...}` has a lone lead surrogate followed by
+/// a lone trail surrogate. Such a string cannot be printed as two characters
+/// (a class is not allowed in it), so the caller must not print the pattern.
+pub fn isolate_lone_surrogates(pattern: &mut Pattern) -> bool {
+    let mut printable = true;
+    isolate_disjunction(&mut pattern.body, &mut printable);
+    printable
+}
+
+fn is_lead(cp: u32) -> bool {
+    (0xd800..=0xdbff).contains(&cp)
+}
+
+fn is_trail(cp: u32) -> bool {
+    (0xdc00..=0xdfff).contains(&cp)
 }
 
 fn is_surrogate(cp: u32) -> bool {
     (0xd800..=0xdfff).contains(&cp)
 }
 
-fn isolate_disjunction(disjunction: &mut Disjunction) {
+fn isolate_disjunction(disjunction: &mut Disjunction, printable: &mut bool) {
     for alternative in &mut disjunction.body {
         for term in &mut alternative.body {
-            isolate_term(term);
+            isolate_term(term, printable);
         }
     }
 }
 
-fn isolate_term(term: &mut Term) {
+fn isolate_term(term: &mut Term, printable: &mut bool) {
     match term {
         Term::Character(ch) if is_surrogate(ch.value) => {
             *term = Term::CharacterClass(Box::new(char_class_of(
@@ -47,21 +61,34 @@ fn isolate_term(term: &mut Term) {
                 &CharSet::single(ch.value),
             )));
         }
-        Term::CharacterClass(class) => isolate_class(class),
-        Term::Quantifier(quantifier) => isolate_term(&mut quantifier.body),
-        Term::CapturingGroup(group) => isolate_disjunction(&mut group.body),
-        Term::IgnoreGroup(group) => isolate_disjunction(&mut group.body),
-        Term::LookAroundAssertion(assertion) => isolate_disjunction(&mut assertion.body),
+        Term::CharacterClass(class) => isolate_class(class, printable),
+        Term::Quantifier(quantifier) => isolate_term(&mut quantifier.body, printable),
+        Term::CapturingGroup(group) => isolate_disjunction(&mut group.body, printable),
+        Term::IgnoreGroup(group) => isolate_disjunction(&mut group.body, printable),
+        Term::LookAroundAssertion(assertion) => isolate_disjunction(&mut assertion.body, printable),
         _ => {}
     }
 }
 
 /// Reorders a union class so that items that start with a trail surrogate come
 /// first. A union class matches the same characters in any order.
-fn isolate_class(class: &mut CharacterClass) {
+fn isolate_class(class: &mut CharacterClass, printable: &mut bool) {
     for contents in &mut class.body {
-        if let CharacterClassContents::NestedCharacterClass(nested) = contents {
-            isolate_class(nested);
+        match contents {
+            CharacterClassContents::NestedCharacterClass(nested) => {
+                isolate_class(nested, printable)
+            }
+            CharacterClassContents::ClassStringDisjunction(disjunction)
+                if disjunction.body.iter().any(|string| {
+                    string
+                        .body
+                        .windows(2)
+                        .any(|pair| is_lead(pair[0].value) && is_trail(pair[1].value))
+                }) =>
+            {
+                *printable = false;
+            }
+            _ => {}
         }
     }
     if class.kind != CharacterClassContentsKind::Union {
@@ -79,10 +106,14 @@ fn isolate_class(class: &mut CharacterClass) {
 
     if class.body.iter().any(starts_with_trail) {
         // Moving items can put a literal `-` between two characters, where it
-        // would be read as a range. Write every literal `-` as `\x2D` first.
+        // would be read as a range, or put two equal punctuators together,
+        // which a `v` class rejects (`!!`). Write every literal ASCII
+        // punctuator as `\xHH` first.
         for contents in &mut class.body {
             if let CharacterClassContents::Character(ch) = contents {
-                if ch.value == '-' as u32 {
+                if ch.kind == CharacterKind::Symbol
+                    && char::from_u32(ch.value).is_some_and(|c| c.is_ascii_punctuation())
+                {
                     ch.kind = CharacterKind::HexadecimalEscape;
                 }
             }
@@ -117,7 +148,7 @@ mod tests {
         let mut ast = LiteralParser::new(pattern, Some("u"), Options::default())
             .parse()
             .unwrap();
-        isolate_lone_surrogates(&mut ast);
+        assert!(isolate_lone_surrogates(&mut ast));
         ast.to_string()
     }
 
@@ -141,7 +172,7 @@ mod tests {
         let mut ast = LiteralParser::new(pattern, Some("v"), Options::default())
             .parse()
             .unwrap();
-        isolate_lone_surrogates(&mut ast);
+        assert!(isolate_lone_surrogates(&mut ast));
         let printed = ast.to_string();
         LiteralParser::new(&printed, Some("v"), Options::default())
             .parse()

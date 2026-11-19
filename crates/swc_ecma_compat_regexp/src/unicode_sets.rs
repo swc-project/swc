@@ -28,8 +28,10 @@ use crate::{
 /// rewritten and must be discarded.
 pub fn transform_unicode_sets(pattern: &mut Pattern, ignore_case: bool) -> Result<(), LowerError> {
     lower_disjunction(&mut pattern.body, ignore_case)?;
-    // The result is printed as a `u` pattern.
-    isolate_lone_surrogates(pattern);
+    // The result is printed as a `u` pattern. It has no `\q{...}` any more, so
+    // it can always be printed.
+    let printable = isolate_lone_surrogates(pattern);
+    debug_assert!(printable);
     Ok(())
 }
 
