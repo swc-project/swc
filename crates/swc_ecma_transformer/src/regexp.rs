@@ -1,6 +1,4 @@
-use std::cell::RefCell;
-
-use rustc_hash::FxHashSet;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{errors::HANDLER, util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -11,7 +9,7 @@ use swc_ecma_compat_regexp::{
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{
     ast::{Alternative, CharacterKind, Disjunction, Dot, IgnoreGroup, IndexedReference, Term},
-    LiteralParser, Options as RegexpOptions,
+    decode_group_name, LiteralParser, Options as RegexpOptions,
 };
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::ExprFactory;
@@ -136,7 +134,7 @@ struct RegexpPass {
     constructor_marks: Vec<(usize, usize)>,
     /// The spans that a warning was reported for, so that a regex is reported
     /// once even when it is visited again as part of a generated call.
-    warned: RefCell<FxHashSet<Span>>,
+    warned: FxHashSet<Span>,
 }
 
 /// How a `RegExp` call uses a regex literal that is its pattern argument.
@@ -163,6 +161,20 @@ enum RegExpCallee {
 }
 
 impl RegexpPass {
+    /// Returns the pattern argument of a `RegExp` call and its flags, or
+    /// `None` if a leading spread makes the pattern position unknown.
+    fn pattern_and_flags<'a>(&self, args: &'a [ExprOrSpread]) -> Option<(&'a Expr, CallFlags<'a>)> {
+        let (prefix, complete) = static_call_prefix(args);
+        let pattern = *prefix.first()?;
+        let flags = match prefix.get(1) {
+            Some(flags) => self.flags_of(Some(flags)),
+            None if complete => CallFlags::Absent,
+            // A spread after the pattern can supply the flags.
+            None => CallFlags::Unknown,
+        };
+        Some((pattern, flags))
+    }
+
     fn new(options: RegExpOptions) -> Self {
         Self {
             options,
@@ -220,7 +232,7 @@ impl RegexpPass {
 
     /// Reports that a regular expression keeps syntax that the targets may not
     /// support. A span is reported once.
-    fn warn(&self, span: Span, feature: &str, reason: impl std::fmt::Display) {
+    fn warn(&mut self, span: Span, feature: &str, reason: impl std::fmt::Display) {
         self.warn_message(
             span,
             &format!(
@@ -232,8 +244,8 @@ impl RegexpPass {
 
     /// Reports `message` at `span`, unless a warning was already reported for
     /// the span.
-    fn warn_message(&self, span: Span, message: &str) {
-        if !span.is_dummy() && !self.warned.borrow_mut().insert(span) {
+    fn warn_message(&mut self, span: Span, message: &str) {
+        if !span.is_dummy() && !self.warned.insert(span) {
             return;
         }
         emit_warning(span, message);
@@ -286,18 +298,17 @@ impl RegexpPass {
         }
     }
 
-    /// Returns true if `expr` is the global `undefined`, or `void` of a
-    /// literal (for example `void 0`).
+    /// Returns true if `expr` is the global `undefined`, or a `void`
+    /// expression (for example `void 0`), which always evaluates to
+    /// `undefined`.
     fn is_global_undefined(&self, expr: &Expr) -> bool {
         match expr.unwrap_parens() {
             Expr::Ident(ident) if ident.sym == "undefined" => {
                 self.global_ident(ident) == Some(RegExpCallee::Global)
             }
             Expr::Unary(UnaryExpr {
-                op: op!("void"),
-                arg,
-                ..
-            }) => matches!(arg.unwrap_parens(), Expr::Lit(_)),
+                op: op!("void"), ..
+            }) => true,
             _ => false,
         }
     }
@@ -357,29 +368,13 @@ impl RegexpPass {
 
         // A spread of an array literal supplies its elements in order, so the
         // pattern and the flags are known by position.
-        if let Some(flat) = static_call_args(args) {
-            let Some(pattern) = flat.first() else {
-                return;
-            };
-            let kind = match self.flags_of(flat.get(1).copied()) {
+        if let Some((pattern, flags)) = self.pattern_and_flags(args) {
+            let kind = match flags {
                 CallFlags::Absent | CallFlags::Undefined => ConstructorUse::CopiesPattern,
                 CallFlags::Known(_) | CallFlags::Unknown => ConstructorUse::ReplacesFlags,
             };
             collect_pattern_literals(pattern, kind, &mut self.constructor_literals);
             return;
-        }
-
-        // A spread after the pattern can supply the flags only if it is the
-        // second argument.
-        if let Some((pattern, rest)) = args.split_first() {
-            if pattern.spread.is_none() {
-                let kind = match self.call_flags(rest) {
-                    CallFlags::Absent | CallFlags::Undefined => ConstructorUse::CopiesPattern,
-                    CallFlags::Known(_) | CallFlags::Unknown => ConstructorUse::ReplacesFlags,
-                };
-                collect_pattern_literals(&pattern.expr, kind, &mut self.constructor_literals);
-                return;
-            }
         }
 
         // A leading spread can supply the pattern and the flags, or nothing.
@@ -407,7 +402,7 @@ impl RegexpPass {
     ///
     /// When a pattern cannot be lowered, a warning is reported at `span`,
     /// because the target may reject the kept pattern.
-    fn lower_syntax(&self, span: Span, pattern: &str, flags: &str) -> Option<(String, String)> {
+    fn lower_syntax(&mut self, span: Span, pattern: &str, flags: &str) -> Option<(String, String)> {
         let lower_unicode_sets = self.options.unicode_sets_regex && flags.contains('v');
         let lower_modifiers = self.options.regexp_modifiers && may_have_modifiers(pattern);
         if !lower_unicode_sets && !lower_modifiers {
@@ -541,23 +536,10 @@ impl RegexpPass {
     /// Only the pre-existing unicode property expansion rewrites the
     /// arguments. The `v` flag, modifiers and duplicate named groups are only
     /// reported, because a call can be a runtime feature check.
-    fn transform_regexp_args(&self, args: &mut [ExprOrSpread], callee: RegExpCallee) {
+    fn transform_regexp_args(&mut self, args: &mut [ExprOrSpread], callee: RegExpCallee) {
         if callee == RegExpCallee::Global {
-            // A spread of an array literal supplies its elements in order, so
-            // the pattern and the flags are known by position.
-            match static_call_args(args) {
-                Some(flat) => {
-                    if let Some(pattern) = flat.first() {
-                        self.warn_unlowered_call(pattern, self.flags_of(flat.get(1).copied()));
-                    }
-                }
-                None => {
-                    if let Some((pattern_arg, rest_args)) = args.split_first() {
-                        if pattern_arg.spread.is_none() {
-                            self.warn_unlowered_call(&pattern_arg.expr, self.call_flags(rest_args));
-                        }
-                    }
-                }
+            if let Some((pattern, flags)) = self.pattern_and_flags(args) {
+                self.warn_unlowered_call(pattern, flags);
             }
         }
 
@@ -596,7 +578,7 @@ impl RegexpPass {
     /// Reports syntax in the arguments of a `RegExp` call that the targets do
     /// not support. Regex literal patterns are reported where they are
     /// visited.
-    fn warn_unlowered_call(&self, pattern: &Expr, flags: CallFlags) {
+    fn warn_unlowered_call(&mut self, pattern: &Expr, flags: CallFlags) {
         const REASON: &str = "only regex literals are lowered, not a `RegExp` call";
 
         if !(self.options.unicode_sets_regex
@@ -650,7 +632,7 @@ impl RegexpPass {
 
     /// Warns about a string pattern of a `RegExp` call with duplicate named
     /// groups. Only regex literals are wrapped with `_wrap_reg_exp`.
-    fn warn_duplicate_names_in_string(&self, span: Span, pattern: &str, flags: &str) {
+    fn warn_duplicate_names_in_string(&mut self, span: Span, pattern: &str, flags: &str) {
         if !self.options.duplicate_named_capturing_groups_regex || !pattern.contains("(?<") {
             return;
         }
@@ -1002,28 +984,39 @@ fn regexp_call_parts(expr: &mut Expr) -> Option<(&Expr, &mut Vec<ExprOrSpread>)>
     }
 }
 
-/// Returns the arguments of a call with spreads of array literals expanded, or
-/// `None` if another spread makes the positions unknown.
-fn static_call_args(args: &[ExprOrSpread]) -> Option<Vec<&Expr>> {
-    let mut flat = Vec::with_capacity(args.len());
+/// Returns the leading arguments of a call whose positions are known, with
+/// spreads of array literals expanded, and whether that is all of the
+/// arguments.
+///
+/// The prefix ends at the first spread of something else, at a hole or at a
+/// nested spread, because the number of values that they supply is not
+/// known. Only the first two positions are needed, so the walk stops there.
+fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<&Expr>, bool) {
+    const NEEDED: usize = 2;
+
+    let mut prefix = Vec::with_capacity(NEEDED);
     for arg in args {
+        if prefix.len() >= NEEDED {
+            // The later arguments cannot change the known positions.
+            return (prefix, false);
+        }
         if arg.spread.is_none() {
-            flat.push(&*arg.expr);
+            prefix.push(&*arg.expr);
             continue;
         }
         let Expr::Array(array) = arg.expr.unwrap_parens() else {
-            return None;
+            return (prefix, false);
         };
         for elem in &array.elems {
             match elem {
-                Some(elem) if elem.spread.is_none() => flat.push(&*elem.expr),
-                // A hole is `undefined`, and a nested spread has unknown
-                // length.
-                _ => return None,
+                Some(elem) if elem.spread.is_none() => prefix.push(&*elem.expr),
+                // A hole would be `undefined`, but a nested spread has an
+                // unknown length. Both are rare, so stop at either.
+                _ => return (prefix, false),
             }
         }
     }
-    Some(flat)
+    (prefix, true)
 }
 
 /// Collects the addresses of the regex literals that the pattern argument of a
@@ -1031,10 +1024,10 @@ fn static_call_args(args: &[ExprOrSpread]) -> Option<Vec<&Expr>> {
 ///
 /// Only direct value positions are followed: parentheses, both branches of a
 /// conditional (not the test), logical operators, the last expression of a
-/// sequence, the right side of an assignment and the elements of an array
-/// (for a spread). A literal elsewhere, for example in a call that computes
-/// the pattern, is not passed to `RegExp` directly, so it is lowered as
-/// usual.
+/// sequence, the right side of a plain or logical assignment and the elements
+/// of an array (for a spread). A literal elsewhere, for example in a call that
+/// computes the pattern, is not passed to `RegExp` directly, so it is lowered
+/// as usual.
 fn collect_pattern_literals(
     expr: &Expr,
     kind: ConstructorUse,
@@ -1061,7 +1054,13 @@ fn collect_pattern_literals(
                 collect_pattern_literals(last, kind, literals);
             }
         }
-        Expr::Assign(assign) => collect_pattern_literals(&assign.right, kind, literals),
+        // `a = b` and the logical assignments can evaluate to `b`. The other
+        // assignments compute a new value.
+        Expr::Assign(assign)
+            if matches!(assign.op, op!("=") | op!("||=") | op!("&&=") | op!("??=")) =>
+        {
+            collect_pattern_literals(&assign.right, kind, literals)
+        }
         Expr::Array(array) => {
             for elem in array.elems.iter().flatten() {
                 collect_pattern_literals(&elem.expr, kind, literals);
@@ -1293,73 +1292,70 @@ fn duplicate_groups_are_exclusive(disjunction: &Disjunction) -> bool {
         }
     }
 
-    /// The first disjunction where the paths part decides: different
-    /// alternatives of the same disjunction are exclusive. Otherwise (other
-    /// disjunctions in one alternative, or one group inside the other), both
-    /// can take part.
-    fn exclusive(a: &Path, b: &Path) -> bool {
-        for (&(a_id, a_alt), &(b_id, b_alt)) in a.iter().zip(b) {
-            if a_id != b_id {
-                return false;
-            }
-            if a_alt != b_alt {
-                return true;
-            }
-        }
-        false
-    }
-
     let mut groups = Vec::new();
     visit_disjunction(disjunction, &mut Vec::new(), &mut 0, &mut groups);
 
-    groups.iter().enumerate().all(|(i, (name, path))| {
-        groups[i + 1..]
-            .iter()
-            .filter(|(other, _)| other == name)
-            .all(|(_, other_path)| exclusive(path, other_path))
-    })
+    // Insert the path of each group into a trie for its name. Two groups are
+    // exclusive if their paths part at a disjunction, in different
+    // alternatives. They can both take part if their paths part at two
+    // different disjunctions in one alternative, or if one group is inside
+    // the other. Each insertion takes time linear in the path length.
+    #[derive(Default)]
+    struct Node {
+        /// The disjunction that every child edge goes through.
+        child_disjunction: Option<u32>,
+        has_children: bool,
+        /// A group ends at this node.
+        terminal: bool,
+    }
+
+    let mut nodes: Vec<Node> = Vec::new();
+    let mut roots: FxHashMap<Atom, usize> = FxHashMap::default();
+    let mut edges: FxHashMap<(usize, u32, usize), usize> = FxHashMap::default();
+
+    for (name, path) in groups {
+        let mut node = *roots.entry(name).or_insert_with(|| {
+            nodes.push(Node::default());
+            nodes.len() - 1
+        });
+        for (disjunction, alternative) in path {
+            let current = &mut nodes[node];
+            if current.terminal {
+                // An earlier group contains this one.
+                return false;
+            }
+            match current.child_disjunction {
+                Some(existing) if existing != disjunction => return false,
+                _ => current.child_disjunction = Some(disjunction),
+            }
+            current.has_children = true;
+            node = *edges
+                .entry((node, disjunction, alternative))
+                .or_insert_with(|| {
+                    nodes.push(Node::default());
+                    nodes.len() - 1
+                });
+        }
+        let end = &mut nodes[node];
+        if end.terminal || end.has_children {
+            // The groups are in one alternative, or this group contains an
+            // earlier one.
+            return false;
+        }
+        end.terminal = true;
+    }
+    true
 }
 
-/// Returns the name of a capturing group with its `\uXXXX` and `\u{...}`
-/// escapes decoded, so that `(?<\u0078>)` and `\k<x>` refer to the same group
-/// and the `groups` object uses the property name `x`.
-///
-/// The parser has already validated the name, so an escape that cannot be
-/// decoded is kept as written.
-fn decode_group_name(raw: &str) -> Atom {
-    if !raw.contains('\\') {
-        return Atom::from(raw);
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The pass is part of public pass types, which callers can require to be
+    /// `Send` and `Sync`.
+    #[test]
+    fn pass_is_send_and_sync() {
+        fn assert_send_sync<T: Send + Sync>(_: &T) {}
+        assert_send_sync(&pass(Default::default()));
     }
-
-    // Collect code units, so that an escaped surrogate pair (`\uD835\uDC00`)
-    // is combined into one character.
-    let mut units: Vec<u16> = Vec::with_capacity(raw.len());
-    let mut rest = raw;
-    while let Some(index) = rest.find('\\') {
-        units.extend(rest[..index].encode_utf16());
-        let escape = &rest[index + 1..];
-
-        if let Some((cp, len)) = escape.strip_prefix("u{").and_then(|braced| {
-            let end = braced.find('}')?;
-            let cp = char::from_u32(u32::from_str_radix(&braced[..end], 16).ok()?)?;
-            Some((cp, "u{".len() + end + 1))
-        }) {
-            let mut buf = [0u16; 2];
-            units.extend_from_slice(cp.encode_utf16(&mut buf));
-            rest = &escape[len..];
-        } else if let Some(unit) = escape
-            .strip_prefix('u')
-            .and_then(|hex| hex.get(..4))
-            .and_then(|hex| u16::from_str_radix(hex, 16).ok())
-        {
-            units.push(unit);
-            rest = &escape["uXXXX".len()..];
-        } else {
-            units.push(u16::from(b'\\'));
-            rest = escape;
-        }
-    }
-    units.extend(rest.encode_utf16());
-
-    Atom::from(String::from_utf16_lossy(&units).as_str())
 }

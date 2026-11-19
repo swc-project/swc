@@ -64,3 +64,10 @@ export const andOperands = RegExp(/(?:[Aa])/ && RegExp("a(?-i:b)", "i"), "i");
 export const emptySpreadFlags = RegExp(/(?:[Aa])/, ...[]);
 export const afterUnknownSpread = (args)=>RegExp(...args, RegExp("a(?-i:b)", "i"), /(?:[Cc])/);
 export const spreadAfterUndefinedFlags = (extra)=>RegExp(/(?:[Aa])/, undefined, ...extra);
+export const trailingUnknownSpread = (extra)=>RegExp(...[
+        "a",
+        "g",
+        /(?:[Bb])/
+    ], ...extra);
+export const voidFlags = (n)=>RegExp(/(?:[Aa])/, void n++);
+export const arithmeticAssignment = (n)=>RegExp(n *= /(?:[Aa])/, "g");

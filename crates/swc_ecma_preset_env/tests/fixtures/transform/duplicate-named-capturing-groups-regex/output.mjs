@@ -53,3 +53,9 @@ export const protoName = _wrap_reg_exp(/(a)|(b)/, {
         2
     ]
 }, "(?<__proto__>a)|(?<__proto__>b)");
+export const escapedReference = _wrap_reg_exp(/(?:(a)|(b))(?:\1\2)/, {
+    x: [
+        1,
+        2
+    ]
+}, "(?:(?<x>a)|(?<x>b))\\k<\\u0078>");

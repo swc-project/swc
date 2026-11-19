@@ -1,10 +1,12 @@
 pub mod ast;
 mod diagnostics;
+mod group_name;
 mod options;
 mod parser;
 mod surrogate_pair;
 
 pub use crate::{
+    group_name::decode_group_name,
     options::Options,
     parser::{ConstructorParser, LiteralParser},
 };

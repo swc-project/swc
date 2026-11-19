@@ -133,7 +133,8 @@ fn parse_capturing_groups<'a>(
                 let span_end = reader.offset();
 
                 if reader.eat('>') {
-                    let group_name = reader.atom(span_start, span_end);
+                    // `(?<x>)` and `(?<\u0078>)` have the same name.
+                    let group_name = crate::decode_group_name(&reader.atom(span_start, span_end));
 
                     simplified.push(SimpleUnit::GroupName(group_name.clone()));
                     // Check duplicates later

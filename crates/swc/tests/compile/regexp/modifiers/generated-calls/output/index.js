@@ -25,3 +25,8 @@ export const copiedNamedGroups = new RegExp(_wrap_reg_exp(/(a)|(b)/, {
         2
     ]
 }, "(?<x>a)|(?<x>b)"));
+// The pattern and the flags are known before the unknown spread.
+export const knownBeforeSpread = (extra)=>RegExp(...[
+        "a",
+        "v"
+    ], ...extra);

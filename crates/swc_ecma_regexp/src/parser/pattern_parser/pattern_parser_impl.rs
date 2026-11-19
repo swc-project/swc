@@ -515,7 +515,12 @@ impl<'a> PatternParser<'a> {
             if let Some(name) = self.consume_group_name()? {
                 // [SS:EE] AtomEscape :: k GroupName
                 // It is a Syntax Error if GroupSpecifiersThatMatch(GroupName) is empty.
-                if !self.state.capturing_group_names.contains(&name) {
+                // The names are compared after their escapes are decoded.
+                if !self
+                    .state
+                    .capturing_group_names
+                    .contains(&crate::decode_group_name(&name))
+                {
                     return Err(diagnostics::empty_group_specifier(
                         self.span_factory.create(span_start, self.reader.offset()),
                     ));

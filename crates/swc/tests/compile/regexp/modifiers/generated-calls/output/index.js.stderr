@@ -70,4 +70,14 @@
  16 | // the matches have no `groups`.
  17 | export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
     :                                             ^^^^^^^^^^^^^^^^^
+ 18 | // The pattern and the flags are known before the unknown spread.
+ 19 | export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
+    `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:19:1]
+ 16 | // the matches have no `groups`.
+ 17 | export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
+ 18 | // The pattern and the flags are known before the unknown spread.
+ 19 | export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
+    :                                                        ^^^
     `----

@@ -27,3 +27,5 @@ export const bothParticipate = /(?:(?<x>a)|z)(?:(?<x>b))\k<x>/;
 export const escapedNameInOneAlternative = /(?<x>a)(?<\u0078>b)/;
 // `__proto__` must be an own property of the mapping object.
 export const protoName = /(?<__proto__>a)|(?<__proto__>b)/;
+// A reference with an escaped name refers to the same groups.
+export const escapedReference = /(?:(?<x>a)|(?<x>b))\k<\u0078>/;

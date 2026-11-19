@@ -95,3 +95,10 @@ export const afterUnknownSpread = (args) => RegExp(...args, /a(?-i:b)/i, /(?i:c)
 // A spread after the flags argument cannot change the flags, so the literal
 // is lowered.
 export const spreadAfterUndefinedFlags = (extra) => RegExp(/(?i:a)/, undefined, ...extra);
+// A later spread cannot change the known pattern and flags, so the third
+// literal is lowered.
+export const trailingUnknownSpread = (extra) => RegExp(...["a", "g", /(?i:b)/], ...extra);
+// `void` always gives `undefined`, so there are no flags to replace.
+export const voidFlags = (n) => RegExp(/(?i:a)/, void n++);
+// `*=` gives a number, not the literal.
+export const arithmeticAssignment = (n) => RegExp(n *= /(?i:a)/, "g");

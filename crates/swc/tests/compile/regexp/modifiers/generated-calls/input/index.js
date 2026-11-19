@@ -15,3 +15,5 @@ export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
 // Without flags, the call copies only the pattern of the wrapped literal, so
 // the matches have no `groups`.
 export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
+// The pattern and the flags are known before the unknown spread.
+export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
