@@ -672,7 +672,8 @@ impl RegexpPass {
     /// Returns `None` if parsing fails or if the pattern does not contain a
     /// group that an enabled option asks to lower.
     fn extract_and_strip_named_groups(
-        &self,
+        &mut self,
+        span: Span,
         pattern: &str,
         flags: &str,
     ) -> Option<(String, Vec<(Atom, Vec<u32>)>)> {
@@ -710,6 +711,12 @@ impl RegexpPass {
         // pattern is kept as written.
         if flags.contains(['u', 'v']) && !isolate_lone_surrogates(&mut ast) {
             debug!(%pattern, "a `\\q{{...}}` string cannot be printed with separate surrogates");
+            self.warn(
+                span,
+                "named capturing groups",
+                "a `\\q{...}` string has a lone lead surrogate followed by a lone trail \
+                 surrogate, which cannot be printed again as two characters",
+            );
             return None;
         }
 
@@ -861,7 +868,7 @@ impl RegexpPass {
                     let original_exp = regex.exp.clone();
 
                     if let Some((stripped_exp, group_mapping)) =
-                        self.extract_and_strip_named_groups(&original_exp, &regex.flags)
+                        self.extract_and_strip_named_groups(regex.span, &original_exp, &regex.flags)
                     {
                         if constructor_use.is_some() {
                             // The call can copy the pattern of the wrapped

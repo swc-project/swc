@@ -1,0 +1,8 @@
+  ! Cannot lower named capturing groups in this regular expression for the configured targets: a `\q{...}` string has a lone lead surrogate followed by a lone trail surrogate, which cannot be printed again as two characters. The regular expression is kept, and it can fail on those targets.
+   ,-[$DIR/tests/compile/regexp/v-flag-supported/input/index.js:4:1]
+ 1 | // The targets support the `v` flag, but not duplicate named groups.
+ 2 | // A `\q{...}` string with separate surrogates cannot be printed again, so
+ 3 | // the duplicate names are kept, with a warning.
+ 4 | export const surrogatesInString = /(?<x>[\q{\u{D83D}\u{DE00}}])|(?<x>z)/v;
+   :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
