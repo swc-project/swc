@@ -145,19 +145,18 @@ impl Fixer<'_> {
     /// `e`, such as the call whose callee is `e`.
     ///
     /// This pass may have removed several parentheses around `e`, as in
-    /// `((e))`. Their comments are moved here, from the innermost paren
-    /// outward, so that they keep their source order and reach a position
+    /// `((e))`. Their comments are moved here, in source order, to a position
     /// that codegen prints. Comments before a `(` at `outer_lo` are left in
     /// place, because the outer expression prints them.
     ///
     /// The span of the innermost removed paren is restored, as `wrap` does,
-    /// unless an annotation is before a removed `(` that is not at
-    /// `outer_lo`. Such an annotation was inside the outermost parentheses;
-    /// printed before the restored `(`, it would apply to the outer
-    /// expression, as in `(/* @__PURE__ */ (/* @__PURE__ */ f())).m()`. In
-    /// that case, and if no paren was removed, the new parentheses get no
-    /// span and all the comments move onto `e`. A paren with the span of `e`
-    /// would make codegen print the annotation of `e` before `(`.
+    /// unless a comment is before a removed `(` that is not at `outer_lo`.
+    /// Such a comment was inside the outermost parentheses; printed before
+    /// the restored `(`, an annotation would apply to the outer expression,
+    /// as in `(/* @__PURE__ */ (/* @__PURE__ */ f())).m()`. In that case, and
+    /// if no paren was removed, the new parentheses get no span and the
+    /// comments move onto `e`. A paren with the span of `e` would make
+    /// codegen print the annotation of `e` before `(`.
     ///
     /// Known limitation: `paren_remover` moves the comments at `(` onto the
     /// inner expression before this pass runs, so after it the fixer cannot
@@ -181,11 +180,16 @@ impl Fixer<'_> {
             enclosed = paren;
         }
 
+        // Any comment before a removed `(` inside the outer expression stays
+        // inside the new parentheses. Checking only for annotations is not
+        // enough, because minifiers also accept forms that `is_annotation`
+        // does not, such as `/* @__PURE__ generated */`.
         let restored = match parens.first() {
             Some(&(_, paren))
                 if !paren.is_pure()
                     && parens.iter().all(|&(_, paren)| {
-                        paren.lo == outer_lo || !self.has_annotation_at(paren.lo)
+                        paren.lo == outer_lo
+                            || !self.comments.is_some_and(|c| c.has_leading(paren.lo))
                     }) =>
             {
                 Some(paren)
@@ -201,12 +205,27 @@ impl Fixer<'_> {
             self.span_map.remove(key);
         }
         if let Some(comments) = self.comments {
-            for &(_, paren) in parens.iter().skip(skip) {
-                if paren.lo != outer_lo && paren.lo != target.lo {
-                    comments.move_leading(paren.lo, target.lo);
+            // If a paren is restored, no removed `(` other than one at
+            // `outer_lo` has leading comments. Otherwise move them onto `e`
+            // at once, in source order, from the outermost `(`.
+            if restored.is_none() {
+                let mut moved = Vec::new();
+                for &(_, paren) in parens.iter().rev() {
+                    if paren.lo != outer_lo {
+                        moved.extend(comments.take_leading(paren.lo).unwrap_or_default());
+                    }
                 }
+                if !moved.is_empty() {
+                    moved.extend(comments.take_leading(inner.lo).unwrap_or_default());
+                    comments.add_leading_comments(inner.lo, moved);
+                }
+            }
+            // Trailing comments of the removed `)`, in source order.
+            for &(_, paren) in parens.iter().skip(skip) {
                 if paren.hi != target.hi {
-                    comments.move_trailing(paren.hi, target.hi);
+                    if let Some(trailing) = comments.take_trailing(paren.hi) {
+                        comments.add_trailing_comments(target.hi, trailing);
+                    }
                 }
             }
         }

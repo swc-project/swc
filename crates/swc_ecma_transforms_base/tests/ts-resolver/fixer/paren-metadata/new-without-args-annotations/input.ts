@@ -21,3 +21,5 @@ new /* @__PURE__ */ (/* @__PURE__ */ new F)(x);
 (/* @__PURE__ */ new F)``;
 (/* @__PURE__ */ f())``;
 new (/* @__PURE__ */ new F)``;
+(/* @__PURE__ generated */ (/* @__PURE__ */ factory())).m();
+new (new F)();

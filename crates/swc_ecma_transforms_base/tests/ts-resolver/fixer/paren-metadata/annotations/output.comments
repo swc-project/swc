@@ -1,5 +1,4 @@
 Source, remove_only=false:
-trailing BytePos(28) -> BytePos(27)
 leading BytePos(40) -> BytePos(41)
 trailing BytePos(65) -> BytePos(64)
 leading BytePos(39) -> BytePos(40)
@@ -24,8 +23,6 @@ leading at BytePos(53): [Comment { kind: Block, span: 42..52, text: " cast " }]
 trailing at BytePos(67): [Comment { kind: Block, span: 68..82, text: " trailing " }]
 
 Duplicated, remove_only=false:
-trailing BytePos(28) -> BytePos(27)
-trailing BytePos(28) -> BytePos(27)
 leading BytePos(40) -> BytePos(41)
 trailing BytePos(65) -> BytePos(64)
 leading BytePos(39) -> BytePos(40)

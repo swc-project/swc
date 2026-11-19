@@ -21,3 +21,5 @@ new F().m();
 (new F)``;
 f()``;
 new (new F)``;
+factory().m();
+new (new F)();
