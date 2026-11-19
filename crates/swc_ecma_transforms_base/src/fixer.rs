@@ -144,17 +144,20 @@ impl Fixer<'_> {
     /// issue #12019. `outer_lo` is the start of the expression that contains
     /// `e`, such as the call whose callee is `e`.
     ///
-    /// If this pass removed parentheses around `e`, their source span is
-    /// restored as `wrap` does, so that comments before the removed `(` are
-    /// printed before the new `(`. This is done only if the removed `(` is at
-    /// the start of the outer expression, or if no annotation is before it.
-    /// Otherwise, as in `(/* @__PURE__ */ (/* @__PURE__ */ f())).m()` after
-    /// the redundant outer parentheses are removed, an annotation inside them
-    /// would be printed before the receiver and apply to the call of `m`.
+    /// This pass may have removed several parentheses around `e`, as in
+    /// `((e))`. Their comments are moved here, from the innermost paren
+    /// outward, so that they keep their source order and reach a position
+    /// that codegen prints. Comments before a `(` at `outer_lo` are left in
+    /// place, because the outer expression prints them.
     ///
-    /// In the other cases the parentheses get no span, and the comments of a
-    /// removed paren move onto `e`. A paren with the span of `e` would make
-    /// codegen print the annotation of `e` before `(`.
+    /// The span of the innermost removed paren is restored, as `wrap` does,
+    /// unless an annotation is before a removed `(` that is not at
+    /// `outer_lo`. Such an annotation was inside the outermost parentheses;
+    /// printed before the restored `(`, it would apply to the outer
+    /// expression, as in `(/* @__PURE__ */ (/* @__PURE__ */ f())).m()`. In
+    /// that case, and if no paren was removed, the new parentheses get no
+    /// span and all the comments move onto `e`. A paren with the span of `e`
+    /// would make codegen print the annotation of `e` before `(`.
     ///
     /// Known limitation: `paren_remover` moves the comments at `(` onto the
     /// inner expression before this pass runs, so after it the fixer cannot
@@ -164,19 +167,56 @@ impl Fixer<'_> {
     /// call with side effects, but the outer call of the first form is no
     /// longer marked as pure.
     fn wrap_annotated(&mut self, e: &mut Expr, outer_lo: BytePos) {
-        let span = match self.span_map.get(e.span()) {
-            Some(paren)
-                if !paren.is_pure()
-                    && (paren.lo == outer_lo || !self.has_annotation_at(paren.lo)) =>
-            {
-                self.span_map.remove(e.span());
-                paren
+        let inner = e.span();
+
+        // The removed parens around `e`, from the innermost. Each one must
+        // strictly enclose the previous one, so that the walk ends.
+        let mut parens = Vec::new();
+        let mut enclosed = inner;
+        while let Some(paren) = self.span_map.get(enclosed) {
+            if paren == enclosed || paren.lo > enclosed.lo || paren.hi < enclosed.hi {
+                break;
             }
-            _ => DUMMY_SP,
+            parens.push((enclosed, paren));
+            enclosed = paren;
+        }
+
+        let restored = match parens.first() {
+            Some(&(_, paren))
+                if !paren.is_pure()
+                    && parens.iter().all(|&(_, paren)| {
+                        paren.lo == outer_lo || !self.has_annotation_at(paren.lo)
+                    }) =>
+            {
+                Some(paren)
+            }
+            _ => None,
+        };
+        let (target, skip) = match restored {
+            Some(paren) => (paren, 1),
+            None => (inner, 0),
         };
 
+        for &(key, _) in &parens {
+            self.span_map.remove(key);
+        }
+        if let Some(comments) = self.comments {
+            for &(_, paren) in parens.iter().skip(skip) {
+                if paren.lo != outer_lo && paren.lo != target.lo {
+                    comments.move_leading(paren.lo, target.lo);
+                }
+                if paren.hi != target.hi {
+                    comments.move_trailing(paren.hi, target.hi);
+                }
+            }
+        }
+
         let expr = Box::new(e.take());
-        *e = ParenExpr { expr, span }.into();
+        *e = ParenExpr {
+            expr,
+            span: restored.unwrap_or(DUMMY_SP),
+        }
+        .into();
     }
 
     /// Wraps a `new` expression without arguments, such as `new F`, that is
@@ -1052,6 +1092,13 @@ impl VisitMut for Fixer<'_> {
         match &*e.tag {
             Expr::TsNonNull(..) if continues_optional_chain(&e.tag) => {
                 self.wrap(&mut e.tag);
+            }
+            // Keep a leading annotation inside the parentheses, so that it does
+            // not apply to the tagged template. See issue #12019.
+            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
+                if !self.remove_only && self.has_annotation(&e.tag) =>
+            {
+                self.wrap_annotated(&mut e.tag, e.span.lo);
             }
             Expr::Object(..) if self.ctx == Context::Default => {
                 self.wrap(&mut e.tag);
