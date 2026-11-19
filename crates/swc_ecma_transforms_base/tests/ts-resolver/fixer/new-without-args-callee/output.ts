@@ -10,3 +10,6 @@ export { };
 new F()();
 (new F)``;
 (new F).x;
+new (new F)(x);
+new (new F)().x;
+new (new F)(x)();

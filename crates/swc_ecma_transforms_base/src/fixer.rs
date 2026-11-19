@@ -844,6 +844,13 @@ impl VisitMut for Fixer<'_> {
             Expr::TsNonNull(..) if continues_optional_chain(&node.callee) => {
                 self.wrap(&mut node.callee)
             }
+            // `new (new F)(x)` passes `x` to the constructed value, but
+            // `new new F(x)` passes `x` to `F`.
+            Expr::New(NewExpr { args: None, .. })
+                if node.args.is_some() || node.type_args.is_some() =>
+            {
+                self.wrap_new_without_args(&mut node.callee)
+            }
             // `new foo()`bar`() constructs `foo`, while `new (foo()`bar`)()`
             // constructs the class returned by the tagged template expression.
             Expr::TaggedTpl(TaggedTpl { ref tag, .. })
@@ -875,7 +882,16 @@ impl VisitMut for Fixer<'_> {
         let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
 
         node.callee.visit_mut_with(self);
-        self.wrap_callee(&mut node.callee);
+        match &*node.callee {
+            // Keep a leading annotation inside the parentheses, so that it does
+            // not apply to the optional call. See issue #12019.
+            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
+                if !self.remove_only && self.has_annotation(&node.callee) =>
+            {
+                Self::wrap_annotated(&mut node.callee)
+            }
+            _ => self.wrap_callee(&mut node.callee),
+        }
 
         self.in_opt_chain = in_opt_chain;
 

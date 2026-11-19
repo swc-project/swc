@@ -16,3 +16,4 @@ function G() {
 
 console.log(new new G()(22)());
 console.log(new new G()(22)?.());
+console.log(new (new G)(22)());
