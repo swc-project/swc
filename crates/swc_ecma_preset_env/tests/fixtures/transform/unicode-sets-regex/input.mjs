@@ -45,7 +45,8 @@ export const undefinedFlagsWithAddedFlag = new RegExp("(?m:^a$)", undefined);
 // A template literal pattern is kept too.
 export const templatePattern = new RegExp(`(?i:a)`, "g");
 // `globalThis.RegExp` and optional calls are the global `RegExp` too, so the
-// literal is kept.
+// literal is kept. (An optional call is protected only when the targets do not
+// need optional chaining lowered, because that rewrite runs first.)
 export const globalThisCallee = new globalThis.RegExp(/(?-i:a)b/i, "i");
 export const optionalCall = RegExp?.(/a(?-i:b)/i, "i");
 // The flags replace the flags of either literal, so both are kept.
@@ -82,3 +83,12 @@ export const uniqueNamedGroupInCall = new RegExp(/(?<x>a)/, "g");
 // A spread of an array literal supplies its elements by position, so the third
 // element is not the pattern and is lowered.
 export const spreadPositions = new RegExp(...["a", "g", /(?i:b)/]);
+
+// `a && b` can evaluate to `b`, but not to a regex `a`, which is truthy. Only
+// the right literal is kept.
+export const andOperands = RegExp(/(?i:a)/ && /a(?-i:b)/i, "i");
+// An empty spread supplies no flags, so the literal is lowered.
+export const emptySpreadFlags = RegExp(/(?i:a)/, ...[]);
+// After an unknown spread, only the first argument that is not spread can be
+// the pattern. The second literal can only be the flags, so it is lowered.
+export const afterUnknownSpread = (args) => RegExp(...args, /a(?-i:b)/i, /(?i:c)/);

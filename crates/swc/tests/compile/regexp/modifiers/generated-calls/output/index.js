@@ -1,3 +1,4 @@
+import { _ as _wrap_reg_exp } from "@swc/helpers/_/_wrap_reg_exp";
 // A generated `RegExp` call must use the global `RegExp`.
 export function check(RegExp1) {
     return RegExp("(a)(?i:\\1)").test("aA");
@@ -8,3 +9,19 @@ export const unicodeSetsFlag = new RegExp(/a/, "v");
 export const duplicateNames = (flags)=>RegExp("(?<x>a)|(?<x>b)", flags);
 // One warning for a literal that is kept for a call and then converted.
 export const reportedOnce = new RegExp(RegExp("[a--b]", "v"), "v");
+// A spread of an array literal supplies the pattern and the flags.
+export const spreadArguments = RegExp(...[
+    "(?i:a)",
+    "g"
+]);
+export const spreadUnicodeSets = new RegExp("[a--b]", ...[
+    "v"
+]);
+// Without flags, the call copies only the pattern of the wrapped literal, so
+// the matches have no `groups`.
+export const copiedNamedGroups = new RegExp(_wrap_reg_exp(/(a)|(b)/, {
+    x: [
+        1,
+        2
+    ]
+}, "(?<x>a)|(?<x>b)"));

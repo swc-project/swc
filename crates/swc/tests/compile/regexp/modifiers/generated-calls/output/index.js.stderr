@@ -28,6 +28,7 @@
     :                                                 ^^^^^^^^^^^^^^^^^
  10 | // One warning for a literal that is kept for a call and then converted.
  11 | export const reportedOnce = new RegExp(/[a--b]/v, "v");
+ 12 | // A spread of an array literal supplies the pattern and the flags.
     `----
   ! Cannot lower the syntax in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags of this literal. The regular expression is kept, and it can fail on those targets.
     ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:11:1]
@@ -36,4 +37,37 @@
  10 | // One warning for a literal that is kept for a call and then converted.
  11 | export const reportedOnce = new RegExp(/[a--b]/v, "v");
     :                                        ^^^^^^^^^
+ 12 | // A spread of an array literal supplies the pattern and the flags.
+ 13 | export const spreadArguments = RegExp(...["(?i:a)", "g"]);
+ 14 | export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
+    `----
+  ! Cannot lower regexp modifiers in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:13:1]
+ 10 | // One warning for a literal that is kept for a call and then converted.
+ 11 | export const reportedOnce = new RegExp(/[a--b]/v, "v");
+ 12 | // A spread of an array literal supplies the pattern and the flags.
+ 13 | export const spreadArguments = RegExp(...["(?i:a)", "g"]);
+    :                                           ^^^^^^^^
+ 14 | export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
+ 15 | // Without flags, the call copies only the pattern of the wrapped literal, so
+ 16 | // the matches have no `groups`.
+    `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:14:1]
+ 11 | export const reportedOnce = new RegExp(/[a--b]/v, "v");
+ 12 | // A spread of an array literal supplies the pattern and the flags.
+ 13 | export const spreadArguments = RegExp(...["(?i:a)", "g"]);
+ 14 | export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
+    :                                             ^^^^^^^^
+ 15 | // Without flags, the call copies only the pattern of the wrapped literal, so
+ 16 | // the matches have no `groups`.
+ 17 | export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
+    `----
+  ! The named capturing groups of this regular expression are lowered for the configured targets, but the enclosing `RegExp` call can copy only the pattern, so its matches can have no `groups`.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:17:1]
+ 14 | export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
+ 15 | // Without flags, the call copies only the pattern of the wrapped literal, so
+ 16 | // the matches have no `groups`.
+ 17 | export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
+    :                                             ^^^^^^^^^^^^^^^^^
     `----
