@@ -75,3 +75,8 @@ export const holeFlags = RegExp(/(?:[Aa])/, ...[
     ,
     "g"
 ]);
+export const conditionalSpread = (enabled)=>RegExp(...enabled ? [
+        "x",
+        "g",
+        /(?:[Aa])/
+    ] : []);

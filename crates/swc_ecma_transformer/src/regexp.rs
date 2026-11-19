@@ -68,19 +68,20 @@ pub struct RegExpOptions {
     ///
     /// The rewritten pattern assumes the flags of the literal, and an
     /// `(?m:...)` group that contains every `^` and `$` becomes the `m`
-    /// flag. A flag that a `(?-i:...)`, `(?-m:...)` or `(?-s:...)` group
-    /// disables is removed from the flags when the rest of the pattern does
-    /// not need it, so the `flags` property of the result can differ from
-    /// the input. A literal that is the direct pattern argument of a
-    /// `RegExp(...)` call with a flags argument is kept, because the call
-    /// replaces its flags. Like Babel, other ways to reuse a literal with
-    /// other flags are not followed, and they can match differently: a
-    /// variable, an alias such as `const R = RegExp`, `RegExp.call`,
-    /// `RegExp.apply`, `Reflect.construct` and `.source`. This applies to
-    /// the `v` flag as well. An optional call such as `RegExp?.(...)` is
-    /// protected only while it is still an optional call: when the targets
-    /// also need optional chaining lowered, the call is rewritten before this
-    /// pass sees it, and its literal is lowered.
+    /// flag. A flag that a `(?-i:...)` group disables is removed from the
+    /// flags, and the terms outside the group are rewritten to keep it. The
+    /// same happens for `(?-m:...)` (or `(?-s:...)`) when the group has a `^`
+    /// or `$` (or a `.`); otherwise the flag stays. So the `flags` property
+    /// of the result can differ from the input. A literal that is the direct
+    /// pattern argument of a `RegExp(...)` call with a flags argument is
+    /// kept, because the call replaces its flags. Like Babel, other ways to
+    /// reuse a literal with other flags are not followed, and they can
+    /// match differently: a variable, an alias such as `const R = RegExp`,
+    /// `RegExp.call`, `RegExp.apply`, `Reflect.construct` and `.source`.
+    /// This applies to the `v` flag as well. An optional call such as
+    /// `RegExp?.(...)` is protected only while it is still an optional
+    /// call: when the targets also need optional chaining lowered, the call
+    /// is rewritten before this pass sees it, and its literal is lowered.
     pub regexp_modifiers: bool,
     /// The syntax context of unresolved (global) identifiers.
     ///
@@ -812,8 +813,21 @@ impl RegexpPass {
         NamedGroupStripper { mapping: &mapping }.strip_disjunction(&mut ast.body);
         // A `u` or `v` pattern reads two printed surrogates as one code point.
         // A `\q{...}` string with such surrogates cannot be printed, so the
-        // pattern is kept as written.
-        if flags.contains(['u', 'v']) && !isolate_lone_surrogates(&mut ast) {
+        // pattern is kept as written. The rewrite can also move class items and
+        // escape characters, which the flags of an enclosing call may read
+        // differently, so it is checked like the spelling above.
+        let before_isolation = keep_spelling.then(|| ast.to_string());
+        let printable = !flags.contains(['u', 'v']) || isolate_lone_surrogates(&mut ast);
+        if before_isolation.is_some_and(|before| before != ast.to_string()) {
+            self.warn(
+                span,
+                "named capturing groups",
+                "the enclosing `RegExp` call can replace the flags, and the pattern cannot be \
+                 printed again as written",
+            );
+            return NamedGroups::Kept;
+        }
+        if !printable {
             debug!(%pattern, "a `\\q{{...}}` string cannot be printed with separate surrogates");
             self.warn(
                 span,
@@ -1238,9 +1252,19 @@ fn collect_pattern_literals(
         {
             collect_pattern_literals(&assign.right, kind, literals)
         }
+        // The elements of an array that is spread into the arguments. Only
+        // the first element that is known to exist can be the pattern; a
+        // nested spread before it can supply nothing.
         Expr::Array(array) => {
-            for elem in array.elems.iter().flatten() {
+            for elem in &array.elems {
+                let Some(elem) = elem else {
+                    // A hole supplies `undefined` as the pattern.
+                    break;
+                };
                 collect_pattern_literals(&elem.expr, kind, literals);
+                if elem.spread.is_none() {
+                    break;
+                }
             }
         }
         _ => {}
@@ -1291,7 +1315,7 @@ fn has_repeated_group_name(pattern: &str) -> bool {
             return false;
         }
         rest.find('>')
-            .is_some_and(|end| !names.insert(&rest[..end]))
+            .is_some_and(|end| !names.insert(decode_group_name(&rest[..end])))
     })
 }
 

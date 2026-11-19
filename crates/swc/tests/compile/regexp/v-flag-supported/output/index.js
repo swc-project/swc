@@ -5,3 +5,9 @@ export const surrogatesInString = RegExp("(?<x>[\\q{\\u{D83D}\\u{DE00}}])|(?<x>z
 // The parser does not know this script name, so the duplicate names are
 // kept in a `RegExp` call, with a warning.
 export const unknownScript = RegExp("(?<a>\\p{Script=Sidetic})|(?<a>b)", "u");
+// The call reads the pattern with the `v` flag, where `&&` is an operator.
+// Moving the surrogate would change the class, so the names are kept in a
+// `RegExp` call, with a warning.
+export const crossMode = new RegExp(RegExp("(?<x>[a&&\\uDC00])|(?<x>z)", "u"), "v");
+// `\u0061` is the name `a`, so the names repeat.
+export const escapedRepeatedName = RegExp("(?<a>\\p{Script=Sidetic})|(?<\\u0061>b)", "u");

@@ -105,3 +105,6 @@ export const arithmeticAssignment = (n) => RegExp(n *= /(?i:a)/, "g");
 // A hole of a spread array supplies `undefined` flags, so the literal is
 // lowered. The "g" is a third argument, which is ignored.
 export const holeFlags = RegExp(/(?i:a)/, ...[, "g"]);
+// Only the first element of a spread array can be the pattern, so the third
+// one is lowered.
+export const conditionalSpread = (enabled) => RegExp(...(enabled ? ["x", "g", /(?i:a)/] : []));
