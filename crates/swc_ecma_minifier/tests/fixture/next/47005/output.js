@@ -13,25 +13,25 @@
             });
             /* unused harmony exports TooltipProvider, TooltipWrapper */ /* harmony import */ var R, A = h(7294);
             /* harmony import */ var O = h(5893);
-            var L = Object.create;
-            var j = Object.defineProperty;
-            var B = Object.getOwnPropertyDescriptor;
+            var j = Object.create;
+            var B = Object.defineProperty;
+            var L = Object.getOwnPropertyDescriptor;
             var C = Object.getOwnPropertyNames;
             var N = Object.getPrototypeOf, $ = Object.prototype.hasOwnProperty;
-            var D = (m, S, h)=>(h = null != m ? L(N(m)) : {}, ((m, S, h)=>{
-                    if (S && "object" == typeof S || "function" == typeof S) for (let E of C(S))$.call(m, E) || void 0 === E || j(m, E, {
+            var D = (m, S, h)=>(h = null != m ? j(N(m)) : {}, ((m, S, h)=>{
+                    if (S && "object" == typeof S || "function" == typeof S) for (let E of C(S))$.call(m, E) || void 0 === E || B(m, E, {
                         get: ()=>S[E],
-                        enumerable: !(h = B(S, E)) || h.enumerable
+                        enumerable: !(h = L(S, E)) || h.enumerable
                     });
                     return m;
-                })(!S && m && m.__esModule ? h : j(h, "default", {}), m));
+                })(!S && m && m.__esModule ? h : B(h, "default", {}), m));
             var M = (E = ()=>{}, ()=>(k || E((k = {
                     exports: {}
                 }).exports, k), k.exports));
             var F = D(M());
             var I = ()=>{};
             (0, A.createContext)({});
-            function z(m = "DEFAULT_TOOLTIP_ID") {}
+            function z() {}
             D(M());
             var H = "u" > typeof window ? A.useLayoutEffect : A.useEffect;
             var V = function() {};
@@ -81,12 +81,12 @@
                             return S.set(m, E), E;
                         }(S, this._c) : [].concat(h),
                         E
-                    ], O = A[0], L = A.reduce(()=>{}, void 0);
+                    ], O = A[0], j = A.reduce(()=>{}, void 0);
                     return {
-                        width: L.right - L.left,
-                        height: L.bottom - L.top,
-                        x: L.left,
-                        y: L.top
+                        width: j.right - j.left,
+                        height: j.bottom - j.top,
+                        x: j.left,
+                        y: j.top
                     };
                 },
                 convertOffsetParentRelativeRectToViewportRelativeRect: function() {},
@@ -139,7 +139,7 @@
                 warning: "react-tooltip__warning_KtSkBq"
             };
             var er = ({})=>{
-                let m = (0, A.useRef)(null), S = (0, A.useRef)(null), h = (0, A.useRef)(null), E = (0, A.useRef)(null), [k, R] = (0, A.useState)(i), [L, j] = (0, A.useState)({}), [B, C] = (0, A.useState)({}), [N, $] = (0, A.useState)(!1), [D, M] = (0, A.useState)(!1), Y = (0, A.useRef)(null), { anchorRefs: G } = z(t), J = (0, A.useRef)(!1), [Q, Z] = (0, A.useState)([]), er = (0, A.useRef)(!1), en = u || f.includes("click");
+                let m = (0, A.useRef)(null), S = (0, A.useRef)(null), h = (0, A.useRef)(null), E = (0, A.useRef)(null), [k, R] = (0, A.useState)(i), [j, B] = (0, A.useState)({}), [L, C] = (0, A.useState)({}), [N, $] = (0, A.useState)(!1), [D, M] = (0, A.useState)(!1), Y = (0, A.useRef)(null), { anchorRefs: G } = z(t), J = (0, A.useRef)(!1), [Q, Z] = (0, A.useState)([]), er = (0, A.useRef)(!1), en = u || f.includes("click");
                 H(()=>(er.current = !0, ()=>{
                         er.current = !1;
                     }), []), (0, A.useEffect)(()=>{
@@ -325,7 +325,7 @@
                         strategy: a,
                         middlewares: c
                     }).then((m)=>{
-                        er.current && (Object.keys(m.tooltipStyles).length && j(m.tooltipStyles), Object.keys(m.tooltipArrowStyles).length && C(m.tooltipArrowStyles), R(m.place));
+                        er.current && (Object.keys(m.tooltipStyles).length && B(m.tooltipStyles), Object.keys(m.tooltipArrowStyles).length && C(m.tooltipArrowStyles), R(m.place));
                     });
                 }, [
                     N,
@@ -360,7 +360,7 @@
                     t,
                     r
                 ]);
-                let ev = K && N && Object.keys(L).length > 0;
+                let ev = K && N && Object.keys(j).length > 0;
                 return D ? (0, O.jsxs)(d, {
                     id: t,
                     role: "tooltip",
@@ -371,7 +371,7 @@
                     }),
                     style: {
                         ...v,
-                        ...L
+                        ...j
                     },
                     ref: m,
                     children: [
@@ -380,7 +380,7 @@
                             className: (0, F.default)("react-tooltip-arrow", et.arrow, n, {
                                 [et.noArrow]: w
                             }),
-                            style: B,
+                            style: L,
                             ref: S
                         })
                     ]
@@ -392,7 +392,7 @@
                     }
                 });
             var eo = ({ setIsOpen: m })=>{
-                let [S, h] = (0, A.useState)(o), [E, k] = (0, A.useState)(l), [R, L] = (0, A.useState)(u), [j, B] = (0, A.useState)(f), [C, N] = (0, A.useState)(a), [$, D] = (0, A.useState)(T), [M, F] = (0, A.useState)(x), [I, H] = (0, A.useState)(v), [V, W] = (0, A.useState)(c), [X, Y] = (0, A.useState)(p), [G, J] = (0, A.useState)(g), [Q, Z] = (0, A.useState)(null), {} = z(t);
+                let [S, h] = (0, A.useState)(o), [E, k] = (0, A.useState)(l), [R, j] = (0, A.useState)(u), [B, L] = (0, A.useState)(f), [C, N] = (0, A.useState)(a), [$, D] = (0, A.useState)(T), [M, F] = (0, A.useState)(x), [I, H] = (0, A.useState)(v), [V, W] = (0, A.useState)(c), [X, Y] = (0, A.useState)(p), [G, J] = (0, A.useState)(g), [Q, Z] = (0, A.useState)(null), {} = z(t);
                 (0, A.useEffect)(()=>{}, [
                     o
                 ]), (0, A.useEffect)(()=>{}, [

@@ -5,8 +5,7 @@ class C {
     static{
         this.x = 1;
     }
-})=>{})();
-((b = class extends C {
+})=>{})(), ((b = class extends C {
     static{
         this.x = 1;
     }

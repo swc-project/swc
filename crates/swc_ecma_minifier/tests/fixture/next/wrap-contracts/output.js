@@ -26243,7 +26243,7 @@ function _get9(dt, pos) {
                                 typeFlag = 4;
                         }
                         mem().setUint32(addr + 4, 0x7ff80000 | typeFlag, !0), mem().setUint32(addr, id, !0);
-                    }, loadSlice = (array, len, cap = null)=>new Uint8Array(this._inst.exports.memory.buffer, array, len), loadSliceOfValues = (array, len, cap)=>{
+                    }, loadSlice = (array, len)=>new Uint8Array(this._inst.exports.memory.buffer, array, len), loadSliceOfValues = (array, len, cap)=>{
                         let a = Array(len);
                         for(let i = 0; i < len; i++)a[i] = loadValue(array + 8 * i);
                         return a;
@@ -26280,7 +26280,7 @@ function _get9(dt, pos) {
                                 else // Can't exit in a browser.
                                 throw 'trying to exit with code ' + code;
                             },
-                            random_get: (bufPtr, bufLen)=>(crypto.getRandomValues(loadSlice(bufPtr, bufLen, null)), 0)
+                            random_get: (bufPtr, bufLen)=>(crypto.getRandomValues(loadSlice(bufPtr, bufLen)), 0)
                         },
                         env: {
                             // func ticks() float64
@@ -26364,7 +26364,7 @@ function _get9(dt, pos) {
                             // valueLoadString(v ref, b []byte)
                             'syscall/js.valueLoadString': (v_addr, slice_ptr, slice_len, slice_cap)=>{
                                 let str = loadValue(v_addr);
-                                loadSlice(slice_ptr, slice_len, slice_cap).set(str);
+                                loadSlice(slice_ptr, slice_len).set(str);
                             },
                             // func valueInstanceOf(v ref, t ref) bool
                             'syscall/js.valueInstanceOf': (v_addr, t_addr)=>loadValue(v_addr) instanceof loadValue(t_addr),

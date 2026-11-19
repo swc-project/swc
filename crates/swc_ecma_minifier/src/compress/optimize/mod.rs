@@ -871,17 +871,22 @@ impl Optimizer<'_> {
                 args,
                 ..
             }) => {
-                if let Expr::Fn(FnExpr {
-                    ident: None,
-                    function,
-                }) = &mut **callee
-                {
-                    if args.is_empty() {
-                        for param in &mut function.params {
-                            self.drop_unused_param(&mut param.pat, true);
-                        }
+                if args.is_empty() {
+                    match &mut **callee {
+                        Expr::Fn(FnExpr {
+                            ident: None,
+                            function,
+                        }) => {
+                            self.drop_unused_params(&mut function.params, true);
 
-                        function.params.retain(|p| !p.pat.is_invalid());
+                            function.params.retain(|p| !p.pat.is_invalid());
+                        }
+                        Expr::Arrow(ArrowExpr { params, .. }) => {
+                            self.drop_unused_arrow_params(params, true);
+
+                            params.retain(|p| !p.is_invalid());
+                        }
+                        _ => (),
                     }
                 }
 
@@ -1663,7 +1668,8 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        self.drop_unused_arrow_params(&mut n.params);
+        self.drop_unused_arrow_params(&mut n.params, false);
+        n.params.retain(|p| !p.is_invalid());
 
         let prepend = self.prepend_stmts.take();
 
@@ -2049,24 +2055,6 @@ impl VisitMut for Optimizer<'_> {
         self.store_decl_for_inlining(decl);
     }
 
-    #[cfg_attr(
-        all(debug_assertions, feature = "debug"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
-        match n {
-            DefaultDecl::Class(_) => {}
-            DefaultDecl::Fn(f) => {
-                self.drop_unused_params(&mut f.function.params);
-            }
-            DefaultDecl::TsInterfaceDecl(_) => {}
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
         let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2077,10 +2065,6 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
-        if let Decl::Fn(f) = &mut n.decl {
-            self.drop_unused_params(&mut f.function.params);
-        }
-
         let ctx = self.ctx.clone().with(BitCtx::IsExported, true);
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
@@ -2415,8 +2399,6 @@ impl VisitMut for Optimizer<'_> {
         self.functions
             .entry(f.ident.to_id())
             .or_insert_with(|| FnMetadata::from(&*f.function));
-
-        self.drop_unused_params(&mut f.function.params);
 
         let ctx = self
             .ctx
@@ -2797,13 +2779,14 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx.clone()
         };
         let mut o = self.with_ctx(ctx);
-        n.visit_mut_children_with(&mut *o);
 
-        o.drop_unused_param(&mut n.pat, false);
+        n.visit_mut_children_with(&mut *o);
     }
 
     fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
         n.visit_mut_children_with(self);
+
+        self.drop_unused_params(&mut *n, false);
 
         n.retain(|p| !p.pat.is_invalid());
     }
