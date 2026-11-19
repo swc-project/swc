@@ -144,12 +144,34 @@ struct RegexpPass {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ConstructorUse {
     /// The call can replace the flags of the literal, so the literal must not
-    /// be lowered with its own flags.
-    ReplacesFlags,
+    /// be lowered with its own flags. The value is the Unicode mode of the
+    /// flags of the call, if they are known.
+    ReplacesFlags(Option<UnicodeMode>),
     /// The call keeps the flags. The literal can be lowered, but a new regex
     /// copies only its pattern and flags, not the `groups` that
     /// `_wrap_reg_exp` restores.
     CopiesPattern,
+}
+
+/// Which of the `u` and `v` flags a set of flags has. Unicode property
+/// escapes expand the same way for two sets of flags with the same mode.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum UnicodeMode {
+    None,
+    Unicode,
+    UnicodeSets,
+}
+
+impl UnicodeMode {
+    fn of(flags: &str) -> Self {
+        if flags.contains('v') {
+            Self::UnicodeSets
+        } else if flags.contains('u') {
+            Self::Unicode
+        } else {
+            Self::None
+        }
+    }
 }
 
 /// What a callee named `RegExp` refers to.
@@ -383,7 +405,10 @@ impl RegexpPass {
             };
             let kind = match flags {
                 CallFlags::Absent | CallFlags::Undefined => ConstructorUse::CopiesPattern,
-                CallFlags::Known(_) | CallFlags::Unknown => ConstructorUse::ReplacesFlags,
+                CallFlags::Known(flags) => {
+                    ConstructorUse::ReplacesFlags(Some(UnicodeMode::of(flags)))
+                }
+                CallFlags::Unknown => ConstructorUse::ReplacesFlags(None),
             };
             collect_pattern_literals(pattern, kind, &mut self.constructor_literals);
             return;
@@ -396,7 +421,7 @@ impl RegexpPass {
         for arg in args.iter() {
             collect_pattern_literals(
                 &arg.expr,
-                ConstructorUse::ReplacesFlags,
+                ConstructorUse::ReplacesFlags(None),
                 &mut self.constructor_literals,
             );
             if arg.spread.is_none() {
@@ -897,15 +922,24 @@ impl RegexpPass {
                     .iter()
                     .position(|&(literal, _)| literal == address)
                     .map(|idx| self.constructor_literals.swap_remove(idx).1);
-                let in_constructor = constructor_use == Some(ConstructorUse::ReplacesFlags);
+                let in_constructor =
+                    matches!(constructor_use, Some(ConstructorUse::ReplacesFlags(_)));
+                // Unicode property escapes expand the same way for flags of
+                // the same Unicode mode, so they are expanded only then (see
+                // `transform_pattern` below).
+                let expand_properties = match constructor_use {
+                    Some(ConstructorUse::ReplacesFlags(mode)) => {
+                        mode == Some(UnicodeMode::of(&regex.flags))
+                    }
+                    _ => true,
+                };
 
-                // Unicode property escapes are not expanded for such a call
-                // either. See `transform_pattern` below.
                 let property_escape = self.options.unicode_property_regex
                     && regex.flags.contains('u')
                     && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{"));
                 if in_constructor
-                    && (property_escape || self.has_syntax_to_lower(&regex.exp, &regex.flags))
+                    && ((property_escape && !expand_properties)
+                        || self.has_syntax_to_lower(&regex.exp, &regex.flags))
                 {
                     self.warn(
                         regex.span,
@@ -959,10 +993,10 @@ impl RegexpPass {
 
                         let regex_arg: Expr = if needs_constructor {
                             // Apply unicode property transform if needed. When
-                            // the enclosing call replaces the flags, an
-                            // expansion for the flags of the literal can be
-                            // invalid with the other flags.
-                            let pattern = (!in_constructor)
+                            // the enclosing call replaces the flags with flags
+                            // of another Unicode mode, the expansion could be
+                            // invalid with them.
+                            let pattern = expand_properties
                                 .then(|| self.transform_pattern(&stripped_exp, &flags))
                                 .flatten()
                                 .unwrap_or(stripped_exp);
@@ -1015,10 +1049,10 @@ impl RegexpPass {
                     let Regex { exp, flags, span } = regex.take();
 
                     // Transform the pattern if it contains unicode property
-                    // escapes. When the enclosing call replaces the flags, an
-                    // expansion for the flags of the literal can be invalid
-                    // with the other flags, so the pattern is kept.
-                    let transformed_pattern = (!in_constructor)
+                    // escapes. When the enclosing call replaces the flags with
+                    // flags of another Unicode mode, the expansion could be
+                    // invalid with them, so the pattern is kept.
+                    let transformed_pattern = expand_properties
                         .then(|| self.transform_pattern(&exp, &flags))
                         .flatten()
                         .unwrap_or_else(|| exp.to_string());

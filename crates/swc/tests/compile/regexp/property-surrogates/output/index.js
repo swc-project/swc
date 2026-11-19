@@ -5,3 +5,6 @@ export const call = new RegExp("[\\u0041-\\u005A\\u00C0-\\u00D6\\u00D8-\\u00DE\\
 // The call replaces the flags, so an expansion for the `u` flag could be
 // invalid. The literal is kept, with a warning.
 export const replacedFlags = new RegExp(RegExp("^\\p{Script=Deseret}$", "u"), "");
+// The flags of the call have the same Unicode mode, so the expansion is still
+// valid and is done.
+export const sameUnicodeMode = new RegExp(RegExp("^[\\u{10400}-\\u{1044F}]$", "u"), "gu");

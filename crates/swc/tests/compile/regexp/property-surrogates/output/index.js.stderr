@@ -1,8 +1,11 @@
   ! Cannot lower the syntax in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags of this literal. The regular expression is kept, and it can fail on those targets.
-   ,-[$DIR/tests/compile/regexp/property-surrogates/input/index.js:7:1]
- 4 | export const call = new RegExp("\\p{Lu}\\u{D83D}\\u{DE00}", "u");
- 5 | // The call replaces the flags, so an expansion for the `u` flag could be
- 6 | // invalid. The literal is kept, with a warning.
- 7 | export const replacedFlags = new RegExp(/^\p{Script=Deseret}$/u, "");
-   :                                         ^^^^^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/compile/regexp/property-surrogates/input/index.js:7:1]
+  4 | export const call = new RegExp("\\p{Lu}\\u{D83D}\\u{DE00}", "u");
+  5 | // The call replaces the flags, so an expansion for the `u` flag could be
+  6 | // invalid. The literal is kept, with a warning.
+  7 | export const replacedFlags = new RegExp(/^\p{Script=Deseret}$/u, "");
+    :                                         ^^^^^^^^^^^^^^^^^^^^^^^
+  8 | // The flags of the call have the same Unicode mode, so the expansion is still
+  9 | // valid and is done.
+ 10 | export const sameUnicodeMode = new RegExp(/^\p{Script=Deseret}$/u, "gu");
+    `----
