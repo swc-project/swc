@@ -761,7 +761,8 @@ impl RegexpPass {
                         self.warn(
                             span,
                             "possible duplicate named capturing groups",
-                            "the pattern cannot be parsed",
+                            "the pattern cannot be parsed: it is invalid, or it uses syntax that \
+                             the parser does not know",
                         );
                         return NamedGroups::Kept;
                     }
