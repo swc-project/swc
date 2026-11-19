@@ -32,3 +32,24 @@ export const escapedName = _wrap_reg_exp(/(a)(?:\1\2)|(b)/, {
         2
     ]
 }, "(?<\\u0078>a)\\k<x>|(?<x>b)");
+export const digitAfterReference = _wrap_reg_exp(/^(?:(a)|(b))(?:\1\2)(c)(?:\3)0$/u, {
+    x: [
+        1,
+        2
+    ],
+    z: 3
+}, "^(?:(?<x>a)|(?<x>b))\\k<x>(?<z>c)\\k<z>0$");
+export const loneSurrogates = _wrap_reg_exp(/^(?:([\uD800-\uD800][\uDC00-\uDC00])|(z))(?:\1\2)$/u, {
+    x: [
+        1,
+        2
+    ]
+}, "^(?:(?<x>\\u{D800}\\u{DC00})|(?<x>z))\\k<x>$");
+export const bothParticipate = /(?:(?<x>a)|z)(?:(?<x>b))\k<x>/;
+export const escapedNameInOneAlternative = /(?<x>a)(?<\u0078>b)/;
+export const protoName = _wrap_reg_exp(/(a)|(b)/, {
+    ["__proto__"]: [
+        1,
+        2
+    ]
+}, "(?<__proto__>a)|(?<__proto__>b)");

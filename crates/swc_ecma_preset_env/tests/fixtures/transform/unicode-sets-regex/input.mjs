@@ -92,3 +92,6 @@ export const emptySpreadFlags = RegExp(/(?i:a)/, ...[]);
 // After an unknown spread, only the first argument that is not spread can be
 // the pattern. The second literal can only be the flags, so it is lowered.
 export const afterUnknownSpread = (args) => RegExp(...args, /a(?-i:b)/i, /(?i:c)/);
+// A spread after the flags argument cannot change the flags, so the literal
+// is lowered.
+export const spreadAfterUndefinedFlags = (extra) => RegExp(/(?i:a)/, undefined, ...extra);

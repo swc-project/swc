@@ -63,3 +63,4 @@ export const spreadPositions = new RegExp(...[
 export const andOperands = RegExp(/(?:[Aa])/ && RegExp("a(?-i:b)", "i"), "i");
 export const emptySpreadFlags = RegExp(/(?:[Aa])/, ...[]);
 export const afterUnknownSpread = (args)=>RegExp(...args, RegExp("a(?-i:b)", "i"), /(?:[Cc])/);
+export const spreadAfterUndefinedFlags = (extra)=>RegExp(/(?:[Aa])/, undefined, ...extra);

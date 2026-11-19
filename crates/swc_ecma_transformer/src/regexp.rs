@@ -10,7 +10,7 @@ use swc_ecma_compat_regexp::{
 };
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{
-    ast::{Alternative, Disjunction, IgnoreGroup, IndexedReference, Term},
+    ast::{Alternative, CharacterKind, Disjunction, Dot, IgnoreGroup, IndexedReference, Term},
     LiteralParser, Options as RegexpOptions,
 };
 use swc_ecma_transforms_base::helper;
@@ -369,8 +369,21 @@ impl RegexpPass {
             return;
         }
 
-        // Another spread can supply the pattern and the flags, or nothing. The
-        // pattern is then the first argument that is not spread, or an
+        // A spread after the pattern can supply the flags only if it is the
+        // second argument.
+        if let Some((pattern, rest)) = args.split_first() {
+            if pattern.spread.is_none() {
+                let kind = match self.call_flags(rest) {
+                    CallFlags::Absent | CallFlags::Undefined => ConstructorUse::CopiesPattern,
+                    CallFlags::Known(_) | CallFlags::Unknown => ConstructorUse::ReplacesFlags,
+                };
+                collect_pattern_literals(&pattern.expr, kind, &mut self.constructor_literals);
+                return;
+            }
+        }
+
+        // A leading spread can supply the pattern and the flags, or nothing.
+        // The pattern is then the first argument that is not spread, or an
         // element of a spread before it. A later argument cannot be the
         // pattern.
         for arg in args.iter() {
@@ -689,9 +702,21 @@ impl RegexpPass {
         {
             return None;
         }
+        // The parser compares the names as written and checks duplicates
+        // only roughly. Keep a pattern whose groups with the same name can
+        // both take part in a match: it is invalid, and the target must still
+        // reject it.
+        if has_duplicates && !duplicate_groups_are_exclusive(&ast.body) {
+            debug!(%pattern, "groups with the same name can both take part in a match");
+            return None;
+        }
 
         // Second pass: strip names from groups and convert named references
         NamedGroupStripper { mapping: &mapping }.strip_disjunction(&mut ast.body);
+        // A `u` or `v` pattern reads two printed surrogates as one code point.
+        if flags.contains(['u', 'v']) {
+            isolate_lone_surrogates(&mut ast);
+        }
 
         Some((ast.to_string(), mapping))
     }
@@ -746,11 +771,23 @@ impl RegexpPass {
                     }),
                 };
 
-                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(IdentName {
+                // `__proto__: value` sets the prototype of the object, but the
+                // helper reads the own properties. A computed key creates an
+                // own property.
+                let key = if name == "__proto__" {
+                    PropName::Computed(ComputedPropName {
+                        span: DUMMY_SP,
+                        expr: name.into(),
+                    })
+                } else {
+                    PropName::Ident(IdentName {
                         span: DUMMY_SP,
                         sym: name,
-                    }),
+                    })
+                };
+
+                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                    key,
                     value: Box::new(value),
                 })))
             })
@@ -1132,6 +1169,29 @@ impl NamedGroupStripper<'_> {
             for term in &mut alt.body {
                 self.strip_term(term);
             }
+
+            // `\k<z>0` would become `\30`, which is another reference (or an
+            // octal escape). Delimit a reference that a digit follows.
+            for i in 1..alt.body.len() {
+                if matches!(alt.body[i - 1], Term::IndexedReference(_))
+                    && starts_with_digit(&alt.body[i])
+                {
+                    let reference =
+                        std::mem::replace(&mut alt.body[i - 1], Term::Dot(Dot { span: DUMMY_SP }));
+                    let span = reference.span();
+                    alt.body[i - 1] = Term::IgnoreGroup(Box::new(IgnoreGroup {
+                        span,
+                        modifiers: None,
+                        body: Disjunction {
+                            span,
+                            body: vec![Alternative {
+                                span,
+                                body: vec![reference],
+                            }],
+                        },
+                    }));
+                }
+            }
         }
     }
 
@@ -1178,6 +1238,86 @@ impl NamedGroupStripper<'_> {
             _ => {}
         }
     }
+}
+
+/// Returns true if `term` is printed with a leading decimal digit.
+fn starts_with_digit(term: &Term) -> bool {
+    match term {
+        Term::Character(ch) => {
+            ch.kind == CharacterKind::Symbol
+                && char::from_u32(ch.value).is_some_and(|c| c.is_ascii_digit())
+        }
+        Term::Quantifier(q) => starts_with_digit(&q.body),
+        _ => false,
+    }
+}
+
+/// Returns true if no two capturing groups with the same name can both take
+/// part in a match (`MightBothParticipate` of ECMA-262 is false for each
+/// pair): for each pair, the innermost disjunction that contains both has
+/// them in different alternatives.
+fn duplicate_groups_are_exclusive(disjunction: &Disjunction) -> bool {
+    /// The disjunctions from the root to a group, as (disjunction id,
+    /// alternative index) pairs.
+    type Path = Vec<(u32, usize)>;
+
+    fn visit_disjunction(
+        disjunction: &Disjunction,
+        path: &mut Path,
+        next_id: &mut u32,
+        groups: &mut Vec<(Atom, Path)>,
+    ) {
+        let id = *next_id;
+        *next_id += 1;
+        for (index, alt) in disjunction.body.iter().enumerate() {
+            path.push((id, index));
+            for term in &alt.body {
+                visit_term(term, path, next_id, groups);
+            }
+            path.pop();
+        }
+    }
+
+    fn visit_term(term: &Term, path: &mut Path, next_id: &mut u32, groups: &mut Vec<(Atom, Path)>) {
+        match term {
+            Term::CapturingGroup(g) => {
+                if let Some(name) = &g.name {
+                    groups.push((decode_group_name(name), path.clone()));
+                }
+                visit_disjunction(&g.body, path, next_id, groups);
+            }
+            Term::Quantifier(q) => visit_term(&q.body, path, next_id, groups),
+            Term::LookAroundAssertion(la) => visit_disjunction(&la.body, path, next_id, groups),
+            Term::IgnoreGroup(ig) => visit_disjunction(&ig.body, path, next_id, groups),
+            _ => {}
+        }
+    }
+
+    /// The first disjunction where the paths part decides: different
+    /// alternatives of the same disjunction are exclusive. Otherwise (other
+    /// disjunctions in one alternative, or one group inside the other), both
+    /// can take part.
+    fn exclusive(a: &Path, b: &Path) -> bool {
+        for (&(a_id, a_alt), &(b_id, b_alt)) in a.iter().zip(b) {
+            if a_id != b_id {
+                return false;
+            }
+            if a_alt != b_alt {
+                return true;
+            }
+        }
+        false
+    }
+
+    let mut groups = Vec::new();
+    visit_disjunction(disjunction, &mut Vec::new(), &mut 0, &mut groups);
+
+    groups.iter().enumerate().all(|(i, (name, path))| {
+        groups[i + 1..]
+            .iter()
+            .filter(|(other, _)| other == name)
+            .all(|(_, other_path)| exclusive(path, other_path))
+    })
 }
 
 /// Returns the name of a capturing group with its `\uXXXX` and `\u{...}`
