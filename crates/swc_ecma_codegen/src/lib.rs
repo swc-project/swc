@@ -312,7 +312,7 @@ where
             // arguments or arguments after it. In `new new F()(x)`, `x` is
             // passed to the constructed value, but in `new new F(x)`, `x` is
             // passed to `F`.
-            Expr::New(callee) if emits_args || node.type_args.is_some() => {
+            Expr::New(callee) if emits_args => {
                 self.emit_new(callee, false)?;
             }
             _ => self.emit_expr_with_precedence(&node.callee, ExprPrecedence::POSTFIX)?,
