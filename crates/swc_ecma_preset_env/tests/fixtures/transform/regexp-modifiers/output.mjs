@@ -18,3 +18,9 @@ export const literalWithDynamicFlags = new RegExp(RegExp("(?i:a)"), flags);
 export const literalLoweredWithOwnFlags = new RegExp(/[^a]/vi, "");
 export const literalWithUnicodeFlag = RegExp(/[a&&b]/v, "u");
 export const literalWithUndefinedFlags = new RegExp(/(?:[Aa])/, undefined);
+export const duplicateNamesWithSubtraction = _wrap_reg_exp(/([a--\uDC00])|(b)/v, {
+    x: [
+        1,
+        2
+    ]
+}, "(?<x>[a--\\u{DC00}])|(?<x>b)");

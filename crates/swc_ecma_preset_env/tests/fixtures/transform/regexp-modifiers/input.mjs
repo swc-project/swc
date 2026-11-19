@@ -36,3 +36,6 @@ export const literalLoweredWithOwnFlags = new RegExp(/[^a]/vi, "");
 export const literalWithUnicodeFlag = RegExp(/[a&&b]/v, "u");
 // `undefined` keeps the flags of the literal.
 export const literalWithUndefinedFlags = new RegExp(/(?i:a)/, undefined);
+// The targets support the `v` flag, but not duplicate names. Removing the
+// names must keep the operands of `--` in place.
+export const duplicateNamesWithSubtraction = /(?<x>[a--\u{DC00}])|(?<x>b)/v;

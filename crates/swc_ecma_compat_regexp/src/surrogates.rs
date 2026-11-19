@@ -1,7 +1,8 @@
 //! Printing of lone surrogates in `u` patterns.
 
 use swc_ecma_regexp_ast::{
-    CharacterClass, CharacterClassContents, CharacterKind, Disjunction, Pattern, Term,
+    CharacterClass, CharacterClassContents, CharacterClassContentsKind, CharacterKind, Disjunction,
+    Pattern, Term,
 };
 
 use crate::{char_set::CharSet, emit::char_class_of};
@@ -16,8 +17,11 @@ use crate::{char_set::CharSet, emit::char_class_of};
 /// start with a trail surrogate to the front of a union class, so that no
 /// printed lead surrogate is followed by a trail surrogate.
 ///
-/// Call it only for a pattern with the `u` flag. In other patterns, surrogates
-/// are separate code units in every case.
+/// Call it only for a pattern with the `u` or the `v` flag. In other patterns,
+/// surrogates are separate code units in every case. In a `v` pattern, the
+/// operands of `&&` and `--` are kept as they are, because the operators keep
+/// them apart and their order matters; only nested classes in them are
+/// rewritten.
 pub fn isolate_lone_surrogates(pattern: &mut Pattern) {
     isolate_disjunction(&mut pattern.body);
 }
@@ -52,9 +56,18 @@ fn isolate_term(term: &mut Term) {
     }
 }
 
-/// Reorders a `u` class so that items that start with a trail surrogate come
+/// Reorders a union class so that items that start with a trail surrogate come
 /// first. A union class matches the same characters in any order.
 fn isolate_class(class: &mut CharacterClass) {
+    for contents in &mut class.body {
+        if let CharacterClassContents::NestedCharacterClass(nested) = contents {
+            isolate_class(nested);
+        }
+    }
+    if class.kind != CharacterClassContentsKind::Union {
+        return;
+    }
+
     fn starts_with_trail(contents: &CharacterClassContents) -> bool {
         let first = match contents {
             CharacterClassContents::Character(ch) => ch.value,
@@ -121,6 +134,31 @@ mod tests {
         assert_eq!(
             isolate(r"[\u{D800}\u{DC00}a]"),
             r"[\uDC00-\uDC00\uD800-\uD800a]"
+        );
+    }
+
+    fn isolate_v(pattern: &str) -> String {
+        let mut ast = LiteralParser::new(pattern, Some("v"), Options::default())
+            .parse()
+            .unwrap();
+        isolate_lone_surrogates(&mut ast);
+        let printed = ast.to_string();
+        LiteralParser::new(&printed, Some("v"), Options::default())
+            .parse()
+            .unwrap_or_else(|err| panic!("invalid `v` pattern `{printed}`: {err:?}"));
+        printed
+    }
+
+    #[test]
+    fn set_operations_keep_their_operands() {
+        assert_eq!(isolate_v(r"[a--\u{DC00}]"), r"[a--\uDC00]");
+        assert_eq!(
+            isolate_v(r"[\u{D800}&&[\u{D800}\u{DC00}]]"),
+            r"[\uD800&&[\uDC00-\uDC00\uD800-\uD800]]"
+        );
+        assert_eq!(
+            isolate_v(r"[[\u{D800}\u{DC00}]x]"),
+            r"[[\uDC00-\uDC00\uD800-\uD800]x]"
         );
     }
 }
