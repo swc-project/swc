@@ -9,7 +9,7 @@ it("should handle minify", () => {
             .transformSync(src, {
                 minify: true,
             })
-            .code.trim()
+            .code.trim(),
     ).toBe(`import foo,{bar}from"foo";`);
 });
 
@@ -147,7 +147,7 @@ it("(async) should handle dynamic import", async () => {
     });
 
     expect(out.code.replace(/;/g, "").trim()).toMatchInlineSnapshot(
-        `"import('foo')"`
+        `"import('foo')"`,
     );
 });
 
@@ -172,7 +172,7 @@ it("should handle for of statement in an async function", async () => {
         `async function foo() {
     for (let a of b) {
     }
-  }`
+  }`,
     );
 
     expect(out.code).toBeTruthy();
@@ -200,7 +200,7 @@ export type ErrorUtilsT = typeof global.ErrorUtils;
                     requireDirective: true,
                 },
             },
-        }
+        },
     );
 
     expect(out.code).toContain("global.ErrorUtils = {};");
@@ -221,7 +221,7 @@ export type ErrorUtilsT = typeof global.ErrorUtils;
                     requireDirective: true,
                 },
             },
-        }
+        },
     );
 
     expect(out.code).toContain("global.ErrorUtils = {};");
@@ -250,7 +250,7 @@ export const x = 1;
                         requireDirective: true,
                     },
                 },
-            }
+            },
         );
 
     expect(f).toThrowError(/Syntax Error/);
@@ -277,13 +277,15 @@ it("should respect `error.filename = false`", async () => {
             },
         });
     } catch (e) {
-        expect(e).not.toContain("-->");
+        // `toContain` requires a string or an iterable since @rstest/core 0.12,
+        // and the rejection value is an `Error`.
+        expect(String(e)).not.toContain("-->");
     }
 });
 
 it("should support overring `jsc.externalHelpers` using js api", async () => {
     const filename = path.resolve(
-        __dirname + "/../../tests/issue-3834/input.js"
+        __dirname + "/../../tests/issue-3834/input.js",
     );
 
     const { code } = await swc.transformFile(filename, {
