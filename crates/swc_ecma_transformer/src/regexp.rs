@@ -684,10 +684,9 @@ impl RegexpPass {
         {
             return None;
         }
-        // The parser compares the names as written and checks duplicates
-        // only roughly. Keep a pattern whose groups with the same name can
-        // both take part in a match: it is invalid, and the target must still
-        // reject it.
+        // The parser checks only roughly whether groups with the same name can
+        // both take part in a match (it scans for `|` outside the AST). Keep
+        // such a pattern: it is invalid, and the target must still reject it.
         if has_duplicates && !duplicate_groups_are_exclusive(&ast.body) {
             debug!(%pattern, "groups with the same name can both take part in a match");
             return None;
