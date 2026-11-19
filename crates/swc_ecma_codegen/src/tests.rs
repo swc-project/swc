@@ -303,6 +303,23 @@ fn emit_new_without_args_in_callee_positions() {
             assert_valid_constructed_expr(&output, Syntax::default());
         }
     }
+
+    // `new F!()` would pass the arguments to `F`.
+    let non_null_call = Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        callee: Callee::Expr(Box::new(Expr::TsNonNull(TsNonNullExpr {
+            span: DUMMY_SP,
+            expr: new_f(),
+        }))),
+        args: vec![],
+        type_args: None,
+    });
+    for minify in [false, true] {
+        let output = emit_constructed_node(&non_null_call, minify);
+        assert_eq!(output, "new F()!()", "minify: {minify}");
+        assert_valid_constructed_expr(&output, Syntax::Typescript(Default::default()));
+    }
 }
 
 #[test]
