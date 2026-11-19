@@ -46,8 +46,10 @@ pub(crate) fn simple_case_folding_key(cp: u32) -> u32 {
 
 /// The equivalence classes of simple case folding that have more than one
 /// member. The data comes from ICU, the same source as the Unicode property
-/// data of this crate. `Cargo.toml` pins `icu_casemap` and `icu_properties` to
-/// the same minor version, so both use the same Unicode version.
+/// data of this crate. ICU releases its crates together, so Cargo normally
+/// resolves `icu_casemap` and `icu_properties` to the same minor version and
+/// both use the same Unicode version. The requirements are not pinned, so that
+/// a dependent crate can still use a newer ICU.
 struct FoldClasses {
     /// Every member of a class, with the index of its class, sorted by code
     /// point.

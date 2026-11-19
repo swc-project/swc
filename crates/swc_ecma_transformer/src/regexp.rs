@@ -68,7 +68,10 @@ pub struct RegExpOptions {
     ///
     /// The rewritten pattern assumes the flags of the literal, and an
     /// `(?m:...)` group that contains every `^` and `$` becomes the `m`
-    /// flag. A literal that is the direct pattern argument of a
+    /// flag. A flag that a `(?-i:...)`, `(?-m:...)` or `(?-s:...)` group
+    /// disables is removed from the flags when the rest of the pattern does
+    /// not need it, so the `flags` property of the result can differ from
+    /// the input. A literal that is the direct pattern argument of a
     /// `RegExp(...)` call with a flags argument is kept, because the call
     /// replaces its flags. Like Babel, other ways to reuse a literal with
     /// other flags are not followed, and they can match differently: a
@@ -697,9 +700,24 @@ impl RegexpPass {
         flags: &str,
         keep_spelling: bool,
     ) -> Option<(String, Vec<(Atom, Vec<u32>)>)> {
-        let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
-            .parse()
-            .ok()?;
+        let mut ast =
+            match LiteralParser::new(pattern, Some(flags), RegexpOptions::default()).parse() {
+                Ok(ast) => ast,
+                Err(_) => {
+                    // A pattern that the parser rejects can still be valid on newer
+                    // engines. Report it if it seems to reuse a group name.
+                    if self.options.duplicate_named_capturing_groups_regex
+                        && has_repeated_group_name(pattern)
+                    {
+                        self.warn(
+                            span,
+                            "possible duplicate named capturing groups",
+                            "the pattern cannot be parsed",
+                        );
+                    }
+                    return None;
+                }
+            };
 
         // First pass: collect all named capturing groups and their indices
         let mut mapping = Vec::new();
@@ -1188,6 +1206,21 @@ fn may_have_named_groups(pattern: &str) -> bool {
     pattern
         .match_indices("(?<")
         .any(|(idx, _)| !matches!(pattern.as_bytes().get(idx + 3), Some(b'=' | b'!')))
+}
+
+/// Returns true if the text of `pattern` has two `(?<name>` with the same
+/// name. It is a check for a pattern that cannot be parsed, so escapes and
+/// classes are not considered; a false positive only adds a warning.
+fn has_repeated_group_name(pattern: &str) -> bool {
+    let mut names = FxHashSet::default();
+    pattern.match_indices("(?<").any(|(idx, _)| {
+        let rest = &pattern[idx + 3..];
+        if rest.starts_with(['=', '!']) {
+            return false;
+        }
+        rest.find('>')
+            .is_some_and(|end| !names.insert(&rest[..end]))
+    })
 }
 
 /// Returns true if `pattern` may contain a modifier group such as `(?i:` or
