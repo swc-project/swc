@@ -131,10 +131,11 @@ impl Fixer<'_> {
     /// annotation before `(`, so that it applies to the outer expression.
     /// See issue #12019.
     ///
-    /// The removed paren is consumed, so that its leading comments are not
-    /// moved onto `e`. A comment before the removed `(`, such as the outer
-    /// annotation in `/* @__PURE__ */ (/* @__PURE__ */ new F).m()`, stays at
-    /// the start of the outer expression and is printed before the new `(`.
+    /// The annotation comments before the removed `(` are not moved onto
+    /// `e`. Such a comment, like the outer annotation in
+    /// `/* @__PURE__ */ (/* @__PURE__ */ new F).m()`, stays at the start of
+    /// the outer expression and is printed before the new `(`. Other comments
+    /// of the removed paren are moved onto `e` as usual.
     ///
     /// Known limitation: `paren_remover` moves the comments at `(` onto the
     /// inner expression before this pass runs, so after it the fixer cannot
@@ -144,7 +145,7 @@ impl Fixer<'_> {
     /// call with side effects, but the outer call of the first form is no
     /// longer marked as pure.
     fn wrap_annotated(&mut self, e: &mut Expr) {
-        self.span_map.remove(e.span());
+        self.span_map.keep_leading_annotations(e.span());
 
         let expr = Box::new(e.take());
         *e = ParenExpr {

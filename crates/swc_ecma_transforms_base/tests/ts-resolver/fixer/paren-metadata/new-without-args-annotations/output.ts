@@ -3,3 +3,7 @@
 (new Handler)?.();
 createHandler()?.();
 new (new Handler)(x);
+foo().m();
+foo()();
+(new F).m();
+new (new F)(x);
