@@ -1,0 +1,8 @@
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+   ,-[$DIR/tests/compile/regressions/issues-12xxx/12642/input/index.js:5:1]
+ 2 | const INTERSECTION_RE = /[\p{ASCII}&&\p{L}]/v;
+ 3 | const NEGATED_IN_CLASS_RE = /[\P{ASCII}]/iv;
+ 4 | const BARE_RE = /\p{ASCII}/v;
+ 5 | const CTOR_RE = new RegExp('[\\p{ASCII}--\\p{L}]', 'v');
+   :                            ^^^^^^^^^^^^^^^^^^^^^^
+   `----

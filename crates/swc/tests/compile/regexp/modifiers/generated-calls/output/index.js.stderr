@@ -72,6 +72,7 @@
     :                                             ^^^^^^^^^^^^^^^^^
  18 | // The pattern and the flags are known before the unknown spread.
  19 | export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
+ 20 | // A hole supplies an empty pattern, but the flags still need the `v` flag.
     `----
   ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
     ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:19:1]
@@ -80,4 +81,26 @@
  18 | // The pattern and the flags are known before the unknown spread.
  19 | export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
     :                                                        ^^^
+ 20 | // A hole supplies an empty pattern, but the flags still need the `v` flag.
+ 21 | export const holePattern = RegExp(...[, "v"]);
+ 22 | // The call replaces the flags, and `\u{61}` cannot be printed again as
+    `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:21:1]
+ 18 | // The pattern and the flags are known before the unknown spread.
+ 19 | export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
+ 20 | // A hole supplies an empty pattern, but the flags still need the `v` flag.
+ 21 | export const holePattern = RegExp(...[, "v"]);
+    :                                      ^^^^^^^
+ 22 | // The call replaces the flags, and `\u{61}` cannot be printed again as
+ 23 | // written, so the duplicate names are kept, with a warning.
+ 24 | export const replacedFlagsSpelling = new RegExp(/^(?:(?<x>\u{61})|(?<x>b))\k<x>$/u, "");
+    `----
+  ! Cannot lower named capturing groups in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags, and the pattern cannot be printed again as written. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:24:1]
+ 21 | export const holePattern = RegExp(...[, "v"]);
+ 22 | // The call replaces the flags, and `\u{61}` cannot be printed again as
+ 23 | // written, so the duplicate names are kept, with a warning.
+ 24 | export const replacedFlagsSpelling = new RegExp(/^(?:(?<x>\u{61})|(?<x>b))\k<x>$/u, "");
+    :                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----

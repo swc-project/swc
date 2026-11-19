@@ -200,7 +200,13 @@ impl Display for CharacterClass {
                     return Some(Cow::Owned(next.to_string()));
                 };
 
-                let peek = iter.peek().and_then(|it| as_character(it));
+                // Only the items of a union class are next to each other. In a
+                // set operation, `--` or `&&` keeps two surrogates apart.
+                let peek = if self.kind == CharacterClassContentsKind::Union {
+                    iter.peek().and_then(|it| as_character(it))
+                } else {
+                    None
+                };
                 let (result, eat) = character_to_string(next, peek);
                 if eat {
                     iter.next();

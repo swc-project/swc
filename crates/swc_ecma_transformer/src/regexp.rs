@@ -549,8 +549,23 @@ impl RegexpPass {
     /// reported, because a call can be a runtime feature check.
     fn transform_regexp_args(&mut self, args: &mut [ExprOrSpread], callee: RegExpCallee) {
         if callee == RegExpCallee::Global {
-            if let Some((Some(pattern), flags)) = self.pattern_and_flags(args) {
-                self.warn_unlowered_call(pattern, flags);
+            match self.pattern_and_flags(args) {
+                Some((Some(pattern), flags)) => self.warn_unlowered_call(pattern, flags),
+                // A hole of a spread array supplies an `undefined` pattern,
+                // which is the empty pattern. Only the flags can need support.
+                Some((None, CallFlags::Known(flags)))
+                    if self.options.unicode_sets_regex && flags.contains('v') =>
+                {
+                    if let Some(first) = args.first() {
+                        let span = first.expr.span();
+                        self.warn(
+                            span,
+                            "the `v` flag",
+                            "only regex literals are lowered, not a `RegExp` call",
+                        );
+                    }
+                }
+                _ => {}
             }
         }
 
@@ -671,11 +686,16 @@ impl RegexpPass {
     ///
     /// Returns `None` if parsing fails or if the pattern does not contain a
     /// group that an enabled option asks to lower.
+    ///
+    /// `keep_spelling` is set when an enclosing `RegExp` call can replace the
+    /// flags. The pattern is then read with other flags, so it is lowered
+    /// only if printing it again keeps every other term as written.
     fn extract_and_strip_named_groups(
         &mut self,
         span: Span,
         pattern: &str,
         flags: &str,
+        keep_spelling: bool,
     ) -> Option<(String, Vec<(Atom, Vec<u32>)>)> {
         let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
             .parse()
@@ -701,6 +721,18 @@ impl RegexpPass {
         // such a pattern: it is invalid, and the target must still reject it.
         if has_duplicates && !duplicate_groups_are_exclusive(&ast.body) {
             debug!(%pattern, "groups with the same name can both take part in a match");
+            return None;
+        }
+
+        // An escape can be printed in another form (`\u{61}` as `\u0061`),
+        // which another set of flags reads differently.
+        if keep_spelling && ast.to_string() != pattern {
+            self.warn(
+                span,
+                "named capturing groups",
+                "the enclosing `RegExp` call can replace the flags, and the pattern cannot be \
+                 printed again as written",
+            );
             return None;
         }
 
@@ -750,55 +782,67 @@ impl RegexpPass {
 
     /// Build an object expression for the group name-to-index mapping.
     fn build_mapping_object(&self, mapping: Vec<(Atom, Vec<u32>)>) -> Expr {
-        let props = mapping
-            .into_iter()
-            .map(|(name, indices)| {
-                let num = |idx: u32| {
-                    Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: idx as f64,
-                        raw: None,
-                    }))
-                };
-                // A unique name maps to a number, a duplicated one to an array
-                // of numbers. `_wrap_reg_exp` picks the participating group.
-                let value = match indices.as_slice() {
-                    [idx] => num(*idx),
-                    _ => Expr::Array(ArrayLit {
-                        span: DUMMY_SP,
-                        elems: indices
-                            .into_iter()
-                            .map(|idx| Some(num(idx).as_arg()))
-                            .collect(),
-                    }),
-                };
+        let num = |idx: u32| {
+            Expr::Lit(Lit::Num(Number {
+                span: DUMMY_SP,
+                value: idx as f64,
+                raw: None,
+            }))
+        };
 
-                // `__proto__: value` sets the prototype of the object, but the
-                // helper reads the own properties. A computed key creates an
-                // own property.
-                let key = if name == "__proto__" {
-                    PropName::Computed(ComputedPropName {
-                        span: DUMMY_SP,
-                        expr: name.into(),
-                    })
-                } else {
-                    PropName::Ident(IdentName {
-                        span: DUMMY_SP,
-                        sym: name,
-                    })
-                };
+        let mut proto = None;
+        let mut props = Vec::with_capacity(mapping.len());
+        for (name, indices) in mapping {
+            // A unique name maps to a number, a duplicated one to an array of
+            // numbers. `_wrap_reg_exp` picks the participating group.
+            let value = match indices.as_slice() {
+                [idx] => num(*idx),
+                _ => Expr::Array(ArrayLit {
+                    span: DUMMY_SP,
+                    elems: indices
+                        .into_iter()
+                        .map(|idx| Some(num(idx).as_arg()))
+                        .collect(),
+                }),
+            };
 
-                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                    key,
-                    value: Box::new(value),
-                })))
-            })
-            .collect();
+            if name == "__proto__" {
+                proto = Some(value);
+                continue;
+            }
 
-        Expr::Object(ObjectLit {
+            props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                key: PropName::Ident(IdentName {
+                    span: DUMMY_SP,
+                    sym: name,
+                }),
+                value: Box::new(value),
+            }))));
+        }
+
+        let object = Expr::Object(ObjectLit {
             span: DUMMY_SP,
             props,
-        })
+        });
+
+        // `__proto__: value` sets the prototype of the object, but the helper
+        // reads the own properties. A computed key creates an own property,
+        // but loose mode lowers it to an assignment, which sets the prototype
+        // again. `_define_property` creates an own property in every mode.
+        match proto {
+            None => object,
+            Some(value) => CallExpr {
+                span: DUMMY_SP,
+                callee: helper!(define_property),
+                args: vec![
+                    object.as_arg(),
+                    Expr::from(Atom::from("__proto__")).as_arg(),
+                    value.as_arg(),
+                ],
+                ..Default::default()
+            }
+            .into(),
+        }
     }
 }
 
@@ -867,8 +911,13 @@ impl RegexpPass {
                 {
                     let original_exp = regex.exp.clone();
 
-                    if let Some((stripped_exp, group_mapping)) =
-                        self.extract_and_strip_named_groups(regex.span, &original_exp, &regex.flags)
+                    if let Some((stripped_exp, group_mapping)) = self
+                        .extract_and_strip_named_groups(
+                            regex.span,
+                            &original_exp,
+                            &regex.flags,
+                            in_constructor,
+                        )
                     {
                         if constructor_use.is_some() {
                             // The call can copy the pattern of the wrapped
@@ -1043,6 +1092,9 @@ fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<Option<&Expr>>, bool) {
             return (prefix, false);
         };
         for elem in &array.elems {
+            if prefix.len() >= NEEDED {
+                return (prefix, false);
+            }
             match elem {
                 Some(elem) if elem.spread.is_none() => prefix.push(Some(&*elem.expr)),
                 None => prefix.push(None),

@@ -804,6 +804,13 @@ impl Caniuse for EsVersion {
         }
 
         match feature {
+            // ES2025. No `EsVersion` other than `EsNext` (handled above)
+            // includes them.
+            Feature::DuplicateNamedCapturingGroupsRegex | Feature::RegexpModifiers => false,
+
+            // ES2024
+            Feature::UnicodeSetsRegex => *self >= EsVersion::Es2024,
+
             // ES2022
             Feature::ClassProperties
             | Feature::ClassStaticBlock

@@ -47,12 +47,10 @@ export const loneSurrogates = _wrap_reg_exp(/^(?:([\uD800-\uD800][\uDC00-\uDC00]
 }, "^(?:(?<x>\\u{D800}\\u{DC00})|(?<x>z))\\k<x>$");
 export const bothParticipate = /(?:(?<x>a)|z)(?:(?<x>b))\k<x>/;
 export const escapedNameInOneAlternative = /(?<x>a)(?<\u0078>b)/;
-export const protoName = _wrap_reg_exp(/(a)|(b)/, {
-    ["__proto__"]: [
-        1,
-        2
-    ]
-}, "(?<__proto__>a)|(?<__proto__>b)");
+export const protoName = _wrap_reg_exp(/(a)|(b)/, _define_property({}, "__proto__", [
+    1,
+    2
+]), "(?<__proto__>a)|(?<__proto__>b)");
 export const escapedReference = _wrap_reg_exp(/(?:(a)|(b))(?:\1\2)/, {
     x: [
         1,

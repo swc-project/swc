@@ -1,8 +1,8 @@
 //! Printing of lone surrogates in `u` patterns.
 
 use swc_ecma_regexp_ast::{
-    CharacterClass, CharacterClassContents, CharacterClassContentsKind, CharacterKind, Disjunction,
-    Pattern, Term,
+    Character, CharacterClass, CharacterClassContents, CharacterClassContentsKind, CharacterKind,
+    Disjunction, Pattern, Term,
 };
 
 use crate::{char_set::CharSet, emit::char_class_of};
@@ -106,16 +106,25 @@ fn isolate_class(class: &mut CharacterClass, printable: &mut bool) {
 
     if class.body.iter().any(starts_with_trail) {
         // Moving items can put a literal `-` between two characters, where it
-        // would be read as a range, or put two equal punctuators together,
-        // which a `v` class rejects (`!!`). Write every literal ASCII
-        // punctuator as `\xHH` first.
+        // would be read as a range, put two equal punctuators together,
+        // which a `v` class rejects (`!!`), or put a digit after `\0`
+        // (`\01`). Write every literal ASCII punctuator and every `\0` as
+        // `\xHH` first.
+        fn escape(ch: &mut Character) {
+            let punctuator = ch.kind == CharacterKind::Symbol
+                && char::from_u32(ch.value).is_some_and(|c| c.is_ascii_punctuation());
+            if punctuator || ch.kind == CharacterKind::Null {
+                ch.kind = CharacterKind::HexadecimalEscape;
+            }
+        }
         for contents in &mut class.body {
-            if let CharacterClassContents::Character(ch) = contents {
-                if ch.kind == CharacterKind::Symbol
-                    && char::from_u32(ch.value).is_some_and(|c| c.is_ascii_punctuation())
-                {
-                    ch.kind = CharacterKind::HexadecimalEscape;
+            match contents {
+                CharacterClassContents::Character(ch) => escape(ch),
+                CharacterClassContents::CharacterClassRange(range) => {
+                    escape(&mut range.min);
+                    escape(&mut range.max);
                 }
+                _ => {}
             }
         }
         // `sort_by_key` is stable, so the other items keep their order.
@@ -162,6 +171,8 @@ mod tests {
         assert_eq!(isolate(r"𐀀"), r"𐀀");
         // A literal `-` stays literal after the items are moved.
         assert_eq!(isolate(r"[a\u{DC00}-\u{DC01}-z]"), r"[\uDC00-\uDC01a\x2Dz]");
+        // `\0` does not take the digit that follows it after the move.
+        assert_eq!(isolate(r"[\0\u{DC00}1]"), r"[\uDC00-\uDC00\x001]");
         assert_eq!(
             isolate(r"[\u{D800}\u{DC00}a]"),
             r"[\uDC00-\uDC00\uD800-\uD800a]"

@@ -17,3 +17,8 @@ export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
 export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
 // The pattern and the flags are known before the unknown spread.
 export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
+// A hole supplies an empty pattern, but the flags still need the `v` flag.
+export const holePattern = RegExp(...[, "v"]);
+// The call replaces the flags, and `\u{61}` cannot be printed again as
+// written, so the duplicate names are kept, with a warning.
+export const replacedFlagsSpelling = new RegExp(/^(?:(?<x>\u{61})|(?<x>b))\k<x>$/u, "");
