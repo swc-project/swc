@@ -129,7 +129,7 @@ struct RegexpPass {
     options: RegExpOptions,
     /// The addresses of regex literals that can be the pattern argument of a
     /// `RegExp` call, and how the call uses them. See `prepare_constructor`.
-    constructor_literals: Vec<(usize, ConstructorUse)>,
+    constructor_literals: ConstructorLiterals,
     /// For each `RegExp` call that is being visited, the address of the call
     /// expression and the length of `constructor_literals` when the call was
     /// entered. When the expression at that address is left, even if another
@@ -139,6 +139,42 @@ struct RegexpPass {
     /// The spans that a warning was reported for, so that a regex is reported
     /// once even when it is visited again as part of a generated call.
     warned: FxHashSet<Span>,
+}
+
+/// The regex literals that can be the pattern argument of a `RegExp` call that
+/// is being visited, by address.
+///
+/// A pattern with many branches records many literals, so they are looked up
+/// in a map. The order of insertion is kept, so that the entries of a call can
+/// be removed when the call is left.
+#[derive(Default)]
+struct ConstructorLiterals {
+    by_address: FxHashMap<usize, ConstructorUse>,
+    order: Vec<usize>,
+}
+
+impl ConstructorLiterals {
+    fn len(&self) -> usize {
+        self.order.len()
+    }
+
+    fn push(&mut self, address: usize, kind: ConstructorUse) {
+        self.by_address.insert(address, kind);
+        self.order.push(address);
+    }
+
+    /// Removes the entry of the literal at `address` and returns how a call
+    /// uses it.
+    fn take(&mut self, address: usize) -> Option<ConstructorUse> {
+        self.by_address.remove(&address)
+    }
+
+    /// Removes the entries that were added after the first `len` ones.
+    fn truncate(&mut self, len: usize) {
+        for address in self.order.drain(len..) {
+            self.by_address.remove(&address);
+        }
+    }
 }
 
 /// How a `RegExp` call uses a regex literal that is its pattern argument.
@@ -210,7 +246,7 @@ impl RegexpPass {
     fn new(options: RegExpOptions) -> Self {
         Self {
             options,
-            constructor_literals: Vec::new(),
+            constructor_literals: Default::default(),
             constructor_marks: Vec::new(),
             warned: Default::default(),
         }
@@ -956,11 +992,7 @@ impl RegexpPass {
             Expr::Lit(Lit::Regex(regex)) => {
                 // See `prepare_constructor`.
                 let address = &*regex as *const Regex as usize;
-                let constructor_use = self
-                    .constructor_literals
-                    .iter()
-                    .position(|&(literal, _)| literal == address)
-                    .map(|idx| self.constructor_literals.swap_remove(idx).1);
+                let constructor_use = self.constructor_literals.take(address);
                 let in_constructor =
                     matches!(constructor_use, Some(ConstructorUse::ReplacesFlags(_)));
                 // Unicode property escapes expand the same way for flags of
@@ -1220,13 +1252,9 @@ fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<Option<&Expr>>, bool) {
 /// of an array (for a spread). A literal elsewhere, for example in a call that
 /// computes the pattern, is not passed to `RegExp` directly, so it is lowered
 /// as usual.
-fn collect_pattern_literals(
-    expr: &Expr,
-    kind: ConstructorUse,
-    literals: &mut Vec<(usize, ConstructorUse)>,
-) {
+fn collect_pattern_literals(expr: &Expr, kind: ConstructorUse, literals: &mut ConstructorLiterals) {
     match expr {
-        Expr::Lit(Lit::Regex(regex)) => literals.push((regex as *const Regex as usize, kind)),
+        Expr::Lit(Lit::Regex(regex)) => literals.push(regex as *const Regex as usize, kind),
         Expr::Paren(paren) => collect_pattern_literals(&paren.expr, kind, literals),
         Expr::Cond(cond) => {
             collect_pattern_literals(&cond.cons, kind, literals);
