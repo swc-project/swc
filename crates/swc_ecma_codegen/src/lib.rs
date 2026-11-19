@@ -294,14 +294,17 @@ where
         } else {
             formatting_space!(self);
         }
+        let args = node.args.as_deref().unwrap_or_default();
+        // A caller that passes `should_ignore_empty_args: false` prints this
+        // expression where `new F` without `()` would change the meaning, for
+        // example as a callee or a member object, so `()` is printed even if
+        // the AST has no argument list.
+        //
         // A generic constructor needs `()` to keep its type arguments
         // distinct from following relational, shift, or unary operators.
-        let emits_args = node.args.as_ref().is_some_and(|args| {
-            !(self.cfg.minify
-                && args.is_empty()
-                && should_ignore_empty_args
-                && node.type_args.is_none())
-        });
+        let emits_args = !should_ignore_empty_args
+            || (node.args.is_some()
+                && !(self.cfg.minify && args.is_empty() && node.type_args.is_none()));
 
         match &*node.callee {
             // Keep the `()` of an inner `new` when this expression prints type
@@ -318,7 +321,7 @@ where
             emit!(self, type_args);
         }
 
-        if let (true, Some(args)) = (emits_args, &node.args) {
+        if emits_args {
             self.emit_arguments(node.span(), args, ListFormat::NewExpressionArguments)?;
         }
 
