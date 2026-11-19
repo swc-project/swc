@@ -307,8 +307,13 @@ fn get_script_extensions_ranges(value: &str) -> Option<Vec<RangeInclusive<u32>>>
 /// Parses a script name (`Latin` or `Latn`) to a Script enum value.
 ///
 /// ECMAScript accepts the exact property value names and aliases of
-/// `PropertyValueAliases.txt`, which is what the strict ICU lookup matches.
+/// `PropertyValueAliases.txt`, which is what the strict ICU lookup matches,
+/// except `Katakana_Or_Hiragana` (`Hrkt`): ECMAScript does not list it, and
+/// engines reject it. Such a pattern is kept as written.
 fn parse_script_name(name: &str) -> Option<Script> {
+    if matches!(name, "Katakana_Or_Hiragana" | "Hrkt") {
+        return None;
+    }
     PropertyParser::<Script>::new().get_strict(name)
 }
 
@@ -488,6 +493,13 @@ mod tests {
         let result = parse_and_transform(r"\p{sc=Deseret}\p{Script=Dsrt}", "u");
         assert_eq!(result, r"[\u{10400}-\u{1044F}][\u{10400}-\u{1044F}]");
         assert!(parse_script_name("deseret").is_none());
+        // ECMAScript does not accept `Katakana_Or_Hiragana`, so it is kept.
+        assert!(parse_script_name("Hrkt").is_none());
+        assert!(parse_script_name("Katakana_Or_Hiragana").is_none());
+        assert_eq!(
+            parse_and_transform(r"\p{Script=Hrkt}", "u"),
+            r"\p{Script=Hrkt}"
+        );
     }
 
     #[test]
