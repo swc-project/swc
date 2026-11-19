@@ -7,3 +7,4 @@ foo().m();
 foo()();
 (new F).m();
 new (new F)(x);
+new (new F)();
