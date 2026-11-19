@@ -301,10 +301,11 @@ where
         // the AST has no argument list.
         //
         // A generic constructor needs `()` to keep its type arguments
-        // distinct from following relational, shift, or unary operators.
+        // distinct from following relational, shift, or unary operators, also
+        // if the AST has no argument list: `new F<T> > x` is invalid.
         let emits_args = !should_ignore_empty_args
-            || (node.args.is_some()
-                && !(self.cfg.minify && args.is_empty() && node.type_args.is_none()));
+            || node.type_args.is_some()
+            || (node.args.is_some() && !(self.cfg.minify && args.is_empty()));
 
         match &*node.callee {
             // Keep the `()` of an inner `new` when this expression prints type

@@ -1446,7 +1446,14 @@ impl MacroNode for TsInstantiation {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::POSTFIX)?;
+        if let Expr::New(new) = &*self.expr {
+            // `new F()<T>` instantiates the constructed value, but `new F<T>`
+            // passes the type arguments to `F`. Keep the `()` of `new`, even in
+            // minified output or if the AST has no argument list.
+            emitter.emit_new(new, false)?;
+        } else {
+            emitter.emit_expr_with_precedence(&self.expr, ExprPrecedence::POSTFIX)?;
+        }
 
         emit!(self.type_args);
         Ok(())
