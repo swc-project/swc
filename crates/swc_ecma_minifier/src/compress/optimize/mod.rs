@@ -26,7 +26,10 @@ use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::{optimize::util::get_ids_of_pat, util::is_pure_undefined},
+    compress::{
+        optimize::{unused::fix_setter_param, util::get_ids_of_pat},
+        util::is_pure_undefined,
+    },
     debug::AssertValid,
     maybe_par,
     mode::Mode,
@@ -1978,6 +1981,10 @@ impl VisitMut for Optimizer<'_> {
                 class_method
                     .function
                     .visit_mut_with(&mut *self.with_ctx(ctx));
+
+                if class_method.kind == MethodKind::Setter {
+                    fix_setter_param(&mut class_method.function);
+                }
             }
             ClassMember::AutoAccessor(auto_accessor) => {
                 auto_accessor.key.visit_mut_with(self);
@@ -1988,6 +1995,10 @@ impl VisitMut for Optimizer<'_> {
             }
             ClassMember::PrivateMethod(private_method) => {
                 private_method.visit_mut_with(&mut *self.with_ctx(ctx));
+
+                if private_method.kind == MethodKind::Setter {
+                    fix_setter_param(&mut private_method.function);
+                }
             }
 
             ClassMember::StaticBlock(s) => {
@@ -2794,12 +2805,18 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
 
-        if let Prop::Shorthand(i) = n {
-            if let Some(expr) = self.inline_ident(i) {
-                let key = prop_name_from_ident(i.take());
-                *n = Prop::KeyValue(KeyValueProp { key, value: expr });
-                self.changed = true;
+        match n {
+            Prop::Shorthand(i) => {
+                if let Some(expr) = self.inline_ident(i) {
+                    let key = prop_name_from_ident(i.take());
+                    *n = Prop::KeyValue(KeyValueProp { key, value: expr });
+                    self.changed = true;
+                }
             }
+            Prop::Setter(s) => {
+                fix_setter_param(&mut s.function);
+            }
+            _ => (),
         }
     }
 
