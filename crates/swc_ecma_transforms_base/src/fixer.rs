@@ -115,14 +115,54 @@ impl Fixer<'_> {
         }
     }
 
+    /// Returns whether `e` starts with an annotation comment such as
+    /// `/* @__PURE__ */` or `/* @__NO_SIDE_EFFECTS__ */`.
+    fn has_annotation(&self, e: &Expr) -> bool {
+        let span = e.span();
+        !span.is_dummy()
+            && self.comments.is_some_and(|c| {
+                c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+            })
+    }
+
+    /// Wraps an annotated expression in parentheses that have no source span.
+    ///
+    /// A paren with the restored source span would make codegen print the
+    /// annotation before `(`, so that it applies to the outer expression.
+    /// See issue #12019.
+    fn wrap_annotated(e: &mut Expr) {
+        let expr = Box::new(e.take());
+        *e = ParenExpr {
+            expr,
+            span: DUMMY_SP,
+        }
+        .into();
+    }
+
+    /// Wraps a `new` expression without arguments, such as `new F`, that is
+    /// used as a callee or as a member object.
+    ///
+    /// `(new F)()` calls the constructed value, but `new F()` only constructs
+    /// `F`, and `new F?.()` is a syntax error. A leading annotation stays
+    /// inside the parentheses.
+    fn wrap_new_without_args(&mut self, e: &mut Expr) {
+        if self.remove_only {
+            return;
+        }
+
+        if self.has_annotation(e) {
+            Self::wrap_annotated(e);
+        } else {
+            self.wrap(e);
+        }
+    }
+
     /// Wraps a call callee that would otherwise print with a different
     /// meaning.
     fn wrap_callee(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
-            // `(new F)()` calls the constructed value, but `new F()` only
-            // constructs `F`, and `new F?.()` is a syntax error.
-            Expr::New(NewExpr { args: None, .. }) => self.wrap(e),
+            Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e),
             Expr::Cond(..)
             | Expr::Class(..)
             | Expr::Bin(..)
@@ -485,25 +525,15 @@ impl VisitMut for Fixer<'_> {
                 Expr::OptChain(..) | Expr::TsNonNull(..) if continues_optional_chain(e) => {
                     self.wrap(e)
                 }
-                Expr::New(NewExpr { args: None, .. }) => self.wrap_callee(e),
+                Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e),
                 // Preserve parentheses around callees that carry a leading
                 // annotation like `/* @__PURE__ */` so downstream tools do not
                 // interpret the annotation as applying to the outer chained
                 // call expression. See issue #12019.
-                Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if !self.remove_only => {
-                    let span = e.span();
-                    let has_annotation = !span.is_dummy()
-                        && self.comments.is_some_and(|c| {
-                            c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
-                        });
-                    if has_annotation {
-                        let expr = e.take();
-                        *e = ParenExpr {
-                            expr,
-                            span: DUMMY_SP,
-                        }
-                        .into();
-                    }
+                Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
+                    if !self.remove_only && self.has_annotation(e) =>
+                {
+                    Self::wrap_annotated(e)
                 }
                 _ => self.wrap_callee(e),
             }
@@ -769,10 +799,10 @@ impl VisitMut for Fixer<'_> {
             | Expr::TsSatisfies(..)
             | Expr::TsConstAssertion(..)
             | Expr::TsTypeAssertion(..)
-            | Expr::TsInstantiation(..)
-            | Expr::New(NewExpr { args: None, .. }) => {
+            | Expr::TsInstantiation(..) => {
                 self.wrap(&mut n.obj);
             }
+            Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(&mut n.obj),
             Expr::Call(..) if self.ctx == Context::Callee { is_new: true } => {
                 self.wrap(&mut n.obj);
             }
@@ -785,20 +815,10 @@ impl VisitMut for Fixer<'_> {
             // annotation like `/* @__PURE__ */` so downstream tools do not
             // interpret the annotation as applying to the full chained
             // expression. See issue #12019.
-            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if !self.remove_only => {
-                let span = n.obj.span();
-                let has_annotation = !span.is_dummy()
-                    && self.comments.is_some_and(|c| {
-                        c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
-                    });
-                if has_annotation {
-                    let expr = n.obj.take();
-                    n.obj = ParenExpr {
-                        expr,
-                        span: DUMMY_SP,
-                    }
-                    .into();
-                }
+            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
+                if !self.remove_only && self.has_annotation(&n.obj) =>
+            {
+                Self::wrap_annotated(&mut n.obj)
             }
             _ => {}
         }

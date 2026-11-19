@@ -5,3 +5,6 @@
 (/* @__PURE__ */ createHandler())();
 (/* @__PURE__ */ new Handler())();
 (/* @__NO_SIDE_EFFECTS__ */ createHandler())();
+(/* @__PURE__ */ new Handler)();
+(/* @__PURE__ */ new Handler)?.();
+(/* @__PURE__ */ new Set).forEach(cb);
