@@ -881,10 +881,8 @@ impl Optimizer<'_> {
 
                             function.params.retain(|p| !p.pat.is_invalid());
                         }
-                        Expr::Arrow(ArrowExpr { params, .. }) => {
-                            self.drop_unused_arrow_params(params, true);
-
-                            params.retain(|p| !p.is_invalid());
+                        Expr::Arrow(a) => {
+                            self.drop_unused_arrow_params(a, true);
                         }
                         _ => (),
                     }
@@ -1668,8 +1666,7 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        self.drop_unused_arrow_params(&mut n.params, false);
-        n.params.retain(|p| !p.is_invalid());
+        self.drop_unused_arrow_params(n, false);
 
         let prepend = self.prepend_stmts.take();
 
