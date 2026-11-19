@@ -94,12 +94,16 @@ impl Optimizer<'_> {
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>, arg_is_empty: bool) {
+    pub(super) fn drop_unused_params(
+        &mut self,
+        Function { params, ctxt, .. }: &mut Function,
+        arg_is_empty: bool,
+    ) {
         if !self.options.unused && !self.options.reduce_fns {
             return;
         }
 
-        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
+        if let Some(scope) = self.data.get_scope(*ctxt) {
             if scope.intersects(
                 ScopeData::HAS_EVAL_CALL
                     .union(ScopeData::HAS_WITH_STMT)

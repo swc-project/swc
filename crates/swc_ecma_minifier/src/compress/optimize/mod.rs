@@ -877,7 +877,7 @@ impl Optimizer<'_> {
                             ident: None,
                             function,
                         }) => {
-                            self.drop_unused_params(&mut function.params, true);
+                            self.drop_unused_params(function, true);
 
                             function.params.retain(|p| !p.pat.is_invalid());
                         }
@@ -1980,7 +1980,7 @@ impl VisitMut for Optimizer<'_> {
                     .visit_mut_with(&mut *self.with_ctx(ctx));
 
                 if class_method.kind == MethodKind::Method {
-                    self.drop_unused_params(&mut class_method.function.params, false);
+                    self.drop_unused_params(&mut class_method.function, false);
                 }
             }
             ClassMember::AutoAccessor(auto_accessor) => {
@@ -1994,7 +1994,7 @@ impl VisitMut for Optimizer<'_> {
                 private_method.visit_mut_with(&mut *self.with_ctx(ctx));
 
                 if private_method.kind == MethodKind::Method {
-                    self.drop_unused_params(&mut private_method.function.params, false);
+                    self.drop_unused_params(&mut private_method.function, false);
                 }
             }
 
@@ -2417,7 +2417,7 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsExactLhsOfAssign, false);
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.drop_unused_params(&mut f.function.params, false);
+        self.drop_unused_params(&mut f.function, false);
     }
 
     #[cfg_attr(
@@ -2446,7 +2446,7 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::InFnLike, true);
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.drop_unused_params(&mut e.function.params, false);
+        self.drop_unused_params(&mut e.function, false);
     }
 
     #[cfg_attr(
@@ -2807,7 +2807,7 @@ impl VisitMut for Optimizer<'_> {
                 }
             }
             Prop::Method(m) => {
-                self.drop_unused_params(&mut m.function.params, false);
+                self.drop_unused_params(&mut m.function, false);
             }
             _ => (),
         }
