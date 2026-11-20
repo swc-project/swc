@@ -159,9 +159,6 @@ bitflags! {
         /// `true` for loop bodies and conditions of loops.
         const ExecutedMultipleTime = 1 << 13;
 
-        /// `true` while handling `expr` of `!expr`
-        const InBangArg = 1 << 14;
-
         const InVarDeclOfForInOrOfLoop = 1 << 15;
 
         const DontUseNegatedIife = 1 << 16;
@@ -176,8 +173,6 @@ bitflags! {
         const InFnLike = 1 << 19;
 
         const InBlock = 1 << 20;
-
-        const InObjOfNonComputedMember = 1 << 21;
 
         const InTplExpr = 1 << 22;
 
@@ -2626,7 +2621,6 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::InObjOfNonComputedMember, !n.prop.is_computed())
                 .with(BitCtx::IsExactLhsOfAssign, false)
                 .with(BitCtx::IsUpdateArg, false);
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2951,9 +2945,7 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsDeleteArg, false)
             .with(BitCtx::IsUpdateArg, false)
             .with(BitCtx::IsLhsOfAssign, false)
-            .with(BitCtx::InBangArg, false)
-            .with(BitCtx::IsExported, false)
-            .with(BitCtx::InObjOfNonComputedMember, false);
+            .with(BitCtx::IsExported, false);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
@@ -3314,7 +3306,6 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self
             .ctx
             .clone()
-            .with(BitCtx::InBangArg, n.op == op!("!"))
             .with(BitCtx::IsDeleteArg, n.op == op!("delete"));
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
