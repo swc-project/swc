@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_ast"
 repository    = { workspace = true }
-version       = "30.0.2"
+version       = "31.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -35,20 +35,20 @@ shrink-to-fit = [
 
 [dependencies]
 arbitrary        = { workspace = true, features = ["derive"], optional = true }
-bitflags = { workspace = true, default-features = false }
-is-macro = { workspace = true, default-features = false }
+bitflags         = { workspace = true, default-features = false }
+is-macro         = { workspace = true, default-features = false }
 num-bigint       = { workspace = true, features = ["serde"] }
-once_cell = { workspace = true, default-features = false }
-phf = { workspace = true, features = ["macros"], default-features = false }
-rustc-hash = { workspace = true, default-features = false }
+once_cell        = { workspace = true, default-features = false }
+phf              = { workspace = true, features = ["macros"], default-features = false }
+rustc-hash       = { workspace = true, default-features = false }
 serde            = { workspace = true, features = ["derive"], optional = true }
-shrink-to-fit = { workspace = true, optional = true, default-features = false }
+shrink-to-fit    = { workspace = true, optional = true, default-features = false }
 unicode-id-start = { workspace = true, default-features = false }
 
-string_enum = { version = "1.0.2", path = "../string_enum", default-features = false }
-swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
-swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
-swc_visit = { version = "2.0.2", path = "../swc_visit", default-features = false }
+string_enum = { version = "2.0.0", path = "../string_enum", default-features = false }
+swc_atoms   = { version = "11.0.0", path = "../swc_atoms", default-features = false }
+swc_common  = { version = "28.0.0", path = "../swc_common", default-features = false }
+swc_visit   = { version = "3.0.0", path = "../swc_visit", default-features = false }
 
 cbor4ii = { workspace = true, features = ["use_std"], optional = true }
 

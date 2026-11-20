@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_css_ast"
 repository    = { workspace = true }
-version       = "27.0.0"
+version       = "28.0.0"
 
 [lib]
 bench = false
@@ -21,11 +21,11 @@ encoding-impl = [
 serde-impl = ["serde"]
 
 [dependencies]
-is-macro = { workspace = true, default-features = false }
+is-macro    = { workspace = true, default-features = false }
 serde       = { workspace = true, features = ["derive"], optional = true }
-string_enum = { version = "1.0.2", path = "../string_enum/", default-features = false }
+string_enum = { version = "2.0.0", path = "../string_enum/", default-features = false }
 
-swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
-swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
+swc_atoms  = { version = "11.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "28.0.0", path = "../swc_common", default-features = false }
 
 cbor4ii = { workspace = true, features = ["use_std"], optional = true }

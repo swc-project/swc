@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "from_variant"
 repository    = { workspace = true }
-version       = "3.0.0"
+version       = "4.0.0"
 
 [lib]
 bench      = false
@@ -14,7 +14,7 @@ proc-macro = true
 
 [dependencies]
 
-swc_macros_common = { version = "1.0.1", path = "../swc_macros_common", default-features = false }
+swc_macros_common = { version = "1.0.2", path = "../swc_macros_common", default-features = false }
 [dependencies.syn]
 features  = ["derive", "fold", "parsing", "printing"]
 workspace = true

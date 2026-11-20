@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_react"
 repository    = { workspace = true }
-version       = "57.0.2"
+version       = "58.0.0"
 
 [lib]
 bench = false
@@ -22,30 +22,30 @@ es3        = ["swc_ecma_transforms_compat/es3"]
 serde-impl = ["serde"]
 
 [dependencies]
-base64 = { workspace = true, default-features = false }
-bytes-str = { workspace = true, default-features = false }
-indexmap = { workspace = true, default-features = false }
-once_cell = { workspace = true, default-features = false }
+base64     = { workspace = true, default-features = false }
+bytes-str  = { workspace = true, default-features = false }
+indexmap   = { workspace = true, default-features = false }
+once_cell  = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 serde      = { workspace = true, features = ["derive"], optional = true }
-sha1 = { workspace = true, default-features = false }
+sha1       = { workspace = true, default-features = false }
 
-string_enum = { version = "1.0.2", path = "../string_enum", default-features = false }
-swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
-swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
-swc_config = { version = "6.0.1", path = "../swc_config", default-features = false }
-swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_hooks = { version = "2.0.0", path = "../swc_ecma_hooks" }
-swc_ecma_parser = { version = "47.1.0", path = "../swc_ecma_parser", default-features = false, features = [
+string_enum = { version = "2.0.0", path = "../string_enum", default-features = false }
+swc_atoms = { version = "11.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "28.0.0", path = "../swc_common", default-features = false }
+swc_config = { version = "7.0.0", path = "../swc_config", default-features = false }
+swc_ecma_ast = { version = "31.0.0", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_hooks = { version = "3.0.0", path = "../swc_ecma_hooks" }
+swc_ecma_parser = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "51.0.3", path = "../swc_ecma_transforms_base", default-features = false }
-swc_ecma_transforms_compat = { version = "59.0.3", path = "../swc_ecma_transforms_compat/", optional = true, default-features = false }
-swc_ecma_utils = { version = "36.1.1", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "30.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_ecma_transforms_base = { version = "52.0.0", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_transforms_compat = { version = "60.0.0", path = "../swc_ecma_transforms_compat/", optional = true, default-features = false }
+swc_ecma_utils = { version = "37.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "31.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [dev-dependencies]
-swc_ecma_codegen = { version = "33.0.2", path = "../swc_ecma_codegen/", default-features = false }
-swc_ecma_transforms_compat = { version = "59.0.3", path = "../swc_ecma_transforms_compat/", default-features = false }
-swc_ecma_transforms_testing = { version = "55.1.0", path = "../swc_ecma_transforms_testing", default-features = false }
-testing = { version = "28.0.1", path = "../testing", default-features = false }
+swc_ecma_codegen            = { version = "34.0.0", path = "../swc_ecma_codegen/", default-features = false }
+swc_ecma_transforms_compat  = { version = "60.0.0", path = "../swc_ecma_transforms_compat/", default-features = false }
+swc_ecma_transforms_testing = { version = "56.0.0", path = "../swc_ecma_transforms_testing", default-features = false }
+testing                     = { version = "29.0.0", path = "../testing", default-features = false }

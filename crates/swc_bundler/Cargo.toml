@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = { workspace = true }
 name          = "swc_bundler"
 repository    = { workspace = true }
-version       = "58.0.0"
+version       = "59.0.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -33,48 +33,50 @@ dashmap = { workspace = true, optional = true, default-features = false }
 indexmap = { workspace = true, default-features = false }
 is-macro = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
-petgraph = { workspace = true, default-features = false, features = ["graphmap"] }
+petgraph = { workspace = true, default-features = false, features = [
+  "graphmap",
+] }
 radix_fmt = { workspace = true, default-features = false }
 rayon = { workspace = true, optional = true, default-features = false }
 relative-path = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, default-features = false }
 tracing = { workspace = true, default-features = false }
 
-swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
-swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
-swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_codegen = { version = "33.0.2", path = "../swc_ecma_codegen", default-features = false }
-swc_ecma_loader = { version = "28.0.1", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "47.1.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_atoms = { version = "11.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "28.0.0", path = "../swc_common", default-features = false }
+swc_ecma_ast = { version = "31.0.0", path = "../swc_ecma_ast", default-features = false }
+swc_ecma_codegen = { version = "34.0.0", path = "../swc_ecma_codegen", default-features = false }
+swc_ecma_loader = { version = "29.0.0", path = "../swc_ecma_loader" }
+swc_ecma_parser = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "51.0.3", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "54.0.1", path = "../swc_ecma_transforms_optimization", default-features = false }
-swc_ecma_utils = { version = "36.1.1", path = "../swc_ecma_utils", default-features = false }
-swc_ecma_visit = { version = "30.0.0", path = "../swc_ecma_visit", default-features = false }
-swc_graph_analyzer = { version = "14.0.2", path = "../swc_graph_analyzer/", default-features = false }
+swc_ecma_transforms_base = { version = "52.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "55.0.0", path = "../swc_ecma_transforms_optimization", default-features = false }
+swc_ecma_utils = { version = "37.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_visit = { version = "31.0.0", path = "../swc_ecma_visit", default-features = false }
+swc_graph_analyzer = { version = "15.0.0", path = "../swc_graph_analyzer/", default-features = false }
 
 [dev-dependencies]
-hex = { workspace = true, default-features = false }
-ntest = { workspace = true, default-features = false }
-par-core = { workspace = true, features = ["chili"], default-features = false }
+hex        = { workspace = true, default-features = false }
+ntest      = { workspace = true, default-features = false }
+par-core   = { workspace = true, features = ["chili"], default-features = false }
 path-clean = { version = "1.0.1", default-features = false }
 reqwest    = { workspace = true, features = ["blocking"] }
-sha1 = { workspace = true, default-features = false }
-tempfile = { workspace = true, default-features = false }
+sha1       = { workspace = true, default-features = false }
+tempfile   = { workspace = true, default-features = false }
 
-swc_ecma_loader = { version = "28.0.1", path = "../swc_ecma_loader", features = [
+swc_ecma_loader = { version = "29.0.0", path = "../swc_ecma_loader", features = [
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "64.0.8", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "65.0.0", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_transforms_base = { version = "51.0.3", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "52.0.0", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
-swc_ecma_transforms_proposal = { version = "51.0.1", path = "../swc_ecma_transforms_proposal", default-features = false }
-swc_ecma_transforms_react = { version = "57.0.2", path = "../swc_ecma_transforms_react", default-features = false }
-swc_ecma_transforms_typescript = { version = "57.0.3", path = "../swc_ecma_transforms_typescript", default-features = false }
-swc_malloc = { version = "1.2.5", path = "../swc_malloc", default-features = false }
-testing = { version = "28.0.1", path = "../testing", default-features = false }
+swc_ecma_transforms_proposal = { version = "52.0.0", path = "../swc_ecma_transforms_proposal", default-features = false }
+swc_ecma_transforms_react = { version = "58.0.0", path = "../swc_ecma_transforms_react", default-features = false }
+swc_ecma_transforms_typescript = { version = "58.0.0", path = "../swc_ecma_transforms_typescript", default-features = false }
+swc_malloc = { version = "2.0.0", path = "../swc_malloc", default-features = false }
+testing = { version = "29.0.0", path = "../testing", default-features = false }

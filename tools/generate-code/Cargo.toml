@@ -22,6 +22,6 @@ syn = { workspace = true, features = [
 ], default-features = false }
 walkdir = { workspace = true, default-features = false }
 
-swc_config = { version = "6.0.1", path = "../../crates/swc_config", features = [
+swc_config = { version = "7.0.0", path = "../../crates/swc_config", features = [
   "regex",
 ] }

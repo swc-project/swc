@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "jsdoc"
 repository    = { workspace = true }
-version       = "27.0.0"
+version       = "28.0.0"
 
 [lib]
 bench = false
@@ -25,13 +25,13 @@ unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
 cbor4ii = { workspace = true, features = ["use_std"], optional = true }
-nom = { workspace = true, default-features = false }
+nom     = { workspace = true, default-features = false }
 serde   = { workspace = true, features = ["derive"], optional = true }
 
-swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
-swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
+swc_atoms  = { version = "11.0.0", path = "../swc_atoms", default-features = false }
+swc_common = { version = "28.0.0", path = "../swc_common", default-features = false }
 
 [dev-dependencies]
-dashmap = { workspace = true, default-features = false }
-swc_ecma_parser = { version = "47.1.0", path = "../swc_ecma_parser", default-features = false }
-testing = { version = "28.0.1", path = "../testing", default-features = false }
+dashmap         = { workspace = true, default-features = false }
+swc_ecma_parser = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false }
+testing         = { version = "29.0.0", path = "../testing", default-features = false }

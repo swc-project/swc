@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_regexp"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.16.0"
+version       = "1.0.0"
 
 [lib]
 bench = false
@@ -16,15 +16,15 @@ bench = false
 debug = []
 
 [dependencies]
-phf = { workspace = true, features = ["macros"], default-features = false }
-rustc-hash = { workspace = true, default-features = false }
+phf              = { workspace = true, features = ["macros"], default-features = false }
+rustc-hash       = { workspace = true, default-features = false }
 unicode-id-start = { workspace = true, default-features = false }
 
-swc_atoms = { version = "10.0.1", path = "../swc_atoms", default-features = false }
-swc_common = { version = "27.0.0", path = "../swc_common", default-features = false }
-swc_ecma_regexp_ast = { version = "4.0.0", path = "../swc_ecma_regexp_ast", default-features = false }
+swc_atoms              = { version = "11.0.0", path = "../swc_atoms", default-features = false }
+swc_common             = { version = "28.0.0", path = "../swc_common", default-features = false }
+swc_ecma_regexp_ast    = { version = "5.0.0", path = "../swc_ecma_regexp_ast", default-features = false }
 swc_ecma_regexp_common = { version = "0.0.1", path = "../swc_ecma_regexp_common", default-features = false }
-swc_ecma_regexp_visit = { version = "0.16.0", path = "../swc_ecma_regexp_visit", default-features = false }
+swc_ecma_regexp_visit  = { version = "1.0.0", path = "../swc_ecma_regexp_visit", default-features = false }
 
 
 [dev-dependencies]

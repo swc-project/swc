@@ -5,7 +5,7 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "hstr"
 repository  = { workspace = true }
-version     = "4.0.3"
+version     = "5.0.0"
 
 [lib]
 bench = false
@@ -21,22 +21,24 @@ hashbrown = { workspace = true, default-features = false }
 new_debug_unreachable = { workspace = true, default-features = false }
 once_cell = { workspace = true, default-features = false }
 rustc-hash = { workspace = true, features = ["std"], default-features = false }
-serde = { workspace = true, optional = true, features = ["std"], default-features = false }
+serde = { workspace = true, optional = true, features = [
+  "std",
+], default-features = false }
 triomphe = { workspace = true, default-features = false }
 
 
 [dev-dependencies]
-compact_str = { workspace = true, default-features = true }
-criterion = { workspace = true, default-features = true }
-kstring = { workspace = true, features = ["std"], default-features = true }
-num_cpus = { workspace = true, default-features = true }
-par-iter = { workspace = true, default-features = true }
-rand = { workspace = true, default-features = true }
-serde_json = { workspace = true, default-features = true }
-smol_str = { workspace = true, default-features = true }
+compact_str  = { workspace = true, default-features = true }
+criterion    = { workspace = true, default-features = true }
+kstring      = { workspace = true, features = ["std"], default-features = true }
+num_cpus     = { workspace = true, default-features = true }
+par-iter     = { workspace = true, default-features = true }
+rand         = { workspace = true, default-features = true }
+serde_json   = { workspace = true, default-features = true }
+smol_str     = { workspace = true, default-features = true }
 string_cache = { workspace = true, default-features = true }
 
-swc_malloc = { version = "1.2.5", path = "../swc_malloc", default-features = false }
+swc_malloc = { version = "2.0.0", path = "../swc_malloc", default-features = false }
 
 [[bench]]
 harness = false
