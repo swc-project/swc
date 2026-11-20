@@ -157,12 +157,7 @@ bitflags! {
         /// `true` for loop bodies and conditions of loops.
         const ExecutedMultipleTime = 1 << 13;
 
-        const InVarDeclOfForInOrOfLoop = 1 << 15;
-
         const DontUseNegatedIife = 1 << 16;
-
-        /// `true` while handling top-level export decls.
-        const IsExported = 1 << 17;
 
         /// `true` while handling top level items.
         const TopLevel = 1 << 18;
@@ -2075,6 +2070,11 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
         let ctx = self.ctx.clone().with(BitCtx::IsExported, true);
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        if let Decl::Fn(f) = &mut n.decl {
+            self.drop_unused_params(&mut f.function.params);
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -2104,11 +2104,7 @@ impl VisitMut for Optimizer<'_> {
                 return;
             }
         } else {
-            let ctx = self
-                .ctx
-                .clone()
-                .with(BitCtx::IsExported, false)
-                .with(BitCtx::IsCallee, false);
+            let ctx = self.ctx.clone().with(BitCtx::IsCallee, false);
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
             self.inline_undefined_vars_in_expr(e);
@@ -2455,7 +2451,6 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
                 .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
                 .with(BitCtx::ExecutedMultipleTime, true);
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
@@ -2478,7 +2473,6 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
                 .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
                 .with(BitCtx::ExecutedMultipleTime, true);
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
@@ -2937,8 +2931,7 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsCallee, false)
             .with(BitCtx::IsDeleteArg, false)
             .with(BitCtx::IsUpdateArg, false)
-            .with(BitCtx::IsLhsOfAssign, false)
-            .with(BitCtx::IsExported, false);
+            .with(BitCtx::IsLhsOfAssign, false);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
@@ -3400,7 +3393,6 @@ impl VisitMut for Optimizer<'_> {
 
         if self.options.const_to_let
             // Don't change constness of exported variables.
-            && !self.ctx.bit_ctx.contains(BitCtx::IsExported)
             && (self.is_module || !self.ctx.in_top_level())
         {
             if n.kind == VarDeclKind::Const {
@@ -3410,7 +3402,9 @@ impl VisitMut for Optimizer<'_> {
                     let ids = get_ids_of_pat(&var.name);
                     for id in ids {
                         if let Some(usage) = self.data.vars.get(&id) {
-                            if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                            if usage.flags.intersects(
+                                VarUsageInfoFlags::REASSIGNED | VarUsageInfoFlags::EXPORTED,
+                            ) {
                                 return false;
                             }
                         }
