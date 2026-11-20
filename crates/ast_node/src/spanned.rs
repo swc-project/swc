@@ -201,8 +201,15 @@ fn make_body_for_variant(v: &VariantBinder<'_>, bindings: Vec<BindedField<'_>>) 
     match (lo, hi) {
         (Some((lo_field, _)), Some((hi_field, _))) => {
             // Create a new span from lo_field.lo(), hi_field.hi()
-            Box::new(parse_quote!(swc_common::Spanned::span(#lo_field)
-                .with_hi(swc_common::Spanned::span(#hi_field).hi())))
+            Box::new(parse_quote!({
+                let lo = swc_common::Spanned::span(#lo_field).lo();
+                let hi = swc_common::Spanned::span(#hi_field).hi();
+                if lo < hi {
+                    Span::new(lo, hi)
+                } else {
+                    Span::new(hi, lo)
+                }
+            }))
         }
         _ => panic!("#[derive(Spanned)]: #[span(lo)] and #[span(hi)] is required"),
     }
