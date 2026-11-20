@@ -1,0 +1,8 @@
+  ! The `v` flag of this regular expression is lowered to the `u` flag, which the configured targets do not support. The regular expression can fail on those targets.
+   ,-[$DIR/tests/compile/regexp/jsc-target/input/index.js:5:1]
+ 2 | // `env.targets`.
+ 3 | export const duplicateNamedGroups = /(?<year>\d{4})-\d{2}|\d{2}-(?<year>\d{4})/;
+ 4 | export const modifiers = /(?i:a)b/;
+ 5 | export const unicodeSets = /[\p{L}--[a-z]]/v;
+   :                            ^^^^^^^^^^^^^^^^^
+   `----

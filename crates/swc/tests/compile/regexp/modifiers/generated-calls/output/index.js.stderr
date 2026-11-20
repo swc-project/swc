@@ -1,0 +1,127 @@
+  ! Cannot lower regexp modifiers in this regular expression for the configured targets: backreference in a case-insensitive modifier group. The regular expression is kept, and it can fail on those targets.
+   ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:3:1]
+ 1 | // A generated `RegExp` call must use the global `RegExp`.
+ 2 | export function check(RegExp) {
+ 3 |     return /(a)(?i:\1)/.test("aA");
+   :            ^^^^^^^^^^^^
+ 4 | }
+ 5 | 
+ 6 | // The flags of the call are `v`, which the targets do not support.
+   `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:7:1]
+  4 | }
+  5 | 
+  6 | // The flags of the call are `v`, which the targets do not support.
+  7 | export const unicodeSetsFlag = new RegExp(/a/, "v");
+    :                                           ^^^
+  8 | // Duplicate names fail on the targets whatever the flags are.
+  9 | export const duplicateNames = (flags) => RegExp("(?<x>a)|(?<x>b)", flags);
+ 10 | // One warning for a literal that is kept for a call and then converted.
+    `----
+  ! Cannot lower duplicate named capturing groups in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:9:1]
+  6 | // The flags of the call are `v`, which the targets do not support.
+  7 | export const unicodeSetsFlag = new RegExp(/a/, "v");
+  8 | // Duplicate names fail on the targets whatever the flags are.
+  9 | export const duplicateNames = (flags) => RegExp("(?<x>a)|(?<x>b)", flags);
+    :                                                 ^^^^^^^^^^^^^^^^^
+ 10 | // One warning for a literal that is kept for a call and then converted.
+ 11 | export const reportedOnce = new RegExp(/[a--b]/v, "v");
+ 12 | // A spread of an array literal supplies the pattern and the flags.
+    `----
+  ! Cannot lower the syntax in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags of this literal. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:11:1]
+  8 | // Duplicate names fail on the targets whatever the flags are.
+  9 | export const duplicateNames = (flags) => RegExp("(?<x>a)|(?<x>b)", flags);
+ 10 | // One warning for a literal that is kept for a call and then converted.
+ 11 | export const reportedOnce = new RegExp(/[a--b]/v, "v");
+    :                                        ^^^^^^^^^
+ 12 | // A spread of an array literal supplies the pattern and the flags.
+ 13 | export const spreadArguments = RegExp(...["(?i:a)", "g"]);
+ 14 | export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
+    `----
+  ! Cannot lower regexp modifiers in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:13:1]
+ 10 | // One warning for a literal that is kept for a call and then converted.
+ 11 | export const reportedOnce = new RegExp(/[a--b]/v, "v");
+ 12 | // A spread of an array literal supplies the pattern and the flags.
+ 13 | export const spreadArguments = RegExp(...["(?i:a)", "g"]);
+    :                                           ^^^^^^^^
+ 14 | export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
+ 15 | // Without flags, the call copies only the pattern of the wrapped literal, so
+ 16 | // the matches have no `groups`.
+    `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:14:1]
+ 11 | export const reportedOnce = new RegExp(/[a--b]/v, "v");
+ 12 | // A spread of an array literal supplies the pattern and the flags.
+ 13 | export const spreadArguments = RegExp(...["(?i:a)", "g"]);
+ 14 | export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
+    :                                             ^^^^^^^^
+ 15 | // Without flags, the call copies only the pattern of the wrapped literal, so
+ 16 | // the matches have no `groups`.
+ 17 | export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
+    `----
+  ! The named capturing groups of this regular expression are lowered for the configured targets, but the enclosing `RegExp` call can copy only the pattern, so its matches can have no `groups`.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:17:1]
+ 14 | export const spreadUnicodeSets = new RegExp("[a--b]", ...["v"]);
+ 15 | // Without flags, the call copies only the pattern of the wrapped literal, so
+ 16 | // the matches have no `groups`.
+ 17 | export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
+    :                                             ^^^^^^^^^^^^^^^^^
+ 18 | // The pattern and the flags are known before the unknown spread.
+ 19 | export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
+ 20 | // A hole supplies an empty pattern, but the flags still need the `v` flag.
+    `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:19:1]
+ 16 | // the matches have no `groups`.
+ 17 | export const copiedNamedGroups = new RegExp(/(?<x>a)|(?<x>b)/);
+ 18 | // The pattern and the flags are known before the unknown spread.
+ 19 | export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
+    :                                                        ^^^
+ 20 | // A hole supplies an empty pattern, but the flags still need the `v` flag.
+ 21 | export const holePattern = RegExp(...[, "v"]);
+ 22 | // The call replaces the flags, and `\u{61}` cannot be printed again as
+    `----
+  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:21:1]
+ 18 | // The pattern and the flags are known before the unknown spread.
+ 19 | export const knownBeforeSpread = (extra) => RegExp(...["a", "v"], ...extra);
+ 20 | // A hole supplies an empty pattern, but the flags still need the `v` flag.
+ 21 | export const holePattern = RegExp(...[, "v"]);
+    :                                      ^^^^^^^
+ 22 | // The call replaces the flags, and `\u{61}` cannot be printed again as
+ 23 | // written, so the duplicate names are kept in a `RegExp` call, with a
+ 24 | // warning.
+    `----
+  ! Cannot lower named capturing groups in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags, and the pattern cannot be printed again as written. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:25:1]
+ 22 | // The call replaces the flags, and `\u{61}` cannot be printed again as
+ 23 | // written, so the duplicate names are kept in a `RegExp` call, with a
+ 24 | // warning.
+ 25 | export const replacedFlagsSpelling = new RegExp(/^(?:(?<x>\u{61})|(?<x>b))\k<x>$/u, "");
+    :                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 | // Printing the pattern again changes `a{1,}` to `a+`, so the names cannot be
+ 27 | // removed for the call. The literal becomes a `RegExp` call, so that the
+ 28 | // target rejects only this expression.
+    `----
+  ! Cannot lower named capturing groups in this regular expression for the configured targets: the enclosing `RegExp` call can replace the flags, and the pattern cannot be printed again as written. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:29:1]
+ 26 | // Printing the pattern again changes `a{1,}` to `a+`, so the names cannot be
+ 27 | // removed for the call. The literal becomes a `RegExp` call, so that the
+ 28 | // target rejects only this expression.
+ 29 | export const keptForCall = () => new RegExp(/(?<x>a{1,})|(?<x>b)/, "g");
+    :                                             ^^^^^^^^^^^^^^^^^^^^^
+ 30 | // The parser rejects the script name, but the names repeat.
+ 31 | export const unparsedDuplicateString = new RegExp("(?<x>\\p{Script=Sidetic})|(?<x>b)", "u");
+    `----
+  ! Cannot lower possible duplicate named capturing groups in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+    ,-[$DIR/tests/compile/regexp/modifiers/generated-calls/input/index.js:31:1]
+ 28 | // target rejects only this expression.
+ 29 | export const keptForCall = () => new RegExp(/(?<x>a{1,})|(?<x>b)/, "g");
+ 30 | // The parser rejects the script name, but the names repeat.
+ 31 | export const unparsedDuplicateString = new RegExp("(?<x>\\p{Script=Sidetic})|(?<x>b)", "u");
+    :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----

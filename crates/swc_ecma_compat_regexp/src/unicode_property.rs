@@ -18,7 +18,7 @@ use icu_properties::{
         Radical, RegionalIndicator, Script, SentenceTerminal, SoftDotted, TerminalPunctuation,
         UnifiedIdeograph, Uppercase, VariationSelector, WhiteSpace, XidContinue, XidStart,
     },
-    CodePointMapData, CodePointSetData,
+    CodePointMapData, CodePointSetData, PropertyParser,
 };
 use swc_ecma_regexp_ast::{
     Character, CharacterClass, CharacterClassContents, CharacterClassContentsKind,
@@ -187,7 +187,9 @@ fn push_ranges(
 }
 
 /// Gets the code point ranges for a unicode property.
-fn get_property_ranges(prop: &UnicodePropertyEscape) -> Option<Vec<RangeInclusive<u32>>> {
+pub(crate) fn get_property_ranges(
+    prop: &UnicodePropertyEscape,
+) -> Option<Vec<RangeInclusive<u32>>> {
     let name = prop.name.as_str();
     let value = prop.value.as_deref();
 
@@ -304,41 +306,17 @@ fn get_script_extensions_ranges(value: &str) -> Option<Vec<RangeInclusive<u32>>>
     Some(ranges)
 }
 
-/// Parses a script name to a Script enum value.
+/// Parses a script name (`Latin` or `Latn`) to a Script enum value.
+///
+/// ECMAScript accepts the exact property value names and aliases of
+/// `PropertyValueAliases.txt`, which is what the strict ICU lookup matches,
+/// except `Katakana_Or_Hiragana` (`Hrkt`): ECMAScript does not list it, and
+/// engines reject it. Such a pattern is kept as written.
 fn parse_script_name(name: &str) -> Option<Script> {
-    // Common scripts - add more as needed
-    Some(match name {
-        "Latn" | "Latin" => Script::Latin,
-        "Grek" | "Greek" => Script::Greek,
-        "Cyrl" | "Cyrillic" => Script::Cyrillic,
-        "Arab" | "Arabic" => Script::Arabic,
-        "Hebr" | "Hebrew" => Script::Hebrew,
-        "Hani" | "Han" => Script::Han,
-        "Hira" | "Hiragana" => Script::Hiragana,
-        "Kana" | "Katakana" => Script::Katakana,
-        "Hang" | "Hangul" => Script::Hangul,
-        "Thai" => Script::Thai,
-        "Deva" | "Devanagari" => Script::Devanagari,
-        "Beng" | "Bengali" => Script::Bengali,
-        "Taml" | "Tamil" => Script::Tamil,
-        "Telu" | "Telugu" => Script::Telugu,
-        "Knda" | "Kannada" => Script::Kannada,
-        "Mlym" | "Malayalam" => Script::Malayalam,
-        "Sinh" | "Sinhala" => Script::Sinhala,
-        "Mymr" | "Myanmar" => Script::Myanmar,
-        "Geor" | "Georgian" => Script::Georgian,
-        "Armn" | "Armenian" => Script::Armenian,
-        "Ethi" | "Ethiopic" => Script::Ethiopian,
-        "Copt" | "Coptic" => Script::Coptic,
-        "Tibt" | "Tibetan" => Script::Tibetan,
-        "Khmr" | "Khmer" => Script::Khmer,
-        "Laoo" | "Lao" => Script::Lao,
-        "Bopo" | "Bopomofo" => Script::Bopomofo,
-        "Zyyy" | "Common" => Script::Common,
-        "Zinh" | "Inherited" | "Qaai" => Script::Inherited,
-        "Zzzz" | "Unknown" => Script::Unknown,
-        _ => return None,
-    })
+    if matches!(name, "Katakana_Or_Hiragana" | "Hrkt") {
+        return None;
+    }
+    PropertyParser::<Script>::new().get_strict(name)
 }
 
 /// Gets the ranges for a binary Unicode property.
@@ -516,6 +494,20 @@ mod tests {
         // class, so that the `i` flag keeps the same semantics.
         let result = parse_and_transform(r"\P{ASCII}", "iu");
         assert_eq!(result, r"[\u0080-\u{10FFFF}]");
+    }
+
+    #[test]
+    fn test_script_names_from_icu() {
+        let result = parse_and_transform(r"\p{sc=Deseret}\p{Script=Dsrt}", "u");
+        assert_eq!(result, r"[\u{10400}-\u{1044F}][\u{10400}-\u{1044F}]");
+        assert!(parse_script_name("deseret").is_none());
+        // ECMAScript does not accept `Katakana_Or_Hiragana`, so it is kept.
+        assert!(parse_script_name("Hrkt").is_none());
+        assert!(parse_script_name("Katakana_Or_Hiragana").is_none());
+        assert_eq!(
+            parse_and_transform(r"\p{Script=Hrkt}", "u"),
+            r"\p{Script=Hrkt}"
+        );
     }
 
     #[test]

@@ -1,0 +1,9 @@
+  ! Cannot lower regexp modifiers in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
+   ,-[$DIR/tests/compile/regexp/modifiers/shadowed-regexp/input/index.js:2:1]
+ 1 | // A call to the global `RegExp` is not rewritten, but it is reported.
+ 2 | export const global = new RegExp("(?i:a)b", "g");
+   :                                  ^^^^^^^^^
+ 3 | 
+ 4 | // A local binding named `RegExp` is not the built-in constructor, so it is not
+ 5 | // reported.
+   `----

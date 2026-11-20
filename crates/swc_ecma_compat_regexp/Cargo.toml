@@ -13,11 +13,16 @@ version       = "10.0.1"
 bench = false
 
 [dependencies]
-icu_properties = { version = "2.0.0", default-features = false, features = [
+icu_properties = { version = "2.1.1", default-features = false, features = [
   "compiled_data",
   "alloc",
 ] }
+icu_casemap = { version = "2.1.1", default-features = false, features = [
+  "compiled_data",
+] }
+icu_locale_core = { version = "2.1.1", default-features = false }
 
+swc_common            = { version = "27.0.0", path = "../swc_common" }
 swc_ecma_regexp_ast   = { version = "4.0.0", path = "../swc_ecma_regexp_ast" }
 swc_ecma_regexp_visit = { version = "0.16.0", path = "../swc_ecma_regexp_visit" }
 
