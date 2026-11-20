@@ -131,8 +131,6 @@ bitflags! {
 
         const DontUsePrependNorAppend = 1 << 3;
 
-        const InBoolCtx = 1 << 4;
-
         const InAsm = 1 << 5;
 
         /// `true` only for [Callee::Expr].

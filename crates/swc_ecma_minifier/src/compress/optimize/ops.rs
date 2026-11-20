@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
 
-use super::{BitCtx, Optimizer};
+use super::Optimizer;
 use crate::{compress::util::negate, util::make_bool};
 
 impl Optimizer<'_> {
@@ -146,17 +146,12 @@ impl Optimizer<'_> {
 
     /// TODO: Optimize based on the type.
     pub(super) fn negate_twice(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        self.negate(e, is_ret_val_ignored);
-        self.negate(e, is_ret_val_ignored);
+        self.negate(e, false, is_ret_val_ignored);
+        self.negate(e, false, is_ret_val_ignored);
     }
 
-    pub(super) fn negate(&mut self, e: &mut Expr, is_ret_val_ignored: bool) {
-        negate(
-            self.ctx.expr_ctx,
-            e,
-            self.ctx.bit_ctx.contains(BitCtx::InBoolCtx),
-            is_ret_val_ignored,
-        )
+    pub(super) fn negate(&mut self, e: &mut Expr, in_bool_ctx: bool, is_ret_val_ignored: bool) {
+        negate(self.ctx.expr_ctx, e, in_bool_ctx, is_ret_val_ignored)
     }
 
     /// Remove meaningless literals in a binary expressions.
