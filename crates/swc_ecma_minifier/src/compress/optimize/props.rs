@@ -18,10 +18,6 @@ impl Optimizer<'_> {
             log_abort!("hoist_props: option is disabled");
             return None;
         }
-        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
-            log_abort!("hoist_props: Exported variable is not hoisted");
-            return None;
-        }
         if self.ctx.in_top_level() && !self.options.top_level() {
             log_abort!("hoist_props: Top-level variable is not hoisted");
             return None;
@@ -49,7 +45,8 @@ impl Optimizer<'_> {
                         .union(VarUsageInfoFlags::USED_AS_REF)
                         .union(VarUsageInfoFlags::USED_AS_ARG)
                         .union(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY)
-                        .union(VarUsageInfoFlags::USED_RECURSIVELY),
+                        .union(VarUsageInfoFlags::USED_RECURSIVELY)
+                        .union(VarUsageInfoFlags::EXPORTED),
                 )
             {
                 log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);

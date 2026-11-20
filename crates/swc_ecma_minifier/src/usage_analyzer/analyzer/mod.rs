@@ -825,11 +825,9 @@ where
         n.visit_children_with(self);
 
         match &n.decl {
-            Decl::Class(c) => {
-                self.data.var_or_default(c.ident.to_id()).prevent_inline();
-            }
-            Decl::Fn(f) => {
-                self.data.var_or_default(f.ident.to_id()).prevent_inline();
+            Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
+                self.data.var_or_default(ident.to_id()).prevent_inline();
+                self.data.var_or_default(ident.to_id()).mark_as_exported();
             }
             Decl::Var(v) => {
                 let ids = find_pat_ids(v);
@@ -837,6 +835,27 @@ where
                 for id in ids {
                     self.data.var_or_default(id).mark_as_exported();
                 }
+            }
+            _ => {}
+        }
+    }
+
+    #[cfg_attr(
+        all(debug_assertions, feature = "tracing-spans"),
+        tracing::instrument(level = "debug", skip_all)
+    )]
+    fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl) {
+        n.visit_children_with(self);
+
+        match &n.decl {
+            DefaultDecl::Class(ClassExpr {
+                ident: Some(ident), ..
+            })
+            | DefaultDecl::Fn(FnExpr {
+                ident: Some(ident), ..
+            }) => {
+                self.data.var_or_default(ident.to_id()).prevent_inline();
+                self.data.var_or_default(ident.to_id()).mark_as_exported();
             }
             _ => {}
         }

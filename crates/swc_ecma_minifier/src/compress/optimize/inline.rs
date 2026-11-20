@@ -398,14 +398,14 @@ impl Optimizer<'_> {
             let usage = self.data.vars.get(&id).unwrap();
 
             // Single use => inlined
-            if !self.ctx.bit_ctx.contains(BitCtx::IsExported)
-                && is_inline_enabled
+            if is_inline_enabled
                 && usage.flags.contains(VarUsageInfoFlags::DECLARED)
                 && may_remove
-                && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                && !usage
-                    .flags
-                    .contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
+                && !usage.flags.intersects(
+                    VarUsageInfoFlags::REASSIGNED
+                        | VarUsageInfoFlags::EXPORTED
+                        | VarUsageInfoFlags::DECLARED_AS_FOR_INIT,
+                )
                 && usage.assign_count == 1
                 && ref_count == 1
             {
@@ -803,11 +803,6 @@ impl Optimizer<'_> {
             }
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
-            log_abort!("inline: [x] exported");
-            return;
-        }
-
         let id = i.to_id();
 
         if let Some(scope) = self.data.get_scope(id.1) {
@@ -831,12 +826,15 @@ impl Optimizer<'_> {
             }
 
             if usage.flags.intersects(
-                VarUsageInfoFlags::REASSIGNED.union(VarUsageInfoFlags::INLINE_PREVENTED),
+                VarUsageInfoFlags::REASSIGNED
+                    | (VarUsageInfoFlags::INLINE_PREVENTED)
+                    | VarUsageInfoFlags::EXPORTED,
             ) {
                 log_abort!(
-                    "inline: [x] reassigned = {}, inline_prevented = {}",
+                    "inline: [x] reassigned = {}, inline_prevented = {}, exported = {}",
                     usage.flags.contains(VarUsageInfoFlags::REASSIGNED),
-                    usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
+                    usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED),
+                    usage.flags.contains(VarUsageInfoFlags::EXPORTED)
                 );
                 return;
             }
