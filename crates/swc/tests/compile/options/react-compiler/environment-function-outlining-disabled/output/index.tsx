@@ -12,6 +12,8 @@ export function Counter() {
     } else {
         t0 = $[0];
     }
+    // This callback captures no local variables (only the `console` global), so
+    // it is safe to outline into a top-level helper when outlining is enabled.
     var onClick = t0;
     var t1;
     if ($[1] === Symbol.for("react.memo_cache_sentinel")) {

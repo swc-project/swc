@@ -1,0 +1,16 @@
+{
+  "mappings": ";AAAA,OAAO,aAAaA,EAAK;;IAALA,IAAAA,AAAEC,IAAFD,GAAEC;IACpB,IAAMC,IAAID,IAAI;;iBAARC;2BACCC,iCAAMD;eADPA;eACCC;;QAAAA;;IAAP,OAAOA",
+  "names": [
+    "t0",
+    "a",
+    "b",
+    "t1"
+  ],
+  "sources": [
+    "../input/index.jsx"
+  ],
+  "sourcesContent": [
+    "export function App({ a }) {\n  const b = a * 2;\n  return <div>{b}</div>;\n}\n"
+  ],
+  "version": 3
+}
