@@ -122,30 +122,19 @@ impl Optimizer<'_> {
                 }
             }
         } else {
-            let mut can_remove_assign = true;
-
             for p in params.iter_mut().rev() {
-                can_remove_assign &= match &p.pat {
-                    Pat::Rest(_) => false,
-                    Pat::Assign(a) => !a.right.may_have_side_effects(self.ctx.expr_ctx),
-                    Pat::Ident(_) | Pat::Array(_) | Pat::Object(_) => self.options.keep_fargs,
-                    _ => true,
-                };
-
                 match &p.pat {
                     Pat::Ident(_) => (),
                     Pat::Array(_) | Pat::Object(_) => {
                         self.take_pat_if_unused(&mut p.pat, None, false)
                     }
-                    Pat::Assign(_) => {
-                        if can_remove_assign {
-                            self.take_pat_if_unused(&mut p.pat, None, false)
-                        }
-                    }
+                    Pat::Assign(_) => self.take_pat_if_unused(&mut p.pat, None, false),
                     _ => (),
                 }
 
-                can_remove_assign &= p.pat.is_invalid();
+                if !p.pat.is_invalid() {
+                    break;
+                }
             }
         }
 
@@ -222,28 +211,17 @@ impl Optimizer<'_> {
                 }
             }
         } else {
-            let mut can_remove_assign = true;
-
             for p in params.iter_mut().rev() {
-                can_remove_assign &= match p {
-                    Pat::Rest(_) => false,
-                    Pat::Assign(a) => !a.right.may_have_side_effects(self.ctx.expr_ctx),
-                    Pat::Ident(_) | Pat::Array(_) | Pat::Object(_) => self.options.keep_fargs,
-                    _ => true,
-                };
-
                 match p {
                     Pat::Ident(_) => (),
                     Pat::Array(_) | Pat::Object(_) => self.take_pat_if_unused(p, None, false),
-                    Pat::Assign(_) => {
-                        if can_remove_assign {
-                            self.take_pat_if_unused(p, None, false)
-                        }
-                    }
+                    Pat::Assign(_) => self.take_pat_if_unused(p, None, false),
                     _ => (),
                 }
 
-                can_remove_assign &= p.is_invalid();
+                if !p.is_invalid() {
+                    break;
+                }
             }
         }
 
