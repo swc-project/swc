@@ -702,6 +702,10 @@ impl Optimizer<'_> {
         param_count: usize,
         usage: &VarUsageInfo,
     ) -> bool {
+        if body.stmts.is_empty() {
+            return true;
+        }
+
         let param_cost = param_count * 2;
         // if it's passed as value but not called, the function expr cannot be
         // removed
