@@ -3391,10 +3391,7 @@ impl VisitMut for Optimizer<'_> {
             });
         }
 
-        if self.options.const_to_let
-            // Don't change constness of exported variables.
-            && (self.is_module || !self.ctx.in_top_level())
-        {
+        if self.options.const_to_let && (self.is_module || !self.ctx.in_top_level()) {
             if n.kind == VarDeclKind::Const {
                 // If a const variable is reassigned, we should not convert it
                 // to `let`
@@ -3403,6 +3400,7 @@ impl VisitMut for Optimizer<'_> {
                     for id in ids {
                         if let Some(usage) = self.data.vars.get(&id) {
                             if usage.flags.intersects(
+                                // Don't change constness of exported variables.
                                 VarUsageInfoFlags::REASSIGNED | VarUsageInfoFlags::EXPORTED,
                             ) {
                                 return false;
