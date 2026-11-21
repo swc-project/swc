@@ -95,6 +95,15 @@
     -   `Medium`: A change to multiple functions or files in one crate.
     -   `High`: A change to multiple crates, a design change, or a change that needs a large investigation.
 
+## Sloppy mode
+
+Few users run code in sloppy mode (non-strict mode). ES modules and class bodies are always strict, and most modern code is ESM or TypeScript. Thus, treat problems that occur only in sloppy mode as out of scope.
+
+-   A sloppy-mode-only problem is a problem that occurs only when the code runs in sloppy mode, or only because a transform moves code between strict and sloppy contexts. Examples: `with` statements, aliasing of `arguments` and parameters, Annex B function hoisting in blocks, `this` that becomes the global object, implicit global variables, `var` declarations that leak out of a sloppy-mode direct `eval`, legacy octal literals, and code motion (inlining, hoisting, or merging) that changes the strictness of the moved code.
+-   In a code review, do not report a sloppy-mode-only problem as a blocking issue. Do not request changes because of it.
+-   Do not file an issue for a sloppy-mode-only problem that you found by reading source code, by static analysis, by fuzzing, or by similar methods. This applies to `swc-project/swc` and `swc-project/swc-ai-issues`.
+-   Do not use a sloppy-mode-only problem as a reason to reject or limit an optimization or a fix. You can add a short code comment that records the known limitation.
+
 ## Compatibility rule
 
 -   Do not use unstable, nightly only features of rustc.
