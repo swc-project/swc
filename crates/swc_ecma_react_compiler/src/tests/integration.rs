@@ -253,6 +253,32 @@ fn jsx_text_with_shared_span_keeps_fallback_raw() {
     }
 }
 
+/// Identical clones of one source text node restore the same `raw`, so a
+/// shared span does not make them ambiguous.
+#[test]
+fn jsx_text_clones_restore_raw() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let source = JSXText {
+        span: Span::new(BytePos(10), BytePos(17)),
+        value: "\n \n".into(),
+        raw: "\n&#32;\n".into(),
+    };
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&source);
+    preserved.save_jsx_text(&source.clone());
+
+    let mut text = JSXText {
+        raw: "\n \n".into(),
+        ..source.clone()
+    };
+    assert!(preserved.load_jsx_text(&mut text));
+    assert_eq!(text.raw, source.raw);
+}
+
 #[test]
 fn convert_import_declaration() {
     let source = "import { useState } from 'react';";

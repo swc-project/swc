@@ -399,7 +399,8 @@ impl PreservedAst {
     /// A caller that builds the AST can give two text nodes the same span, for
     /// example `\n&#32;\n` and `\n \n`. Both have the decoded value `\n \n`,
     /// so restoring the first `raw` into the second would add a space. A
-    /// shared key is therefore marked ambiguous and restores nothing.
+    /// shared key is therefore marked ambiguous and restores nothing, unless
+    /// every node with that key is an identical clone.
     ///
     /// Text with a dummy span is skipped. The reverse pass also gives a dummy
     /// span to text that the compiler creates without a source location.
@@ -413,7 +414,14 @@ impl PreservedAst {
                 entry.insert(text.raw.contains('&').then(|| text.clone()));
             }
             Entry::Occupied(mut entry) => {
-                entry.insert(None);
+                // A clone of the same source node (same span, value, and raw)
+                // restores the same `raw`, so it is not ambiguous.
+                let is_clone = entry.get().as_ref().is_some_and(|saved| {
+                    saved.span == text.span && saved.value == text.value && saved.raw == text.raw
+                });
+                if !is_clone {
+                    entry.insert(None);
+                }
             }
         }
     }
