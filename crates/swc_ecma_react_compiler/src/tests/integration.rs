@@ -253,6 +253,39 @@ fn jsx_text_with_shared_span_keeps_fallback_raw() {
     }
 }
 
+/// Text nodes that start at the same offset but end at different offsets
+/// are distinct, so each one restores its own `raw`.
+#[test]
+fn jsx_text_with_shared_start_restores_raw() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let encoded = JSXText {
+        span: Span::new(BytePos(10), BytePos(17)),
+        value: "\n \n".into(),
+        raw: "\n&#32;\n".into(),
+    };
+    let nbsp = JSXText {
+        span: Span::new(BytePos(10), BytePos(18)),
+        value: "\n\u{a0}\n".into(),
+        raw: "\n&nbsp;\n".into(),
+    };
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&encoded);
+    preserved.save_jsx_text(&nbsp);
+
+    for source in [encoded, nbsp] {
+        let mut text = JSXText {
+            raw: Default::default(),
+            ..source.clone()
+        };
+        assert!(preserved.load_jsx_text(&mut text));
+        assert_eq!(text.raw, source.raw);
+    }
+}
+
 /// Identical clones of one source text node restore the same `raw`, so a
 /// shared span does not make them ambiguous.
 #[test]

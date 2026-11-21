@@ -12,7 +12,8 @@ use swc_ecma_parser::jsx::decode_jsx_entity;
 #[derive(Default, Clone)]
 pub struct PreservedAst {
     pub nodes: FxHashMap<u32, PreservedNode>,
-    /// Source JSX text nodes, keyed by `span.lo`. The value is the source node
+    /// Source JSX text nodes, keyed by their full span. The value is the source
+    /// node
     /// when it contains character references, its `raw` can be restored, and
     /// no other source text node has the same key. It is `None` otherwise.
     ///
@@ -21,10 +22,12 @@ pub struct PreservedAst {
     /// `&nbsp;`. Without the original `raw`, `&#32;` comes back as a literal
     /// space and later JSX whitespace trimming drops it.
     ///
-    /// This is a separate map because a JSX text node can start at the same
-    /// position where a preceding sibling ends, and `nodes` also has entries
-    /// keyed by `span.hi` (see [`TsExprShell`]).
-    pub jsx_texts: FxHashMap<u32, Option<JsxTextShell>>,
+    /// This is a separate map keyed by the full span because `span.lo` alone
+    /// does not identify a text node: a caller that builds the AST can give two
+    /// text nodes the same start and different ends, and a JSX text node can
+    /// start at the same position where a preceding sibling ends, while
+    /// `nodes` also has entries keyed by `span.hi` (see [`TsExprShell`]).
+    pub jsx_texts: FxHashMap<Span, Option<JsxTextShell>>,
 }
 
 /// SWC AST nodes that are not represented losslessly in React Compiler's AST.
@@ -422,17 +425,15 @@ impl PreservedAst {
             return;
         }
 
-        match self.jsx_texts.entry(text.span.lo.to_u32()) {
+        match self.jsx_texts.entry(text.span) {
             Entry::Vacant(entry) => {
                 entry.insert(JsxTextShell::new(text));
             }
             Entry::Occupied(mut entry) => {
-                // A clone of the same source node (same span, value, and raw)
-                // restores the same `raw`, so it is not ambiguous.
+                // A clone of the same source node (same value and raw) restores
+                // the same `raw`, so it is not ambiguous.
                 let is_clone = entry.get().as_ref().is_some_and(|saved| {
-                    saved.source.span == text.span
-                        && saved.source.value == text.value
-                        && saved.source.raw == text.raw
+                    saved.source.value == text.value && saved.source.raw == text.raw
                 });
                 if !is_clone {
                     entry.insert(None);
@@ -457,13 +458,10 @@ impl PreservedAst {
     /// The entry is not removed, because the compiler can emit the same source
     /// text node more than once.
     pub fn load_jsx_text(&self, text: &mut JSXText) -> bool {
-        let Some(Some(saved)) = self.jsx_texts.get(&text.span.lo.to_u32()) else {
+        let Some(Some(saved)) = self.jsx_texts.get(&text.span) else {
             return false;
         };
         let source = &saved.source;
-        if source.span != text.span {
-            return false;
-        }
         if source.value != text.value
             && source.value.to_string_lossy() != text.value.to_string_lossy()
         {
