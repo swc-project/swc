@@ -961,10 +961,11 @@ impl JsxTextShell {
     /// Returns the shell of `text` when it uses character references and its
     /// `raw` can be restored.
     ///
-    /// Text without a decoded reference needs no shell: the reverse pass
-    /// rebuilds the same `raw` from the decoded value. That covers text
-    /// without `&`, and text whose `raw` equals its value, such as
-    /// `Research & Development`, where the bare `&` is literal text.
+    /// Text without a decoded reference needs no shell: it has no reference
+    /// spelling to keep, and the fallback encoding rebuilds a `raw` with the
+    /// same decoded value. That covers text without `&`, and text whose `raw`
+    /// equals its value, such as `Research & Development`, where the bare `&`
+    /// is literal text (the fallback writes it as `&amp;`).
     fn new(text: &JSXText) -> Option<Self> {
         if !text.raw.contains('&') || text.value == text.raw.as_str() {
             return None;
@@ -978,8 +979,11 @@ impl JsxTextShell {
             if !text.raw.contains("\r\n") {
                 return None;
             }
-            let normalized = Atom::from(text.raw.replace("\r\n", "\n").as_str());
-            restorable_jsx_text_raw(&normalized, &text.value)
+            let normalized = text.raw.replace("\r\n", "\n");
+            if text.value == normalized.as_str() {
+                return None;
+            }
+            restorable_jsx_text_raw(&Atom::from(normalized.as_str()), &text.value)
         })?;
 
         Some(Self {

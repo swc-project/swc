@@ -311,8 +311,9 @@ fn jsx_text_with_normalized_crlf_restores_raw() {
     assert_eq!(&*text.raw, "\n&#32;\n");
 }
 
-/// Text whose `raw` equals its value has no decoded reference, so nothing is
-/// saved for it: the fallback encoding gives the same `raw`.
+/// Text whose `raw` equals its value, also after CRLF normalization, has no
+/// decoded reference, so nothing is saved for it: there is no reference
+/// spelling to keep, and the fallback encoding keeps the decoded value.
 #[test]
 fn jsx_text_without_decoded_reference_is_not_saved() {
     use swc_common::{BytePos, Span};
@@ -325,6 +326,11 @@ fn jsx_text_without_decoded_reference_is_not_saved() {
         span: Span::new(BytePos(10), BytePos(32)),
         value: "Research & Development".into(),
         raw: "Research & Development".into(),
+    });
+    preserved.save_jsx_text(&JSXText {
+        span: Span::new(BytePos(40), BytePos(66)),
+        value: "\nResearch & Development\n".into(),
+        raw: "\r\nResearch & Development\r\n".into(),
     });
     assert!(preserved.jsx_texts.is_empty());
 }
