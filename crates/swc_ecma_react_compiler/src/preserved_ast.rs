@@ -13,12 +13,13 @@ use swc_ecma_parser::jsx::decode_jsx_entity;
 pub struct PreservedAst {
     pub nodes: FxHashMap<u32, PreservedNode>,
     /// Spans of all source JSX text nodes with a real span. A span identifies a
-    /// source node only when no other text node has it (see
-    /// [`PreservedAst::save_jsx_text`]).
+    /// source node only when every text node with that span is an identical
+    /// clone (see [`PreservedAst::save_jsx_text`]).
     pub jsx_text_spans: FxHashSet<Span>,
     /// Source JSX text nodes, keyed by their full span, that contain character
-    /// references, whose `raw` can be restored, and whose span no other source
-    /// text node has.
+    /// references and whose `raw` can be restored. A span that another source
+    /// text node also has stays here only when that node is an identical clone
+    /// (same `value` and `raw`).
     ///
     /// React Compiler's `JSXText` keeps only the decoded value, so the reverse
     /// pass cannot tell whether a character such as U+00A0 was written as
