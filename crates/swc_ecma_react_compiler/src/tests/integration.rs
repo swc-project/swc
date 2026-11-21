@@ -286,6 +286,31 @@ fn jsx_text_with_shared_start_restores_raw() {
     }
 }
 
+/// `swc_ecma_lexer` normalizes CRLF to LF in the value of JSX text and keeps
+/// CRLF in `raw`. The references are still restored, with LF line breaks.
+#[test]
+fn jsx_text_with_normalized_crlf_restores_raw() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let source = JSXText {
+        span: Span::new(BytePos(10), BytePos(19)),
+        value: "\n \n".into(),
+        raw: "\r\n&#32;\r\n".into(),
+    };
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&source);
+
+    let mut text = JSXText {
+        raw: Default::default(),
+        ..source
+    };
+    assert!(preserved.load_jsx_text(&mut text));
+    assert_eq!(&*text.raw, "\n&#32;\n");
+}
+
 /// Identical clones of one source text node restore the same `raw`, so a
 /// shared span does not make them ambiguous.
 #[test]

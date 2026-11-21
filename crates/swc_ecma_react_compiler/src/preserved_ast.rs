@@ -968,8 +968,20 @@ impl JsxTextShell {
             return None;
         }
 
+        let raw = restorable_jsx_text_raw(&text.raw, &text.value).or_else(|| {
+            // `swc_ecma_lexer` normalizes CRLF to LF in the value of JSX text
+            // and keeps CRLF in `raw`. A character reference never contains a
+            // line break, so normalizing `raw` the same way keeps the
+            // references as written.
+            if !text.raw.contains("\r\n") {
+                return None;
+            }
+            let normalized = Atom::from(text.raw.replace("\r\n", "\n").as_str());
+            restorable_jsx_text_raw(&normalized, &text.value)
+        })?;
+
         Some(Self {
-            raw: restorable_jsx_text_raw(&text.raw, &text.value)?,
+            raw,
             source: text.clone(),
         })
     }
