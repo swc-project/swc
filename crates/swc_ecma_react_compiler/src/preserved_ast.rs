@@ -1,6 +1,6 @@
 use std::collections::hash_map::Entry;
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{
     wtf8::{Wtf8, Wtf8Buf},
     Atom,
@@ -12,10 +12,13 @@ use swc_ecma_parser::jsx::decode_jsx_entity;
 #[derive(Default, Clone)]
 pub struct PreservedAst {
     pub nodes: FxHashMap<u32, PreservedNode>,
-    /// Source JSX text nodes, keyed by their full span. The value is the source
-    /// node
-    /// when it contains character references, its `raw` can be restored, and
-    /// no other source text node has the same key. It is `None` otherwise.
+    /// Spans of all source JSX text nodes with a real span. A span identifies a
+    /// source node only when no other text node has it (see
+    /// [`PreservedAst::save_jsx_text`]).
+    pub jsx_text_spans: FxHashSet<Span>,
+    /// Source JSX text nodes, keyed by their full span, that contain character
+    /// references, whose `raw` can be restored, and whose span no other source
+    /// text node has.
     ///
     /// React Compiler's `JSXText` keeps only the decoded value, so the reverse
     /// pass cannot tell whether a character such as U+00A0 was written as
@@ -27,7 +30,7 @@ pub struct PreservedAst {
     /// text nodes the same start and different ends, and a JSX text node can
     /// start at the same position where a preceding sibling ends, while
     /// `nodes` also has entries keyed by `span.hi` (see [`TsExprShell`]).
-    pub jsx_texts: FxHashMap<Span, Option<JsxTextShell>>,
+    pub jsx_texts: FxHashMap<Span, JsxTextShell>,
 }
 
 /// SWC AST nodes that are not represented losslessly in React Compiler's AST.
@@ -410,13 +413,13 @@ impl PreservedAst {
     /// character references.
     ///
     /// Text without `&` needs no saved `raw`: the reverse pass can rebuild it
-    /// from the decoded value. Its key is still recorded, because the span
-    /// identifies a source node only when no other text node has the same key.
+    /// from the decoded value. Its span is still recorded, because the span
+    /// identifies a source node only when no other text node has it.
     /// A caller that builds the AST can give two text nodes the same span, for
     /// example `\n&#32;\n` and `\n \n`. Both have the decoded value `\n \n`,
     /// so restoring the first `raw` into the second would add a space. A
-    /// shared key is therefore marked ambiguous and restores nothing, unless
-    /// every node with that key is an identical clone.
+    /// shared span is therefore ambiguous and restores nothing, unless every
+    /// node with that span is an identical clone.
     ///
     /// Text with a dummy span is skipped. The reverse pass also gives a dummy
     /// span to text that the compiler creates without a source location.
@@ -425,19 +428,21 @@ impl PreservedAst {
             return;
         }
 
-        match self.jsx_texts.entry(text.span) {
-            Entry::Vacant(entry) => {
-                entry.insert(JsxTextShell::new(text));
+        if self.jsx_text_spans.insert(text.span) {
+            if let Some(shell) = JsxTextShell::new(text) {
+                self.jsx_texts.insert(text.span, shell);
             }
-            Entry::Occupied(mut entry) => {
-                // A clone of the same source node (same value and raw) restores
-                // the same `raw`, so it is not ambiguous.
-                let is_clone = entry.get().as_ref().is_some_and(|saved| {
-                    saved.source.value == text.value && saved.source.raw == text.raw
-                });
-                if !is_clone {
-                    entry.insert(None);
-                }
+            return;
+        }
+
+        // Another source text node has this span. Once a span is ambiguous it
+        // stays so, because no saved node is inserted for a span seen before.
+        if let Entry::Occupied(entry) = self.jsx_texts.entry(text.span) {
+            // A clone of the same source node (same value and raw) restores the
+            // same `raw`, so it is not ambiguous.
+            let saved = &entry.get().source;
+            if saved.value != text.value || saved.raw != text.raw {
+                entry.remove();
             }
         }
     }
@@ -458,7 +463,7 @@ impl PreservedAst {
     /// The entry is not removed, because the compiler can emit the same source
     /// text node more than once.
     pub fn load_jsx_text(&self, text: &mut JSXText) -> bool {
-        let Some(Some(saved)) = self.jsx_texts.get(&text.span) else {
+        let Some(saved) = self.jsx_texts.get(&text.span) else {
             return false;
         };
         let source = &saved.source;
