@@ -2,6 +2,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{source_map::SmallPos, util::take::Take, Span};
 use swc_ecma_ast::*;
+use swc_ecma_parser::jsx::decode_jsx_entity;
 
 #[derive(Default, Clone)]
 pub struct PreservedAst {
@@ -912,25 +913,51 @@ impl TsExprShell {
     }
 }
 
-/// Escapes `>` and `}` in the source `raw` of a JSX text node.
-///
-/// The SWC parser recovers from a literal `>` or `}` in JSX text, but other
-/// tools such as TypeScript reject it. The reverse pass used to escape these
-/// characters, so restoring the source `raw` must keep doing that. Neither
-/// character can be part of a character reference, so the references stay as
+/// Escapes the characters in the source `raw` of a JSX text node that must
+/// not be emitted literally, and keeps the recognized character references as
 /// written.
+///
+/// - `&` that does not start a reference that SWC decodes (for example
+///   `&#x110000;`, whose code point is out of range) is literal text. Other
+///   tools can decode such a sequence differently or reject it, so it becomes
+///   `&amp;`.
+/// - The SWC parser recovers from a literal `>` or `}` in JSX text, but other
+///   tools such as TypeScript reject it.
+///
+/// The fallback encoding (`encode_jsx_text`) escapes the same characters, so
+/// the restored `raw` only differs from it in the references it keeps.
+/// [`decode_jsx_entity`] is the decoder that the SWC lexer uses, so a
+/// reference is kept exactly when the parser decoded it.
 fn escape_jsx_text_raw(raw: &Atom) -> Atom {
-    if !raw.contains(['>', '}']) {
+    let source = raw.as_str();
+    let mut escaped = String::new();
+    let mut copied_until = 0;
+    let mut offset = 0;
+
+    while let Some(index) = source[offset..].find(['&', '>', '}']) {
+        let pos = offset + index;
+        let replacement = match source.as_bytes()[pos] {
+            b'&' => {
+                if let Some((_, len)) = decode_jsx_entity(&source[pos..]) {
+                    offset = pos + len;
+                    continue;
+                }
+                "&amp;"
+            }
+            b'>' => "&gt;",
+            _ => "&#125;",
+        };
+
+        escaped.push_str(&source[copied_until..pos]);
+        escaped.push_str(replacement);
+        offset = pos + 1;
+        copied_until = offset;
+    }
+
+    if copied_until == 0 {
         return raw.clone();
     }
 
-    let mut escaped = String::with_capacity(raw.len() + 8);
-    for ch in raw.chars() {
-        match ch {
-            '>' => escaped.push_str("&gt;"),
-            '}' => escaped.push_str("&#125;"),
-            _ => escaped.push(ch),
-        }
-    }
+    escaped.push_str(&source[copied_until..]);
     Atom::from(escaped.as_str())
 }

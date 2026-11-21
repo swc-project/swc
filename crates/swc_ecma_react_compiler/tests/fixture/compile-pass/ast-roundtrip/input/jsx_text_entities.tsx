@@ -34,6 +34,10 @@ function withArrow(label) {
   return <q>{label} -> next&nbsp;</q>;
 }
 
+function withInvalidReference(label) {
+  return <code>{label} &#x110000; &bogus; &nbsp;</code>;
+}
+
 function withLoneSurrogate(label) {
   return (
     <span>

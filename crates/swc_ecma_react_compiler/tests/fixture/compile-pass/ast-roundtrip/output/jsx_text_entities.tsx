@@ -60,6 +60,9 @@ export function Header(t0) {
 function withArrow(label) {
     return <q>{label} -&gt; next&nbsp;</q>;
 }
+function withInvalidReference(label) {
+    return <code>{label} &amp;#x110000; &amp;bogus; &nbsp;</code>;
+}
 function withLoneSurrogate(label) {
     return (<span>
       {label}
