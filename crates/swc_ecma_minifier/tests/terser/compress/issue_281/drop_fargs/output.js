@@ -1,5 +1,3 @@
 var a = 1;
-!function(a_1) {
-    a++;
-}((a++, a && a.var));
+a++, a && a.var, a++;
 console.log(a);

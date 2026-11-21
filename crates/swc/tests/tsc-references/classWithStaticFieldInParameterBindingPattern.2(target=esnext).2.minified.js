@@ -5,10 +5,8 @@ class C {
     static{
         this.x = 1;
     }
-}).x]: b = "" })=>{})();
-let x = "";
-(({ [(class extends C {
+}).x]: b = "" })=>{})(), (({ [(class extends C {
     static{
         this.x = 1;
     }
-}).x]: b = "" }, d = x)=>{})();
+}).x]: b = "" })=>{})();
