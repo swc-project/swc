@@ -20,12 +20,7 @@ use crate::{
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
-        if !self.options.negate_iife
-            || self
-                .ctx
-                .bit_ctx
-                .intersects(BitCtx::InBangArg | BitCtx::DontUseNegatedIife)
-        {
+        if !self.options.negate_iife || self.ctx.bit_ctx.intersects(BitCtx::DontUseNegatedIife) {
             return;
         }
 
@@ -600,11 +595,6 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                if self.ctx.bit_ctx.contains(BitCtx::InParam) && !f.params.is_empty() {
-                    log_abort!("iife: We don't invoke IIFE with params in function params");
-                    return false;
-                }
-
                 if let Some(scope) = self.data.get_scope(f.ctxt) {
                     if scope.intersects(ScopeData::HAS_EVAL_CALL) {
                         return false;
@@ -624,11 +614,6 @@ impl Optimizer<'_> {
 
                 if f.function.is_generator {
                     log_abort!("iife: [x] Cannot inline generator");
-                    return false;
-                }
-
-                if self.ctx.bit_ctx.contains(BitCtx::InParam) && !f.function.params.is_empty() {
-                    log_abort!("iife: We don't invoke IIFE with params in function params");
                     return false;
                 }
 
@@ -725,12 +710,6 @@ impl Optimizer<'_> {
                     ArrowFunctionBody::Expr(body) => {
                         if !self.can_extract_param(param_ids.clone(), &call.args) {
                             return;
-                        }
-
-                        if let Expr::Lit(Lit::Num(..)) = &**body {
-                            if self.ctx.bit_ctx.contains(BitCtx::InObjOfNonComputedMember) {
-                                return;
-                            }
                         }
 
                         self.changed = true;
@@ -1011,14 +990,7 @@ impl Optimizer<'_> {
         match stmt {
             Stmt::Decl(Decl::Var(var)) => check_var(var),
 
-            Stmt::Expr(_) => true,
-
-            Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
-                Some(Expr::Lit(Lit::Num(..))) => {
-                    for_stmt || !self.ctx.bit_ctx.contains(BitCtx::InObjOfNonComputedMember)
-                }
-                _ => true,
-            },
+            Stmt::Expr(_) | Stmt::Return(_) => true,
             Stmt::Block(b) => can_inline_fn_stmts(&b.stmts),
             Stmt::If(i) if for_stmt => {
                 self.can_inline_fn_stmt(&i.cons, for_stmt)
