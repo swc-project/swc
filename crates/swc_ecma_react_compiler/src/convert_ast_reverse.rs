@@ -1644,11 +1644,20 @@ impl ReverseCtx {
                     expr: Box::new(self.convert_expression(&spread.expression)),
                 })
             }
-            JSXChild::JSXText(text) => swc::JSXElementChild::JSXText(swc::JSXText {
-                span: self.span_from_base(&text.base),
-                value: Atom::from(text.value.as_str()).into(),
-                raw: Atom::from(encode_jsx_text(&text.value)),
-            }),
+            JSXChild::JSXText(text) => {
+                let mut jsx_text = swc::JSXText {
+                    span: self.span_from_base(&text.base),
+                    value: Atom::from(text.value.as_str()).into(),
+                    raw: Default::default(),
+                };
+                // Keep character references such as `&nbsp;` and `&#32;` as
+                // written. `encode_jsx_text` escapes only the characters that
+                // JSX text cannot hold literally.
+                if !self.preserved_ast.borrow().load_jsx_text(&mut jsx_text) {
+                    jsx_text.raw = Atom::from(encode_jsx_text(&text.value));
+                }
+                swc::JSXElementChild::JSXText(jsx_text)
+            }
         }
     }
 

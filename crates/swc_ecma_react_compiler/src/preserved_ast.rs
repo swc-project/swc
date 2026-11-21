@@ -5,6 +5,18 @@ use swc_ecma_ast::*;
 #[derive(Default, Clone)]
 pub struct PreservedAst {
     pub nodes: FxHashMap<u32, PreservedNode>,
+    /// Source JSX text nodes that contain character references, keyed by
+    /// `span.lo`.
+    ///
+    /// React Compiler's `JSXText` keeps only the decoded value, so the reverse
+    /// pass cannot tell whether a character such as U+00A0 was written as
+    /// `&nbsp;`. Without the original `raw`, `&#32;` comes back as a literal
+    /// space and later JSX whitespace trimming drops it.
+    ///
+    /// This is a separate map because a JSX text node can start at the same
+    /// position where a preceding sibling ends, and `nodes` also has entries
+    /// keyed by `span.hi` (see [`TsExprShell`]).
+    pub jsx_texts: FxHashMap<u32, JSXText>,
 }
 
 /// SWC AST nodes that are not represented losslessly in React Compiler's AST.
@@ -369,6 +381,36 @@ impl PreservedAst {
         };
 
         el.type_args = snapshot.type_args;
+
+        true
+    }
+
+    /// Saves the source `raw` of a JSX text node that uses character
+    /// references.
+    ///
+    /// Text without `&` needs no entry: the reverse pass can rebuild its raw
+    /// form from the decoded value.
+    pub fn save_jsx_text(&mut self, text: &JSXText) {
+        if text.raw.contains('&') {
+            self.jsx_texts.insert(text.span.lo.to_u32(), text.clone());
+        }
+    }
+
+    /// Restores the source `raw` of `text` when the source text node at the
+    /// same position has the same decoded value.
+    ///
+    /// The value check makes sure that the compiler did not change the text.
+    /// The entry is not removed, because the compiler can emit the same source
+    /// text node more than once.
+    pub fn load_jsx_text(&self, text: &mut JSXText) -> bool {
+        let Some(snapshot) = self.jsx_texts.get(&text.span.lo.to_u32()) else {
+            return false;
+        };
+        if snapshot.span != text.span || snapshot.value != text.value {
+            return false;
+        }
+
+        text.raw = snapshot.raw.clone();
 
         true
     }
