@@ -120,6 +120,9 @@ impl RecordingComments {
     }
 }
 
+// `has_flag` is not overridden: its default implementation moves the
+// leading comments it checks to the trailing comments, so a fixer that called
+// it would change the comment snapshots.
 impl Comments for RecordingComments {
     fn add_leading(&self, pos: BytePos, comment: Comment) {
         self.inner.add_leading(pos, comment);
@@ -173,10 +176,6 @@ impl Comments for RecordingComments {
 
     fn add_pure_comment(&self, pos: BytePos) {
         self.inner.add_pure_comment(pos);
-    }
-
-    fn has_flag(&self, pos: BytePos, flag: &str) -> bool {
-        self.inner.has_flag(pos, flag)
     }
 }
 

@@ -1,0 +1,16 @@
+export {};
+
+(new F)();
+(new F)().x;
+(new F)()();
+(new F)?.();
+(new F)?.().x;
+(new a.b)();
+(new (getCtor()))();
+(new new F)();
+new F()();
+(new F)``;
+(new F).x;
+new (new F)(x);
+new (new F)().x;
+new (new F)(x)();

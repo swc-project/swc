@@ -1,0 +1,9 @@
+new F()?.();
+new F()?.().x;
+(new F)?.();
+new F()();
+(new F)();
+new new F()(22)?.();
+new new F()(22);
+new new F();
+new (new F)();
