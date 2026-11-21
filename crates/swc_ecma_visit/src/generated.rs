@@ -14664,6 +14664,7 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsModuleDecl {
                 namespace,
                 id,
                 body,
+                with,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
@@ -14673,6 +14674,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for TsModuleDecl {
                 };
                 {
                     <Option<TsNamespaceBody> as VisitWith<V>>::visit_with(body, visitor)
+                };
+                {
+                    <Option<Box<ObjectLit>> as VisitWith<V>>::visit_with(with, visitor)
                 };
             }
         }
@@ -45113,6 +45117,7 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsModuleDecl {
                 namespace,
                 id,
                 body,
+                with,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsModuleDecl(
@@ -45143,6 +45148,17 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for TsModuleDecl {
                     ));
                     <Option<TsNamespaceBody> as VisitWithAstPath<V>>::visit_with_ast_path(
                         body,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::TsModuleDecl(
+                        self,
+                        self::fields::TsModuleDeclField::With,
+                    ));
+                    <Option<Box<ObjectLit>> as VisitWithAstPath<V>>::visit_with_ast_path(
+                        with,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -64738,6 +64754,7 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsModuleDecl {
                 namespace,
                 id,
                 body,
+                with,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
@@ -64747,6 +64764,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for TsModuleDecl {
                 };
                 {
                     <Option<TsNamespaceBody> as VisitMutWith<V>>::visit_mut_with(body, visitor)
+                };
+                {
+                    <Option<Box<ObjectLit>> as VisitMutWith<V>>::visit_mut_with(with, visitor)
                 };
             }
         }
@@ -90326,6 +90346,7 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsModuleDecl {
                 namespace,
                 id,
                 body,
+                with,
             } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::TsModuleDecl(
@@ -90353,6 +90374,16 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for TsModuleDecl {
                     ));
                     <Option<TsNamespaceBody> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         body,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsModuleDecl(
+                        self::fields::TsModuleDeclField::With,
+                    ));
+                    <Option<Box<ObjectLit>> as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        with,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -109022,10 +109053,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsModuleDecl {
                 namespace,
                 id,
                 body,
+                with,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let id = { <TsModuleName as FoldWith<V>>::fold_with(id, visitor) };
                 let body = { <Option<TsNamespaceBody> as FoldWith<V>>::fold_with(body, visitor) };
+                let with = { <Option<Box<ObjectLit>> as FoldWith<V>>::fold_with(with, visitor) };
                 TsModuleDecl {
                     span,
                     declare,
@@ -109033,6 +109066,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for TsModuleDecl {
                     namespace,
                     id,
                     body,
+                    with,
                 }
             }
         }
@@ -136113,6 +136147,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleDecl {
                 namespace,
                 id,
                 body,
+                with,
             } => {
                 let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::TsModuleDecl(
@@ -136144,6 +136179,16 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleDecl {
                         &mut *__ast_path,
                     )
                 };
+                let with = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::TsModuleDecl(
+                        self::fields::TsModuleDeclField::With,
+                    ));
+                    <Option<Box<ObjectLit>> as FoldWithAstPath<V>>::fold_with_ast_path(
+                        with,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 TsModuleDecl {
                     span,
                     declare,
@@ -136151,6 +136196,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for TsModuleDecl {
                     namespace,
                     id,
                     body,
+                    with,
                 }
             }
         }
@@ -143451,6 +143497,8 @@ pub mod fields {
         Id,
         #[doc = "Represents [`TsModuleDecl::body`]"]
         Body,
+        #[doc = "Represents [`TsModuleDecl::with`]"]
+        With,
     }
     impl TsModuleNameField {
         #[inline(always)]
@@ -149065,7 +149113,11 @@ impl<'ast> NodeRef<'ast> {
                         node.body
                             .iter()
                             .flat_map(|item| ::std::iter::once(NodeRef::TsNamespaceBody(&item))),
-                    );
+                    )
+                    .chain(node.with.iter().flat_map(|item| {
+                        let item = &*item;
+                        ::std::iter::once(NodeRef::ObjectLit(&item))
+                    }));
                 Box::new(iterator)
             }
             NodeRef::TsModuleName(node) => match node {

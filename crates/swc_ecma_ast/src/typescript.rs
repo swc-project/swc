@@ -1124,6 +1124,24 @@ pub struct TsModuleDecl {
         encoding(with = "cbor4ii::core::types::Maybe")
     )]
     pub body: Option<TsNamespaceBody>,
+
+    /// Import attributes of an ambient module declaration.
+    ///
+    /// `declare module "*.txt" with { type: "text" } {}`
+    ///
+    /// This is only valid when [TsModuleDecl::id] is a [TsModuleName::Str].
+    ///
+    /// Omitted from serialized output when absent, to keep the JSON AST of
+    /// existing module declarations unchanged.
+    #[cfg_attr(
+        feature = "serde-impl",
+        serde(default, skip_serializing_if = "Option::is_none")
+    )]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
+    pub with: Option<Box<ObjectLit>>,
 }
 
 /// `namespace A.B { }` is a namespace named `A` with another TsNamespaceDecl as

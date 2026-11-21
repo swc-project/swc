@@ -2392,6 +2392,7 @@ fn parse_ts_module_or_ns_decl<'a, P: Parser<'a>>(
         body: Some(body),
         global: false,
         namespace,
+        with: None,
     }))
 }
 
@@ -2412,6 +2413,16 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
         unexpected!(p, "global or a string literal");
     };
 
+    // `declare module "*.txt" with { type: "text" } {}`
+    let with = if !global && p.input_mut().eat(&P::Token::WITH) {
+        match parse_object_expr(p)? {
+            Expr::Object(v) => Some(Box::new(v)),
+            _ => unreachable!(),
+        }
+    } else {
+        None
+    };
+
     let body = if p.input().is(&P::Token::LBRACE) {
         Some(parse_ts_module_block(p).map(TsNamespaceBody::from)?)
     } else {
@@ -2426,6 +2437,7 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
         global,
         body,
         namespace: false,
+        with,
     }))
 }
 
@@ -2645,6 +2657,7 @@ pub fn parse_ts_expr_stmt<'a, P: Parser<'a>>(
                         namespace: false,
                         id,
                         body,
+                        with: None,
                     }
                     .into(),
                 ))
