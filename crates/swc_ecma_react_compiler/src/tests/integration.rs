@@ -198,6 +198,31 @@ fn convert_jsx_element() {
     ));
 }
 
+/// A dummy span does not identify a source JSX text node, so the source `raw`
+/// of one node must not be restored into another node with the same span.
+#[test]
+fn jsx_text_with_dummy_span_keeps_fallback_raw() {
+    use swc_common::DUMMY_SP;
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&JSXText {
+        span: DUMMY_SP,
+        value: " ".into(),
+        raw: "&#32;".into(),
+    });
+
+    let mut text = JSXText {
+        span: DUMMY_SP,
+        value: " ".into(),
+        raw: " ".into(),
+    };
+    assert!(!preserved.load_jsx_text(&mut text));
+    assert_eq!(&*text.raw, " ");
+}
+
 #[test]
 fn convert_import_declaration() {
     let source = "import { useState } from 'react';";

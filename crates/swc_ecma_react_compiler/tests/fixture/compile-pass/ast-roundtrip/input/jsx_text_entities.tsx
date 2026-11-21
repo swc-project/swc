@@ -29,3 +29,26 @@ export function Header({ label }) {
     </div>
   );
 }
+
+function withArrow(label) {
+  return <q>{label} -> next&nbsp;</q>;
+}
+
+function withLoneSurrogate(label) {
+  return (
+    <span>
+      {label}
+      &#xD800;&nbsp;
+      &#32;
+    </span>
+  );
+}
+
+export function Trimmed({ label }) {
+  return (
+    <span>
+      {label}
+      &#32;
+    </span>
+  );
+}

@@ -57,3 +57,26 @@ export function Header(t0) {
     }
     return t5;
 }
+function withArrow(label) {
+    return <q>{label} -&gt; next&nbsp;</q>;
+}
+function withLoneSurrogate(label) {
+    return (<span>
+      {label}
+      &#xD800;&nbsp;
+      &#32;
+    </span>);
+}
+export function Trimmed(t0) {
+    const $ = _c(2);
+    const { label } = t0;
+    let t1;
+    if ($[0] !== label) {
+        t1 = <span>{label}</span>;
+        $[0] = label;
+        $[1] = t1;
+    } else {
+        t1 = $[1];
+    }
+    return t1;
+}

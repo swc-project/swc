@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
 use swc_common::{source_map::SmallPos, util::take::Take, Span};
 use swc_ecma_ast::*;
 
@@ -390,27 +391,46 @@ impl PreservedAst {
     ///
     /// Text without `&` needs no entry: the reverse pass can rebuild its raw
     /// form from the decoded value.
+    ///
+    /// Text with a dummy span is skipped. A caller that builds the AST can
+    /// give the same dummy span to many text nodes, so the span does not
+    /// identify the source node.
     pub fn save_jsx_text(&mut self, text: &JSXText) {
-        if text.raw.contains('&') {
+        if !text.span.is_dummy() && text.raw.contains('&') {
             self.jsx_texts.insert(text.span.lo.to_u32(), text.clone());
         }
     }
 
-    /// Restores the source `raw` of `text` when the source text node at the
-    /// same position has the same decoded value.
+    /// Restores the source `value` and `raw` of `text` when the source text
+    /// node at the same span has the same decoded value.
+    ///
+    /// `text.value` comes from the React Compiler, which holds UTF-8 only. The
+    /// forward pass converts the source value with `to_string_lossy`, so the
+    /// check compares lossy values. On a match, the source WTF-8 value (which
+    /// can contain lone surrogates such as `&#xD800;`) is restored as well.
     ///
     /// The value check makes sure that the compiler did not change the text.
+    /// Text that the compiler changes, for example multi-line text that its
+    /// JSX lowering trims, keeps the fallback encoding, so character
+    /// references in it come back as literal characters.
+    ///
     /// The entry is not removed, because the compiler can emit the same source
     /// text node more than once.
     pub fn load_jsx_text(&self, text: &mut JSXText) -> bool {
         let Some(snapshot) = self.jsx_texts.get(&text.span.lo.to_u32()) else {
             return false;
         };
-        if snapshot.span != text.span || snapshot.value != text.value {
+        if snapshot.span != text.span {
             return false;
         }
+        if snapshot.value != text.value {
+            if snapshot.value.to_string_lossy() != text.value.to_string_lossy() {
+                return false;
+            }
+            text.value = snapshot.value.clone();
+        }
 
-        text.raw = snapshot.raw.clone();
+        text.raw = escape_jsx_text_raw(&snapshot.raw);
 
         true
     }
@@ -890,4 +910,27 @@ impl TsExprShell {
             type_ann: expr.type_ann.clone(),
         }
     }
+}
+
+/// Escapes `>` and `}` in the source `raw` of a JSX text node.
+///
+/// The SWC parser recovers from a literal `>` or `}` in JSX text, but other
+/// tools such as TypeScript reject it. The reverse pass used to escape these
+/// characters, so restoring the source `raw` must keep doing that. Neither
+/// character can be part of a character reference, so the references stay as
+/// written.
+fn escape_jsx_text_raw(raw: &Atom) -> Atom {
+    if !raw.contains(['>', '}']) {
+        return raw.clone();
+    }
+
+    let mut escaped = String::with_capacity(raw.len() + 8);
+    for ch in raw.chars() {
+        match ch {
+            '>' => escaped.push_str("&gt;"),
+            '}' => escaped.push_str("&#125;"),
+            _ => escaped.push(ch),
+        }
+    }
+    Atom::from(escaped.as_str())
 }
