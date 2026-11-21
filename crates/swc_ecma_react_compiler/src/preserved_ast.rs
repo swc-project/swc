@@ -961,10 +961,12 @@ impl JsxTextShell {
     /// Returns the shell of `text` when it uses character references and its
     /// `raw` can be restored.
     ///
-    /// Text without `&` needs no shell: the reverse pass can rebuild its `raw`
-    /// from the decoded value.
+    /// Text without a decoded reference needs no shell: the reverse pass
+    /// rebuilds the same `raw` from the decoded value. That covers text
+    /// without `&`, and text whose `raw` equals its value, such as
+    /// `Research & Development`, where the bare `&` is literal text.
     fn new(text: &JSXText) -> Option<Self> {
-        if !text.raw.contains('&') {
+        if !text.raw.contains('&') || text.value == text.raw.as_str() {
             return None;
         }
 

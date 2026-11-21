@@ -311,6 +311,24 @@ fn jsx_text_with_normalized_crlf_restores_raw() {
     assert_eq!(&*text.raw, "\n&#32;\n");
 }
 
+/// Text whose `raw` equals its value has no decoded reference, so nothing is
+/// saved for it: the fallback encoding gives the same `raw`.
+#[test]
+fn jsx_text_without_decoded_reference_is_not_saved() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&JSXText {
+        span: Span::new(BytePos(10), BytePos(32)),
+        value: "Research & Development".into(),
+        raw: "Research & Development".into(),
+    });
+    assert!(preserved.jsx_texts.is_empty());
+}
+
 /// Identical clones of one source text node restore the same `raw`, so a
 /// shared span does not make them ambiguous.
 #[test]
