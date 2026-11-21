@@ -279,6 +279,56 @@ fn jsx_text_clones_restore_raw() {
     assert_eq!(text.raw, source.raw);
 }
 
+/// A caller can change `JSXText.value` and leave the old `raw`. Restoring
+/// that `raw` would undo the change, so the fallback encoding is used.
+#[test]
+fn jsx_text_with_stale_raw_keeps_fallback_raw() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let source = JSXText {
+        span: Span::new(BytePos(10), BytePos(24)),
+        value: "New & Co".into(),
+        raw: "Old &amp; Co".into(),
+    };
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&source);
+
+    let mut text = JSXText {
+        raw: "New &amp; Co".into(),
+        ..source
+    };
+    assert!(!preserved.load_jsx_text(&mut text));
+    assert_eq!(&*text.raw, "New &amp; Co");
+}
+
+/// `<` and `{` start JSX syntax, so a restored `raw` escapes them even when a
+/// caller put them in the source `raw`.
+#[test]
+fn jsx_text_restored_raw_escapes_jsx_delimiters() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let source = JSXText {
+        span: Span::new(BytePos(10), BytePos(24)),
+        value: "< \u{a0} { > }".into(),
+        raw: "< &nbsp; { > }".into(),
+    };
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&source);
+
+    let mut text = JSXText {
+        raw: Default::default(),
+        ..source
+    };
+    assert!(preserved.load_jsx_text(&mut text));
+    assert_eq!(&*text.raw, "&lt; &nbsp; &#123; &gt; &#125;");
+}
+
 #[test]
 fn convert_import_declaration() {
     let source = "import { useState } from 'react';";
