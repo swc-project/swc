@@ -223,6 +223,36 @@ fn jsx_text_with_dummy_span_keeps_fallback_raw() {
     assert_eq!(&*text.raw, " ");
 }
 
+/// Two source text nodes with the same span are ambiguous, so neither gets
+/// the other's `raw`, even when their decoded values are equal.
+#[test]
+fn jsx_text_with_shared_span_keeps_fallback_raw() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let span = Span::new(BytePos(10), BytePos(15));
+    for (first, second) in [("\n&#32;\n", "\n \n"), ("\n \n", "\n&#32;\n")] {
+        let mut preserved = PreservedAst::default();
+        for raw in [first, second] {
+            preserved.save_jsx_text(&JSXText {
+                span,
+                value: "\n \n".into(),
+                raw: raw.into(),
+            });
+        }
+
+        let mut text = JSXText {
+            span,
+            value: "\n \n".into(),
+            raw: "\n \n".into(),
+        };
+        assert!(!preserved.load_jsx_text(&mut text));
+        assert_eq!(&*text.raw, "\n \n");
+    }
+}
+
 #[test]
 fn convert_import_declaration() {
     let source = "import { useState } from 'react';";

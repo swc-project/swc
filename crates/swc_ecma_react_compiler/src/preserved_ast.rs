@@ -1,3 +1,5 @@
+use std::collections::hash_map::Entry;
+
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{source_map::SmallPos, util::take::Take, Span};
@@ -7,8 +9,9 @@ use swc_ecma_parser::jsx::decode_jsx_entity;
 #[derive(Default, Clone)]
 pub struct PreservedAst {
     pub nodes: FxHashMap<u32, PreservedNode>,
-    /// Source JSX text nodes that contain character references, keyed by
-    /// `span.lo`.
+    /// Source JSX text nodes, keyed by `span.lo`. The value is the source node
+    /// when it contains character references and no other source text node
+    /// has the same key, and `None` otherwise.
     ///
     /// React Compiler's `JSXText` keeps only the decoded value, so the reverse
     /// pass cannot tell whether a character such as U+00A0 was written as
@@ -18,7 +21,7 @@ pub struct PreservedAst {
     /// This is a separate map because a JSX text node can start at the same
     /// position where a preceding sibling ends, and `nodes` also has entries
     /// keyed by `span.hi` (see [`TsExprShell`]).
-    pub jsx_texts: FxHashMap<u32, JSXText>,
+    pub jsx_texts: FxHashMap<u32, Option<JSXText>>,
 }
 
 /// SWC AST nodes that are not represented losslessly in React Compiler's AST.
@@ -387,18 +390,31 @@ impl PreservedAst {
         true
     }
 
-    /// Saves the source `raw` of a JSX text node that uses character
-    /// references.
+    /// Records a source JSX text node, and saves its `raw` when it uses
+    /// character references.
     ///
-    /// Text without `&` needs no entry: the reverse pass can rebuild its raw
-    /// form from the decoded value.
+    /// Text without `&` needs no saved `raw`: the reverse pass can rebuild it
+    /// from the decoded value. Its key is still recorded, because the span
+    /// identifies a source node only when no other text node has the same key.
+    /// A caller that builds the AST can give two text nodes the same span, for
+    /// example `\n&#32;\n` and `\n \n`. Both have the decoded value `\n \n`,
+    /// so restoring the first `raw` into the second would add a space. A
+    /// shared key is therefore marked ambiguous and restores nothing.
     ///
-    /// Text with a dummy span is skipped. A caller that builds the AST can
-    /// give the same dummy span to many text nodes, so the span does not
-    /// identify the source node.
+    /// Text with a dummy span is skipped. The reverse pass also gives a dummy
+    /// span to text that the compiler creates without a source location.
     pub fn save_jsx_text(&mut self, text: &JSXText) {
-        if !text.span.is_dummy() && text.raw.contains('&') {
-            self.jsx_texts.insert(text.span.lo.to_u32(), text.clone());
+        if text.span.is_dummy() {
+            return;
+        }
+
+        match self.jsx_texts.entry(text.span.lo.to_u32()) {
+            Entry::Vacant(entry) => {
+                entry.insert(text.raw.contains('&').then(|| text.clone()));
+            }
+            Entry::Occupied(mut entry) => {
+                entry.insert(None);
+            }
         }
     }
 
@@ -418,7 +434,7 @@ impl PreservedAst {
     /// The entry is not removed, because the compiler can emit the same source
     /// text node more than once.
     pub fn load_jsx_text(&self, text: &mut JSXText) -> bool {
-        let Some(snapshot) = self.jsx_texts.get(&text.span.lo.to_u32()) else {
+        let Some(Some(snapshot)) = self.jsx_texts.get(&text.span.lo.to_u32()) else {
             return false;
         };
         if snapshot.span != text.span {
