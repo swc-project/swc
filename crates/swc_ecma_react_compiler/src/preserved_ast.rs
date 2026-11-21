@@ -1,10 +1,37 @@
-use rustc_hash::FxHashMap;
+use std::collections::hash_map::Entry;
+
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::{
+    wtf8::{Wtf8, Wtf8Buf},
+    Atom,
+};
 use swc_common::{source_map::SmallPos, util::take::Take, Span};
 use swc_ecma_ast::*;
+use swc_ecma_parser::jsx::decode_jsx_entity;
 
 #[derive(Default, Clone)]
 pub struct PreservedAst {
     pub nodes: FxHashMap<u32, PreservedNode>,
+    /// Spans of all source JSX text nodes with a real span. A span identifies a
+    /// source node only when every text node with that span is an identical
+    /// clone (see [`PreservedAst::save_jsx_text`]).
+    pub jsx_text_spans: FxHashSet<Span>,
+    /// Source JSX text nodes, keyed by their full span, that contain character
+    /// references and whose `raw` can be restored. A span that another source
+    /// text node also has stays here only when that node is an identical clone
+    /// (same `value` and `raw`).
+    ///
+    /// React Compiler's `JSXText` keeps only the decoded value, so the reverse
+    /// pass cannot tell whether a character such as U+00A0 was written as
+    /// `&nbsp;`. Without the original `raw`, `&#32;` comes back as a literal
+    /// space and later JSX whitespace trimming drops it.
+    ///
+    /// This is a separate map keyed by the full span because `span.lo` alone
+    /// does not identify a text node: a caller that builds the AST can give two
+    /// text nodes the same start and different ends, and a JSX text node can
+    /// start at the same position where a preceding sibling ends, while
+    /// `nodes` also has entries keyed by `span.hi` (see [`TsExprShell`]).
+    pub jsx_texts: FxHashMap<Span, JsxTextShell>,
 }
 
 /// SWC AST nodes that are not represented losslessly in React Compiler's AST.
@@ -27,6 +54,16 @@ pub enum PreservedNode {
     TsOptionalInstantiation(Box<TsOptionalInstantiationShell>),
     TsTypeAlias(Box<TsTypeAliasDecl>),
     Variable(Box<VariableShell>),
+}
+
+/// A source JSX text node whose `raw` the reverse pass can restore.
+#[derive(Clone)]
+pub struct JsxTextShell {
+    /// The source node.
+    source: JSXText,
+    /// The `raw` to restore: the source `raw` with the characters escaped that
+    /// must not be emitted literally (see [`restorable_jsx_text_raw`]).
+    raw: Atom,
 }
 
 /// Lightweight arrow function metadata not represented losslessly in React
@@ -369,6 +406,76 @@ impl PreservedAst {
         };
 
         el.type_args = snapshot.type_args;
+
+        true
+    }
+
+    /// Records a source JSX text node, and saves its `raw` when it uses
+    /// character references.
+    ///
+    /// Text without `&` needs no saved `raw`: the reverse pass can rebuild it
+    /// from the decoded value. Its span is still recorded, because the span
+    /// identifies a source node only when no other text node has it.
+    /// A caller that builds the AST can give two text nodes the same span, for
+    /// example `\n&#32;\n` and `\n \n`. Both have the decoded value `\n \n`,
+    /// so restoring the first `raw` into the second would add a space. A
+    /// shared span is therefore ambiguous and restores nothing, unless every
+    /// node with that span is an identical clone.
+    ///
+    /// Text with a dummy span is skipped. The reverse pass also gives a dummy
+    /// span to text that the compiler creates without a source location.
+    pub fn save_jsx_text(&mut self, text: &JSXText) {
+        if text.span.is_dummy() {
+            return;
+        }
+
+        if self.jsx_text_spans.insert(text.span) {
+            if let Some(shell) = JsxTextShell::new(text) {
+                self.jsx_texts.insert(text.span, shell);
+            }
+            return;
+        }
+
+        // Another source text node has this span. Once a span is ambiguous it
+        // stays so, because no saved node is inserted for a span seen before.
+        if let Entry::Occupied(entry) = self.jsx_texts.entry(text.span) {
+            // A clone of the same source node (same value and raw) restores the
+            // same `raw`, so it is not ambiguous.
+            let saved = &entry.get().source;
+            if saved.value != text.value || saved.raw != text.raw {
+                entry.remove();
+            }
+        }
+    }
+
+    /// Restores the source `value` and `raw` of `text` when the source text
+    /// node at the same span has the same decoded value.
+    ///
+    /// `text.value` comes from the React Compiler, which holds UTF-8 only. The
+    /// forward pass converts the source value with `to_string_lossy`, so the
+    /// check compares lossy values. On a match, the source WTF-8 value (which
+    /// can contain lone surrogates such as `&#xD800;`) is restored as well.
+    ///
+    /// The value check makes sure that the compiler did not change the text.
+    /// Text that the compiler changes, for example multi-line text that its
+    /// JSX lowering trims, keeps the fallback encoding, so character
+    /// references in it come back as literal characters.
+    ///
+    /// The entry is not removed, because the compiler can emit the same source
+    /// text node more than once.
+    pub fn load_jsx_text(&self, text: &mut JSXText) -> bool {
+        let Some(saved) = self.jsx_texts.get(&text.span) else {
+            return false;
+        };
+        let source = &saved.source;
+        if source.value != text.value
+            && source.value.to_string_lossy() != text.value.to_string_lossy()
+        {
+            return false;
+        }
+
+        text.value = source.value.clone();
+        text.raw = saved.raw.clone();
 
         true
     }
@@ -848,4 +955,108 @@ impl TsExprShell {
             type_ann: expr.type_ann.clone(),
         }
     }
+}
+
+impl JsxTextShell {
+    /// Returns the shell of `text` when it uses character references and its
+    /// `raw` can be restored.
+    ///
+    /// Text without a decoded reference needs no shell: it has no reference
+    /// spelling to keep, and the fallback encoding rebuilds a `raw` with the
+    /// same decoded value. That covers text without `&`, and text whose `raw`
+    /// equals its value, such as `Research & Development`, where the bare `&`
+    /// is literal text (the fallback writes it as `&amp;`).
+    fn new(text: &JSXText) -> Option<Self> {
+        if !text.raw.contains('&') || text.value == text.raw.as_str() {
+            return None;
+        }
+
+        let raw = restorable_jsx_text_raw(&text.raw, &text.value).or_else(|| {
+            // `swc_ecma_lexer` normalizes CRLF to LF in the value of JSX text
+            // and keeps CRLF in `raw`. A character reference never contains a
+            // line break, so normalizing `raw` the same way keeps the
+            // references as written.
+            if !text.raw.contains("\r\n") {
+                return None;
+            }
+            let normalized = text.raw.replace("\r\n", "\n");
+            if text.value == normalized.as_str() {
+                return None;
+            }
+            restorable_jsx_text_raw(&Atom::from(normalized.as_str()), &text.value)
+        })?;
+
+        Some(Self {
+            raw,
+            source: text.clone(),
+        })
+    }
+}
+
+/// Builds the `raw` to restore from the source `raw` of a JSX text node.
+///
+/// Recognized character references are kept as written, and the characters
+/// that must not be emitted literally are escaped:
+///
+/// - `&` that does not start a reference that SWC decodes (for example
+///   `&#x110000;`, whose code point is out of range) is literal text. Other
+///   tools can decode such a sequence differently or reject it, so it becomes
+///   `&amp;`.
+/// - `<` and `{` start JSX syntax. The parser never puts them in JSX text, but
+///   a caller that builds the AST can.
+/// - The SWC parser recovers from a literal `>` or `}` in JSX text, but other
+///   tools such as TypeScript reject it.
+///
+/// The fallback encoding (`encode_jsx_text`) escapes the same characters, so
+/// the restored `raw` only differs from it in the references it keeps.
+/// [`decode_jsx_entity`] is the decoder that the SWC lexer uses, so a
+/// reference is kept exactly when the parser decoded it.
+///
+/// Returns `None` when `raw` does not decode to `value`. The parser always
+/// keeps them consistent, but a caller can change `value` and leave the old
+/// `raw`. Restoring that `raw` would undo the change.
+fn restorable_jsx_text_raw(raw: &Atom, value: &Wtf8) -> Option<Atom> {
+    let source = raw.as_str();
+    let mut decoded = Wtf8Buf::with_capacity(value.len());
+    let mut escaped = String::new();
+    let mut copied_until = 0;
+    let mut decoded_until = 0;
+    let mut offset = 0;
+
+    while let Some(index) = source[offset..].find(['&', '<', '>', '{', '}']) {
+        let pos = offset + index;
+        let replacement = match source.as_bytes()[pos] {
+            b'&' => {
+                if let Some((code_point, len)) = decode_jsx_entity(&source[pos..]) {
+                    decoded.push_str(&source[decoded_until..pos]);
+                    decoded.push(code_point);
+                    offset = pos + len;
+                    decoded_until = offset;
+                    continue;
+                }
+                "&amp;"
+            }
+            b'<' => "&lt;",
+            b'>' => "&gt;",
+            b'{' => "&#123;",
+            _ => "&#125;",
+        };
+
+        escaped.push_str(&source[copied_until..pos]);
+        escaped.push_str(replacement);
+        offset = pos + 1;
+        copied_until = offset;
+    }
+    decoded.push_str(&source[decoded_until..]);
+
+    if *decoded != *value {
+        return None;
+    }
+
+    if copied_until == 0 {
+        return Some(raw.clone());
+    }
+
+    escaped.push_str(&source[copied_until..]);
+    Some(Atom::from(escaped.as_str()))
 }

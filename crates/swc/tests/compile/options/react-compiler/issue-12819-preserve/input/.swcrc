@@ -1,0 +1,17 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": true
+    },
+    "target": "esnext",
+    "transform": {
+      "react": {
+        "runtime": "preserve"
+      },
+      "reactCompiler": {
+        "target": "19"
+      }
+    }
+  }
+}

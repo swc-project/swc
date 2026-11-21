@@ -1915,12 +1915,15 @@ impl<'a> ConvertCtx<'a> {
 
     fn convert_jsx_element_child(&self, child: &swc::JSXElementChild) -> JSXChild {
         match child {
-            swc::JSXElementChild::JSXText(t) => JSXChild::JSXText(JSXText {
-                base: self.make_base_node(t.span),
-                // SWC stores the Babel-compatible decoded JSX text value here.
-                // Future parser refactors must preserve that decoded value
-                // contract.
-                value: decode_jsx_entities(&t.value.to_string_lossy()),
+            swc::JSXElementChild::JSXText(t) => JSXChild::JSXText({
+                self.preserved_ast.borrow_mut().save_jsx_text(t);
+                JSXText {
+                    base: self.make_base_node(t.span),
+                    // SWC stores the Babel-compatible decoded JSX text value here.
+                    // Future parser refactors must preserve that decoded value
+                    // contract.
+                    value: decode_jsx_entities(&t.value.to_string_lossy()),
+                }
             }),
             swc::JSXElementChild::JSXExprContainer(ec) => {
                 JSXChild::JSXExpressionContainer(self.convert_jsx_expr_container(ec))
