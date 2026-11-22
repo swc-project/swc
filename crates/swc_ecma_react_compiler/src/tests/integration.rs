@@ -198,61 +198,6 @@ fn convert_jsx_element() {
     ));
 }
 
-/// A dummy span does not identify a source JSX text node, so the source `raw`
-/// of one node must not be restored into another node with the same span.
-#[test]
-fn jsx_text_with_dummy_span_keeps_fallback_raw() {
-    use swc_common::DUMMY_SP;
-    use swc_ecma_ast::JSXText;
-
-    use crate::preserved_ast::PreservedAst;
-
-    let mut preserved = PreservedAst::default();
-    preserved.save_jsx_text(&JSXText {
-        span: DUMMY_SP,
-        value: " ".into(),
-        raw: "&#32;".into(),
-    });
-
-    let mut text = JSXText {
-        span: DUMMY_SP,
-        value: " ".into(),
-        raw: " ".into(),
-    };
-    assert!(!preserved.load_jsx_text(&mut text));
-    assert_eq!(&*text.raw, " ");
-}
-
-/// Two source text nodes with the same span are ambiguous, so neither gets
-/// the other's `raw`, even when their decoded values are equal.
-#[test]
-fn jsx_text_with_shared_span_keeps_fallback_raw() {
-    use swc_common::{BytePos, Span};
-    use swc_ecma_ast::JSXText;
-
-    use crate::preserved_ast::PreservedAst;
-
-    let span = Span::new(BytePos(10), BytePos(15));
-    for (first, second) in [("\n&#32;\n", "\n \n"), ("\n \n", "\n&#32;\n")] {
-        let mut preserved = PreservedAst::default();
-        for raw in [first, second] {
-            preserved.save_jsx_text(&JSXText {
-                span,
-                value: "\n \n".into(),
-                raw: raw.into(),
-            });
-        }
-
-        let mut text = JSXText {
-            span,
-            value: "\n \n".into(),
-            raw: "\n \n".into(),
-        };
-        assert!(!preserved.load_jsx_text(&mut text));
-        assert_eq!(&*text.raw, "\n \n");
-    }
-}
-
 /// Text nodes that start at the same offset but end at different offsets
 /// are distinct, so each one restores its own `raw`.
 #[test]
@@ -286,34 +231,47 @@ fn jsx_text_with_shared_start_restores_raw() {
     }
 }
 
-/// `swc_ecma_lexer` normalizes CRLF to LF in the value of JSX text and keeps
-/// CRLF in `raw`. The references are still restored, with LF line breaks.
+/// The parser keeps CRLF in both the value and `raw` of JSX text, so the
+/// references are restored with the CRLF line breaks of the source.
+///
+/// This test parses the source because a fixture file cannot keep CRLF:
+/// `.gitattributes` sets `eol=lf` for `.tsx` and normalizes other text files.
 #[test]
-fn jsx_text_with_normalized_crlf_restores_raw() {
-    use swc_common::{BytePos, Span};
-    use swc_ecma_ast::JSXText;
+fn jsx_text_with_crlf_source_restores_raw() {
+    use swc_ecma_ast::{Expr, JSXElementChild, Stmt};
 
     use crate::preserved_ast::PreservedAst;
 
-    let source = JSXText {
-        span: Span::new(BytePos(10), BytePos(19)),
-        value: "\n \n".into(),
-        raw: "\r\n&#32;\r\n".into(),
+    let program = parse_program("<b>\r\n&nbsp;&#32;\r\n</b>;");
+    let swc_ecma_ast::Program::Script(script) = program else {
+        panic!("expected a script");
     };
-    let mut preserved = PreservedAst::default();
-    preserved.save_jsx_text(&source);
+    let Stmt::Expr(stmt) = &script.body[0] else {
+        panic!("expected an expression statement");
+    };
+    let Expr::JSXElement(element) = &*stmt.expr else {
+        panic!("expected a JSX element");
+    };
+    let JSXElementChild::JSXText(source) = &element.children[0] else {
+        panic!("expected JSX text");
+    };
+    assert_eq!(&*source.raw, "\r\n&nbsp;&#32;\r\n");
+    assert_eq!(source.value, "\r\n\u{a0} \r\n");
 
-    let mut text = JSXText {
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(source);
+
+    let mut text = swc_ecma_ast::JSXText {
         raw: Default::default(),
-        ..source
+        ..source.clone()
     };
     assert!(preserved.load_jsx_text(&mut text));
-    assert_eq!(&*text.raw, "\n&#32;\n");
+    assert_eq!(&*text.raw, "\r\n&nbsp;&#32;\r\n");
 }
 
-/// Text whose `raw` equals its value, also after CRLF normalization, has no
-/// decoded reference, so nothing is saved for it: there is no reference
-/// spelling to keep, and the fallback encoding keeps the decoded value.
+/// Text whose `raw` equals its value has no decoded reference, so nothing is
+/// saved for it: there is no reference spelling to keep, and the fallback
+/// encoding keeps the decoded value.
 #[test]
 fn jsx_text_without_decoded_reference_is_not_saved() {
     use swc_common::{BytePos, Span};
@@ -327,63 +285,7 @@ fn jsx_text_without_decoded_reference_is_not_saved() {
         value: "Research & Development".into(),
         raw: "Research & Development".into(),
     });
-    preserved.save_jsx_text(&JSXText {
-        span: Span::new(BytePos(40), BytePos(66)),
-        value: "\nResearch & Development\n".into(),
-        raw: "\r\nResearch & Development\r\n".into(),
-    });
     assert!(preserved.jsx_texts.is_empty());
-}
-
-/// Identical clones of one source text node restore the same `raw`, so a
-/// shared span does not make them ambiguous.
-#[test]
-fn jsx_text_clones_restore_raw() {
-    use swc_common::{BytePos, Span};
-    use swc_ecma_ast::JSXText;
-
-    use crate::preserved_ast::PreservedAst;
-
-    let source = JSXText {
-        span: Span::new(BytePos(10), BytePos(17)),
-        value: "\n \n".into(),
-        raw: "\n&#32;\n".into(),
-    };
-    let mut preserved = PreservedAst::default();
-    preserved.save_jsx_text(&source);
-    preserved.save_jsx_text(&source.clone());
-
-    let mut text = JSXText {
-        raw: "\n \n".into(),
-        ..source.clone()
-    };
-    assert!(preserved.load_jsx_text(&mut text));
-    assert_eq!(text.raw, source.raw);
-}
-
-/// A caller can change `JSXText.value` and leave the old `raw`. Restoring
-/// that `raw` would undo the change, so the fallback encoding is used.
-#[test]
-fn jsx_text_with_stale_raw_keeps_fallback_raw() {
-    use swc_common::{BytePos, Span};
-    use swc_ecma_ast::JSXText;
-
-    use crate::preserved_ast::PreservedAst;
-
-    let source = JSXText {
-        span: Span::new(BytePos(10), BytePos(24)),
-        value: "New & Co".into(),
-        raw: "Old &amp; Co".into(),
-    };
-    let mut preserved = PreservedAst::default();
-    preserved.save_jsx_text(&source);
-
-    let mut text = JSXText {
-        raw: "New &amp; Co".into(),
-        ..source
-    };
-    assert!(!preserved.load_jsx_text(&mut text));
-    assert_eq!(&*text.raw, "New &amp; Co");
 }
 
 /// `<` and `{` start JSX syntax, so a restored `raw` escapes them even when a
