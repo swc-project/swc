@@ -1,10 +1,26 @@
 use rustc_hash::FxHashMap;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{source_map::SmallPos, util::take::Take, Span};
 use swc_ecma_ast::*;
+use swc_ecma_parser::jsx::decode_jsx_entity;
 
 #[derive(Default, Clone)]
 pub struct PreservedAst {
     pub nodes: FxHashMap<u32, PreservedNode>,
+    /// Source JSX text nodes that contain character references, keyed by their
+    /// full span.
+    ///
+    /// React Compiler's `JSXText` keeps only the decoded value, so the reverse
+    /// pass cannot tell whether a character such as U+00A0 was written as
+    /// `&nbsp;`. Without the original `raw`, `&#32;` comes back as a literal
+    /// space and later JSX whitespace trimming drops it.
+    ///
+    /// This is a separate map keyed by the full span because `span.lo` alone
+    /// does not identify a text node: a caller that builds the AST can give two
+    /// text nodes the same start and different ends, and a JSX text node can
+    /// start at the same position where a preceding sibling ends, while
+    /// `nodes` also has entries keyed by `span.hi` (see [`TsExprShell`]).
+    pub jsx_texts: FxHashMap<Span, JsxTextShell>,
 }
 
 /// SWC AST nodes that are not represented losslessly in React Compiler's AST.
@@ -27,6 +43,16 @@ pub enum PreservedNode {
     TsOptionalInstantiation(Box<TsOptionalInstantiationShell>),
     TsTypeAlias(Box<TsTypeAliasDecl>),
     Variable(Box<VariableShell>),
+}
+
+/// A source JSX text node whose `raw` the reverse pass can restore.
+#[derive(Clone)]
+pub struct JsxTextShell {
+    /// The source decoded value.
+    value: Wtf8Atom,
+    /// The `raw` to restore: the source `raw` with the characters escaped that
+    /// must not be emitted literally (see [`restorable_jsx_text_raw`]).
+    raw: Atom,
 }
 
 /// Lightweight arrow function metadata not represented losslessly in React
@@ -369,6 +395,54 @@ impl PreservedAst {
         };
 
         el.type_args = snapshot.type_args;
+
+        true
+    }
+
+    /// Saves the `raw` of a source JSX text node when it uses character
+    /// references.
+    ///
+    /// Text without a decoded reference needs no saved `raw`: the reverse pass
+    /// can rebuild it from the decoded value.
+    pub fn save_jsx_text(&mut self, text: &JSXText) {
+        if let Some(shell) = JsxTextShell::new(text) {
+            self.jsx_texts.insert(text.span, shell);
+        }
+    }
+
+    /// Restores the source `value` and `raw` of `text` when the source text
+    /// node at the same span has the same decoded value.
+    ///
+    /// `text.value` comes from the React Compiler, which holds UTF-8 only. The
+    /// forward pass converts the source value with `to_string_lossy`, so the
+    /// check compares lossy values. On a match, the source WTF-8 value (which
+    /// can contain lone surrogates such as `&#xD800;`) is restored as well.
+    ///
+    /// The value check makes sure that the compiler did not change the text.
+    /// Text that the compiler changes, for example multi-line text that its
+    /// JSX lowering trims, keeps the fallback encoding, so character
+    /// references in it come back as literal characters.
+    ///
+    /// The parser gives each text node its own span and a `raw` that decodes
+    /// to its value, so the restored `raw` has the same meaning as the text
+    /// the compiler returned. A caller that builds the AST by hand can break
+    /// this, for example by changing `value` and keeping the old `raw`; such
+    /// input is not supported.
+    ///
+    /// The entry is not removed, because the compiler can emit the same source
+    /// text node more than once.
+    pub fn load_jsx_text(&self, text: &mut JSXText) -> bool {
+        let Some(saved) = self.jsx_texts.get(&text.span) else {
+            return false;
+        };
+        if saved.value != text.value
+            && saved.value.to_string_lossy() != text.value.to_string_lossy()
+        {
+            return false;
+        }
+
+        text.value = saved.value.clone();
+        text.raw = saved.raw.clone();
 
         true
     }
@@ -848,4 +922,77 @@ impl TsExprShell {
             type_ann: expr.type_ann.clone(),
         }
     }
+}
+
+impl JsxTextShell {
+    /// Returns the shell of `text` when it uses character references.
+    ///
+    /// Text without a decoded reference needs no shell: it has no reference
+    /// spelling to keep, and the fallback encoding rebuilds a `raw` with the
+    /// same decoded value. That covers text without `&`, and text whose `raw`
+    /// equals its value, such as `Research & Development`, where the bare `&`
+    /// is literal text (the fallback writes it as `&amp;`).
+    fn new(text: &JSXText) -> Option<Self> {
+        if !text.raw.contains('&') || text.value == text.raw.as_str() {
+            return None;
+        }
+
+        Some(Self {
+            value: text.value.clone(),
+            raw: restorable_jsx_text_raw(&text.raw),
+        })
+    }
+}
+
+/// Builds the `raw` to restore from the source `raw` of a JSX text node.
+///
+/// Recognized character references are kept as written, and the characters
+/// that must not be emitted literally are escaped:
+///
+/// - `&` that does not start a reference that SWC decodes (for example
+///   `&#x110000;`, whose code point is out of range) is literal text. Other
+///   tools can decode such a sequence differently or reject it, so it becomes
+///   `&amp;`.
+/// - `<` and `{` start JSX syntax. The parser never puts them in JSX text, but
+///   a caller that builds the AST can.
+/// - The SWC parser recovers from a literal `>` or `}` in JSX text, but other
+///   tools such as TypeScript reject it.
+///
+/// The fallback encoding (`encode_jsx_text`) escapes the same characters, so
+/// the restored `raw` only differs from it in the references it keeps.
+/// [`decode_jsx_entity`] is the decoder that the SWC lexer uses, so a
+/// reference is kept exactly when the parser decoded it.
+fn restorable_jsx_text_raw(raw: &str) -> Atom {
+    let mut escaped = String::new();
+    let mut copied_until = 0;
+    let mut offset = 0;
+
+    while let Some(index) = raw[offset..].find(['&', '<', '>', '{', '}']) {
+        let pos = offset + index;
+        let replacement = match raw.as_bytes()[pos] {
+            b'&' => {
+                if let Some((_, len)) = decode_jsx_entity(&raw[pos..]) {
+                    offset = pos + len;
+                    continue;
+                }
+                "&amp;"
+            }
+            b'<' => "&lt;",
+            b'>' => "&gt;",
+            b'{' => "&#123;",
+            _ => "&#125;",
+        };
+
+        escaped.push_str(&raw[copied_until..pos]);
+        escaped.push_str(replacement);
+        offset = pos + 1;
+        copied_until = offset;
+    }
+
+    if copied_until == 0 {
+        return Atom::from(raw);
+    }
+
+    escaped.push_str(&raw[copied_until..]);
+    Atom::from(escaped.as_str())
 }

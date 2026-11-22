@@ -198,6 +198,121 @@ fn convert_jsx_element() {
     ));
 }
 
+/// Text nodes that start at the same offset but end at different offsets
+/// are distinct, so each one restores its own `raw`.
+#[test]
+fn jsx_text_with_shared_start_restores_raw() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let encoded = JSXText {
+        span: Span::new(BytePos(10), BytePos(17)),
+        value: "\n \n".into(),
+        raw: "\n&#32;\n".into(),
+    };
+    let nbsp = JSXText {
+        span: Span::new(BytePos(10), BytePos(18)),
+        value: "\n\u{a0}\n".into(),
+        raw: "\n&nbsp;\n".into(),
+    };
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&encoded);
+    preserved.save_jsx_text(&nbsp);
+
+    for source in [encoded, nbsp] {
+        let mut text = JSXText {
+            raw: Default::default(),
+            ..source.clone()
+        };
+        assert!(preserved.load_jsx_text(&mut text));
+        assert_eq!(text.raw, source.raw);
+    }
+}
+
+/// The parser keeps CRLF in both the value and `raw` of JSX text, so the
+/// references are restored with the CRLF line breaks of the source.
+///
+/// This test parses the source because a fixture file cannot keep CRLF:
+/// `.gitattributes` sets `eol=lf` for `.tsx` and normalizes other text files.
+#[test]
+fn jsx_text_with_crlf_source_restores_raw() {
+    use swc_ecma_ast::{Expr, JSXElementChild, Stmt};
+
+    use crate::preserved_ast::PreservedAst;
+
+    let program = parse_program("<b>\r\n&nbsp;&#32;\r\n</b>;");
+    let swc_ecma_ast::Program::Script(script) = program else {
+        panic!("expected a script");
+    };
+    let Stmt::Expr(stmt) = &script.body[0] else {
+        panic!("expected an expression statement");
+    };
+    let Expr::JSXElement(element) = &*stmt.expr else {
+        panic!("expected a JSX element");
+    };
+    let JSXElementChild::JSXText(source) = &element.children[0] else {
+        panic!("expected JSX text");
+    };
+    assert_eq!(&*source.raw, "\r\n&nbsp;&#32;\r\n");
+    assert_eq!(source.value, "\r\n\u{a0} \r\n");
+
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(source);
+
+    let mut text = swc_ecma_ast::JSXText {
+        raw: Default::default(),
+        ..source.clone()
+    };
+    assert!(preserved.load_jsx_text(&mut text));
+    assert_eq!(&*text.raw, "\r\n&nbsp;&#32;\r\n");
+}
+
+/// Text whose `raw` equals its value has no decoded reference, so nothing is
+/// saved for it: there is no reference spelling to keep, and the fallback
+/// encoding keeps the decoded value.
+#[test]
+fn jsx_text_without_decoded_reference_is_not_saved() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&JSXText {
+        span: Span::new(BytePos(10), BytePos(32)),
+        value: "Research & Development".into(),
+        raw: "Research & Development".into(),
+    });
+    assert!(preserved.jsx_texts.is_empty());
+}
+
+/// `<` and `{` start JSX syntax, so a restored `raw` escapes them even when a
+/// caller put them in the source `raw`.
+#[test]
+fn jsx_text_restored_raw_escapes_jsx_delimiters() {
+    use swc_common::{BytePos, Span};
+    use swc_ecma_ast::JSXText;
+
+    use crate::preserved_ast::PreservedAst;
+
+    let source = JSXText {
+        span: Span::new(BytePos(10), BytePos(24)),
+        value: "< \u{a0} { > }".into(),
+        raw: "< &nbsp; { > }".into(),
+    };
+    let mut preserved = PreservedAst::default();
+    preserved.save_jsx_text(&source);
+
+    let mut text = JSXText {
+        raw: Default::default(),
+        ..source
+    };
+    assert!(preserved.load_jsx_text(&mut text));
+    assert_eq!(&*text.raw, "&lt; &nbsp; &#123; &gt; &#125;");
+}
+
 #[test]
 fn convert_import_declaration() {
     let source = "import { useState } from 'react';";
