@@ -300,6 +300,15 @@ opt-level = "s"
 [profile.release.package.icu_locid_transform]
 opt-level = "s"
 
+[profile.release.package.icu_casemap]
+opt-level = "s"
+
+[profile.release.package.icu_casemap_data]
+opt-level = "s"
+
+[profile.release.package.icu_locale_core]
+opt-level = "s"
+
 [profile.release.package.swc_ecma_visit]
 opt-level = "s"
 

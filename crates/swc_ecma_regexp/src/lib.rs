@@ -1,10 +1,12 @@
 pub mod ast;
 mod diagnostics;
+mod group_name;
 mod options;
 mod parser;
 mod surrogate_pair;
 
 pub use crate::{
+    group_name::decode_group_name,
     options::Options,
     parser::{ConstructorParser, LiteralParser},
 };
@@ -81,6 +83,7 @@ mod test {
         ("/abcd/igv", Some("/abcd/igv")),
         (r"/\d/ug", Some(r"/\d/ug")),
         (r"/\cY/", None),
+        (r"/\cA\ca\cZ\cz/", Some(r"/\cA\cA\cZ\cZ/")),
         // we capitalize hex unicodes.
         (
             r"/\n\cM\0\x41\u{1f600}\./u",
@@ -111,6 +114,14 @@ mod test {
         (r"/\307/", None),
         (r"/\370/", None),
         (r"/\377/", None),
+        (r"/\400/", None),
+        // `\01` is a legacy octal escape, not a backreference to group 1.
+        (r"/(a)\01/", None),
+        // Larger than any group count, so it is not a backreference to group 1.
+        (r"/(a)\4294967297/", None),
+        // An identity escape of an astral character in a non-unicode pattern.
+        ("/\\😀/", Some(r"/\uD83D\uDE00/")),
+        (r"/[\777]/", None),
         (r"/\0111/", None),
         (r"/\0022/", None),
         (r"/\0003/", None),
@@ -124,14 +135,16 @@ mod test {
         (r"/8\90/", None),
         (r"/(.)(.)(.)(.)(.)(.)(.)(.)\8\8/", None),
         // Class escape from: <https://github.com/tc39/test262/blob/d62fa93c8f9ce5e687c0bbaa5d2b59670ab2ff60/test/annexB/language/literals/regexp/class-escape.js>
-        (r"/\c0/", None),
-        (r"/[\c0]/", None),
-        (r"/\c1/", None),
-        (r"/[\c10]+/", None),
-        (r"/\c8/", None),
-        (r"/[\c8]/", None),
-        (r"/[\c80]+/", None),
-        (r"/\c_/", None),
+        (r"/\c0/", Some(r"/\\c0/")),
+        (r"/[\c0]/", Some(r"/[\cP]/")),
+        (r"/\c1/", Some(r"/\\c1/")),
+        (r"/[\c10]+/", Some(r"/[\cQ0]+/")),
+        (r"/\c8/", Some(r"/\\c8/")),
+        (r"/[\c8]/", Some(r"/[\cX]/")),
+        (r"/[\c80]+/", Some(r"/[\cX0]+/")),
+        (r"/\c_/", Some(r"/\\c_/")),
+        (r"/[\c_]/", Some(r"/[\x1F]/")),
+        (r"/[\cA\c=]/", Some(r"/[\cA\\c=]/")),
         // Capitalize hex unicodes --
         (r"/^|\udf06/gu", Some(r"/^|\uDF06/gu")),
         (r"/\udf06/", Some(r"/\uDF06/")),

@@ -272,6 +272,11 @@ mod test {
             ("(?:(?<x>a)|(?<x>b))(?<X>c)", "", false),
             ("(?<x>a)(?:(?<x>b)|(?<x>c))", "", true),
             ("(?<x>a)|(?:(?<x>b)|(?<x>c))", "", false),
+            // Names are compared after their escapes are decoded.
+            (r"(?<x>a)(?<\u0078>b)", "", true),
+            (r"(?<x>a)|(?<\u{78}>b)", "", false),
+            (r"(?:(?<x>a)|(?<x>b))\k<\u0078>", "", false),
+            (r"(?<\u0078>a)\k<x>", "u", false),
             // Modifiers
             (r"(?ii:.)", "", true),
             (r"(?-ss:.)", "", true),

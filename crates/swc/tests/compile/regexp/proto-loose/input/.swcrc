@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "loose": true
+    },
+    "env": {
+        "targets": {
+            "ie": "11"
+        }
+    }
+}

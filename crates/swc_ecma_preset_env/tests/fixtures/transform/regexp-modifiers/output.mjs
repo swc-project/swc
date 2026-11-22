@@ -1,0 +1,34 @@
+export const enableIgnoreCase = /(?:[Aa])b/;
+export const ignoreCaseClass = /(?:[A-Ca-c][^Xx])/;
+export const disableIgnoreCase = /[Aa](?:b)[Cc]/g;
+export const unicodeIgnoreCase = /(?:[Kk\u212A][0-9A-Z_a-z\u017F\u212A](?:(?<=[0-9A-Z_a-z\u017F\u212A])(?![0-9A-Z_a-z\u017F\u212A])|(?<![0-9A-Z_a-z\u017F\u212A])(?=[0-9A-Z_a-z\u017F\u212A])))/u;
+export const dotAll = /(?:[\s\S])./;
+export const multiline = /(?:^a$)/m;
+export const scopedMultiline = /(?:(?<=^|[\x0A\x0D\u2028-\u2029])a)$/;
+export const disableDotAll = /(?:.)[\s\S]/;
+export const unicodeSets = /(?:[^Aa])[^b]/u;
+export const notModifiers = /\(?i:[a--b]/v;
+export const backreference = RegExp("(a)(?i:\\1)");
+export const constructorCall = new RegExp("(?i:a)b", "g");
+export const constructorWithoutFlags = new RegExp("(?s:.)");
+export const callWithoutFlags = RegExp("(?m:^a$)");
+export const literalInCall = new RegExp(/(?:[Aa])/, "g");
+export const duplicateNamesWithSubtraction = _wrap_reg_exp(/([a--\uDC00])|(b)/v, {
+    x: [
+        1,
+        2
+    ]
+}, "(?<x>[a--\\u{DC00}])|(?<x>b)");
+export const punctuatorsAroundSurrogate = _wrap_reg_exp(/([\uDC00-\uDC00\x21\x21])|(z)/v, {
+    x: [
+        1,
+        2
+    ]
+}, "(?<x>[!\\u{DC00}!])|(?<x>z)");
+export const surrogatesInString = RegExp("^(?:(?<x>[\\q{\\u{D83D}\\u{DE00}}&&😀])|(?<x>z))$", "v");
+export const surrogatesAroundSubtraction = _wrap_reg_exp(/^(?:([\uD800--\uDC00])|(b))$/v, {
+    n: [
+        1,
+        2
+    ]
+}, "^(?:(?<n>[\\u{D800}--\\u{DC00}])|(?<n>b))$");

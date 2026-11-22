@@ -216,9 +216,16 @@ pub enum Feature {
 
 pub(crate) static FEATURES: Lazy<FxHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
-        let map: FxHashMap<Feature, BrowserData<Option<String>>> =
+        let mut map: FxHashMap<Feature, BrowserData<Option<String>>> =
             serde_json::from_str(include_str!("../data/@babel/compat-data/data/plugins.json"))
                 .expect("failed to parse json");
+
+        // Babel's compat data omits Safari and iOS for regexp modifiers.
+        // Both support them from version 26. Prefer upstream values when
+        // available.
+        let modifiers = map.get_mut(&Feature::RegexpModifiers).unwrap();
+        modifiers.safari.get_or_insert_with(|| "26".into());
+        modifiers.ios.get_or_insert_with(|| "26".into());
 
         map.into_iter()
             .map(|(feature, version)| {

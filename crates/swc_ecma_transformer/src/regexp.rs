@@ -1,15 +1,20 @@
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{errors::HANDLER, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_compat_regexp::transform_unicode_property_escapes;
+use swc_ecma_compat_regexp::{
+    has_modifiers, isolate_lone_surrogates, transform_modifiers,
+    transform_unicode_property_escapes, transform_unicode_sets,
+};
 use swc_ecma_hooks::VisitMutHook;
 use swc_ecma_regexp::{
-    ast::{Disjunction, IndexedReference, Term},
-    LiteralParser, Options as RegexpOptions,
+    ast::{Alternative, CharacterKind, Disjunction, Dot, IgnoreGroup, IndexedReference, Term},
+    decode_group_name, LiteralParser, Options as RegexpOptions,
 };
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use tracing::debug;
 
 use crate::TraverseCtx;
 
@@ -30,8 +35,8 @@ pub struct RegExpOptions {
     /// Patterns that reuse a group name in different alternatives are
     /// rewritten to indexed groups, and `_wrap_reg_exp` restores the
     /// `groups` object. Patterns that refer to such a name with `\k<name>`
-    /// are left unchanged because the reference cannot be expressed with
-    /// indexed groups.
+    /// cannot be expressed with indexed groups, so they are kept, with a
+    /// warning.
     pub duplicate_named_capturing_groups_regex: bool,
     /// [RegExp.prototype.sticky](https://tc39.es/ecma262/multipage/text-processing.html#sec-get-regexp.prototype.sticky)
     pub sticky_regex: bool,
@@ -39,8 +44,40 @@ pub struct RegExpOptions {
     pub unicode_property_regex: bool,
     /// [RegExp.prototype.unicode](https://tc39.es/ecma262/multipage/text-processing.html#sec-get-regexp.prototype.unicode)
     pub unicode_regex: bool,
-    // [RegExp.prototype.unicodeSets](https://github.com/tc39/proposal-regexp-v-flag)
+    /// [RegExp.prototype.unicodeSets](https://github.com/tc39/proposal-regexp-v-flag)
+    ///
+    /// Regex literals with the `v` flag are rewritten to equivalent literals
+    /// with the `u` flag. A pattern that uses a property of strings other than
+    /// `Basic_Emoji` (for example `\p{RGI_Emoji}`) cannot be rewritten and is
+    /// only converted to a `RegExp` call, with a warning.
+    ///
+    /// Like Babel, only regex literals are lowered. A `RegExp(...)` call is
+    /// never rewritten, so that runtime feature checks such as
+    /// `new RegExp("", "v")` keep working.
     pub unicode_sets_regex: bool,
+    /// [RegExp modifiers](https://github.com/tc39/proposal-regexp-modifiers)
+    ///
+    /// `(?ims-ims:...)` groups in regex literals are rewritten without
+    /// modifiers. A backreference in a case-insensitive group cannot be
+    /// rewritten, so such a literal is converted to a `RegExp` call, with a
+    /// warning. As for the `v` flag, `RegExp(...)` calls are not rewritten.
+    ///
+    /// When an `m` modifier applies only to some `^` or `$`, and for `\b` or
+    /// `\B` in an `i` modifier group with the `u` flag, the rewrite uses
+    /// lookbehind. Targets without lookbehind cannot parse the result.
+    ///
+    /// The rewritten pattern assumes the flags of the literal, and an
+    /// `(?m:...)` group that contains every `^` and `$` becomes the `m`
+    /// flag. A flag that a `(?-i:...)` group disables is removed from the
+    /// flags, and the terms outside the group are rewritten to keep it. The
+    /// same happens for `(?-m:...)` (or `(?-s:...)`) when the group has a `^`
+    /// or `$` (or a `.`); otherwise the flag stays. So the `flags` property
+    /// of the result can differ from the input.
+    ///
+    /// Like Babel, a lowered literal that is reused with other flags (for
+    /// example `new RegExp(/(?i:a)/, "g")` or `.source`) can match
+    /// differently. This applies to the `v` flag as well.
+    pub regexp_modifiers: bool,
 }
 
 impl RegExpOptions {
@@ -55,28 +92,20 @@ impl RegExpOptions {
             || self.unicode_property_regex
             || self.unicode_regex
             || self.unicode_sets_regex
+            || self.regexp_modifiers
     }
 }
 
 pub(crate) fn hook(options: RegExpOptions) -> Option<impl VisitMutHook<TraverseCtx>> {
-    if options.dot_all_regex
-        || options.has_indices
-        || options.lookbehind_assertion
-        || options.named_capturing_groups_regex
-        || options.duplicate_named_capturing_groups_regex
-        || options.sticky_regex
-        || options.unicode_property_regex
-        || options.unicode_regex
-        || options.unicode_sets_regex
-    {
-        Some(RegexpPass { options })
+    if options.is_enabled() {
+        Some(RegexpPass::new(options))
     } else {
         None
     }
 }
 
 pub(crate) fn pass(options: RegExpOptions) -> impl Pass {
-    visit_mut_pass(RegexpPass { options })
+    visit_mut_pass(RegexpPass::new(options))
 }
 
 struct RegexpPass {
@@ -84,6 +113,104 @@ struct RegexpPass {
 }
 
 impl RegexpPass {
+    fn new(options: RegExpOptions) -> Self {
+        Self { options }
+    }
+
+    /// Reports that a regular expression keeps syntax that the targets may not
+    /// support.
+    fn warn(&self, span: Span, feature: &str, reason: impl std::fmt::Display) {
+        if !HANDLER.is_set() {
+            return;
+        }
+        let message = format!(
+            "Cannot lower {feature} in this regular expression for the configured targets: \
+             {reason}. The regular expression is kept, and it can fail on those targets."
+        );
+        HANDLER.with(|handler| {
+            handler.struct_span_warn(span, &message).emit();
+        });
+    }
+
+    /// Lowers the syntax that the target cannot parse: the `v` flag and
+    /// modifiers such as `(?i:...)`.
+    ///
+    /// Returns the new pattern and flags, or `None` if nothing is lowered. If a
+    /// pattern cannot be lowered, it is kept and the other transforms still
+    /// apply to it.
+    ///
+    /// When a pattern cannot be lowered, a warning is reported at `span`,
+    /// because the target may reject the kept pattern.
+    fn lower_syntax(&self, span: Span, pattern: &str, flags: &str) -> Option<(String, String)> {
+        let lower_unicode_sets = self.options.unicode_sets_regex && flags.contains('v');
+        let lower_modifiers = self.options.regexp_modifiers && may_have_modifiers(pattern);
+        if !lower_unicode_sets && !lower_modifiers {
+            return None;
+        }
+
+        let mut ast = match LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+            .parse()
+        {
+            Ok(ast) => ast,
+            Err(err) => {
+                debug!(%pattern, %flags, ?err, "cannot parse a regex to lower its syntax");
+                // A pattern that the parser rejects can still be valid on newer
+                // engines (for example with a script name that it does not
+                // know), so it is kept.
+                self.warn(span, "the syntax", "the pattern cannot be parsed");
+                return None;
+            }
+        };
+        // `may_have_modifiers` can report a false positive, such as `\(?i:`.
+        // Confirm it on the AST, so that a supported `v` flag is not lowered
+        // for nothing.
+        let lower_modifiers = lower_modifiers && has_modifiers(&ast);
+        if !lower_unicode_sets && !lower_modifiers {
+            return None;
+        }
+        let mut flags = flags.to_string();
+        let mut changed = false;
+
+        // Modifiers are lowered on a `u` pattern, so the `v` flag is lowered
+        // first even if the target supports it.
+        if flags.contains('v') && (lower_unicode_sets || lower_modifiers) {
+            if let Err(err) = transform_unicode_sets(&mut ast, flags.contains('i')) {
+                debug!(%pattern, %flags, %err, "cannot lower the `v` flag");
+                if lower_unicode_sets {
+                    self.warn(span, "the `v` flag", err);
+                } else {
+                    // The target supports the `v` flag, but the modifiers can
+                    // only be lowered in a `u` pattern.
+                    self.warn(
+                        span,
+                        "regexp modifiers",
+                        format!("the `v` flag must be lowered first, but {err}"),
+                    );
+                }
+                return None;
+            }
+            flags = flags.replace('v', "u");
+            changed = true;
+        }
+
+        if lower_modifiers {
+            match transform_modifiers(&mut ast, &flags) {
+                Ok(Some(new_flags)) => {
+                    flags = new_flags;
+                    changed = true;
+                }
+                Ok(None) => {}
+                Err(err) => {
+                    debug!(%pattern, %flags, %err, "cannot lower regexp modifiers");
+                    self.warn(span, "regexp modifiers", err);
+                    return None;
+                }
+            }
+        }
+
+        changed.then(|| (ast.to_string(), flags))
+    }
+
     /// Transform the regex pattern if it contains unicode property escapes.
     /// Returns the transformed pattern string.
     fn transform_pattern(&self, pattern: &str, flags: &str) -> Option<String> {
@@ -110,11 +237,21 @@ impl RegexpPass {
 
         // Transform unicode property escapes
         transform_unicode_property_escapes(&mut ast);
+        // The expansion can put a lone lead surrogate next to a lone trail
+        // surrogate, which a `u` pattern reads as one code point.
+        // `v` patterns are not expanded, so there is no `\q{...}`.
+        if flags.contains('u') {
+            let printable = isolate_lone_surrogates(&mut ast);
+            debug_assert!(printable);
+        }
 
         // Serialize back to string
         Some(ast.to_string())
     }
 
+    /// Expands unicode property escapes in the string pattern of a `RegExp`
+    /// call. The `v` flag, modifiers and duplicate named groups are not
+    /// lowered in a call, because a call can be a runtime feature check.
     fn transform_regexp_args(&self, args: &mut [ExprOrSpread]) {
         if !self.options.unicode_property_regex {
             return;
@@ -174,17 +311,35 @@ impl RegexpPass {
     /// A name that is used by more than one group (allowed in different
     /// alternatives) maps to several indices.
     ///
-    /// Returns `None` if parsing fails, if the pattern does not contain a group
-    /// that an enabled option asks to lower, or if a `\k<name>` reference
-    /// points to a duplicated name.
+    /// Returns `None` if parsing fails or if the pattern does not contain a
+    /// group that an enabled option asks to lower.
     fn extract_and_strip_named_groups(
         &self,
+        span: Span,
         pattern: &str,
         flags: &str,
-    ) -> Option<(String, Vec<(Atom, Vec<u32>)>)> {
-        let mut ast = LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+    ) -> NamedGroups {
+        let mut ast = match LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
             .parse()
-            .ok()?;
+        {
+            Ok(ast) => ast,
+            Err(_) => {
+                // A pattern that the parser rejects can still be valid on newer
+                // engines. Report it if it seems to reuse a group name.
+                if self.options.duplicate_named_capturing_groups_regex
+                    && has_repeated_group_name(pattern)
+                {
+                    self.warn(
+                        span,
+                        "possible duplicate named capturing groups",
+                        "the pattern cannot be parsed: it is invalid, or it uses syntax that the \
+                         parser does not know",
+                    );
+                    return NamedGroups::Kept;
+                }
+                return NamedGroups::NotLowered;
+            }
+        };
 
         // First pass: collect all named capturing groups and their indices
         let mut mapping = Vec::new();
@@ -192,14 +347,26 @@ impl RegexpPass {
         collect_named_groups(&ast.body, &mut counter, &mut mapping);
 
         if mapping.is_empty() {
-            return None;
+            return NamedGroups::NotLowered;
         }
 
         let has_duplicates = mapping.iter().any(|(_, indices)| indices.len() > 1);
         if !(self.options.named_capturing_groups_regex
             || (self.options.duplicate_named_capturing_groups_regex && has_duplicates))
         {
-            return None;
+            return NamedGroups::NotLowered;
+        }
+        // The parser checks only roughly whether groups with the same name can
+        // both take part in a match (it scans for `|` outside the AST). Keep
+        // such a pattern: it is invalid, and the target must still reject it.
+        if has_duplicates && !duplicate_groups_are_exclusive(&ast.body) {
+            debug!(%pattern, "groups with the same name can both take part in a match");
+            self.warn(
+                span,
+                "duplicate named capturing groups",
+                "groups with the same name can both take part in a match, which is invalid",
+            );
+            return NamedGroups::Kept;
         }
 
         // Second pass: strip names from groups and convert named references
@@ -209,10 +376,29 @@ impl RegexpPass {
         };
         stripper.strip_disjunction(&mut ast.body);
         if stripper.unsupported {
-            return None;
+            self.warn(
+                span,
+                "duplicate named capturing groups",
+                "a `\\k<name>` reference to a duplicated name has no indexed equivalent",
+            );
+            return NamedGroups::Kept;
+        }
+        // A `u` or `v` pattern reads two printed surrogates as one code point.
+        // A `\q{...}` string with such surrogates cannot be printed, so the
+        // pattern is kept as written.
+        let printable = !flags.contains(['u', 'v']) || isolate_lone_surrogates(&mut ast);
+        if !printable {
+            debug!(%pattern, "a `\\q{{...}}` string cannot be printed with separate surrogates");
+            self.warn(
+                span,
+                "named capturing groups",
+                "a `\\q{...}` string has a lone lead surrogate followed by a lone trail \
+                 surrogate, which cannot be printed again as two characters",
+            );
+            return NamedGroups::Kept;
         }
 
-        Some((ast.to_string(), mapping))
+        NamedGroups::Lowered(ast.to_string(), mapping)
     }
 
     /// Check if non-named-group transforms require converting to RegExp()
@@ -227,47 +413,77 @@ impl RegexpPass {
                 && (pattern.contains("(?<=") || pattern.contains("(?<!")))
             || (self.options.unicode_property_regex
                 && (pattern.contains("\\p{") || pattern.contains("\\P{")))
+            // Modifiers that could not be lowered. In a `RegExp` call, the
+            // target rejects only this expression when it runs, instead of
+            // the whole script when it is parsed.
+            || (self.options.regexp_modifiers
+                && may_have_modifiers(pattern)
+                // A pattern that the parser rejects can still be valid on newer
+                // engines (for example with a script name that the parser does
+                // not know), so it is treated as one with modifiers.
+                && LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
+                    .parse()
+                    .map_or(true, |ast| has_modifiers(&ast)))
     }
 
     /// Build an object expression for the group name-to-index mapping.
     fn build_mapping_object(&self, mapping: Vec<(Atom, Vec<u32>)>) -> Expr {
-        let props = mapping
-            .into_iter()
-            .map(|(name, indices)| {
-                let num = |idx: u32| {
-                    Expr::Lit(Lit::Num(Number {
-                        span: DUMMY_SP,
-                        value: idx as f64,
-                        raw: None,
-                    }))
-                };
-                // A unique name maps to a number, a duplicated one to an array
-                // of numbers. `_wrap_reg_exp` picks the participating group.
-                let value = match indices.as_slice() {
-                    [idx] => num(*idx),
-                    _ => Expr::Array(ArrayLit {
-                        span: DUMMY_SP,
-                        elems: indices
-                            .into_iter()
-                            .map(|idx| Some(num(idx).as_arg()))
-                            .collect(),
-                    }),
-                };
+        let num = |idx: u32| {
+            Expr::Lit(Lit::Num(Number {
+                span: DUMMY_SP,
+                value: idx as f64,
+                raw: None,
+            }))
+        };
 
-                PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(IdentName {
-                        span: DUMMY_SP,
-                        sym: name,
-                    }),
-                    value: Box::new(value),
-                })))
-            })
-            .collect();
-
-        Expr::Object(ObjectLit {
+        // `__proto__: value` sets the prototype of the object, but the helper
+        // reads the own properties. A computed key creates an own property,
+        // but loose mode lowers it to an assignment, which sets the prototype
+        // again. So `__proto__` and every later name are defined with
+        // `_define_property`, which keeps the order of the names in every
+        // mode.
+        let mut object = Expr::Object(ObjectLit {
             span: DUMMY_SP,
-            props,
-        })
+            props: Vec::with_capacity(mapping.len()),
+        });
+        let mut defining = false;
+        for (name, indices) in mapping {
+            // A unique name maps to a number, a duplicated one to an array of
+            // numbers. `_wrap_reg_exp` picks the participating group.
+            let value = match indices.as_slice() {
+                [idx] => num(*idx),
+                _ => Expr::Array(ArrayLit {
+                    span: DUMMY_SP,
+                    elems: indices
+                        .into_iter()
+                        .map(|idx| Some(num(idx).as_arg()))
+                        .collect(),
+                }),
+            };
+
+            defining |= name == "__proto__";
+            match &mut object {
+                Expr::Object(ObjectLit { props, .. }) if !defining => {
+                    props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(IdentName {
+                            span: DUMMY_SP,
+                            sym: name,
+                        }),
+                        value: Box::new(value),
+                    }))));
+                }
+                _ => {
+                    object = CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(define_property),
+                        args: vec![object.as_arg(), Expr::from(name).as_arg(), value.as_arg()],
+                        ..Default::default()
+                    }
+                    .into();
+                }
+            }
+        }
+        object
     }
 }
 
@@ -287,19 +503,30 @@ impl VisitMut for RegexpPass {
 }
 
 impl RegexpPass {
-    fn transform_expr(&mut self, expr: &mut Expr) {
+    fn transform_expr(&self, expr: &mut Expr) {
         match expr {
             Expr::Lit(Lit::Regex(regex)) => {
-                // Try named groups transform first
+                if let Some((exp, flags)) = self.lower_syntax(regex.span, &regex.exp, &regex.flags)
+                {
+                    regex.exp = exp.into();
+                    regex.flags = flags.into();
+                }
+
+                // Try named groups transform first.
+                let mut named_groups_kept = false;
                 if (self.options.named_capturing_groups_regex
                     || self.options.duplicate_named_capturing_groups_regex)
-                    && regex.exp.contains("(?<")
+                    && may_have_named_groups(&regex.exp)
                 {
                     let original_exp = regex.exp.clone();
 
-                    if let Some((stripped_exp, group_mapping)) =
-                        self.extract_and_strip_named_groups(&original_exp, &regex.flags)
-                    {
+                    let named_groups = self.extract_and_strip_named_groups(
+                        regex.span,
+                        &original_exp,
+                        &regex.flags,
+                    );
+                    named_groups_kept = matches!(named_groups, NamedGroups::Kept);
+                    if let NamedGroups::Lowered(stripped_exp, group_mapping) = named_groups {
                         let Regex { flags, span, .. } = regex.take();
 
                         // Check if other transforms also need the regex to be a
@@ -356,10 +583,9 @@ impl RegexpPass {
                     }
                 }
 
-                // Non-named-group transforms (or named group extraction failed)
-                let needs_transform = self.needs_regexp_constructor(&regex.exp, &regex.flags);
-
-                if needs_transform {
+                // Non-named-group transforms (or named group extraction
+                // failed).
+                if named_groups_kept || self.needs_regexp_constructor(&regex.exp, &regex.flags) {
                     let Regex { exp, flags, span } = regex.take();
 
                     // Transform the pattern if it contains unicode property
@@ -404,6 +630,54 @@ impl RegexpPass {
     }
 }
 
+/// The result of [`RegexpPass::extract_and_strip_named_groups`].
+enum NamedGroups {
+    /// No group needs lowering, or the pattern cannot be parsed and does not
+    /// seem to need it.
+    NotLowered,
+    /// The pattern without group names, and the name-to-indices mapping.
+    Lowered(String, Vec<(Atom, Vec<u32>)>),
+    /// Groups need lowering, but the pattern cannot be lowered. A warning was
+    /// reported. The literal must become a `RegExp` call, so that the target
+    /// rejects only this expression when it runs, not the whole script.
+    Kept,
+}
+
+/// Returns true if `pattern` may contain a named group such as `(?<name>`. A
+/// lookbehind (`(?<=`, `(?<!`) is not a named group.
+fn may_have_named_groups(pattern: &str) -> bool {
+    pattern
+        .match_indices("(?<")
+        .any(|(idx, _)| !matches!(pattern.as_bytes().get(idx + 3), Some(b'=' | b'!')))
+}
+
+/// Returns true if the text of `pattern` has two `(?<name>` with the same
+/// name. It is a check for a pattern that cannot be parsed, so escapes and
+/// classes are not considered; a false positive only adds a warning.
+fn has_repeated_group_name(pattern: &str) -> bool {
+    let mut names = FxHashSet::default();
+    pattern.match_indices("(?<").any(|(idx, _)| {
+        let rest = &pattern[idx + 3..];
+        if rest.starts_with(['=', '!']) {
+            return false;
+        }
+        rest.find('>')
+            .is_some_and(|end| !names.insert(decode_group_name(&rest[..end])))
+    })
+}
+
+/// Returns true if `pattern` may contain a modifier group such as `(?i:` or
+/// `(?-s:`. A false positive (for example an escaped `\(?i:`) only costs a
+/// parse.
+fn may_have_modifiers(pattern: &str) -> bool {
+    pattern.match_indices("(?").any(|(idx, _)| {
+        matches!(
+            pattern.as_bytes().get(idx + 2),
+            Some(b'i' | b'm' | b's' | b'-')
+        )
+    })
+}
+
 /// First pass: collect all named capturing groups and their 1-based indices.
 /// Groups are counted in left-to-right order by the position of their opening
 /// parenthesis. Groups that share a name are merged into one entry.
@@ -424,9 +698,10 @@ fn collect_named_groups_term(term: &Term, counter: &mut u32, mapping: &mut Vec<(
         Term::CapturingGroup(g) => {
             *counter += 1;
             if let Some(name) = &g.name {
-                match mapping.iter_mut().find(|(n, _)| n == name) {
+                let name = decode_group_name(name);
+                match mapping.iter_mut().find(|(n, _)| *n == name) {
                     Some((_, indices)) => indices.push(*counter),
-                    None => mapping.push((name.clone(), vec![*counter])),
+                    None => mapping.push((name, vec![*counter])),
                 }
             }
             collect_named_groups(&g.body, counter, mapping);
@@ -461,13 +736,37 @@ impl NamedGroupStripper<'_> {
             for term in &mut alt.body {
                 self.strip_term(term);
             }
+
+            // `\k<z>0` would become `\30`, which is another reference (or an
+            // octal escape). Delimit a reference that a digit follows.
+            for i in 1..alt.body.len() {
+                if matches!(alt.body[i - 1], Term::IndexedReference(_))
+                    && starts_with_digit(&alt.body[i])
+                {
+                    let reference =
+                        std::mem::replace(&mut alt.body[i - 1], Term::Dot(Dot { span: DUMMY_SP }));
+                    let span = reference.span();
+                    alt.body[i - 1] = Term::IgnoreGroup(Box::new(IgnoreGroup {
+                        span,
+                        modifiers: None,
+                        body: Disjunction {
+                            span,
+                            body: vec![Alternative {
+                                span,
+                                body: vec![reference],
+                            }],
+                        },
+                    }));
+                }
+            }
         }
     }
 
     fn strip_term(&mut self, term: &mut Term) {
         // Check if this is a NamedReference that needs conversion
         if let Term::NamedReference(nr) = &*term {
-            match self.mapping.iter().find(|(n, _)| *n == nr.name) {
+            let name = decode_group_name(&nr.name);
+            match self.mapping.iter().find(|(n, _)| *n == name) {
                 Some((_, indices)) if indices.len() == 1 => {
                     *term = Term::IndexedReference(Box::new(IndexedReference {
                         span: nr.span,
@@ -491,5 +790,126 @@ impl NamedGroupStripper<'_> {
             Term::IgnoreGroup(ig) => self.strip_disjunction(&mut ig.body),
             _ => {}
         }
+    }
+}
+
+/// Returns true if `term` is printed with a leading decimal digit.
+fn starts_with_digit(term: &Term) -> bool {
+    match term {
+        Term::Character(ch) => {
+            ch.kind == CharacterKind::Symbol
+                && char::from_u32(ch.value).is_some_and(|c| c.is_ascii_digit())
+        }
+        Term::Quantifier(q) => starts_with_digit(&q.body),
+        _ => false,
+    }
+}
+
+/// Returns true if no two capturing groups with the same name can both take
+/// part in a match (`MightBothParticipate` of ECMA-262 is false for each
+/// pair): for each pair, the innermost disjunction that contains both has
+/// them in different alternatives.
+fn duplicate_groups_are_exclusive(disjunction: &Disjunction) -> bool {
+    /// The disjunctions from the root to a group, as (disjunction id,
+    /// alternative index) pairs.
+    type Path = Vec<(u32, usize)>;
+
+    fn visit_disjunction(
+        disjunction: &Disjunction,
+        path: &mut Path,
+        next_id: &mut u32,
+        groups: &mut Vec<(Atom, Path)>,
+    ) {
+        let id = *next_id;
+        *next_id += 1;
+        for (index, alt) in disjunction.body.iter().enumerate() {
+            path.push((id, index));
+            for term in &alt.body {
+                visit_term(term, path, next_id, groups);
+            }
+            path.pop();
+        }
+    }
+
+    fn visit_term(term: &Term, path: &mut Path, next_id: &mut u32, groups: &mut Vec<(Atom, Path)>) {
+        match term {
+            Term::CapturingGroup(g) => {
+                if let Some(name) = &g.name {
+                    groups.push((decode_group_name(name), path.clone()));
+                }
+                visit_disjunction(&g.body, path, next_id, groups);
+            }
+            Term::Quantifier(q) => visit_term(&q.body, path, next_id, groups),
+            Term::LookAroundAssertion(la) => visit_disjunction(&la.body, path, next_id, groups),
+            Term::IgnoreGroup(ig) => visit_disjunction(&ig.body, path, next_id, groups),
+            _ => {}
+        }
+    }
+
+    let mut groups = Vec::new();
+    visit_disjunction(disjunction, &mut Vec::new(), &mut 0, &mut groups);
+
+    // Insert the path of each group into a trie for its name. Two groups are
+    // exclusive if their paths part at a disjunction, in different
+    // alternatives. They can both take part if their paths part at two
+    // different disjunctions in one alternative, or if one group is inside
+    // the other. Each insertion takes time linear in the path length.
+    #[derive(Default)]
+    struct Node {
+        /// The disjunction that every child edge goes through.
+        child_disjunction: Option<u32>,
+        has_children: bool,
+        /// A group ends at this node.
+        terminal: bool,
+    }
+
+    let mut nodes: Vec<Node> = Vec::new();
+    let mut roots: FxHashMap<Atom, usize> = FxHashMap::default();
+    let mut edges: FxHashMap<(usize, u32, usize), usize> = FxHashMap::default();
+
+    for (name, path) in groups {
+        let mut node = *roots.entry(name).or_insert_with(|| {
+            nodes.push(Node::default());
+            nodes.len() - 1
+        });
+        for (disjunction, alternative) in path {
+            let current = &mut nodes[node];
+            if current.terminal {
+                // An earlier group contains this one.
+                return false;
+            }
+            match current.child_disjunction {
+                Some(existing) if existing != disjunction => return false,
+                _ => current.child_disjunction = Some(disjunction),
+            }
+            current.has_children = true;
+            node = *edges
+                .entry((node, disjunction, alternative))
+                .or_insert_with(|| {
+                    nodes.push(Node::default());
+                    nodes.len() - 1
+                });
+        }
+        let end = &mut nodes[node];
+        if end.terminal || end.has_children {
+            // The groups are in one alternative, or this group contains an
+            // earlier one.
+            return false;
+        }
+        end.terminal = true;
+    }
+    true
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The pass is part of public pass types, which callers can require to be
+    /// `Send` and `Sync`.
+    #[test]
+    fn pass_is_send_and_sync() {
+        fn assert_send_sync<T: Send + Sync>(_: &T) {}
+        assert_send_sync(&pass(Default::default()));
     }
 }

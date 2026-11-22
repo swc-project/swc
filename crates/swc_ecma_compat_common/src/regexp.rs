@@ -15,6 +15,11 @@ pub fn regexp(config: Config) -> impl Pass {
     swc_ecma_transformer::regexp_pass(options)
 }
 
+/// Options of the standalone regexp pass.
+///
+/// Lowering of regexp modifiers (`(?i:...)`) is only enabled by preset-env,
+/// through `swc_ecma_transformer::RegExpOptions::regexp_modifiers`. This struct
+/// does not have a field for it, so that struct literals of it keep compiling.
 #[derive(Default, Clone, Copy)]
 pub struct Config {
     /// [s/dotAll flag for regular expressions](https://tc39.github.io/proposal-regexp-dotall-flag/)
