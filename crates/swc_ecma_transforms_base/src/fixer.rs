@@ -1,10 +1,6 @@
 use std::mem;
 
-use swc_common::{
-    comments::{Comment, CommentKind, Comments},
-    util::take::Take,
-    BytePos, Span, Spanned, DUMMY_SP,
-};
+use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -119,150 +115,47 @@ impl Fixer<'_> {
         }
     }
 
-    /// Returns whether `e` starts with an annotation comment such as
+    /// Returns whether `e` starts with an annotation such as
     /// `/* @__PURE__ */` or `/* @__NO_SIDE_EFFECTS__ */`.
     fn has_annotation(&self, e: &Expr) -> bool {
+        if self.remove_only {
+            return false;
+        }
+
         let span = e.span();
-        // A span from `Span::dummy_with_cmt` is reserved for comments.
-        !span.is_dummy_ignoring_cmt() && self.has_annotation_at(span.lo)
+        !span.is_dummy()
+            && self.comments.is_some_and(|c| {
+                c.has_flag(span.lo, "PURE") || c.has_flag(span.lo, "NO_SIDE_EFFECTS")
+            })
     }
 
-    /// Returns whether the leading comments at `pos` contain an annotation.
-    ///
-    /// This reads the comments with `get_leading`, because the default
-    /// implementation of `Comments::has_flag` moves the leading comments it
-    /// checks to the trailing comments.
-    fn has_annotation_at(&self, pos: BytePos) -> bool {
-        self.comments.is_some_and(|c| {
-            c.get_leading(pos)
-                .is_some_and(|comments| comments.iter().any(is_annotation))
-        })
-    }
-
-    /// Wraps an annotated expression in parentheses, so that the annotation
-    /// stays inside them and does not apply to the outer expression. See
-    /// issue #12019. `outer_lo` is the start of the expression that contains
-    /// `e`, such as the call whose callee is `e`.
-    ///
-    /// This pass may have removed several parentheses around `e`, as in
-    /// `((e))`. Their comments are moved here, in source order, to a position
-    /// that codegen prints. Comments before a `(` at `outer_lo` are left in
-    /// place, because the outer expression prints them.
-    ///
-    /// The span of the innermost removed paren is restored, as `wrap` does,
-    /// unless a comment is before a removed `(` that is not at `outer_lo`.
-    /// Such a comment was inside the outermost parentheses; printed before
-    /// the restored `(`, an annotation would apply to the outer expression,
-    /// as in `(/* @__PURE__ */ (/* @__PURE__ */ f())).m()`. In that case, and
-    /// if no paren was removed, the new parentheses get no span and the
-    /// comments move onto `e`. A paren with the span of `e` would make
-    /// codegen print the annotation of `e` before `(`.
-    ///
-    /// Known limitation: `paren_remover` moves the comments at `(` onto the
-    /// inner expression before this pass runs, so after it the fixer cannot
-    /// tell `/* @__PURE__ */ (new F).m()` from `(/* @__PURE__ */ new F).m()`.
-    /// Both are printed with the annotation inside the parentheses. This
-    /// never makes an outer call pure, which would let a minifier remove a
-    /// call with side effects, but the outer call of the first form is no
-    /// longer marked as pure.
-    fn wrap_annotated(&mut self, e: &mut Expr, outer_lo: BytePos) {
-        let inner = e.span();
-
-        // The removed parens around `e`, from the innermost. Each one must
-        // strictly enclose the previous one, so that the walk ends.
-        let mut parens = Vec::new();
-        let mut enclosed = inner;
-        while let Some(paren) = self.span_map.get(enclosed) {
-            if paren == enclosed || paren.lo > enclosed.lo || paren.hi < enclosed.hi {
-                break;
-            }
-            parens.push((enclosed, paren));
-            enclosed = paren;
-        }
-
-        // Any comment before a removed `(` inside the outer expression stays
-        // inside the new parentheses. Checking only for annotations is not
-        // enough, because minifiers also accept forms that `is_annotation`
-        // does not, such as `/* @__PURE__ generated */`.
-        let restored = match parens.first() {
-            Some(&(_, paren))
-                if !paren.is_pure()
-                    && parens.iter().all(|&(_, paren)| {
-                        paren.lo == outer_lo
-                            || !self.comments.is_some_and(|c| c.has_leading(paren.lo))
-                    }) =>
-            {
-                Some(paren)
-            }
-            _ => None,
-        };
-        let (target, skip) = match restored {
-            Some(paren) => (paren, 1),
-            None => (inner, 0),
-        };
-
-        for &(key, _) in &parens {
-            self.span_map.remove(key);
-        }
-        if let Some(comments) = self.comments {
-            // If a paren is restored, no removed `(` other than one at
-            // `outer_lo` has leading comments. Otherwise move them onto `e`
-            // at once, in source order, from the outermost `(`.
-            if restored.is_none() {
-                let mut moved = Vec::new();
-                for &(_, paren) in parens.iter().rev() {
-                    if paren.lo != outer_lo {
-                        moved.extend(comments.take_leading(paren.lo).unwrap_or_default());
-                    }
-                }
-                if !moved.is_empty() {
-                    moved.extend(comments.take_leading(inner.lo).unwrap_or_default());
-                    comments.add_leading_comments(inner.lo, moved);
-                }
-            }
-            // Trailing comments of the removed `)`, in source order.
-            for &(_, paren) in parens.iter().skip(skip) {
-                if paren.hi != target.hi {
-                    if let Some(trailing) = comments.take_trailing(paren.hi) {
-                        comments.add_trailing_comments(target.hi, trailing);
-                    }
-                }
-            }
-        }
-
+    /// Wraps an annotated expression in parentheses without a span, so that
+    /// codegen prints the annotation inside them and downstream tools do not
+    /// apply it to the outer expression. See issue #12019.
+    fn wrap_annotated(&mut self, e: &mut Expr) {
         let expr = Box::new(e.take());
         *e = ParenExpr {
             expr,
-            span: restored.unwrap_or(DUMMY_SP),
+            span: DUMMY_SP,
         }
         .into();
     }
 
-    /// Wraps a `new` expression without arguments, such as `new F`, that is
-    /// used as a callee or as a member object. `outer_lo` is the start of the
-    /// expression that contains `e`.
-    ///
+    /// Wraps `new F` without arguments when it is used as a callee.
     /// `(new F)()` calls the constructed value, but `new F()` only constructs
-    /// `F`, and `new F?.()` is a syntax error. A leading annotation stays
-    /// inside the parentheses.
-    fn wrap_new_without_args(&mut self, e: &mut Expr, outer_lo: BytePos) {
-        if self.remove_only {
-            return;
-        }
-
+    /// `F`. See issue #12810.
+    fn wrap_new_without_args(&mut self, e: &mut Expr) {
         if self.has_annotation(e) {
-            self.wrap_annotated(e, outer_lo);
+            self.wrap_annotated(e);
         } else {
             self.wrap(e);
         }
     }
 
-    /// Wraps a call callee that would otherwise print with a different
-    /// meaning. `outer_lo` is the start of the call.
-    fn wrap_callee(&mut self, e: &mut Expr, outer_lo: BytePos) {
+    fn wrap_callee(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
-            Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e, outer_lo),
+            Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e),
             Expr::Cond(..)
             | Expr::Class(..)
             | Expr::Bin(..)
@@ -620,23 +513,20 @@ impl VisitMut for Fixer<'_> {
         let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
 
         node.callee.visit_mut_with(self);
-        let outer_lo = node.span.lo;
         if let Callee::Expr(e) = &mut node.callee {
             match &**e {
                 Expr::OptChain(..) | Expr::TsNonNull(..) if continues_optional_chain(e) => {
                     self.wrap(e)
                 }
-                Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e, outer_lo),
+                Expr::New(NewExpr { args: None, .. }) => self.wrap_new_without_args(e),
                 // Preserve parentheses around callees that carry a leading
                 // annotation like `/* @__PURE__ */` so downstream tools do not
                 // interpret the annotation as applying to the outer chained
                 // call expression. See issue #12019.
-                Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
-                    if !self.remove_only && self.has_annotation(e) =>
-                {
-                    self.wrap_annotated(e, outer_lo)
+                Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if self.has_annotation(e) => {
+                    self.wrap_annotated(e)
                 }
-                _ => self.wrap_callee(e, outer_lo),
+                _ => self.wrap_callee(e),
             }
         }
 
@@ -900,11 +790,9 @@ impl VisitMut for Fixer<'_> {
             | Expr::TsSatisfies(..)
             | Expr::TsConstAssertion(..)
             | Expr::TsTypeAssertion(..)
-            | Expr::TsInstantiation(..) => {
+            | Expr::TsInstantiation(..)
+            | Expr::New(NewExpr { args: None, .. }) => {
                 self.wrap(&mut n.obj);
-            }
-            Expr::New(NewExpr { args: None, .. }) => {
-                self.wrap_new_without_args(&mut n.obj, n.span.lo)
             }
             Expr::Call(..) if self.ctx == Context::Callee { is_new: true } => {
                 self.wrap(&mut n.obj);
@@ -918,10 +806,8 @@ impl VisitMut for Fixer<'_> {
             // annotation like `/* @__PURE__ */` so downstream tools do not
             // interpret the annotation as applying to the full chained
             // expression. See issue #12019.
-            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
-                if !self.remove_only && self.has_annotation(&n.obj) =>
-            {
-                self.wrap_annotated(&mut n.obj, n.span.lo)
+            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..) if self.has_annotation(&n.obj) => {
+                self.wrap_annotated(&mut n.obj)
             }
             _ => {}
         }
@@ -949,10 +835,8 @@ impl VisitMut for Fixer<'_> {
             }
             // `new (new F)(x)` passes `x` to the constructed value, but
             // `new new F(x)` passes `x` to `F`.
-            Expr::New(NewExpr { args: None, .. })
-                if node.args.is_some() || node.type_args.is_some() =>
-            {
-                self.wrap_new_without_args(&mut node.callee, node.span.lo)
+            Expr::New(NewExpr { args: None, .. }) if node.args.is_some() => {
+                self.wrap_new_without_args(&mut node.callee)
             }
             // `new foo()`bar`() constructs `foo`, while `new (foo()`bar`)()`
             // constructs the class returned by the tagged template expression.
@@ -985,16 +869,7 @@ impl VisitMut for Fixer<'_> {
         let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
 
         node.callee.visit_mut_with(self);
-        match &*node.callee {
-            // Keep a leading annotation inside the parentheses, so that it does
-            // not apply to the optional call. See issue #12019.
-            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
-                if !self.remove_only && self.has_annotation(&node.callee) =>
-            {
-                self.wrap_annotated(&mut node.callee, node.span.lo)
-            }
-            _ => self.wrap_callee(&mut node.callee, node.span.lo),
-        }
+        self.wrap_callee(&mut node.callee);
 
         self.in_opt_chain = in_opt_chain;
 
@@ -1111,13 +986,6 @@ impl VisitMut for Fixer<'_> {
         match &*e.tag {
             Expr::TsNonNull(..) if continues_optional_chain(&e.tag) => {
                 self.wrap(&mut e.tag);
-            }
-            // Keep a leading annotation inside the parentheses, so that it does
-            // not apply to the tagged template. See issue #12019.
-            Expr::New(..) | Expr::Call(..) | Expr::TaggedTpl(..)
-                if !self.remove_only && self.has_annotation(&e.tag) =>
-            {
-                self.wrap_annotated(&mut e.tag, e.span.lo);
             }
             Expr::Object(..) if self.ctx == Context::Default => {
                 self.wrap(&mut e.tag);
@@ -1584,20 +1452,6 @@ impl Fixer<'_> {
     }
 }
 
-/// Returns whether `comment` is a `/* @__PURE__ */` or
-/// `/* @__NO_SIDE_EFFECTS__ */` annotation, with the same rules as
-/// `Comments::has_flag`.
-fn is_annotation(comment: &Comment) -> bool {
-    comment.kind == CommentKind::Block
-        && comment.text.lines().any(|line| {
-            let line = line.trim_start_matches(['*', ' ']).trim();
-            line.strip_prefix("#__")
-                .or_else(|| line.strip_prefix("@__"))
-                .and_then(|line| line.strip_suffix("__"))
-                .is_some_and(|flag| flag == "PURE" || flag == "NO_SIDE_EFFECTS")
-        })
-}
-
 fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<Box<Expr>> {
     match *expr {
         Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) => {
@@ -1698,53 +1552,6 @@ mod tests {
             true,
             Default::default,
         );
-    }
-
-    /// A synthesized `new F` whose span comes from `Span::dummy_with_cmt` and
-    /// carries `/* @__PURE__ */` is still annotated, so its parentheses are
-    /// kept without a span and the annotation is not printed before `.m()`.
-    #[test]
-    fn annotated_new_with_comment_span_is_wrapped() {
-        use swc_common::{
-            comments::{Comment, CommentKind, Comments, SingleThreadedComments},
-            Span, DUMMY_SP,
-        };
-        use swc_ecma_ast::{Ident, IdentName, MemberExpr, MemberProp, NewExpr};
-        use swc_ecma_visit::VisitMutWith;
-
-        crate::tests::Tester::run(|_| {
-            let comments = SingleThreadedComments::default();
-            let new_span = Span::dummy_with_cmt();
-            comments.add_leading(
-                new_span.lo,
-                Comment {
-                    kind: CommentKind::Block,
-                    span: DUMMY_SP,
-                    text: "#__PURE__".into(),
-                },
-            );
-
-            let mut expr = Expr::Member(MemberExpr {
-                span: DUMMY_SP,
-                obj: Box::new(Expr::New(NewExpr {
-                    span: new_span,
-                    callee: Box::new(Ident::new_no_ctxt("F".into(), DUMMY_SP).into()),
-                    ..Default::default()
-                })),
-                prop: MemberProp::Ident(IdentName::new("m".into(), DUMMY_SP)),
-            });
-            expr.visit_mut_with(&mut super::fixer(Some(&comments)));
-
-            let Expr::Member(MemberExpr { obj, .. }) = &expr else {
-                panic!("expected member expression");
-            };
-            let Expr::Paren(ParenExpr { span, expr }) = &**obj else {
-                panic!("expected wrapped receiver, got {obj:?}");
-            };
-            assert_eq!(*span, DUMMY_SP);
-            assert!(expr.is_new());
-            Ok(())
-        });
     }
 
     macro_rules! test_fixer {

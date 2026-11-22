@@ -296,22 +296,18 @@ where
         }
         let args = node.args.as_deref().unwrap_or_default();
         // A caller that passes `should_ignore_empty_args: false` prints this
-        // expression where `new F` without `()` would change the meaning, for
-        // example as a callee or a member object, so `()` is printed even if
-        // the AST has no argument list.
+        // expression where `new F` without `()` would change the meaning, such
+        // as a callee, so `()` is printed even if the AST has no argument list.
         //
         // A generic constructor needs `()` to keep its type arguments
-        // distinct from following relational, shift, or unary operators, also
-        // if the AST has no argument list: `new F<T> > x` is invalid.
+        // distinct from following relational, shift, or unary operators.
         let emits_args = !should_ignore_empty_args
-            || node.type_args.is_some()
-            || (node.args.is_some() && !(self.cfg.minify && args.is_empty()));
+            || (node.args.is_some()
+                && !(self.cfg.minify && args.is_empty() && node.type_args.is_none()));
 
         match &*node.callee {
-            // Keep the `()` of an inner `new` when this expression prints type
-            // arguments or arguments after it. In `new new F()(x)`, `x` is
-            // passed to the constructed value, but in `new new F(x)`, `x` is
-            // passed to `F`.
+            // In `new new F()(x)`, `x` is passed to the constructed value, but
+            // in `new new F(x)`, `x` is passed to `F`.
             Expr::New(callee) if emits_args => {
                 self.emit_new(callee, false)?;
             }
