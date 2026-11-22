@@ -57,6 +57,13 @@
 -   You can do `UPDATE=1 cargo test` to get test outputs updated for fixture tests.
 -   When instructed to fix tests, do not remove or modify existing tests.
 
+### Correctness and execution tests
+
+-   Tests guarantee correctness. A change is correct only when tests show its behavior. Reading code, a review, or a pull request description does not prove correctness.
+-   Execution tests are the most important tests. An execution test runs the code and compares its runtime result with the expected result (for example `expected.stdout` in minifier fixtures, or the `exec` tests of a crate).
+-   A snapshot test (for example `output.js`) shows only that the output text changed. It does not show that the output behaves correctly. For each change that can change runtime behavior, add or update an execution test, when the test suite supports one.
+-   Do not delete, disable, or weaken an execution test to make tests pass. This includes deleting an `expected.stdout` or `exec` file, and removing a case from it. If a change of an expected runtime result is intended, update only that result, and explain the reason in the pull request.
+
 ### Fixture Test Common Guide
 
 - Add new coverage by extending existing fixture suites instead of adding ad-hoc inline tests.
