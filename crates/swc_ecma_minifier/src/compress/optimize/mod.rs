@@ -1329,6 +1329,11 @@ impl Optimizer<'_> {
             }
 
             Expr::Bin(BinExpr {
+                op: BinaryOp::In | BinaryOp::InstanceOf,
+                ..
+            }) => {}
+
+            Expr::Bin(BinExpr {
                 span,
                 left,
                 right,

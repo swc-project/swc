@@ -12,7 +12,12 @@ class KeepSelfBlock {
         KeepSelfBlock.make();
     }
 }
-getObject();
+class KeepPrivateInBlock {
+    static #value;
+    static{
+        #value in getObject();
+    }
+}
 class KeepPrivateAccessInBlock {
     static #value;
     static{
