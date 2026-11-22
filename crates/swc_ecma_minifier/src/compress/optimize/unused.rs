@@ -195,7 +195,7 @@ impl Optimizer<'_> {
         ArrowExpr { ctxt, params, .. }: &mut ArrowExpr,
         arg_is_empty: bool,
     ) {
-        if !self.options.unused && !self.options.reduce_fns {
+        if !self.options.unused {
             return;
         }
 
