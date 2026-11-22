@@ -132,7 +132,7 @@ smallvec = { version = "1.8.0", default-features = false }
 smol_str = { version = "0.2.0", default-features = false }
 st-map = { version = "0.2.0", default-features = false }
 string_cache = { version = "0.8.7", default-features = false }
-swc_sourcemap = { version = "10.0.3", path = "crates/swc_sourcemap", default-features = false }
+swc_sourcemap = { version = "10.0.4", path = "crates/swc_sourcemap", default-features = false }
 # Keep syn 2 until the public macro helper API can migrate with its consumers.
 syn = { version = "2", features = [
   "derive",

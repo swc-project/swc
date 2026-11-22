@@ -4,6 +4,7 @@
 // LICENSE file in the root directory of this source tree.
 
 mod apply_renames;
+mod comment_anchors;
 mod convert_ast;
 mod convert_ast_reverse;
 mod convert_scope;
@@ -18,6 +19,7 @@ mod stack;
 mod tests;
 
 use apply_renames::{apply_renames, build_rename_plan};
+use comment_anchors::preserve_comment_anchors;
 use convert_ast::convert_program;
 use convert_ast_reverse::convert_program_to_swc;
 use diagnostics::{compile_result_to_diagnostics, DiagnosticMessage};
@@ -146,6 +148,8 @@ fn transform_with_stack(
     let program = file.map(|file: react_compiler_ast::File| {
         let mut compiled = convert_program_to_swc(&file, preserved_ast);
         apply_renames(&mut compiled, &rename_plan);
+        // Run after `apply_renames`, which finds references by `span.lo`.
+        preserve_comment_anchors(&mut compiled);
         compiled
     });
 

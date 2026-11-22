@@ -3,6 +3,8 @@ import * as React from "react";
 export function Counter() {
     "use memo";
     var $ = _c(1);
+    // This callback captures no local variables (only the `console` global), so
+    // it is safe to outline into a top-level helper when outlining is enabled.
     var onClick = _temp;
     var t0;
     if ($[0] === Symbol.for("react.memo_cache_sentinel")) {

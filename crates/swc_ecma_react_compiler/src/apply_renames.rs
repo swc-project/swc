@@ -14,11 +14,23 @@ use swc_ecma_ast as swc;
 use swc_ecma_ast::Program;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
-/// Map each `span.lo` of a renamed-binding reference to its new name.
-pub fn build_rename_plan(
+/// A rename of one binding reference.
+///
+/// Compiled code that the React Compiler generates keeps the source offsets
+/// of the code it replaces. Thus an identifier that the compiler generated
+/// (for example, the `_temp` reference to an outlined function) can have the
+/// same `span.lo` as a reference in the source. The rename applies only to an
+/// identifier that still has the `original` name.
+pub struct RenameTarget<'r> {
+    original: &'r str,
+    renamed: &'r str,
+}
+
+/// Map each `span.lo` of a renamed-binding reference to its rename.
+pub fn build_rename_plan<'r>(
     scope_info: &ScopeInfo,
-    renames: &[BindingRenameInfo],
-) -> FxHashMap<u32, String> {
+    renames: &'r [BindingRenameInfo],
+) -> FxHashMap<u32, RenameTarget<'r>> {
     if renames.is_empty() {
         return FxHashMap::default();
     }
@@ -28,7 +40,7 @@ pub fn build_rename_plan(
         .map(|rename| (rename.declaration_start, rename))
         .collect();
 
-    let mut renamed_bindings: FxHashMap<BindingId, String> = FxHashMap::default();
+    let mut renamed_bindings: FxHashMap<BindingId, &BindingRenameInfo> = FxHashMap::default();
     for binding in &scope_info.bindings {
         let Some(rename) = binding
             .declaration_start
@@ -37,7 +49,7 @@ pub fn build_rename_plan(
             continue;
         };
         if binding.name == rename.original {
-            renamed_bindings.insert(binding.id, rename.renamed.clone());
+            renamed_bindings.insert(binding.id, *rename);
         }
     }
 
@@ -49,35 +61,43 @@ pub fn build_rename_plan(
         .ref_node_id_to_binding
         .iter()
         .filter_map(|(&position, binding_id)| {
-            renamed_bindings
-                .get(binding_id)
-                .map(|renamed| (position, renamed.clone()))
+            renamed_bindings.get(binding_id).map(|rename| {
+                (
+                    position,
+                    RenameTarget {
+                        original: &rename.original,
+                        renamed: &rename.renamed,
+                    },
+                )
+            })
         })
         .collect()
 }
 
 /// Walk the program and apply `rename_plan`, expanding shorthand properties
 /// when the value is renamed.
-pub fn apply_renames(program: &mut Program, rename_plan: &FxHashMap<u32, String>) {
+pub fn apply_renames(program: &mut Program, rename_plan: &FxHashMap<u32, RenameTarget<'_>>) {
     if rename_plan.is_empty() {
         return;
     }
     program.visit_mut_with(&mut RenameApplyVisitor { rename_plan });
 }
 
-struct RenameApplyVisitor<'p> {
-    rename_plan: &'p FxHashMap<u32, String>,
+struct RenameApplyVisitor<'p, 'r> {
+    rename_plan: &'p FxHashMap<u32, RenameTarget<'r>>,
 }
 
-impl RenameApplyVisitor<'_> {
-    fn renamed_at(&self, position: u32) -> Option<&str> {
-        self.rename_plan
-            .get(&position)
-            .map(std::string::String::as_str)
+impl RenameApplyVisitor<'_, '_> {
+    /// Return the new name of `ident`, if `ident` is a reference to a renamed
+    /// binding.
+    fn renamed(&self, ident: &swc::Ident) -> Option<&str> {
+        let target = self.rename_plan.get(&ident.span.lo.0)?;
+        // Skip an identifier that the compiler generated at the same offset.
+        (*ident.sym == *target.original).then_some(target.renamed)
     }
 
     fn rename_ident(&self, ident: &mut swc::Ident) -> bool {
-        let Some(renamed) = self.renamed_at(ident.span.lo.0) else {
+        let Some(renamed) = self.renamed(ident) else {
             return false;
         };
 
@@ -86,7 +106,7 @@ impl RenameApplyVisitor<'_> {
     }
 }
 
-impl VisitMut for RenameApplyVisitor<'_> {
+impl VisitMut for RenameApplyVisitor<'_, '_> {
     fn visit_mut_ident(&mut self, ident: &mut swc::Ident) {
         self.rename_ident(ident);
     }
@@ -148,7 +168,7 @@ impl VisitMut for RenameApplyVisitor<'_> {
     fn visit_mut_prop(&mut self, prop: &mut swc::Prop) {
         match prop {
             swc::Prop::Shorthand(ident) => {
-                if let Some(renamed) = self.renamed_at(ident.span.lo.0) {
+                if let Some(renamed) = self.renamed(ident) {
                     let key = swc::PropName::Ident(swc::IdentName::from(ident.clone()));
                     let mut value = ident.clone();
                     value.sym = Atom::from(renamed);
@@ -171,7 +191,7 @@ impl VisitMut for RenameApplyVisitor<'_> {
             swc::ObjectPatProp::Assign(assign) => {
                 assign.value.visit_mut_with(self);
 
-                if let Some(renamed) = self.renamed_at(assign.key.id.span.lo.0) {
+                if let Some(renamed) = self.renamed(&assign.key.id) {
                     let mut binding = assign.key.clone();
                     binding.id.sym = Atom::from(renamed);
                     let value = match assign.value.take() {

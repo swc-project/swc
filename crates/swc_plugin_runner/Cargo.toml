@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_plugin_runner"
 repository    = { workspace = true }
-version       = "35.0.0"
+version       = "36.0.0"
 
 [lib]
 bench   = false
@@ -27,20 +27,20 @@ ecma = ["swc_ecma_ast/encoding-impl"]
 encoding-impl = ["swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [dependencies]
-anyhow = { workspace = true, default-features = false }
+anyhow      = { workspace = true, default-features = false }
 parking_lot = { workspace = true, default-features = false }
-rustc-hash = { workspace = true, default-features = false }
-serde = { workspace = true, features = ["derive"], default-features = false }
-serde_json = { workspace = true, default-features = false }
-tracing = { workspace = true, default-features = false }
+rustc-hash  = { workspace = true, default-features = false }
+serde       = { workspace = true, features = ["derive"], default-features = false }
+serde_json  = { workspace = true, default-features = false }
+tracing     = { workspace = true, default-features = false }
 
-swc_atoms = { version = "10.0.1", path = '../swc_atoms', default-features = false }
-swc_common = { version = "27.0.0", path = "../swc_common", features = [
+swc_atoms = { version = "11.0.0", path = '../swc_atoms', default-features = false }
+swc_common = { version = "28.0.0", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "30.0.2", path = "../swc_ecma_ast", optional = true, default-features = false }
-swc_plugin_proxy = { version = "31.0.0", path = "../swc_plugin_proxy", default-features = false }
-swc_transform_common = { version = "21.0.0", path = "../swc_transform_common", default-features = false }
+swc_ecma_ast = { version = "31.0.0", path = "../swc_ecma_ast", optional = true, default-features = false }
+swc_plugin_proxy = { version = "32.0.0", path = "../swc_plugin_proxy", default-features = false }
+swc_transform_common = { version = "22.0.0", path = "../swc_transform_common", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 blake3 = { workspace = true, optional = true, default-features = false }

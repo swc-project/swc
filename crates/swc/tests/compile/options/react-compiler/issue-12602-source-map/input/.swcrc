@@ -1,0 +1,12 @@
+{
+    "sourceMaps": true,
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        },
+        "transform": {
+            "reactCompiler": true
+        }
+    }
+}

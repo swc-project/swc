@@ -95,6 +95,17 @@
     -   `Medium`: A change to multiple functions or files in one crate.
     -   `High`: A change to multiple crates, a design change, or a change that needs a large investigation.
 
+## Sloppy mode
+
+Sloppy-mode (non-strict) code still exists in published packages, mostly in old CommonJS packages, and bundlers can put strict and sloppy functions in one script. But very little of that code depends on behavior that is different in strict mode. Thus, give problems that occur only in sloppy mode a low priority.
+
+-   A sloppy-mode-only problem is a problem that changes behavior only when the code runs in sloppy mode. Examples: `with` statements, aliasing of `arguments` and parameters, Annex B function declarations in blocks, `var` declarations that leak out of a direct `eval`, and legacy octal literals.
+-   Code motion (inlining, hoisting, or merging) between strict and sloppy contexts is a problem only when the moved code contains such a construct, or uses `this` or assigns to an undeclared identifier in a way that is different in strict mode. Do not report a strictness change without this condition.
+-   In a code review, report a sloppy-mode-only problem only with a concrete input: a script without `"use strict"` for which the output behaves differently at run time. Without such an input, do not report it. With such an input, report it as non-blocking.
+-   File a sloppy-mode-only problem that you found by reading source code, by static analysis, by fuzzing, or by similar methods only in `swc-project/swc-ai-issues`, with `Priority` set to `Low`. Exception: if the trigger pattern occurs in the code of a widely used package, select the priority with the usual rules.
+-   Do not reject an optimization only because of a sloppy-mode-only problem. Instead, skip the optimization when the code is in sloppy mode and contains the construct. Do not remove such an existing guard.
+-   Bugs that someone actually encountered in real use keep the usual priority rules.
+
 ## Compatibility rule
 
 -   Do not use unstable, nightly only features of rustc.

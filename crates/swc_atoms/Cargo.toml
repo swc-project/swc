@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_atoms"
 repository    = { workspace = true }
-version       = "10.0.1"
+version       = "11.0.0"
 
 [lib]
 bench = false
@@ -16,10 +16,10 @@ encoding-impl = ["cbor4ii"]
 shrink-to-fit = ["dep:shrink-to-fit"]
 
 [dependencies]
-arbitrary = { workspace = true, optional = true, default-features = false }
+arbitrary     = { workspace = true, optional = true, default-features = false }
 cbor4ii       = { workspace = true, features = ["use_std"], optional = true }
-once_cell = { workspace = true, default-features = false }
-serde = { workspace = true, default-features = false }
+once_cell     = { workspace = true, default-features = false }
+serde         = { workspace = true, default-features = false }
 shrink-to-fit = { workspace = true, optional = true, default-features = false }
 
-hstr = { version = "4.0.3", path = "../hstr", features = ["serde"] }
+hstr = { version = "5.0.0", path = "../hstr", features = ["serde"] }

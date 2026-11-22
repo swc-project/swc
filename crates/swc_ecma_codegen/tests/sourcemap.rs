@@ -29,6 +29,11 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "714be6d28082eaa7.js",
     "882910de7dd1aef9.js",
     "dd3c63403db5c06e.js",
+    // terser (>= 5.51) maps the closing `}` of the first IIFE to the column after
+    // it (line 8, column 1), while swc maps it to the `}` itself (column 0).
+    // Older terser printed different code for this input, so the map comparison
+    // was skipped before.
+    "93108a695e5ff29d.js",
     // Wrong tests (variable name or value is different)
     "0339fa95c78c11bd.js",
     "0426f15dac46e92d.js",
