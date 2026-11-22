@@ -4,9 +4,5 @@ export const propertyOfStrings = /\p{RGI_Emoji}/v;
 export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
 // Without captures, `\1` is a legacy octal escape, so this is lowered.
 export const legacyOctal = /(?i:\1)/;
-// A reference to a duplicated name becomes `(?:\1\2)`, because only one of
-// the groups can take part in a match.
+// A reference to a duplicated name has no indexed equivalent.
 export const duplicatedNameReference = /(?<a>.)\k<a>|(?<a>b)/;
-export function unusedDuplicateReference() {
-    return /(?:(?<x>a)|(?<x>b))\k<x>/;
-}

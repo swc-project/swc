@@ -34,9 +34,9 @@ pub struct RegExpOptions {
     ///
     /// Patterns that reuse a group name in different alternatives are
     /// rewritten to indexed groups, and `_wrap_reg_exp` restores the
-    /// `groups` object. A `\k<name>` reference to such a name becomes
-    /// `(?:\1\2)`: only one of the groups can take part in a match, and a
-    /// reference to a group that did not take part matches the empty string.
+    /// `groups` object. Patterns that refer to such a name with `\k<name>`
+    /// cannot be expressed with indexed groups, so they are kept, with a
+    /// warning.
     pub duplicate_named_capturing_groups_regex: bool,
     /// [RegExp.prototype.sticky](https://tc39.es/ecma262/multipage/text-processing.html#sec-get-regexp.prototype.sticky)
     pub sticky_regex: bool,
@@ -370,7 +370,19 @@ impl RegexpPass {
         }
 
         // Second pass: strip names from groups and convert named references
-        NamedGroupStripper { mapping: &mapping }.strip_disjunction(&mut ast.body);
+        let mut stripper = NamedGroupStripper {
+            mapping: &mapping,
+            unsupported: false,
+        };
+        stripper.strip_disjunction(&mut ast.body);
+        if stripper.unsupported {
+            self.warn(
+                span,
+                "duplicate named capturing groups",
+                "a `\\k<name>` reference to a duplicated name has no indexed equivalent",
+            );
+            return NamedGroups::Kept;
+        }
         // A `u` or `v` pattern reads two printed surrogates as one code point.
         // A `\q{...}` string with such surrogates cannot be printed, so the
         // pattern is kept as written.
@@ -711,10 +723,15 @@ fn collect_named_groups_term(term: &Term, counter: &mut u32, mapping: &mut Vec<(
 /// to indexed references.
 struct NamedGroupStripper<'a> {
     mapping: &'a [(Atom, Vec<u32>)],
+    /// Set when a `\k<name>` reference targets a duplicated name. Such a
+    /// reference means "the group that took part in the match", which has no
+    /// indexed equivalent: `\1` and `\2` both match the empty string while
+    /// their group is unset. The whole transform is abandoned in that case.
+    unsupported: bool,
 }
 
 impl NamedGroupStripper<'_> {
-    fn strip_disjunction(&self, disjunction: &mut Disjunction) {
+    fn strip_disjunction(&mut self, disjunction: &mut Disjunction) {
         for alt in &mut disjunction.body {
             for term in &mut alt.body {
                 self.strip_term(term);
@@ -745,33 +762,19 @@ impl NamedGroupStripper<'_> {
         }
     }
 
-    fn strip_term(&self, term: &mut Term) {
+    fn strip_term(&mut self, term: &mut Term) {
         // Check if this is a NamedReference that needs conversion
         if let Term::NamedReference(nr) = &*term {
             let name = decode_group_name(&nr.name);
-            if let Some((_, indices)) = self.mapping.iter().find(|(n, _)| *n == name) {
-                let span = nr.span;
-                let reference =
-                    |index: u32| Term::IndexedReference(Box::new(IndexedReference { span, index }));
-                *term = match indices.as_slice() {
-                    [index] => reference(*index),
-                    // Groups that share a name are in different alternatives,
-                    // so at most one of them takes part in a match. A
-                    // reference to a group that did not take part matches the
-                    // empty string, so `(?:\1\2)` matches the text of the
-                    // group that took part, like `\k<name>`.
-                    _ => Term::IgnoreGroup(Box::new(IgnoreGroup {
-                        span,
-                        modifiers: None,
-                        body: Disjunction {
-                            span,
-                            body: vec![Alternative {
-                                span,
-                                body: indices.iter().map(|&index| reference(index)).collect(),
-                            }],
-                        },
-                    })),
-                };
+            match self.mapping.iter().find(|(n, _)| *n == name) {
+                Some((_, indices)) if indices.len() == 1 => {
+                    *term = Term::IndexedReference(Box::new(IndexedReference {
+                        span: nr.span,
+                        index: indices[0],
+                    }));
+                }
+                Some(_) => self.unsupported = true,
+                None => {}
             }
             return;
         }

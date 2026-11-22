@@ -25,10 +25,10 @@ export const punctuatorsAroundSurrogate = _wrap_reg_exp(/([\uDC00-\uDC00\x21\x21
         2
     ]
 }, "(?<x>[!\\u{DC00}!])|(?<x>z)");
-export const surrogatesInString = RegExp("^(?:(?<x>[\\q{\\u{D83D}\\u{DE00}}&&😀])|(?<x>z))\\k<x>$", "v");
-export const surrogatesAroundSubtraction = _wrap_reg_exp(/^(?:([\uD800--\uDC00])|(b))(?:\1\2)$/v, {
+export const surrogatesInString = RegExp("^(?:(?<x>[\\q{\\u{D83D}\\u{DE00}}&&😀])|(?<x>z))$", "v");
+export const surrogatesAroundSubtraction = _wrap_reg_exp(/^(?:([\uD800--\uDC00])|(b))$/v, {
     n: [
         1,
         2
     ]
-}, "^(?:(?<n>[\\u{D800}--\\u{DC00}])|(?<n>b))\\k<n>$");
+}, "^(?:(?<n>[\\u{D800}--\\u{DC00}])|(?<n>b))$");

@@ -34,6 +34,6 @@ export const duplicateNamesWithSubtraction = /(?<x>[a--\u{DC00}])|(?<x>b)/v;
 export const punctuatorsAroundSurrogate = /(?<x>[!\u{DC00}!])|(?<x>z)/v;
 // A `\q{...}` string cannot keep two separate surrogates apart when it is
 // printed again, so the pattern is kept in a `RegExp` call.
-export const surrogatesInString = /^(?:(?<x>[\q{\u{D83D}\u{DE00}}&&😀])|(?<x>z))\k<x>$/v;
+export const surrogatesInString = /^(?:(?<x>[\q{\u{D83D}\u{DE00}}&&😀])|(?<x>z))$/v;
 // `--` keeps the two surrogates apart when the class is printed.
-export const surrogatesAroundSubtraction = /^(?:(?<n>[\u{D800}--\u{DC00}])|(?<n>b))\k<n>$/v;
+export const surrogatesAroundSubtraction = /^(?:(?<n>[\u{D800}--\u{DC00}])|(?<n>b))$/v;

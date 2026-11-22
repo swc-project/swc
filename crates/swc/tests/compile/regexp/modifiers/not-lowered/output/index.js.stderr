@@ -26,5 +26,13 @@
    :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
  6 | export const legacyOctal = /(?i:\1)/;
- 7 | // A reference to a duplicated name becomes `(?:\1\2)`, because only one of
+ 7 | // A reference to a duplicated name has no indexed equivalent.
+   `----
+  ! Cannot lower duplicate named capturing groups in this regular expression for the configured targets: a `\k<name>` reference to a duplicated name has no indexed equivalent. The regular expression is kept, and it can fail on those targets.
+   ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:8:1]
+ 5 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
+ 6 | export const legacyOctal = /(?i:\1)/;
+ 7 | // A reference to a duplicated name has no indexed equivalent.
+ 8 | export const duplicatedNameReference = /(?<a>.)\k<a>|(?<a>b)/;
+   :                                        ^^^^^^^^^^^^^^^^^^^^^^
    `----
