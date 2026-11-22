@@ -99,7 +99,7 @@ impl Optimizer<'_> {
         Function { params, ctxt, .. }: &mut Function,
         arg_is_empty: bool,
     ) {
-        if !self.options.unused && !self.options.reduce_fns {
+        if !self.options.unused {
             return;
         }
 
