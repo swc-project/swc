@@ -5,3 +5,4 @@ export const a = {
 export class A {
     set g(t = 1) {}
 }
+

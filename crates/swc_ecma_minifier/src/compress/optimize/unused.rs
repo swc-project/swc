@@ -5,7 +5,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, IsEmpty, Value,
+    contains_ident_ref, contains_this_expr, find_pat_ids, private_ident, ExprExt, IsEmpty, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -126,7 +126,10 @@ impl Optimizer<'_> {
                 match &p.pat {
                     Pat::Ident(_) => (),
                     Pat::Array(_) | Pat::Object(_) => {
-                        self.take_pat_if_unused(&mut p.pat, None, false)
+                        self.take_pat_if_unused(&mut p.pat, None, false);
+                        if p.pat.is_invalid() {
+                            p.pat = private_ident!("_").into();
+                        }
                     }
                     Pat::Assign(_) => self.take_pat_if_unused(&mut p.pat, None, false),
                     _ => (),
@@ -214,7 +217,12 @@ impl Optimizer<'_> {
             for p in params.iter_mut().rev() {
                 match p {
                     Pat::Ident(_) => (),
-                    Pat::Array(_) | Pat::Object(_) => self.take_pat_if_unused(p, None, false),
+                    Pat::Array(_) | Pat::Object(_) => {
+                        self.take_pat_if_unused(p, None, false);
+                        if p.is_invalid() {
+                            *p = private_ident!("_").into();
+                        }
+                    }
                     Pat::Assign(_) => self.take_pat_if_unused(p, None, false),
                     _ => (),
                 }
