@@ -141,6 +141,22 @@ fn simple_case_folding_closure(set: &CharSet) -> CharSet {
 /// candidates are taken from the simple case folding classes and filtered with
 /// the exact rule.
 fn legacy_closure(set: &CharSet) -> CharSet {
+    // Legacy Canonicalize never maps a non-ASCII code unit to ASCII. An
+    // ASCII-only set therefore needs only the opposite-case ASCII letters.
+    if set.ranges().last().map_or(true, |&(_, end)| end <= 0x7f) {
+        let mut ranges = set.ranges().to_vec();
+        for &(start, end) in set.ranges() {
+            for (first, last) in [(b'A', b'Z'), (b'a', b'z')] {
+                let lo = start.max(u32::from(first));
+                let hi = end.min(u32::from(last));
+                if lo <= hi {
+                    ranges.push((lo ^ 0x20, hi ^ 0x20));
+                }
+            }
+        }
+        return CharSet::from_ranges(ranges);
+    }
+
     let classes = FoldClasses::get();
     let candidates = simple_case_folding_closure(set)
         .intersection(&CharSet::from_ranges([(0, MAX_CODE_UNIT)]))
@@ -223,6 +239,15 @@ mod tests {
         );
         // σ, ς and Σ all uppercase to Σ.
         assert_eq!(closure_of('σ', CaseMode::Legacy), vec![0x3a3, 0x3c2, 0x3c3]);
+    }
+
+    #[test]
+    fn legacy_ascii_ranges_cross_letter_boundaries() {
+        let set = CharSet::from_ranges([(0x40, 0x42), (0x79, 0x7f)]);
+        assert_eq!(
+            legacy_closure(&set).ranges(),
+            &[(0x40, 0x42), (0x59, 0x5a), (0x61, 0x62), (0x79, 0x7f)]
+        );
     }
 
     #[test]
