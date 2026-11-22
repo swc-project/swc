@@ -3,11 +3,6 @@ import { _ as _wrap_reg_exp } from "@swc/helpers/_/_wrap_reg_exp";
 export const backreference = RegExp("(a)(?i:\\1)");
 export const propertyOfStrings = RegExp("\\p{RGI_Emoji}", "v");
 export const unknownScript = RegExp("\\p{Script=Sidetic}(?i:a)", "u");
-export const dynamicFlagsWithString = (flags)=>new RegExp("(?i:a)", flags);
-export const loneSurrogate = RegExp("\uD800(?i:a)");
-export const unknownPatternWithV = (pattern)=>RegExp(pattern, "v");
-export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
-export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
 // Without captures, `\1` is a legacy octal escape, so this is lowered.
 export const legacyOctal = /(?:\1)/;
 // A reference to a duplicated name becomes `(?:\1\2)`, because only one of

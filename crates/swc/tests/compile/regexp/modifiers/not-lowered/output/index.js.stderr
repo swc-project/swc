@@ -5,7 +5,7 @@
    :                              ^^^^^^^^^^^^
  3 | export const propertyOfStrings = /\p{RGI_Emoji}/v;
  4 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
- 5 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
+ 5 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
    `----
   ! Cannot lower the `v` flag in this regular expression for the configured targets: unsupported unicode property. The regular expression is kept, and it can fail on those targets.
    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:3:1]
@@ -14,72 +14,17 @@
  3 | export const propertyOfStrings = /\p{RGI_Emoji}/v;
    :                                  ^^^^^^^^^^^^^^^^
  4 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
- 5 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
- 6 | export const loneSurrogate = RegExp("\uD800(?i:a)");
+ 5 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
+ 6 | export const legacyOctal = /(?i:\1)/;
    `----
-  ! Cannot lower possible regexp modifiers in this regular expression for the configured targets: the pattern cannot be parsed. The regular expression is kept, and it can fail on those targets.
+  ! Cannot lower the syntax in this regular expression for the configured targets: the pattern cannot be parsed. The regular expression is kept, and it can fail on those targets.
    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:4:1]
  1 | // These cannot be lowered. They are kept, and a warning is reported.
  2 | export const backreference = /(a)(?i:\1)/;
  3 | export const propertyOfStrings = /\p{RGI_Emoji}/v;
  4 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
    :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 5 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
- 6 | export const loneSurrogate = RegExp("\uD800(?i:a)");
- 7 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
+ 5 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
+ 6 | export const legacyOctal = /(?i:\1)/;
+ 7 | // A reference to a duplicated name becomes `(?:\1\2)`, because only one of
    `----
-  ! Cannot lower regexp modifiers in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
-   ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:5:1]
- 2 | export const backreference = /(a)(?i:\1)/;
- 3 | export const propertyOfStrings = /\p{RGI_Emoji}/v;
- 4 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
- 5 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
-   :                                                             ^^^^^^^^
- 6 | export const loneSurrogate = RegExp("\uD800(?i:a)");
- 7 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
- 8 | export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
-   `----
-  ! Cannot lower regexp modifiers in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
-   ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:6:1]
- 3 | export const propertyOfStrings = /\p{RGI_Emoji}/v;
- 4 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
- 5 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
- 6 | export const loneSurrogate = RegExp("\uD800(?i:a)");
-   :                                     ^^^^^^^^^^^^^^
- 7 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
- 8 | export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
- 9 | export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
-   `----
-  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
-    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:7:1]
-  4 | export const unknownScript = /\p{Script=Sidetic}(?i:a)/u;
-  5 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
-  6 | export const loneSurrogate = RegExp("\uD800(?i:a)");
-  7 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
-    :                                                        ^^^^^^^
-  8 | export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
-  9 | export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
- 10 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
-    `----
-  ! Cannot lower the `v` flag in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
-    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:8:1]
-  5 | export const dynamicFlagsWithString = (flags) => new RegExp("(?i:a)", flags);
-  6 | export const loneSurrogate = RegExp("\uD800(?i:a)");
-  7 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
-  8 | export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
-    :                                          ^^^^^^^^^^^^^^
-  9 | export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
- 10 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
- 11 | export const legacyOctal = /(?i:\1)/;
-    `----
-  ! Cannot lower duplicate named capturing groups in this regular expression for the configured targets: only regex literals are lowered, not a `RegExp` call. The regular expression is kept, and it can fail on those targets.
-    ,-[$DIR/tests/compile/regexp/modifiers/not-lowered/input/index.js:9:1]
-  6 | export const loneSurrogate = RegExp("\uD800(?i:a)");
-  7 | export const unknownPatternWithV = (pattern) => RegExp(pattern, "v");
-  8 | export const loneSurrogateWithV = RegExp("\uD800[a--b]", "v");
-  9 | export const duplicateNamesInString = RegExp("(?<a>x)|(?<a>y)");
-    :                                              ^^^^^^^^^^^^^^^^^
- 10 | // Without captures, `\1` is a legacy octal escape, so this is lowered.
- 11 | export const legacyOctal = /(?i:\1)/;
- 12 | // A reference to a duplicated name becomes `(?:\1\2)`, because only one of
-    `----
