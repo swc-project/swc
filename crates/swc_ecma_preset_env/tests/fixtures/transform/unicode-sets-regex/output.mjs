@@ -16,25 +16,7 @@ export const namedGroups = /(?<word>[A-Z_a-z]+)/u;
 export const constructorCall = new RegExp("[[a-z]--b]", "v");
 export const unsupported = RegExp("\\p{RGI_Emoji}", "v");
 export const loneSurrogates = /[\uD800-\uD800][\uDC00-\uDC00]+/u;
-export const literalWithOtherFlags = new RegExp(RegExp("[^a]", "vi"), "");
-export const literalWithUnicodeFlag = RegExp(RegExp("[a&&b]", "v"), "u");
-export const spreadFlags = RegExp(RegExp("a(?-i:b)", "i"), ...[
-    "i"
-]);
-export const parenthesizedLiteral = RegExp(RegExp("a(?-i:b)", "i"), "i");
-export const parenthesizedCallee = RegExp(RegExp("a(?-i:b)", "i"), "i");
-export const undefinedFlags = RegExp("(?i:a)", undefined);
-export const undefinedFlagsWithAddedFlag = new RegExp("(?m:^a$)", undefined);
-export const templatePattern = new RegExp(`(?i:a)`, "g");
-export const globalThisCallee = new globalThis.RegExp(RegExp("(?-i:a)b", "i"), "i");
-export const optionalCall = RegExp?.(RegExp("a(?-i:b)", "i"), "i");
-export const conditionalPattern = (x)=>new RegExp(x ? RegExp("(?-i:a)") : RegExp("(?-i:b)"), "i");
-export const spreadAfterFlags = (extra)=>RegExp("[[a-z]--b]", "v", ...extra);
-export const logicalPattern = (re)=>new RegExp(re || RegExp("(?-i:b)"), "i");
-export const spreadPattern = new RegExp(...[
-    RegExp("(?-i:b)"),
-    "i"
-]);
+export const literalInCall = new RegExp(/[ac-z]/u, "g");
 export function supportsUnicodeSets() {
     try {
         new RegExp("", "v");
@@ -43,46 +25,3 @@ export function supportsUnicodeSets() {
         return false;
     }
 }
-export const computedMember = globalThis["RegExp"](RegExp("(?-i:a)"), "i");
-export const optionalMember = globalThis?.RegExp(RegExp("(?-i:a)"), "i");
-export const conditionalTest = RegExp(/(?:[Aa])/.test("A") ? "b" : "c", "g");
-export const voidFlags = RegExp(/(?:[Aa])/, void 0);
-export const replacePattern = (s)=>new RegExp(s.replace(/(?:[Aa])/g, ""), "g");
-export const namedGroupsInCall = new RegExp(_wrap_reg_exp(/(a)|(b)/, {
-    x: [
-        1,
-        2
-    ]
-}, "(?<x>a)|(?<x>b)"), "g");
-export const uniqueNamedGroupInCall = new RegExp(/(?<x>a)/, "g");
-export const spreadPositions = new RegExp(...[
-    "a",
-    "g",
-    /(?:[Bb])/
-]);
-export const andOperands = RegExp(/(?:[Aa])/ && RegExp("a(?-i:b)", "i"), "i");
-export const emptySpreadFlags = RegExp(/(?:[Aa])/, ...[]);
-export const afterUnknownSpread = (args)=>RegExp(...args, RegExp("a(?-i:b)", "i"), /(?:[Cc])/);
-export const spreadAfterUndefinedFlags = (extra)=>RegExp(/(?:[Aa])/, undefined, ...extra);
-export const trailingUnknownSpread = (extra)=>RegExp(...[
-        "a",
-        "g",
-        /(?:[Bb])/
-    ], ...extra);
-export const voidExpressionFlags = (n)=>RegExp(/(?:[Aa])/, void n++);
-export const arithmeticAssignment = (n)=>RegExp(n *= /(?:[Aa])/, "g");
-export const holeFlags = RegExp(/(?:[Aa])/, ...[
-    ,
-    "g"
-]);
-export const conditionalSpread = (enabled)=>RegExp(...enabled ? [
-        "x",
-        "g",
-        /(?:[Aa])/
-    ] : []);
-export const arrayPattern = new RegExp([
-    /(?:[Aa])/
-], "g");
-export const singleArgumentSpread = (enabled)=>RegExp(...enabled ? [
-        /(?:[Aa])/
-    ] : []);

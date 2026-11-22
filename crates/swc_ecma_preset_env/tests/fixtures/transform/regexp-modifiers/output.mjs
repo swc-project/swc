@@ -12,12 +12,7 @@ export const backreference = RegExp("(a)(?i:\\1)");
 export const constructorCall = new RegExp("(?i:a)b", "g");
 export const constructorWithoutFlags = new RegExp("(?s:.)");
 export const callWithoutFlags = RegExp("(?m:^a$)");
-export const literalWithFlags = new RegExp(RegExp("(?-i:a)"), "i");
-export const literalWithEmptyFlags = new RegExp(RegExp("(?s:.)"), "");
-export const literalWithDynamicFlags = new RegExp(RegExp("(?i:a)"), flags);
-export const literalLoweredWithOwnFlags = new RegExp(/[^a]/vi, "");
-export const literalWithUnicodeFlag = RegExp(/[a&&b]/v, "u");
-export const literalWithUndefinedFlags = new RegExp(/(?:[Aa])/, undefined);
+export const literalInCall = new RegExp(/(?:[Aa])/, "g");
 export const duplicateNamesWithSubtraction = _wrap_reg_exp(/([a--\uDC00])|(b)/v, {
     x: [
         1,

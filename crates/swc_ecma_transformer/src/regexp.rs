@@ -72,16 +72,11 @@ pub struct RegExpOptions {
     /// flags, and the terms outside the group are rewritten to keep it. The
     /// same happens for `(?-m:...)` (or `(?-s:...)`) when the group has a `^`
     /// or `$` (or a `.`); otherwise the flag stays. So the `flags` property
-    /// of the result can differ from the input. A literal that is the direct
-    /// pattern argument of a `RegExp(...)` call with a flags argument is
-    /// kept, because the call replaces its flags. Like Babel, other ways to
-    /// reuse a literal with other flags are not followed, and they can
-    /// match differently: a variable, an alias such as `const R = RegExp`,
-    /// `RegExp.call`, `RegExp.apply`, `Reflect.construct` and `.source`.
-    /// This applies to the `v` flag as well. An optional call such as
-    /// `RegExp?.(...)` is protected only while it is still an optional
-    /// call: when the targets also need optional chaining lowered, the call
-    /// is rewritten before this pass sees it, and its literal is lowered.
+    /// of the result can differ from the input.
+    ///
+    /// Like Babel, a lowered literal that is reused with other flags (for
+    /// example `new RegExp(/(?i:a)/, "g")` or `.source`) can match
+    /// differently. This applies to the `v` flag as well.
     pub regexp_modifiers: bool,
     /// The syntax context of unresolved (global) identifiers.
     ///
@@ -127,88 +122,9 @@ pub(crate) fn pass(options: RegExpOptions) -> impl Pass {
 
 struct RegexpPass {
     options: RegExpOptions,
-    /// The addresses of regex literals that can be the pattern argument of a
-    /// `RegExp` call, and how the call uses them. See `prepare_constructor`.
-    constructor_literals: ConstructorLiterals,
-    /// For each `RegExp` call that is being visited, the address of the call
-    /// expression and the length of `constructor_literals` when the call was
-    /// entered. When the expression at that address is left, even if another
-    /// transform replaced it, the entries that it added are removed, so that
-    /// no stale address stays in the list.
-    constructor_marks: Vec<(usize, usize)>,
     /// The spans that a warning was reported for, so that a regex is reported
     /// once even when it is visited again as part of a generated call.
     warned: FxHashSet<Span>,
-}
-
-/// The regex literals that can be the pattern argument of a `RegExp` call that
-/// is being visited, by address.
-///
-/// A pattern with many branches records many literals, so they are looked up
-/// in a map. The order of insertion is kept, so that the entries of a call can
-/// be removed when the call is left.
-#[derive(Default)]
-struct ConstructorLiterals {
-    by_address: FxHashMap<usize, ConstructorUse>,
-    order: Vec<usize>,
-}
-
-impl ConstructorLiterals {
-    fn len(&self) -> usize {
-        self.order.len()
-    }
-
-    fn push(&mut self, address: usize, kind: ConstructorUse) {
-        self.by_address.insert(address, kind);
-        self.order.push(address);
-    }
-
-    /// Removes the entry of the literal at `address` and returns how a call
-    /// uses it.
-    fn take(&mut self, address: usize) -> Option<ConstructorUse> {
-        self.by_address.remove(&address)
-    }
-
-    /// Removes the entries that were added after the first `len` ones.
-    fn truncate(&mut self, len: usize) {
-        for address in self.order.drain(len..) {
-            self.by_address.remove(&address);
-        }
-    }
-}
-
-/// How a `RegExp` call uses a regex literal that is its pattern argument.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum ConstructorUse {
-    /// The call can replace the flags of the literal, so the literal must not
-    /// be lowered with its own flags. The value is the Unicode mode of the
-    /// flags of the call, if they are known.
-    ReplacesFlags(Option<UnicodeMode>),
-    /// The call keeps the flags. The literal can be lowered, but a new regex
-    /// copies only its pattern and flags, not the `groups` that
-    /// `_wrap_reg_exp` restores.
-    CopiesPattern,
-}
-
-/// Which of the `u` and `v` flags a set of flags has. Unicode property
-/// escapes expand the same way for two sets of flags with the same mode.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum UnicodeMode {
-    None,
-    Unicode,
-    UnicodeSets,
-}
-
-impl UnicodeMode {
-    fn of(flags: &str) -> Self {
-        if flags.contains('v') {
-            Self::UnicodeSets
-        } else if flags.contains('u') {
-            Self::Unicode
-        } else {
-            Self::None
-        }
-    }
 }
 
 /// What a callee named `RegExp` refers to.
@@ -246,8 +162,6 @@ impl RegexpPass {
     fn new(options: RegExpOptions) -> Self {
         Self {
             options,
-            constructor_literals: Default::default(),
-            constructor_marks: Vec::new(),
             warned: Default::default(),
         }
     }
@@ -378,116 +292,6 @@ impl RegexpPass {
                 op: op!("void"), ..
             }) => true,
             _ => false,
-        }
-    }
-
-    /// Returns true if `pattern` with `flags` has syntax that
-    /// [`Self::lower_syntax`] lowers. A modifier group is confirmed on the
-    /// parsed pattern. A pattern that cannot be parsed counts as one that
-    /// needs lowering.
-    fn has_syntax_to_lower(&self, pattern: &str, flags: &str) -> bool {
-        if self.options.unicode_sets_regex && flags.contains('v') {
-            return true;
-        }
-        if !(self.options.regexp_modifiers && may_have_modifiers(pattern)) {
-            return false;
-        }
-        match LiteralParser::new(pattern, Some(flags), RegexpOptions::default()).parse() {
-            Ok(ast) => has_modifiers(&ast),
-            Err(_) => true,
-        }
-    }
-
-    /// Removes the entries that a `RegExp` call added to
-    /// `constructor_literals` when the expression at `address` is left. See
-    /// `prepare_constructor`.
-    fn leave_expr(&mut self, address: usize) {
-        if let Some(&(call, len)) = self.constructor_marks.last() {
-            if call == address {
-                self.constructor_marks.pop();
-                self.constructor_literals.truncate(len);
-            }
-        }
-    }
-
-    /// Prepares a `RegExp(/pattern/, flags)` call before the literal is
-    /// visited.
-    ///
-    /// The call uses the source of the literal with the flags of the call. If
-    /// the call has a flags argument (other than the global `undefined`), or
-    /// the arguments are spread, the flags of the literal can be replaced, so
-    /// lowering the literal with its own flags could change its meaning. Every
-    /// regex literal that the pattern argument can evaluate to is then kept as
-    /// it is (for example also in `cond ? /a/ : /b/` or `re || /a/`). Without
-    /// flags, the literals are recorded too, because the call does not copy
-    /// the `groups` of a lowered named group.
-    fn prepare_constructor(&mut self, expr: &mut Expr) {
-        let address = expr as *const Expr as usize;
-        let Some((callee, args)) = regexp_call_parts(expr) else {
-            return;
-        };
-        if self.regexp_callee(callee).is_none() {
-            return;
-        }
-        // Removed in `transform_expr` when the expression at `address` is
-        // left.
-        self.constructor_marks
-            .push((address, self.constructor_literals.len()));
-
-        // A spread of an array literal supplies its elements in order, so the
-        // pattern and the flags are known by position.
-        if let Some((pattern, flags)) = self.pattern_and_flags(args) {
-            let Some(pattern) = pattern else {
-                return;
-            };
-            let kind = match flags {
-                CallFlags::Absent | CallFlags::Undefined => ConstructorUse::CopiesPattern,
-                CallFlags::Known(flags) => {
-                    ConstructorUse::ReplacesFlags(Some(UnicodeMode::of(flags)))
-                }
-                CallFlags::Unknown => ConstructorUse::ReplacesFlags(None),
-            };
-            collect_pattern_literals(pattern, false, kind, &mut self.constructor_literals);
-            return;
-        }
-
-        // A leading spread can supply the pattern and the flags, or nothing.
-        // The pattern is then the first value that is known to exist (an
-        // argument that is not spread, or an element of a spread array), or a
-        // value of an unknown spread before it. A later value cannot be the
-        // pattern.
-        // Without a second argument there are no flags to replace.
-        let kind = if max_argument_count(args).is_some_and(|count| count <= 1) {
-            ConstructorUse::CopiesPattern
-        } else {
-            ConstructorUse::ReplacesFlags(None)
-        };
-        for arg in args.iter() {
-            if arg.spread.is_none() {
-                collect_pattern_literals(&arg.expr, false, kind, &mut self.constructor_literals);
-                return;
-            }
-            let Expr::Array(array) = arg.expr.unwrap_parens() else {
-                collect_pattern_literals(&arg.expr, true, kind, &mut self.constructor_literals);
-                continue;
-            };
-            for elem in &array.elems {
-                match elem {
-                    // A hole supplies `undefined`, which is a value too.
-                    None => return,
-                    Some(elem) => {
-                        collect_pattern_literals(
-                            &elem.expr,
-                            elem.spread.is_some(),
-                            kind,
-                            &mut self.constructor_literals,
-                        );
-                        if elem.spread.is_none() {
-                            return;
-                        }
-                    }
-                }
-            }
         }
     }
 
@@ -785,16 +589,11 @@ impl RegexpPass {
     ///
     /// Returns `None` if parsing fails or if the pattern does not contain a
     /// group that an enabled option asks to lower.
-    ///
-    /// `keep_spelling` is set when an enclosing `RegExp` call can replace the
-    /// flags. The pattern is then read with other flags, so it is lowered
-    /// only if printing it again keeps every other term as written.
     fn extract_and_strip_named_groups(
         &mut self,
         span: Span,
         pattern: &str,
         flags: &str,
-        keep_spelling: bool,
     ) -> NamedGroups {
         let mut ast = match LiteralParser::new(pattern, Some(flags), RegexpOptions::default())
             .parse()
@@ -846,36 +645,12 @@ impl RegexpPass {
             return NamedGroups::Kept;
         }
 
-        // An escape can be printed in another form (`\u{61}` as `\u0061`),
-        // which another set of flags reads differently.
-        if keep_spelling && ast.to_string() != pattern {
-            self.warn(
-                span,
-                "named capturing groups",
-                "the enclosing `RegExp` call can replace the flags, and the pattern cannot be \
-                 printed again as written",
-            );
-            return NamedGroups::Kept;
-        }
-
         // Second pass: strip names from groups and convert named references
         NamedGroupStripper { mapping: &mapping }.strip_disjunction(&mut ast.body);
         // A `u` or `v` pattern reads two printed surrogates as one code point.
         // A `\q{...}` string with such surrogates cannot be printed, so the
-        // pattern is kept as written. The rewrite can also move class items and
-        // escape characters, which the flags of an enclosing call may read
-        // differently, so it is checked like the spelling above.
-        let before_isolation = keep_spelling.then(|| ast.to_string());
+        // pattern is kept as written.
         let printable = !flags.contains(['u', 'v']) || isolate_lone_surrogates(&mut ast);
-        if before_isolation.is_some_and(|before| before != ast.to_string()) {
-            self.warn(
-                span,
-                "named capturing groups",
-                "the enclosing `RegExp` call can replace the flags, and the pattern cannot be \
-                 printed again as written",
-            );
-            return NamedGroups::Kept;
-        }
         if !printable {
             debug!(%pattern, "a `\\q{{...}}` string cannot be printed with separate surrogates");
             self.warn(
@@ -977,10 +752,6 @@ impl RegexpPass {
 }
 
 impl VisitMutHook<TraverseCtx> for RegexpPass {
-    fn enter_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
-        self.prepare_constructor(expr);
-    }
-
     fn exit_expr(&mut self, expr: &mut Expr, _: &mut TraverseCtx) {
         self.transform_expr(expr);
     }
@@ -990,7 +761,6 @@ impl VisitMut for RegexpPass {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        self.prepare_constructor(expr);
         expr.visit_mut_children_with(self);
         self.transform_expr(expr);
     }
@@ -998,42 +768,9 @@ impl VisitMut for RegexpPass {
 
 impl RegexpPass {
     fn transform_expr(&mut self, expr: &mut Expr) {
-        self.leave_expr(expr as *const Expr as usize);
-
         match expr {
             Expr::Lit(Lit::Regex(regex)) => {
-                // See `prepare_constructor`.
-                let address = &*regex as *const Regex as usize;
-                let constructor_use = self.constructor_literals.take(address);
-                let in_constructor =
-                    matches!(constructor_use, Some(ConstructorUse::ReplacesFlags(_)));
-                // Unicode property escapes expand the same way for flags of
-                // the same Unicode mode, so they are expanded only then (see
-                // `transform_pattern` below).
-                let expand_properties = match constructor_use {
-                    Some(ConstructorUse::ReplacesFlags(mode)) => {
-                        mode == Some(UnicodeMode::of(&regex.flags))
-                    }
-                    _ => true,
-                };
-
-                let property_escape = self.options.unicode_property_regex
-                    && regex.flags.contains('u')
-                    && (regex.exp.contains("\\p{") || regex.exp.contains("\\P{"));
-                if in_constructor
-                    && ((property_escape && !expand_properties)
-                        || self.has_syntax_to_lower(&regex.exp, &regex.flags))
-                {
-                    self.warn(
-                        regex.span,
-                        "the syntax",
-                        "the enclosing `RegExp` call can replace the flags of this literal",
-                    );
-                }
-
-                if let Some((exp, flags)) = (!in_constructor)
-                    .then(|| self.lower_syntax(regex.span, &regex.exp, &regex.flags))
-                    .flatten()
+                if let Some((exp, flags)) = self.lower_syntax(regex.span, &regex.exp, &regex.flags)
                 {
                     regex.exp = exp.into();
                     regex.flags = flags.into();
@@ -1051,23 +788,9 @@ impl RegexpPass {
                         regex.span,
                         &original_exp,
                         &regex.flags,
-                        in_constructor,
                     );
                     named_groups_kept = matches!(named_groups, NamedGroups::Kept);
                     if let NamedGroups::Lowered(stripped_exp, group_mapping) = named_groups {
-                        if constructor_use.is_some() {
-                            // The call can copy the pattern of the wrapped
-                            // regex, but not the group names that
-                            // `_wrap_reg_exp` restores.
-                            self.warn_message(
-                                regex.span,
-                                "The named capturing groups of this regular expression are \
-                                 lowered for the configured targets, but the enclosing `RegExp` \
-                                 call can copy only the pattern, so its matches can have no \
-                                 `groups`.",
-                            );
-                        }
-
                         let Regex { flags, span, .. } = regex.take();
 
                         // Check if other transforms also need the regex to be a
@@ -1076,13 +799,9 @@ impl RegexpPass {
                             self.needs_regexp_constructor(&stripped_exp, &flags);
 
                         let regex_arg: Expr = if needs_constructor {
-                            // Apply unicode property transform if needed. When
-                            // the enclosing call replaces the flags with flags
-                            // of another Unicode mode, the expansion could be
-                            // invalid with them.
-                            let pattern = expand_properties
-                                .then(|| self.transform_pattern(&stripped_exp, &flags))
-                                .flatten()
+                            // Apply unicode property transform if needed
+                            let pattern = self
+                                .transform_pattern(&stripped_exp, &flags)
                                 .unwrap_or(stripped_exp);
 
                             let exp: Expr = Atom::from(pattern).into();
@@ -1134,12 +853,9 @@ impl RegexpPass {
                     let Regex { exp, flags, span } = regex.take();
 
                     // Transform the pattern if it contains unicode property
-                    // escapes. When the enclosing call replaces the flags with
-                    // flags of another Unicode mode, the expansion could be
-                    // invalid with them, so the pattern is kept.
-                    let transformed_pattern = expand_properties
-                        .then(|| self.transform_pattern(&exp, &flags))
-                        .flatten()
+                    // escapes
+                    let transformed_pattern = self
+                        .transform_pattern(&exp, &flags)
                         .unwrap_or_else(|| exp.to_string());
 
                     let exp: Expr = Atom::from(transformed_pattern).into();
@@ -1254,102 +970,6 @@ fn static_call_prefix(args: &[ExprOrSpread]) -> (Vec<Option<&Expr>>, bool) {
         }
     }
     (prefix, true)
-}
-
-/// Returns the largest number of arguments that `args` can supply, or `None`
-/// if a spread has an unknown length. A spread of a conditional supplies the
-/// longer of its two branches.
-fn max_argument_count(args: &[ExprOrSpread]) -> Option<usize> {
-    fn spread_len(expr: &Expr) -> Option<usize> {
-        match expr.unwrap_parens() {
-            Expr::Array(array) => array.elems.iter().try_fold(0usize, |count, elem| {
-                Some(
-                    count
-                        + match elem {
-                            Some(elem) if elem.spread.is_some() => spread_len(&elem.expr)?,
-                            _ => 1,
-                        },
-                )
-            }),
-            Expr::Cond(cond) => Some(spread_len(&cond.cons)?.max(spread_len(&cond.alt)?)),
-            _ => None,
-        }
-    }
-
-    args.iter().try_fold(0usize, |count, arg| {
-        Some(
-            count
-                + if arg.spread.is_some() {
-                    spread_len(&arg.expr)?
-                } else {
-                    1
-                },
-        )
-    })
-}
-
-/// Collects the addresses of the regex literals that the pattern argument of a
-/// `RegExp` call can evaluate to.
-///
-/// Only direct value positions are followed: parentheses, both branches of a
-/// conditional (not the test), logical operators, the last expression of a
-/// sequence, the right side of a plain or logical assignment and the elements
-/// of an array (for a spread). A literal elsewhere, for example in a call that
-/// computes the pattern, is not passed to `RegExp` directly, so it is lowered
-/// as usual.
-fn collect_pattern_literals(
-    expr: &Expr,
-    spread: bool,
-    kind: ConstructorUse,
-    literals: &mut ConstructorLiterals,
-) {
-    match expr {
-        Expr::Lit(Lit::Regex(regex)) => literals.push(regex as *const Regex as usize, kind),
-        Expr::Paren(paren) => collect_pattern_literals(&paren.expr, spread, kind, literals),
-        Expr::Cond(cond) => {
-            collect_pattern_literals(&cond.cons, spread, kind, literals);
-            collect_pattern_literals(&cond.alt, spread, kind, literals);
-        }
-        Expr::Bin(bin) if matches!(bin.op, op!("||") | op!("??")) => {
-            collect_pattern_literals(&bin.left, spread, kind, literals);
-            collect_pattern_literals(&bin.right, spread, kind, literals);
-        }
-        // `a && b` evaluates to `a` only if `a` is falsy, and a regex is
-        // truthy.
-        Expr::Bin(bin) if bin.op == op!("&&") => {
-            collect_pattern_literals(&bin.right, spread, kind, literals);
-        }
-        Expr::Seq(seq) => {
-            if let Some(last) = seq.exprs.last() {
-                collect_pattern_literals(last, spread, kind, literals);
-            }
-        }
-        // `a = b` and the logical assignments can evaluate to `b`. The other
-        // assignments compute a new value.
-        Expr::Assign(assign)
-            if matches!(assign.op, op!("=") | op!("||=") | op!("&&=") | op!("??=")) =>
-        {
-            collect_pattern_literals(&assign.right, spread, kind, literals)
-        }
-        // The elements of an array that is spread into the arguments. Only
-        // the first element that is known to exist can be the pattern; a
-        // nested spread before it can supply nothing.
-        // An array that is the pattern itself is converted to a string, so
-        // its literals are not reused.
-        Expr::Array(array) if spread => {
-            for elem in &array.elems {
-                let Some(elem) = elem else {
-                    // A hole supplies `undefined` as the pattern.
-                    break;
-                };
-                collect_pattern_literals(&elem.expr, elem.spread.is_some(), kind, literals);
-                if elem.spread.is_none() {
-                    break;
-                }
-            }
-        }
-        _ => {}
-    }
 }
 
 /// Returns the value of a string literal, or of a template literal without

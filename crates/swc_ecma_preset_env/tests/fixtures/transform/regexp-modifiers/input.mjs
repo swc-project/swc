@@ -24,18 +24,8 @@ export const constructorCall = new RegExp("(?i:a)b", "g");
 export const constructorWithoutFlags = new RegExp("(?s:.)");
 export const callWithoutFlags = RegExp("(?m:^a$)");
 
-// The flags of the call replace the flags of a regex literal argument, so the
-// literal is kept.
-export const literalWithFlags = new RegExp(/(?-i:a)/, "i");
-export const literalWithEmptyFlags = new RegExp(/(?s:.)/, "");
-// The flags are unknown, so the literal is kept.
-export const literalWithDynamicFlags = new RegExp(/(?i:a)/, flags);
-// The literal is not lowered with its own flags, because the call replaces
-// them.
-export const literalLoweredWithOwnFlags = new RegExp(/[^a]/vi, "");
-export const literalWithUnicodeFlag = RegExp(/[a&&b]/v, "u");
-// `undefined` keeps the flags of the literal.
-export const literalWithUndefinedFlags = new RegExp(/(?i:a)/, undefined);
+// Like Babel, a literal passed to `RegExp` is lowered with its own flags.
+export const literalInCall = new RegExp(/(?i:a)/, "g");
 // The targets support the `v` flag, but not duplicate names. Removing the
 // names must keep the operands of `--` in place.
 export const duplicateNamesWithSubtraction = /(?<x>[a--\u{DC00}])|(?<x>b)/v;
