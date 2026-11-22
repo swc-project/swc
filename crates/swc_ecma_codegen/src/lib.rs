@@ -294,22 +294,32 @@ where
         } else {
             formatting_space!(self);
         }
-        self.emit_expr_with_precedence(&node.callee, ExprPrecedence::POSTFIX)?;
+        let args = node.args.as_deref().unwrap_or_default();
+        // A caller that passes `should_ignore_empty_args: false` prints this
+        // expression where `new F` without `()` would change the meaning, such
+        // as a callee, so `()` is printed even if the AST has no argument list.
+        //
+        // A generic constructor needs `()` to keep its type arguments
+        // distinct from following relational, shift, or unary operators.
+        let emits_args = !should_ignore_empty_args
+            || (node.args.is_some()
+                && !(self.cfg.minify && args.is_empty() && node.type_args.is_none()));
+
+        match &*node.callee {
+            // In `new new F()(x)`, `x` is passed to the constructed value, but
+            // in `new new F(x)`, `x` is passed to `F`.
+            Expr::New(callee) if emits_args => {
+                self.emit_new(callee, false)?;
+            }
+            _ => self.emit_expr_with_precedence(&node.callee, ExprPrecedence::POSTFIX)?,
+        }
 
         if let Some(type_args) = &node.type_args {
             emit!(self, type_args);
         }
 
-        if let Some(ref args) = node.args {
-            // A generic constructor needs `()` to keep its type arguments
-            // distinct from following relational, shift, or unary operators.
-            let omit_args = self.cfg.minify
-                && args.is_empty()
-                && should_ignore_empty_args
-                && node.type_args.is_none();
-            if !omit_args {
-                self.emit_arguments(node.span(), args, ListFormat::NewExpressionArguments)?;
-            }
+        if emits_args {
+            self.emit_arguments(node.span(), args, ListFormat::NewExpressionArguments)?;
         }
 
         // srcmap!(self, node, false);
@@ -1866,8 +1876,14 @@ impl MacroNode for OptChainExpr {
                 }
             }
             OptChainBase::Call(e) => {
-                debug_assert!(!e.callee.is_new());
-                emitter.emit_expr_with_precedence(&e.callee, ExprPrecedence::POSTFIX)?;
+                // Keep the `()` of `new F()` in minified output, because
+                // `new F?.()` is a syntax error. The fixer wraps a `new`
+                // callee without arguments in parentheses.
+                if let Expr::New(new) = &*e.callee {
+                    emitter.emit_new(new, false)?;
+                } else {
+                    emitter.emit_expr_with_precedence(&e.callee, ExprPrecedence::POSTFIX)?;
+                }
 
                 if self.optional {
                     punct!(emitter, "?.");

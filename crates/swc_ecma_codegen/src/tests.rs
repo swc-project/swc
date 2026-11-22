@@ -217,6 +217,94 @@ fn assert_valid_constructed_expr(code: &str, syntax: Syntax) {
     parse_then_emit(&source, Default::default(), syntax);
 }
 
+/// Builds `new <callee>` without an argument list, as `(new F)` parses after
+/// its parentheses are removed.
+fn constructed_new_without_args(callee: Box<Expr>) -> Box<Expr> {
+    Box::new(Expr::New(NewExpr {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        callee,
+        args: None,
+        type_args: None,
+    }))
+}
+
+/// A `new` expression without an argument list is printed with `()` where
+/// `new F` would change the meaning or is invalid, even without a
+/// `ParenExpr` in the AST. See issue #12810.
+#[test]
+fn emit_new_without_args_in_callee_positions() {
+    let new_f = || constructed_new_without_args(constructed_ident("F"));
+
+    let call = Expr::Call(CallExpr {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        callee: Callee::Expr(new_f()),
+        args: vec![],
+        type_args: None,
+    });
+    let optional_call = Expr::OptChain(OptChainExpr {
+        span: DUMMY_SP,
+        optional: true,
+        base: Box::new(OptChainBase::Call(OptCall {
+            span: DUMMY_SP,
+            ctxt: Default::default(),
+            callee: new_f(),
+            args: vec![],
+            type_args: None,
+        })),
+    });
+    let member = Expr::Member(MemberExpr {
+        span: DUMMY_SP,
+        obj: new_f(),
+        prop: MemberProp::Ident(IdentName::new("x".into(), DUMMY_SP)),
+    });
+    let new_with_args = Expr::New(NewExpr {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        callee: new_f(),
+        args: Some(vec![ExprOrSpread {
+            spread: None,
+            expr: constructed_ident("x"),
+        }]),
+        type_args: None,
+    });
+    let new_without_args = *constructed_new_without_args(new_f());
+    let tagged = Expr::TaggedTpl(TaggedTpl {
+        span: DUMMY_SP,
+        ctxt: Default::default(),
+        tag: new_f(),
+        type_params: None,
+        tpl: Box::new(Tpl {
+            span: DUMMY_SP,
+            exprs: vec![],
+            quasis: vec![TplElement {
+                span: DUMMY_SP,
+                tail: true,
+                cooked: None,
+                raw: "".into(),
+            }],
+        }),
+    });
+
+    let cases = [
+        (call, "new F()()"),
+        (optional_call, "new F()?.()"),
+        (member, "new F().x"),
+        (new_with_args, "new new F()(x)"),
+        (new_without_args, "new new F"),
+        (tagged, "new F()``"),
+    ];
+
+    for (expr, expected) in cases {
+        for minify in [false, true] {
+            let output = emit_constructed_node(&expr, minify);
+            assert_eq!(output, expected, "minify: {minify}");
+            assert_valid_constructed_expr(&output, Syntax::default());
+        }
+    }
+}
+
 #[test]
 fn emit_non_finite_number_literals() {
     let cases = [
