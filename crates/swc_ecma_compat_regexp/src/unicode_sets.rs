@@ -17,8 +17,10 @@ use crate::{
 /// same meaning with the `u` flag.
 ///
 /// - Every character class is replaced with an explicit class. Set operations
-///   (`&&`, `--`), nested classes, `\q{...}` and properties of strings are
-///   evaluated. A class that contains strings becomes `(?:...)`.
+///   (`&&`, `--`), nested classes, `\q{...}` and `\p{Basic_Emoji}` are
+///   evaluated. A class that contains strings becomes `(?:...)`. Other
+///   properties of strings, including `RGI_Emoji`, return
+///   [`LowerError::UnsupportedProperty`].
 /// - With case-insensitive matching, `\P{...}` and negated classes are computed
 ///   after case folding, as the `v` flag requires.
 ///

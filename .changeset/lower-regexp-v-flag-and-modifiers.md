@@ -15,3 +15,6 @@ duplicate named groups are now lowered for targets that do not support them.
 This applies to `env.targets` and to `jsc.target`: `jsc.target` below
 `es2024` lowers the `v` flag, and every `jsc.target` other than `esnext`
 lowers modifiers and duplicate named groups.
+
+The `v` transform supports `\p{Basic_Emoji}`. Other properties of strings,
+including `\p{RGI_Emoji}`, keep the `v` flag and require native support.
