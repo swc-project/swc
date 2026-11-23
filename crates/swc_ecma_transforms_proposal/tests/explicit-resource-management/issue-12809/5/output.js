@@ -5,12 +5,15 @@ const env = {
 };
 try {
     var res = _ts_add_disposable_resource(env, null, false);
+    var _default = {
+        default: class {
+            static name2 = this.name;
+        }
+    }.default;
 } catch (e) {
     env.error = e;
     env.hasError = true;
 } finally{
     _ts_dispose_resources(env);
 }
-export default class {
-    static name2 = this.name;
-};
+export { _default as default };
