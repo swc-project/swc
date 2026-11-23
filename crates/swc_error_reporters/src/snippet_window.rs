@@ -200,23 +200,51 @@ fn paddings_fit(
         end
     };
 
+    // The labels that miette draws on this line, in its order.
+    let on_line = labels
+        .iter()
+        .copied()
+        .take_while(|&(lo, _)| lo < line_limit)
+        .filter(|&(lo, hi)| lo >= start && hi <= line_limit)
+        .collect::<Vec<_>>();
+    if on_line.is_empty() {
+        return true;
+    }
+
+    // Find the columns of all label ends in one pass over the line, because
+    // miette reads a snippet again for each label that it merges into it.
+    let text = &src[start..text_end];
+    let mut positions = on_line
+        .iter()
+        .flat_map(|&(lo, hi)| [lo, hi])
+        .filter(|&pos| pos <= text_end)
+        .collect::<Vec<_>>();
+    positions.sort_unstable();
+    positions.dedup();
+    let mut columns_at = Vec::with_capacity(positions.len());
+    let mut column_before = 0;
+    for ((i, _), column_after) in text.char_indices().zip(columns(text)) {
+        while columns_at.len() < positions.len() && positions[columns_at.len()] <= start + i {
+            columns_at.push(column_before);
+        }
+        if columns_at.len() == positions.len() {
+            break;
+        }
+        column_before = column_after;
+    }
+    // The positions at the end of the text.
+    columns_at.resize(positions.len(), column_before);
+
     let column = |pos: usize| {
         if pos > text_end {
-            visual_width(&src[start..text_end]) + 1
+            visual_width(text) + 1
         } else {
-            visual_width(&src[start..pos])
+            columns_at[positions.binary_search(&pos).unwrap()]
         }
     };
 
     let mut highest = 0;
-    for &(lo, hi) in labels {
-        if lo >= line_limit {
-            break;
-        }
-        if lo < start || hi > line_limit {
-            continue;
-        }
-
+    for (lo, hi) in on_line {
         let label_start = column(lo).max(highest);
         if label_start - highest > u16::MAX as usize {
             return false;
