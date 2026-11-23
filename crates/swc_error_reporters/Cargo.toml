@@ -16,6 +16,11 @@ anyhow    = { workspace = true, default-features = false }
 miette    = { workspace = true, features = ["fancy-no-syscall"] }
 once_cell = { workspace = true, default-features = false }
 serde     = { workspace = true, default-features = false }
+# miette 7 measures columns with unicode-width 0.1, and the forked renderers in
+# the TypeScript bindings use the workspace version (0.2). `snippet_window`
+# bounds the width with both, so it needs both versions.
+unicode-width = { workspace = true, default-features = false }
+unicode-width-miette = { package = "unicode-width", version = "0.1.11", default-features = false }
 
 swc_common = { version = "28.0.0", path = "../swc_common", features = [
   "concurrent",

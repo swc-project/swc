@@ -29,15 +29,21 @@ fn issue_10518_no_panic_for_invalid_label_span() {
     assert!(pretty.contains("test"));
 }
 
-/// Renders the diagnostics that `op` emits for a source file with the text
-/// `src`, and fails the test if rendering panics.
-fn render(src: &str, op: impl FnOnce(&swc_common::errors::Handler)) -> String {
+/// Renders the diagnostics that `op` emits for a source file named
+/// `input.js` with the text `src`, and fails the test if rendering panics.
+///
+/// `op` gets a function that converts a byte range of `src` to a [Span].
+fn render(
+    src: &str,
+    op: impl FnOnce(&swc_common::errors::Handler, &dyn Fn(usize, usize) -> Span),
+) -> String {
     let cm = Lrc::new(SourceMap::default());
 
     let result = try_with_handler(cm.clone(), Default::default(), |handler| -> Result<(), _> {
-        let _fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
+        let fm = cm.new_source_file(FileName::Real("input.js".into()).into(), src.to_string());
+        let start = fm.start_pos.0 as usize;
 
-        op(handler);
+        op(handler, &|lo, hi| span(start + lo, start + hi));
 
         bail!("should fail");
     })
@@ -55,23 +61,32 @@ fn widest_line(s: &str) -> usize {
     s.lines().map(|l| l.chars().count()).max().unwrap_or(0)
 }
 
+/// Asserts that `pretty` shows a snippet, and not the note that miette prints
+/// when it cannot read one.
+fn assert_has_snippet(pretty: &str) {
+    assert!(!pretty.contains("Failed to read contents"), "{pretty}");
+    assert!(pretty.contains("[input.js:"), "{pretty}");
+}
+
 /// The source of https://github.com/swc-project/swc/issues/12828: one line
-/// of `prefix_len` columns of valid code, then a syntax error.
-fn issue_12828_src(prefix_len: usize) -> (String, Span) {
+/// of `prefix_len` columns of valid code, then a syntax error at the `;`.
+fn issue_12828_src(prefix_len: usize) -> (String, usize) {
     let mut src = "var a=1;".repeat(prefix_len / 8);
     let error = src.len() + "var b = 1 +".len();
     src.push_str("var b = 1 +;\n");
-    (src, span(error, error + 1))
+    (src, error)
 }
 
 #[test]
 fn issue_12828_error_past_column_65536() {
     let (src, error) = issue_12828_src(70000);
 
-    let pretty = render(&src, |h| {
-        h.struct_span_err(error, "Expression expected").emit();
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(error, error + 1), "Expression expected")
+            .emit();
     });
 
+    assert_has_snippet(&pretty);
     assert!(pretty.contains("Expression expected"), "{pretty}");
     assert!(pretty.contains("var b = 1 +;"), "{pretty}");
     // The line is cropped around the error.
@@ -82,11 +97,13 @@ fn issue_12828_error_past_column_65536() {
 fn issue_12828_error_before_column_65536_is_not_cropped() {
     let (src, error) = issue_12828_src(64000);
 
-    let pretty = render(&src, |h| {
-        h.struct_span_err(error, "Expression expected").emit();
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(error, error + 1), "Expression expected")
+            .emit();
     });
 
-    assert!(pretty.contains("Expression expected"), "{pretty}");
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("[input.js:1:1]"), "{pretty}");
     assert!(widest_line(&pretty) > 64000, "{pretty}");
 }
 
@@ -94,12 +111,13 @@ fn issue_12828_error_before_column_65536_is_not_cropped() {
 fn issue_12828_error_after_tabs() {
     // 16384 tabs are 65536 columns wide with a tab width of 4.
     let src = format!("{}+;\n", "\t".repeat(16384));
-    let error = span(16385, 16386);
 
-    let pretty = render(&src, |h| {
-        h.struct_span_err(error, "Expression expected").emit();
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(16385, 16386), "Expression expected")
+            .emit();
     });
 
+    assert_has_snippet(&pretty);
     assert!(pretty.contains("Expression expected"), "{pretty}");
 }
 
@@ -108,13 +126,33 @@ fn issue_12828_error_after_wide_characters() {
     // 32768 CJK characters are 65536 columns wide.
     let src = format!("var a = '{}' +;\n", "가".repeat(32768));
     let error = src.len() - 2;
-    let error = span(error, error + 1);
 
-    let pretty = render(&src, |h| {
-        h.struct_span_err(error, "Expression expected").emit();
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(error, error + 1), "Expression expected")
+            .emit();
     });
 
-    assert!(pretty.contains("Expression expected"), "{pretty}");
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("' +;"), "{pretty}");
+}
+
+#[test]
+fn issue_12828_error_after_three_column_characters() {
+    // miette renders U+17D8 (KHMER SIGN BEYYAL) as 3 columns. With 65512
+    // columns of ASCII before them, the error is at column 65536.
+    let src = format!(
+        "{}var b = '{}' +;\n",
+        "var a=1;".repeat(8189),
+        "\u{17D8}".repeat(4)
+    );
+    let error = src.len() - 2;
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(error, error + 1), "Expression expected")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
     assert!(pretty.contains("' +;"), "{pretty}");
 }
 
@@ -124,13 +162,14 @@ fn issue_12828_labels_far_apart_on_one_line() {
     let src = format!("let a = 1;{}let a = 2;\n", " ".repeat(70000));
     let second = src.len() - "a = 2;\n".len();
 
-    let pretty = render(&src, |h| {
+    let pretty = render(&src, |h, span| {
         h.struct_span_err(span(second, second + 1), "duplicate declaration")
             .span_label(span(4, 5), "first declared here")
             .span_label(span(second, second + 1), "declared again here")
             .emit();
     });
 
+    assert_has_snippet(&pretty);
     assert!(pretty.contains("first declared here"), "{pretty}");
     assert!(pretty.contains("declared again here"), "{pretty}");
     assert!(widest_line(&pretty) < 1000, "{pretty}");
@@ -145,7 +184,7 @@ fn issue_12828_label_on_wide_context_line() {
     let first_label = first.len() - "a = 1;".len();
     let second_label = first.len() + 1 + "let ".len();
 
-    let pretty = render(&src, |h| {
+    let pretty = render(&src, |h, span| {
         h.struct_span_err(
             span(second_label, second_label + 1),
             "duplicate declaration",
@@ -155,6 +194,7 @@ fn issue_12828_label_on_wide_context_line() {
         .emit();
     });
 
+    assert_has_snippet(&pretty);
     assert!(pretty.contains("first declared here"), "{pretty}");
     assert!(pretty.contains("declared again here"), "{pretty}");
     assert!(widest_line(&pretty) < 1000, "{pretty}");
@@ -166,41 +206,118 @@ fn issue_12828_wide_context_lines_are_not_shown() {
     let src = format!("{wide}\nlet a = 1 +;\n{wide}\n");
     let error = wide.len() + 1 + "let a = 1 +".len();
 
-    let pretty = render(&src, |h| {
+    let pretty = render(&src, |h, span| {
         h.struct_span_err(span(error, error + 1), "Expression expected")
             .emit();
     });
 
-    assert!(pretty.contains("Expression expected"), "{pretty}");
+    assert_has_snippet(&pretty);
     assert!(pretty.contains("let a = 1 +;"), "{pretty}");
     assert!(widest_line(&pretty) < 1000, "{pretty}");
 }
 
 #[test]
-fn issue_12828_span_too_wide_to_show() {
-    // A label that covers more than 65536 columns of one line, and a label
-    // inside it, far from its start.
+fn issue_12828_wide_label_is_shown() {
+    // A label that covers more than 65536 columns of one line, as for an
+    // unterminated string in minified code, and a label inside it. miette
+    // renders both without a wide padding, so the snippet is shown.
     let src = format!("let a = [{}1];\n", "0,".repeat(35000));
+    let array = (8, src.len() - 2);
     let inner = src.len() - "1];\n".len();
 
-    let pretty = render(&src, |h| {
-        h.struct_span_err(span(8, src.len() - 2), "array is too long")
-            .span_label(span(8, src.len() - 2), "this array")
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(array.0, array.1), "array is too long")
+            .span_label(span(array.0, array.1), "this array")
             .span_label(span(inner, inner + 1), "last element")
             .emit();
     });
 
-    assert!(pretty.contains("array is too long"), "{pretty}");
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("this array"), "{pretty}");
+    assert!(pretty.contains("last element"), "{pretty}");
+}
+
+#[test]
+fn issue_12828_wide_label_of_wide_characters_is_shown() {
+    // An unterminated string of 33000 one-column non-ASCII characters.
+    let src = format!("const data = \"{}\n", "é".repeat(33000));
+    let string = ("const data = ".len(), src.len() - 1);
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(string.0, string.1), "Unterminated string constant")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+}
+
+#[test]
+fn issue_12828_wide_label_with_trailing_text_is_shown() {
+    // A label that is just narrow enough, followed by more text on its line.
+    let src = format!("'{}' = 0; // {}\n", "a".repeat(65460), "b".repeat(200));
+    let lhs = (0, 65462);
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(lhs.0, lhs.1), "Invalid assignment target")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+}
+
+#[test]
+fn issue_12828_wide_label_keeps_other_labels() {
+    // An unterminated regular expression on a wide line, and a note on the
+    // line before it.
+    let src = format!("if (\n/{}\n", "a".repeat(70000));
+    let regexp = (5, src.len() - 1);
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(regexp.0, regexp.1), "Unterminated regexp literal")
+            .span_label(
+                span(0, 2),
+                "Tried to parse the condition for an if statement",
+            )
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(
+        pretty.contains("Tried to parse the condition for an if statement"),
+        "{pretty}"
+    );
 }
 
 #[test]
 fn issue_12828_multi_line_span_with_wide_middle_line() {
     let src = format!("let a = [\n{}\n1];\n", "0,".repeat(35000));
+    let array = (8, src.len() - 2);
     let inner = src.len() - "1];\n".len();
 
-    let pretty = render(&src, |h| {
-        h.struct_span_err(span(8, src.len() - 2), "array is too long")
-            .span_label(span(8, src.len() - 2), "this array")
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(array.0, array.1), "array is too long")
+            .span_label(span(array.0, array.1), "this array")
+            .span_label(span(inner, inner + 1), "last element")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("this array"), "{pretty}");
+    assert!(pretty.contains("last element"), "{pretty}");
+}
+
+#[test]
+fn issue_12828_label_far_inside_wide_line_of_multi_line_span() {
+    // A label far inside a wide line that a multi-line span covers. miette
+    // would pad it by more than 65536 columns, so the snippet is not shown,
+    // and only the message is rendered.
+    let src = format!("let a = [\n{}1,\n];\n", "0,".repeat(35000));
+    let array = (8, src.len() - 2);
+    let inner = src.len() - "1,\n];\n".len();
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(inner, inner + 1), "array is too long")
+            .span_label(span(array.0, array.1), "this array")
             .span_label(span(inner, inner + 1), "last element")
             .emit();
     });
