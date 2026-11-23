@@ -299,7 +299,7 @@ impl miette::SourceCode for PrettySourceCode<'_> {
 }
 
 /// Returns a source that does not know the labels of the diagnostic. Use
-/// [PrettySourceCode::with_labels] to pass them.
+/// `with_labels` on the result to pass them.
 ///
 /// The source selects snippets that miette renders with its default tab width
 /// (4). A handler with a larger tab width can still pad a label by more than
