@@ -182,12 +182,14 @@ impl<'a> PrettySourceCode<'a> {
     /// `file_start` and ends at `file_end`, relative to `file_start`.
     fn label_ranges(&self, file_start: BytePos, file_end: BytePos) -> Option<Vec<(usize, usize)>> {
         let to_range = |span: Span| {
-            (span.lo >= file_start && span.hi <= file_end && !span.is_dummy()).then(|| {
-                (
-                    (span.lo.0 - file_start.0) as usize,
-                    (span.hi.0 - file_start.0) as usize,
-                )
-            })
+            // Skip a malformed span, as `is_valid_span` does for miette.
+            (span.lo <= span.hi && span.lo >= file_start && span.hi <= file_end && !span.is_dummy())
+                .then(|| {
+                    (
+                        (span.lo.0 - file_start.0) as usize,
+                        (span.hi.0 - file_start.0) as usize,
+                    )
+                })
         };
 
         match self.labels {

@@ -330,3 +330,24 @@ fn issue_12828_label_far_inside_wide_line_of_multi_line_span() {
 
     assert!(pretty.contains("array is too long"), "{pretty}");
 }
+
+#[test]
+fn issue_12828_reversed_label_span_is_ignored() {
+    // A malformed label span (`lo > hi`) does not stop the wide label from
+    // being shown.
+    let src = format!("const data = \"{}\n", "a".repeat(70000));
+    let string = ("const data = ".len(), src.len() - 1);
+
+    let pretty = render(&src, |h, span| {
+        let reversed = span(14, 14);
+        let reversed = Span {
+            lo: BytePos(reversed.lo.0 + 70985),
+            hi: reversed.hi,
+        };
+        h.struct_span_err(span(string.0, string.1), "Unterminated string constant")
+            .span_label(reversed, "reversed")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+}
