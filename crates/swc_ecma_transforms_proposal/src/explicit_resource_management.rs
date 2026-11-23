@@ -82,8 +82,8 @@ impl ExplicitResourceManagement {
         T: StmtLike + ModuleItemLike,
     {
         let mut rest = stmts.take().into_iter();
-        let mut prefix: Vec<T> = rest.by_ref().take(prefix_len).collect();
-        let mut new = Vec::new();
+        // The output starts with the prefix.
+        let mut new: Vec<T> = rest.by_ref().take(prefix_len).collect();
         let mut extras = Vec::new();
         // Names of exported classes, and of the exported enums and namespaces
         // moved into the `try` block. TypeScript merges an enum or a namespace
@@ -547,8 +547,7 @@ impl ExplicitResourceManagement {
         new.push(T::from(try_stmt.into()));
         new.extend(extras);
 
-        prefix.extend(new);
-        *stmts = prefix;
+        *stmts = new;
     }
 }
 
