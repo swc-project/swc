@@ -753,6 +753,19 @@ impl Caniuse for FeatureConfig {
             return true;
         }
 
+        // `es2015::destructuring` does not lower object rest patterns. It
+        // expects `es2018::object_rest_spread` to remove them first. A target
+        // can support object rest/spread but still need the destructuring
+        // transform. For example, Safari 14 supports object rest/spread (since
+        // 11.1), but needs `transform-destructuring` until 14.1. Thus the
+        // object rest/spread transform is also required when
+        // destructuring is lowered.
+        //
+        // An explicit `exclude` of object rest/spread is still respected above.
+        if feature == Feature::ObjectRestSpread && !self.caniuse(Feature::Destructuring) {
+            return false;
+        }
+
         // If browserslist returned empty (unknown browser version), assume all
         // features are supported (like Babel does). This handles cases like
         // "Chrome > 130" where the version is newer than the browserslist

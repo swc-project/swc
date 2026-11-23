@@ -40,11 +40,11 @@ tracing = { workspace = true, default-features = false }
 swc_atoms = { version = "11.0.0", path = "../swc_atoms", default-features = false }
 swc_common = { version = "28.0.0", path = "../swc_common", default-features = false }
 swc_ecma_ast = { version = "31.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_parser = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "48.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "52.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "37.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_transforms_base = { version = "52.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "37.0.1", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "31.0.0", path = "../swc_ecma_visit", default-features = false }
 
 
@@ -52,7 +52,7 @@ swc_ecma_visit = { version = "31.0.0", path = "../swc_ecma_visit", default-featu
 par-core = { workspace = true, features = ["chili"], default-features = false }
 
 
-swc_ecma_transforms_base = { version = "52.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "52.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_ecma_transforms_compat = { version = "60.0.0", path = "../swc_ecma_transforms_compat", default-features = false }

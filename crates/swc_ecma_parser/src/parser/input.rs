@@ -33,6 +33,18 @@ pub trait Tokens: Clone {
 
     fn read_string(&self, span: Span) -> &str;
 
+    /// Returns the source text of `span` as an [`Atom`].
+    ///
+    /// The parser uses this method for the raw text of literals, such as
+    /// `Str.raw`. The default implementation interns the text in the global
+    /// atom store. That store keeps the text alive after the AST is dropped,
+    /// until the embedder runs a global atom store GC. Token sources that own
+    /// a local atom store, such as [`Lexer`](crate::lexer::Lexer), should
+    /// override this method so the text is freed with the AST.
+    fn read_atom(&self, span: Span) -> Atom {
+        Atom::new(self.read_string(span))
+    }
+
     fn start_pos(&self) -> BytePos {
         BytePos(0)
     }
@@ -518,6 +530,15 @@ impl<I: Tokens> Buffer<I> {
     pub fn cur_string(&self) -> &str {
         let token_span = self.cur_span();
         self.iter.read_string(token_span)
+    }
+
+    /// Returns the source text of the current token as an [`Atom`].
+    ///
+    /// See [`Tokens::read_atom`].
+    #[inline]
+    pub fn cur_atom(&self) -> Atom {
+        let token_span = self.cur_span();
+        self.iter.read_atom(token_span)
     }
 
     /// Returns last byte position of previous token.

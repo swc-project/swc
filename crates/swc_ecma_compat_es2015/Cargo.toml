@@ -29,15 +29,15 @@ swc_atoms    = { version = "11.0.0", path = "../swc_atoms", default-features = f
 swc_common                  = { version = "28.0.0", path = "../swc_common", default-features = false }
 swc_config                  = { version = "7.0.0", path = "../swc_config", default-features = false }
 swc_ecma_ast                = { version = "31.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_compat_common      = { version = "48.0.0", path = "../swc_ecma_compat_common", default-features = false }
-swc_ecma_transformer        = { version = "24.0.0", path = "../swc_ecma_transformer" }
-swc_ecma_transforms_base    = { version = "52.0.0", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_compat_common      = { version = "48.0.1", path = "../swc_ecma_compat_common", default-features = false }
+swc_ecma_transformer        = { version = "24.1.0", path = "../swc_ecma_transformer" }
+swc_ecma_transforms_base    = { version = "52.0.1", path = "../swc_ecma_transforms_base", default-features = false }
 swc_ecma_transforms_classes = { version = "52.0.0", path = "../swc_ecma_transforms_classes", default-features = false }
 swc_ecma_transforms_macros  = { version = "2.0.0", path = "../swc_ecma_transforms_macros", default-features = false }
-swc_ecma_utils              = { version = "37.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_utils              = { version = "37.0.1", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit              = { version = "31.0.0", path = "../swc_ecma_visit", default-features = false }
 tracing                     = { workspace = true }
 
 [dev-dependencies]
-swc_ecma_parser             = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser             = { version = "48.1.0", path = "../swc_ecma_parser", default-features = false }
 swc_ecma_transforms_testing = { version = "56.0.0", path = "../swc_ecma_transforms_testing", default-features = false }

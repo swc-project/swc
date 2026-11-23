@@ -7,12 +7,12 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_compat_common"
 repository    = { workspace = true }
-version       = "48.0.0"
+version       = "48.0.1"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 swc_common           = { version = "28.0.0", path = "../swc_common", default-features = false }
 swc_ecma_ast         = { version = "31.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_transformer = { version = "24.0.0", path = "../swc_ecma_transformer" }
-swc_ecma_utils       = { version = "37.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_transformer = { version = "24.1.0", path = "../swc_ecma_transformer" }
+swc_ecma_utils       = { version = "37.0.1", path = "../swc_ecma_utils", default-features = false }

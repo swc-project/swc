@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_utils"
 repository    = { workspace = true }
-version       = "37.0.0"
+version       = "37.0.1"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -42,4 +42,4 @@ stacker = { version = "0.1.15", optional = true, default-features = false }
 
 [dev-dependencies]
 par-core        = { workspace = true, features = ["chili"], default-features = false }
-swc_ecma_parser = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "48.1.0", path = "../swc_ecma_parser", default-features = false }

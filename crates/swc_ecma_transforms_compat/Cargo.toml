@@ -33,7 +33,7 @@ swc_atoms                = { version = "11.0.0", path = "../swc_atoms", default-
 swc_common               = { version = "28.0.0", path = "../swc_common", default-features = false }
 swc_ecma_ast             = { version = "31.0.0", path = "../swc_ecma_ast", default-features = false }
 swc_ecma_compat_bugfixes = { version = "59.0.0", path = "../swc_ecma_compat_bugfixes", default-features = false }
-swc_ecma_compat_common   = { version = "48.0.0", path = "../swc_ecma_compat_common", default-features = false }
+swc_ecma_compat_common   = { version = "48.0.1", path = "../swc_ecma_compat_common", default-features = false }
 swc_ecma_compat_es2015   = { version = "58.0.0", path = "../swc_ecma_compat_es2015", default-features = false }
 swc_ecma_compat_es2016   = { version = "53.0.0", path = "../swc_ecma_compat_es2016", default-features = false }
 swc_ecma_compat_es2017   = { version = "53.0.0", path = "../swc_ecma_compat_es2017", default-features = false }
@@ -43,16 +43,16 @@ swc_ecma_compat_es2020   = { version = "56.0.0", path = "../swc_ecma_compat_es20
 swc_ecma_compat_es2021   = { version = "53.0.0", path = "../swc_ecma_compat_es2021", default-features = false }
 swc_ecma_compat_es2022   = { version = "56.0.0", path = "../swc_ecma_compat_es2022", default-features = false }
 swc_ecma_compat_es3      = { version = "44.0.0", path = "../swc_ecma_compat_es3", optional = true, default-features = false }
-swc_ecma_transforms_base = { version = "52.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils           = { version = "37.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_transforms_base = { version = "52.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils           = { version = "37.0.1", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit           = { version = "31.0.0", path = "../swc_ecma_visit", default-features = false }
 
 [dev-dependencies]
 par-core   = { workspace = true, features = ["chili"], default-features = false }
 serde_json = { workspace = true, default-features = false }
 
-swc_ecma_parser = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false }
-swc_ecma_transforms_base = { version = "52.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_parser = { version = "48.1.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_transforms_base = { version = "52.0.1", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 swc_ecma_transforms_testing = { version = "56.0.0", path = "../swc_ecma_transforms_testing", default-features = false }

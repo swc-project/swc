@@ -1,0 +1,13 @@
+{
+  "presets": [
+    [
+      "../../../../lib",
+      {
+        "targets": {
+          "safari": "14"
+        },
+        "modules": false
+      }
+    ]
+  ]
+}

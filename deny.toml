@@ -37,15 +37,10 @@ yanked = "warn"
 ignore = [
   #"RUSTSEC-0000-0000",
   "RUSTSEC-2021-0139", # ansi_term is unmaintained
-  "RUSTSEC-2021-0145", # atty potential unaligned read
   "RUSTSEC-2020-0095", # difference is unmaintained
-  "RUSTSEC-2023-0055", # lexical soundness issues
-  "RUSTSEC-2023-0086", # lexical-core soundness issues
   "RUSTSEC-2025-0067", # libyml is unsound and unmaintained
   "RUSTSEC-2025-0068", # serde_yml is unsound and unmaintained
-  "RUSTSEC-2026-0001", # rkyv 0.7.45 OOM issue (transitive dep via parcel_sourcemap)
   "RUSTSEC-2026-0186", # memmap2 is constrained by shared-buffer 0.1.4 via wasmer; shared-buffer has no patched release and only uses Mmap::map
-  "RUSTSEC-2026-0235", # rkyv 0.7.45 is unsupported and transitive via parcel_sourcemap; rkyv 0.8 is upgraded to the patched release
   "RUSTSEC-2026-0543", # chrono is unmaintained and has no safe upgrade; it is used by browserslist-rs, browserslist-data, saffron (via wasmer), and xtask
   # heapless 0.8.0 is required by wasmer-wasix 0.601.0-rc.3 (`heapless ^0.8`).
   # The patched release is heapless 0.9.4, which wasmer-wasix cannot use.
