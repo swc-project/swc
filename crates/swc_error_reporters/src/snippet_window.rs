@@ -8,8 +8,9 @@
 //! aborts the process when the binary uses `panic = "abort"` (for example the
 //! Node.js bindings). See <https://github.com/swc-project/swc/issues/12828>.
 //!
-//! No other part of a snippet uses a runtime width: the text of a line and the
-//! underline of a label are written character by character. So this module
+//! The other runtime widths of a snippet (the width of the line numbers and of
+//! the gutter) stay small, and the text of a line and the underline of a label
+//! are written character by character. So this module
 //! selects the snippet so that miette never pads a label by more than
 //! `u16::MAX` columns:
 //!
