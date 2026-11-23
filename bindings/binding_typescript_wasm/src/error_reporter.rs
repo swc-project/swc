@@ -550,8 +550,12 @@ impl SwcReportHandler {
                 let num_right = end - vbar_offset - 1;
                 underlines.push_str(
                     &format!(
-                        "{:width$}{}{}{}",
-                        "",
+                        "{}{}{}{}",
+                        // Not `{:width$}`: a runtime width above `u16::MAX` panics, and
+                        // this renderer measures some characters wider than the source
+                        // in `swc_error_reporters` does.
+                        // See https://github.com/swc-project/swc/issues/12828
+                        " ".repeat(start.saturating_sub(highest)),
                         chars.underline.to_string().repeat(num_left),
                         if hl.len() == 0 {
                             chars.uarrow
@@ -561,7 +565,6 @@ impl SwcReportHandler {
                             chars.underline
                         },
                         chars.underline.to_string().repeat(num_right),
-                        width = start.saturating_sub(highest),
                     )
                     .style(hl.style)
                     .to_string(),

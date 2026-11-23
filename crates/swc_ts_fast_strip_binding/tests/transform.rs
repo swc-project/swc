@@ -54,6 +54,23 @@ fn reports_error_past_column_65536() {
     assert!(snippet.contains("var b = 1 +;"), "{snippet}");
 }
 
+/// https://github.com/swc-project/swc/issues/12828
+///
+/// The renderer of this binding measures `☰` as 2 columns, and
+/// `swc_error_reporters` measures it as 1, as miette does.
+#[test]
+fn reports_error_after_characters_measured_differently() {
+    let code = format!("var a = '{}'; var b = 1 +;\n", "☰".repeat(40000));
+
+    let errors = transform(code, opts(Mode::StripOnly)).expect_err("should return Err");
+    let errors = serde_json::to_value(&errors).unwrap();
+
+    let snippet = errors[0]["snippet"]
+        .as_str()
+        .expect("the error should have a snippet");
+    assert!(snippet.contains("var b = 1 +;"), "{snippet}");
+}
+
 #[test]
 fn should_strip_types() {
     let code = r#"
