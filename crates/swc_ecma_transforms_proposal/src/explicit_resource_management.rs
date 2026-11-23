@@ -1,3 +1,4 @@
+use rustc_hash::FxHashSet;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -88,9 +89,9 @@ impl ExplicitResourceManagement {
         // moved into the `try` block. TypeScript merges an enum or a namespace
         // with an earlier declaration of the same name, and the name must be
         // exported only once.
-        let mut exported_names: Vec<Id> = Vec::new();
+        let mut exported_names: FxHashSet<Id> = FxHashSet::default();
         // Names of the top-level functions, which stay at the top level.
-        let mut fn_names: Vec<Id> = Vec::new();
+        let mut fn_names: FxHashSet<Id> = FxHashSet::default();
         // Set after a module item that has runtime code but must stay after the
         // `finally` block, such as `import x = require("y")`. The exported
         // declarations after it also stay after the `finally` block, so that
@@ -177,7 +178,7 @@ impl ExplicitResourceManagement {
                     // top level function declarations should preserve original
                     // level
                     Stmt::Decl(Decl::Fn(ref f)) if !self.is_not_top_level => {
-                        fn_names.push(f.ident.to_id());
+                        fn_names.insert(f.ident.to_id());
                         extras.push(stmt.into());
                     }
                     Stmt::Decl(Decl::Class(ClassDecl { ident, class, .. }))
@@ -216,7 +217,7 @@ impl ExplicitResourceManagement {
                         decl: Decl::Class(ClassDecl { ident, class, .. }),
                         span,
                     })) => {
-                        exported_names.push(ident.to_id());
+                        exported_names.insert(ident.to_id());
 
                         // export { C };
                         extras.push(
@@ -395,9 +396,7 @@ impl ExplicitResourceManagement {
                         // would conflict with it.
                         let ident = ts_runtime_decl_ident(&decl).unwrap().clone();
 
-                        if !exported_names.contains(&ident.to_id()) {
-                            exported_names.push(ident.to_id());
-
+                        if exported_names.insert(ident.to_id()) {
                             // export { E };
                             extras.push(
                                 T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
@@ -420,7 +419,9 @@ impl ExplicitResourceManagement {
                         match &module_decl {
                             ModuleDecl::ExportDecl(ExportDecl {
                                 decl: Decl::Fn(f), ..
-                            }) => fn_names.push(f.ident.to_id()),
+                            }) => {
+                                fn_names.insert(f.ident.to_id());
+                            }
                             ModuleDecl::TsImportEquals(import) if !import.is_type_only => {
                                 barrier = true
                             }
