@@ -2,7 +2,7 @@ use std::mem::take;
 
 use swc_atoms::{
     wtf8::{CodePoint, Wtf8, Wtf8Buf},
-    Wtf8Atom,
+    Atom, Wtf8Atom,
 };
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::EsVersion;
@@ -97,6 +97,13 @@ impl crate::input::Tokens for Lexer<'_> {
     fn read_string(&self, span: Span) -> &str {
         assert!(span.lo >= self.input.start_pos() && span.hi <= self.input.end_pos());
         unsafe { self.input_slice_str(span.lo, span.hi) }
+    }
+
+    /// Interns the text in the lexer's local atom store, not in the global
+    /// store, so the allocation is freed when the AST and the lexer drop it.
+    #[inline]
+    fn read_atom(&self, span: Span) -> Atom {
+        self.atoms.atom(self.read_string(span))
     }
 
     #[inline]
