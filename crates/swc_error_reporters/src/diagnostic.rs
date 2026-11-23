@@ -279,10 +279,7 @@ impl miette::SourceCode for PrettySourceCode<'_> {
             data: src,
             span: convert_span(span),
             line: loc.line.saturating_sub(1),
-            // The byte column where `src` starts, as miette's own
-            // `SourceCode` implementations report it. It is 0 unless the line
-            // is cropped.
-            column: start - file_src[..start].rfind('\n').map_or(0, |i| i + 1),
+            column: loc.col_display,
             line_count,
             name,
         }))

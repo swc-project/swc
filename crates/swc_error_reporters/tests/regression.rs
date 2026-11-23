@@ -447,3 +447,17 @@ fn issue_12828_ansi_escape_sequences_have_no_width() {
     assert_has_snippet(&pretty);
     assert!(pretty.contains("expected a string here"), "{pretty}");
 }
+
+#[test]
+fn issue_12828_header_column_of_empty_span_at_eof() {
+    // The header shows the column of an empty span at the end of the file
+    // after a newline, as before. Many parser fixtures depend on it.
+    let src = "let f = 1 +\n";
+
+    let pretty = render(src, |h, span| {
+        h.struct_span_err(span(src.len(), src.len()), "Unexpected eof")
+            .emit();
+    });
+
+    assert!(pretty.contains("[input.js:1:13]"), "{pretty}");
+}
