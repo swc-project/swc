@@ -16,6 +16,14 @@ struct ExplicitResourceManagement {
     state: Option<State>,
 
     is_not_top_level: bool,
+
+    /// `true` while visiting the body of a TypeScript namespace.
+    ///
+    /// A namespace body can not contain ESM exports, so export declarations
+    /// in it are not rewritten to `export { ... }`. The swc pipeline lowers
+    /// namespaces before this pass, so this only matters when the pass runs
+    /// on TypeScript input.
+    in_ts_namespace: bool,
 }
 
 struct State {
@@ -171,6 +179,7 @@ impl ExplicitResourceManagement {
                         try_block.stmts.push(stmt);
                     }
                 },
+                Err(t) if self.in_ts_namespace => extras.push(t),
                 Err(t) => match t.try_into_module_decl() {
                     Ok(ModuleDecl::ExportDecl(ExportDecl {
                         decl: Decl::Class(ClassDecl { ident, class, .. }),
@@ -212,11 +221,13 @@ impl ExplicitResourceManagement {
                     Ok(ModuleDecl::ExportDecl(ExportDecl {
                         decl: Decl::Var(mut var),
                         span,
-                    })) => {
+                    })) if !var.declare => {
                         // The declaration must be evaluated inside the `try`
                         // block, before the resources
                         // are disposed, so it can not stay as an export
-                        // declaration after the `finally` block.
+                        // declaration after the `finally` block. An ambient
+                        // (`declare`) declaration has no runtime binding to
+                        // export, so it is kept as is.
                         //
                         // export { a, b };
                         extras.push(
@@ -496,6 +507,13 @@ impl VisitMut for ExplicitResourceManagement {
             }
             .into()
         }
+    }
+
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        let old_in_ts_namespace = self.in_ts_namespace;
+        self.in_ts_namespace = true;
+        n.visit_mut_children_with(self);
+        self.in_ts_namespace = old_in_ts_namespace;
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
