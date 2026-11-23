@@ -64,6 +64,8 @@ impl ExplicitResourceManagement {
     where
         T: StmtLike + ModuleItemLike,
     {
+        // Items that must run before the `try` block.
+        let mut hoisted = Vec::new();
         let mut new = Vec::new();
         let mut extras = Vec::new();
 
@@ -324,6 +326,18 @@ impl ExplicitResourceManagement {
                             ..Default::default()
                         }))));
                     }
+                    Ok(ModuleDecl::TsImportEquals(import))
+                        if matches!(import.module_ref, TsModuleRef::TsExternalModuleRef(..)) =>
+                    {
+                        // `import x = require("y")` is kept by the TypeScript
+                        // transform for the CommonJS transform, and it can
+                        // not be put in a block. Load the module before the
+                        // `try` block, as an ES import would be, so the
+                        // declarations in the block can use it.
+                        hoisted.push(
+                            T::try_from_module_decl(ModuleDecl::TsImportEquals(import)).unwrap(),
+                        );
+                    }
                     Ok(module_decl) => {
                         extras.push(T::try_from_module_decl(module_decl).unwrap());
                     }
@@ -438,7 +452,8 @@ impl ExplicitResourceManagement {
         new.push(T::from(try_stmt.into()));
         new.extend(extras);
 
-        *stmts = new;
+        hoisted.extend(new);
+        *stmts = hoisted;
     }
 }
 
