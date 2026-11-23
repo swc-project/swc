@@ -5098,7 +5098,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "83.0.0"
+version = "83.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5379,7 +5379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "85.0.0"
+version = "85.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5636,7 +5636,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "34.0.0"
+version = "34.0.1"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -5692,7 +5692,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "48.0.0"
+version = "48.0.1"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -5834,7 +5834,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_regexp"
-version = "11.0.0"
+version = "11.1.0"
 dependencies = [
  "icu_casemap",
  "icu_locale_core",
@@ -5935,7 +5935,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "65.0.0"
+version = "65.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5978,7 +5978,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "48.0.0"
+version = "48.1.0"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6005,7 +6005,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "69.0.0"
+version = "69.0.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6060,7 +6060,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "28.0.0"
+version = "28.0.1"
 dependencies = [
  "indexmap",
  "rustc-hash 2.1.1",
@@ -6081,7 +6081,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_regexp"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "phf",
  "rustc-hash 2.1.1",
@@ -6096,7 +6096,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_regexp_ast"
-version = "5.0.0"
+version = "5.0.1"
 dependencies = [
  "bitflags 2.10.0",
  "cbor4ii",
@@ -6135,7 +6135,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transformer"
-version = "24.0.0"
+version = "24.1.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -6172,7 +6172,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "52.0.0"
+version = "52.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -6408,7 +6408,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "37.0.0"
+version = "37.0.1"
 dependencies = [
  "dragonbox_ecma",
  "hashbrown 0.14.5",

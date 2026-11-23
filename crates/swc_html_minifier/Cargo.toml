@@ -42,16 +42,16 @@ swc_css_codegen = { version = "28.0.0", path = "../swc_css_codegen", optional = 
 swc_css_minifier = { version = "28.0.0", path = "../swc_css_minifier", optional = true, default-features = false }
 swc_css_parser = { version = "28.0.0", path = "../swc_css_parser", optional = true, default-features = false }
 swc_ecma_ast = { version = "31.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_codegen = { version = "34.0.0", path = "../swc_ecma_codegen", features = [
+swc_ecma_codegen = { version = "34.0.1", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "65.0.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "65.0.1", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_parser = { version = "48.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "52.0.0", path = "../swc_ecma_transforms_base", default-features = false }
+swc_ecma_transforms_base = { version = "52.0.1", path = "../swc_ecma_transforms_base", default-features = false }
 swc_ecma_visit = { version = "31.0.0", path = "../swc_ecma_visit", default-features = false }
 swc_html_ast = { version = "28.0.0", path = "../swc_html_ast", default-features = false }
 swc_html_codegen = { version = "29.0.0", path = "../swc_html_codegen", default-features = false }
