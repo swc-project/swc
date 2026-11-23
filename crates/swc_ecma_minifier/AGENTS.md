@@ -83,6 +83,18 @@ do not require repeated, case-specific justification.
 - Update generated fixture outputs with: UPDATE=1 cargo test -p swc_ecma_minifier.
 - Verify without UPDATE before finishing: cargo test -p swc_ecma_minifier.
 
+### Terser Fixture Inputs Are Read-Only
+
+The fixtures in `tests/terser` are ported from Terser. Do not edit the input
+and the options of these fixtures: `input.js`, `config.json`, and
+`mangle.json`. They define the test case, so a change to them changes what the
+fixture tests.
+
+- You can update `output.js`. It is the expected SWC output, and
+  `UPDATE=1 cargo test -p swc_ecma_minifier` updates it.
+- If a change seems to need a different input or option, add a new SWC-owned
+  fixture, for example in `tests/fixture`, instead.
+
 ### Terser Fixture Backlog Workflow
 
 `tests/TODO.txt` and `tests/postponed.txt` are equivalent backlogs of ignored
