@@ -98,6 +98,11 @@ impl ExplicitResourceManagement {
         // they still run after that item, as in the source. Exported classes
         // are an exception: they still move into the `try` block,
         // because the statements that use them move there too.
+        //
+        // Known limitation: other statements after the item still move into
+        // the `try` block. These include the statements that the TypeScript
+        // transform generates for an exported namespace or for a later part of
+        // a merged enum, so they can run before the item.
         let mut barrier = false;
 
         let env = state.env;
