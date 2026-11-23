@@ -229,7 +229,8 @@ fn paddings_fit(
 /// Returns the byte range of `src` that the snippet of `src[lo..hi]` shows.
 ///
 /// The range starts at the start of a line and ends at the end of a line
-/// (without the `\n`), with up to `context_lines_before` and
+/// (without the `\n`, unless the line is a wide last line of the span), with up
+/// to `context_lines_before` and
 /// `context_lines_after` more lines, unless a line is cropped as the
 /// [module documentation](self) describes. Returns `None` if a line of the
 /// span itself cannot be shown.
@@ -295,6 +296,15 @@ pub(crate) fn snippet_window(
             }
             end = next_end;
         }
+    }
+
+    // Keep the `\n` after a wide last line of the span even without context
+    // after it. miette reads the primary label again without context to find
+    // the location for the header, and fails the whole report if that read
+    // fails, so both reads must see the same labels on this line.
+    if end == last_line_end && end < src.len() && is_too_wide(&src[start.max(last_line_start)..end])
+    {
+        end += 1;
     }
 
     // Check the lines of the span, which can still be too wide because the

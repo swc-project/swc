@@ -406,3 +406,23 @@ fn issue_12828_padding_of_u16_max_columns() {
     assert_has_snippet(&pretty);
     assert!(pretty.contains("here"), "{pretty}");
 }
+
+#[test]
+fn issue_12828_header_read_of_label_ending_on_wide_line() {
+    // The primary span ends at the `\n` of a wide line. A label through that
+    // `\n` moves the padding of the label after it, so the snippet with
+    // context renders. miette reads the primary span again without context
+    // for the header, and that read must not fail.
+    let src = format!("(\n{}\nnext\n", "a".repeat(70000));
+    let newline = 2 + 70000;
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(0, newline), "unclosed parenthesis")
+            .span_label(span(7, newline + 1), "this line")
+            .span_label(span(69002, 69003), "here")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("here"), "{pretty}");
+}
