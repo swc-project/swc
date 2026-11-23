@@ -27,11 +27,11 @@
 //!   then renders the labels in separate snippets when it tried to merge them,
 //!   or prints a short "Failed to read contents for label" note.
 //!
-//! Known limitation: when the start of a line is cropped, a label that starts
-//! before the crop position is not drawn on that line. If that label covered
-//! the space before a far label on the line, the far label is padded from the
-//! crop position, and the snippet can be rejected although the uncropped line
-//! renders.
+//! Known limitation: when a line is cropped, a label that starts before the
+//! crop position at its start, or ends after the crop position at its end, is
+//! not drawn as a label of that line. If that label covered the space before a
+//! far label on the line, the far label is padded from an earlier position, and
+//! the snippet can be rejected although the uncropped line renders.
 //!
 //! Columns are measured as miette 7 measures them with its default settings:
 //! the width of `unicode-width` 0.1, tab stops every [TAB_WIDTH] columns, and
