@@ -68,6 +68,13 @@ impl ExplicitResourceManagement {
         let mut hoisted = Vec::new();
         let mut new = Vec::new();
         let mut extras = Vec::new();
+        // Names of exported classes, and of the exported enums and namespaces
+        // moved into the `try` block. TypeScript merges an enum or a namespace
+        // with an earlier declaration of the same name, and the name must be
+        // exported only once.
+        let mut exported_names: Vec<Id> = Vec::new();
+        // Names of the top-level functions, which stay at the top level.
+        let mut fn_names: Vec<Id> = Vec::new();
 
         let env = state.env;
         let catch_e = private_ident!("e");
@@ -148,7 +155,8 @@ impl ExplicitResourceManagement {
                 Ok(mut stmt) => match stmt {
                     // top level function declarations should preserve original
                     // level
-                    Stmt::Decl(Decl::Fn(..)) if !self.is_not_top_level => {
+                    Stmt::Decl(Decl::Fn(ref f)) if !self.is_not_top_level => {
+                        fn_names.push(f.ident.to_id());
                         extras.push(stmt.into());
                     }
                     Stmt::Decl(Decl::Class(ClassDecl { ident, class, .. }))
@@ -187,6 +195,8 @@ impl ExplicitResourceManagement {
                         decl: Decl::Class(ClassDecl { ident, class, .. }),
                         span,
                     })) => {
+                        exported_names.push(ident.to_id());
+
                         // export { C };
                         extras.push(
                             T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
@@ -345,7 +355,56 @@ impl ExplicitResourceManagement {
                             T::try_from_module_decl(ModuleDecl::TsImportEquals(import)).unwrap(),
                         );
                     }
+                    Ok(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
+                        if ts_runtime_decl_ident(&decl)
+                            .is_some_and(|id| !fn_names.contains(&id.to_id())) =>
+                    {
+                        // The transform gets TypeScript input when a caller
+                        // runs it before the TypeScript transform. Enums and
+                        // namespaces initialize their bindings at runtime, so
+                        // they move into the `try` block with the other
+                        // declarations. The TypeScript transform lowers them
+                        // there.
+                        //
+                        // A namespace that merges with a function stays at the
+                        // top level. The function is a lexical declaration of
+                        // the module, and the `var` that the TypeScript
+                        // transform declares for the namespace in the block
+                        // would conflict with it. Known limitation: such a
+                        // namespace is initialized after the resources are
+                        // disposed, and after the exported declarations that
+                        // follow it.
+                        let ident = ts_runtime_decl_ident(&decl).unwrap().clone();
+
+                        if !exported_names.contains(&ident.to_id()) {
+                            exported_names.push(ident.to_id());
+
+                            // export { E };
+                            extras.push(
+                                T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                    specifiers: vec![ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: ident.into(),
+                                        exported: None,
+                                        is_type_only: false,
+                                    }
+                                    .into()],
+                                    ..NamedExport::dummy()
+                                }))
+                                .unwrap(),
+                            );
+                        }
+
+                        try_block.stmts.push(Stmt::Decl(decl));
+                    }
                     Ok(module_decl) => {
+                        if let ModuleDecl::ExportDecl(ExportDecl {
+                            decl: Decl::Fn(f), ..
+                        }) = &module_decl
+                        {
+                            fn_names.push(f.ident.to_id());
+                        }
+
                         extras.push(T::try_from_module_decl(module_decl).unwrap());
                     }
                     Err(t) => extras.push(t),
@@ -563,6 +622,18 @@ impl VisitMut for ExplicitResourceManagement {
         self.is_not_top_level = true;
         self.visit_mut_stmt_likes(stmts);
         self.is_not_top_level = old_is_not_top_level;
+    }
+}
+
+/// Returns the name of a TypeScript enum or namespace that has runtime code.
+fn ts_runtime_decl_ident(decl: &Decl) -> Option<&Ident> {
+    match decl {
+        Decl::TsEnum(e) if !e.declare => Some(&e.id),
+        Decl::TsModule(m) if !m.declare => match &m.id {
+            TsModuleName::Ident(id) => Some(id),
+            TsModuleName::Str(..) => None,
+        },
+        _ => None,
     }
 }
 
