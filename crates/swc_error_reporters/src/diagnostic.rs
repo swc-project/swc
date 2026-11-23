@@ -6,6 +6,8 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span,
 };
 
+use crate::snippet_window::snippet_window;
+
 pub struct PrettyDiagnostic<'a> {
     source_code: PrettySourceCode<'a>,
     d: &'a Diagnostic,
@@ -148,64 +150,38 @@ impl miette::SourceCode for PrettySourceCode<'_> {
         let lo = u32::try_from(lo).map_err(|_| miette::MietteError::OutOfBounds)?;
         let hi = u32::try_from(hi).map_err(|_| miette::MietteError::OutOfBounds)?;
 
-        let mut span = Span::new(BytePos(lo), BytePos(hi));
+        let span = Span::new(BytePos(lo), BytePos(hi));
 
         if !self.is_valid_span(span) {
             return Err(miette::MietteError::OutOfBounds);
         }
 
-        span = self
+        let file = self
             .cm
-            .with_span_to_prev_source(span, |src| {
-                let len = src
-                    .rsplit('\n')
-                    .take(context_lines_before + 1)
-                    .map(|s| s.len() + 1)
-                    .sum::<usize>();
+            .try_lookup_byte_offset(span.lo)
+            .map_err(|_| miette::MietteError::OutOfBounds)?
+            .sf;
+        // SAFETY: The source map keeps every source file alive while it is
+        // alive and never changes the text of a source file, and `'a` does not
+        // outlive `self.cm`.
+        let file_src = unsafe { transmute::<&str, &'a str>(&file.src) };
 
-                span.lo.0 -= (len as u32) - 1;
-                span
-            })
-            .unwrap_or(span);
+        let base = file.start_pos.0;
+        let lo = (span.lo.0 - base) as usize;
+        let hi = (span.hi.0 - base) as usize;
 
-        span = self
-            .cm
-            .with_span_to_next_source(span, |src| {
-                let len = src
-                    .split('\n')
-                    .take(context_lines_after + 1)
-                    .map(|s| s.len() + 1)
-                    .sum::<usize>();
+        // Selects the lines to show, and crops the lines that are too wide for
+        // miette to render without a panic.
+        let (start, end) =
+            snippet_window(file_src, lo, hi, context_lines_before, context_lines_after)
+                .ok_or(miette::MietteError::OutOfBounds)?;
 
-                span.hi.0 += (len as u32) - 1;
-                span
-            })
-            .unwrap_or(span);
-
-        span = self
-            .cm
-            .with_snippet_of_span(span, |src| {
-                if src.lines().next().is_some() {
-                    return span;
-                }
-                let lo = src.len() - src.trim_start().len();
-                let hi = src.len() - src.trim_end().len();
-
-                span.lo.0 += lo as u32;
-                span.hi.0 -= hi as u32;
-
-                span
-            })
-            .unwrap_or(span);
-
-        let mut src = self
-            .cm
-            .with_snippet_of_span(span, |s| unsafe { transmute::<&str, &str>(s) })
-            .map_err(|_| miette::MietteError::OutOfBounds)?;
-
-        if span.lo == span.hi {
-            src = " ";
-        }
+        let span = Span::new(BytePos(base + start as u32), BytePos(base + end as u32));
+        let src = if start == end {
+            " "
+        } else {
+            &file_src[start..end]
+        };
 
         let loc = self
             .cm
