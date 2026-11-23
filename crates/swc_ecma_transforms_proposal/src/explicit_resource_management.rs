@@ -280,13 +280,13 @@ impl ExplicitResourceManagement {
                                         .into()
                                     })
                                     .collect(),
+                                span,
                                 ..NamedExport::dummy()
                             }))
                             .unwrap(),
                         );
 
                         // var a = 1, b = 2;
-                        var.span = span;
                         var.kind = VarDeclKind::Var;
                         try_block.stmts.push(Stmt::Decl(Decl::Var(var)));
                     }
