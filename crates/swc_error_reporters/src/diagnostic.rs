@@ -300,6 +300,10 @@ impl miette::SourceCode for PrettySourceCode<'_> {
 
 /// Returns a source that does not know the labels of the diagnostic. Use
 /// [PrettySourceCode::with_labels] to pass them.
+///
+/// The source selects snippets that miette renders with its default tab width
+/// (4). A handler with a larger tab width can still pad a label by more than
+/// `u16::MAX` columns and panic.
 pub fn to_pretty_source_code(cm: &SourceMap, skip_filename: bool) -> PrettySourceCode<'_> {
     PrettySourceCode {
         cm,
@@ -459,7 +463,8 @@ impl ToPrettyDiagnostic for Diagnostic {
     /// - `skip_filename`: A boolean indicating whether to skip including
     ///   filenames in the output.
     /// - `handler`: A reference to the `GraphicalReportHandler` used for
-    ///   handling graphical reports.
+    ///   handling graphical reports. Snippets are selected for miette's default
+    ///   tab width (4); a handler with a larger tab width is not supported.
     ///
     /// # Returns
     ///
