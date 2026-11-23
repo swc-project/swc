@@ -21,13 +21,13 @@ System.register([
             }
         ],
         execute: function() {
+            _export("x", x = 1);
             env = {
                 stack: [],
                 error: void 0,
                 hasError: false
             };
             try {
-                x = 1, _export("x", x), x;
                 z = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);

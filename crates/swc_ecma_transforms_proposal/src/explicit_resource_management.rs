@@ -51,21 +51,37 @@ impl ExplicitResourceManagement {
     {
         let old_state = self.state.take();
 
+        // At the top level, the items before the first `using` declaration stay
+        // in place: no resource exists yet, so they do not need the `try`
+        // block.
+        let prefix_len = if self.is_not_top_level {
+            0
+        } else {
+            stmts
+                .iter()
+                .position(|s| matches!(s.as_stmt(), Some(Stmt::Decl(Decl::Using(..)))))
+                .unwrap_or(0)
+        };
+
         stmts.visit_mut_children_with(self);
 
         if let Some(state) = self.state.take() {
-            self.wrap_with_try(state, stmts);
+            self.wrap_with_try(state, stmts, prefix_len);
         }
 
         self.state = old_state;
     }
 
-    fn wrap_with_try<T>(&mut self, state: State, stmts: &mut Vec<T>)
+    /// Wraps `stmts` with a `try` block that disposes the resources in `state`.
+    ///
+    /// The first `prefix_len` items are kept before the `try` block as they
+    /// are.
+    fn wrap_with_try<T>(&mut self, state: State, stmts: &mut Vec<T>, prefix_len: usize)
     where
         T: StmtLike + ModuleItemLike,
     {
-        // Items that must run before the `try` block.
-        let mut hoisted = Vec::new();
+        let mut prefix = stmts.take();
+        let rest = prefix.split_off(prefix_len);
         let mut new = Vec::new();
         let mut extras = Vec::new();
         // Names of exported classes, and of the exported enums and namespaces
@@ -150,7 +166,7 @@ impl ExplicitResourceManagement {
             try_block.stmts.push(init_var_decl);
         }
 
-        for stmt in stmts.take() {
+        for stmt in rest {
             match stmt.try_into_stmt() {
                 Ok(mut stmt) => match stmt {
                     // top level function declarations should preserve original
@@ -343,18 +359,6 @@ impl ExplicitResourceManagement {
                             ..Default::default()
                         }))));
                     }
-                    Ok(ModuleDecl::TsImportEquals(import))
-                        if matches!(import.module_ref, TsModuleRef::TsExternalModuleRef(..)) =>
-                    {
-                        // `import x = require("y")` is kept by the TypeScript
-                        // transform for the CommonJS transform, and it can
-                        // not be put in a block. Load the module before the
-                        // `try` block, as an ES import would be, so the
-                        // declarations in the block can use it.
-                        hoisted.push(
-                            T::try_from_module_decl(ModuleDecl::TsImportEquals(import)).unwrap(),
-                        );
-                    }
                     Ok(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
                         if ts_runtime_decl_ident(&decl)
                             .is_some_and(|id| !fn_names.contains(&id.to_id())) =>
@@ -518,8 +522,8 @@ impl ExplicitResourceManagement {
         new.push(T::from(try_stmt.into()));
         new.extend(extras);
 
-        hoisted.extend(new);
-        *stmts = hoisted;
+        prefix.extend(new);
+        *stmts = prefix;
     }
 }
 
@@ -578,7 +582,7 @@ impl VisitMut for ExplicitResourceManagement {
                 Stmt::Decl(Decl::Var(Box::new(inner_var_decl))),
                 *n.body.take(),
             ];
-            self.wrap_with_try(state, &mut body);
+            self.wrap_with_try(state, &mut body, 0);
 
             n.left = ForHead::VarDecl(var_decl);
             *n.body = BlockStmt {

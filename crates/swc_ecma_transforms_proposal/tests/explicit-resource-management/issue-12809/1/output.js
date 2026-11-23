@@ -1,10 +1,10 @@
+const log = [];
 const env = {
     stack: [],
     error: void 0,
     hasError: false
 };
 try {
-    var log = [];
     var res = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {
             log.push(a, b, c);

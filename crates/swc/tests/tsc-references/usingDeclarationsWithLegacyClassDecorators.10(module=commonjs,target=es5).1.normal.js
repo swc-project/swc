@@ -13,19 +13,19 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
 var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 var _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
+var _class = function _class() {
+    "use strict";
+    _class_call_check._(this, _class);
+};
+_class = _ts_decorate._([
+    dec
+], _class);
 var env = {
     stack: [],
     error: void 0,
     hasError: false
 };
 try {
-    var _class = function _class() {
-        "use strict";
-        _class_call_check._(this, _class);
-    };
-    _class = _ts_decorate._([
-        dec
-    ], _class);
     var after = _ts_add_disposable_resource._(env, null, false);
 } catch (e) {
     env.error = e;

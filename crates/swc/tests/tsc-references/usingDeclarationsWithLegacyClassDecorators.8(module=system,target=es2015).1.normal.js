@@ -20,17 +20,17 @@ System.register([
             }
         ],
         execute: function() {
+            _export("C", C = class C {
+            });
+            C = _ts_decorate([
+                dec
+            ], C), _export("C", C), C;
             env = {
                 stack: [],
                 error: void 0,
                 hasError: false
             };
             try {
-                C = class C {
-                }, _export("C", C), C;
-                C = _ts_decorate([
-                    dec
-                ], C), _export("C", C), C;
                 after = _ts_add_disposable_resource(env, null, false);
             } catch (e) {
                 env.error = e;

@@ -19,13 +19,13 @@ System.register([
             }
         ],
         execute: async function() {
-            env = {
+            _export("x", 1), env = {
                 stack: [],
                 error: void 0,
                 hasError: !1
             };
             try {
-                _export("x", 1), z = _ts_add_disposable_resource(env, {
+                z = _ts_add_disposable_resource(env, {
                     async [Symbol.asyncDispose] () {}
                 }, !0), _export("y", 2), _export("w", 3), _export("default", 4), console.log(3, 1, 2, z);
             } catch (e) {

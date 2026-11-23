@@ -1,3 +1,4 @@
+import type { Payload } from "./types";
 const env = {
     stack: [],
     error: void 0,
@@ -37,7 +38,6 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-import type { Payload } from "./types";
 export { N };
 export { value };
 export { E };

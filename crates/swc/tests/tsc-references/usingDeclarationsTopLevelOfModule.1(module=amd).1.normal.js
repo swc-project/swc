@@ -29,13 +29,13 @@ define([
             return y;
         }
     });
+    const x = 1;
     const env = {
         stack: [],
         error: void 0,
         hasError: false
     };
     try {
-        var x = 1;
         var z = _ts_add_disposable_resource._(env, {
             [Symbol.dispose] () {}
         }, false);

@@ -1,6 +1,7 @@
 //// [usingDeclarationsTopLevelOfModule.3.ts]
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+export { y };
 const env = {
     stack: [],
     error: void 0,
@@ -19,7 +20,6 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-export { y };
 function f() {
     console.log(y, z);
 }
