@@ -35,10 +35,12 @@ define([
         hasError: false
     };
     try {
+        var x = 1;
         var z = _ts_add_disposable_resource._(env, {
             [Symbol.dispose] () {}
         }, false);
         var y = 2;
+        var w = 3;
         console.log(w, x, y, z);
     } catch (e) {
         env.error = e;
@@ -46,7 +48,5 @@ define([
     } finally{
         _ts_dispose_resources._(env);
     }
-    const x = 1;
-    const w = 3;
     const _default = 4;
 });

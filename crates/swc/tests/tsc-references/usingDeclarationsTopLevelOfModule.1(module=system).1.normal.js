@@ -27,10 +27,12 @@ System.register([
                 hasError: false
             };
             try {
+                x = 1, _export("x", x), x;
                 z = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
                 }, false);
                 y = 2, _export("y", y), y;
+                w = 3, _export("w", w), w;
                 console.log(w, x, y, z);
             } catch (e) {
                 env.error = e;
@@ -38,8 +40,6 @@ System.register([
             } finally{
                 _ts_dispose_resources(env);
             }
-            _export("x", x = 1);
-            _export("w", w = 3);
             _export("default", 4);
         }
     };

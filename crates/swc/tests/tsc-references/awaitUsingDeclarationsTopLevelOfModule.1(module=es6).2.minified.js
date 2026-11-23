@@ -7,9 +7,9 @@ let env = {
     hasError: !1
 };
 try {
-    var z = _ts_add_disposable_resource(env, {
+    var x = 1, z = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
-    }, !0), y = 2;
+    }, !0), y = 2, w = 3;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e, env.hasError = !0;
@@ -17,7 +17,5 @@ try {
     let result = _ts_dispose_resources(env);
     result && await result;
 }
-export const x = 1;
-export const w = 3;
 export default 4;
-export { y };
+export { x, y, w };

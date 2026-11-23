@@ -7,16 +7,14 @@ let env = {
     hasError: !1
 };
 try {
-    var z = _ts_add_disposable_resource(env, {
+    var x = 1, z = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
-    }, !1), y = 2;
+    }, !1), y = 2, w = 3;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources(env);
 }
-export const x = 1;
-export const w = 3;
 export default 4;
-export { y };
+export { x, y, w };

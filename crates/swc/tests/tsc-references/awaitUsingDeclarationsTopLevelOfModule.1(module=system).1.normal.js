@@ -27,10 +27,12 @@ System.register([
                 hasError: false
             };
             try {
+                x = 1, _export("x", x), x;
                 z = _ts_add_disposable_resource(env, {
                     async [Symbol.asyncDispose] () {}
                 }, true);
                 y = 2, _export("y", y), y;
+                w = 3, _export("w", w), w;
                 console.log(w, x, y, z);
             } catch (e) {
                 env.error = e;
@@ -39,8 +41,6 @@ System.register([
                 const result = _ts_dispose_resources(env);
                 if (result) await result;
             }
-            _export("x", x = 1);
-            _export("w", w = 3);
             _export("default", 4);
         }
     };
