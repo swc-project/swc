@@ -2002,6 +2002,12 @@ impl ExprCtx {
 
             Expr::Unary(UnaryExpr { arg, .. }) => self.extract_side_effects_to(to, *arg),
 
+            Expr::Bin(BinExpr {
+                op: BinaryOp::In | BinaryOp::InstanceOf,
+                ..
+            }) => {
+                to.push(Box::new(expr));
+            }
             Expr::Bin(BinExpr { op, .. }) if op.may_short_circuit() => {
                 to.push(Box::new(expr));
             }
@@ -3776,8 +3782,12 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             op: op!("delete"), ..
         }) => true,
         Expr::Unary(UnaryExpr { arg, .. }) => arg.may_have_side_effects(ctx),
-        Expr::Bin(BinExpr { left, right, .. }) => {
-            left.may_have_side_effects(ctx) || right.may_have_side_effects(ctx)
+        Expr::Bin(BinExpr {
+            left, right, op, ..
+        }) => {
+            left.may_have_side_effects(ctx)
+                || right.may_have_side_effects(ctx)
+                || matches!(op, BinaryOp::In | BinaryOp::InstanceOf)
         }
 
         Expr::Member(MemberExpr { obj, prop, .. }) if is_pure_member_callee(obj, prop, ctx) => {
