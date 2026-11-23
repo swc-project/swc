@@ -216,7 +216,7 @@ impl ExplicitResourceManagement {
                     Ok(ModuleDecl::ExportDecl(ExportDecl {
                         decl: Decl::Class(ClassDecl { ident, class, .. }),
                         span,
-                    })) if !barrier => {
+                    })) => {
                         exported_names.insert(ident.to_id());
 
                         // export { C };
@@ -292,7 +292,7 @@ impl ExplicitResourceManagement {
                         decl: DefaultDecl::Class(class_expr),
                         span,
                         ..
-                    })) if !barrier => {
+                    })) => {
                         let ident = class_expr
                             .ident
                             .clone()
