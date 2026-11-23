@@ -89,6 +89,11 @@ fn is_too_wide(line: &str) -> bool {
     if line.len() <= MAX_LINE_WIDTH / TAB_WIDTH {
         return false;
     }
+    // An ASCII character other than a tab is at most one column wide. This
+    // keeps miette's repeated reads of a span over many long lines cheap.
+    if line.len() <= MAX_LINE_WIDTH && line.is_ascii() && !line.as_bytes().contains(&b'\t') {
+        return false;
+    }
 
     columns(line).any(|column| column > MAX_LINE_WIDTH)
 }
