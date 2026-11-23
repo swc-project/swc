@@ -542,3 +542,68 @@ fn issue_12828_error_at_eof_after_wide_line() {
     assert!(pretty.contains("var b = 1 +"), "{pretty}");
     assert!(widest_line(&pretty) < 1000, "{pretty}");
 }
+
+#[test]
+fn issue_12828_label_order_with_labels_in_another_file() {
+    // miette sorts all labels of a diagnostic by their start with an unstable
+    // sort, so the order of two labels with the same start can depend on the
+    // labels in other files. The padding of `last element` is exactly 65535
+    // columns when `fo` is drawn before `f`, and 65536 columns otherwise. The
+    // padding check must use miette's order: no order may panic, and the
+    // snippet must be shown for the orders that miette can render.
+    let cm = Lrc::new(SourceMap::default());
+    let input = cm.new_source_file(
+        FileName::Real("input.js".into()).into(),
+        format!("[\nfoo{}x\n]\n", " ".repeat(65535)),
+    );
+    let other = cm.new_source_file(FileName::Real("other.js".into()).into(), "0;\n".repeat(40));
+    let foo = input.start_pos.0 + 2;
+    let x = foo + 3 + 65535;
+    let mut labels = vec![
+        (input.start_pos.0, input.end_pos.0 - 1, "array"),
+        (foo, foo + 1, "f"),
+        (foo, foo + 2, "fo"),
+        (x, x + 1, "last element"),
+    ];
+    labels.extend((0..30).map(|i| {
+        let pos = other.start_pos.0 + 3 * i;
+        (pos, pos + 1, "other")
+    }));
+
+    let mut seed = 1u64;
+    let mut shown = 0;
+    for _ in 0..40 {
+        // Shuffle the labels.
+        for i in (1..labels.len()).rev() {
+            seed = seed
+                .wrapping_mul(6364136223846793005)
+                .wrapping_add(1442695040888963407);
+            labels.swap(i, (seed >> 33) as usize % (i + 1));
+        }
+
+        let result = try_with_handler(
+            cm.clone(),
+            HandlerOpts {
+                color: ColorConfig::Never,
+                ..Default::default()
+            },
+            |h| -> Result<(), _> {
+                let mut d = h.struct_span_err(span(x as usize, x as usize + 1), "unexpected");
+                for &(lo, hi, label) in &labels {
+                    d.span_label(span(lo as usize, hi as usize), label);
+                }
+                d.emit();
+                bail!("should fail");
+            },
+        )
+        .expect_err("should fail");
+
+        let pretty =
+            std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| result.to_pretty_string()))
+                .expect("rendering diagnostics should not panic");
+        if pretty.contains("last element") {
+            shown += 1;
+        }
+    }
+    assert!(shown > 0);
+}

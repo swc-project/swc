@@ -153,17 +153,12 @@ impl<F> LazyLabels<F>
 where
     F: FnOnce() -> Option<Vec<(usize, usize)>>,
 {
-    /// Returns the byte ranges of the labels, sorted by their start, or `None`
-    /// if the labels are not known.
+    /// Returns the byte ranges of the labels, in the order in which miette
+    /// draws them, or `None` if the labels are not known.
     fn get(&mut self) -> Option<&[(usize, usize)]> {
         let init = &mut self.init;
         self.ranges
-            .get_or_insert_with(|| {
-                let mut ranges = init.take().and_then(|init| init())?;
-                // miette sorts the labels by their start only.
-                ranges.sort_unstable_by_key(|&(lo, _)| lo);
-                Some(ranges)
-            })
+            .get_or_insert_with(|| init.take().and_then(|init| init()))
             .as_deref()
     }
 }
@@ -172,8 +167,8 @@ where
 /// `src[start..end]` of a snippet by more than `u16::MAX` columns.
 ///
 /// `has_newline` is `true` if the snippet includes the `\n` after the line.
-/// `labels` are the byte ranges of all labels of the diagnostic, sorted by
-/// their start.
+/// `labels` are the byte ranges of all labels of the diagnostic, in the order
+/// in which miette draws them.
 ///
 /// This follows `get_lines`, `render_context`, `visual_offset`, and
 /// `render_single_line_highlights` of miette 7:

@@ -179,27 +179,39 @@ impl<'a> PrettySourceCode<'a> {
     }
 
     /// Returns the byte ranges of the labels in the source file that starts at
-    /// `file_start` and ends at `file_end`, relative to `file_start`.
+    /// `file_start` and ends at `file_end`, relative to `file_start`, in the
+    /// order in which miette draws them.
     fn label_ranges(&self, file_start: BytePos, file_end: BytePos) -> Option<Vec<(usize, usize)>> {
-        let to_range = |span: Span| {
-            (span.lo >= file_start && span.hi <= file_end && !span.is_dummy()).then(|| {
-                (
-                    (span.lo.0 - file_start.0) as usize,
-                    (span.hi.0 - file_start.0) as usize,
-                )
-            })
+        let to_label = |span: Span| {
+            self.is_valid_span(span)
+                .then(|| miette::LabeledSpan::new_with_span(None, convert_span(span)))
         };
-
-        match self.labels {
-            KnownLabels::Unknown => None,
-            KnownLabels::MultiSpan(span) => Some(
-                span.span_labels()
-                    .into_iter()
-                    .filter_map(|label| to_range(label.span))
-                    .collect(),
-            ),
-            KnownLabels::Spans(spans) => Some(spans.iter().copied().filter_map(to_range).collect()),
-        }
+        let mut labels: Vec<_> = match self.labels {
+            KnownLabels::Unknown => return None,
+            KnownLabels::MultiSpan(span) => span
+                .span_labels()
+                .into_iter()
+                .filter_map(|label| to_label(label.span))
+                .collect(),
+            KnownLabels::Spans(spans) => spans.iter().copied().filter_map(to_label).collect(),
+        };
+        // miette sorts all labels of the diagnostic by their start with this
+        // unstable sort, and the order of labels with the same start changes
+        // the paddings. Sort the same list (the labels that `labels()` returns,
+        // with the same element type) the same way, then keep this file.
+        labels.sort_unstable_by_key(|label| label.inner().offset());
+        let file_start = file_start.0 as usize;
+        let file_end = file_end.0 as usize;
+        Some(
+            labels
+                .into_iter()
+                .filter_map(|label| {
+                    let lo = label.offset();
+                    let hi = lo + label.len();
+                    (lo >= file_start && hi <= file_end).then(|| (lo - file_start, hi - file_start))
+                })
+                .collect(),
+        )
     }
 }
 
