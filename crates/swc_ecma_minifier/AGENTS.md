@@ -83,27 +83,17 @@ do not require repeated, case-specific justification.
 - Update generated fixture outputs with: UPDATE=1 cargo test -p swc_ecma_minifier.
 - Verify without UPDATE before finishing: cargo test -p swc_ecma_minifier.
 
-### Terser Fixtures Are Read-Only
+### Terser Fixture Inputs Are Read-Only
 
-The files in `tests/terser` are ported from Terser. Their expected outputs
-record the behavior of Terser, not the current behavior of SWC. Thus, do not
-edit, add, rename, or delete any file in `tests/terser`. This includes
-`input.js`, `config.json`, `mangle.json`, `output.js`, and `output.terser.js`.
+The fixtures in `tests/terser` are ported from Terser. Do not edit the input
+and the options of these fixtures: `input.js`, `config.json`, and
+`mangle.json`. They define the test case, so a change to them changes what the
+fixture tests.
 
-- `UPDATE=1 cargo test -p swc_ecma_minifier` can rewrite `output.js` files in
-  `tests/terser` to match the new SWC output. After you run it, discard these
-  changes with `git restore crates/swc_ecma_minifier/tests/terser`.
-- Exception: when the SWC output becomes equal to `output.terser.js`, the test
-  harness copies `output.terser.js` to `output.js`. You can keep this change,
-  because the expected output is then the output of Terser.
-- If your change makes a Terser fixture fail, first check whether the change
-  causes a regression. If it does, fix the minifier.
-- If the new output is intended (for example, a correctness fix that Terser
-  does not make), keep the fixture unchanged. Remove its entry from
-  `tests/passing.txt` and add the entry to `tests/postponed.txt`. In the pull
-  request, explain why the output is different from the expected output.
-- Show the new behavior with SWC-owned tests, such as fixtures in
-  `tests/fixture` and execution tests in `tests/exec.rs`.
+- You can update `output.js`. It is the expected SWC output, and
+  `UPDATE=1 cargo test -p swc_ecma_minifier` updates it.
+- If a change seems to need a different input or option, add a new SWC-owned
+  fixture, for example in `tests/fixture`, instead.
 
 ### Terser Fixture Backlog Workflow
 
