@@ -1,6 +1,6 @@
 use anyhow::bail;
-use swc_common::{sync::Lrc, BytePos, FileName, SourceMap, Span};
-use swc_error_reporters::handler::try_with_handler;
+use swc_common::{errors::ColorConfig, sync::Lrc, BytePos, FileName, SourceMap, Span};
+use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 
 fn span(start: usize, end: usize) -> Span {
     Span::new(BytePos(start as _), BytePos(end as _))
@@ -39,14 +39,22 @@ fn render(
 ) -> String {
     let cm = Lrc::new(SourceMap::default());
 
-    let result = try_with_handler(cm.clone(), Default::default(), |handler| -> Result<(), _> {
-        let fm = cm.new_source_file(FileName::Real("input.js".into()).into(), src.to_string());
-        let start = fm.start_pos.0 as usize;
+    let result = try_with_handler(
+        cm.clone(),
+        HandlerOpts {
+            // The assertions match the plain output, also in a color terminal.
+            color: ColorConfig::Never,
+            ..Default::default()
+        },
+        |handler| -> Result<(), _> {
+            let fm = cm.new_source_file(FileName::Real("input.js".into()).into(), src.to_string());
+            let start = fm.start_pos.0 as usize;
 
-        op(handler, &|lo, hi| span(start + lo, start + hi));
+            op(handler, &|lo, hi| span(start + lo, start + hi));
 
-        bail!("should fail");
-    })
+            bail!("should fail");
+        },
+    )
     .expect_err("should fail");
 
     let pretty =
