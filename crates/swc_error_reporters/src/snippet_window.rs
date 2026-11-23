@@ -73,8 +73,8 @@ fn visual_width(text: &str) -> usize {
 
 /// Returns `true` if `line` is wider than [MAX_LINE_WIDTH].
 ///
-/// This stops at the first character past the limit, so its cost is bounded
-/// by the limit and not by the length of the line.
+/// This stops at the first character past the limit. A long line of
+/// zero-width characters is read to its end.
 fn is_too_wide(line: &str) -> bool {
     // A character is at most `TAB_WIDTH` columns wide per byte of its UTF-8
     // encoding, so a short line needs no scan.
