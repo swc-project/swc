@@ -6,6 +6,7 @@ const env = {
     hasError: false
 };
 try {
+    var Disposable = 1334;
     var _disposable = _ts_add_disposable_resource(env, new Disposable(), false);
     console.log('ok');
 } catch (e) {
@@ -14,4 +15,4 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-export var Disposable = 1334;
+export { Disposable };

@@ -5,6 +5,7 @@ const env = {
 };
 try {
     doSomething();
+    var { b } = {};
     var c = 2;
     var A = class A {
     };
@@ -32,5 +33,5 @@ export function g() {
     c;
 }
 export { f };
-export let { b } = {};
+export { b };
 export { B };

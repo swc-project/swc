@@ -2,8 +2,8 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory, ModuleItemLike,
-    StmtLike,
+    find_pat_ids, private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory,
+    ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -208,6 +208,40 @@ impl ExplicitResourceManagement {
                             span,
                             ..Default::default()
                         }))));
+                    }
+                    Ok(ModuleDecl::ExportDecl(ExportDecl {
+                        decl: Decl::Var(mut var),
+                        span,
+                    })) => {
+                        // The declaration must be evaluated inside the `try`
+                        // block, before the resources
+                        // are disposed, so it can not stay as an export
+                        // declaration after the `finally` block.
+                        //
+                        // export { a, b };
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers: find_pat_ids::<_, Ident>(&var.decls)
+                                    .into_iter()
+                                    .map(|id| {
+                                        ExportNamedSpecifier {
+                                            span: DUMMY_SP,
+                                            orig: id.into(),
+                                            exported: None,
+                                            is_type_only: false,
+                                        }
+                                        .into()
+                                    })
+                                    .collect(),
+                                ..NamedExport::dummy()
+                            }))
+                            .unwrap(),
+                        );
+
+                        // var a = 1, b = 2;
+                        var.span = span;
+                        var.kind = VarDeclKind::Var;
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(var)));
                     }
                     Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                         decl: DefaultDecl::Class(class_expr),
