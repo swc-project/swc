@@ -7,7 +7,7 @@ const env = {
 try {
     var res = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {
-            console.log(value, all);
+            console.log(value);
         }
     }, false);
     namespace N {
@@ -27,11 +27,6 @@ try {
     namespace C {
         export const x = 3;
     }
-    var all = [
-        E.A,
-        E.B,
-        C.x
-    ];
 } catch (e) {
     env.error = e;
     env.hasError = true;
@@ -47,5 +42,10 @@ export namespace f {
     export const y = 4;
 }
 export declare const ambient: number;
-export { all };
+export const all = [
+    E.A,
+    E.B,
+    C.x,
+    f.y
+];
 export default Payload;

@@ -91,6 +91,11 @@ impl ExplicitResourceManagement {
         let mut exported_names: Vec<Id> = Vec::new();
         // Names of the top-level functions, which stay at the top level.
         let mut fn_names: Vec<Id> = Vec::new();
+        // Set after a module item that has runtime code but must stay after the
+        // `finally` block, such as `import x = require("y")`. The exported
+        // declarations after it also stay after the `finally` block, so that
+        // they still run after that item, as in the source.
+        let mut barrier = false;
 
         let env = state.env;
         let catch_e = private_ident!("e");
@@ -249,7 +254,7 @@ impl ExplicitResourceManagement {
                     Ok(ModuleDecl::ExportDecl(ExportDecl {
                         decl: Decl::Var(mut var),
                         span,
-                    })) if !var.declare => {
+                    })) if !var.declare && !barrier => {
                         // The declaration must be evaluated inside the `try`
                         // block, before the resources
                         // are disposed, so it can not stay as an export
@@ -330,7 +335,9 @@ impl ExplicitResourceManagement {
                             T::try_from_module_decl(ModuleDecl::ExportDefaultExpr(export)).unwrap(),
                         );
                     }
-                    Ok(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { expr, span })) => {
+                    Ok(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { expr, span }))
+                        if !barrier =>
+                    {
                         // The expression must be evaluated in source order,
                         // before the resources are disposed.
                         let ident = private_ident!("_default");
@@ -367,8 +374,9 @@ impl ExplicitResourceManagement {
                         }))));
                     }
                     Ok(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
-                        if ts_runtime_decl_ident(&decl)
-                            .is_some_and(|id| !fn_names.contains(&id.to_id())) =>
+                        if !barrier
+                            && ts_runtime_decl_ident(&decl)
+                                .is_some_and(|id| !fn_names.contains(&id.to_id())) =>
                     {
                         // The transform gets TypeScript input when a caller
                         // runs it before the TypeScript transform. Enums and
@@ -381,10 +389,7 @@ impl ExplicitResourceManagement {
                         // top level. The function is a lexical declaration of
                         // the module, and the `var` that the TypeScript
                         // transform declares for the namespace in the block
-                        // would conflict with it. Known limitation: such a
-                        // namespace is initialized after the resources are
-                        // disposed, and after the exported declarations that
-                        // follow it.
+                        // would conflict with it.
                         let ident = ts_runtime_decl_ident(&decl).unwrap().clone();
 
                         if !exported_names.contains(&ident.to_id()) {
@@ -409,11 +414,20 @@ impl ExplicitResourceManagement {
                         try_block.stmts.push(Stmt::Decl(decl));
                     }
                     Ok(module_decl) => {
-                        if let ModuleDecl::ExportDecl(ExportDecl {
-                            decl: Decl::Fn(f), ..
-                        }) = &module_decl
-                        {
-                            fn_names.push(f.ident.to_id());
+                        match &module_decl {
+                            ModuleDecl::ExportDecl(ExportDecl {
+                                decl: Decl::Fn(f), ..
+                            }) => fn_names.push(f.ident.to_id()),
+                            ModuleDecl::TsImportEquals(import) if !import.is_type_only => {
+                                barrier = true
+                            }
+                            // A namespace that merges with a function.
+                            ModuleDecl::ExportDecl(ExportDecl { decl, .. })
+                                if ts_runtime_decl_ident(decl).is_some() =>
+                            {
+                                barrier = true
+                            }
+                            _ => {}
                         }
 
                         extras.push(T::try_from_module_decl(module_decl).unwrap());

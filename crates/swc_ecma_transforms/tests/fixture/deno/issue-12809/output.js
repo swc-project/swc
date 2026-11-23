@@ -91,7 +91,7 @@ const env = {
 try {
     var res = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {
-            console.log(value, all);
+            console.log(value);
         }
     }, false);
     (function(N) {
@@ -113,11 +113,6 @@ try {
     (function(C) {
         C.x = 3;
     })(C || (C = {}));
-    var all = [
-        E.A,
-        E.B,
-        C.x
-    ];
     var N, C;
 } catch (e) {
     env.error = e;
@@ -133,4 +128,9 @@ export function f() {}
 (function(f) {
     f.y = 4;
 })(f || (f = {}));
-export { all };
+export const all = [
+    E.A,
+    E.B,
+    C.x,
+    f.y
+];

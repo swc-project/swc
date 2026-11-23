@@ -2,7 +2,7 @@ import type { Payload } from "./types";
 
 using res = {
   [Symbol.dispose]() {
-    console.log(value, all);
+    console.log(value);
   },
 };
 
@@ -31,5 +31,5 @@ export namespace f {
 }
 
 export declare const ambient: number;
-export const all = [E.A, E.B, C.x];
+export const all = [E.A, E.B, C.x, f.y];
 export default Payload;
