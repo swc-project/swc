@@ -95,7 +95,9 @@ impl ExplicitResourceManagement {
         // Set after a module item that has runtime code but must stay after the
         // `finally` block, such as `import x = require("y")`. The exported
         // declarations after it also stay after the `finally` block, so that
-        // they still run after that item, as in the source.
+        // they still run after that item, as in the source. Exported classes
+        // are an exception: they still move into the `try` block,
+        // because the statements that use them move there too.
         let mut barrier = false;
 
         let env = state.env;
@@ -328,10 +330,11 @@ impl ExplicitResourceManagement {
                     }
                     // An identifier can refer to a type. The TypeScript transform
                     // removes `export default <type>`, but not
-                    // `var _default = <type>`. The exported declarations after it
-                    // also stay after the `finally` block, so they can not change
-                    // `x` before it is read. Known limitation: other statements
-                    // after it still move into the `try` block, so they can.
+                    // `var _default = <type>`. The exported declarations after it,
+                    // except classes, also stay after the `finally` block, so they
+                    // can not change `x` before it is read. Known limitation:
+                    // exported classes and other statements after it still move
+                    // into the `try` block, so they can.
                     Ok(ModuleDecl::ExportDefaultExpr(export))
                         if matches!(export.expr.unwrap_parens(), Expr::Ident(..)) =>
                     {
