@@ -89,6 +89,11 @@ fn issue_12828_error_past_column_65536() {
     assert_has_snippet(&pretty);
     assert!(pretty.contains("Expression expected"), "{pretty}");
     assert!(pretty.contains("var b = 1 +;"), "{pretty}");
+    // The header points at the error, not at the start of the cropped line.
+    assert!(
+        pretty.contains(&format!("[input.js:1:{}]", error + 1)),
+        "{pretty}"
+    );
     // The line is cropped around the error.
     assert!(widest_line(&pretty) < 1000, "{pretty}");
 }

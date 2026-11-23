@@ -258,9 +258,19 @@ impl miette::SourceCode for PrettySourceCode<'_> {
             &file_src[start..end]
         };
 
+        // miette shows the column of the primary label in the header of a
+        // snippet. A snippet that starts at the start of a line reports the
+        // column of the line start, as before. A snippet that starts in the
+        // middle of a cropped line reports the column of the requested span,
+        // so that the header does not point at the arbitrary crop position.
+        let starts_line = start == 0 || file_src.as_bytes()[start - 1] == b'\n';
         let loc = self
             .cm
-            .try_lookup_char_pos(span.lo())
+            .try_lookup_char_pos(if starts_line {
+                span.lo()
+            } else {
+                BytePos(base + lo as u32)
+            })
             .map_err(|_| miette::MietteError::OutOfBounds)?;
         let line_count = loc.file.analyze().lines.len();
 
