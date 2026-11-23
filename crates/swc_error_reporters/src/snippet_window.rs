@@ -232,11 +232,11 @@ fn paddings_fit(
 /// Returns the byte range of `src` that the snippet of `src[lo..hi]` shows.
 ///
 /// The range starts at the start of a line and ends at the end of a line
-/// (without the `\n`, unless the line is a wide last line of the span), with up
-/// to `context_lines_before` and
-/// `context_lines_after` more lines, unless a line is cropped as the
-/// [module documentation](self) describes. Returns `None` if a line of the
-/// span itself cannot be shown.
+/// (without the `\n`, unless the line is a wide last line of the span or the
+/// next line is a context line that is too wide), with up to
+/// `context_lines_before` and `context_lines_after` more lines, unless a line
+/// is cropped as the [module documentation](self) describes. Returns `None` if
+/// a line of the span itself cannot be shown.
 ///
 /// `labels` returns the byte ranges of all labels of the diagnostic, relative
 /// to `src`, or `None` if they are not known. It is called only if a line of
@@ -295,6 +295,9 @@ pub(crate) fn snippet_window(
             // `src[end]` is the `\n` that ends the current line.
             let next_end = line_end(src, end + 1);
             if is_too_wide(&src[end + 1..next_end]) {
+                // Keep the `\n`, as miette does when the snippet goes on, so
+                // that a `\r\n` ends the line and a label at the `\n` is shown.
+                end += 1;
                 break;
             }
             end = next_end;

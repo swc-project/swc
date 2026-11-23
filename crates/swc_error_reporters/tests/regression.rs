@@ -461,3 +461,34 @@ fn issue_12828_header_column_of_empty_span_at_eof() {
 
     assert!(pretty.contains("[input.js:1:13]"), "{pretty}");
 }
+
+#[test]
+fn issue_12828_crlf_line_before_wide_context_line() {
+    // The next line is too wide to show as context. The snippet keeps the
+    // `\r\n` of the error line, so miette numbers the line correctly.
+    let src = format!("let x = +;\r\n{}\r\n", "x".repeat(70000));
+    let error = "let x = +".len();
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(error, error + 1), "Expression expected")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains(" 1 | let x = +;"), "{pretty}");
+}
+
+#[test]
+fn issue_12828_insertion_label_at_newline_before_wide_context_line() {
+    let src = format!("let x = 1\n{}\n", "x".repeat(70000));
+    let newline = "let x = 1".len();
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(newline, newline), "Expected ';'")
+            .span_label(span(newline, newline), "insert here")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("insert here"), "{pretty}");
+}
