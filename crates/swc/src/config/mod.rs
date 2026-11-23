@@ -956,10 +956,6 @@ impl Options {
                     lint,
                     // Decorators may use type information
                     Optional::new(decorator_pass, syntax.decorators()),
-                    Optional::new(
-                        explicit_resource_management(),
-                        syntax.explicit_resource_management(),
-                    ),
                     // The transform strips import assertions, so it's only
                     // enabled if keep_import_assertions is false.
                     Optional::new(import_attributes(), !keep_import_attributes),
@@ -1013,6 +1009,13 @@ impl Options {
                         ),
                     )
                 }),
+                // `using` declarations are lowered after TypeScript lowers its runtime
+                // declarations (`enum`, `namespace`, `declare`, `import x = ...`), so
+                // that the transform sees only ECMAScript module items.
+                Optional::new(
+                    explicit_resource_management(),
+                    syntax.explicit_resource_management(),
+                ),
                 (
                     plugin_transforms.take(),
                     custom_before_pass(&program),

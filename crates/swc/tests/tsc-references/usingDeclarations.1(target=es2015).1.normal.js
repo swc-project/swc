@@ -241,7 +241,7 @@ try {
             hasError: false
         };
         try {
-            var d18 = _ts_add_disposable_resource(env, {
+            const d18 = _ts_add_disposable_resource(env, {
                 [Symbol.dispose] () {}
             }, false);
         } catch (e) {
