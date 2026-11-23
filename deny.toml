@@ -47,6 +47,18 @@ ignore = [
   "RUSTSEC-2026-0186", # memmap2 is constrained by shared-buffer 0.1.4 via wasmer; shared-buffer has no patched release and only uses Mmap::map
   "RUSTSEC-2026-0235", # rkyv 0.7.45 is unsupported and transitive via parcel_sourcemap; rkyv 0.8 is upgraded to the patched release
   "RUSTSEC-2026-0543", # chrono is unmaintained and has no safe upgrade; it is used by browserslist-rs, browserslist-data, saffron (via wasmer), and xtask
+  # heapless 0.8.0 is required by wasmer-wasix 0.601.0-rc.3 (`heapless ^0.8`).
+  # The patched release is heapless 0.9.4, which wasmer-wasix cannot use.
+  # Revisit when upgrading Wasmer.
+  "RUSTSEC-2026-0574",
+  "RUSTSEC-2026-0575",
+  "RUSTSEC-2026-0576",
+  "RUSTSEC-2026-0577",
+  "RUSTSEC-2026-0578",
+  "RUSTSEC-2026-0579",
+  "RUSTSEC-2026-0580",
+  "RUSTSEC-2026-0581",
+  "RUSTSEC-2026-0582",
   # Wasmer's object 0.32 dependency enables ruzstd 0.5 through default features,
   # but wasmer-compiler only uses object writing, not compressed section reading.
   # object 0.32 requires ruzstd 0.5; revisit when upgrading Wasmer's object dependency.
