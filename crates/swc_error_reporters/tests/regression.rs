@@ -215,7 +215,7 @@ fn issue_12828_label_on_wide_context_line() {
 }
 
 #[test]
-fn issue_12828_wide_context_lines_are_not_shown() {
+fn issue_12828_wide_context_lines_are_cropped() {
     let wide = " ".repeat(70000);
     let src = format!("{wide}\nlet a = 1 +;\n{wide}\n");
     let error = wide.len() + 1 + "let a = 1 +".len();
@@ -522,4 +522,23 @@ fn issue_12828_labels_with_the_same_start() {
 
     assert_has_snippet(&pretty);
     assert!(pretty.contains("here"), "{pretty}");
+}
+
+#[test]
+fn issue_12828_error_at_eof_after_wide_line() {
+    // A minified file that ends in the middle of an expression. The error is
+    // after the last newline, so the wide line is a context line, and its end
+    // is shown.
+    let (mut src, _) = issue_12828_src(70000);
+    src.truncate(src.len() - ";\n".len());
+    src.push('\n');
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(src.len(), src.len()), "Expression expected")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("var b = 1 +"), "{pretty}");
+    assert!(widest_line(&pretty) < 1000, "{pretty}");
 }

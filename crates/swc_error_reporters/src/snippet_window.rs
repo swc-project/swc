@@ -17,8 +17,9 @@
 //!   [MAX_LINE_WIDTH], the part of that line outside the span is cropped to
 //!   about [CROPPED_CONTEXT_WIDTH] columns, and the context lines on that side
 //!   are not shown (a snippet is one contiguous range of the source).
-//! - A context line that is wider than [MAX_LINE_WIDTH] is not shown, together
-//!   with the context lines farther from the span.
+//! - A context line that is wider than [MAX_LINE_WIDTH] is cropped to about
+//!   [CROPPED_CONTEXT_WIDTH] columns next to the span, and the context lines
+//!   farther from the span are not shown.
 //! - A line of the span that is still wider than [MAX_LINE_WIDTH] is shown if
 //!   the labels of the diagnostic are known and miette pads no label on it by
 //!   more than `u16::MAX` columns. Otherwise, no snippet is returned. miette
@@ -233,8 +234,8 @@ fn paddings_fit(
 /// Returns the byte range of `src` that the snippet of `src[lo..hi]` shows.
 ///
 /// The range starts at the start of a line and ends at the end of a line
-/// (without the `\n`, unless the line is a wide last line of the span or the
-/// next line is a context line that is too wide), with up to
+/// (without the `\n`, unless the line is a wide last line of the span), with up
+/// to
 /// `context_lines_before` and `context_lines_after` more lines, unless a line
 /// is cropped as the [module documentation](self) describes. Returns `None` if
 /// a line of the span itself cannot be shown.
@@ -273,8 +274,8 @@ pub(crate) fn snippet_window(
     }
 
     // Context lines can be shown only next to an uncropped line. A context
-    // line that is too wide is not shown, so it never needs a check of its
-    // labels.
+    // line that is too wide is cropped next to the span, so its labels never
+    // need a padding above `CROPPED_CONTEXT_WIDTH + 1` columns.
     if start == first_line_start {
         for _ in 0..context_lines_before {
             if start == 0 {
@@ -283,6 +284,7 @@ pub(crate) fn snippet_window(
             // `src[start - 1]` is the `\n` that ends the previous line.
             let prev_start = line_start(src, start - 1);
             if is_too_wide(&src[prev_start..start - 1]) {
+                start = crop_start(src, prev_start, start - 1);
                 break;
             }
             start = prev_start;
@@ -296,9 +298,7 @@ pub(crate) fn snippet_window(
             // `src[end]` is the `\n` that ends the current line.
             let next_end = line_end(src, end + 1);
             if is_too_wide(&src[end + 1..next_end]) {
-                // Keep the `\n`, as miette does when the snippet goes on, so
-                // that a `\r\n` ends the line and a label at the `\n` is shown.
-                end += 1;
+                end = crop_end(src, end + 1, next_end);
                 break;
             }
             end = next_end;
