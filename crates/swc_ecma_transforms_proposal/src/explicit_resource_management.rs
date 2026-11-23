@@ -657,10 +657,7 @@ impl VisitMut for ExplicitResourceManagement {
 fn ts_runtime_decl_ident(decl: &Decl) -> Option<&Ident> {
     match decl {
         Decl::TsEnum(e) if !e.declare => Some(&e.id),
-        Decl::TsModule(m) if !m.declare => match &m.id {
-            TsModuleName::Ident(id) => Some(id),
-            TsModuleName::Str(..) => None,
-        },
+        Decl::TsModule(m) if !m.declare => m.id.as_ident(),
         _ => None,
     }
 }
