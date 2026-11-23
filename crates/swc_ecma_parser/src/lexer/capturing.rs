@@ -1,5 +1,6 @@
 use std::mem;
 
+use swc_atoms::Atom;
 use swc_common::Span;
 
 use crate::{
@@ -91,6 +92,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn read_string(&self, span: Span) -> &str {
         self.inner.read_string(span)
+    }
+
+    fn read_atom(&self, span: Span) -> Atom {
+        self.inner.read_atom(span)
     }
 
     fn rescan_type_gt(&mut self, span: Span) -> TokenAndSpan {
