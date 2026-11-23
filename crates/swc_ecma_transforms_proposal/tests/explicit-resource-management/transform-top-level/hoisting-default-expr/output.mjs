@@ -5,10 +5,11 @@ const env = {
 };
 try {
     var x = _ts_add_disposable_resource(env, null, false);
+    var _default = doSomething();
 } catch (e) {
     env.error = e;
     env.hasError = true;
 } finally{
     _ts_dispose_resources(env);
 }
-export default doSomething();
+export { _default as default };

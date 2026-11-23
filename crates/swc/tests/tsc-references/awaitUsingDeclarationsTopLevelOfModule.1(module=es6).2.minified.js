@@ -9,7 +9,7 @@ let env = {
 try {
     var x = 1, z = _ts_add_disposable_resource(env, {
         async [Symbol.asyncDispose] () {}
-    }, !0), y = 2, w = 3;
+    }, !0), y = 2, w = 3, _default = 4;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e, env.hasError = !0;
@@ -17,5 +17,4 @@ try {
     let result = _ts_dispose_resources(env);
     result && await result;
 }
-export default 4;
-export { x, y, w };
+export { x, y, w, _default as default };

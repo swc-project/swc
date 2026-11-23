@@ -37,6 +37,7 @@ try {
     }, false);
     var y = 2;
     var w = 3;
+    var _default = 4;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e;
@@ -44,4 +45,3 @@ try {
 } finally{
     _ts_dispose_resources._(env);
 }
-const _default = 4;

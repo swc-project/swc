@@ -9,12 +9,11 @@ let env = {
 try {
     var x = 1, z = _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
-    }, !1), y = 2, w = 3;
+    }, !1), y = 2, w = 3, _default = 4;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources(env);
 }
-export default 4;
-export { x, y, w };
+export { x, y, w, _default as default };

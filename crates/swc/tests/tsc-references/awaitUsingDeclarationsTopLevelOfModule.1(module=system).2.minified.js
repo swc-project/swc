@@ -27,14 +27,13 @@ System.register([
             try {
                 _export("x", 1), z = _ts_add_disposable_resource(env, {
                     async [Symbol.asyncDispose] () {}
-                }, !0), _export("y", 2), _export("w", 3), console.log(3, 1, 2, z);
+                }, !0), _export("y", 2), _export("w", 3), _export("default", 4), console.log(3, 1, 2, z);
             } catch (e) {
                 env.error = e, env.hasError = !0;
             } finally{
                 let result = _ts_dispose_resources(env);
                 result && await result;
             }
-            _export("default", 4);
         }
     };
 });

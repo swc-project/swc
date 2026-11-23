@@ -13,6 +13,7 @@ try {
     }, true);
     var y = 2;
     var w = 3;
+    var _default = 4;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e;
@@ -24,4 +25,4 @@ try {
 export { x };
 export { y };
 export { w };
-export default 4;
+export { _default as default };

@@ -281,6 +281,38 @@ impl ExplicitResourceManagement {
                             ..Default::default()
                         }))));
                     }
+                    Ok(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { expr, span })) => {
+                        // The expression must be evaluated in source order,
+                        // before the resources are disposed.
+                        let ident = private_ident!("_default");
+
+                        // export { _default as default };
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers: vec![ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ident.clone().into(),
+                                    exported: Some(quote_ident!("default").into()),
+                                    is_type_only: false,
+                                }
+                                .into()],
+                                ..NamedExport::dummy()
+                            }))
+                            .unwrap(),
+                        );
+
+                        // var _default = expr;
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.into()),
+                                init: Some(expr),
+                                definite: false,
+                            }],
+                            span,
+                            ..Default::default()
+                        }))));
+                    }
                     Ok(module_decl) => {
                         extras.push(T::try_from_module_decl(module_decl).unwrap());
                     }

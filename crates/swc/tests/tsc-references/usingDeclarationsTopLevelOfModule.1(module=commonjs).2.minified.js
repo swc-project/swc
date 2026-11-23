@@ -28,11 +28,10 @@ let _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_res
 try {
     var x = 1, z = _ts_add_disposable_resource._(env, {
         [Symbol.dispose] () {}
-    }, !1), y = 2, w = 3;
+    }, !1), y = 2, w = 3, _default = 4;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources._(env);
 }
-let _default = 4;
