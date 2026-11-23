@@ -294,6 +294,13 @@ impl ExplicitResourceManagement {
                             ..Default::default()
                         }))));
                     }
+                    Ok(ModuleDecl::ExportDefaultExpr(export))
+                        if is_kept_default_expr(&export.expr) =>
+                    {
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportDefaultExpr(export)).unwrap(),
+                        );
+                    }
                     Ok(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { expr, span })) => {
                         // The expression must be evaluated in source order,
                         // before the resources are disposed.
@@ -556,6 +563,26 @@ impl VisitMut for ExplicitResourceManagement {
         self.is_not_top_level = true;
         self.visit_mut_stmt_likes(stmts);
         self.is_not_top_level = old_is_not_top_level;
+    }
+}
+
+/// Returns `true` if `export default <expr>` can stay after the `finally`
+/// block.
+///
+/// - Evaluating an identifier, a function, or an arrow function has no side
+///   effects, so the position of the export does not change the order of side
+///   effects.
+/// - An anonymous function or class gets the name `"default"` only from `export
+///   default`. Assigning it to a variable would change its `name`. Known
+///   limitation: an anonymous class expression is kept for its name, so its
+///   static initializers still run after the resources are disposed.
+/// - An identifier can refer to a type. The TypeScript transform removes
+///   `export default <type>`, but not `var _default = <type>`.
+fn is_kept_default_expr(expr: &Expr) -> bool {
+    match expr.unwrap_parens() {
+        Expr::Ident(..) | Expr::Fn(..) | Expr::Arrow(..) => true,
+        Expr::Class(ClassExpr { ident: None, .. }) => true,
+        _ => false,
     }
 }
 
