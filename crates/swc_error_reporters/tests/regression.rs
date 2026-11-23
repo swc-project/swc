@@ -367,3 +367,42 @@ fn issue_12828_label_through_crlf_of_wide_line() {
     assert!(pretty.contains("whole line"), "{pretty}");
     assert!(pretty.contains("last character"), "{pretty}");
 }
+
+#[test]
+fn issue_12828_tab_line_in_multi_line_span() {
+    // 9000 tabs are 36000 columns wide with miette's tab width of 4, so the
+    // label after them is padded by less than 65536 columns.
+    let src = format!("let a = [\n{}1,\n];\n", "\t".repeat(9000));
+    let array = (8, src.len() - 2);
+    let inner = src.len() - "1,\n];\n".len();
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(inner, inner + 1), "array is too long")
+            .span_label(span(array.0, array.1), "this array")
+            .span_label(span(inner, inner + 1), "last element")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("this array"), "{pretty}");
+    assert!(pretty.contains("last element"), "{pretty}");
+}
+
+#[test]
+fn issue_12828_padding_of_u16_max_columns() {
+    // The label after the string is padded by exactly 65535 columns, which
+    // miette can render.
+    let src = format!("[\n'{}'] bad\n", "a".repeat(65531));
+    let array = (0, src.len() - " bad\n".len());
+    let bad = src.len() - "bad\n".len();
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(bad, bad + 3), "Expected ';'")
+            .span_label(span(array.0, array.1), "this array")
+            .span_label(span(bad, bad + 3), "here")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("here"), "{pretty}");
+}

@@ -10,79 +10,73 @@
 //!
 //! No other part of a snippet uses a runtime width: the text of a line and the
 //! underline of a label are written character by character. So this module
-//! makes sure that every such padding in a snippet is at most
-//! [MAX_LINE_WIDTH] columns wide:
+//! selects the snippet so that miette never pads a label by more than
+//! `u16::MAX` columns:
 //!
 //! - When the first or the last line of the span is wider than
 //!   [MAX_LINE_WIDTH], the part of that line outside the span is cropped to
-//!   [CROPPED_CONTEXT_WIDTH] columns, and the context lines on that side are
-//!   not shown (a snippet is one contiguous range of the source).
-//! - A context line that is too wide is not shown, together with the context
-//!   lines farther from the span.
-//! - A line that is still too wide (because the span itself covers a wide part
-//!   of it) is shown only if the labels of the diagnostic are known and no
-//!   padding before a label on that line is too wide. Otherwise, no snippet is
-//!   returned. miette then renders the labels in separate snippets when it
-//!   tried to merge them, or prints a short "Failed to read contents for label"
-//!   note.
+//!   about [CROPPED_CONTEXT_WIDTH] columns, and the context lines on that side
+//!   are not shown (a snippet is one contiguous range of the source).
+//! - A context line that is wider than [MAX_LINE_WIDTH] is not shown, together
+//!   with the context lines farther from the span.
+//! - A line of the span that is still wider than [MAX_LINE_WIDTH] is shown if
+//!   the labels of the diagnostic are known and miette pads no label on it by
+//!   more than `u16::MAX` columns. Otherwise, no snippet is returned. miette
+//!   then renders the labels in separate snippets when it tried to merge them,
+//!   or prints a short "Failed to read contents for label" note.
 //!
-//! Known limitation: widths are estimated with a tab width of at most
-//! [MAX_TAB_WIDTH] columns. A handler that is configured with a larger tab
-//! width can still pad more than `u16::MAX` columns.
+//! Columns are measured as miette 7 measures them with its default settings:
+//! the width of `unicode-width` 0.1, and tab stops every [TAB_WIDTH] columns.
 
-/// The largest estimated width of a padding in a snippet, and of a line that
-/// is shown without a check of its labels.
+use unicode_width::UnicodeWidthChar;
+
+/// The width of the widest line that miette renders without a padding above
+/// `u16::MAX`, whatever its labels are.
 ///
 /// miette renders a label that extends past the end of a line one column past
-/// the end of the line, so the widest padding is `MAX_LINE_WIDTH + 1`, which
-/// must not be above `u16::MAX`.
+/// the end of the line, so the widest padding on such a line is
+/// `MAX_LINE_WIDTH + 1`.
 pub(crate) const MAX_LINE_WIDTH: usize = u16::MAX as usize - 1;
 
 /// The width of the text that is kept before and after the span when a line
 /// of the span is cropped.
 pub(crate) const CROPPED_CONTEXT_WIDTH: usize = 128;
 
-/// The largest tab width that the width estimate supports. miette uses 4 by
-/// default.
-pub(crate) const MAX_TAB_WIDTH: usize = 8;
+/// The tab width of miette's `GraphicalReportHandler` by default, and of the
+/// forked renderers in the bindings.
+pub(crate) const TAB_WIDTH: usize = 4;
 
-/// Returns an upper bound of the number of columns that a renderer uses for
-/// `c`.
-///
-/// miette 7 uses the width of `unicode-width` 0.1, and the forked renderers in
-/// the TypeScript bindings use the width of `unicode-width` 0.2, so this
-/// returns the larger one. A tab moves to the next tab stop, which is at most
-/// [MAX_TAB_WIDTH] columns away.
+/// Returns the column after `c` when `c` starts at `column`, as miette's
+/// `line_visual_char_width` computes it.
 #[inline]
-fn char_width(c: char) -> usize {
+fn next_column(column: usize, c: char) -> usize {
     if c == '\t' {
-        return MAX_TAB_WIDTH;
+        column + TAB_WIDTH - column % TAB_WIDTH
+    } else {
+        column + c.width().unwrap_or(0)
     }
-    if c.is_ascii() {
-        return 1;
-    }
-
-    let miette = unicode_width_miette::UnicodeWidthChar::width(c).unwrap_or(0);
-    let workspace = unicode_width::UnicodeWidthChar::width(c).unwrap_or(0);
-    miette.max(workspace)
 }
 
-/// Returns `true` if the estimated width of `text` is above
-/// [MAX_LINE_WIDTH].
+/// Returns the width of `text` when it starts a line.
+fn visual_width(text: &str) -> usize {
+    text.chars().fold(0, next_column)
+}
+
+/// Returns `true` if `line` is wider than [MAX_LINE_WIDTH].
 ///
 /// This stops at the first character past the limit, so its cost is bounded
-/// by the limit and not by the length of the text.
-fn is_too_wide(text: &str) -> bool {
-    // A character is never wider than `MAX_TAB_WIDTH` columns per byte of its
-    // UTF-8 encoding, so short text needs no scan.
-    if text.len() <= MAX_LINE_WIDTH / MAX_TAB_WIDTH {
+/// by the limit and not by the length of the line.
+fn is_too_wide(line: &str) -> bool {
+    // A character is at most `TAB_WIDTH` columns wide per byte of its UTF-8
+    // encoding, so a short line needs no scan.
+    if line.len() <= MAX_LINE_WIDTH / TAB_WIDTH {
         return false;
     }
 
-    let mut width = 0;
-    for c in text.chars() {
-        width += char_width(c);
-        if width > MAX_LINE_WIDTH {
+    let mut column = 0;
+    for c in line.chars() {
+        column = next_column(column, c);
+        if column > MAX_LINE_WIDTH {
             return true;
         }
     }
@@ -90,14 +84,21 @@ fn is_too_wide(text: &str) -> bool {
 }
 
 /// Returns the smallest index `i` in `line_start..=pos` such that
-/// `src[i..pos]` is at most `max_width` columns wide. `i` is a character
-/// boundary.
-fn crop_start(src: &str, line_start: usize, pos: usize, max_width: usize) -> usize {
+/// `src[i..pos]` is at most about [CROPPED_CONTEXT_WIDTH] columns wide. `i` is
+/// a character boundary.
+///
+/// A tab is counted as [TAB_WIDTH] columns here, because its width depends on
+/// the text before it.
+fn crop_start(src: &str, line_start: usize, pos: usize) -> usize {
     let mut width = 0;
     let mut start = pos;
     for (i, c) in src[line_start..pos].char_indices().rev() {
-        width += char_width(c);
-        if width > max_width {
+        width += if c == '\t' {
+            TAB_WIDTH
+        } else {
+            c.width().unwrap_or(0)
+        };
+        if width > CROPPED_CONTEXT_WIDTH {
             break;
         }
         start = line_start + i;
@@ -106,13 +107,14 @@ fn crop_start(src: &str, line_start: usize, pos: usize, max_width: usize) -> usi
 }
 
 /// Returns the largest index `i` in `pos..=line_end` such that `src[pos..i]`
-/// is at most `max_width` columns wide. `i` is a character boundary.
-fn crop_end(src: &str, pos: usize, line_end: usize, max_width: usize) -> usize {
+/// is at most about [CROPPED_CONTEXT_WIDTH] columns wide. `i` is a character
+/// boundary.
+fn crop_end(src: &str, pos: usize, line_end: usize) -> usize {
     let mut width = 0;
     let mut end = pos;
     for (i, c) in src[pos..line_end].char_indices() {
-        width += char_width(c);
-        if width > max_width {
+        width = next_column(width, c);
+        if width > CROPPED_CONTEXT_WIDTH {
             break;
         }
         end = pos + i + c.len_utf8();
@@ -160,54 +162,66 @@ where
     }
 }
 
-/// Returns `true` if no padding before a single-line label on the line
-/// `src[start..end]` of a snippet is wider than [MAX_LINE_WIDTH].
+/// Returns `true` if miette pads no single-line label on the line
+/// `src[start..end]` of a snippet by more than `u16::MAX` columns.
 ///
-/// `is_last` is `true` for the last line of the span. The snippet includes the
-/// `\n` after every other line of the span. `labels` are the byte ranges of all
-/// labels of the diagnostic, sorted by their start.
+/// `has_newline` is `true` if the snippet includes the `\n` after the line.
+/// `labels` are the byte ranges of all labels of the diagnostic, sorted by
+/// their start.
 ///
-/// This follows `render_context` and `render_single_line_highlights` of
-/// miette 7. miette includes the `\n` in a line when the snippet goes on after
-/// it, and draws a label as a single-line label of the line if the label
-/// starts before the end of the line and ends at or before it. It draws these
-/// labels in the order of their start, and pads each label from the end of the
-/// farthest label before it (or from the start of the line).
+/// This follows `get_lines`, `render_context`, `visual_offset`, and
+/// `render_single_line_highlights` of miette 7:
 ///
-/// Whether the snippet goes on after the last line depends on the number of
-/// context lines. The result must not depend on it: miette reads the primary
-/// label again without context to find the location for the header, and fails
-/// the whole report if that read fails. So for the last line, this checks the
-/// padding of each label that miette can draw (also with the `\n`), but moves
-/// the start of the next padding only past a label that miette surely draws
-/// (also without the `\n`). This can only make the result stricter.
+/// - The line includes the `\n` (and a `\r` before it) when the snippet goes on
+///   after it, but its text does not.
+/// - A label is a single-line label of the line if it starts before the end of
+///   the line and ends at or before it.
+/// - A position past the end of the text is one column past the end of the
+///   text.
+/// - The labels are drawn in the order of their start. Each label is padded
+///   from the end of the farthest label before it, or from the start of the
+///   line, and ends at least one column after its start.
 fn paddings_fit(
     src: &str,
     start: usize,
     end: usize,
-    is_last: bool,
+    has_newline: bool,
     labels: &[(usize, usize)],
 ) -> bool {
-    let (drawn_limit, surely_drawn_limit) = if is_last {
-        ((end + 1).min(src.len()), end)
+    let line_limit = if has_newline { end + 1 } else { end };
+    let text_end = if has_newline && src[..end].ends_with('\r') {
+        end - 1
     } else {
-        (end + 1, end + 1)
+        end
     };
 
-    let mut highest = start;
+    let column = |pos: usize| {
+        if pos > text_end {
+            visual_width(&src[start..text_end]) + 1
+        } else {
+            visual_width(&src[start..pos])
+        }
+    };
+
+    let mut highest = 0;
     for &(lo, hi) in labels {
-        if lo >= drawn_limit {
+        if lo >= line_limit {
             break;
         }
-        if lo < start || hi > drawn_limit {
+        if lo < start || hi > line_limit {
             continue;
         }
-        if lo > highest && is_too_wide(&src[highest..lo]) {
+
+        let label_start = column(lo).max(highest);
+        if label_start - highest > u16::MAX as usize {
             return false;
         }
-        if hi <= surely_drawn_limit {
-            highest = highest.max(hi);
-        }
+        let label_end = if lo == hi {
+            label_start + 1
+        } else {
+            column(hi).max(label_start + 1)
+        };
+        highest = highest.max(label_end);
     }
     true
 }
@@ -247,36 +261,10 @@ pub(crate) fn snippet_window(
 
     // Crop the parts of the first and the last line outside the span.
     if is_too_wide(&src[first_line_start..first_line_end]) {
-        start = crop_start(src, first_line_start, lo, CROPPED_CONTEXT_WIDTH);
+        start = crop_start(src, first_line_start, lo);
     }
     if is_too_wide(&src[last_line_start..last_line_end]) {
-        end = crop_end(src, hi, last_line_end, CROPPED_CONTEXT_WIDTH);
-    }
-
-    // Check the lines of the span, which can still be too wide because the
-    // span covers a wide part of them. The bounds of these lines do not depend
-    // on the number of context lines.
-    let mut labels = LazyLabels {
-        init: Some(labels),
-        ranges: None,
-    };
-    let mut line = start;
-    loop {
-        let text_end = line_end(src, line).min(end);
-        let is_last = text_end == end;
-        if is_too_wide(&src[line..text_end]) {
-            let fits = labels
-                .get()
-                .is_some_and(|labels| paddings_fit(src, line, text_end, is_last, labels));
-            if !fits {
-                return None;
-            }
-        }
-
-        if is_last {
-            break;
-        }
-        line = text_end + 1;
+        end = crop_end(src, hi, last_line_end);
     }
 
     // Context lines can be shown only next to an uncropped line. A context
@@ -307,6 +295,31 @@ pub(crate) fn snippet_window(
             }
             end = next_end;
         }
+    }
+
+    // Check the lines of the span, which can still be too wide because the
+    // span covers a wide part of them.
+    let mut labels = LazyLabels {
+        init: Some(labels),
+        ranges: None,
+    };
+    let mut line = start.max(first_line_start);
+    let span_end = end.min(last_line_end);
+    loop {
+        let text_end = line_end(src, line).min(end);
+        if is_too_wide(&src[line..text_end]) {
+            let fits = labels
+                .get()
+                .is_some_and(|labels| paddings_fit(src, line, text_end, text_end < end, labels));
+            if !fits {
+                return None;
+            }
+        }
+
+        if text_end >= span_end {
+            break;
+        }
+        line = text_end + 1;
     }
 
     Some((start, end))
