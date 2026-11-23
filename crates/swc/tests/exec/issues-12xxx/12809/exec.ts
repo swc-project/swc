@@ -9,7 +9,11 @@ const log = [];
 using res = {
   [Symbol.dispose]() {
     log.push(a, b, c, d, e, f);
-    console.log(JSON.stringify(log));
+    const result = JSON.stringify(log);
+    console.log(result);
+    if (result !== '["inner","a","b","c","d","e","f"]') {
+      throw new Error(`unexpected log: ${result}`);
+    }
   },
 };
 export const a = "a";
