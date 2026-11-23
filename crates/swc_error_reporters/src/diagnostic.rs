@@ -242,14 +242,13 @@ impl miette::SourceCode for PrettySourceCode<'_> {
 
         // Selects the lines to show, and crops the lines that are too wide for
         // miette to render without a panic.
-        let labels = self.label_ranges(file.start_pos, file.end_pos);
         let (start, end) = snippet_window(
             file_src,
             lo,
             hi,
             context_lines_before,
             context_lines_after,
-            labels.as_deref(),
+            || self.label_ranges(file.start_pos, file.end_pos),
         )
         .ok_or(miette::MietteError::OutOfBounds)?;
 

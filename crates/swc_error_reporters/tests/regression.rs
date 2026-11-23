@@ -332,6 +332,43 @@ fn issue_12828_label_far_inside_wide_line_of_multi_line_span() {
 }
 
 #[test]
+fn issue_12828_insertion_label_after_wide_line() {
+    // A zero-length label at the start of the line after a wide line. miette
+    // draws it on its own line, so the wide line is not padded.
+    let src = format!("let a = [\n{}\n];\n", "0,".repeat(35000));
+    let array = (8, src.len() - 2);
+    let insert = src.len() - "];\n".len();
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(array.0, array.1), "missing element")
+            .span_label(span(array.0, array.1), "this array")
+            .span_label(span(insert, insert), "insert here")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("insert here"), "{pretty}");
+}
+
+#[test]
+fn issue_12828_label_through_crlf_of_wide_line() {
+    // A wide label that ends after the CRLF of its line, and a label inside
+    // it. miette pads the inner label from the end of the wide label.
+    let src = format!("{}\r\nnext\n", "x".repeat(70000));
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(0, 70002), "wide")
+            .span_label(span(0, 70002), "whole line")
+            .span_label(span(69999, 70000), "last character")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("whole line"), "{pretty}");
+    assert!(pretty.contains("last character"), "{pretty}");
+}
+
+#[test]
 fn issue_12828_reversed_label_span_is_ignored() {
     // A malformed label span (`lo > hi`) does not stop the wide label from
     // being shown.

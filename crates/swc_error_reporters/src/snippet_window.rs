@@ -90,14 +90,14 @@ fn is_too_wide(text: &str) -> bool {
 }
 
 /// Returns the smallest index `i` in `line_start..=pos` such that
-/// `src[i..pos]` is at most [CROPPED_CONTEXT_WIDTH] columns wide. `i` is a
-/// character boundary.
-fn crop_start(src: &str, line_start: usize, pos: usize) -> usize {
+/// `src[i..pos]` is at most `max_width` columns wide. `i` is a character
+/// boundary.
+fn crop_start(src: &str, line_start: usize, pos: usize, max_width: usize) -> usize {
     let mut width = 0;
     let mut start = pos;
     for (i, c) in src[line_start..pos].char_indices().rev() {
         width += char_width(c);
-        if width > CROPPED_CONTEXT_WIDTH {
+        if width > max_width {
             break;
         }
         start = line_start + i;
@@ -106,14 +106,13 @@ fn crop_start(src: &str, line_start: usize, pos: usize) -> usize {
 }
 
 /// Returns the largest index `i` in `pos..=line_end` such that `src[pos..i]`
-/// is at most [CROPPED_CONTEXT_WIDTH] columns wide. `i` is a character
-/// boundary.
-fn crop_end(src: &str, pos: usize, line_end: usize) -> usize {
+/// is at most `max_width` columns wide. `i` is a character boundary.
+fn crop_end(src: &str, pos: usize, line_end: usize, max_width: usize) -> usize {
     let mut width = 0;
     let mut end = pos;
     for (i, c) in src[pos..line_end].char_indices() {
         width += char_width(c);
-        if width > CROPPED_CONTEXT_WIDTH {
+        if width > max_width {
             break;
         }
         end = pos + i + c.len_utf8();
@@ -134,64 +133,83 @@ fn line_end(src: &str, pos: usize) -> usize {
     src[pos..].find('\n').map_or(src.len(), |i| pos + i)
 }
 
-/// A line of a snippet, as miette splits the snippet into lines.
-#[derive(Clone, Copy)]
-struct SnippetLine {
-    /// The index of the first byte of the line.
-    start: usize,
-    /// The index of the end of the text of the line, without the `\n`.
-    end: usize,
+/// The labels of a diagnostic, computed when they are first needed.
+///
+/// Most snippets have no line that is too wide, so they never need the
+/// labels.
+struct LazyLabels<F> {
+    init: Option<F>,
+    ranges: Option<Option<Vec<(usize, usize)>>>,
 }
 
-impl SnippetLine {
-    /// Returns `true` if miette can render this line without a padding wider
-    /// than [MAX_LINE_WIDTH].
-    ///
-    /// `labels` are the byte ranges of the labels of the diagnostic, relative
-    /// to `src`, or `None` if they are not known.
-    fn fits(self, src: &str, labels: Option<&[(usize, usize)]>) -> bool {
-        if !is_too_wide(&src[self.start..self.end]) {
-            return true;
+impl<F> LazyLabels<F>
+where
+    F: FnOnce() -> Option<Vec<(usize, usize)>>,
+{
+    /// Returns the byte ranges of the labels, sorted by their start, or `None`
+    /// if the labels are not known.
+    fn get(&mut self) -> Option<&[(usize, usize)]> {
+        let init = &mut self.init;
+        self.ranges
+            .get_or_insert_with(|| {
+                let mut ranges = init.take().and_then(|init| init())?;
+                ranges.sort_unstable();
+                Some(ranges)
+            })
+            .as_deref()
+    }
+}
+
+/// Returns `true` if no padding before a single-line label on the line
+/// `src[start..end]` of a snippet is wider than [MAX_LINE_WIDTH].
+///
+/// `is_last` is `true` for the last line of the span. The snippet includes the
+/// `\n` after every other line of the span. `labels` are the byte ranges of all
+/// labels of the diagnostic, sorted by their start.
+///
+/// This follows `render_context` and `render_single_line_highlights` of
+/// miette 7. miette includes the `\n` in a line when the snippet goes on after
+/// it, and draws a label as a single-line label of the line if the label
+/// starts before the end of the line and ends at or before it. It draws these
+/// labels in the order of their start, and pads each label from the end of the
+/// farthest label before it (or from the start of the line).
+///
+/// Whether the snippet goes on after the last line depends on the number of
+/// context lines. The result must not depend on it: miette reads the primary
+/// label again without context to find the location for the header, and fails
+/// the whole report if that read fails. So for the last line, this checks the
+/// padding of each label that miette can draw (also with the `\n`), but moves
+/// the start of the next padding only past a label that miette surely draws
+/// (also without the `\n`). This can only make the result stricter.
+fn paddings_fit(
+    src: &str,
+    start: usize,
+    end: usize,
+    is_last: bool,
+    labels: &[(usize, usize)],
+) -> bool {
+    let (drawn_limit, surely_drawn_limit) = if is_last {
+        ((end + 1).min(src.len()), end)
+    } else {
+        (end + 1, end + 1)
+    };
+
+    let mut highest = start;
+    for &(lo, hi) in labels {
+        if lo >= drawn_limit {
+            break;
         }
-        match labels {
-            Some(labels) => self.paddings_fit(src, labels),
-            None => false,
+        if lo < start || hi > drawn_limit {
+            continue;
+        }
+        if lo > highest && is_too_wide(&src[highest..lo]) {
+            return false;
+        }
+        if hi <= surely_drawn_limit {
+            highest = highest.max(hi);
         }
     }
-
-    /// Returns `true` if no padding before a single-line label on this line is
-    /// wider than [MAX_LINE_WIDTH].
-    ///
-    /// This follows `render_single_line_highlights` of miette 7: miette draws
-    /// the labels that are within the line in the order of their start, and
-    /// pads each label from the end of the farthest label before it.
-    fn paddings_fit(self, src: &str, labels: &[(usize, usize)]) -> bool {
-        // miette treats a label as within the line if it ends at the end of
-        // the line, and the line includes the `\n` after it when the snippet
-        // goes on. Checking a label that ends just after the `\n` in any case
-        // can only make the result stricter.
-        let max_end = (self.end + 1).min(src.len());
-
-        let mut on_line = labels
-            .iter()
-            .copied()
-            .filter(|&(lo, hi)| lo >= self.start && hi <= max_end)
-            .collect::<Vec<_>>();
-        on_line.sort_unstable();
-
-        let mut highest = self.start;
-        for (lo, hi) in on_line {
-            if lo > highest && is_too_wide(&src[highest..lo]) {
-                return false;
-            }
-            // Only a label that miette surely draws on this line moves the
-            // position that the next padding starts from.
-            if hi <= self.end {
-                highest = highest.max(hi);
-            }
-        }
-        true
-    }
+    true
 }
 
 /// Returns the byte range of `src` that the snippet of `src[lo..hi]` shows.
@@ -202,8 +220,9 @@ impl SnippetLine {
 /// [module documentation](self) describes. Returns `None` if a line of the
 /// span itself cannot be shown.
 ///
-/// `labels` are the byte ranges of all labels of the diagnostic, relative to
-/// `src`, or `None` if they are not known.
+/// `labels` returns the byte ranges of all labels of the diagnostic, relative
+/// to `src`, or `None` if they are not known. It is called only if a line of
+/// the span is too wide.
 ///
 /// `lo` and `hi` must be character boundaries of `src`, and `lo <= hi`.
 pub(crate) fn snippet_window(
@@ -212,7 +231,7 @@ pub(crate) fn snippet_window(
     hi: usize,
     context_lines_before: usize,
     context_lines_after: usize,
-    labels: Option<&[(usize, usize)]>,
+    labels: impl FnOnce() -> Option<Vec<(usize, usize)>>,
 ) -> Option<(usize, usize)> {
     let first_line_start = line_start(src, lo);
     let last_line_end = line_end(src, hi);
@@ -220,55 +239,44 @@ pub(crate) fn snippet_window(
     let mut start = first_line_start;
     let mut end = last_line_end;
 
-    match src[lo..hi].find('\n') {
-        // The span is on one line.
-        None => {
-            if is_too_wide(&src[start..end]) {
-                start = crop_start(src, first_line_start, lo);
-                end = crop_end(src, hi, last_line_end);
-            }
+    let (first_line_end, last_line_start) = match src[lo..hi].find('\n') {
+        None => (last_line_end, first_line_start),
+        // `hi > lo + i`, so `src[..hi]` contains a `\n`.
+        Some(i) => (lo + i, line_start(src, hi)),
+    };
 
-            if !(SnippetLine { start, end }).fits(src, labels) {
+    // Crop the parts of the first and the last line outside the span.
+    if is_too_wide(&src[first_line_start..first_line_end]) {
+        start = crop_start(src, first_line_start, lo, CROPPED_CONTEXT_WIDTH);
+    }
+    if is_too_wide(&src[last_line_start..last_line_end]) {
+        end = crop_end(src, hi, last_line_end, CROPPED_CONTEXT_WIDTH);
+    }
+
+    // Check the lines of the span, which can still be too wide because the
+    // span covers a wide part of them. The bounds of these lines do not depend
+    // on the number of context lines.
+    let mut labels = LazyLabels {
+        init: Some(labels),
+        ranges: None,
+    };
+    let mut line = start;
+    loop {
+        let text_end = line_end(src, line).min(end);
+        let is_last = text_end == end;
+        if is_too_wide(&src[line..text_end]) {
+            let fits = labels
+                .get()
+                .is_some_and(|labels| paddings_fit(src, line, text_end, is_last, labels));
+            if !fits {
                 return None;
             }
         }
-        Some(first_newline) => {
-            let first_line_end = lo + first_newline;
-            // `hi > first_line_end`, so `src[..hi]` contains a `\n`.
-            let last_line_start = line_start(src, hi);
 
-            if is_too_wide(&src[first_line_start..first_line_end]) {
-                start = crop_start(src, first_line_start, lo);
-            }
-            if is_too_wide(&src[last_line_start..last_line_end]) {
-                end = crop_end(src, hi, last_line_end);
-            }
-
-            let first_line = SnippetLine {
-                start,
-                end: first_line_end,
-            };
-            let last_line = SnippetLine {
-                start: last_line_start,
-                end,
-            };
-            if !first_line.fits(src, labels) || !last_line.fits(src, labels) {
-                return None;
-            }
-
-            // The lines between the first line and the last line.
-            let mut pos = first_line_end + 1;
-            while pos < last_line_start {
-                let line = SnippetLine {
-                    start: pos,
-                    end: line_end(src, pos),
-                };
-                if !line.fits(src, labels) {
-                    return None;
-                }
-                pos = line.end + 1;
-            }
+        if is_last {
+            break;
         }
+        line = text_end + 1;
     }
 
     // Context lines can be shown only next to an uncropped line. A context
@@ -287,7 +295,6 @@ pub(crate) fn snippet_window(
             start = prev_start;
         }
     }
-
     if end == last_line_end {
         for _ in 0..context_lines_after {
             if end == src.len() {
