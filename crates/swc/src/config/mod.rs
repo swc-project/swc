@@ -1010,8 +1010,12 @@ impl Options {
                     )
                 }),
                 // `using` declarations are lowered after TypeScript lowers its runtime
-                // declarations (`enum`, `namespace`, `declare`, `import x = ...`), so
-                // that the transform sees only ECMAScript module items.
+                // declarations (`enum`, `namespace`, `declare`), so that the transform
+                // does not get these TypeScript-only module items.
+                //
+                // `import x = require("y")` can still reach the transform: the
+                // TypeScript transform keeps it for the CommonJS, AMD, UMD, and
+                // SystemJS module transforms.
                 Optional::new(
                     explicit_resource_management(),
                     syntax.explicit_resource_management(),
