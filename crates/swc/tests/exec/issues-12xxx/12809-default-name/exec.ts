@@ -12,7 +12,7 @@ using res = {
 
 export default (class {
   static {
-    log.push(this.name);
+    log.push("default");
   }
 });
 export const named = log.push("named");

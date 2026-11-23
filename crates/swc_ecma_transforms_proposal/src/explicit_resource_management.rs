@@ -350,34 +350,16 @@ impl ExplicitResourceManagement {
                             .unwrap(),
                         );
 
-                        // An anonymous function or class gets the name
-                        // `"default"` from `export
-                        // default`. A property named `default` gives
-                        // it the same name:
+                        // var _default = expr;
                         //
-                        // var _default = { default: expr }.default;
-                        let init = if is_anonymous_fn_or_class(&expr) {
-                            ObjectLit {
-                                span: DUMMY_SP,
-                                props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(
-                                    KeyValueProp {
-                                        key: PropName::Ident(quote_ident!("default")),
-                                        value: expr,
-                                    },
-                                )))],
-                            }
-                            .make_member(quote_ident!("default"))
-                            .into()
-                        } else {
-                            // var _default = expr;
-                            expr
-                        };
-
+                        // Known limitation: an anonymous function or class
+                        // gets the name `"_default"` instead of `"default"`,
+                        // as in the output of tsc.
                         try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(ident.into()),
-                                init: Some(init),
+                                init: Some(expr),
                                 definite: false,
                             }],
                             span,
@@ -664,16 +646,6 @@ fn ts_runtime_decl_ident(decl: &Decl) -> Option<&Ident> {
         },
         _ => None,
     }
-}
-
-/// Returns `true` for an anonymous function, arrow function, or class.
-fn is_anonymous_fn_or_class(expr: &Expr) -> bool {
-    matches!(
-        expr.unwrap_parens(),
-        Expr::Fn(FnExpr { ident: None, .. })
-            | Expr::Arrow(..)
-            | Expr::Class(ClassExpr { ident: None, .. })
-    )
 }
 
 fn handle_using_decl(using: &mut UsingDecl, state: &mut State) -> Box<VarDecl> {

@@ -5,11 +5,9 @@ const env = {
 };
 try {
     var res = _ts_add_disposable_resource(env, null, false);
-    var _default = {
-        default: class {
-            static name2 = this.name;
-        }
-    }.default;
+    var _default = class {
+        static name2 = this.name;
+    };
 } catch (e) {
     env.error = e;
     env.hasError = true;
