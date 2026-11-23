@@ -89,9 +89,10 @@ fn issue_12828_error_past_column_65536() {
     assert_has_snippet(&pretty);
     assert!(pretty.contains("Expression expected"), "{pretty}");
     assert!(pretty.contains("var b = 1 +;"), "{pretty}");
-    // The header points at the error, not at the start of the cropped line.
+    // The snippet, and so the column in its header, starts 128 columns
+    // before the error.
     assert!(
-        pretty.contains(&format!("[input.js:1:{}]", error + 1)),
+        pretty.contains(&format!("[input.js:1:{}]", error - 128 + 1)),
         "{pretty}"
     );
     // The line is cropped around the error.
