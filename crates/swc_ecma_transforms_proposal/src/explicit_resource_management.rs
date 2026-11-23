@@ -579,11 +579,13 @@ impl VisitMut for ExplicitResourceManagement {
 /// - An identifier can refer to a type. The TypeScript transform removes
 ///   `export default <type>`, but not `var _default = <type>`.
 fn is_kept_default_expr(expr: &Expr) -> bool {
-    match expr.unwrap_parens() {
-        Expr::Ident(..) | Expr::Fn(..) | Expr::Arrow(..) => true,
-        Expr::Class(ClassExpr { ident: None, .. }) => true,
-        _ => false,
-    }
+    matches!(
+        expr.unwrap_parens(),
+        Expr::Ident(..)
+            | Expr::Fn(..)
+            | Expr::Arrow(..)
+            | Expr::Class(ClassExpr { ident: None, .. })
+    )
 }
 
 fn handle_using_decl(using: &mut UsingDecl, state: &mut State) -> Box<VarDecl> {
