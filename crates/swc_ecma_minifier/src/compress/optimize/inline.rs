@@ -941,6 +941,10 @@ impl Optimizer<'_> {
                 return None;
             }
 
+            if self.ctx.bit_ctx.contains(BitCtx::IsDeleteArg) {
+                return None;
+            }
+
             // currently renamer relies on the fact no distinct var has same
             // ctxt, we need to remap all new bindings.
             let bindings: FxHashSet<Id> = collect_decls(value);

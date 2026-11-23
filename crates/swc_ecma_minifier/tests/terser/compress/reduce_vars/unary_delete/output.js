@@ -1,6 +1,7 @@
 var b = 10;
 function f() {
-    b--;
+    var a;
+    if (delete a) b--;
 }
 f();
 console.log(b);
