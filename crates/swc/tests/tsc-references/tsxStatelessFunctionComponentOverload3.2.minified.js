@@ -5,14 +5,13 @@ define([
     "@swc/helpers/_/_object_spread",
     "@swc/helpers/_/_object_spread_props"
 ], function(require, exports, _object_spread, _object_spread_props) {
-    var obj2;
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), ZeroThingOrTwoThing, ZeroThingOrTwoThing, ZeroThingOrTwoThing, ZeroThingOrTwoThing, _object_spread._({
         yy: 1000
-    }, obj2), ZeroThingOrTwoThing, _object_spread_props._(_object_spread._({}, obj2), {
+    }, void 0), ZeroThingOrTwoThing, _object_spread_props._(_object_spread._({}, void 0), {
         yy: 1000
-    }), ThreeThing, ThreeThing, ThreeThing, _object_spread_props._(_object_spread._({}, obj2), {
+    }), ThreeThing, ThreeThing, ThreeThing, _object_spread_props._(_object_spread._({}, void 0), {
         y2: 10
     });
 });

@@ -1,5 +1,4 @@
 //// [a.js]
-var si, oi;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 /*#__PURE__*/ (function() {
     function O() {
@@ -11,4 +10,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         _class_call_check(this, I);
     }
     return I.prototype.n = function(a, b) {}, I;
-}(), si.m, oi.n;
+}(), (void 0).m, (void 0).n;

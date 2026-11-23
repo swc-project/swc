@@ -1,8 +1,11 @@
-var ClassB, obj, value;
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
 }
-module.exports = (obj = ClassB = /*#__PURE__*/ function() {
+var ClassB, ClassA = function ClassA() {
+    "use strict";
+    _classCallCheck(this, ClassA);
+};
+module.exports = ("MyA" in (ClassB = /*#__PURE__*/ function() {
     "use strict";
     var protoProps;
     function ClassB() {
@@ -21,12 +24,9 @@ module.exports = (obj = ClassB = /*#__PURE__*/ function() {
             descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
         }
     }(ClassB.prototype, protoProps), ClassB;
-}(), value = function ClassA() {
-    "use strict";
-    _classCallCheck(this, ClassA);
-}, "MyA" in obj ? Object.defineProperty(obj, "MyA", {
-    value: value,
+}()) ? Object.defineProperty(ClassB, "MyA", {
+    value: ClassA,
     enumerable: !0,
     configurable: !0,
     writable: !0
-}) : obj.MyA = value, ClassB);
+}) : ClassB.MyA = ClassA, ClassB);

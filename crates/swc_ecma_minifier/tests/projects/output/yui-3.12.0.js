@@ -1646,7 +1646,7 @@ properties are not copied). The following copying modes are available:
      * Adds utilities to the YUI instance for working with objects.
      *
      * @class Object
-     */ var UNDEFINED, Lang = Y.Lang, hasOwn = Object.prototype.hasOwnProperty, /**
+     */ var Lang = Y.Lang, hasOwn = Object.prototype.hasOwnProperty, /**
        * Returns a new object that uses _obj_ as its prototype. This method wraps the
        * native ES5 `Object.create()` method if available, but doesn't currently
        * pass through `Object.create()`'s second argument (properties) in order to
@@ -1861,10 +1861,11 @@ properties are not copied). The following copying modes are available:
      * undefined if the source is not an object.  Returns the source object
      * if an empty path is provided.
      */ O.getValue = function(o, path) {
-        if (!Lang.isObject(o)) return UNDEFINED;
-        var i, p = Y.Array(path), l = p.length;
-        for(i = 0; o !== UNDEFINED && i < l; i++)o = o[p[i]];
-        return o;
+        if (Lang.isObject(o)) {
+            var i, p = Y.Array(path), l = p.length;
+            for(i = 0; void 0 !== o && i < l; i++)o = o[p[i]];
+            return o;
+        }
     }, /**
      * Sets the sub-attribute value at the provided path on the
      * value object.  Returns the modified value object, or
@@ -1881,8 +1882,8 @@ properties are not copied). The following copying modes are available:
      */ O.setValue = function(o, path, val) {
         var i, p = Y.Array(path), leafIdx = p.length - 1, ref = o;
         if (leafIdx >= 0) {
-            for(i = 0; ref !== UNDEFINED && i < leafIdx; i++)ref = ref[p[i]];
-            if (ref === UNDEFINED) return UNDEFINED;
+            for(i = 0; void 0 !== ref && i < leafIdx; i++)ref = ref[p[i]];
+            if (void 0 === ref) return;
             ref[p[i]] = val;
         }
         return o;

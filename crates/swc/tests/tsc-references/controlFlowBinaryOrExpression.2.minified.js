@@ -1,4 +1,3 @@
 //// [controlFlowBinaryOrExpression.ts]
-var sourceObj = void 0;
-isNodeList(sourceObj) && sourceObj.length, isHTMLCollection(sourceObj) && sourceObj.length, (isNodeList(sourceObj) || isHTMLCollection(sourceObj)) && sourceObj.length;
+isNodeList(void 0) && (void 0).length, isHTMLCollection(void 0) && (void 0).length, (isNodeList(void 0) || isHTMLCollection(void 0)) && (void 0).length;
 export { };

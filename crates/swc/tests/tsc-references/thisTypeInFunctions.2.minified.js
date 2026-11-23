@@ -2,7 +2,7 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var explicitCFunction, explicitPropertyFunction, _this = this, C = /*#__PURE__*/ function() {
+var _this = this, C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
@@ -75,9 +75,9 @@ var reconstructed = {
     explicitProperty: c.explicitProperty,
     explicitVoid: c.explicitVoid
 };
-reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstructed.explicitVoid)(12), c.explicitC = explicitCFunction, c.explicitC = function(m) {
+reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstructed.explicitVoid)(12), c.explicitC = void 0, c.explicitC = function(m) {
     return this.n + m;
-}, c.explicitProperty = explicitPropertyFunction, c.explicitProperty = function(m) {
+}, c.explicitProperty = void 0, c.explicitProperty = function(m) {
     return this.n + m;
 }, c.explicitProperty = reconstructed.explicitProperty, c.explicitC = function(m) {
     return m;
@@ -91,7 +91,7 @@ reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstr
     return m + _this.n;
 }, c.explicitProperty = function(m) {
     return m + _this.n;
-}, c.explicitThis = explicitCFunction, c.explicitThis = function(m) {
+}, c.explicitThis = void 0, c.explicitThis = function(m) {
     return this.n + m;
 }, c.explicitC = function(m) {
     return this.n + m;

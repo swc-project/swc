@@ -1,7 +1,7 @@
 //// [arrayTypeOfFunctionTypes2.ts]
-var x, x2, r = x[1];
+var r = (void 0)[1];
 new r(), r();
-var r3 = x[1];
+var r3 = (void 0)[1];
 new r3(), new r3();
-var r5 = x2[1];
+var r5 = (void 0)[1];
 new r5(), r5();

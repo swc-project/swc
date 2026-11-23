@@ -1,8 +1,5 @@
 //// [for-of25.ts]
-var x;
 class StringIterator {
-    [Symbol.iterator]() {
-        return x;
-    }
+    [Symbol.iterator]() {}
 }
 for (var v of new StringIterator);

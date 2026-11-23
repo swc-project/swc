@@ -7303,9 +7303,7 @@
                 try {
                     var t1;
                     let s, i, t2 = await (t1 = t.localStore, s = e.snapshotVersion, i = t1.Un, t1.persistence.runTransaction("Apply remote event", "readwrite-primary", (t)=>{
-                        var n, // TODO(wuandy): We could add `readTime` to MaybeDocument instead to remove
-                        // this parameter.
-                        i1;
+                        var n;
                         let r, r1 = t1.jn.newChangeBuffer({
                             trackRemovals: !0
                         });
@@ -7337,17 +7335,17 @@
                             e.resolvedLimboDocuments.has(s) && o.push(t1.persistence.referenceDelegate.updateLimboDocument(t, s));
                         }), // Each loop iteration only affects its "own" doc, so it's safe to get all the remote
                         // documents in advance in a single call.
-                        o.push((n = e.documentUpdates, i1 = void 0, r = Pn(), n.forEach((t)=>r = r.add(t)), r1.getEntries(t, r).next((t)=>{
+                        o.push((n = e.documentUpdates, r = Pn(), n.forEach((t)=>r = r.add(t)), r1.getEntries(t, r).next((t)=>{
                             let r = pn;
                             return n.forEach((n, o)=>{
-                                let c = t.get(n), a = (null == i1 ? void 0 : i1.get(n)) || s;
+                                let c = t.get(n);
                                 // Note: The order of the steps below is important, since we want
                                 // to ensure that rejected limbo resolutions (which fabricate
                                 // NoDocuments with SnapshotVersion.min()) never add documents to
                                 // cache.
                                 o.isNoDocument() && o.version.isEqual(rt.min()) ? // events. We remove these documents from cache since we lost
                                 // access.
-                                (r1.removeEntry(n, a), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (r1.addEntry(o, a), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
+                                (r1.removeEntry(n, s), r = r.insert(n, o)) : !c.isValidDocument() || o.version.compareTo(c.version) > 0 || 0 === o.version.compareTo(c.version) && c.hasPendingWrites ? (r1.addEntry(o, s), r = r.insert(n, o)) : $("LocalStore", "Ignoring outdated watch update for ", n, ". Current version:", c.version, " Watch version:", o.version);
                             }), r;
                         })).next((t)=>{
                             c = t;

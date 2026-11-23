@@ -5,11 +5,10 @@ new (/*#__PURE__*/ function() {
         _class_call_check(this, C);
     }
     return C.prototype.f = function() {
-        var x;
-        return x.notHere() + x.notHere();
+        return (void 0).notHere() + (void 0).notHere();
     }, C;
-}())().f(), i.foo.notHere(), i.foo.notHere(), a().notHere(), a().notHere();
-var i, a, b = {
+}())().f(), (void 0).foo.notHere(), (void 0).foo.notHere(), (void 0)().notHere(), (void 0)().notHere();
+var b = {
     foo: function(x) {
         return x.notHere() + x.notHere();
     },

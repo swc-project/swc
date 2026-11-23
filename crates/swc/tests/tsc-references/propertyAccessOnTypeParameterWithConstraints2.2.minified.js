@@ -2,7 +2,7 @@
 import { _ as _call_super } from "@swc/helpers/_/_call_super";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-var i, a, B = /*#__PURE__*/ function(A) {
+var B = /*#__PURE__*/ function(A) {
     function B() {
         return _class_call_check(this, B), _call_super(this, B, arguments);
     }
@@ -22,12 +22,11 @@ var i, a, B = /*#__PURE__*/ function(A) {
     }
     var _proto = C.prototype;
     return _proto.f = function() {
-        var x;
-        return x.foo() + x.foo();
+        return (void 0).foo() + (void 0).foo();
     }, _proto.g = function(x) {
         return x.foo() + x.foo();
     }, C;
 }();
-new C().f(), new C().g(new B()), i.foo.foo(), i.foo.foo(), a().foo(), a().foo();
+new C().f(), new C().g(new B()), (void 0).foo.foo(), (void 0).foo.foo(), (void 0)().foo(), (void 0)().foo();
 var aB = new B();
-a(aB, aB).foo(), a(aB, aB).foo(), aB.foo(), aB.foo();
+(void 0)(aB, aB).foo(), (void 0)(aB, aB).foo(), aB.foo(), aB.foo();

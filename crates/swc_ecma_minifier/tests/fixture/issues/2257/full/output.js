@@ -10046,7 +10046,7 @@
         "use strict";
         // TODO: in core-js@4, move /modules/ dependencies to public entries for better optimization by tools like `preset-env`
         __webpack_require__(94616);
-        var EOF, $ = __webpack_require__(35437), DESCRIPTORS = __webpack_require__(87122), USE_NATIVE_URL = __webpack_require__(62902), global = __webpack_require__(19514), defineProperties = __webpack_require__(68381), redefine = __webpack_require__(78109), anInstance = __webpack_require__(51819), has = __webpack_require__(1521), assign = __webpack_require__(59038), arrayFrom = __webpack_require__(83581), codeAt = __webpack_require__(88668).codeAt, toASCII = __webpack_require__(41075), $toString = __webpack_require__(72729), setToStringTag = __webpack_require__(77875), URLSearchParamsModule = __webpack_require__(79085), InternalStateModule = __webpack_require__(44670), NativeURL = global.URL, URLSearchParams1 = URLSearchParamsModule.URLSearchParams, getInternalSearchParamsState = URLSearchParamsModule.getState, setInternalState = InternalStateModule.set, getInternalURLState = InternalStateModule.getterFor("URL"), floor = Math.floor, pow = Math.pow, INVALID_SCHEME = "Invalid scheme", INVALID_HOST = "Invalid host", INVALID_PORT = "Invalid port", ALPHA = /[A-Za-z]/, ALPHANUMERIC = /[\d+-.A-Za-z]/, DIGIT = /\d/, HEX_START = /^0x/i, OCT = /^[0-7]+$/, DEC = /^\d+$/, HEX = /^[\dA-Fa-f]+$/, FORBIDDEN_HOST_CODE_POINT = /[\0\t\n\r #%/:<>?@[\\\]^|]/, FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT = /[\0\t\n\r #/:<>?@[\\\]^|]/, LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE = /^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, TAB_AND_NEW_LINE = /[\t\n\r]/g, parseHost = function(url, input) {
+        var $ = __webpack_require__(35437), DESCRIPTORS = __webpack_require__(87122), USE_NATIVE_URL = __webpack_require__(62902), global = __webpack_require__(19514), defineProperties = __webpack_require__(68381), redefine = __webpack_require__(78109), anInstance = __webpack_require__(51819), has = __webpack_require__(1521), assign = __webpack_require__(59038), arrayFrom = __webpack_require__(83581), codeAt = __webpack_require__(88668).codeAt, toASCII = __webpack_require__(41075), $toString = __webpack_require__(72729), setToStringTag = __webpack_require__(77875), URLSearchParamsModule = __webpack_require__(79085), InternalStateModule = __webpack_require__(44670), NativeURL = global.URL, URLSearchParams1 = URLSearchParamsModule.URLSearchParams, getInternalSearchParamsState = URLSearchParamsModule.getState, setInternalState = InternalStateModule.set, getInternalURLState = InternalStateModule.getterFor("URL"), floor = Math.floor, pow = Math.pow, INVALID_SCHEME = "Invalid scheme", INVALID_HOST = "Invalid host", INVALID_PORT = "Invalid port", ALPHA = /[A-Za-z]/, ALPHANUMERIC = /[\d+-.A-Za-z]/, DIGIT = /\d/, HEX_START = /^0x/i, OCT = /^[0-7]+$/, DEC = /^\d+$/, HEX = /^[\dA-Fa-f]+$/, FORBIDDEN_HOST_CODE_POINT = /[\0\t\n\r #%/:<>?@[\\\]^|]/, FORBIDDEN_HOST_CODE_POINT_EXCLUDING_PERCENT = /[\0\t\n\r #/:<>?@[\\\]^|]/, LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE = /^[\u0000-\u0020]+|[\u0000-\u0020]+$/g, TAB_AND_NEW_LINE = /[\t\n\r]/g, parseHost = function(url, input) {
             var result, codePoints, index;
             if ("[" == input.charAt(0)) {
                 if ("]" != input.charAt(input.length - 1) || !(result = parseIPv6(input.slice(1, -1)))) return INVALID_HOST;
@@ -10243,7 +10243,7 @@
                         state = PATH;
                         continue;
                     case RELATIVE:
-                        if (url.scheme = base.scheme, chr == EOF) url.username = base.username, url.password = base.password, url.host = base.host, url.port = base.port, url.path = base.path.slice(), url.query = base.query;
+                        if (url.scheme = base.scheme, void 0 == chr) url.username = base.username, url.password = base.password, url.host = base.host, url.port = base.port, url.path = base.path.slice(), url.query = base.query;
                         else if ("/" == chr || "\\" == chr && isSpecial(url)) state = RELATIVE_SLASH;
                         else if ("?" == chr) url.username = base.username, url.password = base.password, url.host = base.host, url.port = base.port, url.path = base.path.slice(), url.query = "", state = QUERY;
                         else if ("#" == chr) url.username = base.username, url.password = base.password, url.host = base.host, url.port = base.port, url.path = base.path.slice(), url.query = base.query, url.fragment = "", state = FRAGMENT;
@@ -10283,7 +10283,7 @@
                                 seenPasswordToken ? url.password += encodedCodePoints : url.username += encodedCodePoints;
                             }
                             buffer = "";
-                        } else if (chr == EOF || "/" == chr || "?" == chr || "#" == chr || "\\" == chr && isSpecial(url)) {
+                        } else if (void 0 == chr || "/" == chr || "?" == chr || "#" == chr || "\\" == chr && isSpecial(url)) {
                             if (seenAt && "" == buffer) return "Invalid authority";
                             pointer -= arrayFrom(buffer).length + 1, buffer = "", state = HOST;
                         } else buffer += chr;
@@ -10294,7 +10294,7 @@
                             state = FILE_HOST;
                             continue;
                         }
-                        if (":" != chr || seenBracket) if (chr == EOF || "/" == chr || "?" == chr || "#" == chr || "\\" == chr && isSpecial(url)) {
+                        if (":" != chr || seenBracket) if (void 0 == chr || "/" == chr || "?" == chr || "#" == chr || "\\" == chr && isSpecial(url)) {
                             if (isSpecial(url) && "" == buffer) return INVALID_HOST;
                             if (stateOverride && "" == buffer && (includesCredentials(url) || null !== url.port)) return;
                             if (failure = parseHost(url, buffer)) return failure;
@@ -10310,7 +10310,7 @@
                     case PORT:
                         if (DIGIT.test(chr)) buffer += chr;
                         else {
-                            if (!(chr == EOF || "/" == chr || "?" == chr || "#" == chr || "\\" == chr && isSpecial(url)) && !stateOverride) return INVALID_PORT;
+                            if (!(void 0 == chr || "/" == chr || "?" == chr || "#" == chr || "\\" == chr && isSpecial(url)) && !stateOverride) return INVALID_PORT;
                             if ("" != buffer) {
                                 var port = parseInt(buffer, 10);
                                 if (port > 0xffff) return INVALID_PORT;
@@ -10323,7 +10323,7 @@
                         break;
                     case FILE:
                         if (url.scheme = "file", "/" == chr || "\\" == chr) state = FILE_SLASH;
-                        else if (base && "file" == base.scheme) if (chr == EOF) url.host = base.host, url.path = base.path.slice(), url.query = base.query;
+                        else if (base && "file" == base.scheme) if (void 0 == chr) url.host = base.host, url.path = base.path.slice(), url.query = base.query;
                         else if ("?" == chr) url.host = base.host, url.path = base.path.slice(), url.query = "", state = QUERY;
                         else if ("#" == chr) url.host = base.host, url.path = base.path.slice(), url.query = base.query, url.fragment = "", state = FRAGMENT;
                         else {
@@ -10343,7 +10343,7 @@
                         base && "file" == base.scheme && !startsWithWindowsDriveLetter(codePoints.slice(pointer).join("")) && (isWindowsDriveLetter(base.path[0], !0) ? url.path.push(base.path[0]) : url.host = base.host), state = PATH;
                         continue;
                     case FILE_HOST:
-                        if (chr == EOF || "/" == chr || "\\" == chr || "?" == chr || "#" == chr) {
+                        if (void 0 == chr || "/" == chr || "\\" == chr || "?" == chr || "#" == chr) {
                             if (!stateOverride && isWindowsDriveLetter(buffer)) state = PATH;
                             else if ("" == buffer) {
                                 if (url.host = "", stateOverride) return;
@@ -10361,24 +10361,24 @@
                         if (isSpecial(url)) {
                             if (state = PATH, "/" != chr && "\\" != chr) continue;
                         } else if (stateOverride || "?" != chr) if (stateOverride || "#" != chr) {
-                            if (chr != EOF && (state = PATH, "/" != chr)) continue;
+                            if (void 0 != chr && (state = PATH, "/" != chr)) continue;
                         } else url.fragment = "", state = FRAGMENT;
                         else url.query = "", state = QUERY;
                         break;
                     case PATH:
-                        if (chr == EOF || "/" == chr || "\\" == chr && isSpecial(url) || !stateOverride && ("?" == chr || "#" == chr)) {
-                            if (".." === (segment = (segment = buffer).toLowerCase()) || "%2e." === segment || ".%2e" === segment || "%2e%2e" === segment ? (shortenURLsPath(url), "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("")) : "." === (segment1 = buffer) || "%2e" === segment1.toLowerCase() ? "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("") : ("file" == url.scheme && !url.path.length && isWindowsDriveLetter(buffer) && (url.host && (url.host = ""), buffer = buffer.charAt(0) + ":"), url.path.push(buffer)), buffer = "", "file" == url.scheme && (chr == EOF || "?" == chr || "#" == chr)) for(; url.path.length > 1 && "" === url.path[0];)url.path.shift();
+                        if (void 0 == chr || "/" == chr || "\\" == chr && isSpecial(url) || !stateOverride && ("?" == chr || "#" == chr)) {
+                            if (".." === (segment = (segment = buffer).toLowerCase()) || "%2e." === segment || ".%2e" === segment || "%2e%2e" === segment ? (shortenURLsPath(url), "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("")) : "." === (segment1 = buffer) || "%2e" === segment1.toLowerCase() ? "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("") : ("file" == url.scheme && !url.path.length && isWindowsDriveLetter(buffer) && (url.host && (url.host = ""), buffer = buffer.charAt(0) + ":"), url.path.push(buffer)), buffer = "", "file" == url.scheme && (void 0 == chr || "?" == chr || "#" == chr)) for(; url.path.length > 1 && "" === url.path[0];)url.path.shift();
                             "?" == chr ? (url.query = "", state = QUERY) : "#" == chr && (url.fragment = "", state = FRAGMENT);
                         } else buffer += percentEncode(chr, pathPercentEncodeSet);
                         break;
                     case CANNOT_BE_A_BASE_URL_PATH:
-                        "?" == chr ? (url.query = "", state = QUERY) : "#" == chr ? (url.fragment = "", state = FRAGMENT) : chr != EOF && (url.path[0] += percentEncode(chr, C0ControlPercentEncodeSet));
+                        "?" == chr ? (url.query = "", state = QUERY) : "#" == chr ? (url.fragment = "", state = FRAGMENT) : void 0 != chr && (url.path[0] += percentEncode(chr, C0ControlPercentEncodeSet));
                         break;
                     case QUERY:
-                        stateOverride || "#" != chr ? chr != EOF && ("'" == chr && isSpecial(url) ? url.query += "%27" : "#" == chr ? url.query += "%23" : url.query += percentEncode(chr, C0ControlPercentEncodeSet)) : (url.fragment = "", state = FRAGMENT);
+                        stateOverride || "#" != chr ? void 0 != chr && ("'" == chr && isSpecial(url) ? url.query += "%27" : "#" == chr ? url.query += "%23" : url.query += percentEncode(chr, C0ControlPercentEncodeSet)) : (url.fragment = "", state = FRAGMENT);
                         break;
                     case FRAGMENT:
-                        chr != EOF && (url.fragment += percentEncode(chr, fragmentPercentEncodeSet));
+                        void 0 != chr && (url.fragment += percentEncode(chr, fragmentPercentEncodeSet));
                 }
                 pointer++;
             }
@@ -18420,7 +18420,7 @@
              * LICENSE file in the root directory of this source tree.
              */ var runtime = function(exports) {
             "use strict";
-            var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+            var Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
             function define(obj, key, value) {
                 return Object.defineProperty(obj, key, {
                     value: value,
@@ -18458,14 +18458,14 @@
                             // setting context.delegate to null, and returning the ContinueSentinel.
                             function maybeInvokeDelegate(delegate, context) {
                                 var method = delegate.iterator[context.method];
-                                if (undefined === method) {
+                                if (void 0 === method) {
                                     if (// A .throw or .return when the delegate iterator has no .throw
                                     // method always terminates the yield* loop.
                                     context.delegate = null, "throw" === context.method) {
                                         // Note: ["return"] must be used for ES3 parsing compatibility.
                                         if (delegate.iterator.return && (// If the delegate iterator has a return method, give it a
                                         // chance to clean up.
-                                        context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) // If maybeInvokeDelegate(context) changed context.method from
+                                        context.method = "return", context.arg = void 0, maybeInvokeDelegate(delegate, context), "throw" === context.method)) // If maybeInvokeDelegate(context) changed context.method from
                                         // "return" to "throw", let that override the TypeError below.
                                         return ContinueSentinel;
                                         context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
@@ -18478,7 +18478,7 @@
                                 return info ? info.done ? (// Assign the result of the finished delegate to the temporary
                                 // variable specified by delegate.resultName (see delegateYield).
                                 context[delegate.resultName] = info.value, // Resume execution at the desired location (see delegateYield).
-                                context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), // The delegate iterator is finished, so forget it and continue with
+                                context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = void 0), // The delegate iterator is finished, so forget it and continue with
                                 // the outer generator.
                                 context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
                             }(delegate, context);
@@ -18642,7 +18642,7 @@
                     if (!isNaN(iterable.length)) {
                         var i = -1, next = function next() {
                             for(; ++i < iterable.length;)if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
-                            return next.value = undefined, next.done = !0, next;
+                            return next.value = void 0, next.done = !0, next;
                         };
                         return next.next = next;
                     }
@@ -18654,7 +18654,7 @@
             }
             function doneResult() {
                 return {
-                    value: undefined,
+                    value: void 0,
                     done: !0
                 };
             }
@@ -18720,8 +18720,8 @@
                 reset: function(skipTempReset) {
                     if (this.prev = 0, this.next = 0, // Resetting context._sent for legacy support of Babel's
                     // function.sent implementation.
-                    this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for(var name in this)// Not sure about the optimal order of these conditions:
-                    "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
+                    this.sent = this._sent = void 0, this.done = !1, this.delegate = null, this.method = "next", this.arg = void 0, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for(var name in this)// Not sure about the optimal order of these conditions:
+                    "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = void 0);
                 },
                 stop: function() {
                     this.done = !0;
@@ -18735,7 +18735,7 @@
                     function handle(loc, caught) {
                         return record.type = "throw", record.arg = exception, context.next = loc, caught && (// If the dispatched exception was caught by a catch block,
                         // then let that catch block handle the exception normally.
-                        context.method = "next", context.arg = undefined), !!caught;
+                        context.method = "next", context.arg = void 0), !!caught;
                     }
                     for(var i = this.tryEntries.length - 1; i >= 0; --i){
                         var entry = this.tryEntries[i], record = entry.completion;
@@ -18803,7 +18803,7 @@
                         nextLoc: nextLoc
                     }, "next" === this.method && // Deliberately forget the last sent value so that we don't
                     // accidentally pass it on to the delegate.
-                    (this.arg = undefined), ContinueSentinel;
+                    (this.arg = void 0), ContinueSentinel;
                 }
             }, exports;
         }(module.exports);

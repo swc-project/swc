@@ -1,3 +1,3 @@
 //// [typeGuardOfFormNotExpr.ts]
-var strOrNumOrBool, numOrBool;
-numOrBool !== strOrNumOrBool && (numOrBool = strOrNumOrBool);
+var numOrBool;
+void 0 !== numOrBool && (numOrBool = void 0);

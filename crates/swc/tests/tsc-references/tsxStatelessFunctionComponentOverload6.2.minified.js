@@ -6,7 +6,6 @@ define([
     "@swc/helpers/_/_object_spread_props",
     "react"
 ], function(require, exports, _object_spread, _object_spread_props, React) {
-    var obj1;
     function MainButton(props) {
         return props.to ? this._buildMainLink(props) : this._buildMainButton(props);
     }
@@ -22,7 +21,7 @@ define([
     }, {
         children: "hi",
         to: "boo"
-    }), _object_spread_props._(_object_spread._({}, obj1), {
+    }), _object_spread_props._(_object_spread._({}, void 0), {
         to: "/to/somewhere"
     });
 });

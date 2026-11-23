@@ -209,7 +209,7 @@ impl VarUsageInfo {
             ) && self.property_mutation_count != 0)
     }
 
-    fn initialized(&self) -> bool {
+    pub(crate) fn initialized(&self) -> bool {
         self.flags.intersects(
             VarUsageInfoFlags::VAR_INITIALIZED
                 .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)

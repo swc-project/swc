@@ -1,3 +1,3 @@
 //// [twoInterfacesDifferentRootModule2.ts]
-var M, a, b, M2, a1, b1;
-M || (M = {}), M2 || (M2 = {}), a1.foo, a1.bar, b1.foo, b1.bar, a.foo, a.bar, b.foo, b.bar;
+var M, M2;
+M || (M = {}), M2 || (M2 = {}), (void 0).foo, (void 0).bar, (void 0).foo, (void 0).bar, (void 0).foo, (void 0).bar, (void 0).foo, (void 0).bar;

@@ -1,6 +1,6 @@
 //// [memberFunctionsWithPrivateOverloads.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var c, d, C = /*#__PURE__*/ function() {
+var C = /*#__PURE__*/ function() {
     function C() {
         _class_call_check(this, C);
     }
@@ -13,4 +13,4 @@ var c, d, C = /*#__PURE__*/ function() {
     var _proto = D.prototype;
     return _proto.foo = function(x, y) {}, _proto.bar = function(x, y) {}, D.foo = function(x, y) {}, D.bar = function(x, y) {}, D;
 }();
-c.foo(1), d.foo(2), C.foo(1), D.bar('');
+(void 0).foo(1), (void 0).foo(2), C.foo(1), D.bar('');

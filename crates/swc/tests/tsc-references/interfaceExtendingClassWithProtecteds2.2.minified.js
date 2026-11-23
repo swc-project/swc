@@ -1,4 +1,3 @@
 //// [interfaceExtendingClassWithProtecteds2.ts]
-var i;
 import "@swc/helpers/_/_class_call_check";
-i.z, i.x, i.y;
+(void 0).z, (void 0).x, (void 0).y;

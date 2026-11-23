@@ -1,3 +1,3 @@
 //// [parserForStatement2.ts]
-var a, c, b = [];
-for(a in b[c] = b[c] || [], d);
+var a, b = [];
+for(a in b[void 0] = b[void 0] || [], d);

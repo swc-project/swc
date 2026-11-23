@@ -1,4 +1,3 @@
 //// [constructorParameterProperties.ts]
-var c, d;
 import "@swc/helpers/_/_class_call_check";
-c.y, c.x, c.z, d.y, d.x, d.a, d.z;
+(void 0).y, (void 0).x, (void 0).z, (void 0).y, (void 0).x, (void 0).a, (void 0).z;

@@ -1,3 +1,2 @@
 //// [genericTypeAliases.ts]
-var p;
-p.a = 1, p.b = 2, p.tag = "test";
+(void 0).a = 1, (void 0).b = 2, (void 0).tag = "test";

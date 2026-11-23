@@ -1,12 +1,9 @@
 //// [vs/foo_0.ts]
-var x;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "x", {
     enumerable: !0,
-    get: function() {
-        return x;
-    }
+    get: function() {}
 });
 //// [vs/fum.d.ts]
 Object.defineProperty(exports, "__esModule", {

@@ -8,6 +8,5 @@ define([
 define([
     "require"
 ], function(require) {
-    var x;
-    x("test"), x(42), x.b, x.c, x.d;
+    (void 0)("test"), (void 0)(42), (void 0).b, (void 0).c, (void 0).d;
 });

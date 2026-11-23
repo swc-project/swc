@@ -7111,8 +7111,8 @@
                     function Engine() {}
                     return(// eslint-disable-next-line
                     Engine.prototype.compile = function(templateString, helper, ignorePrefix) {
-                        var helper1, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
-                        return void 0 === helper && (helper = {}), str = templateString, nameSpace = 'data', helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
+                        var helper1, str, nameSpace, helper2, varCOunt, localKeys, isClass, singleSpace;
+                        return void 0 === helper && (helper = {}), str = templateString, nameSpace = 'data', helper2 = helper1 = helper, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
                         }), Function('data', "var str=\"" + str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, // eslint-disable-next-line
                         function(match, cnt, offset, matchStr) {
@@ -7122,11 +7122,11 @@
                                 var rlStr = matches[1];
                                 if (ELSEIF_STMT.test(cnt)) //handling else-if condition
                                 cnt = '";} ' + cnt.replace(matches[1], rlStr.replace(WORD, function(str) {
-                                    return addNameSpace(str = str.trim(), !QUOTES.test(str) && -1 === localKeys.indexOf(str), nameSpace, localKeys, ignorePrefix1);
+                                    return addNameSpace(str = str.trim(), !QUOTES.test(str) && -1 === localKeys.indexOf(str), nameSpace, localKeys, void 0);
                                 })) + '{ \n str = str + "';
                                 else if (IF_STMT.test(cnt)) //handling if condition
                                 cnt = '"; ' + cnt.replace(matches[1], rlStr.replace(WORDIF, function(strs) {
-                                    return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
+                                    return HandleSpecialCharArrObj(strs, nameSpace, localKeys, void 0);
                                 })) + '{ \n str = str + "';
                                 else if (FOR_STMT.test(cnt)) {
                                     //handling for condition
@@ -7135,8 +7135,8 @@
                                     // eslint-disable-next-line
                                     cnt = '"; ' + cnt.replace(matches[1], function(mtc) {
                                         // tslint:disable-next-line
-                                        return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '.length; i' + varCOunt + '++';
-                                    }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
+                                        return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, void 0) + '.length; i' + varCOunt + '++';
+                                    }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, void 0) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
                                 } else {
                                     //helper function handling
                                     var fnStr = cnt.split('('), fNameSpace = helper2 && helper2.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
@@ -7144,12 +7144,12 @@
                                     var ftArray = matches[1].split(',');
                                     0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && // tslint:disable-next-line
                                     (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
-                                        return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
-                                    })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + nameSpace + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, nameSpace, localKeys, ignorePrefix1)) + '+"';
+                                        return HandleSpecialCharArrObj(strs, nameSpace, localKeys, void 0);
+                                    })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + nameSpace + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, nameSpace, localKeys, void 0)) + '+"';
                                 }
                             } else ELSE_STMT.test(cnt) ? // handling else condition
                             cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? // close condition
-                            cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
+                            cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, void 0) + '+"';
                             return cnt;
                         }) + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
                     }, Engine);

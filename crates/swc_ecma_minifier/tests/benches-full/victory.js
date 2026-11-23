@@ -2467,10 +2467,10 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                         i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
-                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q.push({
+                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
                         i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a2, b2)
                     }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
@@ -19841,8 +19841,8 @@
                 }
             ]; //  used for checking state changes. Expected components can be passed in via options
             /* harmony default export */ __webpack_exports__.default = function(WrappedComponent, options) {
-                var protoProps, _WrappedComponent = WrappedComponent;
-                if ("function" != typeof _WrappedComponent && null !== _WrappedComponent) throw TypeError("Super expression must either be null or a function");
+                var protoProps;
+                if ("function" != typeof WrappedComponent && null !== WrappedComponent) throw TypeError("Super expression must either be null or a function");
                 function addEvents(props) {
                     if (!(this instanceof addEvents)) throw TypeError("Cannot call a class as a function");
                     var call, _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), getScopedEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getScopedEvents.bind(_assertThisInitialized(_this)), boundGetEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEvents.bind(_assertThisInitialized(_this));
@@ -19852,14 +19852,14 @@
                     var calculatedValues = _this.getCalculatedValues(props);
                     return _this.cacheValues(calculatedValues), _this.externalMutations = _this.getExternalMutations(props), _this.calculatedState = _this.getStateChanges(props), _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
                 }
-                return addEvents.prototype = Object.create(_WrappedComponent && _WrappedComponent.prototype, {
+                return addEvents.prototype = Object.create(WrappedComponent && WrappedComponent.prototype, {
                     constructor: {
                         value: addEvents,
                         enumerable: !1,
                         writable: !0,
                         configurable: !0
                     }
-                }), _WrappedComponent && (Object.setPrototypeOf ? Object.setPrototypeOf(addEvents, _WrappedComponent) : addEvents.__proto__ = _WrappedComponent), protoProps = [
+                }), WrappedComponent && (Object.setPrototypeOf ? Object.setPrototypeOf(addEvents, WrappedComponent) : addEvents.__proto__ = WrappedComponent), protoProps = [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {

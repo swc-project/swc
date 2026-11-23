@@ -1,4 +1,3 @@
 //// [a.js]
-var ja, da;
 import "@swc/helpers/_/_class_call_check";
-ja.y, da.x;
+(void 0).y, (void 0).x;

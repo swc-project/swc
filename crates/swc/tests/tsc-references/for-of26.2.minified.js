@@ -1,9 +1,6 @@
 //// [for-of26.ts]
-var x;
 class StringIterator {
-    next() {
-        return x;
-    }
+    next() {}
     [Symbol.iterator]() {
         return this;
     }

@@ -1,13 +1,13 @@
 //// [emptyVariableDeclarationBindingPatterns01_ES6.ts]
 !function() {
-    var a, {} = a;
-    let {} = a, {} = a;
-    var [] = a;
-    let [] = a, [] = a;
-    var {} = a, [] = a;
-    let {} = a, [] = a, {} = a, [] = a;
-    var { p1: {}, p2: [] } = a;
-    let { p1: {}, p2: [] } = a, { p1: {}, p2: [] } = a;
+    var {} = void 0;
+    let {} = void 0, {} = void 0;
+    var [] = void 0;
+    let [] = void 0, [] = void 0;
+    var {} = void 0, [] = void 0;
+    let {} = void 0, [] = void 0, {} = void 0, [] = void 0;
+    var { p1: {}, p2: [] } = void 0;
+    let { p1: {}, p2: [] } = void 0, { p1: {}, p2: [] } = void 0;
     var {} = {}, {} = {};
 }(), function() {
     let ns = [];

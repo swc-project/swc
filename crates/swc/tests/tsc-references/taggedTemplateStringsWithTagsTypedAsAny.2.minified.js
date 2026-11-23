@@ -1,5 +1,4 @@
 //// [taggedTemplateStringsWithTagsTypedAsAny.ts]
-var f;
 import { _ as _tagged_template_literal } from "@swc/helpers/_/_tagged_template_literal";
 function _templateObject() {
     var data = _tagged_template_literal([
@@ -111,4 +110,4 @@ function _templateObject11() {
         return data;
     }, data;
 }
-f(_templateObject()), f(_templateObject1(), 1, 2), f.g.h(_templateObject2()), f.g.h(_templateObject3(), 1, 2), f(_templateObject4()).member, f(_templateObject5(), 1, 2).member, f(_templateObject6()).member, f(_templateObject7(), 1, 2).member, f(_templateObject8()).member.someOtherTag(_templateObject9(), 1, 2), f(_templateObject10(), 1, 2).member.someOtherTag(_templateObject11(), 1, 2), f.thisIsNotATag("abc"), f.thisIsNotATag("abc".concat(1, "def", 2, "ghi"));
+(void 0)(_templateObject()), (void 0)(_templateObject1(), 1, 2), (void 0).g.h(_templateObject2()), (void 0).g.h(_templateObject3(), 1, 2), (void 0)(_templateObject4()).member, (void 0)(_templateObject5(), 1, 2).member, (void 0)(_templateObject6()).member, (void 0)(_templateObject7(), 1, 2).member, (void 0)(_templateObject8()).member.someOtherTag(_templateObject9(), 1, 2), (void 0)(_templateObject10(), 1, 2).member.someOtherTag(_templateObject11(), 1, 2), (void 0).thisIsNotATag("abc"), (void 0).thisIsNotATag("abc".concat(1, "def", 2, "ghi"));

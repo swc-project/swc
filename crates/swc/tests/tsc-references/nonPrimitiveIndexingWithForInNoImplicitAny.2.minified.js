@@ -1,3 +1,2 @@
 //// [nonPrimitiveIndexingWithForInNoImplicitAny.ts]
-var a;
-for(var key in a)a[key];
+for(var key in void 0)(void 0)[key];

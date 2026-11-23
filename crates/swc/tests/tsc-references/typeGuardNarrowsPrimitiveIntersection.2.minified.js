@@ -1,3 +1,2 @@
 //// [typeGuardNarrowsPrimitiveIntersection.ts]
-var value;
-isNonBlank(value) ? doThis(value) : doThat(value), isNonBlank2(value) ? doThis2(value) : doThat2(value);
+isNonBlank(void 0) ? doThis(void 0) : doThat(void 0), isNonBlank2(void 0) ? doThis2(void 0) : doThat2(void 0);

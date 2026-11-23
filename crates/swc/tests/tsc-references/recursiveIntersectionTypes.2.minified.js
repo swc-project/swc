@@ -1,3 +1,2 @@
 //// [recursiveIntersectionTypes.ts]
-var entityList;
-entityList.name, entityList.next.name, entityList.next.next.name, entityList.next.next.next.name;
+(void 0).name, (void 0).next.name, (void 0).next.next.name, (void 0).next.next.next.name;

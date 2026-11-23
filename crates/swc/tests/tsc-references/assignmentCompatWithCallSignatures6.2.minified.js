@@ -1,6 +1,6 @@
 //// [assignmentCompatWithCallSignatures6.ts]
-var x, b, b2, b3, b4, b5, b11, b16;
+var b, b2, b3, b4, b5, b11;
 import "@swc/helpers/_/_call_super";
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_inherits";
-x.a = b, b = x.a, x.a2 = b2, b2 = x.a2, x.a3 = b3, b3 = x.a3, x.a4 = b4, b4 = x.a4, x.a5 = b5, b5 = x.a5, x.a11 = b11, b11 = x.a11, x.a16 = b16, x.a16;
+(void 0).a = b, b = (void 0).a, (void 0).a2 = b2, b2 = (void 0).a2, (void 0).a3 = b3, b3 = (void 0).a3, (void 0).a4 = b4, b4 = (void 0).a4, (void 0).a5 = b5, b5 = (void 0).a5, (void 0).a11 = b11, b11 = (void 0).a11, (void 0).a16 = void 0, (void 0).a16;

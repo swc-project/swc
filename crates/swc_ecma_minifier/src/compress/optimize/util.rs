@@ -870,6 +870,14 @@ impl VisitMut for Finalizer<'_> {
         });
     }
 
+    fn visit_mut_unary_expr(&mut self, n: &mut UnaryExpr) {
+        if n.op == op!("delete") && n.arg.is_ident() {
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.visit_mut_children_with(self);
 

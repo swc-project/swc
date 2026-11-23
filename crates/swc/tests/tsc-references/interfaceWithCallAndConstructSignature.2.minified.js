@@ -1,3 +1,2 @@
 //// [interfaceWithCallAndConstructSignature.ts]
-var f;
-f(), new f();
+(void 0)(), new (void 0)();

@@ -1,3 +1,3 @@
 //// [mergeTwoInterfaces.ts]
-var a, b, M, a1, b1;
-a.foo, a.bar, b.foo, b.bar, M || (M = {}), a1.foo, a1.bar, b1.foo, b1.bar;
+var M;
+(void 0).foo, (void 0).bar, (void 0).foo, (void 0).bar, M || (M = {}), (void 0).foo, (void 0).bar, (void 0).foo, (void 0).bar;

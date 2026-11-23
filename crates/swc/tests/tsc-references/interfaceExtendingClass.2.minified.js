@@ -1,5 +1,4 @@
 //// [interfaceExtendingClass.ts]
-var i;
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_create_class";
-i.x, i.y(), i.Z;
+(void 0).x, (void 0).y(), (void 0).Z;

@@ -1,5 +1,4 @@
-var condString;
 function foo() {
     return "string";
 }
-condString.toUpperCase, foo(), foo(), condString.toUpperCase, foo(), condString.toUpperCase;
+(void 0).toUpperCase, foo(), foo(), (void 0).toUpperCase, foo(), (void 0).toUpperCase;

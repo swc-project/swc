@@ -1,3 +1,2 @@
 //// [objectTypeWithConstructSignatureAppearsToBeFunctionType.ts]
-var i, b;
-i(), new i(), i.apply, b(), new b(), b.apply;
+(void 0)(), new (void 0)(), (void 0).apply, (void 0)(), new (void 0)(), (void 0).apply;
