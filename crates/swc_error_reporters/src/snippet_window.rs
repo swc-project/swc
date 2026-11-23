@@ -26,7 +26,9 @@
 //!   or prints a short "Failed to read contents for label" note.
 //!
 //! Columns are measured as miette 7 measures them with its default settings:
-//! the width of `unicode-width` 0.1, and tab stops every [TAB_WIDTH] columns.
+//! the width of `unicode-width` 0.1, tab stops every [TAB_WIDTH] columns, and
+//! no width for ANSI escape sequences. The forked renderers in the bindings
+//! measure some characters differently, so they pad without a runtime width.
 
 use unicode_width::UnicodeWidthChar;
 
@@ -42,24 +44,31 @@ pub(crate) const MAX_LINE_WIDTH: usize = u16::MAX as usize - 1;
 /// of the span is cropped.
 pub(crate) const CROPPED_CONTEXT_WIDTH: usize = 128;
 
-/// The tab width of miette's `GraphicalReportHandler` by default, and of the
-/// forked renderers in the bindings.
+/// The tab width of miette's `GraphicalReportHandler` by default.
 pub(crate) const TAB_WIDTH: usize = 4;
 
-/// Returns the column after `c` when `c` starts at `column`, as miette's
-/// `line_visual_char_width` computes it.
-#[inline]
-fn next_column(column: usize, c: char) -> usize {
-    if c == '\t' {
-        column + TAB_WIDTH - column % TAB_WIDTH
-    } else {
-        column + c.width().unwrap_or(0)
-    }
+/// Returns the column after each character of `text`, when `text` starts a
+/// line, as miette's `line_visual_char_width` computes it.
+fn columns(text: &str) -> impl Iterator<Item = usize> + '_ {
+    let mut column = 0;
+    let mut escaped = false;
+    text.chars().map(move |c| {
+        match (escaped, c) {
+            (false, '\t') => column += TAB_WIDTH - column % TAB_WIDTH,
+            // The start of an ANSI escape sequence.
+            (false, '\x1b') => escaped = true,
+            (false, c) => column += c.width().unwrap_or(0),
+            // The end of an ANSI escape sequence.
+            (true, 'm') => escaped = false,
+            (true, _) => {}
+        }
+        column
+    })
 }
 
 /// Returns the width of `text` when it starts a line.
 fn visual_width(text: &str) -> usize {
-    text.chars().fold(0, next_column)
+    columns(text).last().unwrap_or(0)
 }
 
 /// Returns `true` if `line` is wider than [MAX_LINE_WIDTH].
@@ -73,14 +82,7 @@ fn is_too_wide(line: &str) -> bool {
         return false;
     }
 
-    let mut column = 0;
-    for c in line.chars() {
-        column = next_column(column, c);
-        if column > MAX_LINE_WIDTH {
-            return true;
-        }
-    }
-    false
+    columns(line).any(|column| column > MAX_LINE_WIDTH)
 }
 
 /// Returns the smallest index `i` in `line_start..=pos` such that
@@ -110,10 +112,11 @@ fn crop_start(src: &str, line_start: usize, pos: usize) -> usize {
 /// is at most about [CROPPED_CONTEXT_WIDTH] columns wide. `i` is a character
 /// boundary.
 fn crop_end(src: &str, pos: usize, line_end: usize) -> usize {
-    let mut width = 0;
     let mut end = pos;
-    for (i, c) in src[pos..line_end].char_indices() {
-        width = next_column(width, c);
+    for ((i, c), width) in src[pos..line_end]
+        .char_indices()
+        .zip(columns(&src[pos..line_end]))
+    {
         if width > CROPPED_CONTEXT_WIDTH {
             break;
         }

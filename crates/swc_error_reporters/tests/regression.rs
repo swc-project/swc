@@ -426,3 +426,24 @@ fn issue_12828_header_read_of_label_ending_on_wide_line() {
     assert_has_snippet(&pretty);
     assert!(pretty.contains("here"), "{pretty}");
 }
+
+#[test]
+fn issue_12828_ansi_escape_sequences_have_no_width() {
+    // miette renders ANSI escape sequences with no width, so the label after
+    // this colored text is padded by less than 65536 columns. The array spans
+    // several lines, so its label does not cover the padding.
+    let colored = "\x1b[31mred\x1b[0m".repeat(10000);
+    let src = format!("let a = [\n`{colored}`, 1\n];\n");
+    let array = (8, src.len() - 2);
+    let one = src.len() - "1\n];\n".len();
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(one, one + 1), "expected a string")
+            .span_label(span(array.0, array.1), "this array")
+            .span_label(span(one, one + 1), "expected a string here")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("expected a string here"), "{pretty}");
+}
