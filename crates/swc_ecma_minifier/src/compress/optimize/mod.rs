@@ -3458,9 +3458,7 @@ impl VisitMut for Optimizer<'_> {
                 }
             } else {
                 if let Some(usage) = self.data.vars.get(&id.id.to_id()) {
-                    if !usage.flags.intersects(VarUsageInfoFlags::VAR_INITIALIZED)
-                        && usage.assign_count == 0
-                    {
+                    if !usage.initialized() && usage.assign_count == 0 {
                         let mut undef = Expr::undefined(DUMMY_SP);
                         self.store_var_for_inlining(&mut id.id, &mut undef, false);
                     }
