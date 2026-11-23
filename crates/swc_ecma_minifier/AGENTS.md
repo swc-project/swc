@@ -91,8 +91,11 @@ edit, add, rename, or delete any file in `tests/terser`. This includes
 `input.js`, `config.json`, `mangle.json`, `output.js`, and `output.terser.js`.
 
 - `UPDATE=1 cargo test -p swc_ecma_minifier` can rewrite `output.js` files in
-  `tests/terser`. After you run it, discard these changes with
-  `git restore crates/swc_ecma_minifier/tests/terser`.
+  `tests/terser` to match the new SWC output. After you run it, discard these
+  changes with `git restore crates/swc_ecma_minifier/tests/terser`.
+- Exception: when the SWC output becomes equal to `output.terser.js`, the test
+  harness copies `output.terser.js` to `output.js`. You can keep this change,
+  because the expected output is then the output of Terser.
 - If your change makes a Terser fixture fail, first check whether the change
   causes a regression. If it does, fix the minifier.
 - If the new output is intended (for example, a correctness fix that Terser
