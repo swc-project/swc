@@ -328,9 +328,10 @@ impl ExplicitResourceManagement {
                     }
                     // An identifier can refer to a type. The TypeScript transform
                     // removes `export default <type>`, but not
-                    // `var _default = <type>`. `export default x` reads the value
-                    // of `x` where it is, so the exported declarations after it
-                    // also stay after the `finally` block.
+                    // `var _default = <type>`. The exported declarations after it
+                    // also stay after the `finally` block, so they can not change
+                    // `x` before it is read. Known limitation: other statements
+                    // after it still move into the `try` block, so they can.
                     Ok(ModuleDecl::ExportDefaultExpr(export))
                         if matches!(export.expr.unwrap_parens(), Expr::Ident(..)) =>
                     {
