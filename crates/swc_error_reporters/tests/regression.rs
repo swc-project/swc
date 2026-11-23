@@ -492,3 +492,26 @@ fn issue_12828_insertion_label_at_newline_before_wide_context_line() {
     assert_has_snippet(&pretty);
     assert!(pretty.contains("insert here"), "{pretty}");
 }
+
+#[test]
+fn issue_12828_labels_with_the_same_start() {
+    // miette draws labels that start at the same position in the order of the
+    // diagnostic, here the longer one first, so the padding of the last label
+    // is exactly 65535 columns.
+    let src = format!("[\nfoo{}x\n]\n", " ".repeat(65535));
+    let array = (0, src.len() - 1);
+    let foo = 2;
+    let x = src.len() - "x\n]\n".len();
+
+    let pretty = render(&src, |h, span| {
+        h.struct_span_err(span(x, x + 1), "unexpected")
+            .span_label(span(array.0, array.1), "this array")
+            .span_label(span(foo, foo + 2), "fo")
+            .span_label(span(foo, foo + 1), "f")
+            .span_label(span(x, x + 1), "here")
+            .emit();
+    });
+
+    assert_has_snippet(&pretty);
+    assert!(pretty.contains("here"), "{pretty}");
+}

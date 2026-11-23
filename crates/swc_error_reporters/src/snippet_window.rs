@@ -158,7 +158,8 @@ where
         self.ranges
             .get_or_insert_with(|| {
                 let mut ranges = init.take().and_then(|init| init())?;
-                ranges.sort_unstable();
+                // miette sorts the labels by their start only.
+                ranges.sort_unstable_by_key(|&(lo, _)| lo);
                 Some(ranges)
             })
             .as_deref()
