@@ -195,7 +195,9 @@ impl Emitter for JsonErrorWriter {
             match reporter.render_report(
                 &mut snippet,
                 &Snippet {
-                    source_code: &to_pretty_source_code(&self.cm, true),
+                    // `Snippet` renders one label, at `span`.
+                    source_code: &to_pretty_source_code(&self.cm, true)
+                        .with_labels(std::slice::from_ref(&span)),
                     span,
                 },
             ) {

@@ -6474,6 +6474,7 @@ dependencies = [
  "once_cell",
  "serde",
  "swc_common",
+ "unicode-width 0.1.14",
 ]
 
 [[package]]
