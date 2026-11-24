@@ -2447,7 +2447,7 @@ checksum = "ec9d92d097f4749b64e8cc33d924d9f40a2d4eb91402b458014b781f5733d60f"
 
 [[package]]
 name = "hstr"
-version = "5.0.0"
+version = "5.1.0"
 dependencies = [
  "compact_str",
  "criterion",
@@ -5098,7 +5098,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "83.0.1"
+version = "83.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5379,7 +5379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "85.1.0"
+version = "85.1.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5935,7 +5935,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "65.0.1"
+version = "65.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6282,7 +6282,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "55.0.0"
+version = "55.0.1"
 dependencies = [
  "bytes-str",
  "dashmap",
@@ -6467,7 +6467,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "30.0.0"
+version = "30.1.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -7043,7 +7043,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip_binding"
-version = "0.26.0"
+version = "0.26.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",

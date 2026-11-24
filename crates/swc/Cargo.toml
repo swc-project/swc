@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc"
 repository    = { workspace = true }
-version       = "83.0.1"
+version       = "83.0.2"
 
 [lib]
 bench = false
@@ -101,7 +101,7 @@ swc_ecma_loader = { version = "29.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "65.0.1", path = "../swc_ecma_minifier", default-features = false }
+swc_ecma_minifier = { version = "65.0.2", path = "../swc_ecma_minifier", default-features = false }
 swc_ecma_parser = { version = "48.1.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
 ] }
@@ -119,10 +119,10 @@ swc_ecma_transforms = { version = "66.0.0", path = "../swc_ecma_transforms", fea
 swc_ecma_transforms_base = { version = "52.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "60.0.0", path = "../swc_ecma_transforms_compat", default-features = false }
 swc_ecma_transforms_module = { version = "59.0.0", path = "../swc_ecma_transforms_module", optional = true }
-swc_ecma_transforms_optimization = { version = "55.0.0", path = "../swc_ecma_transforms_optimization", default-features = false }
+swc_ecma_transforms_optimization = { version = "55.0.1", path = "../swc_ecma_transforms_optimization", default-features = false }
 swc_ecma_utils = { version = "37.0.1", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "31.0.0", path = "../swc_ecma_visit", default-features = false }
-swc_error_reporters = { version = "30.0.0", path = "../swc_error_reporters", default-features = false }
+swc_error_reporters = { version = "30.1.0", path = "../swc_error_reporters", default-features = false }
 swc_node_comments = { version = "29.0.0", path = "../swc_node_comments", default-features = false }
 swc_plugin_backend_wasmer = { version = "19.0.0", path = "../swc_plugin_backend_wasmer", optional = true, default-features = false }
 swc_plugin_proxy = { version = "32.0.0", path = "../swc_plugin_proxy", optional = true, default-features = false }
