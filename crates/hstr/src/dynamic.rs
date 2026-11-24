@@ -98,6 +98,13 @@ impl AtomStore {
 }
 
 thread_local! {
+    /// The global atom store of the current thread.
+    ///
+    /// Always access it with [`LocalKey::try_with`](std::thread::LocalKey::try_with),
+    /// never with `with`. Thread-local destructors run in the reverse order of
+    /// registration, so a destructor of another thread-local can run after
+    /// this store is destroyed. `with` panics then, and a panic in a
+    /// thread-local destructor aborts the process.
     static GLOBAL_DATA: RefCell<AtomStore> = Default::default();
 }
 
@@ -106,11 +113,12 @@ thread_local! {
 /// The global store is thread-local, so this only affects the store of the
 /// calling thread. To clean up every thread, run this on each of them (for
 /// example with `rayon::broadcast`).
+///
+/// If the store of the calling thread is already destroyed (for example when
+/// this is called from a thread-local destructor), this does nothing: the
+/// store released its atoms when it was destroyed.
 pub fn global_atom_store_gc() {
-    GLOBAL_DATA.with(|global| {
-        let mut store = global.borrow_mut();
-        store.gc();
-    });
+    let _ = GLOBAL_DATA.try_with(|global| global.borrow_mut().gc());
 }
 
 /// Removes every atom from the global store, including atoms that are still
@@ -135,27 +143,32 @@ pub fn global_atom_store_gc() {
 /// The global store is thread-local, so this only affects the store of the
 /// calling thread. To clear every thread, run this on each of them (for
 /// example with `rayon::broadcast`).
+///
+/// If the store of the calling thread is already destroyed (for example when
+/// this is called from a thread-local destructor), this does nothing: the
+/// store released its atoms when it was destroyed.
 pub fn drop_global_atom_store() {
-    GLOBAL_DATA.with(|global| {
-        let mut store = global.borrow_mut();
-        store.clear();
-    });
+    let _ = GLOBAL_DATA.try_with(|global| global.borrow_mut().clear());
 }
 
+/// Creates a [Wtf8Atom] in the global store of the calling thread.
+///
+/// If the store is already destroyed (during thread teardown), the atom is
+/// created without interning. See [Uninterned].
 pub(crate) fn global_wtf8_atom(text: &[u8]) -> Wtf8Atom {
-    GLOBAL_DATA.with(|global| {
-        let mut store = global.borrow_mut();
-
-        wtf8_atom_in(&mut *store, text)
-    })
+    GLOBAL_DATA
+        .try_with(|global| wtf8_atom_in(&mut *global.borrow_mut(), text))
+        .unwrap_or_else(|_| wtf8_atom_in(Uninterned, text))
 }
 
+/// Creates an [Atom] in the global store of the calling thread.
+///
+/// If the store is already destroyed (during thread teardown), the atom is
+/// created without interning. See [Uninterned].
 pub(crate) fn global_atom(text: &str) -> Atom {
-    GLOBAL_DATA.with(|global| {
-        let mut store = global.borrow_mut();
-
-        atom_in(&mut *store, text)
-    })
+    GLOBAL_DATA
+        .try_with(|global| atom_in(&mut *global.borrow_mut(), text))
+        .unwrap_or_else(|_| atom_in(Uninterned, text))
 }
 
 fn wtf8_atom_in<S>(storage: S, text: &[u8]) -> Wtf8Atom
@@ -230,11 +243,32 @@ trait Storage {
     fn insert_entry(self, text: &[u8], hash: u64) -> Item;
 }
 
+/// Allocates a new entry that is not stored in any [AtomStore].
+#[inline]
+fn new_item(text: &[u8], hash: u64) -> Item {
+    Item(ThinArc::from_header_and_slice(Metadata { hash }, text))
+}
+
+/// A [Storage] that does not intern: every call allocates a new entry.
+///
+/// The global store uses this when the thread-local store is already destroyed
+/// (during thread teardown). An atom made this way is still correct, because
+/// equality and hashing use the stored hash and the text, not the pointer. The
+/// only cost is that equal texts are not deduplicated.
+struct Uninterned;
+
+impl Storage for Uninterned {
+    #[inline]
+    fn insert_entry(self, text: &[u8], hash: u64) -> Item {
+        new_item(text, hash)
+    }
+}
+
 impl Storage for &'_ mut AtomStore {
     fn insert_entry(self, text: &[u8], hash: u64) -> Item {
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
-            return Item(ThinArc::from_header_and_slice(Metadata { hash }, text));
+            return new_item(text, hash);
         }
 
         let (entry, _) = self
@@ -243,12 +277,7 @@ impl Storage for &'_ mut AtomStore {
             .from_hash(hash, |key| {
                 key.header.header.hash == hash && key.slice.eq(text)
             })
-            .or_insert_with(move || {
-                (
-                    Item(ThinArc::from_header_and_slice(Metadata { hash }, text)),
-                    (),
-                )
-            });
+            .or_insert_with(move || (new_item(text, hash), ()));
         entry.clone()
     }
 }
@@ -303,8 +332,17 @@ impl Hasher for EntryHasher {
 
 #[cfg(test)]
 mod tests {
+    use std::{
+        cell::RefCell,
+        hash::{Hash, Hasher},
+        sync::mpsc::{channel, Sender},
+    };
+
+    use rustc_hash::FxHasher;
+
     use crate::{
         drop_global_atom_store, dynamic::GLOBAL_DATA, global_atom_store_gc, Atom, AtomStore,
+        Wtf8Atom,
     };
 
     fn expect_size(expected: usize) {
@@ -425,5 +463,86 @@ mod tests {
 
         drop_global_atom_store();
         expect_size(0);
+    }
+
+    /// What a thread-local destructor saw and created after the global store of
+    /// its thread was destroyed.
+    struct TeardownResult {
+        store_destroyed: bool,
+        long: Atom,
+        short: Atom,
+        wtf8_long: Wtf8Atom,
+    }
+
+    /// A thread-local whose destructor uses the global store.
+    ///
+    /// The test touches it before the global store, so it is registered first
+    /// and destroyed last, after the global store is gone.
+    struct TeardownGuard(RefCell<Option<Sender<TeardownResult>>>);
+
+    impl Drop for TeardownGuard {
+        fn drop(&mut self) {
+            let Some(tx) = self.0.borrow_mut().take() else {
+                return;
+            };
+            let store_destroyed = GLOBAL_DATA.try_with(|_| ()).is_err();
+
+            // Each of these used to panic, which aborts the process inside a
+            // thread-local destructor.
+            global_atom_store_gc();
+            drop_global_atom_store();
+            let result = TeardownResult {
+                store_destroyed,
+                long: Atom::new(LONG),
+                short: Atom::new("short"),
+                wtf8_long: Wtf8Atom::new(LONG),
+            };
+            let _ = tx.send(result);
+        }
+    }
+
+    thread_local! {
+        static TEARDOWN_GUARD: TeardownGuard = const { TeardownGuard(RefCell::new(None)) };
+    }
+
+    /// Longer than the inline limit, even with `atom_size_128`.
+    const LONG: &str = "this string is longer than the inline limit";
+
+    fn hash_of<T: Hash>(value: &T) -> u64 {
+        let mut hasher = FxHasher::default();
+        value.hash(&mut hasher);
+        hasher.finish()
+    }
+
+    #[test]
+    fn global_store_is_usable_after_thread_local_teardown() {
+        let (tx, rx) = channel();
+        std::thread::spawn(move || {
+            // Register the guard before the global store.
+            TEARDOWN_GUARD.with(|guard| *guard.0.borrow_mut() = Some(tx));
+            let _ = Atom::new(LONG);
+        })
+        .join()
+        .expect("thread teardown should not panic");
+
+        let result = rx.recv().expect("the guard should send its result");
+        // Without this, the test would pass without testing anything if the
+        // destructor order changed.
+        assert!(result.store_destroyed);
+
+        let live = Atom::new(LONG);
+        assert_eq!(&*result.long, LONG);
+        assert_eq!(result.long, live);
+        assert_eq!(hash_of(&result.long), hash_of(&live));
+        // The atom is not interned, so the teardown thread holds the only
+        // reference.
+        assert_eq!(result.long.ref_count(), 1);
+
+        assert_eq!(&*result.short, "short");
+        assert_eq!(result.short, Atom::new("short"));
+
+        let live_wtf8 = Wtf8Atom::new(LONG);
+        assert_eq!(result.wtf8_long, live_wtf8);
+        assert_eq!(hash_of(&result.wtf8_long), hash_of(&live_wtf8));
     }
 }
