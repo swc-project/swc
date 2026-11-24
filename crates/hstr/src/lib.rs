@@ -15,7 +15,7 @@ use std::{
 use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
 
-pub use crate::dynamic::{global_atom_store_gc, AtomStore};
+pub use crate::dynamic::{drop_global_atom_store, global_atom_store_gc, AtomStore};
 use crate::{
     macros::{get_hash, impl_from_alias},
     tagged_value::TaggedValue,
@@ -104,7 +104,8 @@ pub use wtf8_atom::Wtf8Atom;
 ///   itself, and will be deallocated when the store is dropped.
 /// - Atoms created via the `atom!` macro or `String::into` are stored in the
 ///   global atom store. By default, these atoms are never deallocated. To clean
-///   up unused atoms, call [global_atom_store_gc].
+///   up unused atoms, call [global_atom_store_gc]. To drop the whole store,
+///   call [drop_global_atom_store]. Both only affect the calling thread.
 #[repr(transparent)]
 pub struct Atom {
     // If this Atom is a dynamic one, this is *const Entry
