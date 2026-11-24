@@ -1198,7 +1198,12 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
             }
 
             // Non-object types are never instances.
-            if is_non_obj(left) {
+            if is_non_obj(left)
+                && right.is_one_of_global_ref_to(
+                    expr_ctx,
+                    &["Object", "String", "Array", "Function", "Number", "Boolean"],
+                )
+            {
                 *changed = true;
 
                 *expr = *make_bool_expr(expr_ctx, *span, false, iter::once(right.take()));
