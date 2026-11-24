@@ -86,6 +86,15 @@ impl AtomStore {
             count > 1
         });
     }
+
+    /// Drops every entry and releases the table's memory.
+    fn clear(&mut self) {
+        // `HashMap::clear` keeps the allocation at its peak size, which
+        // defeats the purpose of clearing a store to reclaim memory.
+        // Replacing the store frees the old table and starts again at
+        // the default capacity.
+        *self = Self::default();
+    }
 }
 
 thread_local! {
@@ -93,10 +102,43 @@ thread_local! {
 }
 
 /// Cleans up atoms in the global store that are no longer referenced.
+///
+/// The global store is thread-local, so this only affects the store of the
+/// calling thread. To clean up every thread, run this on each of them (for
+/// example with `rayon::broadcast`).
 pub fn global_atom_store_gc() {
     GLOBAL_DATA.with(|global| {
         let mut store = global.borrow_mut();
         store.gc();
+    });
+}
+
+/// Removes every atom from the global store, including atoms that are still
+/// referenced elsewhere. Use [`global_atom_store_gc`] to remove only the atoms
+/// that are no longer referenced.
+///
+/// This is always safe. Live atoms keep their own reference to their data, and
+/// equality falls back to comparing the text, so an atom that is interned again
+/// after this call still compares equal to an older copy.
+///
+/// Interning text again after this call has two costs while older atoms with
+/// the same text are still alive:
+///
+/// - The store allocates a new copy of the text, so both copies stay in memory
+///   until every reference to the old copy is dropped.
+/// - Comparing an old atom with a new one compares the text instead of the
+///   pointer.
+///
+/// Call this when most atoms from the previous work are no longer referenced,
+/// for example between phases of work.
+///
+/// The global store is thread-local, so this only affects the store of the
+/// calling thread. To clear every thread, run this on each of them (for
+/// example with `rayon::broadcast`).
+pub fn drop_global_atom_store() {
+    GLOBAL_DATA.with(|global| {
+        let mut store = global.borrow_mut();
+        store.clear();
     });
 }
 
@@ -261,7 +303,9 @@ impl Hasher for EntryHasher {
 
 #[cfg(test)]
 mod tests {
-    use crate::{dynamic::GLOBAL_DATA, global_atom_store_gc, Atom};
+    use crate::{
+        drop_global_atom_store, dynamic::GLOBAL_DATA, global_atom_store_gc, Atom, AtomStore,
+    };
 
     fn expect_size(expected: usize) {
         // This is a helper function to count the number of bytes in the global
@@ -334,6 +378,52 @@ mod tests {
         drop(atom);
         expect_size(1);
         global_atom_store_gc();
+        expect_size(0);
+    }
+
+    #[test]
+    fn drop_global_atom_store_releases_table_memory() {
+        let default_capacity = AtomStore::default().data.capacity();
+
+        // Grow the table well beyond its default capacity.
+        let atoms: Vec<Atom> = (0..10_000)
+            .map(|i| Atom::new(format!("a long enough atom to not be inline {i}")))
+            .collect();
+        drop(atoms);
+        GLOBAL_DATA.with(|global| {
+            assert!(global.borrow().data.capacity() > default_capacity);
+        });
+
+        drop_global_atom_store();
+        GLOBAL_DATA.with(|global| {
+            assert_eq!(global.borrow().data.capacity(), default_capacity);
+        });
+    }
+
+    #[test]
+    fn drop_global_atom_store_keeps_live_atoms_valid() {
+        expect_size(0);
+
+        let live = Atom::new("Hello, beautiful world!");
+        let _unreferenced = Atom::new("Goodbye, beautiful world!");
+        drop(_unreferenced);
+        expect_size(2);
+
+        drop_global_atom_store();
+        expect_size(0);
+
+        // The store no longer holds a reference, but the live atom does.
+        assert_eq!(live.ref_count(), 1);
+        assert_eq!(&*live, "Hello, beautiful world!");
+
+        // Interning the same text again creates a new entry, which still
+        // compares equal to the old atom.
+        let again = Atom::new("Hello, beautiful world!");
+        expect_size(1);
+        assert_eq!(again.ref_count(), 2);
+        assert_eq!(live, again);
+
+        drop_global_atom_store();
         expect_size(0);
     }
 }
