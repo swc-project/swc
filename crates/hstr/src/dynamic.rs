@@ -119,8 +119,18 @@ pub fn global_atom_store_gc() {
 ///
 /// This is always safe. Live atoms keep their own reference to their data, and
 /// equality falls back to comparing the text, so an atom that is interned again
-/// after this call still compares equal to an older copy. The only cost is that
-/// the comparison is no longer a pointer comparison.
+/// after this call still compares equal to an older copy.
+///
+/// Interning text again after this call has two costs while older atoms with
+/// the same text are still alive:
+///
+/// - The store allocates a new copy of the text, so both copies stay in memory
+///   until every reference to the old copy is dropped.
+/// - Comparing an old atom with a new one compares the text instead of the
+///   pointer.
+///
+/// Call this when most atoms from the previous work are no longer referenced,
+/// for example between phases of work.
 ///
 /// The global store is thread-local, so this only affects the store of the
 /// calling thread. To clear every thread, run this on each of them (for
@@ -293,7 +303,9 @@ impl Hasher for EntryHasher {
 
 #[cfg(test)]
 mod tests {
-    use crate::{drop_global_atom_store, dynamic::GLOBAL_DATA, global_atom_store_gc, Atom};
+    use crate::{
+        drop_global_atom_store, dynamic::GLOBAL_DATA, global_atom_store_gc, Atom, AtomStore,
+    };
 
     fn expect_size(expected: usize) {
         // This is a helper function to count the number of bytes in the global
@@ -367,6 +379,25 @@ mod tests {
         expect_size(1);
         global_atom_store_gc();
         expect_size(0);
+    }
+
+    #[test]
+    fn drop_global_atom_store_releases_table_memory() {
+        let default_capacity = AtomStore::default().data.capacity();
+
+        // Grow the table well beyond its default capacity.
+        let atoms: Vec<Atom> = (0..10_000)
+            .map(|i| Atom::new(format!("a long enough atom to not be inline {i}")))
+            .collect();
+        drop(atoms);
+        GLOBAL_DATA.with(|global| {
+            assert!(global.borrow().data.capacity() > default_capacity);
+        });
+
+        drop_global_atom_store();
+        GLOBAL_DATA.with(|global| {
+            assert_eq!(global.borrow().data.capacity(), default_capacity);
+        });
     }
 
     #[test]
