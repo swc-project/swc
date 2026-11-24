@@ -113,10 +113,6 @@ thread_local! {
 /// The global store is thread-local, so this only affects the store of the
 /// calling thread. To clean up every thread, run this on each of them (for
 /// example with `rayon::broadcast`).
-///
-/// If the store of the calling thread is already destroyed (for example when
-/// this is called from a thread-local destructor), this does nothing: the
-/// store released its atoms when it was destroyed.
 pub fn global_atom_store_gc() {
     let _ = GLOBAL_DATA.try_with(|global| global.borrow_mut().gc());
 }
@@ -143,10 +139,6 @@ pub fn global_atom_store_gc() {
 /// The global store is thread-local, so this only affects the store of the
 /// calling thread. To clear every thread, run this on each of them (for
 /// example with `rayon::broadcast`).
-///
-/// If the store of the calling thread is already destroyed (for example when
-/// this is called from a thread-local destructor), this does nothing: the
-/// store released its atoms when it was destroyed.
 pub fn drop_global_atom_store() {
     let _ = GLOBAL_DATA.try_with(|global| global.borrow_mut().clear());
 }
