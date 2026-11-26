@@ -769,7 +769,11 @@ impl Options {
         let module_pass: Box<dyn Pass> = Box::new((
             // module / helper
             Optional::new(
-                modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
+                modules::import_analysis::import_analyzer_with_assumptions(
+                    import_interop,
+                    ignore_dynamic,
+                    module_assumptions,
+                ),
                 need_analyzer,
             ),
             // Rewrite import pass should be before inject_helpers pass because

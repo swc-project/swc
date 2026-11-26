@@ -14,10 +14,11 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 
 pub use super::util::Config;
 use crate::{
+    constant_reexports::{emit_constant_reexports, ConstantReexports},
     module_record::{
         exported_external_ts_import_equals_name, external_ts_import_equals_source, ExportBinding,
-        LocalExportEntries, ModuleRecordEntryReducer, ModuleRequestUsage, RequestedModule,
-        RequestedModules, SourceModule,
+        LocalExportEntries, ModuleRecordEntry, ModuleRecordEntryReducer, ModuleRequestUsage,
+        RequestedModule, RequestedModules, SourceModule,
     },
     module_ref_rewriter::{rewrite_import_bindings, ImportMap},
     path::Resolver,
@@ -320,7 +321,7 @@ impl Cjs {
         import_map: &mut ImportMap,
         lazy_record: &mut FxHashSet<Id>,
         requested_modules: RequestedModules,
-        local_export_entries: LocalExportEntries,
+        mut local_export_entries: LocalExportEntries,
         ts_import_equals_exports: &FxHashSet<Atom>,
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
@@ -330,6 +331,8 @@ impl Cjs {
 
         let mut stmts = Vec::with_capacity(requested_modules.len());
 
+        let mut constant_reexports = (self.assumptions.constant_reexports && !is_export_assign)
+            .then(|| ConstantReexports::new(&requested_modules, &mut local_export_entries));
         let mut export_bindings: Vec<ExportBinding> = local_export_entries.into_iter().collect();
 
         let lexer_reexport = if export_interop_annotation {
@@ -359,12 +362,20 @@ impl Cjs {
 
                 let mut decl_mod_ident = false;
 
+                let mut reexports = constant_reexports.as_mut().map(|reexports| {
+                    reexports.take_aliases(
+                        module_entries
+                            .iter()
+                            .filter_map(ModuleRecordEntry::import_local_name),
+                    )
+                });
                 module_entries.reduce(
                     import_map,
-                    &mut export_bindings,
+                    reexports.as_mut().unwrap_or(&mut export_bindings),
                     &mod_ident,
                     &mut decl_mod_ident,
                     is_node_default,
+                    constant_reexports.is_some(),
                 );
 
                 let is_lazy = decl_mod_ident
@@ -382,10 +393,14 @@ impl Cjs {
 
                 // _export_star(require("mod"), exports);
                 let import_expr = if module_usage.has_star_export() {
-                    helper_expr!(export_star).as_call(
-                        DUMMY_SP,
-                        vec![import_expr.as_arg(), self.exports().as_arg()],
-                    )
+                    if let Some(reexports) = &mut constant_reexports {
+                        reexports.copy_star(import_expr, self.exports())
+                    } else {
+                        helper_expr!(export_star).as_call(
+                            DUMMY_SP,
+                            vec![import_expr.as_arg(), self.exports().as_arg()],
+                        )
+                    }
                 } else {
                     import_expr
                 };
@@ -409,6 +424,8 @@ impl Cjs {
                     }
                 };
 
+                let lazy_namespace = (is_lazy && reexports.as_ref().is_some_and(|r| !r.is_empty()))
+                    .then(|| mod_ident.to_id());
                 if decl_mod_ident {
                     let stmt = if is_lazy {
                         lazy_require(import_expr, mod_ident, self.const_var_kind).into()
@@ -421,6 +438,17 @@ impl Cjs {
                     stmts.push(stmt);
                 } else {
                     stmts.push(import_expr.into_stmt());
+                }
+
+                if let Some(reexports) = reexports.filter(|reexports| !reexports.is_empty()) {
+                    emit_constant_reexports(
+                        reexports,
+                        self.exports(),
+                        import_map,
+                        lazy_namespace.as_ref(),
+                        &mut stmts,
+                        &mut export_bindings,
+                    );
                 }
             },
         );
@@ -442,6 +470,10 @@ impl Cjs {
         }
 
         export_stmts.extend(lexer_reexport);
+
+        if let Some(reexports) = constant_reexports {
+            reexports.emit_star_header(self.const_var_kind, &mut export_stmts);
+        }
 
         export_stmts.into_iter().chain(stmts)
     }

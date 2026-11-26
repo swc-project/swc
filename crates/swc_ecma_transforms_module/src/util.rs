@@ -360,6 +360,57 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportBinding
     }
 }
 
+/// Defines an own data property for an export named `__proto__`.
+pub(crate) fn define_export_value(exports: Ident, key: Expr, value: Expr) -> Stmt {
+    object_define_property(
+        exports.as_arg(),
+        key.as_arg(),
+        ObjectLit {
+            span: DUMMY_SP,
+            props: [
+                ("value", value),
+                ("enumerable", true.into()),
+                ("configurable", true.into()),
+                ("writable", true.into()),
+            ]
+            .into_iter()
+            .map(|(key, value)| KeyValueProp {
+                key: quote_ident!(key).into(),
+                value: Box::new(value),
+            })
+            .map(Prop::KeyValue)
+            .map(PropOrSpread::from)
+            .collect(),
+        }
+        .as_arg(),
+    )
+    .into_stmt()
+}
+
+/// Assigns a snapshot of the imported binding to the exported name.
+pub(crate) fn emit_export_assignment(
+    exports: Ident,
+    name: Atom,
+    binding: LocalExportEntry,
+) -> Stmt {
+    let span = binding.export_name_span();
+    let value = binding.into_local_ident();
+    if name == "__proto__" {
+        return define_export_value(exports, quote_str!(span.0, name).into(), value.into());
+    }
+    value
+        .make_assign_to(
+            op!("="),
+            MemberExpr {
+                span: span.0,
+                obj: Box::new(exports.into()),
+                prop: prop_name(&name, span).into(),
+            }
+            .into(),
+        )
+        .into_stmt()
+}
+
 pub(crate) fn prop_name(key: &str, (span, _): SpanCtx) -> IdentOrStr {
     if is_valid_prop_ident(key) {
         IdentOrStr::Ident(IdentName::new(key.into(), span))

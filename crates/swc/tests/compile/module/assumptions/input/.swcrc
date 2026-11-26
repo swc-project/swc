@@ -1,0 +1,41 @@
+[
+    {
+        "test": "amd\\.js$",
+        "jsc": {
+            "assumptions": {
+                "constantReexports": true,
+                "enumerableModuleMeta": true
+            }
+        },
+        "module": {
+            "type": "amd"
+        }
+    },
+    {
+        "test": "commonjs\\.js$",
+        "jsc": {
+            "assumptions": {
+                "constantReexports": true
+            }
+        },
+        "module": {
+            "type": "commonjs",
+            "lazy": [
+                "./lazy",
+                "./named"
+            ]
+        }
+    },
+    {
+        "test": "umd\\.js$",
+        "jsc": {
+            "assumptions": {
+                "constantReexports": true,
+                "enumerableModuleMeta": true
+            }
+        },
+        "module": {
+            "type": "umd"
+        }
+    }
+]
