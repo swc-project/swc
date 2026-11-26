@@ -6,7 +6,7 @@ use swc_common::{
     source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper_expr;
+use swc_ecma_transforms_base::{assumptions::Assumptions, helper_expr};
 use swc_ecma_utils::{
     member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory,
 };
@@ -42,7 +42,26 @@ pub fn common_js(
     config: Config,
     available_features: FeatureFlag,
 ) -> impl Pass {
+    common_js_with_assumptions(
+        resolver,
+        unresolved_mark,
+        config,
+        available_features,
+        Default::default(),
+    )
+}
+
+/// Lowers modules to CommonJS using the supplied compiler assumptions.
+#[must_use]
+pub fn common_js_with_assumptions(
+    resolver: Resolver,
+    unresolved_mark: Mark,
+    config: Config,
+    available_features: FeatureFlag,
+    assumptions: Assumptions,
+) -> impl Pass {
     visit_mut_pass(Cjs {
+        assumptions,
         config,
         resolver,
         unresolved_mark,
@@ -57,6 +76,7 @@ pub fn common_js(
 
 pub struct Cjs {
     config: Config,
+    assumptions: Assumptions,
     resolver: Resolver,
     unresolved_mark: Mark,
     support_arrow: bool,
@@ -96,7 +116,9 @@ impl VisitMut for Cjs {
         let is_export_assign = export_assign.is_some();
 
         if has_module_syntax && !import_interop.is_none() && !is_export_assign {
-            stmts.push(define_es_module(self.exports()).into());
+            stmts.push(
+                define_es_module(self.exports(), self.assumptions.enumerable_module_meta).into(),
+            );
         }
 
         let mut lazy_record = Default::default();

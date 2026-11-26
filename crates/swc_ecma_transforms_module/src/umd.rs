@@ -2,7 +2,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{source_map::PURE_SP, sync::Lrc, util::take::Take, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper_expr;
+use swc_ecma_transforms_base::{assumptions::Assumptions, helper_expr};
 use swc_ecma_utils::{private_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 
@@ -40,7 +40,28 @@ pub fn umd(
     config: Config,
     available_features: FeatureFlag,
 ) -> impl Pass {
+    umd_with_assumptions(
+        cm,
+        resolver,
+        unresolved_mark,
+        config,
+        available_features,
+        Default::default(),
+    )
+}
+
+/// Lowers modules to UMD using the supplied compiler assumptions.
+#[must_use]
+pub fn umd_with_assumptions(
+    cm: Lrc<SourceMap>,
+    resolver: Resolver,
+    unresolved_mark: Mark,
+    config: Config,
+    available_features: FeatureFlag,
+    assumptions: Assumptions,
+) -> impl Pass {
     visit_mut_pass(Umd {
+        assumptions,
         config: config.build(cm.clone()),
         unresolved_mark,
         cm,
@@ -62,6 +83,7 @@ pub struct Umd {
     cm: Lrc<SourceMap>,
     unresolved_mark: Mark,
     config: BuiltConfig,
+    assumptions: Assumptions,
     resolver: Resolver,
 
     const_var_kind: VarDeclKind,
@@ -107,7 +129,10 @@ impl VisitMut for Umd {
         let is_export_assign = export_assign.is_some();
 
         if has_module_syntax && !import_interop.is_none() && !is_export_assign {
-            stmts.push(define_es_module(self.exports()));
+            stmts.push(define_es_module(
+                self.exports(),
+                self.assumptions.enumerable_module_meta,
+            ));
         }
 
         let mut import_map = Default::default();

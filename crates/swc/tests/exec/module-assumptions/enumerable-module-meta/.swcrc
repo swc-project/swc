@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "assumptions": {
+            "enumerableModuleMeta": true
+        }
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

@@ -342,6 +342,11 @@ impl Options {
         let keep_class_names = keep_class_names.into_bool();
         let external_helpers = external_helpers.into_bool();
 
+        // Module lowering historically kept its default semantics with
+        // `jsc.loose`.
+        #[cfg(feature = "module")]
+        let module_assumptions = assumptions.unwrap_or_default();
+
         let mut assumptions = assumptions.unwrap_or_else(|| {
             if loose {
                 Assumptions::all()
@@ -772,12 +777,13 @@ impl Options {
             // ts_rewrite_relative_import_extension helper
             rewrite_import_pass,
             Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
-            ModuleConfig::build(
+            ModuleConfig::build_with_assumptions(
                 cm.clone(),
                 comments.map(|v| v as &dyn Comments),
                 cfg.module,
                 unresolved_mark,
                 resolver.clone(),
+                module_assumptions,
                 |f| {
                     feature_config
                         .as_ref()
@@ -1648,6 +1654,27 @@ impl ModuleConfig {
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
         caniuse: impl Fn(Feature) -> bool,
     ) -> Box<dyn Pass + 'cmt> {
+        Self::build_with_assumptions(
+            cm,
+            comments,
+            config,
+            unresolved_mark,
+            resolver,
+            Assumptions::default(),
+            caniuse,
+        )
+    }
+
+    /// Builds the module transform using the supplied compiler assumptions.
+    fn build_with_assumptions<'cmt>(
+        cm: Arc<SourceMap>,
+        comments: Option<&'cmt dyn Comments>,
+        config: Option<ModuleConfig>,
+        unresolved_mark: Mark,
+        resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
+        assumptions: Assumptions,
+        caniuse: impl Fn(Feature) -> bool,
+    ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
             Resolver::Real { base, resolver }
         } else {
@@ -1658,16 +1685,19 @@ impl ModuleConfig {
         let support_arrow = caniuse(Feature::ArrowFunctions);
 
         let transform_pass = match config {
-            Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
-                resolver,
-                unresolved_mark,
-                config,
-                modules::common_js::FeatureFlag {
-                    support_block_scoping,
-                    support_arrow,
-                },
-            )) as Box<dyn Pass>,
-            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(
+            Some(ModuleConfig::CommonJs(config)) => {
+                Box::new(modules::common_js::common_js_with_assumptions(
+                    resolver,
+                    unresolved_mark,
+                    config,
+                    modules::common_js::FeatureFlag {
+                        support_block_scoping,
+                        support_arrow,
+                    },
+                    assumptions,
+                )) as Box<dyn Pass>
+            }
+            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd_with_assumptions(
                 cm,
                 resolver,
                 unresolved_mark,
@@ -1675,8 +1705,9 @@ impl ModuleConfig {
                 modules::umd::FeatureFlag {
                     support_block_scoping,
                 },
+                assumptions,
             )),
-            Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(
+            Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd_with_assumptions(
                 resolver,
                 unresolved_mark,
                 config,
@@ -1685,6 +1716,7 @@ impl ModuleConfig {
                     support_arrow,
                 },
                 comments,
+                assumptions,
             )),
             Some(ModuleConfig::SystemJs(config)) => Box::new(modules::system_js::system_js(
                 resolver,

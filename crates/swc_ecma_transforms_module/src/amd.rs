@@ -12,7 +12,7 @@ use swc_common::{
     Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper_expr;
+use swc_ecma_transforms_base::{assumptions::Assumptions, helper_expr};
 use swc_ecma_utils::{member_expr, private_ident, quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -65,6 +65,29 @@ pub fn amd<C>(
 where
     C: Comments,
 {
+    amd_with_assumptions(
+        resolver,
+        unresolved_mark,
+        config,
+        available_features,
+        comments,
+        Default::default(),
+    )
+}
+
+/// Lowers modules to AMD using the supplied compiler assumptions.
+#[must_use]
+pub fn amd_with_assumptions<C>(
+    resolver: Resolver,
+    unresolved_mark: Mark,
+    config: Config,
+    available_features: FeatureFlag,
+    comments: Option<C>,
+    assumptions: Assumptions,
+) -> impl Pass
+where
+    C: Comments,
+{
     let Config {
         module_id,
         module_root,
@@ -72,6 +95,7 @@ where
     } = config;
 
     visit_mut_pass(Amd {
+        assumptions,
         module_id,
         module_root,
         config,
@@ -104,6 +128,7 @@ where
     module_root: Option<String>,
     config: InnerConfig,
     unresolved_mark: Mark,
+    assumptions: Assumptions,
     resolver: Resolver,
     comments: Option<C>,
 
@@ -202,7 +227,10 @@ where
         let is_export_assign = export_assign.is_some();
 
         if has_module_syntax && !import_interop.is_none() && !is_export_assign {
-            stmts.push(define_es_module(self.exports()));
+            stmts.push(define_es_module(
+                self.exports(),
+                self.assumptions.enumerable_module_meta,
+            ));
         }
 
         let mut import_map = Default::default();

@@ -190,15 +190,17 @@ pub(super) fn object_define_property(
         .as_call(DUMMY_SP, vec![target, prop_name, descriptor])
 }
 
-/// Creates
-///
-///```js
-/// 
-///  Object.defineProperty(exports, '__esModule', {
-///       value: true
-///  });
-/// ```
-pub(super) fn define_es_module(exports: Ident) -> Stmt {
+/// Marks the exports object as an ES module for interop.
+pub(super) fn define_es_module(exports: Ident, enumerable: bool) -> Stmt {
+    if enumerable {
+        return true
+            .make_assign_to(
+                op!("="),
+                exports.make_member(quote_ident!("__esModule")).into(),
+            )
+            .into_stmt();
+    }
+
     object_define_property(
         exports.as_arg(),
         quote_str!("__esModule").as_arg(),
