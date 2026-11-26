@@ -2176,6 +2176,7 @@ impl ReverseCtx {
                 global: decl.global.unwrap_or(false),
                 namespace: false,
                 body: None,
+                with: None,
             })))
             .into();
 
