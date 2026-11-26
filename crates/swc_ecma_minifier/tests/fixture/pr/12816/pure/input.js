@@ -1,0 +1,1 @@
+export function f3(a, { u }) { return a }

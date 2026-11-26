@@ -8,7 +8,7 @@ function firstUsed(a) {
     return a;
 }
 // Middle param unused
-function middleUnused(a, c = 20) {
+function middleUnused(a, b = 10, c = 20) {
     return a + c;
 }
 // First param unused (but not with default)
@@ -21,7 +21,7 @@ function trailingUnused(a, b = 10) {
     return a + b;
 }
 // Rest parameter with default params before it
-function withRest(a, ...rest) {
+function withRest(a, b = 10, ...rest) {
     return a + rest.length;
 }
 export function example() {

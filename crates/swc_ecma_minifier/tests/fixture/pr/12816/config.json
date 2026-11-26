@@ -1,0 +1,7 @@
+{
+    "defaults": true,
+    "toplevel": true,
+    "passes": 0,
+    "pure_getters": true,
+    "keep_fargs": false
+}

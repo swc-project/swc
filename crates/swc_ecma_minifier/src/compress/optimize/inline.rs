@@ -4,7 +4,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{class_has_side_effect, collect_decls, contains_ident_ref, ExprExt, Remapper};
+use swc_ecma_utils::{class_has_side_effect, collect_decls, ExprExt, Remapper};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
@@ -870,51 +870,8 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            for (idx, param) in f.function.params.iter().enumerate() {
-                                match &param.pat {
-                                    Pat::Rest(..) => return,
-                                    Pat::Assign(assign) => {
-                                        // Multi-use function inlining with
-                                        // default params is only
-                                        // safe for defaults that are never
-                                        // observed directly.
-                                        let Pat::Ident(param) = &*assign.left else {
-                                            return;
-                                        };
-                                        let Some(usage) = self.data.vars.get(&param.id.to_id())
-                                        else {
-                                            return;
-                                        };
-                                        if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                                            || usage.ref_count != 0
-                                        {
-                                            return;
-                                        }
-
-                                        if assign.right.may_have_side_effects(self.ctx.expr_ctx) {
-                                            return;
-                                        }
-
-                                        for earlier_param in f.function.params.iter().take(idx) {
-                                            let earlier_ident = match &earlier_param.pat {
-                                                Pat::Ident(id) => Some(&id.id),
-                                                Pat::Assign(assign) => match &*assign.left {
-                                                    Pat::Ident(id) => Some(&id.id),
-                                                    _ => None,
-                                                },
-                                                _ => None,
-                                            };
-
-                                            let Some(earlier_ident) = earlier_ident else {
-                                                return;
-                                            };
-                                            if contains_ident_ref(&assign.right, earlier_ident) {
-                                                return;
-                                            }
-                                        }
-                                    }
-                                    _ => {}
-                                }
+                            if f.function.params.iter().any(|param| !param.pat.is_ident()) {
+                                return;
                             }
 
                             report_change!(
