@@ -587,8 +587,9 @@ fn parse_word(i: Input) -> IResult<Input, Text> {
         !(('a' <= *c && *c <= 'z') || ('A' <= *c && *c <= 'Z' || *c == '<' || *c == '>'))
     });
 
-    if let Some((idx, _)) = res {
-        let rest = i.slice(idx + 1..);
+    if let Some((idx, c)) = res {
+        // The character that ends the word can be longer than one byte.
+        let rest = i.slice(idx + c.len_utf8()..);
         let ret = i.slice(..idx);
 
         Ok((rest, ret.into()))

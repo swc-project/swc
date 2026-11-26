@@ -1,0 +1,93 @@
+[
+    JsDoc {
+        span: 1..1,
+        description: Text {
+            span: 1..8,
+            value: "Mention",
+        },
+        tags: [
+            TagItem {
+                span: 1..1,
+                tag_name: Text {
+                    span: 1..1,
+                    value: "",
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: 1..1,
+                        extras: Text {
+                            span: 1..11,
+                            value: "someone”",
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: 58..67,
+        description: Text {
+            span: 58..58,
+            value: "",
+        },
+        tags: [
+            TagItem {
+                span: 58..64,
+                tag_name: Text {
+                    span: 58..64,
+                    value: "member",
+                },
+                tag: Member(
+                    MemberTag {
+                        span: 58..64,
+                        ty: Text {
+                            span: 58..58,
+                            value: "",
+                        },
+                        name: Text {
+                            span: 58..59,
+                            value: "a",
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: 120..120,
+        description: Text {
+            span: 120..120,
+            value: "",
+        },
+        tags: [
+            TagItem {
+                span: 120..126,
+                tag_name: Text {
+                    span: 120..126,
+                    value: "public",
+                },
+                tag: Public(
+                    PublicTag {
+                        span: 120..126,
+                    },
+                ),
+            },
+            TagItem {
+                span: 120..126,
+                tag_name: Text {
+                    span: 120..126,
+                    value: "custom",
+                },
+                tag: Unknown(
+                    UnknownTag {
+                        span: 120..126,
+                        extras: Text {
+                            span: 120..125,
+                            value: "value",
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+]
