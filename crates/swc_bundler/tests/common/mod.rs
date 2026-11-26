@@ -39,10 +39,9 @@ fn calc_hash(s: &str) -> String {
     hex::encode(sum)
 }
 
-fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
-    let hash = calc_hash(url.as_ref());
-    let s = url.to_string();
-    if s.starts_with("https://deno.land/") {
+fn calc_cache_path(cache_dir: &Path, url: &str) -> PathBuf {
+    let hash = calc_hash(url);
+    if url.starts_with("https://deno.land/") {
         return cache_dir.join("deno").join(&hash);
     }
 
@@ -56,12 +55,27 @@ fn load_url(url: Url) -> Result<String, Error> {
         .join("tests")
         .join(".cache");
 
-    let cache_path = calc_cache_path(&cache_dir, &url).with_extension("ts");
+    let cache_path = calc_cache_path(&cache_dir, url.as_str()).with_extension("ts");
 
     create_dir_all(cache_path.parent().unwrap()).context("failed to create cache dir")?;
 
     if let Ok(v) = read_to_string(&cache_path) {
         return Ok(v);
+    }
+
+    // Workaround: `url` v2.5.9 started to percent-encode `^` in a path as
+    // `%5E`. The checked-in cache is keyed by the hash of the url before
+    // that change, so we also look up the key computed from the legacy
+    // form.
+    //
+    // Limitation: only `^` is handled. Other characters whose serialization
+    // changed in `url` would need the same treatment.
+    let legacy_url = url.as_str().replace("%5E", "^");
+    if legacy_url != url.as_str() {
+        let legacy_path = calc_cache_path(&cache_dir, &legacy_url).with_extension("ts");
+        if let Ok(v) = read_to_string(&legacy_path) {
+            return Ok(v);
+        }
     }
 
     if let Ok("1") = std::env::var("CI").as_deref() {
