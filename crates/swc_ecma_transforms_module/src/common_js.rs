@@ -15,6 +15,7 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 pub use super::util::Config;
 use crate::{
     constant_reexports::{emit_constant_reexports, ConstantReexports},
+    late_exports::defer_lexical_exports,
     module_record::{
         exported_external_ts_import_equals_name, external_ts_import_equals_source, ExportBinding,
         LocalExportEntries, ModuleRecordEntry, ModuleRecordEntryReducer, ModuleRequestUsage,
@@ -100,9 +101,9 @@ impl VisitMut for Cjs {
             directives,
             has_use_strict,
             requested_modules,
-            local_export_entries,
+            mut local_export_entries,
             export_assign,
-            body,
+            mut body,
             has_module_syntax,
         } = syntax_strip::lower(SourceModule::collect(n.body.take()), self.const_var_kind);
 
@@ -120,6 +121,16 @@ impl VisitMut for Cjs {
             stmts.push(
                 define_es_module(self.exports(), self.assumptions.enumerable_module_meta).into(),
             );
+        }
+
+        // Star re-exports use the early getters to recognize explicit exports.
+        if self.assumptions.no_incomplete_ns_import_detection
+            && !is_export_assign
+            && !requested_modules
+                .values()
+                .any(|request| request.usage.has_star_export())
+        {
+            defer_lexical_exports(self.exports(), &mut body, &mut local_export_entries);
         }
 
         let mut lazy_record = Default::default();
