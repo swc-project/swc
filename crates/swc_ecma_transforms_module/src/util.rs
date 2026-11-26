@@ -317,22 +317,27 @@ pub(crate) fn sort_export_bindings(prop_list: &mut [ExportBinding]) {
     prop_list.sort_unstable_by(|a, b| a.0.cmp(&b.0));
 }
 
+pub(crate) fn emit_export_getter(
+    exports: Ident,
+    (export_name, export_item): ExportBinding,
+) -> Stmt {
+    object_define_enumerable(
+        exports.as_arg(),
+        quote_str!(export_item.export_name_span().0, export_name).as_arg(),
+        prop_function((
+            "get".into(),
+            LocalExportEntry::new(Default::default(), export_item.into_local_ident()),
+        ))
+        .into(),
+    )
+    .into_stmt()
+}
+
 pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportBinding>) -> Vec<Stmt> {
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
-            .map(|(export_name, export_item)| {
-                object_define_enumerable(
-                    exports.as_arg(),
-                    quote_str!(export_item.export_name_span().0, export_name).as_arg(),
-                    prop_function((
-                        "get".into(),
-                        LocalExportEntry::new(Default::default(), export_item.into_local_ident()),
-                    ))
-                    .into(),
-                )
-                .into_stmt()
-            })
+            .map(|binding| emit_export_getter(exports, binding))
             .into_iter()
             .collect(),
         _ => {

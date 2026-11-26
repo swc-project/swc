@@ -15,6 +15,7 @@ pub mod amd;
 pub mod common_js;
 mod constant_reexports;
 pub mod import_analysis;
+mod late_exports;
 pub(crate) mod module_record;
 pub(crate) mod module_ref_rewriter;
 pub mod path;
