@@ -1,14 +1,14 @@
+export class C {
+    [Symbol.dispose]() {
+        console.log("dispose");
+    }
+}
 const env = {
     stack: [],
     error: void 0,
     hasError: false
 };
 try {
-    var C = class C {
-        [Symbol.dispose]() {
-            console.log("dispose");
-        }
-    };
     var _ = _ts_add_disposable_resource(env, new C(), false);
 } catch (e) {
     env.error = e;
@@ -16,4 +16,3 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-export { C };

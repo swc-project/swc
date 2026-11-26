@@ -19,17 +19,17 @@ System.register([
             }
         ],
         execute: function() {
+            C = class C {
+            };
+            C = _ts_decorate([
+                dec
+            ], C);
             env = {
                 stack: [],
                 error: void 0,
                 hasError: false
             };
             try {
-                C = class C {
-                };
-                C = _ts_decorate([
-                    dec
-                ], C);
                 after = _ts_add_disposable_resource(env, null, false);
             } catch (e) {
                 env.error = e;

@@ -5,7 +5,7 @@ System.register([
     "@swc/helpers/_/_ts_decorate",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
-    var C, _class_call_check, _ts_add_disposable_resource, _ts_decorate, _ts_dispose_resources, env;
+    var _class_call_check, _ts_add_disposable_resource, _ts_decorate, _ts_dispose_resources, env;
     return {
         setters: [
             function(_class_call_check_ns) {
@@ -22,17 +22,17 @@ System.register([
             }
         ],
         execute: function() {
-            env = {
+            _ts_decorate([
+                dec
+            ], function C() {
+                _class_call_check(this, C);
+            }), env = {
                 stack: [],
                 error: void 0,
                 hasError: !1
             };
             try {
-                C = function C() {
-                    _class_call_check(this, C);
-                }, C = _ts_decorate([
-                    dec
-                ], C), _ts_add_disposable_resource(env, null, !1);
+                _ts_add_disposable_resource(env, null, !1);
             } catch (e) {
                 env.error = e, env.hasError = !0;
             } finally{

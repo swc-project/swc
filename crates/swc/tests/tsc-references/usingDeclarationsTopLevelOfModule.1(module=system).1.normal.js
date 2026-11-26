@@ -4,7 +4,7 @@ System.register([
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
     "use strict";
-    var _ts_add_disposable_resource, _ts_dispose_resources, env, w, x, y, z;
+    var _default, _ts_add_disposable_resource, _ts_dispose_resources, env, w, x, y, z;
     _export({
         default: void 0,
         w: void 0,
@@ -21,6 +21,7 @@ System.register([
             }
         ],
         execute: function() {
+            _export("x", x = 1);
             env = {
                 stack: [],
                 error: void 0,
@@ -31,6 +32,8 @@ System.register([
                     [Symbol.dispose] () {}
                 }, false);
                 y = 2, _export("y", y), y;
+                w = 3, _export("w", w), w;
+                _default = 4, _export("default", _default), _default;
                 console.log(w, x, y, z);
             } catch (e) {
                 env.error = e;
@@ -38,9 +41,6 @@ System.register([
             } finally{
                 _ts_dispose_resources(env);
             }
-            _export("x", x = 1);
-            _export("w", w = 3);
-            _export("default", 4);
         }
     };
 });

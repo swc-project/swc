@@ -1,6 +1,8 @@
 //// [awaitUsingDeclarationsTopLevelOfModule.1.ts]
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+export const x = 1;
+export { y };
 const env = {
     stack: [],
     error: void 0,
@@ -11,6 +13,8 @@ try {
         async [Symbol.asyncDispose] () {}
     }, true);
     var y = 2;
+    var w = 3;
+    var _default = 4;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e;
@@ -19,7 +23,5 @@ try {
     const result = _ts_dispose_resources(env);
     if (result) await result;
 }
-export const x = 1;
-export { y };
-export const w = 3;
-export default 4;
+export { w };
+export { _default as default };

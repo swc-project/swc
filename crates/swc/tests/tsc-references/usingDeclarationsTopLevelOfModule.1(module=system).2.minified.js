@@ -3,7 +3,7 @@ System.register([
     "@swc/helpers/_/_ts_add_disposable_resource",
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
-    var _ts_add_disposable_resource, _ts_dispose_resources, env, w, x, z;
+    var _ts_add_disposable_resource, _ts_dispose_resources, env, z;
     return _export({
         default: void 0,
         w: void 0,
@@ -19,7 +19,7 @@ System.register([
             }
         ],
         execute: function() {
-            env = {
+            _export("x", 1), env = {
                 stack: [],
                 error: void 0,
                 hasError: !1
@@ -27,13 +27,12 @@ System.register([
             try {
                 z = _ts_add_disposable_resource(env, {
                     [Symbol.dispose] () {}
-                }, !1), _export("y", 2), console.log(w, x, 2, z);
+                }, !1), _export("y", 2), _export("w", 3), _export("default", 4), console.log(3, 1, 2, z);
             } catch (e) {
                 env.error = e, env.hasError = !0;
             } finally{
                 _ts_dispose_resources(env);
             }
-            _export("x", x = 1), _export("w", w = 3), _export("default", 4);
         }
     };
 });

@@ -22,17 +22,17 @@ System.register([
             }
         ],
         execute: function() {
-            env = {
+            _export("D", C = function C() {
+                _class_call_check(this, C);
+            }), _export("D", C = _ts_decorate([
+                dec
+            ], C)), env = {
                 stack: [],
                 error: void 0,
                 hasError: !1
             };
             try {
-                C = function C() {
-                    _class_call_check(this, C);
-                }, _export("D", C), C = _ts_decorate([
-                    dec
-                ], C), _export("D", C), _ts_add_disposable_resource(env, null, !1);
+                _ts_add_disposable_resource(env, null, !1);
             } catch (e) {
                 env.error = e, env.hasError = !0;
             } finally{

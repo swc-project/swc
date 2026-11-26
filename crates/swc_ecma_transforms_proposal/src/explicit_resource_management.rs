@@ -1,9 +1,10 @@
+use rustc_hash::FxHashSet;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory, ModuleItemLike,
-    StmtLike,
+    find_pat_ids, private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory,
+    ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -16,6 +17,14 @@ struct ExplicitResourceManagement {
     state: Option<State>,
 
     is_not_top_level: bool,
+
+    /// `true` while visiting the body of a TypeScript namespace.
+    ///
+    /// A namespace body can not contain ESM exports, so export declarations
+    /// in it are not rewritten to `export { ... }`. The swc pipeline lowers
+    /// namespaces before this pass, so this only matters when the pass runs
+    /// on TypeScript input.
+    in_ts_namespace: bool,
 }
 
 struct State {
@@ -43,21 +52,58 @@ impl ExplicitResourceManagement {
     {
         let old_state = self.state.take();
 
+        // At the top level, the items before the first `using` declaration stay
+        // in place: no resource exists yet, so they do not need the `try`
+        // block.
+        let prefix_len = if self.is_not_top_level {
+            0
+        } else {
+            stmts
+                .iter()
+                .position(|s| matches!(s.as_stmt(), Some(Stmt::Decl(Decl::Using(..)))))
+                .unwrap_or(0)
+        };
+
         stmts.visit_mut_children_with(self);
 
         if let Some(state) = self.state.take() {
-            self.wrap_with_try(state, stmts);
+            self.wrap_with_try(state, stmts, prefix_len);
         }
 
         self.state = old_state;
     }
 
-    fn wrap_with_try<T>(&mut self, state: State, stmts: &mut Vec<T>)
+    /// Wraps `stmts` with a `try` block that disposes the resources in `state`.
+    ///
+    /// The first `prefix_len` items are kept before the `try` block as they
+    /// are.
+    fn wrap_with_try<T>(&mut self, state: State, stmts: &mut Vec<T>, prefix_len: usize)
     where
         T: StmtLike + ModuleItemLike,
     {
-        let mut new = Vec::new();
+        let mut rest = stmts.take().into_iter();
+        // The output starts with the prefix.
+        let mut new: Vec<T> = rest.by_ref().take(prefix_len).collect();
         let mut extras = Vec::new();
+        // Names of exported classes, and of the exported enums and namespaces
+        // moved into the `try` block. TypeScript merges an enum or a namespace
+        // with an earlier declaration of the same name, and the name must be
+        // exported only once.
+        let mut exported_names: FxHashSet<Id> = FxHashSet::default();
+        // Names of the top-level functions, which stay at the top level.
+        let mut fn_names: FxHashSet<Id> = FxHashSet::default();
+        // Set after a module item that has runtime code but must stay after the
+        // `finally` block, such as `import x = require("y")`. The exported
+        // declarations after it also stay after the `finally` block, so that
+        // they still run after that item, as in the source. Exported classes
+        // are an exception: they still move into the `try` block,
+        // because the statements that use them move there too.
+        //
+        // Known limitation: other statements after the item still move into
+        // the `try` block. These include the statements that the TypeScript
+        // transform generates for an exported namespace or for a later part of
+        // a merged enum, so they can run before the item.
+        let mut barrier = false;
 
         let env = state.env;
         let catch_e = private_ident!("e");
@@ -133,12 +179,13 @@ impl ExplicitResourceManagement {
             try_block.stmts.push(init_var_decl);
         }
 
-        for stmt in stmts.take() {
+        for stmt in rest {
             match stmt.try_into_stmt() {
                 Ok(mut stmt) => match stmt {
                     // top level function declarations should preserve original
                     // level
-                    Stmt::Decl(Decl::Fn(..)) if !self.is_not_top_level => {
+                    Stmt::Decl(Decl::Fn(ref f)) if !self.is_not_top_level => {
+                        fn_names.insert(f.ident.to_id());
                         extras.push(stmt.into());
                     }
                     Stmt::Decl(Decl::Class(ClassDecl { ident, class, .. }))
@@ -171,11 +218,14 @@ impl ExplicitResourceManagement {
                         try_block.stmts.push(stmt);
                     }
                 },
+                Err(t) if self.in_ts_namespace => extras.push(t),
                 Err(t) => match t.try_into_module_decl() {
                     Ok(ModuleDecl::ExportDecl(ExportDecl {
                         decl: Decl::Class(ClassDecl { ident, class, .. }),
                         span,
                     })) => {
+                        exported_names.insert(ident.to_id());
+
                         // export { C };
                         extras.push(
                             T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
@@ -208,6 +258,42 @@ impl ExplicitResourceManagement {
                             span,
                             ..Default::default()
                         }))));
+                    }
+                    Ok(ModuleDecl::ExportDecl(ExportDecl {
+                        decl: Decl::Var(mut var),
+                        span,
+                    })) if !var.declare && !barrier => {
+                        // The declaration must be evaluated inside the `try`
+                        // block, before the resources
+                        // are disposed, so it can not stay as an export
+                        // declaration after the `finally` block. An ambient
+                        // (`declare`) declaration has no runtime binding to
+                        // export, so it is kept as is.
+                        //
+                        // export { a, b };
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers: find_pat_ids::<_, Ident>(&var.decls)
+                                    .into_iter()
+                                    .map(|id| {
+                                        ExportNamedSpecifier {
+                                            span: DUMMY_SP,
+                                            orig: id.into(),
+                                            exported: None,
+                                            is_type_only: false,
+                                        }
+                                        .into()
+                                    })
+                                    .collect(),
+                                ..NamedExport::dummy()
+                            }))
+                            .unwrap(),
+                        );
+
+                        // var a = 1, b = 2;
+                        var.span = span;
+                        var.kind = VarDeclKind::Var;
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(var)));
                     }
                     Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                         decl: DefaultDecl::Class(class_expr),
@@ -247,7 +333,116 @@ impl ExplicitResourceManagement {
                             ..Default::default()
                         }))));
                     }
+                    // An identifier can refer to a type. The TypeScript transform
+                    // removes `export default <type>`, but not
+                    // `var _default = <type>`. The exported declarations after it,
+                    // except classes, also stay after the `finally` block, so they
+                    // can not change `x` before it is read. Known limitation:
+                    // exported classes and other statements after it still move
+                    // into the `try` block, so they can.
+                    Ok(ModuleDecl::ExportDefaultExpr(export))
+                        if matches!(export.expr.unwrap_parens(), Expr::Ident(..)) =>
+                    {
+                        barrier = true;
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportDefaultExpr(export)).unwrap(),
+                        );
+                    }
+                    Ok(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr { expr, span }))
+                        if !barrier =>
+                    {
+                        // The expression must be evaluated in source order,
+                        // before the resources are disposed.
+                        let ident = private_ident!("_default");
+
+                        // export { _default as default };
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers: vec![ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ident.clone().into(),
+                                    exported: Some(quote_ident!("default").into()),
+                                    is_type_only: false,
+                                }
+                                .into()],
+                                ..NamedExport::dummy()
+                            }))
+                            .unwrap(),
+                        );
+
+                        // var _default = expr;
+                        //
+                        // Known limitation: an anonymous function or class
+                        // gets the name `"_default"` instead of `"default"`,
+                        // as in the output of tsc.
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.into()),
+                                init: Some(expr),
+                                definite: false,
+                            }],
+                            span,
+                            ..Default::default()
+                        }))));
+                    }
+                    Ok(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
+                        if !barrier
+                            && ts_runtime_decl_ident(&decl)
+                                .is_some_and(|id| !fn_names.contains(&id.to_id())) =>
+                    {
+                        // The transform gets TypeScript input when a caller
+                        // runs it before the TypeScript transform. Enums and
+                        // namespaces initialize their bindings at runtime, so
+                        // they move into the `try` block with the other
+                        // declarations. The TypeScript transform lowers them
+                        // there.
+                        //
+                        // A namespace that merges with a function stays at the
+                        // top level. The function is a lexical declaration of
+                        // the module, and the `var` that the TypeScript
+                        // transform declares for the namespace in the block
+                        // would conflict with it.
+                        let ident = ts_runtime_decl_ident(&decl).unwrap().clone();
+
+                        if exported_names.insert(ident.to_id()) {
+                            // export { E };
+                            extras.push(
+                                T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                    specifiers: vec![ExportNamedSpecifier {
+                                        span: DUMMY_SP,
+                                        orig: ident.into(),
+                                        exported: None,
+                                        is_type_only: false,
+                                    }
+                                    .into()],
+                                    ..NamedExport::dummy()
+                                }))
+                                .unwrap(),
+                            );
+                        }
+
+                        try_block.stmts.push(Stmt::Decl(decl));
+                    }
                     Ok(module_decl) => {
+                        match &module_decl {
+                            ModuleDecl::ExportDecl(ExportDecl {
+                                decl: Decl::Fn(f), ..
+                            }) => {
+                                fn_names.insert(f.ident.to_id());
+                            }
+                            ModuleDecl::TsImportEquals(import) if !import.is_type_only => {
+                                barrier = true
+                            }
+                            // A namespace that merges with a function.
+                            ModuleDecl::ExportDecl(ExportDecl { decl, .. })
+                                if ts_runtime_decl_ident(decl).is_some() =>
+                            {
+                                barrier = true
+                            }
+                            _ => {}
+                        }
+
                         extras.push(T::try_from_module_decl(module_decl).unwrap());
                     }
                     Err(t) => extras.push(t),
@@ -420,7 +615,7 @@ impl VisitMut for ExplicitResourceManagement {
                 Stmt::Decl(Decl::Var(Box::new(inner_var_decl))),
                 *n.body.take(),
             ];
-            self.wrap_with_try(state, &mut body);
+            self.wrap_with_try(state, &mut body, 0);
 
             n.left = ForHead::VarDecl(var_decl);
             *n.body = BlockStmt {
@@ -430,6 +625,13 @@ impl VisitMut for ExplicitResourceManagement {
             }
             .into()
         }
+    }
+
+    fn visit_mut_ts_module_block(&mut self, n: &mut TsModuleBlock) {
+        let old_in_ts_namespace = self.in_ts_namespace;
+        self.in_ts_namespace = true;
+        n.visit_mut_children_with(self);
+        self.in_ts_namespace = old_in_ts_namespace;
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
@@ -457,6 +659,15 @@ impl VisitMut for ExplicitResourceManagement {
         self.is_not_top_level = true;
         self.visit_mut_stmt_likes(stmts);
         self.is_not_top_level = old_is_not_top_level;
+    }
+}
+
+/// Returns the name of a TypeScript enum or namespace that has runtime code.
+fn ts_runtime_decl_ident(decl: &Decl) -> Option<&Ident> {
+    match decl {
+        Decl::TsEnum(e) if !e.declare => Some(&e.id),
+        Decl::TsModule(m) if !m.declare => m.id.as_ident(),
+        _ => None,
     }
 }
 

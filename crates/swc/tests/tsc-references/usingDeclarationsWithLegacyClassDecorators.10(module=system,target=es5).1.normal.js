@@ -24,19 +24,19 @@ System.register([
             }
         ],
         execute: function() {
+            _export("default", _class = function _class() {
+                "use strict";
+                _class_call_check(this, _class);
+            });
+            _class = _ts_decorate([
+                dec
+            ], _class), _export("default", _class), _class;
             env = {
                 stack: [],
                 error: void 0,
                 hasError: false
             };
             try {
-                _class = function _class() {
-                    "use strict";
-                    _class_call_check(this, _class);
-                }, _export("default", _class), _class;
-                _class = _ts_decorate([
-                    dec
-                ], _class), _export("default", _class), _class;
                 after = _ts_add_disposable_resource(env, null, false);
             } catch (e) {
                 env.error = e;

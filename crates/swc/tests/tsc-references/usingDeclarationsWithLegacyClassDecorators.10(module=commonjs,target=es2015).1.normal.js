@@ -12,17 +12,17 @@ Object.defineProperty(exports, "default", {
 const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
+class _class {
+}
+_class = _ts_decorate._([
+    dec
+], _class);
 const env = {
     stack: [],
     error: void 0,
     hasError: false
 };
 try {
-    var _class = class _class {
-    };
-    _class = _ts_decorate._([
-        dec
-    ], _class);
     var after = _ts_add_disposable_resource._(env, null, false);
 } catch (e) {
     env.error = e;

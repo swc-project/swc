@@ -1,5 +1,6 @@
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
+export var Disposable = 1334;
 const env = {
     stack: [],
     error: void 0,
@@ -14,4 +15,3 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-export var Disposable = 1334;

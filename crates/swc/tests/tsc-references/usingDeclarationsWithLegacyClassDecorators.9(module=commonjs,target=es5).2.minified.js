@@ -7,18 +7,19 @@ Object.defineProperty(exports, "__esModule", {
         return C;
     }
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource"), _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources"), env = {
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource"), _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources"), C = function C() {
+    _class_call_check._(this, C);
+};
+C = _ts_decorate._([
+    dec
+], C);
+var env = {
     stack: [],
     error: void 0,
     hasError: !1
 };
 try {
-    var C = function C() {
-        _class_call_check._(this, C);
-    };
-    C = _ts_decorate._([
-        dec
-    ], C), _ts_add_disposable_resource._(env, null, !1);
+    _ts_add_disposable_resource._(env, null, !1);
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{

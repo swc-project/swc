@@ -20,7 +20,7 @@ for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
     get: Object.getOwnPropertyDescriptor(all, name).get
 });
-let _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource"), _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources"), env = {
+let _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource"), _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources"), x = 1, env = {
     stack: [],
     error: void 0,
     hasError: !1
@@ -28,11 +28,10 @@ let _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_res
 try {
     var z = _ts_add_disposable_resource._(env, {
         [Symbol.dispose] () {}
-    }, !1), y = 2;
+    }, !1), y = 2, w = 3, _default = 4;
     console.log(w, x, y, z);
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{
     _ts_dispose_resources._(env);
 }
-let x = 1, w = 3, _default = 4;

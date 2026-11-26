@@ -29,6 +29,7 @@ define([
             return y;
         }
     });
+    const x = 1;
     const env = {
         stack: [],
         error: void 0,
@@ -39,6 +40,8 @@ define([
             [Symbol.dispose] () {}
         }, false);
         var y = 2;
+        var w = 3;
+        var _default = 4;
         console.log(w, x, y, z);
     } catch (e) {
         env.error = e;
@@ -46,7 +49,4 @@ define([
     } finally{
         _ts_dispose_resources._(env);
     }
-    const x = 1;
-    const w = 3;
-    const _default = 4;
 });
