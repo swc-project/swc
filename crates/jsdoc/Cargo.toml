@@ -33,5 +33,5 @@ swc_common = { version = "28.0.0", path = "../swc_common", default-features = fa
 
 [dev-dependencies]
 dashmap         = { workspace = true, default-features = false }
-swc_ecma_parser = { version = "48.0.0", path = "../swc_ecma_parser", default-features = false }
+swc_ecma_parser = { version = "48.1.0", path = "../swc_ecma_parser", default-features = false }
 testing         = { version = "29.0.0", path = "../testing", default-features = false }

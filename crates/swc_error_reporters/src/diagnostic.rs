@@ -3,8 +3,10 @@ use std::{fmt, mem::transmute};
 use miette::{GraphicalReportHandler, Severity, SourceOffset, SourceSpan};
 use swc_common::{
     errors::{Diagnostic, DiagnosticId, Level, SubDiagnostic},
-    BytePos, FileName, SourceMap, Span,
+    BytePos, FileName, MultiSpan, SourceMap, Span,
 };
+
+use crate::snippet_window::snippet_window;
 
 pub struct PrettyDiagnostic<'a> {
     source_code: PrettySourceCode<'a>,
@@ -15,13 +17,23 @@ pub struct PrettyDiagnostic<'a> {
 
 impl<'a> PrettyDiagnostic<'a> {
     pub fn new(d: &'a Diagnostic, cm: &'a SourceMap, skip_filename: bool) -> Self {
-        let source_code = PrettySourceCode { cm, skip_filename };
+        let source_code = PrettySourceCode {
+            cm,
+            skip_filename,
+            labels: KnownLabels::MultiSpan(&d.span),
+        };
 
         let children = d
             .children
             .iter()
             .filter(|d| !matches!(d.level, Level::Help))
-            .map(|d| PrettySubDiagnostic { source_code, d })
+            .map(|d| PrettySubDiagnostic {
+                source_code: PrettySourceCode {
+                    labels: KnownLabels::MultiSpan(&d.span),
+                    ..source_code
+                },
+                d,
+            })
             .collect();
         Self {
             source_code,
@@ -124,12 +136,82 @@ impl fmt::Display for PrettyDiagnostic<'_> {
 pub struct PrettySourceCode<'a> {
     cm: &'a SourceMap,
     skip_filename: bool,
+    /// The labels that miette renders with this source.
+    labels: KnownLabels<'a>,
 }
 
-impl PrettySourceCode<'_> {
+/// The labels of the diagnostic that a [PrettySourceCode] is used for.
+///
+/// `read_span` uses them to check whether a snippet that contains a very wide
+/// line can be rendered (see [crate::snippet_window]).
+#[derive(Clone, Copy)]
+enum KnownLabels<'a> {
+    /// The labels are not known, so a very wide line in a span is not shown.
+    Unknown,
+    /// The labels are the span labels of this [MultiSpan].
+    MultiSpan(&'a MultiSpan),
+    /// The labels have these spans.
+    Spans(&'a [Span]),
+}
+
+impl<'a> PrettySourceCode<'a> {
+    /// Returns a source that renders the labels with the given spans.
+    ///
+    /// Pass the spans of all labels of the diagnostic that is rendered with
+    /// this source. With them, the source can show a label that covers a line
+    /// that is wider than `u16::MAX` columns. Without them, the source shows
+    /// such a label only as a short note, because it cannot check that miette
+    /// can render the line without a panic.
+    pub fn with_labels<'b>(self, labels: &'b [Span]) -> PrettySourceCode<'b>
+    where
+        'a: 'b,
+    {
+        PrettySourceCode {
+            cm: self.cm,
+            skip_filename: self.skip_filename,
+            labels: KnownLabels::Spans(labels),
+        }
+    }
+
     #[inline]
     fn is_valid_span(&self, span: Span) -> bool {
         !span.is_dummy() && self.cm.with_snippet_of_span(span, |_| ()).is_ok()
+    }
+
+    /// Returns the byte ranges of the labels in the source file that starts at
+    /// `file_start` and ends at `file_end`, relative to `file_start`, in the
+    /// order in which miette draws them.
+    fn label_ranges(&self, file_start: BytePos, file_end: BytePos) -> Option<Vec<(usize, usize)>> {
+        let to_label = |span: Span| {
+            self.is_valid_span(span)
+                .then(|| miette::LabeledSpan::new_with_span(None, convert_span(span)))
+        };
+        let mut labels: Vec<_> = match self.labels {
+            KnownLabels::Unknown => return None,
+            KnownLabels::MultiSpan(span) => span
+                .span_labels()
+                .into_iter()
+                .filter_map(|label| to_label(label.span))
+                .collect(),
+            KnownLabels::Spans(spans) => spans.iter().copied().filter_map(to_label).collect(),
+        };
+        // miette sorts all labels of the diagnostic by their start with this
+        // unstable sort, and the order of labels with the same start changes
+        // the paddings. Sort the same list (the labels that `labels()` returns,
+        // with the same element type) the same way, then keep this file.
+        labels.sort_unstable_by_key(|label| label.inner().offset());
+        let file_start = file_start.0 as usize;
+        let file_end = file_end.0 as usize;
+        Some(
+            labels
+                .into_iter()
+                .filter_map(|label| {
+                    let lo = label.offset();
+                    let hi = lo + label.len();
+                    (lo >= file_start && hi <= file_end).then(|| (lo - file_start, hi - file_start))
+                })
+                .collect(),
+        )
     }
 }
 
@@ -148,64 +230,44 @@ impl miette::SourceCode for PrettySourceCode<'_> {
         let lo = u32::try_from(lo).map_err(|_| miette::MietteError::OutOfBounds)?;
         let hi = u32::try_from(hi).map_err(|_| miette::MietteError::OutOfBounds)?;
 
-        let mut span = Span::new(BytePos(lo), BytePos(hi));
+        let span = Span::new(BytePos(lo), BytePos(hi));
 
         if !self.is_valid_span(span) {
             return Err(miette::MietteError::OutOfBounds);
         }
 
-        span = self
+        let file = self
             .cm
-            .with_span_to_prev_source(span, |src| {
-                let len = src
-                    .rsplit('\n')
-                    .take(context_lines_before + 1)
-                    .map(|s| s.len() + 1)
-                    .sum::<usize>();
+            .try_lookup_byte_offset(span.lo)
+            .map_err(|_| miette::MietteError::OutOfBounds)?
+            .sf;
+        // SAFETY: The source map keeps every source file alive while it is
+        // alive and never changes the text of a source file, and `'a` does not
+        // outlive `self.cm`.
+        let file_src = unsafe { transmute::<&str, &'a str>(&file.src) };
 
-                span.lo.0 -= (len as u32) - 1;
-                span
-            })
-            .unwrap_or(span);
+        let base = file.start_pos.0;
+        let lo = (span.lo.0 - base) as usize;
+        let hi = (span.hi.0 - base) as usize;
 
-        span = self
-            .cm
-            .with_span_to_next_source(span, |src| {
-                let len = src
-                    .split('\n')
-                    .take(context_lines_after + 1)
-                    .map(|s| s.len() + 1)
-                    .sum::<usize>();
+        // Selects the lines to show, and crops the lines that are too wide for
+        // miette to render without a panic.
+        let (start, end) = snippet_window(
+            file_src,
+            lo,
+            hi,
+            context_lines_before,
+            context_lines_after,
+            || self.label_ranges(file.start_pos, file.end_pos),
+        )
+        .ok_or(miette::MietteError::OutOfBounds)?;
 
-                span.hi.0 += (len as u32) - 1;
-                span
-            })
-            .unwrap_or(span);
-
-        span = self
-            .cm
-            .with_snippet_of_span(span, |src| {
-                if src.lines().next().is_some() {
-                    return span;
-                }
-                let lo = src.len() - src.trim_start().len();
-                let hi = src.len() - src.trim_end().len();
-
-                span.lo.0 += lo as u32;
-                span.hi.0 -= hi as u32;
-
-                span
-            })
-            .unwrap_or(span);
-
-        let mut src = self
-            .cm
-            .with_snippet_of_span(span, |s| unsafe { transmute::<&str, &str>(s) })
-            .map_err(|_| miette::MietteError::OutOfBounds)?;
-
-        if span.lo == span.hi {
-            src = " ";
-        }
+        let span = Span::new(BytePos(base + start as u32), BytePos(base + end as u32));
+        let src = if start == end {
+            " "
+        } else {
+            &file_src[start..end]
+        };
 
         let loc = self
             .cm
@@ -236,8 +298,18 @@ impl miette::SourceCode for PrettySourceCode<'_> {
     }
 }
 
+/// Returns a source that does not know the labels of the diagnostic. Use
+/// `with_labels` on the result to pass them.
+///
+/// The source selects snippets that miette renders with its default tab width
+/// (4). A handler with a larger tab width can still pad a label by more than
+/// `u16::MAX` columns and panic.
 pub fn to_pretty_source_code(cm: &SourceMap, skip_filename: bool) -> PrettySourceCode<'_> {
-    PrettySourceCode { cm, skip_filename }
+    PrettySourceCode {
+        cm,
+        skip_filename,
+        labels: KnownLabels::Unknown,
+    }
 }
 struct PrettySubDiagnostic<'a> {
     source_code: PrettySourceCode<'a>,
@@ -391,7 +463,8 @@ impl ToPrettyDiagnostic for Diagnostic {
     /// - `skip_filename`: A boolean indicating whether to skip including
     ///   filenames in the output.
     /// - `handler`: A reference to the `GraphicalReportHandler` used for
-    ///   handling graphical reports.
+    ///   handling graphical reports. Snippets are selected for miette's default
+    ///   tab width (4); a handler with a larger tab width is not supported.
     ///
     /// # Returns
     ///

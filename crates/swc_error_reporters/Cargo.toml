@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_error_reporters"
 repository    = { workspace = true }
-version       = "30.0.0"
+version       = "30.1.0"
 
 [lib]
 bench = false
@@ -16,6 +16,9 @@ anyhow    = { workspace = true, default-features = false }
 miette    = { workspace = true, features = ["fancy-no-syscall"] }
 once_cell = { workspace = true, default-features = false }
 serde     = { workspace = true, default-features = false }
+# The version that miette 7 uses to measure columns. `snippet_window` measures
+# lines the same way.
+unicode-width = { version = "0.1.11", default-features = false }
 
 swc_common = { version = "28.0.0", path = "../swc_common", features = [
   "concurrent",

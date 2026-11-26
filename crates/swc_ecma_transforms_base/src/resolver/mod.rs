@@ -977,6 +977,21 @@ impl VisitMut for Resolver<'_> {
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
         self.with_child(ScopeKind::Block, |child| {
             child.ident_type = IdentType::Binding;
+
+            if let Some(VarDeclOrExpr::VarDecl(v)) = &mut n.init {
+                // Phase 1: Handle hoisting
+
+                let mut hoister = Hoister {
+                    kind: child.decl_kind,
+                    resolver: child,
+                    in_block: false,
+                    in_catch_body: false,
+                    catch_param_decls: Default::default(),
+                    excluded_from_catch: Default::default(),
+                };
+                v.visit_mut_with(&mut hoister)
+            }
+
             n.init.visit_mut_with(child);
             child.ident_type = IdentType::Ref;
             n.test.visit_mut_with(child);

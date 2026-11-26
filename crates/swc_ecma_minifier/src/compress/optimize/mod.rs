@@ -871,17 +871,20 @@ impl Optimizer<'_> {
                 args,
                 ..
             }) => {
-                if let Expr::Fn(FnExpr {
-                    ident: None,
-                    function,
-                }) = &mut **callee
-                {
-                    if args.is_empty() {
-                        for param in &mut function.params {
-                            self.drop_unused_param(&mut param.pat, true);
-                        }
+                if args.is_empty() {
+                    match &mut **callee {
+                        Expr::Fn(FnExpr {
+                            ident: None,
+                            function,
+                        }) => {
+                            self.drop_unused_params(function, true);
 
-                        function.params.retain(|p| !p.pat.is_invalid());
+                            function.params.retain(|p| !p.pat.is_invalid());
+                        }
+                        Expr::Arrow(a) => {
+                            self.drop_unused_arrow_params(a, true);
+                        }
+                        _ => (),
                     }
                 }
 
@@ -1668,7 +1671,7 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        self.drop_unused_arrow_params(&mut n.params);
+        self.drop_unused_arrow_params(n, false);
 
         let prepend = self.prepend_stmts.take();
 
@@ -1977,6 +1980,10 @@ impl VisitMut for Optimizer<'_> {
                 class_method
                     .function
                     .visit_mut_with(&mut *self.with_ctx(ctx));
+
+                if class_method.kind == MethodKind::Method {
+                    self.drop_unused_params(&mut class_method.function, false);
+                }
             }
             ClassMember::AutoAccessor(auto_accessor) => {
                 auto_accessor.key.visit_mut_with(self);
@@ -1987,6 +1994,10 @@ impl VisitMut for Optimizer<'_> {
             }
             ClassMember::PrivateMethod(private_method) => {
                 private_method.visit_mut_with(&mut *self.with_ctx(ctx));
+
+                if private_method.kind == MethodKind::Method {
+                    self.drop_unused_params(&mut private_method.function, false);
+                }
             }
 
             ClassMember::StaticBlock(s) => {
@@ -2054,24 +2065,6 @@ impl VisitMut for Optimizer<'_> {
         self.store_decl_for_inlining(decl);
     }
 
-    #[cfg_attr(
-        all(debug_assertions, feature = "debug"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
-        match n {
-            DefaultDecl::Class(_) => {}
-            DefaultDecl::Fn(f) => {
-                self.drop_unused_params(&mut f.function.params);
-            }
-            DefaultDecl::TsInterfaceDecl(_) => {}
-            #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes"),
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_do_while_stmt(&mut self, n: &mut DoWhileStmt) {
         let ctx = self.ctx.clone().with(BitCtx::ExecutedMultipleTime, true);
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2082,10 +2075,6 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
-        if let Decl::Fn(f) = &mut n.decl {
-            self.drop_unused_params(&mut f.function.params);
-        }
-
         let ctx = self.ctx.clone().with(BitCtx::IsExported, true);
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
@@ -2421,8 +2410,6 @@ impl VisitMut for Optimizer<'_> {
             .entry(f.ident.to_id())
             .or_insert_with(|| FnMetadata::from(&*f.function));
 
-        self.drop_unused_params(&mut f.function.params);
-
         let ctx = self
             .ctx
             .clone()
@@ -2431,6 +2418,8 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsLhsOfAssign, false)
             .with(BitCtx::IsExactLhsOfAssign, false);
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        self.drop_unused_params(&mut f.function, false);
     }
 
     #[cfg_attr(
@@ -2458,6 +2447,8 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsExactLhsOfAssign, false)
             .with(BitCtx::InFnLike, true);
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        self.drop_unused_params(&mut e.function, false);
     }
 
     #[cfg_attr(
@@ -2802,26 +2793,25 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx.clone()
         };
         let mut o = self.with_ctx(ctx);
+
         n.visit_mut_children_with(&mut *o);
-
-        o.drop_unused_param(&mut n.pat, false);
-    }
-
-    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
-        n.visit_mut_children_with(self);
-
-        n.retain(|p| !p.pat.is_invalid());
     }
 
     fn visit_mut_prop(&mut self, n: &mut Prop) {
         n.visit_mut_children_with(self);
 
-        if let Prop::Shorthand(i) = n {
-            if let Some(expr) = self.inline_ident(i) {
-                let key = prop_name_from_ident(i.take());
-                *n = Prop::KeyValue(KeyValueProp { key, value: expr });
-                self.changed = true;
+        match n {
+            Prop::Shorthand(i) => {
+                if let Some(expr) = self.inline_ident(i) {
+                    let key = prop_name_from_ident(i.take());
+                    *n = Prop::KeyValue(KeyValueProp { key, value: expr });
+                    self.changed = true;
+                }
             }
+            Prop::Method(m) => {
+                self.drop_unused_params(&mut m.function, false);
+            }
+            _ => (),
         }
     }
 

@@ -15,5 +15,5 @@ bench = false
 phf            = { workspace = true, features = ["macros"], default-features = false }
 swc_common     = { version = "28.0.0", path = "../swc_common", default-features = false }
 swc_ecma_ast   = { version = "31.0.0", path = "../swc_ecma_ast", default-features = false }
-swc_ecma_utils = { version = "37.0.0", path = "../swc_ecma_utils", default-features = false }
+swc_ecma_utils = { version = "37.0.1", path = "../swc_ecma_utils", default-features = false }
 swc_ecma_visit = { version = "31.0.0", path = "../swc_ecma_visit", default-features = false }

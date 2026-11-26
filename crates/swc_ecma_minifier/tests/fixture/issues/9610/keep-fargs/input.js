@@ -1,6 +1,3 @@
-// Test: keep_fargs: true should preserve function argument count
-// The unused parameter with default value should NOT be removed
-
 const defaultMessage = "hello"
 
 function foo(a, b = defaultMessage) {

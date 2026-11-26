@@ -21,5 +21,5 @@ serde = { workspace = true, optional = true, features = ["derive"] }
 
 swc_atoms           = { version = "11.0.0", path = "../swc_atoms", default-features = false }
 swc_common          = { version = "28.0.0", path = "../swc_common", default-features = false }
-swc_ecma_regexp_ast = { version = "5.0.0", path = "../swc_ecma_regexp_ast", default-features = false }
+swc_ecma_regexp_ast = { version = "5.0.1", path = "../swc_ecma_regexp_ast", default-features = false }
 swc_visit           = { version = "3.0.0", path = "../swc_visit", default-features = false }

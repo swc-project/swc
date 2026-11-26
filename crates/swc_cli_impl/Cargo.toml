@@ -45,7 +45,7 @@ serde_json = { workspace = true, features = [
 tracing = { workspace = true, default-features = false }
 walkdir = { workspace = true, default-features = false }
 
-swc_core = { version = "85.0.0", features = [
+swc_core = { version = "85.1.1", features = [
   "common_concurrent",
   "base_concurrent",
   "base_flow",

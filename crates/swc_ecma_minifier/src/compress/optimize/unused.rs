@@ -5,7 +5,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_ident_ref, contains_this_expr, find_pat_ids, ExprExt, IsEmpty, Value,
+    contains_ident_ref, contains_this_expr, find_pat_ids, private_ident, ExprExt, IsEmpty, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -94,33 +94,54 @@ impl Optimizer<'_> {
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub(super) fn drop_unused_param(&mut self, pat: &mut Pat, ignore_fn_length: bool) {
-        if !self.options.unused && !self.options.reduce_fns {
+    pub(super) fn drop_unused_params(
+        &mut self,
+        Function { params, ctxt, .. }: &mut Function,
+        arg_is_empty: bool,
+    ) {
+        if !self.options.unused {
             return;
         }
 
-        if let Some(scope) = self.data.get_scope(self.ctx.scope) {
-            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+        if let Some(scope) = self.data.get_scope(*ctxt) {
+            if scope.intersects(
+                ScopeData::HAS_EVAL_CALL
+                    .union(ScopeData::HAS_WITH_STMT)
+                    .union(ScopeData::USED_ARGUMENTS),
+            ) {
                 return;
             }
         }
 
-        if !ignore_fn_length {
-            // Preserve `length` of function.
-            if pat.is_ident() {
-                return;
+        if arg_is_empty || !self.options.keep_fargs {
+            for p in params.iter_mut().rev() {
+                self.take_pat_if_unused(&mut p.pat, None, false);
+
+                if !arg_is_empty && !p.pat.is_invalid() {
+                    break;
+                }
+            }
+        } else {
+            for p in params.iter_mut().rev() {
+                match &p.pat {
+                    Pat::Ident(_) => (),
+                    Pat::Array(_) | Pat::Object(_) => {
+                        self.take_pat_if_unused(&mut p.pat, None, false);
+                        if p.pat.is_invalid() {
+                            p.pat = private_ident!("_").into();
+                        }
+                    }
+                    Pat::Assign(_) => self.take_pat_if_unused(&mut p.pat, None, false),
+                    _ => (),
+                }
+
+                if !p.pat.is_invalid() {
+                    break;
+                }
             }
         }
 
-        // When keep_fargs is true, we should only optimize within destructuring
-        // patterns (arrays/objects) but not remove the entire parameter.
-        // For Pat::Assign (default parameters), we should not remove them if
-        // keep_fargs is true, as that would change the function signature.
-        if self.options.keep_fargs && matches!(pat, Pat::Assign(_)) {
-            return;
-        }
-
-        self.take_pat_if_unused(pat, None, false)
+        params.retain(|p| !p.pat.is_invalid());
     }
 
     #[cfg_attr(
@@ -169,36 +190,46 @@ impl Optimizer<'_> {
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
-        if self.options.keep_fargs || !self.options.unused {
+    pub(super) fn drop_unused_arrow_params(
+        &mut self,
+        ArrowExpr { ctxt, params, .. }: &mut ArrowExpr,
+        arg_is_empty: bool,
+    ) {
+        if !self.options.unused {
             return;
         }
 
-        for param in params.iter_mut().rev() {
-            self.take_pat_if_unused(&mut param.pat, None, false);
-
-            if !param.pat.is_invalid() {
-                break;
+        if let Some(scope) = self.data.get_scope(*ctxt) {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
             }
         }
 
-        params.retain(|p| !p.pat.is_invalid());
-    }
+        if arg_is_empty || !self.options.keep_fargs {
+            for p in params.iter_mut().rev() {
+                self.take_pat_if_unused(p, None, false);
 
-    #[cfg_attr(
-        all(debug_assertions, feature = "debug"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    pub(super) fn drop_unused_arrow_params(&mut self, params: &mut Vec<Pat>) {
-        if self.options.keep_fargs || !self.options.unused {
-            return;
-        }
+                if !arg_is_empty && !p.is_invalid() {
+                    break;
+                }
+            }
+        } else {
+            for p in params.iter_mut().rev() {
+                match p {
+                    Pat::Ident(_) => (),
+                    Pat::Array(_) | Pat::Object(_) => {
+                        self.take_pat_if_unused(p, None, false);
+                        if p.is_invalid() {
+                            *p = private_ident!("_").into();
+                        }
+                    }
+                    Pat::Assign(_) => self.take_pat_if_unused(p, None, false),
+                    _ => (),
+                }
 
-        for param in params.iter_mut().rev() {
-            self.take_pat_if_unused(param, None, false);
-
-            if !param.is_invalid() {
-                break;
+                if !p.is_invalid() {
+                    break;
+                }
             }
         }
 
@@ -427,10 +458,6 @@ impl Optimizer<'_> {
         mut init: Option<&mut Expr>,
         is_var_decl: bool,
     ) {
-        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
-            return;
-        }
-
         trace_op!("unused: take_pat_if_unused({})", dump(&*name, false));
 
         // A PURE annotation on the initializer does not make destructuring

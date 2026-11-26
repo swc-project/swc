@@ -3,6 +3,7 @@
 ## General rule
 
 -   Read the codebase - the codebase is source of truth, and you should prefer reading lots of source code over searching.
+-   Before you change or review code, read every `AGENTS.md` file in the directories from the repository root to the changed files. A crate-level file, for example `crates/swc_ecma_minifier/AGENTS.md`, can contain rules that this file does not, such as the semantic assumptions of the crate and its review policy. Apply these rules when you decide whether a behavior is a defect.
 -   Never consult pull requests linked in issue descriptions or comments, or SWC forks owned by other people, as references. Do not read or reuse their code, diffs, tests, or proposed implementations through GitHub, `gh`, local checkouts, or other tools.
 -   Do not search web unless explicitly asked to do so. Web search does not help in general for our project.
 -   Write performant code. Always prefer performance over other things.

@@ -1468,22 +1468,22 @@ impl<I: Tokens> Parser<I> {
             let value = self.input_mut().expect_number_token_value();
             self.bump();
 
-            let raw = self.input.iter.read_string(token_span);
+            let raw = self.input.iter.read_atom(token_span);
             PropName::Num(Number {
                 span: self.span(start),
                 value,
-                raw: Some(Atom::new(raw)),
+                raw: Some(raw),
             })
         } else if cur == Token::BigInt {
             let token_span = self.input.cur_span();
             let value = self.input_mut().expect_bigint_token_value();
             self.bump();
 
-            let raw = self.input.iter.read_string(token_span);
+            let raw = self.input.iter.read_atom(token_span);
             PropName::BigInt(BigInt {
                 span: self.span(start),
                 value,
-                raw: Some(Atom::new(raw)),
+                raw: Some(raw),
             })
         } else if self.syntax().flow()
             && cur == Token::At
