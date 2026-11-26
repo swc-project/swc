@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "assumptions": {
+            "constantReexports": true
+        }
+    },
+    "module": {
+        "type": "commonjs",
+        "importInterop": "node"
+    }
+}

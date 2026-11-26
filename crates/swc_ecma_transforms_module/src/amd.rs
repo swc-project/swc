@@ -18,10 +18,11 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 
 pub use super::util::Config as InnerConfig;
 use crate::{
+    constant_reexports::{emit_constant_reexports, ConstantReexports},
     module_record::{
         exported_external_ts_import_equals_name, external_ts_import_equals_source,
-        LocalExportEntries, ModuleRecordEntryReducer, ModuleRequestUsage, RequestedModule,
-        RequestedModules, SourceModule,
+        LocalExportEntries, ModuleRecordEntry, ModuleRecordEntryReducer, ModuleRequestUsage,
+        RequestedModule, RequestedModules, SourceModule,
     },
     module_ref_rewriter::{rewrite_import_bindings, ImportMap},
     path::Resolver,
@@ -444,7 +445,7 @@ where
         &mut self,
         import_map: &mut ImportMap,
         requested_modules: RequestedModules,
-        local_export_entries: LocalExportEntries,
+        mut local_export_entries: LocalExportEntries,
         ts_import_equals_exports: &FxHashSet<Atom>,
         is_export_assign: bool,
     ) -> impl Iterator<Item = Stmt> {
@@ -452,6 +453,8 @@ where
 
         let mut stmts = Vec::with_capacity(requested_modules.len());
 
+        let mut constant_reexports = (self.assumptions.constant_reexports && !is_export_assign)
+            .then(|| ConstantReexports::new(&requested_modules, &mut local_export_entries));
         let mut export_bindings = local_export_entries.into_iter().collect();
 
         requested_modules.into_iter().for_each(
@@ -478,20 +481,32 @@ where
 
                 self.dep_list.push((mod_ident.clone(), src, src_span));
 
+                let mut reexports = constant_reexports.as_mut().map(|reexports| {
+                    reexports.take_aliases(
+                        module_entries
+                            .iter()
+                            .filter_map(ModuleRecordEntry::import_local_name),
+                    )
+                });
                 module_entries.reduce(
                     import_map,
-                    &mut export_bindings,
+                    reexports.as_mut().unwrap_or(&mut export_bindings),
                     &mod_ident,
                     &mut false,
                     is_node_default,
+                    constant_reexports.is_some(),
                 );
 
                 // _export_star(mod, exports);
                 let mut import_expr: Expr = if need_re_export {
-                    helper_expr!(export_star).as_call(
-                        DUMMY_SP,
-                        vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
-                    )
+                    if let Some(reexports) = &mut constant_reexports {
+                        reexports.copy_star(mod_ident.clone().into(), self.exports())
+                    } else {
+                        helper_expr!(export_star).as_call(
+                            DUMMY_SP,
+                            vec![mod_ident.clone().as_arg(), self.exports().as_arg()],
+                        )
+                    }
                 } else {
                     mod_ident.clone().into()
                 };
@@ -524,6 +539,17 @@ where
                 } else if need_re_export {
                     stmts.push(import_expr.into_stmt());
                 }
+
+                if let Some(reexports) = reexports.filter(|reexports| !reexports.is_empty()) {
+                    emit_constant_reexports(
+                        reexports,
+                        self.exports(),
+                        import_map,
+                        None,
+                        &mut stmts,
+                        &mut export_bindings,
+                    );
+                }
             },
         );
 
@@ -537,6 +563,10 @@ where
             let exports = self.exports();
 
             export_stmts = emit_export_stmts(exports, export_bindings);
+        }
+
+        if let Some(reexports) = constant_reexports {
+            reexports.emit_star_header(self.const_var_kind, &mut export_stmts);
         }
 
         export_stmts.into_iter().chain(stmts)
