@@ -539,6 +539,29 @@ pub enum ModuleRecordEntry {
     StarExport,
 }
 
+impl ModuleRecordEntry {
+    pub(crate) fn import_local_name(&self) -> Option<&Id> {
+        match self {
+            Self::ImportNamed { local_name, .. }
+            | Self::ImportDefault { local_name }
+            | Self::ImportNamespace { local_name } => Some(local_name),
+            _ => None,
+        }
+    }
+
+    pub(crate) fn indirect_export_name(&self) -> Option<&Atom> {
+        match self {
+            Self::IndirectExportNamed {
+                import_name,
+                export_name,
+            } => Some(&export_name.as_ref().unwrap_or(import_name).0),
+            Self::IndirectExportDefault { export_name, .. }
+            | Self::IndirectExportNamespace { export_name, .. } => Some(export_name),
+            _ => None,
+        }
+    }
+}
+
 impl From<ImportSpecifier> for ModuleRecordEntry {
     fn from(i: ImportSpecifier) -> Self {
         match i {
@@ -838,6 +861,7 @@ pub(crate) trait ModuleRecordEntryReducer {
         ref_to_mod_ident: &mut bool,
         // do not emit `mod.default`, emit `mod` instead
         default_nowrap: bool,
+        constant_reexports: bool,
     );
 }
 
@@ -849,6 +873,7 @@ impl ModuleRecordEntryReducer for FxHashSet<ModuleRecordEntry> {
         mod_ident: &Ident,
         ref_to_mod_ident: &mut bool,
         default_nowrap: bool,
+        constant_reexports: bool,
     ) {
         self.into_iter().for_each(|s| match s {
             ModuleRecordEntry::ImportNamed {
@@ -923,10 +948,15 @@ impl ModuleRecordEntryReducer for FxHashSet<ModuleRecordEntry> {
                 // export { foo };
                 // ```
 
-                // foo -> mod.default
+                // In the Node default-only case, a constant re-export
+                // snapshots the module itself. Keep the established getter
+                // lowering when the assumption is disabled.
                 import_map.insert(
                     (export_name.clone(), export_name_span.1),
-                    (mod_ident.clone(), Some(atom!("default"))),
+                    (
+                        mod_ident.clone(),
+                        (!(default_nowrap && constant_reexports)).then(|| atom!("default")),
+                    ),
                 );
 
                 export_bindings.push((
@@ -964,6 +994,10 @@ impl LocalExportEntry {
 
     pub fn export_name_span(&self) -> SpanCtx {
         self.0
+    }
+
+    pub(crate) fn local_id(&self) -> Id {
+        self.1.to_id()
     }
 
     pub fn into_local_ident(self) -> Ident {

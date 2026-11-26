@@ -190,15 +190,17 @@ pub(super) fn object_define_property(
         .as_call(DUMMY_SP, vec![target, prop_name, descriptor])
 }
 
-/// Creates
-///
-///```js
-/// 
-///  Object.defineProperty(exports, '__esModule', {
-///       value: true
-///  });
-/// ```
-pub(super) fn define_es_module(exports: Ident) -> Stmt {
+/// Marks the exports object as an ES module for interop.
+pub(super) fn define_es_module(exports: Ident, enumerable: bool) -> Stmt {
+    if enumerable {
+        return true
+            .make_assign_to(
+                op!("="),
+                exports.make_member(quote_ident!("__esModule")).into(),
+            )
+            .into_stmt();
+    }
+
     object_define_property(
         exports.as_arg(),
         quote_str!("__esModule").as_arg(),
@@ -315,22 +317,27 @@ pub(crate) fn sort_export_bindings(prop_list: &mut [ExportBinding]) {
     prop_list.sort_unstable_by(|a, b| a.0.cmp(&b.0));
 }
 
+pub(crate) fn emit_export_getter(
+    exports: Ident,
+    (export_name, export_item): ExportBinding,
+) -> Stmt {
+    object_define_enumerable(
+        exports.as_arg(),
+        quote_str!(export_item.export_name_span().0, export_name).as_arg(),
+        prop_function((
+            "get".into(),
+            LocalExportEntry::new(Default::default(), export_item.into_local_ident()),
+        ))
+        .into(),
+    )
+    .into_stmt()
+}
+
 pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportBinding>) -> Vec<Stmt> {
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
-            .map(|(export_name, export_item)| {
-                object_define_enumerable(
-                    exports.as_arg(),
-                    quote_str!(export_item.export_name_span().0, export_name).as_arg(),
-                    prop_function((
-                        "get".into(),
-                        LocalExportEntry::new(Default::default(), export_item.into_local_ident()),
-                    ))
-                    .into(),
-                )
-                .into_stmt()
-            })
+            .map(|binding| emit_export_getter(exports, binding))
             .into_iter()
             .collect(),
         _ => {
@@ -356,6 +363,57 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportBinding
             ]
         }
     }
+}
+
+/// Defines an own data property for an export named `__proto__`.
+pub(crate) fn define_export_value(exports: Ident, key: Expr, value: Expr) -> Stmt {
+    object_define_property(
+        exports.as_arg(),
+        key.as_arg(),
+        ObjectLit {
+            span: DUMMY_SP,
+            props: [
+                ("value", value),
+                ("enumerable", true.into()),
+                ("configurable", true.into()),
+                ("writable", true.into()),
+            ]
+            .into_iter()
+            .map(|(key, value)| KeyValueProp {
+                key: quote_ident!(key).into(),
+                value: Box::new(value),
+            })
+            .map(Prop::KeyValue)
+            .map(PropOrSpread::from)
+            .collect(),
+        }
+        .as_arg(),
+    )
+    .into_stmt()
+}
+
+/// Assigns a snapshot of the imported binding to the exported name.
+pub(crate) fn emit_export_assignment(
+    exports: Ident,
+    name: Atom,
+    binding: LocalExportEntry,
+) -> Stmt {
+    let span = binding.export_name_span();
+    let value = binding.into_local_ident();
+    if name == "__proto__" {
+        return define_export_value(exports, quote_str!(span.0, name).into(), value.into());
+    }
+    value
+        .make_assign_to(
+            op!("="),
+            MemberExpr {
+                span: span.0,
+                obj: Box::new(exports.into()),
+                prop: prop_name(&name, span).into(),
+            }
+            .into(),
+        )
+        .into_stmt()
 }
 
 pub(crate) fn prop_name(key: &str, (span, _): SpanCtx) -> IdentOrStr {

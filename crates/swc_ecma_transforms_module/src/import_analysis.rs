@@ -1,7 +1,7 @@
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::enable_helper;
+use swc_ecma_transforms_base::{assumptions::Assumptions, enable_helper};
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitWith,
 };
@@ -10,7 +10,18 @@ use crate::{module_record::ModuleRequestUsage, util::ImportInterop, wtf8::str_to
 
 #[must_use]
 pub fn import_analyzer(import_interop: ImportInterop, ignore_dynamic: bool) -> impl Pass {
+    import_analyzer_with_assumptions(import_interop, ignore_dynamic, Assumptions::default())
+}
+
+/// Detects the helpers needed by module lowering with the supplied assumptions.
+#[must_use]
+pub fn import_analyzer_with_assumptions(
+    import_interop: ImportInterop,
+    ignore_dynamic: bool,
+    assumptions: Assumptions,
+) -> impl Pass {
     visit_mut_pass(ImportAnalyzer {
+        constant_reexports: assumptions.constant_reexports,
         import_interop,
         ignore_dynamic,
         flag_record: Default::default(),
@@ -19,6 +30,7 @@ pub fn import_analyzer(import_interop: ImportInterop, ignore_dynamic: bool) -> i
 }
 
 pub struct ImportAnalyzer {
+    constant_reexports: bool,
     import_interop: ImportInterop,
     ignore_dynamic: bool,
 
@@ -50,6 +62,13 @@ impl Visit for ImportAnalyzer {
         if flag_record
             .values()
             .any(super::module_record::ModuleRequestUsage::has_star_export)
+            && (!self.constant_reexports
+                || n.iter().any(|item| {
+                    matches!(
+                        item,
+                        ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(_))
+                    )
+                }))
         {
             enable_helper!(export_star);
         }
