@@ -1,8 +1,6 @@
 use std::io::Write;
 
 use memchr::memchr2;
-use rustc_hash::FxBuildHasher;
-use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
 use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
@@ -16,12 +14,14 @@ use super::{BindingStorage, Result, ScopeBindingRecord, ScopeRecord, WriteJs};
 pub struct JsWriter<'a, W: Write> {
     indent: usize,
     indent_str: &'static str,
+    indent_cache: String,
     line_start: bool,
     line_count: usize,
     line_pos: usize,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
-    srcmap_done: HashSet<(BytePos, u32, u32), FxBuildHasher>,
+    last_srcmap_loc: Option<(u32, u32)>,
+    srcmap_done_for_loc: Vec<BytePos>,
     /// Used to avoid including whitespaces created by indention.
     pending_srcmap: Option<BytePos>,
     wr: W,
@@ -49,6 +49,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         JsWriter {
             indent: Default::default(),
             indent_str: "    ",
+            indent_cache: String::new(),
             line_start: true,
             line_count: 0,
             line_pos: Default::default(),
@@ -56,7 +57,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
             srcmap,
             wr,
             pending_srcmap: Default::default(),
-            srcmap_done: Default::default(),
+            last_srcmap_loc: Default::default(),
+            srcmap_done_for_loc: Vec::with_capacity(4),
             scopes,
             scope_stack: Default::default(),
         }
@@ -72,15 +74,19 @@ impl<'a, W: Write> JsWriter<'a, W> {
     /// Sets the indentation string. Defaults to four spaces.
     pub fn set_indent_str(&mut self, indent_str: &'static str) {
         self.indent_str = indent_str;
+        self.indent_cache.clear();
+        for _ in 0..self.indent {
+            self.indent_cache.push_str(self.indent_str);
+        }
     }
 
     #[inline]
     fn write_indent_string(&mut self) -> Result {
-        for _ in 0..self.indent {
-            self.raw_write(self.indent_str)?;
+        if !self.indent_cache.is_empty() {
+            self.wr.write_all(self.indent_cache.as_bytes())?;
         }
         if self.srcmap.is_some() {
-            self.line_pos += self.indent_str.len() * self.indent;
+            self.line_pos += self.indent_cache.len();
         }
 
         Ok(())
@@ -105,15 +111,17 @@ impl<'a, W: Write> JsWriter<'a, W> {
                 }
             }
 
-            if let Some(span) = span {
-                self.srcmap(span.lo());
-            }
-
-            self.raw_write(data)?;
-            self.update_pos(data);
-
-            if let Some(span) = span {
-                self.srcmap(span.hi());
+            match span {
+                Some(span) => {
+                    self.srcmap(span.lo());
+                    self.raw_write(data)?;
+                    self.update_pos(data);
+                    self.srcmap(span.hi());
+                }
+                None => {
+                    self.raw_write(data)?;
+                    self.update_pos(data);
+                }
             }
         }
 
@@ -170,15 +178,29 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
 
         if let Some(ref mut srcmap) = self.srcmap {
-            let key = (byte_pos, self.line_count as _, self.line_pos as _);
-            if self.srcmap_done.insert(key) {
-                let loc = LineCol {
-                    line: key.1,
-                    col: key.2,
-                };
+            let loc = (self.line_count as u32, self.line_pos as u32);
 
-                srcmap.push((byte_pos, loc));
+            // Generated coordinates are monotonic, so a (byte_pos, line, col)
+            // key can only repeat while we are still at the same generated
+            // location. Deduping per-location avoids hash-set overhead in the
+            // main source-map emission hot path.
+            if self.last_srcmap_loc != Some(loc) {
+                self.last_srcmap_loc = Some(loc);
+                self.srcmap_done_for_loc.clear();
             }
+
+            if self.srcmap_done_for_loc.contains(&byte_pos) {
+                return;
+            }
+
+            self.srcmap_done_for_loc.push(byte_pos);
+            srcmap.push((
+                byte_pos,
+                LineCol {
+                    line: loc.0,
+                    col: loc.1,
+                },
+            ));
         }
     }
 
@@ -195,12 +217,15 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
     #[inline]
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
+        self.indent_cache.push_str(self.indent_str);
         Ok(())
     }
 
     #[inline]
     fn decrease_indent(&mut self) -> Result {
         self.indent -= 1;
+        let new_len = self.indent_cache.len() - self.indent_str.len();
+        self.indent_cache.truncate(new_len);
         Ok(())
     }
 
