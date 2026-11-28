@@ -176,8 +176,6 @@ bitflags! {
 
         const InWithStmt = 1 << 25;
 
-        const InParam = 1 << 26;
-
         /// `true` while we are inside a class body.
         const InClass = 1 << 27;
 
@@ -389,7 +387,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::InParam) {
+        if self.ctx.bit_ctx.contains(BitCtx::DontUsePrependNorAppend) {
             return false;
         }
 
@@ -1630,7 +1628,7 @@ impl Optimizer<'_> {
                 // The outer try/finally cannot observe termination within a nested function.
                 .with(BitCtx::InTryCatchWithFinally, false)
                 .with(BitCtx::TopLevel, false)
-                .with(BitCtx::InParam, false),
+                .with(BitCtx::DontUsePrependNorAppend, false),
             scope,
             ..self.ctx.clone()
         }
@@ -1664,7 +1662,7 @@ impl VisitMut for Optimizer<'_> {
         let prepend = self.prepend_stmts.take();
 
         {
-            let ctx = self.ctx.clone().with(BitCtx::InParam, true);
+            let ctx = self.ctx.clone().with(BitCtx::DontUsePrependNorAppend, true);
             n.params.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
@@ -1784,7 +1782,7 @@ impl VisitMut for Optimizer<'_> {
                 .bit_ctx
                 .with(BitCtx::TopLevel, false)
                 .with(BitCtx::InBlock, true)
-                .with(BitCtx::InParam, false),
+                .with(BitCtx::DontUsePrependNorAppend, false),
             scope: n.ctxt,
             ..self.ctx.clone()
         };
@@ -1995,7 +1993,7 @@ impl VisitMut for Optimizer<'_> {
                         .bit_ctx
                         .with(BitCtx::TopLevel, false)
                         .with(BitCtx::InBlock, true)
-                        .with(BitCtx::InParam, false),
+                        .with(BitCtx::DontUsePrependNorAppend, false),
                     scope: s.body.ctxt,
                     ..self.ctx.clone()
                 };
@@ -2756,7 +2754,7 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_param(&mut self, n: &mut Param) {
         let ctx = Ctx {
-            bit_ctx: self.ctx.bit_ctx.with(BitCtx::InParam, true),
+            bit_ctx: self.ctx.bit_ctx.with(BitCtx::DontUsePrependNorAppend, true),
             ..self.ctx.clone()
         };
         let mut o = self.with_ctx(ctx);
