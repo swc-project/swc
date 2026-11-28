@@ -172,8 +172,6 @@ bitflags! {
         /// True while handling callee, except an arrow expression in callee.
         const IsThisAwareCallee = 1 << 23;
 
-        const IsNestedIfReturnMerging = 1 << 24;
-
         const InWithStmt = 1 << 25;
 
         /// `true` while we are inside a class body.
