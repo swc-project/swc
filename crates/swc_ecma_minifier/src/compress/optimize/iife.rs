@@ -966,29 +966,8 @@ impl Optimizer<'_> {
     ) -> bool {
         trace_op!("can_inline_fn_like");
 
-        if body.stmts.len() == 1 {
-            if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) = &body.stmts[0] {
-                if self.is_return_arg_simple_enough_for_iife_eval(arg) {
-                    return true;
-                }
-            }
-        }
-
         if !self.can_extract_param(param_ids.clone(), args) {
             return false;
-        }
-
-        if !self.may_add_ident() {
-            let has_decl = if for_stmt {
-                // we check it later
-                false
-            } else {
-                body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)))
-            };
-            if has_decl {
-                log_abort!("iife: [x] Found decl");
-                return false;
-            }
         }
 
         if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
@@ -1008,6 +987,27 @@ impl Optimizer<'_> {
                         return false;
                     }
                 }
+            }
+        }
+
+        if body.stmts.len() == 1 {
+            if let Stmt::Return(ReturnStmt { arg: Some(arg), .. }) = &body.stmts[0] {
+                if self.is_return_arg_simple_enough_for_iife_eval(arg) {
+                    return true;
+                }
+            }
+        }
+
+        if !self.may_add_ident() {
+            let has_decl = if for_stmt {
+                // we check it later
+                false
+            } else {
+                body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)))
+            };
+            if has_decl {
+                log_abort!("iife: [x] Found decl");
+                return false;
             }
         }
 

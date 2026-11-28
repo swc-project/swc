@@ -2058,25 +2058,6 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(
-        all(debug_assertions, feature = "debug"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
-        let ctx = self.ctx.clone().with(BitCtx::IsExported, true);
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
-        let ctx = self.ctx.clone().with(BitCtx::IsExported, true);
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        if let Decl::Fn(f) = &mut n.decl {
-            self.drop_unused_params(&mut f.function.params);
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         #[cfg(all(debug_assertions, feature = "trace-ast"))]
         let _tracing = {
