@@ -432,6 +432,54 @@ impl<T> IsEmpty for Vec<T> {
     }
 }
 
+pub trait ParamLike: Send + Sync + Sized {
+    fn as_pat(&self) -> Option<&Pat>;
+
+    fn as_pat_mut(&mut self) -> Option<&mut Pat>;
+}
+
+impl ParamLike for Param {
+    #[inline]
+    fn as_pat(&self) -> Option<&Pat> {
+        Some(&self.pat)
+    }
+
+    #[inline]
+    fn as_pat_mut(&mut self) -> Option<&mut Pat> {
+        Some(&mut self.pat)
+    }
+}
+
+impl ParamLike for Pat {
+    #[inline]
+    fn as_pat(&self) -> Option<&Pat> {
+        Some(self)
+    }
+
+    #[inline]
+    fn as_pat_mut(&mut self) -> Option<&mut Pat> {
+        Some(self)
+    }
+}
+
+impl ParamLike for ParamOrTsParamProp {
+    fn as_pat(&self) -> Option<&Pat> {
+        if let ParamOrTsParamProp::Param(param) = self {
+            Some(&param.pat)
+        } else {
+            None
+        }
+    }
+
+    fn as_pat_mut(&mut self) -> Option<&mut Pat> {
+        if let ParamOrTsParamProp::Param(param) = self {
+            Some(&mut param.pat)
+        } else {
+            None
+        }
+    }
+}
+
 /// Extracts hoisted variables
 pub fn extract_var_ids<T: VisitWith<Hoister>>(node: &T) -> Vec<Ident> {
     let mut v = Hoister { vars: Vec::new() };

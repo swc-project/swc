@@ -877,12 +877,12 @@ impl Optimizer<'_> {
                             ident: None,
                             function,
                         }) => {
-                            self.drop_unused_params(function, true);
+                            self.drop_unused_params(function.ctxt, &mut function.params, true);
 
                             function.params.retain(|p| !p.pat.is_invalid());
                         }
                         Expr::Arrow(a) => {
-                            self.drop_unused_arrow_params(a, true);
+                            self.drop_unused_params(a.ctxt, &mut a.params, true);
                         }
                         _ => (),
                     }
@@ -1671,7 +1671,7 @@ impl VisitMut for Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
-        self.drop_unused_arrow_params(n, false);
+        self.drop_unused_params(n.ctxt, &mut n.params, false);
 
         let prepend = self.prepend_stmts.take();
 
@@ -1982,7 +1982,11 @@ impl VisitMut for Optimizer<'_> {
                     .visit_mut_with(&mut *self.with_ctx(ctx));
 
                 if class_method.kind == MethodKind::Method {
-                    self.drop_unused_params(&mut class_method.function, false);
+                    self.drop_unused_params(
+                        class_method.function.ctxt,
+                        &mut class_method.function.params,
+                        false,
+                    );
                 }
             }
             ClassMember::AutoAccessor(auto_accessor) => {
@@ -1996,7 +2000,11 @@ impl VisitMut for Optimizer<'_> {
                 private_method.visit_mut_with(&mut *self.with_ctx(ctx));
 
                 if private_method.kind == MethodKind::Method {
-                    self.drop_unused_params(&mut private_method.function, false);
+                    self.drop_unused_params(
+                        private_method.function.ctxt,
+                        &mut private_method.function.params,
+                        false,
+                    );
                 }
             }
 
@@ -2032,6 +2040,8 @@ impl VisitMut for Optimizer<'_> {
 
         n.params.visit_mut_with(optimizer);
         n.body.visit_mut_with(optimizer);
+
+        optimizer.drop_unused_params(n.ctxt, &mut n.params, false);
     }
 
     #[cfg_attr(
@@ -2419,7 +2429,7 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsExactLhsOfAssign, false);
         f.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.drop_unused_params(&mut f.function, false);
+        self.drop_unused_params(f.function.ctxt, &mut f.function.params, false);
     }
 
     #[cfg_attr(
@@ -2448,7 +2458,7 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::InFnLike, true);
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.drop_unused_params(&mut e.function, false);
+        self.drop_unused_params(e.function.ctxt, &mut e.function.params, false);
     }
 
     #[cfg_attr(
@@ -2809,7 +2819,7 @@ impl VisitMut for Optimizer<'_> {
                 }
             }
             Prop::Method(m) => {
-                self.drop_unused_params(&mut m.function, false);
+                self.drop_unused_params(m.function.ctxt, &mut m.function.params, false);
             }
             _ => (),
         }

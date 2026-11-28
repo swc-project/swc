@@ -862,14 +862,6 @@ impl Optimizer<'_> {
                                 usage,
                             )
                         {
-                            if let Some(scope) = self.data.get_scope(f.function.ctxt) {
-                                if scope
-                                    .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::IS_ARROW))
-                                {
-                                    return;
-                                }
-                            }
-
                             if f.function.params.iter().any(|param| !param.pat.is_ident()) {
                                 return;
                             }
