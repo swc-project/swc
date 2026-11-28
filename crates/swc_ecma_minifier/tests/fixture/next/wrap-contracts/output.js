@@ -3446,7 +3446,7 @@
                 }
             }
             class Tag extends BaseObject {
-                constructor(name, value, decode = !1){
+                constructor(name, value){
                     super(), this.name = name, this.value = value;
                 }
             }
@@ -4970,7 +4970,7 @@
                 }
             }
             class Tag extends BaseObject {
-                constructor(name, value, decode = !1){
+                constructor(name, value){
                     super(), this.name = name, this.value = value;
                 }
             }

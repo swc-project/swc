@@ -2,10 +2,11 @@ use std::borrow::Borrow;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_ident_ref, contains_this_expr, find_pat_ids, private_ident, ExprExt, IsEmpty, Value,
+    contains_ident_ref, contains_this_expr, find_pat_ids, private_ident, ExprExt, IsEmpty,
+    ParamLike, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -94,60 +95,6 @@ impl Optimizer<'_> {
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub(super) fn drop_unused_params(
-        &mut self,
-        Function { params, ctxt, .. }: &mut Function,
-        arg_is_empty: bool,
-    ) {
-        if !self.options.unused {
-            return;
-        }
-
-        if let Some(scope) = self.data.get_scope(*ctxt) {
-            if scope.intersects(
-                ScopeData::HAS_EVAL_CALL
-                    .union(ScopeData::HAS_WITH_STMT)
-                    .union(ScopeData::USED_ARGUMENTS),
-            ) {
-                return;
-            }
-        }
-
-        if arg_is_empty || !self.options.keep_fargs {
-            for p in params.iter_mut().rev() {
-                self.take_pat_if_unused(&mut p.pat, None, false);
-
-                if !arg_is_empty && !p.pat.is_invalid() {
-                    break;
-                }
-            }
-        } else {
-            for p in params.iter_mut().rev() {
-                match &p.pat {
-                    Pat::Ident(_) => (),
-                    Pat::Array(_) | Pat::Object(_) => {
-                        self.take_pat_if_unused(&mut p.pat, None, false);
-                        if p.pat.is_invalid() {
-                            p.pat = private_ident!("_").into();
-                        }
-                    }
-                    Pat::Assign(_) => self.take_pat_if_unused(&mut p.pat, None, false),
-                    _ => (),
-                }
-
-                if !p.pat.is_invalid() {
-                    break;
-                }
-            }
-        }
-
-        params.retain(|p| !p.pat.is_invalid());
-    }
-
-    #[cfg_attr(
-        all(debug_assertions, feature = "debug"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
         if self
             .ctx
@@ -190,50 +137,63 @@ impl Optimizer<'_> {
         all(debug_assertions, feature = "debug"),
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub(super) fn drop_unused_arrow_params(
+    pub(super) fn drop_unused_params<T: ParamLike>(
         &mut self,
-        ArrowExpr { ctxt, params, .. }: &mut ArrowExpr,
+        scope: SyntaxContext,
+        params: &mut Vec<T>,
         arg_is_empty: bool,
     ) {
         if !self.options.unused {
             return;
         }
 
-        if let Some(scope) = self.data.get_scope(*ctxt) {
+        if let Some(scope) = self.data.get_scope(scope) {
             if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
+                return;
+            }
+
+            if !scope.contains(ScopeData::IS_ARROW) && scope.contains(ScopeData::USED_ARGUMENTS) {
                 return;
             }
         }
 
         if arg_is_empty || !self.options.keep_fargs {
             for p in params.iter_mut().rev() {
-                self.take_pat_if_unused(p, None, false);
+                if let Some(p) = p.as_pat_mut() {
+                    self.take_pat_if_unused(p, None, false);
 
-                if !arg_is_empty && !p.is_invalid() {
+                    if !arg_is_empty && !p.is_invalid() {
+                        break;
+                    }
+                } else {
                     break;
                 }
             }
         } else {
             for p in params.iter_mut().rev() {
-                match p {
-                    Pat::Ident(_) => (),
-                    Pat::Array(_) | Pat::Object(_) => {
-                        self.take_pat_if_unused(p, None, false);
-                        if p.is_invalid() {
-                            *p = private_ident!("_").into();
+                if let Some(p) = p.as_pat_mut() {
+                    match p {
+                        Pat::Ident(_) => (),
+                        Pat::Array(_) | Pat::Object(_) => {
+                            self.take_pat_if_unused(p, None, false);
+                            if p.is_invalid() {
+                                *p = private_ident!("_").into();
+                            }
                         }
+                        Pat::Assign(_) => self.take_pat_if_unused(p, None, false),
+                        _ => (),
                     }
-                    Pat::Assign(_) => self.take_pat_if_unused(p, None, false),
-                    _ => (),
-                }
 
-                if !p.is_invalid() {
+                    if !p.is_invalid() {
+                        break;
+                    }
+                } else {
                     break;
                 }
             }
         }
 
-        params.retain(|p| !p.is_invalid());
+        params.retain(|p| !p.as_pat().and_then(|p| p.as_invalid()).is_some());
     }
 
     #[cfg_attr(
