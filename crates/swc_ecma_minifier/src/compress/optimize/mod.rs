@@ -131,8 +131,6 @@ bitflags! {
 
         const DontUsePrependNorAppend = 1 << 3;
 
-        const InBoolCtx = 1 << 4;
-
         const InAsm = 1 << 5;
 
         /// `true` only for [Callee::Expr].
@@ -159,15 +157,7 @@ bitflags! {
         /// `true` for loop bodies and conditions of loops.
         const ExecutedMultipleTime = 1 << 13;
 
-        /// `true` while handling `expr` of `!expr`
-        const InBangArg = 1 << 14;
-
-        const InVarDeclOfForInOrOfLoop = 1 << 15;
-
         const DontUseNegatedIife = 1 << 16;
-
-        /// `true` while handling top-level export decls.
-        const IsExported = 1 << 17;
 
         /// `true` while handling top level items.
         const TopLevel = 1 << 18;
@@ -177,18 +167,12 @@ bitflags! {
 
         const InBlock = 1 << 20;
 
-        const InObjOfNonComputedMember = 1 << 21;
-
         const InTplExpr = 1 << 22;
 
         /// True while handling callee, except an arrow expression in callee.
         const IsThisAwareCallee = 1 << 23;
 
-        const IsNestedIfReturnMerging = 1 << 24;
-
         const InWithStmt = 1 << 25;
-
-        const InParam = 1 << 26;
 
         /// `true` while we are inside a class body.
         const InClass = 1 << 27;
@@ -401,7 +385,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::InParam) {
+        if self.ctx.bit_ctx.contains(BitCtx::DontUsePrependNorAppend) {
             return false;
         }
 
@@ -1642,7 +1626,7 @@ impl Optimizer<'_> {
                 // The outer try/finally cannot observe termination within a nested function.
                 .with(BitCtx::InTryCatchWithFinally, false)
                 .with(BitCtx::TopLevel, false)
-                .with(BitCtx::InParam, false),
+                .with(BitCtx::DontUsePrependNorAppend, false),
             scope,
             ..self.ctx.clone()
         }
@@ -1676,7 +1660,7 @@ impl VisitMut for Optimizer<'_> {
         let prepend = self.prepend_stmts.take();
 
         {
-            let ctx = self.ctx.clone().with(BitCtx::InParam, true);
+            let ctx = self.ctx.clone().with(BitCtx::DontUsePrependNorAppend, true);
             n.params.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
@@ -1796,7 +1780,7 @@ impl VisitMut for Optimizer<'_> {
                 .bit_ctx
                 .with(BitCtx::TopLevel, false)
                 .with(BitCtx::InBlock, true)
-                .with(BitCtx::InParam, false),
+                .with(BitCtx::DontUsePrependNorAppend, false),
             scope: n.ctxt,
             ..self.ctx.clone()
         };
@@ -2007,7 +1991,7 @@ impl VisitMut for Optimizer<'_> {
                         .bit_ctx
                         .with(BitCtx::TopLevel, false)
                         .with(BitCtx::InBlock, true)
-                        .with(BitCtx::InParam, false),
+                        .with(BitCtx::DontUsePrependNorAppend, false),
                     scope: s.body.ctxt,
                     ..self.ctx.clone()
                 };
@@ -2070,20 +2054,6 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
-    #[cfg_attr(
-        all(debug_assertions, feature = "debug"),
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
-        let ctx = self.ctx.clone().with(BitCtx::IsExported, true);
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
-        let ctx = self.ctx.clone().with(BitCtx::IsExported, true);
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-    }
-
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         #[cfg(all(debug_assertions, feature = "trace-ast"))]
         let _tracing = {
@@ -2111,11 +2081,7 @@ impl VisitMut for Optimizer<'_> {
                 return;
             }
         } else {
-            let ctx = self
-                .ctx
-                .clone()
-                .with(BitCtx::IsExported, false)
-                .with(BitCtx::IsCallee, false);
+            let ctx = self.ctx.clone().with(BitCtx::IsCallee, false);
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
             self.inline_undefined_vars_in_expr(e);
@@ -2462,7 +2428,6 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
                 .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
                 .with(BitCtx::ExecutedMultipleTime, true);
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
@@ -2485,7 +2450,6 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::InVarDeclOfForInOrOfLoop, true)
                 .with(BitCtx::IsExactLhsOfAssign, n.left.is_pat())
                 .with(BitCtx::ExecutedMultipleTime, true);
             self.with_ctx(ctx).visit_with_prepend(&mut n.left);
@@ -2622,7 +2586,6 @@ impl VisitMut for Optimizer<'_> {
             let ctx = self
                 .ctx
                 .clone()
-                .with(BitCtx::InObjOfNonComputedMember, !n.prop.is_computed())
                 .with(BitCtx::IsExactLhsOfAssign, false)
                 .with(BitCtx::IsUpdateArg, false);
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2789,7 +2752,7 @@ impl VisitMut for Optimizer<'_> {
     )]
     fn visit_mut_param(&mut self, n: &mut Param) {
         let ctx = Ctx {
-            bit_ctx: self.ctx.bit_ctx.with(BitCtx::InParam, true),
+            bit_ctx: self.ctx.bit_ctx.with(BitCtx::DontUsePrependNorAppend, true),
             ..self.ctx.clone()
         };
         let mut o = self.with_ctx(ctx);
@@ -2945,10 +2908,7 @@ impl VisitMut for Optimizer<'_> {
             .with(BitCtx::IsCallee, false)
             .with(BitCtx::IsDeleteArg, false)
             .with(BitCtx::IsUpdateArg, false)
-            .with(BitCtx::IsLhsOfAssign, false)
-            .with(BitCtx::InBangArg, false)
-            .with(BitCtx::IsExported, false)
-            .with(BitCtx::InObjOfNonComputedMember, false);
+            .with(BitCtx::IsLhsOfAssign, false);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
@@ -3309,7 +3269,6 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self
             .ctx
             .clone()
-            .with(BitCtx::InBangArg, n.op == op!("!"))
             .with(BitCtx::IsDeleteArg, n.op == op!("delete"));
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -3409,11 +3368,7 @@ impl VisitMut for Optimizer<'_> {
             });
         }
 
-        if self.options.const_to_let
-            // Don't change constness of exported variables.
-            && !self.ctx.bit_ctx.contains(BitCtx::IsExported)
-            && (self.is_module || !self.ctx.in_top_level())
-        {
+        if self.options.const_to_let && (self.is_module || !self.ctx.in_top_level()) {
             if n.kind == VarDeclKind::Const {
                 // If a const variable is reassigned, we should not convert it
                 // to `let`
@@ -3421,7 +3376,10 @@ impl VisitMut for Optimizer<'_> {
                     let ids = get_ids_of_pat(&var.name);
                     for id in ids {
                         if let Some(usage) = self.data.vars.get(&id) {
-                            if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                            if usage.flags.intersects(
+                                // Don't change constness of exported variables.
+                                VarUsageInfoFlags::REASSIGNED | VarUsageInfoFlags::EXPORTED,
+                            ) {
                                 return false;
                             }
                         }

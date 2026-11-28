@@ -8,10 +8,7 @@ use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::{
-        optimize::BitCtx,
-        util::{eval_to_undefined, is_pure_undefined},
-    },
+    compress::util::{eval_to_undefined, is_pure_undefined},
     util::ExprOptExt,
 };
 
@@ -269,14 +266,10 @@ impl Optimizer<'_> {
 
             let ends_with_mergable = stmts
                 .last()
-                .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::If(IfStmt { alt: None, .. }))
-                        if self.ctx.bit_ctx.contains(BitCtx::IsNestedIfReturnMerging) =>
-                    {
-                        false
-                    }
-                    Some(s) => self.can_merge_stmt_as_if_return(s, true),
-                    _ => false,
+                .map(|stmt| {
+                    stmt.as_stmt()
+                        .map(|s| self.can_merge_stmt_as_if_return(s, true))
+                        .unwrap_or(false)
                 })
                 .unwrap();
 

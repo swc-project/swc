@@ -5,7 +5,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_ident_ref, contains_this_expr, find_pat_ids, private_ident, ExprExt, IsEmpty, Value,
+    contains_ident_ref, contains_this_expr, private_ident, ExprExt, IsEmpty, Value,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -13,7 +13,10 @@ use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::optimize::{util::extract_class_side_effect, BitCtx},
+    compress::optimize::{
+        util::{extract_class_side_effect, get_ids_of_pat},
+        BitCtx,
+    },
     option::PureGetterOption,
     program_data::{ScopeData, VarUsageInfoFlags},
     usage_analyzer::{analyzer::storage::Storage, util::is_global_var_with_pure_property_access},
@@ -149,11 +152,7 @@ impl Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
-        if self
-            .ctx
-            .bit_ctx
-            .intersects(BitCtx::IsExported | BitCtx::InAsm)
-        {
+        if self.ctx.bit_ctx.intersects(BitCtx::InAsm) {
             return;
         }
 
@@ -163,12 +162,16 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::InVarDeclOfForInOrOfLoop) {
-            return;
-        }
+        if let Some(id) = get_ids_of_pat(name).first() {
+            if let Some(usage) = self.data.vars.get(id) {
+                if usage.flags.intersects(
+                    VarUsageInfoFlags::EXPORTED | VarUsageInfoFlags::DECLARED_AS_FOR_INIT,
+                ) {
+                    return;
+                }
+            }
 
-        for (_, ctx) in find_pat_ids::<_, Id>(name) {
-            if let Some(scope) = self.data.get_scope(ctx) {
+            if let Some(scope) = self.data.get_scope(id.1) {
                 if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                     log_abort!(
                         "unused: Preserving `{}` because of usages",
@@ -253,7 +256,9 @@ impl Optimizer<'_> {
                 v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
             if v.ref_count == 0
                 && v.usage_count == 0
-                && !v.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                && !v.flags.intersects(
+                    VarUsageInfoFlags::REASSIGNED | VarUsageInfoFlags::DECLARED_AS_FOR_INIT,
+                )
                 && !is_used_in_member
             {
                 self.changed = true;
@@ -633,10 +638,6 @@ impl Optimizer<'_> {
         tracing::instrument(level = "debug", skip_all)
     )]
     pub(super) fn drop_unused_decl(&mut self, decl: &mut Decl) {
-        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
-            return;
-        }
-
         if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
             return;
         }
@@ -667,9 +668,10 @@ impl Optimizer<'_> {
                     .get(&ident.to_id())
                     .map(|v| {
                         v.usage_count == 0
-                            && !v
-                                .flags
-                                .contains(VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF)
+                            && !v.flags.intersects(
+                                VarUsageInfoFlags::PROPERTY_MUTATED_OUTSIDE_SELF
+                                    | VarUsageInfoFlags::EXPORTED,
+                            )
                     })
                     .unwrap_or(false)
                 {
@@ -730,7 +732,11 @@ impl Optimizer<'_> {
                     .data
                     .vars
                     .get(&ident.to_id())
-                    .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
+                    .map(|v| {
+                        v.usage_count == 0
+                            && v.property_mutation_count == 0
+                            && !v.flags.contains(VarUsageInfoFlags::EXPORTED)
+                    })
                     .unwrap_or(false)
                 {
                     self.changed = true;
@@ -960,18 +966,15 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
-            return;
-        }
-
         if let Some(i) = &name {
             let can_remove_ident = self
                 .data
                 .vars
                 .get(&i.to_id())
                 .map(|v| {
-                    (!v.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
-                        && v.ref_count == 0
+                    (!v.flags.intersects(
+                        VarUsageInfoFlags::USED_RECURSIVELY | VarUsageInfoFlags::EXPORTED,
+                    ) && v.ref_count == 0
                         && v.usage_count == 0)
                         || v.var_kind.is_some()
                 })
@@ -1050,7 +1053,7 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn drop_unused_properties(&mut self, v: &mut VarDeclarator) -> Option<()> {
-        if !self.options.hoist_props || self.ctx.bit_ctx.contains(BitCtx::IsExported) {
+        if !self.options.hoist_props {
             return None;
         }
 
@@ -1083,7 +1086,8 @@ impl Optimizer<'_> {
         if usage.flags.intersects(
             VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
                 .union(VarUsageInfoFlags::USED_AS_REF)
-                .union(VarUsageInfoFlags::USED_RECURSIVELY),
+                .union(VarUsageInfoFlags::USED_RECURSIVELY)
+                .union(VarUsageInfoFlags::EXPORTED),
         ) {
             return None;
         }
