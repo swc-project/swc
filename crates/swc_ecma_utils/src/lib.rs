@@ -464,16 +464,18 @@ impl ParamLike for Pat {
 
 impl ParamLike for ParamOrTsParamProp {
     fn as_pat(&self) -> Option<&Pat> {
-        match self {
-            ParamOrTsParamProp::TsParamProp(_) => None,
-            ParamOrTsParamProp::Param(param) => Some(&param.pat),
+        if let ParamOrTsParamProp::Param(param) = self {
+            Some(&param.pat)
+        } else {
+            None
         }
     }
 
     fn as_pat_mut(&mut self) -> Option<&mut Pat> {
-        match self {
-            ParamOrTsParamProp::TsParamProp(_) => None,
-            ParamOrTsParamProp::Param(param) => Some(&mut param.pat),
+        if let ParamOrTsParamProp::Param(param) = self {
+            Some(&mut param.pat)
+        } else {
+            None
         }
     }
 }
